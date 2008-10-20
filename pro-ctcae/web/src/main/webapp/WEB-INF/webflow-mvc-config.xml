@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:webflow="http://www.springframework.org/schema/webflow-config"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/webflow-config
+			http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <bean id="mvcFlowController" class="org.springframework.webflow.mvc.servlet.FlowController">
+        <property name="flowExecutor" ref="mvcFlowExecutor"/>
+    </bean>
+
+    <webflow:flow-executor id="mvcFlowExecutor" flow-registry="mvcFlowRegistry">
+        <webflow:flow-execution-repository max-executions="1"/>
+        <webflow:flow-execution-listeners>
+            <webflow:listener ref="hibernateFlowExecutionListener"></webflow:listener>
+        </webflow:flow-execution-listeners>
+
+    </webflow:flow-executor>
+
+    <bean id="hibernateFlowExecutionListener"
+          class="org.springframework.webflow.persistence.JpaFlowExecutionListener">
+        <constructor-arg ref="entityManagerFactory"></constructor-arg>
+        <constructor-arg ref="transactionManager"></constructor-arg>
+    </bean>
+
+    <webflow:flow-registry id="mvcFlowRegistry" flow-builder-services="mvcFlowBuilderServices">
+        <webflow:flow-location path="/WEB-INF/views/par/editParticipant.xml" id="edit"/>
+        <webflow:flow-location path="/WEB-INF/views/study/createStudy.xml" id="createStudy"/>
+
+    </webflow:flow-registry>
+
+    <webflow:flow-builder-services id="mvcFlowBuilderServices" view-factory-creator="mvcViewFactoryCreator"
+                                   expression-parser="expressionParser"
+                                   conversion-service="applicationConversionService"/>
+
+
+    <bean id="applicationConversionService" class="gov.nih.nci.ctcae.web.ApplicationConversionService">
+        <constructor-arg ref="commonRepository"></constructor-arg>
+    </bean>
+
+
+    <bean id="expressionParser" class="org.springframework.webflow.expression.WebFlowOgnlExpressionParser">
+        <property name="conversionService" ref="applicationConversionService"/>
+    </bean>
+
+    <bean id="mvcViewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
+        <property name="viewResolvers">
+            <bean id="tilesViewResolver" class="org.springframework.js.ajax.AjaxUrlBasedViewResolver">
+                <property name="viewClass" value="org.springframework.webflow.mvc.view.FlowAjaxTilesView"/>
+                <!--<property name="prefix" value="views/"/>-->
+            </bean>
+        </property>
+    </bean>
+
+
+</beans>

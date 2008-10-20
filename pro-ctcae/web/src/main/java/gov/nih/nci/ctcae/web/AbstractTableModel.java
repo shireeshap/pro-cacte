@@ -1,0 +1,58 @@
+package gov.nih.nci.ctcae.web;
+
+import org.extremecomponents.table.core.TableModel;
+import org.extremecomponents.table.core.TableModelImpl;
+import org.extremecomponents.table.context.Context;
+import org.extremecomponents.table.context.HttpServletRequestContext;
+import org.extremecomponents.table.bean.Table;
+import org.extremecomponents.table.bean.Row;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.Collection;
+
+/**
+ * @author Vinay Kumar
+ * @crated Oct 17, 2008
+ */
+public class AbstractTableModel {
+    protected Log log = LogFactory.getLog(getClass());
+
+    protected TableModel getModel(Map parameterMap, HttpServletRequest request, Collection objects) {
+        Context context = null;
+        if (parameterMap == null) {
+            context = new HttpServletRequestContext(request);
+        } else {
+            context = new HttpServletRequestContext(request, parameterMap);
+        }
+
+        TableModel model = new TableModelImpl(context);
+        addTable(model, objects);
+
+        return model;
+    }
+
+    private void addTable(TableModel model, Collection objects) {
+        Table table = model.getTableInstance();
+        table.setTableId("ajaxTable");
+        table.setForm("assembler");
+        table.setItems(objects);
+        table.setAction(model.getContext().getContextPath() + "/assembler.run");
+        table.setTitle("");
+        table.setShowPagination(true);
+        table.setOnInvokeAction("buildTable('assembler')");
+        table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
+        table.setFilterable(true);
+        table.setSortable(false);
+        table.setSortRowsCallback("gov.nih.nci.ctcae.web.table.SortRowsCallbackImpl");
+
+        table.setAutoIncludeParameters(false);
+        model.addTable(table);
+
+        Row row = model.getRowInstance();
+        row.setHighlightRow(Boolean.TRUE);
+        model.addRow(row);
+    }
+}

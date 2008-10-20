@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.directwebremoting.org/schema/spring-dwr
+        http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename">
+            <value>message</value>
+        </property>
+    </bean>
+
+    <bean id="simpleUrlHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="1"/>
+
+        <property name="mappings">
+            <value>
+                <!--/createStudy=mvcFlowController-->
+            </value>
+        </property>
+    </bean>
+
+    <!--<bean id="tilesViewResolver" class="org.springframework.js.ajax.AjaxUrlBasedViewResolver">-->
+    <!--<property name="requestContextAttribute" value="requestContext"/>-->
+    <!--<property name="viewClass" value="org.springframework.js.ajax.tiles2.AjaxTilesView"/>-->
+    <!--<property name="order" value="2"/>-->
+    <!--</bean>-->
+
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+
+    <bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="location">
+            <value>/WEB-INF/special-views.xml</value>
+        </property>
+        <property name="order" value="1"></property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles-definitions.xml</value>
+                <value>/WEB-INF/views/study/tiles-definitions.xml</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="urlResolver" class="gov.nih.nci.cabig.ctms.tools.spring.BeanNameControllerUrlResolver">
+        <property name="servletName">
+            <value>pages</value>
+        </property>
+    </bean>
+
+
+    <bean id="irViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:viewClass="org.springframework.web.servlet.view.InternalResourceView"
+          p:prefix="/WEB-INF/views/" p:suffix=".jsp"/>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- one of the properties available; the maximum file size in bytes -->
+        <property name="maxUploadSize" value="10000000"/>
+    </bean>
+
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" lazy-init="true">
+        <property name="interceptors">
+            <list>
+
+                <!--<ref bean="loginCheckInterceptor"/>-->
+
+                <ref bean="sectionInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="sectionInterceptor" class="gov.nih.nci.cabig.ctms.web.chrome.SectionInterceptor">
+        <property name="sections">
+            <list>
+                <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
+                      p:displayName="Forms"
+                      p:mainController="createFormController">
+                    <property name="pathMapping">
+                        <value>/forms/**</value>
+                    </property>
+                    <property name="tasks">
+                        <list>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Create New Form" p:linkName="createFormController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Manage Form" p:linkName="searchFormController"/>
+
+                        </list>
+                    </property>
+                </bean>
+                <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
+                      p:displayName="Studies"
+                      p:mainController="createStudyController">
+                    <property name="pathMapping">
+                        <value>/study/**</value>
+                    </property>
+                    <property name="tasks">
+                        <list>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Enter Study" p:linkName="createStudyController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Search Studies" p:linkName="searchStudyController"/>
+
+                        </list>
+                    </property>
+                </bean>
+                <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
+                      p:displayName="Subjects"
+                      p:mainController="createParticipantController">
+                    <property name="pathMapping">
+                        <value>/forms/**</value>
+                    </property>
+                    <property name="tasks">
+                        <list>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Create New Form" p:linkName="createParticipantController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Manage Form" p:linkName="searchParticipantController"/>
+
+                        </list>
+                    </property>
+                </bean>
+                <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
+                      p:displayName="Reporting"
+                      p:mainController="createFormController">
+                    <property name="pathMapping">
+                        <value>/forms/**</value>
+                    </property>
+                    <property name="tasks">
+                        <list>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Create New Form" p:linkName="createFormController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Manage Form" p:linkName="searchFormController"/>
+
+                        </list>
+                    </property>
+                </bean>
+                <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
+                      p:displayName="Administration"
+                      p:mainController="createFormController">
+                    <property name="pathMapping">
+                        <value>/forms/**</value>
+                    </property>
+                    <property name="tasks">
+                        <list>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Create New Form" p:linkName="createFormController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Manage Form" p:linkName="searchFormController"/>
+
+                        </list>
+                    </property>
+                </bean>
+
+
+            </list>
+        </property>
+    </bean>
+
+    <bean name="/forms/createForm" id="createFormController"
+          class="gov.nih.nci.ctcae.web.form.CreateFormController" parent="ctcaeSimpleFormController">
+    </bean>
+    <bean name="/forms/searchForm" id="searchFormController"
+          class="gov.nih.nci.ctcae.web.form.SearchFormController" parent="ctcaeSimpleFormController">
+    </bean>
+
+
+    <bean name="/study/createStudy" id="createStudyController"
+          class="gov.nih.nci.ctcae.web.study.CreateStudyController" parent="ctcaeSimpleFormController">
+        <property name="studyRepository" ref="studyRepository"/>
+    </bean>
+
+    <bean name="/study/searchStudy" id="searchStudyController"
+          class="gov.nih.nci.ctcae.web.study.SearchStudyController">
+    </bean>
+
+    <bean name="/participant/createParticipant" id="createParticipantController"
+          class="gov.nih.nci.ctcae.web.participant.CreateParticipantController" parent="ctcaeSimpleFormController">
+    </bean>
+    <bean name="/participant/searchParticipant" id="searchParticipantController"
+          class="gov.nih.nci.ctcae.web.participant.SearchParticipantController" parent="ctcaeSimpleFormController">
+    </bean>
+
+
+    <bean id="noCacheTemplate" abstract="true">
+        <property name="cacheSeconds">
+            <value>0</value>
+        </property>
+    </bean>
+
+
+    <bean id="controllerTools" class="gov.nih.nci.ctcae.web.ControllerTools">
+    </bean>
+
+
+    <bean id="ctcaeSimpleFormController" class="gov.nih.nci.ctcae.web.CtcAeSimpleFormController">
+        <property name="controllerTools" ref="controllerTools"></property>
+        <property name="commonRepository" ref="commonRepository"></property>
+    </bean>
+
+
+</beans>
