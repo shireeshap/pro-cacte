@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/tx
+      http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--<bean id="emailMessageConvertor" class="gov.nih.nci.ctcae.core.email.jms.EmailMessageConvertor"></bean>-->
+    <!--<bean id="jmsTemplate"-->
+    <!--class="org.springframework.jms.core.JmsTemplate">-->
+    <!--<property name="connectionFactory" ref="connectionFactory"/>-->
+    <!--<property name="defaultDestination" ref="ctcaeJMSDestination"/>-->
+    <!--<property name="messageConverter" ref="emailMessageConvertor"/>-->
+    <!--</bean>-->
+
+
+    <!--<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">-->
+    <!--<property name="connectionFactory" ref="connectionFactory"/>-->
+    <!--<property name="destination" ref="ctcaeJMSDestination"/>-->
+    <!--<property name="messageListener" ref="messageListenerAdapter"/>-->
+    <!--<property name="transactionManager" ref="transactionManager"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="messageListenerAdapter"-->
+    <!--class="org.springframework.jms.listener.adapter.MessageListenerAdapter">-->
+    <!--<property name="delegate" ref="emailProcessor"/>-->
+    <!--<property name="defaultListenerMethod"-->
+    <!--value="processEmail"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="emailProcessor" class="gov.nih.nci.ctcae.core.email.jms.CtcAeEmailProcessor">-->
+    <!--<property name="mailSender" ref="mailSender"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="connectionFactory"-->
+    <!--class="org.apache.activemq.ActiveMQConnectionFactory">-->
+    <!--<property name="brokerURL" value="${broker.url}"/>-->
+    <!--</bean>-->
+
+
+    <!--<bean id="ctcaeJMSDestination"-->
+    <!--class="org.apache.activemq.command.ActiveMQTopic">-->
+    <!--<constructor-arg index="0" value="ctcaeJMS.email.topic"/>-->
+    <!--</bean>-->
+
+</beans>

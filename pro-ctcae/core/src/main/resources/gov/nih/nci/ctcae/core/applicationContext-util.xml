@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="mainPropertyConfigurer" class="gov.nih.nci.cabig.ctms.tools.spring.PropertyPlaceholderConfigurer">
+        <property name="properties">
+            <bean class="gov.nih.nci.cabig.ctms.tools.DataSourceSelfDiscoveringPropertiesFactoryBean">
+                <property name="databaseConfigurationName">
+                    <value>datasource</value>
+                </property>
+                <property name="applicationDirectoryName">
+                    <value>ctcae</value>
+                </property>
+            </bean>
+        </property>
+        <property name="useNullForUnresolvablePlaceholders">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+
+</beans>
+
