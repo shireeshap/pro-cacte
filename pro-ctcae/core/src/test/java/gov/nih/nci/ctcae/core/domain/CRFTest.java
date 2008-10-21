@@ -31,6 +31,41 @@ public class CRFTest extends TestCase {
         assertEquals("1.0", crf.getCrfVersion());
     }
 
+    public void testGetCrfItems() {
+        crf = new CRF();
+        CrfItem crfItem1 = new CrfItem();
+        CrfItem crfItem2 = new CrfItem();
+        crf.addCrfItem(crfItem1);
+        crf.addCrfItem(crfItem2);
+        assertEquals("must return 2 items", 2, crf.getCrfItems().size());
+        for (int i = 0; i < crf.getCrfItems().size(); i++) {
+            assertNotNull("order number must not be null", crf.getCrfItems().get(i).getDisplayOrder());
+            assertEquals("must preserve order no", Integer.valueOf(i), crf.getCrfItems().get(i).getDisplayOrder());
+
+        }
+    }
+
+    public void testReorderCrfItems() {
+        crf = new CRF();
+        CrfItem crfItem1 = new CrfItem();
+        CrfItem crfItem2 = new CrfItem();
+        crf.addCrfItem(crfItem1);
+        crf.addCrfItem(crfItem2);
+        assertEquals("must return 2 items", 2, crf.getCrfItems().size());
+        for (int i = 0; i < crf.getCrfItems().size(); i++) {
+            assertEquals("must preserve order no", Integer.valueOf(i), crf.getCrfItems().get(i).getDisplayOrder());
+
+        }
+
+        crf.getCrfItems().get(0).setDisplayOrder(1);
+        crf.getCrfItems().get(1).setDisplayOrder(0);
+        for (int i = 0; i < crf.getCrfItems().size(); i++) {
+            assertEquals("must preserve order no", Integer.valueOf(i), crf.getCrfItems().get(i).getDisplayOrder());
+
+        }
+
+    }
+
     public void testEqualsAndHashCode() {
         CRF anotherCrf = null;
         assertEquals(anotherCrf, crf);

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import gov.nih.nci.ctcae.web.form.FormCommand;
+import gov.nih.nci.ctcae.web.form.CreateFormCommand;
 
 /**
  * @author Vinay Kumar
@@ -16,7 +16,7 @@ public class CreateParticipantController extends CtcAeSimpleFormController {
 
 
     public CreateParticipantController() {
-        setCommandClass(FormCommand.class);
+        setCommandClass(CreateFormCommand.class);
         setCommandName("formCommand");
         setFormView("form/createForm");
         setSuccessView("form/confirmForm");

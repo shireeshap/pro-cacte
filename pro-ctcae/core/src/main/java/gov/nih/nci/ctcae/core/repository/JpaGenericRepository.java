@@ -75,7 +75,8 @@ public class JpaGenericRepository<T extends Persistable> implements GenericRepos
      * {@inheritDoc}
      */
     public <T extends Persistable> T findById(Class<T> classArg, Integer id) {
-        return entityManager.find(classArg, id);
+
+        return id != null && classArg != null ? entityManager.find(classArg, id) : null;
     }
 
     /**

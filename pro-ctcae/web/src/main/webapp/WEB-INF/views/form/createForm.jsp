@@ -15,17 +15,60 @@
 
     <tags:includeScriptaculous/>
     <script type="text/javascript">
-        var elements = ['drag1','drag2']
+        var elements = ['sort1','sort2']
         Event.observe(window, "load", function () {
-            elements.each(function(item) {
-                new Draggable(item, {
-                    ghosting:false,
-                    constraint:'vertical'
-
-
-                })
-            })
+            sortQustions()
         })
+
+        function sortQustions() {
+            Sortable.destroy("sortable")
+            Sortable.create("sortable", {
+                tag:'div',
+                only:['box','sortable'],
+
+                onUpdate:function () {
+                    var questionOrder = Sortable.serialize("sortable", {
+                        name:'questionText'
+                    });
+                    reOrderQuestion(questionOrder);
+
+                },
+                onChange:function () {
+                    var i = 0;
+                    $$("span.sortableSpan").each(function (item) {
+                        // alert(item.id)
+                        item.innerHTML = i + ":";
+                        i = i + 1;
+
+
+                    })
+                }
+
+            })
+        }
+
+        function addQuestionDiv(transport) {
+            var response = transport.responseText;
+            new Insertion.Before("hiddenDiv", response);
+            sortQustions()
+
+        }
+        function addQuestion(questionId) {
+            var request = new Ajax.Request("<c:url value="/pages/forms/addOneQuestion"/>", {
+                parameters:"questionId=" + questionId + "&subview=subview",
+                onComplete:addQuestionDiv,
+                method:'get'
+            })
+
+        }
+        function reOrderQuestion(questionOrder) {
+            var request = new Ajax.Request("<c:url value="/pages/forms/reorderQuestions"/>", {
+                parameters:"subview=subview&" + questionOrder,
+                // onComplete:addQuestionDiv,
+                method:'get'
+            })
+
+        }
 
     </script>
     <style type="text/css">
@@ -38,23 +81,48 @@
 </head>
 <body>
 
-<form:form method="post">
-    <chrome:box title="My Form" autopad="true">
+<form:form method="post" commandName="createFormCommand">
 
-        <chrome:box title="My Form" autopad="true" id="drag1" cssClass="makeDraggable">
+    <table class="tablecontent">
+        <tr>
+            <td class="heading">Items</td>
+            <td class="heading"> My Form</td>
 
-            First question
+        </tr>
+        <tr>
+            <td>
+                <c:forEach items="${proCtcTerms}" var="proCtcTerm">
+                    <chrome:box>
+                        ${proCtcTerm.questionText}
+
+                        <a href="javascript:addQuestion(${proCtcTerm.id})">Add</a>
+                        <ul>
+                            <c:forEach items="${proCtcTerm.validValues}" var="proCtcValidValue">
+                                <li>${proCtcValidValue.value}</li>
+                            </c:forEach>
+                        </ul>
+                    </chrome:box>
+                </c:forEach>
+
+            </td>
+            <td>
+                <div id="sortable">
+
+                    <c:forEach items="${createFormCommand.crf.crfItems}" var="crfItem" varStatus="index">
+
+                        <tags:oneQuestion crfItem="${crfItem}"></tags:oneQuestion>
+                    </c:forEach>
 
 
-        </chrome:box><chrome:box title="My Form" autopad="true" id="drag2" cssClass="makeDraggable">
+                    <div id="hiddenDiv"></div>
+                </div>
+            </td>
 
-            second question
+        </tr>
+
+    </table>
 
 
-        </chrome:box>
-
-
-    </chrome:box>
 </form:form>
 
 </body>

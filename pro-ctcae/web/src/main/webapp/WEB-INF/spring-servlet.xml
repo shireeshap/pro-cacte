@@ -170,6 +170,14 @@
 
     <bean name="/forms/createForm" id="createFormController"
           class="gov.nih.nci.ctcae.web.form.CreateFormController" parent="ctcaeSimpleFormController">
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+    </bean>
+    <bean name="/forms/addOneQuestion" id="oneQuestionController"
+          class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">
+        <property name="commonRepository" ref="commonRepository"/>
+    </bean>
+    <bean name="/forms/reorderQuestions" id="reorderQuestionsController"
+          class="gov.nih.nci.ctcae.web.form.ReorderQuestionsController">
     </bean>
     <bean name="/forms/searchForm" id="searchFormController"
           class="gov.nih.nci.ctcae.web.form.SearchFormController" parent="ctcaeSimpleFormController">

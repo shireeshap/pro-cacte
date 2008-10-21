@@ -36,11 +36,14 @@ pro-ctcae/core/src/main/db/migrate/001_elaboration_1/019_create_STUDY_PARTICIPAN
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/020_create_STUDY_PARTICIPANT_CRFS.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/021_create_STUDY_PARTICIPANT_CRF_ITEMS.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/022_insert_organizations.groovy -text
+pro-ctcae/core/src/main/db/migrate/001_elaboration_1/023_add_sample_pro_ctc_terms.groovy -text
+pro-ctcae/core/src/main/db/migrate/001_elaboration_1/024_add_sample_pro_ctc_terms.groovy -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRF.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItem.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcTerm.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DisplayOrderComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Ethnicity.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Gender.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Investigator.java -text
@@ -179,8 +182,11 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/CtcAeSimpleFormController.java
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneQuestionController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormCommand.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormControllersUtils.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReorderQuestionsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/CreateParticipantController.java -text
@@ -246,6 +252,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/instructions.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/javascriptLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/jsLogs.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneAdverseEventMeddra.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneQuestion.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/pageHelp.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/panelBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/parsedStylesheetLink.tag -text
@@ -275,6 +282,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabFields.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabMethod.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tiles-definitions.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneQustionSection.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/reorderSucessfull.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text

@@ -6,15 +6,14 @@ import gov.nih.nci.ctcae.core.domain.CRF;
  * @author Vinay Kumar
  * @crated Oct 17, 2008
  */
-public class FormCommand {
+public class CreateFormCommand {
 
     private CRF crf;
 
 
-    public FormCommand() {
+    public CreateFormCommand() {
         this.crf = new CRF();
     }
-
 
 
     public CRF getCrf() {

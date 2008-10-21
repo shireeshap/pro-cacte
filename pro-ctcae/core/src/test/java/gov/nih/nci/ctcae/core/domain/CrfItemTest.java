@@ -13,14 +13,14 @@ public class CrfItemTest extends TestCase {
 
 	public void testConstructor() {
 		crfItem = new CrfItem();
-		assertEquals(0, crfItem.getDisplayOrder());
+		assertEquals(Integer.valueOf(0), crfItem.getDisplayOrder());
 	}
 
 	public void testGetterAndSetter() {
 		crfItem = new CrfItem();
 		crfItem.setDisplayOrder(1);
 
-		assertEquals(1, crfItem.getDisplayOrder());
+		assertEquals(Integer.valueOf(1), crfItem.getDisplayOrder());
 	}
 
 	public void testEqualsAndHashCode() {
