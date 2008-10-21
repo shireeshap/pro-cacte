@@ -51,6 +51,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Person.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtc.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTerm.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValue.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Race.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/SiteInvestigator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCoordinatingCenter.java -text
