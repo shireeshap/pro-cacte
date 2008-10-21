@@ -1,10 +1,10 @@
 <ivysettings>
-	<settings defaultResolver="caaers-resolver" validate="false" />
+	<settings defaultResolver="ctcae-resolver" validate="false" />
 
 	<resolvers>
-	 <chain name="caaers-resolver" returnFirst="true" dual="true">
+	 <chain name="ctcae-resolver" returnFirst="true" dual="true">
 		<!--  Local Ivy repository -->
-		<filesystem name="caaers-local" local="true">
+		<filesystem name="ctcae-local" local="true">
 			<ivy pattern="${local.repo.dir}/[organisation]/[module]/ivy-[revision].xml"/>
       		<artifact pattern="${local.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
       		<artifact pattern="${local.repo.dir}/[organisation]/[module]/[revision]/[artifact].[ext]"/>
