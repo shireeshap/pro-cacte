@@ -129,6 +129,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/OrganizationQueryTest.
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.java -text
 pro-ctcae/datasource.properties -text
 pro-ctcae/ivy.xml -text
+pro-ctcae/ivysettings-offline.xml -text
 pro-ctcae/ivysettings.xml -text
 pro-ctcae/pom.xml -text
 pro-ctcae/tools/checkstyle/checkstyle-frames-errors.xsl -text
