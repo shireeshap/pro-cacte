@@ -41,6 +41,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java 
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRF.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItem.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcTerm.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Ethnicity.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Investigator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Organization.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Participant.java -text
