@@ -255,6 +255,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderInputs.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderLabel.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderNumber.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderPassword.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderPhoneOrFax.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderRow.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderSelect.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderText.tag -text

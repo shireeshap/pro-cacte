@@ -36,6 +36,11 @@
                     title="${displayName}"
                     cssClass="${required ? 'validate-NOTEMPTY&&NUMERIC' : 'validate-NUMERIC'}"/>
     </c:when>
+    <c:when test="${categoryName == 'phone'}">
+        <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
+                    title="${displayName}"
+                    cssClass="${required ? 'validate-NOTEMPTY&&NUMERIC&&US_PHONE_NO' : 'validate-NUMERIC'}"/>
+    </c:when>
 
     <c:when test="${categoryName == 'date'}"><tags:dateInput path="${propertyName}" displayName="${displayName}"
                                                              cssClass="${required ? 'validate-NOTEMPTY&&DATE' : 'validate-DATE'}"/></c:when>
