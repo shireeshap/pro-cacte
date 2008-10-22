@@ -38,6 +38,7 @@ pro-ctcae/core/src/main/db/migrate/001_elaboration_1/021_create_STUDY_PARTICIPAN
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/022_insert_organizations.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/023_add_sample_pro_ctc_terms.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/024_add_sample_pro_ctc_terms.groovy -text
+pro-ctcae/core/src/main/db/migrate/001_elaboration_1/025_alter_study_organizations.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
