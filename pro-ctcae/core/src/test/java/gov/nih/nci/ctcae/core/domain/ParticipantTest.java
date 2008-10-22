@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.core.domain;
 import junit.framework.TestCase;
 
 import java.util.Date;
-import java.text.SimpleDateFormat;
 
 /**
  * @author mehul

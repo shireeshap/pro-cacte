@@ -2,8 +2,6 @@ package gov.nih.nci.ctcae.core.domain;
 
 import junit.framework.TestCase;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Date;
 
 

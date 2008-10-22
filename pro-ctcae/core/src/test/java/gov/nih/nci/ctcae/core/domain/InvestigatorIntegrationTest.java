@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
 import gov.nih.nci.ctcae.core.query.InvestigatorQuery;
 import gov.nih.nci.ctcae.core.repository.InvestigatorRepository;
-import gov.nih.nci.ctcae.core.repository.JpaGenericRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.jpa.JpaSystemException;
 
