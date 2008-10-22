@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import java.util.ArrayList;
+
 import javax.persistence.*;
 
 /**
@@ -27,6 +29,8 @@ public abstract class StudyOrganization extends BasePersistable {
         this.id = id;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studySiteId")
+    private ArrayList<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
 
     @ManyToOne
     @JoinColumn(name = "organization_id", nullable = false)
