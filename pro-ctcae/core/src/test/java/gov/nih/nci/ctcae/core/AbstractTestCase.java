@@ -23,14 +23,16 @@ public abstract class AbstractTestCase extends CoreTestCase {
 
     private Log log = LogFactory.getLog(getClass());
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         log.debug("---- Begin test " + getName() + " ----");
         super.setUp();
 
 
     }
 
-    protected void tearDown() throws Exception {
+    @Override
+	protected void tearDown() throws Exception {
         super.tearDown();
         log.debug("----  End  test " + getName() + " ----");
     }
@@ -89,7 +91,7 @@ public abstract class AbstractTestCase extends CoreTestCase {
     }
 
     protected static <T> T matchByProperties(T template) {
-        EasyMock.reportMatcher(new PropertyMatcher<T>(template));
+        org.easymock.EasyMock.reportMatcher(new PropertyMatcher<T>(template));
         return null;
     }
 
