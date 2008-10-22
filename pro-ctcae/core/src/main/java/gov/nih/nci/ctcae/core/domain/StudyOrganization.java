@@ -40,7 +40,15 @@ public abstract class StudyOrganization extends BasePersistable {
     @JoinColumn(name = "study_id", nullable = false)
     private Study study;
 
-    public Organization getOrganization() {
+    public ArrayList<StudyParticipantAssignment> getStudyParticipantAssignments() {
+		return studyParticipantAssignments;
+	}
+
+	public Study getStudy() {
+		return study;
+	}
+
+	public Organization getOrganization() {
         return organization;
     }
 
