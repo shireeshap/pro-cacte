@@ -118,15 +118,18 @@
                       p:displayName="Subjects"
                       p:mainController="createParticipantController">
                     <property name="pathMapping">
-                        <value>/forms/**</value>
+                        <value>/participant/**</value>
                     </property>
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Create New Form" p:linkName="createParticipantController"/>
+                                  p:displayName="Enter Subject" p:linkName="createParticipantController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Manage Form" p:linkName="searchParticipantController"/>
-
+                                  p:displayName="Search Subjects" p:linkName="searchParticipantController"/>
+                            <!--
+                            	<bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Assign Subject to Study" p:linkName="assignParticipantController"/>
+                            -->
                         </list>
                     </property>
                 </bean>
@@ -195,6 +198,8 @@
 
     <bean name="/participant/createParticipant" id="createParticipantController"
           class="gov.nih.nci.ctcae.web.participant.CreateParticipantController" parent="ctcaeSimpleFormController">
+          <property name="participantRepository" ref="participantRepository"/>
+          <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
     <bean name="/participant/searchParticipant" id="searchParticipantController"
           class="gov.nih.nci.ctcae.web.participant.SearchParticipantController" parent="ctcaeSimpleFormController">
