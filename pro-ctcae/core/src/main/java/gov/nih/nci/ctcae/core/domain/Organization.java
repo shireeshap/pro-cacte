@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,7 +36,7 @@ public class Organization extends BaseVersionable {
 	private String nciInstituteCode;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "organization")
-	private ArrayList<SiteInvestigator> siteInvestigators = new ArrayList<SiteInvestigator>();
+	private List<SiteInvestigator> siteInvestigators = new ArrayList<SiteInvestigator>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "organization")
 	private Collection<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
@@ -70,7 +71,7 @@ public class Organization extends BaseVersionable {
 		this.nciInstituteCode = nciInstituteCode;
 	}
 
-	public ArrayList<SiteInvestigator> getSiteInvestigators() {
+	public List<SiteInvestigator> getSiteInvestigators() {
 		return siteInvestigators;
 	}
 
