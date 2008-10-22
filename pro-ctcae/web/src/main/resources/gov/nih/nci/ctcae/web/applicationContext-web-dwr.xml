@@ -15,6 +15,7 @@
     <bean id="studyAjaxFacade"
           class="gov.nih.nci.ctcae.web.study.StudyAjaxFacade">
         <property name="studyRepository" ref="studyRepository"/>
+        <property name="organizationRepository" ref="organizationRepository"/>
     </bean>
 
 
