@@ -70,6 +70,7 @@ public class ProCtcValidValue extends BasePersistable {
 		this.proCtcTerm = proCtcTerm;
 	}
 
+	@Override
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
@@ -89,6 +90,7 @@ public class ProCtcValidValue extends BasePersistable {
 		return true;
 	}
 
+	@Override
 	public int hashCode() {
 		int result;
 		result = (id != null ? id.hashCode() : 0);

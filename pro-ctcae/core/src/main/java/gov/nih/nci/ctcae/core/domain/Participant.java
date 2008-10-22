@@ -1,12 +1,18 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 
 /**
@@ -35,8 +41,32 @@ public class Participant extends Person {
     @Column(name = "gender" ,nullable = true)
     private String gender;
 
+    @Column(name = "mrn_identifier" ,nullable = false)
+    private String assignedIdentifier;
 
-    public String getMaidenName() {
+    public String getAssignedIdentifier() {
+		return assignedIdentifier;
+	}
+
+	public void setAssignedIdentifier(String assignedIdentifier) {
+		this.assignedIdentifier = assignedIdentifier;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "participant")
+    private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
+
+    @Transient
+    private StudySite studySite;
+    
+    public StudySite getStudySite() {
+		return studySite;
+	}
+
+	public void setStudySite(StudySite studySite) {
+		this.studySite = studySite;
+	}
+
+	public String getMaidenName() {
         return maidenName;
     }
 
@@ -76,7 +106,8 @@ public class Participant extends Person {
         this.gender = gender;
     }
 
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Participant)) return false;
         if (!super.equals(o)) return false;
@@ -92,7 +123,8 @@ public class Participant extends Person {
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (maidenName != null ? maidenName.hashCode() : 0);
         result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);

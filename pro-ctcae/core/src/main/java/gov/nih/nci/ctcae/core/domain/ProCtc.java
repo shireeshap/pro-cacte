@@ -80,6 +80,7 @@ public class ProCtc extends BasePersistable {
 	}
 
 
+	@Override
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
@@ -103,6 +104,7 @@ public class ProCtc extends BasePersistable {
 		return true;
 	}
 
+	@Override
 	public int hashCode() {
 		int result;
 		result = (id != null ? id.hashCode() : 0);

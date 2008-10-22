@@ -38,6 +38,7 @@ pro-ctcae/core/src/main/db/migrate/001_elaboration_1/021_create_STUDY_PARTICIPAN
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/022_insert_organizations.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/023_add_sample_pro_ctc_terms.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/024_add_sample_pro_ctc_terms.groovy -text
+pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRF.java -text
@@ -78,7 +79,9 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcTermQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcValidValueQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/Query.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudySiteQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/AbstractRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CRFRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CommonRepository.java -text
@@ -93,6 +96,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcRepository.
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcValidValueRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyOrganizationRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
 pro-ctcae/core/src/main/resources/META-INF/log4j.properties -text

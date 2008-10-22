@@ -75,7 +75,8 @@ public class SiteInvestigator extends BasePersistable {
         this.organization = organization;
     }
 
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SiteInvestigator)) return false;
 
@@ -90,7 +91,8 @@ public class SiteInvestigator extends BasePersistable {
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         int result;
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + (statusCode != null ? statusCode.hashCode() : 0);

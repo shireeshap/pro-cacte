@@ -78,7 +78,8 @@ public class Person extends BasePersistable {
         this.address = address;
     }
 
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -94,7 +95,8 @@ public class Person extends BasePersistable {
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         int result;
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);

@@ -92,7 +92,8 @@ public class Investigator extends Person {
         }
     }
 
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Investigator)) return false;
         if (!super.equals(o)) return false;
@@ -108,7 +109,8 @@ public class Investigator extends Person {
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
         result = 31 * result + (faxNumber != null ? faxNumber.hashCode() : 0);

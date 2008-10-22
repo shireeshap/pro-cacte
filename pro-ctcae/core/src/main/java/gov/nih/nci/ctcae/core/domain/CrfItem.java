@@ -78,7 +78,8 @@ public class CrfItem extends BasePersistable {
         this.proCtcTerm = proCtcTerm;
     }
 
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
@@ -99,7 +100,8 @@ public class CrfItem extends BasePersistable {
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         int result;
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + displayOrder;

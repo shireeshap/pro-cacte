@@ -92,7 +92,8 @@ public class CtcTerm extends BasePersistable{
     }
 
 
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -109,7 +110,8 @@ public class CtcTerm extends BasePersistable{
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         int result;
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + (term != null ? term.hashCode() : 0);

@@ -12,6 +12,7 @@ public enum Ethnicity {
 		this.displayText = displayText;
 	}
 	
+	@Override
 	public String toString(){
 		return displayText;
 	}

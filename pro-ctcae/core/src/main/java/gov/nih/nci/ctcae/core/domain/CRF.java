@@ -167,7 +167,8 @@ public class CRF extends BaseVersionable {
         this.addStudyCrf(studyCrf);
     }
 
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
@@ -194,7 +195,8 @@ public class CRF extends BaseVersionable {
         return true;
     }
 
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         int result;
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
