@@ -108,4 +108,8 @@
     <bean id="crfItemRepository" class="gov.nih.nci.ctcae.core.repository.CrfItemRepository"
           parent="abstractRepository">
     </bean>
+    
+    <bean id="studyOrganizationRepository" class="gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository"
+          parent="abstractRepository">
+    </bean>
 </beans>
