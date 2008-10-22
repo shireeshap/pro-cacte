@@ -133,6 +133,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueTest.
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/SiteInvestigatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyCrfIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/CRFQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/InvestigatorQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/OrganizationQueryTest.java -text
