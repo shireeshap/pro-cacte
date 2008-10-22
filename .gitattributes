@@ -292,6 +292,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneQustionSection.jsp -tex
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/reorderSucessfull.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/confirmParticipant.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/createParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/confirmStudy.jsp -text
