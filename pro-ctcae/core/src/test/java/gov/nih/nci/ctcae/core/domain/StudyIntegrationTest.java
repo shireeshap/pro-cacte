@@ -246,7 +246,8 @@ public class StudyIntegrationTest extends AbstractJpaIntegrationTestCase {
 
         {
             assertTrue(study.getShortTitle().toLowerCase().contains("s")
-                    || study.getLongTitle().toLowerCase().contains("s"));
+                    || study.getLongTitle().toLowerCase().contains("s")
+                    || study.getAssignedIdentifier().toLowerCase().contains("s"));
         }
 
     }
