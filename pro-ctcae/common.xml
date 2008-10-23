@@ -481,6 +481,15 @@
         <clover-html-report outdir="../${clover.dir}"/>
     </target>
 
+    <target name="clover.xml">
+
+        <clover-report>
+            <current outfile="coverage.xml">
+                <format type="xml"/>
+            </current>
+        </clover-report>
+    </target>
+
     <target name="coverageAlert" depends="coverage.check"
             if="coverage_check_failure">
 
