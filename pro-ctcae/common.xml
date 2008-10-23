@@ -481,10 +481,10 @@
         <clover-html-report outdir="../${clover.dir}"/>
     </target>
 
-    <target name="clover.xml">
+    <target name="clover.xml" depends="merge-clover">
 
         <clover-report>
-            <current outfile="clover.xml">
+            <current outfile="../clover.xml">
                 <format type="xml"/>
             </current>
         </clover-report>
