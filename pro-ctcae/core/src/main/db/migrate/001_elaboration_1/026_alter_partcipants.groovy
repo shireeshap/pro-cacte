@@ -1,6 +1,7 @@
 class AlterParticipants extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
-	addColumn('participants','mrn_identifier' , 'varchar' , nullable:false);    }
+	execute('delete from participants')
+	addColumn('participants','mrn_identifier' , 'string' , nullable:false);    }
     void down() {
     }
 }
