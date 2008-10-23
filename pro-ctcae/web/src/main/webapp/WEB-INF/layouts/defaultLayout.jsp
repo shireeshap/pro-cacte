@@ -28,7 +28,6 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 
     <standard:head/>
     <tags:stylesheetLink name="tabbedflow"/>
-    <tags:javascriptLink name="tabbedflow"/>
 
     <decorator:head/>
 </head>

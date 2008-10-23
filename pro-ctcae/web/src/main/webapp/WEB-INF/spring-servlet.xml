@@ -151,14 +151,14 @@
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Administration"
-                      p:mainController="createFormController">
+                      p:mainController="createInvestigatorController">
                     <property name="pathMapping">
-                        <value>/forms/**</value>
+                        <value>>/admin/**</value>
                     </property>
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Create New Form" p:linkName="createFormController"/>
+                                  p:displayName="Investigator" p:linkName="createInvestigatorController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="Manage Form" p:linkName="searchFormController"/>
 

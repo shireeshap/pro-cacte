@@ -34,20 +34,16 @@ public class InvestigatorAjaxFacadeIntegrationTest extends AbstractWebIntegratio
     public void testSearchInvestigatorByFirstName() {
 
 
-        HashMap parameterMap = new HashMap();
-        parameterMap.put("firstName", "ehu");
-        parameterMap.put("lastName", "lat");
+
                         
-        String table = investigatorAjaxFacade.searchInvestigator(parameterMap,"","","", request);
+        String table = investigatorAjaxFacade.searchInvestigator(parameterMap,"meh","gul","12", request);
         assertNotNull(table);
         assertTrue("must find atleast investigator matching with first name", table.contains(investigator.getFirstName()));
-        assertTrue("must find atleast investigator matching with first name", table.contains(investigator.getLastName()));
+        assertTrue("must find atleast investigator matching with last name", table.contains(investigator.getLastName()));
+        assertTrue("must find atleast investigator matching with nci identifier", table.contains(investigator.getNciIdentifier()));
 
-        parameterMap = new HashMap();
-        parameterMap.put("firstName", "ehum");
-        parameterMap.put("lastName", "lat");
 
-        table = investigatorAjaxFacade.searchInvestigator(parameterMap,"","","", request);
+        table = investigatorAjaxFacade.searchInvestigator(parameterMap,"fff","fff","ff", request);
         assertNotNull(table);
         assertFalse("must find atleast investigator matching with first name", table.contains(investigator.getFirstName()));
 

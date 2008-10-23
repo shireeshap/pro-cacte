@@ -47,6 +47,22 @@
 
   </head>
   <body>
+  <div class="tabpane">
+   <div class="workflow-tabs2">
+       <ul id="" class="tabs autoclear">
+           <li id="thirdlevelnav" class="tab selected">
+               <div>
+                   <a href="createInvestigator">Create/Edit Investigator</a>
+               </div>
+           </li>
+           <li id="thirdlevelnav" class="tab">
+               <div>
+                   <a href="searchInvestigator">Search Investigator</a>
+               </div>
+           </li>
+       </ul>
+   </div>
+</div>
   <chrome:box title="Search Criteria" autopad="true">
       <p><tags:instructions code="investigator.search.top"/> </p>
 
