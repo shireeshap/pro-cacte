@@ -484,7 +484,7 @@
     <target name="clover.xml">
 
         <clover-report>
-            <current outfile="coverage.xml">
+            <current outfile="clover.xml">
                 <format type="xml"/>
             </current>
         </clover-report>
