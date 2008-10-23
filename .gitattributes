@@ -206,6 +206,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/CreateParticipantC
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/CreateStudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SearchStudyController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SelectedStudyCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/NullStringComparator.java -text
