@@ -58,6 +58,10 @@
 	<target name="jar" depends="common.jar, war">
 			<echo message="Executing jar in ${ant.project.name}" />
 	</target>
+
+    <target name="clover-jar" depends="common.clover-jar, war">
+			<echo message="Executing jar in ${ant.project.name}" />
+	</target>
 	<target name="clean" depends="common.clean, clean-war, undeploy-ctcae">
 
 	</target>

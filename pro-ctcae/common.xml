@@ -171,7 +171,6 @@
         <echo message="Executing ${ant.project.name} : init"/>
         <mkdir dir="${lib.dir}"/>
         <mkdir dir="${classes.dir}"/>
-        <mkdir dir="${instrumented.classes.dir}"/>
         <mkdir dir="${dist.dir}"/>
         <property name="no.init" value="true"/>
     </target>
@@ -184,7 +183,6 @@
         <echo message="Executing ${ant.project.name} : init.test"/>
         <mkdir dir="${test.classes.dir}"/>
         <mkdir dir="${test.lib.dir}"/>
-        <mkdir dir="${cobertura.report.dir}"/>
         <property name="no.init.test" value="true"/>
     </target>
 
@@ -464,7 +462,7 @@
 
 
     <target name="with.clover">
-        <clover-setup>
+        <clover-setup flushpolicy="interval" flushinterval="5000">
         </clover-setup>
 
 
@@ -578,20 +576,6 @@
         <delete includeemptydirs="true" file="coverage.db"/>
     </target>
 
-    <!-- =================================
-               target: clean-cobertura-dir
-              ================================= -->
-    <target name="clean-cobertura-dir" description="--> clean the cobertura report dir">
-        <echo message="Executing in ${ant.project.name}"/>
-        <delete includeemptydirs="true" dir="${cobertura.report.dir}"/>
-    </target>
-    <!-- ================================================================
-         target : clean-cobertura-instruments
-     ===================================================================-->
-    <target name="clean-cobertura-instruments" description="--> clean the cobertura instruments classes dir">
-        <echo message="Executing in ${ant.project.name}"/>
-        <delete includeemptydirs="true" dir="${instrumented.classes.dir}"/>
-    </target>
     <!-- =================================
           target: clean
          ================================= -->
