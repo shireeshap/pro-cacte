@@ -11,7 +11,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "SITE_INVESTGATORS")
+@Table(name = "SITE_INVESTIGATORS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "site_investigators_id_seq") })
 public class SiteInvestigator extends BasePersistable {
 
