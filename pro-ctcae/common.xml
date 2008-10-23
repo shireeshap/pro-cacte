@@ -583,6 +583,7 @@
         <delete includeemptydirs="true" dir="../clover-db"/>
         <delete includeemptydirs="true" dir=".clover"/>
         <delete includeemptydirs="true" file="coverage.db"/>
+        <delete includeemptydirs="true" file="clover.xml"/>
     </target>
 
     <!-- =================================

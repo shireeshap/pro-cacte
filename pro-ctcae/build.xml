@@ -34,6 +34,7 @@
         <subant target="publish-local-clover" buildpathref="build-path"/>
         <subant target="clover.report" buildpathref="build-path"/>
         <subant target="clover.xml" buildpathref="build-path"/>
+        <subant target="coverageAlert" buildpathref="build-path"/>
     </target>
 
     <!-- =================================================================== -->
