@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.Investigator;
 
 /**
  * @author Vinay Kumar
@@ -24,5 +25,13 @@ public class Fixture {
         study.setLongTitle(longTitle);
         study.setAssignedIdentifier(assignedIdentifier);
         return study;
+    }
+
+    public static Investigator createInvestigator(final String firstName, final String lastName, final String nciIdentifier) {
+        Investigator investigator = new Investigator();
+        investigator.setFirstName(firstName);
+        investigator.setLastName(lastName);
+        investigator.setNciIdentifier(nciIdentifier);
+        return investigator;
     }
 }

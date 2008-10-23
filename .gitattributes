@@ -37,6 +37,7 @@ pro-ctcae/core/src/main/db/migrate/001_elaboration_1/020_create_STUDY_PARTICIPAN
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/021_create_STUDY_PARTICIPANT_CRF_ITEMS.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/022_insert_organizations.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/023_add_sample_pro_ctc_terms.groovy -text
+pro-ctcae/core/src/main/db/migrate/001_elaboration_1/023_create_study_investigators.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/024_add_sample_pro_ctc_terms.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/025_alter_study_organizations.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/026_alter_partcipants.groovy -text
@@ -64,6 +65,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCoordinatingCent
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCrf.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyDisease.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyFundingSponsor.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyInvestigator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganization.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantAssignment.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrf.java -text
@@ -195,6 +197,10 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormController.java
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormControllersUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReorderQuestionsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchFormController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/CreateInvestigatorController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorAjaxFacade.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorTableModel.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/SearchInvestigatorController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/CreateParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantController.java -text
@@ -268,6 +274,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/putSpecialRequiredIndicator.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderAutocompleter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderCheckBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderDate.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderEmail.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderInputs.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderLabel.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderNumber.tag -text
@@ -292,6 +299,9 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneQustionSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/reorderSucessfull.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/confirmInvestigator.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/createInvestigator.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/searchInvestigator.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/confirmParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/createParticipant.jsp -text
@@ -547,6 +557,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AbstractWebIntegrationTestCase
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ApplicationConversionServiceTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/WebTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/investigator/InvestigatorAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacadeIntegrationTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/SearchStudyControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacadeIntegrationTest.java -text

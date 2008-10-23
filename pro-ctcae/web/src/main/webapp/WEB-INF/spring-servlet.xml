@@ -204,6 +204,14 @@
     <bean name="/participant/searchParticipant" id="searchParticipantController"
           class="gov.nih.nci.ctcae.web.participant.SearchParticipantController" parent="ctcaeSimpleFormController">
     </bean>
+    <bean name="/investigator/createInvestigator" id="createInvestigatorController"
+          class="gov.nih.nci.ctcae.web.investigator.CreateInvestigatorController" parent="ctcaeSimpleFormController">
+        <property name="investigatorRepository" ref="investigatorRepository"/>
+    </bean>
+    <bean name="/investigator/searchInvestigator" id="searchInvestigatorController"
+          class="gov.nih.nci.ctcae.web.investigator.SearchInvestigatorController">
+    </bean>
+
 
 
     <bean id="noCacheTemplate" abstract="true">

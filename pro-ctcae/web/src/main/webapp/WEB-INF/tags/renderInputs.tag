@@ -26,6 +26,11 @@
                     title="${displayName}"
                     cssClass="${required ? 'validate-NOTEMPTY&&MAXLENGTH2000' : 'validate-MAXLENGTH2000'}"/>
     </c:when>
+    <c:when test="${categoryName == 'email'}">
+        <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
+                    title="${displayName}"
+                    cssClass="${required ? 'validate-NOTEMPTY&&EMAIL' : 'validate-EMAIL'}"/>
+    </c:when>
     <c:when test="${categoryName == 'password'}">
         <form:password path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                        title="${displayName}"
@@ -39,7 +44,7 @@
     <c:when test="${categoryName == 'phone'}">
         <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                     title="${displayName}"
-                    cssClass="${required ? 'validate-NOTEMPTY&&NUMERIC&&US_PHONE_NO' : 'validate-NUMERIC'}"/>
+                    cssClass="${required ? 'validate-NOTEMPTY&&US_PHONE_NO' : 'validate-US_PHONE_NO'}"/>
     </c:when>
 
     <c:when test="${categoryName == 'date'}"><tags:dateInput path="${propertyName}" displayName="${displayName}"
