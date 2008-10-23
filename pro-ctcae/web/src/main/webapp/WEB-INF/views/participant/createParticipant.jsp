@@ -24,13 +24,13 @@
     		var type = 'site';
             $('bigSearch').show();
             var parameterMap = getParameterMap(form);
-            var text = parameterMap['studySite'];
-            study.searchStudies(parameterMap, type, text, showTable);
+            var text = parameterMap['siteName'];
+            study.searchStudiesForSelection(parameterMap, type, text, showTable);
         }
 
         Event.observe(window, 'load', function() {
         	buildTable('assembler');
-       	  	Event.observe('studySite', 'change', function(){
+       	  	Event.observe('siteName', 'change', function(){
        			buildTable('assembler');
           	})
         });
@@ -45,7 +45,7 @@
         <p><tags:instructions code="participant.participant_details.top"/></p>
 
         <chrome:division title="Site">
-        	<tags:renderSelect propertyName="studySite" displayName="Site"
+        	<tags:renderSelect propertyName="siteName" displayName="Site"
 		                         required="true" options="${studysites}" />
 		</chrome:division>
 
@@ -64,7 +64,7 @@
 		        <tags:renderText propertyName="middleName" displayName="Middle Name"
 		                         size="50"/>
 		        <tags:renderText propertyName="assignedIdentifier" displayName="Assigned Identifier"
-		                         size="50"/>
+		                         required="true" size="50"/>
 	        </td>
 	        <td>
 		        <tags:renderDate propertyName="birthDate" displayName="Date of birth"
