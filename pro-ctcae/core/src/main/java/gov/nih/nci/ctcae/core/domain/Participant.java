@@ -55,15 +55,28 @@ public class Participant extends Person {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "participant")
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
 
-    @Transient
-    private StudySite studySite;
+	@Transient
+    private String siteName;
+	
+	@Transient
+    private String studyName;
     
-    public StudySite getStudySite() {
-		return studySite;
+    
+
+	public String getSiteName() {
+		return siteName;
 	}
 
-	public void setStudySite(StudySite studySite) {
-		this.studySite = studySite;
+	public void setSiteName(String siteName) {
+		this.siteName = siteName;
+	}
+
+	public String getStudyName() {
+		return studyName;
+	}
+
+	public void setStudyName(String studyName) {
+		this.studyName = studyName;
 	}
 
 	public String getMaidenName() {
