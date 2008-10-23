@@ -30,6 +30,14 @@ public class StudyAjaxFacade {
         String table = studyTableModel.buildStudyTable(parameterMap, studies, request);
         return table;
     }
+    
+    public String searchStudiesForSelection(Map parameterMap, String type, String text, HttpServletRequest request) {
+        List<Study> studies = getObjects(type, text);
+
+        StudyTableModel studyTableModel = new StudyTableModel();
+        String table = studyTableModel.buildStudyTableForSelection(parameterMap, studies, request);
+        return table;
+    }
 
     private List<Study> getObjects(String type, String text) {
         StudyQuery studyQuery = new StudyQuery();

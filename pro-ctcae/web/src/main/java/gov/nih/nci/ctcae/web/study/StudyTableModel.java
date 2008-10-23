@@ -28,7 +28,7 @@ public class StudyTableModel extends AbstractTableModel {
 
             addSponsorColumn(model);
 
-            addStudyCoordinatingCentern(model);
+            addStudyCoordinatingCenter(model);
             return model.assemble().toString();
         } catch (Exception e) {
 
@@ -36,8 +36,28 @@ public class StudyTableModel extends AbstractTableModel {
         return "";
     }
 
+    public String buildStudyTableForSelection(Map parameterMap, Collection<Study> objects, HttpServletRequest request) {
 
-    private void addStudyCoordinatingCentern(TableModel model) {
+        try {
+            TableModel model = getModel(parameterMap, request, objects);
+
+
+            addAssignedIdentifierForSelection(model);
+            addShorTitleColumn(model);
+
+            addSponsorColumn(model);
+
+            addStudyCoordinatingCenter(model);
+            return model.assemble().toString();
+        } catch (Exception e) {
+
+        }
+        return "";
+    }
+
+    
+
+    private void addStudyCoordinatingCenter(TableModel model) {
         Column columnSponsorCode = model.getColumnInstance();
         columnSponsorCode.setTitle("Coordinating center");
         columnSponsorCode.setProperty("studyCoordinatingCenter.organization.nciInstituteCode");
@@ -68,7 +88,15 @@ public class StudyTableModel extends AbstractTableModel {
         Column columnShortTitle = model.getColumnInstance();
         columnShortTitle.setProperty("assignedIdentifier");
         columnShortTitle.setSortable(Boolean.TRUE);
-        // columnShortTitle.setCell("gov.nih.nci.cabig.ctcae.web.study.StudyLinkDisplayCell");
+//        columnShortTitle.setCell("gov.nih.nci.ctcae.web.study.SelectedStudyCell");
+        model.addColumn(columnShortTitle);
+    }
+
+    private void addAssignedIdentifierForSelection(TableModel model) {
+        Column columnShortTitle = model.getColumnInstance();
+        columnShortTitle.setProperty("assignedIdentifier");
+        columnShortTitle.setSortable(Boolean.TRUE);
+        columnShortTitle.setCell("gov.nih.nci.ctcae.web.study.SelectedStudyCell");
         model.addColumn(columnShortTitle);
     }
 
