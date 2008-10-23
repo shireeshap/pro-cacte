@@ -28,6 +28,7 @@ public class ParticipantIntegrationTest extends AbstractJpaIntegrationTestCase {
 		participant = new Participant();
 		participant.setFirstName("John");
 		participant.setLastName("Dow");
+		participant.setAssignedIdentifier("1234");
 		participant = participantRepository.save(participant);
 
 	}
@@ -57,6 +58,7 @@ public class ParticipantIntegrationTest extends AbstractJpaIntegrationTestCase {
 		inValidParticipant = new Participant();
 		inValidParticipant.setFirstName("John");
 		inValidParticipant.setLastName("Dow");
+		inValidParticipant.setAssignedIdentifier("1234");
 		participantRepository.save(inValidParticipant);
 		inValidParticipant = participantRepository.save(inValidParticipant);
 		assertNotNull(inValidParticipant.getId());
