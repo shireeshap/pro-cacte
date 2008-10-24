@@ -205,7 +205,7 @@
           <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
     <bean name="/participant/searchParticipant" id="searchParticipantController"
-          class="gov.nih.nci.ctcae.web.participant.SearchParticipantController" parent="ctcaeSimpleFormController">
+          class="gov.nih.nci.ctcae.web.participant.SearchParticipantController">
     </bean>
     <bean name="/investigator/createInvestigator" id="createInvestigatorController"
           class="gov.nih.nci.ctcae.web.investigator.CreateInvestigatorController" parent="ctcaeSimpleFormController">
