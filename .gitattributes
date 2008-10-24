@@ -289,6 +289,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderPassword.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderPhoneOrFax.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderRow.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderSelect.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderSelectForDomainObject.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderText.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderTextArea.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/requiredIndicator.tag -text
