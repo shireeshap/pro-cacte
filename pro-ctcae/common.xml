@@ -469,7 +469,7 @@
     </target>
     <target name="merge-clover">
 
-        <clover-merge initString="/mergedcoverage.db">
+        <clover-merge initString="mergedcoverage.db">
             <cloverDb initString="commons/.clover/clover2_3_2.db"/>
             <cloverDb initString="core/.clover/clover2_3_2.db"/>
             <cloverDb initString="web/.clover/clover2_3_2.db"/>
@@ -478,7 +478,7 @@
     </target>
 
     <target name="clover.report" depends="merge-clover">
-        <clover-html-report outdir="../${clover.dir}"/>
+        <clover-html-report outdir="../${clover.dir}" initstring="mergedcoverage.db" />
     </target>
 
     <target name="clover.xml" depends="merge-clover">
