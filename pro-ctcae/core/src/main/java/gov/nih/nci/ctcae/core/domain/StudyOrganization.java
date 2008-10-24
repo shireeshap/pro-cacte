@@ -16,32 +16,31 @@ import javax.persistence.*;
 @DiscriminatorColumn(name = "type")
 public abstract class StudyOrganization extends BasePersistable {
 
-    @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+	@Id
+	@Column(name = "ID")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Integer id;
 
+	public Integer getId() {
+		return id;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "studySite")
+	private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studySite")
-    private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
+	@ManyToOne
+	@JoinColumn(name = "organization_id", nullable = false)
+	private Organization organization;
 
-    @ManyToOne
-    @JoinColumn(name = "organization_id", nullable = false)
-    private Organization organization;
+	@ManyToOne
+	@JoinColumn(name = "study_id", nullable = false)
+	private Study study;
 
-    @ManyToOne
-    @JoinColumn(name = "study_id", nullable = false)
-    private Study study;
-
-    public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
+	public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
 		return studyParticipantAssignments;
 	}
 
@@ -50,15 +49,14 @@ public abstract class StudyOrganization extends BasePersistable {
 	}
 
 	public Organization getOrganization() {
-        return organization;
-    }
+		return organization;
+	}
 
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
 
-
-    public void setStudy(Study study) {
-        this.study = study;
-    }
+	public void setStudy(Study study) {
+		this.study = study;
+	}
 }
