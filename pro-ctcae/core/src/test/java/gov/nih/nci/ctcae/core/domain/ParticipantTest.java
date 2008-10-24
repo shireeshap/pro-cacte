@@ -23,17 +23,18 @@ public class ParticipantTest extends TestCase {
         participant.setFirstName(name);
         participant.setLastName("Dow");
         participant.setAddress("abc");
-   /*     SimpleDateFormat s = new SimpleDateFormat("MM-DD-YYYY");
-        Date d = null;
-        try{
-            d = s.parse("10-28-2008");
+        /*     SimpleDateFormat s = new SimpleDateFormat("MM-DD-YYYY");
+           Date d = null;
+           try{
+               d = s.parse("10-28-2008");
 
-        }catch (java.text.ParseException p){
-        }
-            participant.setBirthDate(d);
+           }catch (java.text.ParseException p){
+           }
+               participant.setBirthDate(d);
 
-     */
-        participant.setBirthDate(new Date());
+        */
+        Date date = new Date();
+        participant.setBirthDate(date);
         participant.setEthnicity("hispanic");
         participant.setGender("male");
         participant.setRace("xyz");
@@ -43,14 +44,14 @@ public class ParticipantTest extends TestCase {
 
         assertEquals("john", participant.getFirstName());
         assertEquals("Dow", participant.getLastName());
-        assertEquals("abc" , participant.getAddress());
-        assertEquals(new Date() , participant.getBirthDate());
-        assertEquals("hispanic" , participant.getEthnicity());
-        assertEquals("male" , participant.getGender());
-        assertEquals("xyz" , participant.getRace());
-        assertEquals("m" , participant.getMaidenName());
-        assertEquals("mid" ,participant.getMiddleName());
-        assertEquals("mr" ,participant.getTitle());
+        assertEquals("abc", participant.getAddress());
+        assertEquals(date, participant.getBirthDate());
+        assertEquals("hispanic", participant.getEthnicity());
+        assertEquals("male", participant.getGender());
+        assertEquals("xyz", participant.getRace());
+        assertEquals("m", participant.getMaidenName());
+        assertEquals("mid", participant.getMiddleName());
+        assertEquals("mr", participant.getTitle());
     }
 
     public void testEqualsAndHashCode() {
