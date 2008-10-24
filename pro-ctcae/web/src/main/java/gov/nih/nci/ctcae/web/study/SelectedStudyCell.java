@@ -29,10 +29,8 @@ public class SelectedStudyCell implements Cell {
             Study bean = (Study) model.getCurrentRowBean();
             Integer id = bean.getId();
             inputBuilder.getHtmlBuilder().input("radio")
-                    .name("study" + id.intValue())
-                    .id("study" + id.intValue())
+                    .name("studyId")
                     .value(id.toString())
-                    .onclick("selectStudy(this.value)")
                     ;
             inputBuilder.getHtmlBuilder().xclose();
             inputBuilder.tdBody(bean.getAssignedIdentifier());
