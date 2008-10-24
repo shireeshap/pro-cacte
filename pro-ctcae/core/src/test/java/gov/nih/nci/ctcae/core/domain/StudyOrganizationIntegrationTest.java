@@ -30,10 +30,8 @@ public class StudyOrganizationIntegrationTest extends
 	protected void onSetUpInTransaction() throws Exception {
 		super.onSetUpInTransaction();
 
-		organization = organizationRepository.find(new OrganizationQuery())
-				.iterator().next();
-		createStudy(0);
-		study = studyRepository.find(new StudyQuery()).iterator().next();
+		organization = createOrganization(0);
+		study = createStudy(0);
 
 		assertNotNull(organization);
 		assertNotNull(study);
@@ -93,7 +91,7 @@ public class StudyOrganizationIntegrationTest extends
 		}
 
 		ArrayList<Organization> studySiteOrganizations = studyOrganizationRepository
-				.findStudySiteOrganizations();
+				.findStudySites();
 		
 		OrganizationQuery oQuery = new OrganizationQuery();
 		oQuery.filterByNciCodeExactMatch("OrganizationNCI0");
@@ -132,22 +130,39 @@ public class StudyOrganizationIntegrationTest extends
 
 	
 	}
-
-	private void createStudy(int number) {
+	public void testStudyOrganizationQuery() {
+		StudySiteQuery query = new StudySiteQuery();
+		query.filterByOrganizationId(organization.getId());
+		query.filterByStudyId(study.getId());
+		
+		
+		System.out.println(organization.getId());
+		System.out.println(study.getId());
+		ArrayList<StudyOrganization> studySites = (ArrayList<StudyOrganization>)studyOrganizationRepository.find(query);
+		assertEquals(1,studySites.size());
+		
+		StudySite studySite = (StudySite)studySites.get(0);
+		
+		assertEquals(studySite.getOrganization(), organization);
+		assertEquals(studySite.getStudy(), study);
+	
+	}
+	
+	private Study createStudy(int number) {
 		Study study = new Study();
 		study.setDescription("StudyDesc" + number);
 		study.setLongTitle("StudyDesc" + number);
 		study.setShortTitle("StudyDesc" + number);
 		study.setAssignedIdentifier("StudyIdentifier" + number);
-		studyRepository.save(study);
+		return studyRepository.save(study);
 
 	}
 
-	private void createOrganization(int number) {
+	private Organization createOrganization(int number) {
 		Organization organization = new Organization();
 		organization.setName("OrganizationName" + number);
 		organization.setNciInstituteCode("OrganizationNCI" + number);
-		organizationRepository.save(organization);
+		return organizationRepository.save(organization);
 	}
 
 	@Required
