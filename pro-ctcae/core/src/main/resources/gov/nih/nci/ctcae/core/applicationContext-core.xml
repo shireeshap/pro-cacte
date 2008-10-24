@@ -64,7 +64,7 @@
     <!--</bean>-->
 
 
-    <bean id="commonRepository" class="gov.nih.nci.ctcae.core.repository.CommonRepository">
+    <bean id="finderRepository" class="gov.nih.nci.ctcae.core.repository.FinderRepository">
         <property name="genericRepository" ref="genericRepository"></property>
     </bean>
     <bean id="organizationRepository" class="gov.nih.nci.ctcae.core.repository.OrganizationRepository"

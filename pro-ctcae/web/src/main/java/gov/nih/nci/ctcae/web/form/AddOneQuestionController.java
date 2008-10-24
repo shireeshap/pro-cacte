@@ -1,20 +1,16 @@
 package gov.nih.nci.ctcae.web.form;
 
 import org.springframework.web.servlet.mvc.AbstractController;
-import org.springframework.web.servlet.mvc.AbstractFormController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.beans.factory.annotation.Required;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.CrfItem;
-import gov.nih.nci.ctcae.core.repository.CommonRepository;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
 
 /**
  * @author Vinay Kumar
@@ -23,7 +19,7 @@ import gov.nih.nci.ctcae.core.repository.CommonRepository;
 public class AddOneQuestionController extends AbstractController {
 
 
-    private CommonRepository commonRepository;
+    private FinderRepository finderRepository;
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
@@ -32,7 +28,7 @@ public class AddOneQuestionController extends AbstractController {
 
         Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
 
-        ProCtcTerm proCtcTerm = commonRepository.findById(ProCtcTerm.class, questionId);
+        ProCtcTerm proCtcTerm = finderRepository.findById(ProCtcTerm.class, questionId);
         if (proCtcTerm != null) {
             CreateFormCommand createFormCommand = FormControllersUtils.getFormCommand(request);
             CrfItem crfItem = new CrfItem();
@@ -55,7 +51,7 @@ public class AddOneQuestionController extends AbstractController {
     }
 
     @Required
-    public void setCommonRepository(CommonRepository commonRepository) {
-        this.commonRepository = commonRepository;
+    public void setFinderRepository(FinderRepository finderRepository) {
+        this.finderRepository = finderRepository;
     }
 }

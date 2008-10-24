@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.web;
 
 import org.easymock.classextension.EasyMock;
 import org.springframework.binding.convert.ConversionExecutor;
-import gov.nih.nci.ctcae.core.repository.CommonRepository;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.AbstractTestCase;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.web.ApplicationConversionService;
@@ -19,7 +19,7 @@ public class ApplicationConversionServiceTest extends AbstractTestCase {
 
 
     ApplicationConversionService service;
-    private CommonRepository commonRepository;
+    private FinderRepository finderRepository;
 
     private Organization organization;
 
@@ -27,9 +27,9 @@ public class ApplicationConversionServiceTest extends AbstractTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        commonRepository = registerMockFor(CommonRepository.class);
+        finderRepository = registerMockFor(FinderRepository.class);
 
-        service = new ApplicationConversionService(commonRepository);
+        service = new ApplicationConversionService(finderRepository);
         service.afterPropertiesSet();
 
         organization = new Organization();
@@ -38,7 +38,7 @@ public class ApplicationConversionServiceTest extends AbstractTestCase {
     }
 
     public void testRegisterCustomConverterForOrganization() {
-        EasyMock.expect(commonRepository.findById(Organization.class, 1)).andReturn(organization);
+        EasyMock.expect(finderRepository.findById(Organization.class, 1)).andReturn(organization);
         replayMocks();
         ConversionExecutor conversionExecutor = service.getConversionExecutor(String.class, Organization.class);
         Organization anotherOrganization = (Organization) conversionExecutor.execute("1");

@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.web;
 
-import gov.nih.nci.ctcae.core.repository.CommonRepository;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
 import org.apache.commons.logging.Log;
@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class CtcAeSimpleFormController extends SimpleFormController {
     protected final Log log = LogFactory.getLog(getClass());
-    protected CommonRepository commonRepository;
+    protected FinderRepository finderRepository;
 
     protected ControllerTools controllerTools;
 
@@ -35,7 +35,7 @@ public class CtcAeSimpleFormController extends SimpleFormController {
         binder.registerCustomEditor(Date.class, controllerTools.getDateEditor(true));
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 
-        RepositoryBasedEditor organizationEditor = new RepositoryBasedEditor(commonRepository, Organization.class);
+        RepositoryBasedEditor organizationEditor = new RepositoryBasedEditor(finderRepository, Organization.class);
         binder.registerCustomEditor(Organization.class, organizationEditor);
 
 
@@ -54,7 +54,7 @@ public class CtcAeSimpleFormController extends SimpleFormController {
 
 
     @Required
-    public void setCommonRepository(CommonRepository commonRepository) {
-        this.commonRepository = commonRepository;
+    public void setFinderRepository(FinderRepository finderRepository) {
+        this.finderRepository = finderRepository;
     }
 }

@@ -38,7 +38,7 @@
 
 
     <bean id="applicationConversionService" class="gov.nih.nci.ctcae.web.ApplicationConversionService">
-        <constructor-arg ref="commonRepository"></constructor-arg>
+        <constructor-arg ref="finderRepository"></constructor-arg>
     </bean>
 
 

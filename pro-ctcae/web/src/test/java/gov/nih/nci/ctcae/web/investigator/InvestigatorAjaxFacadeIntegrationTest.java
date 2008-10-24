@@ -35,7 +35,7 @@ public class InvestigatorAjaxFacadeIntegrationTest extends AbstractWebIntegratio
 
 
 
-                        
+                                                             
         String table = investigatorAjaxFacade.searchInvestigator(parameterMap,"meh","gul","12", request);
         assertNotNull(table);
         assertTrue("must find atleast investigator matching with first name", table.contains(investigator.getFirstName()));

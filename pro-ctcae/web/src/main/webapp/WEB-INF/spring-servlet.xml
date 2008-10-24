@@ -177,7 +177,7 @@
     </bean>
     <bean name="/forms/addOneQuestion" id="oneQuestionController"
           class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">
-        <property name="commonRepository" ref="commonRepository"/>
+        <property name="finderRepository" ref="finderRepository"/>
     </bean>
     <bean name="/forms/reorderQuestions" id="reorderQuestionsController"
           class="gov.nih.nci.ctcae.web.form.ReorderQuestionsController">
@@ -190,6 +190,9 @@
     <bean name="/study/createStudy" id="createStudyController"
           class="gov.nih.nci.ctcae.web.study.CreateStudyController" parent="ctcaeSimpleFormController">
         <property name="studyRepository" ref="studyRepository"/>
+    </bean>
+    <bean name="/study/addStudySite" id="addStudySiteController"
+          class="gov.nih.nci.ctcae.web.study.AddStudySiteController">
     </bean>
 
     <bean name="/study/searchStudy" id="searchStudyController"
@@ -227,7 +230,7 @@
 
     <bean id="ctcaeSimpleFormController" class="gov.nih.nci.ctcae.web.CtcAeSimpleFormController">
         <property name="controllerTools" ref="controllerTools"></property>
-        <property name="commonRepository" ref="commonRepository"></property>
+        <property name="finderRepository" ref="finderRepository"></property>
     </bean>
 
 

@@ -88,9 +88,9 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudySiteQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/AbstractRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CRFRepository.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CommonRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CrfItemRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CtcTermRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/FinderRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/GenericRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/InvestigatorRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/JpaGenericRepository.java -text
@@ -204,10 +204,12 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/SearchInvestigato
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/CreateParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudySiteController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/CreateStudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SearchStudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SelectedStudyCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacade.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyControllerUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/NullStringComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImpl.java -text

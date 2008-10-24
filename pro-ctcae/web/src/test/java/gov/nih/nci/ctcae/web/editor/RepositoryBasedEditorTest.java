@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.web.editor;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
 import gov.nih.nci.ctcae.core.TestBean;
-import gov.nih.nci.ctcae.core.repository.CommonRepository;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import static org.easymock.EasyMock.expect;
 
 
@@ -13,7 +13,7 @@ public class RepositoryBasedEditorTest extends AbstractTestCase {
     private static final Integer ID = 13;
     private static final TestBean city = new TestBean();
 
-    private CommonRepository commonRepository;
+    private FinderRepository finderRepository;
     private RepositoryBasedEditor editor;
 
     @Override
@@ -21,12 +21,12 @@ public class RepositoryBasedEditorTest extends AbstractTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         city.setId(ID);
-        commonRepository = registerMockFor(CommonRepository.class);
-        editor = new RepositoryBasedEditor(commonRepository, TestBean.class);
+        finderRepository = registerMockFor(FinderRepository.class);
+        editor = new RepositoryBasedEditor(finderRepository, TestBean.class);
     }
 
     public void testSetAsTextWithValidId() throws Exception {
-        expect(commonRepository.findById(TestBean.class, ID)).andReturn(city);
+        expect(finderRepository.findById(TestBean.class, ID)).andReturn(city);
 
         replayMocks();
         editor.setAsText(ID.toString());
@@ -37,7 +37,7 @@ public class RepositoryBasedEditorTest extends AbstractTestCase {
 
     public void testSetAsTextWithInvalidId() throws Exception {
         Integer expectedId = 23;
-        expect(commonRepository.findById(TestBean.class, expectedId)).andReturn(null);
+        expect(finderRepository.findById(TestBean.class, expectedId)).andReturn(null);
 
         replayMocks();
         try {

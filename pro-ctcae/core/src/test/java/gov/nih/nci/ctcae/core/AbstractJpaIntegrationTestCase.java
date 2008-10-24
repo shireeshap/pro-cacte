@@ -9,7 +9,6 @@ public abstract class AbstractJpaIntegrationTestCase extends AbstractJpaTests {
 
     @Override
     protected String[] getConfigLocations() {
-        String testXmlFilePath = getFullyQualifiedPackageName(this.getClass().getPackage().getName());
 
         return new String[]{
                 "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml",
@@ -19,7 +18,7 @@ public abstract class AbstractJpaIntegrationTestCase extends AbstractJpaTests {
                 "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml",
                 "classpath*:gov/nih/nci/ctcae/core/resourceContext-job.xml",
 //                "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml",
-                "classpath*:" + testXmlFilePath + "/*-context-test.xml"};
+                "classpath*:" + "/*-context-test.xml"};
     }
 
     private String getFullyQualifiedPackageName(String packageName) {
