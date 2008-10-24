@@ -5,6 +5,9 @@ import gov.nih.nci.ctcae.core.domain.Gender;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Race;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.query.StudySiteQuery;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
@@ -30,7 +33,7 @@ public class CreateParticipantController extends CtcAeSimpleFormController {
 	private StudyOrganizationRepository studyOrganizationRepository;
 	
 	public CreateParticipantController() {
-		setCommandClass(Participant.class);
+		setCommandClass(ParticipantCommand.class);
 		setCommandName("participantCommand");
 		setFormView("participant/createParticipant");
 		setSuccessView("participant/confirmParticipant");
@@ -44,11 +47,24 @@ public class CreateParticipantController extends CtcAeSimpleFormController {
 			org.springframework.validation.BindException errors)
 			throws Exception {
 
-		Participant participant = (Participant) oCommand;
+		ParticipantCommand participantCommand = (ParticipantCommand) oCommand;
+		Participant participant = participantCommand.getParticipant();
 
+		StudySiteQuery query = new StudySiteQuery();
+		query.filterByOrganizationId(participantCommand.getSiteId());
+		query.filterByStudyId(participantCommand.getStudyId());		
+		
+		StudySite studySite = (StudySite)studyOrganizationRepository.findSingle(query);
+		
+		StudyParticipantAssignment spa = new StudyParticipantAssignment();
+		spa.setStudySite(studySite);
+		participant.addStudyParticipantAssignment(spa);
+		
 		participant = participantRepository.save(participant);
+		participantCommand.setParticipant(participant);
+		
 		ModelAndView modelAndView = new ModelAndView(getSuccessView());
-		modelAndView.addObject("participantCommand", participant);
+		modelAndView.addObject("participantCommand", participantCommand);
 		return modelAndView;
 	}
 
@@ -72,21 +88,21 @@ public class CreateParticipantController extends CtcAeSimpleFormController {
 			race.add(value);
 		}
 
-		ArrayList<Organization> studySiteOrganizations = studyOrganizationRepository
-		.findStudySiteOrganizations();
+		ArrayList<Organization> studySites = studyOrganizationRepository
+		.findStudySites();
 		
 		referenceData.put("genders", gender);
 		referenceData.put("ethnicities", ethnicity);
 		referenceData.put("races", race);
-		referenceData.put("studysites", studySiteOrganizations);
+		referenceData.put("studysites", studySites);
 		return referenceData;
 	}
 
 	@Override
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
-		Participant participant = new Participant();
-		return participant;
+		ParticipantCommand participantCommand = new ParticipantCommand();
+		return participantCommand;
 	}
 
 	@Required
