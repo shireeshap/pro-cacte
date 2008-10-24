@@ -1,8 +1,9 @@
 package gov.nih.nci.ctcae.core;
 
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.Investigator;
+import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.Study;
 
 /**
  * @author Vinay Kumar
@@ -33,5 +34,13 @@ public class Fixture {
         investigator.setLastName(lastName);
         investigator.setNciIdentifier(nciIdentifier);
         return investigator;
+    }
+
+    public static Participant createParticipant(final String firstName, final String lastName, final String identifier) {
+    	Participant participant = new Participant();
+    	participant.setFirstName(firstName);
+    	participant.setLastName(lastName);
+    	participant.setAssignedIdentifier(identifier);
+        return participant;
     }
 }
