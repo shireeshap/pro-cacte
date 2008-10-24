@@ -26,10 +26,8 @@ public class OrganizationRepository extends
 
 	}
 
-	public List<Study> findStudiesForOrganization(String organizationName) {
-		OrganizationQuery organizationQuery = new OrganizationQuery();
-		organizationQuery.filterByOrganizationName(organizationName);
-		Organization organization = findSingle(organizationQuery);
+	public List<Study> findStudiesForOrganization(String organizationId) {
+		Organization organization = findById(Integer.parseInt(organizationId));
 		Iterator<StudyOrganization> studyOrganizations = organization
 				.getStudyOrganizations().iterator();
 		
