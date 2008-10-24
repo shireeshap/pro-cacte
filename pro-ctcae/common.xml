@@ -576,7 +576,7 @@
     </target>
     <target name="clean-reports" description="--> clean the test report dir">
         <echo message="deleting reports"/>
-        <delete includeemptydirs="true" dir="../${reports.dir}"/>
+        <!--<delete includeemptydirs="true" dir="../${reports.dir}"/>-->
     </target>
     <target name="clean-clover" description="--> clean the test report dir">
         <echo message="deleting clover"/>
