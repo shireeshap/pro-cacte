@@ -24,13 +24,13 @@
     		var type = 'site';
             $('bigSearch').show();
             var parameterMap = getParameterMap(form);
-            var text = parameterMap['siteName'];
+            var text = parameterMap['siteId'];
             study.searchStudiesForSelection(parameterMap, type, text, showTable);
         }
 
         Event.observe(window, 'load', function() {
         	buildTable('assembler');
-       	  	Event.observe('siteName', 'change', function(){
+       	  	Event.observe('siteId', 'change', function(){
        			buildTable('assembler');
           	})
         });
@@ -45,8 +45,8 @@
         <p><tags:instructions code="participant.participant_details.top"/></p>
 
         <chrome:division title="Site">
-        	<tags:renderSelect propertyName="siteName" displayName="Site"
-		                         required="true" options="${studysites}" />
+        	<tags:renderSelectForDomainObject propertyName="siteId" displayName="Site"
+		                         required="true" options="${studysites}"/>
 		</chrome:division>
 
         <chrome:division title="Demographic Information">
@@ -54,26 +54,25 @@
         <table border="0">
         <tr>
 	        <td>
-		        <tags:renderText propertyName="firstName" displayName="First Name"
+		        <tags:renderText propertyName="participant.firstName" displayName="First Name"
 		                         required="true" size="50"/>
-		        <tags:renderText propertyName="lastName" displayName="Last Name"
+		        <tags:renderText propertyName="participant.lastName" displayName="Last Name"
 		                         required="true" size="50"/>
-		       
-<tags:renderText propertyName="maidenName" displayName="Maiden Name"
+		       	<tags:renderText propertyName="participant.maidenName" displayName="Maiden Name"
 		                         size="50"/>
-		        <tags:renderText propertyName="middleName" displayName="Middle Name"
+		        <tags:renderText propertyName="participant.middleName" displayName="Middle Name"
 		                         size="50"/>
-		        <tags:renderText propertyName="assignedIdentifier" displayName="Assigned Identifier"
+		        <tags:renderText propertyName="participant.assignedIdentifier" displayName="Assigned Identifier"
 		                         required="true" size="50"/>
 	        </td>
 	        <td>
-		        <tags:renderDate propertyName="birthDate" displayName="Date of birth"
-		                         required="true"/>
-		        <tags:renderSelect propertyName="gender" displayName="Gender" 
+		        <tags:renderDate propertyName="participant.birthDate" displayName="Date of birth"
+		                         required="true" />
+		        <tags:renderSelect propertyName="participant.gender" displayName="Gender" 
 		                         required="true" options="${genders}" />
-		        <tags:renderSelect propertyName="ethnicity" displayName="Ethnicity"
+		        <tags:renderSelect propertyName="participant.ethnicity" displayName="Ethnicity"
 		                         required="true" options="${ethnicities}" />
-		        <tags:renderSelect propertyName="race" displayName="Race"
+		        <tags:renderSelect propertyName="participant.race" displayName="Race"
 		                         required="true" options="${races}"/>
 	        </td>
         </tr>

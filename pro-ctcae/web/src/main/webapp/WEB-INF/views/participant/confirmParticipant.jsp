@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <title>Enter Study</title>
+    <title>Patient Details</title>
     <style type="text/css">
         .label {
             width: 12em;
@@ -38,32 +38,79 @@
 <body>
 <chrome:box title="Confirmation">
 
-    <p><tags:instructions code="study.study_overview.top"/></p>
-    <chrome:division>
-        <div class="leftpanel">
-            <div class="row">
-                <div class="label">Short title</div>
-                <div class="value">${studyCommand.shortTitle} </div>
-            </div>
-            <div class="row">
-                <div class="label">Long Title</div>
-                <div class="value">${studyCommand.longTitle} </div>
-            </div>
+    <p><tags:instructions code="participant.participant_overview.top"/></p>
+    
+    <chrome:division title="Demographic Information">
+        
+        <table border="0">
+        <tr>
+	        <td>
+		        <div class="row">
+                	<div class="label">First Name</div>
+                	<div class="value">${participantCommand.participant.firstName}</div>
+            	</div>
+		        <div class="row">
+                	<div class="label">Last Name</div>
+                	<div class="value">${participantCommand.participant.lastName}</div>
+            	</div>
+		        <div class="row">
+                	<div class="label">Maiden Name</div>
+                	<div class="value">${participantCommand.participant.maidenName}</div>
+            	</div>
+		        <div class="row">
+                	<div class="label">Middle Name</div>
+                	<div class="value">${participantCommand.participant.middleName}</div>
+            	</div>
+		        <div class="row">
+                	<div class="label">Assigned Identifier</div>
+                	<div class="value">${participantCommand.participant.assignedIdentifier}</div>
+            	</div>
+	        </td>
+	        <td>
+		       	<div class="row">
+                	<div class="label">Date of Birth</div>
+                	<div class="value">${participantCommand.participant.birthDate}</div>
+            	</div>
+		       	<div class="row">
+                	<div class="label">Gender</div>
+                	<div class="value">${participantCommand.participant.gender}</div>
+            	</div>
+		       	<div class="row">
+                	<div class="label">Ethnicity</div>
+                	<div class="value">${participantCommand.participant.ethnicity}</div>
+            	</div>
+		       	<div class="row">
+                	<div class="label">Race</div>
+                	<div class="value">${participantCommand.participant.race}</div>
+            	</div>
+		       	<div class="row">
+                	<div class="label">&nbsp;</div>
+                	<div class="value">&nbsp;</div>
+            	</div>
+	        </td>
+        </tr>
+        </table>
+        </chrome:division>
+		<c:if test="${not empty participantCommand.participant.studyParticipantAssignments}">
+            <chrome:division title="Assigned Study">
+                <table class="tablecontent">
+                    <tr>
+                        <th scope="col">Study Identifier</th>
+                        <th scope="col">Study Short Title</th>
+                        <th scope="col">Site</th>
+                    </tr>
+                    <c:forEach items="${participantCommand.participant.studyParticipantAssignments}" var="assignment">
+                        <tr class="results">
+ 							<td>${assignment.studySite.study.assignedIdentifier}</td>
+                            <td>${assignment.studySite.study.shortTitle}</td>
+                            <td>${assignment.studySite.organization.name}</td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <br>
+            </chrome:division>
+        </c:if>
 
-            <div class="row">
-                <div class="label">Description</div>
-                <div class="value">${studyCommand.description} </div>
-            </div>
-            <div class="row">
-                <div class="label">Funding sponsor</div>
-                <div class="value">${studyCommand.studyFundingSponsor.organization.displayName} </div>
-            </div>
-            <div class="row">
-                <div class="label">Coordinating center</div>
-                <div class="value">${studyCommand.studyCoordinatingCenter.organization.displayName} </div>
-            </div>
-        </div>
-    </chrome:division>
 
 
 
