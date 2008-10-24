@@ -23,5 +23,10 @@
         <property name="investigatorRepository" ref="investigatorRepository"/>
     </bean>
 
+    <bean id="participantAjaxFacade"
+          class="gov.nih.nci.ctcae.web.participant.ParticipantAjaxFacade">
+        <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+
 
 </beans>
