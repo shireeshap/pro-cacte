@@ -23,9 +23,18 @@
 
         <property name="mappings">
             <value>
-                <!--/createStudy=mvcFlowController-->
+                /participant/assignParticipant=mvcFlowController
             </value>
         </property>
+        <property name="interceptors">
+            <list>
+
+                <!--<ref bean="loginCheckInterceptor"/>-->
+
+                <ref bean="sectionInterceptor"/>
+            </list>
+        </property>
+
     </bean>
 
     <!--<bean id="tilesViewResolver" class="org.springframework.js.ajax.AjaxUrlBasedViewResolver">-->
@@ -126,10 +135,9 @@
                                   p:displayName="Enter Subject" p:linkName="createParticipantController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="Search Subjects" p:linkName="searchParticipantController"/>
-                            <!--
-                            	<bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Assign Subject to Study" p:linkName="assignParticipantController"/>
-                            -->
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Assign Subject to Study" p:linkName="mvcFlowController"/>
+
                         </list>
                     </property>
                 </bean>
@@ -160,7 +168,8 @@
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="Investigator" p:linkName="createInvestigatorController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Manage Form" p:linkName="searchFormController"/>
+                                  p:displayName="Manage Form" p:linkName="createFormController"/>
+
 
                         </list>
                     </property>
@@ -173,7 +182,7 @@
 
     <bean name="/forms/createForm" id="createFormController"
           class="gov.nih.nci.ctcae.web.form.CreateFormController" parent="ctcaeSimpleFormController">
-        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+        <property name="finderRepository" ref="finderRepository"/>
     </bean>
     <bean name="/forms/addOneQuestion" id="oneQuestionController"
           class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">
@@ -201,8 +210,8 @@
 
     <bean name="/participant/createParticipant" id="createParticipantController"
           class="gov.nih.nci.ctcae.web.participant.CreateParticipantController" parent="ctcaeSimpleFormController">
-          <property name="participantRepository" ref="participantRepository"/>
-          <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
+        <property name="participantRepository" ref="participantRepository"/>
+        <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
     <bean name="/participant/searchParticipant" id="searchParticipantController"
           class="gov.nih.nci.ctcae.web.participant.SearchParticipantController">
@@ -214,7 +223,6 @@
     <bean name="/investigator/searchInvestigator" id="searchInvestigatorController"
           class="gov.nih.nci.ctcae.web.investigator.SearchInvestigatorController">
     </bean>
-
 
 
     <bean id="noCacheTemplate" abstract="true">

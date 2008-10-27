@@ -10,7 +10,7 @@
     <url>http://maven.apache.org</url>
     <modules>
         <module>commons</module>
-        <!--<module>core</module>-->
+        <module>core</module>
         <module>web</module>
     </modules>
     <pluginRepositories>

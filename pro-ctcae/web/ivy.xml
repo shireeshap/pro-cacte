@@ -58,7 +58,10 @@
         <dependency org="org.springframework.webflow" name="org.springframework.js" rev="2.0.3.RELEASE" force="true"/>
         <dependency org="org.springframework.webflow" name="org.springframework.webflow" rev="2.0.3.RELEASE"
                     force="true"/>
+        <dependency org="ognl" name="ognl" rev="2.6.7"
+                    />
 
+        
         <dependency org="org.acegisecurity" name="acegi-security" rev="1.0.3" transitive="false">
 
         </dependency>

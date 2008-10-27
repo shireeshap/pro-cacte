@@ -311,6 +311,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/confirmInvestigator.jsp
 pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/createInvestigator.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/searchInvestigator.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/assignParticipant.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/assignParticipant.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/confirmParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/createParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/searchParticipant.jsp -text
