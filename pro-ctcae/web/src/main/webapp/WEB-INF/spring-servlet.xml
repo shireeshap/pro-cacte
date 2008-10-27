@@ -208,12 +208,19 @@
           class="gov.nih.nci.ctcae.web.study.SearchStudyController">
     </bean>
 
-    <bean name="/participant/createParticipant" id="createParticipantController"
+    <bean name="/participant/create" id="createParticipantController"
           class="gov.nih.nci.ctcae.web.participant.CreateParticipantController" parent="ctcaeSimpleFormController">
         <property name="participantRepository" ref="participantRepository"/>
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
-    <bean name="/participant/searchParticipant" id="searchParticipantController"
+
+    <bean name="/participant/edit" id="editParticipantController"
+          class="gov.nih.nci.ctcae.web.participant.EditParticipantController" parent="ctcaeSimpleFormController">
+          <property name="participantRepository" ref="participantRepository"/>
+          <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
+    </bean>
+    
+    <bean name="/participant/search" id="searchParticipantController"
           class="gov.nih.nci.ctcae.web.participant.SearchParticipantController">
     </bean>
     <bean name="/investigator/createInvestigator" id="createInvestigatorController"
