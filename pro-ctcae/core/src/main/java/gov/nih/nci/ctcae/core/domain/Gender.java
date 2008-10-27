@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import java.util.ArrayList;
+
 public enum Gender {
 	MALE("Male"),
 	FEMALE("Female"),
@@ -14,5 +16,13 @@ public enum Gender {
 	@Override
 	public String toString(){
 		return displayText;
+	}
+	
+	public static ArrayList<Gender> getAllGenders(){
+		ArrayList<Gender> genders = new ArrayList<Gender>();
+		for (Gender value : Gender.values()) {
+			genders.add(value);
+		}
+		return genders;
 	}
 }

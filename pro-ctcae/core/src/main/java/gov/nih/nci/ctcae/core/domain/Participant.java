@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -48,7 +49,7 @@ public class Participant extends Person {
 		this.assignedIdentifier = assignedIdentifier;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "participant")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "participant", fetch=FetchType.EAGER)
 	private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
 
 	public String getMaidenName() {

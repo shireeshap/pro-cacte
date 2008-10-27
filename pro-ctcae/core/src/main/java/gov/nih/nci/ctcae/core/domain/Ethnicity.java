@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import java.util.ArrayList;
+
 public enum Ethnicity {
 	HISPANIC("Hispanic or Latino"),
 	NONHISPANIC("Not Hispanic or Latino"),
@@ -15,5 +17,13 @@ public enum Ethnicity {
 	@Override
 	public String toString(){
 		return displayText;
+	}
+	
+	public static ArrayList<Ethnicity> getAllEthnicities(){
+		ArrayList<Ethnicity> ethnicities = new ArrayList<Ethnicity>();
+		for (Ethnicity value : Ethnicity.values()) {
+			ethnicities.add(value);
+		}
+		return ethnicities;
 	}
 }
