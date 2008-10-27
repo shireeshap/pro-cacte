@@ -122,6 +122,8 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CtcTermIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/EthnicityEnumTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/GenderEnumTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/InvestigatorIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/InvestigatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/OrganizationIntegrationTest.java -text
@@ -134,6 +136,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermTest.java -
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RaceEnumTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/SiteInvestigatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyCrfIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyIntegrationTest.java -text
