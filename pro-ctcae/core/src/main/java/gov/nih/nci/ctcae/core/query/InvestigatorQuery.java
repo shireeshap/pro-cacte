@@ -1,11 +1,8 @@
 package gov.nih.nci.ctcae.core.query;
 
 /**
- * Created by IntelliJ IDEA.
  * User: Mehul Gulati
  * Date: Oct 15, 2008
- * Time: 6:57:16 PM
- * To change this template use File | Settings | File Templates.
  */
 public class InvestigatorQuery extends AbstractQuery {
 

@@ -41,6 +41,7 @@ pro-ctcae/core/src/main/db/migrate/001_elaboration_1/024_add_sample_pro_ctc_term
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/025_alter_study_organizations.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/026_alter_partcipants.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/027_create_study_investigators.groovy -text
+pro-ctcae/core/src/main/db/migrate/001_elaboration_1/028_create_research_staff.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
@@ -59,6 +60,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtc.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTerm.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValue.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Race.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ResearchStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/SiteInvestigator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCoordinatingCenter.java -text
@@ -83,6 +85,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcTermQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcValidValueQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/Query.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ResearchStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudySiteQuery.java -text
@@ -100,6 +103,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcRepository.
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcValidValueRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ResearchStaffRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyOrganizationRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
@@ -137,6 +141,8 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RaceEnumTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ResearchStaffIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ResearchStaffTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/SiteInvestigatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyCrfIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyIntegrationTest.java -text
@@ -145,6 +151,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/CRFQueryTest.java -tex
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/InvestigatorQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/OrganizationQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ResearchStaffQueryTest.java -text
 pro-ctcae/datasource.properties -text
 pro-ctcae/ivy.xml -text
 pro-ctcae/ivysettings-offline.xml -text

@@ -3,11 +3,8 @@ package gov.nih.nci.ctcae.core.query;
 import junit.framework.TestCase;
 
 /**
- * Created by IntelliJ IDEA.
- * User: tsneed
+ * @author Mehul Gulati
  * Date: Oct 16, 2008
- * Time: 4:58:39 PM
- * To change this template use File | Settings | File Templates.
  */
 public class InvestigatorQueryTest extends TestCase {
 
@@ -38,6 +35,7 @@ public class InvestigatorQueryTest extends TestCase {
         assertTrue("missing parameter name", investigatorQuery.getParameterMap().containsKey("lastName"));
         assertEquals("wrong parameter value", investigatorQuery.getParameterMap().get("lastName"), "%dow%");
     }
+
     public void testFilterByFullName() throws Exception {
        InvestigatorQuery investigatorQuery = new InvestigatorQuery();
        investigatorQuery.filterByInvestigatorFirstName("John");
