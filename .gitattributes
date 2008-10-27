@@ -203,8 +203,10 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorTable
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/SearchInvestigatorController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/CreateParticipantController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/EditParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantCommand.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantLinkDisplayDetailsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantController.java -text

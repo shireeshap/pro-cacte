@@ -27,7 +27,7 @@ public class ParticipantLinkDisplayDetailsCell implements Cell {
         try {
             Participant bean = (Participant) model.getCurrentRowBean();
             Integer id = bean.getId();
-            inputBuilder.getHtmlBuilder().a("/pages/participant/edit?participantId="+id);
+            inputBuilder.getHtmlBuilder().a("edit?participantId="+id);
                     
             inputBuilder.getHtmlBuilder().xclose();
             inputBuilder.tdBody(bean.getAssignedIdentifier());
