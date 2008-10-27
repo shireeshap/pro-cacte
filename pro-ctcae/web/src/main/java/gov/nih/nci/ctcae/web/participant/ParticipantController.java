@@ -34,7 +34,6 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
 	protected ParticipantController() {
 		setCommandClass(ParticipantCommand.class);
 		setCommandName("participantCommand");
-		setFormView("participant/createParticipant");
 		setSuccessView("participant/confirmParticipant");
 		setBindOnNewForm(true);
 		setSessionForm(true);
