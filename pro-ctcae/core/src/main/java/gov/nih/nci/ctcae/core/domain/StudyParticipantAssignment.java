@@ -29,6 +29,9 @@ public class StudyParticipantAssignment extends BaseVersionable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
 
+	@Column(name = "study_participant_identifier", nullable = false)
+	private String studyParticipantIdentifier;
+
 	@JoinColumn(name = "participant_id", referencedColumnName = "id")
 	@ManyToOne
 	private Participant participant;
@@ -53,6 +56,14 @@ public class StudyParticipantAssignment extends BaseVersionable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getStudyParticipantIdentifier() {
+		return studyParticipantIdentifier;
+	}
+
+	public void setStudyParticipantIdentifier(String studyParticipantIdentifier) {
+		this.studyParticipantIdentifier = studyParticipantIdentifier;
 	}
 
 	public Participant getParticipant() {
