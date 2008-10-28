@@ -44,6 +44,7 @@ pro-ctcae/core/src/main/db/migrate/001_elaboration_1/025_alter_study_organizatio
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/026_alter_partcipants.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/027_create_study_investigators.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/028_create_research_staff.groovy -text
+pro-ctcae/core/src/main/db/migrate/001_elaboration_1/030_alter_study_participant_assignments.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
