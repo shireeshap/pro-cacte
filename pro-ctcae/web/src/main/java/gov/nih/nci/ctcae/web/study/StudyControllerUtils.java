@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
  * @crated Oct 21, 2008
  */
 public class StudyControllerUtils {
-    public static Study getStudyCommand(HttpServletRequest request) {
-        Study study = (Study)
+    public static StudyCommand getStudyCommand(HttpServletRequest request) {
+        StudyCommand studyCommand = (StudyCommand)
                 request.getSession().getAttribute(CreateStudyController.class.getName() + ".FORM." + "studyCommand");
-        return study;
+        return studyCommand;
 
 
     }

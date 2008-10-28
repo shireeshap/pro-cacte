@@ -59,4 +59,26 @@ public abstract class StudyOrganization extends BasePersistable {
 	public void setStudy(Study study) {
 		this.study = study;
 	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StudyOrganization that = (StudyOrganization) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (organization != null ? !organization.equals(that.organization) : that.organization != null) return false;
+        if (study != null ? !study.equals(that.study) : that.study != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (organization != null ? organization.hashCode() : 0);
+        result = 31 * result + (study != null ? study.hashCode() : 0);
+        return result;
+    }
 }

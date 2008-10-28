@@ -15,66 +15,67 @@
     <tags:includePrototypeWindow/>
 
 
-    <tags:dwrJavascriptLink objects="organization"/>
     <script type="text/javascript">
 
-        var studyCoordinatingCenterAutocompleter = {
-            basename: "studyCoordinatingCenter.organization",
-            populator:   function(autocompleter, text) {
-                organization.matchOrganization(text, function(values) {
-                    autocompleter.setChoices(values)
-                })
-            },
-            valueSelector: function (obj) {
-                return obj.displayName;
-            }
+
+        function addStudySiteDiv(transport) {
+
+            var response = transport.responseText;
+            new Insertion.Before("hiddenDiv", response);
+
 
         }
-        var studyFundingSponsorAutocompleter = {
-            basename: "studyFundingSponsor.organization",
-            populator:   function(autocompleter, text) {
-                organization.matchOrganization(text, function(values) {
-                    autocompleter.setChoices(values)
-                })
-            },
-            valueSelector: function (obj) {
-                return obj.displayName;
-            }
+        function addStudySite() {
+            var request = new Ajax.Request("<c:url value="/pages/study/addStudySite"/>", {
+                onComplete:addStudySiteDiv,
+                parameters:"subview=subview&",
 
-        }
-
-        function acPostSelect(mode, selectedChoice) {
-            $(mode.basename).value = selectedChoice.id;
-        }
-        function acCreate(mode) {
-            new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-                    mode.populator, {
-                valueSelector: mode.valueSelector,
-                afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-                    acPostSelect(mode, selectedChoice)
-                },
-                indicator: mode.basename + "-indicator"
+                method:'get'
             })
+
+
+        }
+
+        function fireDelete(index, divToRemove) {
+            if ($('objectsIdsToRemove').value != '') {
+                $('objectsIdsToRemove').value = $('objectsIdsToRemove').value + "," + index;
+            }
+            else {
+                $('objectsIdsToRemove').value = index;
+            }
+
+            $(divToRemove).remove();
 
         }
 
 
         Event.observe(window, "load", function() {
-            acCreate(studyCoordinatingCenterAutocompleter)
-            acCreate(studyFundingSponsorAutocompleter)
+            acCreate(new siteAutoComplter('study.studyCoordinatingCenter.organization'))
+            acCreate(new siteAutoComplter('study.studyFundingSponsor.organization'))
 
-        <c:if test="${studyFundingSponsor ne null}">
-            $('studyFundingSponsor.organization-input').value = '${studyFundingSponsor.organization.displayName}';
-            $('studyFundingSponsor.organization').value = '${studyFundingSponsor.organization.id}';
-            $('studyFundingSponsor.organization-input').class = 'autocomplete';
 
-        </c:if><c:if test="${studyCoordinatingCenter ne null}">
-            $('studyCoordinatingCenter.organization-input').value = '${apartment.organization.displayName}';
-            $('studyCoordinatingCenter.organization').value = '${apartment.organization.id}';
-            $('studyCoordinatingCenter.organization-input').class = 'autocomplete';
+        <c:if test="${studyCommand.study.studyFundingSponsor ne null}">
+            initializeAutoCompleter('study.studyFundingSponsor.organization',
+                    '${studyCommand.study.studyFundingSponsor.organization.displayName}', '${studyCommand.study.studyFundingSponsor.organization.id}')
+
 
         </c:if>
+
+        <c:if test="${studyCommand.study.studyCoordinatingCenter ne null}">
+            initializeAutoCompleter('study.studyCoordinatingCenter.organization',
+                    '${studyCommand.study.studyCoordinatingCenter.organization.displayName}', '${studyCommand.study.studyCoordinatingCenter.organization.id}')
+
+
+        </c:if>
+        <c:forEach  items="${studyCommand.study.studySites}" var="studySite" varStatus="status">
+            var siteBaseName = 'study.studySites[${status.index}].organization'
+            acCreate(new siteAutoComplter(siteBaseName));
+            initializeAutoCompleter(siteBaseName, '${studySite.organization.displayName}', '${studySite.organization.id}');
+        </c:forEach>
+
             initSearchField()
+
+
         })
 
 
@@ -86,38 +87,73 @@
 
 <form:form method="post" commandName="studyCommand">
     <chrome:box title="Study details" autopad="true">
+        <tags:hasErrorsMessage hideErrorDetails="false"/>
+
 
         <p><tags:instructions code="study.study_details.top"/></p>
 
-        <tags:renderText propertyName="assignedIdentifier" displayName="Assigned Identifier"
-                         required="true" help="true" size="50"/>
-        <tags:renderText propertyName="shortTitle" displayName="Short title"
+        <tags:renderText propertyName="study.assignedIdentifier" displayName="Assigned identifier"
                          required="true" help="true" size="50"/>
 
-        <tags:renderTextArea propertyName="longTitle" displayName="Long title"
-                         required="true" help="true" cols="70"/>
+        <tags:renderText propertyName="study.shortTitle" displayName="Short title"
+                         required="true" help="true" size="50"/>
+
+        <tags:renderTextArea propertyName="study.longTitle" displayName="Long title"
+                             required="true" help="true" cols="70"/>
 
 
-        <tags:renderTextArea propertyName="description" displayName="Description"
+        <tags:renderTextArea propertyName="study.description" displayName="Description"
                              required="false" help="true" cols="70"/>
 
         <chrome:division title="Coordinating center details">
-            <tags:renderAutocompleter propertyName="studyCoordinatingCenter.organization" displayName="Coordinating center"
+            <tags:renderAutocompleter propertyName="study.studyCoordinatingCenter.organization"
+                                      displayName="Coordinating center"
                                       required="true" help="true"/>
 
         </chrome:division>
         <chrome:division title="Funding sponsor details">
-            <tags:renderAutocompleter propertyName="studyFundingSponsor.organization" displayName="Funding sponsor"
+            <tags:renderAutocompleter propertyName="study.studyFundingSponsor.organization"
+                                      displayName="Funding sponsor"
                                       required="true" help="true"/>
 
         </chrome:division>
 
+        <chrome:division title="Study sites">
+            <p><tags:instructions code="study.study_sites.top"/></p>
 
-        <div class="row">
-            <div class="submit">
-                <input type="submit" id="submitButton" value="Submit"/>
+            <input type="hidden" value="" id="objectsIdsToRemove" name="objectsIdsToRemove"/>
+
+            <div align="left" style="margin-left: 50px">
+                <table width="55%" class="tablecontent">
+                    <tr id="ss-table-head" class="amendment-table-head">
+                        <th width="95%" class="tableHeader"><tags:requiredIndicator/>Site</th>
+                        <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+
+                    </tr>
+                    <c:forEach items="${studyCommand.study.studySites}" var="studySite" varStatus="status">
+
+                        <tags:oneOrganization index="${status.index}"
+                                              inputName="study.studySites[${status.index}].organization"
+                                              title="Study Site" displayError="true"></tags:oneOrganization>
+                    </c:forEach>
+
+
+                    <tr id="hiddenDiv"></tr>
+
+                </table>
+
             </div>
-        </div>
+            <tags:tabControls willSave="${willSave}" saveButtonLabel="${saveButtonLabel}">
+                <jsp:attribute name="localButtons">
+                    <input type="button" value="Add Study Site" onClick="addStudySite()" class="button"/>
+                    
+                </jsp:attribute>
+            </tags:tabControls>
+
+
+        </chrome:division>
+
+        <tags:tabControls willSave="true"/>
 
 
     </chrome:box>

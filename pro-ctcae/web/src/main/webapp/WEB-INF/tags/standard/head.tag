@@ -22,12 +22,15 @@
 
 
 <tags:javascriptLink name="prototype"/>
-<tags:javascriptLink name="common"/>
-<tags:javascriptLink name="validation" />
-<tags:javascriptLink name="commons-validation" />
-<tags:javascriptLink name="date" />
+<tags:dwrJavascriptLink objects="organization"/>
 
-<tags:javascriptLink name="side-bar/side-bar" />
+<tags:javascriptLink name="common"/>
+<tags:javascriptLink name="validation"/>
+<tags:javascriptLink name="commons-validation"/>
+<tags:javascriptLink name="date"/>
+
+<tags:javascriptLink name="side-bar/side-bar"/>
+<tags:javascriptLink name="row-manager"/>
 
 <!-- SCRIPACULOUS START -->
 

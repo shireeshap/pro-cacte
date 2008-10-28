@@ -590,6 +590,50 @@ function updateTypeAndText(divId, type, text) {
     }
 }
 
+
+function acPostSelect(mode, selectedChoice) {
+    $(mode.basename).value = selectedChoice.id;
+}
+function acCreate(mode) {
+    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
+            mode.populator, {
+        valueSelector: mode.valueSelector,
+        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+            acPostSelect(mode, selectedChoice)
+        },
+        indicator: mode.basename + "-indicator"
+    })
+
+}
+var siteAutoComplter = Class.create();
+Object.extend(siteAutoComplter.prototype, {
+    initialize: function(basename) {
+
+        this.basename = basename;
+        this.populator = function(autocompleter, text) {
+            organization.matchOrganization(text, function(values) {
+                autocompleter.setChoices(values)
+            })
+        },
+                this.valueSelector = function (obj) {
+                    return obj.displayName;
+                }
+
+    }
+
+
+});
+
+
+function initializeAutoCompleter(basename, orgName, orgId) {
+    if (orgName != '') {
+        $(basename + '-input').value = orgName;
+        $(basename).value = orgId;
+        $(basename + '-input').class = 'autocomplete';
+
+    }
+}
+
 // COLLAPSABLE DIV ELEMENT
 ////////////////////////////////////////////////////////////////////////////////////////////////
 

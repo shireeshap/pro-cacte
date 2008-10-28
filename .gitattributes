@@ -45,6 +45,7 @@ pro-ctcae/core/src/main/db/migrate/001_elaboration_1/026_alter_partcipants.groov
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/027_create_study_investigators.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/028_create_research_staff.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/030_alter_study_participant_assignments.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/001_create_indexes.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
@@ -237,6 +238,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/CreateStudyController.ja
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SearchStudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SelectedStudyCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacade.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyControllerUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/TextBoxCell.java -text
@@ -299,6 +301,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/instructions.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/javascriptLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/jsLogs.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneAdverseEventMeddra.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneOrganization.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneQuestion.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/pageHelp.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/panelBox.tag -text
@@ -346,6 +349,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/editParticipant.jsp -tex
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/searchParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudySiteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/confirmStudy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/createStudy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/searchStudy.jsp -text
@@ -592,6 +596,7 @@ pro-ctcae/web/src/main/webapp/js/sidebar/ssmItems.js -text
 pro-ctcae/web/src/main/webapp/js/tabbedflow.js -text
 pro-ctcae/web/src/main/webapp/js/tiger-menu.js -text
 pro-ctcae/web/src/main/webapp/js/validation.js -text
+pro-ctcae/web/src/test/java/SeleniumTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AbstractWebIntegrationTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ApplicationConversionServiceTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/WebTestCase.java -text
@@ -601,6 +606,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxF
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/SearchStudyControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacadeIntegrationTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyTableModelTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/AbstractTableModelTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/cell/AbstractCellTestCase.java -text

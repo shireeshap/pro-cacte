@@ -82,7 +82,7 @@ public class WebControllerValidatorImpl implements ApplicationContextAware, WebC
 
             //for UniqueObjectInCollection validator
             for (String collectionProperty : collectionPropertyMap.keySet()) {
-                validateCollectionProperty(collectionProperty, beanWrapperImpl, collectionProperty, errors, collectionProperty);
+                validateCollectionProperty(collectionProperty, beanWrapperImpl, collectionProperty, errors, collectionPropertyMap.get(collectionProperty));
             }
 
         }
@@ -139,7 +139,7 @@ public class WebControllerValidatorImpl implements ApplicationContextAware, WebC
                     if (errorPropertyName != null) {
                         errors.rejectValue(errorPropertyName, "REQUIRED", errMsg);
                     } else {
-                        errors.reject("DUPLICATE", errMsg);
+                        errors.rejectValue(errorPropertyName,"DUPLICATE", errMsg);
                     }
 
                 }

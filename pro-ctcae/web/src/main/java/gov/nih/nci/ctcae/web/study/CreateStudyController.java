@@ -21,7 +21,7 @@ public class CreateStudyController extends CtcAeSimpleFormController {
     private StudyRepository studyRepository;
 
     public CreateStudyController() {
-        setCommandClass(Study.class);
+        setCommandClass(StudyCommand.class);
         setCommandName("studyCommand");
         setFormView("study/createStudy");
         setSuccessView("study/confirmStudy");
@@ -30,12 +30,14 @@ public class CreateStudyController extends CtcAeSimpleFormController {
     }
 
 
-
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, org.springframework.validation.BindException errors) throws Exception {
 
-        Study study = (Study) oCommand;
+        StudyCommand studyCommand = (StudyCommand) oCommand;
+        Study study = studyCommand.getStudy();
 
+        //remove the study sites;
+        studyCommand.removeStudySites();
         study = studyRepository.save(study);
         ModelAndView modelAndView = new ModelAndView(getSuccessView());
         modelAndView.addObject("studyCommand", study);
@@ -44,10 +46,8 @@ public class CreateStudyController extends CtcAeSimpleFormController {
 
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        Study study = new Study();
-        study.setStudyFundingSponsor(new StudyFundingSponsor());
-        study.setStudyCoordinatingCenter(new StudyCoordinatingCenter());
-        return study;
+
+        return new StudyCommand();
 
 
     }

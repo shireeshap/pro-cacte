@@ -22,7 +22,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     <script type="text/javascript" src="<c:url value="/resources/spring/Spring.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/spring/Spring-Dojo.js" />"></script>
 
-    <title>Student CtcAe</title>
+    <title>ProCtcAE</title>
     <link rel="icon" href="../../images/ctcae.ico"/>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
@@ -35,7 +35,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <div id="all">
     <standard:header/>
 
-<tiles:insertAttribute name="body"/>
+    <tiles:insertAttribute name="body"/>
 
     <div class="tabpane">
 

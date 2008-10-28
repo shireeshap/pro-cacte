@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <input class='ibutton' type='button' onclick="buildTable('assembler');"
+        <input class='ibutton' type='button' id="searchButton" onclick="buildTable('assembler');"
                value='Search' title='Search Study'/>
         <tags:indicator id="indicator"/>
     </div>

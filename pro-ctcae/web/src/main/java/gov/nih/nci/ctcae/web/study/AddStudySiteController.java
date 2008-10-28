@@ -21,13 +21,14 @@ public class AddStudySiteController extends AbstractController {
         ModelAndView modelAndView = new ModelAndView("study/ajax/oneStudySiteSection");
 
 
-        Study study = StudyControllerUtils.getStudyCommand(request);
+        StudyCommand studyCommand = StudyControllerUtils.getStudyCommand(request);
+
+        Study study = studyCommand.getStudy();
         StudySite studySite = new StudySite();
         study.addStudySite(studySite);
 
-        int index = study.getStudySites().size()-1;
+        int index = study.getStudySites().size() - 1;
 
-        modelAndView.addObject(String.format("studySites[%s]",index), studySite);
         modelAndView.addObject("index", index);
 
         return modelAndView;

@@ -12,7 +12,6 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <title>Enter Study</title>
     <style type="text/css">
         .label {
             width: 12em;
@@ -38,7 +37,7 @@
 <body>
 <chrome:box title="Confirmation">
 
-    <p><tags:instructions code="study.study_overview.top"/></p>
+    <div class="row">The following study is saved successfully</div>
     <chrome:division>
         <div class="leftpanel">
             <div class="row">
@@ -64,8 +63,37 @@
             </div>
         </div>
     </chrome:division>
+    <chrome:division title="Study Sites">
 
 
+        <div align="left" style="margin-left: 50px">
+            <table width="55%" class="tablecontent">
+                <tr id="ss-table-head" class="amendment-table-head">
+                    <th width="95%" class="tableHeader">Sites</th>
+                    <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+
+                </tr>
+
+                <tr valign="top">
+                    <td style="border-left:none;">
+
+
+                        <c:forEach items="${studyCommand.studySites}" var="studySite">
+                            <div class="row">
+                                    ${studySite.organization.displayName}
+                            </div>
+                        </c:forEach>
+
+                    </td>
+                </tr>
+
+
+            </table>
+
+        </div>
+
+
+    </chrome:division>
 
 
 </chrome:box>
