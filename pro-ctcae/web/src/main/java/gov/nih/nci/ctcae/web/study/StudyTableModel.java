@@ -5,10 +5,13 @@ import org.extremecomponents.table.bean.Column;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import gov.nih.nci.ctcae.web.AbstractTableModel;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 
 /**
  * @author Vinay Kumar
@@ -39,8 +42,8 @@ public class StudyTableModel extends AbstractTableModel {
     public String buildStudyTableForSelection(Map parameterMap, Collection<Study> objects, HttpServletRequest request) {
 
         try {
+        	
             TableModel model = getModel(parameterMap, request, objects);
-
 
             addAssignedIdentifierForSelection(model);
             addShorTitleColumn(model);
@@ -48,6 +51,8 @@ public class StudyTableModel extends AbstractTableModel {
             addSponsorColumn(model);
 
             addStudyCoordinatingCenter(model);
+            addParticipantStudyIdentifierText(model);
+            
             return model.assemble().toString();
         } catch (Exception e) {
 
@@ -100,5 +105,11 @@ public class StudyTableModel extends AbstractTableModel {
         model.addColumn(columnShortTitle);
     }
 
-
+    private void addParticipantStudyIdentifierText(TableModel model) {
+        Column columnParticipantStudyIdentifier = model.getColumnInstance();
+        columnParticipantStudyIdentifier.setTitle("Patient Study Identifier");
+        columnParticipantStudyIdentifier.setSortable(Boolean.FALSE);
+        columnParticipantStudyIdentifier.setCell("gov.nih.nci.ctcae.web.study.TextBoxCell");
+        model.addColumn(columnParticipantStudyIdentifier);
+    }
 }

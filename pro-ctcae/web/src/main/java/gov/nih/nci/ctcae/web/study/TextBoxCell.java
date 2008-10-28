@@ -1,8 +1,9 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.Study;
-
+import java.util.HashMap;
 import java.util.HashSet;
+
+import gov.nih.nci.ctcae.core.domain.Study;
 
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.cell.Cell;
@@ -14,7 +15,7 @@ import org.extremecomponents.util.HtmlBuilder;
  * @author Harsh Agarwal
  * @created Oct 23, 2008
  */
-public class SelectedStudyCell implements Cell {
+public class TextBoxCell implements Cell {
 
 	public String getExportDisplay(TableModel model, Column column) {
 		return column.getValueAsString();
@@ -26,24 +27,24 @@ public class SelectedStudyCell implements Cell {
 
 		try {
 			Study bean = (Study) model.getCurrentRowBean();
-			HashSet<Integer> studyIdSet = (HashSet<Integer>) model.getContext()
-					.getParameterMap().get("participant.studies");
+			HashMap<Integer, String> participantStudyIdentifierMap  = (HashMap<Integer, String>) model.getContext()
+			.getParameterMap().get("participant.participantstudyidentifier");
 
-			if (studyIdSet == null) {
-				studyIdSet = new HashSet<Integer>();
+			if (participantStudyIdentifierMap == null) {
+				participantStudyIdentifierMap = new HashMap<Integer, String>();
 			}
-
+			
 			Integer id = bean.getId();
-			HtmlBuilder htmlBuilder = inputBuilder.getHtmlBuilder().input(
-					"checkbox").name("studyId").value(id.toString());
-			if (studyIdSet.contains(id)) {
-				htmlBuilder.checked().disabled();
+			HtmlBuilder htmlBuilder = inputBuilder.getHtmlBuilder().input("text").name(
+					"participantStudyIdentifier" + id.intValue());
+			if (participantStudyIdentifierMap.containsKey(id)) {
+				htmlBuilder.value(participantStudyIdentifierMap.get(id)).readonly();
+			}else{
+				htmlBuilder.value("");
 			}
 			inputBuilder.getHtmlBuilder().xclose();
-			inputBuilder.tdBody(bean.getAssignedIdentifier());
 
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		inputBuilder.tdEnd();
 
