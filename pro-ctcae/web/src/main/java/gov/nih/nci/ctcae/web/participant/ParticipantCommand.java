@@ -6,8 +6,8 @@ public class ParticipantCommand {
 	
 	private Participant participant;
 	private int siteId;
-	private int studyId;
-
+	private int[] studyId;
+	private String siteName = "";
 	public ParticipantCommand(){
 		participant = new Participant();
 	}
@@ -27,14 +27,19 @@ public class ParticipantCommand {
 		this.siteId = siteId;
 	}
 
-	public int getStudyId() {
+	public int[] getStudyId() {
 		return studyId;
 	}
 
-	public void setStudyId(int studyId) {
+	public void setStudyId(int[] studyId) {
 		this.studyId = studyId;
 	}
 
-	
+	public String getSiteName() {
+		return siteName;
+	}
 
+	public void setSiteName(String siteName) {
+		this.siteName = siteName;
+	}
 }

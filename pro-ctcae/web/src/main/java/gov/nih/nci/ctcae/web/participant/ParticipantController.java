@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,17 +48,23 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
 
 		ParticipantCommand participantCommand = (ParticipantCommand) oCommand;
 		Participant participant = participantCommand.getParticipant();
+		
+		for (int studyId : participantCommand.getStudyId()) {
 
-		if (participantCommand.getSiteId() != 0) {
 			StudySiteQuery query = new StudySiteQuery();
 			query.filterByOrganizationId(participantCommand.getSiteId());
-			query.filterByStudyId(participantCommand.getStudyId());
+			query.filterByStudyId(studyId);
 
 			StudySite studySite = (StudySite) studyOrganizationRepository
 					.findSingle(query);
 
+			participantCommand.setSiteName(studySite.getOrganization()
+					.getName());
+
 			StudyParticipantAssignment spa = new StudyParticipantAssignment();
 			spa.setStudySite(studySite);
+			spa.setStudyParticipantIdentifier(request
+					.getParameter("participantStudyIdentifier" + studyId));
 			participant.addStudyParticipantAssignment(spa);
 		}
 		participant = participantRepository.save(participant);
@@ -66,6 +73,20 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
 		ModelAndView modelAndView = new ModelAndView(getSuccessView());
 		modelAndView.addObject("participantCommand", participantCommand);
 		return modelAndView;
+	}
+
+	@Override
+	protected void onBindAndValidate(HttpServletRequest request,
+			Object command, BindException errors) throws Exception {
+		super.onBindAndValidate(request, command, errors);
+
+		/*
+		 * ParticipantCommand participantCommand = (ParticipantCommand)command;
+		 * 
+		 * if(participantCommand.getStudyId() == null ||
+		 * participantCommand.getStudyId().length == 0){ errors.rejectValue(
+		 * "errorMessage", "Please select at least one study."); }
+		 */
 	}
 
 	@Override
