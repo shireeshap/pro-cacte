@@ -39,7 +39,9 @@
 <chrome:box title="Confirmation">
 
     <p><tags:instructions code="participant.participant_overview.top"/></p>
-    
+    <chrome:division title="Site">
+			<b>${participantCommand.siteName}</b>
+		</chrome:division>
     <chrome:division title="Demographic Information">
         
         <table border="0">
@@ -97,13 +99,13 @@
                     <tr>
                         <th scope="col">Study Identifier</th>
                         <th scope="col">Study Short Title</th>
-                        <th scope="col">Site</th>
+                        <th scope="col">Patient Study Identifier</th>
                     </tr>
                     <c:forEach items="${participantCommand.participant.studyParticipantAssignments}" var="assignment">
                         <tr class="results">
  							<td>${assignment.studySite.study.assignedIdentifier}</td>
                             <td>${assignment.studySite.study.shortTitle}</td>
-                            <td>${assignment.studySite.organization.name}</td>
+                            <td>${assignment.studyParticipantIdentifier}</td>
                         </tr>
                     </c:forEach>
                 </table>

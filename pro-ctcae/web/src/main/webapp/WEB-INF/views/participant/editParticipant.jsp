@@ -1,17 +1,25 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
+<%@taglib uri="http://www.extremecomponents.org" prefix="ec" %>
+<link rel="stylesheet" type="text/css"
+      href="<c:url value="/css/extremecomponents.css"/>">
 
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <tags:stylesheetLink name="tabbedflow"/>
+    <tags:includeScriptaculous/>
+    <tags:includePrototypeWindow/>
+    <tags:javascriptLink name="extremecomponents"/>
+    <tags:dwrJavascriptLink objects="study"/> 
+    
     <title>Patient Details</title>
     <style type="text/css">
         .label {
@@ -33,16 +41,33 @@
             padding: 1px;
         }
     </style>
+    <script>
 
+        function buildTable(form) {
+    		var type = 'site';
+            $('bigSearch').show();
+            var parameterMap = getParameterMap(form);
+            var text = '${participantCommand.siteId}';
+            study.searchStudiesForSelection(parameterMap, type, text, showTable);
+        }
+
+        Event.observe(window, 'load', function() {
+        	buildTable('assembler');
+        });
+        
+    </script>
 </head>
 <body>
 
-<form:form method="post" commandName="participantCommand">
+<form:form method="post" commandName="participantCommand" id="assembler">
     <chrome:box title="Patient Details" autopad="true">
     <p><tags:instructions code="participant.participant_overview.top"/></p>
-    
+    	<chrome:division title="Site">
+			<b>${participantCommand.siteName}</b>
+		</chrome:division>
         <chrome:division title="Demographic Information">
-        
+        <input type="hidden" name="participant.id" value="${participantCommand.participant.id}"/>
+   
         <table border="0">
         <tr>
 	        <td>
@@ -71,23 +96,19 @@
         </table>
         </chrome:division>
 		<c:if test="${not empty participantCommand.participant.studyParticipantAssignments}">
-            <chrome:division title="Assigned Study">
-                <table class="tablecontent">
-                    <tr>
-                        <th scope="col">Study Identifier</th>
-                        <th scope="col">Study Short Title</th>
-                        <th scope="col">Site</th>
-                    </tr>
-                    <c:forEach items="${participantCommand.participant.studyParticipantAssignments}" var="assignment">
-                        <tr class="results">
- 							<td>${assignment.studySite.study.assignedIdentifier}</td>
-                            <td>${assignment.studySite.study.shortTitle}</td>
-                            <td>${assignment.studySite.organization.name}</td>
-                        </tr>
-                    </c:forEach>
-                </table>
-                <br>
-            </chrome:division>
+        <chrome:division title="Studies">
+        	<tags:indicator id="indicator"/>
+		</chrome:division>
+    
+    	<div id="bigSearch" style="display:none;">
+	    	<div class="endpanes"/>
+    			<chrome:division id="single-fields">
+        			<div id="tableDiv">
+           				<c:out value="${assembler}" escapeXml="false"/>
+        			</div>
+    			</chrome:division>
+			</div>
+    	</div>
         </c:if>
         <div class="row">
           	<div class="submit">
