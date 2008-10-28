@@ -69,7 +69,7 @@
       <table>
           <tr><td>First Name</td><td><input type="text" id="firstName" name="firstName" maxlength="30"/></td></tr>
           <tr><td>Last Name</td><td><input type="text" id="lastName" name="lastName" maxlength="30"/></td></tr>
-          <tr><td>NCI Identifier</td><td><input type="text" id="nciIdentifier"name="nciIdentifier" maxlength="30"/></td></tr>
+          <tr><td>Investigator Number</td><td><input type="text" id="nciIdentifier"name="nciIdentifier" maxlength="30"/></td></tr>
       </table>
       <div id="error"></div>
       <input class='ibutton' type='button'  onclick="buildTable('assembler');"

@@ -39,10 +39,18 @@ public class CreateInvestigatorController extends CtcAeSimpleFormController {
     }
 
     @Override
-    protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        Investigator investigator = new Investigator();
-        return investigator;
-    }
+       protected Object formBackingObject(HttpServletRequest request)
+               throws Exception {
+           String investigatorId = request.getParameter("investigatorId");
+           if (investigatorId == null){
+               return new Investigator();
+           }
+           else {
+           Investigator investigator = investigatorRepository.findById(new Integer(investigatorId));
+           return investigator;
+           }
+       }
+
 
     @Required
     public void setInvestigatorRepository(InvestigatorRepository investigatorRepository) {

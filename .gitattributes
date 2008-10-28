@@ -223,6 +223,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReorderQuestionsControlle
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/CreateInvestigatorController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorAjaxFacade.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorLinkDisplayDetailsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/SearchInvestigatorController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text

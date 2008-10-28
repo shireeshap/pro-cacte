@@ -38,6 +38,7 @@ public class InvestigatorTableModel extends AbstractTableModel {
         columnFirstName.setTitle("First Name");
         columnFirstName.setProperty("firstName");
         columnFirstName.setSortable(Boolean.TRUE);
+        columnFirstName.setCell("gov.nih.nci.ctcae.web.investigator.InvestigatorLinkDisplayDetailsCell");
 
         model.addColumn(columnFirstName);
     }
