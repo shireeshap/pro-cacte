@@ -49,7 +49,7 @@ public class StudyIntegrationTest extends AbstractJpaIntegrationTestCase {
         studyCoordinatingCenter = new StudyCoordinatingCenter();
         studyCoordinatingCenter.setOrganization(nci);
 
-        studyWithStudyOrganizations = Fixture.createStudy("study short title","study long title","assigned identifier");
+        studyWithStudyOrganizations = Fixture.createStudy("study short title", "study long title", "assigned identifier");
         studyWithStudyOrganizations.setStudyFundingSponsor(studyFundingSponsor);
         studyWithStudyOrganizations.setStudyCoordinatingCenter(studyCoordinatingCenter);
         studyWithStudyOrganizations.addStudySite(nciStudySite);
@@ -63,7 +63,6 @@ public class StudyIntegrationTest extends AbstractJpaIntegrationTestCase {
 
 
     }
-
 
 
     public void testAddStudyFundingSponsorInCreateStudy() {
@@ -229,6 +228,26 @@ public class StudyIntegrationTest extends AbstractJpaIntegrationTestCase {
 
     }
 
+    public void testFindByNCICodeExactMatch() {
+
+        StudyQuery studyQuery = new StudyQuery();
+        studyQuery.filterByAssignedIdentifierExactMatch("Assigned identifier");
+
+        Collection<? extends Study> studies = studyRepository.find(studyQuery);
+        assertFalse(studies.isEmpty());
+        int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.assigned_identifier)  = 'assigned identifier'");
+
+        assertEquals(size, studies.size());
+
+
+        for (Study study : studies)
+
+        {
+            assertTrue(study.getAssignedIdentifier().toLowerCase().equals("assigned identifier"));
+        }
+
+    }
+
     public void testFindByMatchingText() {
 
         StudyQuery studyQuery = new StudyQuery();
@@ -251,8 +270,6 @@ public class StudyIntegrationTest extends AbstractJpaIntegrationTestCase {
         }
 
     }
-
-
 
 
     @Required

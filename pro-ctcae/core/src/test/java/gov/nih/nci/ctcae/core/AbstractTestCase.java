@@ -15,24 +15,31 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import gov.nih.nci.ctcae.core.domain.Organization;
+
 /**
- * @author
+ * @author Vinay Kumar
  */
 public abstract class AbstractTestCase extends CoreTestCase {
 
+    protected Organization nci, duke;
 
     private Log log = LogFactory.getLog(getClass());
 
     @Override
-	protected void setUp() throws Exception {
+    protected void setUp() throws Exception {
         log.debug("---- Begin test " + getName() + " ----");
         super.setUp();
+
+
+        nci = Fixture.createOrganization("National Cancer Institute", "NCI");
+        duke = Fixture.createOrganization("DUKE", "DUKE");
 
 
     }
 
     @Override
-	protected void tearDown() throws Exception {
+    protected void tearDown() throws Exception {
         super.tearDown();
         log.debug("----  End  test " + getName() + " ----");
     }

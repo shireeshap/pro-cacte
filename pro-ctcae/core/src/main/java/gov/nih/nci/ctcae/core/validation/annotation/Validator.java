@@ -1,0 +1,25 @@
+package gov.nih.nci.ctcae.core.validation.annotation;
+
+import java.lang.annotation.Annotation;
+
+/**
+ * A constraint validator for a particular annotation
+ *
+ * @author Saurabh Agrawal
+ * @crated Oct 27, 2008
+ */
+public interface Validator<A extends Annotation> {
+    /**
+     * does the object/element pass the constraints
+     */
+    public boolean validate(Object value);
+
+    /**
+     * Take the annotations values
+     *
+     * @param parameters
+     */
+    public void initialize(A parameters);
+
+    public String message();
+}

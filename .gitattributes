@@ -8,7 +8,9 @@ pro-ctcae/commons/ivy-build.xml -text
 pro-ctcae/commons/ivy.xml -text
 pro-ctcae/commons/pom.xml -text
 pro-ctcae/commons/src/main/java/gov/nih/nci/ctcae/commons/utils/DateUtils.java -text
+pro-ctcae/commons/src/main/java/gov/nih/nci/ctcae/commons/utils/PropertyUtil.java -text
 pro-ctcae/commons/src/test/java/gov/nih/nci/ctcae/commons/utils/DateUtilsTest.java -text
+pro-ctcae/commons/src/test/java/gov/nih/nci/ctcae/commons/utils/PropertyUtilTest.java -text
 pro-ctcae/core/core.iml -text
 pro-ctcae/core/ivy-build.xml -text
 pro-ctcae/core/ivy.xml -text
@@ -107,6 +109,14 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ResearchStaffRepo
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyOrganizationRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueIdentifierForStudy.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueIdentifierForStudyValidator.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueNciIdentifierForOrganization.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueNciIdentifierForOrganizationValidator.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollection.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollectionValidator.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/Validator.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/ValidatorClass.java -text
 pro-ctcae/core/src/main/resources/META-INF/log4j.properties -text
 pro-ctcae/core/src/main/resources/META-INF/persistence.xml -text
 pro-ctcae/core/src/main/resources/ehcache.xml -text
@@ -152,6 +162,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/InvestigatorQueryTest.
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/OrganizationQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ResearchStaffQueryTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollectionValidatorTest.java -text
 pro-ctcae/datasource.properties -text
 pro-ctcae/ivy.xml -text
 pro-ctcae/ivysettings-offline.xml -text
@@ -232,6 +243,8 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImpl.jav
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tag/AuthorizeTag.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTag.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidator.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorImpl.java -text
 pro-ctcae/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml -text
 pro-ctcae/web/src/main/resources/message.properties -text
 pro-ctcae/web/src/main/webapp/WEB-INF/ctcae.tld -text

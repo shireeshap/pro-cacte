@@ -14,13 +14,13 @@
         </param-value>
     </context-param>
 
-    <!--<context-param>-->
-    <!--<param-name>beringContextConfigLocation</param-name>-->
-    <!--<param-value>-->
-    <!--classpath:gov/nih/nci/cabig/ctcae/applicationContext-core-spring.xml-->
-    <!--classpath:gov/nih/nci/cabig/ctcae/applicationContext-core-db.xml-->
-    <!--</param-value>-->
-    <!--</context-param>-->
+    <context-param>
+        <param-name>beringContextConfigLocation</param-name>
+        <param-value>
+            classpath*:gov/nih/nci/ctcae/core/applicationContext*.xml
+            classpath*:gov/nih/nci/ctcae/web/applicationContext*.xml
+        </param-value>
+    </context-param>
 
     <context-param>
         <param-name>log4jConfigLocation</param-name>
@@ -33,6 +33,12 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+
+
+    <!--<listener>-->
+        <!--<listener-class>edu.northwestern.bioinformatics.bering.servlet.SeparateApplicationContextBeringContextListener-->
+        <!--</listener-class>-->
+    <!--</listener>-->
 
     <servlet>
         <servlet-name>public</servlet-name>

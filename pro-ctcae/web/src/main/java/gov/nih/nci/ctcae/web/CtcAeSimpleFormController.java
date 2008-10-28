@@ -2,12 +2,14 @@ package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.validation.Errors;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
@@ -24,6 +26,7 @@ public class CtcAeSimpleFormController extends SimpleFormController {
     protected FinderRepository finderRepository;
 
     protected ControllerTools controllerTools;
+    private WebControllerValidator webControllerValidator;
 
     protected CtcAeSimpleFormController() {
         setBindOnNewForm(true);
@@ -39,6 +42,18 @@ public class CtcAeSimpleFormController extends SimpleFormController {
         binder.registerCustomEditor(Organization.class, organizationEditor);
 
 
+    }
+
+    @Override
+    protected void onBindAndValidate(HttpServletRequest request, Object o, BindException e) throws Exception {
+        super.onBindAndValidate(request, o, e);
+        webControllerValidator.validate(request, o, e);
+
+    }
+
+    @Required
+    public void setWebControllerValidator(WebControllerValidator webControllerValidator) {
+        this.webControllerValidator = webControllerValidator;
     }
 
     @Override

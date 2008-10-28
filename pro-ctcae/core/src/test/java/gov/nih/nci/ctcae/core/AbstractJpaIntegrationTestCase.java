@@ -9,7 +9,6 @@ public abstract class AbstractJpaIntegrationTestCase extends AbstractJpaTests {
 
     @Override
     protected String[] getConfigLocations() {
-
         return new String[]{
                 "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml",
 
