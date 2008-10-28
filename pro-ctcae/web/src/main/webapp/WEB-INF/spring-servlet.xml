@@ -135,9 +135,6 @@
                                   p:displayName="Enter Subject" p:linkName="createParticipantController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="Search Subjects" p:linkName="searchParticipantController"/>
-                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Assign Subject to Study" p:linkName="mvcFlowController"/>
-
                         </list>
                     </property>
                 </bean>
