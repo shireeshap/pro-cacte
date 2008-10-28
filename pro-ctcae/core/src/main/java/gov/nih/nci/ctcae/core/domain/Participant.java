@@ -103,6 +103,10 @@ public class Participant extends Person {
 		return studyParticipantAssignments;
 	}
 
+	public void removeAllStudyParticipantAssignments() {
+		studyParticipantAssignments.clear();
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
