@@ -99,7 +99,7 @@ a img{
 width:980px;
 margin:0px auto;
 text-align:left;
-background: #FFF;
+/*background: #FFF;*/
 position:relative;
 }
 
@@ -439,10 +439,9 @@ margin-top:6px;
 
 #main {
 	padding-top: 12px;
-	padding-right: 18px;
+	padding-right: 3px;
 	padding-bottom: 20px;
-	padding-left: 18px;
-
+	padding-left: 3px;
 	position: relative;
 	top: 140px;
 }
@@ -502,14 +501,14 @@ margin-top:6px;
 .box .header .background-R { background: url(../images/blue/box_header_bg_r.jpg) no-repeat top right; }
 
 
-.border-T  {  }
-.border-L  { background: url(../images/blue/box_l.png)  repeat-y left; }
-.border-R  { background: url(../images/blue/box_r.png)  repeat-y right; }
-.border-B  { background: url(../images/blue/box_bottom.png)  repeat-x bottom; }
-.border-TL {}
-.border-TR { }
-.border-BL { background: url(../images/blue/box_bl.png) no-repeat bottom left; }
-.border-BR { background: url(../images/blue/box_br.png) no-repeat bottom right; }
+.box .border-T  {  }
+.box .border-L  { background: url(../images/blue/box_l.png)  repeat-y left; }
+.box .border-R  { background: url(../images/blue/box_r.png)  repeat-y right; }
+.box .border-B  { background: url(../images/blue/box_bottom.png)  repeat-x bottom; }
+.box .border-TL {}
+.box .border-TR { }
+.box .border-BL { background: url(../images/blue/box_bl.png) no-repeat bottom left; }
+.box .border-BR { background: url(../images/blue/box_br.png) no-repeat bottom right; }
 
 .box .interior {
   margin: 0 8px 0 7px;
@@ -735,6 +734,86 @@ img.indicator {
     margin: 0 5px 5px -2em;
     padding: 5px;
 }
+/* Form Builder Styles */
+#formbuilderTable {
+width:100%;
+}
+
+#formbuilderTable #left {
+width:66%;
+vertical-align:top;
+}
+
+#formbuilderTable #right {
+width:34%;
+vertical-align:top;
+}
+
+.sortable {
+padding-bottom:5px;
+}
+
+/* Formbuilder box styles */
+.formbuilderBox {
+padding-bottom:5px;
+}
+.formbuilderboxTable{
+border-collapse:collapse;
+width:100%;
+}
+.TL {
+width:12px;
+height:15px;
+background-image:url(/ctcae/images/blue/formbuilderBox/TL.png);
+background-repeat:no-repeat;
+}
+.T {
+	height:15px;
+	background-image:url(/ctcae/images/blue/formbuilderBox/T.png);
+	background-repeat: repeat-x;
+}
+.TR {
+width:14px;
+height:15px;
+background-image:url(/ctcae/images/blue/formbuilderBox/TR.png);
+background-repeat:no-repeat;
+}
+
+.L {
+	width:12px;
+	background-image:url(/ctcae/images/blue/formbuilderBox/L.png);
+	background-repeat: repeat-y;
+}
+.formbuilderboxContent {
+	background-color:#F4F6FA;
+}
+.R {
+	width:14px;
+	background-image:url(/ctcae/images/blue/formbuilderBox/R.png);
+	background-repeat: repeat-y;
+}
+
+.BL {
+width:12px;
+height:15px;
+background-image:url(/ctcae/images/blue/formbuilderBox/BL.png);
+background-repeat:no-repeat;
+}
+.B {
+	height:15px;
+	background-image:url(/ctcae/images/blue/formbuilderBox/B.png);
+	background-repeat: repeat-x;
+}
+.BR {
+width:14px;
+height:15px;
+background-image:url(/ctcae/images/blue/formbuilderBox/BR.png);
+background-repeat:no-repeat;
+}
+.formbuilderboxTable ul {
+margin:0px;
+}
+
 /*
   Styles for Table Data
 */

@@ -80,32 +80,28 @@
 
 </head>
 <body>
-
 <form:form method="post" commandName="createFormCommand">
 
-    <table class="tablecontent">
-        <tr>
-            <td class="heading">Items</td>
-            <td class="heading"> My Form</td>
-
-        </tr>
-        <tr>
-            <td>
+    <table id="formbuilderTable">
+       <tr>
+            <td id="left">
+            Questions
                 <c:forEach items="${proCtcTerms}" var="proCtcTerm">
-                    <chrome:box>
+                    <tags:formbuilderBox>
                         ${proCtcTerm.questionText}
-
                         <a href="javascript:addQuestion(${proCtcTerm.id})">Add</a>
                         <ul>
                             <c:forEach items="${proCtcTerm.validValues}" var="proCtcValidValue">
                                 <li>${proCtcValidValue.value}</li>
                             </c:forEach>
                         </ul>
-                    </chrome:box>
+                    </tags:formbuilderBox>
                 </c:forEach>
 
             </td>
-            <td>
+            <td id="right">
+            Click here to name form<br/>
+            There are VARIABLE questions in this form.
                 <div id="sortable">
 
                     <c:forEach items="${createFormCommand.crf.crfItems}" var="crfItem" varStatus="index">

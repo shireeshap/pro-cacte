@@ -293,6 +293,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/enableRowDeletion.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/errors.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/form.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formatDate.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/formbuilderBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/hasErrorsMessage.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/hoverHelp.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/hoverText.tag -text
@@ -420,6 +421,14 @@ pro-ctcae/web/src/main/webapp/images/blue/continue_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/eXtable_allAE_header_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/eXtableheader_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/error.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/B.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/BL.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/BR.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/L.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/R.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/T.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/TL.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/TR.png -text
 pro-ctcae/web/src/main/webapp/images/blue/go_to_manage_reports_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/header_bg.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/assignController_icon.png -text
