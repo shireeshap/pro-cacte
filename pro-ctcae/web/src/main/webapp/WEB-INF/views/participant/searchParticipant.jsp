@@ -86,9 +86,9 @@
 			<div class="label"></div>
 			<div class="value">
 				<input class='ibutton' type='button'  onclick="buildTable('assembler');" value='Search' title='Search Patient'/>
+				<tags:indicator id="indicator"/>
 			</div>
 		</div>
-		<tags:indicator id="indicator"/>
   </chrome:box>
 
   <div id="bigSearch" style="display:none;">
