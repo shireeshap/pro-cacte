@@ -22,19 +22,19 @@
         <!--</div>-->
         <%--</ctcae:authorize>--%>
 
-        <div id="login-action">
-            <ctcae:publicAuthorize>
-                <a href="<c:url value="/public/login"/>">Log in</a>
+        <%--<div id="login-action">--%>
+            <%--<ctcae:publicAuthorize>--%>
+                <%--<a href="<c:url value="/public/login"/>">Log in</a>--%>
 
 
-                |&nbsp;<a href='<c:url value="/pages/signUp"/>'>Sign up</a>
-            </ctcae:publicAuthorize>
+                <%--|&nbsp;<a href='<c:url value="/pages/signUp"/>'>Sign up</a>--%>
+            <%--</ctcae:publicAuthorize>--%>
 
-            <ctcae:authorize>
-                &nbsp;<div id="logout"><a href="<c:url value="/j_acegi_logout"/>">Log out</a> </div>
-                |&nbsp;<a href='<c:url value="/pages/myProfile"/>'>My Profile</a>
-            </ctcae:authorize>
-        </div>
+            <%--<ctcae:authorize>--%>
+                <%--&nbsp;<div id="logout"><a href="<c:url value="/j_acegi_logout"/>">Log out</a> </div>--%>
+                <%--|&nbsp;<a href='<c:url value="/pages/myProfile"/>'>My Profile</a>--%>
+            <%--</ctcae:authorize>--%>
+        <%--</div>--%>
 
 
         <ul id="sections" class="tabs">

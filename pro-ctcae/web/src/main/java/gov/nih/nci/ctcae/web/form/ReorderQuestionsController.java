@@ -23,8 +23,7 @@ public class ReorderQuestionsController extends AbstractController {
         ModelAndView modelAndView = new ModelAndView("form/ajax/reorderSucessfull");
 
 
-        CreateFormCommand createFormCommand = FormControllersUtils.getFormCommand(request);
-
+      
         try {
             int[] order = ServletRequestUtils.getRequiredIntParameters(request, "questionText[]");
 

@@ -153,10 +153,9 @@
 
         </chrome:division>
 
-        <tags:tabControls willSave="true"/>
-
-
     </chrome:box>
+    <tags:tabControls willSave="true"/>
+    
 </form:form>
 
 </body>
