@@ -3,7 +3,8 @@ package gov.nih.nci.ctcae.core.domain;
 import java.util.ArrayList;
 
 public enum Race {
-	ASIAN("Asian"), WHITE("White"), BLACK("Black or African American"), AMERICANINDIAN(
+	PLEASESELECT("Please Select"),
+ASIAN("Asian"), WHITE("White"), BLACK("Black or African American"), AMERICANINDIAN(
 			"American Indian or Alaska Native"), NATIVEHAWAII(
 			"Native Hawaiian or Other PacificIslander"), NOTREPORTED(
 			"Not Reported"), UNKNOWN("Unknown");

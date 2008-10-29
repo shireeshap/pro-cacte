@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import java.util.ArrayList;
 
 public enum Gender {
+	PLEASESELECT("Please Select"),
 	MALE("Male"),
 	FEMALE("Female"),
 	UNKNOWN("Unknown");
