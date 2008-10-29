@@ -15,6 +15,26 @@
       <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
       <tags:javascriptLink name="extremecomponents"/>
       <tags:dwrJavascriptLink objects="participant"/>
+          <style type="text/css">
+        .label {
+            width: 12em;
+            padding: 1px;
+            margin-right: 0.5em;
+        }
+
+        div.row div.value {
+            white-space: normal;
+        }
+
+        #studyDetails td.label {
+            font-weight: bold;
+            float: left;
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+            width: 12em;
+            padding: 1px;
+        }
+    </style>
        
       <script>
 
@@ -48,20 +68,26 @@
   <chrome:box title="Search Criteria" autopad="true">
       <p><tags:instructions code="participant.search.top"/> </p>
 
-      <table>
-          <tr><td><b>Identifier</b></td><td><input type="text" id="identifier"name="identifier" maxlength="30"/></td></tr>
-          <tr><td><b>First Name</b></td><td><input type="text" id="firstName" name="firstName" maxlength="30"/></td></tr>
-          <tr><td><b>Last Name</b></td><td><input type="text" id="lastName" name="lastName" maxlength="30"/></td></tr>
-          <tr>
-          	<td></td>
-          	<td>
-          		<div id="error"></div>
-      			<input class='ibutton' type='button'  onclick="buildTable('assembler');"
-                value='Search' title='Search Patient'/>
-				<tags:indicator id="indicator"/>
-			</td>
-		</tr>
-      </table>
+
+		<div class="row">
+           	<div class="label">First Name</div>
+           	<div class="value"><input type="text" id="firstName" name="firstName" maxlength="30"/></div>
+       	</div>
+		<div class="row">
+           	<div class="label">Last Name</div>
+           	<div class="value"><input type="text" id="lastName" name="lastName" maxlength="30"/></div>
+       	</div>
+		<div class="row">
+           	<div class="label">Identifier</div>
+           	<div class="value"><input type="text" id="identifier"name="identifier" maxlength="30"/></div>
+       	</div>
+  		<div id="error"></div>
+		<div class="row">
+			<div class="label">
+				<input class='ibutton' type='button'  onclick="buildTable('assembler');" value='Search' title='Search Patient'/>
+			</div>
+		</div>
+		<tags:indicator id="indicator"/>
   </chrome:box>
 
   <div id="bigSearch" style="display:none;">
