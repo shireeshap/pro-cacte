@@ -12,7 +12,6 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <title>Patient Details</title>
     <style type="text/css">
         .label {
             width: 12em;
@@ -38,13 +37,13 @@
 <body>
 <chrome:box title="Confirmation">
 
-    <p><tags:instructions code="participant.participant_overview.top"/></p>
+    <div class="row">The following patient is saved successfully</div>
     <chrome:division title="Site">
 			<b>${participantCommand.siteName}</b>
 		</chrome:division>
     <chrome:division title="Demographic Information">
         
-        <table border="0">
+        <table border="0" style="width:100%">
         <tr>
 	        <td>
 		        <div class="row">
@@ -67,7 +66,7 @@
 	        <td>
 		       	<div class="row">
                 	<div class="label">Date of Birth</div>
-                	<div class="value">${participantCommand.participant.birthDate}</div>
+                	<div class="value">${participantCommand.participant.lastName}</div>
             	</div>
 		       	<div class="row">
                 	<div class="label">Gender</div>

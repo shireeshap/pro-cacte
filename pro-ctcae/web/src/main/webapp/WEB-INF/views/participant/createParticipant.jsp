@@ -51,7 +51,7 @@
 
         <chrome:division title="Demographic Information">
         
-        <table border="0">
+        <table border="0" style="width:100%">
         <tr>
 	        <td>
 		        <tags:renderText propertyName="participant.firstName" displayName="First Name"
@@ -89,13 +89,8 @@
     			</chrome:division>
 			</div>
     	</div>
-       	<div class="row">
-          	<div class="submit">
-              	<input type="submit" id="submitButton" value="Save"/>
-          	</div>
-      	</div>
-
 	</chrome:box>
+	<tags:tabControls willSave="true"/>
 </form:form>
 </body>
 </html>

@@ -19,8 +19,6 @@
     <tags:includePrototypeWindow/>
     <tags:javascriptLink name="extremecomponents"/>
     <tags:dwrJavascriptLink objects="study"/> 
-    
-    <title>Patient Details</title>
     <style type="text/css">
         .label {
             width: 12em;
@@ -68,7 +66,7 @@
         <chrome:division title="Demographic Information">
         <input type="hidden" name="participant.id" value="${participantCommand.participant.id}"/>
    
-        <table border="0">
+        <table border="0" style="width:100%">
         <tr>
 	        <td>
 		        <tags:renderText propertyName="participant.firstName" displayName="First Name"
@@ -108,12 +106,8 @@
 			</div>
     	</div>
         </c:if>
-        <div class="row">
-          	<div class="submit">
-              	<input type="submit" id="submitButton" value="Save"/>
-          	</div>
-      	</div>
 </chrome:box>
+	<tags:tabControls willSave="true"/>
 </form:form>
 </body>
 </html>
