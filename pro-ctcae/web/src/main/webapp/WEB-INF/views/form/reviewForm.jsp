@@ -19,7 +19,7 @@
 
 <form:form modelAttribute="command" method="post">
     <chrome:box title="Review form">
-        <c:forEach items="${command.crf.crfItems}" var="crfItem">
+        <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem">
             <chrome:division>
                 ${crfItem.displayOrder}: ${crfItem.proCtcTerm.questionText}
                 <ul>

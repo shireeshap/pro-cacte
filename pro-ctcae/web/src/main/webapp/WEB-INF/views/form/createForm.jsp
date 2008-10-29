@@ -11,144 +11,164 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <head>
-    <tags:stylesheetLink name="tabbedflow"/>
-    <tags:includeScriptaculous/>
+<tags:stylesheetLink name="tabbedflow"/>
+<tags:includeScriptaculous/>
 
-    <tags:includePrototypeWindow/>
+<tags:includePrototypeWindow/>
 
-    <script type="text/javascript">
-        var elements = ['sort1','sort2']
-        Event.observe(window, "load", function () {
-            sortQustions();
-            <c:if test="${not empty command.crf.crfItems}">
-            reOrderQuestionNumber();
-            </c:if>
+<script type="text/javascript">
+    var elements = ['sort1','sort2']
+    Event.observe(window, "load", function () {
+        sortQustions();
+    <c:if test="${not empty command.studyCrf.crf.crfItems}">
+        reOrderQuestionNumber();
+    </c:if>
+        var studyAutoCompleter = new studyAutoComplter('studyCrf.study');
+        acCreate(studyAutoCompleter);
+    <c:if test="${command.studyCrf.study ne null}">
+        initializeAutoCompleter('studyCrf.study', '${command.studyCrf.study.displayName}', '${command.studyCrf.study.id}')
+
+    </c:if>
+
+
+        initSearchField();
+
+    })
+
+
+    function sortQustions() {
+        Sortable.destroy("sortable")
+        Sortable.create("sortable", {
+            tag:'div',
+            only:['sortable'],
+
+            onUpdate:function () {
+                updateQuestionsId();
+
+            },
+            onChange:function() {
+                reOrderQuestionNumber();
+            }
+
+        })
+    }
+    function reOrderQuestionNumber() {
+        var i = 1;
+        $$("span.sortableSpan").each(function (item) {
+            item.innerHTML = i + ":";
+            i = i + 1;
+
+
         })
 
-        function sortQustions() {
-            Sortable.destroy("sortable")
-            Sortable.create("sortable", {
-                tag:'div',
-                only:['box','sortable'],
+    }
+    function addQuestionDiv(transport) {
+        var response = transport.responseText;
+        new Insertion.Before("hiddenDiv", response);
+        sortQustions()
+        updateQuestionsId()
 
-                onUpdate:function () {
-                    updateQuestionsId();
+    }
+    function addQuestion(questionId) {
+        var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
+        var request = new Ajax.Request("<c:url value="/pages/form/addOneQuestion"/>", {
+            parameters:"questionId=" + questionId + "&subview=subview&displayOrder=" + displayOrder,
+            onComplete:addQuestionDiv,
+            method:'get'
+        })
+        $('question_' + questionId).hide();
+        $('totalQuestions').value = displayOrder;
+        $('totalQuestionDivision').innerHTML = displayOrder;
 
-                },
-                onChange:function(){
-                    reOrderQuestionNumber();
-                }
+    }
+    function updateQuestionsId() {
+        var questionsId = '';
+        var i = 0;
+        $$("div.sortable").each(function (item) {
+            var questionId = item.id.substr(9, item.id.length)
+            if (questionsId == '') {
+                questionsId = questionId;
+            } else {
+                questionsId = questionsId + ',' + questionId;
+            }
+            i = i + 1
+        });
 
-            })
-        }
-        function reOrderQuestionNumber() {
-            var i = 1;
-            $$("span.sortableSpan").each(function (item) {
-                item.innerHTML = i + ":";
-                i = i + 1;
+        $('questionsIds').value = questionsId;
+        $('totalQuestions').value = i;
+        $('totalQuestionDivision').innerHTML = i;
 
+    }
 
-            })
+    function deleteQuestion(questionId) {
+        $('sortable_' + questionId).remove();
+        sortQustions();
+        updateQuestionsId();
+        reOrderQuestionNumber()
+        $('question_' + questionId).show();
 
-        }
-        function addQuestionDiv(transport) {
-            var response = transport.responseText;
-            new Insertion.Before("hiddenDiv", response);
-            sortQustions()
-            updateQuestionsId()
+    }
 
-        }
-        function addQuestion(questionId) {
-            var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
-            var request = new Ajax.Request("<c:url value="/pages/form/addOneQuestion"/>", {
-                parameters:"questionId=" + questionId + "&subview=subview&displayOrder=" + displayOrder,
-                onComplete:addQuestionDiv,
-                method:'get'
-            })
-            $('question_' + questionId).hide();
-            $('totalQuestions').value = displayOrder;
-            $('totalQuestionDivision').innerHTML = displayOrder;
+</script>
+<style type="text/css">
 
-        }
-        function updateQuestionsId() {
-            var questionsId = '';
-            var i = 0;
-            $$("div.sortable").each(function (item) {
-                var questionId = item.id.substr(9, item.id.length)
-                if (questionsId == '') {
-                    questionsId = questionId;
-                } else {
-                    questionsId = questionsId + ',' + questionId;
-                }
-                i = i + 1
-            });
-
-            $('questionsIds').value = questionsId;
-            $('totalQuestions').value = i;
-            $('totalQuestionDivision').innerHTML = i;
-
-        }
-
-        function deleteQuestion(questionId) {
-            $('sortable_' + questionId).remove();
-            sortQustions();
-            updateQuestionsId();
-            reOrderQuestionNumber()
-            $('question_' + questionId).show();
-
-        }
-
-    </script>
-    <style type="text/css">
-
-        .makeDraggable {
-            cursor: move;
-        }
-    </style>
+    .makeDraggable {
+        cursor: move;
+    }
+</style>
 
 </head>
 <body>
 
 <form:form modelAttribute="command" method="post">
+    <chrome:box title="Select study" id="study-entry">
+        <p><tags:instructions code="instruction_select_study"/></p>
+        <tags:renderAutocompleter propertyName="studyCrf.study" required="true" displayName="Study" size="70"/>
+        <p id="studyCrf.study-selected" style="display: none">
+            You have selected the study <span id="studyCrf.study-selected-name"></span>.
+        </p>
+    </chrome:box>
 
-    <table id="formbuilderTable">
-        <tr>
-            <td id="left">
-                Questions
-                <c:forEach items="${proCtcTerms}" var="proCtcTerm">
-                    <tags:formbuilderBox>
-                        ${proCtcTerm.questionText}
-                        <a href="javascript:addQuestion(${proCtcTerm.id})" id="question_${proCtcTerm.id}">Add</a>
-                        <ul>
-                            <c:forEach items="${proCtcTerm.validValues}" var="proCtcValidValue">
-                                <li>${proCtcValidValue.value}</li>
-                            </c:forEach>
-                        </ul>
-                    </tags:formbuilderBox>
-                </c:forEach>
-
-            </td>
-            <td id="right">
-                <chrome:division>
-                    Total questions are: <span id="totalQuestionDivision">${totalQuestions}</span>
-                </chrome:division>
-                <div id="sortable">
-                    <form:hidden path="questionsIds" id="questionsIds"/>
-                    <input type="hidden" id="totalQuestions" value="${totalQuestions}">
-                    <c:forEach items="${command.crf.crfItems}" var="crfItem" varStatus="status">
-
-                        <tags:oneQuestion proCtcTerm="${crfItem.proCtcTerm}"
-                                          displayOrder="${status.index}"></tags:oneQuestion>
+    <chrome:box title="Form">
+        <table id="formbuilderTable">
+            <tr>
+                <td id="left">
+                    Questions
+                    <c:forEach items="${proCtcTerms}" var="proCtcTerm">
+                        <tags:formbuilderBox>
+                            ${proCtcTerm.questionText}
+                            <a href="javascript:addQuestion(${proCtcTerm.id})" id="question_${proCtcTerm.id}">Add</a>
+                            <ul>
+                                <c:forEach items="${proCtcTerm.validValues}" var="proCtcValidValue">
+                                    <li>${proCtcValidValue.value}</li>
+                                </c:forEach>
+                            </ul>
+                        </tags:formbuilderBox>
                     </c:forEach>
 
+                </td>
+                <td id="right">
+                    <chrome:division>
+                        Total questions are: <span id="totalQuestionDivision">${totalQuestions}</span>
+                    </chrome:division>
+                    <div id="sortable">
+                        <form:hidden path="questionsIds" id="questionsIds"/>
+                        <input type="hidden" id="totalQuestions" value="${totalQuestions}">
+                        <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem" varStatus="status">
 
-                    <div id="hiddenDiv"></div>
-                </div>
-            </td>
+                            <tags:oneQuestion proCtcTerm="${crfItem.proCtcTerm}"
+                                              displayOrder="${status.index}"></tags:oneQuestion>
+                        </c:forEach>
 
-        </tr>
 
-    </table>
+                        <div id="hiddenDiv"></div>
+                    </div>
+                </td>
+
+            </tr>
+
+        </table>
+    </chrome:box>
 
 
     <tags:flowControls willSave="true" saveAction="review" saveButtonLabel="Review"/>

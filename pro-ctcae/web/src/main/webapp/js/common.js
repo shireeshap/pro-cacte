@@ -623,12 +623,30 @@ Object.extend(siteAutoComplter.prototype, {
 
 
 });
+var studyAutoComplter = Class.create();
+Object.extend(studyAutoComplter.prototype, {
+    initialize: function(basename) {
+
+        this.basename = basename;
+        this.populator = function(autocompleter, text) {
+            study.matchStudy(text, function(values) {
+                autocompleter.setChoices(values)
+            })
+        },
+                this.valueSelector = function (obj) {
+                    return obj.displayName;
+                }
+
+    }
 
 
-function initializeAutoCompleter(basename, orgName, orgId) {
-    if (orgName != '') {
-        $(basename + '-input').value = orgName;
-        $(basename).value = orgId;
+});
+
+
+function initializeAutoCompleter(basename, name, id) {
+    if (name != '') {
+        $(basename + '-input').value = name;
+        $(basename).value = id;
         $(basename + '-input').class = 'autocomplete';
 
     }

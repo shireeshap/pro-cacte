@@ -133,6 +133,12 @@ public class Study extends BasePersistable {
         this.description = description;
     }
 
+    public String getDisplayName() {
+        return getShortTitle()
+                + (getAssignedIdentifier() == null ? "" : " ( "
+                + getAssignedIdentifier() + " ) ");
+    }
+
     @UniqueIdentifierForStudy(message = "Identifier already exists.")
     public String getAssignedIdentifier() {
         return assignedIdentifier;

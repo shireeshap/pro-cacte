@@ -9,7 +9,7 @@
 
     <view-state id="createForm" view="form/createForm" model="command">
         <on-render>
-            <evaluate expression="command.crf.crfItems.size()" result="viewScope.totalQuestions"></evaluate>
+            <evaluate expression="command.studyCrf.crf.crfItems.size()" result="viewScope.totalQuestions"></evaluate>
             <evaluate expression="proCtcTermRepository.findAll()" result="viewScope.proCtcTerms"></evaluate>
         </on-render>
         <transition on="review" bind="true" to="reviewForm">
@@ -24,7 +24,7 @@
     <end-state id="finalSave" commit="true" view="form/confirmForm">
         <on-entry>
             <evaluate
-                    expression="crfRepository.save(command.crf)"></evaluate>
+                    expression="crfRepository.save(command.studyCrf.crf)"></evaluate>
         </on-entry>
     </end-state>
 </flow>

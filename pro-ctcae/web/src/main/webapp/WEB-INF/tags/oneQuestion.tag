@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
-<div class="sortable" id="sortable_${proCtcTerm.id}">
+<div class="sortable makeDraggable" id="sortable_${proCtcTerm.id}">
 <table class="formbuilderboxTable">
  <tr>
   <td class="TL"></td>

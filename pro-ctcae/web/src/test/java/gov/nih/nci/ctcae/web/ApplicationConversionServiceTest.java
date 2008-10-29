@@ -5,6 +5,7 @@ import org.springframework.binding.convert.ConversionExecutor;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.AbstractTestCase;
 import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.web.ApplicationConversionService;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
@@ -22,6 +23,7 @@ public class ApplicationConversionServiceTest extends AbstractTestCase {
     private FinderRepository finderRepository;
 
     private Organization organization;
+    private Study study;
 
 
     @Override
@@ -33,7 +35,7 @@ public class ApplicationConversionServiceTest extends AbstractTestCase {
         service.afterPropertiesSet();
 
         organization = new Organization();
-
+        study = new Study();
 
     }
 
@@ -44,6 +46,16 @@ public class ApplicationConversionServiceTest extends AbstractTestCase {
         Organization anotherOrganization = (Organization) conversionExecutor.execute("1");
         verifyMocks();
         assertEquals(organization, anotherOrganization);
+
+    }
+
+    public void testRegisterCustomConverterForStudy() {
+        EasyMock.expect(finderRepository.findById(Study.class, 1)).andReturn(study);
+        replayMocks();
+        ConversionExecutor conversionExecutor = service.getConversionExecutor(String.class, Study.class);
+        Study anotherStudy = (Study) conversionExecutor.execute("1");
+        verifyMocks();
+        assertEquals(study, anotherStudy);
 
     }
 

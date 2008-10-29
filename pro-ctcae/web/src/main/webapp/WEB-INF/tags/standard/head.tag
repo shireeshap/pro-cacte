@@ -23,6 +23,7 @@
 
 <tags:javascriptLink name="prototype"/>
 <tags:dwrJavascriptLink objects="organization"/>
+<tags:dwrJavascriptLink objects="study"/>
 
 <tags:javascriptLink name="common"/>
 <tags:javascriptLink name="validation"/>

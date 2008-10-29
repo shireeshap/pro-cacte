@@ -41,6 +41,9 @@
     <chrome:division>
         <div class="leftpanel">
             <div class="row">
+                <div class="label">Assigned identifier</div>
+                <div class="value">${studyCommand.assignedIdentifier} </div>
+            </div><div class="row">
                 <div class="label">Short title</div>
                 <div class="value">${studyCommand.shortTitle} </div>
             </div>
@@ -65,7 +68,6 @@
     </chrome:division>
     <chrome:division title="Study Sites">
 
-
         <div align="left" style="margin-left: 50px">
             <table width="55%" class="tablecontent">
                 <tr id="ss-table-head" class="amendment-table-head">
@@ -74,15 +76,21 @@
 
                 </tr>
 
-                <tr valign="top">
-                    <td style="border-left:none;">
+                <tr>
 
-
+                    <td style="border-right:none;">
                         <c:forEach items="${studyCommand.studySites}" var="studySite">
                             <div class="row">
                                     ${studySite.organization.displayName}
                             </div>
                         </c:forEach>
+                   
+                    </td>
+
+
+                    <td style="border-left:none;">
+
+
 
                     </td>
                 </tr>
