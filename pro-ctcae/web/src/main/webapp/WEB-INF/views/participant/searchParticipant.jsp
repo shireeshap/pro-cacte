@@ -83,7 +83,8 @@
        	</div>
   		<div id="error"></div>
 		<div class="row">
-			<div class="label">
+			<div class="label"></div>
+			<div class="value">
 				<input class='ibutton' type='button'  onclick="buildTable('assembler');" value='Search' title='Search Patient'/>
 			</div>
 		</div>
