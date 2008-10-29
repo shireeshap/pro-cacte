@@ -56,15 +56,11 @@
                 	<div class="value">${participantCommand.participant.lastName}</div>
             	</div>
 		        <div class="row">
-                	<div class="label">Maiden Name</div>
-                	<div class="value">${participantCommand.participant.maidenName}</div>
-            	</div>
-		        <div class="row">
                 	<div class="label">Middle Name</div>
                 	<div class="value">${participantCommand.participant.middleName}</div>
             	</div>
 		        <div class="row">
-                	<div class="label">Assigned Identifier</div>
+                	<div class="label">Patient Identifier</div>
                 	<div class="value">${participantCommand.participant.assignedIdentifier}</div>
             	</div>
 	        </td>

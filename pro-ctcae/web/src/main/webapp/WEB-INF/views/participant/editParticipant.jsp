@@ -75,11 +75,9 @@
 		                         required="true" size="50" />
 		        <tags:renderText propertyName="participant.lastName" displayName="Last Name"
 		                         required="true" size="50"/>
-		       	<tags:renderText propertyName="participant.maidenName" displayName="Maiden Name"
-		                         size="50"/>
 		        <tags:renderText propertyName="participant.middleName" displayName="Middle Name"
 		                         size="50"/>
-		        <tags:renderText propertyName="participant.assignedIdentifier" displayName="Assigned Identifier"
+		        <tags:renderText propertyName="participant.assignedIdentifier" displayName="Patient Identifier"
 		                         required="true" size="50"/>
 	        </td>
 	        <td>
