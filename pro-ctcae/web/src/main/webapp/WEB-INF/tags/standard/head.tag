@@ -30,7 +30,6 @@
 <tags:javascriptLink name="date"/>
 
 <tags:javascriptLink name="side-bar/side-bar"/>
-<tags:javascriptLink name="row-manager"/>
 
 <!-- SCRIPACULOUS START -->
 

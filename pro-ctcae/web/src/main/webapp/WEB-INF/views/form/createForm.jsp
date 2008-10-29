@@ -11,13 +11,18 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <head>
-    <standard:head/>
-
+    <tags:stylesheetLink name="tabbedflow"/>
     <tags:includeScriptaculous/>
+
+    <tags:includePrototypeWindow/>
+
     <script type="text/javascript">
         var elements = ['sort1','sort2']
         Event.observe(window, "load", function () {
-            sortQustions()
+            sortQustions();
+            <c:if test="${not empty command.crf.crfItems}">
+            reOrderQuestionNumber();
+            </c:if>
         })
 
         function sortQustions() {
@@ -27,46 +32,69 @@
                 only:['box','sortable'],
 
                 onUpdate:function () {
-                    var questionOrder = Sortable.serialize("sortable", {
-                        name:'questionText'
-                    });
-                    reOrderQuestion(questionOrder);
+                    updateQuestionsId();
 
                 },
-                onChange:function () {
-                    var i = 0;
-                    $$("span.sortableSpan").each(function (item) {
-                        // alert(item.id)
-                        item.innerHTML = i + ":";
-                        i = i + 1;
-
-
-                    })
+                onChange:function(){
+                    reOrderQuestionNumber();
                 }
 
             })
         }
+        function reOrderQuestionNumber() {
+            var i = 1;
+            $$("span.sortableSpan").each(function (item) {
+                item.innerHTML = i + ":";
+                i = i + 1;
 
+
+            })
+
+        }
         function addQuestionDiv(transport) {
             var response = transport.responseText;
             new Insertion.Before("hiddenDiv", response);
             sortQustions()
+            updateQuestionsId()
 
         }
         function addQuestion(questionId) {
+            var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
             var request = new Ajax.Request("<c:url value="/pages/form/addOneQuestion"/>", {
-                parameters:"questionId=" + questionId + "&subview=subview",
+                parameters:"questionId=" + questionId + "&subview=subview&displayOrder=" + displayOrder,
                 onComplete:addQuestionDiv,
                 method:'get'
             })
+            $('question_' + questionId).hide();
+            $('totalQuestions').value = displayOrder;
+            $('totalQuestionDivision').innerHTML = displayOrder;
 
         }
-        function reOrderQuestion(questionOrder) {
-            var request = new Ajax.Request("<c:url value="/pages/form/reorderQuestions"/>", {
-                parameters:"subview=subview&" + questionOrder,
-                // onComplete:addQuestionDiv,
-                method:'get'
-            })
+        function updateQuestionsId() {
+            var questionsId = '';
+            var i = 0;
+            $$("div.sortable").each(function (item) {
+                var questionId = item.id.substr(9, item.id.length)
+                if (questionsId == '') {
+                    questionsId = questionId;
+                } else {
+                    questionsId = questionsId + ',' + questionId;
+                }
+                i = i + 1
+            });
+
+            $('questionsIds').value = questionsId;
+            $('totalQuestions').value = i;
+            $('totalQuestionDivision').innerHTML = i;
+
+        }
+
+        function deleteQuestion(questionId) {
+            $('sortable_' + questionId).remove();
+            sortQustions();
+            updateQuestionsId();
+            reOrderQuestionNumber()
+            $('question_' + questionId).show();
 
         }
 
@@ -80,16 +108,17 @@
 
 </head>
 <body>
-<form:form method="post" commandName="createFormCommand">
+
+<form:form modelAttribute="command" method="post">
 
     <table id="formbuilderTable">
-       <tr>
+        <tr>
             <td id="left">
-            Questions
+                Questions
                 <c:forEach items="${proCtcTerms}" var="proCtcTerm">
                     <tags:formbuilderBox>
                         ${proCtcTerm.questionText}
-                        <a href="javascript:addQuestion(${proCtcTerm.id})">Add</a>
+                        <a href="javascript:addQuestion(${proCtcTerm.id})" id="question_${proCtcTerm.id}">Add</a>
                         <ul>
                             <c:forEach items="${proCtcTerm.validValues}" var="proCtcValidValue">
                                 <li>${proCtcValidValue.value}</li>
@@ -100,13 +129,16 @@
 
             </td>
             <td id="right">
-            Click here to name form<br/>
-            There are VARIABLE questions in this form.
+                <chrome:division>
+                    Total questions are: <span id="totalQuestionDivision">${totalQuestions}</span>
+                </chrome:division>
                 <div id="sortable">
+                    <form:hidden path="questionsIds" id="questionsIds"/>
+                    <input type="hidden" id="totalQuestions" value="${totalQuestions}">
+                    <c:forEach items="${command.crf.crfItems}" var="crfItem" varStatus="status">
 
-                    <c:forEach items="${createFormCommand.crf.crfItems}" var="crfItem" varStatus="index">
-
-                        <tags:oneQuestion crfItem="${crfItem}"></tags:oneQuestion>
+                        <tags:oneQuestion proCtcTerm="${crfItem.proCtcTerm}"
+                                          displayOrder="${status.index}"></tags:oneQuestion>
                     </c:forEach>
 
 
@@ -118,6 +150,8 @@
 
     </table>
 
+
+    <tags:flowControls willSave="true" saveAction="review" saveButtonLabel="Review"/>
 
 </form:form>
 

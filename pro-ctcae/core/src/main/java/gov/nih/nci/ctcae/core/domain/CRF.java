@@ -102,14 +102,21 @@ public class CRF extends BaseVersionable {
     }
 
     public List<CrfItem> getCrfItems() {
-        Collections.sort(crfItems,new DisplayOrderComparator());
+        Collections.sort(crfItems, new DisplayOrderComparator());
         return crfItems;
     }
 
     public void addCrfItem(CrfItem crfItem) {
         if (crfItem != null) {
+            //check if it already exists
+            for (CrfItem existingCrfItem : getCrfItems()) {
+                if (existingCrfItem.getProCtcTerm().getId().equals(crfItem.getId())) {
+                    //probably we are updating order only
+                    existingCrfItem.setDisplayOrder(crfItem.getDisplayOrder());
+                    return;
+                }
+            }
             crfItem.setCRF(this);
-            crfItem.setDisplayOrder(getCrfItems().size());
             crfItems.add(crfItem);
         }
     }
@@ -168,7 +175,7 @@ public class CRF extends BaseVersionable {
     }
 
     @Override
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
@@ -196,7 +203,7 @@ public class CRF extends BaseVersionable {
     }
 
     @Override
-	public int hashCode() {
+    public int hashCode() {
         int result;
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);

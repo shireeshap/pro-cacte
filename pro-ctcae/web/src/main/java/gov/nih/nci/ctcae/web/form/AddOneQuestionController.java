@@ -27,12 +27,12 @@ public class AddOneQuestionController extends AbstractController {
 
 
         Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
+        Integer displayOrder = ServletRequestUtils.getIntParameter(request, "displayOrder");
 
         ProCtcTerm proCtcTerm = finderRepository.findById(ProCtcTerm.class, questionId);
         if (proCtcTerm != null) {
-            CrfItem crfItem = new CrfItem();
-            crfItem.setProCtcTerm(proCtcTerm);
-            modelAndView.addObject("crfItem", crfItem);
+            modelAndView.addObject("proCtcTerm", proCtcTerm);
+            modelAndView.addObject("displayOrder", displayOrder);
         } else {
             logger.error("can not add question because pro ctc term is null for id:" + questionId);
         }

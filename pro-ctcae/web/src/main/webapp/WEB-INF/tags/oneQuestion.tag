@@ -1,7 +1,9 @@
-<%@ attribute name="crfItem" type="gov.nih.nci.ctcae.core.domain.CrfItem" required="true" %>
+<%@ attribute name="displayOrder" %>
+<%@ attribute name="proCtcTerm" type="gov.nih.nci.ctcae.core.domain.ProCtcTerm" required="true" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
-<div class="sortable" id="sortable_${crfItem.displayOrder}">
+<div class="sortable" id="sortable_${proCtcTerm.id}">
 <table class="formbuilderboxTable">
  <tr>
   <td class="TL"></td>
@@ -11,10 +13,16 @@
  <tr>
   <td class="L"></td>
   <td class="formbuilderboxContent">
-    <span id="${crfItem.displayOrder}" class="sortableSpan">${crfItem.displayOrder}</span>
-    <%--${crfItem.displayOrder}--%>
-    ${crfItem.proCtcTerm.questionText}
-	  </td>
+      <span id="${displayOrder}" class="sortableSpan">${displayOrder}</span>
+          ${proCtcTerm.questionText}
+      <a id="del-{proCtcTerm.id}" class="del-${cssClass}"
+             href="javascript:deleteQuestion('${proCtcTerm.id}');">
+
+              <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
+                   style="vertical-align:middle">
+          </a>
+
+      </td>
   <td class="R"></td>
  </tr>
  <tr>
@@ -24,3 +32,4 @@
  </tr>
 </table>
 </div>
+

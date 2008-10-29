@@ -29,91 +29,91 @@ import org.springframework.web.servlet.ModelAndView;
  * @created Oct 21, 2008
  */
 public abstract class ParticipantController extends CtcAeSimpleFormController {
-	protected ParticipantRepository participantRepository;
-	protected StudyOrganizationRepository studyOrganizationRepository;
+    protected ParticipantRepository participantRepository;
+    protected StudyOrganizationRepository studyOrganizationRepository;
 
-	protected ParticipantController() {
-		setCommandClass(ParticipantCommand.class);
-		setCommandName("participantCommand");
-		setSuccessView("participant/confirmParticipant");
-		setBindOnNewForm(true);
-		setSessionForm(true);
-	}
+    protected ParticipantController() {
+        setCommandClass(ParticipantCommand.class);
+        setCommandName("participantCommand");
+        setSuccessView("participant/confirmParticipant");
+        setBindOnNewForm(true);
+        setSessionForm(true);
+    }
 
-	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request,
-			HttpServletResponse response, Object oCommand,
-			org.springframework.validation.BindException errors)
-			throws Exception {
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request,
+                                    HttpServletResponse response, Object oCommand,
+                                    org.springframework.validation.BindException errors)
+            throws Exception {
 
-		ParticipantCommand participantCommand = (ParticipantCommand) oCommand;
-		Participant participant = participantCommand.getParticipant();
-		
-		for (int studyId : participantCommand.getStudyId()) {
+        ParticipantCommand participantCommand = (ParticipantCommand) oCommand;
+        Participant participant = participantCommand.getParticipant();
 
-			StudySiteQuery query = new StudySiteQuery();
-			query.filterByOrganizationId(participantCommand.getSiteId());
-			query.filterByStudyId(studyId);
+        for (int studyId : participantCommand.getStudyId()) {
 
-			StudySite studySite = (StudySite) studyOrganizationRepository
-					.findSingle(query);
+            StudySiteQuery query = new StudySiteQuery();
+            query.filterByOrganizationId(participantCommand.getSiteId());
+            query.filterByStudyId(studyId);
 
-			participantCommand.setSiteName(studySite.getOrganization()
-					.getName());
+            StudySite studySite = (StudySite) studyOrganizationRepository
+                    .findSingle(query);
 
-			StudyParticipantAssignment spa = new StudyParticipantAssignment();
-			spa.setStudySite(studySite);
-			spa.setStudyParticipantIdentifier(request
-					.getParameter("participantStudyIdentifier" + studyId));
-			participant.addStudyParticipantAssignment(spa);
-		}
-		participant = participantRepository.save(participant);
-		participantCommand.setParticipant(participant);
+            participantCommand.setSiteName(studySite.getOrganization()
+                    .getName());
 
-		ModelAndView modelAndView = new ModelAndView(getSuccessView());
-		modelAndView.addObject("participantCommand", participantCommand);
-		return modelAndView;
-	}
+            StudyParticipantAssignment spa = new StudyParticipantAssignment();
+            spa.setStudySite(studySite);
+            spa.setStudyParticipantIdentifier(request
+                    .getParameter("participantStudyIdentifier" + studyId));
+            participant.addStudyParticipantAssignment(spa);
+        }
+        participant = participantRepository.save(participant);
+        participantCommand.setParticipant(participant);
 
-	@Override
-	protected void onBindAndValidate(HttpServletRequest request,
-			Object command, BindException errors) throws Exception {
-		super.onBindAndValidate(request, command, errors);
+        ModelAndView modelAndView = new ModelAndView(getSuccessView());
+        modelAndView.addObject("participantCommand", participantCommand);
+        return modelAndView;
+    }
 
-		/*
-		 * ParticipantCommand participantCommand = (ParticipantCommand)command;
-		 * 
-		 * if(participantCommand.getStudyId() == null ||
-		 * participantCommand.getStudyId().length == 0){ errors.rejectValue(
-		 * "errorMessage", "Please select at least one study."); }
-		 */
-	}
+    @Override
+    protected void onBindAndValidate(HttpServletRequest request,
+                                     Object command, BindException errors) throws Exception {
+        super.onBindAndValidate(request, command, errors);
 
-	@Override
-	protected Map referenceData(HttpServletRequest request, Object command,
-			Errors errors) throws Exception {
-		HashMap<String, Object> referenceData = new HashMap<String, Object>();
+        /*
+           * ParticipantCommand participantCommand = (ParticipantCommand)command;
+           *
+           * if(participantCommand.getStudyId() == null ||
+           * participantCommand.getStudyId().length == 0){ errors.rejectValue(
+           * "errorMessage", "Please select at least one study."); }
+           */
+    }
 
-		ArrayList<Organization> studySites = studyOrganizationRepository
-				.findStudySites();
+    @Override
+    protected Map referenceData(HttpServletRequest request, Object command,
+                                Errors errors) throws Exception {
+        HashMap<String, Object> referenceData = new HashMap<String, Object>();
 
-		referenceData.put("genders", Gender.getAllGenders());
-		referenceData.put("ethnicities", Ethnicity.getAllEthnicities());
-		referenceData.put("races", Race.getAllRaces());
-		referenceData.put("studysites", studySites);
-		return referenceData;
-	}
+        ArrayList<Organization> studySites = studyOrganizationRepository
+                .findStudySites();
 
-	@Required
-	public void setParticipantRepository(
-			ParticipantRepository participantRepository) {
-		this.participantRepository = participantRepository;
-	}
+        referenceData.put("genders", Gender.getAllGenders());
+        referenceData.put("ethnicities", Ethnicity.getAllEthnicities());
+        referenceData.put("races", Race.getAllRaces());
+        referenceData.put("studysites", studySites);
+        return referenceData;
+    }
 
-	@Required
-	public void setStudyOrganizationRepository(
-			StudyOrganizationRepository studyOrganizationRepository) {
-		this.studyOrganizationRepository = studyOrganizationRepository;
-	}
+    @Required
+    public void setParticipantRepository(
+            ParticipantRepository participantRepository) {
+        this.participantRepository = participantRepository;
+    }
+
+    @Required
+    public void setStudyOrganizationRepository(
+            StudyOrganizationRepository studyOrganizationRepository) {
+        this.studyOrganizationRepository = studyOrganizationRepository;
+    }
 
 }

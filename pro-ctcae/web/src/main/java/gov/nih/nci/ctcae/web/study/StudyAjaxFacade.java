@@ -3,7 +3,9 @@ package gov.nih.nci.ctcae.web.study;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
+import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
@@ -23,79 +25,86 @@ import org.springframework.beans.factory.annotation.Required;
  * @crated Oct 17, 2008
  */
 public class StudyAjaxFacade {
-	private StudyRepository studyRepository;
-	private OrganizationRepository organizationRepository;
-	private ParticipantRepository participantRepository;
+    private StudyRepository studyRepository;
+    private OrganizationRepository organizationRepository;
+    private ParticipantRepository participantRepository;
 
-	public String searchStudies(Map parameterMap, String type, String text,
-			HttpServletRequest request) {
-		List<Study> studies = getObjects(type, text);
+    public List<Study> matchStudy(final String text) {
+        StudyQuery studyQuery = new StudyQuery();
+        studyQuery.filterStudiesWithMatchingText(text);
+        List<Study> studies = new ArrayList<Study>(studyRepository.find(studyQuery));
+        return studies;
+    }
 
-		StudyTableModel studyTableModel = new StudyTableModel();
-		String table = studyTableModel.buildStudyTable(parameterMap, studies,
-				request);
-		return table;
-	}
+    public String searchStudies(Map parameterMap, String type, String text,
+                                HttpServletRequest request) {
+        List<Study> studies = getObjects(type, text);
 
-	public String searchStudiesForSelection(Map parameterMap, String type,
-			String text, HttpServletRequest request) {
-		List<Study> studies = getObjects(type, text);
-		StudyTableModel studyTableModel = new StudyTableModel();
+        StudyTableModel studyTableModel = new StudyTableModel();
+        String table = studyTableModel.buildStudyTable(parameterMap, studies,
+                request);
+        return table;
+    }
 
-		String participantId = (String) parameterMap.get("participant.id");
-		HashMap<String, Object> map = new HashMap<String, Object>(parameterMap);
+    public String searchStudiesForSelection(Map parameterMap, String type,
+                                            String text, HttpServletRequest request) {
+        List<Study> studies = getObjects(type, text);
+        StudyTableModel studyTableModel = new StudyTableModel();
 
-		if (participantId != null) {
-			HashSet<Integer> studyIdSet = new HashSet<Integer>();
-			HashMap<Integer, String> participantStudyIdentifierMap = new HashMap<Integer,String>();
-			Participant participant = participantRepository
-					.findById(new Integer(participantId));
-			List<StudyParticipantAssignment> spas = participant
-					.getStudyParticipantAssignments();
-			for (StudyParticipantAssignment spa : spas) {
-				studyIdSet.add(spa.getStudySite().getStudy().getId());
-				participantStudyIdentifierMap.put(spa.getStudySite().getStudy().getId(),spa.getStudyParticipantIdentifier());
-			}
-			map.put("participant.studies", studyIdSet);
-			map.put("participant.participantstudyidentifier", participantStudyIdentifierMap);
-		}
+        String participantId = (String) parameterMap.get("participant.id");
+        HashMap<String, Object> map = new HashMap<String, Object>(parameterMap);
 
-		String table = studyTableModel.buildStudyTableForSelection(map,
-				studies, request);
-		return table;
-	}
+        if (participantId != null) {
+            HashSet<Integer> studyIdSet = new HashSet<Integer>();
+            HashMap<Integer, String> participantStudyIdentifierMap = new HashMap<Integer, String>();
+            Participant participant = participantRepository
+                    .findById(new Integer(participantId));
+            List<StudyParticipantAssignment> spas = participant
+                    .getStudyParticipantAssignments();
+            for (StudyParticipantAssignment spa : spas) {
+                studyIdSet.add(spa.getStudySite().getStudy().getId());
+                participantStudyIdentifierMap.put(spa.getStudySite().getStudy().getId(), spa.getStudyParticipantIdentifier());
+            }
+            map.put("participant.studies", studyIdSet);
+            map.put("participant.participantstudyidentifier", participantStudyIdentifierMap);
+        }
 
-	private List<Study> getObjects(String type, String text) {
-		StudyQuery studyQuery = new StudyQuery();
-		List<Study> studies = new ArrayList<Study>();
+        String table = studyTableModel.buildStudyTableForSelection(map,
+                studies, request);
+        return table;
+    }
 
-		if ("shortTitle".equals(type)) {
-			studyQuery.filterStudiesByShortTitle(text);
-			studies = (List<Study>) studyRepository.find(studyQuery);
-		} else if ("assignedIdentifier".equals(type)) {
-			studyQuery.filterStudiesByAssignedIdentifier(text);
-			studies = (List<Study>) studyRepository.find(studyQuery);
-		} else if ("site".equals(type)) {
-			studies = organizationRepository.findStudiesForOrganization(text);
-		}
+    private List<Study> getObjects(String type, String text) {
+        StudyQuery studyQuery = new StudyQuery();
+        List<Study> studies = new ArrayList<Study>();
 
-		return studies;
-	}
+        if ("shortTitle".equals(type)) {
+            studyQuery.filterStudiesByShortTitle(text);
+            studies = (List<Study>) studyRepository.find(studyQuery);
+        } else if ("assignedIdentifier".equals(type)) {
+            studyQuery.filterStudiesByAssignedIdentifier(text);
+            studies = (List<Study>) studyRepository.find(studyQuery);
+        } else if ("site".equals(type)) {
+            studies = organizationRepository.findStudiesForOrganization(text);
+        }
 
-	@Required
-	public void setStudyRepository(StudyRepository studyRepository) {
-		this.studyRepository = studyRepository;
-	}
+        return studies;
+    }
 
-	@Required
-	public void setOrganizationRepository(
-			OrganizationRepository organizationRepository) {
-		this.organizationRepository = organizationRepository;
-	}
+    @Required
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
+    }
 
-	@Required
-	public void setParticipantRepository(
-			ParticipantRepository participantRepository) {
-		this.participantRepository = participantRepository;
-	}
+    @Required
+    public void setOrganizationRepository(
+            OrganizationRepository organizationRepository) {
+        this.organizationRepository = organizationRepository;
+    }
+
+    @Required
+    public void setParticipantRepository(
+            ParticipantRepository participantRepository) {
+        this.participantRepository = participantRepository;
+    }
 }
