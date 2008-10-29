@@ -185,9 +185,6 @@
           class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">
         <property name="finderRepository" ref="finderRepository"/>
     </bean>
-    <bean name="/form/reorderQuestions" id="reorderQuestionsController"
-          class="gov.nih.nci.ctcae.web.form.ReorderQuestionsController">
-    </bean>
     <bean name="/form/searchForm" id="searchFormController"
           class="gov.nih.nci.ctcae.web.form.SearchFormController" parent="ctcaeSimpleFormController">
     </bean>
