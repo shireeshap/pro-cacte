@@ -74,7 +74,7 @@
                   <div class="value">${investigatorCommand.nciIdentifier} </div>
               </div>
            </td>
-         <td>
+         <td style="vertical-align:top">
               <div class="row">
                   <div class="label">Email Address</div>
                   <div class="value">${investigatorCommand.emailAddress} </div>
