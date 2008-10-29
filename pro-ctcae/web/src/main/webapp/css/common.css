@@ -120,7 +120,7 @@ h3, h4 { font-size: 0.9em; }
 p { margin: 1em 0; }
 
 /**** COMMON TEMPLATE ELEMENTS */
-
+/*
 #header {
 	width: 100%;
 	position: absolute;
@@ -129,17 +129,16 @@ p { margin: 1em 0; }
 	background-position: top;
 }
 
-#header .background-R {
-  background: url(../images/chrome/header_BG_R.gif) no-repeat top right;
-}
+
 
 a#logo {
-	background-image: url(../images/blue/caAERSlogo.png);
+	background-image: url();
 	height: 100px;
 	width: 242px;
 	position:absolute;
 	text-indent: -9999px;
 }
+
 a#logo:link {
 background-position: 0px
 }
@@ -151,7 +150,7 @@ background-position: 0px -100px;
 a#logo:active {
 background-position: 0px -200px;
 }
-
+*/
 #logout {
 	background-image: url(../images/blue/logout_tab.png);
 	position: absolute;
