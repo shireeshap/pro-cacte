@@ -23,7 +23,7 @@
 
         <property name="mappings">
             <value>
-                /participant/assignParticipant=mvcFlowController
+                /form/createForm=createFormController
             </value>
         </property>
         <property name="interceptors">
@@ -92,10 +92,10 @@
         <property name="sections">
             <list>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
-                      p:displayName="Forms"
+                      p:displayName="Form"
                       p:mainController="createFormController">
                     <property name="pathMapping">
-                        <value>/forms/**</value>
+                        <value>/form/**</value>
                     </property>
                     <property name="tasks">
                         <list>
@@ -142,7 +142,7 @@
                       p:displayName="Reporting"
                       p:mainController="createFormController">
                     <property name="pathMapping">
-                        <value>/forms/**</value>
+                        <value>/form/**</value>
                     </property>
                     <property name="tasks">
                         <list>
@@ -177,18 +177,18 @@
         </property>
     </bean>
 
-    <bean name="/forms/createForm" id="createFormController"
-          class="gov.nih.nci.ctcae.web.form.CreateFormController" parent="ctcaeSimpleFormController">
-        <property name="finderRepository" ref="finderRepository"/>
-    </bean>
-    <bean name="/forms/addOneQuestion" id="oneQuestionController"
+    <!--<bean name="/form/createForm" id="createFormController"-->
+          <!--class="gov.nih.nci.ctcae.web.form.CreateFormController" parent="ctcaeSimpleFormController">-->
+        <!--<property name="finderRepository" ref="finderRepository"/>-->
+    <!--</bean>-->
+    <bean name="/form/addOneQuestion" id="oneQuestionController"
           class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">
         <property name="finderRepository" ref="finderRepository"/>
     </bean>
-    <bean name="/forms/reorderQuestions" id="reorderQuestionsController"
+    <bean name="/form/reorderQuestions" id="reorderQuestionsController"
           class="gov.nih.nci.ctcae.web.form.ReorderQuestionsController">
     </bean>
-    <bean name="/forms/searchForm" id="searchFormController"
+    <bean name="/form/searchForm" id="searchFormController"
           class="gov.nih.nci.ctcae.web.form.SearchFormController" parent="ctcaeSimpleFormController">
     </bean>
 

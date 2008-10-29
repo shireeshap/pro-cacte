@@ -9,10 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 public class FormControllersUtils {
 
     public static CreateFormCommand getFormCommand(final HttpServletRequest request) {
-        CreateFormCommand createFormCommand = (CreateFormCommand)
-                request.getSession().getAttribute(CreateFormController.class.getName() + ".FORM." + "createFormCommand");
+        CreateFormCommand createFormCommand = getCommand(request, CreateFormController.class.getName(), "createFormCommand");
         return createFormCommand;
 
+    }
+
+    public static CreateFormCommand getCommand(HttpServletRequest request, String className, String commandName) {
+        CreateFormCommand createFormCommand = (CreateFormCommand)
+                request.getSession().getAttribute(className + ".FORM." + commandName);
+        return createFormCommand;
     }
 
 }

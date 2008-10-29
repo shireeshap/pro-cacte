@@ -30,10 +30,8 @@ public class AddOneQuestionController extends AbstractController {
 
         ProCtcTerm proCtcTerm = finderRepository.findById(ProCtcTerm.class, questionId);
         if (proCtcTerm != null) {
-            CreateFormCommand createFormCommand = FormControllersUtils.getFormCommand(request);
             CrfItem crfItem = new CrfItem();
             crfItem.setProCtcTerm(proCtcTerm);
-            createFormCommand.getCrf().addCrfItem(crfItem);
             modelAndView.addObject("crfItem", crfItem);
         } else {
             logger.error("can not add question because pro ctc term is null for id:" + questionId);

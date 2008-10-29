@@ -54,7 +54,7 @@
 
         }
         function addQuestion(questionId) {
-            var request = new Ajax.Request("<c:url value="/pages/forms/addOneQuestion"/>", {
+            var request = new Ajax.Request("<c:url value="/pages/form/addOneQuestion"/>", {
                 parameters:"questionId=" + questionId + "&subview=subview",
                 onComplete:addQuestionDiv,
                 method:'get'
@@ -62,7 +62,7 @@
 
         }
         function reOrderQuestion(questionOrder) {
-            var request = new Ajax.Request("<c:url value="/pages/forms/reorderQuestions"/>", {
+            var request = new Ajax.Request("<c:url value="/pages/form/reorderQuestions"/>", {
                 parameters:"subview=subview&" + questionOrder,
                 // onComplete:addQuestionDiv,
                 method:'get'

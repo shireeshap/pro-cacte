@@ -110,10 +110,10 @@ public class CrfItem extends BasePersistable {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "[DISPLAY ORDER: CRF : QUESTION] " + displayOrder + " : "
-                + crf.getTitle() + " : " + proCtcTerm.getQuestionText();
-    }
+//    @Override
+//    public String toString() {
+//        return "[DISPLAY ORDER: CRF : QUESTION] " + displayOrder + " : "
+//                + crf.getTitle() + " : " + proCtcTerm.getQuestionText();
+//    }
 
 }

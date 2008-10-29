@@ -3,7 +3,7 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
-<%@attribute name="title" required="true" %>
+<%@attribute name="title" required="false" %>
 <%@attribute name="id" required="true" %>
 <%@attribute name="url" %>
 <%@attribute name="display" %>

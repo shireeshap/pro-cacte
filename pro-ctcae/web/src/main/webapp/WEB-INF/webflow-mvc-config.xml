@@ -8,8 +8,8 @@
 			http://www.springframework.org/schema/webflow-config
 			http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-    
-    <bean name="/participant/assignParticipant" id="mvcFlowController"
+
+    <bean name="/form/createForm" id="createFormController"
           class="org.springframework.webflow.mvc.servlet.FlowController">
         <property name="flowExecutor" ref="mvcFlowExecutor"/>
     </bean>
@@ -30,6 +30,7 @@
 
     <webflow:flow-registry id="mvcFlowRegistry" flow-builder-services="mvcFlowBuilderServices">
         <webflow:flow-location path="/WEB-INF/views/participant/assignParticipant.xml" id="assignParticipant"/>
+        <webflow:flow-location path="/WEB-INF/views/form/createForm.xml" id="createForm"/>
 
     </webflow:flow-registry>
 

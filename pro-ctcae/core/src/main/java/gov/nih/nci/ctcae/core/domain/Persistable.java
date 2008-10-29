@@ -1,11 +1,13 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import java.io.Serializable;
+
 /**
  * Interface for the entities that need to persisted in the database.
  *
  * @author , Created on July, 20th, 2007
  */
-public interface Persistable {
+public interface Persistable  extends Serializable{
 
     /**
      * Returns the primary key of the persistable entity.

@@ -14,7 +14,7 @@
 
     <div class="background-R">
 
-        <a href="/ctcae/pages/forms/createForm" id="logo">ProCtcAE</a>
+        <a href="/ctcae/pages/form/createForm" id="logo">ProCtcAE</a>
 
         <%--<ctcae:authorize>--%>
         <!--<div id="welcome-user">Welcome<b/>-->
