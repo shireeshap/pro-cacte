@@ -66,15 +66,35 @@
   <chrome:box title="Search Criteria" autopad="true">
       <p><tags:instructions code="investigator.search.top"/> </p>
 
-      <table>
+     <!-- <table>
           <tr><td>First Name</td><td><input type="text" id="firstName" name="firstName" maxlength="30"/></td></tr>
           <tr><td>Last Name</td><td><input type="text" id="lastName" name="lastName" maxlength="30"/></td></tr>
           <tr><td>Investigator Number</td><td><input type="text" id="nciIdentifier"name="nciIdentifier" maxlength="30"/></td></tr>
       </table>
+        -->
+      <div class="row">
+           	<div class="label">First Name</div>
+           	<div class="value"><input type="text" id="firstName" name="firstName" maxlength="30"/></div>
+       	</div>
+		<div class="row">
+           	<div class="label">Last Name</div>
+           	<div class="value"><input type="text" id="lastName" name="lastName" maxlength="30"/></div>
+       	</div>
+		<div class="row">
+           	<div class="label">Identifier</div>
+           	<div class="value"><input type="text" id="nciIdentifier"name="nciIdentifier" maxlength="30"/></div>
+       	</div>
+
       <div id="error"></div>
+  <div class="row">
+              <div class="label"></div>
+              <div class="value">
+
       <input class='ibutton' type='button'  onclick="buildTable('assembler');"
                     value='Search' title='Search Investigator'/>
              <tags:indicator id="indicator"/>
+              </div>
+     </div>
 
 
   </chrome:box>

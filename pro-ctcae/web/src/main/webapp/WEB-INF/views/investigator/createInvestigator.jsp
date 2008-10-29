@@ -34,46 +34,37 @@
 
   <form:form method="post" commandName="investigatorCommand">
 
-     <chrome:box title="Investigator details" autopad="true">
+     <chrome:box title="Investigator details">
 
          <p><tags:instructions code="investigator.investigator_details.top" /></p>
           <chrome:division title="Investigator Details"></chrome:division>
-         <table>
+         <table >
              <tr>
                  <td>
-
-                     <tags:renderText propertyName="firstName" displayName="First Name"
-                                  required="true" size="30"/>
-                     <tags:renderText propertyName="middleName" displayName="Middle Name" size="30"/>
+                    <tags:renderText propertyName="firstName" displayName="First Name"
+                                  required="true" size="50"/>
+                     <tags:renderText propertyName="middleName" displayName="Middle Name" size="50"/>
                      <tags:renderText propertyName="lastName" displayName="Last Name"
-                                         required="true" size="30"/>
+                                         required="true"  size="50"/>
                      <tags:renderText propertyName="nciIdentifier" displayName="Investigator Number"
-                                         required="true" size="30"/>
+                                         required="true" size="50"/>
 
                   </td>
-                  <td>
+                  <td style="vertical-align:top">
 
                       <tags:renderEmail propertyName="emailAddress" displayName="Email Address"
-                                                              required="true" size="30"/>
-                      <tags:renderPhoneOrFax propertyName="phoneNumber" displayName="Phone" 
-                                                              required="true" size="30"/>
-                      <tags:renderPhoneOrFax propertyName="faxNumber" displayName="Fax" size="30"/>
+                                                              required="true"  size="50"/>
+                      <tags:renderPhoneOrFax propertyName="phoneNumber" displayName="Phone"
+                                                              required="true"  size="50"/>
+                      <tags:renderPhoneOrFax propertyName="faxNumber" displayName="Fax"  size="50"/>
+                      
 
                  </td>
              </tr>
          </table>
 
-         <div class="row">
-                  <div class="submit">
-                      <input type="submit" id="submitButton" value="Submit"/>
-                  </div>
-          </div>
-
-
-
-
      </chrome:box>
-
+<tags:tabControls willSave="true"/>
   </form:form>
 
   </body>

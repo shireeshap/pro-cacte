@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CreateInvestigatorController extends CtcAeSimpleFormController {
 
+   // same controller for edit investigator
+
     private InvestigatorRepository investigatorRepository;
 
     public CreateInvestigatorController() {

@@ -12,9 +12,27 @@
 <html>
   <head>
       <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-          <title>Enter Investigator</title>
+     
+      <style type="text/css">
+            .label {
+                width: 12em;
+                padding: 1px;
+                margin-right: 0.5em;
+            }
 
+            div.row div.value {
+                white-space: normal;
+            }
 
+            #studyDetails td.label {
+                font-weight: bold;
+                float: left;
+                margin-left: 0.5em;
+                margin-right: 0.5em;
+                width: 12em;
+                padding: 1px;
+            }
+        </style>
   </head>
   <body>
   <div class="tabpane">
@@ -34,9 +52,11 @@
    </div>
 </div>
   <chrome:box title="Confirmation">
-      <p><tags:instructions code="investigator.investigator_overview.top"/> </p>
-      <chrome:division>
-          <div class="leftpanel">
+      <div id="row">Investigator is saved succssfully</div>
+     <table border="0" style="width:100%">
+         <tr>
+            <td>
+
               <div class="row">
                   <div class="label">First Name</div>
                   <div class="value">${investigatorCommand.firstName} </div>
@@ -53,6 +73,8 @@
                   <div class="label">Investigator Number</div>
                   <div class="value">${investigatorCommand.nciIdentifier} </div>
               </div>
+           </td>
+         <td>
               <div class="row">
                   <div class="label">Email Address</div>
                   <div class="value">${investigatorCommand.emailAddress} </div>
@@ -65,8 +87,10 @@
                   <div class="label">Fax</div>
                   <div class="value">${investigatorCommand.faxNumber} </div>
               </div>
-          </div>
-      </chrome:division>
+        
+        </td>
+    </tr>
+   </table>
 
   </chrome:box>
 
