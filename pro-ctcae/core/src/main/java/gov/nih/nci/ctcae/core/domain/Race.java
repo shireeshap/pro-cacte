@@ -3,7 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import java.util.ArrayList;
 
 public enum Race {
-	PLEASESELECT("Please Select"),
+	
 ASIAN("Asian"), WHITE("White"), BLACK("Black or African American"), AMERICANINDIAN(
 			"American Indian or Alaska Native"), NATIVEHAWAII(
 			"Native Hawaiian or Other PacificIslander"), NOTREPORTED(
@@ -19,7 +19,9 @@ ASIAN("Asian"), WHITE("White"), BLACK("Black or African American"), AMERICANINDI
 	public String toString() {
 		return displayText;
 	}
-	
+	public String getDisplayText() {
+		return displayText;
+	}
 	public static ArrayList<Race> getAllRaces(){
 		ArrayList<Race> races = new ArrayList<Race>();
 		for (Race value : Race.values()) {

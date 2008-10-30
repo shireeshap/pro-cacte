@@ -3,7 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import java.util.ArrayList;
 
 public enum Ethnicity {
-	PLEASESELECT("Please Select"),
+	
 	HISPANIC("Hispanic or Latino"),
 	NONHISPANIC("Not Hispanic or Latino"),
 	NOTREPORTED("Not Reported"),
@@ -19,7 +19,9 @@ public enum Ethnicity {
 	public String toString(){
 		return displayText;
 	}
-	
+	public String getDisplayText() {
+		return displayText;
+	}
 	public static ArrayList<Ethnicity> getAllEthnicities(){
 		ArrayList<Ethnicity> ethnicities = new ArrayList<Ethnicity>();
 		for (Ethnicity value : Ethnicity.values()) {
