@@ -83,6 +83,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CRFQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CrfItemQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CtcTermQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/InvestigatorQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationHavingStudySiteQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ParticipantQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuery.java -text
@@ -92,7 +93,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/Query.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ResearchStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudySiteQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/AbstractRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CRFRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CrfItemRepository.java -text
@@ -108,7 +108,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermReposit
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcValidValueRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ResearchStaffRepository.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyOrganizationRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueIdentifierForStudy.java -text
@@ -164,6 +163,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/InvestigatorQueryTest.
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/OrganizationQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ResearchStaffQueryTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollectionValidatorTest.java -text
 pro-ctcae/datasource.properties -text
 pro-ctcae/ivy.xml -text
@@ -326,6 +326,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderSelectForDomainObject.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderText.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderTextArea.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/requiredIndicator.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/reviewQuestion.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/splitDateInput.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/ssoForm.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/footer.tag -text

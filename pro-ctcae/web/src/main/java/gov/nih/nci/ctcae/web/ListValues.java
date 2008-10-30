@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.web;
 
+import gov.nih.nci.ctcae.core.domain.Gender;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -47,6 +49,17 @@ public class ListValues {
         col.add(lov3);
 
         return col;
+    }
+
+    public List<ListValues> getGenderType() {
+        List<ListValues> valuesList = new ArrayList<ListValues>();
+        valuesList.add(new ListValues("", "Please select"));
+
+        for (Gender gender : Gender.values()) {
+            valuesList.add(new ListValues(gender.getDisplayText(), gender.getDisplayText()));
+        }
+
+        return valuesList;
     }
 
     public List<ListValues> getParticipantSearchType() {

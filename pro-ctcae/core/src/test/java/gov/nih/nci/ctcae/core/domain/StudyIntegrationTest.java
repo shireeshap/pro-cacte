@@ -271,6 +271,37 @@ public class StudyIntegrationTest extends AbstractJpaIntegrationTestCase {
 
     }
 
+    public void testFindSite() {
+//        setComplete();
+//        endTransaction();
+//        startNewTransaction();
+//
+        StudyQuery studyQuery = new StudyQuery();
+        studyQuery.filterStudiesForStudySite(nciStudySite.getOrganization().getId());
+
+        Collection<? extends Study> studies = studyRepository.find(studyQuery);
+        assertFalse(studies.isEmpty());
+//        int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.long_title) like '%s%' " +
+//                "or lower(studies.short_title ) like '%s%' or lower(studies.assigned_identifier ) like '%s%'");
+//
+//        assertEquals(size, studies.size());
+
+
+        for (Study study : studies)
+
+        {
+            assertTrue("must contains study site", study.getStudySites().contains(nciStudySite));
+        }
+
+    }
+
+    @Override
+    protected void onTearDown() throws Exception {
+      studyRepository.delete(studyWithStudyOrganizations);
+        super.onTearDown();
+
+
+    }
 
     @Required
     public void setOrganizationRepository(OrganizationRepository organizationRepository) {

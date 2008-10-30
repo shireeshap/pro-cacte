@@ -60,7 +60,7 @@
 
     <c:when test="${categoryName == 'select'}">
         <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${displayName}"
-                     cssClass="${required ? 'validate-NOTEMPTY' : ''}"/>
+                     cssClass="${required ? 'validate-NOTEMPTY' : ''}" itemLabel="desc" itemValue="code"/>
     </c:when>
     <c:when test="${categoryName == 'selectdomainobject'}">
         <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${displayName}"

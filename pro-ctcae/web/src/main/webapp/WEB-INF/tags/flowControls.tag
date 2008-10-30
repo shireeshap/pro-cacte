@@ -19,10 +19,12 @@
                        <%--value="Back"/>--%>
             <%----%>
             <div id="prev">
-                <input type="hidden" name="execution" value="${flowExecutionKey}">
-                <input type="hidden" name="_eventId" value="${backAction}">
-                <input type="submit" id="prevSubmit" value="Back" src="<c:url value="/images/blue/save_btn.png"/>" class="tab${tabNumber}"/>
-           
+
+                <a href="${flowExecutionUrl}&_eventId=${backAction}">
+                    <%--<img--%>
+                        <%--src="<c:url value="/images/blue/save_btn.png"/>">--%>
+                    Back</a>
+
             </div>
 
         </span>
@@ -33,10 +35,9 @@
                 <div id="submit">
                     <input type="hidden" name="execution" value="${flowExecutionKey}">
                     <input type="hidden" name="_eventId" value="${saveAction}">
-                    <input type="submit" id="saveSubmit" value="${saveButtonLabel}" src="<c:url value="/images/blue/save_btn.png"/>"/>
+                    <input type="submit" id="saveSubmit" value="${saveButtonLabel}"
+                           src="<c:url value="/images/blue/save_btn.png"/>"/>
                 </div>
-
-                <%--<a href="${flowExecutionUrl}&_eventId=${eventId}"><img src="<c:url value="/images/blue/save_btn.png"/>"></a>--%>
 
 
             </c:if>

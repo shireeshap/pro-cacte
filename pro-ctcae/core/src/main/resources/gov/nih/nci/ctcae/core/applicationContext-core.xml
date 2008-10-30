@@ -79,7 +79,7 @@
     <bean id="investigatorRepository" class="gov.nih.nci.ctcae.core.repository.InvestigatorRepository"
           parent="abstractRepository">
     </bean>
-     <bean id="researchStaffRepository" class="gov.nih.nci.ctcae.core.repository.ResearchStaffRepository"
+    <bean id="researchStaffRepository" class="gov.nih.nci.ctcae.core.repository.ResearchStaffRepository"
           parent="abstractRepository">
     </bean>
 
@@ -110,8 +110,5 @@
     <bean id="crfItemRepository" class="gov.nih.nci.ctcae.core.repository.CrfItemRepository"
           parent="abstractRepository">
     </bean>
-    
-    <bean id="studyOrganizationRepository" class="gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository"
-          parent="abstractRepository">
-    </bean>
+
 </beans>

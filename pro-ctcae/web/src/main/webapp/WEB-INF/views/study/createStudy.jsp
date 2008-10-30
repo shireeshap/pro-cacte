@@ -105,18 +105,14 @@
         <tags:renderTextArea propertyName="study.description" displayName="Description"
                              required="false" help="true" cols="70"/>
 
-        <chrome:division title="Coordinating center details">
-            <tags:renderAutocompleter propertyName="study.studyCoordinatingCenter.organization"
-                                      displayName="Coordinating center"
-                                      required="true" help="true"/>
+        <tags:renderAutocompleter propertyName="study.studyCoordinatingCenter.organization"
+                                  displayName="Coordinating center"
+                                  required="true" help="true"/>
 
-        </chrome:division>
-        <chrome:division title="Funding sponsor details">
-            <tags:renderAutocompleter propertyName="study.studyFundingSponsor.organization"
-                                      displayName="Funding sponsor"
-                                      required="true" help="true"/>
+        <tags:renderAutocompleter propertyName="study.studyFundingSponsor.organization"
+                                  displayName="Funding sponsor"
+                                  required="true" help="true"/>
 
-        </chrome:division>
 
         <chrome:division title="Study sites">
             <p><tags:instructions code="study.study_sites.top"/></p>

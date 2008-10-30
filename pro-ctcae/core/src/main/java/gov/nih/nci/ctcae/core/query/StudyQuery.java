@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.query;
 
 import org.apache.commons.lang.StringUtils;
+import gov.nih.nci.ctcae.core.domain.StudySite;
 
 /**
  * @author Vinay Kumar
@@ -14,6 +15,8 @@ public class StudyQuery extends AbstractQuery {
     private static final String LONG_TITLE = "longTitle";
     private static final String ASSIGNED_IDENTIFIER = "assignedIdentifier";
 
+    private static String ORGANIZATION_ID = "organizationId";
+    private static final String STUDY_SITE = "studySite";
 
     public StudyQuery() {
         super(queryString);
@@ -64,4 +67,13 @@ public class StudyQuery extends AbstractQuery {
     }
 
 
+    public void filterStudiesForStudySite(Integer siteId) {
+        if (siteId != null) {
+            leftJoin("study.studyOrganizations as sso");
+            andWhere("sso.organization.id = :" + ORGANIZATION_ID);
+            andWhere("sso.class = :" +STUDY_SITE );
+            setParameter(ORGANIZATION_ID, siteId);
+            setParameter(STUDY_SITE, "SST");
+        }
+    }
 }

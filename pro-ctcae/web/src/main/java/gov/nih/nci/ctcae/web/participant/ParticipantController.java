@@ -1,20 +1,17 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.Ethnicity;
-import gov.nih.nci.ctcae.core.domain.Gender;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.Race;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudySite;
-import gov.nih.nci.ctcae.core.query.StudySiteQuery;
+import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
-import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
+import gov.nih.nci.ctcae.web.ListValues;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +27,8 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public abstract class ParticipantController extends CtcAeSimpleFormController {
     protected ParticipantRepository participantRepository;
-    protected StudyOrganizationRepository studyOrganizationRepository;
+    protected FinderRepository finderRepository;
+    protected OrganizationRepository organizationRepository;
 
     protected ParticipantController() {
         setCommandClass(ParticipantCommand.class);
@@ -51,12 +49,16 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
 
         for (int studyId : participantCommand.getStudyId()) {
 
-            StudySiteQuery query = new StudySiteQuery();
+            StudyOrganizationQuery query = new StudyOrganizationQuery();
             query.filterByOrganizationId(participantCommand.getSiteId());
             query.filterByStudyId(studyId);
+            query.filterByStudySiteOnly();
 
-            StudySite studySite = (StudySite) studyOrganizationRepository
-                    .findSingle(query);
+            List<StudySite> persistables = (List<StudySite>) finderRepository.find(query);
+            if (persistables.isEmpty()) {
+                throw new Exception(("can not find study site:siteId- " + participantCommand.getSiteId()) + " study id:" + participantCommand.getStudyId());
+            }
+            StudySite studySite = persistables.get(0);
 
             participantCommand.setSiteName(studySite.getOrganization()
                     .getName());
@@ -94,10 +96,13 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
                                 Errors errors) throws Exception {
         HashMap<String, Object> referenceData = new HashMap<String, Object>();
 
-        ArrayList<Organization> studySites = studyOrganizationRepository
-                .findStudySites();
+        ArrayList<Organization> studySites = organizationRepository
+                .findOrganizationsForStudySites();
 
-        referenceData.put("genders", Gender.getAllGenders());
+        ListValues listValues = new ListValues();
+
+
+        referenceData.put("genders", listValues.getGenderType());
         referenceData.put("ethnicities", Ethnicity.getAllEthnicities());
         referenceData.put("races", Race.getAllRaces());
         referenceData.put("studysites", studySites);
@@ -111,9 +116,14 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
     }
 
     @Required
-    public void setStudyOrganizationRepository(
-            StudyOrganizationRepository studyOrganizationRepository) {
-        this.studyOrganizationRepository = studyOrganizationRepository;
+    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
+        this.organizationRepository = organizationRepository;
+    }
+
+    @Required
+    public void setFinderRepository(
+            FinderRepository finderRepository) {
+        this.finderRepository = finderRepository;
     }
 
 }

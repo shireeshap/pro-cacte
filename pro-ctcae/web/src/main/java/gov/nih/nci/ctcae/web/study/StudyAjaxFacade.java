@@ -3,9 +3,7 @@ package gov.nih.nci.ctcae.web.study;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
-import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
@@ -26,7 +24,6 @@ import org.springframework.beans.factory.annotation.Required;
  */
 public class StudyAjaxFacade {
     private StudyRepository studyRepository;
-    private OrganizationRepository organizationRepository;
     private ParticipantRepository participantRepository;
 
     public List<Study> matchStudy(final String text) {
@@ -83,10 +80,10 @@ public class StudyAjaxFacade {
             studies = (List<Study>) studyRepository.find(studyQuery);
         } else if ("assignedIdentifier".equals(type)) {
             studyQuery.filterStudiesByAssignedIdentifier(text);
-            studies = (List<Study>) studyRepository.find(studyQuery);
         } else if ("site".equals(type)) {
-            studies = organizationRepository.findStudiesForOrganization(text);
+             studyQuery.filterStudiesForStudySite(Integer.parseInt(text));
         }
+        studies = (List<Study>) studyRepository.find(studyQuery);
 
         return studies;
     }
@@ -96,11 +93,6 @@ public class StudyAjaxFacade {
         this.studyRepository = studyRepository;
     }
 
-    @Required
-    public void setOrganizationRepository(
-            OrganizationRepository organizationRepository) {
-        this.organizationRepository = organizationRepository;
-    }
 
     @Required
     public void setParticipantRepository(

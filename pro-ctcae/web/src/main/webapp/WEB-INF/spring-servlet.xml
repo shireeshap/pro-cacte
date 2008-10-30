@@ -24,6 +24,7 @@
         <property name="mappings">
             <value>
                 /form/createForm=createFormController
+                <!--/form/viewForm=viewFormController-->
             </value>
         </property>
         <property name="interceptors">
@@ -174,8 +175,8 @@
     </bean>
 
     <!--<bean name="/form/createForm" id="createFormController"-->
-          <!--class="gov.nih.nci.ctcae.web.form.CreateFormController" parent="ctcaeSimpleFormController">-->
-        <!--<property name="finderRepository" ref="finderRepository"/>-->
+    <!--class="gov.nih.nci.ctcae.web.form.CreateFormController" parent="ctcaeSimpleFormController">-->
+    <!--<property name="finderRepository" ref="finderRepository"/>-->
     <!--</bean>-->
     <bean name="/form/addOneQuestion" id="oneQuestionController"
           class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">
@@ -201,15 +202,17 @@
     <bean name="/participant/create" id="createParticipantController"
           class="gov.nih.nci.ctcae.web.participant.CreateParticipantController" parent="ctcaeSimpleFormController">
         <property name="participantRepository" ref="participantRepository"/>
-        <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
+        <property name="finderRepository" ref="finderRepository"/>
+        <property name="organizationRepository" ref="organizationRepository"/>
     </bean>
 
     <bean name="/participant/edit" id="editParticipantController"
           class="gov.nih.nci.ctcae.web.participant.EditParticipantController" parent="ctcaeSimpleFormController">
-          <property name="participantRepository" ref="participantRepository"/>
-          <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
+        <property name="participantRepository" ref="participantRepository"/>
+        <property name="finderRepository" ref="finderRepository"/>
+        <property name="organizationRepository" ref="organizationRepository"/>
     </bean>
-    
+
     <bean name="/participant/search" id="searchParticipantController"
           class="gov.nih.nci.ctcae.web.participant.SearchParticipantController">
     </bean>

@@ -4,10 +4,13 @@ import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
+import gov.nih.nci.ctcae.core.query.OrganizationHavingStudySiteQuery;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Collection;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,23 +21,16 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 public class OrganizationRepository extends
-		AbstractRepository<Organization, OrganizationQuery> {
+        AbstractRepository<Organization, OrganizationQuery> {
 
-	@Override
-	protected Class<Organization> getPersistableClass() {
-		return Organization.class;
+    @Override
+    protected Class<Organization> getPersistableClass() {
+        return Organization.class;
 
-	}
+    }
 
-	public List<Study> findStudiesForOrganization(String organizationId) {
-		Organization organization = findById(Integer.parseInt(organizationId));
-		Iterator<StudyOrganization> studyOrganizations = organization
-				.getStudyOrganizations().iterator();
-		
-		ArrayList<Study> studies = new ArrayList<Study>();
-		while(studyOrganizations.hasNext()){
-			studies.add(studyOrganizations.next().getStudy());
-		}
-		return studies;
-	}
+    public ArrayList<Organization> findOrganizationsForStudySites() {
+        OrganizationHavingStudySiteQuery query = new OrganizationHavingStudySiteQuery();
+        return new ArrayList<Organization>((Collection<Organization>) genericRepository.find(query));
+    }
 }
