@@ -430,6 +430,9 @@ pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/R.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/T.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/TL.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/TR.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderselectedbox_bg.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderselectedbox_bottom.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderselectedbox_top.png -text
 pro-ctcae/web/src/main/webapp/images/blue/go_to_manage_reports_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/header_bg.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/assignController_icon.png -text

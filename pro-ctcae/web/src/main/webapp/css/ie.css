@@ -22,3 +22,10 @@ for the browser font setting to work on IE6. */
 div.row {
     clear: both;
 }
+
+.formbuilderHeader {
+color:#00207E;
+font-size:30px;
+top:15px;
+position:absolute;
+}

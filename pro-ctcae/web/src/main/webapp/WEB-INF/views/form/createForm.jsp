@@ -157,9 +157,10 @@
                 <td id="right">
                 	<table style="border-collapse:collapse; height:800px;">
                     <tr><td id="formbuilderTable-borderTop">
-                        There <span id="plural1">are</span> <span id="totalQuestionDivision">${totalQuestions}</span> question<span id="plural2">s</span> in this form.
                     </td></tr>
                     <tr style="height:100%;"><td id="formbuilderTable-middle">
+                    <div class="formbuilderHeader">Click here to name</div><br/>
+                    <span class="formbuildersubHeader">There <span id="plural1">are</span> <span id="totalQuestionDivision">${totalQuestions}</span> question<span id="plural2">s</span> in this form.</span>
                     <div id="sortable">
                         <form:hidden path="questionsIds" id="questionsIds"/>
                         <input type="hidden" id="totalQuestions" value="${totalQuestions}">

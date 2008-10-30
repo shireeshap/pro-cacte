@@ -765,6 +765,7 @@ vertical-align:top;
 height:100%;
 padding-left:15px;
 padding-right:15px;
+padding-top:5px;
 }
 #formbuilderTable-borderBottom {
 	background-image: url(/ctcae/images/blue/formbuilderselectedbox_bottom.png);
@@ -772,9 +773,26 @@ padding-right:15px;
 	height: 35px;
 	width: 346px;
 }
+.formbuilderHeader {
+color:#00207E;
+font-size:30px;
+top:170px;
+position:absolute;
+}
+.formbuildersubHeader {
+margin-bottom:15px;
+margin-left:15px;
+}
+#totalQuestionDivision {
+font-size:15px;
+font-weight:bold;
+}
 
 .sortable {
-padding-bottom:5px;
+padding-top:5px;
+}
+#sortable {
+margin-top:15px;
 }
 
 /* Formbuilder box styles */
