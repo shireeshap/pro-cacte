@@ -220,10 +220,11 @@
     <bean name="/admin/investigator/searchInvestigator" id="searchInvestigatorController"
           class="gov.nih.nci.ctcae.web.investigator.SearchInvestigatorController">
     </bean>
-    <bean name="/researchStaff/createResearchStaff" id="createResearchStaffController"
-          class="gov.nih.nci.ctcae.web.researchStaff.CreateResearchStaffController" parent="ctcaeSimpleFormController">
-        <property name="researchStaffRepository" ref="researchStaffRepository"/>
-    </bean>
+
+    <!--<bean name="/researchStaff/createResearchStaff" id="createResearchStaffController"-->
+          <!--class="gov.nih.nci.ctcae.web.researchStaff.CreateResearchStaffController" parent="ctcaeSimpleFormController">-->
+        <!--<property name="researchStaffRepository" ref="researchStaffRepository"/>-->
+    <!--</bean>-->
 
 
     <bean id="noCacheTemplate" abstract="true">
