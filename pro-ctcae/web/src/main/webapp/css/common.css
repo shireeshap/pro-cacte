@@ -740,13 +740,32 @@ width:100%;
 }
 
 #formbuilderTable #left {
-width:66%;
 vertical-align:top;
 }
 
 #formbuilderTable #right {
-width:34%;
-vertical-align:top;
+	width:346px;
+	vertical-align:top;
+padding:0px;
+
+}
+
+#formbuilderTable-borderTop {
+	background-image: url(/ctcae/images/blue/formbuilderselectedbox_top.png);
+	background-repeat: no-repeat;
+	height: 35px;
+	width: 346px;
+}
+#formbuilderTable-middle {
+background-image: url(/ctcae/images/blue/formbuilderselectedbox_bg.png);
+background-repeat: repeat-y;
+height:100%;
+}
+#formbuilderTable-borderBottom {
+	background-image: url(/ctcae/images/blue/formbuilderselectedbox_bottom.png);
+	background-repeat: no-repeat;
+	height: 35px;
+	width: 346px;
 }
 
 .sortable {

@@ -97,6 +97,13 @@
         $('questionsIds').value = questionsId;
         $('totalQuestions').value = i;
         $('totalQuestionDivision').innerHTML = i;
+		if (i == 1){
+				$('plural1').innerHTML = 'is';
+				$('plural2').innerHTML = '';
+			} else {
+				$('plural1').innerHTML = 'are';
+				$('plural2').innerHTML = 's';
+		}
 
     }
 
@@ -129,7 +136,7 @@
         </p>
     </chrome:box>
 
-    <chrome:box title="Form">
+
         <table id="formbuilderTable">
             <tr>
                 <td id="left">
@@ -148,9 +155,11 @@
 
                 </td>
                 <td id="right">
-                    <chrome:division>
-                        Total questions are: <span id="totalQuestionDivision">${totalQuestions}</span>
-                    </chrome:division>
+                	<table style="border-collapse:collapse;">
+                    <tr><td id="formbuilderTable-borderTop">
+                        There <span id="plural1">are</span> <span id="totalQuestionDivision">${totalQuestions}</span> question<span id="plural2">s</span> in this form.
+                    </td></tr>
+                    <tr><td id="formbuilderTable-middle">
                     <div id="sortable">
                         <form:hidden path="questionsIds" id="questionsIds"/>
                         <input type="hidden" id="totalQuestions" value="${totalQuestions}">
@@ -163,12 +172,16 @@
 
                         <div id="hiddenDiv"></div>
                     </div>
+                    </td></tr>
+                    <tr><td id="formbuilderTable-borderBottom"> 
+                   </td></tr>
+                   </table>
                 </td>
 
             </tr>
 
         </table>
-    </chrome:box>
+
 
 
     <tags:flowControls willSave="true" saveAction="review" saveButtonLabel="Review"/>
