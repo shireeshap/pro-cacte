@@ -67,10 +67,10 @@
 		                         required="true" />
 		        <tags:renderSelect propertyName="participant.gender" displayName="Gender" 
 		                         required="true" options="${genders}" />
-		        <%--<tags:renderSelect propertyName="participant.ethnicity" displayName="Ethnicity"--%>
-		                         <%--required="true" options="${ethnicities}" />--%>
-		        <%--<tags:renderSelect propertyName="participant.race" displayName="Race"--%>
-		                         <%--required="true" options="${races}"/>--%>
+		        <tags:renderSelect propertyName="participant.ethnicity" displayName="Ethnicity"
+		                         required="true" options="${ethnicities}" />
+		        <tags:renderSelect propertyName="participant.race" displayName="Race"
+		                         required="true" options="${races}"/>
 	        </td>
         </tr>
         </table>
