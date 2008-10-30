@@ -747,19 +747,24 @@ vertical-align:top;
 	width:346px;
 	vertical-align:top;
 padding:0px;
+position:relative;
+height:100%;
 
 }
 
 #formbuilderTable-borderTop {
 	background-image: url(/ctcae/images/blue/formbuilderselectedbox_top.png);
 	background-repeat: no-repeat;
-	height: 35px;
+	height: 33px;
 	width: 346px;
 }
 #formbuilderTable-middle {
 background-image: url(/ctcae/images/blue/formbuilderselectedbox_bg.png);
 background-repeat: repeat-y;
+vertical-align:top;
 height:100%;
+padding-left:15px;
+padding-right:15px;
 }
 #formbuilderTable-borderBottom {
 	background-image: url(/ctcae/images/blue/formbuilderselectedbox_bottom.png);

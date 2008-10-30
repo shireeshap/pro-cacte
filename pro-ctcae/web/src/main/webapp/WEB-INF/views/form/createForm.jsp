@@ -17,7 +17,7 @@
 <tags:includePrototypeWindow/>
 
 <script type="text/javascript">
-    var elements = ['sort1','sort2']
+  var elements = ['sort1','sort2']
     Event.observe(window, "load", function () {
         sortQustions();
     <c:if test="${not empty command.studyCrf.crf.crfItems}">
@@ -155,11 +155,11 @@
 
                 </td>
                 <td id="right">
-                	<table style="border-collapse:collapse;">
+                	<table style="border-collapse:collapse; height:800px;">
                     <tr><td id="formbuilderTable-borderTop">
                         There <span id="plural1">are</span> <span id="totalQuestionDivision">${totalQuestions}</span> question<span id="plural2">s</span> in this form.
                     </td></tr>
-                    <tr><td id="formbuilderTable-middle">
+                    <tr style="height:100%;"><td id="formbuilderTable-middle">
                     <div id="sortable">
                         <form:hidden path="questionsIds" id="questionsIds"/>
                         <input type="hidden" id="totalQuestions" value="${totalQuestions}">
