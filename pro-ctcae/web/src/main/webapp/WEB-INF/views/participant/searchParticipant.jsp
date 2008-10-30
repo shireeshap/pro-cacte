@@ -70,15 +70,15 @@
 
 
 		<div class="row">
-           	<div class="label">First Name</div>
+           	<div class="label">First name</div>
            	<div class="value"><input type="text" id="firstName" name="firstName" maxlength="30"/></div>
        	</div>
 		<div class="row">
-           	<div class="label">Last Name</div>
+           	<div class="label">Last name</div>
            	<div class="value"><input type="text" id="lastName" name="lastName" maxlength="30"/></div>
        	</div>
 		<div class="row">
-           	<div class="label">Patient Identifier</div>
+           	<div class="label">Patient identifier</div>
            	<div class="value"><input type="text" id="identifier"name="identifier" maxlength="30"/></div>
        	</div>
   		<div id="error"></div>

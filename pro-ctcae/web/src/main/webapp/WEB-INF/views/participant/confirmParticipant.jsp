@@ -47,19 +47,19 @@
         <tr>
 	        <td>
 		        <div class="row">
-                	<div class="label">First Name</div>
+                	<div class="label">First name</div>
                 	<div class="value">${participantCommand.participant.firstName}</div>
             	</div>
 		        <div class="row">
-                	<div class="label">Last Name</div>
+                	<div class="label">Last name</div>
                 	<div class="value">${participantCommand.participant.lastName}</div>
             	</div>
 		        <div class="row">
-                	<div class="label">Middle Name</div>
+                	<div class="label">Middle name</div>
                 	<div class="value">${participantCommand.participant.middleName}</div>
             	</div>
 		        <div class="row">
-                	<div class="label">Patient Identifier</div>
+                	<div class="label">Patient identifier</div>
                 	<div class="value">${participantCommand.participant.assignedIdentifier}</div>
             	</div>
 	        </td>

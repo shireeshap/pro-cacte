@@ -54,14 +54,13 @@
         <table border="0" style="width:100%">
         <tr>
 	        <td>
-		        <tags:renderText propertyName="participant.firstName" displayName="First Name"
-		                         required="true" size="50"/>
-		        <tags:renderText propertyName="participant.lastName" displayName="Last Name"
-		                         required="true" size="50"/>
-		        <tags:renderText propertyName="participant.middleName" displayName="Middle Name"
-		                         size="50"/>
-		        <tags:renderText propertyName="participant.assignedIdentifier" displayName="Patient Identifier"
-		                         required="true" size="50"/>
+		        <tags:renderText propertyName="participant.firstName" displayName="First name"
+		                         required="true"/>
+		        <tags:renderText propertyName="participant.lastName" displayName="Last name"
+		                         required="true"/>
+		        <tags:renderText propertyName="participant.middleName" displayName="Middle name"/>
+		        <tags:renderText propertyName="participant.assignedIdentifier" displayName="Patient identifier"
+		                         required="true"/>
 	        </td>
 	        <td>
 		        <tags:renderDate propertyName="participant.birthDate" displayName="Date of birth"
