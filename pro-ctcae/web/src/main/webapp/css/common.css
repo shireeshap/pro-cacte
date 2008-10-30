@@ -37,8 +37,8 @@ body {
 	background-image: url(../images/blue/thirdlevelnav_grey_gradient.png);
 	background-repeat:repeat-x;
 	background-position:bottom;
-    top:-12px;
-    left:-18px;
+    top:-27px;
+    left:-4px;
 }
 #thirdlevelnav{
 	margin:5px;
@@ -279,7 +279,7 @@ a#firstlevelnav_studyController:hover{background-position:0px -45px;}
 a#firstlevelnav_studyController:active{background-position:0px -90px;}
 .selected a#firstlevelnav_studyController {background-image: url(../images/blue/advancedSearch_btn_selected.png);}
 
-a#firstlevelnav_configurationController {
+a#firstlevelnav_createInvestigatorController {
 	background-image: url(../images/blue/administration_btn.png);
 	height: 45px;
 	width: 133px;
@@ -288,10 +288,10 @@ a#firstlevelnav_configurationController {
 	margin-right: -5px;
 margin-left: -5px;
 }
-a#firstlevelnav_configurationController:link{background-position:0px;}
-a#firstlevelnav_configurationController:hover{background-position:0px -45px;}
-a#firstlevelnav_configurationController:active{background-position:0px -90px;}
-.selected a#firstlevelnav_configurationController {background-image: url(../images/blue/administration_btn_selected.png);}
+a#firstlevelnav_createInvestigatorController:link{background-position:0px;}
+a#firstlevelnav_createInvestigatorController:hover{background-position:0px -45px;}
+a#firstlevelnav_createInvestigatorController:active{background-position:0px -90px;}
+.selected a#firstlevelnav_createInvestigatorController {background-image: url(../images/blue/administration_btn_selected.png);}
 
 #sso-form { display: none }
 

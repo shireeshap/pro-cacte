@@ -158,16 +158,12 @@
                       p:displayName="Administration"
                       p:mainController="createInvestigatorController">
                     <property name="pathMapping">
-                        <value>>/admin/**</value>
+                        <value>/admin/**</value>
                     </property>
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="Investigator" p:linkName="createInvestigatorController"/>
-                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Manage Form" p:linkName="createFormController"/>
-
-
                         </list>
                     </property>
                 </bean>
@@ -217,12 +213,16 @@
     <bean name="/participant/search" id="searchParticipantController"
           class="gov.nih.nci.ctcae.web.participant.SearchParticipantController">
     </bean>
-    <bean name="/investigator/createInvestigator" id="createInvestigatorController"
+    <bean name="/admin/investigator/createInvestigator" id="createInvestigatorController"
           class="gov.nih.nci.ctcae.web.investigator.CreateInvestigatorController" parent="ctcaeSimpleFormController">
         <property name="investigatorRepository" ref="investigatorRepository"/>
     </bean>
-    <bean name="/investigator/searchInvestigator" id="searchInvestigatorController"
+    <bean name="/admin/investigator/searchInvestigator" id="searchInvestigatorController"
           class="gov.nih.nci.ctcae.web.investigator.SearchInvestigatorController">
+    </bean>
+    <bean name="/researchStaff/createResearchStaff" id="createResearchStaffController"
+          class="gov.nih.nci.ctcae.web.researchStaff.CreateResearchStaffController" parent="ctcaeSimpleFormController">
+        <property name="researchStaffRepository" ref="researchStaffRepository"/>
     </bean>
 
 
