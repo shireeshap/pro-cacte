@@ -21,6 +21,8 @@
                title="${title}" size="50" autocomplete="off"/>
 
         <tags:indicator id="${inputName}-indicator"/>
+        <input type="button" id="${inputName}-clear" name="C" value="Clear"
+               onClick="javascript:$('${inputName}-input').clear();$('${inputName}').clear();"/>
 
         <div id="${inputName}-choices" class="autocomplete"
              style="display: none"></div>
@@ -46,7 +48,7 @@
 
 <!--<tr>-->
 
-            <!--<div><tags:errors path="study.studySites[${index}].organization"></tags:errors></div>-->
+<!--<div><tags:errors path="study.studySites[${index}].organization"></tags:errors></div>-->
 
 
 <!--</tr>-->

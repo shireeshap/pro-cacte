@@ -39,7 +39,7 @@
 <body>
 <chrome:flashMessage flashMessage="The Study was saved successfully"></chrome:flashMessage>
 
-<chrome:box title="Study Details">
+<chrome:box title="Study details">
 
     <chrome:division>
         <div class="leftpanel">
@@ -70,7 +70,7 @@
             </div>
         </div>
     </chrome:division>
-    <chrome:division title="Study Sites">
+    <chrome:division title="Study sites">
 
         <div align="left" style="margin-left: 50px">
             <table width="55%" class="tablecontent">

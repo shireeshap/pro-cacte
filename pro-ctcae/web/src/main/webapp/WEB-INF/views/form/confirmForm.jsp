@@ -40,7 +40,7 @@
 <chrome:box title="Confirmation">
 
 
-    <chrome:division title="Study Details">
+    <chrome:division title="Study details">
         <div class="instructions">
             <div class="summarylabel">Study</div>
             <div class="summaryvalue">${command.studyCrf.study.displayName}</div>
@@ -49,7 +49,7 @@
 
     </chrome:division>
 
-    <chrome:division title="Form Details">
+    <chrome:division title="Form details">
         <div class="instructions">
 
             <div class="summarylabel">Title</div>

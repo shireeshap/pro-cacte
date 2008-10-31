@@ -86,6 +86,9 @@
 
         <tags:indicator id="${propertyName}-indicator"/>
 
+        <input type="button" id="${propertyName}-clear" name="C" value="Clear"
+               onClick="javascript:$('${propertyName}-input').clear();$('${propertyName}').clear();"/>
+
         <div id="${propertyName}-choices" class="autocomplete" style="display: none"></div>
 
         <form:input path="${propertyName}" id="${propertyName}" cssClass=" ${required ? 'validate-NOTEMPTY' : ''}"
