@@ -52,7 +52,7 @@
                                required="true" options="${studysites}"/>
         </chrome:division>
 
-        <chrome:division title="Demographic Information">
+        <chrome:division title="Demographic information">
 
             <table border="0" style="width:100%">
                 <tr>
