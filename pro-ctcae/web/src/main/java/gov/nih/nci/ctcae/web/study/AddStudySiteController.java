@@ -1,13 +1,12 @@
 package gov.nih.nci.ctcae.web.study;
 
-import org.springframework.web.servlet.mvc.AbstractController;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudySite;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudySite;
 
 /**
  * @author Vinay Kumar

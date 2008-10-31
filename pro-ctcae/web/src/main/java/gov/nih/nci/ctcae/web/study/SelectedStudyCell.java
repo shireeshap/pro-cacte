@@ -1,14 +1,13 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Study;
-
-import java.util.HashSet;
-
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.cell.Cell;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.view.html.ColumnBuilder;
 import org.extremecomponents.util.HtmlBuilder;
+
+import java.util.HashSet;
 
 /**
  * @author Harsh Agarwal

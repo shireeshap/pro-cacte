@@ -1,12 +1,11 @@
 package gov.nih.nci.ctcae.web.study;
 
+import gov.nih.nci.ctcae.web.ListValues;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import gov.nih.nci.ctcae.web.ListValues;
 
 /**
  * @author Vinay Kumar

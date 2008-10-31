@@ -1,16 +1,13 @@
 package gov.nih.nci.ctcae.web.study;
 
-import org.springframework.web.servlet.ModelAndView;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyFundingSponsor;
-import gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter;
 
 /**
  * @author Vinay Kumar

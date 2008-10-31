@@ -1,14 +1,13 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyFundingSponsor;
 import gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter;
+import gov.nih.nci.ctcae.core.domain.StudyFundingSponsor;
 import gov.nih.nci.ctcae.core.domain.StudySite;
-import org.apache.commons.lang.StringUtils;
 
-import java.util.Set;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Vinay Kumar
