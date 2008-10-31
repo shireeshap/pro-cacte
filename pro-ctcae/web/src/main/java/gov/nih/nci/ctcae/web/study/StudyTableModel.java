@@ -1,17 +1,13 @@
 package gov.nih.nci.ctcae.web.study;
 
-import org.extremecomponents.table.core.TableModel;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.web.AbstractTableModel;
 import org.extremecomponents.table.bean.Column;
+import org.extremecomponents.table.core.TableModel;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-
-import gov.nih.nci.ctcae.web.AbstractTableModel;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 
 /**
  * @author Vinay Kumar
@@ -73,7 +69,7 @@ public class StudyTableModel extends AbstractTableModel {
 
 	private void addSponsorColumn(TableModel model) {
 		Column columnSponsorCode = model.getColumnInstance();
-		columnSponsorCode.setTitle("Funding Sponsor");
+		columnSponsorCode.setTitle("Funding sponsor");
 		columnSponsorCode
 				.setProperty("studyFundingSponsor.organization.nciInstituteCode");
 		columnSponsorCode.setAlias("studyFundingSponsor");
@@ -83,6 +79,7 @@ public class StudyTableModel extends AbstractTableModel {
 
 	private void addShorTitleColumn(TableModel model) {
 		Column columnShortTitle = model.getColumnInstance();
+        columnShortTitle.setProperty("Short title");
 		columnShortTitle.setProperty("shortTitle");
 		columnShortTitle.setSortable(Boolean.TRUE);
 		// columnShortTitle.setCell("gov.nih.nci.cabig.ctcae.web.study.StudyLinkDisplayCell");
@@ -91,7 +88,8 @@ public class StudyTableModel extends AbstractTableModel {
 
 	private void addAssignedIdentifier(TableModel model) {
 		Column columnShortTitle = model.getColumnInstance();
-		columnShortTitle.setProperty("assignedIdentifier");
+        columnShortTitle.setProperty("Study identifier");
+        columnShortTitle.setProperty("assignedIdentifier");
 		columnShortTitle.setSortable(Boolean.TRUE);
 		// columnShortTitle.setCell("gov.nih.nci.ctcae.web.study.SelectedStudyCell");
 		model.addColumn(columnShortTitle);
@@ -99,7 +97,7 @@ public class StudyTableModel extends AbstractTableModel {
 
 	private void addAssignedIdentifierForSelection(TableModel model) {
 		Column columnShortTitle = model.getColumnInstance();
-		columnShortTitle.setTitle("Study Identifier");
+		columnShortTitle.setTitle("Study identifier");
 		columnShortTitle.setProperty("assignedIdentifier");
 		columnShortTitle.setSortable(Boolean.TRUE);
 		columnShortTitle
@@ -109,7 +107,7 @@ public class StudyTableModel extends AbstractTableModel {
 
 	private void addParticipantStudyIdentifierText(TableModel model) {
 		Column columnParticipantStudyIdentifier = model.getColumnInstance();
-		columnParticipantStudyIdentifier.setTitle("Patient Study Identifier");
+		columnParticipantStudyIdentifier.setTitle("Patient study identifier");
 		columnParticipantStudyIdentifier.setSortable(Boolean.FALSE);
 		columnParticipantStudyIdentifier
 				.setCell("gov.nih.nci.ctcae.web.study.TextBoxCell");

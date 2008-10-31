@@ -35,7 +35,7 @@ public class InvestigatorTableModel extends AbstractTableModel {
 
     private void addFirstName(TableModel model) {
         Column columnFirstName = model.getColumnInstance();
-        columnFirstName.setTitle("First Name");
+        columnFirstName.setTitle("First name");
         columnFirstName.setProperty("firstName");
         columnFirstName.setSortable(Boolean.TRUE);
         columnFirstName.setCell("gov.nih.nci.ctcae.web.investigator.InvestigatorLinkDisplayDetailsCell");
@@ -45,7 +45,7 @@ public class InvestigatorTableModel extends AbstractTableModel {
 
      private void addLastName(TableModel model) {
         Column columnLastName = model.getColumnInstance();
-        columnLastName.setTitle("Last Name");
+        columnLastName.setTitle("Last name");
         columnLastName.setProperty("lastName");
         columnLastName.setSortable(Boolean.TRUE);
 
@@ -54,7 +54,7 @@ public class InvestigatorTableModel extends AbstractTableModel {
 
     private void addMiddleName (TableModel model) {
         Column columnMiddleName = model.getColumnInstance();
-        columnMiddleName.setTitle("Middle Name");
+        columnMiddleName.setTitle("Middle name");
         columnMiddleName.setProperty("middleName");
         columnMiddleName.setSortable(Boolean.TRUE);
 
@@ -63,7 +63,7 @@ public class InvestigatorTableModel extends AbstractTableModel {
 
      private void addNciIdentifier(TableModel model) {
         Column columnNciIdentifier = model.getColumnInstance();
-        columnNciIdentifier.setTitle("NCI Institue Code");
+        columnNciIdentifier.setTitle("NCI institue code");
         columnNciIdentifier.setProperty("nciIdentifier");
         columnNciIdentifier.setSortable(Boolean.TRUE);
 

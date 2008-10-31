@@ -42,7 +42,7 @@
     <chrome:division title="Site">
         <b>${participantCommand.siteName}</b>
     </chrome:division>
-    <chrome:division title="Demographic Information">
+    <chrome:division title="Demographic information">
 
         <table border="0" style="width:100%">
             <tr>
@@ -66,7 +66,7 @@
                 </td>
                 <td>
                     <div class="row">
-                        <div class="label">Date of Birth</div>
+                        <div class="label">Date of birth</div>
                         <div class="value">${participantCommand.participant.lastName}</div>
                     </div>
                     <div class="row">
@@ -90,12 +90,12 @@
         </table>
     </chrome:division>
     <c:if test="${not empty participantCommand.participant.studyParticipantAssignments}">
-        <chrome:division title="Assigned Study">
+        <chrome:division title="Assigned study">
             <table class="tablecontent">
                 <tr>
-                    <th scope="col">Study Identifier</th>
-                    <th scope="col">Study Short Title</th>
-                    <th scope="col">Patient Study Identifier</th>
+                    <th scope="col">Study identifier</th>
+                    <th scope="col">Study short title</th>
+                    <th scope="col">Patient study identifier</th>
                 </tr>
                 <c:forEach items="${participantCommand.participant.studyParticipantAssignments}" var="assignment">
                     <tr class="results">

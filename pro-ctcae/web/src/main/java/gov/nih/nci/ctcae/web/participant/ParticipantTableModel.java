@@ -37,7 +37,7 @@ public class ParticipantTableModel extends AbstractTableModel {
 
     private void addFirstName(TableModel model) {
         Column columnFirstName = model.getColumnInstance();
-        columnFirstName.setTitle("First Name");
+        columnFirstName.setTitle("First name");
         columnFirstName.setProperty("firstName");
         columnFirstName.setSortable(Boolean.TRUE);
 
@@ -46,7 +46,7 @@ public class ParticipantTableModel extends AbstractTableModel {
 
      private void addLastName(TableModel model) {
         Column columnLastName = model.getColumnInstance();
-        columnLastName.setTitle("Last Name");
+        columnLastName.setTitle("Last name");
         columnLastName.setProperty("lastName");
         columnLastName.setSortable(Boolean.TRUE);
 
@@ -55,7 +55,7 @@ public class ParticipantTableModel extends AbstractTableModel {
 
     private void addMiddleName (TableModel model) {
         Column columnMiddleName = model.getColumnInstance();
-        columnMiddleName.setTitle("Middle Name");
+        columnMiddleName.setTitle("Middle name");
         columnMiddleName.setProperty("middleName");
         columnMiddleName.setSortable(Boolean.TRUE);
 
@@ -64,7 +64,7 @@ public class ParticipantTableModel extends AbstractTableModel {
 
      private void addIdentifier(TableModel model) {
         Column columnIdentifier = model.getColumnInstance();
-        columnIdentifier.setTitle("Identifier");
+        columnIdentifier.setTitle("Patient identifier");
         columnIdentifier.setProperty("identifier");
         columnIdentifier.setSortable(Boolean.TRUE);
         columnIdentifier.setCell("gov.nih.nci.ctcae.web.participant.ParticipantLinkDisplayDetailsCell");
