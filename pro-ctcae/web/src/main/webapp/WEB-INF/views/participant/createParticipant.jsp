@@ -16,25 +16,28 @@
     <tags:includeScriptaculous/>
     <tags:includePrototypeWindow/>
     <tags:javascriptLink name="extremecomponents"/>
-    <tags:dwrJavascriptLink objects="study"/> 
-       
+    <tags:dwrJavascriptLink objects="study"/>
+
     <script>
 
         function buildTable(form) {
-    		var type = 'site';
+
+            var type = 'site';
             $('bigSearch').show();
             var parameterMap = getParameterMap(form);
             var text = parameterMap['siteId'];
-            study.searchStudiesForSelection(parameterMap, type, text, showTable);
+            if (text != '') {
+                study.searchStudiesForSelection(parameterMap, type, text, showTable);
+            }
         }
 
         Event.observe(window, 'load', function() {
-        	buildTable('assembler');
-       	  	Event.observe('siteId', 'change', function(){
-       			buildTable('assembler');
-          	})
+            buildTable('assembler');
+            Event.observe('siteId', 'change', function() {
+                buildTable('assembler');
+            })
         });
-        
+
     </script>
 </head>
 <body>
@@ -45,51 +48,51 @@
         <p><tags:instructions code="participant.participant_details.top"/></p>
 
         <chrome:division title="Site">
-        	<tags:renderSelectForDomainObject propertyName="siteId" displayName="Site"
-		                         required="true" options="${studysites}"/>
-		</chrome:division>
+            <tags:renderSelect propertyName="siteId" displayName="Site"
+                               required="true" options="${studysites}"/>
+        </chrome:division>
 
         <chrome:division title="Demographic Information">
-        
-        <table border="0" style="width:100%">
-        <tr>
-	        <td>
-		        <tags:renderText propertyName="participant.firstName" displayName="First name"
-		                         required="true"/>
-		        <tags:renderText propertyName="participant.lastName" displayName="Last name"
-		                         required="true"/>
-		        <tags:renderText propertyName="participant.middleName" displayName="Middle name"/>
-		        <tags:renderText propertyName="participant.assignedIdentifier" displayName="Patient identifier"
-		                         required="true"/>
-	        </td>
-	        <td>
-		        <tags:renderDate propertyName="participant.birthDate" displayName="Date of birth"
-		                         required="true" />
-		        <tags:renderSelect propertyName="participant.gender" displayName="Gender" 
-		                         required="true" options="${genders}" />
-		        <tags:renderSelect propertyName="participant.ethnicity" displayName="Ethnicity"
-		                         required="true" options="${ethnicities}" />
-		        <tags:renderSelect propertyName="participant.race" displayName="Race"
-		                         required="true" options="${races}"/>
-	        </td>
-        </tr>
-        </table>
+
+            <table border="0" style="width:100%">
+                <tr>
+                    <td>
+                        <tags:renderText propertyName="participant.firstName" displayName="First name"
+                                         required="true"/>
+                        <tags:renderText propertyName="participant.lastName" displayName="Last name"
+                                         required="true"/>
+                        <tags:renderText propertyName="participant.middleName" displayName="Middle name"/>
+                        <tags:renderText propertyName="participant.assignedIdentifier" displayName="Patient identifier"
+                                         required="true"/>
+                    </td>
+                    <td>
+                        <tags:renderDate propertyName="participant.birthDate" displayName="Date of birth"
+                                         required="true"/>
+                        <tags:renderSelect propertyName="participant.gender" displayName="Gender"
+                                           required="true" options="${genders}"/>
+                        <tags:renderSelect propertyName="participant.ethnicity" displayName="Ethnicity"
+                                           required="true" options="${ethnicities}"/>
+                        <tags:renderSelect propertyName="participant.race" displayName="Race"
+                                           required="true" options="${races}"/>
+                    </td>
+                </tr>
+            </table>
         </chrome:division>
-		<chrome:division title="Studies">
-        <tags:indicator id="indicator"/>
-		</chrome:division>
-    
-    	<div id="bigSearch" style="display:none;">
-	    	<div class="endpanes"/>
-    			<chrome:division id="single-fields">
-        			<div id="tableDiv">
-           				<c:out value="${assembler}" escapeXml="false"/>
-        			</div>
-    			</chrome:division>
-			</div>
-    	</div>
-	</chrome:box>
-	<tags:tabControls willSave="true"/>
+        <chrome:division title="Studies">
+            <tags:indicator id="indicator"/>
+        </chrome:division>
+
+        <div id="bigSearch" style="display:none;">
+            <div class="endpanes"/>
+            <chrome:division id="single-fields">
+                <div id="tableDiv">
+                    <c:out value="${assembler}" escapeXml="false"/>
+                </div>
+            </chrome:division>
+        </div>
+        </div>
+    </chrome:box>
+    <tags:tabControls willSave="true"/>
 </form:form>
 </body>
 </html>

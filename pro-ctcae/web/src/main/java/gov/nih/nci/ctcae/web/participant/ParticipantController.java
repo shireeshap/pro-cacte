@@ -1,25 +1,26 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
-import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import gov.nih.nci.ctcae.web.ListValues;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Harsh Agarwal
@@ -105,7 +106,7 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
         referenceData.put("genders", listValues.getGenderType());
         referenceData.put("ethnicities", listValues.getEthnicityType());
         referenceData.put("races", listValues.getRaceType());
-        referenceData.put("studysites", studySites);
+        referenceData.put("studysites", ListValues.getStudySites(studySites));
         return referenceData;
     }
 

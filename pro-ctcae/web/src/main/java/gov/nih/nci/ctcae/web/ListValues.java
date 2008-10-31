@@ -1,11 +1,12 @@
 package gov.nih.nci.ctcae.web;
 
-import gov.nih.nci.ctcae.core.domain.Gender;
-import gov.nih.nci.ctcae.core.domain.Race;
 import gov.nih.nci.ctcae.core.domain.Ethnicity;
+import gov.nih.nci.ctcae.core.domain.Gender;
+import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.Race;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -44,8 +45,8 @@ public class ListValues {
 
     public List<ListValues> getStudySearchType() {
         List<ListValues> col = new ArrayList<ListValues>();
-        ListValues lov1 = new ListValues("shortTitle", "Short Title");
-        ListValues lov3 = new ListValues("assignedIdentifier", "Assigned Identifier");
+        ListValues lov1 = new ListValues("shortTitle", "Short title");
+        ListValues lov3 = new ListValues("assignedIdentifier", "Assigned identifier");
 
         col.add(lov1);
         col.add(lov3);
@@ -103,4 +104,15 @@ public class ListValues {
     }
 
 
+    public static List<ListValues> getStudySites(ArrayList<Organization> organizations) {
+        List<ListValues> valuesList = new ArrayList<ListValues>();
+        valuesList.add(new ListValues("", "Please select"));
+
+        for (Organization organization : organizations) {
+            valuesList.add(new ListValues(String.valueOf(organization.getId()), organization.getDisplayName()));
+        }
+
+        return valuesList;
+
+    }
 }
