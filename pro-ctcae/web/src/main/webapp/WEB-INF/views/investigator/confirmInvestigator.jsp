@@ -52,40 +52,40 @@
    </div>
 </div>
   <chrome:box title="Confirmation">
-      <div id="row">Investigator is saved succssfully</div>
+      <div id="row">Investigator is saved successfully</div>
      <table border="0" style="width:100%">
          <tr>
             <td>
 
               <div class="row">
                   <div class="label">First Name</div>
-                  <div class="value">${investigatorCommand.firstName} </div>
+                  <div class="value">${investigatorCommand.investigator.firstName} </div>
               </div>
               <div class="row">
                   <div class="label">Middle Name</div>
-                  <div class="value">${investigatorCommand.middleName} </div>
+                  <div class="value">${investigatorCommand.investigator.middleName} </div>
               </div>
               <div class="row">
                   <div class="label">Last Name</div>
-                  <div class="value">${investigatorCommand.lastName} </div>
+                  <div class="value">${investigatorCommand.investigator.lastName} </div>
               </div>
               <div class="row">
                   <div class="label">Investigator Number</div>
-                  <div class="value">${investigatorCommand.nciIdentifier} </div>
+                  <div class="value">${investigatorCommand.investigator.nciIdentifier} </div>
               </div>
            </td>
          <td style="vertical-align:top">
               <div class="row">
                   <div class="label">Email Address</div>
-                  <div class="value">${investigatorCommand.emailAddress} </div>
+                  <div class="value">${investigatorCommand.investigator.emailAddress} </div>
               </div>
               <div class="row">
                   <div class="label">Phone</div>
-                  <div class="value">${investigatorCommand.phoneNumber} </div>
+                  <div class="value">${investigatorCommand.investigator.phoneNumber} </div>
               </div>
               <div class="row">
                   <div class="label">Fax</div>
-                  <div class="value">${investigatorCommand.faxNumber} </div>
+                  <div class="value">${investigatorCommand.investigator.faxNumber} </div>
               </div>
         
         </td>

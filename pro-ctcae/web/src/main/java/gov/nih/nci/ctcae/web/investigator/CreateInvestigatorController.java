@@ -18,8 +18,9 @@ public class CreateInvestigatorController extends CtcAeSimpleFormController {
 
     private InvestigatorRepository investigatorRepository;
 
+
     public CreateInvestigatorController() {
-        setCommandClass(Investigator.class);
+        setCommandClass(InvestigatorCommand.class);
         setCommandName("investigatorCommand");
         setFormView("investigator/createInvestigator");
         setSuccessView("investigator/confirmInvestigator");
@@ -30,13 +31,15 @@ public class CreateInvestigatorController extends CtcAeSimpleFormController {
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, org.springframework.validation.BindException errors) throws Exception {
 
-        Investigator investigator = (Investigator) oCommand;
+        InvestigatorCommand investigatorCommand = (InvestigatorCommand) oCommand;
+        Investigator investigator = investigatorCommand.getInvestigator();
+
 
         investigator = investigatorRepository.save(investigator);
+        investigatorCommand.setInvestigator(investigator);
+
         ModelAndView modelAndView = new ModelAndView(getSuccessView());
-        modelAndView.addObject("investigatorCommand", investigator);
-
-
+        modelAndView.addObject("investigatorCommand", investigatorCommand);
         return modelAndView;
     }
 
@@ -44,12 +47,15 @@ public class CreateInvestigatorController extends CtcAeSimpleFormController {
        protected Object formBackingObject(HttpServletRequest request)
                throws Exception {
            String investigatorId = request.getParameter("investigatorId");
-           if (investigatorId == null){
-               return new Investigator();
+           InvestigatorCommand investigatorCommand = new InvestigatorCommand();
+
+        if (investigatorId == null){
+               return investigatorCommand;
            }
            else {
            Investigator investigator = investigatorRepository.findById(new Integer(investigatorId));
-           return investigator;
+           investigatorCommand.setInvestigator(investigator);
+           return investigatorCommand;
            }
        }
 

@@ -218,8 +218,11 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.j
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneQuestionController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchFormController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/AddSiteController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/CreateInvestigatorController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorAjaxFacade.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorCommand.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorControllerUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorLinkDisplayDetailsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/SearchInvestigatorController.java -text
@@ -346,6 +349,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/reviewForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/confirmInvestigator.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/createInvestigator.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/searchInvestigator.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/siteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/assignParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/assignParticipant.xml -text

@@ -194,6 +194,9 @@
     <bean name="/study/addStudySite" id="addStudySiteController"
           class="gov.nih.nci.ctcae.web.study.AddStudySiteController">
     </bean>
+    <bean name="/investigator/addSite" id="addSiteController"
+             class="gov.nih.nci.ctcae.web.investigator.AddSiteController">
+       </bean>
 
     <bean name="/study/searchStudy" id="searchStudyController"
           class="gov.nih.nci.ctcae.web.study.SearchStudyController">
