@@ -79,7 +79,7 @@ public class StudyTableModel extends AbstractTableModel {
 
 	private void addShorTitleColumn(TableModel model) {
 		Column columnShortTitle = model.getColumnInstance();
-        columnShortTitle.setProperty("Short title");
+        columnShortTitle.setTitle("Short title");
 		columnShortTitle.setProperty("shortTitle");
 		columnShortTitle.setSortable(Boolean.TRUE);
 		// columnShortTitle.setCell("gov.nih.nci.cabig.ctcae.web.study.StudyLinkDisplayCell");
@@ -88,7 +88,7 @@ public class StudyTableModel extends AbstractTableModel {
 
 	private void addAssignedIdentifier(TableModel model) {
 		Column columnShortTitle = model.getColumnInstance();
-        columnShortTitle.setProperty("Study identifier");
+        columnShortTitle.setTitle("Study identifier");
         columnShortTitle.setProperty("assignedIdentifier");
 		columnShortTitle.setSortable(Boolean.TRUE);
 		// columnShortTitle.setCell("gov.nih.nci.ctcae.web.study.SelectedStudyCell");
