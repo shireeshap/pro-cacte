@@ -159,11 +159,7 @@ function deleteQuestion(questionId) {
             <div class="summarylabel">Study</div>
             <div class="summaryvalue">${command.studyCrf.study.displayName}</div>
         </div>
-        <div class="instructions">
 
-            <div class="summarylabel">Study</div>
-            <div class="summaryvalue">${command.studyCrf.study.displayName}</div>
-        </div>
     </chrome:box>
 
 
