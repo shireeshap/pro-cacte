@@ -35,81 +35,79 @@
 
 </head>
 <body>
+<chrome:flashMessage flashMessage="The Patient was saved successfully"></chrome:flashMessage>
+
 <chrome:box title="Confirmation">
 
-    <div class="row">The following patient is saved successfully</div>
     <chrome:division title="Site">
-			<b>${participantCommand.siteName}</b>
-		</chrome:division>
+        <b>${participantCommand.siteName}</b>
+    </chrome:division>
     <chrome:division title="Demographic Information">
-        
+
         <table border="0" style="width:100%">
-        <tr>
-	        <td>
-		        <div class="row">
-                	<div class="label">First name</div>
-                	<div class="value">${participantCommand.participant.firstName}</div>
-            	</div>
-		        <div class="row">
-                	<div class="label">Last name</div>
-                	<div class="value">${participantCommand.participant.lastName}</div>
-            	</div>
-		        <div class="row">
-                	<div class="label">Middle name</div>
-                	<div class="value">${participantCommand.participant.middleName}</div>
-            	</div>
-		        <div class="row">
-                	<div class="label">Patient identifier</div>
-                	<div class="value">${participantCommand.participant.assignedIdentifier}</div>
-            	</div>
-	        </td>
-	        <td>
-		       	<div class="row">
-                	<div class="label">Date of Birth</div>
-                	<div class="value">${participantCommand.participant.lastName}</div>
-            	</div>
-		       	<div class="row">
-                	<div class="label">Gender</div>
-                	<div class="value">${participantCommand.participant.gender}</div>
-            	</div>
-		       	<div class="row">
-                	<div class="label">Ethnicity</div>
-                	<div class="value">${participantCommand.participant.ethnicity}</div>
-            	</div>
-		       	<div class="row">
-                	<div class="label">Race</div>
-                	<div class="value">${participantCommand.participant.race}</div>
-            	</div>
-		       	<div class="row">
-                	<div class="label">&nbsp;</div>
-                	<div class="value">&nbsp;</div>
-            	</div>
-	        </td>
-        </tr>
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="label">First name</div>
+                        <div class="value">${participantCommand.participant.firstName}</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Last name</div>
+                        <div class="value">${participantCommand.participant.lastName}</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Middle name</div>
+                        <div class="value">${participantCommand.participant.middleName}</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Patient identifier</div>
+                        <div class="value">${participantCommand.participant.assignedIdentifier}</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="label">Date of Birth</div>
+                        <div class="value">${participantCommand.participant.lastName}</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Gender</div>
+                        <div class="value">${participantCommand.participant.gender}</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Ethnicity</div>
+                        <div class="value">${participantCommand.participant.ethnicity}</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Race</div>
+                        <div class="value">${participantCommand.participant.race}</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">&nbsp;</div>
+                        <div class="value">&nbsp;</div>
+                    </div>
+                </td>
+            </tr>
         </table>
-        </chrome:division>
-		<c:if test="${not empty participantCommand.participant.studyParticipantAssignments}">
-            <chrome:division title="Assigned Study">
-                <table class="tablecontent">
-                    <tr>
-                        <th scope="col">Study Identifier</th>
-                        <th scope="col">Study Short Title</th>
-                        <th scope="col">Patient Study Identifier</th>
+    </chrome:division>
+    <c:if test="${not empty participantCommand.participant.studyParticipantAssignments}">
+        <chrome:division title="Assigned Study">
+            <table class="tablecontent">
+                <tr>
+                    <th scope="col">Study Identifier</th>
+                    <th scope="col">Study Short Title</th>
+                    <th scope="col">Patient Study Identifier</th>
+                </tr>
+                <c:forEach items="${participantCommand.participant.studyParticipantAssignments}" var="assignment">
+                    <tr class="results">
+                        <td>${assignment.studySite.study.assignedIdentifier}</td>
+                        <td>${assignment.studySite.study.shortTitle}</td>
+                        <td>${assignment.studyParticipantIdentifier}</td>
                     </tr>
-                    <c:forEach items="${participantCommand.participant.studyParticipantAssignments}" var="assignment">
-                        <tr class="results">
- 							<td>${assignment.studySite.study.assignedIdentifier}</td>
-                            <td>${assignment.studySite.study.shortTitle}</td>
-                            <td>${assignment.studyParticipantIdentifier}</td>
-                        </tr>
-                    </c:forEach>
-                </table>
-                <br>
-            </chrome:division>
-        </c:if>
-
-
-
+                </c:forEach>
+            </table>
+            <br>
+        </chrome:division>
+    </c:if>
 
 
 </chrome:box>
