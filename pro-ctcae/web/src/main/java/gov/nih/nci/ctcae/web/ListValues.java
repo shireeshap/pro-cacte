@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.ctcae.core.domain.Gender;
+import gov.nih.nci.ctcae.core.domain.Race;
+import gov.nih.nci.ctcae.core.domain.Ethnicity;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -57,6 +59,28 @@ public class ListValues {
 
         for (Gender gender : Gender.values()) {
             valuesList.add(new ListValues(gender.getDisplayText(), gender.getDisplayText()));
+        }
+
+        return valuesList;
+    }
+
+    public List<ListValues> getRaceType() {
+        List<ListValues> valuesList = new ArrayList<ListValues>();
+        valuesList.add(new ListValues("", "Please select"));
+
+        for (Race race : Race.values()) {
+            valuesList.add(new ListValues(race.getDisplayText(), race.getDisplayText()));
+        }
+
+        return valuesList;
+    }
+
+    public List<ListValues> getEthnicityType() {
+        List<ListValues> valuesList = new ArrayList<ListValues>();
+        valuesList.add(new ListValues("", "Please select"));
+
+        for (Ethnicity ethnicity : Ethnicity.values()) {
+            valuesList.add(new ListValues(ethnicity.getDisplayText(), ethnicity.getDisplayText()));
         }
 
         return valuesList;

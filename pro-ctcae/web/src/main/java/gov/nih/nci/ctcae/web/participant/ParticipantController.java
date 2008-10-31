@@ -103,8 +103,8 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
 
 
         referenceData.put("genders", listValues.getGenderType());
-        referenceData.put("ethnicities", Ethnicity.getAllEthnicities());
-        referenceData.put("races", Race.getAllRaces());
+        referenceData.put("ethnicities", listValues.getEthnicityType());
+        referenceData.put("races", listValues.getRaceType());
         referenceData.put("studysites", studySites);
         return referenceData;
     }
