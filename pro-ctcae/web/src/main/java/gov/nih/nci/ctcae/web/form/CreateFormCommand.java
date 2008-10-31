@@ -1,16 +1,17 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CrfItem;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
-
-import java.io.Serializable;
-import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -27,8 +28,12 @@ public class CreateFormCommand implements Serializable {
     private String questionsIds;
 
     public CreateFormCommand() {
+        CRF crf = new CRF();
+//        crf.setTitle("crf1");
+        crf.setStatus("crf1");
+        crf.setCrfVersion("1.1");
         this.studyCrf = new StudyCrf();
-        studyCrf.setCrf(new CRF());
+        crf.addStudyCrf(studyCrf);
     }
 
     public void updateCrfItems(FinderRepository finderRepository) {

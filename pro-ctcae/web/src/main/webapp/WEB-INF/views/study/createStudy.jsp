@@ -99,19 +99,19 @@
                          required="true" help="true" size="50"/>
 
         <tags:renderTextArea propertyName="study.longTitle" displayName="Long title"
-                             required="true" help="true" cols="70"/>
+                             required="true" help="true" cols="47"/>
 
 
         <tags:renderTextArea propertyName="study.description" displayName="Description"
-                             required="false" help="true" cols="70"/>
+                             required="false" help="true" cols="47"/>
 
         <tags:renderAutocompleter propertyName="study.studyCoordinatingCenter.organization"
                                   displayName="Coordinating center"
-                                  required="true" help="true"/>
+                                  required="true" help="true" size="50"/>
 
         <tags:renderAutocompleter propertyName="study.studyFundingSponsor.organization"
                                   displayName="Funding sponsor"
-                                  required="true" help="true"/>
+                                  required="true" help="true" size="50"/>
 
 
         <chrome:division title="Study sites">

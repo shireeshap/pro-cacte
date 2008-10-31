@@ -12,27 +12,32 @@
 
 <head>
     <tags:stylesheetLink name="tabbedflow"/>
+    <tags:stylesheetLink name="ae"/>
 
 
 </head>
 <body>
 
 <form:form modelAttribute="command" method="post">
+    <div class="instructions">
+
+        <div class="summarylabel">Study</div>
+        <div class="summaryvalue">${command.studyCrf.study.displayName}</div>
+    </div>
     <chrome:box title="Review form">
+        <div class="instructions">
+
+            <div class="summarylabel">Title</div>
+            <div class="summaryvalue">${command.studyCrf.crf.title}</div>
+        </div>
         <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem">
-            <chrome:division>
-                ${crfItem.displayOrder}: ${crfItem.proCtcTerm.questionText}
-                <ul>
-                    <c:forEach items="${crfItem.proCtcTerm.validValues}" var="proCtcValidValue">
-                        <li>${proCtcValidValue.value}</li>
-                    </c:forEach>
-                </ul>
-            </chrome:division>
+            <tags:reviewQuestion crfItem="${crfItem}"></tags:reviewQuestion>
+
         </c:forEach>
     </chrome:box>
 
 
-    <tags:flowControls willSave="false" saveAction="save" showBack="true" backAction="back"  saveButtonLabel="Save"/>
+    <tags:flowControls willSave="true" saveAction="save" showBack="true" backAction="back" saveButtonLabel="Save"/>
 
 </form:form>
 

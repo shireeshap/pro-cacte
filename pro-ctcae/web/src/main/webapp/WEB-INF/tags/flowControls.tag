@@ -1,3 +1,4 @@
+<%@ attribute name="coninueAction" %>
 <%@ attribute name="backAction" %>
 <%@ attribute name="saveAction" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -21,7 +22,7 @@
             <div id="prev">
 
                 <a href="${flowExecutionUrl}&_eventId=${backAction}">
-                    <%--<img--%>
+                        <%--<img--%>
                         <%--src="<c:url value="/images/blue/save_btn.png"/>">--%>
                     Back</a>
 
@@ -43,15 +44,26 @@
             </c:if>
 
             <c:if test="${showContinue}">
-                <c:set var="saveText" value="${not empty saveButtonLabel ? saveButtonLabel : 'Save'}"/>
-                <c:set var="continueLabel" value="${willSave ? saveText : ''}"/>
-                <c:if test="${not empty continueLabel }">
-                    <c:set var="continueLabel" value="${continueLabel} &amp; "/>
-                </c:if>
-                <c:if test="${not isLast}">
-                    <c:set var="continueLabel" value="${continueLabel}Continue"/>
-                </c:if>
-                <input type="submit" id="flow-next" value="${continueLabel} &raquo;"/>
+                <%--<c:set var="saveText" value="${not empty saveButtonLabel ? saveButtonLabel : 'Save'}"/>--%>
+                <%--<c:set var="continueLabel" value="${willSave ? saveText : ''}"/>--%>
+                <%--<c:if test="${not empty continueLabel }">--%>
+                <%--<c:set var="continueLabel" value="${continueLabel} &amp; "/>--%>
+                <%--</c:if>--%>
+                <%--<c:if test="${not isLast}">--%>
+                <%--<c:set var="continueLabel" value="${continueLabel}Continue"/>--%>
+                <%--</c:if>--%>
+
+                <!--<input type="submit" id="flow-next" value="${continueLabel} &raquo;"/>-->
+
+
+                <div id="submit">
+                    <input type="hidden" name="execution" value="${flowExecutionKey}">
+                    <input type="hidden" name="_eventId" value="${coninueAction}">
+                    <input type="submit" id="continueSubmit" value="Save & Continue"
+                           src="<c:url value="/images/blue/saveandcontinue_btn.png"/>"/>
+                </div>
+                <%--<input type="image" src="/images/blue/saveandcontinue_btn.png" id="flow-next" value="${continueLabel} &raquo;" alt="${continueLabel} &raquo;"/>--%>
+
 
             </c:if>
         </span>

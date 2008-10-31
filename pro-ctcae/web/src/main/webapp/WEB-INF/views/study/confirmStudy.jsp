@@ -14,13 +14,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
         .label {
-            width: 12em;
+            width: 25em;
             padding: 1px;
             margin-right: 0.5em;
         }
 
         div.row div.value {
             white-space: normal;
+            width: 25em;
+
         }
 
         #studyDetails td.label {
@@ -35,15 +37,17 @@
 
 </head>
 <body>
-<chrome:box title="Confirmation">
+<chrome:flashMessage flashMessage="The Study was saved successfully"></chrome:flashMessage>
 
-    <div class="row">The following study is saved successfully</div>
+<chrome:box title="Study Details">
+
     <chrome:division>
         <div class="leftpanel">
             <div class="row">
                 <div class="label">Assigned identifier</div>
                 <div class="value">${studyCommand.assignedIdentifier} </div>
-            </div><div class="row">
+            </div>
+            <div class="row">
                 <div class="label">Short title</div>
                 <div class="value">${studyCommand.shortTitle} </div>
             </div>
@@ -84,12 +88,11 @@
                                     ${studySite.organization.displayName}
                             </div>
                         </c:forEach>
-                   
+
                     </td>
 
 
                     <td style="border-left:none;">
-
 
 
                     </td>

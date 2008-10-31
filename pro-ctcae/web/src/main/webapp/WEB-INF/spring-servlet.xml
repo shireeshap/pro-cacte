@@ -182,6 +182,9 @@
           class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">
         <property name="finderRepository" ref="finderRepository"/>
     </bean>
+    <bean name="/form/setName" id="setNameController"
+          class="gov.nih.nci.ctcae.web.form.SetNameController">
+    </bean>
     <bean name="/form/searchForm" id="searchFormController"
           class="gov.nih.nci.ctcae.web.form.SearchFormController" parent="ctcaeSimpleFormController">
     </bean>
@@ -195,8 +198,8 @@
           class="gov.nih.nci.ctcae.web.study.AddStudySiteController">
     </bean>
     <bean name="/investigator/addSite" id="addSiteController"
-             class="gov.nih.nci.ctcae.web.investigator.AddSiteController">
-       </bean>
+          class="gov.nih.nci.ctcae.web.investigator.AddSiteController">
+    </bean>
 
     <bean name="/study/searchStudy" id="searchStudyController"
           class="gov.nih.nci.ctcae.web.study.SearchStudyController">
@@ -228,8 +231,8 @@
     </bean>
 
     <!--<bean name="/researchStaff/createResearchStaff" id="createResearchStaffController"-->
-          <!--class="gov.nih.nci.ctcae.web.researchStaff.CreateResearchStaffController" parent="ctcaeSimpleFormController">-->
-        <!--<property name="researchStaffRepository" ref="researchStaffRepository"/>-->
+    <!--class="gov.nih.nci.ctcae.web.researchStaff.CreateResearchStaffController" parent="ctcaeSimpleFormController">-->
+    <!--<property name="researchStaffRepository" ref="researchStaffRepository"/>-->
     <!--</bean>-->
 
 

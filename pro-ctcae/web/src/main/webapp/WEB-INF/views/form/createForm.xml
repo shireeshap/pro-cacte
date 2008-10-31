@@ -7,24 +7,44 @@
 
     <var name="command" class="gov.nih.nci.ctcae.web.form.CreateFormCommand"></var>
 
-    <view-state id="createForm" view="form/createForm" model="command">
+    <view-state id="createForm" view="form/chooseStudy" model="command">
+
+        <transition on="buildForm" bind="true" to="buildForm">
+        </transition>
+    </view-state>
+
+
+    <view-state id="buildForm" view="form/createForm" model="command">
         <on-render>
             <evaluate expression="command.studyCrf.crf.crfItems.size()" result="viewScope.totalQuestions"></evaluate>
             <evaluate expression="proCtcTermRepository.findAll()" result="viewScope.proCtcTerms"></evaluate>
         </on-render>
+
         <transition on="review" bind="true" to="reviewForm">
             <evaluate expression="command.updateCrfItems(finderRepository)"/>
         </transition>
+        <transition on="setName" bind="true">
+            <evaluate expression="false"></evaluate>
+        </transition>
     </view-state>
+
+
     <view-state id="reviewForm" view="form/reviewForm" model="command">
-        <transition on="back" to="createForm"></transition>
+        <transition on="back" to="buildForm"></transition>
         <transition on="save" to="finalSave"></transition>
     </view-state>
 
+
     <end-state id="finalSave" commit="true" view="form/confirmForm">
         <on-entry>
+
             <evaluate
-                    expression="crfRepository.save(command.studyCrf.crf)"></evaluate>
+                    expression="crfRepository.save(command.studyCrf.crf)" result="requestScope.crf"
+                    result-type="gov.nih.nci.ctcae.core.domain.CRF"></evaluate>
         </on-entry>
+
+        <output name="crf" value="crf"></output>
+        <output name="command" value="command"></output>
+        <!---->
     </end-state>
 </flow>

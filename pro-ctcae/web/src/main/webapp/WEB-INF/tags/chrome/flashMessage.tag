@@ -1,3 +1,4 @@
+<%@ attribute name="flashMessage" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@attribute name="key" %>
 <c:if test="${not empty flashMessage}">

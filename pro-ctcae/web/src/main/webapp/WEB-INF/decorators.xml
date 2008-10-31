@@ -12,6 +12,8 @@
 
 
     <excludes>
+        <pattern>/pages/form/setName</pattern>
+
         <pattern>*subview*</pattern>
 
         <pattern>/*/image/*</pattern>
