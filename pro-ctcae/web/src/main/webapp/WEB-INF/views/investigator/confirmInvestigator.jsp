@@ -60,25 +60,25 @@
             <td>
 
                 <div class="row">
-                    <div class="label">First Name</div>
+                    <div class="label">First name</div>
                     <div class="value">${investigatorCommand.investigator.firstName} </div>
                 </div>
                 <div class="row">
-                    <div class="label">Middle Name</div>
+                    <div class="label">Middle name</div>
                     <div class="value">${investigatorCommand.investigator.middleName} </div>
                 </div>
                 <div class="row">
-                    <div class="label">Last Name</div>
+                    <div class="label">Last name</div>
                     <div class="value">${investigatorCommand.investigator.lastName} </div>
                 </div>
                 <div class="row">
-                    <div class="label">Investigator Number</div>
+                    <div class="label">Investigator identifier</div>
                     <div class="value">${investigatorCommand.investigator.nciIdentifier} </div>
                 </div>
             </td>
             <td style="vertical-align:top">
                 <div class="row">
-                    <div class="label">Email Address</div>
+                    <div class="label">Email address</div>
                     <div class="value">${investigatorCommand.investigator.emailAddress} </div>
                 </div>
                 <div class="row">

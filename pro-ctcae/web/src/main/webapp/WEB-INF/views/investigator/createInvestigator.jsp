@@ -62,9 +62,10 @@
 <form:form method="post" commandName="investigatorCommand">
 
     <chrome:box title="Investigator details">
+        <tags:hasErrorsMessage hideErrorDetails="false"/>
 
         <p><tags:instructions code="investigator.investigator_details.top"/></p>
-        <chrome:division title="Investigator Details"></chrome:division>
+        <chrome:division title="Investigator details"></chrome:division>
         <table>
             <tr>
                 <td>
@@ -73,7 +74,7 @@
                     <tags:renderText propertyName="investigator.middleName" displayName="Middle name"/>
                     <tags:renderText propertyName="investigator.lastName" displayName="Last name"
                                      required="true"/>
-                    <tags:renderText propertyName="investigator.nciIdentifier" displayName="Investigator number"
+                    <tags:renderText propertyName="investigator.nciIdentifier" displayName="Investigator identifier"
                                      required="true"/>
 
                 </td>
@@ -90,7 +91,7 @@
             </tr>
         </table>
 
-        <chrome:division title="Investigator Sites">
+        <chrome:division title="Investigator sites">
 
             <input type="hidden" value="" id="objectsIdsToRemove" name="objectsIdsToRemove"/>
 

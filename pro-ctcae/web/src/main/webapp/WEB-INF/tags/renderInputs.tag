@@ -45,6 +45,9 @@
         <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                     title="${displayName}"
                     cssClass="${required ? 'validate-NOTEMPTY&&US_PHONE_NO' : 'validate-US_PHONE_NO'}"/>
+
+        <span class="phone-number">###-###-####</span>
+
     </c:when>
 
     <c:when test="${categoryName == 'date'}"><tags:dateInput path="${propertyName}" displayName="${displayName}"

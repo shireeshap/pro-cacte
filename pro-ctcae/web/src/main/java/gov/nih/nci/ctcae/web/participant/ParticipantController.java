@@ -83,13 +83,15 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
                                      Object command, BindException errors) throws Exception {
         super.onBindAndValidate(request, command, errors);
 
-        /*
-           * ParticipantCommand participantCommand = (ParticipantCommand)command;
-           *
-           * if(participantCommand.getStudyId() == null ||
-           * participantCommand.getStudyId().length == 0){ errors.rejectValue(
-           * "errorMessage", "Please select at least one study."); }
-           */
+
+        ParticipantCommand participantCommand = (ParticipantCommand) command;
+
+        if (participantCommand.getStudyId() == null ||
+                participantCommand.getStudyId().length == 0) {
+            errors.reject(
+                    "studyId", "Please select at least one study.");
+        }
+
     }
 
     @Override

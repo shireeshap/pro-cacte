@@ -52,7 +52,7 @@
                 <div class="value">${studyCommand.shortTitle} </div>
             </div>
             <div class="row">
-                <div class="label">Long Title</div>
+                <div class="label">Long title</div>
                 <div class="value">${studyCommand.longTitle} </div>
             </div>
 

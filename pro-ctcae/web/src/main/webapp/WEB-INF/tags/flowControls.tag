@@ -22,9 +22,9 @@
             <div id="prev">
 
                 <a href="${flowExecutionUrl}&_eventId=${backAction}">
-                        <%--<img--%>
-                        <%--src="<c:url value="/images/blue/save_btn.png"/>">--%>
-                    Back</a>
+                    <input type="image" src="<c:url value="/images/blue/back_btn.png"/>"
+                           id="flow-next"/>
+                </a>
 
             </div>
 

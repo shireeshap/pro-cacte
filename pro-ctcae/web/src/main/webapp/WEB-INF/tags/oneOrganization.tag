@@ -44,14 +44,5 @@
 
 
 </tr>
-<%--<c:if test="${displayError}">--%>
-
-<!--<tr>-->
-
-<!--<div><tags:errors path="study.studySites[${index}].organization"></tags:errors></div>-->
-
-
-<!--</tr>-->
-<%--</c:if>--%>
 
 
