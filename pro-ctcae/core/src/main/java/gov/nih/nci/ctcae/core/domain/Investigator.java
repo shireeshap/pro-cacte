@@ -1,9 +1,11 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollection;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -11,26 +13,26 @@ import java.util.Collection;
  */
 
 @Entity
-@Table(name= "investigators")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "investogators_id_seq") })
+@Table(name = "investigators")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "investogators_id_seq")})
 
 
 public class Investigator extends Person {
 
-    @Column(name = "email_address" ,nullable = true)
+    @Column(name = "email_address", nullable = true)
     private String emailAddress;
 
-    @Column(name = "fax_number" ,nullable = true)
+    @Column(name = "fax_number", nullable = true)
     private String faxNumber;
 
-    @Column(name = "nci_identifier" ,nullable = false)
+    @Column(name = "nci_identifier", nullable = false)
     private String nciIdentifier;
 
-    @Column(name = "phone_number" , nullable = true)
+    @Column(name = "phone_number", nullable = true)
     private String phoneNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "investigator")
-    private Collection<SiteInvestigator> siteInvestigators;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "investigator", fetch = FetchType.EAGER)
+    private Collection<SiteInvestigator> siteInvestigators = new ArrayList<SiteInvestigator>();
 
     public String getEmailAddress() {
         return emailAddress;
@@ -64,13 +66,15 @@ public class Investigator extends Person {
         this.phoneNumber = phoneNumber;
     }
 
+    @UniqueObjectInCollection(message = "Duplicate Site")
     public Collection<SiteInvestigator> getSiteInvestigators() {
         return siteInvestigators;
     }
 
     public void addSiteInvestigator(SiteInvestigator siteInvestigator) {
         if (siteInvestigator != null) {
-            addSiteInvestigator(siteInvestigator);
+            siteInvestigator.setInvestigator(this);
+            this.getSiteInvestigators().add(siteInvestigator);
         }
     }
 
@@ -80,7 +84,7 @@ public class Investigator extends Person {
         }
     }
 
-     public void removeSiteInvestigator(SiteInvestigator siteInvestigator) {
+    public void removeSiteInvestigator(SiteInvestigator siteInvestigator) {
         if (siteInvestigator != null) {
             removeSiteInvestigator(siteInvestigator);
         }
@@ -93,7 +97,7 @@ public class Investigator extends Person {
     }
 
     @Override
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Investigator)) return false;
         if (!super.equals(o)) return false;
@@ -110,7 +114,7 @@ public class Investigator extends Person {
     }
 
     @Override
-	public int hashCode() {
+    public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
         result = 31 * result + (faxNumber != null ? faxNumber.hashCode() : 0);

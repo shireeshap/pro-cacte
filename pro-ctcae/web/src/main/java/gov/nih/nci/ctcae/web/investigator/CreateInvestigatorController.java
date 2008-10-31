@@ -1,10 +1,10 @@
 package gov.nih.nci.ctcae.web.investigator;
 
-import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import gov.nih.nci.ctcae.core.repository.InvestigatorRepository;
 import gov.nih.nci.ctcae.core.domain.Investigator;
-import org.springframework.web.servlet.ModelAndView;
+import gov.nih.nci.ctcae.core.repository.InvestigatorRepository;
+import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CreateInvestigatorController extends CtcAeSimpleFormController {
 
-   // same controller for edit investigator
+    // same controller for edit investigator
 
     private InvestigatorRepository investigatorRepository;
 
@@ -44,20 +44,19 @@ public class CreateInvestigatorController extends CtcAeSimpleFormController {
     }
 
     @Override
-       protected Object formBackingObject(HttpServletRequest request)
-               throws Exception {
-           String investigatorId = request.getParameter("investigatorId");
-           InvestigatorCommand investigatorCommand = new InvestigatorCommand();
+    protected Object formBackingObject(HttpServletRequest request)
+            throws Exception {
+        String investigatorId = request.getParameter("investigatorId");
+        InvestigatorCommand investigatorCommand = new InvestigatorCommand();
 
-        if (investigatorId == null){
-               return investigatorCommand;
-           }
-           else {
-           Investigator investigator = investigatorRepository.findById(new Integer(investigatorId));
-           investigatorCommand.setInvestigator(investigator);
-           return investigatorCommand;
-           }
-       }
+        if (investigatorId == null) {
+            return investigatorCommand;
+        } else {
+            Investigator investigator = investigatorRepository.findById(new Integer(investigatorId));
+            investigatorCommand.setInvestigator(investigator);
+            return investigatorCommand;
+        }
+    }
 
 
     @Required

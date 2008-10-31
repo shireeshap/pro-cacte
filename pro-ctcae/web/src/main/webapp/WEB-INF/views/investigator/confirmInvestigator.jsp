@@ -10,89 +10,126 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <html>
-  <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-     
-      <style type="text/css">
-            .label {
-                width: 12em;
-                padding: 1px;
-                margin-right: 0.5em;
-            }
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
-            div.row div.value {
-                white-space: normal;
-            }
+    <style type="text/css">
+        .label {
+            width: 12em;
+            padding: 1px;
+            margin-right: 0.5em;
+        }
 
-            #studyDetails td.label {
-                font-weight: bold;
-                float: left;
-                margin-left: 0.5em;
-                margin-right: 0.5em;
-                width: 12em;
-                padding: 1px;
-            }
-        </style>
-  </head>
-  <body>
-  <div class="tabpane">
-   <div class="workflow-tabs2">
-       <ul id="" class="tabs autoclear">
-           <li id="thirdlevelnav" class="tab selected">
-               <div>
-                   <a href="createInvestigator">Create/Edit Investigator</a>
-               </div>
-           </li>
-           <li id="thirdlevelnav" class="tab">
-               <div>
-                   <a href="searchInvestigator">Search Investigator</a>
-               </div>
-           </li>
-       </ul>
-   </div>
+        div.row div.value {
+            white-space: normal;
+        }
+
+        #studyDetails td.label {
+            font-weight: bold;
+            float: left;
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+            width: 12em;
+            padding: 1px;
+        }
+    </style>
+</head>
+<body>
+<div class="tabpane">
+    <div class="workflow-tabs2">
+        <ul id="" class="tabs autoclear">
+            <li id="thirdlevelnav" class="tab selected">
+                <div>
+                    <a href="createInvestigator">Create/Edit Investigator</a>
+                </div>
+            </li>
+            <li id="thirdlevelnav" class="tab">
+                <div>
+                    <a href="searchInvestigator">Search Investigator</a>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>
-  <chrome:box title="Confirmation">
-      <div id="row">Investigator is saved successfully</div>
-     <table border="0" style="width:100%">
-         <tr>
+<chrome:flashMessage flashMessage="The Investigator was saved successfully"></chrome:flashMessage>
+
+<chrome:box title="Confirmation">
+
+    <table border="0" style="width:100%">
+        <tr>
             <td>
 
-              <div class="row">
-                  <div class="label">First Name</div>
-                  <div class="value">${investigatorCommand.investigator.firstName} </div>
-              </div>
-              <div class="row">
-                  <div class="label">Middle Name</div>
-                  <div class="value">${investigatorCommand.investigator.middleName} </div>
-              </div>
-              <div class="row">
-                  <div class="label">Last Name</div>
-                  <div class="value">${investigatorCommand.investigator.lastName} </div>
-              </div>
-              <div class="row">
-                  <div class="label">Investigator Number</div>
-                  <div class="value">${investigatorCommand.investigator.nciIdentifier} </div>
-              </div>
-           </td>
-         <td style="vertical-align:top">
-              <div class="row">
-                  <div class="label">Email Address</div>
-                  <div class="value">${investigatorCommand.investigator.emailAddress} </div>
-              </div>
-              <div class="row">
-                  <div class="label">Phone</div>
-                  <div class="value">${investigatorCommand.investigator.phoneNumber} </div>
-              </div>
-              <div class="row">
-                  <div class="label">Fax</div>
-                  <div class="value">${investigatorCommand.investigator.faxNumber} </div>
-              </div>
-        
-        </td>
-    </tr>
-   </table>
+                <div class="row">
+                    <div class="label">First Name</div>
+                    <div class="value">${investigatorCommand.investigator.firstName} </div>
+                </div>
+                <div class="row">
+                    <div class="label">Middle Name</div>
+                    <div class="value">${investigatorCommand.investigator.middleName} </div>
+                </div>
+                <div class="row">
+                    <div class="label">Last Name</div>
+                    <div class="value">${investigatorCommand.investigator.lastName} </div>
+                </div>
+                <div class="row">
+                    <div class="label">Investigator Number</div>
+                    <div class="value">${investigatorCommand.investigator.nciIdentifier} </div>
+                </div>
+            </td>
+            <td style="vertical-align:top">
+                <div class="row">
+                    <div class="label">Email Address</div>
+                    <div class="value">${investigatorCommand.investigator.emailAddress} </div>
+                </div>
+                <div class="row">
+                    <div class="label">Phone</div>
+                    <div class="value">${investigatorCommand.investigator.phoneNumber} </div>
+                </div>
+                <div class="row">
+                    <div class="label">Fax</div>
+                    <div class="value">${investigatorCommand.investigator.faxNumber} </div>
+                </div>
 
-  </chrome:box>
+            </td>
+        </tr>
+    </table>
 
-  </body>
+    <chrome:division title="Sites">
+
+        <div align="left" style="margin-left: 50px">
+            <table width="55%" class="tablecontent">
+                <tr id="ss-table-head" class="amendment-table-head">
+                    <th width="95%" class="tableHeader">Sites</th>
+                    <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+
+                </tr>
+
+                <tr>
+
+                    <td style="border-right:none;">
+                        <c:forEach items="${investigatorCommand.investigator.siteInvestigators}" var="siteInvestigator">
+                            <div class="row">
+                                    ${siteInvestigator.organization.displayName}
+                            </div>
+                        </c:forEach>
+
+                    </td>
+
+
+                    <td style="border-left:none;">
+
+
+                    </td>
+                </tr>
+
+
+            </table>
+
+        </div>
+
+
+    </chrome:division>
+</chrome:box>
+
+</body>
 </html>

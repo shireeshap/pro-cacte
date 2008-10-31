@@ -3,5 +3,5 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <tags:oneOrganization index="${index}" inputName="investigator.siteInvestigators[${index}].organization"
-                      title="Study Site" displayError="false"></tags:oneOrganization>
+                      title="Site" displayError="false"></tags:oneOrganization>
 
