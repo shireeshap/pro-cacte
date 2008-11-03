@@ -1,19 +1,13 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.query.OrganizationQuery;
-import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.query.OrganizationHavingStudySiteQuery;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Collection;
-
+import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author Vinay Kumar

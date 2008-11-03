@@ -1,7 +1,5 @@
 package gov.nih.nci.ctcae.core.query;
 
-import gov.nih.nci.ctcae.core.domain.StudySite;
-
 /**
  * @author Harsh Agarwal
  * @created Oct 22, 2008

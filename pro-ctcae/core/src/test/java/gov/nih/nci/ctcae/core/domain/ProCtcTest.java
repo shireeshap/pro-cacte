@@ -1,10 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import java.util.Date;
-
 import junit.framework.TestCase;
 
-import gov.nih.nci.ctcae.core.domain.ProCtc;
+import java.util.Date;
 
 /**
  * @author Harsh Agarwal

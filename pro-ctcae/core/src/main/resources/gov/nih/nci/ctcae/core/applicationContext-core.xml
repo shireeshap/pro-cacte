@@ -91,11 +91,11 @@
           parent="abstractRepository">
     </bean>
 
-    <bean id="ctcTermRepository" class="gov.nih.nci.ctcae.core.repository.CtcTermRepository"
+    <bean id="proCtcTermRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcTermRepository"
           parent="abstractRepository">
     </bean>
 
-    <bean id="proCtcTermRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcTermRepository"
+    <bean id="proCtcQuestionRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository"
           parent="abstractRepository">
     </bean>
 

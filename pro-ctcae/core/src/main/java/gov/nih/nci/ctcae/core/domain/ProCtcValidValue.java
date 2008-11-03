@@ -1,13 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author Harsh Agarwal
@@ -26,9 +19,9 @@ public class ProCtcValidValue extends BasePersistable {
 	@Column(name = "value", nullable = false)
 	private String value;
 
-	@JoinColumn(name = "pro_ctc_term_id", referencedColumnName = "id")
+	@JoinColumn(name = "pro_ctc_question_id", referencedColumnName = "id")
 	@ManyToOne
-	private ProCtcTerm proCtcTerm;
+	private ProCtcQuestion proCtcQuestion;
 
 	public ProCtcValidValue() {
 	}
@@ -62,12 +55,12 @@ public class ProCtcValidValue extends BasePersistable {
 		this.value = value;
 	}
 
-	public ProCtcTerm getProCtcTerm() {
-		return proCtcTerm;
+	public ProCtcQuestion getProCtcTerm() {
+		return proCtcQuestion;
 	}
 
-	public void setProCtcTerm(ProCtcTerm proCtcTerm) {
-		this.proCtcTerm = proCtcTerm;
+	public void setProCtcTerm(ProCtcQuestion proCtcQuestion) {
+		this.proCtcQuestion = proCtcQuestion;
 	}
 
 	@Override
@@ -81,8 +74,8 @@ public class ProCtcValidValue extends BasePersistable {
 
 		if (id != null ? !id.equals(that.id) : that.id != null)
 			return false;
-		if (proCtcTerm != null ? !proCtcTerm.equals(that.proCtcTerm)
-				: that.proCtcTerm != null)
+		if (proCtcQuestion != null ? !proCtcQuestion.equals(that.proCtcQuestion)
+				: that.proCtcQuestion != null)
 			return false;
 		if (value != null ? !value.equals(that.value) : that.value != null)
 			return false;
@@ -95,7 +88,7 @@ public class ProCtcValidValue extends BasePersistable {
 		int result;
 		result = (id != null ? id.hashCode() : 0);
 		result = 31 * result + (value != null ? value.hashCode() : 0);
-		result = 31 * result + (proCtcTerm != null ? proCtcTerm.hashCode() : 0);
+		result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
 		return result;
 	}
 

@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core;
 
 import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
+import gov.nih.nci.ctcae.core.domain.Organization;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,8 +15,6 @@ import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import gov.nih.nci.ctcae.core.domain.Organization;
 
 /**
  * @author Vinay Kumar

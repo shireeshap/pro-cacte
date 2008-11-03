@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
-import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import org.springframework.beans.factory.annotation.Required;

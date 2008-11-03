@@ -4,8 +4,8 @@ import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.jpa.JpaSystemException;
 
 import java.util.Collection;
 

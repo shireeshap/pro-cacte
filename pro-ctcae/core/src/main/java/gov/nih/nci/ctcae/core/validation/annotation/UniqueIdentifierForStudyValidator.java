@@ -1,16 +1,11 @@
 package gov.nih.nci.ctcae.core.validation.annotation;
 
-import org.apache.commons.lang.ObjectUtils;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.query.StudyQuery;
+import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.springframework.beans.factory.annotation.Required;
 
-import java.util.List;
 import java.util.Collection;
-
-import gov.nih.nci.ctcae.core.query.OrganizationQuery;
-import gov.nih.nci.ctcae.core.query.StudyQuery;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
 
 /**
  * @author Saurabh Agrawal

@@ -1,19 +1,14 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import java.util.Collection;
-
+import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
+import gov.nih.nci.ctcae.core.query.CrfItemQuery;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.query.ProCtcQuery;
+import gov.nih.nci.ctcae.core.repository.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
-import gov.nih.nci.ctcae.core.query.CrfItemQuery;
-import gov.nih.nci.ctcae.core.query.CtcTermQuery;
-import gov.nih.nci.ctcae.core.query.ProCtcQuery;
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.CrfItemRepository;
-import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import java.util.Collection;
 
 /**
  * @author Harsh Agarwal
@@ -28,12 +23,12 @@ public class CrfItemIntegrationTest extends AbstractJpaIntegrationTestCase {
 	private CrfItemRepository crfItemRepository;
 	private CRFRepository crfRepository;
 	private ProCtcRepository proCtcRepository;
-	private CtcTermRepository ctcTermRepository;
 	private ProCtcTermRepository proCtcTermRepository;
+	private ProCtcQuestionRepository proCtcQuestionRepository;
 	private CRF crf;
-	private ProCtcTerm proCtcTerm;
+	private ProCtcQuestion proProCtcQuestion;
 	private ProCtc proCtc;
-	private CtcTerm ctcTerm;
+	private ProCtcTerm proProCtcTerm;
 	private CrfItem crfItem, invalidCrfItem;
 
 	@Override
@@ -50,24 +45,23 @@ public class CrfItemIntegrationTest extends AbstractJpaIntegrationTestCase {
 		proCtc = proCtcRepository.find(new ProCtcQuery()).iterator().next();
 		assertNotNull(proCtc);
 
-		ctcTerm = ctcTermRepository.find(new CtcTermQuery()).iterator().next();
-		assertNotNull(ctcTerm);
+		proProCtcTerm = proCtcTermRepository.find(new ProCtcTermQuery()).iterator().next();
+		assertNotNull(proProCtcTerm);
 
 
-		proCtcTerm = new ProCtcTerm();
-		proCtcTerm.setQuestionText("How is the pain?");
-		proCtcTerm.setCtcTerm(ctcTerm);
-		proCtcTerm.setProCtc(proCtc);
-		proCtcTerm.addValidValue(new ProCtcValidValue("High"));
-		proCtcTerm.addValidValue(new ProCtcValidValue("Low"));
-		proCtcTerm.addValidValue(new ProCtcValidValue("Severe"));
-		proCtcTerm.addValidValue(new ProCtcValidValue("Very High"));
+		proProCtcQuestion = new ProCtcQuestion();
+		proProCtcQuestion.setQuestionText("How is the pain?");
+		proProCtcQuestion.setProCtcTerm(proProCtcTerm);
+		proProCtcQuestion.addValidValue(new ProCtcValidValue("High"));
+		proProCtcQuestion.addValidValue(new ProCtcValidValue("Low"));
+		proProCtcQuestion.addValidValue(new ProCtcValidValue("Severe"));
+		proProCtcQuestion.addValidValue(new ProCtcValidValue("Very High"));
 
-		proCtcTermRepository.save(proCtcTerm);
+		proCtcQuestionRepository.save(proProCtcQuestion);
 
 		crfItem = new CrfItem();
 		crfItem.setCRF(crf);
-		crfItem.setProCtcTerm(proCtcTerm);
+		crfItem.setProCtcTerm(proProCtcQuestion);
 		crfItem.setDisplayOrder(1);
 		crfItemRepository.save(crfItem);
 		crfItemRepository.find(new CrfItemQuery());
@@ -91,7 +85,7 @@ public class CrfItemIntegrationTest extends AbstractJpaIntegrationTestCase {
 	public void testSavingNullCRFCrfItem() {
 		invalidCrfItem = new CrfItem();
 		try {
-			invalidCrfItem.setProCtcTerm(proCtcTerm);
+			invalidCrfItem.setProCtcTerm(proProCtcQuestion);
 			invalidCrfItem.setDisplayOrder(1);
 			invalidCrfItem = crfItemRepository.save(invalidCrfItem);
 			crfItemRepository.find(new CrfItemQuery());
@@ -107,7 +101,7 @@ public class CrfItemIntegrationTest extends AbstractJpaIntegrationTestCase {
 			invalidCrfItem.setDisplayOrder(1);
 			invalidCrfItem = crfItemRepository.save(invalidCrfItem);
 			crfItemRepository.find(new CrfItemQuery());
-			fail("Expected DataIntegrityViolationException because ProCtcTerm is null");
+			fail("Expected DataIntegrityViolationException because ProCtcQuestion is null");
 		} catch (DataIntegrityViolationException e) {
 		}
 	}
@@ -116,7 +110,7 @@ public class CrfItemIntegrationTest extends AbstractJpaIntegrationTestCase {
 		invalidCrfItem = new CrfItem();
 		try {
 			invalidCrfItem.setCRF(crf);
-			invalidCrfItem.setProCtcTerm(proCtcTerm);
+			invalidCrfItem.setProCtcTerm(proProCtcQuestion);
 			invalidCrfItem = crfItemRepository.save(invalidCrfItem);
 			crfItemRepository.find(new CrfItemQuery());
 			fail("Expected DataIntegrityViolationException because DisplayOrder is null");
@@ -152,15 +146,15 @@ public class CrfItemIntegrationTest extends AbstractJpaIntegrationTestCase {
 	}
 
 	public void setProCtcTermRepository(
-			ProCtcTermRepository proCtcTermRepository) {
-		this.proCtcTermRepository = proCtcTermRepository;
+			ProCtcQuestionRepository proCtcQuestionRepository) {
+		this.proCtcQuestionRepository = proCtcQuestionRepository;
 	}
 
 	public void setProCtcRepository(ProCtcRepository proCtcRepository) {
 		this.proCtcRepository = proCtcRepository;
 	}
 
-	public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
-		this.ctcTermRepository = ctcTermRepository;
+	public void setCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+		this.proCtcTermRepository = proCtcTermRepository;
 	}
 }

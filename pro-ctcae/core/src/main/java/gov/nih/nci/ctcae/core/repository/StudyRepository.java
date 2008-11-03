@@ -2,8 +2,8 @@ package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Vinay Kumar

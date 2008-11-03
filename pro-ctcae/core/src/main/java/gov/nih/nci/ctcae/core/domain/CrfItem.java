@@ -1,13 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author Harsh Agarwal
@@ -30,9 +23,9 @@ public class CrfItem extends BasePersistable {
     @ManyToOne
     private CRF crf;
 
-    @JoinColumn(name = "pro_ctc_term_id", referencedColumnName = "id")
+    @JoinColumn(name = "pro_ctc_question_id", referencedColumnName = "id")
     @ManyToOne
-    private ProCtcTerm proCtcTerm;
+    private ProCtcQuestion proCtcQuestion;
 
     public CrfItem() {
     }
@@ -70,12 +63,12 @@ public class CrfItem extends BasePersistable {
         this.crf = crf;
     }
 
-    public ProCtcTerm getProCtcTerm() {
-        return proCtcTerm;
+    public ProCtcQuestion getProCtcTerm() {
+        return proCtcQuestion;
     }
 
-    public void setProCtcTerm(ProCtcTerm proCtcTerm) {
-        this.proCtcTerm = proCtcTerm;
+    public void setProCtcTerm(ProCtcQuestion proCtcQuestion) {
+        this.proCtcQuestion = proCtcQuestion;
     }
 
     @Override
@@ -93,8 +86,8 @@ public class CrfItem extends BasePersistable {
             return false;
         if (id != null ? !id.equals(crfItem.id) : crfItem.id != null)
             return false;
-        if (proCtcTerm != null ? !proCtcTerm.equals(crfItem.proCtcTerm)
-                : crfItem.proCtcTerm != null)
+        if (proCtcQuestion != null ? !proCtcQuestion.equals(crfItem.proCtcQuestion)
+                : crfItem.proCtcQuestion != null)
             return false;
 
         return true;
@@ -106,14 +99,14 @@ public class CrfItem extends BasePersistable {
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + displayOrder;
         result = 31 * result + (crf != null ? crf.hashCode() : 0);
-        result = 31 * result + (proCtcTerm != null ? proCtcTerm.hashCode() : 0);
+        result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
         return result;
     }
 
 //    @Override
 //    public String toString() {
 //        return "[DISPLAY ORDER: CRF : QUESTION] " + displayOrder + " : "
-//                + crf.getTitle() + " : " + proCtcTerm.getQuestionText();
+//                + crf.getTitle() + " : " + proCtcQuestion.getQuestionText();
 //    }
 
 }

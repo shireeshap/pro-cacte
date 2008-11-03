@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfItem;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import org.apache.commons.logging.Log;
@@ -42,10 +42,10 @@ public class CreateFormCommand implements Serializable {
         logger.debug("found questions to add:" + questionsIds);
         for (int i = 0; i < quetionsIdSet.size(); i++) {
             Integer questionId = Integer.parseInt(quetionsIdSet.get(i));
-            ProCtcTerm proCtcTerm = finderRepository.findById(ProCtcTerm.class, questionId);
-            if (proCtcTerm != null) {
+            ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
+            if (proCtcQuestion != null) {
                 CrfItem crfItem = new CrfItem();
-                crfItem.setProCtcTerm(proCtcTerm);
+                crfItem.setProCtcTerm(proCtcQuestion);
                 crfItem.setDisplayOrder(i + 1);
                 studyCrf.getCrf().addCrfItem(crfItem);
             } else {

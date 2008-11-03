@@ -1,18 +1,9 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal
@@ -36,7 +27,7 @@ public class ProCtc extends BasePersistable {
 	private Date releaseDate;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtc")
-	private Collection<ProCtcTerm> proCtcTerms = new ArrayList<ProCtcTerm>();
+	private List<ProCtcTerm> proCtcTerms = new ArrayList<ProCtcTerm>();
 
 	public ProCtc() {
 	}
@@ -75,10 +66,6 @@ public class ProCtc extends BasePersistable {
 		this.releaseDate = releaseDate;
 	}
 
-	public Collection<ProCtcTerm> getProCtcTerms() {
-		return proCtcTerms;
-	}
-
 
 	@Override
 	public boolean equals(Object o) {
@@ -90,9 +77,6 @@ public class ProCtc extends BasePersistable {
 		ProCtc proCtc = (ProCtc) o;
 
 		if (id != null ? !id.equals(proCtc.id) : proCtc.id != null)
-			return false;
-		if (proCtcTerms != null ? !proCtcTerms.equals(proCtc.proCtcTerms)
-				: proCtc.proCtcTerms != null)
 			return false;
 		if (proCtcVersion != null ? !proCtcVersion.equals(proCtc.proCtcVersion)
 				: proCtc.proCtcVersion != null)
@@ -112,8 +96,6 @@ public class ProCtc extends BasePersistable {
 				+ (proCtcVersion != null ? proCtcVersion.hashCode() : 0);
 		result = 31 * result
 				+ (releaseDate != null ? releaseDate.hashCode() : 0);
-		result = 31 * result
-				+ (proCtcTerms != null ? proCtcTerms.hashCode() : 0);
 		return result;
 	}
 

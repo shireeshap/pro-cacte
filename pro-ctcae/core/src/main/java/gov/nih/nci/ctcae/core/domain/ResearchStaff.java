@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
  * @author Mehul Gulati

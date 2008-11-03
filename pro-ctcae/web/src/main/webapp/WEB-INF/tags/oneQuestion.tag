@@ -1,5 +1,5 @@
 <%@ attribute name="displayOrder" %>
-<%@ attribute name="proCtcTerm" type="gov.nih.nci.ctcae.core.domain.ProCtcTerm" required="true" %>
+<%@ attribute name="proCtcTerm" type="gov.nih.nci.ctcae.core.domain.ProCtcQuestion" required="true" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 

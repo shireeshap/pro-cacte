@@ -2,42 +2,40 @@ package gov.nih.nci.ctcae.core.domain;
 
 import junit.framework.TestCase;
 
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-
 /**
  * @author Harsh Agarwal
  * @created Oct 13, 2008
  */
 public class ProCtcTermTest extends TestCase {
-	private ProCtcTerm proCtcTerm;
+	private ProCtcQuestion proCtcQuestion;
 
 	public void testConstructor() {
-		proCtcTerm = new ProCtcTerm();
-		assertNull(proCtcTerm.getQuestionText());
+		proCtcQuestion = new ProCtcQuestion();
+		assertNull(proCtcQuestion.getQuestionText());
 	}
 
 	public void testGetterAndSetter() {
-		proCtcTerm = new ProCtcTerm();
-		proCtcTerm.setQuestionText("How is the pain?");
+		proCtcQuestion = new ProCtcQuestion();
+		proCtcQuestion.setQuestionText("How is the pain?");
 
-		assertEquals("How is the pain?", proCtcTerm.getQuestionText());
+		assertEquals("How is the pain?", proCtcQuestion.getQuestionText());
 	}
 
 	public void testEqualsAndHashCode() {
-		ProCtcTerm anotherProCtcTerm = null;
-		assertEquals(anotherProCtcTerm, proCtcTerm);
-		proCtcTerm = new ProCtcTerm();
-		assertFalse(proCtcTerm.equals(anotherProCtcTerm));
-		anotherProCtcTerm = new ProCtcTerm();
-		assertEquals(anotherProCtcTerm, proCtcTerm);
-		assertEquals(anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
+		ProCtcQuestion anotherProCtcQuestion = null;
+		assertEquals(anotherProCtcQuestion, proCtcQuestion);
+		proCtcQuestion = new ProCtcQuestion();
+		assertFalse(proCtcQuestion.equals(anotherProCtcQuestion));
+		anotherProCtcQuestion = new ProCtcQuestion();
+		assertEquals(anotherProCtcQuestion, proCtcQuestion);
+		assertEquals(anotherProCtcQuestion.hashCode(), proCtcQuestion.hashCode());
 
-		proCtcTerm.setQuestionText("How is the pain?");
-		assertFalse(proCtcTerm.equals(anotherProCtcTerm));
+		proCtcQuestion.setQuestionText("How is the pain?");
+		assertFalse(proCtcQuestion.equals(anotherProCtcQuestion));
 
-		anotherProCtcTerm.setQuestionText("How is the pain?");
-		assertEquals(anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
-		assertEquals(anotherProCtcTerm, proCtcTerm);
+		anotherProCtcQuestion.setQuestionText("How is the pain?");
+		assertEquals(anotherProCtcQuestion.hashCode(), proCtcQuestion.hashCode());
+		assertEquals(anotherProCtcQuestion, proCtcQuestion);
 
 	}
 

@@ -1,18 +1,17 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import java.util.Collection;
-
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.dao.DataIntegrityViolationException;
-
 import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
-import gov.nih.nci.ctcae.core.query.CtcTermQuery;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcValidValueQuery;
-import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.dao.DataIntegrityViolationException;
+
+import java.util.Collection;
 
 /**
  * @author Harsh Agarwal
@@ -24,11 +23,11 @@ public class ProCtcValidValueIntegrationTest extends
 	private ProCtcValidValueRepository proCtcValidValueRepository;
 	private ProCtcValidValue proCtcValidValue, inValidProCtcValidValue;
 	private ProCtcRepository proCtcRepository;
-	private CtcTermRepository ctcTermRepository;
 	private ProCtcTermRepository proCtcTermRepository;
+	private ProCtcQuestionRepository proCtcQuestionRepository;
 
-	private ProCtcTerm proCtcTerm;
-	private CtcTerm ctcTerm;
+	private ProCtcQuestion proProCtcQuestion;
+	private ProCtcTerm proProCtcTerm;
 	private ProCtc proCtc;
 	
 	@Override
@@ -38,19 +37,18 @@ public class ProCtcValidValueIntegrationTest extends
 		proCtc = proCtcRepository.find(new ProCtcQuery()).iterator().next();
 		assertNotNull(proCtc);
 
-		ctcTerm = ctcTermRepository.find(new CtcTermQuery()).iterator().next();
-		assertNotNull(ctcTerm);
+		proProCtcTerm = proCtcTermRepository.find(new ProCtcTermQuery()).iterator().next();
+		assertNotNull(proProCtcTerm);
 		
-		proCtcTerm = new ProCtcTerm();
-		proCtcTerm.setQuestionText("How is the pain?");
-		proCtcTerm.setCtcTerm(ctcTerm);
-		proCtcTerm.setProCtc(proCtc);
-		
-		proCtcTermRepository.save(proCtcTerm);
+		proProCtcQuestion = new ProCtcQuestion();
+		proProCtcQuestion.setQuestionText("How is the pain?");
+		proProCtcQuestion.setProCtcTerm(proProCtcTerm);
+
+		proCtcQuestionRepository.save(proProCtcQuestion);
 		
 		proCtcValidValue = new ProCtcValidValue();
 		proCtcValidValue.setValue("TestValidValue");
-		proCtcValidValue.setProCtcTerm(proCtcTerm);
+		proCtcValidValue.setProCtcTerm(proProCtcQuestion);
 		proCtcValidValue = proCtcValidValueRepository.save(proCtcValidValue);
 
 	}
@@ -97,15 +95,15 @@ public class ProCtcValidValueIntegrationTest extends
 		this.proCtcValidValueRepository = ProCtcValidValueRepository;
 	}
 	
-	public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
-		this.proCtcTermRepository = proCtcTermRepository;
+	public void setProCtcTermRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
+		this.proCtcQuestionRepository = proCtcQuestionRepository;
 	}
 
 	public void setProCtcRepository(ProCtcRepository proCtcRepository) {
 		this.proCtcRepository = proCtcRepository;
 	}
 
-	public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
-		this.ctcTermRepository = ctcTermRepository;
+	public void setCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+		this.proCtcTermRepository = proCtcTermRepository;
 	}
 }

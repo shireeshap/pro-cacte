@@ -2,8 +2,6 @@ package gov.nih.nci.ctcae.core.domain;
 
 import junit.framework.TestCase;
 
-import gov.nih.nci.ctcae.core.domain.CrfItem;
-
 /**
  * @author Harsh Agarwal
  * @created Oct 13, 2008

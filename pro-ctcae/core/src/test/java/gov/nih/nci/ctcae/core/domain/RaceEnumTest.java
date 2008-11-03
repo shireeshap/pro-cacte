@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import java.util.ArrayList;
-
 import junit.framework.TestCase;
+
+import java.util.ArrayList;
 
 public class RaceEnumTest extends TestCase {
 

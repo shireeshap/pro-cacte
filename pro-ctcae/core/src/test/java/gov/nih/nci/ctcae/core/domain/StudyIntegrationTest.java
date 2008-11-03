@@ -3,8 +3,8 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Collection;

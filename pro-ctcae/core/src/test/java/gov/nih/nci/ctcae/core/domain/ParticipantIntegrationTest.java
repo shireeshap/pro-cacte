@@ -4,11 +4,10 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
-
-import java.util.Collection;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.jpa.JpaSystemException;
+
+import java.util.Collection;
 
 /**
  * @author mehul

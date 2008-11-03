@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Required;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.CrfItem;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 
 /**
@@ -29,9 +28,9 @@ public class AddOneQuestionController extends AbstractController {
         Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
         Integer displayOrder = ServletRequestUtils.getIntParameter(request, "displayOrder");
 
-        ProCtcTerm proCtcTerm = finderRepository.findById(ProCtcTerm.class, questionId);
-        if (proCtcTerm != null) {
-            modelAndView.addObject("proCtcTerm", proCtcTerm);
+        ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
+        if (proCtcQuestion != null) {
+            modelAndView.addObject("proCtcQuestion", proCtcQuestion);
             modelAndView.addObject("displayOrder", displayOrder);
         } else {
             logger.error("can not add question because pro ctc term is null for id:" + questionId);

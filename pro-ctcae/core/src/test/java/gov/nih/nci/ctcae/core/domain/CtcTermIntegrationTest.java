@@ -1,13 +1,11 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import java.util.Collection;
-
+import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import org.springframework.beans.factory.annotation.Required;
 
-import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
-import gov.nih.nci.ctcae.core.domain.CtcTerm;
-import gov.nih.nci.ctcae.core.query.CtcTermQuery;
-import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
+import java.util.Collection;
 
 /**
  * @author Harsh Agarwal
@@ -15,8 +13,8 @@ import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
  */
 public class CtcTermIntegrationTest extends AbstractJpaIntegrationTestCase {
 
-	private CtcTermRepository ctcTermRepository;
-	private CtcTerm ctcTerm;
+	private ProCtcTermRepository proCtcTermRepository;
+	private ProCtcTerm proProCtcTerm;
 
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
@@ -24,43 +22,43 @@ public class CtcTermIntegrationTest extends AbstractJpaIntegrationTestCase {
 	}
 
 	public void testSaveCtcTerm() {
-		ctcTerm = new CtcTerm();
+		proProCtcTerm = new ProCtcTerm();
 		try {
-			ctcTermRepository.save(ctcTerm);
-			fail("Expecting UnsupportedOperationException: Save is not supported for CtcTerm");
+			proCtcTermRepository.save(proProCtcTerm);
+			fail("Expecting UnsupportedOperationException: Save is not supported for ProCtcQuestion");
 		} catch (UnsupportedOperationException e) {
 		}
 	}
 
 	public void testFindById() {
-		CtcTermQuery ctcTermQuery = new CtcTermQuery();
-		Collection<? extends CtcTerm> ctcTerms = ctcTermRepository
-				.find(ctcTermQuery);
-		CtcTerm firstCtcTerm = ctcTerms.iterator().next();
+		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+		Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
+				.find(proCtcTermQuery);
+		ProCtcTerm firstProProCtcTerm = ctcTerms.iterator().next();
 
-		ctcTerm = ctcTermRepository.findById(firstCtcTerm.getId());
-		assertEquals(ctcTerm.getCtepCode(), firstCtcTerm.getCtepCode());
-		assertEquals(ctcTerm.getCtepTerm(), firstCtcTerm.getCtepTerm());
-		assertEquals(ctcTerm.getSelect(), firstCtcTerm.getSelect());
-		assertEquals(ctcTerm.getTerm(), firstCtcTerm.getTerm());
-		assertEquals(ctcTerm, firstCtcTerm);
+		proProCtcTerm = proCtcTermRepository.findById(firstProProCtcTerm.getId());
+		assertEquals(proProCtcTerm.getCtepCode(), firstProProCtcTerm.getCtepCode());
+		assertEquals(proProCtcTerm.getCtepTerm(), firstProProCtcTerm.getCtepTerm());
+		assertEquals(proProCtcTerm.getSelect(), firstProProCtcTerm.getSelect());
+		assertEquals(proProCtcTerm.getTerm(), firstProProCtcTerm.getTerm());
+		assertEquals(proProCtcTerm, firstProProCtcTerm);
 	}
 
 	public void testFindByQuery() {
 
 		int size = jdbcTemplate
-				.queryForInt("select count(*) from CTC_TERMS");
-		CtcTermQuery ctcTermQuery = new CtcTermQuery();
-		ctcTermQuery.setMaximumResults(size + 1000);
-		Collection<? extends CtcTerm> ctcTerms = ctcTermRepository
-				.find(ctcTermQuery);
+				.queryForInt("select count(*) from PRO_CTC_TERMS");
+		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+		proCtcTermQuery.setMaximumResults(size + 1000);
+		Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
+				.find(proCtcTermQuery);
 
 		assertFalse(ctcTerms.isEmpty());
 		assertEquals(size, ctcTerms.size());
 	}
 
 	@Required
-	public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
-		this.ctcTermRepository = ctcTermRepository;
+	public void setCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+		this.proCtcTermRepository = proCtcTermRepository;
 	}
 }

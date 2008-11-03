@@ -1,15 +1,13 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import java.util.Collection;
-import java.util.Date;
-
+import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
+import gov.nih.nci.ctcae.core.query.ProCtcQuery;
+import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
-import gov.nih.nci.ctcae.core.domain.ProCtc;
-import gov.nih.nci.ctcae.core.query.ProCtcQuery;
-import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
+import java.util.Collection;
+import java.util.Date;
 
 /**
  * @author Harsh Agarwal

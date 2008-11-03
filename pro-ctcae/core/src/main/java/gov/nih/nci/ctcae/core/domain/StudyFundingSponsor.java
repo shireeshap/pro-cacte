@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 /**
  * @author

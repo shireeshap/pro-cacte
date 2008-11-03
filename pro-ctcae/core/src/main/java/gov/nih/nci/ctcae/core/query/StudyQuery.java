@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.core.query;
 
 import org.apache.commons.lang.StringUtils;
-import gov.nih.nci.ctcae.core.domain.StudySite;
 
 /**
  * @author Vinay Kumar

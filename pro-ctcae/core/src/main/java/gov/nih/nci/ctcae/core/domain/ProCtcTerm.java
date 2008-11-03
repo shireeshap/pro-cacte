@@ -1,10 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
-import javax.persistence.*;
 
 /**
  * @author Harsh Agarwal
@@ -13,150 +11,131 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "PRO_CTC_TERMS")
-public class ProCtcTerm extends BasePersistable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "id", nullable = false)
-	private Integer id;
+public class ProCtcTerm extends BasePersistable{
 
-	@Column(name = "question_text", nullable = false)
-	private String questionText;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcTerm",fetch = FetchType.EAGER)
-	private List<ProCtcValidValue> validValues = new ArrayList<ProCtcValidValue>();
+    @Column(name = "term", nullable = false)
+    private String term;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcTerm")
-	private List<CrfItem> crfItems = new ArrayList<CrfItem>();
+    @Column(name = "select_ae")
+    private String select;
 
-	@JoinColumn(name = "ctc_term_id", referencedColumnName = "id")
-	@ManyToOne
-	private CtcTerm ctcTerm;
+    @Column(name = "ctep_term")
+    private String ctepTerm;
 
-	@JoinColumn(name = "pro_ctc_id", referencedColumnName = "id")
+    @Column(name = "ctep_code")
+    private String ctepCode;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcTerm")
+    private Collection<ProCtcQuestion> proCtcQuestions = new ArrayList<ProCtcQuestion>();
+
+    @JoinColumn(name = "pro_ctc_id", referencedColumnName = "id")
 	@ManyToOne
 	private ProCtc proCtc;
 
-	public ProCtcTerm() {
-	}
+    public ProCtcTerm() {
+    }
 
-	public ProCtcTerm(Integer id) {
-		this.id = id;
-	}
+    public ProCtcTerm(Integer id) {
+        this.id = id;
+    }
 
-	public ProCtcTerm(Integer id, String questionText) {
-		this.id = id;
-		this.questionText = questionText;
-	}
+    public ProCtcTerm(Integer id, String term) {
+        this.id = id;
+        this.term = term;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getQuestionText() {
-		return questionText;
-	}
+    public String getTerm() {
+        return term;
+    }
 
-	public void setQuestionText(String questionText) {
-		this.questionText = questionText;
-	}
+    public void setTerm(String term) {
+        this.term = term;
+    }
 
-	public Collection<ProCtcValidValue> getValidValues() {
-		return validValues;
-	}
+    public String getSelect() {
+        return select;
+    }
 
-	public void addValidValue(ProCtcValidValue validValue) {
-		if (validValue != null) {
-			validValue.setProCtcTerm(this);
-			validValues.add(validValue);
-		}
-	}
+    public void setSelect(String select) {
+        this.select = select;
+    }
 
-	public void removeValidValue(ProCtcValidValue validValue) {
-		validValues.remove(validValue);
-	}
+    public String getCtepTerm() {
+        return ctepTerm;
+    }
 
-	public void addValidValues(ArrayList<ProCtcValidValue> validValues) {
-		for (ProCtcValidValue validValue : validValues) {
-			addValidValue(validValue);
-		}
-	}
+    public void setCtepTerm(String ctepTerm) {
+        this.ctepTerm = ctepTerm;
+    }
 
-	public void removeValidValues(ArrayList<ProCtcValidValue> validValues) {
-		for (ProCtcValidValue validValue : validValues) {
-			removeValidValue(validValue);
-		}
-	}
+    public String getCtepCode() {
+        return ctepCode;
+    }
 
-	public List<CrfItem> getCrfItems() {
-		return crfItems;
-	}
+    public void setCtepCode(String ctepCode) {
+        this.ctepCode = ctepCode;
+    }
 
-	public CtcTerm getCtcTerm() {
-		return ctcTerm;
-	}
+    public Collection<ProCtcQuestion> getProCtcTerms() {
+        return proCtcQuestions;
+    }
 
-	public void setCtcTerm(CtcTerm ctcTerm) {
-		this.ctcTerm = ctcTerm;
-	}
 
-	public ProCtc getProCtc() {
-		return proCtc;
-	}
+    public ProCtc getProCtc() {
+        return proCtc;
+    }
 
-	public void setProCtc(ProCtc proCtc) {
-		this.proCtc = proCtc;
-	}
+    public void setProCtc(ProCtc proCtc) {
+        this.proCtc = proCtc;
+    }
 
-	@Override
+
+    @Override
 	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-		ProCtcTerm that = (ProCtcTerm) o;
+        ProCtcTerm proCtcTerm = (ProCtcTerm) o;
 
-		if (crfItems != null ? !crfItems.equals(that.crfItems)
-				: that.crfItems != null)
-			return false;
-		if (ctcTerm != null ? !ctcTerm.equals(that.ctcTerm)
-				: that.ctcTerm != null)
-			return false;
-		if (id != null ? !id.equals(that.id) : that.id != null)
-			return false;
-		if (proCtc != null ? !proCtc.equals(that.proCtc) : that.proCtc != null)
-			return false;
-		if (questionText != null ? !questionText.equals(that.questionText)
-				: that.questionText != null)
-			return false;
-		if (validValues != null ? !validValues.equals(that.validValues)
-				: that.validValues != null)
-			return false;
+        if (ctepCode != null ? !ctepCode.equals(proCtcTerm.ctepCode) : proCtcTerm.ctepCode != null) return false;
+        if (ctepTerm != null ? !ctepTerm.equals(proCtcTerm.ctepTerm) : proCtcTerm.ctepTerm != null) return false;
+        if (id != null ? !id.equals(proCtcTerm.id) : proCtcTerm.id != null) return false;
+        if (proCtcQuestions != null ? !proCtcQuestions.equals(proCtcTerm.proCtcQuestions) : proCtcTerm.proCtcQuestions != null)
+            return false;
+        if (select != null ? !select.equals(proCtcTerm.select) : proCtcTerm.select != null) return false;
+        if (term != null ? !term.equals(proCtcTerm.term) : proCtcTerm.term != null) return false;
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
+    @Override
 	public int hashCode() {
-		int result;
-		result = (id != null ? id.hashCode() : 0);
-		result = 31 * result
-				+ (questionText != null ? questionText.hashCode() : 0);
-		result = 31 * result
-				+ (validValues != null ? validValues.hashCode() : 0);
-		result = 31 * result + (crfItems != null ? crfItems.hashCode() : 0);
-		result = 31 * result + (ctcTerm != null ? ctcTerm.hashCode() : 0);
-		result = 31 * result + (proCtc != null ? proCtc.hashCode() : 0);
-		return result;
-	}
+        int result;
+        result = (id != null ? id.hashCode() : 0);
+        result = 31 * result + (term != null ? term.hashCode() : 0);
+        result = 31 * result + (select != null ? select.hashCode() : 0);
+        result = 31 * result + (ctepTerm != null ? ctepTerm.hashCode() : 0);
+        result = 31 * result + (ctepCode != null ? ctepCode.hashCode() : 0);
+        result = 31 * result + (proCtcQuestions != null ? proCtcQuestions.hashCode() : 0);
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return questionText;
-	}
+    @Override
+    public String toString() {
+        return term;
+    }
 }
