@@ -28,7 +28,7 @@ public class ParticipantAjaxFacadeIntegrationTest extends AbstractWebIntegration
         participant = participantRepository.save(participant);
     }
 
-    public void testSearchInvestigatorByFirstName() {
+    public void testSearchClinicalStaffByFirstName() {
 
 
         String table = participantAjaxFacade.searchParticipant(parameterMap,"Meh","G","", request);
