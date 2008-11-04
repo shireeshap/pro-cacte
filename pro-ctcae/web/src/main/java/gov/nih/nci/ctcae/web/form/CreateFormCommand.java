@@ -45,7 +45,7 @@ public class CreateFormCommand implements Serializable {
             ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
             if (proCtcQuestion != null) {
                 CrfItem crfItem = new CrfItem();
-                crfItem.setProCtcTerm(proCtcQuestion);
+                crfItem.setProCtcQuestion(proCtcQuestion);
                 crfItem.setDisplayOrder(i + 1);
                 studyCrf.getCrf().addCrfItem(crfItem);
             } else {
