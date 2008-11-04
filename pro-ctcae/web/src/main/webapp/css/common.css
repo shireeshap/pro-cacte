@@ -279,7 +279,7 @@ a#firstlevelnav_studyController:hover{background-position:0px -45px;}
 a#firstlevelnav_studyController:active{background-position:0px -90px;}
 .selected a#firstlevelnav_studyController {background-image: url(../images/blue/advancedSearch_btn_selected.png);}
 
-a#firstlevelnav_createInvestigatorController {
+a#firstlevelnav_createClinicalStaffController {
 	background-image: url(../images/blue/administration_btn.png);
 	height: 45px;
 	width: 133px;
@@ -288,10 +288,10 @@ a#firstlevelnav_createInvestigatorController {
 	margin-right: -5px;
 margin-left: -5px;
 }
-a#firstlevelnav_createInvestigatorController:link{background-position:0px;}
-a#firstlevelnav_createInvestigatorController:hover{background-position:0px -45px;}
-a#firstlevelnav_createInvestigatorController:active{background-position:0px -90px;}
-.selected a#firstlevelnav_createInvestigatorController {background-image: url(../images/blue/administration_btn_selected.png);}
+a#firstlevelnav_createClinicalStaffController:link{background-position:0px;}
+a#firstlevelnav_createClinicalStaffController:hover{background-position:0px -45px;}
+a#firstlevelnav_createClinicalStaffController:active{background-position:0px -90px;}
+.selected a#firstlevelnav_createClinicalStaffController {background-image: url(../images/blue/administration_btn_selected.png);}
 
 #sso-form { display: none }
 

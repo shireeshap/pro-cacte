@@ -157,14 +157,14 @@
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Administration"
-                      p:mainController="createInvestigatorController">
+                      p:mainController="createClinicalStaffController">
                     <property name="pathMapping">
                         <value>/admin/**</value>
                     </property>
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Investigator" p:linkName="createInvestigatorController"/>
+                                  p:displayName="Clinical Staff" p:linkName="createClinicalStaffController"/>
                         </list>
                     </property>
                 </bean>
@@ -197,8 +197,8 @@
     <bean name="/study/addStudySite" id="addStudySiteController"
           class="gov.nih.nci.ctcae.web.study.AddStudySiteController">
     </bean>
-    <bean name="/investigator/addSite" id="addSiteController"
-          class="gov.nih.nci.ctcae.web.investigator.AddSiteController">
+    <bean name="/clinicalStaff/addSite" id="addSiteController"
+          class="gov.nih.nci.ctcae.web.clinicalStaff.AddSiteController">
     </bean>
 
     <bean name="/study/searchStudy" id="searchStudyController"
@@ -222,12 +222,12 @@
     <bean name="/participant/search" id="searchParticipantController"
           class="gov.nih.nci.ctcae.web.participant.SearchParticipantController">
     </bean>
-    <bean name="/admin/investigator/createInvestigator" id="createInvestigatorController"
-          class="gov.nih.nci.ctcae.web.investigator.CreateInvestigatorController" parent="ctcaeSimpleFormController">
-        <property name="investigatorRepository" ref="investigatorRepository"/>
+    <bean name="/admin/clinicalStaff/createClinicalStaff" id="createClinicalStaffController"
+          class="gov.nih.nci.ctcae.web.clinicalStaff.CreateClinicalStaffController" parent="ctcaeSimpleFormController">
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
     </bean>
-    <bean name="/admin/investigator/searchInvestigator" id="searchInvestigatorController"
-          class="gov.nih.nci.ctcae.web.investigator.SearchInvestigatorController">
+    <bean name="/admin/clinicalStaff/searchClinicalStaff" id="searchClinicalStaffController"
+          class="gov.nih.nci.ctcae.web.clinicalStaff.SearchClinicalStaffController">
     </bean>
 
     <!--<bean name="/researchStaff/createResearchStaff" id="createResearchStaffController"-->
