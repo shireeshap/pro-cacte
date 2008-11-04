@@ -77,7 +77,7 @@ public class OrganizationIntegrationTest extends AbstractJpaIntegrationTestCase 
 
         Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
         assertFalse(organizations.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from organizations organizations where lower(organizations.name ) like '%n%'");
+        int size = jdbcTemplate.queryForInt("select distinct(count(*)) from organizations organizations where lower(organizations.name ) like '%n%'");
 
         assertEquals(size, organizations.size());
 
