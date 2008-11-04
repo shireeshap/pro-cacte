@@ -19,7 +19,7 @@ public class AddSiteController extends AbstractController {
 
         ModelAndView modelAndView = new ModelAndView("clinicalStaff/siteSection");
 
-        ClinicalStaffCommand clinicalStaffCommand = ClinicalStaffControllerUtils.getClinicalStaffCommand(request);
+        gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand clinicalStaffCommand = gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffControllerUtils.getClinicalStaffCommand(request);
 
         ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
         SiteClinicalStaff siteClinicalStaff = new SiteClinicalStaff();
