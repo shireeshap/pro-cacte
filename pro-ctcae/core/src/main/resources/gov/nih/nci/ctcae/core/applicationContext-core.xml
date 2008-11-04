@@ -76,10 +76,7 @@
     <bean id="studyRepository" class="gov.nih.nci.ctcae.core.repository.StudyRepository"
           parent="abstractRepository">
     </bean>
-    <bean id="investigatorRepository" class="gov.nih.nci.ctcae.core.repository.InvestigatorRepository"
-          parent="abstractRepository">
-    </bean>
-    <bean id="researchStaffRepository" class="gov.nih.nci.ctcae.core.repository.ResearchStaffRepository"
+    <bean id="clinicalStaffRepository" class="gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository"
           parent="abstractRepository">
     </bean>
 

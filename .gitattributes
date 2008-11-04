@@ -51,6 +51,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/003_alter_domain_model.groo
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/004_add_ctcae_v3_terms.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/005_add_sample_pro_ctc_terms.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/006_add_sample_pro_ctc_terms.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/007_alter_investigator_clinical.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/007_alter_study_participant_crf_items.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
@@ -95,7 +96,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuestionQuery.ja
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcTermQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcValidValueQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/Query.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ResearchStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/AbstractRepository.java -text
@@ -112,7 +112,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcRepository.
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcValidValueRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ResearchStaffRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueIdentifierForStudy.java -text
