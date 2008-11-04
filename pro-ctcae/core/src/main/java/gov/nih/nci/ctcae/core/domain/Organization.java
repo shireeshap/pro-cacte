@@ -28,7 +28,7 @@ public class Organization extends BaseVersionable {
 	private String nciInstituteCode;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "organization")
-	private List<SiteInvestigator> siteInvestigators = new ArrayList<SiteInvestigator>();
+	private List<SiteClinicalStaff> siteClinicalStaffs = new ArrayList<SiteClinicalStaff>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "organization")
 	private Collection<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
@@ -63,8 +63,8 @@ public class Organization extends BaseVersionable {
 		this.nciInstituteCode = nciInstituteCode;
 	}
 
-	public List<SiteInvestigator> getSiteInvestigators() {
-		return siteInvestigators;
+	public List<SiteClinicalStaff> getSiteClinicalStaffs() {
+		return siteClinicalStaffs;
 	}
 
 	public Collection<StudyOrganization> getStudyOrganizations() {

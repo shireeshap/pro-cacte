@@ -11,9 +11,9 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "SITE_INVESTIGATORS")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "site_investigators_id_seq") })
-public class SiteInvestigator extends BasePersistable {
+@Table(name = "SITE_CLINICAL_STAFFS")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "site_clinical_staffs_id_seq") })
+public class SiteClinicalStaff extends BasePersistable {
 
     @Id
     @Column(name = "ID")
@@ -26,9 +26,9 @@ public class SiteInvestigator extends BasePersistable {
     @Column(name = "status_date" ,nullable = true)
     private Date statusDate;
 
-    @JoinColumn(name = "investigator_id", referencedColumnName = "id")
+    @JoinColumn(name = "clinical_staff_id", referencedColumnName = "id")
 	@ManyToOne
-    private Investigator investigator;
+    private ClinicalStaff clinicalStaff;
 
     @JoinColumn(name = "organization_id", referencedColumnName = "id")
 	@ManyToOne
@@ -59,12 +59,12 @@ public class SiteInvestigator extends BasePersistable {
         this.statusDate = statusDate;
     }
 
-    public Investigator getInvestigator() {
-        return investigator;
+    public ClinicalStaff getClinicalStaff() {
+        return clinicalStaff;
     }
 
-    public void setInvestigator(Investigator investigator) {
-        this.investigator = investigator;
+    public void setClinicalStaff(ClinicalStaff clinicalStaff) {
+        this.clinicalStaff = clinicalStaff;
     }
 
     public Organization getOrganization() {
@@ -78,12 +78,12 @@ public class SiteInvestigator extends BasePersistable {
     @Override
 	public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SiteInvestigator)) return false;
+        if (!(o instanceof SiteClinicalStaff)) return false;
 
-        SiteInvestigator that = (SiteInvestigator) o;
+        SiteClinicalStaff that = (SiteClinicalStaff) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (investigator != null ? !investigator.equals(that.investigator) : that.investigator != null) return false;
+        if (clinicalStaff != null ? !clinicalStaff.equals(that.clinicalStaff) : that.clinicalStaff != null) return false;
         if (organization != null ? !organization.equals(that.organization) : that.organization != null) return false;
         if (statusCode != null ? !statusCode.equals(that.statusCode) : that.statusCode != null) return false;
         if (statusDate != null ? !statusDate.equals(that.statusDate) : that.statusDate != null) return false;
@@ -97,7 +97,7 @@ public class SiteInvestigator extends BasePersistable {
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + (statusCode != null ? statusCode.hashCode() : 0);
         result = 31 * result + (statusDate != null ? statusDate.hashCode() : 0);
-        result = 31 * result + (investigator != null ? investigator.hashCode() : 0);
+        result = 31 * result + (clinicalStaff != null ? clinicalStaff.hashCode() : 0);
         result = 31 * result + (organization != null ? organization.hashCode() : 0);
         return result;
     }
