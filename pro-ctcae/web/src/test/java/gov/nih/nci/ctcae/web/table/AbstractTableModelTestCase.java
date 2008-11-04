@@ -4,6 +4,7 @@ package gov.nih.nci.ctcae.web.table;
 import gov.nih.nci.ctcae.web.WebTestCase;
 
 import java.util.Map;
+import java.util.HashMap;
 
 /**
  * @author Vinay Kumar
@@ -11,6 +12,13 @@ import java.util.Map;
  */
 public abstract class AbstractTableModelTestCase extends WebTestCase {
     protected Map parameterMap;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        parameterMap= new HashMap();
+
+    }
 
     protected void validateTable(String table) {
         assertNotNull("table must not be null", table);

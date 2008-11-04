@@ -14,9 +14,6 @@ import java.util.Comparator;
 public class NullStringComparator extends NullComparator {
     private Comparator<String> stringComparator;
 
-    public NullStringComparator(Comparator comparator) {
-        super(comparator);
-    }
 
     public NullStringComparator() {
         super();
@@ -38,7 +35,4 @@ public class NullStringComparator extends NullComparator {
         return stringComparator;
     }
 
-    public void setStringComparator(Comparator<String> stringComparator) {
-        this.stringComparator = stringComparator;
-    }
 }

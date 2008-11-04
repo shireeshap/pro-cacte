@@ -642,6 +642,8 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacadeIntegrati
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyTableModelTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/AbstractTableModelTestCase.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/NullStringComparatorTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImplTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/cell/AbstractCellTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCellTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tag/AuthorizeTagTest.java -text
