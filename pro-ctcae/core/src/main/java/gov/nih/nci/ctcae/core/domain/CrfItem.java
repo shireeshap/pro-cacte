@@ -17,7 +17,7 @@ public class CrfItem extends BasePersistable {
     private Integer id;
 
     @Column(name = "display_order", nullable = false)
-    private Integer displayOrder=0;
+    private Integer displayOrder = 0;
 
     @JoinColumn(name = "crf_id", referencedColumnName = "id")
     @ManyToOne
@@ -55,24 +55,25 @@ public class CrfItem extends BasePersistable {
         this.displayOrder = displayOrder;
     }
 
-    public CRF getCRF() {
+
+    public CRF getCrf() {
         return crf;
     }
 
-    public void setCRF(CRF crf) {
+    public void setCrf(CRF crf) {
         this.crf = crf;
     }
 
-    public ProCtcQuestion getProCtcTerm() {
+    public ProCtcQuestion getProCtcQuestion() {
         return proCtcQuestion;
     }
 
-    public void setProCtcTerm(ProCtcQuestion proCtcQuestion) {
+    public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {
         this.proCtcQuestion = proCtcQuestion;
     }
 
     @Override
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
@@ -94,7 +95,7 @@ public class CrfItem extends BasePersistable {
     }
 
     @Override
-	public int hashCode() {
+    public int hashCode() {
         int result;
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + displayOrder;

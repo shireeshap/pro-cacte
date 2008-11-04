@@ -97,17 +97,27 @@ public class CRF extends BaseVersionable {
         return crfItems;
     }
 
+    /**
+     * this will work only in create form flow
+     *
+     * @param crfItem
+     */
     public void addCrfItem(CrfItem crfItem) {
         if (crfItem != null) {
             //check if it already exists
             for (CrfItem existingCrfItem : getCrfItems()) {
-                if (existingCrfItem.getProCtcTerm().getId().equals(crfItem.getId())) {
+                if (existingCrfItem.getProCtcQuestion() != null
+                        && (existingCrfItem.getProCtcQuestion().equals(crfItem.getProCtcQuestion()))) {
                     //probably we are updating order only
                     existingCrfItem.setDisplayOrder(crfItem.getDisplayOrder());
                     return;
                 }
             }
-            crfItem.setCRF(this);
+            if (crfItem.getDisplayOrder() == null || crfItem.getDisplayOrder() == 0) {
+                crfItem.setDisplayOrder(getCrfItems().size() + 1);
+
+            }
+            crfItem.setCrf(this);
             crfItems.add(crfItem);
         }
     }
