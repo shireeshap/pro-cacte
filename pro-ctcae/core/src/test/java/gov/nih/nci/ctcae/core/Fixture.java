@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core;
 
-import gov.nih.nci.ctcae.core.domain.Investigator;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Study;
@@ -28,12 +28,12 @@ public class Fixture {
         return study;
     }
 
-    public static Investigator createInvestigator(final String firstName, final String lastName, final String nciIdentifier) {
-        Investigator investigator = new Investigator();
-        investigator.setFirstName(firstName);
-        investigator.setLastName(lastName);
-        investigator.setNciIdentifier(nciIdentifier);
-        return investigator;
+    public static ClinicalStaff createClinicalStaff(final String firstName, final String lastName, final String nciIdentifier) {
+        ClinicalStaff clinicalStaff = new ClinicalStaff();
+        clinicalStaff.setFirstName(firstName);
+        clinicalStaff.setLastName(lastName);
+        clinicalStaff.setNciIdentifier(nciIdentifier);
+        return clinicalStaff;
     }
 
     public static Participant createParticipant(final String firstName, final String lastName, final String identifier) {

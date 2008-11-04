@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.core.validation.annotation;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
-import gov.nih.nci.ctcae.core.domain.Investigator;
-import gov.nih.nci.ctcae.core.domain.SiteInvestigator;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 
@@ -15,11 +15,11 @@ public class UniqueObjectInCollectionValidatorTest extends AbstractTestCase {
     private UniqueObjectInCollectionValidator validator;
 
     private StudySite studySite1, studySite2, duplicateStudySite;
-    private SiteInvestigator siteInvestigator1, siteInvestigator2, duplicateSiteInvestigator;
+    private SiteClinicalStaff siteClinicalStaff1, siteClinicalStaff2, duplicateSiteClinicalStaff;
 
     private Study study;
 
-    private Investigator investigator;
+    private ClinicalStaff clinicalStaff;
 
 
     @Override
@@ -38,16 +38,16 @@ public class UniqueObjectInCollectionValidatorTest extends AbstractTestCase {
         study.addStudySite(studySite1);
         study.addStudySite(studySite2);
 
-        investigator = new Investigator();
-        siteInvestigator1 = new SiteInvestigator();
-        siteInvestigator1.setOrganization(nci);
-        duplicateSiteInvestigator = new SiteInvestigator();
-        duplicateSiteInvestigator.setOrganization(nci);
+        clinicalStaff = new ClinicalStaff();
+        siteClinicalStaff1 = new SiteClinicalStaff();
+        siteClinicalStaff1.setOrganization(nci);
+        duplicateSiteClinicalStaff = new SiteClinicalStaff();
+        duplicateSiteClinicalStaff.setOrganization(nci);
 
-        siteInvestigator2 = new SiteInvestigator();
-        siteInvestigator2.setOrganization(duke);
-        investigator.addSiteInvestigator(siteInvestigator1);
-        investigator.addSiteInvestigator(siteInvestigator2);
+        siteClinicalStaff2 = new SiteClinicalStaff();
+        siteClinicalStaff2.setOrganization(duke);
+        clinicalStaff.addSiteClinicalStaff(siteClinicalStaff1);
+        clinicalStaff.addSiteClinicalStaff(siteClinicalStaff2);
 
 
     }
@@ -58,8 +58,8 @@ public class UniqueObjectInCollectionValidatorTest extends AbstractTestCase {
 
     }
 
-    public void testValidationForNoDuplicateSiteInvestigator() {
-        assertTrue("no duplicate  sites", validator.validate(investigator.getSiteInvestigators()));
+    public void testValidationForNoDuplicateSiteClinicalStaff() {
+        assertTrue("no duplicate  sites", validator.validate(clinicalStaff.getSiteClinicalStaffs()));
 
     }
 
@@ -69,9 +69,9 @@ public class UniqueObjectInCollectionValidatorTest extends AbstractTestCase {
 
     }
 
-    public void testValidationForDuplicateSiteInvestigator() {
-        investigator.addSiteInvestigator(duplicateSiteInvestigator);
-        assertFalse("duplicate  sites found", validator.validate(investigator.getSiteInvestigators()));
+    public void testValidationForDuplicateSiteClinicalStaff() {
+        clinicalStaff.addSiteClinicalStaff(duplicateSiteClinicalStaff);
+        assertFalse("duplicate  sites found", validator.validate(clinicalStaff.getSiteClinicalStaffs()));
 
     }
 }

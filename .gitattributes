@@ -156,9 +156,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RaceEnumTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ResearchStaffIntegrationTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ResearchStaffTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/SiteInvestigatorTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaffTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyCrfIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationIntegrationTest.java -text
@@ -168,7 +166,6 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/CRFQueryTest.java -tex
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/InvestigatorQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/OrganizationQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ResearchStaffQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollectionValidatorTest.java -text
 pro-ctcae/datasource.properties -text
