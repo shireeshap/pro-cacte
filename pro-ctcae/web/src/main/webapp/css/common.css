@@ -1,13 +1,19 @@
 /**** GENERAL TAG STYLE OVERRIDES */
+html {
+background: url(../images/blue/html_bg.png) repeat-x top #006cd7;
+height:100%;
+}
 
 body {
-	background: url(../images/blue/bg.jpg) repeat-y center #314993;
+
+	background: url(../images/blue/body_bg.png) repeat-y scroll center;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	color: #000000;
 	text-align: center;
 	margin: 0px;
 	padding: 0px;
+	height:130%;
 }
 
 .workflow-tabs{
@@ -99,7 +105,7 @@ a img{
 width:980px;
 margin:0px auto;
 text-align:left;
-/*background: #FFF;*/
+/*background: #666;*/
 position:relative;
 }
 
@@ -209,29 +215,29 @@ firstlevelnav_createStudyController: Studies
 */
 
 
-a#firstlevelnav_listAdverseEventsController {
-	background-image: url(../images/blue/adverseEvents_btn.png);
+a#firstlevelnav_createFormController {
+	background-image: url(../images/blue/forms_btn.png);
 	height: 45px;
-	width: 133px;
+	width: 148px;
 	text-indent: -9999px;
 	float: left;
-	margin-right: -5px;
+	margin-right: 1px;
 }
-a#firstlevelnav_listAdverseEventsController:link{background-position:0px;}
-a#firstlevelnav_listAdverseEventsController:hover{background-position:0px -45px;}
-a#firstlevelnav_listAdverseEventsController:active{background-position:0px -90px;}
-.selected a#firstlevelnav_listAdverseEventsController {background-image: url(../images/blue/adverseEvents_btn_selected.png);}
+a#firstlevelnav_createFormController:link{background-position:0px 0px;}
+a#firstlevelnav_createFormController:hover{background-position:0px -45px;}
+a#firstlevelnav_createFormController:active{background-position:0px -90px;}
+.selected a#firstlevelnav_createFormController {background-image: url(../images/blue/forms_btn_selected.png);}
 
 a#firstlevelnav_createStudyController {
 	background-image: url(../images/blue/studies_btn.png);
 	height: 45px;
-	width: 133px;
+	width: 148px;
 	text-indent: -9999px;
 	float: left;
-margin-right: -5px;
-margin-left: -5px;
+margin-right: 1px;
+margin-left: 1px;
 }
-a#firstlevelnav_createStudyController:link{background-position:0px;}
+a#firstlevelnav_createStudyController:link{background-position:0px 0px;}
 a#firstlevelnav_createStudyController:hover{background-position:0px -45px;}
 a#firstlevelnav_createStudyController:active{background-position:0px -90px;}
 
@@ -240,13 +246,13 @@ a#firstlevelnav_createStudyController:active{background-position:0px -90px;}
 a#firstlevelnav_createParticipantController {
 	background-image: url(../images/blue/subjects_btn.png);
 	height: 45px;
-	width: 133px;
+	width: 148px;
 	text-indent: -9999px;
 	float: left;
-	margin-right: -5px;
-margin-left: -5px;
+	margin-right: 1px;
+margin-left: 1px;
 }
-a#firstlevelnav_createParticipantController:link{background-position:0px;}
+a#firstlevelnav_createParticipantController:link{background-position:0px 0px;}
 a#firstlevelnav_createParticipantController:hover{background-position:0px -45px;}
 a#firstlevelnav_createParticipantController:active{background-position:0px -90px;}
 .selected a#firstlevelnav_createParticipantController {background-image: url(../images/blue/subjects_btn_selected.png);}
@@ -254,13 +260,13 @@ a#firstlevelnav_createParticipantController:active{background-position:0px -90px
 a#firstlevelnav_createRuleController {
 	background-image: url(../images/blue/rules_btn.png);
 	height: 45px;
-	width: 133px;
+	width: 148px;
 	text-indent: -9999px;
 	float: left;
-	margin-right: -5px;
-margin-left: -5px;
+	margin-right: 1px;
+margin-left: 1px;
 }
-a#firstlevelnav_createRuleController:link{background-position:0px;}
+a#firstlevelnav_createRuleController:link{background-position:0px 0px;}
 a#firstlevelnav_createRuleController:hover{background-position:0px -45px;}
 a#firstlevelnav_createRuleController:active{background-position:0px -90px;}
 .selected a#firstlevelnav_createRuleController {background-image: url(../images/blue/rules_btn_selected.png);}
@@ -268,13 +274,13 @@ a#firstlevelnav_createRuleController:active{background-position:0px -90px;}
 a#firstlevelnav_studyController {
 	background-image: url(../images/blue/advancedSearch_btn.png);
 	height: 45px;
-	width: 133px;
+	width: 148px;
 	text-indent: -9999px;
 	float: left;
-	margin-right: -5px;
-margin-left: -5px;
+	margin-right: 1px;
+margin-left: 1px;
 }
-a#firstlevelnav_studyController:link{background-position:0px;}
+a#firstlevelnav_studyController:link{background-position:0px 0px;}
 a#firstlevelnav_studyController:hover{background-position:0px -45px;}
 a#firstlevelnav_studyController:active{background-position:0px -90px;}
 .selected a#firstlevelnav_studyController {background-image: url(../images/blue/advancedSearch_btn_selected.png);}
@@ -282,16 +288,16 @@ a#firstlevelnav_studyController:active{background-position:0px -90px;}
 a#firstlevelnav_createClinicalStaffController {
 	background-image: url(../images/blue/administration_btn.png);
 	height: 45px;
-	width: 133px;
+	width: 148px;
 	text-indent: -9999px;
 	float: left;
-	margin-right: -5px;
-margin-left: -5px;
+	margin-right: 1px;
+margin-left: 1px;
 }
-a#firstlevelnav_createClinicalStaffController:link{background-position:0px;}
-a#firstlevelnav_createClinicalStaffController:hover{background-position:0px -45px;}
-a#firstlevelnav_createClinicalStaffController:active{background-position:0px -90px;}
-.selected a#firstlevelnav_createClinicalStaffController {background-image: url(../images/blue/administration_btn_selected.png);}
+a#firstlevelnav_createInvestigatorController:link{background-position:0px 0px;}
+a#firstlevelnav_createInvestigatorController:hover{background-position:0px -45px;}
+a#firstlevelnav_createInvestigatorController:active{background-position:0px -90px;}
+.selected a#firstlevelnav_createInvestigatorController {background-image: url(../images/blue/administration_btn_selected.png);}
 
 #sso-form { display: none }
 
@@ -323,7 +329,7 @@ ul.tabs li {
 
 #sections {
   position: absolute;
-  top: 53px; left: 236px;
+  top: 53px; left: 231px;
 }
 
 
@@ -423,7 +429,7 @@ margin-top:6px;
 .spangt18{padding-right:4px}
 
 #taskbar a.selected.lte4{
-	background-image: url(../images/blue/secondlevelnav_selected.jpg);
+	background-image: url(../images/blue/secondlevelnav_selected.png);
 	background-repeat: no-repeat;
 
 }
@@ -754,18 +760,18 @@ height:100%;
 
 #formbuilderTable-borderTop {
 	background-image: url(/ctcae/images/blue/formbuilderselectedbox_top.png);
-	background-repeat: no-repeat;
-	height: 33px;
-	width: 346px;
+	background-repeat: no-repeat;	
+	/*width: 346px;*/
+	padding-left:15px;
+padding-right:15px;
+padding-top:15px;
 }
 #formbuilderTable-middle {
 background-image: url(/ctcae/images/blue/formbuilderselectedbox_bg.png);
 background-repeat: repeat-y;
 vertical-align:top;
 height:100%;
-padding-left:15px;
-padding-right:15px;
-padding-top:5px;
+padding:0px;
 }
 #formbuilderTable-borderBottom {
 	background-image: url(/ctcae/images/blue/formbuilderselectedbox_bottom.png);
@@ -776,11 +782,11 @@ padding-top:5px;
 .formbuilderHeader {
 color:#00207E;
 font-size:30px;
-
+display:block;
 }
 .formbuildersubHeader {
 margin-bottom:15px;
-margin-left:15px;
+display:block;
 }
 #totalQuestionDivision {
 font-size:15px;
@@ -792,6 +798,10 @@ padding-top:5px;
 }
 #sortable {
 margin-top:15px;
+padding-left:15px;
+padding-right:15px;
+padding-top:5px;
+position:relative;
 }
 
 /* Formbuilder box styles */

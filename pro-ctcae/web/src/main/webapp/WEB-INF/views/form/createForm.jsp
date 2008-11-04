@@ -151,22 +151,19 @@ function deleteQuestion(questionId) {
 <body>
 
 <form:form modelAttribute="command" method="post">
-    <chrome:box title="Selected study" id="study-entry">
 
-
-        <div class="instructions">
+        <div class="row">
 
             <div class="summarylabel">Study</div>
             <div class="summaryvalue">${command.studyCrf.study.displayName}</div>
         </div>
 
-    </chrome:box>
 
 
     <table id="formbuilderTable">
         <tr>
             <td id="left">
-                Questions
+                <span class="formbuilderHeader">Question Bank</span>
                 <c:forEach items="${proCtcTerms}" var="proCtcTerm">
                     <tags:formbuilderBox id="question_${proCtcTerm.id}">
                         ${proCtcTerm.questionText}
@@ -181,13 +178,11 @@ function deleteQuestion(questionId) {
 
             </td>
             <td id="right">
-                <table style="border-collapse:collapse; height:800px;">
-                    <tr>
-                        <td id="formbuilderTable-borderTop">
-                        </td>
-                    </tr>
+                <table style="border-collapse:collapse; height:800px; width:100%;">
+                   
                     <tr style="height:100%;">
                         <td id="formbuilderTable-middle">
+                         <div id="formbuilderTable-borderTop">
                             <div class="formbuilderHeader" id="crfTitle">
                                 <c:choose>
                                     <c:when test="${command.studyCrf.crf.title eq ''}">Click here to name
@@ -203,10 +198,10 @@ function deleteQuestion(questionId) {
                             </div>
                             <br/>
                             <form:hidden path="studyCrf.crf.title" id="formTitle"/>
-                            <span class="formbuildersubHeader">There <span id="plural1">are</span> <span
+                            <div class="formbuildersubHeader">There <span id="plural1">are</span> <span
                                     id="totalQuestionDivision">${totalQuestions}</span> question<span
-                                    id="plural2">s</span> in this form.</span>
-
+                                    id="plural2">s</span> in this form.</div>
+						   </div>
                             <div id="sortable">
                                 <form:hidden path="questionsIds" id="questionsIds"/>
                                 <input type="hidden" id="totalQuestions" value="${totalQuestions}">
