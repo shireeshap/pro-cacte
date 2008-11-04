@@ -30,6 +30,26 @@ public class OrganizationIntegrationTest extends AbstractJpaIntegrationTestCase 
 
     }
 
+    public void testFindByName() {
+
+        OrganizationQuery organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByOrganizationName("N");
+
+        Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
+        assertFalse(organizations.isEmpty());
+        int size = jdbcTemplate.queryForInt("select distinct(count(*)) from organizations organizations where lower(organizations.name ) like '%n%'");
+
+        assertEquals(size, organizations.size());
+
+
+        for (Organization organization : organizations)
+
+        {
+            assertTrue(organization.getName().toLowerCase().contains("n"));
+        }
+
+    }
+
 
     public void testSaveOrganization() {
 
@@ -69,26 +89,6 @@ public class OrganizationIntegrationTest extends AbstractJpaIntegrationTestCase 
 
     }
 
-
-    public void testFindByName() {
-
-        OrganizationQuery organizationQuery = new OrganizationQuery();
-        organizationQuery.filterByOrganizationName("N");
-
-        Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
-        assertFalse(organizations.isEmpty());
-        int size = jdbcTemplate.queryForInt("select distinct(count(*)) from organizations organizations where lower(organizations.name ) like '%n%'");
-
-        assertEquals(size, organizations.size());
-
-
-        for (Organization organization : organizations)
-
-        {
-            assertTrue(organization.getName().toLowerCase().contains("n"));
-        }
-
-    }
 
     public void testFindByNCICode() {
 
