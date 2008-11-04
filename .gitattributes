@@ -221,6 +221,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ApplicationConversionService.j
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ControllerTools.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/CtcAeSimpleFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/AddSiteController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneQuestionController.java -text
@@ -228,13 +229,8 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -t
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SetNameController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/AddSiteController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/CreateInvestigatorController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorAjaxFacade.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorControllerUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorLinkDisplayDetailsCell.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorTableModel.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/SearchInvestigatorController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/CreateParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/EditParticipantController.java -text
@@ -349,6 +345,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabControls.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabFields.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabMethod.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tiles-definitions.xml -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/siteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/name.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneQustionSection.jsp -text
@@ -359,7 +356,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/reviewForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/confirmInvestigator.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/createInvestigator.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/searchInvestigator.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/siteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
@@ -635,7 +631,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ApplicationConversionServiceTe
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/WebTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CreateFormCommandTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/investigator/InvestigatorAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacadeIntegrationTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/SearchStudyControllerTest.java -text
