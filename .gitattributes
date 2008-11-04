@@ -347,9 +347,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/reviewForm.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/confirmInvestigator.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/searchInvestigator.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/investigator/siteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/assignParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/assignParticipant.xml -text
