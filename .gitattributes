@@ -223,9 +223,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneQuestionController.
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SetNameController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/AddSiteController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorControllerUtils.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/investigator/InvestigatorLinkDisplayDetailsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/CreateParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/EditParticipantController.java -text
