@@ -7,17 +7,18 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author mehul
  */
 
 @Entity
-@Table(name = "investigators")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "investogators_id_seq")})
+@Table(name = "clinical_staffs")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "clinical_staffs_id_seq")})
 
 
-public class Investigator extends Person {
+public class ClinicalStaff extends Person {
 
     @Column(name = "email_address", nullable = true)
     private String emailAddress;
@@ -31,8 +32,8 @@ public class Investigator extends Person {
     @Column(name = "phone_number", nullable = true)
     private String phoneNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "investigator", fetch = FetchType.EAGER)
-    private Collection<SiteInvestigator> siteInvestigators = new ArrayList<SiteInvestigator>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clinicalStaff", fetch = FetchType.EAGER)
+    private List<SiteClinicalStaff> siteClinicalStaffs = new ArrayList<SiteClinicalStaff>();
 
     public String getEmailAddress() {
         return emailAddress;
@@ -67,42 +68,42 @@ public class Investigator extends Person {
     }
 
     @UniqueObjectInCollection(message = "Duplicate Site")
-    public Collection<SiteInvestigator> getSiteInvestigators() {
-        return siteInvestigators;
+    public List<SiteClinicalStaff> getSiteClinicalStaffs() {
+        return siteClinicalStaffs;
     }
 
-    public void addSiteInvestigator(SiteInvestigator siteInvestigator) {
-        if (siteInvestigator != null) {
-            siteInvestigator.setInvestigator(this);
-            this.getSiteInvestigators().add(siteInvestigator);
+    public void addSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
+        if (siteClinicalStaff != null) {
+            siteClinicalStaff.setClinicalStaff(this);
+            this.getSiteClinicalStaffs().add(siteClinicalStaff);
         }
     }
 
-    public void addSiteInvestigators(Collection<SiteInvestigator> siteInvestigators) {
-        for (SiteInvestigator siteInvestigator : siteInvestigators) {
-            addSiteInvestigator(siteInvestigator);
+    public void addSiteClinicalStaffs(Collection<SiteClinicalStaff> siteClinicalStaffs) {
+        for (SiteClinicalStaff siteClinicalStaff : siteClinicalStaffs) {
+            addSiteClinicalStaff(siteClinicalStaff);
         }
     }
 
-    public void removeSiteInvestigator(SiteInvestigator siteInvestigator) {
-        if (siteInvestigator != null) {
-            removeSiteInvestigator(siteInvestigator);
+    public void removeSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
+        if (siteClinicalStaff != null) {
+            removeSiteClinicalStaff(siteClinicalStaff);
         }
     }
 
-    public void removeSiteInvestigators(Collection<SiteInvestigator> siteInvestigators) {
-        for (SiteInvestigator siteInvestigator : siteInvestigators) {
-            removeSiteInvestigator(siteInvestigator);
+    public void removeSiteClinicalStaffs(List<SiteClinicalStaff> siteClinicalStaffs) {
+        for (SiteClinicalStaff siteClinicalStaff : siteClinicalStaffs) {
+            removeSiteClinicalStaff(siteClinicalStaff);
         }
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Investigator)) return false;
+        if (!(o instanceof ClinicalStaff)) return false;
         if (!super.equals(o)) return false;
 
-        Investigator that = (Investigator) o;
+        ClinicalStaff that = (ClinicalStaff) o;
 
         if (emailAddress != null ? !emailAddress.equals(that.emailAddress) : that.emailAddress != null) return false;
         if (faxNumber != null ? !faxNumber.equals(that.faxNumber) : that.faxNumber != null) return false;

@@ -4,9 +4,9 @@ package gov.nih.nci.ctcae.core.query;
  * User: Mehul Gulati
  * Date: Oct 15, 2008
  */
-public class InvestigatorQuery extends AbstractQuery {
+public class ClinicalStaffQuery extends AbstractQuery {
 
-    private static String queryString = "SELECT i from Investigator i order by i.id";
+    private static String queryString = "SELECT i from ClinicalStaff i order by i.id";
 
     private static String FIRST_NAME = "firstName";
 
@@ -15,18 +15,18 @@ public class InvestigatorQuery extends AbstractQuery {
     private static String NCI_IDENTIFIER = "nciIdentifier";
 
 
-    public InvestigatorQuery() {
+    public ClinicalStaffQuery() {
 
         super(queryString);
         }
 
-     public void filterByInvestigatorFirstName(final String firstName) {
+     public void filterByClinicalStaffFirstName(final String firstName) {
         String searchString = "%" + firstName.toLowerCase() + "%";
         andWhere("lower(i.firstName) LIKE :" + FIRST_NAME);
         setParameter(FIRST_NAME, searchString);
   }
 
-     public void filterByInvestigatorLastName(final String lastName) {
+     public void filterByClinicalStaffLastName(final String lastName) {
            String searchString = "%" + lastName.toLowerCase() + "%";
            andWhere("lower(i.lastName) LIKE :" + LAST_NAME);
            setParameter(LAST_NAME, searchString);
@@ -35,7 +35,7 @@ public class InvestigatorQuery extends AbstractQuery {
     public void filterByNciIdentifier(final String text) {
         String searchString = text != null ? "%" + text.toLowerCase() + "%" : null;
 
-        andWhere(String.format("lower(investigator.nciIdentifier) LIKE :%s", NCI_IDENTIFIER));
+        andWhere(String.format("lower(clinicalStaff.nciIdentifier) LIKE :%s", NCI_IDENTIFIER));
         setParameter(NCI_IDENTIFIER, searchString);
 
     }
