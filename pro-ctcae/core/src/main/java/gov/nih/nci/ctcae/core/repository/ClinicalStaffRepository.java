@@ -16,13 +16,13 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
 
 //    @Override
 //    public ClinicalStaff findById(Integer id) {
-//        ClinicalStaff clinicalStaff = super.findById(id);
+//        ClinicalStaff clinicalstaff = super.findById(id);
 //
-//        Collection<SiteClinicalStaff> clinicalStaffCollection = clinicalStaff.getSiteClinicalStaffs();
+//        Collection<SiteClinicalStaff> clinicalStaffCollection = clinicalstaff.getSiteClinicalStaffs();
 //        for (SiteClinicalStaff siteClinicalStaff : clinicalStaffCollection) {
 //            siteClinicalStaff.getOrganization().getDisplayName();
 //        }
-//        return clinicalStaff;
+//        return clinicalstaff;
 //
 //
 //    }
