@@ -52,6 +52,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         <c:set var="__decorator_title">
             <decorator:title/>
         </c:set>
+        <!--THE FOLLOWING LINE CLEARS THE .tabpane DIV SO IT WILL STRETCH TO FIT IT'S CONTENT-->
+        <hr style="margin: -0.66em 0pt 160px; display: block; clear: left; visibility:hidden;"/>
     </div>
 </div>
 </body>

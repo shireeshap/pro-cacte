@@ -1,7 +1,7 @@
 /**** GENERAL TAG STYLE OVERRIDES */
 html {
 background: url(../images/blue/html_bg.png) repeat-x top #006cd7;
-height:100%;
+
 }
 
 body {
@@ -13,7 +13,6 @@ body {
 	text-align: center;
 	margin: 0px;
 	padding: 0px;
-	height:130%;
 }
 
 .workflow-tabs{
@@ -215,7 +214,7 @@ firstlevelnav_createStudyController: Studies
 */
 
 
-a#firstlevelnav_createFormController {
+a#firstlevelnav_manageFormController {
 	background-image: url(../images/blue/forms_btn.png);
 	height: 45px;
 	width: 148px;
@@ -223,10 +222,10 @@ a#firstlevelnav_createFormController {
 	float: left;
 	margin-right: 1px;
 }
-a#firstlevelnav_createFormController:link{background-position:0px 0px;}
-a#firstlevelnav_createFormController:hover{background-position:0px -45px;}
-a#firstlevelnav_createFormController:active{background-position:0px -90px;}
-.selected a#firstlevelnav_createFormController {background-image: url(../images/blue/forms_btn_selected.png);}
+a#firstlevelnav_manageFormController:link{background-position:0px 0px;}
+a#firstlevelnav_manageFormController:hover{background-position:0px -45px;}
+a#firstlevelnav_manageFormController:active{background-position:0px -90px;}
+.selected a#firstlevelnav_manageFormController {background-image: url(../images/blue/forms_btn_selected.png);}
 
 a#firstlevelnav_createStudyController {
 	background-image: url(../images/blue/studies_btn.png);
@@ -450,6 +449,7 @@ margin-top:6px;
 	padding-left: 3px;
 	position: relative;
 	top: 140px;
+	margin-bottom:140px;
 }
 
 #flash-message {
@@ -487,9 +487,6 @@ margin-top:6px;
 	margin-bottom: 12px;
 	background-image: url(../images/blue/box_bg.jpg);
 	background-repeat: repeat-x;
-
-
-
 }
 .box .header {
 }
