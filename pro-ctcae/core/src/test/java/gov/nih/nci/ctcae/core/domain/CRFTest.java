@@ -26,7 +26,7 @@ public class CRFTest extends TestCase {
 
         assertEquals("Cancer CRF", crf.getTitle());
         assertEquals("Case Report Form for Cancer Patients", crf.getDescription());
-        assertEquals("DRAFT", crf.getStatus());
+        assertEquals(CrfStatus.DRAFT, crf.getStatus());
         assertEquals("1.0", crf.getCrfVersion());
     }
 
