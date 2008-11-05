@@ -1,11 +1,9 @@
 package gov.nih.nci.ctcae.core.exception;
 
-import javax.mail.MessagingException;
-
 /**
- * @author  Vinay Kumar
+ * @author Vinay Kumar
  */
-public class CtcAeSystemException extends Throwable {
+public class CtcAeSystemException extends RuntimeException {
 
     public CtcAeSystemException(final String message) {
         super(message);
@@ -13,4 +11,8 @@ public class CtcAeSystemException extends Throwable {
     }
 
 
+    public CtcAeSystemException(String s, Throwable e) {
+        super(s, e);
+
+    }
 }
