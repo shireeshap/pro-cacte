@@ -114,8 +114,6 @@ ul.tree.unformatted li li {
 ul.tree li div {
     float: right;
     clear: right;
-    height: 1em;
-    margin-top: -26px;
 }
 
 /* As inside DIVs should be treated normally */
