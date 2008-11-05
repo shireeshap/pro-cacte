@@ -19,7 +19,7 @@
     </bean>
 
     <bean id="clinicalStaffAjaxFacade"
-          class="gov.nih.nci.ctcae.web.clinicalstaff.ClinicalStaffAjaxFacade">
+          class="gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffAjaxFacade">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
     </bean>
 
