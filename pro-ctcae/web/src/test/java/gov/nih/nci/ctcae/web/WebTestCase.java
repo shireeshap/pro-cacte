@@ -32,10 +32,11 @@ public abstract class WebTestCase extends AbstractTestCase {
         request.setSession(session);
         response = new MockHttpServletResponse();
         controllerTools = new ControllerTools();
+
     }
 
-    protected void login(Object currentLoggedInUser) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(currentLoggedInUser, "password");
-        SecurityContextHolder.getContext().setAuthentication(token);
-    }
+//    protected void login(Object currentLoggedInUser) {
+//        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(currentLoggedInUser, "password");
+//        SecurityContextHolder.getContext().setAuthentication(token);
+//    }
 }

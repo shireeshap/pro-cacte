@@ -12,7 +12,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Oct 18, 2008
  */
-public class OrganizationAjaxFacadeIntegrationTestCase extends AbstractWebIntegrationTestCase {
+public class OrganizationAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase {
 
     private OrganizationAjaxFacade organizationAjaxFacade;
     private Organization nci;
