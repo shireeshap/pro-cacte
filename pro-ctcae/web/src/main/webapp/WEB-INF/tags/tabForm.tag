@@ -8,7 +8,7 @@
 <%@attribute name="willSave" %>
 <%@attribute name="title" %>
 <%@attribute name="formName" %>
-<%--<%@attribute name="formId"  %>--%>
+<%@attribute name="formId" %>
 <%@attribute name="enctype" %>
 <%@attribute name="boxId" %>
 <%@attribute name="boxClass" %>
@@ -25,7 +25,7 @@
 <chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}"
             noBackground="${noBackground}">
     <chrome:flashMessage/>
-    <form:form name="${formName}" enctype="${enctype}" id="command">
+    <form:form name="${formName}" enctype="${enctype}" id="${formId}">
         <tags:tabFields tab="${tab}"/>
         <chrome:division id="single-fields">
             <c:if test="${not empty instructions}"><p class="instructions">
@@ -39,8 +39,7 @@
             <jsp:invoke fragment="tabControls"/>
         </c:if>
         <c:if test="${empty tabControls}">
-            <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"
-                              saveButtonLabel="${saveButtonLabel}"/>
+            <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" saveButtonLabel="${saveButtonLabel}"/>
 
         </c:if>
 
