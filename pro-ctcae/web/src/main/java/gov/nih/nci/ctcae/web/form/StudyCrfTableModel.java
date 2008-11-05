@@ -1,0 +1,62 @@
+package gov.nih.nci.ctcae.web.form;
+
+import gov.nih.nci.ctcae.web.AbstractTableModel;
+import gov.nih.nci.ctcae.core.domain.StudyCrf;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.Collection;
+
+import org.extremecomponents.table.core.TableModel;
+import org.extremecomponents.table.bean.Column;
+
+/**
+ * @author Mehul Gulati
+ * Date: Nov 5, 2008
+ */
+public class StudyCrfTableModel extends AbstractTableModel {
+
+    public String buildStudyCrfTable(Map parameterMap, Collection<StudyCrf> objects, HttpServletRequest request)  {
+
+        try {
+            TableModel model = getModel(parameterMap, request, objects);
+
+            addTitle(model);
+            addStatus(model);
+            addOptions(model);
+            return model.assemble().toString();
+        }   catch (Exception e) {
+
+        }
+        return "";
+
+    }
+
+    private void addTitle(TableModel model) {
+        Column columnTitle = model.getColumnInstance();
+        columnTitle.setTitle("Title");
+        columnTitle.setProperty("studyCrf.CRF.title");
+        columnTitle.setAlias("title");
+        columnTitle.setSortable(Boolean.TRUE);
+        model.addColumn(columnTitle);
+    }
+
+    private void addStatus(TableModel model) {
+        Column columnStatus = model.getColumnInstance();
+        columnStatus.setTitle("Status");
+        columnStatus.setProperty("studyCrf.CRF.status");
+        columnStatus.setAlias("status");
+        columnStatus.setSortable(Boolean.TRUE);
+        model.addColumn(columnStatus);
+    }
+
+    private void addOptions(TableModel model) {
+        Column columnOptions = model.getColumnInstance();
+        columnOptions.setTitle("Options");
+        columnOptions.setSortable(Boolean.TRUE);
+        columnOptions.setCell("gov.nih.nci.ctcae.web.form.StudyCrfLinkDisplayDetailsCell");     
+        model.addColumn(columnOptions);
+    }
+
+
+}
