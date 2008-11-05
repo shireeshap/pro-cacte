@@ -1,8 +1,9 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.StudyCrf;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
@@ -21,7 +22,8 @@ public class ReleaseFormControllerTest extends WebTestCase {
     private ReleaseFormController controller;
     private WebControllerValidator validator;
     private FinderRepository finderRepository;
-    private StudyRepository studyRepository;
+    private CRFRepository crfRepository;
+
     private StudyCrf studyCrf;
 
     @Override
@@ -29,13 +31,14 @@ public class ReleaseFormControllerTest extends WebTestCase {
         super.setUp();
         controller = new ReleaseFormController();
         finderRepository = registerMockFor(FinderRepository.class);
-        studyRepository = registerMockFor(StudyRepository.class);
+        crfRepository = registerMockFor(CRFRepository.class);
         validator = new WebControllerValidatorImpl();
         controller.setFinderRepository(finderRepository);
-        controller.setStudyRepository(studyRepository);
+        controller.setCrfRepository(crfRepository);
         controller.setWebControllerValidator(validator);
 
         studyCrf = new StudyCrf();
+        studyCrf.setCrf(new CRF());
     }
 
     public void testGetRequest() throws Exception {
@@ -62,9 +65,10 @@ public class ReleaseFormControllerTest extends WebTestCase {
         resetMocks();
 
         request.setMethod("POST");
-        expect(studyRepository.save(studyCrf.getStudy())).andReturn(studyCrf.getStudy());
+        expect(crfRepository.save(studyCrf.getCrf())).andReturn(studyCrf.getCrf());
         validator.validate(request, studyCrf, isA(BindException.class));
         replayMocks();
+
         ModelAndView modelAndView = controller.handleRequest(request, response);
 
         verifyMocks();

@@ -186,10 +186,10 @@
     <!--class="gov.nih.nci.ctcae.web.form.ConfirmFormController">-->
     <!--</bean>-->
     <!---->
-    <bean name="/form/relaseForm" id="releaseFormController"
+    <bean name="/form/releaseForm" id="releaseFormController"
           class="gov.nih.nci.ctcae.web.form.ReleaseFormController" parent="ctcaeSimpleFormController">
         <property name="finderRepository" ref="finderRepository"/>
-        <property name="studyRepository" ref="studyRepository"/>
+        <property name="crfRepository" ref="crfRepository"/>
     </bean>
     <bean name="/form/addOneQuestion" id="oneQuestionController"
           class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">

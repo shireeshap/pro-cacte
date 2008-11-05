@@ -1,8 +1,9 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.StudyCrf;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ReleaseFormController extends CtcAeSimpleFormController {
     private FinderRepository finderRepository;
-    private StudyRepository studyRepository;
+    private CRFRepository crfRepository;
 
     protected ReleaseFormController() {
         setCommandClass(StudyCrf.class);
@@ -41,11 +42,13 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
         StudyCrf studyCrf = (StudyCrf) command;
-        studyRepository.save(studyCrf.getStudy());
+        studyCrf.getCrf().setStatus(CrfStatus.RELEASEED);
+        crfRepository.save(studyCrf.getCrf());
         ModelAndView modelAndView = new ModelAndView("forward:viewForm", errors.getModel());
         return modelAndView;
 
     }
+
 
     @Required
     public void setFinderRepository(FinderRepository finderRepository) {
@@ -53,7 +56,8 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
     }
 
     @Required
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
+
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
     }
 }

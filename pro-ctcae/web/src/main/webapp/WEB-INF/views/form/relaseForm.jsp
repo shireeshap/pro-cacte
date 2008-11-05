@@ -9,7 +9,6 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<html>
 <body>
 
 <form:form method="post">
@@ -58,5 +57,4 @@
         </chrome:division>
     </chrome:box>
 </form:form>
-
 </body>
