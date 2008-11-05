@@ -1,7 +1,5 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import org.exolab.castor.types.EnumeratedTypeAccess;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
