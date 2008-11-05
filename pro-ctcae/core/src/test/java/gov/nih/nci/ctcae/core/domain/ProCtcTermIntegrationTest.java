@@ -2,17 +2,9 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.query.ProCtcQuery;
-import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
-import gov.nih.nci.ctcae.core.query.ProCtcValidValueQuery;
-import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.dao.DataIntegrityViolationException;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -21,129 +13,52 @@ import java.util.Collection;
  */
 public class ProCtcTermIntegrationTest extends AbstractJpaIntegrationTestCase {
 
-	private ProCtcQuestionRepository proCtcQuestionRepository;
-
-	private ProCtcRepository proCtcRepository;
 	private ProCtcTermRepository proCtcTermRepository;
-	private ProCtcValidValueRepository proCtcValidValueRepository;
-	private ProCtcQuestion proProCtcQuestion, inValidproCtcTerm;
 	private ProCtcTerm proProCtcTerm;
-	private ProCtc proCtc;
-	private ArrayList<ProCtcValidValue> validValues = new ArrayList<ProCtcValidValue>();
 
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
 		super.onSetUpInTransaction();
-
-		proCtc = proCtcRepository.find(new ProCtcQuery()).iterator().next();
-		assertNotNull(proCtc);
-
-		proProCtcTerm = proCtcTermRepository.find(new ProCtcTermQuery()).iterator().next();
-		assertNotNull(proProCtcTerm);
-
-		ProCtcValidValueQuery validValueQuery = new ProCtcValidValueQuery();
-		validValueQuery.setMaximumResults(4);
-		validValues = new ArrayList<ProCtcValidValue>(
-				proCtcValidValueRepository.find(validValueQuery));
-		assertNotNull(validValues);
-
-		proProCtcQuestion = new ProCtcQuestion();
-		proProCtcQuestion.setQuestionText("How is the pain?");
-		proProCtcQuestion.setProCtcTerm(proProCtcTerm);
-		for(ProCtcValidValue validValue : validValues){
-			proProCtcQuestion.addValidValue(validValue);
-		}
-		proProCtcQuestion = proCtcQuestionRepository.save(proProCtcQuestion);
 	}
 
-	public void testSaveproCtcTerm() {
-		assertNotNull(proProCtcQuestion.getId());
-	}
-
-	public void testSavingNullProCtcTerm() {
-		inValidproCtcTerm = new ProCtcQuestion();
-
+	public void testSaveCtcTerm() {
+		proProCtcTerm = new ProCtcTerm();
 		try {
-			inValidproCtcTerm = proCtcQuestionRepository.save(inValidproCtcTerm);
-			fail("Expected DataIntegrityViolationException because all the fields are null");
-		} catch (DataIntegrityViolationException e) {
-		}
-	}
-
-	public void testSavingNullQuestionProCtcTerm() {
-		inValidproCtcTerm = new ProCtcQuestion();
-		try {
-			inValidproCtcTerm.setProCtcTerm(proProCtcTerm);
-			inValidproCtcTerm = proCtcQuestionRepository.save(inValidproCtcTerm);
-			fail("Expected DataIntegrityViolationException because question is null");
-		} catch (DataIntegrityViolationException e) {
-		}
-	}
-
-	public void testSavingNullCtcTermProCtcTerm() {
-		inValidproCtcTerm = new ProCtcQuestion();
-		try {
-			inValidproCtcTerm.setQuestionText("How is the pain?");
-			inValidproCtcTerm = proCtcQuestionRepository.save(inValidproCtcTerm);
-			proCtcQuestionRepository.find(new ProCtcQuestionQuery());
-			fail("Expected DataIntegrityViolationException because proProCtcTerm is null");
-		} catch (DataIntegrityViolationException e) {
-		}
-	}
-
-	public void testSavingNullProCtcProCtcTerm() {
-		inValidproCtcTerm = new ProCtcQuestion();
-		try {
-			inValidproCtcTerm.setQuestionText("How is the pain?");
-			inValidproCtcTerm = proCtcQuestionRepository.save(inValidproCtcTerm);
-			proCtcQuestionRepository.find(new ProCtcQuestionQuery());
-			fail("Expected DataIntegrityViolationException because proCtc is null");
-		} catch (DataIntegrityViolationException e) {
+			proCtcTermRepository.save(proProCtcTerm);
+			fail("Expecting UnsupportedOperationException: Save is not supported for ProCtcQuestion");
+		} catch (UnsupportedOperationException e) {
 		}
 	}
 
 	public void testFindById() {
+		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+		Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
+				.find(proCtcTermQuery);
+		ProCtcTerm firstProProCtcTerm = ctcTerms.iterator().next();
 
-		ProCtcQuestion existingproProCtcQuestion = proCtcQuestionRepository
-				.findById(proProCtcQuestion.getId());
-		assertEquals(proProCtcQuestion.getQuestionText(), existingproProCtcQuestion
-				.getQuestionText());
-		assertEquals(proProCtcQuestion.getProCtcTerm(), existingproProCtcQuestion.getProCtcTerm());
-		assertEquals(proProCtcQuestion, existingproProCtcQuestion);
-
+		proProCtcTerm = proCtcTermRepository.findById(firstProProCtcTerm.getId());
+		assertEquals(proProCtcTerm.getCtepCode(), firstProProCtcTerm.getCtepCode());
+		assertEquals(proProCtcTerm.getCtepTerm(), firstProProCtcTerm.getCtepTerm());
+		assertEquals(proProCtcTerm.getSelect(), firstProProCtcTerm.getSelect());
+		assertEquals(proProCtcTerm.getTerm(), firstProProCtcTerm.getTerm());
+		assertEquals(proProCtcTerm, firstProProCtcTerm);
 	}
 
 	public void testFindByQuery() {
 
-		ProCtcQuestionQuery proCtcQuestionQuery = new ProCtcQuestionQuery();
-
-		Collection<? extends ProCtcQuestion> proCtcTerms = proCtcQuestionRepository
-				.find(proCtcQuestionQuery);
-		assertFalse(proCtcTerms.isEmpty());
 		int size = jdbcTemplate
-				.queryForInt("select count(*) from pro_ctc_questions proProCtcQuestion");
-		assertEquals(size, proCtcTerms.size());
-	}
+				.queryForInt("select count(*) from PRO_CTC_TERMS");
+		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+		proCtcTermQuery.setMaximumResults(size + 1000);
+		Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
+				.find(proCtcTermQuery);
 
-	@Required
-	public void setProCtcTermRepository(
-			ProCtcQuestionRepository proCtcQuestionRepository) {
-		this.proCtcQuestionRepository = proCtcQuestionRepository;
-	}
-
-	@Required
-	public void setProCtcRepository(ProCtcRepository proCtcRepository) {
-		this.proCtcRepository = proCtcRepository;
+		assertFalse(ctcTerms.isEmpty());
+		assertEquals(size, ctcTerms.size());
 	}
 
 	@Required
 	public void setCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
 		this.proCtcTermRepository = proCtcTermRepository;
-	}
-
-	@Required
-	public void setProCtcValidValueRepository(
-			ProCtcValidValueRepository proCtcValidValueRepository) {
-		this.proCtcValidValueRepository = proCtcValidValueRepository;
 	}
 }
