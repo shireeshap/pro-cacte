@@ -134,7 +134,7 @@
 
     <filter-mapping>
         <filter-name>OpenEntityManagerInViewFilter</filter-name>
-        <url-pattern>/ctcae/*</url-pattern>
+        <url-pattern>/pages/*</url-pattern>
     </filter-mapping>
 
     <filter-mapping>

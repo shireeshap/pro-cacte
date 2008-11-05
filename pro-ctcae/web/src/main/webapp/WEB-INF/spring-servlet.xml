@@ -189,6 +189,10 @@
           class="gov.nih.nci.ctcae.web.form.SearchFormController" parent="ctcaeSimpleFormController">
     </bean>
 
+    <bean name="/form/submit" id="submitFormController"
+          class="gov.nih.nci.ctcae.web.form.SubmitFormController" parent="ctcaeSimpleFormController">
+    </bean>
+
 
     <bean name="/study/createStudy" id="createStudyController"
           class="gov.nih.nci.ctcae.web.study.CreateStudyController" parent="ctcaeSimpleFormController">

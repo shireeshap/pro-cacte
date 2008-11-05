@@ -232,6 +232,8 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneQuestionController.
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SetNameController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormCommand.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/CreateParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/EditParticipantController.java -text
@@ -329,6 +331,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderLabel.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderNumber.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderPassword.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderPhoneOrFax.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderRadio.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderRow.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderSelect.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderSelectForDomainObject.tag -text
@@ -359,6 +362,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/reviewForm.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/assignParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/assignParticipant.xml -text

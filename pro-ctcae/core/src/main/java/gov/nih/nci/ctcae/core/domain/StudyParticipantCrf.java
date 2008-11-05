@@ -19,8 +19,8 @@ public class StudyParticipantCrf extends BaseVersionable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantCrf")
-	private Collection<StudyParticipantCrfItem> studyParticipantCrfItems = new ArrayList<StudyParticipantCrfItem>();
+	@OneToMany( cascade = CascadeType.ALL, mappedBy = "studyParticipantCrf")
+	private List<StudyParticipantCrfItem> studyParticipantCrfItems = new ArrayList<StudyParticipantCrfItem>();
 
 	@JoinColumn(name = "study_crf_id", referencedColumnName = "id")
 	@ManyToOne
@@ -28,7 +28,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 
 	@JoinColumn(name = "study_participant_id", referencedColumnName = "id")
 	@ManyToOne
-	private StudyParticipantAssignment studyParticipant;
+	private StudyParticipantAssignment studyParticipantAssignment;
 
 	public StudyParticipantCrf() {
 	}
@@ -37,7 +37,16 @@ public class StudyParticipantCrf extends BaseVersionable {
 		this.id = id;
 	}
 
-	public Integer getId() {
+	public StudyParticipantCrf(StudyCrf studyCrf) {
+		this.studyCrf = studyCrf;
+        for(CrfItem crfItem: studyCrf.getCrf().getCrfItems()){
+            StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
+            studyParticipantCrfItem.setCrfItem(crfItem);
+            addStudyParticipantCrfItem(studyParticipantCrfItem);
+        }
+    }
+
+    public Integer getId() {
 		return id;
 	}
 
@@ -57,24 +66,10 @@ public class StudyParticipantCrf extends BaseVersionable {
 		}
 	}
 
-	public void addStudyParticipantCrfItems(
-			List<StudyParticipantCrfItem> studyParticipantCrfItems) {
-		for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfItems) {
-			addStudyParticipantCrfItem(studyParticipantCrfItem);
-		}
-	}
-
 	public void removeStudyParticipantCrfItem(
 			StudyParticipantCrfItem studyParticipantCrfItem) {
 		if (studyParticipantCrfItem != null) {
 			studyParticipantCrfItems.remove(studyParticipantCrfItem);
-		}
-	}
-
-	public void removeStudyParticipantCrfItems(
-			List<StudyParticipantCrfItem> studyParticipantCrfItems) {
-		for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfItems) {
-			removeStudyParticipantCrfItem(studyParticipantCrfItem);
 		}
 	}
 
@@ -86,12 +81,12 @@ public class StudyParticipantCrf extends BaseVersionable {
 		this.studyCrf = studyCrf;
 	}
 
-	public StudyParticipantAssignment getStudyParticipant() {
-		return studyParticipant;
+	public StudyParticipantAssignment getStudyParticipantAssignment() {
+		return studyParticipantAssignment;
 	}
 
-	public void setStudyParticipant(StudyParticipantAssignment studyParticipant) {
-		this.studyParticipant = studyParticipant;
+	public void setStudyParticipantAssignment(StudyParticipantAssignment studyParticipant) {
+		this.studyParticipantAssignment = studyParticipant;
 	}
 
 	@Override
@@ -103,7 +98,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 				+ ((studyCrf == null) ? 0 : studyCrf.hashCode());
 		result = prime
 				* result
-				+ ((studyParticipant == null) ? 0 : studyParticipant.hashCode());
+				+ ((studyParticipantAssignment == null) ? 0 : studyParticipantAssignment.hashCode());
 		result = prime
 				* result
 				+ ((studyParticipantCrfItems == null) ? 0
@@ -130,10 +125,10 @@ public class StudyParticipantCrf extends BaseVersionable {
 				return false;
 		} else if (!studyCrf.equals(other.studyCrf))
 			return false;
-		if (studyParticipant == null) {
-			if (other.studyParticipant != null)
+		if (studyParticipantAssignment == null) {
+			if (other.studyParticipantAssignment != null)
 				return false;
-		} else if (!studyParticipant.equals(other.studyParticipant))
+		} else if (!studyParticipantAssignment.equals(other.studyParticipantAssignment))
 			return false;
 		if (studyParticipantCrfItems == null) {
 			if (other.studyParticipantCrfItems != null)

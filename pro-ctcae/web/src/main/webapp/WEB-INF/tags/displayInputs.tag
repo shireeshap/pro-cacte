@@ -50,6 +50,7 @@
 
 
     </c:when>
+
     <c:otherwise>
         UNIMPLEMENTED TYPE ${categoryName} for ${id}
     </c:otherwise>

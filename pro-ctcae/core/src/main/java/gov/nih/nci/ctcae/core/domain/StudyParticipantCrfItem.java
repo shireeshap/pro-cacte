@@ -16,7 +16,7 @@ public class StudyParticipantCrfItem extends BaseVersionable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
 
-	@Column(name = "selected_response", nullable = false)
+	@Column(name = "selected_response")
 	private String selectedResponse;
 
 	@JoinColumn(name = "crf_item_id", referencedColumnName = "id")

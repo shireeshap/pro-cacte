@@ -30,7 +30,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
 	@ManyToOne
 	private StudyOrganization studySite;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipant")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantAssignment")
 	private Collection<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
 
 	public StudyParticipantAssignment() {
@@ -76,32 +76,11 @@ public class StudyParticipantAssignment extends BaseVersionable {
 		return studyParticipantCrfs;
 	}
 
-	public void addStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
-		if (studyParticipantCrf != null) {
-			studyParticipantCrf.setStudyParticipant(this);
-			studyParticipantCrfs.add(studyParticipantCrf);
-		}
-	}
-
-	public void addStudyParticipantCrfs(
-			List<StudyParticipantCrf> studyParticipantCrfs) {
-		for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
-			addStudyParticipantCrf(studyParticipantCrf);
-		}
-	}
-
-	public void removeStudyParticipantCrf(
-			StudyParticipantCrf studyParticipantCrf) {
-		if (studyParticipantCrf != null) {
-			studyParticipantCrfs.remove(studyParticipantCrf);
-		}
-	}
-
-	public void removeStudyParticipantCrfs(
-			List<StudyParticipantCrf> studyParticipantCrfs) {
-		for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
-			removeStudyParticipantCrf(studyParticipantCrf);
-		}
-	}
+	public void addStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf){
+        if(studyParticipantCrf != null){
+            studyParticipantCrf.setStudyParticipantAssignment(this);
+            studyParticipantCrfs.add(studyParticipantCrf);
+        }
+    }
 
 }

@@ -57,8 +57,8 @@ public class StudyParticipantCrfIntegrationTest extends
         assertEquals("must not create multiple study coordinating center", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
         assertEquals("must not create multiple funding sponsor", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
-       // ProCtcQuestion p = new ProCtcQuestion();
-       // p.s
+       ProCtcQuestion p = new ProCtcQuestion();
+       //p.setQuestionText();
        // CrfItem crfItem1 = new CrfItem();
        // crfItem1.s
 

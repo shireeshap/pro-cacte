@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
@@ -47,7 +44,6 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
 
         ParticipantCommand participantCommand = (ParticipantCommand) oCommand;
         Participant participant = participantCommand.getParticipant();
-
         for (int studyId : participantCommand.getStudyId()) {
 
             StudyOrganizationQuery query = new StudyOrganizationQuery();
@@ -64,12 +60,19 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
             participantCommand.setSiteName(studySite.getOrganization()
                     .getName());
 
-            StudyParticipantAssignment spa = new StudyParticipantAssignment();
-            spa.setStudySite(studySite);
-            spa.setStudyParticipantIdentifier(request
+            StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
+            studyParticipantAssignment.setStudySite(studySite);
+            studyParticipantAssignment.setStudyParticipantIdentifier(request
                     .getParameter("participantStudyIdentifier" + studyId));
-            participant.addStudyParticipantAssignment(spa);
+
+            Study study = studyParticipantAssignment.getStudySite().getStudy();
+            for (StudyCrf studyCrf : study.getStudyCrfs()) {
+                StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf(studyCrf);
+                studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
+            }
+            participant.addStudyParticipantAssignment(studyParticipantAssignment);
         }
+
         participant = participantRepository.save(participant);
         participantCommand.setParticipant(participant);
 
@@ -77,6 +80,7 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
         modelAndView.addObject("participantCommand", participantCommand);
         return modelAndView;
     }
+
 
     @Override
     protected void onBindAndValidate(HttpServletRequest request,
