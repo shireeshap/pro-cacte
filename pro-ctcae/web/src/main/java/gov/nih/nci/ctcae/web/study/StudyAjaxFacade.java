@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +24,8 @@ public class StudyAjaxFacade {
         StudyQuery studyQuery = new StudyQuery();
         studyQuery.filterStudiesWithMatchingText(text);
         List<Study> studies = new ArrayList<Study>(studyRepository.find(studyQuery));
-        return studies;
+        return ObjectTools.reduceAll(studies, "id", "shortTitle", "assignedIdentifier");
+
     }
 
     public String searchStudies(Map parameterMap, String type, String text,
@@ -74,7 +76,7 @@ public class StudyAjaxFacade {
         } else if ("assignedIdentifier".equals(type)) {
             studyQuery.filterStudiesByAssignedIdentifier(text);
         } else if ("site".equals(type)) {
-             studyQuery.filterStudiesForStudySite(Integer.parseInt(text));
+            studyQuery.filterStudiesForStudySite(Integer.parseInt(text));
         }
         studies = (List<Study>) studyRepository.find(studyQuery);
 
