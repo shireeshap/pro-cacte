@@ -84,43 +84,43 @@ public class ParticipantTest extends TestCase {
         participant.setBirthDate(new Date());
         assertFalse(participant.equals(anotherParticipant));
         anotherParticipant.setBirthDate(new Date());
-        assertEquals(anotherParticipant.hashCode(), participant.hashCode());
+        assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
         participant.setEthnicity("hispanic");
         assertFalse(participant.equals(anotherParticipant));
         anotherParticipant.setEthnicity("hispanic");
-        assertEquals(anotherParticipant.hashCode(), participant.hashCode());
+        assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
         participant.setGender("male");
         assertFalse(participant.equals(anotherParticipant));
         anotherParticipant.setGender("male");
-        assertEquals(anotherParticipant.hashCode(), participant.hashCode());
+        assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
         participant.setRace("xyz");
         assertFalse(participant.equals(anotherParticipant));
         anotherParticipant.setRace("xyz");
-        assertEquals(anotherParticipant.hashCode(), participant.hashCode());
+        assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
         participant.setMaidenName("m");
         assertFalse(participant.equals(anotherParticipant));
         anotherParticipant.setMaidenName("m");
-        assertEquals(anotherParticipant.hashCode(), participant.hashCode());
+        assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
         participant.setMiddleName("mid");
         assertFalse(participant.equals(anotherParticipant));
         anotherParticipant.setMiddleName("mid");
-        assertEquals(anotherParticipant.hashCode(), participant.hashCode());
+        assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
         participant.setTitle("mr");
         assertFalse(participant.equals(anotherParticipant));
         anotherParticipant.setTitle("mr");
-        assertEquals(anotherParticipant.hashCode(), participant.hashCode());
+        assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
 
