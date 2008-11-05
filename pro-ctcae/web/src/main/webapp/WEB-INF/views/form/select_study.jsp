@@ -17,7 +17,6 @@
     <tags:includePrototypeWindow/>
 
     <script type="text/javascript">
-        var elements = ['sort1','sort2']
         Event.observe(window, "load", function () {
             var studyAutoCompleter = new studyAutoComplter('studyCrf.study');
             acCreate(studyAutoCompleter);
@@ -36,18 +35,17 @@
 </head>
 <body>
 
-<form:form modelAttribute="command" method="post">
-    <chrome:box title="Select study" id="study-entry">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="createForm" hideErrorDetails="true">
+    <jsp:attribute name="singleFields">
+
         <p><tags:instructions code="instruction_select_study"/></p>
         <tags:renderAutocompleter propertyName="studyCrf.study" required="true" displayName="Study" size="70"/>
         <p id="studyCrf.study-selected" style="display: none">
             You have selected the study <span id="studyCrf.study-selected-name"></span>.
         </p>
-    </chrome:box>
+    </jsp:attribute>
 
 
-    <tags:flowControls showContinue="true" coninueAction="buildForm"/>
-
-</form:form>
+</tags:tabForm>
 
 </body>

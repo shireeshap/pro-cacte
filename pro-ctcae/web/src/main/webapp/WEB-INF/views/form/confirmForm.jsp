@@ -53,13 +53,15 @@
         <div class="instructions">
 
             <div class="summarylabel">Title</div>
-            <div class="summaryvalue">${crf.title}</div>
+            <div class="summaryvalue">${command.studyCrf.crf.title}</div>
         </div>
+        <br>
+
         <table id="formbuilderTable">
             <tr>
                 <td id="left">
                     Questions
-                    <c:forEach items="${crf.crfItems}" var="crfItem">
+                    <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem">
                         <tags:reviewQuestion crfItem="${crfItem}"></tags:reviewQuestion>
                     </c:forEach>
 
