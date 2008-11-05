@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.exolab.castor.types.EnumeratedTypeAccess;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +29,8 @@ public class CRF extends BaseVersionable {
     private String description;
 
     @Column(name = "status", nullable = false)
-    private String status;
+   @Enumerated(value=EnumType.STRING)
+    private CrfStatus status;
 
     @Column(name = "crf_version", nullable = false)
     private String crfVersion;
@@ -45,7 +48,7 @@ public class CRF extends BaseVersionable {
         this.id = id;
     }
 
-    public CRF(Integer id, String title, String status, String crfVersion) {
+    public CRF(Integer id, String title, CrfStatus status, String crfVersion) {
         this.id = id;
         this.title = title;
         this.status = status;
@@ -76,11 +79,11 @@ public class CRF extends BaseVersionable {
         this.description = description;
     }
 
-    public String getStatus() {
+    public CrfStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(CrfStatus status) {
         this.status = status;
     }
 

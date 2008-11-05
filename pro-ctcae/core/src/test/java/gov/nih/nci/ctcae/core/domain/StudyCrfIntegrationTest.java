@@ -70,7 +70,7 @@ public class StudyCrfIntegrationTest extends AbstractJpaIntegrationTestCase {
 		crf = new CRF();
 		crf.setTitle("Cancer CRF");
 		crf.setDescription("Case Report Form for Cancer Patients");
-		crf.setStatus("DRAFT");
+		crf.setStatus(CrfStatus.DRAFT);
 		crf.setCrfVersion("1.0");
 		crf = crfRepository.save(crf);
 

@@ -24,7 +24,7 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
         crf = new CRF();
         crf.setTitle("Cancer CRF");
         crf.setDescription("Case Report Form for Cancer Patients");
-        crf.setStatus("DRAFT");
+        crf.setStatus(CrfStatus.DRAFT);
         crf.setCrfVersion("1.0");
         crf = crfRepository.save(crf);
     }
@@ -47,7 +47,7 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
     public void testSavingNullTitleCRF() {
         inValidCRF = new CRF();
         try {
-            inValidCRF.setStatus("DRAFT");
+            inValidCRF.setStatus(CrfStatus.DRAFT);
             inValidCRF.setCrfVersion("1.0");
             inValidCRF = crfRepository.save(inValidCRF);
             crfRepository.find(new CRFQuery());
@@ -72,7 +72,7 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
         inValidCRF = new CRF();
         try {
             inValidCRF.setTitle("Cancer CRF");
-            inValidCRF.setStatus("DRAFT");
+            inValidCRF.setStatus(CrfStatus.DRAFT);
             crfRepository.save(inValidCRF);
             crfRepository.find(new CRFQuery());
             fail("Expected DataIntegrityViolationException because formVersion is null");

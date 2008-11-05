@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import java.util.ArrayList;
 
-public class GenderEnumTest extends TestCase {
+public class GenderTest extends TestCase {
 
 	public void testGender() {
 		Gender gender = Gender.MALE;

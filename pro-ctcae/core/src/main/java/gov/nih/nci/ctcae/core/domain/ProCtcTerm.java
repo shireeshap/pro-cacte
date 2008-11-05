@@ -12,7 +12,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "PRO_CTC_TERMS")
 
-public class ProCtcTerm extends BasePersistable{
+public class ProCtcTerm extends BasePersistable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -35,8 +35,8 @@ public class ProCtcTerm extends BasePersistable{
     private Collection<ProCtcQuestion> proCtcQuestions = new ArrayList<ProCtcQuestion>();
 
     @JoinColumn(name = "pro_ctc_id", referencedColumnName = "id")
-	@ManyToOne
-	private ProCtc proCtc;
+    @ManyToOne
+    private ProCtc proCtc;
 
     public ProCtcTerm() {
     }
@@ -90,10 +90,9 @@ public class ProCtcTerm extends BasePersistable{
         this.ctepCode = ctepCode;
     }
 
-    public Collection<ProCtcQuestion> getProCtcTerms() {
+    public Collection<ProCtcQuestion> getProCtcQuestions() {
         return proCtcQuestions;
     }
-
 
     public ProCtc getProCtc() {
         return proCtc;
@@ -105,7 +104,7 @@ public class ProCtcTerm extends BasePersistable{
 
 
     @Override
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -123,7 +122,7 @@ public class ProCtcTerm extends BasePersistable{
     }
 
     @Override
-	public int hashCode() {
+    public int hashCode() {
         int result;
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + (term != null ? term.hashCode() : 0);

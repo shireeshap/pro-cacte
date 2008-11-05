@@ -14,94 +14,98 @@ import java.util.List;
 @Table(name = "PRO_CTC")
 public class ProCtc extends BasePersistable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "id", nullable = false)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-	@Column(name = "pro_ctc_version", nullable = false, unique = true)
-	private String proCtcVersion;
+    @Column(name = "pro_ctc_version", nullable = false, unique = true)
+    private String proCtcVersion;
 
-	@Column(name = "release_date", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date releaseDate;
+    @Column(name = "release_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date releaseDate;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtc")
-	private List<ProCtcTerm> proCtcTerms = new ArrayList<ProCtcTerm>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtc")
+    private List<ProCtcTerm> proCtcTerms = new ArrayList<ProCtcTerm>();
 
-	public ProCtc() {
-	}
+    public ProCtc() {
+    }
 
-	public ProCtc(Integer id) {
-		this.id = id;
-	}
+    public ProCtc(Integer id) {
+        this.id = id;
+    }
 
-	public ProCtc(Integer id, String proCtcVersion, Date releaseDate) {
-		this.id = id;
-		this.proCtcVersion = proCtcVersion;
-		this.releaseDate = releaseDate;
-	}
+    public ProCtc(Integer id, String proCtcVersion, Date releaseDate) {
+        this.id = id;
+        this.proCtcVersion = proCtcVersion;
+        this.releaseDate = releaseDate;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getProCtcVersion() {
-		return proCtcVersion;
-	}
+    public String getProCtcVersion() {
+        return proCtcVersion;
+    }
 
-	public void setProCtcVersion(String proCtcVersion) {
-		this.proCtcVersion = proCtcVersion;
-	}
+    public void setProCtcVersion(String proCtcVersion) {
+        this.proCtcVersion = proCtcVersion;
+    }
 
-	public Date getReleaseDate() {
-		return releaseDate;
-	}
+    public Date getReleaseDate() {
+        return releaseDate;
+    }
 
-	public void setReleaseDate(Date releaseDate) {
-		this.releaseDate = releaseDate;
-	}
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }
 
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+    public List<ProCtcTerm> getProCtcTerms() {
+        return proCtcTerms;
+    }
 
-		ProCtc proCtc = (ProCtc) o;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-		if (id != null ? !id.equals(proCtc.id) : proCtc.id != null)
-			return false;
-		if (proCtcVersion != null ? !proCtcVersion.equals(proCtc.proCtcVersion)
-				: proCtc.proCtcVersion != null)
-			return false;
-		if (releaseDate != null ? !releaseDate.equals(proCtc.releaseDate)
-				: proCtc.releaseDate != null)
-			return false;
+        ProCtc proCtc = (ProCtc) o;
 
-		return true;
-	}
+        if (id != null ? !id.equals(proCtc.id) : proCtc.id != null)
+            return false;
+        if (proCtcVersion != null ? !proCtcVersion.equals(proCtc.proCtcVersion)
+                : proCtc.proCtcVersion != null)
+            return false;
+        if (releaseDate != null ? !releaseDate.equals(proCtc.releaseDate)
+                : proCtc.releaseDate != null)
+            return false;
 
-	@Override
-	public int hashCode() {
-		int result;
-		result = (id != null ? id.hashCode() : 0);
-		result = 31 * result
-				+ (proCtcVersion != null ? proCtcVersion.hashCode() : 0);
-		result = 31 * result
-				+ (releaseDate != null ? releaseDate.hashCode() : 0);
-		return result;
-	}
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "Version: " + proCtcVersion + ", Released: " + releaseDate;
-	}
+    @Override
+    public int hashCode() {
+        int result;
+        result = (id != null ? id.hashCode() : 0);
+        result = 31 * result
+                + (proCtcVersion != null ? proCtcVersion.hashCode() : 0);
+        result = 31 * result
+                + (releaseDate != null ? releaseDate.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Version: " + proCtcVersion + ", Released: " + releaseDate;
+    }
 
 }
