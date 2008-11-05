@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author Saurabh Agrawal
+ * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
 public class UniqueObjectInCollectionValidator implements Validator<UniqueObjectInCollection> {

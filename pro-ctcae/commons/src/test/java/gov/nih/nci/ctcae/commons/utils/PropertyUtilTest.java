@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import edu.nwu.bioinformatics.commons.StringUtils;
 
 /**
- * @author Saurabh Agrawal
+ * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
 public class PropertyUtilTest extends TestCase {

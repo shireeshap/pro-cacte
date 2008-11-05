@@ -5,7 +5,7 @@ import java.lang.annotation.Annotation;
 /**
  * A constraint validator for a particular annotation
  *
- * @author Saurabh Agrawal
+ * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
 public interface Validator<A extends Annotation> {

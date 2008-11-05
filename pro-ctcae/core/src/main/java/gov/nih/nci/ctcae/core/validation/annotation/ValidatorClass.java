@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * Link between an constraint annotation and it's validator implementation
  *
- * @author Saurabh Agrawal
+ * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
 @Documented

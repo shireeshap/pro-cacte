@@ -7,7 +7,7 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 
 /**
- * @author Saurabh Agrawal
+ * @author Vinay Kumar
  * @crated Oct 28, 2008
  */
 public class UniqueObjectInCollectionValidatorTest extends AbstractTestCase {

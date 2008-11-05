@@ -13,34 +13,6 @@ public class TestBean extends BasePersistable {
     private Integer id;
     private Date date;
 
-    private String firstName;
-    private String lastName;
-    private String title;
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -49,15 +21,11 @@ public class TestBean extends BasePersistable {
         this.id = id;
     }
 
-    public String getEmailId() {
-        return null;
+    public Date getDate() {
+        return date;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

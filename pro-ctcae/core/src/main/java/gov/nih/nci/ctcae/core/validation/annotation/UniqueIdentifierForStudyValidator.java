@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Required;
 import java.util.Collection;
 
 /**
- * @author Saurabh Agrawal
+ * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
 public class UniqueIdentifierForStudyValidator implements Validator<UniqueIdentifierForStudy> {

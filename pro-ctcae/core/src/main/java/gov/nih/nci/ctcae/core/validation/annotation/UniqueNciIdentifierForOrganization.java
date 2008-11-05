@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * Orgnaizations must have unique nci identifier. This is required to create csm-protection-group
  * etc..
  *
- * @author Saurabh Agrawal
+ * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
 @Documented
