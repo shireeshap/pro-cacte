@@ -22,8 +22,8 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     public CreateClinicalStaffController() {
         setCommandClass(gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand.class);
         setCommandName("clinicalStaffCommand");
-        setFormView("clinicalstaff/createClinicalStaff");
-        setSuccessView("clinicalstaff/confirmClinicalStaff");
+        setFormView("clinicalStaff/createClinicalStaff");
+        setSuccessView("clinicalStaff/confirmClinicalStaff");
         setBindOnNewForm(true);
         setSessionForm(true);
     }

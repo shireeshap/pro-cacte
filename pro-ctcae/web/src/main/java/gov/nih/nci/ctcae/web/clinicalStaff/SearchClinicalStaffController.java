@@ -16,7 +16,7 @@ public class SearchClinicalStaffController extends AbstractController {
 
     protected ModelAndView handleRequestInternal (final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-        ModelAndView modelAndView = new ModelAndView("clinicalstaff/searchClinicalStaff");
+        ModelAndView modelAndView = new ModelAndView("clinicalStaff/searchClinicalStaff");
 
         return modelAndView;
     }

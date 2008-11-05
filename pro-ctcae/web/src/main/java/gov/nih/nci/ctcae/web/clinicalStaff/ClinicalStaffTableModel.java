@@ -38,7 +38,7 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
         columnFirstName.setTitle("First name");
         columnFirstName.setProperty("firstName");
         columnFirstName.setSortable(Boolean.TRUE);
-        columnFirstName.setCell("gov.nih.nci.ctcae.web.clinicalstaff.ClinicalStaffLinkDisplayDetailsCell");
+        columnFirstName.setCell("gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffLinkDisplayDetailsCell");
 
         model.addColumn(columnFirstName);
     }
