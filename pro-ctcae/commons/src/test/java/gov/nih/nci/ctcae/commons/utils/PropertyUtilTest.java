@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.commons.utils;
 
 import junit.framework.TestCase;
+import edu.nwu.bioinformatics.commons.StringUtils;
 
 /**
  * @author Saurabh Agrawal
@@ -26,6 +27,18 @@ public class PropertyUtilTest extends TestCase {
 
         testProperty = PropertyUtil.getCollectionMethodName("studySites");
         assertEquals(null, testProperty);
+
+    }
+
+    public void testValidateCollectionPropertyName() throws Exception {
+
+        String studySiteMethodName = PropertyUtil
+                .getColletionPropertyName("studySites[0].statusCode");
+        assertEquals("studySites[0]", studySiteMethodName);
+
+        String testProperty = PropertyUtil.getColletionPropertyName("studySites[0]");
+        assertNull(testProperty);
+
 
     }
 }
