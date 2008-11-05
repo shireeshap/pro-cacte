@@ -60,7 +60,7 @@ public class CreateFormController<C extends CreateFormCommand> extends CtcAeTabb
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CreateFormCommand createFormCommand = (CreateFormCommand) command;
         crfRepository.save(createFormCommand.getStudyCrf().getCrf());
-        ModelAndView modelAndView = new ModelAndView("forward:confirm?type=confirm", errors.getModel());
+        ModelAndView modelAndView = new ModelAndView("form/confirmForm", errors.getModel());
         return modelAndView;
 
 

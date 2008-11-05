@@ -229,7 +229,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalSt
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneQuestionController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ConfirmFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ControllersUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormController.java -text
@@ -394,7 +393,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudySiteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/confirmStudy.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/study/createStudy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/searchStudy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_details.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_reviewsummary.jsp -text
@@ -691,5 +689,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/cell/AbstractCellTestCas
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCellTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tag/AuthorizeTagTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTagTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tools/ObjectToolsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorTest.java -text
 pro-ctcae/web/web.iml -text

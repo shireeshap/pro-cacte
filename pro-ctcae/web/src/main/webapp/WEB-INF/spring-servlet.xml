@@ -181,9 +181,6 @@
 
     </bean>
 
-    <bean name="/form/confirm" id="confirmFormController"
-          class="gov.nih.nci.ctcae.web.form.ConfirmFormController">
-    </bean>
 
     <!--<bean name="/form/viewForm" id="viewFormController"-->
     <!--class="gov.nih.nci.ctcae.web.form.ConfirmFormController">-->
