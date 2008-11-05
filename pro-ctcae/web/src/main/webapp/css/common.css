@@ -5,14 +5,13 @@ background: url(../images/blue/html_bg.png) repeat-x top #006cd7;
 }
 
 body {
-
-	background: url(../images/blue/body_bg.png) repeat-y scroll center;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	color: #000000;
 	text-align: center;
 	margin: 0px;
 	padding: 0px;
+	position:relative;
 }
 
 .workflow-tabs{
@@ -101,11 +100,14 @@ a img{
 	vertical-align:baseline;
 }
 #all {
-width:980px;
-margin:0px auto;
-text-align:left;
-/*background: #666;*/
-position:relative;
+	width:980px;
+	margin:0px auto;
+	text-align:left;
+	position:relative;
+	background-image: url(../images/blue/body_bg.png);
+	background-repeat: repeat-y;
+	background-position: -22px;
+	overflow: visible;
 }
 
 h1, h2, h3, h4, h5, h6 {
