@@ -32,7 +32,7 @@ public class ClinicalStaff extends Person {
     @Column(name = "phone_number", nullable = true)
     private String phoneNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clinicalstaff", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clinicalStaff", fetch = FetchType.EAGER)
     private List<SiteClinicalStaff> siteClinicalStaffs = new ArrayList<SiteClinicalStaff>();
 
     public String getEmailAddress() {
