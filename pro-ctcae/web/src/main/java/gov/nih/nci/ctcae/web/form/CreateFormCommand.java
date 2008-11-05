@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.CrfItem;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,7 +27,7 @@ public class CreateFormCommand implements Serializable {
     public CreateFormCommand() {
         CRF crf = new CRF();
 //        crf.setTitle("crf1");
-        crf.setStatus("crf1");
+        crf.setStatus(CrfStatus.DRAFT);
         crf.setCrfVersion("1.1");
         this.studyCrf = new StudyCrf();
         crf.addStudyCrf(studyCrf);
