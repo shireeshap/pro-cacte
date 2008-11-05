@@ -1,9 +1,9 @@
+<%@ attribute name="proCtcQuestion" type="gov.nih.nci.ctcae.core.domain.ProCtcQuestion" required="true" %>
 <%@ attribute name="displayOrder" %>
-<%@ attribute name="proCtcTerm" type="gov.nih.nci.ctcae.core.domain.ProCtcQuestion" required="true" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
-<div class="sortable makeDraggable" id="sortable_${proCtcTerm.id}">
+<div class="sortable makeDraggable" id="sortable_${proCtcQuestion.id}">
     <table class="formbuilderboxTable">
         <tr>
             <td class="TL"></td>
@@ -14,9 +14,9 @@
             <td class="L"></td>
             <td class="formbuilderboxContent">
                 <span id="${displayOrder}" class="sortableSpan">${displayOrder}</span>
-                ${proCtcTerm.questionText}
-                <a id="del-${proCtcTerm.id}" class="del"
-                   href="javascript:deleteQuestion('${proCtcTerm.id}');">
+                ${proCtcQuestion.questionText}
+                <a id="del-${proCtcQuestion.id}" class="del"
+                   href="javascript:deleteQuestion('${proCtcQuestion.id}');">
 
                     <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
                          style="vertical-align:middle">

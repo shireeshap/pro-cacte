@@ -229,7 +229,12 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalSt
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneQuestionController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ControllersUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReviewFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SearchFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SetNameController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormCommand.java -text
@@ -264,6 +269,7 @@ pro-ctcae/web/src/main/resources/message.properties -text
 pro-ctcae/web/src/main/webapp/WEB-INF/ctcae.tld -text
 pro-ctcae/web/src/main/webapp/WEB-INF/decorators.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/decorators/standard.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/decorators/tabbedflow.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/dwr.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/layouts/defaultLayout.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/log4j.xml -text
@@ -292,6 +298,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/chrome/section.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/chrome/workflowTabs.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/dateInput.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/debugInfo.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/displayAutocompleter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/displayDateInput.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/displayInputs.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/displayLabel.tag -text
@@ -347,6 +354,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/header.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/stylesheetLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabControls.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabFields.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabForm.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabMethod.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tiles-definitions.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/confirmClinicalStaff.jsp -text
@@ -359,8 +367,9 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneQustionSection.jsp -tex
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/reorderSucessfull.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/chooseStudy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmForm.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.xml -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/form_details.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/manageForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/reviewForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
@@ -396,6 +405,7 @@ pro-ctcae/web/src/main/webapp/css/side-bar.css -text
 pro-ctcae/web/src/main/webapp/css/solicited_ae.css -text
 pro-ctcae/web/src/main/webapp/css/standard-form.css -text
 pro-ctcae/web/src/main/webapp/css/tabbedflow.css -text
+pro-ctcae/web/src/main/webapp/css/tree.css -text
 pro-ctcae/web/src/main/webapp/decorated-error.jsp -text
 pro-ctcae/web/src/main/webapp/error.jsp -text
 pro-ctcae/web/src/main/webapp/images/alphacube/bottom-left-c.gif -text
@@ -633,6 +643,7 @@ pro-ctcae/web/src/main/webapp/js/sidebar/ssm.js -text
 pro-ctcae/web/src/main/webapp/js/sidebar/ssmItems.js -text
 pro-ctcae/web/src/main/webapp/js/tabbedflow.js -text
 pro-ctcae/web/src/main/webapp/js/tiger-menu.js -text
+pro-ctcae/web/src/main/webapp/js/tree.js -text
 pro-ctcae/web/src/main/webapp/js/validation.js -text
 pro-ctcae/web/src/test/java/SeleniumTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AbstractWebIntegrationTestCase.java -text
@@ -640,6 +651,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ApplicationConversionServiceTe
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/WebTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/ControllersUtilsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CreateFormCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFacadeIntegrationTest.java -text

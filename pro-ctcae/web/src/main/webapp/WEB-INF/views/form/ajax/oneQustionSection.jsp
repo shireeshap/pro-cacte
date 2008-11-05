@@ -1,3 +1,3 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
-<tags:oneQuestion proCtcTerm="${proCtcTerm}" displayOrder="${displayOrder}" ></tags:oneQuestion>
+<tags:oneQuestion proCtcQuestion="${proCtcQuestion}" displayOrder="${displayOrder}"></tags:oneQuestion>

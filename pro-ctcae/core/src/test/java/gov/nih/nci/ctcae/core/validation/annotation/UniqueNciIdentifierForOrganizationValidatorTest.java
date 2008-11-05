@@ -1,15 +1,14 @@
 package gov.nih.nci.ctcae.core.validation.annotation;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
-import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import org.springframework.beans.BeanWrapperImpl;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 
 /**
@@ -20,6 +19,7 @@ public class UniqueNciIdentifierForOrganizationValidatorTest extends AbstractTes
 
     private UniqueNciIdentifierForOrganizationValidator validator;
     private OrganizationRepository organizationRepository;
+    private Organization organization;
 
     @Override
     protected void setUp() throws Exception {
@@ -27,6 +27,7 @@ public class UniqueNciIdentifierForOrganizationValidatorTest extends AbstractTes
         validator = new UniqueNciIdentifierForOrganizationValidator();
         organizationRepository = registerMockFor(OrganizationRepository.class);
         validator.setOrganizationRepository(organizationRepository);
+        organization = new Organization();
     }
 
     public void testValidateUniqueIdentifier() {
@@ -35,6 +36,24 @@ public class UniqueNciIdentifierForOrganizationValidatorTest extends AbstractTes
         replayMocks();
         assertTrue("identifier does not exists", validator.validate("identifier"));
         verifyMocks();
+
+    }
+
+    public void testInitialzie() {
+
+        BeanWrapperImpl beanWrapperImpl = new BeanWrapperImpl(organization);
+        Annotation[] annotationsArray = beanWrapperImpl.getPropertyDescriptor("nciInstituteCode").getReadMethod().getAnnotations();
+        assertFalse("must find annotation", annotationsArray.length == 0);
+
+
+//        validator.initialize(annotationsArray[0]);
+//        assertEquals("identifier does not exists", validator.message());
+
+    }
+
+    public void testValidateReturnTrueForWrongValue() {
+
+        assertTrue("identifier does not exists", validator.validate(organization));
 
     }
 

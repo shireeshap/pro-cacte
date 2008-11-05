@@ -18,27 +18,29 @@
 </head>
 <body>
 
-<form:form modelAttribute="command" method="post">
-    <div class="instructions">
 
-        <div class="summarylabel">Study</div>
-        <div class="summaryvalue">${command.studyCrf.study.displayName}</div>
-    </div>
-    <chrome:box title="Review form">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
+    <jsp:attribute name="singleFields">
+        <c:if test="${(empty command.studyCrf.id) or ( command.studyCrf.id le 0) }">
+            <input type="hidden" name="_finish" value="true"/>
+        </c:if>
+        <div class="instructions">
+
+            <div class="summarylabel">Study</div>
+            <div class="summaryvalue">${command.studyCrf.study.displayName}</div>
+        </div>
         <div class="instructions">
 
             <div class="summarylabel">Title</div>
             <div class="summaryvalue">${command.studyCrf.crf.title}</div>
         </div>
+        <br>
         <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem">
             <tags:reviewQuestion crfItem="${crfItem}"></tags:reviewQuestion>
 
         </c:forEach>
-    </chrome:box>
-
-
-    <tags:flowControls willSave="true" saveAction="save" showBack="true" backAction="back" saveButtonLabel="Save"/>
-
-</form:form>
+   
+</jsp:attribute>
+</tags:tabForm>
 
 </body>

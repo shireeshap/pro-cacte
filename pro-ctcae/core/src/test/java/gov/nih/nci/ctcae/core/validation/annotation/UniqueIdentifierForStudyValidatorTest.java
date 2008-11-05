@@ -2,11 +2,14 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import org.springframework.beans.BeanWrapperImpl;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 
 /**
@@ -15,15 +18,18 @@ import java.util.ArrayList;
  */
 public class UniqueIdentifierForStudyValidatorTest extends AbstractTestCase {
 
-    private UniqueIdentifierForStudyValidator validator;
+    private Validator validator;
     private StudyRepository studyRepository;
+    private Study study;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         validator = new UniqueIdentifierForStudyValidator();
         studyRepository = registerMockFor(StudyRepository.class);
-        validator.setStudyRepository(studyRepository);
+        ((UniqueIdentifierForStudyValidator) validator).setStudyRepository(studyRepository);
+        study = new Study();
+        study.addStudySite(new StudySite());
     }
 
     public void testValidateUniqueIdentifier() {
@@ -34,6 +40,25 @@ public class UniqueIdentifierForStudyValidatorTest extends AbstractTestCase {
         verifyMocks();
 
     }
+
+    public void testInitialzie() {
+
+        BeanWrapperImpl beanWrapperImpl = new BeanWrapperImpl(study);
+        Annotation[] annotationsArray = beanWrapperImpl.getPropertyDescriptor("studySites").getReadMethod().getAnnotations();
+        assertFalse("must find annotation", annotationsArray.length == 0);
+
+
+//        validator.initialize(annotationsArray[0]);
+//        assertEquals("identifier does not exists", validator.message());
+
+    }
+
+    public void testValidateReturnTrueForWrongValue() {
+
+        assertTrue("identifier does not exists", validator.validate(study));
+
+    }
+
 
     public void testValidateNonUniqueIdentifier() {
 

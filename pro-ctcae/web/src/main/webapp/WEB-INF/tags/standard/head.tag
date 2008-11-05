@@ -42,5 +42,8 @@
 <tags:javascriptLink name="common-scriptaculous"/>
 
 <!-- SCRIPACULOUS END -->
+<tags:javascriptLink name="tree"/>
 
+<tags:stylesheetLink name="tree"/>
+ 
 

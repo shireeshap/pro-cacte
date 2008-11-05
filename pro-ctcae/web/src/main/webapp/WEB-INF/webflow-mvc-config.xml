@@ -9,16 +9,16 @@
 			http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 
-    <bean name="/form/createForm" id="createFormController"
+    <!--<bean name="/form/createForm" id="createFormController"-->
+    <!--class="org.springframework.webflow.mvc.servlet.FlowController">-->
+    <!--<property name="flowExecutor" ref="mvcFlowExecutor"/>-->
+    <!--</bean>-->
+
+
+    <bean name="/flow" id="flowController"
           class="org.springframework.webflow.mvc.servlet.FlowController">
         <property name="flowExecutor" ref="mvcFlowExecutor"/>
     </bean>
-
-    <!---->
-     <!--<bean name="/flow" id="flowController"-->
-          <!--class="org.springframework.webflow.mvc.servlet.FlowController">-->
-        <!--<property name="flowExecutor" ref="mvcFlowExecutor"/>-->
-    <!--</bean>-->
 
     <webflow:flow-executor id="mvcFlowExecutor" flow-registry="mvcFlowRegistry">
         <webflow:flow-execution-repository max-executions="1"/>

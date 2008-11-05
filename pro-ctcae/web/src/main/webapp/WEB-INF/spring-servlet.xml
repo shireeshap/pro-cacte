@@ -23,7 +23,7 @@
 
         <property name="mappings">
             <value>
-                /form/createForm=createFormController
+                <!--/form/createForm=createFormController-->
                 <!--/form/viewForm=viewFormController-->
             </value>
         </property>
@@ -94,16 +94,14 @@
             <list>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Form"
-                      p:mainController="createFormController">
+                      p:mainController="manageFormController">
                     <property name="pathMapping">
                         <value>/form/**</value>
                     </property>
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Create New Form" p:linkName="createFormController"/>
-                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Manage Form" p:linkName="searchFormController"/>
+                                  p:displayName="Manage Form" p:linkName="manageFormController"/>
 
                         </list>
                     </property>
@@ -174,10 +172,16 @@
         </property>
     </bean>
 
-    <!--<bean name="/form/createForm" id="createFormController"-->
-    <!--class="gov.nih.nci.ctcae.web.form.CreateFormController" parent="ctcaeSimpleFormController">-->
-    <!--<property name="finderRepository" ref="finderRepository"/>-->
-    <!--</bean>-->
+    <bean name="/form/manageForm" id="manageFormController" class="gov.nih.nci.ctcae.web.form.ManageFormController">
+    </bean>
+
+    <bean name="/form/createForm" id="createFormController" class="gov.nih.nci.ctcae.web.form.CreateFormController"
+          parent="tabbedFlowFormController">
+        <property name="studyRepository" ref="studyRepository"/>
+        <property name="controllerTools" ref="controllerTools"/>
+        <property name="finderRepository" ref="finderRepository"/>
+    </bean>
+
     <bean name="/form/addOneQuestion" id="oneQuestionController"
           class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">
         <property name="finderRepository" ref="finderRepository"/>
@@ -257,6 +261,12 @@
         <property name="webControllerValidator" ref="webControllerValidator"/>
     </bean>
 
+    <bean id="tabConfigurer" class="gov.nih.nci.cabig.ctms.web.tabs.DefaultTabConfigurer"/>
+
+    <bean name="tabbedFlowFormController" abstract="true">
+        <property name="tabConfigurer" ref="tabConfigurer"/>
+    </bean>
+
     <!-- validation beans-->
 
     <bean id="webControllerValidator"
@@ -269,5 +279,6 @@
     <bean id="uniqueObjectInCollectionValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollectionValidator">
     </bean>
+
 
 </beans>

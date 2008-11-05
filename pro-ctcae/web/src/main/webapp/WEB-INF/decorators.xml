@@ -10,6 +10,17 @@
         <pattern>/public/login</pattern>
     </decorator>
 
+    <decorator name="tabbedflow" page="tabbedflow.jsp">
+        <pattern>/pages/study/editStudy</pattern>
+        <pattern>/pages/study/createStudy</pattern>
+        <pattern>/pages/participant/create</pattern>
+        <pattern>/pages/participant/edit</pattern>
+        <pattern>/pages/participant/assignStudy</pattern>
+        <pattern>/pages/participant/assignParticipant</pattern>
+        <pattern>/pages/form/createForm</pattern>
+        <pattern>/pages/form/manageForm</pattern>
+    </decorator>
+
 
     <excludes>
         <pattern>/pages/form/setName</pattern>
