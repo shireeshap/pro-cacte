@@ -30,7 +30,7 @@ ul.tree li.closed ul {
 
 ul.tree li {
     list-style: none;
-    background: url( i-repeater.gif ) 0 0 repeat-y;
+    background: url( ../images/i-repeater.gif ) 0 0 repeat-y;
     display: block;
     width: auto; /* background-color:#FFFFFF; */
 }
@@ -42,12 +42,12 @@ ul.tree li.last {
 
 /* Span-A: I/L/I glpyhs */
 ul.tree span.a {
-    background: url( t.gif ) 0 50% no-repeat;
+    background: url( ../images/t.gif ) 0 50% no-repeat;
     display: block;
 }
 
 ul.tree span.a.last {
-    background: url( l.gif ) 0 50% no-repeat;
+    background: url( ../images/l.gif ) 0 50% no-repeat;
 }
 
 /* Span-B: Plus/Minus icon */
@@ -55,12 +55,12 @@ ul.tree span.b {
 }
 
 ul.tree span.a.children span.b {
-    background: url( minus.gif ) 0 50% no-repeat;
+    background: url( ../images/minus.gif ) 0 50% no-repeat;
     cursor: pointer;
 }
 
 ul.tree li.closed span.a.children span.b {
-    background: url( plus.gif ) 0 50% no-repeat;
+    background: url( ../images/plus.gif ) 0 50% no-repeat;
     cursor: pointer;
 }
 
@@ -70,7 +70,7 @@ ul.tree span.c {
 }
 
 ul.tree span.a.children span.c {
-    background: url( i-bottom.gif ) 0 50% no-repeat;
+    background: url( ../images/i-bottom.gif ) 0 50% no-repeat;
 }
 
 ul.tree span.a.spanClosed span.c {
@@ -85,15 +85,15 @@ ul.tree a {
     padding: 10px 0px 10px 18px;
     line-height: 16px;
 
-    background: url( page-file.png ) 0 50% no-repeat;
+    background: url( ../images/page-file.png ) 0 50% no-repeat;
 }
 
 ul.tree span.a.children a {
-    background-image: url( page-openfoldericon.png );
+    background-image: url( ../images/page-openfoldericon.png );
 }
 
 ul.tree span.a.children.spanClosed a {
-    background-image: url( page-foldericon.png );
+    background-image: url( ../images/page-foldericon.png );
 }
 
 /* Unformatted tree */
