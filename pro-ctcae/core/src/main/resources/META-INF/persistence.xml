@@ -5,12 +5,6 @@
     <persistence-unit name="ctcae" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-        <!-- Jpa supports auto-detection of entities.
-          Therefore following entry will be removed later once auto-detection feature of jpa is implemented -->
-        <class>gov.nih.nci.ctcae.core.domain.Organization</class>
-        <class>gov.nih.nci.ctcae.core.domain.Participant</class>
-        <class>gov.nih.nci.ctcae.core.domain.Study</class>
-
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <!--<property name="hibernate.hbm2ddl.auto" value="create-drop"/>-->

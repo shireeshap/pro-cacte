@@ -240,6 +240,10 @@
     <bean name="/participant/search" id="searchParticipantController"
           class="gov.nih.nci.ctcae.web.participant.SearchParticipantController">
     </bean>
+
+    <bean name="/participant/schedulecrf" id="scheduleCrfController"
+          class="gov.nih.nci.ctcae.web.participant.ScheduleCrfController">
+    </bean>
     <bean name="/admin/clinicalStaff/createClinicalStaff" id="createClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.CreateClinicalStaffController" parent="ctcaeSimpleFormController">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>

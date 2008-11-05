@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.core;
 
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.*;
 
 /**
  * @author Vinay Kumar
@@ -28,6 +25,14 @@ public class Fixture {
         return study;
     }
 
+    public static Study createStudyWithStudySite(final String shortTitle, final String longTitle, final String assignedIdentifier, final Organization organization) {
+        Study study = createStudy(shortTitle, longTitle, assignedIdentifier);
+        StudySite studySite = new StudySite();
+        studySite.setOrganization(organization);
+        study.addStudySite(studySite);
+        return study;
+    }
+
     public static ClinicalStaff createClinicalStaff(final String firstName, final String lastName, final String nciIdentifier) {
         ClinicalStaff clinicalStaff = new ClinicalStaff();
         clinicalStaff.setFirstName(firstName);
@@ -41,6 +46,15 @@ public class Fixture {
     	participant.setFirstName(firstName);
     	participant.setLastName(lastName);
     	participant.setAssignedIdentifier(identifier);
+        return participant;
+    }
+
+    public static Participant createParticipantWithStudyAssignment(final String firstName, final String lastName, final String identifier, final StudySite studySite) {
+    	Participant participant = createParticipant(firstName, lastName, identifier);
+        StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
+        studyParticipantAssignment.setStudySite(studySite);
+        studyParticipantAssignment.setStudyParticipantIdentifier("SPI");
+        participant.addStudyParticipantAssignment(studyParticipantAssignment);
         return participant;
     }
 }

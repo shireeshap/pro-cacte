@@ -101,6 +101,22 @@ public class Participant extends Person {
         studyParticipantAssignments.clear();
     }
 
+    @Transient
+    public String getDisplayName() {
+        StringBuilder name = new StringBuilder();
+        boolean hasLastName = getLastName() != null;
+        if (getFirstName() != null) {
+            name.append(getFirstName());
+            if (hasLastName) {
+                name.append(' ');
+            }
+        }
+        if (hasLastName) {
+            name.append(getLastName());
+        }
+        return name.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

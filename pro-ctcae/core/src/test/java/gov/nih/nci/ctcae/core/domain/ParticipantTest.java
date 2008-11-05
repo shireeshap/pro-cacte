@@ -52,6 +52,7 @@ public class ParticipantTest extends TestCase {
         assertEquals("m", participant.getMaidenName());
         assertEquals("mid", participant.getMiddleName());
         assertEquals("mr", participant.getTitle());
+        assertEquals("john Dow", participant.getDisplayName());
     }
 
     public void testEqualsAndHashCode() {

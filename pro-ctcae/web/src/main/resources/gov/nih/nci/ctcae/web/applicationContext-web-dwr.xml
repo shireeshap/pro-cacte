@@ -28,5 +28,11 @@
         <property name="participantRepository" ref="participantRepository"/>
     </bean>
 
+    <bean id="scheduleCrfAjaxFacade"
+          class="gov.nih.nci.ctcae.web.participant.ScheduleCrfAjaxFacade">
+        <property name="participantRepository" ref="participantRepository"/>
+        <property name="studyRepository" ref="studyRepository"/>
+    </bean>
+
 
 </beans>

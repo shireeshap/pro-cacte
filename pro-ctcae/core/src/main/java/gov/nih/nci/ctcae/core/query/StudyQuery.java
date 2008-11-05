@@ -13,7 +13,7 @@ public class StudyQuery extends AbstractQuery {
     private static final String SHORT_TITLE = "shortTitle";
     private static final String LONG_TITLE = "longTitle";
     private static final String ASSIGNED_IDENTIFIER = "assignedIdentifier";
-
+       private static final String PARTICIPANT_ID = "participantId";
     private static String ORGANIZATION_ID = "organizationId";
     private static final String STUDY_SITE = "studySite";
 
@@ -70,9 +70,17 @@ public class StudyQuery extends AbstractQuery {
         if (siteId != null) {
             leftJoin("study.studyOrganizations as sso");
             andWhere("sso.organization.id = :" + ORGANIZATION_ID);
-            andWhere("sso.class = :" +STUDY_SITE );
+            andWhere("sso.class = :" + STUDY_SITE);
             setParameter(ORGANIZATION_ID, siteId);
             setParameter(STUDY_SITE, "SST");
         }
     }
+
+    public void filterByParticipant(Integer participantId) {
+
+        leftJoin("study.studyOrganizations as ss join ss.studyParticipantAssignments as spa join spa.participant as p");
+        andWhere("p.id =:" + PARTICIPANT_ID);
+        setParameter(PARTICIPANT_ID, participantId);
+    }
+
 }
