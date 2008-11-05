@@ -194,8 +194,10 @@ function deleteQuestion(questionId) {
                                     <c:forEach items="${proCtcTerm.proCtcQuestions}" var="proCtcQuestion">
 
                                         <li id="question_${proCtcQuestion.id}">
+                                          <tags:formbuilderBox>
                                                 ${proCtcQuestion.questionText}
                                             <a href="javascript:addQuestion(${proCtcQuestion.id})">Add</a>
+                                          </tags:formbuilderBox>
                                         </li>
 
                                     </c:forEach>
@@ -221,12 +223,9 @@ function deleteQuestion(questionId) {
                     </td>
                     <td id="right">
                         <table style="border-collapse:collapse; height:800px;">
-                            <tr>
-                                <td id="formbuilderTable-borderTop">
-                                </td>
-                            </tr>
                             <tr style="height:100%;">
                                 <td id="formbuilderTable-middle">
+                                 <div id="formbuilderTable-borderTop">
                                     <div class="formbuilderHeader" id="crfTitle">
                                         <c:choose>
                                             <c:when test="${command.studyCrf.crf.title eq ''}">Click here to name
@@ -245,7 +244,7 @@ function deleteQuestion(questionId) {
                             <span class="formbuildersubHeader">There <span id="plural1">are</span> <span
                                     id="totalQuestionDivision">${totalQuestions}</span> question<span
                                     id="plural2">s</span> in this form.</span>
-
+								  </div>
                                     <div id="sortable">
                                         <form:hidden path="questionsIds" id="questionsIds"/>
                                         <input type="hidden" id="totalQuestions" value="${totalQuestions}">
