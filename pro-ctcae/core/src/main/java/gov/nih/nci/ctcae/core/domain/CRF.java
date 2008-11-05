@@ -27,13 +27,13 @@ public class CRF extends BaseVersionable {
     private String description;
 
     @Column(name = "status", nullable = false)
-   @Enumerated(value=EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private CrfStatus status;
 
     @Column(name = "crf_version", nullable = false)
     private String crfVersion;
 
-    @OneToMany( cascade = CascadeType.ALL, mappedBy = "crf")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "crf")
     private List<CrfItem> crfItems = new ArrayList<CrfItem>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
@@ -222,4 +222,7 @@ public class CRF extends BaseVersionable {
         return title;
     }
 
+    public boolean isReleased() {
+        return getStatus().equals(CrfStatus.RELEASEED);
+    }
 }

@@ -177,11 +177,23 @@
 
     <bean name="/form/createForm" id="createFormController" class="gov.nih.nci.ctcae.web.form.CreateFormController"
           parent="tabbedFlowFormController">
-        <property name="studyRepository" ref="studyRepository"/>
-        <property name="controllerTools" ref="controllerTools"/>
-        <property name="finderRepository" ref="finderRepository"/>
+        <property name="crfRepository" ref="crfRepository"/>
+
     </bean>
 
+    <bean name="/form/confirm" id="confirmFormController"
+          class="gov.nih.nci.ctcae.web.form.ConfirmFormController">
+    </bean>
+
+    <!--<bean name="/form/viewForm" id="viewFormController"-->
+    <!--class="gov.nih.nci.ctcae.web.form.ConfirmFormController">-->
+    <!--</bean>-->
+    <!---->
+    <bean name="/form/relaseForm" id="releaseFormController"
+          class="gov.nih.nci.ctcae.web.form.ReleaseFormController" parent="ctcaeSimpleFormController">
+        <property name="finderRepository" ref="finderRepository"/>
+        <property name="studyRepository" ref="studyRepository"/>
+    </bean>
     <bean name="/form/addOneQuestion" id="oneQuestionController"
           class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">
         <property name="finderRepository" ref="finderRepository"/>
@@ -199,9 +211,10 @@
 
 
     <bean name="/study/createStudy" id="createStudyController"
-          class="gov.nih.nci.ctcae.web.study.CreateStudyController" parent="ctcaeSimpleFormController">
+          class="gov.nih.nci.ctcae.web.study.CreateStudyController" parent="tabbedFlowFormController">
         <property name="studyRepository" ref="studyRepository"/>
     </bean>
+
     <bean name="/study/addStudySite" id="addStudySiteController"
           class="gov.nih.nci.ctcae.web.study.AddStudySiteController">
     </bean>
@@ -263,9 +276,15 @@
 
     <bean id="tabConfigurer" class="gov.nih.nci.cabig.ctms.web.tabs.DefaultTabConfigurer"/>
 
-    <bean name="tabbedFlowFormController" abstract="true">
+    <bean name="tabbedFlowFormController" class="gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController" abstract="true">
         <property name="tabConfigurer" ref="tabConfigurer"/>
+        <property name="studyRepository" ref="studyRepository"/>
+        <property name="controllerTools" ref="controllerTools"/>
+        <property name="finderRepository" ref="finderRepository"/>
+        <property name="organizationRepository" ref="organizationRepository"/>
+
     </bean>
+
 
     <!-- validation beans-->
 

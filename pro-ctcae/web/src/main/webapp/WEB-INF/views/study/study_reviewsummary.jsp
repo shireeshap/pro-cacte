@@ -37,36 +37,39 @@
 
 </head>
 <body>
-<chrome:flashMessage flashMessage="The Study was saved successfully"></chrome:flashMessage>
-
-<chrome:box title="Study details">
+<p><tags:instructions code="study.study_overview.top"/></p>
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
+    <jsp:attribute name="singleFields">
+        <c:if test="${(empty command.study.id) or ( command.study.id le 0) }">
+            <input type="hidden" name="_finish" value="true"/>
+        </c:if>
 
     <chrome:division>
         <div class="leftpanel">
             <div class="row">
                 <div class="label">Assigned identifier</div>
-                <div class="value">${command.assignedIdentifier} </div>
+                <div class="value">${command.study.assignedIdentifier} </div>
             </div>
             <div class="row">
                 <div class="label">Short title</div>
-                <div class="value">${command.shortTitle} </div>
+                <div class="value">${command.study.shortTitle} </div>
             </div>
             <div class="row">
                 <div class="label">Long title</div>
-                <div class="value">${command.longTitle} </div>
+                <div class="value">${command.study.longTitle} </div>
             </div>
 
             <div class="row">
                 <div class="label">Description</div>
-                <div class="value">${command.description} </div>
+                <div class="value">${command.study.description} </div>
             </div>
             <div class="row">
                 <div class="label">Funding sponsor</div>
-                <div class="value">${command.studyFundingSponsor.organization.displayName} </div>
+                <div class="value">${command.study.studyFundingSponsor.organization.displayName} </div>
             </div>
             <div class="row">
                 <div class="label">Coordinating center</div>
-                <div class="value">${command.studyCoordinatingCenter.organization.displayName} </div>
+                <div class="value">${command.study.studyCoordinatingCenter.organization.displayName} </div>
             </div>
         </div>
     </chrome:division>
@@ -83,7 +86,7 @@
                 <tr>
 
                     <td style="border-right:none;">
-                        <c:forEach items="${command.studySites}" var="studySite">
+                        <c:forEach items="${command.study.studySites}" var="studySite">
                             <div class="row">
                                     ${studySite.organization.displayName}
                             </div>
@@ -106,8 +109,8 @@
 
     </chrome:division>
 
-
-</chrome:box>
+</jsp:attribute>
+</tags:tabForm>
 
 </body>
 </html>

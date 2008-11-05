@@ -26,7 +26,7 @@ public class CreateFormCommand implements Serializable {
 
     public CreateFormCommand() {
         CRF crf = new CRF();
-//        crf.setTitle("crf1");
+        crf.setTitle("crf1");
         crf.setStatus(CrfStatus.DRAFT);
         crf.setCrfVersion("1.1");
         this.studyCrf = new StudyCrf();
