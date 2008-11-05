@@ -87,7 +87,7 @@ public class ClinicalStaff extends Person {
 
     public void removeSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
         if (siteClinicalStaff != null) {
-            removeSiteClinicalStaff(siteClinicalStaff);
+            this.getSiteClinicalStaffs().remove(siteClinicalStaff);
         }
     }
 

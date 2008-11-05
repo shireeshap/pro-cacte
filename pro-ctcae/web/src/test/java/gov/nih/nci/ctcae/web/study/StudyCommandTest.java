@@ -63,7 +63,7 @@ public class StudyCommandTest extends WebTestCase {
         study.addStudySite(studySite4);
         study.addStudySite(studySite5);
         study.addStudySite(studySite6);
-        assertEquals("must be 3 study sites", 6, study.getStudySites().size());
+        assertEquals("must be 6 study sites", 6, study.getStudySites().size());
 
         studyCommand.setObjectsIdsToRemove("1,3,2");
 
