@@ -141,6 +141,10 @@ public abstract class AbstractQuery implements Query {
         addToJoinsSet(" left join " + objectQuery);
     }
 
+    protected void innerJoin(String objectQuery) {
+        addToJoinsSet(" inner join " + objectQuery);
+    }
+
     protected void leftJoinFetch(String objectQuery) {
         addToJoinsSet(" left join fetch " + objectQuery);
     }
