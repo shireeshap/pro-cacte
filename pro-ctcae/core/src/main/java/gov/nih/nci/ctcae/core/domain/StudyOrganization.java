@@ -15,49 +15,49 @@ import java.util.List;
 @DiscriminatorColumn(name = "type")
 public abstract class StudyOrganization extends BasePersistable {
 
-	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Integer id;
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "studySite")
-	private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studySite", fetch = FetchType.LAZY)
+    private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
 
-	@ManyToOne
-	@JoinColumn(name = "organization_id", nullable = false)
-	private Organization organization;
+    @ManyToOne
+    @JoinColumn(name = "organization_id", nullable = false)
+    private Organization organization;
 
-	@ManyToOne
-	@JoinColumn(name = "study_id", nullable = false)
-	private Study study;
+    @ManyToOne
+    @JoinColumn(name = "study_id", nullable = false)
+    private Study study;
 
-	public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
-		return studyParticipantAssignments;
-	}
+    public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
+        return studyParticipantAssignments;
+    }
 
-	public Study getStudy() {
-		return study;
-	}
+    public Study getStudy() {
+        return study;
+    }
 
-	public Organization getOrganization() {
-		return organization;
-	}
+    public Organization getOrganization() {
+        return organization;
+    }
 
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
 
-	public void setStudy(Study study) {
-		this.study = study;
-	}
+    public void setStudy(Study study) {
+        this.study = study;
+    }
 
     @Override
     public boolean equals(Object o) {

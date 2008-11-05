@@ -22,10 +22,10 @@ public class ProCtcQuestion extends BasePersistable {
     @Column(name = "question_text", nullable = false)
     private String questionText;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcQuestion", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcQuestion", fetch = FetchType.LAZY)
     private List<ProCtcValidValue> validValues = new ArrayList<ProCtcValidValue>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcQuestion")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcQuestion", fetch = FetchType.LAZY)
     private List<CrfItem> crfItems = new ArrayList<CrfItem>();
 
     @JoinColumn(name = "pro_ctc_term_id", referencedColumnName = "id")

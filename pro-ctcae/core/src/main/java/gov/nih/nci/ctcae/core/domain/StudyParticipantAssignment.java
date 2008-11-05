@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.core.domain;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author
@@ -14,70 +13,70 @@ import java.util.List;
 @Table(name = "study_participant_assignments")
 public class StudyParticipantAssignment extends BaseVersionable {
 
-	@Id
-	@Column(name = "id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Integer id;
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
 
-	@Column(name = "study_participant_identifier", nullable = false)
-	private String studyParticipantIdentifier;
+    @Column(name = "study_participant_identifier", nullable = false)
+    private String studyParticipantIdentifier;
 
-	@JoinColumn(name = "participant_id", referencedColumnName = "id")
-	@ManyToOne
-	private Participant participant;
+    @JoinColumn(name = "participant_id", referencedColumnName = "id")
+    @ManyToOne
+    private Participant participant;
 
-	@JoinColumn(name = "study_site_id", referencedColumnName = "id")
-	@ManyToOne
-	private StudyOrganization studySite;
+    @JoinColumn(name = "study_site_id", referencedColumnName = "id")
+    @ManyToOne
+    private StudyOrganization studySite;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantAssignment")
-	private Collection<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
+    private Collection<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
 
-	public StudyParticipantAssignment() {
-	}
+    public StudyParticipantAssignment() {
+    }
 
-	public StudyParticipantAssignment(Integer id) {
-		this.id = id;
-	}
+    public StudyParticipantAssignment(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getStudyParticipantIdentifier() {
-		return studyParticipantIdentifier;
-	}
+    public String getStudyParticipantIdentifier() {
+        return studyParticipantIdentifier;
+    }
 
-	public void setStudyParticipantIdentifier(String studyParticipantIdentifier) {
-		this.studyParticipantIdentifier = studyParticipantIdentifier;
-	}
+    public void setStudyParticipantIdentifier(String studyParticipantIdentifier) {
+        this.studyParticipantIdentifier = studyParticipantIdentifier;
+    }
 
-	public Participant getParticipant() {
-		return participant;
-	}
+    public Participant getParticipant() {
+        return participant;
+    }
 
-	public void setParticipant(Participant participant) {
-		this.participant = participant;
-	}
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
+    }
 
-	public StudyOrganization getStudySite() {
-		return studySite;
-	}
+    public StudyOrganization getStudySite() {
+        return studySite;
+    }
 
-	public void setStudySite(StudyOrganization studySite) {
-		this.studySite = studySite;
-	}
+    public void setStudySite(StudyOrganization studySite) {
+        this.studySite = studySite;
+    }
 
-	public Collection<StudyParticipantCrf> getStudyParticipantCrfs() {
-		return studyParticipantCrfs;
-	}
+    public Collection<StudyParticipantCrf> getStudyParticipantCrfs() {
+        return studyParticipantCrfs;
+    }
 
-	public void addStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf){
-        if(studyParticipantCrf != null){
+    public void addStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
+        if (studyParticipantCrf != null) {
             studyParticipantCrf.setStudyParticipantAssignment(this);
             studyParticipantCrfs.add(studyParticipantCrf);
         }

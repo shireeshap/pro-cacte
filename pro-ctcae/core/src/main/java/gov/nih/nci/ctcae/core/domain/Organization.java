@@ -29,10 +29,10 @@ public class Organization extends BaseVersionable {
     @Column(name = "nci_institute_code", nullable = false)
     private String nciInstituteCode;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organization")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organization", fetch = FetchType.LAZY)
     private List<SiteClinicalStaff> siteClinicalStaffs = new ArrayList<SiteClinicalStaff>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organization")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organization", fetch = FetchType.LAZY)
     private Collection<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
 
     public String getDisplayName() {

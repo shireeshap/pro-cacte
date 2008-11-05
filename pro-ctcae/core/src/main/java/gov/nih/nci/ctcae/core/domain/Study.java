@@ -41,10 +41,10 @@ public class Study extends BasePersistable {
     @Transient
     private StudyCoordinatingCenter studyCoordinatingCenter;
 
-    @OneToMany(mappedBy = "study", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "study", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "study")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "study", fetch = FetchType.LAZY)
     private List<StudyCrf> studyCrfs = new ArrayList<StudyCrf>();
 
     @UniqueObjectInCollection(message = "Duplicate Site")
