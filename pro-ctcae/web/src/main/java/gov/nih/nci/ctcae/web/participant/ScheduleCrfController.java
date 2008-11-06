@@ -7,9 +7,9 @@ import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository;
 import gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,7 +53,7 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
         query.filterByStudyId(studyParticipantCommand.getStudy().getId());
         List<StudyParticipantAssignment> persistables = (List<StudyParticipantAssignment>) finderRepository.find(query);
 
-        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCommand.getStudyParticipants()) {
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCommand.getStudyParticipantCrfs()) {
             studyParticipantCrf.setStudyParticipantAssignment(persistables.get(0));
             studyParticipantCrfRepository.save(studyParticipantCrf);
         }

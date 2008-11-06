@@ -4,24 +4,26 @@ import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StudyParticipantCommand {
 
-	private Participant participant;
-	private Study study;
+    private Participant participant;
+    private Study study;
     private List<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
 
-    public StudyParticipantCommand(){
-	}
 
-	public Participant getParticipant() {
-		return participant;
-	}
-	public void setParticipant(Participant participant) {
-		this.participant = participant;
-	}
+    public StudyParticipantCommand() {
+    }
+
+    public Participant getParticipant() {
+        return participant;
+    }
+
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
+    }
 
     public Study getStudy() {
         return study;
@@ -31,11 +33,11 @@ public class StudyParticipantCommand {
         this.study = study;
     }
 
-    public List<StudyParticipantCrf> getStudyParticipants() {
+    public List<StudyParticipantCrf> getStudyParticipantCrfs() {
         return studyParticipantCrfs;
     }
 
-    public void setStudyParticipants(List<StudyParticipantCrf> studyParticipantCrfs) {
+    public void setStudyParticipantCrfs(List<StudyParticipantCrf> studyParticipantCrfs) {
         this.studyParticipantCrfs = studyParticipantCrfs;
     }
 }
