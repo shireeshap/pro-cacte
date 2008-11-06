@@ -10,10 +10,7 @@ import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Vinay Kumar
@@ -43,7 +40,18 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
             CollectionUtils.putInMappedList(ctcCategoryMap, proCtcTerm.getCategory(), proCtcTerm);
 
         }
-        map.put("ctcCategoryMap", ctcCategoryMap);
+
+        List<CtcCategory> ctcCategoryList = new ArrayList<CtcCategory>(ctcCategoryMap.keySet());
+        Collections.sort(ctcCategoryList, new CtcCAtegoryComparator());
+        Map result = new LinkedHashMap();
+
+        for (Iterator<CtcCategory> it = ctcCategoryList.iterator(); it.hasNext();) {
+            CtcCategory ctcCategory = it.next();
+            result.put(ctcCategory, ctcCategoryMap.get(ctcCategory));
+        }
+
+
+        map.put("ctcCategoryMap", result);
         map.put("totalQuestions", command.getStudyCrf().getCrf().getCrfItems().size());
 
 

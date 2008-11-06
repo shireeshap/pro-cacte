@@ -234,6 +234,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ControllersUtils.java -te
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcAeTabbedFlowController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcCAtegoryComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormCommand.java -text
@@ -684,6 +685,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffCom
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/ControllersUtilsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CreateFormCommandTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FormDetailsTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/ReleaseFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/StudyCrfLinkDisplayCellTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacadeIntegrationTest.java -text

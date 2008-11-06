@@ -191,6 +191,7 @@ function deleteQuestion(questionId) {
                                                 </ul>
                                             </li>
                                         </c:forEach>
+                                        <br>
                                     </ul>
                                 </li>
 
