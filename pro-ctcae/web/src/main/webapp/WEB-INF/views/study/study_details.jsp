@@ -55,7 +55,7 @@
 
         <p><tags:instructions code="study.study_details.top"/></p>
 
-        <tags:renderText propertyName="study.assignedIdentifier" displayName="Assigned identifier"
+        <tags:renderText propertyName="study.assignedIdentifier" displayName="Study identifier"
                          required="true" help="true" size="50"/>
 
         <tags:renderText propertyName="study.shortTitle" displayName="Short title"

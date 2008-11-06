@@ -95,7 +95,8 @@
 <p>
     <tags:instructions code="participant.schedule_crf.enter"/>
 </p>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false">
+
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" notDisplayInBox="true">
    <jsp:attribute name="singleFields">
     <div class="autoclear">
         <chrome:box title="Select participant" id="participant-entry" cssClass="paired" autopad="true">
@@ -105,7 +106,7 @@
             <input type="text" id="participant-input" value="${command.participant.displayName}" class="autocomplete"/>
             <input type="button" id="participant-clear" value="Clear"/>
             <tags:indicator id="participant-indicator"/>
-            <div id="participant-choices" class="autocomplete"></div>              
+            <div id="participant-choices" class="autocomplete"></div>
             <tags:errors path="participant"/>
             <p id="participant-selected" style="display: none">
                 You have selected the subject <span id="participant-selected-name"></span>.

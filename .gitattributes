@@ -379,6 +379,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/footer.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/head.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/header.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/stylesheetLink.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabContent.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabControls.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabFields.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabForm.tag -text

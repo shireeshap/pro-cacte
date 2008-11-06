@@ -1,3 +1,4 @@
+<%@ attribute name="notDisplayInBox" type="java.lang.Boolean" %>
 <!-- BEGIN tags\tabForm.tag -->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -23,8 +24,9 @@
 <%@attribute name="hideErrorDetails" type="java.lang.Boolean" %>
 <c:if test="${empty willSave}"><c:set var="willSave" value="${true}"/></c:if>
 <form:form name="${formName}" enctype="${enctype}" id="command">
-    <chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}"
-                noBackground="${noBackground}">
+
+    <tags:tabContent notDisplayInBox="${notDisplayInBox}" tab="${tab}" title="${title}">
+        <jsp:attribute name="tabContent">
         <chrome:flashMessage/>
 
         <tags:tabFields tab="${tab}"/>
@@ -39,7 +41,10 @@
         <c:if test="${not empty tabControls}">
             <jsp:invoke fragment="tabControls"/>
         </c:if>
-    </chrome:box>
+
+    </jsp:attribute>
+    </tags:tabContent>
+
 
     <c:if test="${empty tabControls}">
         <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" saveButtonLabel="${saveButtonLabel}"/>

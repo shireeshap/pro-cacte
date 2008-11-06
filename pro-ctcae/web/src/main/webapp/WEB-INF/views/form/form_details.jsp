@@ -151,7 +151,7 @@ function deleteQuestion(questionId) {
 </head>
 <body>
 
-<tags:tabForm tab="${tab}" flow="${flow}">
+<tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
     <chrome:division title="Selected study" id="study-entry">
 
