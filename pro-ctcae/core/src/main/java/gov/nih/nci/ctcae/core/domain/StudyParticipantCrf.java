@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Date;
 
 /**
  * @author
@@ -30,12 +31,11 @@ public class StudyParticipantCrf extends BaseVersionable {
     @ManyToOne
     private StudyParticipantAssignment studyParticipantAssignment;
 
-    public StudyParticipantCrf() {
-    }
+    @Column(name = "start_date", nullable = false)
+    private Date startDate;
 
-    public StudyParticipantCrf(Integer id) {
-        this.id = id;
-    }
+    @Column(name = "due_date", nullable = false)
+    private Date dueDate;
 
     public StudyParticipantCrf(StudyCrf studyCrf) {
         this.studyCrf = studyCrf;
@@ -77,9 +77,6 @@ public class StudyParticipantCrf extends BaseVersionable {
         return studyCrf;
     }
 
-    public void setStudyCrf(StudyCrf studyCrf) {
-        this.studyCrf = studyCrf;
-    }
 
     public StudyParticipantAssignment getStudyParticipantAssignment() {
         return studyParticipantAssignment;
@@ -87,6 +84,24 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     public void setStudyParticipantAssignment(StudyParticipantAssignment studyParticipant) {
         this.studyParticipantAssignment = studyParticipant;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 
     @Override

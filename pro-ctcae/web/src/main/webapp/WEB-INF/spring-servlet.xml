@@ -125,7 +125,7 @@
                     </property>
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
-                      p:displayName="Subjects"
+                      p:displayName="Participants"
                       p:mainController="createParticipantController">
                     <property name="pathMapping">
                         <value>/participant/**</value>
@@ -133,9 +133,9 @@
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Enter Subject" p:linkName="createParticipantController"/>
+                                  p:displayName="Enter Participants" p:linkName="createParticipantController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Search Subjects" p:linkName="searchParticipantController"/>
+                                  p:displayName="Search Participants" p:linkName="searchParticipantController"/>
                         </list>
                     </property>
                 </bean>
@@ -228,8 +228,15 @@
     </bean>
 
     <bean name="/participant/schedulecrf" id="scheduleCrfController"
-          class="gov.nih.nci.ctcae.web.participant.ScheduleCrfController">
+          class="gov.nih.nci.ctcae.web.participant.ScheduleCrfController" parent="tabbedFlowFormController">
+        <property name="studyParticipantCrfRepository" ref="studyParticipantCrfRepository"/>
     </bean>
+
+    <bean name="/participant/addCrfSchedule" id="addCrfScheduleController"
+          class="gov.nih.nci.ctcae.web.participant.AddCrfScheduleController">
+        <property name="finderRepository" ref="finderRepository"/>
+    </bean>
+
     <bean name="/admin/clinicalStaff/createClinicalStaff" id="createClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.CreateClinicalStaffController" parent="ctcaeSimpleFormController">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>

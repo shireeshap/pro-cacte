@@ -18,6 +18,7 @@
         <pattern>/pages/participant/assignStudy</pattern>
         <pattern>/pages/participant/assignParticipant</pattern>
         <pattern>/pages/form/createForm</pattern>
+        <pattern>/pages/participant/schedulecrf</pattern>
     </decorator>
 
 

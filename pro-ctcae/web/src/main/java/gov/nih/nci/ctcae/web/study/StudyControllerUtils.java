@@ -12,7 +12,5 @@ public class StudyControllerUtils {
         StudyCommand studyCommand = (StudyCommand)
                 request.getSession().getAttribute(StudyController.class.getName() + ".FORM." + "studyCommand");
         return studyCommand;
-
-
     }
 }

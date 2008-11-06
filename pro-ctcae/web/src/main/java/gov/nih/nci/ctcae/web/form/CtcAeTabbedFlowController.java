@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
@@ -37,6 +38,8 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
         RepositoryBasedEditor organizationEditor = new RepositoryBasedEditor(finderRepository, Organization.class);
         binder.registerCustomEditor(Organization.class, organizationEditor);
 
+        RepositoryBasedEditor participantEditor = new RepositoryBasedEditor(finderRepository, Participant.class);
+        binder.registerCustomEditor(Participant.class, participantEditor);
 
     }
 

@@ -108,4 +108,8 @@
           parent="abstractRepository">
     </bean>
 
+    <bean id="studyParticipantCrfRepository" class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository"
+          parent="abstractRepository">
+    </bean>
+
 </beans>
