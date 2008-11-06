@@ -101,7 +101,9 @@
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Manage Form" p:linkName="manageFormController"/>
+                                  p:displayName="Manage Forms" p:linkName="manageFormController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Build Form" p:linkName="createFormController"/>
 
                         </list>
                     </property>
@@ -134,22 +136,6 @@
                                   p:displayName="Enter Subject" p:linkName="createParticipantController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="Search Subjects" p:linkName="searchParticipantController"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
-                      p:displayName="Reporting"
-                      p:mainController="createFormController">
-                    <property name="pathMapping">
-                        <value>/form/**</value>
-                    </property>
-                    <property name="tasks">
-                        <list>
-                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Create New Form" p:linkName="createFormController"/>
-                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Manage Form" p:linkName="searchFormController"/>
-
                         </list>
                     </property>
                 </bean>

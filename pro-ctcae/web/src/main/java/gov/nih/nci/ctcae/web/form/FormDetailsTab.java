@@ -22,7 +22,7 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
     private FinderRepository finderRepository;
 
     public FormDetailsTab() {
-        super("Form Details", "Form Details", "form/form_details");
+        super("Build Form", "Build Form", "form/form_details");
     }
 
     @Override

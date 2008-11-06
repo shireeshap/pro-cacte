@@ -21,7 +21,7 @@ public class CreateFormController<C extends CreateFormCommand> extends CtcAeTabb
 
     public CreateFormController() {
         setCommandClass(CreateFormCommand.class);
-        Flow<CreateFormCommand> flow = new Flow<CreateFormCommand>("Enter Form");
+        Flow<CreateFormCommand> flow = new Flow<CreateFormCommand>("Build Form");
         layoutTabs(flow);
         setFlowFactory(new StaticFlowFactory<CreateFormCommand>(flow));
         setAllowDirtyBack(false);

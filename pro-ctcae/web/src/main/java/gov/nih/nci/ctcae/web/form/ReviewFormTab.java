@@ -9,6 +9,6 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 public class ReviewFormTab extends Tab<CreateFormCommand> {
 
     public ReviewFormTab() {
-        super("Review form", "Review form", "form/reviewForm");
+        super("Review form", "Review Form", "form/reviewForm");
     }
 }

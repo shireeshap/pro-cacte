@@ -22,10 +22,11 @@
 <%@attribute name="noBackground" required="false" %>
 <%@attribute name="hideErrorDetails" type="java.lang.Boolean" %>
 <c:if test="${empty willSave}"><c:set var="willSave" value="${true}"/></c:if>
-<chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}"
-            noBackground="${noBackground}">
-    <chrome:flashMessage/>
-    <form:form name="${formName}" enctype="${enctype}" id="command">
+<form:form name="${formName}" enctype="${enctype}" id="command">
+    <chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}"
+                noBackground="${noBackground}">
+        <chrome:flashMessage/>
+
         <tags:tabFields tab="${tab}"/>
         <chrome:division id="single-fields">
             <c:if test="${not empty instructions}"><p class="instructions">
@@ -38,11 +39,12 @@
         <c:if test="${not empty tabControls}">
             <jsp:invoke fragment="tabControls"/>
         </c:if>
-        <c:if test="${empty tabControls}">
-            <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" saveButtonLabel="${saveButtonLabel}"/>
+    </chrome:box>
 
-        </c:if>
+    <c:if test="${empty tabControls}">
+        <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" saveButtonLabel="${saveButtonLabel}"/>
 
-    </form:form>
-</chrome:box>
+    </c:if>
+
+</form:form>
 <!-- END tags\tabForm.tag -->
