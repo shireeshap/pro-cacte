@@ -41,11 +41,14 @@ public class AbstractTableModel {
         table.setItems(objects);
         table.setAction(model.getContext().getContextPath() + "/assembler.run");
         table.setTitle("");
-        table.setShowPagination(true);
+        table.setShowPagination(getPagination());
+        table.setShowStatusBar(getStatusBar());
+        table.setShowTitle(getTitle());
+        table.setShowTooltips(getToolTips());
         table.setOnInvokeAction("buildTable('assembler')");
         table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
-        table.setFilterable(true);
-        table.setSortable(false);
+        table.setFilterable(getFilterable());
+        table.setSortable(getSortable());
         table.setSortRowsCallback("gov.nih.nci.ctcae.web.table.SortRowsCallbackImpl");
 
         table.setAutoIncludeParameters(false);
@@ -54,5 +57,29 @@ public class AbstractTableModel {
         Row row = model.getRowInstance();
         row.setHighlightRow(Boolean.TRUE);
         model.addRow(row);
+    }
+
+    protected Boolean getSortable() {
+        return true;
+    }
+
+    protected Boolean getFilterable() {
+        return true   ;
+    }
+
+    protected Boolean getToolTips() {
+        return true;
+    }
+
+    protected Boolean getTitle() {
+        return true;
+    }
+
+    protected Boolean getStatusBar() {
+        return true;
+    }
+
+    protected boolean getPagination(){
+        return true;
     }
 }

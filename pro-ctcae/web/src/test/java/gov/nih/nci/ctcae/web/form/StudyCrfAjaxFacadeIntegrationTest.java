@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * @author Mehul Gulati
- * Date: Nov 6, 2008
+ *         Date: Nov 6, 2008
  */
 public class StudyCrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase {
 
@@ -30,20 +30,20 @@ public class StudyCrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTes
     }
 
     @Override
-protected void onSetUpInTransaction() throws Exception {
+    protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
 
-    crf = Fixture.createCrf("Form1", CrfStatus.DRAFT, "1.1");
-    crf = crfRepository.save(crf);
+        crf = Fixture.createCrf("Form1", CrfStatus.DRAFT, "1.1");
+        crf = crfRepository.save(crf);
 
-    study = Fixture.createStudy("Short Title", "Long Title", "1");
-    StudyCrf studyCrf = new StudyCrf();
-    studyCrf.setCrf(crf);
-    study.addStudyCrf(studyCrf);
-    study = studyRepository.save(study);
+        study = Fixture.createStudy("Short Title", "Long Title", "1");
+        StudyCrf studyCrf = new StudyCrf();
+        studyCrf.setCrf(crf);
+        study.addStudyCrf(studyCrf);
+        study = studyRepository.save(study);
 
-            }
+    }
 
     public void testSearchStudyCrf() {
         String table = studyCrfAjaxFacade.searchStudyCrf(parameterMap, study.getId(), request);

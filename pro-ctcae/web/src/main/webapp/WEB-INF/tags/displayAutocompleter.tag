@@ -7,7 +7,7 @@
     <div class="label">${displayName}</div>
     <div class="value"><input id="${inputName}" type="hidden" value="" name="study"/>
         <span class="required-indicator">*</span>
-        <input id="${inputName}-input" class="autocomplete" type="text" value="" autocomplete="off"/>
+        <input id="${inputName}-input" class="autocomplete" type="text" value="" autocomplete="off" size="${size}"/>
         <input id="${inputName}-clear" type="button" value="Clear"/>
         <img id="${inputName}-indicator" class="indicator" alt="activity indicator"
              src="/caaers/images/indicator.white.gif"/>

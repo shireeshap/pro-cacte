@@ -62,7 +62,7 @@
 
 <chrome:box title="Select study" id="study-entry">
     <p><tags:instructions code="instruction_select_study"/></p>
-    <tags:displayAutocompleter inputName="study" required="true" displayName="Study" size="90"/>
+    <tags:displayAutocompleter inputName="study" required="true" displayName="Study" size="70"/>
     <p id="studyCrf.study-selected" style="display: none">
         You have selected the study <span id="studyCrf.study-selected-name"></span>.
     </p>
@@ -74,20 +74,21 @@
         form.
     </div>
 
+    <div id="bigSearch" style="display:none;">
+        <div class="endpanes"/>
+
+            <form:form id="assembler">
+                <chrome:division id="single-fields">
+                    <div id="tableDiv">
+                        <c:out value="${assembler}" escapeXml="false"/>
+                    </div>
+                </chrome:division>
+            </form:form>
+        
+    </div>
+    
+
 </chrome:box>
 
-<div id="bigSearch" style="display:none;">
-    <div class="endpanes"/>
-    <chrome:box title="Results">
-        <p><tags:instructions code="study.search.results"/></p>
-        <form:form id="assembler">
-            <chrome:division id="single-fields">
-                <div id="tableDiv">
-                    <c:out value="${assembler}" escapeXml="false"/>
-                </div>
-            </chrome:division>
-        </form:form>
-    </chrome:box>
-</div>
 
 </body>
