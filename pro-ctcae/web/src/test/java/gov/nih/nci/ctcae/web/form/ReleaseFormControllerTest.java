@@ -56,15 +56,9 @@ public class ReleaseFormControllerTest extends WebTestCase {
     }
 
     public void testPostRequest() throws Exception {
-        request.setMethod("GET");
-        request.addParameter("studyCrfId", "1");
-        expect(finderRepository.findById(StudyCrf.class, Integer.valueOf(1))).andReturn(studyCrf);
-        replayMocks();
-        controller.handleRequest(request, response);
-        verifyMocks();
-        resetMocks();
 
         request.setMethod("POST");
+        expect(finderRepository.findById(StudyCrf.class, null)).andReturn(studyCrf);
         expect(crfRepository.save(studyCrf.getCrf())).andReturn(studyCrf.getCrf());
         validator.validate(request, studyCrf, isA(BindException.class));
         replayMocks();
