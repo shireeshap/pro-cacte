@@ -154,22 +154,7 @@ function deleteQuestion(questionId) {
 <tags:tabForm tab="${tab}" flow="${flow}">
 <jsp:attribute name="singleFields">
     <chrome:division title="Selected study" id="study-entry">
-        <ul class="tree">
-            <li><a href="#">item 1</a>
-                <ul>
-                    <li><a href="#">item 1.1</a></li>
-                    <li class="closed"><a href="#">item 1.2</a>
-                        <ul>
-                            <li><a href="#">item 1.2.1</a></li>
-                            <li><a href="#">item 1.2.2</a></li>
-                            <li><a href="#">item 1.2.3</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">item 1.3</a></li>
-                </ul>
-            </li>
 
-        </ul>
 
         <div class="instructions">
 
@@ -185,28 +170,33 @@ function deleteQuestion(questionId) {
                 <tr>
                     <td id="left">
                         Questions
-
                         <ul class="tree">
+                            <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
-                            <c:forEach items="${proCtcTerms}" var="proCtcTerm">
-                            <li><a href="#">${proCtcTerm.term}</a>
-                                <ul>
-                                    <c:forEach items="${proCtcTerm.proCtcQuestions}" var="proCtcQuestion">
+                                <li><a href="#">${ctcCategory.key.name}</a>
+                                    <ul>
+                                        <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
+                                            <li><a href="#">${proCtcTerm.term}</a>
+                                                <ul><c:forEach items="${proCtcTerm.proCtcQuestions}"
+                                                               var="proCtcQuestion">
 
-                                        <li id="question_${proCtcQuestion.id}">
-                                          <tags:formbuilderBox>
-                                                ${proCtcQuestion.questionText}
-                                            <a href="javascript:addQuestion(${proCtcQuestion.id})">Add</a>
-                                          </tags:formbuilderBox>
-                                        </li>
+                                                    <li id="question_${proCtcQuestion.id}">
+                                                        <tags:formbuilderBox>
+                                                            ${proCtcQuestion.questionText}
+                                                            <a href="javascript:addQuestion(${proCtcQuestion.id})">Add</a>
+                                                        </tags:formbuilderBox>
+                                                    </li>
 
-                                    </c:forEach>
-                                </ul>
-                            </li>
+                                                </c:forEach>
+                                                </ul>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </li>
+
+                            </c:forEach>
                         </ul>
 
-                        </c:forEach>
-                        </ul>
 
                         <c:forEach items="${proCtcQuestions}" var="proCtcQuestion">
                             <tags:formbuilderBox id="question_${proCtcQuestion.id}">
@@ -225,8 +215,8 @@ function deleteQuestion(questionId) {
                         <table style="border-collapse:collapse; height:800px;">
                             <tr style="height:100%;">
                                 <td id="formbuilderTable-middle">
-                                 <div id="formbuilderTable-borderTop">
-                                    <div class="formbuilderHeader" id="crfTitle">
+                                    <div id="formbuilderTable-borderTop">
+                                    <span class="formbuilderHeader" id="crfTitle">
                                         <c:choose>
                                             <c:when test="${command.studyCrf.crf.title eq ''}">Click here to name
                                             </c:when>
@@ -238,13 +228,13 @@ function deleteQuestion(questionId) {
                                             </c:otherwise>
                                         </c:choose>
 
-                                    </div>
-                                    <br/>
-                                    <form:hidden path="studyCrf.crf.title" id="formTitle"/>
+                                    </span>
+                                        <br/>
+                                        <form:hidden path="studyCrf.crf.title" id="formTitle"/>
                             <span class="formbuildersubHeader">There <span id="plural1">are</span> <span
                                     id="totalQuestionDivision">${totalQuestions}</span> question<span
                                     id="plural2">s</span> in this form.</span>
-								  </div>
+                                    </div>
                                     <div id="sortable">
                                         <form:hidden path="questionsIds" id="questionsIds"/>
                                         <input type="hidden" id="totalQuestions" value="${totalQuestions}">

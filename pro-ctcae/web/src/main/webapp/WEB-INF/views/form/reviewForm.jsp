@@ -34,7 +34,6 @@
             <div class="summarylabel">Title</div>
             <div class="summaryvalue">${command.studyCrf.crf.title}</div>
         </div>
-        <br>
         <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem">
             <tags:reviewQuestion crfItem="${crfItem}"></tags:reviewQuestion>
 

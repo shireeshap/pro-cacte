@@ -60,6 +60,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRF.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItem.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfStatus.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcCategory.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DisplayOrderComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Ethnicity.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Gender.java -text
@@ -276,6 +277,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImpl.jav
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tag/AuthorizeTag.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTag.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tags/ValueTag.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tools/ObjectTools.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorImpl.java -text
@@ -333,6 +335,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/imageUrl.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/includePrototypeWindow.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/includeScriptaculous.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/indicator.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/inplaceTextField.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/instructions.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/javascriptLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/jsLogs.tag -text

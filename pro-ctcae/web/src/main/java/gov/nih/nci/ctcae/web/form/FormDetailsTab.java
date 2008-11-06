@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.web.form;
 
+import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.ctcae.core.domain.CtcCategory;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
@@ -9,6 +11,8 @@ import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +25,7 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
     private FinderRepository finderRepository;
 
     public FormDetailsTab() {
-        super("Form details", "Form details", "form/form_details");
+        super("Form Details", "Form Details", "form/form_details");
     }
 
     @Override
@@ -31,8 +35,17 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
         ProCtcTermQuery query = new ProCtcTermQuery();
         query.filterByCtcTermHavingQuestionsOnly();
         Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.findAndInitializeTerm(query);
-        map.put("proCtcTerms", proCtcTerms);
+
+
+        Map<CtcCategory, List<ProCtcTerm>> ctcCategoryMap = new HashMap<CtcCategory, List<ProCtcTerm>>();
+
+        for (ProCtcTerm proCtcTerm : proCtcTerms) {
+            CollectionUtils.putInMappedList(ctcCategoryMap, proCtcTerm.getCategory(), proCtcTerm);
+
+        }
+        map.put("ctcCategoryMap", ctcCategoryMap);
         map.put("totalQuestions", command.getStudyCrf().getCrf().getCrfItems().size());
+
 
         return map;
 

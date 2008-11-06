@@ -4,12 +4,6 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="authz" uri="http://acegisecurity.org/authz" %>
 
-<%@ taglib prefix="ctcae" uri="http://www.ctcae.com/validation" %>
-
-<script type="text/javascript">
-
-
-</script>
 <div id="header">
 
     <div class="background-R">
@@ -23,17 +17,17 @@
         <%--</ctcae:authorize>--%>
 
         <%--<div id="login-action">--%>
-            <%--<ctcae:publicAuthorize>--%>
-                <%--<a href="<c:url value="/public/login"/>">Log in</a>--%>
+        <%--<ctcae:publicAuthorize>--%>
+        <%--<a href="<c:url value="/public/login"/>">Log in</a>--%>
 
 
-                <%--|&nbsp;<a href='<c:url value="/pages/signUp"/>'>Sign up</a>--%>
-            <%--</ctcae:publicAuthorize>--%>
+        <%--|&nbsp;<a href='<c:url value="/pages/signUp"/>'>Sign up</a>--%>
+        <%--</ctcae:publicAuthorize>--%>
 
-            <%--<ctcae:authorize>--%>
-                <%--&nbsp;<div id="logout"><a href="<c:url value="/j_acegi_logout"/>">Log out</a> </div>--%>
-                <%--|&nbsp;<a href='<c:url value="/pages/myProfile"/>'>My Profile</a>--%>
-            <%--</ctcae:authorize>--%>
+        <%--<ctcae:authorize>--%>
+        <%--&nbsp;<div id="logout"><a href="<c:url value="/j_acegi_logout"/>">Log out</a> </div>--%>
+        <%--|&nbsp;<a href='<c:url value="/pages/myProfile"/>'>My Profile</a>--%>
+        <%--</ctcae:authorize>--%>
         <%--</div>--%>
 
 

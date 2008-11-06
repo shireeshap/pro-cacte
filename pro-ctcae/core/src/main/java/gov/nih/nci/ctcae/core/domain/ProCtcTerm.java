@@ -22,6 +22,10 @@ public class ProCtcTerm extends BasePersistable {
     @Column(name = "term", nullable = false)
     private String term;
 
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @ManyToOne
+    private CtcCategory category;
+
     @Column(name = "select_ae")
     private String select;
 
@@ -102,6 +106,13 @@ public class ProCtcTerm extends BasePersistable {
         this.proCtc = proCtc;
     }
 
+    public CtcCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(CtcCategory category) {
+        this.category = category;
+    }
 
     @Override
     public boolean equals(Object o) {

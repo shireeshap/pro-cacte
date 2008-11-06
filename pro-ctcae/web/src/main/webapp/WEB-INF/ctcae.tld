@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <taglib xmlns="http://java.sun.com/xml/ns/j2ee"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
@@ -8,7 +7,33 @@
     <display-name>JSTL core</display-name>
     <tlib-version>1.1</tlib-version>
     <short-name>validation</short-name>
-    <uri>http://www.ctcae.com/validation</uri>
+    <uri>http://gforge.nci.nih.gov/projects/ctcae/tags</uri>
+    <description>ProCtcAe JSP Form Tag Library. Author: Vinay Kumar</description>
+
+
+    <!-- <caaers:value/> -->
+    <tag>
+        <name>value</name>
+        <tag-class>gov.nih.nci.ctcae.web.tags.ValueTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>Renders a form field value as an HTML escaped text</description>
+
+        <attribute>
+            <name>path</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>Path to errors object for data binding</description>
+        </attribute>
+
+        <attribute>
+            <name>htmlEscape</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>Enable/disable HTML escaping of rendered values.</description>
+        </attribute>
+
+
+    </tag>
 
     <tag>
         <name>authorize</name>
