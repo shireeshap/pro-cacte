@@ -57,4 +57,13 @@ public class Fixture {
         participant.addStudyParticipantAssignment(studyParticipantAssignment);
         return participant;
     }
+
+    public static CRF createCrf(final String title, final CrfStatus crfStatus, final String crfVersion) {
+        CRF crf = new CRF();
+        crf.setTitle(title);
+        crf.setStatus(crfStatus);
+        crf.setCrfVersion(crfVersion);
+        return crf;
+    }
+
 }

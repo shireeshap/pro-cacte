@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.Fixture;
 
 import java.util.Map;
@@ -22,7 +23,8 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
-        clinicalStaff = Fixture.createClinicalStaff("Mehul", "Gulati", "1234");
+
+       clinicalStaff = Fixture.createClinicalStaff("Mehul", "Gulati", "1234");
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
     }
 

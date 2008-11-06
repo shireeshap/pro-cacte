@@ -15,6 +15,7 @@
     <tags:includeScriptaculous/>
 
     <tags:includePrototypeWindow/>
+    <tags:dwrJavascriptLink objects="studyCrf"/>
 
     <script type="text/javascript">
         Event.observe(window, "load", function () {
@@ -25,12 +26,22 @@
 
         })
 
+
         function displayForms() {
             $('noForm').show();
             var url = 'createForm?studyId=' + $('study').value
             $('newFormUrl').href = url;
-        }
 
+            buildTable('assembler')
+
+        }
+        function buildTable(form) {
+            var id = $('study').value
+            var parameterMap = getParameterMap(form);
+            $('bigSearch').show();
+            studyCrf.searchStudyCrf(parameterMap, id, showTable)
+        }
+        
         function acCreateStudy(mode) {
             new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
                     mode.populator, {
@@ -51,17 +62,32 @@
 
 <chrome:box title="Select study" id="study-entry">
     <p><tags:instructions code="instruction_select_study"/></p>
-    <tags:displayAutocompleter inputName="study" required="true" displayName="Study" size="70"/>
+    <tags:displayAutocompleter inputName="study" required="true" displayName="Study" size="90"/>
     <p id="studyCrf.study-selected" style="display: none">
         You have selected the study <span id="studyCrf.study-selected-name"></span>.
     </p>
     <br>
+    <tags:indicator id="indicator"/>
 
     <div id="noForm" style="display:none;">
-        No forms have been created for the selected Study. Click <a href="" id="newFormUrl">here</a> to create a new
+        Click <a href="" id="newFormUrl">here</a> to create a new
         form.
     </div>
+
 </chrome:box>
 
+<div id="bigSearch" style="display:none;">
+    <div class="endpanes"/>
+    <chrome:box title="Results">
+        <p><tags:instructions code="study.search.results"/></p>
+        <form:form id="assembler">
+            <chrome:division id="single-fields">
+                <div id="tableDiv">
+                    <c:out value="${assembler}" escapeXml="false"/>
+                </div>
+            </chrome:division>
+        </form:form>
+    </chrome:box>
+</div>
 
 </body>

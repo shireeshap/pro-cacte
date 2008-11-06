@@ -28,4 +28,5 @@ public class TestBean extends BasePersistable {
     public void setDate(Date date) {
         this.date = date;
     }
-}
+
+  }

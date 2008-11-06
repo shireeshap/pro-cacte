@@ -35,7 +35,7 @@ public class StudyCrfTableModel extends AbstractTableModel {
     private void addTitle(TableModel model) {
         Column columnTitle = model.getColumnInstance();
         columnTitle.setTitle("Title");
-        columnTitle.setProperty("studyCrf.CRF.title");
+        columnTitle.setProperty("crf.title");
         columnTitle.setAlias("title");
         columnTitle.setSortable(Boolean.TRUE);
         model.addColumn(columnTitle);
@@ -44,7 +44,7 @@ public class StudyCrfTableModel extends AbstractTableModel {
     private void addStatus(TableModel model) {
         Column columnStatus = model.getColumnInstance();
         columnStatus.setTitle("Status");
-        columnStatus.setProperty("studyCrf.CRF.status");
+        columnStatus.setProperty("crf.status");
         columnStatus.setAlias("status");
         columnStatus.setSortable(Boolean.TRUE);
         model.addColumn(columnStatus);
