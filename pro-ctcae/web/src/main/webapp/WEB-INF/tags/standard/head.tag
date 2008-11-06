@@ -45,5 +45,6 @@
 <tags:javascriptLink name="tree"/>
 
 <tags:stylesheetLink name="tree"/>
- 
+<tags:javascriptLink name="extremecomponents"/>
+      
 
