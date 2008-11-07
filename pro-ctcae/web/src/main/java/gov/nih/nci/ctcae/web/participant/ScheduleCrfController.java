@@ -58,7 +58,7 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
             studyParticipantCrfRepository.save(studyParticipantCrf);
         }
 
-        ModelAndView modelAndView = new ModelAndView("");
+        ModelAndView modelAndView = new ModelAndView("participant/confirmschedule",errors.getModel());
         return modelAndView;
     }
 

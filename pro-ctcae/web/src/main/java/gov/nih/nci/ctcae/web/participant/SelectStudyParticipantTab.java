@@ -10,7 +10,7 @@ import gov.nih.nci.ctcae.web.form.CreateFormCommand;
 public class SelectStudyParticipantTab extends Tab<StudyParticipantCommand> {
 
     public SelectStudyParticipantTab() {
-        super("StudyParticipant", "Select study and participant", "participant/selectstudyparticipant");
+        super("StudyParticipant", "Select Study And Participant", "participant/selectstudyparticipant");
 
     }
 }

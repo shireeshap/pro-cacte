@@ -59,7 +59,7 @@ public class ScheduleCrfControllerTest extends WebTestCase {
         request.setParameter("study","1");
         StudyCrf studyCrf = new StudyCrf();
         studyCrf.setCrf(new CRF());
-        command.getStudyParticipants().add(new StudyParticipantCrf(studyCrf));
+        command.getStudyParticipantCrfs().add(new StudyParticipantCrf(studyCrf));
         ModelAndView modelAndView = controller.handleRequest(request, response);
 
         Map model = modelAndView.getModel();
@@ -70,7 +70,7 @@ public class ScheduleCrfControllerTest extends WebTestCase {
         assertTrue(object instanceof StudyParticipantCommand);
         StudyParticipantCommand studyParticipantCommand= (StudyParticipantCommand) object;
         assertNotNull(command.getStudy());
-        assertNotNull("must bind start date",command.getStudyParticipants().get(0).getStartDate());
+        assertNotNull("must bind start date",command.getStudyParticipantCrfs().get(0).getStartDate());
 
     }
 }

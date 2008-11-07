@@ -126,43 +126,27 @@ public class StudyCrfIntegrationTest extends AbstractJpaIntegrationTestCase {
 
 		assertNotNull(crf);
 		assertNotNull(studyWithStudyOrganizations);
-		assertEquals(0, crf.getStudyCrfs().size());
-		crf.addStudy(studyWithStudyOrganizations);
-
-		assertEquals(1, crf.getStudyCrfs().size());
-
-		crfRepository.save(crf);
-
-		CRF myCrf = crfRepository.findById(crf.getId());
-
-		assertNotNull(myCrf.getStudyCrfs());
-		assertEquals(1, myCrf.getStudyCrfs().size());
-
-		Study myStudy = myCrf.getStudyCrfs().get(0).getStudy();
-
-		assertNotNull(myStudy);
-		assertEquals(studyWithStudyOrganizations, myStudy);
+		assertNull(crf.getStudyCrf());
 	}
 
 	public void testAddStudyCrfToCrf() {
 
 		assertNotNull(crf);
 		assertNotNull(studyWithStudyOrganizations);
-		assertEquals(0, crf.getStudyCrfs().size());
+		assertNull(crf.getStudyCrf());
 
 		StudyCrf studyCrf = new StudyCrf();
 		studyCrf.setStudy(studyWithStudyOrganizations);
-		crf.addStudyCrf(studyCrf);
+		crf.setStudyCrf(studyCrf);
 
-		assertEquals(1, crf.getStudyCrfs().size());
+		assertNotNull(crf.getStudyCrf());
 
 		crfRepository.save(crf);
 
 		CRF myCrf = crfRepository.findById(crf.getId());
-		assertNotNull(crf.getStudyCrfs());
-		assertEquals(1, crf.getStudyCrfs().size());
+		assertNotNull(crf.getStudyCrf());
 
-		Study myStudy = myCrf.getStudyCrfs().get(0).getStudy();
+		Study myStudy = myCrf.getStudyCrf().getStudy();
 
 		assertNotNull(myStudy);
 		assertEquals(myStudy, studyWithStudyOrganizations);

@@ -12,7 +12,7 @@ import java.util.Map;
 public class ScheduleCrfTab extends Tab<StudyParticipantCommand> {
 
     public ScheduleCrfTab() {
-        super("ScheduleCrf", "Schedule crf", "participant/schedulecrf");
+        super("ScheduleCrf", "Schedule Form", "participant/schedulecrf");
 
     }
 }

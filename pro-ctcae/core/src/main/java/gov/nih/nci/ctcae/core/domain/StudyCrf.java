@@ -19,7 +19,7 @@ public class StudyCrf extends BaseVersionable {
     private Integer id;
 
     @JoinColumn(name = "crf_id", referencedColumnName = "id")
-    @ManyToOne
+    @OneToOne
     private CRF crf;
 
     @JoinColumn(name = "study_id", referencedColumnName = "id")
@@ -64,7 +64,11 @@ public class StudyCrf extends BaseVersionable {
         return studyParticipantCrfs;
     }
 
-
+     public void addStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf){
+         if(studyParticipantCrf != null){
+             studyParticipantCrfs.add(studyParticipantCrf);
+         }
+     }
     @Override
     public int hashCode() {
         final int prime = 31;

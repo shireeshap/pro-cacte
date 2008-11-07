@@ -17,13 +17,12 @@
     <tags:includePrototypeWindow/>
     <tags:javascriptLink name="extremecomponents"/>
     <script type="text/javascript">
-        function addStudySiteDiv(transport) {
-            var response = transport.responseText;
-            new Insertion.Before("hiddenDiv", response);
-        }
-        function addCrfSchedule(studyCrfId) {
+        function addCrfSchedule(studyCrfId, crfIndex) {
             var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
-                onComplete:addStudySiteDiv,
+                onComplete:function(transport) {
+                    var response = transport.responseText;
+                    new Insertion.Before("hiddenDiv-" + crfIndex, response);
+                },
                 parameters:"subview=subview&studycrfid=" + studyCrfId,
                 method:'get'
             })
@@ -45,19 +44,20 @@
         <input type="hidden" value="" id="objectsIndexesToRemove" name="objectsIndexesToRemove"/>
         <input type="hidden" name="_finish" value="true"/>
         <c:set var="studycrfs" value="${command.study.studyCrfs}"/>
-        <c:forEach items="${studycrfs}" var="studycrf">
-             <chrome:division title="${studycrf.crf.title}">
-            <input type="button" value="Add Schedule" onClick="addCrfSchedule('${studycrf.id}')" class="button"/>
+        <c:forEach items="${studycrfs}" var="studycrf" varStatus="status">
+            <chrome:division title="${studycrf.crf.title}">
+                <input type="button" value="Add" onClick="addCrfSchedule('${studycrf.id}', '${status.index}')"
+                       class="button"/>
 
-            <div align="left" style="margin-left: 50px">
-                <table width="70%" class="tablecontent">
-                    <tr id="ss-table-head" class="amendment-table-head">
-                        <th class="tableHeader"><tags:requiredIndicator/>Start Date</th>
-                        <th class="tableHeader"><tags:requiredIndicator/>Due Date</th>
-                    </tr>
-                    <tr id="hiddenDiv"></tr>
-                </table>
-            </div>
+                <div align="left" style="margin-left: 50px">
+                    <table width="70%" class="tablecontent">
+                        <tr id="ss-table-head" class="amendment-table-head">
+                            <th class="tableHeader"><tags:requiredIndicator/>Start Date</th>
+                            <th class="tableHeader"><tags:requiredIndicator/>Due Date</th>
+                        </tr>
+                        <tr id="hiddenDiv-${status.index}"></tr>
+                    </table>
+                </div>
             </chrome:division>
         </c:forEach>
 </jsp:attribute>

@@ -404,6 +404,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/oneCrfScheduleSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/confirmParticipant.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/confirmschedule.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/createParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/editParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/schedulecrf.jsp -text

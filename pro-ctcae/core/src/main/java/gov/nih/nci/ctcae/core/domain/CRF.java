@@ -36,8 +36,16 @@ public class CRF extends BaseVersionable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
     private List<CrfItem> crfItems = new ArrayList<CrfItem>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
-    private List<StudyCrf> studyCrfs = new ArrayList<StudyCrf>();
+    public StudyCrf getStudyCrf() {
+        return studyCrf;
+    }
+
+    public void setStudyCrf(StudyCrf studyCrf) {
+        this.studyCrf = studyCrf;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
+    private StudyCrf studyCrf ;
 
     public CRF() {
     }
@@ -139,41 +147,6 @@ public class CRF extends BaseVersionable {
         for (CrfItem crfItem : crfItems) {
             removeCrfItem(crfItem);
         }
-    }
-
-    public List<StudyCrf> getStudyCrfs() {
-        return studyCrfs;
-    }
-
-    public void addStudyCrf(StudyCrf studyCrf) {
-        if (studyCrf != null) {
-            studyCrf.setCrf(this);
-            studyCrfs.add(studyCrf);
-        }
-    }
-
-    public void addStudyCrfs(List<StudyCrf> studyCrfs) {
-        for (StudyCrf studyCrf : studyCrfs) {
-            addStudyCrf(studyCrf);
-        }
-    }
-
-    public void removeStudyCrf(StudyCrf studyCrf) {
-        if (studyCrf != null) {
-            studyCrfs.remove(studyCrf);
-        }
-    }
-
-    public void removeStudyCrfs(List<StudyCrf> studyCrfs) {
-        for (StudyCrf studyCrf : studyCrfs) {
-            removeStudyCrf(studyCrf);
-        }
-    }
-
-    public void addStudy(Study study) {
-        StudyCrf studyCrf = new StudyCrf();
-        studyCrf.setStudy(study);
-        this.addStudyCrf(studyCrf);
     }
 
     @Override

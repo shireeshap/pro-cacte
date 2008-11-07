@@ -136,6 +136,8 @@
                                   p:displayName="Enter Participants" p:linkName="createParticipantController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="Search Participants" p:linkName="searchParticipantController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="Schedule Form for Participant" p:linkName="scheduleCrfController"/>
                         </list>
                     </property>
                 </bean>
