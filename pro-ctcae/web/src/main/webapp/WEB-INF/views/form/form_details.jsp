@@ -20,15 +20,23 @@
 <tags:includePrototypeWindow/>
 
 <script type="text/javascript">
-var elements = ['sort1','sort2']
+
 Event.observe(window, "load", function () {
     sortQustions();
 <c:if test="${not empty command.studyCrf.crf.crfItems}">
     reOrderQuestionNumber();
     hideQuestionsFromForm();
 </c:if>
-    new Ajax.InPlaceEditor('crfTitle', '/ctcae/pages/form/setName', {
+
+})
+
+Event.observe(window, "load", function () {
+    var formNameInPlaceEdit = new Ajax.InPlaceEditor('crfTitle', '/ctcae/pages/form/setName', {
         rows:1,
+        cancelControl:false,
+        okControl:true,
+        // submitOnBlur:true,
+
         onComplete:function(transport) {
             $('crfTitle').innerHTML = transport.responseText;
             $('formTitle').value = transport.responseText;
@@ -153,7 +161,6 @@ function deleteQuestion(questionId) {
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-    <chrome:division title="Selected study" id="study-entry">
 
 
         <div class="instructions">
@@ -162,21 +169,21 @@ function deleteQuestion(questionId) {
             <div class="summaryvalue">${command.studyCrf.study.displayName}</div>
         </div>
 
-    </chrome:division>
-
-        <chrome:division title="Form" id="Form">
 
             <table id="formbuilderTable">
                 <tr>
                     <td id="left">
-                        Questions
+                        <div class="instructions">
+
+                            <div class="summarylabel">Question bank</div>
+                        </div>
                         <ul class="tree">
                             <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
                                 <li><a href="#">${ctcCategory.key.name}</a>
                                     <ul>
                                         <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
-                                            <li><a href="#">${proCtcTerm.term}</a>
+                                            <li class="closed"><a href="#">${proCtcTerm.term}</a>
                                                 <ul><c:forEach items="${proCtcTerm.proCtcQuestions}"
                                                                var="proCtcQuestion">
 
@@ -217,19 +224,19 @@ function deleteQuestion(questionId) {
                             <tr style="height:100%;">
                                 <td id="formbuilderTable-middle">
                                     <div id="formbuilderTable-borderTop">
-                                    <span class="formbuilderHeader" id="crfTitle">
-                                        <c:choose>
-                                            <c:when test="${command.studyCrf.crf.title eq ''}">Click here to name
-                                            </c:when>
+                                        <div class="formbuilderHeader" id="crfTitle">
+                                            <c:choose>
+                                                <c:when test="${command.studyCrf.crf.title eq ''}">Click here to name
+                                                </c:when>
 
-                                            <c:when test="${command.studyCrf.crf.title ne null}"> ${command.studyCrf.crf.title}
-                                            </c:when>
+                                                <c:when test="${command.studyCrf.crf.title ne null}"> ${command.studyCrf.crf.title}
+                                                </c:when>
 
-                                            <c:otherwise> Click here to name
-                                            </c:otherwise>
-                                        </c:choose>
+                                                <c:otherwise> Click here to name
+                                                </c:otherwise>
+                                            </c:choose>
 
-                                    </span>
+                                        </div>
                                         <br/>
                                         <form:hidden path="studyCrf.crf.title" id="formTitle"/>
                             <span class="formbuildersubHeader">There <span id="plural1">are</span> <span
@@ -261,7 +268,6 @@ function deleteQuestion(questionId) {
                 </tr>
 
             </table>
-        </chrome:division>
 </jsp:attribute>
 </tags:tabForm>
 </body>
