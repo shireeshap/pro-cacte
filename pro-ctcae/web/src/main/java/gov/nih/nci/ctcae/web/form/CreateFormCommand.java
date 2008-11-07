@@ -30,6 +30,7 @@ public class CreateFormCommand implements Serializable {
         crf.setStatus(CrfStatus.DRAFT);
         crf.setCrfVersion("1.1");
         this.studyCrf = new StudyCrf();
+        studyCrf.setCrf(crf);
         crf.setStudyCrf(studyCrf);
     }
 

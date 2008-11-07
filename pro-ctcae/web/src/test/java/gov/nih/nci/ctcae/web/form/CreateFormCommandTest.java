@@ -1,13 +1,11 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 
 /**
@@ -39,7 +37,6 @@ public class CreateFormCommandTest extends WebTestCase {
     public void testConstructor() {
         assertNotNull("study crf must not be null", command.getStudyCrf());
         assertNotNull("crf must not be null", command.getStudyCrf().getCrf());
-        assertEquals("must have one crf", Integer.valueOf(1), Integer.valueOf(command.getStudyCrf().getCrf().getStudyCrfs().size()));
 
     }
 
