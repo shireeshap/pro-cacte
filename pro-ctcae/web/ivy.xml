@@ -25,7 +25,7 @@
     <publications>
         <artifact name="${ivy.module}" conf="publish" type="jar"/>
         <artifact name="${ivy.module}-tests" conf="test" type="jar"/>
-        <artifact name="prose" type="war" conf="publish"/>
+        <artifact name="ctcae" type="war" conf="publish"/>
     </publications>
 
     <!-- dependencies for the web module -->

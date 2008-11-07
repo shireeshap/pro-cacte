@@ -73,7 +73,7 @@
         <mkdir dir="${main.src}/../webapp/WEB-INF/lib"/>
         <copy-resources src="${classes.dir}" dest="${main.src}/../webapp/WEB-INF/classes" filter="false"/>
         <copy-resources src="${lib.dir}" dest="${main.src}/../webapp/WEB-INF/lib" filter="false"/>
-        <echo file="${env.CATALINA_HOME}/conf/Catalina/localhost/ctcae.xml">&lt;Context path="/prose"
+        <echo file="${env.CATALINA_HOME}/conf/Catalina/localhost/ctcae.xml">&lt;Context path="/ctcae"
             docBase="${main.src}/../webapp/" reloadable="true" debug="9" />
         </echo>
     </target>
