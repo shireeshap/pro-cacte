@@ -30,6 +30,16 @@ public class CreateFormController<C extends CreateFormCommand> extends CtcAeTabb
 
     }
 
+    @Override
+    protected int getInitialPage(HttpServletRequest request) {
+        if (!StringUtils.isBlank(request.getParameter("studyId"))) {
+            return 1;
+        }
+        return super.getInitialPage(request);
+
+
+    }
+
     private void layoutTabs(Flow<CreateFormCommand> flow) {
         flow.addTab(new SelectStudyForFormTab());
         flow.addTab(new FormDetailsTab());

@@ -37,24 +37,25 @@
             <tags:hasErrorsMessage hideErrorDetails="${hideErrorDetails}"/>
             <jsp:invoke fragment="singleFields"/>
         </chrome:division>
-        <jsp:invoke fragment="repeatingFields"/>
-        <c:if test="${not empty tabControls}">
-            <jsp:invoke fragment="tabControls"/>
-        </c:if>
+             <jsp:invoke fragment="repeatingFields"/>
+
             <div class="local-buttons">
+
                 <jsp:invoke fragment="localButtons"/>
+
             </div>
-         
+            <br><br><br>
+
     </jsp:attribute>
 
 
     </tags:tabContent>
 
     <c:if test="${empty tabControls}">
-        <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" saveButtonLabel="${saveButtonLabel}">
+        <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"
+                          saveButtonLabel="${saveButtonLabel}">
         </tags:tabControls>
 
     </c:if>
 
 </form:form>
-<!-- END tags\tabForm.tag -->

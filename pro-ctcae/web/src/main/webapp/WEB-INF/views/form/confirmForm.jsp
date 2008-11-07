@@ -40,36 +40,31 @@
 <chrome:box title="Confirmation">
 
 
-    <chrome:division title="Study details">
-        <div class="instructions">
-            <div class="summarylabel">Study</div>
-            <div class="summaryvalue">${command.studyCrf.study.displayName}</div>
-        </div>
+    <div class="instructions">
+        <div class="summarylabel">Study</div>
+        <div class="summaryvalue">${command.studyCrf.study.displayName}</div>
+    </div>
 
 
-    </chrome:division>
+    <div class="instructions">
 
-    <chrome:division title="Form details">
-        <div class="instructions">
+        <div class="summarylabel">Title</div>
+        <div class="summaryvalue">${command.studyCrf.crf.title}</div>
+    </div>
+    <br>
 
-            <div class="summarylabel">Title</div>
-            <div class="summaryvalue">${command.studyCrf.crf.title}</div>
-        </div>
-        <br>
+    <table id="formbuilderTable">
+        <tr>
+            <td id="left">
+                Question Bank
+                <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem">
+                    <tags:reviewQuestion crfItem="${crfItem}"></tags:reviewQuestion>
+                </c:forEach>
 
-        <table id="formbuilderTable">
-            <tr>
-                <td id="left">
-                    Questions
-                    <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem">
-                        <tags:reviewQuestion crfItem="${crfItem}"></tags:reviewQuestion>
-                    </c:forEach>
+            </td>
+        </tr>
 
-                </td>
-            </tr>
-
-        </table>
-    </chrome:division>
+    </table>
 
 
 </chrome:box>

@@ -47,7 +47,7 @@
     <chrome:division>
         <div class="leftpanel">
             <div class="row">
-                <div class="label">Assigned identifier</div>
+                <div class="label">Study identifier</div>
                 <div class="value">${command.study.assignedIdentifier} </div>
             </div>
             <div class="row">

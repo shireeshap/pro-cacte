@@ -46,7 +46,7 @@ public class ListValues {
     public List<ListValues> getStudySearchType() {
         List<ListValues> col = new ArrayList<ListValues>();
         ListValues lov1 = new ListValues("shortTitle", "Short title");
-        ListValues lov3 = new ListValues("assignedIdentifier", "Assigned identifier");
+        ListValues lov3 = new ListValues("assignedIdentifier", "Study identifier");
 
         col.add(lov1);
         col.add(lov3);
@@ -89,8 +89,8 @@ public class ListValues {
 
     public List<ListValues> getParticipantSearchType() {
         List<ListValues> col = new ArrayList<ListValues>();
-        ListValues lov1 = new ListValues("fn", "First Name");
-        ListValues lov2 = new ListValues("ln", "Last Name");
+        ListValues lov1 = new ListValues("fn", "First name");
+        ListValues lov2 = new ListValues("ln", "Last name");
         ListValues lov3 = new ListValues("idtf", "Identifier");
         // ListValues lov3 = new ListValues("g", "gender");
         // ListValues lov4 = new ListValues("r", "race");

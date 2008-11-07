@@ -39,12 +39,12 @@
 <body>
 <chrome:flashMessage flashMessage="The Study was saved successfully"></chrome:flashMessage>
 
-<chrome:box title="Study details">
+<chrome:box title="Study Details">
 
     <chrome:division>
         <div class="leftpanel">
             <div class="row">
-                <div class="label">Assigned identifier</div>
+                <div class="label">Study identifier</div>
                 <div class="value">${command.study.assignedIdentifier} </div>
             </div>
             <div class="row">

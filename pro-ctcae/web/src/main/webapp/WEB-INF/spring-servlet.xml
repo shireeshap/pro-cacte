@@ -103,7 +103,7 @@
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="Manage Forms" p:linkName="manageFormController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Build Form" p:linkName="createFormController"/>
+                                  p:displayName="Create New Form" p:linkName="createFormController"/>
 
                         </list>
                     </property>
@@ -279,7 +279,7 @@
         <property name="controllerTools" ref="controllerTools"/>
         <property name="finderRepository" ref="finderRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
-
+        <property name="webControllerValidator" ref="webControllerValidator"/>
     </bean>
 
 
