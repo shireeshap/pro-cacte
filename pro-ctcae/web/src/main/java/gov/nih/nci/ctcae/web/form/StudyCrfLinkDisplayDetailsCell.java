@@ -23,7 +23,7 @@ public class StudyCrfLinkDisplayDetailsCell extends AbstractCell implements Cell
         Integer id = bean.getId();
         
            String cellValue = "";
-           String link1 = model.getContext().getContextPath() + "/pages/studyCrf/edit?studyCrfId=";
+           String link1 = model.getContext().getContextPath() + "/pages/participant/schedulecrf?studyCrfId=";
            String link2 = model.getContext().getContextPath() + "/pages/form/releaseForm?studyCrfId=";
 
             if ( bean.getCrf().getStatus().equals(CrfStatus.RELEASED) ){
