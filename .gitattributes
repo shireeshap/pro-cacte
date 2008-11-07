@@ -54,6 +54,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/006_add_sample_pro_ctc_term
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/007_alter_investigator_clinical.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/008_alter_study_participant_crf_items.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/010_update_sample_pro_ctc_terms.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/011_update_sample_pro_ctc_terms.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
