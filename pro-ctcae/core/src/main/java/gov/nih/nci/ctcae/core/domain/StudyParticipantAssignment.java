@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author
@@ -30,7 +31,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
     private StudyOrganization studySite;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
-    private Collection<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
+    private List<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
 
     public StudyParticipantAssignment() {
     }
@@ -71,7 +72,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
         this.studySite = studySite;
     }
 
-    public Collection<StudyParticipantCrf> getStudyParticipantCrfs() {
+    public List<StudyParticipantCrf> getStudyParticipantCrfs() {
         return studyParticipantCrfs;
     }
 

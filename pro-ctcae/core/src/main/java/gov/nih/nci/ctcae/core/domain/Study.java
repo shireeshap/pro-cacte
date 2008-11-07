@@ -41,7 +41,7 @@ public class Study extends BasePersistable {
     @Transient
     private StudyCoordinatingCenter studyCoordinatingCenter;
 
-    @OneToMany(mappedBy = "study", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "study", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "study", fetch = FetchType.LAZY)
