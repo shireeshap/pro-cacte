@@ -28,7 +28,7 @@ public abstract class StudyOrganization extends BasePersistable {
         this.id = id;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studySite", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studySite", fetch = FetchType.EAGER)
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
 
     @ManyToOne
