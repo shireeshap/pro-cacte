@@ -23,7 +23,7 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
 
     protected ReleaseFormController() {
         setCommandClass(StudyCrf.class);
-        setFormView("form/relaseForm");
+        setFormView("form/releaseForm");
         setSessionForm(true);
 
     }
