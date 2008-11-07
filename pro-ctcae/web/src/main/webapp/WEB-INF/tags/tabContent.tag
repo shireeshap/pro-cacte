@@ -15,15 +15,20 @@
 <%@attribute name="boxClass" %>
 <%@attribute name="pageHelpAnchor" %>
 <%@attribute name="tabContent" fragment="true" %>
+<%@attribute name="localButtons" fragment="true" %>
 <c:choose>
     <c:when test="${!notDisplayInBox}">
         <chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}"
                     noBackground="${noBackground}">
+
             <jsp:invoke fragment="tabContent"/>
+
         </chrome:box>
     </c:when>
     <c:otherwise>
         <jsp:invoke fragment="tabContent"/>
+
+
     </c:otherwise>
 </c:choose>
 

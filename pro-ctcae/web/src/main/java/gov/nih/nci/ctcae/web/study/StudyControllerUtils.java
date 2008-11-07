@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 public class StudyControllerUtils {
     public static StudyCommand getStudyCommand(HttpServletRequest request) {
         StudyCommand studyCommand = (StudyCommand)
-                request.getSession().getAttribute(StudyController.class.getName() + ".FORM." + "studyCommand");
+                request.getSession().getAttribute(CreateStudyController.class.getName() + ".FORM." + "command");
         return studyCommand;
     }
 }

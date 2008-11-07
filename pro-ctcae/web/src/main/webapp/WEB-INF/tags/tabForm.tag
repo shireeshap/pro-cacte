@@ -41,13 +41,18 @@
         <c:if test="${not empty tabControls}">
             <jsp:invoke fragment="tabControls"/>
         </c:if>
-
+            <div class="local-buttons">
+                <jsp:invoke fragment="localButtons"/>
+            </div>
+         
     </jsp:attribute>
+
+
     </tags:tabContent>
 
-
     <c:if test="${empty tabControls}">
-        <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" saveButtonLabel="${saveButtonLabel}"/>
+        <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" saveButtonLabel="${saveButtonLabel}">
+        </tags:tabControls>
 
     </c:if>
 

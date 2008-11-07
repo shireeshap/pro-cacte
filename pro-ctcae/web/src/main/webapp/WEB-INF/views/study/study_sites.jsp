@@ -98,15 +98,12 @@
                 </table>
 
             </div>
-            <%--<tags:tabControls willSave="${willSave}" saveButtonLabel="${saveButtonLabel}">--%>
-            <%--<jsp:attribute name="localButtons">--%>
-            <!--<input type="button" value="Add Study Site" onClick="addStudySite()" class="button"/>-->
-
-            <%--</jsp:attribute>--%>
-            <%--</tags:tabControls>--%>
 
 
         </chrome:division>
+    </jsp:attribute>
+    <jsp:attribute name="localButtons"><input type="button" value="Add Study Site" onClick="addStudySite()"
+                                              class="button"/>
     </jsp:attribute>
 </tags:tabForm>
 
