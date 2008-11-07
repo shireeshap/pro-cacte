@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.web.table.cell.AbstractCellTestCase;
-import gov.nih.nci.ctcae.core.TestBean;
 import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.CRF;
@@ -36,7 +35,7 @@ public class StudyCrfLinkDisplayCellTest extends AbstractCellTestCase {
         studyCrf = new StudyCrf();
         studyCrf.setCrf(new CRF());
         studyCrf.setId(1);
-        studyCrf.getCrf().setStatus(CrfStatus.RELEASEED);
+        studyCrf.getCrf().setStatus(CrfStatus.RELEASED);
         model.addColumn(testOptionsColumn);
         row = new Row(model);
         model.addRow(row);

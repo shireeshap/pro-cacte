@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,10 +43,11 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
         StudyCrf studyCrf = (StudyCrf) command;
-        crfRepository.updateStatusToReleased(studyCrf.getCrf());
-        ModelAndView modelAndView = new ModelAndView("forward:viewForm", errors.getModel());
-        return modelAndView;
-
+        //crfRepository.updateStatusToReleased(studyCrf.getCrf());
+        studyCrf.getCrf().setStatus(CrfStatus.RELEASED);
+        crfRepository.save(studyCrf.getCrf());
+        RedirectView redirectView=new RedirectView("manageForm?studyCrfId="+studyCrf.getId());
+        return new ModelAndView(redirectView);
     }
 
 

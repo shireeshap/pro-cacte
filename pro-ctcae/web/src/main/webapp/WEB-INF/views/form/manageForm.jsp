@@ -21,7 +21,12 @@
         Event.observe(window, "load", function () {
             var studyAutoCompleter = new studyAutoComplter('study');
             acCreateStudy(studyAutoCompleter, displayForms);
+             <c:if test="${study ne null}">
+            initializeAutoCompleter('study',
+                    '${study.displayName}', '${study.id}')
 
+              displayForms();
+        </c:if>
             initSearchField();
 
         })

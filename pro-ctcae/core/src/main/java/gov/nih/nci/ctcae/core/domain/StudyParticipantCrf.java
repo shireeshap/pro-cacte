@@ -31,11 +31,15 @@ public class StudyParticipantCrf extends BaseVersionable {
     @ManyToOne
     private StudyParticipantAssignment studyParticipantAssignment;
 
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "start_date")
     private Date startDate;
 
-    @Column(name = "due_date", nullable = false)
+    @Column(name = "due_date")
     private Date dueDate;
+
+    public StudyParticipantCrf(){
+        
+    }
 
     public StudyParticipantCrf(StudyCrf studyCrf) {
         this.studyCrf = studyCrf;

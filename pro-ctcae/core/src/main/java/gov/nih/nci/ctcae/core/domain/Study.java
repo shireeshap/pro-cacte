@@ -50,7 +50,7 @@ public class Study extends BasePersistable {
     @UniqueObjectInCollection(message = "Duplicate Site")
     public List<StudySite> getStudySites() {
         List<StudySite> studySites = new ArrayList<StudySite>();
-        for (StudyOrganization studyOrganization : studyOrganizations) {
+        for (StudyOrganization studyOrganization : getStudyOrganizations()) {
             if (studyOrganization instanceof StudySite) {
                 studySites.add((StudySite) studyOrganization);
             }

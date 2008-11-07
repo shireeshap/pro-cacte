@@ -196,6 +196,6 @@ public class CRF extends BaseVersionable {
     }
 
     public boolean isReleased() {
-        return getStatus().equals(CrfStatus.RELEASEED);
+        return getStatus().equals(CrfStatus.RELEASED);
     }
 }

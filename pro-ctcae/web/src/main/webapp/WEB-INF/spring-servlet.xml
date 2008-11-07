@@ -161,6 +161,7 @@
     </bean>
 
     <bean name="/form/manageForm" id="manageFormController" class="gov.nih.nci.ctcae.web.form.ManageFormController">
+        <property name="finderRepository" ref="finderRepository"/>
     </bean>
 
     <bean name="/form/createForm" id="createFormController" class="gov.nih.nci.ctcae.web.form.CreateFormController"

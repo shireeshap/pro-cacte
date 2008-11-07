@@ -2,9 +2,14 @@ package gov.nih.nci.ctcae.web.form;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.domain.StudyCrf;
+import gov.nih.nci.ctcae.core.domain.Study;
 
 /**
  * @author Vinay Kumar
@@ -12,17 +17,29 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ManageFormController extends AbstractController {
 
+    private FinderRepository finderRepository;
+
 
     public ManageFormController() {
         setSupportedMethods(new String[]{"GET"});
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
         ModelAndView modelAndView = new ModelAndView("form/manageForm");
-
+        String studyCrfId = request.getParameter("studyCrfId");
+        if (studyCrfId != null && !"".equals(studyCrfId)) {
+            StudyCrf studyCrf = finderRepository.findById(StudyCrf.class, Integer.parseInt(studyCrfId));
+            Study study = studyCrf.getStudy();
+            modelAndView.getModel().put("study", study);
+        }
         return modelAndView;
+    }
 
-
+    @Required
+    public void setFinderRepository(FinderRepository finderRepository) {
+        this.finderRepository = finderRepository;
     }
 
 }

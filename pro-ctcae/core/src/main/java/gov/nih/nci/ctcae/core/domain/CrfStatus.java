@@ -10,7 +10,7 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 public enum CrfStatus implements CodedEnum<String> {
 
     DRAFT("Draft"),
-    RELEASEED("Released"),
+    RELEASED("Released"),
     INPROGRESS("In-progress");
 
 

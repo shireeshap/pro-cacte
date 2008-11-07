@@ -37,13 +37,13 @@
                             You are about to release
 
                             <strong>${command.crf.title}</strong>.
-                            Once you do this, it will be available for use for patient tracking and
-                            you will no longer be able to edit it.
+
+                            You will no longer be able to edit it.
                         </p>
 
                         <p>
                             You cannot reverse this step. If you're not ready to proceed, please
-                            <a href="<c:url value="/pages/form/viewForm?studyCrfId=${command.id}"/>">return
+                            <a href="<c:url value="/pages/form/manageForm?studyCrfId=${command.id}"/>">return
                                 to
                                 the form</a>.
                         </p>

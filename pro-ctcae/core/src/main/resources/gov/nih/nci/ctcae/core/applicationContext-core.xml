@@ -86,6 +86,7 @@
 
     <bean id="crfRepository" class="gov.nih.nci.ctcae.core.repository.CRFRepository"
           parent="abstractRepository">
+        <property name="studyRepository" ref="studyRepository"/>
     </bean>
 
     <bean id="proCtcTermRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcTermRepository"
