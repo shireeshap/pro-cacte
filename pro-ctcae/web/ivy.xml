@@ -25,7 +25,7 @@
     <publications>
         <artifact name="${ivy.module}" conf="publish" type="jar"/>
         <artifact name="${ivy.module}-tests" conf="test" type="jar"/>
-        <artifact name="ctcae" type="war" conf="publish"/>
+        <artifact name="prose" type="war" conf="publish"/>
     </publications>
 
     <!-- dependencies for the web module -->
@@ -59,9 +59,9 @@
         <dependency org="org.springframework.webflow" name="org.springframework.webflow" rev="2.0.3.RELEASE"
                     force="true"/>
         <dependency org="ognl" name="ognl" rev="2.6.7"
-                    />
+                />
 
-        
+
         <dependency org="org.acegisecurity" name="acegi-security" rev="1.0.3" transitive="false">
 
         </dependency>
