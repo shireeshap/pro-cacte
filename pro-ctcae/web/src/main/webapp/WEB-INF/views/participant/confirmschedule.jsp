@@ -54,23 +54,23 @@
     </div>
 
     <c:if test="${not empty command.studyParticipantAssignment.studyParticipantCrfs}">
-    <chrome:division title="Scheduled Forms">
-        <table class="tablecontent" width="80%">
-            <tr>
-                <th scope="col">Form</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">Due Date</th>
-            </tr>
-            <c:forEach items="${command.studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
-                <tr class="results">
-                    <td>${studyParticipantCrf.studyCrf.crf.title}</td>
-                    <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="schedule">
-                        <td>${schedule.startDate}</td>
-                        <td>${schedule.dueDate}</td>
-                    </c:forEach>
+        <chrome:division title="Scheduled Forms">
+            <table class="tablecontent" width="80%">
+                <tr>
+                    <th scope="col">Form</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">Due Date</th>
                 </tr>
-            </c:forEach>
-        </table>
+                <c:forEach items="${command.studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
+                    <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="schedule">
+                        <tr class="results">
+                            <td>${studyParticipantCrf.studyCrf.crf.title}</td>
+                            <td>${schedule.startDate}</td>
+                            <td>${schedule.dueDate}</td>
+                        </tr>
+                    </c:forEach>
+                </c:forEach>
+            </table>
         </chrome:division>
     </c:if>
 </chrome:box>
