@@ -3,7 +3,7 @@
 
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<tags:crfSchedule index="${index}" inputName="studyParticipantAssignment.studyParticipantCrfs[${index}]"
+<tags:crfSchedule index="${index}" inputName="studyParticipantAssignment.studyParticipantCrfs[${crfindex}].studyParticipantCrfSchedules[${scheduleindex}]"
                   title="Crf Schedule" displayError="false"></tags:crfSchedule>
 
 

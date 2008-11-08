@@ -56,7 +56,7 @@
                                 <th class="tableHeader"><tags:requiredIndicator/>Due Date</th>
                             </tr>
                             <c:forEach items="${participantCrf.studyParticipantCrfSchedules}" var="crfSchedule" varStatus="mystatus">
-                                <tags:crfSchedule index="${mystatus}" inputName="studyParticipantAssignment.studyParticipantCrfs[${mystatus}]"
+                                <tags:crfSchedule index="${mystatus}" inputName="studyParticipantAssignment.studyParticipantCrfs[${status}].studyParticipantCrfSchedules[${mystatus}]"
                                                   title="Crf Schedule" displayError="false" startDate="${crfSchedule.startDate}" dueDate="${crfSchedule.dueDate}"></tags:crfSchedule>
                             </c:forEach>
                             <tr id="hiddenDiv-${status.index}"></tr>

@@ -53,7 +53,7 @@
         <div class="value">${command.participant.displayName}</div>
     </div>
 
-    <c:if test="${not empty command.studyParticipantCrfs}">
+    <c:if test="${not empty command.studyParticipantAssignment.studyParticipantCrfs}">
     <chrome:division title="Scheduled Forms">
         <table class="tablecontent" width="80%">
             <tr>
@@ -61,11 +61,13 @@
                 <th scope="col">Start Date</th>
                 <th scope="col">Due Date</th>
             </tr>
-            <c:forEach items="${command.studyParticipantCrfs}" var="studyParticipantCrf">
+            <c:forEach items="${command.studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
                 <tr class="results">
                     <td>${studyParticipantCrf.studyCrf.crf.title}</td>
-                    <td>${studyParticipantCrf.startDate}</td>
-                    <td>${studyParticipantCrf.dueDate}</td>
+                    <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="schedule">
+                        <td>${schedule.startDate}</td>
+                        <td>${schedule.dueDate}</td>
+                    </c:forEach>
                 </tr>
             </c:forEach>
         </table>

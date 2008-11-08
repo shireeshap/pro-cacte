@@ -36,8 +36,9 @@ public class AddCrfScheduleController extends AbstractController {
         StudyParticipantCrf studyParticipantCrf =studyParticipantCommand.getStudyParticipantAssignment().getStudyParticipantCrfs().get(crfIndex.intValue());
         studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
 
-        int index = studyParticipantCrf.getStudyParticipantCrfSchedules().size() - 1;
-        modelAndView.addObject("index", index);
+        int scheduleindex = studyParticipantCrf.getStudyParticipantCrfSchedules().size() - 1;
+        modelAndView.addObject("scheduleindex", scheduleindex);
+        modelAndView.addObject("crfindex", crfIndex);
         return modelAndView;
     }
 
