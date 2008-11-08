@@ -46,12 +46,11 @@
 
     <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
 
-    <bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+    <bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver" p:order="1">
         <property name="location">
             <value>/WEB-INF/special-views.xml</value>
         </property>
-        <property name="order" value="1"></property>
-    </bean>
+        </bean>
 
     <bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
         <property name="definitions">
@@ -61,11 +60,8 @@
             </list>
         </property>
     </bean>
-    <bean id="urlResolver" class="gov.nih.nci.cabig.ctms.tools.spring.BeanNameControllerUrlResolver">
-        <property name="servletName">
-            <value>pages</value>
-        </property>
-    </bean>
+    <bean id="urlResolver" class="gov.nih.nci.cabig.ctms.tools.spring.BeanNameControllerUrlResolver"
+          p:servletName="pages"/>
 
 
     <bean id="irViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
@@ -94,26 +90,20 @@
             <list>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Form"
-                      p:mainController="manageFormController">
-                    <property name="pathMapping">
-                        <value>/form/**</value>
-                    </property>
+                      p:mainController="manageFormController" p:pathMapping="/form/**">
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="Manage Forms" p:linkName="manageFormController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Create New Form" p:linkName="createFormController"/>
+                                  p:displayName="Create Form" p:linkName="createFormController"/>
 
                         </list>
                     </property>
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Studies"
-                      p:mainController="createStudyController">
-                    <property name="pathMapping">
-                        <value>/study/**</value>
-                    </property>
+                      p:mainController="createStudyController" p:pathMapping="/study/**">
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
@@ -126,10 +116,7 @@
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Participants"
-                      p:mainController="createParticipantController">
-                    <property name="pathMapping">
-                        <value>/participant/**</value>
-                    </property>
+                      p:mainController="createParticipantController" p:pathMapping="/participant/**">
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
@@ -137,16 +124,13 @@
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="Search Participants" p:linkName="searchParticipantController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Schedule Form for Participant" p:linkName="scheduleCrfController"/>
+                                  p:displayName="Schedule Form" p:linkName="scheduleCrfController"/>
                         </list>
                     </property>
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Administration"
-                      p:mainController="createClinicalStaffController">
-                    <property name="pathMapping">
-                        <value>/admin/**</value>
-                    </property>
+                      p:mainController="createClinicalStaffController" p:pathMapping="/admin/**">
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
@@ -176,10 +160,10 @@
     <!--</bean>-->
     <!---->
     <bean name="/form/releaseForm" id="releaseFormController"
-          class="gov.nih.nci.ctcae.web.form.ReleaseFormController" parent="ctcaeSimpleFormController">
+          class="gov.nih.nci.ctcae.web.form.ReleaseFormController" parent="ctcaeSimpleFormController"
+          p:crfRepository-ref="crfRepository">
         <property name="finderRepository" ref="finderRepository"/>
-        <property name="crfRepository" ref="crfRepository"/>
-    </bean>
+        </bean>
     <bean name="/form/addOneQuestion" id="oneQuestionController"
           class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">
         <property name="finderRepository" ref="finderRepository"/>
@@ -265,9 +249,8 @@
     </bean>
 
 
-    <bean id="ctcaeSimpleFormController" class="gov.nih.nci.ctcae.web.CtcAeSimpleFormController">
-        <property name="controllerTools" ref="controllerTools"></property>
-        <property name="finderRepository" ref="finderRepository"></property>
+    <bean id="ctcaeSimpleFormController" class="gov.nih.nci.ctcae.web.CtcAeSimpleFormController"
+          p:finderRepository-ref="finderRepository" p:controllerTools-ref="controllerTools">
         <property name="webControllerValidator" ref="webControllerValidator"/>
     </bean>
 
@@ -286,7 +269,7 @@
     <!-- validation beans-->
 
     <bean id="webControllerValidator"
-          class="gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl"></bean>
+          class="gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl"/>
 
     <bean id="uniqueIdentifierForStudyValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudyValidator">

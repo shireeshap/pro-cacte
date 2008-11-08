@@ -45,7 +45,7 @@
                             You cannot reverse this step. If you're not ready to proceed, please
                             <a href="<c:url value="/pages/form/manageForm?studyCrfId=${command.id}"/>">return
                                 to
-                                the form</a>.
+                                the search results</a>.
                         </p>
 
                         <tags:tabControls willSave="true"/>

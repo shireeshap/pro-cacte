@@ -78,114 +78,115 @@
 
 
 <div class="box">
-<!-- header -->
-<div class="header">
-    <div class="background-L">
-        <div class="background-R">
-            <table width="100%">
-                <tr>
-                    <td>
-                        <h2>Detailed Error</h2>
-                    </td>
-                    <td align="right">
-                        <div id="error-image-div">
-                            <a href="javascript:
+    <!-- header -->
+    <div class="header">
+        <div class="background-L">
+            <div class="background-R">
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <h2>Detailed Error</h2>
+                        </td>
+                        <td align="right">
+                            <div id="error-image-div">
+                                <a href="javascript:
 			PanelCombo('error');
 				">
-                                <img id="error-image" src="<tags:imageUrl name="minimize.gif"/>"
-                                     border="0" alt="toggle button"></a>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+                                    <img id="error-image" src="<tags:imageUrl name="minimize.gif"/>"
+                                         border="0" alt="toggle button"></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-<!-- end header --><!-- end header -->
+    <!-- end header --><!-- end header -->
 
-<!-- inner border -->
-<div class="border-T">
-    <div class="border-L">
-        <div class="border-R">
-            <div class="border-B">
-                <div class="border-TL">
-                    <div class="border-TR">
-                        <div class="border-BL">
-                            <div class="border-BR">
-                                <div id="error-interior" class="interior" style="display:none;">
-                                    <div class="content">
+    <!-- inner border -->
+    <div class="border-T">
+        <div class="border-L">
+            <div class="border-R">
+                <div class="border-B">
+                    <div class="border-TL">
+                        <div class="border-TR">
+                            <div class="border-BL">
+                                <div class="border-BR">
+                                    <div id="error-interior" class="interior" style="display:none;">
+                                        <div class="content">
 
-                                        <TABLE CELLPADDING="2" CELLSPACING="2" BORDER="1" WIDTH="50%">
-                                            <TR>
-                                                <TD WIDTH="20%"><B>Status Code</B></TD>
-                                                <TD WIDTH="80%"><%= statusCode %>
-                                                </TD>
-                                            </TR>
-                                            <TR>
-                                                <TD WIDTH="20%"><B>Exception Type</B></TD>
-                                                <TD WIDTH="80%"><%= exceptionType %>
-                                                </TD>
-                                            </TR>
-                                            <TR>
-                                                <TD WIDTH="20%"><B>Message</B></TD>
-                                                <TD WIDTH="80%"><%= message %>
-                                                </TD>
-                                            </TR>
-                                        </TABLE>
+                                            <TABLE CELLPADDING="2" CELLSPACING="2" BORDER="1" WIDTH="50%">
+                                                <TR>
+                                                    <TD WIDTH="20%"><B>Status Code</B></TD>
+                                                    <TD WIDTH="80%"><%= statusCode %>
+                                                    </TD>
+                                                </TR>
+                                                <TR>
+                                                    <TD WIDTH="20%"><B>Exception Type</B></TD>
+                                                    <TD WIDTH="80%"><%= exceptionType %>
+                                                    </TD>
+                                                </TR>
+                                                <TR>
+                                                    <TD WIDTH="20%"><B>Message</B></TD>
+                                                    <TD WIDTH="80%"><%= message %>
+                                                    </TD>
+                                                </TR>
+                                            </TABLE>
 
-                                        <hr>
-                                        <b> Header List </b>
-                                        <table border=3>
-                                            <tr>
-                                                <td>Name</td>
-                                                <td>Value</td>
-                                            </tr>
-                                            <%
-                                                String name = "";
-                                                String value = "";
+                                            <hr>
+                                            <b> Header List </b>
+                                            <table border=3>
+                                                <tr>
+                                                    <td>Name</td>
+                                                    <td>Value</td>
+                                                </tr>
+                                                <%
+                                                    String name = "";
+                                                    String value = "";
 
-                                                java.util.Enumeration headers = request.getHeaderNames();
-                                                while (headers.hasMoreElements()) {
-                                                    name = (String) headers.nextElement();
-                                                    value = request.getHeader(name);
-                                            %>
-                                            <tr>
-                                                <td><%=name%>
-                                                </td>
-                                                <td><%=value%>
-                                                </td>
-                                            </tr>
-                                            <%
-                                                }
-                                            %>
-                                        </table>
-
-                                        <hr>
-                                        <b>Attribute List:</b>
-
-                                        <table border=3>
-                                            <%
-                                                java.util.Enumeration attributes = request.getAttributeNames();
-                                                while (attributes.hasMoreElements()) {
-                                                    name = (String) attributes.nextElement();
-
-                                                    if (request.getAttribute(name) == null) {
-                                                        value = "null";
-                                                    } else {
-                                                        value = request.getAttribute(name).toString();
+                                                    java.util.Enumeration headers = request.getHeaderNames();
+                                                    while (headers.hasMoreElements()) {
+                                                        name = (String) headers.nextElement();
+                                                        value = request.getHeader(name);
+                                                %>
+                                                <tr>
+                                                    <td><%=name%>
+                                                    </td>
+                                                    <td><%=value%>
+                                                    </td>
+                                                </tr>
+                                                <%
                                                     }
-                                            %>
-                                            <tr>
-                                                <td><%=name%>
-                                                </td>
-                                                <td><%=value%>
-                                                </td>
-                                            </tr>
-                                            <%
-                                                }
-                                            %>
-                                        </table>
+                                                %>
+                                            </table>
 
+                                            <hr>
+                                            <b>Attribute List:</b>
+
+                                            <table border=3>
+                                                <%
+                                                    java.util.Enumeration attributes = request.getAttributeNames();
+                                                    while (attributes.hasMoreElements()) {
+                                                        name = (String) attributes.nextElement();
+
+                                                        if (request.getAttribute(name) == null) {
+                                                            value = "null";
+                                                        } else {
+                                                            value = request.getAttribute(name).toString();
+                                                        }
+                                                %>
+                                                <tr>
+                                                    <td><%=name%>
+                                                    </td>
+                                                    <td><%=value%>
+                                                    </td>
+                                                </tr>
+                                                <%
+                                                    }
+                                                %>
+                                            </table>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -194,9 +195,8 @@
                 </div>
             </div>
         </div>
+        <!-- end inner border -->
     </div>
-    <!-- end inner border -->
-</div>
 
 
 </div>

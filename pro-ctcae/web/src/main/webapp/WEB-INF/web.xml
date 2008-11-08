@@ -36,8 +36,8 @@
 
 
     <!--<listener>-->
-        <!--<listener-class>edu.northwestern.bioinformatics.bering.servlet.SeparateApplicationContextBeringContextListener-->
-        <!--</listener-class>-->
+    <!--<listener-class>edu.northwestern.bioinformatics.bering.servlet.SeparateApplicationContextBeringContextListener-->
+    <!--</listener-class>-->
     <!--</listener>-->
 
     <servlet>

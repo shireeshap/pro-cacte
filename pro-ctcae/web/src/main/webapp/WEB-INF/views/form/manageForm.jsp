@@ -21,11 +21,11 @@
         Event.observe(window, "load", function () {
             var studyAutoCompleter = new studyAutoComplter('study');
             acCreateStudy(studyAutoCompleter, displayForms);
-             <c:if test="${study ne null}">
+        <c:if test="${study ne null}">
             initializeAutoCompleter('study',
                     '${study.displayName}', '${study.id}')
 
-              displayForms();
+            displayForms();
         </c:if>
             initSearchField();
 
@@ -46,7 +46,7 @@
             $('bigSearch').show();
             studyCrf.searchStudyCrf(parameterMap, id, showTable)
         }
-        
+
         function acCreateStudy(mode) {
             new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
                     mode.populator, {
@@ -65,7 +65,7 @@
 </head>
 <body>
 
-<chrome:box title="Select study" id="study-entry">
+<chrome:box title="Select Study" id="study-entry">
     <p><tags:instructions code="instruction_select_study"/></p>
     <tags:displayAutocompleter inputName="study" required="true" displayName="Study" size="70"/>
     <p id="studyCrf.study-selected" style="display: none">
@@ -82,16 +82,16 @@
     <div id="bigSearch" style="display:none;">
         <div class="endpanes"/>
 
-            <form:form id="assembler">
-                <chrome:division id="single-fields">
-                    <div id="tableDiv">
-                        <c:out value="${assembler}" escapeXml="false"/>
-                    </div>
-                </chrome:division>
-            </form:form>
-        
+        <form:form id="assembler">
+            <chrome:division id="single-fields">
+                <div id="tableDiv">
+                    <c:out value="${assembler}" escapeXml="false"/>
+                </div>
+            </chrome:division>
+        </form:form>
+
     </div>
-    
+
 
 </chrome:box>
 

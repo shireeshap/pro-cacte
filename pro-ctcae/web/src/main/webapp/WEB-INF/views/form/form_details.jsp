@@ -12,149 +12,149 @@
 
 <head>
 
-<tags:stylesheetLink name="tabbedflow"/>
-<tags:stylesheetLink name="ae"/>
+    <tags:stylesheetLink name="tabbedflow"/>
+    <tags:stylesheetLink name="ae"/>
 
-<tags:includeScriptaculous/>
+    <tags:includeScriptaculous/>
 
-<tags:includePrototypeWindow/>
+    <tags:includePrototypeWindow/>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-Event.observe(window, "load", function () {
-    sortQustions();
-<c:if test="${not empty command.studyCrf.crf.crfItems}">
-    reOrderQuestionNumber();
-    hideQuestionsFromForm();
-</c:if>
-
-})
-
-Event.observe(window, "load", function () {
-    var formNameInPlaceEdit = new Ajax.InPlaceEditor('crfTitle', '/ctcae/pages/form/setName', {
-        rows:1,
-        cancelControl:false,
-        okControl:true,
-        // submitOnBlur:true,
-
-        onComplete:function(transport) {
-            $('crfTitle').innerHTML = transport.responseText;
-            $('formTitle').value = transport.responseText;
-
-
-        },
-        callback:function(form, value) {
-            return 'crfTitle=' + encodeURIComponent(value)
-        }
-    });
-
-})
-
-
-function sortQustions() {
-    Sortable.destroy("sortable")
-    Sortable.create("sortable", {
-        tag:'div',
-        only:['sortable'],
-
-        onUpdate:function () {
-            updateQuestionsId();
-
-        },
-        onChange:function() {
+        Event.observe(window, "load", function () {
+            sortQustions();
+        <c:if test="${not empty command.studyCrf.crf.crfItems}">
             reOrderQuestionNumber();
+            hideQuestionsFromForm();
+        </c:if>
+
+        })
+
+        Event.observe(window, "load", function () {
+            var formNameInPlaceEdit = new Ajax.InPlaceEditor('crfTitle', '/ctcae/pages/form/setName', {
+                rows:1,
+                cancelControl:false,
+                okControl:true,
+                // submitOnBlur:true,
+
+                onComplete:function(transport) {
+                    $('crfTitle').innerHTML = transport.responseText;
+                    $('formTitle').value = transport.responseText;
+
+
+                },
+                callback:function(form, value) {
+                    return 'crfTitle=' + encodeURIComponent(value)
+                }
+            });
+
+        })
+
+
+        function sortQustions() {
+            Sortable.destroy("sortable")
+            Sortable.create("sortable", {
+                tag:'div',
+                only:['sortable'],
+
+                onUpdate:function () {
+                    updateQuestionsId();
+
+                },
+                onChange:function() {
+                    reOrderQuestionNumber();
+                }
+
+            })
+        }
+        function reOrderQuestionNumber() {
+            var i = 1;
+            $$("span.sortableSpan").each(function (item) {
+                item.innerHTML = i + ":";
+                i = i + 1;
+
+
+            })
+
+        }
+        function hideQuestionsFromForm() {
+            $$("a.del").each(function (item) {
+                var questionId = item.id.substr(4, item.id.length);
+                hideQuestionFromForm(questionId);
+
+            })
+
         }
 
-    })
-}
-function reOrderQuestionNumber() {
-    var i = 1;
-    $$("span.sortableSpan").each(function (item) {
-        item.innerHTML = i + ":";
-        i = i + 1;
+        function hideQuestionFromForm(questionId) {
+            $('question_' + questionId).hide();
 
-
-    })
-
-}
-function hideQuestionsFromForm() {
-    $$("a.del").each(function (item) {
-        var questionId = item.id.substr(4, item.id.length);
-        hideQuestionFromForm(questionId);
-
-    })
-
-}
-
-function hideQuestionFromForm(questionId) {
-    $('question_' + questionId).hide();
-
-}
-function showQuestionInForm(questionId) {
-    $('question_' + questionId).show();
-}
-function addQuestionDiv(transport) {
-    var response = transport.responseText;
-    new Insertion.Before("hiddenDiv", response);
-    sortQustions()
-    updateQuestionsId()
-
-}
-function addQuestion(questionId) {
-    var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
-    var request = new Ajax.Request("<c:url value="/pages/form/addOneQuestion"/>", {
-        parameters:"questionId=" + questionId + "&subview=subview&displayOrder=" + displayOrder,
-        onComplete:addQuestionDiv,
-        method:'get'
-    })
-    hideQuestionFromForm(questionId);
-    $('totalQuestions').value = displayOrder;
-    $('totalQuestionDivision').innerHTML = displayOrder;
-
-}
-
-function updateQuestionsId() {
-    var questionsId = '';
-    var i = 0;
-    $$("div.sortable").each(function (item) {
-        var questionId = item.id.substr(9, item.id.length)
-        if (questionsId == '') {
-            questionsId = questionId;
-        } else {
-            questionsId = questionsId + ',' + questionId;
         }
-        i = i + 1
-    });
+        function showQuestionInForm(questionId) {
+            $('question_' + questionId).show();
+        }
+        function addQuestionDiv(transport) {
+            var response = transport.responseText;
+            new Insertion.Before("hiddenDiv", response);
+            sortQustions()
+            updateQuestionsId()
 
-    $('questionsIds').value = questionsId;
-    $('totalQuestions').value = i;
-    $('totalQuestionDivision').innerHTML = i;
-    if (i == 1) {
-        $('plural1').innerHTML = 'is';
-        $('plural2').innerHTML = '';
-    } else {
-        $('plural1').innerHTML = 'are';
-        $('plural2').innerHTML = 's';
-    }
+        }
+        function addQuestion(questionId) {
+            var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
+            var request = new Ajax.Request("<c:url value="/pages/form/addOneQuestion"/>", {
+                parameters:"questionId=" + questionId + "&subview=subview&displayOrder=" + displayOrder,
+                onComplete:addQuestionDiv,
+                method:'get'
+            })
+            hideQuestionFromForm(questionId);
+            $('totalQuestions').value = displayOrder;
+            $('totalQuestionDivision').innerHTML = displayOrder;
 
-}
+        }
 
-function deleteQuestion(questionId) {
-    $('sortable_' + questionId).remove();
-    sortQustions();
-    updateQuestionsId();
-    reOrderQuestionNumber()
-    showQuestionInForm(questionId);
+        function updateQuestionsId() {
+            var questionsId = '';
+            var i = 0;
+            $$("div.sortable").each(function (item) {
+                var questionId = item.id.substr(9, item.id.length)
+                if (questionsId == '') {
+                    questionsId = questionId;
+                } else {
+                    questionsId = questionsId + ',' + questionId;
+                }
+                i = i + 1
+            });
 
-}
+            $('questionsIds').value = questionsId;
+            $('totalQuestions').value = i;
+            $('totalQuestionDivision').innerHTML = i;
+            if (i == 1) {
+                $('plural1').innerHTML = 'is';
+                $('plural2').innerHTML = '';
+            } else {
+                $('plural1').innerHTML = 'are';
+                $('plural2').innerHTML = 's';
+            }
 
-</script>
-<style type="text/css">
+        }
 
-    .makeDraggable {
-        cursor: move;
-    }
-</style>
+        function deleteQuestion(questionId) {
+            $('sortable_' + questionId).remove();
+            sortQustions();
+            updateQuestionsId();
+            reOrderQuestionNumber()
+            showQuestionInForm(questionId);
+
+        }
+
+    </script>
+    <style type="text/css">
+
+        .makeDraggable {
+            cursor: move;
+        }
+    </style>
 
 </head>
 <body>

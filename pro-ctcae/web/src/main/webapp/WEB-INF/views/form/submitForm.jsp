@@ -8,7 +8,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <head>
-     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
         .label {
             width: 12em;
@@ -31,15 +31,16 @@
     </style>
 </head>
 <body>
-<c:set var="currentQuestion" value="${submitFormCommand.studyParticipantCrf.studyParticipantCrfItems[0].crfItem.proCtcQuestion}"/>
+<c:set var="currentQuestion"
+       value="${submitFormCommand.studyParticipantCrf.studyParticipantCrfItems[0].crfItem.proCtcQuestion}"/>
 
 <form:form method="post" commandName="submitFormCommand">
     <chrome:box title="My Form" autopad="true">
-    <tags:hasErrorsMessage hideErrorDetails="false"/>
+        <tags:hasErrorsMessage hideErrorDetails="false"/>
         <chrome:division title="Question 1.">
             <div class="value">${currentQuestion.questionText}</div>
-            <c:forEach  items="${currentQuestion.validValues}" var="validValue"  >
-                <div class="value"><tags:renderRadio propertyName="test" defaultValue="${validValue}"/></div> 
+            <c:forEach items="${currentQuestion.validValues}" var="validValue">
+                <div class="value"><tags:renderRadio propertyName="test" defaultValue="${validValue}"/></div>
             </c:forEach>
 
         </chrome:division>
