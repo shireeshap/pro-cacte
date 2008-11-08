@@ -1,12 +1,12 @@
 class CreateRide extends edu.northwestern.bioinformatics.bering.Migration {
-    void up() {
+  void up() {
 
-   execute("create sequence hibernate_sequence")
+    execute("create sequence hibernate_sequence")
 
 
-    }
+  }
 
-    void down() {
-        dropTable("SEARCHES")
-    }
+  void down() {
+    dropTable("SEARCHES")
+  }
 }
