@@ -18,6 +18,7 @@ public interface GenericRepository {
      * Find persistable object by primary key
      *
      * @param id the primary key of persistable object
+     *
      * @return the persistable object
      */
     <T extends Persistable> T findById(Class<T> classArg, Integer id);
@@ -28,6 +29,7 @@ public interface GenericRepository {
      *
      * @param persistable the persistable object that needs to be saved/updated
      *                    in the database
+     *
      * @return the saved/updated object
      */
     <T extends Persistable> T save(T persistable);
@@ -49,6 +51,7 @@ public interface GenericRepository {
      * Find persistable objects for a query.
      *
      * @param query the query
+     *
      * @return the collection of persistable objects
      */
 
@@ -58,6 +61,7 @@ public interface GenericRepository {
      * Find single persistable object for a query.
      *
      * @param query the query
+     *
      * @return the single persistable object
      */
 

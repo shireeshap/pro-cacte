@@ -9,10 +9,10 @@ import gov.nih.nci.ctcae.core.query.ProCtcQuery;
  */
 public class ProCtcRepository extends AbstractRepository<ProCtc, ProCtcQuery> {
 
-	@Override
-	protected Class<ProCtc> getPersistableClass() {
-		return ProCtc.class;
+    @Override
+    protected Class<ProCtc> getPersistableClass() {
+        return ProCtc.class;
 
-	}
+    }
 
 }

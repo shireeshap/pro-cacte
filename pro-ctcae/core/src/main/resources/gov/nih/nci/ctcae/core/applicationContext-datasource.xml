@@ -29,9 +29,9 @@
 
 
     <!--<bean id="beringMigrator" class="edu.northwestern.bioinformatics.bering.servlet.DeployedMigrator">-->
-        <!--<property name="dataSource">-->
-            <!--<ref bean="dataSource"/>-->
-        <!--</property>-->
+    <!--<property name="dataSource">-->
+    <!--<ref bean="dataSource"/>-->
+    <!--</property>-->
     <!--</bean>-->
 
 </beans>

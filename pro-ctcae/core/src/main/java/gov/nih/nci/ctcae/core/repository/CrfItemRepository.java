@@ -8,12 +8,12 @@ import gov.nih.nci.ctcae.core.query.CrfItemQuery;
  * @created Oct 14, 2008
  */
 public class CrfItemRepository extends
-		AbstractRepository<CrfItem, CrfItemQuery> {
+        AbstractRepository<CrfItem, CrfItemQuery> {
 
-	@Override
-	protected Class<CrfItem> getPersistableClass() {
-		return CrfItem.class;
+    @Override
+    protected Class<CrfItem> getPersistableClass() {
+        return CrfItem.class;
 
-	}
+    }
 
 }

@@ -11,7 +11,7 @@ public class ParticipantQueryTest extends TestCase {
     public void testQueryConstructor() throws Exception {
         ParticipantQuery participantQuery = new ParticipantQuery();
         assertEquals("wrong parsing for constructor",
-                "SELECT p from Participant p order by p.id", participantQuery.getQueryString()) ;
+                "SELECT p from Participant p order by p.id", participantQuery.getQueryString());
 
     }
 
@@ -24,7 +24,8 @@ public class ParticipantQueryTest extends TestCase {
         assertTrue("missing parameter name", participantQuery.getParameterMap().containsKey("firstName"));
         assertEquals("wrong parameter value", participantQuery.getParameterMap().get("firstName"), "%john%");
     }
-     public void testFilterByLastName() throws Exception {
+
+    public void testFilterByLastName() throws Exception {
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByParticipantLastName("dow");
         assertEquals("SELECT p from Participant p WHERE lower(p.lastName) LIKE :lastName order by p.id",
@@ -33,6 +34,7 @@ public class ParticipantQueryTest extends TestCase {
         assertTrue("missing parameter name", participantQuery.getParameterMap().containsKey("lastName"));
         assertEquals("wrong parameter value", participantQuery.getParameterMap().get("lastName"), "%dow%");
     }
+
     public void testFilterByFullName() throws Exception {
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByParticipantFirstName("John");
@@ -41,6 +43,6 @@ public class ParticipantQueryTest extends TestCase {
                 participantQuery.getQueryString());
         assertEquals("wrong number of parameters", participantQuery.getParameterMap().size(), 2);
 
-}
+    }
 
 }

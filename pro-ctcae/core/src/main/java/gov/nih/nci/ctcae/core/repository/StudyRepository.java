@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @crated Oct 7, 2008
  */
 
-@Transactional(readOnly = true,propagation = Propagation.REQUIRED)
+@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 public class StudyRepository extends AbstractRepository<Study, StudyQuery> {
 
     @Override

@@ -9,48 +9,48 @@ import java.util.Date;
  * @created Oct 13, 2008
  */
 public class ProCtcTest extends TestCase {
-	private ProCtc proCtc;
+    private ProCtc proCtc;
 
-	public void testConstructor() {
+    public void testConstructor() {
 //		proCtc = new ProCtc();
 //		assertNull(proCtc.getProCtcVersion());
 //		assertNull(proCtc.getReleaseDate());
 //		assertNull(proCtc.getProCtcTerms());
-	}
+    }
 
-	public void testGetterAndSetter() {
-		proCtc = new ProCtc();
-		proCtc.setProCtcVersion("1.0");
-		Date releaseDate = new Date();
-		proCtc.setReleaseDate(releaseDate);
+    public void testGetterAndSetter() {
+        proCtc = new ProCtc();
+        proCtc.setProCtcVersion("1.0");
+        Date releaseDate = new Date();
+        proCtc.setReleaseDate(releaseDate);
 
-		assertEquals("1.0", proCtc.getProCtcVersion());
-		assertEquals(releaseDate, proCtc.getReleaseDate());
-	}
+        assertEquals("1.0", proCtc.getProCtcVersion());
+        assertEquals(releaseDate, proCtc.getReleaseDate());
+    }
 
-	public void testEqualsAndHashCode() {
-		ProCtc anotherProCtc = null;
-		assertEquals(anotherProCtc, proCtc);
-		proCtc = new ProCtc();
-		assertFalse(proCtc.equals(anotherProCtc));
-		anotherProCtc = new ProCtc();
-		assertEquals(anotherProCtc, proCtc);
-		assertEquals(anotherProCtc.hashCode(), proCtc.hashCode());
+    public void testEqualsAndHashCode() {
+        ProCtc anotherProCtc = null;
+        assertEquals(anotherProCtc, proCtc);
+        proCtc = new ProCtc();
+        assertFalse(proCtc.equals(anotherProCtc));
+        anotherProCtc = new ProCtc();
+        assertEquals(anotherProCtc, proCtc);
+        assertEquals(anotherProCtc.hashCode(), proCtc.hashCode());
 
-		proCtc.setProCtcVersion("1.0");
-		assertFalse(proCtc.equals(anotherProCtc));
+        proCtc.setProCtcVersion("1.0");
+        assertFalse(proCtc.equals(anotherProCtc));
 
-		anotherProCtc.setProCtcVersion("1.0");
-		assertEquals(anotherProCtc.hashCode(), proCtc.hashCode());
-		assertEquals(anotherProCtc, proCtc);
+        anotherProCtc.setProCtcVersion("1.0");
+        assertEquals(anotherProCtc.hashCode(), proCtc.hashCode());
+        assertEquals(anotherProCtc, proCtc);
 
-		Date releaseDate = new Date();
-		proCtc.setReleaseDate(releaseDate);
-		anotherProCtc.setReleaseDate(releaseDate);
+        Date releaseDate = new Date();
+        proCtc.setReleaseDate(releaseDate);
+        anotherProCtc.setReleaseDate(releaseDate);
 
-		assertEquals(anotherProCtc.hashCode(), proCtc.hashCode());
-		assertEquals(anotherProCtc, proCtc);
+        assertEquals(anotherProCtc.hashCode(), proCtc.hashCode());
+        assertEquals(anotherProCtc, proCtc);
 
-	}
+    }
 
 }

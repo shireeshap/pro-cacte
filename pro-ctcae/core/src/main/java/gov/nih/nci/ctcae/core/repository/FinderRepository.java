@@ -26,6 +26,7 @@ public class FinderRepository {
     public <T extends Persistable> T findById(Class<T> classArg, Integer id) {
         return genericRepository.findById(classArg, id);
     }
+
     public <T extends Persistable> List<? extends Persistable> find(Query query) {
         return genericRepository.find(query);
     }

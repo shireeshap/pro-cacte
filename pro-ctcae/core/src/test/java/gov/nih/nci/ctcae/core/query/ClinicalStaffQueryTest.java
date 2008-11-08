@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 /**
  * @author Mehul Gulati
- * Date: Oct 16, 2008
+ *         Date: Oct 16, 2008
  */
 public class ClinicalStaffQueryTest extends TestCase {
 
@@ -16,7 +16,7 @@ public class ClinicalStaffQueryTest extends TestCase {
 
     }
 
-     public void testFilterByFirstName() throws Exception {
+    public void testFilterByFirstName() throws Exception {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByClinicalStaffFirstName("John");
         assertEquals("SELECT i from ClinicalStaff i WHERE lower(i.firstName) LIKE :firstName order by i.id",
@@ -26,7 +26,7 @@ public class ClinicalStaffQueryTest extends TestCase {
         assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("firstName"), "%john%");
     }
 
-     public void testFilterByLastName() throws Exception {
+    public void testFilterByLastName() throws Exception {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByClinicalStaffLastName("Dow");
         assertEquals("SELECT i from ClinicalStaff i WHERE lower(i.lastName) LIKE :lastName order by i.id",
@@ -37,13 +37,13 @@ public class ClinicalStaffQueryTest extends TestCase {
     }
 
     public void testFilterByFullName() throws Exception {
-       ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
-       clinicalStaffQuery.filterByClinicalStaffFirstName("John");
-       clinicalStaffQuery.filterByClinicalStaffLastName("Dow");
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+        clinicalStaffQuery.filterByClinicalStaffFirstName("John");
+        clinicalStaffQuery.filterByClinicalStaffLastName("Dow");
         assertEquals("SELECT i from ClinicalStaff i WHERE lower(i.lastName) LIKE :lastName AND lower(i.firstName) LIKE :firstName order by i.id",
                 clinicalStaffQuery.getQueryString());
         assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 2);
 
-}
+    }
 
 }

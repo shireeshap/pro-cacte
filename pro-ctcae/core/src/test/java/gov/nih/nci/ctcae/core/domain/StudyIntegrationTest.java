@@ -297,7 +297,7 @@ public class StudyIntegrationTest extends AbstractJpaIntegrationTestCase {
 
     @Override
     protected void onTearDown() throws Exception {
-      studyRepository.delete(studyWithStudyOrganizations);
+        studyRepository.delete(studyWithStudyOrganizations);
         super.onTearDown();
 
 

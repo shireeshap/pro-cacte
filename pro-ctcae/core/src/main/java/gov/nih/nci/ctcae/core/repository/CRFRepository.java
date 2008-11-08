@@ -1,10 +1,11 @@
 package gov.nih.nci.ctcae.core.repository;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Harsh Agarwal
@@ -31,13 +32,13 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
 
         Study study = studyRepository.findById(studyCrf.getStudy().getId());
 
-        for(StudySite studySite: study.getStudySites()){
-            for(StudyParticipantAssignment studyParticipantAssignment: studySite.getStudyParticipantAssignments()){
+        for (StudySite studySite : study.getStudySites()) {
+            for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
                 StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
                 studyCrf.addStudyParticipantCrf(studyParticipantCrf);
             }
         }
-       save(crf);
+        save(crf);
     }
 
     @Required

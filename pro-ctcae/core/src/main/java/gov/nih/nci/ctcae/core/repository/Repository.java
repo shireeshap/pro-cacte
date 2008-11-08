@@ -17,6 +17,7 @@ public interface Repository<T extends Persistable, Q extends Query> {
      * Find object by primary key
      *
      * @param id the primary key
+     *
      * @return the object
      */
     T findById(Integer id);
@@ -26,6 +27,7 @@ public interface Repository<T extends Persistable, Q extends Query> {
      * in the database
      *
      * @param object the object that needs to be saved/updated in the database
+     *
      * @return the saved/updated object
      */
     T save(T t);
@@ -41,6 +43,7 @@ public interface Repository<T extends Persistable, Q extends Query> {
      * Find persistable objects for a given query.
      *
      * @param query the query
+     *
      * @return the collection of persistable objects
      */
     public Collection<T> find(Q query);

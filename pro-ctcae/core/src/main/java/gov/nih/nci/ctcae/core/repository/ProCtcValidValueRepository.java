@@ -8,12 +8,12 @@ import gov.nih.nci.ctcae.core.query.ProCtcValidValueQuery;
  * @created Oct 14, 2008
  */
 public class ProCtcValidValueRepository extends
-		AbstractRepository<ProCtcValidValue, ProCtcValidValueQuery> {
+        AbstractRepository<ProCtcValidValue, ProCtcValidValueQuery> {
 
-	@Override
-	protected Class<ProCtcValidValue> getPersistableClass() {
-		return ProCtcValidValue.class;
+    @Override
+    protected Class<ProCtcValidValue> getPersistableClass() {
+        return ProCtcValidValue.class;
 
-	}
+    }
 
 }

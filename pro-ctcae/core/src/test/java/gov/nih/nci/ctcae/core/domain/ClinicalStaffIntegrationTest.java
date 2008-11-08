@@ -21,7 +21,7 @@ public class ClinicalStaffIntegrationTest extends AbstractJpaIntegrationTestCase
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
         login();
-      /*  clinicalStaffRepository.setGenericRepository(new JpaGenericRepository<ClinicalStaff>());   */
+        /*  clinicalStaffRepository.setGenericRepository(new JpaGenericRepository<ClinicalStaff>());   */
         clinicalStaff = new ClinicalStaff();
         clinicalStaff.setFirstName("John");
         clinicalStaff.setLastName("Dow");
@@ -38,7 +38,7 @@ public class ClinicalStaffIntegrationTest extends AbstractJpaIntegrationTestCase
         inValidClinicalStaff = new ClinicalStaff();
 
         try {
-            inValidClinicalStaff =  clinicalStaffRepository.save(inValidClinicalStaff);
+            inValidClinicalStaff = clinicalStaffRepository.save(inValidClinicalStaff);
         } catch (DataIntegrityViolationException e) {
             logger.info("expecting this");
         }
@@ -46,11 +46,11 @@ public class ClinicalStaffIntegrationTest extends AbstractJpaIntegrationTestCase
         try {
             inValidClinicalStaff.setFirstName("John");
             inValidClinicalStaff = clinicalStaffRepository.save(inValidClinicalStaff);
-       } catch (JpaSystemException e) {
+        } catch (JpaSystemException e) {
             fail();
             logger.info("expecting this.. last name and NCI code is missing");
         }
-        inValidClinicalStaff= new ClinicalStaff();
+        inValidClinicalStaff = new ClinicalStaff();
         inValidClinicalStaff.setFirstName("John");
         inValidClinicalStaff.setLastName("Dow");
         inValidClinicalStaff.setNciIdentifier("NCI 1");
@@ -76,8 +76,7 @@ public class ClinicalStaffIntegrationTest extends AbstractJpaIntegrationTestCase
         int size = jdbcTemplate.queryForInt("select count(*) from clinical_Staffs clinicalStaffs where lower(clinicalStaffs.first_name ) like '%j%'");
         assertEquals(size, clinicalStaffs.size());
 
-        for (ClinicalStaff clinicalStaff : clinicalStaffs)
-        {
+        for (ClinicalStaff clinicalStaff : clinicalStaffs) {
             assertTrue(clinicalStaff.getFirstName().toLowerCase().contains("j"));
         }
     }
@@ -92,14 +91,13 @@ public class ClinicalStaffIntegrationTest extends AbstractJpaIntegrationTestCase
         int size = jdbcTemplate.queryForInt("select count(*) from clinical_Staffs clinicalStaffs where lower(clinicalStaffs.last_name ) like '%d%'");
         assertEquals(size, clinicalStaffs.size());
 
-        for (ClinicalStaff clinicalStaff : clinicalStaffs)
-        {
+        for (ClinicalStaff clinicalStaff : clinicalStaffs) {
             assertTrue(clinicalStaff.getLastName().toLowerCase().contains("d"));
         }
 
     }
 
-     public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
+    public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
         this.clinicalStaffRepository = clinicalStaffRepository;
     }
 

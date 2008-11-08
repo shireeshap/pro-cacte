@@ -12,167 +12,167 @@ import org.springframework.beans.factory.annotation.Required;
  */
 public class StudyCrfIntegrationTest extends AbstractJpaIntegrationTestCase {
 
-	private StudyRepository studyRepository;
-	private Study inValidStudy, studyWithStudyOrganizations;
+    private StudyRepository studyRepository;
+    private Study inValidStudy, studyWithStudyOrganizations;
 
-	private StudySite nciStudySite;
-	private Organization nci, duke;
-	private OrganizationRepository organizationRepository;
+    private StudySite nciStudySite;
+    private Organization nci, duke;
+    private OrganizationRepository organizationRepository;
 
-	private StudyFundingSponsor studyFundingSponsor;
-	private StudyCoordinatingCenter studyCoordinatingCenter;
+    private StudyFundingSponsor studyFundingSponsor;
+    private StudyCoordinatingCenter studyCoordinatingCenter;
 
-	private CRF crf;
-	private CRFRepository crfRepository;
+    private CRF crf;
+    private CRFRepository crfRepository;
 
-	@Override
-	protected void onSetUpInTransaction() throws Exception {
-		super.onSetUpInTransaction(); // To change body of overridden methods
-		// use File | Settings | File Templates.
-		login();
-		nci = new Organization();
-		nci.setName("National Cancer Institute");
-		nci.setNciInstituteCode("NCI");
-		nci = organizationRepository.save(nci);
+    @Override
+    protected void onSetUpInTransaction() throws Exception {
+        super.onSetUpInTransaction(); // To change body of overridden methods
+        // use File | Settings | File Templates.
+        login();
+        nci = new Organization();
+        nci.setName("National Cancer Institute");
+        nci.setNciInstituteCode("NCI");
+        nci = organizationRepository.save(nci);
 
-		duke = new Organization();
-		duke.setName("DUKE");
-		duke.setNciInstituteCode("DUKE");
-		duke = organizationRepository.save(duke);
+        duke = new Organization();
+        duke.setName("DUKE");
+        duke.setNciInstituteCode("DUKE");
+        duke = organizationRepository.save(duke);
 
-		nciStudySite = new StudySite();
-		nciStudySite.setOrganization(nci);
+        nciStudySite = new StudySite();
+        nciStudySite.setOrganization(nci);
 
-		studyFundingSponsor = new StudyFundingSponsor();
-		studyFundingSponsor.setOrganization(nci);
+        studyFundingSponsor = new StudyFundingSponsor();
+        studyFundingSponsor.setOrganization(nci);
 
-		studyCoordinatingCenter = new StudyCoordinatingCenter();
-		studyCoordinatingCenter.setOrganization(nci);
+        studyCoordinatingCenter = new StudyCoordinatingCenter();
+        studyCoordinatingCenter.setOrganization(nci);
 
-		studyWithStudyOrganizations = createStudy();
-		studyWithStudyOrganizations.setStudyFundingSponsor(studyFundingSponsor);
-		studyWithStudyOrganizations
-				.setStudyCoordinatingCenter(studyCoordinatingCenter);
-		studyWithStudyOrganizations.addStudySite(nciStudySite);
+        studyWithStudyOrganizations = createStudy();
+        studyWithStudyOrganizations.setStudyFundingSponsor(studyFundingSponsor);
+        studyWithStudyOrganizations
+                .setStudyCoordinatingCenter(studyCoordinatingCenter);
+        studyWithStudyOrganizations.addStudySite(nciStudySite);
 
-		studyWithStudyOrganizations = studyRepository
-				.save(studyWithStudyOrganizations);
+        studyWithStudyOrganizations = studyRepository
+                .save(studyWithStudyOrganizations);
 
-		assertNotNull(studyWithStudyOrganizations.getId());
-		assertNotNull(studyWithStudyOrganizations.getId());
-		assertEquals("must not create multiple study coordinating center",
-				Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations
-						.getStudyOrganizations().size()));
-		assertEquals("must not create multiple funding sponsor", Integer
-				.valueOf(3), Integer.valueOf(studyWithStudyOrganizations
-				.getStudyOrganizations().size()));
+        assertNotNull(studyWithStudyOrganizations.getId());
+        assertNotNull(studyWithStudyOrganizations.getId());
+        assertEquals("must not create multiple study coordinating center",
+                Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations
+                        .getStudyOrganizations().size()));
+        assertEquals("must not create multiple funding sponsor", Integer
+                .valueOf(3), Integer.valueOf(studyWithStudyOrganizations
+                .getStudyOrganizations().size()));
 
-		crf = new CRF();
-		crf.setTitle("Cancer CRF");
-		crf.setDescription("Case Report Form for Cancer Patients");
-		crf.setStatus(CrfStatus.DRAFT);
-		crf.setCrfVersion("1.0");
-		crf = crfRepository.save(crf);
+        crf = new CRF();
+        crf.setTitle("Cancer CRF");
+        crf.setDescription("Case Report Form for Cancer Patients");
+        crf.setStatus(CrfStatus.DRAFT);
+        crf.setCrfVersion("1.0");
+        crf = crfRepository.save(crf);
 
-	}
+    }
 
-	public void testAddCrfToStudy() {
+    public void testAddCrfToStudy() {
 
-		assertNotNull(crf);
-		assertNotNull(studyWithStudyOrganizations);
-		assertEquals(0, studyWithStudyOrganizations.getStudyCrfs().size());
-		studyWithStudyOrganizations.addCrf(crf);
-		assertEquals(1, studyWithStudyOrganizations.getStudyCrfs().size());
+        assertNotNull(crf);
+        assertNotNull(studyWithStudyOrganizations);
+        assertEquals(0, studyWithStudyOrganizations.getStudyCrfs().size());
+        studyWithStudyOrganizations.addCrf(crf);
+        assertEquals(1, studyWithStudyOrganizations.getStudyCrfs().size());
 
-		studyRepository.save(studyWithStudyOrganizations);
+        studyRepository.save(studyWithStudyOrganizations);
 
-		Study myStudy = studyRepository.findById(studyWithStudyOrganizations
-				.getId());
-		assertNotNull(myStudy.getStudyCrfs());
-		assertEquals(1, myStudy.getStudyCrfs().size());
+        Study myStudy = studyRepository.findById(studyWithStudyOrganizations
+                .getId());
+        assertNotNull(myStudy.getStudyCrfs());
+        assertEquals(1, myStudy.getStudyCrfs().size());
 
-		CRF myCrf = myStudy.getStudyCrfs().get(0).getCrf();
+        CRF myCrf = myStudy.getStudyCrfs().get(0).getCrf();
 
-		assertNotNull(myCrf);
-		assertEquals(crf, myCrf);
-	}
+        assertNotNull(myCrf);
+        assertEquals(crf, myCrf);
+    }
 
-	public void testAddStudyCrfToStudy() {
+    public void testAddStudyCrfToStudy() {
 
-		assertNotNull(crf);
-		assertNotNull(studyWithStudyOrganizations);
-		assertEquals(0, studyWithStudyOrganizations.getStudyCrfs().size());
+        assertNotNull(crf);
+        assertNotNull(studyWithStudyOrganizations);
+        assertEquals(0, studyWithStudyOrganizations.getStudyCrfs().size());
 
-		StudyCrf studyCrf = new StudyCrf();
-		studyCrf.setCrf(crf);
-		studyWithStudyOrganizations.addStudyCrf(studyCrf);
+        StudyCrf studyCrf = new StudyCrf();
+        studyCrf.setCrf(crf);
+        studyWithStudyOrganizations.addStudyCrf(studyCrf);
 
-		assertEquals(1, studyWithStudyOrganizations.getStudyCrfs().size());
+        assertEquals(1, studyWithStudyOrganizations.getStudyCrfs().size());
 
-		studyRepository.save(studyWithStudyOrganizations);
+        studyRepository.save(studyWithStudyOrganizations);
 
-		Study myStudy = studyRepository.findById(studyWithStudyOrganizations
-				.getId());
-		assertNotNull(myStudy.getStudyCrfs());
-		assertEquals(1, myStudy.getStudyCrfs().size());
+        Study myStudy = studyRepository.findById(studyWithStudyOrganizations
+                .getId());
+        assertNotNull(myStudy.getStudyCrfs());
+        assertEquals(1, myStudy.getStudyCrfs().size());
 
-		CRF myCrf = myStudy.getStudyCrfs().get(0).getCrf();
+        CRF myCrf = myStudy.getStudyCrfs().get(0).getCrf();
 
-		assertNotNull(myCrf);
-		assertEquals(crf, myCrf);
-	}
+        assertNotNull(myCrf);
+        assertEquals(crf, myCrf);
+    }
 
-	public void testAddStudyToCrf() {
+    public void testAddStudyToCrf() {
 
-		assertNotNull(crf);
-		assertNotNull(studyWithStudyOrganizations);
-		assertNull(crf.getStudyCrf());
-	}
+        assertNotNull(crf);
+        assertNotNull(studyWithStudyOrganizations);
+        assertNull(crf.getStudyCrf());
+    }
 
-	public void testAddStudyCrfToCrf() {
+    public void testAddStudyCrfToCrf() {
 
-		assertNotNull(crf);
-		assertNotNull(studyWithStudyOrganizations);
-		assertNull(crf.getStudyCrf());
+        assertNotNull(crf);
+        assertNotNull(studyWithStudyOrganizations);
+        assertNull(crf.getStudyCrf());
 
-		StudyCrf studyCrf = new StudyCrf();
-		studyCrf.setStudy(studyWithStudyOrganizations);
-		crf.setStudyCrf(studyCrf);
+        StudyCrf studyCrf = new StudyCrf();
+        studyCrf.setStudy(studyWithStudyOrganizations);
+        crf.setStudyCrf(studyCrf);
 
-		assertNotNull(crf.getStudyCrf());
+        assertNotNull(crf.getStudyCrf());
 
-		crfRepository.save(crf);
+        crfRepository.save(crf);
 
-		CRF myCrf = crfRepository.findById(crf.getId());
-		assertNotNull(crf.getStudyCrf());
+        CRF myCrf = crfRepository.findById(crf.getId());
+        assertNotNull(crf.getStudyCrf());
 
-		Study myStudy = myCrf.getStudyCrf().getStudy();
+        Study myStudy = myCrf.getStudyCrf().getStudy();
 
-		assertNotNull(myStudy);
-		assertEquals(myStudy, studyWithStudyOrganizations);
-	}
+        assertNotNull(myStudy);
+        assertEquals(myStudy, studyWithStudyOrganizations);
+    }
 
-	private Study createStudy() {
-		Study study = new Study();
-		study.setShortTitle("study short title");
-		study.setLongTitle("study long title");
-		study.setAssignedIdentifier("assigned identifier");
-		return study;
-	}
+    private Study createStudy() {
+        Study study = new Study();
+        study.setShortTitle("study short title");
+        study.setLongTitle("study long title");
+        study.setAssignedIdentifier("assigned identifier");
+        return study;
+    }
 
-	@Required
-	public void setOrganizationRepository(
-			OrganizationRepository organizationRepository) {
-		this.organizationRepository = organizationRepository;
-	}
+    @Required
+    public void setOrganizationRepository(
+            OrganizationRepository organizationRepository) {
+        this.organizationRepository = organizationRepository;
+    }
 
-	@Required
-	public void setStudyRepository(StudyRepository studyRepository) {
-		this.studyRepository = studyRepository;
-	}
+    @Required
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
+    }
 
-	@Required
-	public void setCrfRepository(CRFRepository crfRepository) {
-		this.crfRepository = crfRepository;
-	}
+    @Required
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
+    }
 }

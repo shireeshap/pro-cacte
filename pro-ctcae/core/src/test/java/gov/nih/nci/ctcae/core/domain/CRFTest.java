@@ -39,7 +39,7 @@ public class CRFTest extends TestCase {
         assertEquals("must return 2 items", 2, crf.getCrfItems().size());
         for (int i = 0; i < crf.getCrfItems().size(); i++) {
             assertNotNull("order number must not be null", crf.getCrfItems().get(i).getDisplayOrder());
-            assertEquals("must preserve order no", Integer.valueOf(i+1), crf.getCrfItems().get(i).getDisplayOrder());
+            assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItems().get(i).getDisplayOrder());
 
         }
     }
@@ -52,7 +52,7 @@ public class CRFTest extends TestCase {
         crf.addCrfItem(crfItem2);
         assertEquals("must return 2 items", 2, crf.getCrfItems().size());
         for (int i = 0; i < crf.getCrfItems().size(); i++) {
-            assertEquals("must preserve order no", Integer.valueOf(i+1), crf.getCrfItems().get(i).getDisplayOrder());
+            assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItems().get(i).getDisplayOrder());
 
         }
 

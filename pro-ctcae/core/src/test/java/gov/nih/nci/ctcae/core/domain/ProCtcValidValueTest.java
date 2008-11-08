@@ -7,38 +7,38 @@ import junit.framework.TestCase;
  * @created Oct 13, 2008
  */
 public class ProCtcValidValueTest extends TestCase {
-	private ProCtcValidValue proCtcValidValue;
+    private ProCtcValidValue proCtcValidValue;
 
-	public void testConstructor() {
-		proCtcValidValue = new ProCtcValidValue();
-		assertNull(proCtcValidValue.getValue());
-	}
+    public void testConstructor() {
+        proCtcValidValue = new ProCtcValidValue();
+        assertNull(proCtcValidValue.getValue());
+    }
 
-	public void testGetterAndSetter() {
-		proCtcValidValue = new ProCtcValidValue();
-		proCtcValidValue.setValue("Severe");
+    public void testGetterAndSetter() {
+        proCtcValidValue = new ProCtcValidValue();
+        proCtcValidValue.setValue("Severe");
 
-		assertEquals("Severe", proCtcValidValue.getValue());
-	}
+        assertEquals("Severe", proCtcValidValue.getValue());
+    }
 
-	public void testEqualsAndHashCode() {
-		ProCtcValidValue anotherProCtcValidValue = null;
-		
-		assertEquals(anotherProCtcValidValue, proCtcValidValue);
-		proCtcValidValue = new ProCtcValidValue();
-		assertFalse(proCtcValidValue.equals(anotherProCtcValidValue));
-		
-		anotherProCtcValidValue = new ProCtcValidValue();
-		assertEquals(anotherProCtcValidValue, proCtcValidValue);
-		assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
+    public void testEqualsAndHashCode() {
+        ProCtcValidValue anotherProCtcValidValue = null;
 
-		proCtcValidValue.setValue("Severe");
-		assertFalse(proCtcValidValue.equals(anotherProCtcValidValue));
+        assertEquals(anotherProCtcValidValue, proCtcValidValue);
+        proCtcValidValue = new ProCtcValidValue();
+        assertFalse(proCtcValidValue.equals(anotherProCtcValidValue));
 
-		anotherProCtcValidValue.setValue("Severe");
-		assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
-		assertEquals(anotherProCtcValidValue, proCtcValidValue);
+        anotherProCtcValidValue = new ProCtcValidValue();
+        assertEquals(anotherProCtcValidValue, proCtcValidValue);
+        assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
 
-	}
+        proCtcValidValue.setValue("Severe");
+        assertFalse(proCtcValidValue.equals(anotherProCtcValidValue));
+
+        anotherProCtcValidValue.setValue("Severe");
+        assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
+        assertEquals(anotherProCtcValidValue, proCtcValidValue);
+
+    }
 
 }

@@ -9,11 +9,11 @@ import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 
 public class ParticipantRepository extends AbstractRepository<Participant, ParticipantQuery> {
 
- @Override
+    @Override
     protected Class<Participant> getPersistableClass() {
         return Participant.class;
 
     }
- 
+
 
 }

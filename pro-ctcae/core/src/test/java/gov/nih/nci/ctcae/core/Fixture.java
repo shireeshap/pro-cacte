@@ -42,15 +42,15 @@ public class Fixture {
     }
 
     public static Participant createParticipant(final String firstName, final String lastName, final String identifier) {
-    	Participant participant = new Participant();
-    	participant.setFirstName(firstName);
-    	participant.setLastName(lastName);
-    	participant.setAssignedIdentifier(identifier);
+        Participant participant = new Participant();
+        participant.setFirstName(firstName);
+        participant.setLastName(lastName);
+        participant.setAssignedIdentifier(identifier);
         return participant;
     }
 
     public static Participant createParticipantWithStudyAssignment(final String firstName, final String lastName, final String identifier, final StudySite studySite) {
-    	Participant participant = createParticipant(firstName, lastName, identifier);
+        Participant participant = createParticipant(firstName, lastName, identifier);
         StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
         studyParticipantAssignment.setStudySite(studySite);
         studyParticipantAssignment.setStudyParticipantIdentifier("SPI");

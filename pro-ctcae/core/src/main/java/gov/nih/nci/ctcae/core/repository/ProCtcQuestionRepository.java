@@ -10,16 +10,16 @@ import java.util.Collection;
  * @created Oct 14, 2008
  */
 public class ProCtcQuestionRepository extends
-		AbstractRepository<ProCtcQuestion, ProCtcQuestionQuery> {
+        AbstractRepository<ProCtcQuestion, ProCtcQuestionQuery> {
 
-	@Override
-	protected Class<ProCtcQuestion> getPersistableClass() {
-		return ProCtcQuestion.class;
+    @Override
+    protected Class<ProCtcQuestion> getPersistableClass() {
+        return ProCtcQuestion.class;
 
-	}
+    }
 
     public Collection<ProCtcQuestion> findAll() {
-        ProCtcQuestionQuery query= new ProCtcQuestionQuery();
+        ProCtcQuestionQuery query = new ProCtcQuestionQuery();
         return super.find(query);
 
 
