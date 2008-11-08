@@ -232,7 +232,7 @@
 
     <bean name="/participant/schedulecrf" id="scheduleCrfController"
           class="gov.nih.nci.ctcae.web.participant.ScheduleCrfController" parent="tabbedFlowFormController">
-        <property name="participantRepository" ref="participantRepository"/>
+        <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
     </bean>
 
     <bean name="/participant/addCrfSchedule" id="addCrfScheduleController"
