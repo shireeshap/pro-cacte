@@ -21,7 +21,7 @@ public class StudyParticipantCrf extends BaseVersionable {
     private Integer id;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantCrf", fetch = FetchType.LAZY)
-    private List<StudyParticipantCrfItem> studyParticipantCrfItems = new ArrayList<StudyParticipantCrfItem>();
+    private List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = new ArrayList<StudyParticipantCrfSchedule>();
 
     @JoinColumn(name = "study_crf_id", referencedColumnName = "id")
     @ManyToOne
@@ -31,24 +31,11 @@ public class StudyParticipantCrf extends BaseVersionable {
     @ManyToOne
     private StudyParticipantAssignment studyParticipantAssignment;
 
-    @Column(name = "start_date")
-    private Date startDate;
 
-    @Column(name = "due_date")
-    private Date dueDate;
+    public StudyParticipantCrf() {
 
-    public StudyParticipantCrf(){
-        
     }
 
-    public StudyParticipantCrf(StudyCrf studyCrf) {
-        this.studyCrf = studyCrf;
-        for (CrfItem crfItem : studyCrf.getCrf().getCrfItems()) {
-            StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
-            studyParticipantCrfItem.setCrfItem(crfItem);
-            addStudyParticipantCrfItem(studyParticipantCrfItem);
-        }
-    }
 
     public Integer getId() {
         return id;
@@ -58,24 +45,6 @@ public class StudyParticipantCrf extends BaseVersionable {
         this.id = id;
     }
 
-    public Collection<StudyParticipantCrfItem> getStudyParticipantCrfItems() {
-        return studyParticipantCrfItems;
-    }
-
-    public void addStudyParticipantCrfItem(
-            StudyParticipantCrfItem studyParticipantCrfItem) {
-        if (studyParticipantCrfItem != null) {
-            studyParticipantCrfItem.setStudyParticipantCrf(this);
-            studyParticipantCrfItems.add(studyParticipantCrfItem);
-        }
-    }
-
-    public void removeStudyParticipantCrfItem(
-            StudyParticipantCrfItem studyParticipantCrfItem) {
-        if (studyParticipantCrfItem != null) {
-            studyParticipantCrfItems.remove(studyParticipantCrfItem);
-        }
-    }
 
     public StudyCrf getStudyCrf() {
         return studyCrf;
@@ -86,76 +55,23 @@ public class StudyParticipantCrf extends BaseVersionable {
         return studyParticipantAssignment;
     }
 
+    public void setStudyCrf(StudyCrf studyCrf) {
+        this.studyCrf = studyCrf;
+    }
+
     public void setStudyParticipantAssignment(StudyParticipantAssignment studyParticipant) {
         this.studyParticipantAssignment = studyParticipant;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules() {
+        return studyParticipantCrfSchedules;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-
-
-    public Date getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result
-                + ((studyCrf == null) ? 0 : studyCrf.hashCode());
-        result = prime
-                * result
-                + ((studyParticipantAssignment == null) ? 0 : studyParticipantAssignment.hashCode());
-        result = prime
-                * result
-                + ((studyParticipantCrfItems == null) ? 0
-                : studyParticipantCrfItems.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        StudyParticipantCrf other = (StudyParticipantCrf) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (studyCrf == null) {
-            if (other.studyCrf != null)
-                return false;
-        } else if (!studyCrf.equals(other.studyCrf))
-            return false;
-        if (studyParticipantAssignment == null) {
-            if (other.studyParticipantAssignment != null)
-                return false;
-        } else if (!studyParticipantAssignment.equals(other.studyParticipantAssignment))
-            return false;
-        if (studyParticipantCrfItems == null) {
-            if (other.studyParticipantCrfItems != null)
-                return false;
-        } else if (!studyParticipantCrfItems
-                .equals(other.studyParticipantCrfItems))
-            return false;
-        return true;
+    public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule){
+            if(studyParticipantCrfSchedule != null){
+                studyParticipantCrfSchedule.setStudyParticipantCrf(this);
+                studyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+            }
     }
 
 }

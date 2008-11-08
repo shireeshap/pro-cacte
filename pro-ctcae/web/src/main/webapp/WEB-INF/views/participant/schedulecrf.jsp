@@ -17,13 +17,13 @@
     <tags:includePrototypeWindow/>
     <tags:javascriptLink name="extremecomponents"/>
     <script type="text/javascript">
-        function addCrfSchedule(studyCrfId, crfIndex) {
+        function addCrfSchedule(crfIndex) {
             var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
                 onComplete:function(transport) {
                     var response = transport.responseText;
                     new Insertion.Before("hiddenDiv-" + crfIndex, response);
                 },
-                parameters:"subview=subview&studycrfid=" + studyCrfId,
+                parameters:"subview=subview&crfindex=" + crfIndex,
                 method:'get'
             })
         }
@@ -43,23 +43,27 @@
     <jsp:attribute name="singleFields">
         <input type="hidden" value="" id="objectsIndexesToRemove" name="objectsIndexesToRemove"/>
         <input type="hidden" name="_finish" value="true"/>
-        <c:set var="studycrfs" value="${command.study.studyCrfs}"/>
-        <c:forEach items="${studycrfs}" var="studycrf" varStatus="status">
-            <chrome:division title="${studycrf.crf.title}">
-                <input type="button" value="Add" onClick="addCrfSchedule('${studycrf.id}', '${status.index}')"
-                       class="button"/>
 
-                <div align="left" style="margin-left: 50px">
-                    <table width="70%" class="tablecontent">
-                        <tr id="ss-table-head" class="amendment-table-head">
-                            <th class="tableHeader"><tags:requiredIndicator/>Start Date</th>
-                            <th class="tableHeader"><tags:requiredIndicator/>Due Date</th>
-                        </tr>
-                        <tr id="hiddenDiv-${status.index}"></tr>
-                    </table>
-                </div>
-            </chrome:division>
-        </c:forEach>
+            <c:forEach items="${command.studyParticipantAssignment.studyParticipantCrfs}" var="participantCrf" varStatus="status">
+                <chrome:division title="${participantCrf.studyCrf.crf.title}">
+                    <input type="button" value="Add" onClick="addCrfSchedule('${status.index}')"
+                           class="button"/>
+
+                    <div align="left" style="margin-left: 50px">
+                        <table width="70%" class="tablecontent">
+                            <tr id="ss-table-head" class="amendment-table-head">
+                                <th class="tableHeader"><tags:requiredIndicator/>Start Date</th>
+                                <th class="tableHeader"><tags:requiredIndicator/>Due Date</th>
+                            </tr>
+                            <c:forEach items="${participantCrf.studyParticipantCrfSchedules}" var="crfSchedule" varStatus="mystatus">
+                                <tags:crfSchedule index="${mystatus}" inputName="studyParticipantAssignment.studyParticipantCrfs[${mystatus}]"
+                                                  title="Crf Schedule" displayError="false" startDate="${crfSchedule.startDate}" dueDate="${crfSchedule.dueDate}"></tags:crfSchedule>
+                            </c:forEach>
+                            <tr id="hiddenDiv-${status.index}"></tr>
+                        </table>
+                    </div>
+                </chrome:division>
+            </c:forEach>
 </jsp:attribute>
 </tags:tabForm>
 </body>

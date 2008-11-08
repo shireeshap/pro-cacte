@@ -1,18 +1,19 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.web.form.ControllersUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+
+import edu.nwu.bioinformatics.commons.CollectionUtils;
 
 public class StudyParticipantCommand {
 
     private Participant participant;
     private Study study;
-    private List<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
-
+    StudyParticipantAssignment studyParticipantAssignment;
 
     public StudyParticipantCommand() {
     }
@@ -33,11 +34,11 @@ public class StudyParticipantCommand {
         this.study = study;
     }
 
-    public List<StudyParticipantCrf> getStudyParticipantCrfs() {
-        return studyParticipantCrfs;
+    public StudyParticipantAssignment getStudyParticipantAssignment() {
+        return studyParticipantAssignment;
     }
 
-    public void setStudyParticipantCrfs(List<StudyParticipantCrf> studyParticipantCrfs) {
-        this.studyParticipantCrfs = studyParticipantCrfs;
+    public void setStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment) {
+        this.studyParticipantAssignment = studyParticipantAssignment;
     }
 }

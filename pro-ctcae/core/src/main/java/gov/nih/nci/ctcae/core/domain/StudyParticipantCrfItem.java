@@ -23,9 +23,9 @@ public class StudyParticipantCrfItem extends BaseVersionable {
 	@ManyToOne
 	private CrfItem crfItem;
 
-	@JoinColumn(name = "study_participant_crf_id", referencedColumnName = "id")
+	@JoinColumn(name = "study_participant_crf_schedule_id", referencedColumnName = "id")
 	@ManyToOne
-	private StudyParticipantCrf studyParticipantCrf;
+	private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
 
 	public StudyParticipantCrfItem() {
 	}
@@ -63,60 +63,37 @@ public class StudyParticipantCrfItem extends BaseVersionable {
 		this.crfItem = crfItem;
 	}
 
-	public StudyParticipantCrf getStudyParticipantCrf() {
-		return studyParticipantCrf;
-	}
+    public StudyParticipantCrfSchedule getStudyParticipantCrfSchedule() {
+        return studyParticipantCrfSchedule;
+    }
 
-	public void setStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
-		this.studyParticipantCrf = studyParticipantCrf;
-	}
+    public void setStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+        this.studyParticipantCrfSchedule = studyParticipantCrfSchedule;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((crfItem == null) ? 0 : crfItem.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime
-				* result
-				+ ((selectedResponse == null) ? 0 : selectedResponse.hashCode());
-		result = prime
-				* result
-				+ ((studyParticipantCrf == null) ? 0 : studyParticipantCrf
-						.hashCode());
-		return result;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StudyParticipantCrfItem other = (StudyParticipantCrfItem) obj;
-		if (crfItem == null) {
-			if (other.crfItem != null)
-				return false;
-		} else if (!crfItem.equals(other.crfItem))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (selectedResponse == null) {
-			if (other.selectedResponse != null)
-				return false;
-		} else if (!selectedResponse.equals(other.selectedResponse))
-			return false;
-		if (studyParticipantCrf == null) {
-			if (other.studyParticipantCrf != null)
-				return false;
-		} else if (!studyParticipantCrf.equals(other.studyParticipantCrf))
-			return false;
-		return true;
-	}
+        StudyParticipantCrfItem that = (StudyParticipantCrfItem) o;
 
+        if (crfItem != null ? !crfItem.equals(that.crfItem) : that.crfItem != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (selectedResponse != null ? !selectedResponse.equals(that.selectedResponse) : that.selectedResponse != null)
+            return false;
+        if (studyParticipantCrfSchedule != null ? !studyParticipantCrfSchedule.equals(that.studyParticipantCrfSchedule) : that.studyParticipantCrfSchedule != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (selectedResponse != null ? selectedResponse.hashCode() : 0);
+        result = 31 * result + (crfItem != null ? crfItem.hashCode() : 0);
+        result = 31 * result + (studyParticipantCrfSchedule != null ? studyParticipantCrfSchedule.hashCode() : 0);
+        return result;
+    }
 }

@@ -55,6 +55,8 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/007_alter_investigator_clin
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/008_alter_study_participant_crf_items.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/010_update_sample_pro_ctc_terms.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/011_update_sample_pro_ctc_terms.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/012_alter_study_participant_crfs.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/013_create_study_participant_crf_schedules.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
@@ -85,6 +87,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganization.jav
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantAssignment.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrf.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfItem.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfSchedule.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySite.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemException.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/AbstractQuery.java -text
@@ -116,7 +119,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcRepository.
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcValidValueRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueIdentifierForStudy.java -text

@@ -24,19 +24,19 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
 
     public void updateStatusToReleased(CRF crf) {
 
-//        crf = findById(crf.getId());
+        crf = findById(crf.getId());
 
         crf.setStatus(CrfStatus.RELEASED);
-//        StudyCrf studyCrf = crf.getStudyCrf();
-//
-//        Study study = studyRepository.findById(studyCrf.getStudy().getId());
-//
-//        for(StudySite studySite: study.getStudySites()){
-//            for(StudyParticipantAssignment studyParticipantAssignment: studySite.getStudyParticipantAssignments()){
-//                StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf(studyCrf);
-//                studyCrf.addStudyParticipantCrf(studyParticipantCrf);
-//            }
-//        }
+        StudyCrf studyCrf = crf.getStudyCrf();
+
+        Study study = studyRepository.findById(studyCrf.getStudy().getId());
+
+        for(StudySite studySite: study.getStudySites()){
+            for(StudyParticipantAssignment studyParticipantAssignment: studySite.getStudyParticipantAssignments()){
+                StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
+                studyCrf.addStudyParticipantCrf(studyParticipantCrf);
+            }
+        }
        save(crf);
     }
 
