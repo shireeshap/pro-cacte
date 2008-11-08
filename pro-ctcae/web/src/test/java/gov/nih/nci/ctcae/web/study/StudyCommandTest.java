@@ -1,12 +1,9 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.web.WebTestCase;
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.Fixture;
-import org.springframework.validation.DataBinder;
-import org.springframework.beans.MutablePropertyValues;
+import gov.nih.nci.ctcae.web.WebTestCase;
 
 /**
  * @author Vinay Kumar

@@ -1,20 +1,18 @@
 package gov.nih.nci.ctcae.web.validation.validator;
 
-import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollectionValidator;
+import gov.nih.nci.ctcae.web.WebTestCase;
+import static org.easymock.EasyMock.expect;
+import org.springframework.context.ApplicationContext;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.validation.BindException;
-import org.springframework.validation.MapBindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.context.ApplicationContext;
-import static org.easymock.EasyMock.expect;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vinay Kumar

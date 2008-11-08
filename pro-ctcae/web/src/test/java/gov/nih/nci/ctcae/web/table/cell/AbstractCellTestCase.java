@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.table.cell;
 
+import gov.nih.nci.ctcae.web.WebTestCase;
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.bean.Row;
 import org.extremecomponents.table.bean.Table;
@@ -9,8 +10,6 @@ import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
 
 import java.util.Collection;
-
-import gov.nih.nci.ctcae.web.WebTestCase;
 
 /**
  * @author

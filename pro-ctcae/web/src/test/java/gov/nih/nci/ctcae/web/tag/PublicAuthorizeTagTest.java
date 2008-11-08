@@ -11,8 +11,7 @@ import javax.servlet.jsp.tagext.Tag;
 /**
  * Testing the Authorize Tag
  *
- * @author
- *         Created on 11/21/2007
+ * @author Created on 11/21/2007
  */
 public class PublicAuthorizeTagTest extends TestCase {
     //~ Instance fields ================================================================================================

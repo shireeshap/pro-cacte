@@ -1,13 +1,13 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import gov.nih.nci.ctcae.web.WebTestCase;
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
-import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.web.WebTestCase;
 
 /**
  * @author Mehul Gulati
- * Date: Nov 5, 2008
+ *         Date: Nov 5, 2008
  */
 public class ClinicalStaffCommandTest extends WebTestCase {
     private ClinicalStaffCommand clinicalStaffCommand;

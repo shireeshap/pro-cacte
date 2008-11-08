@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.table.cell;
 
-import gov.nih.nci.ctcae.core.TestBean;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.core.TestBean;
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.bean.Row;
 import org.springframework.beans.NotReadablePropertyException;

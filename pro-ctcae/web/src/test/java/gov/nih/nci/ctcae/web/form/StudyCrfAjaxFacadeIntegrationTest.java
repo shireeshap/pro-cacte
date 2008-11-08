@@ -1,13 +1,13 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
-import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyCrf;
-import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 
 import java.util.Map;
 

@@ -1,17 +1,17 @@
 package gov.nih.nci.ctcae.web.table;
 
+import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter;
-import gov.nih.nci.ctcae.core.domain.Organization;
+import org.extremecomponents.table.bean.Table;
+import org.extremecomponents.table.context.HttpServletRequestContext;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
-import org.extremecomponents.table.context.HttpServletRequestContext;
-import org.extremecomponents.table.bean.Table;
-import org.extremecomponents.table.limit.TableLimit;
 import org.extremecomponents.table.limit.ModelLimitFactory;
+import org.extremecomponents.table.limit.TableLimit;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Vinay Kumar

@@ -3,8 +3,8 @@ package gov.nih.nci.ctcae.web.table;
 
 import gov.nih.nci.ctcae.web.WebTestCase;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Vinay Kumar
@@ -16,7 +16,7 @@ public abstract class AbstractTableModelTestCase extends WebTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        parameterMap= new HashMap();
+        parameterMap = new HashMap();
 
     }
 

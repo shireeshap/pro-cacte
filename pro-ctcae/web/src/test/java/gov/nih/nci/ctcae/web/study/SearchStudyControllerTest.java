@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
-import org.springframework.web.servlet.ModelAndView;
 import gov.nih.nci.ctcae.web.WebTestCase;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Vinay Kumar

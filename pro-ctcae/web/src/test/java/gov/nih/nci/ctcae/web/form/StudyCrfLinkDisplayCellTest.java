@@ -1,15 +1,15 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.web.table.cell.AbstractCellTestCase;
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
-import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.StudyCrf;
+import gov.nih.nci.ctcae.web.table.cell.AbstractCellTestCase;
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.bean.Row;
 
 /**
  * @author Mehul Gulati
- * Date: Nov 5, 2008
+ *         Date: Nov 5, 2008
  */
 public class StudyCrfLinkDisplayCellTest extends AbstractCellTestCase {
 
@@ -24,11 +24,10 @@ public class StudyCrfLinkDisplayCellTest extends AbstractCellTestCase {
 
         studyCrfLinkDisplayDetailsCell = new StudyCrfLinkDisplayDetailsCell();
         testOptionsColumn = new Column(model);
-      //  testOptionsColumn.setCell("gov.nih.nci.ctcae.web.form.StudyCrfLinkDisplayDetailsCell");
-      //  testOptionsColumn.setTitle("Options");
+        //  testOptionsColumn.setCell("gov.nih.nci.ctcae.web.form.StudyCrfLinkDisplayDetailsCell");
+        //  testOptionsColumn.setTitle("Options");
 
     }
-
 
 
     public void testScheduleFormStatusLink() {
@@ -42,27 +41,24 @@ public class StudyCrfLinkDisplayCellTest extends AbstractCellTestCase {
         model.setCurrentRowBean(studyCrf);
 
 
-            assertEquals("<a href=\"/pages/studyCrf/edit?studyCrfId=1\">Schedule Form</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
-        }
+        assertEquals("<a href=\"/pages/studyCrf/edit?studyCrfId=1\">Schedule Form</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
+    }
 
     public void testReleaseFormStatusLink() {
-           studyCrf = new StudyCrf();
-           studyCrf.setCrf(new CRF());
-           studyCrf.setId(1);
-           studyCrf.getCrf().setStatus(CrfStatus.DRAFT);
-           model.addColumn(testOptionsColumn);
-           row = new Row(model);
-           model.addRow(row);
-           model.setCurrentRowBean(studyCrf);
+        studyCrf = new StudyCrf();
+        studyCrf.setCrf(new CRF());
+        studyCrf.setId(1);
+        studyCrf.getCrf().setStatus(CrfStatus.DRAFT);
+        model.addColumn(testOptionsColumn);
+        row = new Row(model);
+        model.addRow(row);
+        model.setCurrentRowBean(studyCrf);
 
 
-               assertEquals("<a href=\"/pages/form/releaseForm?studyCrfId=1\">Release Form</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
-           }
-
-
-
-
-
+        assertEquals("<a href=\"/pages/form/releaseForm?studyCrfId=1\">Release Form</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
     }
+
+
+}
 
 

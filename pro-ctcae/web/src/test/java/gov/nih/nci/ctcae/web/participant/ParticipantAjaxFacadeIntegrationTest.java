@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * @author Harsh Agarwal
- * Date: Oct 23, 2008
+ *         Date: Oct 23, 2008
  */
 public class ParticipantAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase {
 
@@ -31,13 +31,13 @@ public class ParticipantAjaxFacadeIntegrationTest extends AbstractWebIntegration
     public void testSearchParticipantByFirstName() {
 
 
-        String table = participantAjaxFacade.searchParticipant(parameterMap,"Meh","G","", request);
+        String table = participantAjaxFacade.searchParticipant(parameterMap, "Meh", "G", "", request);
         assertNotNull(table);
         assertTrue("must find atleast participant matching with first name", table.contains(participant.getFirstName()));
         assertTrue("must find atleast participant matching with first name", table.contains(participant.getLastName()));
 
-        
-        table = participantAjaxFacade.searchParticipant(parameterMap,"ehum","lat","", request);
+
+        table = participantAjaxFacade.searchParticipant(parameterMap, "ehum", "lat", "", request);
         assertNotNull(table);
         assertFalse("must find atleast participant matching with first name", table.contains(participant.getFirstName()));
 
