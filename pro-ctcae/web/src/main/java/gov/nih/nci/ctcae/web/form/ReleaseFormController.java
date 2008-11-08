@@ -46,7 +46,7 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
         crfRepository.updateStatusToReleased(studyCrf.getCrf());
         studyCrf.getCrf().setStatus(CrfStatus.RELEASED);
         crfRepository.save(studyCrf.getCrf());
-        RedirectView redirectView=new RedirectView("manageForm?studyCrfId="+studyCrf.getId());
+        RedirectView redirectView = new RedirectView("manageForm?studyCrfId=" + studyCrf.getId());
         return new ModelAndView(redirectView);
     }
 

@@ -1,15 +1,15 @@
 package gov.nih.nci.ctcae.web;
 
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
+import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.validation.Errors;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 

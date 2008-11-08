@@ -1,17 +1,17 @@
 package gov.nih.nci.ctcae.web;
 
-import org.extremecomponents.table.core.TableModel;
-import org.extremecomponents.table.core.TableModelImpl;
-import org.extremecomponents.table.context.Context;
-import org.extremecomponents.table.context.HttpServletRequestContext;
-import org.extremecomponents.table.bean.Table;
-import org.extremecomponents.table.bean.Row;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.extremecomponents.table.bean.Row;
+import org.extremecomponents.table.bean.Table;
+import org.extremecomponents.table.context.Context;
+import org.extremecomponents.table.context.HttpServletRequestContext;
+import org.extremecomponents.table.core.TableModel;
+import org.extremecomponents.table.core.TableModelImpl;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * @author Vinay Kumar
@@ -64,7 +64,7 @@ public class AbstractTableModel {
     }
 
     protected Boolean getFilterable() {
-        return true   ;
+        return true;
     }
 
     protected Boolean getToolTips() {
@@ -79,7 +79,7 @@ public class AbstractTableModel {
         return true;
     }
 
-    protected boolean getPagination(){
+    protected boolean getPagination() {
         return true;
     }
 }

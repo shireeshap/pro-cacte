@@ -1,11 +1,10 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 
 /**
  * @author Vinay Kumar
@@ -37,8 +36,6 @@ public class SearchFormController extends CtcAeSimpleFormController {
 
 
     ////// CONFIGURATION
-
-
 
 
 }

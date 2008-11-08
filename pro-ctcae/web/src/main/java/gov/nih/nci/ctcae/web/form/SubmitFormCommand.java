@@ -1,14 +1,10 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Harsh Agarwal
@@ -21,7 +17,7 @@ public class SubmitFormCommand implements Serializable {
     private StudyParticipantCrf studyParticipantCrf;
 
     public SubmitFormCommand() {
-        
+
     }
 
     public StudyParticipantCrf getStudyParticipantCrf() {

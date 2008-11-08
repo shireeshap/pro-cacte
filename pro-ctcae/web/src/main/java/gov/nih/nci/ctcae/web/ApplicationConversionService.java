@@ -1,12 +1,12 @@
 package gov.nih.nci.ctcae.web;
 
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.binding.convert.service.DefaultConversionService;
-import org.springframework.binding.convert.converters.PropertyEditorConverter;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.binding.convert.converters.PropertyEditorConverter;
+import org.springframework.binding.convert.service.DefaultConversionService;
 
 /**
  * @author Vinay Kumar

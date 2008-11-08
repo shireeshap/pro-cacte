@@ -1,12 +1,12 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyCrf;
+import gov.nih.nci.ctcae.core.repository.StudyRepository;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mehul Gulati

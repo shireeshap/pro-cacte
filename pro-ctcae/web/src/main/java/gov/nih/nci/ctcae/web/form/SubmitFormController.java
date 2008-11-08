@@ -1,16 +1,11 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
-import gov.nih.nci.ctcae.core.domain.CrfItem;
-
-import java.util.Collection;
 
 /**
  * @author Vinay Kumar
@@ -35,7 +30,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
 
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         String studyParticipantCrfId = request.getParameter("temp");
-        StudyParticipantCrf studyParticipantCrf = (StudyParticipantCrf)finderRepository.findById(StudyParticipantCrf.class, Integer.parseInt(studyParticipantCrfId));
+        StudyParticipantCrf studyParticipantCrf = (StudyParticipantCrf) finderRepository.findById(StudyParticipantCrf.class, Integer.parseInt(studyParticipantCrfId));
         SubmitFormCommand submitFormCommand = new SubmitFormCommand();
         submitFormCommand.setStudyParticipantCrf(studyParticipantCrf);
         return submitFormCommand;

@@ -2,9 +2,9 @@ package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.ctcae.web.editor.EnumByNameEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.binding.convert.converters.Converter;
 import org.springframework.binding.convert.converters.StringToDate;
+import org.springframework.web.bind.ServletRequestDataBinder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditor;

@@ -1,14 +1,13 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.web.AbstractTableModel;
 import gov.nih.nci.ctcae.core.domain.StudyCrf;
+import gov.nih.nci.ctcae.web.AbstractTableModel;
+import org.extremecomponents.table.bean.Column;
+import org.extremecomponents.table.core.TableModel;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 import java.util.Collection;
-
-import org.extremecomponents.table.core.TableModel;
-import org.extremecomponents.table.bean.Column;
+import java.util.Map;
 
 /**
  * @author Mehul Gulati
