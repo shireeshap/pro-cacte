@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "SITE_CLINICAL_STAFFS")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "site_clinical_staffs_id_seq") })
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "site_clinical_staffs_id_seq")})
 public class SiteClinicalStaff extends BasePersistable {
 
     @Id
@@ -20,18 +20,18 @@ public class SiteClinicalStaff extends BasePersistable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @Column(name = "status_code" ,nullable = true)
+    @Column(name = "status_code", nullable = true)
     private String statusCode;
 
-    @Column(name = "status_date" ,nullable = true)
+    @Column(name = "status_date", nullable = true)
     private Date statusDate;
 
     @JoinColumn(name = "clinical_staff_id", referencedColumnName = "id")
-	@ManyToOne
+    @ManyToOne
     private ClinicalStaff clinicalStaff;
 
     @JoinColumn(name = "organization_id", referencedColumnName = "id")
-	@ManyToOne
+    @ManyToOne
     private Organization organization;
 
 
@@ -76,14 +76,15 @@ public class SiteClinicalStaff extends BasePersistable {
     }
 
     @Override
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SiteClinicalStaff)) return false;
 
         SiteClinicalStaff that = (SiteClinicalStaff) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (clinicalStaff != null ? !clinicalStaff.equals(that.clinicalStaff) : that.clinicalStaff != null) return false;
+        if (clinicalStaff != null ? !clinicalStaff.equals(that.clinicalStaff) : that.clinicalStaff != null)
+            return false;
         if (organization != null ? !organization.equals(that.organization) : that.organization != null) return false;
         if (statusCode != null ? !statusCode.equals(that.statusCode) : that.statusCode != null) return false;
         if (statusDate != null ? !statusDate.equals(that.statusDate) : that.statusDate != null) return false;
@@ -92,7 +93,7 @@ public class SiteClinicalStaff extends BasePersistable {
     }
 
     @Override
-	public int hashCode() {
+    public int hashCode() {
         int result;
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + (statusCode != null ? statusCode.hashCode() : 0);

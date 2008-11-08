@@ -45,7 +45,7 @@ public class CRF extends BaseVersionable {
     }
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
-    private StudyCrf studyCrf ;
+    private StudyCrf studyCrf;
 
     public CRF() {
     }

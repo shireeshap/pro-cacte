@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author , Created on July, 20th, 2007
  */
-public interface Persistable  extends Serializable{
+public interface Persistable extends Serializable {
 
     /**
      * Returns the primary key of the persistable entity.

@@ -14,19 +14,19 @@ public class Person extends BasePersistable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @Column(name = "title" ,nullable = true)
+    @Column(name = "title", nullable = true)
     private String title;
 
-    @Column(name = "first_name" ,nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name" ,nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "middle_name" ,nullable = true)
+    @Column(name = "middle_name", nullable = true)
     private String middleName;
 
-    @Column(name = "address" ,nullable = true)
+    @Column(name = "address", nullable = true)
     private String address;
 
 
@@ -79,7 +79,7 @@ public class Person extends BasePersistable {
     }
 
     @Override
-	public boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -96,7 +96,7 @@ public class Person extends BasePersistable {
     }
 
     @Override
-	public int hashCode() {
+    public int hashCode() {
         int result;
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);

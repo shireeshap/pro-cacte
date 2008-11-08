@@ -18,20 +18,20 @@ public class ClinicalStaffQuery extends AbstractQuery {
     public ClinicalStaffQuery() {
 
         super(queryString);
-        }
+    }
 
-     public void filterByClinicalStaffFirstName(final String firstName) {
+    public void filterByClinicalStaffFirstName(final String firstName) {
         String searchString = "%" + firstName.toLowerCase() + "%";
         andWhere("lower(i.firstName) LIKE :" + FIRST_NAME);
         setParameter(FIRST_NAME, searchString);
-  }
+    }
 
-     public void filterByClinicalStaffLastName(final String lastName) {
-           String searchString = "%" + lastName.toLowerCase() + "%";
-           andWhere("lower(i.lastName) LIKE :" + LAST_NAME);
-           setParameter(LAST_NAME, searchString);
-     }
-  /*
+    public void filterByClinicalStaffLastName(final String lastName) {
+        String searchString = "%" + lastName.toLowerCase() + "%";
+        andWhere("lower(i.lastName) LIKE :" + LAST_NAME);
+        setParameter(LAST_NAME, searchString);
+    }
+    /*
     public void filterByNciIdentifier(final String text) {
         String searchString = text != null ? "%" + text.toLowerCase() + "%" : null;
 
@@ -41,7 +41,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
     }
     */
 
-    public void filterByNciIdentifier(final String nciIdentifier){
+    public void filterByNciIdentifier(final String nciIdentifier) {
         String searchString = "%" + nciIdentifier.toLowerCase() + "%";
         andWhere("lower(i.nciIdentifier) LIKE :" + NCI_IDENTIFIER);
         setParameter(NCI_IDENTIFIER, searchString);

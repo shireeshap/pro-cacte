@@ -13,7 +13,7 @@ public class StudyQuery extends AbstractQuery {
     private static final String SHORT_TITLE = "shortTitle";
     private static final String LONG_TITLE = "longTitle";
     private static final String ASSIGNED_IDENTIFIER = "assignedIdentifier";
-       private static final String PARTICIPANT_ID = "participantId";
+    private static final String PARTICIPANT_ID = "participantId";
     private static String ORGANIZATION_ID = "organizationId";
     private static final String STUDY_SITE = "studySite";
 

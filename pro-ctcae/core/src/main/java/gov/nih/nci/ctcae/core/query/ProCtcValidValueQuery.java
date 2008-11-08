@@ -12,5 +12,5 @@ public class ProCtcValidValueQuery extends AbstractQuery {
 
         super(queryString);
     }
-    
+
 }

@@ -13,7 +13,7 @@ public class ProCtcQuery extends AbstractQuery {
 
         super(queryString);
     }
-    
+
     public void filterByProCtcVersion(final String proCtcVersion) {
         andWhere("o.proCtcVersion = :" + PRO_CTC_VERSION);
         setParameter(PRO_CTC_VERSION, proCtcVersion);
