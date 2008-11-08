@@ -19,7 +19,8 @@
             <div id="prev">
                 <input type="hidden" name="execution" value="${flowExecutionKey}">
                 <input type="hidden" name="_eventId" value="${backAction}">
-                <input type="submit" value="Back" src="<c:url value="/images/blue/save_btn.png"/>" class="tab${tabNumber}"/>
+                <input type="submit" value="Back" src="<c:url value="/images/blue/save_btn.png"/>"
+                       class="tab${tabNumber}"/>
 
             </div>
 

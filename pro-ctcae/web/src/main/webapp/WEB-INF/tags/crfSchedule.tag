@@ -20,21 +20,21 @@
 <tr id="${inputName}-row">
     <td style="border-right:none;">
         <input id="${inputName}.startDate" class="date validate-NOTEMPTY" type="text" value="${startDate}"
-               title="start date"  name="${inputName}.startDate"/>
+               title="start date" name="${inputName}.startDate"/>
         <a href="#" id="${title}-calbutton">
             <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0"
-            align="absmiddle"/>
-    </a>
-    <i>(mm/dd/yyyy)</i>
+                 align="absmiddle"/>
+        </a>
+        <i>(mm/dd/yyyy)</i>
     </td>
     <td style="border-right:none;">
         <input id="${inputName}.dueDate" class="date validate-NOTEMPTY" type="text" value="${dueDate}"
-               title="due date"  name="${inputName}.dueDate"/>
+               title="due date" name="${inputName}.dueDate"/>
         <a href="#" id="${title}-calbutton">
             <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0"
-            align="absmiddle"/>
-    </a>
-    <i>(mm/dd/yyyy)</i>
+                 align="absmiddle"/>
+        </a>
+        <i>(mm/dd/yyyy)</i>
     </td>
     <td style="border-left:none;">
 

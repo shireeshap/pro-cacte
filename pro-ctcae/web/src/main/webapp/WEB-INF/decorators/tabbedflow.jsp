@@ -33,7 +33,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 </head>
 
 <body>
-<img src="../../images/gears_bottom.png" style="position:absolute; bottom:10px; right:10px; z-index:0;" />
+<img src="../../images/gears_bottom.png" style="position:absolute; bottom:10px; right:10px; z-index:0;"/>
+
 <div id="all">
     <standard:header/>
     <div class="tabpane">

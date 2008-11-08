@@ -43,7 +43,8 @@
                                              categoryName="${categoryName}"
                                              required="${required}" help="${help}"
                                              showAllJavascript="${showAllJavascript}" size="${size}"
-                                             onclick="${onclick}" values="${values}" cols="${cols}"/></c:otherwise></c:choose>
+                                             onclick="${onclick}" values="${values}"
+                                             cols="${cols}"/></c:otherwise></c:choose>
         <%--<tags:extraParams extraParam="${field.attributes.extraParams}"/>--%>
         <c:if test="${field.attributes.enableDelete}"><input type="button" name="delete" value="Delete"
                                                              onClick="javascript:fireRowDelete(${deleteParams},'${id}','${cssClass}');"/></c:if>
