@@ -39,11 +39,11 @@
 
         function buildTable(form) {
 
-           var type = $F('searchType')
+            var type = $F('searchType')
             var text = $F('searchText')
 
             if (text == '') {
-                $('error').innerHTML = "<font color='#FF0000'>Provide at least one character in the search field</font>"  ;
+                $('error').innerHTML = "<font color='#FF0000'>Provide at least one character in the search field</font>";
 
             } else {
                 $('error').innerHTML = ""
@@ -77,7 +77,7 @@
                     </c:forEach>
 
                 </select>
-                    <input type="text" id="searchText" size="25">
+                <input type="text" id="searchText" size="25">
                     <%--<form:input path="searchCriteria[${status.index}].searchText" size="25"/>--%>
 
                 <div id="error"></div>

@@ -1,11 +1,11 @@
-import java.util.Calendar;
-import java.util.Collection;
-
+import com.thoughtworks.selenium.DefaultSelenium;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
-import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
-import com.thoughtworks.selenium.DefaultSelenium;
+
+import java.util.Calendar;
+import java.util.Collection;
 
 /**
  * @author Vinay Kumar
