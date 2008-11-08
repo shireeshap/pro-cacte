@@ -1,14 +1,14 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.cell.Cell;
 import org.extremecomponents.table.core.TableModel;
-import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.view.html.ColumnBuilder;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 
 /**
  * @author Mehul Gulati
- * Date: Oct 28, 2008
+ *         Date: Oct 28, 2008
  */
 public class ClinicalStaffLinkDisplayDetailsCell implements Cell {
 
@@ -23,7 +23,7 @@ public class ClinicalStaffLinkDisplayDetailsCell implements Cell {
         try {
             ClinicalStaff bean = (ClinicalStaff) model.getCurrentRowBean();
             Integer id = bean.getId();
-            inputBuilder.getHtmlBuilder().a("createClinicalStaff?clinicalStaffId="+id);
+            inputBuilder.getHtmlBuilder().a("createClinicalStaff?clinicalStaffId=" + id);
 
             inputBuilder.getHtmlBuilder().xclose();
             inputBuilder.tdBody(bean.getFirstName());

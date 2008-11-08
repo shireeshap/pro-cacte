@@ -1,16 +1,13 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.web.form.CreateFormCommand;
-import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.validation.Errors;
-import org.springframework.beans.factory.annotation.Required;
-
 import java.util.List;
 
 /**

@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
 
-import gov.nih.nci.ctcae.web.study.StudyCommand;
-import gov.nih.nci.ctcae.web.study.StudyController;
-
 import javax.servlet.http.HttpServletRequest;
 
 /**

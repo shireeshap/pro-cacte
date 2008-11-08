@@ -1,17 +1,16 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import org.springframework.web.servlet.mvc.AbstractController;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
-
 /**
  * @author Mehul Gulati
- * Date: Oct 30, 2008
+ *         Date: Oct 30, 2008
  */
 public class AddSiteController extends AbstractController {
 

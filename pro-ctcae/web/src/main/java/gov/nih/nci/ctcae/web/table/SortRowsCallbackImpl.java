@@ -1,15 +1,15 @@
 package gov.nih.nci.ctcae.web.table;
 
-import org.extremecomponents.table.callback.SortRowsCallback;
-import org.extremecomponents.table.callback.NullSafeBeanComparator;
-import org.extremecomponents.table.core.TableModel;
-import org.extremecomponents.table.core.TableConstants;
-import org.extremecomponents.table.limit.Sort;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections.comparators.ReverseComparator;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.collections.comparators.ReverseComparator;
-import org.apache.commons.beanutils.BeanComparator;
+import org.extremecomponents.table.callback.NullSafeBeanComparator;
+import org.extremecomponents.table.callback.SortRowsCallback;
+import org.extremecomponents.table.core.TableConstants;
+import org.extremecomponents.table.core.TableModel;
+import org.extremecomponents.table.limit.Sort;
 
 import java.util.Collection;
 import java.util.Collections;

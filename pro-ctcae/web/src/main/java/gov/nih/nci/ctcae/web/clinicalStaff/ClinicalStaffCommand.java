@@ -3,9 +3,9 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
 
-import java.util.Set;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Mehul Gulati
@@ -16,7 +16,7 @@ public class ClinicalStaffCommand {
     private ClinicalStaff clinicalStaff;
 
 
-    private String  objectsIdsToRemove;
+    private String objectsIdsToRemove;
 
     public ClinicalStaffCommand() {
         clinicalStaff = new ClinicalStaff();
@@ -32,12 +32,12 @@ public class ClinicalStaffCommand {
     }
 
     public String getObjectsIdsToRemove() {
-            return objectsIdsToRemove;
-        }
+        return objectsIdsToRemove;
+    }
 
     public void setObjectsIdsToRemove(String objectsIdsToRemove) {
-            this.objectsIdsToRemove = objectsIdsToRemove;
-        }
+        this.objectsIdsToRemove = objectsIdsToRemove;
+    }
 
     public void removeSiteClinicalStaff() {
         Set<String> indexes = org.springframework.util.StringUtils.commaDelimitedListToSet(objectsIdsToRemove);

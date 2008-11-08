@@ -67,7 +67,7 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
 
             Study study = studyParticipantAssignment.getStudySite().getStudy();
             for (StudyCrf studyCrf : study.getStudyCrfs()) {
-                if(studyCrf.getCrf().getStatus().equals(CrfStatus.RELEASED)){
+                if (studyCrf.getCrf().getStatus().equals(CrfStatus.RELEASED)) {
                     StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
                     studyParticipantCrf.setStudyCrf(studyCrf);
                     studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);

@@ -1,9 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 
-
 import gov.nih.nci.ctcae.core.domain.Participant;
-
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.cell.Cell;
 import org.extremecomponents.table.core.TableModel;
@@ -27,8 +25,8 @@ public class ParticipantLinkDisplayDetailsCell implements Cell {
         try {
             Participant bean = (Participant) model.getCurrentRowBean();
             Integer id = bean.getId();
-            inputBuilder.getHtmlBuilder().a("edit?participantId="+id);
-                    
+            inputBuilder.getHtmlBuilder().a("edit?participantId=" + id);
+
             inputBuilder.getHtmlBuilder().xclose();
             inputBuilder.tdBody(bean.getAssignedIdentifier());
 

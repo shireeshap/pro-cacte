@@ -15,38 +15,38 @@ import java.util.HashMap;
  */
 public class TextBoxCell implements Cell {
 
-	public String getExportDisplay(TableModel model, Column column) {
-		return column.getValueAsString();
-	}
+    public String getExportDisplay(TableModel model, Column column) {
+        return column.getValueAsString();
+    }
 
-	public String getHtmlDisplay(TableModel model, Column column) {
-		ColumnBuilder inputBuilder = new ColumnBuilder(column);
-		inputBuilder.tdStart();
+    public String getHtmlDisplay(TableModel model, Column column) {
+        ColumnBuilder inputBuilder = new ColumnBuilder(column);
+        inputBuilder.tdStart();
 
-		try {
-			Study bean = (Study) model.getCurrentRowBean();
-			HashMap<Integer, String> participantStudyIdentifierMap  = (HashMap<Integer, String>) model.getContext()
-			.getParameterMap().get("participant.participantstudyidentifier");
+        try {
+            Study bean = (Study) model.getCurrentRowBean();
+            HashMap<Integer, String> participantStudyIdentifierMap = (HashMap<Integer, String>) model.getContext()
+                    .getParameterMap().get("participant.participantstudyidentifier");
 
-			if (participantStudyIdentifierMap == null) {
-				participantStudyIdentifierMap = new HashMap<Integer, String>();
-			}
-			
-			Integer id = bean.getId();
-			HtmlBuilder htmlBuilder = inputBuilder.getHtmlBuilder().input("text").name(
-					"participantStudyIdentifier" + id.intValue());
-			if (participantStudyIdentifierMap.containsKey(id)) {
-				htmlBuilder.value(participantStudyIdentifierMap.get(id)).readonly();
-			}else{
-				htmlBuilder.value("");
-			}
-			inputBuilder.getHtmlBuilder().xclose();
+            if (participantStudyIdentifierMap == null) {
+                participantStudyIdentifierMap = new HashMap<Integer, String>();
+            }
 
-		} catch (Exception e) {
-		}
-		inputBuilder.tdEnd();
+            Integer id = bean.getId();
+            HtmlBuilder htmlBuilder = inputBuilder.getHtmlBuilder().input("text").name(
+                    "participantStudyIdentifier" + id.intValue());
+            if (participantStudyIdentifierMap.containsKey(id)) {
+                htmlBuilder.value(participantStudyIdentifierMap.get(id)).readonly();
+            } else {
+                htmlBuilder.value("");
+            }
+            inputBuilder.getHtmlBuilder().xclose();
 
-		return inputBuilder.toString().trim();
-	}
+        } catch (Exception e) {
+        }
+        inputBuilder.tdEnd();
+
+        return inputBuilder.toString().trim();
+    }
 
 }

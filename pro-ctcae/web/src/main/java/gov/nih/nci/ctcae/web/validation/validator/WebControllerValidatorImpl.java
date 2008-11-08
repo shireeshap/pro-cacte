@@ -1,24 +1,23 @@
 package gov.nih.nci.ctcae.web.validation.validator;
 
+import gov.nih.nci.ctcae.commons.utils.PropertyUtil;
+import gov.nih.nci.ctcae.core.validation.annotation.Validator;
+import gov.nih.nci.ctcae.core.validation.annotation.ValidatorClass;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.beans.InvalidPropertyException;
 import org.springframework.beans.BeansException;
-import org.springframework.validation.BindException;
+import org.springframework.beans.InvalidPropertyException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.validation.BindException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.LinkedHashMap;
 import java.lang.annotation.Annotation;
-
-import gov.nih.nci.ctcae.commons.utils.PropertyUtil;
-import gov.nih.nci.ctcae.core.validation.annotation.Validator;
-import gov.nih.nci.ctcae.core.validation.annotation.ValidatorClass;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Vinay Kumar
@@ -33,6 +32,7 @@ public class WebControllerValidatorImpl implements ApplicationContextAware, WebC
      *
      * @param beanWrapper  - BeanWarapper, wrapping the command object
      * @param propertyName - The property name to evaluate
+     *
      * @return - false, in case of exception, otherwise will delegate to BeanWrapper.
      */
     public static boolean isReadableProperty(BeanWrapper beanWrapper, String propertyName) {
@@ -139,7 +139,7 @@ public class WebControllerValidatorImpl implements ApplicationContextAware, WebC
                     if (errorPropertyName != null) {
                         errors.rejectValue(errorPropertyName, "REQUIRED", errMsg);
                     } else {
-                        errors.rejectValue(errorPropertyName,"DUPLICATE", errMsg);
+                        errors.rejectValue(errorPropertyName, "DUPLICATE", errMsg);
                     }
 
                 }
@@ -151,6 +151,7 @@ public class WebControllerValidatorImpl implements ApplicationContextAware, WebC
      * Creates the validator for a given annotation type.
      *
      * @param annotation the annotation
+     *
      * @return the validator
      */
     @SuppressWarnings("unchecked")

@@ -2,18 +2,16 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.web.AbstractTableModel;
-
-import java.util.Collection;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.core.TableModel;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+import java.util.Map;
+
 /**
  * @author Harsh Agarwal
- * Date: Oct 23, 2008
+ *         Date: Oct 23, 2008
  */
 public class ParticipantTableModel extends AbstractTableModel {
 
@@ -26,13 +24,13 @@ public class ParticipantTableModel extends AbstractTableModel {
             addFirstName(model);
             addMiddleName(model);
             addLastName(model);
-           
+
             return model.assemble().toString();
-            
-        }      catch (Exception e) {
+
+        } catch (Exception e) {
 
         }
-        return"";
+        return "";
     }
 
     private void addFirstName(TableModel model) {
@@ -44,7 +42,7 @@ public class ParticipantTableModel extends AbstractTableModel {
         model.addColumn(columnFirstName);
     }
 
-     private void addLastName(TableModel model) {
+    private void addLastName(TableModel model) {
         Column columnLastName = model.getColumnInstance();
         columnLastName.setTitle("Last name");
         columnLastName.setProperty("lastName");
@@ -53,7 +51,7 @@ public class ParticipantTableModel extends AbstractTableModel {
         model.addColumn(columnLastName);
     }
 
-    private void addMiddleName (TableModel model) {
+    private void addMiddleName(TableModel model) {
         Column columnMiddleName = model.getColumnInstance();
         columnMiddleName.setTitle("Middle name");
         columnMiddleName.setProperty("middleName");
@@ -62,7 +60,7 @@ public class ParticipantTableModel extends AbstractTableModel {
         model.addColumn(columnMiddleName);
     }
 
-     private void addIdentifier(TableModel model) {
+    private void addIdentifier(TableModel model) {
         Column columnIdentifier = model.getColumnInstance();
         columnIdentifier.setTitle("Patient identifier");
         columnIdentifier.setProperty("identifier");

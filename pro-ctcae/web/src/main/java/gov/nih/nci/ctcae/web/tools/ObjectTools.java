@@ -20,6 +20,7 @@ public class ObjectTools {
      *                    {@link Initializer#initialize} method before the properties are copied. This
      *                    provides an opportunity to initialize intermediate objects.
      * @param properties
+     *
      * @return a newly-created object of the same class as <code>src</code>
      */
     @SuppressWarnings("unchecked")
@@ -57,6 +58,7 @@ public class ObjectTools {
      *
      * @param src
      * @param properties
+     *
      * @return a newly-created object of the same class as <code>src</code>
      */
     public static <T> T reduce(T src, String... properties) {

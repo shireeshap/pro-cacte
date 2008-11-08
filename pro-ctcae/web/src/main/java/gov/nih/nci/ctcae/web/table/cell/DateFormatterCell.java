@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.table.cell;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.extremecomponents.table.bean.Column;
@@ -10,8 +11,6 @@ import org.springframework.beans.BeanWrapperImpl;
 
 import java.text.ParseException;
 import java.util.Date;
-
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 /**
  * @author

@@ -15,102 +15,102 @@ import java.util.Map;
  */
 public class StudyTableModel extends AbstractTableModel {
 
-	public String buildStudyTable(Map parameterMap, Collection<Study> objects,
-			HttpServletRequest request) {
+    public String buildStudyTable(Map parameterMap, Collection<Study> objects,
+                                  HttpServletRequest request) {
 
-		try {
-			TableModel model = getModel(parameterMap, request, objects);
+        try {
+            TableModel model = getModel(parameterMap, request, objects);
 
-			addAssignedIdentifier(model);
-			addShorTitleColumn(model);
+            addAssignedIdentifier(model);
+            addShorTitleColumn(model);
 
-			addSponsorColumn(model);
+            addSponsorColumn(model);
 
-			addStudyCoordinatingCenter(model);
-			return model.assemble().toString();
-		} catch (Exception e) {
+            addStudyCoordinatingCenter(model);
+            return model.assemble().toString();
+        } catch (Exception e) {
 
-		}
-		return "";
-	}
+        }
+        return "";
+    }
 
-	public String buildStudyTableForSelection(Map parameterMap,
-			Collection<Study> objects, HttpServletRequest request) {
+    public String buildStudyTableForSelection(Map parameterMap,
+                                              Collection<Study> objects, HttpServletRequest request) {
 
-		try {
+        try {
 
-			TableModel model = getModel(parameterMap, request, objects);
+            TableModel model = getModel(parameterMap, request, objects);
 
-			addAssignedIdentifierForSelection(model);
-			addShorTitleColumn(model);
+            addAssignedIdentifierForSelection(model);
+            addShorTitleColumn(model);
 
-			addSponsorColumn(model);
+            addSponsorColumn(model);
 
-			addStudyCoordinatingCenter(model);
-			addParticipantStudyIdentifierText(model);
+            addStudyCoordinatingCenter(model);
+            addParticipantStudyIdentifierText(model);
 
-			return model.assemble().toString();
-		} catch (Exception e) {
+            return model.assemble().toString();
+        } catch (Exception e) {
 
-		}
-		return "";
-	}
+        }
+        return "";
+    }
 
-	private void addStudyCoordinatingCenter(TableModel model) {
-		Column columnSponsorCode = model.getColumnInstance();
-		columnSponsorCode.setTitle("Coordinating center");
-		columnSponsorCode
-				.setProperty("studyCoordinatingCenter.organization.nciInstituteCode");
-		columnSponsorCode.setAlias("studyCoordinatingCenter");
+    private void addStudyCoordinatingCenter(TableModel model) {
+        Column columnSponsorCode = model.getColumnInstance();
+        columnSponsorCode.setTitle("Coordinating center");
+        columnSponsorCode
+                .setProperty("studyCoordinatingCenter.organization.nciInstituteCode");
+        columnSponsorCode.setAlias("studyCoordinatingCenter");
 
-		columnSponsorCode.setSortable(Boolean.TRUE);
-		model.addColumn(columnSponsorCode);
-	}
+        columnSponsorCode.setSortable(Boolean.TRUE);
+        model.addColumn(columnSponsorCode);
+    }
 
-	private void addSponsorColumn(TableModel model) {
-		Column columnSponsorCode = model.getColumnInstance();
-		columnSponsorCode.setTitle("Funding sponsor");
-		columnSponsorCode
-				.setProperty("studyFundingSponsor.organization.nciInstituteCode");
-		columnSponsorCode.setAlias("studyFundingSponsor");
-		columnSponsorCode.setSortable(Boolean.TRUE);
-		model.addColumn(columnSponsorCode);
-	}
+    private void addSponsorColumn(TableModel model) {
+        Column columnSponsorCode = model.getColumnInstance();
+        columnSponsorCode.setTitle("Funding sponsor");
+        columnSponsorCode
+                .setProperty("studyFundingSponsor.organization.nciInstituteCode");
+        columnSponsorCode.setAlias("studyFundingSponsor");
+        columnSponsorCode.setSortable(Boolean.TRUE);
+        model.addColumn(columnSponsorCode);
+    }
 
-	private void addShorTitleColumn(TableModel model) {
-		Column columnShortTitle = model.getColumnInstance();
+    private void addShorTitleColumn(TableModel model) {
+        Column columnShortTitle = model.getColumnInstance();
         columnShortTitle.setTitle("Short title");
-		columnShortTitle.setProperty("shortTitle");
-		columnShortTitle.setSortable(Boolean.TRUE);
-		// columnShortTitle.setCell("gov.nih.nci.cabig.ctcae.web.study.StudyLinkDisplayCell");
-		model.addColumn(columnShortTitle);
-	}
+        columnShortTitle.setProperty("shortTitle");
+        columnShortTitle.setSortable(Boolean.TRUE);
+        // columnShortTitle.setCell("gov.nih.nci.cabig.ctcae.web.study.StudyLinkDisplayCell");
+        model.addColumn(columnShortTitle);
+    }
 
-	private void addAssignedIdentifier(TableModel model) {
-		Column columnShortTitle = model.getColumnInstance();
+    private void addAssignedIdentifier(TableModel model) {
+        Column columnShortTitle = model.getColumnInstance();
         columnShortTitle.setTitle("Study identifier");
         columnShortTitle.setProperty("assignedIdentifier");
-		columnShortTitle.setSortable(Boolean.TRUE);
-		// columnShortTitle.setCell("gov.nih.nci.ctcae.web.study.SelectedStudyCell");
-		model.addColumn(columnShortTitle);
-	}
+        columnShortTitle.setSortable(Boolean.TRUE);
+        // columnShortTitle.setCell("gov.nih.nci.ctcae.web.study.SelectedStudyCell");
+        model.addColumn(columnShortTitle);
+    }
 
-	private void addAssignedIdentifierForSelection(TableModel model) {
-		Column columnShortTitle = model.getColumnInstance();
-		columnShortTitle.setTitle("Study identifier");
-		columnShortTitle.setProperty("assignedIdentifier");
-		columnShortTitle.setSortable(Boolean.TRUE);
-		columnShortTitle
-				.setCell("gov.nih.nci.ctcae.web.study.SelectedStudyCell");
-		model.addColumn(columnShortTitle);
-	}
+    private void addAssignedIdentifierForSelection(TableModel model) {
+        Column columnShortTitle = model.getColumnInstance();
+        columnShortTitle.setTitle("Study identifier");
+        columnShortTitle.setProperty("assignedIdentifier");
+        columnShortTitle.setSortable(Boolean.TRUE);
+        columnShortTitle
+                .setCell("gov.nih.nci.ctcae.web.study.SelectedStudyCell");
+        model.addColumn(columnShortTitle);
+    }
 
-	private void addParticipantStudyIdentifierText(TableModel model) {
-		Column columnParticipantStudyIdentifier = model.getColumnInstance();
-		columnParticipantStudyIdentifier.setTitle("Patient study identifier");
-		columnParticipantStudyIdentifier.setSortable(Boolean.FALSE);
-		columnParticipantStudyIdentifier
-				.setCell("gov.nih.nci.ctcae.web.study.TextBoxCell");
-		model.addColumn(columnParticipantStudyIdentifier);
-	}
+    private void addParticipantStudyIdentifierText(TableModel model) {
+        Column columnParticipantStudyIdentifier = model.getColumnInstance();
+        columnParticipantStudyIdentifier.setTitle("Patient study identifier");
+        columnParticipantStudyIdentifier.setSortable(Boolean.FALSE);
+        columnParticipantStudyIdentifier
+                .setCell("gov.nih.nci.ctcae.web.study.TextBoxCell");
+        model.addColumn(columnParticipantStudyIdentifier);
+    }
 }

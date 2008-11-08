@@ -1,18 +1,17 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import gov.nih.nci.ctcae.web.AbstractTableModel;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.web.AbstractTableModel;
+import org.extremecomponents.table.bean.Column;
+import org.extremecomponents.table.core.TableModel;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 import java.util.Collection;
-
-import org.extremecomponents.table.core.TableModel;
-import org.extremecomponents.table.bean.Column;
+import java.util.Map;
 
 /**
  * @author Mehul Gulati
- * Date: Oct 22, 2008
+ *         Date: Oct 22, 2008
  */
 public class ClinicalStaffTableModel extends AbstractTableModel {
 
@@ -27,10 +26,10 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
             addNciIdentifier(model);
             return model.assemble().toString();
 
-        }      catch (Exception e) {
+        } catch (Exception e) {
 
         }
-        return"";
+        return "";
     }
 
     private void addFirstName(TableModel model) {
@@ -43,7 +42,7 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
         model.addColumn(columnFirstName);
     }
 
-     private void addLastName(TableModel model) {
+    private void addLastName(TableModel model) {
         Column columnLastName = model.getColumnInstance();
         columnLastName.setTitle("Last name");
         columnLastName.setProperty("lastName");
@@ -52,7 +51,7 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
         model.addColumn(columnLastName);
     }
 
-    private void addMiddleName (TableModel model) {
+    private void addMiddleName(TableModel model) {
         Column columnMiddleName = model.getColumnInstance();
         columnMiddleName.setTitle("Middle name");
         columnMiddleName.setProperty("middleName");
@@ -61,7 +60,7 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
         model.addColumn(columnMiddleName);
     }
 
-     private void addNciIdentifier(TableModel model) {
+    private void addNciIdentifier(TableModel model) {
         Column columnNciIdentifier = model.getColumnInstance();
         columnNciIdentifier.setTitle("NCI institue code");
         columnNciIdentifier.setProperty("nciIdentifier");

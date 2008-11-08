@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.editor;
 
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.domain.Persistable;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import org.apache.commons.lang.StringUtils;
 
 import java.beans.PropertyEditorSupport;
