@@ -99,11 +99,16 @@
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" notDisplayInBox="true">
    <jsp:attribute name="singleFields">
     <div class="autoclear">
-        <chrome:box title="Select participant" id="participant-entry" cssClass="paired" autopad="true">
+        <chrome:box title="Select Participant" id="participant-entry" cssClass="paired" autopad="true">
             <p><tags:instructions code="participant.schedule_crf.select_participant"/></p>
-            <form:hidden path="participant"/>
+
+            <form:input path="participant" id="participant" cssClass="validate-NOTEMPTY"
+                        title="Participant"
+                        cssStyle="display:none;"/>
+
             <tags:requiredIndicator/>
-            <input type="text" id="participant-input" value="${command.participant.displayName}" class="autocomplete"/>
+            <input type="text" id="participant-input" value="${command.participant.displayName}"
+                   class="autocomplete  validate-NOTEMPTY"/>
             <input type="button" id="participant-clear" value="Clear"/>
             <tags:indicator id="participant-indicator"/>
             <div id="participant-choices" class="autocomplete"></div>
@@ -112,9 +117,12 @@
                 You have selected the subject <span id="participant-selected-name"></span>.
             </p>
         </chrome:box>
-        <chrome:box title="Select study" id="study-entry" cssClass="paired" autopad="true">
+        <chrome:box title="Select Study" id="study-entry" cssClass="paired" autopad="true">
             <p><tags:instructions code="participant.schedule_crf.select_study"/></p>
-            <form:hidden path="study"/>
+            <form:input path="study" id="study" cssClass="validate-NOTEMPTY"
+                        title="Study"
+                        cssStyle="display:none;"/>
+
             <tags:requiredIndicator/>
             <input type="text" id="study-input" value="${command.study.shortTitle}" class="autocomplete"/>
             <input type="button" id="study-clear" value="Clear"/>

@@ -40,16 +40,16 @@
         }
 
         function fireDelete(index, divToRemove) {
-                    if ($('objectsIdsToRemove').value != '') {
-                        $('objectsIdsToRemove').value = $('objectsIdsToRemove').value + "," + index;
-                    }
-                    else {
-                        $('objectsIdsToRemove').value = index;
-                    }
+            if ($('objectsIdsToRemove').value != '') {
+                $('objectsIdsToRemove').value = $('objectsIdsToRemove').value + "," + index;
+            }
+            else {
+                $('objectsIdsToRemove').value = index;
+            }
 
-                    $(divToRemove).remove();
+            $(divToRemove).remove();
 
-                }
+        }
 
 
     </script>
@@ -130,7 +130,7 @@
                 </table>
 
             </div>
-            <tags:tabControls willSave="${willSave}" saveButtonLabel="${saveButtonLabel}">
+            <tags:tabControls>
                    <jsp:attribute name="localButtons">
                        <input type="button" value="Add Site" onClick="addSite()" class="button"/>
 
@@ -142,7 +142,7 @@
 
 
     </chrome:box>
-    <tags:tabControls willSave="true"/>
+    <%--<tags:tabControls willSave="true"/>--%>
 </form:form>
 
 </body>

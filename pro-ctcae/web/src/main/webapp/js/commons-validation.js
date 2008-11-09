@@ -288,7 +288,7 @@ function isCorrectDate(string) {
         format = DEFAULT_DATE_FORMAT;
         date = string;
     }
-    return isDate(date, format) && compareDateWithToday(date) == 0;
+    return isDate(date, format);
 }
 
 // Remove characters that might cause security problems from a string 

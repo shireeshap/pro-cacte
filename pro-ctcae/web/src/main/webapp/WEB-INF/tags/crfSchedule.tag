@@ -16,10 +16,9 @@
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-
 <tr id="${inputName}-row">
     <td style="border-right:none;">
-        <input id="${inputName}.startDate" class="date validate-NOTEMPTY" type="text" value="${startDate}"
+        <input id="${inputName}.startDate" class="date validate-NOTEMPTY&&DATE" type="text" value="${startDate}"
                title="start date" name="${inputName}.startDate"/>
         <a href="#" id="${title}-calbutton">
             <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0"
@@ -28,7 +27,7 @@
         <i>(mm/dd/yyyy)</i>
     </td>
     <td style="border-right:none;">
-        <input id="${inputName}.dueDate" class="date validate-NOTEMPTY" type="text" value="${dueDate}"
+        <input id="${inputName}.dueDate" class="date validate-NOTEMPTY&&DATE" type="text" value="${dueDate}"
                title="due date" name="${inputName}.dueDate"/>
         <a href="#" id="${title}-calbutton">
             <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0"

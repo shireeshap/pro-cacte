@@ -22,6 +22,7 @@
                 onComplete:function(transport) {
                     var response = transport.responseText;
                     new Insertion.Before("hiddenDiv-" + crfIndex, response);
+                    AE.registerCalendarPopups()
                 },
                 parameters:"subview=subview&crfindex=" + crfIndex,
                 method:'get'
@@ -44,7 +45,8 @@
         <input type="hidden" value="" id="objectsIndexesToRemove" name="objectsIndexesToRemove"/>
         <input type="hidden" name="_finish" value="true"/>
 
-            <c:forEach items="${command.studyParticipantAssignment.studyParticipantCrfs}" var="participantCrf" varStatus="status">
+            <c:forEach items="${command.studyParticipantAssignment.studyParticipantCrfs}" var="participantCrf"
+                       varStatus="status">
                 <chrome:division title="${participantCrf.studyCrf.crf.title}">
                     <input type="button" value="Add" onClick="addCrfSchedule('${status.index}')"
                            class="button"/>
@@ -55,9 +57,13 @@
                                 <th class="tableHeader"><tags:requiredIndicator/>Start Date</th>
                                 <th class="tableHeader"><tags:requiredIndicator/>Due Date</th>
                             </tr>
-                            <c:forEach items="${participantCrf.studyParticipantCrfSchedules}" var="crfSchedule" varStatus="mystatus">
-                                <tags:crfSchedule index="${mystatus}" inputName="studyParticipantAssignment.studyParticipantCrfs[${status.index}].studyParticipantCrfSchedules[${mystatus.index}]"
-                                                  title="Crf Schedule" displayError="false" startDate="${crfSchedule.startDate}" dueDate="${crfSchedule.dueDate}"></tags:crfSchedule>
+                            <c:forEach items="${participantCrf.studyParticipantCrfSchedules}" var="crfSchedule"
+                                       varStatus="mystatus">
+                                <tags:crfSchedule index="${mystatus}"
+                                                  inputName="studyParticipantAssignment.studyParticipantCrfs[${status.index}].studyParticipantCrfSchedules[${mystatus.index}]"
+                                                  title="Crf Schedule" displayError="false"
+                                                  startDate="${crfSchedule.startDate}"
+                                                  dueDate="${crfSchedule.dueDate}"></tags:crfSchedule>
                             </c:forEach>
                             <tr id="hiddenDiv-${status.index}"></tr>
                         </table>
