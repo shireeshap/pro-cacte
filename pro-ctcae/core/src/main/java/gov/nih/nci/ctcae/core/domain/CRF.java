@@ -1,5 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,6 +72,8 @@ public class CRF extends BaseVersionable {
         this.id = id;
     }
 
+    @NotEmpty(message = "Missing Title")
+    @UniqueTitleForCrf
     public String getTitle() {
         return title;
     }

@@ -21,7 +21,6 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:javascriptLink name="tabbedflow"/>
-    <decorator:head/>
 
     <link type="text/css" rel="stylesheet" href="<c:url value="/resources/dijit/themes/tundra/tundra.css" />"/>
 

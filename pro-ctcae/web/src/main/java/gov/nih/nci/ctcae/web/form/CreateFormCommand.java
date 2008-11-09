@@ -20,13 +20,17 @@ public class CreateFormCommand implements Serializable {
 
     private StudyCrf studyCrf;
 
-    private String title;
+
+    public String getTitle() {
+        String title = getStudyCrf().getCrf().getTitle();
+        return !org.apache.commons.lang.StringUtils.isBlank(title) ? title : "Click here to name";
+    }
+
 
     private String questionsIds;
 
     public CreateFormCommand() {
         CRF crf = new CRF();
-        crf.setTitle("crf1");
         crf.setStatus(CrfStatus.DRAFT);
         crf.setCrfVersion("1.1");
         this.studyCrf = new StudyCrf();
@@ -62,13 +66,6 @@ public class CreateFormCommand implements Serializable {
         this.studyCrf = studyCrf;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getQuestionsIds() {
         return questionsIds;

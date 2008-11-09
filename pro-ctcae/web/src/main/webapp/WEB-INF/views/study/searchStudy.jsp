@@ -61,7 +61,6 @@
     </script>
 </head>
 <body>
-
 <chrome:box title="Search Criteria" autopad="true">
     <p><tags:instructions code="study.search.top"/></p>
 

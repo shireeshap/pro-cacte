@@ -1,4 +1,4 @@
-class AddCtcaeV3Terms extends edu.northwestern.bioinformatics.bering.Migration {
+class AddMoreCtcaeV3Terms extends edu.northwestern.bioinformatics.bering.Migration {
   void up() {
     // Have to break up the inserts so as not to exceed the java max method length
     m0()

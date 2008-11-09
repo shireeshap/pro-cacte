@@ -33,6 +33,24 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
         assertNotNull(crf.getId());
     }
 
+    public void testUniqueCrfTitle() {
+        inValidCRF = new CRF();
+        crf.setTitle("Cancer CRF");
+        crf.setDescription("Case Report Form for Cancer Patients");
+        crf.setStatus(CrfStatus.DRAFT);
+        crf.setCrfVersion("1.0");
+
+        try {
+            inValidCRF = crfRepository.save(inValidCRF);
+            fail("Expected DataIntegrityViolationException because title is unique");
+        } catch (DataIntegrityViolationException e) {
+        }
+        inValidCRF.setTitle("another title");
+        crf = crfRepository.save(inValidCRF);
+
+        assertNotNull("must be able to save crf", crf);
+    }
+
     public void testSavingNullCRF() {
         inValidCRF = new CRF();
 
@@ -99,6 +117,19 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
         assertFalse(crfs.isEmpty());
         int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf");
         assertEquals(size, crfs.size());
+    }
+
+    public void testFindByTitleExactMatchQuery() {
+
+        CRFQuery crfQuery = new CRFQuery();
+        crfQuery.filterByTitleExactMatch(crf.getTitle());
+        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
+        assertFalse(crfs.isEmpty());
+        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf where lower(crf.title)=?", new String[]{crf.getTitle().toLowerCase()});
+        assertEquals(size, crfs.size());
+        assertEquals("title must be unique", Integer.valueOf(1), Integer.valueOf(size));
+
+
     }
 
     @Required

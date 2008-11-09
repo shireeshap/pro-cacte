@@ -1,4 +1,4 @@
-class DropProCtcTermValidValue extends edu.northwestern.bioinformatics.bering.Migration {
+class AlterProCtcValues extends edu.northwestern.bioinformatics.bering.Migration {
   void up() {
     execute("delete from PRO_CTC_VALID_VALUES")
     addColumn('pro_ctc_valid_values', 'pro_ctc_term_id', 'integer', nullable: false);

@@ -34,12 +34,22 @@
             var formNameInPlaceEdit = new Ajax.InPlaceEditor('crfTitle', '/ctcae/pages/form/setName', {
                 rows:1,
                 cancelControl:false,
-                okControl:true,
-                // submitOnBlur:true,
+                okControl:false,
+                submitOnBlur:true,
+                onEnterEditMode:function() {
+                    if ($('crfTitle').innerHTML == 'Click here to name') {
+                        $('crfTitle').innerHTML = ''
 
+                    }
+
+                }  ,
                 onComplete:function(transport) {
                     $('crfTitle').innerHTML = transport.responseText;
                     $('formTitle').value = transport.responseText;
+                    if ($('formTitle').value == '') {
+                        //    $('crfTitle').innerHTML = 'Click here to name';
+
+                    }
 
 
                 },
@@ -224,21 +234,10 @@
                             <tr style="height:100%;">
                                 <td id="formbuilderTable-middle">
                                     <div id="formbuilderTable-borderTop">
-                                        <div class="formbuilderHeader" id="crfTitle">
-                                            <c:choose>
-                                                <c:when test="${command.studyCrf.crf.title eq ''}">Click here to name
-                                                </c:when>
-
-                                                <c:when test="${command.studyCrf.crf.title ne null}"> ${command.studyCrf.crf.title}
-                                                </c:when>
-
-                                                <c:otherwise> Click here to name
-                                                </c:otherwise>
-                                            </c:choose>
-
-                                        </div>
+                                        <span class="formbuilderHeader" id="crfTitle">${command.title}</span>
                                         <br/>
                                         <form:hidden path="studyCrf.crf.title" id="formTitle"/>
+
                             <span class="formbuildersubHeader">There <span id="plural1">are</span> <span
                                     id="totalQuestionDivision">${totalQuestions}</span> question<span
                                     id="plural2">s</span> in this form.</span>

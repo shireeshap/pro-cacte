@@ -36,7 +36,6 @@
         </div>
         <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem">
             <tags:reviewQuestion crfItem="${crfItem}"></tags:reviewQuestion>
-
         </c:forEach>
    
 </jsp:attribute>

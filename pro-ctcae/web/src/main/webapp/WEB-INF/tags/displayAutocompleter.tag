@@ -8,9 +8,12 @@
     <div class="value"><input id="${inputName}" type="hidden" value="" name="study"/>
         <span class="required-indicator">*</span>
         <input id="${inputName}-input" class="autocomplete" type="text" value="" autocomplete="off" size="${size}"/>
-        <input id="${inputName}-clear" type="button" value="Clear"/>
+        <input type="button" id="${inputName}-clear" name="C"
+               value="Clear"
+               onClick="javascript:$('${inputName}-input').clear();$('${inputName}').clear();"/>
+
         <img id="${inputName}-indicator" class="indicator" alt="activity indicator"
-             src="/caaers/images/indicator.white.gif"/>
+             src="/images/indicator.white.gif"/>
 
         <div id="${inputName}-choices" class="autocomplete" style="display: none;"/>
         <p id="${inputName}-selected" style="display: none;">

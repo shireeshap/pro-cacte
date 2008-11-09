@@ -44,8 +44,9 @@ public class UniqueIdentifierForStudyValidatorTest extends AbstractTestCase {
     public void testInitialzie() {
 
         BeanWrapperImpl beanWrapperImpl = new BeanWrapperImpl(study);
-        Annotation[] annotationsArray = beanWrapperImpl.getPropertyDescriptor("studySites").getReadMethod().getAnnotations();
+        Annotation[] annotationsArray = beanWrapperImpl.getPropertyDescriptor("assignedIdentifier").getReadMethod().getAnnotations();
         assertFalse("must find annotation", annotationsArray.length == 0);
+        assertTrue("must find UniqueTitleForCrf annotation", annotationsArray[0].annotationType().equals(UniqueIdentifierForStudy.class));
 
 
 //        validator.initialize(annotationsArray[0]);

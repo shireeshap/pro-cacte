@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,8 +62,18 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
     }
 
     @Override
+    public void validate(final CreateFormCommand command, final Errors errors) {
+        super.validate(command, errors);
+        if (StringUtils.isBlank(command.getStudyCrf().getCrf().getTitle())) {
+
+        }
+
+    }
+
+    @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         super.postProcess(request, command, errors);
+
         command.updateCrfItems(finderRepository);
 
 

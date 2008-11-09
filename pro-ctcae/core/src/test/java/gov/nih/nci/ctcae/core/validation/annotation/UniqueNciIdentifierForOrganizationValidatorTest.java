@@ -44,6 +44,7 @@ public class UniqueNciIdentifierForOrganizationValidatorTest extends AbstractTes
         BeanWrapperImpl beanWrapperImpl = new BeanWrapperImpl(organization);
         Annotation[] annotationsArray = beanWrapperImpl.getPropertyDescriptor("nciInstituteCode").getReadMethod().getAnnotations();
         assertFalse("must find annotation", annotationsArray.length == 0);
+        assertTrue("must find UniqueTitleForCrf annotation", annotationsArray[0].annotationType().equals(UniqueNciIdentifierForOrganization.class));
 
 
 //        validator.initialize(annotationsArray[0]);
