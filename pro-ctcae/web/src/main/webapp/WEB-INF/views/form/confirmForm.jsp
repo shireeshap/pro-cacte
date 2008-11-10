@@ -56,7 +56,7 @@
     <table id="formbuilderTable">
         <tr>
             <td id="left">
-                Question Bank
+                Questions
                 <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem">
                     <tags:reviewQuestion crfItem="${crfItem}"></tags:reviewQuestion>
                 </c:forEach>
