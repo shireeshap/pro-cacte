@@ -29,7 +29,7 @@ public class SelectStudyParticipantTab extends Tab<StudyParticipantCommand> {
 
         super.onDisplay(request, command);
 
-        if (!StringUtils.isBlank(request.getParameter("studyCrfId")) && command.getStudy() != null) {
+        if (!StringUtils.isBlank(request.getParameter("studyCrfId")) && command.getStudy() == null) {
             StudyCrf studyCrf = finderRepository.findById(StudyCrf.class, Integer.valueOf(request.getParameter("studyCrfId")));
             command.setStudy(studyCrf.getStudy());
         }
