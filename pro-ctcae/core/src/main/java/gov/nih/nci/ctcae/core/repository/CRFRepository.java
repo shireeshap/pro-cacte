@@ -34,6 +34,7 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
         for (StudySite studySite : study.getStudySites()) {
             for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
                 StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
+                studyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
                 studyCrf.addStudyParticipantCrf(studyParticipantCrf);
             }
         }
