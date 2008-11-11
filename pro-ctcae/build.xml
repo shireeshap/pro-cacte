@@ -40,7 +40,8 @@
     <!-- =================================================================== -->
     <!-- Target for automated build  								         -->
     <!-- =================================================================== -->
-    <target name="automatedBuild" depends="migrate,publish-clover, pmd"  description="build project including migration of data..use it in CI server.."/>
+    <target name="automatedBuild" depends="migrate,publish-clover, pmd"
+            description="build project including migration of data..use it in CI server.."/>
     <!--<target name="automatedBuild" depends="publish-all, findbugs, coverage, checkstyle, pmd, cpd"/>-->
 
 
@@ -184,7 +185,7 @@
      ===================================================== -->
 
 
-    <target name="pmd" depends="load-ivy, java2html, clean-pmd" description="--> Generates the pmd report">
+    <target name="pmd" depends="load-ivy, clean-pmd" description="--> Generates the pmd report">
 
         <ivy:resolve inline="true" organisation="pmd" module="pmd" revision="4.2.1"/>
         <ivy:cachepath organisation="pmd" module="pmd" revision="4.2.1" inline="true" pathid="pmd.classpath"/>
@@ -207,8 +208,6 @@
             </fileset>
         </pmd>
     </target>
-
-
 
 
     <!--- =================================================================================
