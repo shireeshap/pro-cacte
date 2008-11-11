@@ -33,6 +33,7 @@ public class AddOneQuestionController extends AbstractController {
             modelAndView.addObject("displayOrder", displayOrder);
         } else {
             logger.error("can not add question because pro ctc term is null for id:" + questionId);
+            return null;
         }
 
         return modelAndView;
