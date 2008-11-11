@@ -31,7 +31,7 @@ public class CRF extends BaseVersionable {
 
     @Column(name = "status", nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private CrfStatus status;
+    private CrfStatus status = CrfStatus.DRAFT;
 
     @Column(name = "crf_version", nullable = false)
     private String crfVersion;
@@ -53,16 +53,6 @@ public class CRF extends BaseVersionable {
     public CRF() {
     }
 
-    public CRF(Integer id) {
-        this.id = id;
-    }
-
-    public CRF(Integer id, String title, CrfStatus status, String crfVersion) {
-        this.id = id;
-        this.title = title;
-        this.status = status;
-        this.crfVersion = crfVersion;
-    }
 
     public Integer getId() {
         return id;

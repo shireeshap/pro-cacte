@@ -9,12 +9,28 @@ import junit.framework.TestCase;
 public class CRFTest extends TestCase {
     private CRF crf;
 
+    public void testReleased() {
+        crf = new CRF();
+        assertFalse(crf.isReleased());
+        crf.setStatus(CrfStatus.RELEASED);
+        assertTrue(crf.isReleased());
+    }
+
+    public void testToString() {
+        crf = new CRF();
+        assertNull(crf.toString());
+        crf.setTitle("form 1");
+        assertEquals("form 1", crf.getTitle());
+
+    }
+
     public void testConstructor() {
         crf = new CRF();
         assertNull(crf.getTitle());
         assertNull(crf.getDescription());
-        assertNull(crf.getStatus());
+        assertEquals("status must be draft by default", CrfStatus.DRAFT, crf.getStatus());
         assertNull(crf.getCrfVersion());
+        assertEquals(Integer.valueOf(0), crf.getVersion());
     }
 
     public void testGetterAndSetter() {
@@ -23,11 +39,13 @@ public class CRFTest extends TestCase {
         crf.setDescription("Case Report Form for Cancer Patients");
         crf.setStatus(CrfStatus.DRAFT);
         crf.setCrfVersion("1.0");
+        crf.setId(2);
 
         assertEquals("Cancer CRF", crf.getTitle());
         assertEquals("Case Report Form for Cancer Patients", crf.getDescription());
         assertEquals(CrfStatus.DRAFT, crf.getStatus());
         assertEquals("1.0", crf.getCrfVersion());
+        assertEquals(Integer.valueOf(2), crf.getId());
     }
 
     public void testGetCrfItems() {
