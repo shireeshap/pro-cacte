@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
@@ -44,8 +43,6 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
 
         StudyCrf studyCrf = (StudyCrf) command;
         crfRepository.updateStatusToReleased(studyCrf.getCrf());
-        studyCrf.getCrf().setStatus(CrfStatus.RELEASED);
-        crfRepository.save(studyCrf.getCrf());
         RedirectView redirectView = new RedirectView("manageForm?studyCrfId=" + studyCrf.getId());
         return new ModelAndView(redirectView);
     }
