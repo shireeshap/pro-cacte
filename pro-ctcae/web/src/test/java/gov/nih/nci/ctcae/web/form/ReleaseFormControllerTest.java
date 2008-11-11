@@ -11,6 +11,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Map;
 
@@ -59,7 +60,7 @@ public class ReleaseFormControllerTest extends WebTestCase {
 
         request.setMethod("POST");
         expect(finderRepository.findById(StudyCrf.class, null)).andReturn(studyCrf);
-        expect(crfRepository.save(studyCrf.getCrf())).andReturn(studyCrf.getCrf());
+        crfRepository.updateStatusToReleased(studyCrf.getCrf());
         validator.validate(request, studyCrf, isA(BindException.class));
         replayMocks();
 
@@ -67,10 +68,9 @@ public class ReleaseFormControllerTest extends WebTestCase {
 
         verifyMocks();
         Map model = modelAndView.getModel();
+        assertTrue("view must be instance of redirect view", modelAndView.getView() instanceof RedirectView);
         Object command = model.get("command");
-
-        assertNotNull("must find command object", command);
-        assertTrue(command instanceof StudyCrf);
+        assertNull("must not find command object", command);
 
 
     }
