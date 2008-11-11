@@ -24,4 +24,12 @@ public class CtcAeSystemExceptionTest extends AbstractTestCase {
 
 
     }
+
+    public void testConstructorWithException() {
+        exception = new CtcAeSystemException(message, new NullPointerException());
+
+        assertEquals(message, exception.getMessage());
+
+
+    }
 }
