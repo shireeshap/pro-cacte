@@ -106,7 +106,7 @@
             </tr>
         </table>
 
-        <chrome:division title="ClinicalStaff sites">
+        <chrome:division title="Clinical Staff sites">
 
             <input type="hidden" value="" id="objectsIdsToRemove" name="objectsIdsToRemove"/>
 

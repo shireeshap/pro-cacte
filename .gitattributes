@@ -701,6 +701,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ControllersUtilsTest.java -tex
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/WebTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffCommandTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffControllerUtilsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneQuestionControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CreateFormCommandTest.java -text
