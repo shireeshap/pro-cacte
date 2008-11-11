@@ -298,7 +298,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImpl.jav
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tag/AuthorizeTag.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTag.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tags/ValueTag.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tools/ObjectTools.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorImpl.java -text

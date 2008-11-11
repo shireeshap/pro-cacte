@@ -11,29 +11,6 @@
     <description>ProCtcAe JSP Form Tag Library. Author: Vinay Kumar</description>
 
 
-    <!-- <caaers:value/> -->
-    <tag>
-        <name>value</name>
-        <tag-class>gov.nih.nci.ctcae.web.tags.ValueTag</tag-class>
-        <body-content>JSP</body-content>
-        <description>Renders a form field value as an HTML escaped text</description>
-
-        <attribute>
-            <name>path</name>
-            <required>true</required>
-            <rtexprvalue>true</rtexprvalue>
-            <description>Path to errors object for data binding</description>
-        </attribute>
-
-        <attribute>
-            <name>htmlEscape</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-            <description>Enable/disable HTML escaping of rendered values.</description>
-        </attribute>
-
-
-    </tag>
 
     <tag>
         <name>authorize</name>
