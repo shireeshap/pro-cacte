@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -28,10 +29,12 @@ public class ManageFormController extends AbstractController {
 
         ModelAndView modelAndView = new ModelAndView("form/manageForm");
         String studyCrfId = request.getParameter("studyCrfId");
-        if (studyCrfId != null && !"".equals(studyCrfId)) {
+        if (!StringUtils.isBlank(studyCrfId)) {
             StudyCrf studyCrf = finderRepository.findById(StudyCrf.class, Integer.parseInt(studyCrfId));
-            Study study = studyCrf.getStudy();
-            modelAndView.getModel().put("study", study);
+            if (studyCrf != null) {
+                Study study = studyCrf.getStudy();
+                modelAndView.getModel().put("study", study);
+            }
         }
         return modelAndView;
     }

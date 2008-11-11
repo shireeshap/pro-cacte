@@ -13,10 +13,15 @@
         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename">
-            <value>message</value>
-        </property>
+    <property name="basename">
+    <value>message</value>
+    </property>
     </bean>
+
+    <!--<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
+    <!--<property name="basename" value="/WEB-INF/message"/>-->
+    <!--<property name="cacheSeconds" value="1"/>-->
+    <!--</bean>-->
 
     <bean id="simpleUrlHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="order" value="1"/>
@@ -171,13 +176,7 @@
     <bean name="/form/setName" id="setNameController"
           class="gov.nih.nci.ctcae.web.form.SetNameController">
     </bean>
-    <bean name="/form/searchForm" id="searchFormController"
-          class="gov.nih.nci.ctcae.web.form.SearchFormController" parent="ctcaeSimpleFormController">
-    </bean>
 
-    <bean name="/form/submit" id="submitFormController"
-          class="gov.nih.nci.ctcae.web.form.SubmitFormController" parent="ctcaeSimpleFormController">
-    </bean>
 
 
     <bean name="/study/createStudy" id="createStudyController"

@@ -37,7 +37,9 @@ public class AddOneQuestionControllerTest extends WebTestCase {
         request.addParameter("questionId", new String[]{"1"});
         request.addParameter("displayOrder", new String[]{"1"});
         expect(finderRepository.findById(ProCtcQuestion.class, 1)).andReturn(null);
+        replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
+        verifyMocks();
         assertNull("must return null because no question is present for given id", modelAndView);
     }
 
@@ -45,8 +47,10 @@ public class AddOneQuestionControllerTest extends WebTestCase {
         request.addParameter("questionId", new String[]{"1"});
         request.addParameter("displayOrder", new String[]{"1"});
         expect(finderRepository.findById(ProCtcQuestion.class, 1)).andReturn(proCtcQuestion);
+        replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
-        assertNull("must return null because no question is present for given id", modelAndView);
+        verifyMocks();
+        assertNotNull("must not return null because there is one question  for given id", modelAndView);
         assertEquals("must return proctc question", proCtcQuestion, modelAndView.getModel().get("proCtcQuestion"));
         assertEquals("must return proctc displayOrder", Integer.valueOf(1), modelAndView.getModel().get("displayOrder"));
     }
