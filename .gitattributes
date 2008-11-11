@@ -720,6 +720,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/SearchStudyControllerTes
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyTableModelTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/TextBoxCellTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/AbstractTableModelTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/NullStringComparatorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImplTest.java -text
