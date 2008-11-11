@@ -8,8 +8,6 @@ import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
-import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -61,7 +59,7 @@ public class ReleaseFormControllerTest extends WebTestCase {
         request.setMethod("POST");
         expect(finderRepository.findById(StudyCrf.class, null)).andReturn(studyCrf);
         crfRepository.updateStatusToReleased(studyCrf.getCrf());
-        validator.validate(request, studyCrf, isA(BindException.class));
+
         replayMocks();
 
         ModelAndView modelAndView = controller.handleRequest(request, response);
