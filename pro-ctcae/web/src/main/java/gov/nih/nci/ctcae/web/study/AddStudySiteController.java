@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -20,7 +21,7 @@ public class AddStudySiteController extends AbstractController {
         ModelAndView modelAndView = new ModelAndView("study/ajax/oneStudySiteSection");
 
 
-        StudyCommand studyCommand = StudyControllerUtils.getStudyCommand(request);
+        StudyCommand studyCommand = ControllersUtils.getStudyCommand(request);
 
         Study study = studyCommand.getStudy();
         StudySite studySite = new StudySite();

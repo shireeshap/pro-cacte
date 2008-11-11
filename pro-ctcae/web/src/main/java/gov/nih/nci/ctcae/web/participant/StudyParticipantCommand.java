@@ -1,13 +1,8 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.web.form.ControllersUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
-
-import edu.nwu.bioinformatics.commons.CollectionUtils;
+import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 
 public class StudyParticipantCommand {
 

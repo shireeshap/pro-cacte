@@ -234,6 +234,7 @@ pro-ctcae/web/pom.xml -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/AbstractTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ApplicationConversionService.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ControllerTools.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ControllersUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/CtcAeSimpleFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/AddSiteController.java -text
@@ -247,7 +248,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalSt
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneQuestionController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ControllersUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcAeTabbedFlowController.java -text
@@ -290,7 +290,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SitesTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyControllerUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyDetailsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/TextBoxCell.java -text
@@ -702,11 +701,11 @@ pro-ctcae/web/src/main/webapp/js/validation.js -text
 pro-ctcae/web/src/test/java/SeleniumTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AbstractWebIntegrationTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ApplicationConversionServiceTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ControllersUtilsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/WebTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/ControllersUtilsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CreateFormCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FormDetailsTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/ReleaseFormControllerTest.java -text

@@ -1,5 +1,7 @@
-package gov.nih.nci.ctcae.web.form;
+package gov.nih.nci.ctcae.web;
 
+import gov.nih.nci.ctcae.web.study.CreateStudyController;
+import gov.nih.nci.ctcae.web.study.StudyCommand;
 import org.springframework.web.servlet.mvc.BaseCommandController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,4 +19,9 @@ public class ControllersUtils {
     }
 
 
+    public static StudyCommand getStudyCommand(HttpServletRequest request) {
+        StudyCommand studyCommand = (StudyCommand)
+                request.getSession().getAttribute(CreateStudyController.class.getName() + ".FORM." + "command");
+        return studyCommand;
+    }
 }
