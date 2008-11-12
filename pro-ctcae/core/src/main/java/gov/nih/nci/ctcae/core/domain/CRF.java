@@ -36,7 +36,7 @@ public class CRF extends BaseVersionable {
     @Column(name = "crf_version", nullable = false)
     private String crfVersion;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.EAGER)
     private List<CrfItem> crfItems = new ArrayList<CrfItem>();
 
     public StudyCrf getStudyCrf() {

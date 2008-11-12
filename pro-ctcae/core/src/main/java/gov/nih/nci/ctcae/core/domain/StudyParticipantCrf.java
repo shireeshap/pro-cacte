@@ -2,9 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Date;
 
 /**
  * @author
@@ -67,11 +65,19 @@ public class StudyParticipantCrf extends BaseVersionable {
         return studyParticipantCrfSchedules;
     }
 
-    public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule){
-            if(studyParticipantCrfSchedule != null){
-                studyParticipantCrfSchedule.setStudyParticipantCrf(this);
-                studyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+    public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+        if (studyParticipantCrfSchedule != null) {
+            studyParticipantCrfSchedule.setStudyParticipantCrf(this);
+            for(CrfItem crfItem: studyCrf.getCrf().getCrfItems()){
+                StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
+                studyParticipantCrfItem.setCrfItem(crfItem);
+                studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
             }
+            studyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+        }
     }
 
+    public void removeCrfSchedule(StudyParticipantCrfSchedule crfSchedule) {
+        studyParticipantCrfSchedules.remove(crfSchedule);
+    }
 }
