@@ -7,7 +7,7 @@ public class ParticipantCommand {
     private Participant participant;
     private int siteId;
     private int[] studyId;
-    private String siteName = "";
+    private String siteName;
 
     public ParticipantCommand() {
         participant = new Participant();

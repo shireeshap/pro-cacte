@@ -70,7 +70,7 @@
                         </tr>
                     </c:forEach>
                 </c:forEach>
-            </table>
+            </table>                                                            
         </chrome:division>
     </c:if>
 </chrome:box>

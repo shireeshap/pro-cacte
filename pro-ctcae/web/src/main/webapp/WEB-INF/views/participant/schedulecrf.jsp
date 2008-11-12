@@ -59,7 +59,7 @@
                             </tr>
                             <c:forEach items="${participantCrf.studyParticipantCrfSchedules}" var="crfSchedule"
                                        varStatus="mystatus">
-                                <tags:crfSchedule index="${mystatus}"
+                                <tags:crfSchedule index="${status.index}-${mystatus.index}"
                                                   inputName="studyParticipantAssignment.studyParticipantCrfs[${status.index}].studyParticipantCrfSchedules[${mystatus.index}]"
                                                   title="Crf Schedule" displayError="false"
                                                   startDate="${crfSchedule.startDate}"

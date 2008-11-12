@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;

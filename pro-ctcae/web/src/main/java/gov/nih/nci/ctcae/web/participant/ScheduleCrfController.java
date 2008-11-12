@@ -2,10 +2,6 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
-import gov.nih.nci.ctcae.core.repository.JpaGenericRepository;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
@@ -46,6 +42,8 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
 
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         StudyParticipantCommand studyParticipantCommand = (StudyParticipantCommand) command;
+
+        studyParticipantCommand.removeCrfSchedules();
 
         studyParticipantAssignmentRepository.save(studyParticipantCommand.getStudyParticipantAssignment());
 
