@@ -3,6 +3,7 @@
 <%@attribute name="propertyName" type="java.lang.String" %>
 <%@attribute name="displayName" type="java.lang.String" %>
 <%@attribute name="categoryName" type="java.lang.String" %>
+<%@attribute name="defaultValue" type="java.lang.String" %>
 
 <%@attribute name="required" type="java.lang.Boolean" %>
 
@@ -73,11 +74,6 @@
 
     <c:when test="${categoryName == 'label'}"><ui:value propertyName="${propertyName}"/></c:when>
     <c:when test="${categoryName == 'image'}"><img src="<c:url value="/images/chrome/spacer.gif" />"/></c:when>
-    <c:when test="${categoryName == 'radio'}"><form:radiobutton path="${propertyName}"
-                                                                disabled="${disabled}"
-                                                                cssClass="${required ? 'validate-NOTEMPTY' : ''} ${cssClass}"
-                                                                value="${attributes.defaultValue}"/>
-    </c:when>
 
 
     <c:when test="${categoryName == 'autocompleter'}">
