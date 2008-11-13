@@ -61,11 +61,6 @@
     </script>
 </head>
 <body>
-<div id="test" author="Sauabh">
-    <p>
-        Saurabh</p></div>
-<a href="#test" class="lightwindow" author="unknown">Test url</a>
-
 <chrome:box title="Search Criteria" autopad="true">
     <p><tags:instructions code="study.search.top"/></p>
 
