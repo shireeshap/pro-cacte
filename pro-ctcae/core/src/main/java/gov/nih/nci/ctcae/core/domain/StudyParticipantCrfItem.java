@@ -16,8 +16,9 @@ public class StudyParticipantCrfItem extends BaseVersionable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
 
-	@Column(name = "selected_response")
-	private String selectedResponse;
+	@JoinColumn(name = "pro_ctc_valid_value_id", referencedColumnName = "id")
+	@ManyToOne
+    private ProCtcValidValue proCtcValidValue;
 
 	@JoinColumn(name = "crf_item_id", referencedColumnName = "id")
 	@ManyToOne
@@ -34,10 +35,6 @@ public class StudyParticipantCrfItem extends BaseVersionable {
 		this.id = id;
 	}
 
-	public StudyParticipantCrfItem(Integer id, String selectedResponse) {
-		this.id = id;
-		this.selectedResponse = selectedResponse;
-	}
 
 	public Integer getId() {
 		return id;
@@ -47,15 +44,15 @@ public class StudyParticipantCrfItem extends BaseVersionable {
 		this.id = id;
 	}
 
-	public String getSelectedResponse() {
-		return selectedResponse;
-	}
+    public ProCtcValidValue getProCtcValidValue() {
+        return proCtcValidValue;
+    }
 
-	public void setSelectedResponse(String selectedResponse) {
-		this.selectedResponse = selectedResponse;
-	}
+    public void setProCtcValidValue(ProCtcValidValue proCtcValidValue) {
+        this.proCtcValidValue = proCtcValidValue;
+    }
 
-	public CrfItem getCrfItem() {
+    public CrfItem getCrfItem() {
 		return crfItem;
 	}
 
@@ -80,7 +77,7 @@ public class StudyParticipantCrfItem extends BaseVersionable {
 
         if (crfItem != null ? !crfItem.equals(that.crfItem) : that.crfItem != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (selectedResponse != null ? !selectedResponse.equals(that.selectedResponse) : that.selectedResponse != null)
+        if (proCtcValidValue != null ? !proCtcValidValue.equals(that.proCtcValidValue) : that.proCtcValidValue != null)
             return false;
         if (studyParticipantCrfSchedule != null ? !studyParticipantCrfSchedule.equals(that.studyParticipantCrfSchedule) : that.studyParticipantCrfSchedule != null)
             return false;
@@ -91,7 +88,7 @@ public class StudyParticipantCrfItem extends BaseVersionable {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (selectedResponse != null ? selectedResponse.hashCode() : 0);
+        result = 31 * result + (proCtcValidValue != null ? proCtcValidValue.hashCode() : 0);
         result = 31 * result + (crfItem != null ? crfItem.hashCode() : 0);
         result = 31 * result + (studyParticipantCrfSchedule != null ? studyParticipantCrfSchedule.hashCode() : 0);
         return result;

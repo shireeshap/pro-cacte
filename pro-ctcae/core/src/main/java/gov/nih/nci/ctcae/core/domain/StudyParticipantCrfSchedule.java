@@ -1,10 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Date;
+import java.util.*;
 
 /**
  * @author
@@ -45,7 +42,8 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         this.id = id;
     }
 
-    public Collection<StudyParticipantCrfItem> getStudyParticipantCrfItems() {
+    public List<StudyParticipantCrfItem> getStudyParticipantCrfItems() {
+        Collections.sort(studyParticipantCrfItems, new ParticipantCrfDisplayOrderComparator());
         return studyParticipantCrfItems;
     }
 

@@ -10,42 +10,95 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
-        .label {
-            width: 12em;
-            padding: 1px;
-            margin-right: 0.5em;
-        }
 
         div.row div.value {
             white-space: normal;
         }
 
-        #studyDetails td.label {
+        .label {
             font-weight: bold;
             float: left;
             margin-left: 0.5em;
             margin-right: 0.5em;
-            width: 12em;
             padding: 1px;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
 <c:set var="currentQuestion"
-       value="${submitFormCommand.studyParticipantCrf.studyParticipantCrfItems[0].crfItem.proCtcQuestion}"/>
+       value="${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].crfItem.proCtcQuestion}"/>
 
-<form:form method="post" commandName="submitFormCommand">
-    <chrome:box title="My Form" autopad="true">
+<form:form method="post" name="myForm">
+    <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}"
+                autopad="true">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
-        <chrome:division title="Question 1.">
-            <div class="value">${currentQuestion.questionText}</div>
-            <c:forEach items="${currentQuestion.validValues}" var="validValue">
-                <div class="value"><tags:renderRadio propertyName="test" defaultValue="${validValue}"/></div>
-            </c:forEach>
+        <chrome:division title="Question ${command.currentIndex + 1} of ${command.totalQuestions}">
+            <table align="center">
+                <tr>
+                    <td>
+                        <div class="label">${currentQuestion.questionText}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="label"></div>
+                    </td>
+                </tr>
 
+                <c:forEach items="${currentQuestion.validValues}" var="validValue">
+
+                    <tr>
+                        <td>
+                            <div class="label">
+                                <script type="text/javascript">
+                                    //alert('${validValue.id}' + ',' + '${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}');
+                                </script>
+                                <c:choose>
+                                    <c:when test="${validValue.id == command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}">
+                                        <input type="radio"
+                                               name="studyParticipantCrfSchedule.studyParticipantCrfItems[${command.currentIndex}].proCtcValidValue"
+                                               value="${validValue.id}" checked="true"/> ${validValue.value}
+
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="radio"
+                                               name="studyParticipantCrfSchedule.studyParticipantCrfItems[${command.currentIndex}].proCtcValidValue"
+                                               value="${validValue.id}"/> ${validValue.value}
+
+                                    </c:otherwise>
+                                </c:choose>
+
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
         </chrome:division>
     </chrome:box>
-    <tags:tabControls willSave="true"/>
+    <table width="100%">
+        <input type="hidden" name="direction"/>
+        <tr>
+            <td align="left" width="50%">
+                <c:if test="${command.currentIndex > 0}">
+                    <input onclick="document.myForm.direction.value='back'" type="image"
+                           src="/ctcae/images/blue/back_btn.png" alt="back &raquo;"/>
+                </c:if>
+            </td>
+            <td align="right" width="50%">
+                <c:choose>
+                    <c:when test="${command.currentIndex < command.totalQuestions-1}">
+                        <input onclick="document.myForm.direction.value='continue'" type="image"
+                               src="/ctcae/images/blue/continue_btn.png" alt="continue &raquo;"/>
+                    </c:when>
+                    <c:otherwise>
+                        <input onclick="document.myForm.direction.value='save'" type="image"
+                               src="/ctcae/images/blue/save_btn.png" alt="save"/>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+    </table>
 </form:form>
 </body>
 </html>

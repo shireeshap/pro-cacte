@@ -180,7 +180,10 @@
     <bean name="/form/setName" id="setNameController"
           class="gov.nih.nci.ctcae.web.form.SetNameController">
     </bean>
-
+    <bean name="/form/submit" id="submitFormController"
+          class="gov.nih.nci.ctcae.web.form.SubmitFormController" parent="ctcaeSimpleFormController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
 
 
     <bean name="/study/createStudy" id="createStudyController"

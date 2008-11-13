@@ -1,11 +1,12 @@
 <%@ attribute name="propertyName" %>
 <%@ attribute name="required" %>
 <%@ attribute name="defaultValue" %>
+<%@ attribute name="displayName" %>
 
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 
-<tags:renderRow propertyName="${propertyName}" categoryName="radio" required="${required}"></tags:renderRow>
+<tags:renderRow propertyName="${propertyName}" categoryName="radio" required="${required}" defaultValue="${defaultValue}" displayName="${displayName}"></tags:renderRow>
 
 
 <%--<form:select path="${path}"--%>

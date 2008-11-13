@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
@@ -41,6 +42,8 @@ public class CtcAeSimpleFormController extends SimpleFormController {
         RepositoryBasedEditor organizationEditor = new RepositoryBasedEditor(finderRepository, Organization.class);
         binder.registerCustomEditor(Organization.class, organizationEditor);
 
+        RepositoryBasedEditor proCtcValidValueEditor = new RepositoryBasedEditor(finderRepository, ProCtcValidValue.class);
+        binder.registerCustomEditor(ProCtcValidValue.class, proCtcValidValueEditor);
 
     }
 
