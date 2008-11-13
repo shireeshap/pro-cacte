@@ -1,4 +1,6 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <tags:stylesheetLink name="debug"/>
 <tags:stylesheetLink name="common"/>
 <tags:stylesheetLink name="fields"/>
@@ -46,5 +48,9 @@
 
 <tags:stylesheetLink name="tree"/>
 <tags:javascriptLink name="extremecomponents"/>
-      
+
+
+<tags:javascriptLink name="lightwindow/lightwindow"/>
+<tags:stylesheetLink name="lightwindow"/>
+
 

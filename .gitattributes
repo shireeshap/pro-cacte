@@ -156,7 +156,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffIntegrat
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CtfStatusTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfStatusTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/EthnicityEnumTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/GenderTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/OrganizationIntegrationTest.java -text
@@ -439,6 +439,7 @@ pro-ctcae/web/src/main/webapp/css/extremecomponents.css -text
 pro-ctcae/web/src/main/webapp/css/fields.css -text
 pro-ctcae/web/src/main/webapp/css/hoverhelp.css -text
 pro-ctcae/web/src/main/webapp/css/ie.css -text
+pro-ctcae/web/src/main/webapp/css/lightwindow.css -text
 pro-ctcae/web/src/main/webapp/css/menu.css -text
 pro-ctcae/web/src/main/webapp/css/pw_alphacube.css -text
 pro-ctcae/web/src/main/webapp/css/pw_default.css -text
@@ -449,6 +450,7 @@ pro-ctcae/web/src/main/webapp/css/tabbedflow.css -text
 pro-ctcae/web/src/main/webapp/css/tree.css -text
 pro-ctcae/web/src/main/webapp/decorated-error.jsp -text
 pro-ctcae/web/src/main/webapp/error.jsp -text
+pro-ctcae/web/src/main/webapp/images/ajax-loading.gif -text
 pro-ctcae/web/src/main/webapp/images/alphacube/bottom-left-c.gif -text
 pro-ctcae/web/src/main/webapp/images/alphacube/bottom-middle.gif -text
 pro-ctcae/web/src/main/webapp/images/alphacube/bottom-right-c.gif -text
@@ -461,11 +463,15 @@ pro-ctcae/web/src/main/webapp/images/alphacube/left-top.gif -text
 pro-ctcae/web/src/main/webapp/images/alphacube/progress.gif -text
 pro-ctcae/web/src/main/webapp/images/alphacube/right-top.gif -text
 pro-ctcae/web/src/main/webapp/images/alphacube/top-middle.gif -text
+pro-ctcae/web/src/main/webapp/images/arrow-down.gif -text
 pro-ctcae/web/src/main/webapp/images/arrow-down.png -text
 pro-ctcae/web/src/main/webapp/images/arrow-right.png -text
+pro-ctcae/web/src/main/webapp/images/arrow-up.gif -text
 pro-ctcae/web/src/main/webapp/images/arrow_icon.gif -text
 pro-ctcae/web/src/main/webapp/images/b-minus.gif -text
 pro-ctcae/web/src/main/webapp/images/b-plus.gif -text
+pro-ctcae/web/src/main/webapp/images/black-70.png -text
+pro-ctcae/web/src/main/webapp/images/black.png -text
 pro-ctcae/web/src/main/webapp/images/blue/administration_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/administration_btn_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/advancedSearch_btn.png -text
@@ -674,6 +680,7 @@ pro-ctcae/web/src/main/webapp/js/date.js -text
 pro-ctcae/web/src/main/webapp/js/dropdown_menu.js -text
 pro-ctcae/web/src/main/webapp/js/extremecomponents.js -text
 pro-ctcae/web/src/main/webapp/js/hover-display.js -text
+pro-ctcae/web/src/main/webapp/js/lightwindow/lightwindow.js -text
 pro-ctcae/web/src/main/webapp/js/menu_tpl.js -text
 pro-ctcae/web/src/main/webapp/js/prototype.js -text
 pro-ctcae/web/src/main/webapp/js/prototypewindow/debug.js -text

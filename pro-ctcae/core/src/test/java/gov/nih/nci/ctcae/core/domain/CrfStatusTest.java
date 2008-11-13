@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 /**
  * @author Vinay Kumar
  */
-public class CtfStatusTest extends TestCase {
+public class CrfStatusTest extends TestCase {
 
     public void testStatus() {
         CrfStatus status = CrfStatus.DRAFT;
