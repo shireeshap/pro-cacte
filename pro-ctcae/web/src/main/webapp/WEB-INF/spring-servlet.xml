@@ -173,6 +173,10 @@
           class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">
         <property name="finderRepository" ref="finderRepository"/>
     </bean>
+    <bean name="/form/findQuestion" id="findQuestionController"
+          class="gov.nih.nci.ctcae.web.form.FindQuestionController">
+        <property name="finderRepository" ref="finderRepository"/>
+    </bean>
     <bean name="/form/setName" id="setNameController"
           class="gov.nih.nci.ctcae.web.form.SetNameController">
     </bean>
