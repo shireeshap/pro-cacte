@@ -59,7 +59,7 @@
                                        var="proCtcValidValue">
                                 <c:choose>
                                     <c:when test="${proCtcValidValue.id == studyParticipantCrfItem.proCtcValidValue.id}">
-                                        <li><b>${proCtcValidValue.value}</b></li>
+                                        <li><b><u>${proCtcValidValue.value}</u></b></li>
                                     </c:when>
                                     <c:otherwise>
                                         <li>${proCtcValidValue.value}</li>
