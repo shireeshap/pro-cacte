@@ -59,11 +59,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/012_alter_study_participant
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/013_create_study_participant_crf_schedules.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/014_add_unique_crf_title_constraints.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/015_alter_study_participant_crf_items.groovy -text
-pro-ctcae/core/src/main/db/migrate/002_elaboration_1/016_create_disease_categories.groovy -text
-pro-ctcae/core/src/main/db/migrate/002_elaboration_1/017_create_disease_terms.groovy -text
-pro-ctcae/core/src/main/db/migrate/002_elaboration_1/018_create_study_diseases.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/AbstractStudyDisease.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRF.java -text
@@ -71,9 +67,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ClinicalStaff.java -t
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItem.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcCategory.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtepStudyDisease.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DiseaseCategory.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DiseaseTerm.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DisplayOrderComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Ethnicity.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Gender.java -text
