@@ -80,8 +80,6 @@ public class ProCtc extends BasePersistable {
 
         ProCtc proCtc = (ProCtc) o;
 
-        if (id != null ? !id.equals(proCtc.id) : proCtc.id != null)
-            return false;
         if (proCtcVersion != null ? !proCtcVersion.equals(proCtc.proCtcVersion)
                 : proCtc.proCtcVersion != null)
             return false;
@@ -95,9 +93,7 @@ public class ProCtc extends BasePersistable {
     @Override
     public int hashCode() {
         int result;
-        result = (id != null ? id.hashCode() : 0);
-        result = 31 * result
-                + (proCtcVersion != null ? proCtcVersion.hashCode() : 0);
+        result = (proCtcVersion != null ? proCtcVersion.hashCode() : 0);
         result = 31 * result
                 + (releaseDate != null ? releaseDate.hashCode() : 0);
         return result;

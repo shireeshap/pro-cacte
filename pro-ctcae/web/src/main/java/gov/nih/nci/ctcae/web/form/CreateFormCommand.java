@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Vinay Kumar
@@ -29,6 +30,7 @@ public class CreateFormCommand implements Serializable {
 
     private String questionsIds;
 
+
     public CreateFormCommand() {
         CRF crf = new CRF();
         crf.setStatus(CrfStatus.DRAFT);
@@ -39,23 +41,44 @@ public class CreateFormCommand implements Serializable {
     }
 
     public void updateCrfItems(FinderRepository finderRepository) {
-        List<String> quetionsIdSet = new ArrayList<String>(StringUtils.commaDelimitedListToSet(questionsIds));
-        studyCrf.getCrf().getCrfItems().clear();
-        logger.debug("found questions to add:" + questionsIds);
-        for (int i = 0; i < quetionsIdSet.size(); i++) {
-            Integer questionId = Integer.parseInt(quetionsIdSet.get(i));
+
+
+        addOrUpdateQuestions(finderRepository);
+        //now delete the questions
+        deleteQuestions();
+
+
+    }
+
+    private void addOrUpdateQuestions(final FinderRepository finderRepository) {
+        String[] questionIdsArrays = StringUtils.commaDelimitedListToStringArray(questionsIds);
+
+        logger.debug("found questions to add/update:" + questionsIds);
+        for (int i = 0; i < questionIdsArrays.length; i++) {
+            Integer questionId = Integer.parseInt(questionIdsArrays[i]);
             ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
             if (proCtcQuestion != null) {
-                CrfItem crfItem = new CrfItem();
-                crfItem.setProCtcQuestion(proCtcQuestion);
-                crfItem.setDisplayOrder(i + 1);
-                studyCrf.getCrf().addCrfItem(crfItem);
+                int displayOrder = i + 1;
+                studyCrf.getCrf().addOrUpdateCrfItem(proCtcQuestion, displayOrder);
             } else {
                 logger.error("can not add question because pro ctc term is null for id:" + questionId);
             }
         }
+    }
+
+    private void deleteQuestions() {
+        List<CrfItem> crfItemsToRemove = new ArrayList<CrfItem>();
+        Set questionIdSet = StringUtils.commaDelimitedListToSet(questionsIds);
+        for (CrfItem crfItem : studyCrf.getCrf().getCrfItems()) {
+            if (!questionIdSet.contains(String.valueOf(crfItem.getProCtcQuestion().getId()))) {
+                crfItemsToRemove.add(crfItem);
+            }
+        }
 
 
+        for (CrfItem crfItem : crfItemsToRemove) {
+            studyCrf.getCrf().removeCrfItem(crfItem);
+        }
     }
 
     public StudyCrf getStudyCrf() {
@@ -70,6 +93,7 @@ public class CreateFormCommand implements Serializable {
     public String getQuestionsIds() {
         return questionsIds;
     }
+
 
     public void setQuestionsIds(String questionsIds) {
         this.questionsIds = questionsIds;

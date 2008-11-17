@@ -70,8 +70,8 @@
             <div class="label"> Search By:</div>
             <div class="value">
                 <select id="searchType">
-                    <c:forEach items="${searchCriteria}" var="studySearch">
-                        <option value="${studySearch.code}">${studySearch.desc}</option>
+                    <c:forEach items="${searchCriteria}" var="item">
+                        <option value="${item.code}">${item.desc}</option>
                         <%--<input type="options" items="${searchCriteria}" itemLabel="desc" itemValue="code"/>--%>
                     </c:forEach>
 

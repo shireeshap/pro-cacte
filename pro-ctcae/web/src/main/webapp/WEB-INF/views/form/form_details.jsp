@@ -27,6 +27,7 @@ Event.observe(window, "load", function () {
     reOrderQuestionNumber();
     hideQuestionsFromForm();
 </c:if>
+    displayReviewLink();
 
 })
 
@@ -76,6 +77,18 @@ function sortQustions() {
         }
 
     })
+
+
+}
+function displayReviewLink() {
+    if ($('totalQuestions').value != '0') {
+        $('reviewLink').show();
+        $('reviewAllLink').show();
+    } else {
+        $('reviewLink').hide();
+        $('reviewAllLink').hide();
+
+    }
 }
 function reOrderQuestionNumber() {
     var i = 1;
@@ -147,6 +160,7 @@ function updateQuestionsId() {
         $('plural2').innerHTML = 's';
     }
 
+    displayReviewLink();
 }
 
 function deleteQuestion(questionId) {
@@ -158,16 +172,46 @@ function deleteQuestion(questionId) {
 
 }
 
+
 function reviewForm() {
+    var firstQuestion = $$('div.sortable')[0].id;
     var firstQuestion = $$('div.sortable')[0].id;
     showQuestionForReview(firstQuestion, 1, 1, '');
 
 
 }
+function reviewCompleteForm() {
+    var win = Windows.getFocusedWindow();
+    if (win == null) {
+        win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
+                true, title: "Review Form", height:500, width: 750,top:150,left:300});
+        win.setDestroyOnClose();
+        win.setContent('sortable');
+        win.show(true)
+
+    } else {
+        win.setContent('sortable');
+        win.refresh();
+    }
+
+}
+function playForm() {
+
+    new PeriodicalExecuter(function(pe) {
+        nextQuestionIndex(0);
+
+    }, 3);//display questions in 3 seconds
+
+
+}
+function showNextQuestion(quesitonIndex) {
+    nextQuestionIndex(quesitonIndex);
+    //  return parseInt(quesitonIndex) + parseInt(1);
+}
 function showQuestionForReview(firstQuestion, displayOrder, nextQuestionIndex, previousQuestionIndex) {
     var questionId = firstQuestion.substr(9, firstQuestion.length)
 
-    var request = new Ajax.Request("<c:url value="/pages/form/findQuestion"/>", {
+    var request = new Ajax.Request("<c:url value="/pages/form/findCrfItem"/>", {
         parameters:"questionId=" + questionId + "&subview=subview&displayOrder=" + displayOrder
                 + "&nextQuestionIndex=" + nextQuestionIndex + "&previousQuestionIndex=" + previousQuestionIndex,
         onComplete:showReviewWindow,
@@ -175,6 +219,62 @@ function showQuestionForReview(firstQuestion, displayOrder, nextQuestionIndex, p
     })
 
 }
+function addCrfItemProperties(questionId) {
+
+    var request = new Ajax.Request("<c:url value="/pages/form/addCrfItemProperties"/>", {
+        parameters:"questionId=" + questionId + "&subview=subview",
+        onComplete:showCrfItemPropertiesWindow,
+        method:'get'
+    })
+
+}
+
+function showCrfItemPropertiesWindow(transport) {
+    var win = Windows.getFocusedWindow();
+    if (win == null) {
+        win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
+                true, title: "", height:500, width: 750,top:150,left:300});
+        win.setDestroyOnClose();
+        win.setHTMLContent(transport.responseText);
+        win.show(true)
+
+    } else {
+        win.setHTMLContent(transport.responseText);
+        win.refresh();
+    }
+
+
+}
+function submitCrfItemPropertiesWindow(questionId) {
+
+
+    var aElement = '<c:url value="/pages/form/addCrfItemProperties"/>';
+
+    var lastRequest = new Ajax.Request(aElement, {
+        method: 'post',
+        parameters: {
+            'instructions': $('crfItem.instructions').value
+            ,'crfItemAllignment': $('crfItem.crfItemAllignment').value
+            ,'responseRequired': $('crfItem.responseRequired').value
+            ,'subview':'test',
+            'questionId':questionId},
+        onSuccess: closeCrfItemPropertiesWindow,
+        onerror:   function() {
+            alert("There was an error with the connection");
+        },
+        onFailure: function() {
+            alert("There was an error with the connection");
+        }
+    });
+
+}
+function closeCrfItemPropertiesWindow(transport) {
+    var win = Windows.getFocusedWindow();
+    win.close();
+
+}
+
+
 function showReviewWindow(transport) {
     var win = Windows.getFocusedWindow();
     if (win == null) {
@@ -241,7 +341,9 @@ function previousQuestion(questionIndex) {
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-
+         <c:if test="${(empty command.studyCrf.id) or ( command.studyCrf.id le 0) }">
+             <input type="hidden" name="_finish" value="true"/>
+         </c:if>
 
         <div class="instructions">
 
@@ -300,7 +402,9 @@ function previousQuestion(questionIndex) {
 
                     </td>
                     <td id="right">
-                        <a id="reviewLink" href="javascript:reviewForm()">Review</a>
+                        <a id="reviewLink" href="javascript:reviewForm()" style="display:none">Review</a>
+                        <a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review All</a>
+                            <%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>
                         <table style="border-collapse:collapse; height:800px;">
                             <tr style="height:100%;">
                                 <td id="formbuilderTable-middle">

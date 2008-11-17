@@ -101,37 +101,6 @@ public class CRF extends BaseVersionable {
         return crfItems;
     }
 
-    /**
-     * this will work only in create form flow
-     *
-     * @param crfItem
-     */
-    public void addCrfItem(CrfItem crfItem) {
-        if (crfItem != null) {
-            //check if it already exists
-            for (CrfItem existingCrfItem : getCrfItems()) {
-                if (existingCrfItem.getProCtcQuestion() != null
-                        && (existingCrfItem.getProCtcQuestion().equals(crfItem.getProCtcQuestion()))) {
-                    //probably we are updating order only
-                    existingCrfItem.setDisplayOrder(crfItem.getDisplayOrder());
-                    return;
-                }
-            }
-            if (crfItem.getDisplayOrder() == null || crfItem.getDisplayOrder() == 0) {
-                crfItem.setDisplayOrder(getCrfItems().size() + 1);
-
-            }
-            crfItem.setCrf(this);
-            crfItems.add(crfItem);
-        }
-    }
-
-    public void addCrfItems(Collection<CrfItem> crfItems) {
-        for (CrfItem crfItem : crfItems) {
-            addCrfItem(crfItem);
-        }
-    }
-
     public void removeCrfItem(CrfItem crfItem) {
         if (crfItem != null) {
             crfItems.remove(crfItem);
@@ -144,44 +113,28 @@ public class CRF extends BaseVersionable {
         }
     }
 
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        CRF crf = (CRF) o;
+        final CRF crf = (CRF) o;
 
-        if (crfItems != null ? !crfItems.equals(crf.crfItems)
-                : crf.crfItems != null)
-            return false;
-        if (crfVersion != null ? !crfVersion.equals(crf.crfVersion)
-                : crf.crfVersion != null)
-            return false;
-        if (description != null ? !description.equals(crf.description)
-                : crf.description != null)
-            return false;
-        if (id != null ? !id.equals(crf.id) : crf.id != null)
-            return false;
-        if (status != null ? !status.equals(crf.status) : crf.status != null)
-            return false;
-        if (title != null ? !title.equals(crf.title) : crf.title != null)
-            return false;
+        if (crfVersion != null ? !crfVersion.equals(crf.crfVersion) : crf.crfVersion != null) return false;
+        if (description != null ? !description.equals(crf.description) : crf.description != null) return false;
+        if (status != crf.status) return false;
+        if (title != null ? !title.equals(crf.title) : crf.title != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result;
-        result = (id != null ? id.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result
-                + (description != null ? description.hashCode() : 0);
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (crfVersion != null ? crfVersion.hashCode() : 0);
-        result = 31 * result + (crfItems != null ? crfItems.hashCode() : 0);
         return result;
     }
 
@@ -192,5 +145,74 @@ public class CRF extends BaseVersionable {
 
     public boolean isReleased() {
         return getStatus().equals(CrfStatus.RELEASED);
+    }
+
+    public void addOrUpdateCrfItem(final ProCtcQuestion proCtcQuestion, final int displayOrder) {
+        CrfItem crfItem = new CrfItem();
+        crfItem.setProCtcQuestion(proCtcQuestion);
+        crfItem.setDisplayOrder(displayOrder);
+
+        //check if it already exists
+        for (CrfItem existingCrfItem : getCrfItems()) {
+            if (existingCrfItem.getProCtcQuestion() != null
+                    && (existingCrfItem.getProCtcQuestion().equals(crfItem.getProCtcQuestion()))) {
+                //probably we are updating order only
+                existingCrfItem.setDisplayOrder(crfItem.getDisplayOrder());
+                return;
+            }
+        }
+        if (crfItem.getDisplayOrder() == null || crfItem.getDisplayOrder() == 0) {
+            crfItem.setDisplayOrder(getCrfItems().size() + 1);
+
+        }
+        crfItem.setCrf(this);
+        crfItems.add(crfItem);
+
+    }
+
+    /**
+     * used for adding a new crf items with empty properties
+     *
+     * @param proCtcQuestion
+     * @param displayOrder
+     */
+    public void removeExistingAndAddNewCrfItem(final ProCtcQuestion proCtcQuestion, final Integer displayOrder) {
+        CrfItem crfItem = new CrfItem();
+        crfItem.setProCtcQuestion(proCtcQuestion);
+        crfItem.setDisplayOrder(displayOrder);
+
+        //check if it already exists
+        CrfItem existingCrfItem = getCrfItemByQuestion(crfItem.getProCtcQuestion());
+        if (existingCrfItem != null) {
+            //we are updating order only  and removing properties
+            existingCrfItem.setDisplayOrder(crfItem.getDisplayOrder());
+            existingCrfItem.setCrfItemAllignment(null);
+            existingCrfItem.setInstructions(null);
+            existingCrfItem.setResponseRequired(Boolean.FALSE);
+            return;
+        }
+
+        if (crfItem.getDisplayOrder() == null || crfItem.getDisplayOrder() == 0) {
+            crfItem.setDisplayOrder(getCrfItems().size() + 1);
+
+        }
+        crfItem.setCrf(this);
+        crfItems.add(crfItem);
+
+
+    }
+
+    public CrfItem getCrfItemByQuestion(final ProCtcQuestion proCtcQuestion) {
+        if (proCtcQuestion != null) {
+            for (CrfItem existingCrfItem : getCrfItems()) {
+                if (existingCrfItem.getProCtcQuestion() != null
+                        && (existingCrfItem.getProCtcQuestion().equals(proCtcQuestion))) {
+                    return existingCrfItem;
+                }
+            }
+
+        }
+        return null;
+
     }
 }

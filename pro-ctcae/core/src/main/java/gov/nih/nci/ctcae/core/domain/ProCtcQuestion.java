@@ -112,14 +112,9 @@ public class ProCtcQuestion extends BasePersistable {
         if (proCtcTerm != null ? !proCtcTerm.equals(that.proCtcTerm)
                 : that.proCtcTerm != null)
             return false;
-        if (id != null ? !id.equals(that.id) : that.id != null)
-            return false;
 
         if (questionText != null ? !questionText.equals(that.questionText)
                 : that.questionText != null)
-            return false;
-        if (validValues != null ? !validValues.equals(that.validValues)
-                : that.validValues != null)
             return false;
 
         return true;
@@ -128,11 +123,7 @@ public class ProCtcQuestion extends BasePersistable {
     @Override
     public int hashCode() {
         int result;
-        result = (id != null ? id.hashCode() : 0);
-        result = 31 * result
-                + (questionText != null ? questionText.hashCode() : 0);
-        result = 31 * result
-                + (validValues != null ? validValues.hashCode() : 0);
+        result = (questionText != null ? questionText.hashCode() : 0);
         result = 31 * result + (proCtcTerm != null ? proCtcTerm.hashCode() : 0);
 
         return result;

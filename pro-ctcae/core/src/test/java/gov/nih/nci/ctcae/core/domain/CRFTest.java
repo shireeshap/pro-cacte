@@ -8,6 +8,8 @@ import junit.framework.TestCase;
  */
 public class CRFTest extends TestCase {
     private CRF crf;
+    private ProCtcQuestion proCtcQuestion1;
+    private ProCtcQuestion proCtcQuestion2;
 
     public void testReleased() {
         crf = new CRF();
@@ -52,8 +54,8 @@ public class CRFTest extends TestCase {
         crf = new CRF();
         CrfItem crfItem1 = new CrfItem();
         CrfItem crfItem2 = new CrfItem();
-        crf.addCrfItem(crfItem1);
-        crf.addCrfItem(crfItem2);
+        crf.addOrUpdateCrfItem(proCtcQuestion1, 1);
+        crf.addOrUpdateCrfItem(proCtcQuestion2, 2);
         assertEquals("must return 2 items", 2, crf.getCrfItems().size());
         for (int i = 0; i < crf.getCrfItems().size(); i++) {
             assertNotNull("order number must not be null", crf.getCrfItems().get(i).getDisplayOrder());
@@ -64,10 +66,8 @@ public class CRFTest extends TestCase {
 
     public void testReorderCrfItems() {
         crf = new CRF();
-        CrfItem crfItem1 = new CrfItem();
-        CrfItem crfItem2 = new CrfItem();
-        crf.addCrfItem(crfItem1);
-        crf.addCrfItem(crfItem2);
+        crf.addOrUpdateCrfItem(proCtcQuestion1, 1);
+        crf.addOrUpdateCrfItem(proCtcQuestion2, 2);
         assertEquals("must return 2 items", 2, crf.getCrfItems().size());
         for (int i = 0; i < crf.getCrfItems().size(); i++) {
             assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItems().get(i).getDisplayOrder());
@@ -113,4 +113,69 @@ public class CRFTest extends TestCase {
 
     }
 
+    public void testEqualsAndHashCodeMustNotConsiderId() {
+        CRF anotherCrf = null;
+        crf = new CRF();
+        anotherCrf = new CRF();
+        crf.setTitle("Cancer CRF");
+        anotherCrf.setTitle("Cancer CRF");
+        crf.setDescription("Case Report Form for Cancer Patients");
+        anotherCrf.setDescription("Case Report Form for Cancer Patients");
+
+        crf.setStatus(CrfStatus.DRAFT);
+        crf.setCrfVersion("1.0");
+        anotherCrf.setCrfVersion("1.0");
+
+        anotherCrf.setId(1);
+        assertEquals("must not consider id", anotherCrf.hashCode(), crf.hashCode());
+        assertEquals(anotherCrf, crf);
+
+    }
+
+    public void testEqualsAndHashCodeMustNotConsiderStudyCrf() {
+        CRF anotherCrf = null;
+        crf = new CRF();
+        anotherCrf = new CRF();
+        crf.setTitle("Cancer CRF");
+        anotherCrf.setTitle("Cancer CRF");
+        crf.setDescription("Case Report Form for Cancer Patients");
+        anotherCrf.setDescription("Case Report Form for Cancer Patients");
+
+        crf.setStatus(CrfStatus.DRAFT);
+        crf.setCrfVersion("1.0");
+        anotherCrf.setCrfVersion("1.0");
+
+        anotherCrf.setStudyCrf(new StudyCrf());
+        assertEquals("must not consider study crf", anotherCrf.hashCode(), crf.hashCode());
+        assertEquals(anotherCrf, crf);
+
+    }
+
+    public void testEqualsAndHashCodeMustNotConsiderCrfItems() {
+        CRF anotherCrf = null;
+        crf = new CRF();
+        anotherCrf = new CRF();
+        crf.setTitle("Cancer CRF");
+        anotherCrf.setTitle("Cancer CRF");
+        crf.setDescription("Case Report Form for Cancer Patients");
+        anotherCrf.setDescription("Case Report Form for Cancer Patients");
+
+        crf.setStatus(CrfStatus.DRAFT);
+        crf.setCrfVersion("1.0");
+        anotherCrf.setCrfVersion("1.0");
+
+        anotherCrf.addOrUpdateCrfItem(new ProCtcQuestion(1), 1);
+        assertFalse(anotherCrf.getCrfItems().isEmpty());
+        assertEquals("must not consider study crf", anotherCrf.hashCode(), crf.hashCode());
+        assertEquals(anotherCrf, crf);
+
+    }
+
+    protected void setUp() throws Exception {
+        super.setUp();
+        proCtcQuestion1 = new ProCtcQuestion();
+        proCtcQuestion1.setQuestionText("first question");
+        proCtcQuestion2 = new ProCtcQuestion();
+        proCtcQuestion2.setQuestionText("second question");
+    }
 }

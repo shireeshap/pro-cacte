@@ -44,7 +44,6 @@ public class CreateFormController<C extends CreateFormCommand> extends CtcAeTabb
     private void layoutTabs(Flow<CreateFormCommand> flow) {
         flow.addTab(new SelectStudyForFormTab());
         flow.addTab(new FormDetailsTab());
-        flow.addTab(new ReviewFormTab());
 
     }
 

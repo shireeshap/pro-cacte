@@ -71,6 +71,25 @@ public class CrfItemIntegrationTest extends AbstractJpaIntegrationTestCase {
         assertNotNull(crfItem.getId());
     }
 
+    public void testSaveCrfItemWithAdditionalProperties() {
+        crfItem = new CrfItem();
+        crfItem.setCrf(crf);
+        crfItem.setProCtcQuestion(proProCtcQuestion);
+        crfItem.setDisplayOrder(1);
+        crfItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
+        crfItem.setInstructions("instructions");
+        crfItem.setResponseRequired(Boolean.TRUE);
+        CrfItem anotherCrfItem = crfItemRepository.save(crfItem);
+
+        assertNotNull(anotherCrfItem.getId());
+        assertNotNull(crfItem.getId());
+        assertEquals(CrfItemAllignment.HORIZONTAL, anotherCrfItem.getCrfItemAllignment());
+        assertEquals("instructions", anotherCrfItem.getInstructions());
+        assertTrue(anotherCrfItem.getResponseRequired());
+
+
+    }
+
     public void testSavingNullCrfItem() {
         invalidCrfItem = new CrfItem();
 

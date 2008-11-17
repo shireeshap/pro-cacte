@@ -21,6 +21,9 @@
                     <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
                          style="vertical-align:middle">
                 </a>
+                <a id="del-${proCtcQuestion.id}" class="del"
+                   href="javascript:addCrfItemProperties('${proCtcQuestion.id}');">Properties
+                </a>
 
             </td>
             <td class="R"></td>

@@ -115,32 +115,30 @@ public class ProCtcTerm extends BasePersistable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProCtcTerm proCtcTerm = (ProCtcTerm) o;
+        final ProCtcTerm that = (ProCtcTerm) o;
 
-        if (ctepCode != null ? !ctepCode.equals(proCtcTerm.ctepCode) : proCtcTerm.ctepCode != null) return false;
-        if (ctepTerm != null ? !ctepTerm.equals(proCtcTerm.ctepTerm) : proCtcTerm.ctepTerm != null) return false;
-        if (id != null ? !id.equals(proCtcTerm.id) : proCtcTerm.id != null) return false;
-        if (proCtcQuestions != null ? !proCtcQuestions.equals(proCtcTerm.proCtcQuestions) : proCtcTerm.proCtcQuestions != null)
-            return false;
-        if (select != null ? !select.equals(proCtcTerm.select) : proCtcTerm.select != null) return false;
-        if (term != null ? !term.equals(proCtcTerm.term) : proCtcTerm.term != null) return false;
+        if (category != null ? !category.equals(that.category) : that.category != null) return false;
+        if (ctepCode != null ? !ctepCode.equals(that.ctepCode) : that.ctepCode != null) return false;
+        if (ctepTerm != null ? !ctepTerm.equals(that.ctepTerm) : that.ctepTerm != null) return false;
+        if (proCtc != null ? !proCtc.equals(that.proCtc) : that.proCtc != null) return false;
+        if (select != null ? !select.equals(that.select) : that.select != null) return false;
+        if (term != null ? !term.equals(that.term) : that.term != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result;
-        result = (id != null ? id.hashCode() : 0);
-        result = 31 * result + (term != null ? term.hashCode() : 0);
+        int result = term != null ? term.hashCode() : 0;
+        result = 31 * result + (category != null ? category.hashCode() : 0);
         result = 31 * result + (select != null ? select.hashCode() : 0);
         result = 31 * result + (ctepTerm != null ? ctepTerm.hashCode() : 0);
         result = 31 * result + (ctepCode != null ? ctepCode.hashCode() : 0);
-        result = 31 * result + (proCtcQuestions != null ? proCtcQuestions.hashCode() : 0);
+        result = 31 * result + (proCtc != null ? proCtc.hashCode() : 0);
         return result;
     }
 

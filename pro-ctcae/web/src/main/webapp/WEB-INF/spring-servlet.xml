@@ -169,12 +169,18 @@
           p:crfRepository-ref="crfRepository">
         <property name="finderRepository" ref="finderRepository"/>
         </bean>
+
     <bean name="/form/addOneQuestion" id="oneQuestionController"
           class="gov.nih.nci.ctcae.web.form.AddOneQuestionController">
         <property name="finderRepository" ref="finderRepository"/>
     </bean>
-    <bean name="/form/findQuestion" id="findQuestionController"
-          class="gov.nih.nci.ctcae.web.form.FindQuestionController">
+    <bean name="/form/addCrfItemProperties" id="addCrfItemPropertiesController"
+          class="gov.nih.nci.ctcae.web.form.AddCrfItemPropertiesController">
+        <property name="finderRepository" ref="finderRepository"/>
+    </bean>
+
+    <bean name="/form/findCrfItem" id="findQuestionController"
+          class="gov.nih.nci.ctcae.web.form.FindCrfItemController">
         <property name="finderRepository" ref="finderRepository"/>
     </bean>
     <bean name="/form/setName" id="setNameController"

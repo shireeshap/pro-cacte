@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web;
 
-import gov.nih.nci.ctcae.core.domain.Ethnicity;
-import gov.nih.nci.ctcae.core.domain.Gender;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Race;
+import gov.nih.nci.ctcae.core.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,6 +100,17 @@ public class ListValues {
         return col;
     }
 
+    public static List<ListValues> getResponseRequired() {
+        List<ListValues> valuesList = new ArrayList<ListValues>();
+
+
+        valuesList.add(new ListValues("", "Please select"));
+        valuesList.add(new ListValues("true", "Yes"));
+        valuesList.add(new ListValues("false", "No"));
+
+        return valuesList;
+    }
+
 
     public static List<ListValues> getStudySites(ArrayList<Organization> organizations) {
         List<ListValues> valuesList = new ArrayList<ListValues>();
@@ -113,6 +121,22 @@ public class ListValues {
         }
 
         return valuesList;
+
+    }
+
+
+    public static List<ListValues> getCrfItemAllignments() {
+        List<ListValues> valuesList = new ArrayList<ListValues>();
+
+
+        valuesList.add(new ListValues("", "Please select"));
+
+        for (CrfItemAllignment crfItemAllignment : CrfItemAllignment.values()) {
+            valuesList.add(new ListValues(crfItemAllignment.getDisplayName(), crfItemAllignment.getDisplayName()));
+
+        }
+        return valuesList;
+
 
     }
 }

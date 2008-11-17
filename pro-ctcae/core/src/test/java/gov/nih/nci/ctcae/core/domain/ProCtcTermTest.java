@@ -3,40 +3,118 @@ package gov.nih.nci.ctcae.core.domain;
 import junit.framework.TestCase;
 
 /**
- * @author Harsh Agarwal
- * @created Oct 13, 2008
+ * @author Vinay Kumar
+ * @created Nov 17, 2008
  */
 public class ProCtcTermTest extends TestCase {
-    private ProCtcQuestion proCtcQuestion;
+    private ProCtcTerm proCtcTerm;
+    private ProCtc proCtc;
+    private CtcCategory category;
 
     public void testConstructor() {
-        proCtcQuestion = new ProCtcQuestion();
-        assertNull(proCtcQuestion.getQuestionText());
+        proCtcTerm = new ProCtcTerm();
+        assertNotNull(proCtcTerm.getProCtcQuestions());
+        assertTrue(proCtcTerm.getProCtcQuestions().isEmpty());
+        assertNull(proCtcTerm.getCategory());
+        assertNull(proCtcTerm.getCtepCode());
+        assertNull(proCtcTerm.getCtepTerm());
+
     }
 
     public void testGetterAndSetter() {
-        proCtcQuestion = new ProCtcQuestion();
-        proCtcQuestion.setQuestionText("How is the pain?");
+        proCtcTerm = new ProCtcTerm();
+        proCtcTerm.setCategory(category);
+        proCtcTerm.setCtepCode("ctep code");
+        proCtcTerm.setCtepTerm("ctep term");
+        proCtcTerm.setProCtc(proCtc);
+        proCtcTerm.setSelect("select");
+        proCtcTerm.setTerm("term");
+        assertEquals(category, proCtcTerm.getCategory());
+        assertEquals("ctep code", proCtcTerm.getCtepCode());
+        assertEquals("ctep term", proCtcTerm.getCtepTerm());
+        assertEquals(proCtc, proCtcTerm.getProCtc());
+        assertEquals("select", proCtcTerm.getSelect());
+        assertEquals("term", proCtcTerm.getTerm());
 
-        assertEquals("How is the pain?", proCtcQuestion.getQuestionText());
     }
 
     public void testEqualsAndHashCode() {
-        ProCtcQuestion anotherProCtcQuestion = null;
-        assertEquals(anotherProCtcQuestion, proCtcQuestion);
-        proCtcQuestion = new ProCtcQuestion();
-        assertFalse(proCtcQuestion.equals(anotherProCtcQuestion));
-        anotherProCtcQuestion = new ProCtcQuestion();
-        assertEquals(anotherProCtcQuestion, proCtcQuestion);
-        assertEquals(anotherProCtcQuestion.hashCode(), proCtcQuestion.hashCode());
+        ProCtcTerm anotherProCtcTerm = null;
+        assertEquals(anotherProCtcTerm, proCtcTerm);
+        proCtcTerm = new ProCtcTerm();
+        assertFalse(proCtcTerm.equals(anotherProCtcTerm));
+        anotherProCtcTerm = new ProCtcTerm();
+        assertEquals(anotherProCtcTerm, proCtcTerm);
+        assertEquals(anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
 
-        proCtcQuestion.setQuestionText("How is the pain?");
-        assertFalse(proCtcQuestion.equals(anotherProCtcQuestion));
+        proCtcTerm.setCategory(category);
+        assertFalse(proCtcTerm.equals(anotherProCtcTerm));
+        anotherProCtcTerm.setCategory(category);
+        assertEquals(anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
+        assertEquals(anotherProCtcTerm, proCtcTerm);
 
-        anotherProCtcQuestion.setQuestionText("How is the pain?");
-        assertEquals(anotherProCtcQuestion.hashCode(), proCtcQuestion.hashCode());
-        assertEquals(anotherProCtcQuestion, proCtcQuestion);
+        proCtcTerm.setCtepCode("ctep code");
+        assertFalse(proCtcTerm.equals(anotherProCtcTerm));
+        anotherProCtcTerm.setCtepCode("ctep code");
+        assertEquals(anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
+        assertEquals(anotherProCtcTerm, proCtcTerm);
+
+        proCtcTerm.setCtepTerm("ctep term");
+        assertFalse(proCtcTerm.equals(anotherProCtcTerm));
+        anotherProCtcTerm.setCtepTerm("ctep term");
+        assertEquals(anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
+        assertEquals(anotherProCtcTerm, proCtcTerm);
+
+        proCtcTerm.setProCtc(proCtc);
+        assertFalse(proCtcTerm.equals(anotherProCtcTerm));
+        anotherProCtcTerm.setProCtc(proCtc);
+        assertEquals(anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
+        assertEquals(anotherProCtcTerm, proCtcTerm);
+
+        proCtcTerm.setSelect("select");
+        assertFalse(proCtcTerm.equals(anotherProCtcTerm));
+        anotherProCtcTerm.setSelect("select");
+        assertEquals(anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
+        assertEquals(anotherProCtcTerm, proCtcTerm);
+
+        proCtcTerm.setTerm("term");
+        assertFalse(proCtcTerm.equals(anotherProCtcTerm));
+        anotherProCtcTerm.setTerm("term");
+        assertEquals(anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
+        assertEquals(anotherProCtcTerm, proCtcTerm);
+
 
     }
 
+    public void testEqualsAndHashCodeMustNotConsiderId() {
+        ProCtcTerm anotherProCtcTerm = new ProCtcTerm();
+
+        proCtcTerm = new ProCtcTerm();
+
+        proCtcTerm.setCategory(category);
+        anotherProCtcTerm.setCategory(category);
+        anotherProCtcTerm.setId(2);
+        assertEquals("must not consider id", anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
+        assertEquals(anotherProCtcTerm, proCtcTerm);
+
+    }
+
+    public void testEqualsAndHashCodeMustNotConsiderProCtcQuestions() {
+        ProCtcTerm anotherProCtcTerm = new ProCtcTerm();
+        proCtcTerm = new ProCtcTerm();
+
+        proCtcTerm.setCategory(category);
+        anotherProCtcTerm.setCategory(category);
+        anotherProCtcTerm.getProCtcQuestions().add(new ProCtcQuestion());
+        assertEquals("must not consider pro ctc questions", anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
+        assertEquals(anotherProCtcTerm, proCtcTerm);
+
+    }
+
+
+    protected void setUp() throws Exception {
+        super.setUp();
+        proCtc = new ProCtc();
+        category = new CtcCategory();
+    }
 }

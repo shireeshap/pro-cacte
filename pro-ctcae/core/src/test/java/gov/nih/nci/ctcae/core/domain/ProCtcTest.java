@@ -12,10 +12,10 @@ public class ProCtcTest extends TestCase {
     private ProCtc proCtc;
 
     public void testConstructor() {
-//		proCtc = new ProCtc();
-//		assertNull(proCtc.getProCtcVersion());
-//		assertNull(proCtc.getReleaseDate());
-//		assertNull(proCtc.getProCtcTerms());
+        proCtc = new ProCtc();
+        assertNull(proCtc.getProCtcVersion());
+        assertNull(proCtc.getReleaseDate());
+        assertNotNull(proCtc.getProCtcTerms());
     }
 
     public void testGetterAndSetter() {
@@ -50,6 +50,33 @@ public class ProCtcTest extends TestCase {
 
         assertEquals(anotherProCtc.hashCode(), proCtc.hashCode());
         assertEquals(anotherProCtc, proCtc);
+
+    }
+
+    public void testEqualsAndHashCodeMustMNotConsiderId() {
+        ProCtc anotherProCtc = new ProCtc();
+        proCtc = new ProCtc();
+
+        proCtc.setProCtcVersion("1.0");
+        anotherProCtc.setProCtcVersion("1.0");
+
+        proCtc.setId(1);
+        assertEquals("must not consider id", anotherProCtc, proCtc);
+        assertEquals(anotherProCtc.hashCode(), proCtc.hashCode());
+
+    }
+
+    public void testEqualsAndHashCodeMustMNotConsiderProCtcTerm() {
+        ProCtc anotherProCtc = new ProCtc();
+
+        proCtc = new ProCtc();
+
+        proCtc.setProCtcVersion("1.0");
+        anotherProCtc.setProCtcVersion("1.0");
+
+        proCtc.getProCtcTerms().add(new ProCtcTerm());
+        assertEquals("must not consider pro ctc terms", anotherProCtc, proCtc);
+        assertEquals(anotherProCtc.hashCode(), proCtc.hashCode());
 
     }
 

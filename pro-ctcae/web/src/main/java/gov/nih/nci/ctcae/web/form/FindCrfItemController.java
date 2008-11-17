@@ -1,7 +1,9 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CrfItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -15,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
-public class FindQuestionController extends AbstractController {
+public class FindCrfItemController extends AbstractController {
 
 
     private FinderRepository finderRepository;
@@ -26,17 +28,15 @@ public class FindQuestionController extends AbstractController {
 
 
         Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
-        Integer displayOrder = ServletRequestUtils.getIntParameter(request, "displayOrder");
 
         ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
-        if (proCtcQuestion != null) {
-            modelAndView.addObject("proCtcQuestion", proCtcQuestion);
-            modelAndView.addObject("displayOrder", displayOrder);
 
-        } else {
-            logger.error("can not find question because pro ctc question is null for id:" + questionId);
-            return null;
-        }
+        CreateFormCommand command = ControllersUtils.getFormCommand(request);
+        CrfItem crfItem = command.getStudyCrf().getCrf().getCrfItemByQuestion(proCtcQuestion);
+
+        crfItem.setProCtcQuestion(proCtcQuestion);
+        modelAndView.addObject("crfItem", crfItem);
+
 
         String nextQuestionIndex = request.getParameter("nextQuestionIndex");
         if (!StringUtils.isBlank(nextQuestionIndex)) {
@@ -54,7 +54,7 @@ public class FindQuestionController extends AbstractController {
     }
 
 
-    public FindQuestionController() {
+    public FindCrfItemController() {
         setSupportedMethods(new String[]{"GET"});
 
     }

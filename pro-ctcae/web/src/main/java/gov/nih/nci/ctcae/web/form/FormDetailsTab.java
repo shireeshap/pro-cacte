@@ -55,7 +55,6 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
         map.put("ctcCategoryMap", result);
         map.put("totalQuestions", command.getStudyCrf().getCrf().getCrfItems().size());
 
-
         return map;
 
 

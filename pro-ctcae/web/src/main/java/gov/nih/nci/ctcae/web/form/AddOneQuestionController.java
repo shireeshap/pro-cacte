@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,7 +29,9 @@ public class AddOneQuestionController extends AbstractController {
         Integer displayOrder = ServletRequestUtils.getIntParameter(request, "displayOrder");
 
         ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
+        CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
         if (proCtcQuestion != null) {
+            createFormCommand.getStudyCrf().getCrf().removeExistingAndAddNewCrfItem(proCtcQuestion, displayOrder);
             modelAndView.addObject("proCtcQuestion", proCtcQuestion);
             modelAndView.addObject("displayOrder", displayOrder);
         } else {

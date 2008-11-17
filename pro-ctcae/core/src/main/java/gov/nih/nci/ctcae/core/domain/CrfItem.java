@@ -27,11 +27,45 @@ public class CrfItem extends BasePersistable {
     @ManyToOne
     private ProCtcQuestion proCtcQuestion;
 
+    @Column(name = "response_required")
+    private Boolean responseRequired;
+
+    @Column(name = "instructions")
+    private String instructions;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "allignment")
+    private CrfItemAllignment crfItemAllignment;
+
     public CrfItem() {
     }
 
     public CrfItem(Integer id) {
         this.id = id;
+    }
+
+    public Boolean getResponseRequired() {
+        return responseRequired;
+    }
+
+    public void setResponseRequired(final Boolean responseRequired) {
+        this.responseRequired = responseRequired;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(final String instructions) {
+        this.instructions = instructions;
+    }
+
+    public CrfItemAllignment getCrfItemAllignment() {
+        return crfItemAllignment;
+    }
+
+    public void setCrfItemAllignment(final CrfItemAllignment crfItemAllignment) {
+        this.crfItemAllignment = crfItemAllignment;
     }
 
     public CrfItem(Integer id, Integer displayOrder) {
@@ -73,22 +107,21 @@ public class CrfItem extends BasePersistable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        CrfItem crfItem = (CrfItem) o;
+        final CrfItem crfItem = (CrfItem) o;
 
-        if (displayOrder != crfItem.displayOrder)
+        if (crf != null ? !crf.equals(crfItem.crf) : crfItem.crf != null) return false;
+        if (crfItemAllignment != crfItem.crfItemAllignment) return false;
+        if (displayOrder != null ? !displayOrder.equals(crfItem.displayOrder) : crfItem.displayOrder != null)
             return false;
-        if (crf != null ? !crf.equals(crfItem.crf) : crfItem.crf != null)
+        if (instructions != null ? !instructions.equals(crfItem.instructions) : crfItem.instructions != null)
             return false;
-        if (id != null ? !id.equals(crfItem.id) : crfItem.id != null)
+        if (proCtcQuestion != null ? !proCtcQuestion.equals(crfItem.proCtcQuestion) : crfItem.proCtcQuestion != null)
             return false;
-        if (proCtcQuestion != null ? !proCtcQuestion.equals(crfItem.proCtcQuestion)
-                : crfItem.proCtcQuestion != null)
+        if (responseRequired != null ? !responseRequired.equals(crfItem.responseRequired) : crfItem.responseRequired != null)
             return false;
 
         return true;
@@ -96,15 +129,16 @@ public class CrfItem extends BasePersistable {
 
     @Override
     public int hashCode() {
-        int result;
-        result = (id != null ? id.hashCode() : 0);
-        result = 31 * result + displayOrder;
+        int result = displayOrder != null ? displayOrder.hashCode() : 0;
         result = 31 * result + (crf != null ? crf.hashCode() : 0);
         result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
+        result = 31 * result + (responseRequired != null ? responseRequired.hashCode() : 0);
+        result = 31 * result + (instructions != null ? instructions.hashCode() : 0);
+        result = 31 * result + (crfItemAllignment != null ? crfItemAllignment.hashCode() : 0);
         return result;
     }
 
-//    @Override
+    //    @Override
 //    public String toString() {
 //        return "[DISPLAY ORDER: CRF : QUESTION] " + displayOrder + " : "
 //                + crf.getTitle() + " : " + proCtcQuestion.getQuestionText();
