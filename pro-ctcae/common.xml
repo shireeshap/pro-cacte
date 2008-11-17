@@ -475,9 +475,9 @@
     <target name="merge-clover">
 
         <clover-merge initString="mergedcoverage.db">
-            <cloverDb initString="commons/mergedcoverage.db"/>
-            <cloverDb initString="core/mergedcoverage.db"/>
-            <cloverDb initString="web/mergedcoverage.db"/>
+            <cloverDb initString="commons/.clover/clover2_4_0.db"/>
+            <cloverDb initString="core/.clover/clover2_4_0.db"/>
+            <cloverDb initString="web/.clover/clover2_4_0.db"/>
         </clover-merge>
 
     </target>
