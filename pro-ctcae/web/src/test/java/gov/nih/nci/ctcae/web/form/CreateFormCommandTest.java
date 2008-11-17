@@ -16,7 +16,7 @@ import static org.easymock.classextension.EasyMock.verify;
 public class CreateFormCommandTest extends WebTestCase {
 
     private CreateFormCommand command;
-    private ProCtcQuestion firstQuestion, secondQuestion, thirdQuestion, fourthQuestion;
+    private ProCtcQuestion firstQuestion, secondQuestion, thirdQuestion, fourthQuestion, fifthQustion;
     private CrfItem crfItem1, crfItem2, crfItem3, crfItem4;
 
     FinderRepository finderRepository;
@@ -52,6 +52,10 @@ public class CreateFormCommandTest extends WebTestCase {
         crfItem4 = new CrfItem();
         crfItem4.setProCtcQuestion(fourthQuestion);
 
+        fifthQustion = new ProCtcQuestion();
+        fifthQustion.setId(15);
+        fifthQustion.setQuestionText("sample question1");
+
 
     }
 
@@ -64,21 +68,18 @@ public class CreateFormCommandTest extends WebTestCase {
     public void testUpdateQuestions() {
         command.updateCrfItems(finderRepository);
         assertTrue(command.getStudyCrf().getCrf().getCrfItems().isEmpty());
-        command.setQuestionsIds("1,4,6");
+        command.setQuestionsIds("11,12,15");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(1))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 4)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 6)).andReturn(thirdQuestion);
+        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
+        expect(finderRepository.findById(ProCtcQuestion.class, 15)).andReturn(fifthQustion);
         replay(finderRepository);
         command.updateCrfItems(finderRepository);
         verify(finderRepository);
         CRF crf = command.getStudyCrf().getCrf();
-        assertEquals("must have only 2 questions because thirdQuestion is null and first and 4rth questions are same", 2,
+        assertEquals("must have only 2 questions because  first and 5th questions are same", 2,
                 crf.getCrfItems().size());
-        for (int i = 0; i < crf.getCrfItems().size(); i++) {
-            assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItems().get(i).getDisplayOrder());
 
-        }
 
     }
 

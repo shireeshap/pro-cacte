@@ -16,6 +16,7 @@ public class AddOneQuestionControllerTest extends WebTestCase {
 
     private FinderRepository finderRepository;
     private ProCtcQuestion proCtcQuestion;
+    private CreateFormCommand command;
 
     @Override
     protected void setUp() throws Exception {
@@ -25,6 +26,7 @@ public class AddOneQuestionControllerTest extends WebTestCase {
         controller.setFinderRepository(finderRepository);
         proCtcQuestion = new ProCtcQuestion();
         proCtcQuestion.setId(1);
+        command = new CreateFormCommand();
 
 
     }
@@ -44,6 +46,8 @@ public class AddOneQuestionControllerTest extends WebTestCase {
     }
 
     public void testHandleRequestIfQuestionIdIsCorrect() throws Exception {
+        request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
+
         request.addParameter("questionId", new String[]{"1"});
         request.addParameter("displayOrder", new String[]{"1"});
         expect(finderRepository.findById(ProCtcQuestion.class, 1)).andReturn(proCtcQuestion);
