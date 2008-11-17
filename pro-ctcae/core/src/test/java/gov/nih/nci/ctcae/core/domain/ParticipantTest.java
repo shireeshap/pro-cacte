@@ -82,9 +82,10 @@ public class ParticipantTest extends TestCase {
         assertEquals(anotherParticipant.hashCode(), participant.hashCode());
         assertEquals(anotherParticipant, participant);
 
-        participant.setBirthDate(new Date());
+        Date date = new Date();
+        participant.setBirthDate(date);
         assertFalse(participant.equals(anotherParticipant));
-        anotherParticipant.setBirthDate(new Date());
+        anotherParticipant.setBirthDate(date);
         assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
