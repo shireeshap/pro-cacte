@@ -35,7 +35,7 @@
 
 </head>
 <body>
-<chrome:flashMessage flashMessage="The Form was submitted successfully"></chrome:flashMessage>
+<chrome:flashMessage flashMessage="${command.flashMessage}"></chrome:flashMessage>
 
 <chrome:box title="Confirmation">
 
@@ -44,8 +44,6 @@
         <div class="summarylabel">Title</div>
         <div class="summaryvalue">${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}</div>
     </div>
-    <br>
-
     <table id="formbuilderTable">
         <tr>
             <td id="left">

@@ -23,6 +23,11 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Column(name = "due_date")
     private Date dueDate;
 
+    @Column(name = "status", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private CrfStatus status = CrfStatus.SCHEDULED;
+
+
     @JoinColumn(name = "study_participant_crf_id", referencedColumnName = "id")
     @ManyToOne
     private StudyParticipantCrf studyParticipantCrf;
@@ -30,7 +35,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
     private List<StudyParticipantCrfItem> studyParticipantCrfItems = new ArrayList<StudyParticipantCrfItem>();
 
-    public StudyParticipantCrfSchedule(){
+    public StudyParticipantCrfSchedule() {
 
     }
 
@@ -72,7 +77,6 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     }
 
 
-
     public Date getDueDate() {
         return dueDate;
     }
@@ -89,6 +93,14 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         this.studyParticipantCrf = studyParticipantCrf;
     }
 
+    public CrfStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CrfStatus status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -99,6 +111,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         if (dueDate != null ? !dueDate.equals(that.dueDate) : that.dueDate != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+        if (status != that.status) return false;
         if (studyParticipantCrf != null ? !studyParticipantCrf.equals(that.studyParticipantCrf) : that.studyParticipantCrf != null)
             return false;
         if (studyParticipantCrfItems != null ? !studyParticipantCrfItems.equals(that.studyParticipantCrfItems) : that.studyParticipantCrfItems != null)
@@ -112,6 +125,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         result = 31 * result + (dueDate != null ? dueDate.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
         result = 31 * result + (studyParticipantCrfItems != null ? studyParticipantCrfItems.hashCode() : 0);
         return result;

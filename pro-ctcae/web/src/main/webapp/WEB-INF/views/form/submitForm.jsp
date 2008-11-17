@@ -7,6 +7,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
@@ -28,12 +29,18 @@
 <body>
 <c:set var="currentQuestion"
        value="${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].crfItem.proCtcQuestion}"/>
+<c:if test="${!(command.currentIndex == 0 && command.unansweredQuestionIndex == 0)}">
+    <c:set var="reviewResponse"
+           value="<img src='/ctcae/images/chrome/spacer.gif' height = '1' width='70%' /> (<a href=''>Review responses</a>)"/>
+</c:if>
+
 
 <form:form method="post" name="myForm">
     <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}"
                 autopad="true">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
-        <chrome:division title="Question ${command.currentIndex + 1} of ${command.totalQuestions}">
+
+        <chrome:division title="Question ${command.currentIndex + 1} of ${command.totalQuestions} ${reviewResponse}">
             <table align="center">
                 <tr>
                     <td>
@@ -51,9 +58,6 @@
                     <tr>
                         <td>
                             <div class="label">
-                                <script type="text/javascript">
-                                    //alert('${validValue.id}' + ',' + '${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}');
-                                </script>
                                 <c:choose>
                                     <c:when test="${validValue.id == command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}">
                                         <input type="radio"
@@ -92,8 +96,8 @@
                                src="/ctcae/images/blue/continue_btn.png" alt="continue &raquo;"/>
                     </c:when>
                     <c:otherwise>
-                        <input onclick="document.myForm.direction.value='save'" type="image"
-                               src="/ctcae/images/blue/save_btn.png" alt="save"/>
+                        <input onclick="document.myForm.direction.value='review'" type="image"
+                               src="/ctcae/images/blue/continue_btn.png" alt="continue"/>
                     </c:otherwise>
                 </c:choose>
             </td>

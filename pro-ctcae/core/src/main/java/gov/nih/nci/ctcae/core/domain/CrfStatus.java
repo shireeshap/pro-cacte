@@ -11,8 +11,9 @@ public enum CrfStatus implements CodedEnum<String> {
 
     DRAFT("Draft"),
     RELEASED("Released"),
-    INPROGRESS("In-progress");
-
+    INPROGRESS("In-progress"),
+    SCHEDULED("Scheduled"),
+    COMPLETED("Completed");
 
     private final String displayText;
 

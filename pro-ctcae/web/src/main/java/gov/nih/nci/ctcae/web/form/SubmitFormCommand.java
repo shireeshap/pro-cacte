@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
@@ -16,7 +17,9 @@ public class SubmitFormCommand implements Serializable {
     private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
     private int currentIndex;
     private int totalQuestions;
-    private String direction;
+    private String direction = "";
+    private String flashMessage;
+    private int questionIndex;
 
     public StudyParticipantCrfSchedule getStudyParticipantCrfSchedule() {
         return studyParticipantCrfSchedule;
@@ -25,13 +28,7 @@ public class SubmitFormCommand implements Serializable {
     public void setStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
         this.studyParticipantCrfSchedule = studyParticipantCrfSchedule;
         totalQuestions = studyParticipantCrfSchedule.getStudyParticipantCrfItems().size();
-        for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-            if (studyParticipantCrfItem.getProCtcValidValue() == null) {
-                break;
-            } else {
-                currentIndex++;
-            }
-        }
+        currentIndex = getUnansweredQuestionIndex();
     }
 
     public int getCurrentIndex() {
@@ -59,12 +56,28 @@ public class SubmitFormCommand implements Serializable {
         this.direction = direction;
     }
 
-    public boolean saveResponseAndGetQuestion(FinderRepository finderRepository, GenericRepository genericRepository) {
+    public String getFlashMessage() {
+        return flashMessage;
+    }
 
-        genericRepository.save(studyParticipantCrfSchedule);
-        boolean displayConfirmation = false;
+    public void setFlashMessage(String flashMessage) {
+        this.flashMessage = flashMessage;
+    }
+
+    public int getQuestionIndex() {
+        return questionIndex;
+    }
+
+    public void setQuestionIndex(int questionIndex) {
+        this.questionIndex = questionIndex;
+    }
+
+    public void saveResponseAndGetQuestion(FinderRepository finderRepository, GenericRepository genericRepository) {
 
         if ("continue".equals(getDirection())) {
+            if (currentIndex == 0) {
+                studyParticipantCrfSchedule.setStatus(CrfStatus.INPROGRESS);
+            }
             currentIndex = currentIndex + 1;
             if (currentIndex > (totalQuestions - 1)) {
                 currentIndex = totalQuestions;
@@ -76,12 +89,27 @@ public class SubmitFormCommand implements Serializable {
                 currentIndex = 0;
             }
         }
-
-        if ("save".equals(getDirection())) {
-           displayConfirmation = true;
+        if ("jump".equals(getDirection())) {
+            currentIndex = getQuestionIndex();
         }
-        studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
-        return displayConfirmation;
+        if ("save".equals(getDirection())) {
+            studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
+        }
 
+        genericRepository.save(studyParticipantCrfSchedule);
+        studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
+    }
+
+    public int getUnansweredQuestionIndex() {
+        int tmp = 0;
+        for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+
+            if (studyParticipantCrfItem.getProCtcValidValue() == null) {
+                break;
+            } else {
+                tmp++;
+            }
+        }
+        return tmp;
     }
 }

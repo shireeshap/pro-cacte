@@ -21,6 +21,9 @@
         <pattern>/pages/participant/schedulecrf</pattern>
     </decorator>
 
+    <decorator name="notabbedflow" page="notabbedflow.jsp">
+        <pattern>/pages/form/submit</pattern>
+    </decorator>
 
     <excludes>
         <pattern>/pages/form/setName</pattern>
