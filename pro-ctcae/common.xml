@@ -441,7 +441,7 @@
           target: publish-clover
          ================================= -->
     <target name="publish-local-clover"
-            depends="clean-dist, init, local-version, clover-jar, jar-test, debug-info,test-report"
+            depends="clean-dist, init, local-version, clover-jar,clover-clean, jar-test, debug-info,test-report"
             description="--> publish this project in the local ivy repository">
         <echo message="Executing in ${ant.project.name}"/>
         <ivyPublish artifactspattern="${dist.dir}/[artifact].[ext]"
@@ -465,8 +465,13 @@
         <clover-setup flushpolicy="interval" flushinterval="5000">
         </clover-setup>
 
+   </target>
+    <target name="clover-clean">
+        <clover-clean initString="mergedcoverage.db" verbose="true" keepdb="false">
+        </clover-clean>
 
     </target>
+
     <target name="merge-clover">
 
         <clover-merge initString="mergedcoverage.db">
@@ -478,7 +483,7 @@
     </target>
 
     <target name="clover.report" depends="merge-clover">
-        <clover-html-report outdir="../${clover.dir}" initstring="mergedcoverage.db" />
+        <clover-html-report outdir="../${clover.dir}" initstring="mergedcoverage.db"/>
     </target>
 
     <target name="clover.xml" depends="merge-clover">
@@ -519,57 +524,57 @@
     </target>
 
     <!-- ====================================================
-         target : clean-lib-test
-         Cleans the 3rd party libraries
-     =======================================================-->
+        target : clean-lib-test
+        Cleans the 3rd party libraries
+    =======================================================-->
     <target name="clean-lib-test" description="--> clean the project libraries directory (dependencies)">
         <echo message="Executing in ${ant.project.name}"/>
         <delete includeemptydirs="true" dir="${test.lib.dir}"/>
     </target>
 
     <!-- =================================
-          target: clean-dist
-         ================================= -->
+    target: clean-dist
+   ================================= -->
     <target name="clean-dist" description="--> clean the project built files">
         <echo message="Executing in ${ant.project.name}"/>
         <delete includeemptydirs="true" dir="${dist.dir}"/>
     </target>
 
     <!-- =================================
-          target: clean-classes
-         ================================= -->
+    target: clean-classes
+   ================================= -->
     <target name="clean-classes" description="--> clean the classes dir">
         <echo message="Executing in ${ant.project.name}"/>
         <delete includeemptydirs="true" dir="${classes.dir}"/>
     </target>
 
     <!-- =================================
-          target: clean-classes-test
-         ================================= -->
+    target: clean-classes-test
+   ================================= -->
     <target name="clean-classes-test" description="--> clean the test classes dir">
         <echo message="Executing in ${ant.project.name}"/>
         <delete includeemptydirs="true" dir="${test.classes.dir}"/>
     </target>
 
     <!-- =================================
-          target: clean-generated-src
-         ================================= -->
+    target: clean-generated-src
+   ================================= -->
     <target name="clean-generated-src" description="--> clean the generated sources dir">
         <echo message="Executing in ${ant.project.name}"/>
         <delete includeemptydirs="true" dir="${generated.src.dir}"/>
     </target>
 
     <!-- =================================
-          target: clean-test-results
-         ================================= -->
+    target: clean-test-results
+   ================================= -->
     <target name="clean-test-results" description="--> clean the test result dir">
         <echo message="Executing in ${ant.project.name}"/>
         <delete includeemptydirs="true" dir="${test.results.dir}"/>
     </target>
 
     <!-- =================================
-          target: clean-test-reports
-         ================================= -->
+    target: clean-test-reports
+   ================================= -->
     <target name="clean-test-reports" description="--> clean the test report dir">
         <echo message="Executing in ${ant.project.name}"/>
         <delete includeemptydirs="true" dir="${test.reports.dir}"/>
@@ -587,8 +592,8 @@
     </target>
 
     <!-- =================================
-          target: clean
-         ================================= -->
+    target: clean
+   ================================= -->
     <target name="clean" depends="clean-classes, clean-classes-test, clean-generated-src, clean-dist, clean-lib,
     			clean-lib-test, clean-test-results,clean-test-reports,clean-reports,clean-clover"
             description="--> clean the project">
@@ -597,13 +602,13 @@
     </target>
 
     <!-- ==============================================================
-         target: corbetura-init
-     ============================================================== -->
+       target: corbetura-init
+   ============================================================== -->
 
 
     <!-- ==============================================================
-         target: test
-     ============================================================== -->
+       target: test
+   ============================================================== -->
     <condition property="testPattern" value="**/${test}.class" else="gov/nih/nci/ctcae/**/*Test.class">
         <isset property="test"/>
     </condition>
@@ -638,8 +643,8 @@
 
 
     <!-- ==============================================================
-         target: test-report
-     ============================================================== -->
+       target: test-report
+   ============================================================== -->
     <target name="test-report" if="run.test" depends="test">
         <echo message="Executing in ${ant.project.name}"/>
         <mkdir dir="${test.reports.dir}"/>
@@ -655,8 +660,8 @@
 
 
     <!-- ==========================================================
-         target: debug-info
-     =============================================================-->
+        target: debug-info
+    =============================================================-->
     <target name="debug-info" description="Echoes useful debug information">
         <echo message="base.dir=${basedir}"/>
         <echo message="ant.file=${ant.file}"/>
@@ -683,4 +688,4 @@
             description="--> this target is for ant build file development. Should not be called for performing usual tasks"/>
 
 
-</project>
+        </project>
