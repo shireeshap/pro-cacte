@@ -22,20 +22,20 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void updateStatusToReleased(CRF crf) {
-
-        crf = findById(crf.getId());
 
         crf.setStatus(CrfStatus.RELEASED);
         StudyCrf studyCrf = crf.getStudyCrf();
+        if (studyCrf != null) {
+            Study study = studyRepository.findById(studyCrf.getStudy().getId());
 
-        Study study = studyRepository.findById(studyCrf.getStudy().getId());
-
-        for (StudySite studySite : study.getStudySites()) {
-            for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
-                StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
-                studyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
-                studyCrf.addStudyParticipantCrf(studyParticipantCrf);
+            for (StudySite studySite : study.getStudySites()) {
+                for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
+                    StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
+                    studyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
+                    studyCrf.addStudyParticipantCrf(studyParticipantCrf);
+                }
             }
         }
         save(crf);

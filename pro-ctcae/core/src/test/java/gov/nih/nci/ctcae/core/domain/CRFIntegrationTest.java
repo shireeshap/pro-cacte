@@ -37,8 +37,8 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
 
     public void testUpdateStatusOfCRF() {
         assertNotNull(crf.getId());
-//        crfRepository.updateStatusToReleased(crf);
-//        assertEquals(CrfStatus.RELEASED, crf.getStatus());
+        crfRepository.updateStatusToReleased(crf);
+        assertEquals(CrfStatus.RELEASED, crf.getStatus());
     }
 
     public void testUniqueCrfTitle() {
