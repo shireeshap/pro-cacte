@@ -35,10 +35,8 @@
     <c:set var="colspan" value="${fn:length(currentQuestion.validValues)}"/>
 </c:if>
 
-<c:if test="${!(command.currentIndex == 0 && command.unansweredQuestionIndex == 0)}">
-    <c:set var="reviewResponse"
-           value="<img src='/ctcae/images/chrome/spacer.gif' height = '1' width='70%' /> (<a href=''>Review responses</a>)"/>
-</c:if>
+<c:set var="reviewResponse"
+       value="<img src='/ctcae/images/chrome/spacer.gif' height = '1' width='70%' /> (<a href=''>Review responses</a>)"/>
 
 
 <form:form method="post" name="myForm">
@@ -52,7 +50,7 @@
                     <tr>
                         <td colspan="${colspan}">
                             <div class="instructions">
-                                <div class="summarylabel">Instructions:</div>
+                                <div class="summarylabel">Instructions</div>
                                 <div class="summaryvalue">${currentCrfItem.instructions}</div>
                             </div>
                         </td>
@@ -78,7 +76,8 @@
                         <tr>
                             <c:forEach items="${currentQuestion.validValues}" var="validValue">
                                 <tags:validvalue currentValue="${validValue.id}" title="${validValue.value}"
-                                                 selectedValue="${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}" index="${command.currentIndex}"/>
+                                                 selectedValue="${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}"
+                                                 index="${command.currentIndex}"/>
                             </c:forEach>
                         </tr>
                     </c:when>
@@ -86,7 +85,8 @@
                         <c:forEach items="${currentQuestion.validValues}" var="validValue">
                             <tr>
                                 <tags:validvalue currentValue="${validValue.id}" title="${validValue.value}"
-                                                 selectedValue="${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}" index="${command.currentIndex}"/>
+                                                 selectedValue="${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}"
+                                                 index="${command.currentIndex}"/>
                             </tr>
                         </c:forEach>
                     </c:otherwise>
