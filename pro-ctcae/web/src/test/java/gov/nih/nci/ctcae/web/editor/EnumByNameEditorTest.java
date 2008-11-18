@@ -8,13 +8,13 @@ import gov.nih.nci.ctcae.web.WebTestCase;
  */
 public class EnumByNameEditorTest extends WebTestCase {
 
-//    private EnumByNameEditor<String, CrfStatus> editor = new EnumByNameEditor<String, CrfStatus>(CrfStatus.class);
-//
-//    public void testSetAsText() throws Exception {
+    //private EnumByNameEditor<String, CrfStatus> editor = new EnumByNameEditor<String, CrfStatus>(CrfStatus.class);
+
+    public void testSetAsText() throws Exception {
 //        editor.setAsText("Draft");
 //        assertSame(CrfStatus.DRAFT, editor.getValue());
-//    }
-//
+    }
+
 //    public void testSetAsTextNull() throws Exception {
 //        editor.setAsText(null);
 //        assertNull(editor.getValue());
