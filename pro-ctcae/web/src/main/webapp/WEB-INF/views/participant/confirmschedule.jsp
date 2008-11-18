@@ -65,8 +65,8 @@
                     <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="schedule">
                         <tr class="results">
                             <td>${studyParticipantCrf.studyCrf.crf.title}</td>
-                            <td>${schedule.startDate}</td>
-                            <td>${schedule.dueDate}</td>
+                            <td><tags:formatDate value="${schedule.startDate}"/></td>
+                            <td><tags:formatDate value="${schedule.dueDate}"/></td>
                         </tr>
                     </c:forEach>
                 </c:forEach>

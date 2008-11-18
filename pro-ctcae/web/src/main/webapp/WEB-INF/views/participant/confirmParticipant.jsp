@@ -67,7 +67,7 @@
                 <td>
                     <div class="row">
                         <div class="label">Date of birth</div>
-                        <div class="value">${participantCommand.participant.birthDate}</div>
+                        <div class="value"><tags:formatDate value="${participantCommand.participant.birthDate}"/></div>
                     </div>
                     <div class="row">
                         <div class="label">Gender</div>

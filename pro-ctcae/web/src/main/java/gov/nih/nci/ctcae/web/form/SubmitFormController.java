@@ -59,7 +59,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             if ("".equals(submitFormCommand.getDirection())) {
                 submitFormCommand.setFlashMessage("You have already submitted this form. Below are the responses.");
             } else {
-                submitFormCommand.setFlashMessage("Form was saved successfully");
+                submitFormCommand.setFlashMessage("Form was submitted successfully");
             }
             mv = showForm(request, errors, getSuccessView());
         }

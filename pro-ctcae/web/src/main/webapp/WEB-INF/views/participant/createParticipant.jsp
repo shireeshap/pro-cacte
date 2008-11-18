@@ -44,7 +44,7 @@
 
 <form:form method="post" commandName="participantCommand" id="assembler">
     <chrome:box title="Patient Details" autopad="true">
-        <tags:hasErrorsMessage hideErrorDetails="false"/>
+        <tags:hasErrorsMessage hideErrorDetails="false"        />
 
         <p><tags:instructions code="participant.participant_details.top"/></p>
 

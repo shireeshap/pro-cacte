@@ -94,7 +94,7 @@
                 <c:when test="${command.direction == 'continue' || command.unansweredQuestionIndex >= command.totalQuestions}">
                     <td align="right" width="50%">
                         <input onclick="document.myForm.direction.value='save'" type="image"
-                               src="/ctcae/images/blue/save_btn.png" alt="save"/>
+                               src="/ctcae/images/blue/submit_btn.png" alt="save"/>
                     </td>
                 </c:when>
                 <c:otherwise>

@@ -4,6 +4,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="authz" uri="http://acegisecurity.org/authz" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
 
 <div id="header">
 
@@ -11,11 +12,11 @@
 
         <a href="/ctcae/pages/form/createForm" id="logo">ProCtcAE</a>
 
-        <%--<ctcae:authorize>--%>
+        <ctcae:authorize>
         <!--<div id="welcome-user">Welcome<b/>-->
-        <%--<authz:authentication operation="username"></authz:authentication>--%>
+        <authz:authentication operation="username"></authz:authentication>
         <!--</div>-->
-        <%--</ctcae:authorize>--%>
+        </ctcae:authorize>
 
         <%--<div id="login-action">--%>
         <%--<ctcae:publicAuthorize>--%>
