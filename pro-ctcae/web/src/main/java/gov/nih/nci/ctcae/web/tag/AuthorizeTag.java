@@ -18,7 +18,7 @@ public class AuthorizeTag extends TagSupport {
     protected final Log logger = LogFactory.getLog(getClass());
 
     /**
-     * Display or hide certain portions of a JSP based on user’s access level for the application code with which the JSP is being invoked
+     * Display or hide certain portions of a JSP based on users access level for the application code with which the JSP is being invoked
      *
      * @throws javax.servlet.jsp.JspException if entity provided is of unsupported type
      * @returns int to satisfy the tag interface
