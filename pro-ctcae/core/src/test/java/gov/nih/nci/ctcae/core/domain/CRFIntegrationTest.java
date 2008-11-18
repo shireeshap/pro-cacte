@@ -17,13 +17,14 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
 
     private CRFRepository crfRepository;
     private CRF crf, inValidCRF;
+    private String title = "Cancer CRF" + UUID.randomUUID().toString();
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
         crf = new CRF();
-        crf.setTitle("Cancer CRF" + UUID.randomUUID().toString());
+        crf.setTitle(title);
         crf.setDescription("Case Report Form for Cancer Patients");
         crf.setStatus(CrfStatus.DRAFT);
         crf.setCrfVersion("1.0");
@@ -42,7 +43,7 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
 
     public void testUniqueCrfTitle() {
         inValidCRF = new CRF();
-        crf.setTitle("Cancer CRF");
+        crf.setTitle(title);
         crf.setDescription("Case Report Form for Cancer Patients");
         crf.setStatus(CrfStatus.DRAFT);
         crf.setCrfVersion("1.0");
@@ -96,7 +97,7 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
     public void testSavingNullVersionCRF() {
         inValidCRF = new CRF();
         try {
-            inValidCRF.setTitle("Cancer CRF");
+            inValidCRF.setTitle(title);
             inValidCRF.setStatus(CrfStatus.DRAFT);
             crfRepository.save(inValidCRF);
             crfRepository.find(new CRFQuery());
@@ -145,4 +146,5 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
                     crfRepository) {
         this.crfRepository = crfRepository;
     }
+
 }
