@@ -43,7 +43,6 @@
     <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}"
                 autopad="true">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
-
         <chrome:division title="Question ${command.currentIndex + 1} of ${command.totalQuestions} ${reviewResponse}">
             <table align="center">
                 <c:if test="${currentCrfItem.instructions ne null}">
@@ -74,19 +73,19 @@
                 <c:choose>
                     <c:when test="${currentCrfItem.crfItemAllignment eq 'Horizontal'}">
                         <tr>
-                            <c:forEach items="${currentQuestion.validValues}" var="validValue">
+                            <c:forEach items="${currentQuestion.validValues}" var="validValue" varStatus="status">
                                 <tags:validvalue currentValue="${validValue.id}" title="${validValue.value}"
                                                  selectedValue="${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}"
-                                                 index="${command.currentIndex}"/>
+                                                 crfitemindex="${command.currentIndex}" index="${status.index}"/>
                             </c:forEach>
                         </tr>
                     </c:when>
                     <c:otherwise>
-                        <c:forEach items="${currentQuestion.validValues}" var="validValue">
+                        <c:forEach items="${currentQuestion.validValues}" var="validValue" varStatus="status">
                             <tr>
                                 <tags:validvalue currentValue="${validValue.id}" title="${validValue.value}"
                                                  selectedValue="${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}"
-                                                 index="${command.currentIndex}"/>
+                                                 crfitemindex="${command.currentIndex}" index="${status.index}"/>
                             </tr>
                         </c:forEach>
                     </c:otherwise>
