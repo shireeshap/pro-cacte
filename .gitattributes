@@ -59,7 +59,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/012_alter_study_participant
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/013_create_study_participant_crf_schedules.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/014_add_unique_crf_title_constraints.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/015_alter_study_participant_crf_items.groovy -text
-pro-ctcae/core/src/main/db/migrate/002_elaboration_1/016_update_crf_item.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/019_update_crf_item.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
