@@ -38,7 +38,7 @@ public class AddCrfItemPropertiesControllerTest extends WebTestCase {
         request.setParameter("crfItemAllignment", CrfItemAllignment.VERTICAL.getDisplayName());
 
         command.getStudyCrf().getCrf().addOrUpdateCrfItem(proCtcQuestion, 1);
-        expect(finderRepository.findById(ProCtcQuestion.class, 1)).andReturn(proCtcQuestion);
+        expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(proCtcQuestion);
         replayMocks();
         controller.handleRequestInternal(request, response);
         verifyMocks();
@@ -56,7 +56,7 @@ public class AddCrfItemPropertiesControllerTest extends WebTestCase {
         request.setParameter("questionId", "1");
 
         command.getStudyCrf().getCrf().addOrUpdateCrfItem(proCtcQuestion, 1);
-        expect(finderRepository.findById(ProCtcQuestion.class, 1)).andReturn(proCtcQuestion);
+        expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(proCtcQuestion);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();

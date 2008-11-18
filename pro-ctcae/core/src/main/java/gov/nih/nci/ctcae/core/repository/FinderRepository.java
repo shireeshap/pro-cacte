@@ -52,9 +52,10 @@ public class FinderRepository {
 
     public ProCtcQuestion findAndInitializeProCtcQuestion(final Integer questionId) {
         ProCtcQuestion proCtcQuestion = findById(ProCtcQuestion.class, questionId);
-
-        for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
-            validValue.getValue();
+        if (proCtcQuestion != null) {
+            for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
+                validValue.getValue();
+            }
         }
         return proCtcQuestion;
 
