@@ -13,13 +13,13 @@
     <c:when test="${propertyType == 'autocompleter'}">
         <label for="${propertyName}-input">
             <c:if test="${required}"><tags:requiredIndicator/></c:if>&nbsp;<spring:message code="${displayName}"
-                                                                                           text=""/>
+                                                                                           text="??${propertyName}"/>
         </label>
     </c:when>
     <c:otherwise>
         <form:label path="${propertyName}">
             <c:if test="${required}"><tags:requiredIndicator/></c:if>&nbsp; <spring:message code="${displayName}"
-                                                                                            text=""/>
+                                                                                            text="??${propertyName}"/>
 
         </form:label>
     </c:otherwise>

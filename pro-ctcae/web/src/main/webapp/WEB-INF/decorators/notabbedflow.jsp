@@ -37,9 +37,6 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <div id="all">
     <standard:noheader/>
     <div class="tabpane">
-
-        <chrome:workflowTabs tab="${tab}" flow="${flow}"/>
-
         <c:set var="__decorator_title">
             <decorator:title/>
         </c:set>
