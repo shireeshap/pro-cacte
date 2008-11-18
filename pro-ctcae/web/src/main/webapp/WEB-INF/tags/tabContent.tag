@@ -4,6 +4,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@attribute name="tab" required="true" type="gov.nih.nci.cabig.ctms.web.tabs.Tab" %>
 <%@attribute name="noBackground" required="false" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 
 <%@attribute name="willSave" %>
@@ -16,9 +17,10 @@
 <%@attribute name="pageHelpAnchor" %>
 <%@attribute name="tabContent" fragment="true" %>
 <%@attribute name="localButtons" fragment="true" %>
+<c:set var="title"><spring:message code='${tab.shortTitle}' text=''/></c:set>
 <c:choose>
     <c:when test="${!notDisplayInBox}">
-        <chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}"
+        <chrome:box title="${title}" id="${boxId}" cssClass="${boxClass}"
                     noBackground="${noBackground}">
 
             <jsp:invoke fragment="tabContent"/>

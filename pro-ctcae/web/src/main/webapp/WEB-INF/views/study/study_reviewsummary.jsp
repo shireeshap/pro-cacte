@@ -43,42 +43,43 @@
         <c:if test="${(empty command.study.id) or ( command.study.id le 0) }">
             <input type="hidden" name="_finish" value="true"/>
         </c:if>
+        <c:set var="studySites"><spring:message code='study.section.study_sites' text=''/></c:set>
 
     <chrome:division>
         <div class="leftpanel">
             <div class="row">
-                <div class="label">Study identifier</div>
+                <div class="label"><spring:message code='study.label.assigned_identifier' text=''/></div>
                 <div class="value">${command.study.assignedIdentifier} </div>
             </div>
             <div class="row">
-                <div class="label">Short title</div>
+                <div class="label"><spring:message code='study.label.short_title' text=''/></div>
                 <div class="value">${command.study.shortTitle} </div>
             </div>
             <div class="row">
-                <div class="label">Long title</div>
+                <div class="label"><spring:message code='study.label.long_title' text=''/></div>
                 <div class="value">${command.study.longTitle} </div>
             </div>
 
             <div class="row">
-                <div class="label">Description</div>
+                <div class="label"><spring:message code='study.label.description' text=''/></div>
                 <div class="value">${command.study.description} </div>
             </div>
             <div class="row">
-                <div class="label">Funding sponsor</div>
+                <div class="label"><spring:message code='study.label.study_funding_sponsor' text=''/></div>
                 <div class="value">${command.study.studyFundingSponsor.organization.displayName} </div>
             </div>
             <div class="row">
-                <div class="label">Coordinating center</div>
+                <div class="label"><spring:message code='study.label.study_coordinating_center' text=''/></div>
                 <div class="value">${command.study.studyCoordinatingCenter.organization.displayName} </div>
             </div>
         </div>
     </chrome:division>
-    <chrome:division title="Study sites">
+    <chrome:division title="${studySites}">
 
         <div align="left" style="margin-left: 50px">
             <table width="55%" class="tablecontent">
                 <tr id="ss-table-head" class="amendment-table-head">
-                    <th width="95%" class="tableHeader">Sites</th>
+                    <th width="95%" class="tableHeader"><spring:message code='study.label.sites' text=''/></th>
                     <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 
                 </tr>

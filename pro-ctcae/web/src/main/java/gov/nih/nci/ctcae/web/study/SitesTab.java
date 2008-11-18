@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 public class SitesTab extends Tab<StudyCommand> {
 
     public SitesTab() {
-        super("Sites", "Sites", "study/study_sites");
+        super("study.tab.sites", "study.tab.sites", "study/study_sites");
     }
 
     @Override

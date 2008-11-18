@@ -73,7 +73,9 @@
 <tags:tabForm tab="${tab}" flow="${flow}">
 
     <jsp:attribute name="repeatingFields">
-        <chrome:division title="Study sites">
+        <c:set var="studySites"><spring:message code='study.section.study_sites' text=''/></c:set>
+
+        <chrome:division title="${studySites}">
             <p><tags:instructions code="study.study_sites.top"/></p>
 
             <input type="hidden" value="" id="objectsIdsToRemove" name="objectsIdsToRemove"/>
@@ -81,7 +83,8 @@
             <div align="left" style="margin-left: 50px">
                 <table width="55%" class="tablecontent">
                     <tr id="ss-table-head" class="amendment-table-head">
-                        <th width="95%" class="tableHeader"><tags:requiredIndicator/>Site</th>
+                        <th width="95%" class="tableHeader"><tags:requiredIndicator/><spring:message
+                                code='study.label.sites' text=''/></th>
                         <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 
                     </tr>
@@ -102,8 +105,11 @@
 
         </chrome:division>
     </jsp:attribute>
-    <jsp:attribute name="localButtons"><input type="button" value="Add Study Site" onClick="addStudySite()"
-                                              class="button"/>
+    <jsp:attribute name="localButtons">
+        <c:set var="addtudySites"><spring:message code='study.button.add_study_site' text=''/></c:set>
+
+        <input type="button" value="${addtudySites}" onClick="addStudySite()"
+               class="button"/>
     </jsp:attribute>
 </tags:tabForm>
 

@@ -55,25 +55,25 @@
 
         <p><tags:instructions code="study.study_details.top"/></p>
 
-        <tags:renderText propertyName="study.assignedIdentifier" displayName="Study identifier"
+        <tags:renderText propertyName="study.assignedIdentifier" displayName="study.label.assigned_identifier"
                          required="true" help="true" size="50"/>
 
-        <tags:renderText propertyName="study.shortTitle" displayName="Short title"
+        <tags:renderText propertyName="study.shortTitle" displayName="study.label.short_title"
                          required="true" help="true" size="50"/>
 
-        <tags:renderTextArea propertyName="study.longTitle" displayName="Long title"
+        <tags:renderTextArea propertyName="study.longTitle" displayName="study.label.long_title"
                              required="true" help="true" cols="47"/>
 
 
-        <tags:renderTextArea propertyName="study.description" displayName="Description"
+        <tags:renderTextArea propertyName="study.description" displayName="study.label.description"
                              required="false" help="true" cols="47"/>
 
         <tags:renderAutocompleter propertyName="study.studyCoordinatingCenter.organization"
-                                  displayName="Coordinating center"
+                                  displayName="study.label.study_coordinating_center"
                                   required="true" help="true" size="50"/>
 
         <tags:renderAutocompleter propertyName="study.studyFundingSponsor.organization"
-                                  displayName="Funding sponsor"
+                                  displayName="study.label.study_funding_sponsor"
                                   required="true" help="true" size="50"/>
 
 

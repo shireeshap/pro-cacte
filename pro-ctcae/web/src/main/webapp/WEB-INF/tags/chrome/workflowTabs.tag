@@ -18,7 +18,8 @@
                             class="required-indicator">*</span></c:if>
                     <c:if test="${fn:contains(unfilledTabs,atab.shortTitle)}"><span
                             class="required-for-submit">&#167;</span></c:if>
-                    <a href="#" class="tab${atab.number}">${atab.number + 1}. ${atab.shortTitle}</a>
+                    <a href="#" class="tab${atab.number}">${atab.number + 1}. <spring:message code='${atab.shortTitle}'
+                                                                                              text=''/></a>
                 </div>
             </li>
             <c:if test="${selected}">

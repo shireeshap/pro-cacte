@@ -12,16 +12,18 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-    <property name="basename">
-    <value>message</value>
-    </property>
-    </bean>
-
-    <!--<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
-    <!--<property name="basename" value="/WEB-INF/message"/>-->
-    <!--<property name="cacheSeconds" value="1"/>-->
+    <!--<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">-->
+    <!--<property name="basename">-->
+    <!--<value>message</value>-->
+    <!--</property>-->
     <!--</bean>-->
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <property name="basename">
+        <value>/WEB-INF/message</value>
+    </property>
+    <property name="cacheSeconds" value="1"/>
+    </bean>
 
     <bean id="simpleUrlHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="order" value="1"/>
@@ -99,9 +101,9 @@
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Manage Forms" p:linkName="manageFormController"/>
+                                  p:displayName="form.tab.manage_form" p:linkName="manageFormController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Create Form" p:linkName="createFormController"/>
+                                  p:displayName="form.tab.create_form" p:linkName="createFormController"/>
 
                         </list>
                     </property>
@@ -112,9 +114,9 @@
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Enter Study" p:linkName="createStudyController"/>
+                                  p:displayName="study.tab.enter_study" p:linkName="createStudyController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Search Studies" p:linkName="searchStudyController"/>
+                                  p:displayName="study.tab.search_study" p:linkName="searchStudyController"/>
 
                         </list>
                     </property>
@@ -125,11 +127,13 @@
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Enter Participants" p:linkName="createParticipantController"/>
+                                  p:displayName="participant.tab.enter_participant"
+                                  p:linkName="createParticipantController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Search Participants" p:linkName="searchParticipantController"/>
+                                  p:displayName="participant.tab.search_participant"
+                                  p:linkName="searchParticipantController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Schedule Form" p:linkName="scheduleCrfController"/>
+                                  p:displayName="participant.tab.schedule_form" p:linkName="scheduleCrfController"/>
                         </list>
                     </property>
                 </bean>
@@ -139,7 +143,8 @@
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="Clinical Staff" p:linkName="createClinicalStaffController"/>
+                                  p:displayName="clinicalStaff.tab.clinical_staff"
+                                  p:linkName="createClinicalStaffController"/>
                         </list>
                     </property>
                 </bean>

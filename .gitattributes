@@ -313,7 +313,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tools/ObjectTools.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorImpl.java -text
 pro-ctcae/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml -text
-pro-ctcae/web/src/main/resources/message.properties -text
 pro-ctcae/web/src/main/webapp/WEB-INF/ctcae.tld -text
 pro-ctcae/web/src/main/webapp/WEB-INF/decorators.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/decorators/notabbedflow.jsp -text
@@ -322,6 +321,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/decorators/tabbedflow.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/dwr.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/layouts/defaultLayout.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/log4j.xml -text
+pro-ctcae/web/src/main/webapp/WEB-INF/message.properties -text
 pro-ctcae/web/src/main/webapp/WEB-INF/public-servlet.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/sitemesh.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/special-views.xml -text

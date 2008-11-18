@@ -9,7 +9,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 public class StudyDetailsTab extends Tab<StudyCommand> {
 
     public StudyDetailsTab() {
-        super("Study Details", "Study Details", "study/study_details");
+        super("study.tab.study_details", "study.tab.study_details", "study/study_details");
     }
 
 

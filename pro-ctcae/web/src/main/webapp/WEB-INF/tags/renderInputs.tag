@@ -20,54 +20,55 @@
 <%@attribute name="disabled" type="java.lang.Boolean" %>
 <%@ attribute name="showAllJavascript" %>
 <%@ attribute name="help" type="java.lang.Boolean" %>
+<c:set var="title"><spring:message code='${displayName}' text=''/></c:set>
 
 <c:choose>
     <c:when test="${categoryName == 'text'}">
         <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
-                    title="${displayName}"
+                    title="${title}"
                     cssClass="${required ? 'validate-NOTEMPTY&&MAXLENGTH2000' : 'validate-MAXLENGTH2000'}"/>
     </c:when>
     <c:when test="${categoryName == 'email'}">
         <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
-                    title="${displayName}"
+                    title="${title}"
                     cssClass="${required ? 'validate-NOTEMPTY&&EMAIL' : 'validate-EMAIL'}"/>
     </c:when>
     <c:when test="${categoryName == 'password'}">
         <form:password path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
-                       title="${displayName}"
+                       title="${title}"
                        cssClass="validate-NOTEMPTY&&MAXLENGTH2000"/>
     </c:when>
     <c:when test="${categoryName == 'number'}">
         <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
-                    title="${displayName}"
+                    title="${title}"
                     cssClass="${required ? 'validate-NOTEMPTY&&NUMERIC' : 'validate-NUMERIC'}"/>
     </c:when>
     <c:when test="${categoryName == 'phone'}">
         <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
-                    title="${displayName}"
+                    title="${title}"
                     cssClass="${required ? 'validate-NOTEMPTY&&US_PHONE_NO' : 'validate-US_PHONE_NO'}"/>
 
         <span class="phone-number">###-###-####</span>
 
     </c:when>
 
-    <c:when test="${categoryName == 'date'}"><tags:dateInput path="${propertyName}" displayName="${displayName}"
+    <c:when test="${categoryName == 'date'}"><tags:dateInput path="${propertyName}" displayName="${title}"
                                                              cssClass="${required ? 'validate-NOTEMPTY&&DATE' : 'validate-DATE'}"/></c:when>
     <c:when test="${categoryName == 'textarea'}"><form:textarea path="${propertyName}" disabled="${disabled}"
                                                                 cols="${not empty cols ? cols : ''}"
                                                                 rows="${not empty rows ? rows : ''}"
-                                                                title="${displayName}"
+                                                                title="${title}"
                                                                 cssClass="${required ? 'validate-NOTEMPTY&&MAXLENGTH2000' : 'validate-MAXLENGTH2000'}"
             /></c:when>
     <c:when test="${categoryName == 'checkbox'}"><form:checkbox path="${propertyName}" disabled="${disabled}"
                                                                 onclick="${onclick}" id="${propertyName}"/></c:when>
 
     <c:when test="${categoryName == 'select'}">
-        <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${displayName}"
+        <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
                      cssClass="${required ? 'validate-NOTEMPTY' : ''}" itemLabel="desc" itemValue="code"/>
     </c:when>
     <c:when test="${categoryName == 'selectdomainobject'}">
-        <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${displayName}"
+        <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
                      cssClass="${required ? 'validate-NOTEMPTY' : ''}" itemValue="id"/>
     </c:when>
 
@@ -78,7 +79,7 @@
 
     <c:when test="${categoryName == 'autocompleter'}">
         <input size="${empty size ? empty attributes.size ? '50' : attributes.size : size}" type="text"
-               id="${propertyName}-input" title="${displayName}" ${disabled ? 'disabled' : ''}
+               id="${propertyName}-input" title="${title}" ${disabled ? 'disabled' : ''}
                class="autocomplete ${required ? 'validate-NOTEMPTY' : ''}"/>
 
         <%--<a href="${showAllJavascript}">Show All</a> --%>
@@ -91,7 +92,7 @@
         <div id="${propertyName}-choices" class="autocomplete" style="display: none"></div>
 
         <form:input path="${propertyName}" id="${propertyName}" cssClass=" ${required ? 'validate-NOTEMPTY' : ''}"
-                    title="${displayName}"
+                    title="${title}"
                     cssStyle="display:none;"/>
 
 
