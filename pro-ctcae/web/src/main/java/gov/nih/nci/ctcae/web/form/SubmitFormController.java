@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.CrfItem;
 import gov.nih.nci.ctcae.core.repository.JpaGenericRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
@@ -86,9 +87,12 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
 
         if ("continue".equals(submitFormCommand.getDirection())) {
-            if (submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfItems().get(submitFormCommand.getCurrentIndex()).getProCtcValidValue() == null) {
-                errors.reject(
-                        "answer", "Please select at least one answer.");
+            StudyParticipantCrfItem studyParticipantCrfItem = submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfItems().get(submitFormCommand.getCurrentIndex());
+            if (new Boolean(true).equals(studyParticipantCrfItem.getCrfItem().getResponseRequired())) {
+                if (studyParticipantCrfItem.getProCtcValidValue() == null) {
+                    errors.reject(
+                            "answer", "Please select at least one answer.");
+                }
             }
         }
     }

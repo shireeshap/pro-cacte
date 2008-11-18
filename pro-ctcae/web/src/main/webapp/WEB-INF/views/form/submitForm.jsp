@@ -29,6 +29,12 @@
 <body>
 <c:set var="currentQuestion"
        value="${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].crfItem.proCtcQuestion}"/>
+<c:set var="currentCrfItem"
+       value="${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].crfItem}"/>
+<c:if test="${currentCrfItem.crfItemAllignment eq 'Horizontal'}">
+    <c:set var="colspan" value="${fn:length(currentQuestion.validValues)}"/>
+</c:if>
+
 <c:if test="${!(command.currentIndex == 0 && command.unansweredQuestionIndex == 0)}">
     <c:set var="reviewResponse"
            value="<img src='/ctcae/images/chrome/spacer.gif' height = '1' width='70%' /> (<a href=''>Review responses</a>)"/>
@@ -42,41 +48,78 @@
 
         <chrome:division title="Question ${command.currentIndex + 1} of ${command.totalQuestions} ${reviewResponse}">
             <table align="center">
-                <tr>
-                    <td>
-                        <div class="label">${currentQuestion.questionText}</div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="label"></div>
-                    </td>
-                </tr>
-
-                <c:forEach items="${currentQuestion.validValues}" var="validValue">
-
+                <c:if test="${currentCrfItem.instructions ne null}">
                     <tr>
-                        <td>
-                            <div class="label">
-                                <c:choose>
-                                    <c:when test="${validValue.id == command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}">
-                                        <input type="radio"
-                                               name="studyParticipantCrfSchedule.studyParticipantCrfItems[${command.currentIndex}].proCtcValidValue"
-                                               value="${validValue.id}" checked="true"/> ${validValue.value}
-
-                                    </c:when>
-                                    <c:otherwise>
-                                        <input type="radio"
-                                               name="studyParticipantCrfSchedule.studyParticipantCrfItems[${command.currentIndex}].proCtcValidValue"
-                                               value="${validValue.id}"/> ${validValue.value}
-
-                                    </c:otherwise>
-                                </c:choose>
-
+                        <td colspan="${colspan}">
+                            <div class="instructions">
+                                <div class="summarylabel">Instructions:</div>
+                                <div class="summaryvalue">${currentCrfItem.instructions}</div>
                             </div>
                         </td>
                     </tr>
-                </c:forEach>
+                </c:if>
+                <tr>
+                    <td colspan="${colspan}">
+                        <div class="label">
+                            <c:if test="${currentCrfItem.responseRequired == true}">
+                                <span class="required-indicator">*</span>
+                            </c:if>
+                                ${currentQuestion.questionText}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="${colspan}">
+                        <div class="label"></div>
+                    </td>
+                </tr>
+                <c:choose>
+                    <c:when test="${currentCrfItem.crfItemAllignment eq 'Horizontal'}">
+                        <tr>
+                            <c:forEach items="${currentQuestion.validValues}" var="validValue">
+                                <td>
+                                    <div class="label">
+                                        <c:choose>
+                                            <c:when test="${validValue.id == command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}">
+                                                <input type="radio"
+                                                       name="studyParticipantCrfSchedule.studyParticipantCrfItems[${command.currentIndex}].proCtcValidValue"
+                                                       value="${validValue.id}" checked="true"/> ${validValue.value}
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input type="radio"
+                                                       name="studyParticipantCrfSchedule.studyParticipantCrfItems[${command.currentIndex}].proCtcValidValue"
+                                                       value="${validValue.id}"/> ${validValue.value}
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                    </div>
+                                </td>
+                            </c:forEach>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${currentQuestion.validValues}" var="validValue">
+                            <tr>
+                                <td>
+                                    <div class="label">
+                                        <c:choose>
+                                            <c:when test="${validValue.id == command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}">
+                                                <input type="radio"
+                                                       name="studyParticipantCrfSchedule.studyParticipantCrfItems[${command.currentIndex}].proCtcValidValue"
+                                                       value="${validValue.id}" checked="true"/> ${validValue.value}
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input type="radio"
+                                                       name="studyParticipantCrfSchedule.studyParticipantCrfItems[${command.currentIndex}].proCtcValidValue"
+                                                       value="${validValue.id}"/> ${validValue.value}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </table>
         </chrome:division>
     </chrome:box>
