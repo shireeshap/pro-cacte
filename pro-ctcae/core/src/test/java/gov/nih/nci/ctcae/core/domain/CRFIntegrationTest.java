@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Collection;
+import java.util.UUID;
 
 /**
  * @author Harsh Agarwal
@@ -22,7 +23,7 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
         super.onSetUpInTransaction();
 
         crf = new CRF();
-        crf.setTitle("Cancer CRF");
+        crf.setTitle("Cancer CRF" + UUID.randomUUID().toString());
         crf.setDescription("Case Report Form for Cancer Patients");
         crf.setStatus(CrfStatus.DRAFT);
         crf.setCrfVersion("1.0");
@@ -31,6 +32,12 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
 
     public void testSaveCRF() {
         assertNotNull(crf.getId());
+    }
+
+    public void testUpdateStatusOfCRF() {
+        assertNotNull(crf.getId());
+//        crfRepository.updateStatusToReleased(crf);
+//        assertEquals(CrfStatus.RELEASED, crf.getStatus());
     }
 
     public void testUniqueCrfTitle() {
