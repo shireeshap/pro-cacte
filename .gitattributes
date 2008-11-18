@@ -372,6 +372,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/indicator.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/instructions.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/javascriptLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/jsLogs.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/message.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/noform/renderHidden.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/noform/renderSelect.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/noform/renderText.tag -text

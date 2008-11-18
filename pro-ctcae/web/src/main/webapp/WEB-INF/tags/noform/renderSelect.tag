@@ -10,11 +10,13 @@
 
 
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<c:set var="title"><spring:message code='${displayName}' text=''/></c:set>
 
 <div id="${propertyName}-row" class="row">
     <div class="label">
-        <label for="${propertyName}">${displayName}
+        <label for="${propertyName}">${title}
         </label>
     </div>
     <div class="value">

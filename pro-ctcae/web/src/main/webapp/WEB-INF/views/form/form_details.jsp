@@ -233,7 +233,7 @@ function showCrfItemPropertiesWindow(transport) {
     var win = Windows.getFocusedWindow();
     if (win == null) {
         win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                true, title: "", height:500, width: 750,top:150,left:300});
+                true, title: "", height:200, width: 550,top:250,left:300});
         win.setDestroyOnClose();
         win.setHTMLContent(transport.responseText);
         win.show(true)
@@ -347,7 +347,7 @@ function previousQuestion(questionIndex) {
 
         <div class="instructions">
 
-            <div class="summarylabel">Study</div>
+            <div class="summarylabel"><tags:message code='form.label.study'/></div>
             <div class="summaryvalue">${command.studyCrf.study.displayName}</div>
         </div>
 
@@ -357,7 +357,7 @@ function previousQuestion(questionIndex) {
                     <td id="left">
                         <div class="instructions">
 
-                            <div class="summarylabel">Question bank</div>
+                            <div class="summarylabel"><tags:message code='form.label.question_bank'/></div>
                         </div>
                         <ul class="tree">
                             <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
@@ -383,7 +383,7 @@ function previousQuestion(questionIndex) {
                                         <br>
                                     </ul>
                                 </li>
-
+                                <br>
                             </c:forEach>
                         </ul>
 

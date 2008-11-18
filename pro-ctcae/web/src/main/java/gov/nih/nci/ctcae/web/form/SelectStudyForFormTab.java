@@ -9,7 +9,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 public class SelectStudyForFormTab extends Tab<CreateFormCommand> {
 
     public SelectStudyForFormTab() {
-        super("Form", "Select Study", "form/select_study");
+        super("form.tab.form", "form.tab.select_study", "form/select_study");
 
     }
 }

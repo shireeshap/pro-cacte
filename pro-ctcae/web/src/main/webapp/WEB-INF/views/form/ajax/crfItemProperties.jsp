@@ -16,21 +16,25 @@
 
 </head>
 <body>
-<chrome:box title="Properties">
-    <noform:renderText propertyName="crfItem.instructions" displayName="Instructions"
+<c:set var="properties"><tags:message code='form.label.properties'/></c:set>
+
+<chrome:box title="${properties}">
+    <noform:renderText propertyName="crfItem.instructions" displayName="form.label.instructions"
                        propertyValue="${crfItem.instructions}"></noform:renderText>
 
-    <noform:renderSelect propertyName="crfItem.responseRequired" displayName="Response required"
+    <noform:renderSelect propertyName="crfItem.responseRequired" displayName="form.label.response_required"
                          propertyValue="${crfItem.responseRequired}" items="${responseRequired}">
 
     </noform:renderSelect>
 
     <noform:renderSelect
-            propertyName="crfItem.crfItemAllignment" displayName="Allignment"
+            propertyName="crfItem.crfItemAllignment" displayName="form.label.allignment"
             propertyValue="${crfItem.crfItemAllignment}" items="${crfItemAllignments}">
 
     </noform:renderSelect>
 
 </chrome:box>
-<input type="button" class="ibutton" value="Save" onclick="submitCrfItemPropertiesWindow(${crfItem.proCtcQuestion.id})">
+<input type="image" src="<c:url value="/images/blue/save_btn.png"/>" id="flow-update"
+       class="tab" value="Save" alt="Save" onclick="submitCrfItemPropertiesWindow(${crfItem.proCtcQuestion.id})"/>
+
 </body>
