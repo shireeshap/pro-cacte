@@ -25,7 +25,7 @@
                         </div>
                         <p>
                             Please
-                            <a href="<c:url value="/pages/form/viewForm?studyCrfId=${command.id}"/>">return
+                            <a href="<c:url value="/pages/form/manageForm?studyCrfId=${command.id}"/>">return
                                 to
                                 the form</a>.
                         </p>

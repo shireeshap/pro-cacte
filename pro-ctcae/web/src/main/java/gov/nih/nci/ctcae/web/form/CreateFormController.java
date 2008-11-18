@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.apache.commons.lang.StringUtils;
@@ -11,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Vinay Kumar
@@ -69,8 +72,13 @@ public class CreateFormController<C extends CreateFormCommand> extends CtcAeTabb
 
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CreateFormCommand createFormCommand = (CreateFormCommand) command;
-        crfRepository.save(createFormCommand.getStudyCrf().getCrf());
-        ModelAndView modelAndView = new ModelAndView("form/confirmForm", errors.getModel());
+        CRF crf = createFormCommand.getStudyCrf().getCrf();
+        createFormCommand.setStudyCrf(crf.getStudyCrf());
+        CRF savedCrf = crfRepository.save(crf);
+
+        Map model = new HashMap();
+        model.put("studyCrf", savedCrf.getStudyCrf());
+        ModelAndView modelAndView = new ModelAndView("form/confirmForm", model);
         return modelAndView;
 
 

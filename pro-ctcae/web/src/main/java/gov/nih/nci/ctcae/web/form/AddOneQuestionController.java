@@ -28,7 +28,7 @@ public class AddOneQuestionController extends AbstractController {
         Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
         Integer displayOrder = ServletRequestUtils.getIntParameter(request, "displayOrder");
 
-        ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
+        ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
         CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
         if (proCtcQuestion != null) {
             createFormCommand.getStudyCrf().getCrf().removeExistingAndAddNewCrfItem(proCtcQuestion, displayOrder);

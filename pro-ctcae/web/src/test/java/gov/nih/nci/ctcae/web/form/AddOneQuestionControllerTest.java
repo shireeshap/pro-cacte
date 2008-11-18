@@ -38,7 +38,7 @@ public class AddOneQuestionControllerTest extends WebTestCase {
     public void testHandleRequestIfQuestionIdIsWrong() throws Exception {
         request.addParameter("questionId", new String[]{"1"});
         request.addParameter("displayOrder", new String[]{"1"});
-        expect(finderRepository.findById(ProCtcQuestion.class, 1)).andReturn(null);
+        expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(null);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();
@@ -50,7 +50,7 @@ public class AddOneQuestionControllerTest extends WebTestCase {
 
         request.addParameter("questionId", new String[]{"1"});
         request.addParameter("displayOrder", new String[]{"1"});
-        expect(finderRepository.findById(ProCtcQuestion.class, 1)).andReturn(proCtcQuestion);
+        expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(proCtcQuestion);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();

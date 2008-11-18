@@ -42,14 +42,14 @@
 
     <div class="instructions">
         <div class="summarylabel">Study</div>
-        <div class="summaryvalue">${command.studyCrf.study.displayName}</div>
+        <div class="summaryvalue">${studyCrf.study.displayName}</div>
     </div>
 
 
     <div class="instructions">
 
         <div class="summarylabel">Title</div>
-        <div class="summaryvalue">${command.studyCrf.crf.title}</div>
+        <div class="summaryvalue">${studyCrf.crf.title}</div>
     </div>
     <br>
 
@@ -57,7 +57,7 @@
         <tr>
             <td id="left">
                 Questions
-                <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem">
+                <c:forEach items="${studyCrf.crf.crfItems}" var="crfItem">
                     <tags:reviewQuestion crfItem="${crfItem}"></tags:reviewQuestion>
                 </c:forEach>
 
