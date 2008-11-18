@@ -32,7 +32,7 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
 
         Integer studyCrfId = ServletRequestUtils.getIntParameter(request, "studyCrfId");
-        StudyCrf studyCrf = finderRepository.findById(StudyCrf.class, studyCrfId);
+        StudyCrf studyCrf = finderRepository.findAndInitializeStudyCrf(studyCrfId);
         return studyCrf;
 
 
