@@ -47,13 +47,13 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             mv = showForm(request, errors, getFormView());
         }
         if (submitFormCommand.getStudyParticipantCrfSchedule().getStatus().equals(CrfStatus.INPROGRESS)) {
-            if ("".equals(submitFormCommand.getDirection()) || "review".equals(submitFormCommand.getDirection())) {
+
+            //show review page if we clicked continue on last question or user is returning back (so there is no direction)
+            if (submitFormCommand.getCurrentIndex() >= submitFormCommand.getTotalQuestions() || "".equals(submitFormCommand.getDirection())) {
                 mv = showForm(request, errors, getReviewView());
             } else {
                 mv = showForm(request, errors, getFormView());
-                submitFormCommand.setDirection("");
             }
-
         }
         if (submitFormCommand.getStudyParticipantCrfSchedule().getStatus().equals(CrfStatus.COMPLETED)) {
             if ("".equals(submitFormCommand.getDirection())) {
@@ -91,7 +91,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             if (new Boolean(true).equals(studyParticipantCrfItem.getCrfItem().getResponseRequired())) {
                 if (studyParticipantCrfItem.getProCtcValidValue() == null) {
                     errors.reject(
-                            "answer", "Please select at least one answer.");
+                            "answer", "Please select an answer.");
                 }
             }
         }

@@ -77,45 +77,16 @@
                     <c:when test="${currentCrfItem.crfItemAllignment eq 'Horizontal'}">
                         <tr>
                             <c:forEach items="${currentQuestion.validValues}" var="validValue">
-                                <td>
-                                    <div class="label">
-                                        <c:choose>
-                                            <c:when test="${validValue.id == command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}">
-                                                <input type="radio"
-                                                       name="studyParticipantCrfSchedule.studyParticipantCrfItems[${command.currentIndex}].proCtcValidValue"
-                                                       value="${validValue.id}" checked="true"/> ${validValue.value}
-                                            </c:when>
-                                            <c:otherwise>
-                                                <input type="radio"
-                                                       name="studyParticipantCrfSchedule.studyParticipantCrfItems[${command.currentIndex}].proCtcValidValue"
-                                                       value="${validValue.id}"/> ${validValue.value}
-                                            </c:otherwise>
-                                        </c:choose>
-
-                                    </div>
-                                </td>
+                                <tags:validvalue currentValue="${validValue.id}" title="${validValue.value}"
+                                                 selectedValue="${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}" index="${command.currentIndex}"/>
                             </c:forEach>
                         </tr>
                     </c:when>
                     <c:otherwise>
                         <c:forEach items="${currentQuestion.validValues}" var="validValue">
                             <tr>
-                                <td>
-                                    <div class="label">
-                                        <c:choose>
-                                            <c:when test="${validValue.id == command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}">
-                                                <input type="radio"
-                                                       name="studyParticipantCrfSchedule.studyParticipantCrfItems[${command.currentIndex}].proCtcValidValue"
-                                                       value="${validValue.id}" checked="true"/> ${validValue.value}
-                                            </c:when>
-                                            <c:otherwise>
-                                                <input type="radio"
-                                                       name="studyParticipantCrfSchedule.studyParticipantCrfItems[${command.currentIndex}].proCtcValidValue"
-                                                       value="${validValue.id}"/> ${validValue.value}
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
-                                </td>
+                                <tags:validvalue currentValue="${validValue.id}" title="${validValue.value}"
+                                                 selectedValue="${command.studyParticipantCrfSchedule.studyParticipantCrfItems[command.currentIndex].proCtcValidValue.id}" index="${command.currentIndex}"/>
                             </tr>
                         </c:forEach>
                     </c:otherwise>
@@ -134,14 +105,10 @@
             </td>
             <td align="right" width="50%">
                 <c:choose>
-                    <c:when test="${command.currentIndex < command.totalQuestions-1}">
+                    <c:when test="${command.currentIndex < command.totalQuestions}">
                         <input onclick="document.myForm.direction.value='continue'" type="image"
                                src="/ctcae/images/blue/continue_btn.png" alt="continue &raquo;"/>
                     </c:when>
-                    <c:otherwise>
-                        <input onclick="document.myForm.direction.value='review'" type="image"
-                               src="/ctcae/images/blue/continue_btn.png" alt="continue"/>
-                    </c:otherwise>
                 </c:choose>
             </td>
         </tr>

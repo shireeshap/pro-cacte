@@ -91,7 +91,7 @@
     <table width="100%">
         <tr>
             <c:choose>
-                <c:when test="${command.unansweredQuestionIndex == command.totalQuestions}">
+                <c:when test="${command.direction == 'continue' || command.unansweredQuestionIndex >= command.totalQuestions}">
                     <td align="right" width="50%">
                         <input onclick="document.myForm.direction.value='save'" type="image"
                                src="/ctcae/images/blue/save_btn.png" alt="save"/>
