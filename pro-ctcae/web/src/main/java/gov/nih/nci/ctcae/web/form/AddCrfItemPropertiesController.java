@@ -31,7 +31,7 @@ public class AddCrfItemPropertiesController extends AbstractController {
 
             Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
 
-            ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
+            ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
             CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
             CrfItem crfItem = createFormCommand.getStudyCrf().getCrf().getCrfItemByQuestion(proCtcQuestion);
             modelAndView.addObject("crfItem", crfItem);
@@ -47,7 +47,7 @@ public class AddCrfItemPropertiesController extends AbstractController {
             String allignment = request.getParameter("crfItemAllignment");
             String responseRequired = request.getParameter("responseRequired");
 
-            ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
+            ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
             CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
             CrfItem crfItem = createFormCommand.getStudyCrf().getCrf().getCrfItemByQuestion(proCtcQuestion);
 
