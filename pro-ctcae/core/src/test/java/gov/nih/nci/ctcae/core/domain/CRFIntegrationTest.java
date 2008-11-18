@@ -86,6 +86,7 @@ public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
         inValidCRF = new CRF();
         try {
             inValidCRF.setTitle("Cancer CRF");
+            inValidCRF.setStatus(null);
             inValidCRF.setCrfVersion("1.0");
             inValidCRF = crfRepository.save(inValidCRF);
             crfRepository.find(new CRFQuery());
