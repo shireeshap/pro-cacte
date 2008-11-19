@@ -334,11 +334,13 @@ function previousQuestion(questionIndex) {
     .makeDraggable {
         cursor: move;
     }
+	/*.editor_field, #crfTitle-inplaceeditor {
+	font-size:30px;
+	}*/
 </style>
 
 </head>
 <body>
-
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
          <c:if test="${(empty command.studyCrf.id) or ( command.studyCrf.id le 0) }">
@@ -355,10 +357,10 @@ function previousQuestion(questionIndex) {
             <table id="formbuilderTable">
                 <tr>
                     <td id="left">
-                        <div class="instructions">
+                        
 
-                            <div class="summarylabel"><tags:message code='form.label.question_bank'/></div>
-                        </div>
+                            <div class="formbuilderHeader"><tags:message code='form.label.question_bank'/></div>
+                        
                         <ul class="tree">
                             <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
@@ -371,8 +373,8 @@ function previousQuestion(questionIndex) {
 
                                                     <li id="question_${proCtcQuestion.id}">
                                                         <tags:formbuilderBox>
+                                                          <tags:formbuilderBoxControls add="true" proCtcQuestionId="${proCtcQuestion.id}" />
                                                             ${proCtcQuestion.questionText}
-                                                            <a href="javascript:addQuestion(${proCtcQuestion.id})">Add</a>
                                                         </tags:formbuilderBox>
                                                     </li>
 
@@ -413,21 +415,15 @@ function previousQuestion(questionIndex) {
                                         <br/>
                                         <form:hidden path="studyCrf.crf.title" id="formTitle"/>
 
-                            <span class="formbuildersubHeader">There <span id="plural1">are</span> <span
-                                    id="totalQuestionDivision">${totalQuestions}</span> question<span
-                                    id="plural2">s</span> in this form.</span>
+                                        <span class="formbuildersubHeader">There <span id="plural1">are</span> <span id="totalQuestionDivision">${totalQuestions}</span> question<span id="plural2">s</span> in this form.</span>
                                     </div>
                                     <div id="sortable">
                                         <form:hidden path="questionsIds" id="questionsIds"/>
                                         <input type="hidden" id="totalQuestions" value="${totalQuestions}">
-                                        <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem"
-                                                   varStatus="status">
-
-                                            <tags:oneQuestion proCtcQuestion="${crfItem.proCtcQuestion}"
-                                                              displayOrder="${status.index}"></tags:oneQuestion>
+                                        <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem" varStatus="status">
+											 <tags:oneQuestion proCtcQuestion="${crfItem.proCtcQuestion}" displayOrder="${status.index}"> 
+                                             </tags:oneQuestion>
                                         </c:forEach>
-
-
                                         <div id="hiddenDiv"></div>
                                     </div>
                                 </td>

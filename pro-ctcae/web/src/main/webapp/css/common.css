@@ -11,7 +11,7 @@ body {
 }
 .workflow-tabs {
 	position: relative;
-	top: 140px;
+	top: 120px;
 	width:950px;
 	background-color: #666;
 	z-index: 0;
@@ -671,6 +671,7 @@ img.indicator { visibility: hidden; }
 	margin-left:14px;
 	margin-top:11px;
 	margin-bottom:-23px;
+	position:relative;
 }
 .formbuilderboxTable {
 	border-collapse:collapse;
@@ -698,7 +699,11 @@ img.indicator { visibility: hidden; }
 	background-image:url(/ctcae/images/blue/formbuilderBox/L.png);
 	background-repeat: repeat-y;
 }
-.formbuilderboxContent { background-color:#F4F6FA; }
+.formbuilderboxContent { 
+background-color:#F4F6FA;
+padding-top:10px;
+padding-bottom:10px;
+}
 .R {
 	width:14px;
 	background-image:url(/ctcae/images/blue/formbuilderBox/R.png);
@@ -774,3 +779,36 @@ a.help img { border: none; }
 #table231 { background-color:#fff }
 /* suppress Routine AE search button */
 #secondlevelnav_routineReportController { visibility:hidden; }
+#hiddenDiv {
+width:320px;
+}
+#sortable .formbuilderBoxControls {
+position:absolute;
+top:9px;
+right:20px;
+}
+.formbuilderBoxControls {
+position:absolute;
+top:3px;
+right:20px;
+}
+.formbuilderBoxControls-left {
+float:left;
+background-image: url(/ctcae/images/blue/formbuilderBoxControls-L.png);
+height:18px;
+padding-left:6px;
+}
+.formbuilderBoxControls-right {
+float:left;
+background-image: url(/ctcae/images/blue/formbuilderBoxControls-R.png);
+height:18px;
+width:6px;
+}
+.sortableSpan {
+float:left;
+height:100%;
+font-size:30px;
+margin-right:10px;
+vertical-align:middle;
+display:block;
+}

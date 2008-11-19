@@ -7,8 +7,7 @@
 <%@attribute name="style" %>
 <%@attribute name="autopad" required="false" %>
 <%@attribute name="collapsable" required="false" %>
-<div class="formbuilderBox ${cssClass}"<tags:attribute name="id" value="${id}"/><tags:attribute name="style"
-                                                                                                value="${style}"/>>
+<div class="formbuilderBox ${cssClass}"<tags:attribute name="id" value="${id}"/><tags:attribute name="style" value="${style}"/>>
 
     <table class="formbuilderboxTable">
         <tr>

@@ -364,6 +364,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowSaveButton.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/form.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formatDate.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formbuilderBox.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/formbuilderBoxControls.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/hasErrorsMessage.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/hoverHelp.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/hoverText.tag -text
@@ -529,6 +530,8 @@ pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/R.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/T.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/TL.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/TR.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderBoxControls-L.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilderBoxControls-R.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderselectedbox_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderselectedbox_bottom.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderselectedbox_top.png -text
@@ -569,6 +572,7 @@ pro-ctcae/web/src/main/webapp/images/blue/logout_tab.png -text
 pro-ctcae/web/src/main/webapp/images/blue/power-btn-down.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/power-btn-hover.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/power-btn-up.jpg -text
+pro-ctcae/web/src/main/webapp/images/blue/question_properties_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/report_set_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/rules_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/rules_btn_selected.png -text
@@ -580,6 +584,7 @@ pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_gt4_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_hover.png -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_hover_gt4.png -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_selected.png -text
+pro-ctcae/web/src/main/webapp/images/blue/select_question_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/studies_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/studies_btn_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/subjects_btn.png -text

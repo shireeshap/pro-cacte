@@ -2,8 +2,10 @@
 <%@ attribute name="displayOrder" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <div class="sortable makeDraggable" id="sortable_${proCtcQuestion.id}">
+<tags:formbuilderBoxControls delete="true" properties="true" proCtcQuestionId="${proCtcQuestion.id}" />
     <table class="formbuilderboxTable">
         <tr>
             <td class="TL"></td>
@@ -13,18 +15,8 @@
         <tr>
             <td class="L"></td>
             <td class="formbuilderboxContent">
-                <span id="${displayOrder}" class="sortableSpan">${displayOrder}</span>
+                <div id="${displayOrder}" class="sortableSpan">${displayOrder}</div>
                 ${proCtcQuestion.questionText}
-                <a id="del-${proCtcQuestion.id}" class="del"
-                   href="javascript:deleteQuestion('${proCtcQuestion.id}');">
-
-                    <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
-                         style="vertical-align:middle">
-                </a>
-                <a id="del-${proCtcQuestion.id}" class="del"
-                   href="javascript:addCrfItemProperties('${proCtcQuestion.id}');">Properties
-                </a>
-
             </td>
             <td class="R"></td>
         </tr>
