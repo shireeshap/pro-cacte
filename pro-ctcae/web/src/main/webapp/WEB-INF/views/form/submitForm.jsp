@@ -106,7 +106,7 @@
                 <c:choose>
                     <c:when test="${command.currentIndex < command.totalQuestions}">
                         <input onclick="document.myForm.direction.value='continue'" type="image"
-                               src="/ctcae/images/blue/saveandcontinue_btn.png" alt="continue &raquo;"/>
+                               src="/ctcae/images/blue/continue_btn.png" alt="continue &raquo;"/>
                     </c:when>
                 </c:choose>
             </td>
