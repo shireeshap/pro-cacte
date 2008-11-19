@@ -1,6 +1,7 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@attribute name="title" %>
 <%@attribute name="id" %>
 <%@attribute name="cssClass" %>
@@ -8,6 +9,7 @@
 <%@attribute name="enableDelete" type="java.lang.Boolean" %>
 <%@attribute name="deleteParams" %>
 <%@attribute name="collapsable" required="false" %>
+<%@attribute name="message" type="java.lang.Boolean" required="false" %>
 
 <div class="division ${cssClass}" <tags:attribute name="id" value="${id}"/> <tags:attribute name="style"
                                                                                             value="${style}"/>>
@@ -19,7 +21,16 @@
                 <h3>
                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
-                            <td width="100%">${title}</td>
+                            <td width="100%">
+                                <c:choose>
+                                    <c:when test="${message == true}">
+                                        ${title}
+                                    </c:when>
+                                    <c:otherwise>
+                                        <spring:message code='${title}' text='?? ${title}'/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                             <c:if test="${deleteParams}">
                                 <td align="right"><a
                                         href="javascript:fireAction(<c:out value="${deleteParams},'${id}','${cssClass}'" />);"><img
@@ -37,7 +48,17 @@
             </c:if>
 
             <c:if test="${!enableDelete && !collapsable}">
-                <h3>${title}</h3>
+                <h3>
+                    <c:choose>
+                        <c:when test="${message == false}">
+                            ${title}
+                        </c:when>
+                        <c:otherwise>
+                            <spring:message code='${title}' text='?? ${title}'/>
+                        </c:otherwise>
+                    </c:choose>
+                </h3>
+
             </c:if>
 
         </c:if>

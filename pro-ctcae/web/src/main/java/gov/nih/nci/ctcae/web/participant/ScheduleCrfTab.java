@@ -9,7 +9,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 public class ScheduleCrfTab extends Tab<StudyParticipantCommand> {
 
     public ScheduleCrfTab() {
-        super("Schedule Form", "Schedule Form", "participant/schedulecrf");
+        super("schedulecrf.label.schedule_form", "schedulecrf.label.schedule_form", "participant/schedulecrf");
 
     }
 }

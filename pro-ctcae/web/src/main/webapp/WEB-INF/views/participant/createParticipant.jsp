@@ -43,43 +43,43 @@
 <body>
 
 <form:form method="post" commandName="participantCommand" id="assembler">
-    <chrome:box title="Patient Details" autopad="true">
+    <chrome:box title="participant.participant_details" autopad="true">
         <tags:hasErrorsMessage hideErrorDetails="false"        />
 
         <p><tags:instructions code="participant.participant_details.top"/></p>
 
-        <chrome:division title="Site">
-            <tags:renderSelect propertyName="siteId" displayName="Site"
+        <chrome:division title="participant.label.site">
+            <tags:renderSelect propertyName="siteId" displayName="participant.label.site"
                                required="true" options="${studysites}"/>
         </chrome:division>
 
-        <chrome:division title="Demographic information">
+        <chrome:division title="participant.label.demographic_information">
 
             <table border="0" style="width:100%">
                 <tr>
                     <td>
-                        <tags:renderText propertyName="participant.firstName" displayName="First name"
+                        <tags:renderText propertyName="participant.firstName" displayName="participant.label.first_name"
                                          required="true"/>
-                        <tags:renderText propertyName="participant.lastName" displayName="Last name"
+                        <tags:renderText propertyName="participant.lastName" displayName="participant.label.last_name"
                                          required="true"/>
-                        <tags:renderText propertyName="participant.middleName" displayName="Middle name"/>
-                        <tags:renderText propertyName="participant.assignedIdentifier" displayName="Patient identifier"
+                        <tags:renderText propertyName="participant.middleName" displayName="participant.label.middle_name"/>
+                        <tags:renderText propertyName="participant.assignedIdentifier" displayName="participant.label.participant_identifier"
                                          required="true"/>
                     </td>
                     <td>
-                        <tags:renderDate propertyName="participant.birthDate" displayName="Date of birth"
+                        <tags:renderDate propertyName="participant.birthDate" displayName="participant.label.date_of_birth"
                                          required="true"/>
-                        <tags:renderSelect propertyName="participant.gender" displayName="Gender"
+                        <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
                                            required="true" options="${genders}"/>
-                        <tags:renderSelect propertyName="participant.ethnicity" displayName="Ethnicity"
+                        <tags:renderSelect propertyName="participant.ethnicity" displayName="participant.label.ethnicity"
                                            required="true" options="${ethnicities}"/>
-                        <tags:renderSelect propertyName="participant.race" displayName="Race"
+                        <tags:renderSelect propertyName="participant.race" displayName="participant.label.race"
                                            required="true" options="${races}"/>
                     </td>
                 </tr>
             </table>
         </chrome:division>
-        <chrome:division title="Studies">
+        <chrome:division title="participant.label.studies">
             <tags:indicator id="indicator"/>
         </chrome:division>
 

@@ -65,20 +65,20 @@
          </script>
   </head>
   <body>
-  <chrome:box title="Search Criteria" autopad="true">
+  <chrome:box title="participant.label.search_criteria" autopad="true">
       <p><tags:instructions code="participant.search.top"/> </p>
 
 
 		<div class="row">
-           	<div class="label">First name</div>
+           	<div class="label"><spring:message code='participant.label.first_name' text=''/></div>
            	<div class="value"><input type="text" id="firstName" name="firstName" maxlength="30"/></div>
        	</div>
 		<div class="row">
-           	<div class="label">Last name</div>
+           	<div class="label"><spring:message code='participant.label.last_name' text=''/></div>
            	<div class="value"><input type="text" id="lastName" name="lastName" maxlength="30"/></div>
        	</div>
 		<div class="row">
-           	<div class="label">Patient identifier</div>
+           	<div class="label"><spring:message code='participant.label.participant_identifier' text=''/></div>
            	<div class="value"><input type="text" id="identifier"name="identifier" maxlength="30"/></div>
        	</div>
   		<div id="error"></div>

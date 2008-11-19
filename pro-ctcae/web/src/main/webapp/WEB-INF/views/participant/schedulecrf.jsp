@@ -40,22 +40,22 @@
     </script>
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" >
     <jsp:attribute name="singleFields">
         <input type="hidden" value="" id="objectsIndexesToRemove" name="objectsIndexesToRemove"/>
         <input type="hidden" name="_finish" value="true"/>
 
             <c:forEach items="${command.studyParticipantAssignment.studyParticipantCrfs}" var="participantCrf"
                        varStatus="status">
-                <chrome:division title="${participantCrf.studyCrf.crf.title}">
+                <chrome:division title="${participantCrf.studyCrf.crf.title}" message="false">
                     <input type="button" value="Add" onClick="addCrfSchedule('${status.index}')"
                            class="button"/>
 
                     <div align="left" style="margin-left: 50px">
                         <table width="70%" class="tablecontent">
                             <tr id="ss-table-head" class="amendment-table-head">
-                                <th class="tableHeader"><tags:requiredIndicator/>Start Date</th>
-                                <th class="tableHeader"><tags:requiredIndicator/>Due Date</th>
+                                <th class="tableHeader"><tags:requiredIndicator/><spring:message code="schedulecrf.label.start_date"/></th>
+                                <th class="tableHeader"><tags:requiredIndicator/><spring:message code="schedulecrf.label.due_date"/></th>
                             </tr>
                             <c:forEach items="${participantCrf.studyParticipantCrfSchedules}" var="crfSchedule"
                                        varStatus="mystatus">

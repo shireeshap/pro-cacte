@@ -41,25 +41,25 @@
 
 </head>
 <body>
-<chrome:flashMessage flashMessage="The form was scheduled successfully"></chrome:flashMessage>
-<chrome:box title="Confirmation">
+<chrome:flashMessage flashMessage="schedulecrf.flash.saved"></chrome:flashMessage>
+<chrome:box title="schedulecrf.label.confirmation">
 
     <div class="row">
-        <div class="label">Study</div>
+        <div class="label"><spring:message code="schedulecrf.label.study"/></div>
         <div class="value">${command.study.shortTitle} </div>
     </div>
     <div class="row">
-        <div class="label">Participant</div>
+        <div class="label"><spring:message code="schedulecrf.label.participant"/></div>
         <div class="value">${command.participant.displayName}</div>
     </div>
 
     <c:if test="${not empty command.studyParticipantAssignment.studyParticipantCrfs}">
-        <chrome:division title="Scheduled Forms">
+        <chrome:division title="schedulecrf.label.scheduled_forms">
             <table class="tablecontent" width="80%">
                 <tr>
-                    <th scope="col">Form</th>
-                    <th scope="col">Start Date</th>
-                    <th scope="col">Due Date</th>
+                    <th scope="col"><spring:message code="schedulecrf.label.form"/></th>
+                    <th scope="col"><spring:message code="schedulecrf.label.start_date"/></th>
+                    <th scope="col"><spring:message code="schedulecrf.label.due_date"/></th>
                 </tr>
                 <c:forEach items="${command.studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
                     <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="schedule">

@@ -35,50 +35,51 @@
 
 </head>
 <body>
-<chrome:flashMessage flashMessage="The Patient was saved successfully"></chrome:flashMessage>
+<chrome:flashMessage flashMessage="participant.flash.save"></chrome:flashMessage>
 
-<chrome:box title="Confirmation">
+<chrome:box title="participant.label.confirmation">
 
-    <chrome:division title="Site">
+    <chrome:division title="participant.label.site">
         <b>${participantCommand.siteName}</b>
     </chrome:division>
-    <chrome:division title="Demographic information">
+    <chrome:division title="participant.label.demographic_information">
 
         <table border="0" style="width:100%">
             <tr>
                 <td>
                     <div class="row">
-                        <div class="label">First name</div>
+                        <div class="label"><spring:message code='participant.label.first_name' text=''/></div>
                         <div class="value">${participantCommand.participant.firstName}</div>
                     </div>
                     <div class="row">
-                        <div class="label">Last name</div>
+                        <div class="label"><spring:message code='participant.label.last_name' text=''/></div>
                         <div class="value">${participantCommand.participant.lastName}</div>
                     </div>
                     <div class="row">
-                        <div class="label">Middle name</div>
+                        <div class="label"><spring:message code='participant.label.middle_name' text=''/></div>
                         <div class="value">${participantCommand.participant.middleName}</div>
                     </div>
                     <div class="row">
-                        <div class="label">Patient identifier</div>
+                        <div class="label"><spring:message code='participant.label.participant_identifier'
+                                                           text=''/></div>
                         <div class="value">${participantCommand.participant.assignedIdentifier}</div>
                     </div>
                 </td>
                 <td>
                     <div class="row">
-                        <div class="label">Date of birth</div>
+                        <div class="label"><spring:message code='participant.label.date_of_birth' text=''/></div>
                         <div class="value"><tags:formatDate value="${participantCommand.participant.birthDate}"/></div>
                     </div>
                     <div class="row">
-                        <div class="label">Gender</div>
+                        <div class="label"><spring:message code='participant.label.gender' text=''/></div>
                         <div class="value">${participantCommand.participant.gender}</div>
                     </div>
                     <div class="row">
-                        <div class="label">Ethnicity</div>
+                        <div class="label"><spring:message code='participant.label.ethnicity' text=''/></div>
                         <div class="value">${participantCommand.participant.ethnicity}</div>
                     </div>
                     <div class="row">
-                        <div class="label">Race</div>
+                        <div class="label"><spring:message code='participant.label.race' text=''/></div>
                         <div class="value">${participantCommand.participant.race}</div>
                     </div>
                     <div class="row">
@@ -90,12 +91,12 @@
         </table>
     </chrome:division>
     <c:if test="${not empty participantCommand.participant.studyParticipantAssignments}">
-        <chrome:division title="Assigned study">
+        <chrome:division title="participant.label.assigned_studies">
             <table class="tablecontent">
                 <tr>
-                    <th scope="col">Study identifier</th>
-                    <th scope="col">Study short title</th>
-                    <th scope="col">Patient study identifier</th>
+                    <th scope="col"><spring:message code='participant.label.study_identifier' text=''/></th>
+                    <th scope="col"><spring:message code='participant.label.study_short_title' text=''/></th>
+                    <th scope="col"><spring:message code='participant.label.participant_study_identifier' text=''/></th>
                 </tr>
                 <c:forEach items="${participantCommand.participant.studyParticipantAssignments}" var="assignment">
                     <tr class="results">
@@ -108,9 +109,6 @@
             <br>
         </chrome:division>
     </c:if>
-
-
 </chrome:box>
-
 </body>
 </html>

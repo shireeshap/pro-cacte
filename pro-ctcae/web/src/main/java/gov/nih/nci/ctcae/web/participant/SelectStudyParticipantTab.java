@@ -20,7 +20,7 @@ public class SelectStudyParticipantTab extends Tab<StudyParticipantCommand> {
     private FinderRepository finderRepository;
 
     public SelectStudyParticipantTab() {
-        super("Schedule Form", "Select Study And Participant", "participant/selectstudyparticipant");
+        super("schedulecrf.label.schedule_form", "schedulecrf.label.select_study_participant", "participant/selectstudyparticipant");
 
     }
 

@@ -99,7 +99,7 @@
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" notDisplayInBox="true">
    <jsp:attribute name="singleFields">
     <div class="autoclear">
-        <chrome:box title="Select Participant" id="participant-entry" cssClass="paired" autopad="true">
+        <chrome:box title="schedulecrf.label.select_participant" id="participant-entry" cssClass="paired" autopad="true">
             <p><tags:instructions code="participant.schedule_crf.select_participant"/></p>
 
             <form:input path="participant" id="participant" cssClass="validate-NOTEMPTY"
@@ -117,7 +117,7 @@
                 You have selected the subject <span id="participant-selected-name"></span>.
             </p>
         </chrome:box>
-        <chrome:box title="Select Study" id="study-entry" cssClass="paired" autopad="true">
+        <chrome:box title="schedulecrf.label.select_study" id="study-entry" cssClass="paired" autopad="true">
             <p><tags:instructions code="participant.schedule_crf.select_study"/></p>
             <form:input path="study" id="study" cssClass="validate-NOTEMPTY"
                         title="Study"

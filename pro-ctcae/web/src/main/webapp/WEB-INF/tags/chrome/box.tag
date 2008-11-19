@@ -2,6 +2,7 @@
 <%-- TODO: support for inner tabs (needs uniform controller support first) --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@attribute name="title" %>
 <%@attribute name="id" %>
 <%@attribute name="cssClass" %>
@@ -18,7 +19,7 @@
     <div class="header">
         <div class="background-L">
             <div class="background-R">
-                <h2>${title}</h2><c:if test="${!empty title}">
+                <h2><spring:message code='${title}' text='?? ${title}'/></h2><c:if test="${!empty title}">
                 <div class="hr"></div>
             </c:if>
             </div>
