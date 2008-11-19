@@ -41,9 +41,9 @@
 
 <form:form method="post" name="myForm">
     <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}"
-                autopad="true">
+                autopad="true" message="false">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
-        <chrome:division title="Question ${command.currentIndex + 1} of ${command.totalQuestions} ${reviewResponse}">
+        <chrome:division title="Question ${command.currentIndex + 1} of ${command.totalQuestions} ${reviewResponse}" message="false">
             <table align="center">
                 <c:if test="${currentCrfItem.instructions ne null}">
                     <tr>
