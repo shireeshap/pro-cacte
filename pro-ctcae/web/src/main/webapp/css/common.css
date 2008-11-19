@@ -1,5 +1,4 @@
 /**** GENERAL TAG STYLE OVERRIDES */
-html { background: url(../images/blue/html_bg.png) repeat-x top #006cd7; }
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
@@ -8,6 +7,9 @@ body {
 	margin: 0px;
 	padding: 0px;
 	position:relative;
+	background-image: url(/ctcae/images/blue/mega-huge-background.png);
+	background-position:top;
+	background-color:#006cd7;
 }
 .workflow-tabs {
 	position: relative;
@@ -89,10 +91,6 @@ a img {
 	margin:0px auto;
 	text-align:left;
 	position:relative;
-	background-image: url(../images/blue/body_bg.png);
-	background-repeat: repeat-y;
-	background-position: -22px;
-	overflow: visible;
 }
 h1, h2, h3, h4, h5, h6 {
 	margin: 0;
@@ -268,10 +266,10 @@ a#firstlevelnav_createClinicalStaffController {
 	margin-right: 1px;
 	margin-left: 1px;
 }
-a#firstlevelnav_createInvestigatorController:link { background-position:0px 0px; }
-a#firstlevelnav_createInvestigatorController:hover { background-position:0px -45px; }
-a#firstlevelnav_createInvestigatorController:active { background-position:0px -90px; }
-.selected a#firstlevelnav_createInvestigatorController { background-image: url(../images/blue/administration_btn_selected.png); }
+a#firstlevelnav_createClinicalStaffController:link { background-position:0px 0px; }
+a#firstlevelnav_createClinicalStaffController:hover { background-position:0px -45px; }
+a#firstlevelnav_createClinicalStaffController:active { background-position:0px -90px; }
+.selected a#firstlevelnav_createClinicalStaffController { background-image: url(../images/blue/administration_btn_selected.png); }
 #sso-form { display: none }
 #build-name {
 	color: #666;
