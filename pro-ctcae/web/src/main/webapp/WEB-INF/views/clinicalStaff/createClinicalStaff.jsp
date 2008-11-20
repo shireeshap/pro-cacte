@@ -61,12 +61,12 @@
         <ul id="" class="tabs autoclear">
             <li id="thirdlevelnav" class="tab selected">
                 <div>
-                    <a href="createClinicalStaff">Create/Edit Clinical Staff</a>
+                    <a href="createClinicalStaff"><tags:message code="clinicalStaff.tab.createStaff"/></a>
                 </div>
             </li>
             <li id="thirdlevelnav" class="tab">
                 <div>
-                    <a href="searchClinicalStaff">Search Clinical Staff</a>
+                    <a href="searchClinicalStaff"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
                 </div>
             </li>
         </ul>
@@ -75,45 +75,45 @@
 
 <form:form method="post" commandName="clinicalStaffCommand">
 
-    <chrome:box title="Clinical Staff details">
+    <chrome:box title="clinicalStaff.box.staffDetails">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
 
         <p><tags:instructions code="clinicalStaff.clinicalStaff_details.top"/></p>
-        <chrome:division title="Clinical Staff details"></chrome:division>
+        <chrome:division title="clinicalStaff.division.details"></chrome:division>
         <table>
             <tr>
                 <td>
 
-                    <tags:renderText propertyName="clinicalStaff.firstName" displayName="First name"
+                    <tags:renderText propertyName="clinicalStaff.firstName" displayName="clinicalStaff.label.first_name"
                                      required="true"/>
-                    <tags:renderText propertyName="clinicalStaff.middleName" displayName="Middle name"/>
-                    <tags:renderText propertyName="clinicalStaff.lastName" displayName="Last name"
+                    <tags:renderText propertyName="clinicalStaff.middleName" displayName="clinicalStaff.label.middle_name"/>
+                    <tags:renderText propertyName="clinicalStaff.lastName" displayName="clinicalStaff.label.last_name"
                                      required="true"/>
-                    <tags:renderText propertyName="clinicalStaff.nciIdentifier" displayName="Clinical Staff identifier"
+                    <tags:renderText propertyName="clinicalStaff.nciIdentifier" displayName="clinicalStaff.label.identifier"
                                      required="true"/>
 
                 </td>
                 <td style="vertical-align:top">
 
-                    <tags:renderEmail propertyName="clinicalStaff.emailAddress" displayName="Email address"
+                    <tags:renderEmail propertyName="clinicalStaff.emailAddress" displayName="clinicalStaff.label.email_address"
                                       required="true"/>
-                    <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber" displayName="Phone"
+                    <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber" displayName="clinicalStaff.label.phone"
                                            required="true"/>
-                    <tags:renderPhoneOrFax propertyName="clinicalStaff.faxNumber" displayName="Fax"/>
+                    <tags:renderPhoneOrFax propertyName="clinicalStaff.faxNumber" displayName="clinicalStaff.label.fax"/>
 
 
                 </td>
             </tr>
         </table>
 
-        <chrome:division title="Clinical Staff sites">
+        <chrome:division title="clinicalStaff.division.sites">
 
             <input type="hidden" value="" id="objectsIdsToRemove" name="objectsIdsToRemove"/>
 
             <div align="left" style="margin-left: 50px">
                 <table width="55%" class="tablecontent">
                     <tr id="ss-table-head" class="amendment-table-head">
-                        <th width="95%" class="tableHeader"><tags:requiredIndicator/>Site</th>
+                        <th width="95%" class="tableHeader"><tags:requiredIndicator/><tags:message code="clinicalStaff.label.site"/></th>
                         <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 
                     </tr>
@@ -132,7 +132,9 @@
             </div>
             <tags:tabControls>
                    <jsp:attribute name="localButtons">
-                       <input type="button" value="Add Site" onClick="addSite()" class="button"/>
+                       <c:set var="addSites"><tags:message code="clinicalStaff.button.site"/></c:set>
+
+                       <input type="button" value="${addSites}" onClick="addSite()" class="button"/>
 
                    </jsp:attribute>
             </tags:tabControls>

@@ -52,18 +52,18 @@
        <ul id="" class="tabs autoclear">
            <li id="thirdlevelnav" class="tab selected">
                <div>
-                   <a href="createClinicalStaff">Create/Edit ClinicalStaff</a>
+                   <a href="createClinicalStaff"><tags:message code="clinicalStaff.tab.createStaff"/></a>
                </div>
            </li>
            <li id="thirdlevelnav" class="tab">
                <div>
-                   <a href="searchClinicalStaff">Search ClinicalStaff</a>
+                   <a href="searchClinicalStaff"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
                </div>
            </li>
        </ul>
    </div>
 </div>
-  <chrome:box title="Search Criteria" autopad="true">
+  <chrome:box title="clinicalStaff.box.searchCriteria" autopad="true">
       <p><tags:instructions code="clinicalStaff.search.top"/> </p>
 
      <!-- <table>
@@ -73,15 +73,15 @@
       </table>
         -->
       <div class="row">
-           	<div class="label">First name</div>
+           	<div class="label"><tags:message code="clinicalStaff.label.first_name"/></div>
            	<div class="value"><input type="text" id="firstName" name="firstName" maxlength="30"/></div>
        	</div>
 		<div class="row">
-           	<div class="label">Last name</div>
+           	<div class="label"><tags:message code="clinicalStaff.label.last_name"/></div>
            	<div class="value"><input type="text" id="lastName" name="lastName" maxlength="30"/></div>
        	</div>
 		<div class="row">
-           	<div class="label">Identifier</div>
+           	<div class="label"><tags:message code="clinicalStaff.label.identifier"/></div>
            	<div class="value"><input type="text" id="nciIdentifier"name="nciIdentifier" maxlength="30"/></div>
        	</div>
 
@@ -89,9 +89,9 @@
   <div class="row">
               <div class="label"></div>
               <div class="value">
-
+      <c:set var="search"><tags:message code="clinicalStaff.button.search"/></c:set>
       <input class='ibutton' type='button'  onclick="buildTable('assembler');"
-                    value='Search' title='Search ClinicalStaff'/>
+                    value='${search}' title='Search ClinicalStaff'/>
              <tags:indicator id="indicator"/>
               </div>
      </div>
@@ -101,7 +101,7 @@
 
   <div id="bigSearch" style="display:none;">
       <div class="endpanes"/>
-      <chrome:box title="Results">
+      <chrome:box title="clinicalStaff.box.results">
           <p><tags:instructions code="study.search.results"/></p>
           <form:form id="assembler">
               <chrome:division id="single-fields">

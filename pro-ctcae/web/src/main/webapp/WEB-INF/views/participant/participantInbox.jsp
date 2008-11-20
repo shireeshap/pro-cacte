@@ -27,18 +27,18 @@
     </style>
 </head>
 <body>
-<chrome:box title="Inbox">
+<chrome:box title="participant.box.inbox">
 
     <table width="100%" border="0">
         <tr>
             <th>
-                Title
+                <tags:message code="participant.label.title"/>
             </th>
             <th>
-                Status
+                <tags:message code="participant.label.status"/>
             </th>
             <th>
-                Schedule
+                <tags:message code="participant.label.dueDate"/>
             </th>
         </tr>
         <c:forEach items="${command.studyParticipantAssignments}"
