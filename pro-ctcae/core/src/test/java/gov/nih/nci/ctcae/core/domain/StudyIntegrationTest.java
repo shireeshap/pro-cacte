@@ -295,6 +295,15 @@ public class StudyIntegrationTest extends AbstractJpaIntegrationTestCase {
 
     }
 
+    public void testFindOrganizationsForStudySites() {
+
+
+        Collection<? extends Organization> organizations = organizationRepository.findOrganizationsForStudySites();
+        assertFalse(organizations.isEmpty());
+
+
+    }
+
     @Override
     protected void onTearDown() throws Exception {
         studyRepository.delete(studyWithStudyOrganizations);

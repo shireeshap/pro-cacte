@@ -35,9 +35,6 @@ public class StudyParticipantAssignment extends BaseVersionable {
     public StudyParticipantAssignment() {
     }
 
-    public StudyParticipantAssignment(Integer id) {
-        this.id = id;
-    }
 
     public Integer getId() {
         return id;

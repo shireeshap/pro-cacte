@@ -110,6 +110,8 @@ public class OrganizationIntegrationTest extends AbstractJpaIntegrationTestCase 
 
     }
 
+
+
     public void testFindByOrganizationNameOrNciInstituteCode() {
 
         OrganizationQuery organizationQuery = new OrganizationQuery();
