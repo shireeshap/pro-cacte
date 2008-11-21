@@ -19,7 +19,8 @@
 
 
         function addStudySiteDiv(transport) {
-
+            $('studySiteTable').show()
+            
             var response = transport.responseText;
             new Insertion.Before("hiddenDiv", response);
 
@@ -57,7 +58,10 @@
             acCreate(new siteAutoComplter(siteBaseName));
             initializeAutoCompleter(siteBaseName, '${studySite.organization.displayName}', '${studySite.organization.id}');
         </c:forEach>
+      <c:if test="${not empty command.study.studySites}">
+            $('studySiteTable').show()
 
+      </c:if>
             initSearchField()
 
 
@@ -73,15 +77,14 @@
 <tags:tabForm tab="${tab}" flow="${flow}">
 
     <jsp:attribute name="repeatingFields">
-        <c:set var="studySites"><spring:message code='study.section.study_sites' text=''/></c:set>
 
-        <chrome:division title="${studySites}">
+        <chrome:division>
             <p><tags:instructions code="study.study_sites.top"/></p>
 
             <input type="hidden" value="" id="objectsIdsToRemove" name="objectsIdsToRemove"/>
 
             <div align="left" style="margin-left: 50px">
-                <table width="55%" class="tablecontent">
+                <table width="55%" class="tablecontent" style="display:none;" id="studySiteTable">
                     <tr id="ss-table-head" class="amendment-table-head">
                         <th width="95%" class="tableHeader"><tags:requiredIndicator/><spring:message
                                 code='study.label.sites' text=''/></th>

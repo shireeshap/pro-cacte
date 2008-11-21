@@ -37,12 +37,9 @@
 
 </head>
 <body>
-<c:set var="studySaveConfirmation"><spring:message code='study.save.confirmation' text=''/></c:set>
-<chrome:flashMessage flashMessage="${studySaveConfirmation}"></chrome:flashMessage>
-<c:set var="studyDetails"><spring:message code='study.tab.study_details' text=''/></c:set>
-<c:set var="studySites"><spring:message code='study.section.study_sites' text=''/></c:set>
+<chrome:flashMessage flashMessage="study.save.confirmation"></chrome:flashMessage>
 
-<chrome:box title="${studyDetails}">
+<chrome:box title="study.tab.study_details">
 
     <chrome:division>
         <div class="leftpanel">
@@ -73,7 +70,7 @@
             </div>
         </div>
     </chrome:division>
-    <chrome:division title="${studySites}">
+    <chrome:division title="study.section.study_sites">
 
         <div align="left" style="margin-left: 50px">
             <table width="55%" class="tablecontent">

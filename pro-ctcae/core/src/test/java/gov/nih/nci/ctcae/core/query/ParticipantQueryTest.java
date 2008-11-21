@@ -25,6 +25,31 @@ public class ParticipantQueryTest extends TestCase {
         assertEquals("wrong parameter value", participantQuery.getParameterMap().get("firstName"), "%john%");
     }
 
+    public void testFilterByParticipantIdentifier() throws Exception {
+        ParticipantQuery participantQuery = new ParticipantQuery();
+        participantQuery.filterByParticipantIdentifier("iId001");
+        assertEquals("SELECT p from Participant p WHERE lower(p.assignedIdentifier) LIKE :assignedIdentifier order by p.id",
+                participantQuery.getQueryString());
+        assertEquals("wrong number of parameters", participantQuery.getParameterMap().size(), 1);
+        assertTrue("missing parameter name", participantQuery.getParameterMap().containsKey("assignedIdentifier"));
+        assertEquals("wrong parameter value", participantQuery.getParameterMap().get("assignedIdentifier"), "%id001%");
+    }
+    public void testFilterByStudyI() throws Exception {
+        ParticipantQuery participantQuery = new ParticipantQuery();
+        participantQuery.filterByStudy(null);
+        assertEquals("SELECT p from Participant p order by p.id",
+                participantQuery.getQueryString());
+
+         participantQuery = new ParticipantQuery();
+               participantQuery.filterByStudy(1);
+               assertEquals("SELECT p from Participant p left join p.studyParticipantAssignments as spa join spa.studySite as ss join ss.study as study WHERE study.id =:studyId order by p.id",
+                       participantQuery.getQueryString());
+
+        assertEquals("wrong number of parameters", participantQuery.getParameterMap().size(), 1);
+        assertTrue("missing parameter name", participantQuery.getParameterMap().containsKey("studyId"));
+        assertEquals("wrong parameter value", participantQuery.getParameterMap().get("studyId"), 1);
+    }
+
     public void testFilterByLastName() throws Exception {
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByParticipantLastName("dow");

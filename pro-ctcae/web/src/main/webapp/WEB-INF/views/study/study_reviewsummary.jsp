@@ -43,7 +43,6 @@
         <c:if test="${(empty command.study.id) or ( command.study.id le 0) }">
             <input type="hidden" name="_finish" value="true"/>
         </c:if>
-        <c:set var="studySites"><spring:message code='study.section.study_sites' text=''/></c:set>
 
     <chrome:division>
         <div class="leftpanel">
@@ -74,7 +73,7 @@
             </div>
         </div>
     </chrome:division>
-    <chrome:division title="${studySites}">
+    <chrome:division title="study.section.study_sites">
 
         <div align="left" style="margin-left: 50px">
             <table width="55%" class="tablecontent">
