@@ -38,7 +38,9 @@
     <br>
     <br>
 </div>
-<input type="image" src="<c:url value="/images/blue/save_btn.png"/>" id="flow-update"
-       class="tab" value="Save" alt="Save" onclick="submitCrfItemPropertiesWindow(${crfItem.proCtcQuestion.id})"/>
+<div class="flow-buttons">
 
+    <input type="image" src="<c:url value="/images/blue/save_btn.png"/>" id="flow-update"
+           class="next" value="Save" alt="Save" onclick="submitCrfItemPropertiesWindow(${crfItem.proCtcQuestion.id})"/>
+</div>
 </body>
