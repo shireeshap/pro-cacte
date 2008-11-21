@@ -36,7 +36,7 @@ Event.observe(window, "load", function () {
         rows:1,
         cancelControl:false,
         okControl:false,
-        size:70,
+        size:50,
         submitOnBlur:true,
         onEnterEditMode:function() {
             if ($('crfTitle').innerHTML == 'Click here to name') {
@@ -238,7 +238,7 @@ function showCrfItemPropertiesWindow(transport) {
     var win = Windows.getFocusedWindow();
     if (win == null) {
         win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                true, title: "", height:500, width: 550,top:250,left:250});
+                true, title: "", height:500, width: 550,top:200,left:250});
         win.setDestroyOnClose();
         win.setHTMLContent(transport.responseText);
         win.show(true)
@@ -303,7 +303,7 @@ function showReviewWindow(transport) {
     var win = Windows.getFocusedWindow();
     if (win == null) {
         win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                true, title: "Preview Form", height:300, width: 550,top:250,left:200});
+                true, title: "", height:300, width: 600,top:250,left:200});
         win.setDestroyOnClose();
         win.setHTMLContent(transport.responseText);
         win.show(true)

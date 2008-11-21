@@ -62,6 +62,7 @@
                 <c:forEach items="${studyCrf.crf.crfItems}" var="crfItem">
                     <tags:questionReview crfItem="${crfItem}" showInstructions="true"
                                          displayOrder="${crfItem.displayOrder}"></tags:questionReview>
+                 <br>
                 </c:forEach>
 
             </td>

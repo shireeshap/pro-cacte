@@ -11,7 +11,9 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<head></head>
+<head>
+
+</head>
 <body>
 
 <chrome:box title="crfItem.label.properties">
@@ -31,16 +33,20 @@
     </noform:renderRadio>
 
 </chrome:box>
-<div id="previewQuestion">
+<div id="previewQuestion" class="review">
     <tags:questionReview crfItem="${crfItem}" showInstructions="false"/>
 
-
-    <br>
-    <br>
+ <br>
+ <br>
 </div>
+
 <div class="flow-buttons">
 
-    <input type="image" src="<c:url value="/images/blue/save_btn.png"/>" id="flow-update"
-           class="next" value="Save" alt="Save" onclick="submitCrfItemPropertiesWindow(${crfItem.proCtcQuestion.id})"/>
+    <input type="button"  id="flow-update"
+           class="next" value="Submit" alt="Save" onclick="submitCrfItemPropertiesWindow(${crfItem.proCtcQuestion.id})"/>
+
+
+    <input type="button"  id="flow-cancel"
+           class="previous ibutton" value="Cancel" alt="Cancel" onclick="closeCrfItemPropertiesWindow()"/>
 </div>
 </body>

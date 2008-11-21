@@ -4,8 +4,13 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<tags:formbuilderBox>
+<style type="text/css">
+    .review {
+        font-weight: bold;
+        font-size: 15px;
+    }
+</style>
+<tags:formbuilderBox cssClass="review">
     <tags:formbuilderBoxControls add="false"
                                  proCtcQuestionId="${crfItem.proCtcQuestion.id}"/>
 
@@ -58,7 +63,6 @@
 
           </jsp:attribute>
     </chrome:summary>
-
-
 </tags:formbuilderBox>
-<br>
+
+
