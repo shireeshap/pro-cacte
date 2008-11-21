@@ -136,6 +136,7 @@
 .dialog {
     display: block;
     position: absolute;
+	text-align:left;
 }
 
 .dialog table.table_window {
