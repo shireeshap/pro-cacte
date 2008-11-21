@@ -12,8 +12,7 @@
 <body>
 
 <form:form method="post">
-
-    <chrome:box title="Release form">
+    <chrome:box title="form.label.release_form">
         <chrome:division>
             <c:choose>
                 <c:when test="${command.crf.released}">

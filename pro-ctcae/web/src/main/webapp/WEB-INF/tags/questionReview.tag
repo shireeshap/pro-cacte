@@ -1,3 +1,4 @@
+<%@ attribute name="displayOrder" %>
 <%@ attribute name="showInstructions" type="java.lang.Boolean" %>
 <%@ attribute name="crfItem" type="gov.nih.nci.ctcae.core.domain.CrfItem" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
@@ -9,12 +10,14 @@
                                  proCtcQuestionId="${crfItem.proCtcQuestion.id}"/>
 
     <c:if test="${showInstructions}">
-        <chrome:summary label="Instructions">
+        <c:if test="${not empty crfItem.instructions}">
+            <chrome:summary label="Instructions">
           <jsp:attribute name="content">
            ${crfItem.instructions}
           </jsp:attribute>
 
-        </chrome:summary>
+            </chrome:summary>
+        </c:if>
     </c:if>
     <chrome:summary>
           <jsp:attribute name="content">

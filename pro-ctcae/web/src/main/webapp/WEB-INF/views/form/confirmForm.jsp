@@ -56,9 +56,12 @@
     <table id="formbuilderTable">
         <tr>
             <td id="left">
-                Questions
+                <div class="instructions">
+                    <div class="summarylabel"><tags:message code='form.label.questions'/></div>
+                </div>
                 <c:forEach items="${studyCrf.crf.crfItems}" var="crfItem">
-                    <tags:questionReview crfItem="${crfItem}" showInstructions="true"></tags:questionReview>
+                    <tags:questionReview crfItem="${crfItem}" showInstructions="true"
+                                         displayOrder="${crfItem.displayOrder}"></tags:questionReview>
                 </c:forEach>
 
             </td>
