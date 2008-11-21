@@ -36,6 +36,7 @@ Event.observe(window, "load", function () {
         rows:1,
         cancelControl:false,
         okControl:false,
+        size:70,
         submitOnBlur:true,
         onEnterEditMode:function() {
             if ($('crfTitle').innerHTML == 'Click here to name') {
