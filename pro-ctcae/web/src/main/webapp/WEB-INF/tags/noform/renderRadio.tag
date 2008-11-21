@@ -26,17 +26,16 @@
                 <c:when test="${item.code eq propertyValue}">
                     <input type="radio" class="longselect-radio" name="${propertyName}-radio" id="${propertyName}-radio"
                            value="${item.code}"
-                           checked="checked"
+                           checked="checked" style="margin:3px"
                            onclick="updateCrfItemroperties('${item.code}','${propertyName}')"/>${item.desc}
                 </c:when><c:otherwise>
 
 
                 <input type="radio" class="longselect-radio" name="${propertyName}-radio" id="${propertyName}-radio"
                        value="${item.code}"
-                       onclick="updateCrfItemroperties('${item.code}','${propertyName}')"/>${item.desc}
+                       onclick="updateCrfItemroperties('${item.code}','${propertyName}')" style="margin:3px"/>${item.desc}
             </c:otherwise>
             </c:choose>
-            <br>
         </c:forEach>
 
 
