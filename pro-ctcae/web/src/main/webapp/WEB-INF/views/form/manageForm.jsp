@@ -59,6 +59,37 @@
             })
 
         }
+        function releaseForm(studyCrfId) {
+
+            var request = new Ajax.Request("<c:url value="/pages/form/releaseForm"/>", {
+                parameters:"studyCrfId=" + studyCrfId + "&subview=subview",
+                onComplete:showReleaseFormWindow,
+                method:'get'
+            })
+
+        }
+        function closeReleaseFormWindow() {
+            var win = Windows.getFocusedWindow();
+            if (win != null) {
+                win.close();
+            }
+        }
+        function showReleaseFormWindow(transport) {
+            var win = Windows.getFocusedWindow();
+            if (win == null) {
+                win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
+                        true, title: "", height:300, width: 550,top:250,left:200});
+                win.setDestroyOnClose();
+                win.setHTMLContent(transport.responseText);
+                win.show(true)
+
+            } else {
+                win.setHTMLContent(transport.responseText);
+                win.refresh();
+            }
+
+
+        }
 
     </script>
 
@@ -91,8 +122,6 @@
         </form:form>
 
     </div>
-
-
 </chrome:box>
 
 

@@ -55,7 +55,7 @@ public class StudyCrfLinkDisplayCellTest extends AbstractCellTestCase {
         model.setCurrentRowBean(studyCrf);
 
 
-        assertEquals("<a href=\"/pages/form/releaseForm?studyCrfId=1\">Release Form</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
+        assertEquals("<a href=\"javascript:releaseForm('1')\">Release Form</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
     }
 
 

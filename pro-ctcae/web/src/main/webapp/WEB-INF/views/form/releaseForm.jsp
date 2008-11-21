@@ -42,7 +42,7 @@
 
                         <p>
                             You cannot reverse this step. If you're not ready to proceed, please
-                            <a href="<c:url value="/pages/form/manageForm?studyCrfId=${command.id}"/>">return
+                            <a href="javascript:closeReleaseFormWindow()">return
                                 to
                                 the search results</a>.
                         </p>
