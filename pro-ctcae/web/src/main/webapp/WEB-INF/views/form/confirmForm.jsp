@@ -35,20 +35,20 @@
 
 </head>
 <body>
-<chrome:flashMessage flashMessage="The Form was saved successfully"></chrome:flashMessage>
+<chrome:flashMessage flashMessage="form.save.confirmation"></chrome:flashMessage>
 
-<chrome:box title="Confirmation">
+<chrome:box title="form.confirmation">
 
 
     <div class="instructions">
-        <div class="summarylabel">Study</div>
+        <div class="summarylabel"><tags:message code='form.label.study'/></div>
         <div class="summaryvalue">${studyCrf.study.displayName}</div>
     </div>
 
 
     <div class="instructions">
 
-        <div class="summarylabel">Title</div>
+        <div class="summarylabel"><tags:message code='form.label.title'/></div>
         <div class="summaryvalue">${studyCrf.crf.title}</div>
     </div>
     <br>
@@ -58,7 +58,7 @@
             <td id="left">
                 Questions
                 <c:forEach items="${studyCrf.crf.crfItems}" var="crfItem">
-                    <tags:reviewQuestion crfItem="${crfItem}"></tags:reviewQuestion>
+                    <tags:questionReview crfItem="${crfItem}" showInstructions="true"></tags:questionReview>
                 </c:forEach>
 
             </td>
@@ -66,7 +66,8 @@
 
     </table>
 
-
+    <br>
+    <br>
 </chrome:box>
 
 </body>

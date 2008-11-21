@@ -11,29 +11,33 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<head>
-
-
-</head>
+<head></head>
 <body>
-<c:set var="properties"><tags:message code='form.label.properties'/></c:set>
 
-<chrome:box title="${properties}">
-    <noform:renderText propertyName="crfItem.instructions" displayName="form.label.instructions"
-                       propertyValue="${crfItem.instructions}"></noform:renderText>
+<chrome:box title="crfItem.label.properties">
+    <noform:renderTextArea propertyName="crfItem.instructions" displayName="crfItem.label.instructions"
+                           propertyValue="${crfItem.instructions}"></noform:renderTextArea>
 
-    <noform:renderSelect propertyName="crfItem.responseRequired" displayName="form.label.response_required"
-                         propertyValue="${crfItem.responseRequired}" items="${responseRequired}">
+    <noform:renderRadio propertyName="crfItem.responseRequired" displayName="crfItem.label.response_required"
+                        propertyValue="${crfItem.responseRequired}" items="${responseRequired}">
 
-    </noform:renderSelect>
+    </noform:renderRadio>
 
-    <noform:renderSelect
-            propertyName="crfItem.crfItemAllignment" displayName="form.label.allignment"
+
+    <noform:renderRadio
+            propertyName="crfItem.crfItemAllignment" displayName="crfItem.label.allignment"
             propertyValue="${crfItem.crfItemAllignment}" items="${crfItemAllignments}">
 
-    </noform:renderSelect>
+    </noform:renderRadio>
 
 </chrome:box>
+<div id="previewQuestion">
+    <tags:questionReview crfItem="${crfItem}" showInstructions="false"/>
+
+
+    <br>
+    <br>
+</div>
 <input type="image" src="<c:url value="/images/blue/save_btn.png"/>" id="flow-update"
        class="tab" value="Save" alt="Save" onclick="submitCrfItemPropertiesWindow(${crfItem.proCtcQuestion.id})"/>
 

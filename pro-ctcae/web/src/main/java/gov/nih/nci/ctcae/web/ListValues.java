@@ -103,8 +103,6 @@ public class ListValues {
     public static List<ListValues> getResponseRequired() {
         List<ListValues> valuesList = new ArrayList<ListValues>();
 
-
-        valuesList.add(new ListValues("", "Please select"));
         valuesList.add(new ListValues("true", "Yes"));
         valuesList.add(new ListValues("false", "No"));
 
@@ -127,9 +125,6 @@ public class ListValues {
 
     public static List<ListValues> getCrfItemAllignments() {
         List<ListValues> valuesList = new ArrayList<ListValues>();
-
-
-        valuesList.add(new ListValues("", "Please select"));
 
         for (CrfItemAllignment crfItemAllignment : CrfItemAllignment.values()) {
             valuesList.add(new ListValues(crfItemAllignment.getDisplayName(), crfItemAllignment.getDisplayName()));

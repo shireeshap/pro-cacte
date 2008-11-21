@@ -13,9 +13,9 @@
         <a href="/ctcae/pages/form/createForm" id="logo">ProCtcAE</a>
 
         <ctcae:authorize>
-        <!--<div id="welcome-user">Welcome<b/>-->
-        <authz:authentication operation="username"></authz:authentication>
-        <!--</div>-->
+            <!--<div id="welcome-user">Welcome<b/>-->
+            <authz:authentication operation="username"></authz:authentication>
+            <!--</div>-->
         </ctcae:authorize>
 
         <%--<div id="login-action">--%>
@@ -38,7 +38,8 @@
                 <li class="${section == currentSection ? 'selected' : ''}">
 
                     <a id="firstlevelnav_${section.mainController}"
-                       href="<c:url value="${section.mainUrl}"/>">${section.displayName}</a>
+                       href="<c:url value="${section.mainUrl}"/>"><spring:message code='${section.displayName}'
+                                                                                  text=''/></a>
 
                 </li>
             </c:forEach>
@@ -49,7 +50,11 @@
                 <c:set var="noOfTasks" value="${fn:length(currentSection.tasks)}"/>
                 <!-- test : ${noOfTasks} , ${fn:length(currentSection.tasks)}-->
                 <c:forEach items="${currentSection.tasks}" var="task">
-                    <c:set var="lengthOfTask" value="${fn:length(task.displayName)}"/>
+                    <c:set var="taskDisplayName">
+                        <spring:message code='${task.displayName}' text=''/>
+
+                    </c:set><c:set var="lengthOfTask" value="${fn:length(taskDisplayName)}">
+                </c:set>
 
 
                     <a class="${(task == currentTask) || (task.displayName == currentTask.displayName) ?  ( noOfTasks gt 4 ? 'selected gt4' : 'selected lte4') : ( noOfTasks gt 4 ? 'gt4' : 'lte4')} ${(lengthOfTask gt 18 ? 'gt18' : '')}"

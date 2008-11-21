@@ -83,17 +83,17 @@ function sortQustions() {
 function displayReviewLink() {
     if ($('totalQuestions').value != '0') {
         $('reviewLink').show();
-        $('reviewAllLink').show();
+        //$('reviewAllLink').show();
     } else {
         $('reviewLink').hide();
-        $('reviewAllLink').hide();
+        //$('reviewAllLink').hide();
 
     }
 }
 function reOrderQuestionNumber() {
     var i = 1;
-    $$("span.sortableSpan").each(function (item) {
-        item.innerHTML = i + ":";
+    $$("div.sortableSpan").each(function (item) {
+        item.innerHTML = i;
         i = i + 1;
 
 
@@ -101,8 +101,8 @@ function reOrderQuestionNumber() {
 
 }
 function hideQuestionsFromForm() {
-    $$("a.del").each(function (item) {
-        var questionId = item.id.substr(4, item.id.length);
+    $$("div.makeDraggable").each(function (item) {
+        var questionId = item.id.substr(9, item.id.length)
         hideQuestionFromForm(questionId);
 
     })
@@ -176,7 +176,11 @@ function deleteQuestion(questionId) {
 function reviewForm() {
     var firstQuestion = $$('div.sortable')[0].id;
     var firstQuestion = $$('div.sortable')[0].id;
-    showQuestionForReview(firstQuestion, 1, 1, '');
+    var nextQuestionIndex = 1;
+    if ($('totalQuestions').value == '1') {
+        nextQuestionIndex = '';
+    }
+    showQuestionForReview(firstQuestion, 1, nextQuestionIndex, '');
 
 
 }
@@ -233,7 +237,7 @@ function showCrfItemPropertiesWindow(transport) {
     var win = Windows.getFocusedWindow();
     if (win == null) {
         win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                true, title: "", height:200, width: 550,top:250,left:300});
+                true, title: "", height:500, width: 550,top:250,left:300});
         win.setDestroyOnClose();
         win.setHTMLContent(transport.responseText);
         win.show(true)
@@ -245,10 +249,29 @@ function showCrfItemPropertiesWindow(transport) {
 
 
 }
+function updateCrfItemroperties(value, propertyName) {
+    if (propertyName == 'crfItem.crfItemAllignment') {
+        $('crfItem.crfItemAllignment').value = value;
+        if (value == 'Vertical') {
+            $('horizontalCrfItems').hide();
+            $('verticalCrfItems').show();
+
+        }
+        if (value == 'Horizontal') {
+            $('verticalCrfItems').hide();
+            $('horizontalCrfItems').show();
+
+        }
+    }
+    if (propertyName == 'crfItem.responseRequired') {
+        $('crfItem.responseRequired').value = value;
+    }
+}
 function submitCrfItemPropertiesWindow(questionId) {
 
 
     var aElement = '<c:url value="/pages/form/addCrfItemProperties"/>';
+
 
     var lastRequest = new Ajax.Request(aElement, {
         method: 'post',
@@ -279,7 +302,7 @@ function showReviewWindow(transport) {
     var win = Windows.getFocusedWindow();
     if (win == null) {
         win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                true, title: "Review Form", height:500, width: 750,top:150,left:300});
+                true, title: "Preview Form", height:380, width: 600,top:150,left:300});
         win.setDestroyOnClose();
         win.setHTMLContent(transport.responseText);
         win.show(true)
@@ -334,9 +357,10 @@ function previousQuestion(questionIndex) {
     .makeDraggable {
         cursor: move;
     }
-	/*.editor_field, #crfTitle-inplaceeditor {
-	font-size:30px;
-	}*/
+
+        /*.editor_field, #crfTitle-inplaceeditor {
+      font-size:30px;
+      }*/
 </style>
 
 </head>
@@ -357,10 +381,10 @@ function previousQuestion(questionIndex) {
             <table id="formbuilderTable">
                 <tr>
                     <td id="left">
-                        
 
-                            <div class="formbuilderHeader"><tags:message code='form.label.question_bank'/></div>
-                        
+
+                        <div class="formbuilderHeader"><tags:message code='form.label.question_bank'/></div>
+
                         <ul class="tree">
                             <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
@@ -373,11 +397,18 @@ function previousQuestion(questionIndex) {
 
                                                     <li id="question_${proCtcQuestion.id}">
                                                         <tags:formbuilderBox>
-                                                          <tags:formbuilderBoxControls add="true" proCtcQuestionId="${proCtcQuestion.id}" />
+                                                            <tags:formbuilderBoxControls add="true"
+                                                                                         proCtcQuestionId="${proCtcQuestion.id}"/>
                                                             ${proCtcQuestion.questionText}
+                                                            <ul>
+                                                                <c:forEach items="${proCtcQuestion.validValues}"
+                                                                           var="proCtcValidValue">
+                                                                    <li>${proCtcValidValue.value}</li>
+                                                                </c:forEach>
+                                                            </ul>
                                                         </tags:formbuilderBox>
                                                     </li>
-
+                                                    <br>
                                                 </c:forEach>
                                                 </ul>
                                             </li>
@@ -404,8 +435,8 @@ function previousQuestion(questionIndex) {
 
                     </td>
                     <td id="right">
-                        <a id="reviewLink" href="javascript:reviewForm()" style="display:none">Review</a>
-                        <a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review All</a>
+                        <a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>
+                            <%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
                             <%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>
                         <table style="border-collapse:collapse; height:800px;">
                             <tr style="height:100%;">
@@ -415,14 +446,18 @@ function previousQuestion(questionIndex) {
                                         <br/>
                                         <form:hidden path="studyCrf.crf.title" id="formTitle"/>
 
-                                        <span class="formbuildersubHeader">There <span id="plural1">are</span> <span id="totalQuestionDivision">${totalQuestions}</span> question<span id="plural2">s</span> in this form.</span>
+                                        <span class="formbuildersubHeader">There <span id="plural1">are</span> <span
+                                                id="totalQuestionDivision">${totalQuestions}</span> question<span
+                                                id="plural2">s</span> in this form.</span>
                                     </div>
                                     <div id="sortable">
                                         <form:hidden path="questionsIds" id="questionsIds"/>
                                         <input type="hidden" id="totalQuestions" value="${totalQuestions}">
-                                        <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem" varStatus="status">
-											 <tags:oneQuestion proCtcQuestion="${crfItem.proCtcQuestion}" displayOrder="${status.index}"> 
-                                             </tags:oneQuestion>
+                                        <c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem"
+                                                   varStatus="status">
+                                            <tags:oneQuestion proCtcQuestion="${crfItem.proCtcQuestion}"
+                                                              displayOrder="${status.index}">
+                                            </tags:oneQuestion>
                                         </c:forEach>
                                         <div id="hiddenDiv"></div>
                                     </div>

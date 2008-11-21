@@ -39,7 +39,8 @@
     <jsp:attribute name="singleFields">
 
         <p><tags:instructions code="instruction_select_study"/></p>
-        <tags:renderAutocompleter propertyName="studyCrf.study" required="true" displayName="Study" size="70"/>
+        <tags:renderAutocompleter propertyName="studyCrf.study" required="true" displayName="form.label.study"
+                                  size="70"/>
         <p id="studyCrf.study-selected" style="display: none">
             You have selected the study <span id="studyCrf.study-selected-name"></span>.
         </p>

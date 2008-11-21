@@ -17,10 +17,10 @@
 <%@attribute name="pageHelpAnchor" %>
 <%@attribute name="tabContent" fragment="true" %>
 <%@attribute name="localButtons" fragment="true" %>
-<c:set var="title"><spring:message code='${tab.shortTitle}' text=''/></c:set>
+
 <c:choose>
     <c:when test="${!notDisplayInBox}">
-        <chrome:box title="${title}" id="${boxId}" cssClass="${boxClass}"
+        <chrome:box title="${tab.shortTitle}" id="${boxId}" cssClass="${boxClass}"
                     noBackground="${noBackground}">
 
             <jsp:invoke fragment="tabContent"/>

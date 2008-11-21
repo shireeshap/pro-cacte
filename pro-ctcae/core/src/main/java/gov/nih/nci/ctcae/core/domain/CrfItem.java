@@ -28,14 +28,14 @@ public class CrfItem extends BasePersistable {
     private ProCtcQuestion proCtcQuestion;
 
     @Column(name = "response_required")
-    private Boolean responseRequired;
+    private Boolean responseRequired = Boolean.FALSE;
 
     @Column(name = "instructions")
     private String instructions;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "allignment")
-    private CrfItemAllignment crfItemAllignment;
+    private CrfItemAllignment crfItemAllignment = CrfItemAllignment.VERTICAL;
 
     public CrfItem() {
     }

@@ -377,8 +377,10 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/javascriptLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/jsLogs.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/message.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/noform/renderHidden.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/noform/renderRadio.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/noform/renderSelect.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/noform/renderText.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/noform/renderTextArea.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneAdverseEventMeddra.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneOrganization.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneQuestion.tag -text
@@ -387,6 +389,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/panelBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/parsedStylesheetLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/printRow.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/putSpecialRequiredIndicator.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/questionReview.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderAutocompleter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderCheckBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderDate.tag -text

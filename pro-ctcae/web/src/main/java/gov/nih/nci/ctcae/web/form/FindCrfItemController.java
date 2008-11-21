@@ -28,6 +28,7 @@ public class FindCrfItemController extends AbstractController {
 
 
         Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
+        Integer displayOrder = ServletRequestUtils.getIntParameter(request, "displayOrder");
 
         ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
 
@@ -36,6 +37,7 @@ public class FindCrfItemController extends AbstractController {
 
         crfItem.setProCtcQuestion(proCtcQuestion);
         modelAndView.addObject("crfItem", crfItem);
+        modelAndView.addObject("displayOrder", displayOrder);
 
 
         String nextQuestionIndex = request.getParameter("nextQuestionIndex");
