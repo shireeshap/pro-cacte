@@ -12,7 +12,7 @@ public class CrfItemTest extends TestCase {
     public void testConstructor() {
         crfItem = new CrfItem();
         assertEquals(Integer.valueOf(0), crfItem.getDisplayOrder());
-        assertNull("must not require response", crfItem.getResponseRequired());
+        assertFalse("must not require response", crfItem.getResponseRequired());
     }
 
     public void testGetterAndSetter() {
