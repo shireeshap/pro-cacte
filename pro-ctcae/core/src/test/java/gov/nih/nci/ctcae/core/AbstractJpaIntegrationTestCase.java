@@ -2,8 +2,6 @@ package gov.nih.nci.ctcae.core;
 
 import org.springframework.test.jpa.AbstractJpaTests;
 
-import java.util.StringTokenizer;
-
 public abstract class AbstractJpaIntegrationTestCase extends AbstractJpaTests {
 
 
@@ -20,15 +18,6 @@ public abstract class AbstractJpaIntegrationTestCase extends AbstractJpaTests {
                 "classpath*:" + "/*-context-test.xml"};
     }
 
-    private String getFullyQualifiedPackageName(String packageName) {
-        StringBuffer buffer = new StringBuffer("");
-        StringTokenizer tokenizer = new StringTokenizer(packageName, ".");
-        while (tokenizer.hasMoreTokens()) {
-            buffer = buffer.append("/" + tokenizer.nextToken());
-        }
-
-        return buffer.toString();
-    }
 
     protected void login() {
 //        user = userRepository.loadUserByUsername("saurabh1@abc.com");
