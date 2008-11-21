@@ -26,7 +26,7 @@
                             ${title}
                         </c:when>
                         <c:otherwise>
-                            <spring:message code='${title}' text='?? ${title}'/>
+                            <spring:message code='${title}' text='${title}'/>
                         </c:otherwise>
                     </c:choose>
                 </h2><c:if test="${!empty title}">

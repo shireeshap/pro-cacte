@@ -20,7 +20,7 @@
 <%@attribute name="disabled" type="java.lang.Boolean" %>
 <%@ attribute name="showAllJavascript" %>
 <%@ attribute name="help" type="java.lang.Boolean" %>
-<c:set var="title"><spring:message code='${displayName}' text=''/></c:set>
+<c:set var="title"><spring:message code='${displayName}' text='${displayName}'/></c:set>
 
 <c:choose>
     <c:when test="${categoryName == 'text'}">

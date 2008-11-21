@@ -3,11 +3,11 @@
 <%@attribute name="key" %>
 <c:if test="${not empty flashMessage}">
     <div id="flash-message" class="${empty flashMessageClass ? 'info' : flashMessageClass}">
-        <spring:message code='${flashMessage}' text=''/>
+        <spring:message code='${flashMessage}' text='${flashMessage}'/>
     </div>
 </c:if>
 <c:if test="${not empty key}">
     <div id="flash-message" class="${empty flashMessageClass ? 'info' : flashMessageClass}">
-        <spring:message code='${requestScope[key]}' text=''/>
+        <spring:message code='${requestScope[key]}' text='${requestScope[key]}'/>
     </div>
 </c:if>

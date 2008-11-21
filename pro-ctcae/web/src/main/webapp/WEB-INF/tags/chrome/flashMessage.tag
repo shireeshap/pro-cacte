@@ -4,7 +4,7 @@
 <%@attribute name="key" %>
 <c:if test="${not empty flashMessage}">
     <div id="flash-message" class="${empty flashMessageClass ? 'info' : flashMessageClass}">
-            <spring:message code='${flashMessage}' text='?? ${flashMessage}'/>
+            <spring:message code='${flashMessage}' text='${flashMessage}'/>
     </div>
 </c:if>
 <c:if test="${not empty key}">

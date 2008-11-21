@@ -27,7 +27,7 @@
                                         ${title}
                                     </c:when>
                                     <c:otherwise>
-                                        <spring:message code='${title}' text='?? ${title}'/>
+                                        <spring:message code='${title}' text='${title}'/>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
@@ -54,7 +54,7 @@
                             ${title}
                         </c:when>
                         <c:otherwise>
-                            <spring:message code='${title}' text='?? ${title}'/>
+                            <spring:message code='${title}' text='${title}'/>
                         </c:otherwise>
                     </c:choose>
                 </h3>

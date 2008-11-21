@@ -12,7 +12,7 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<c:set var="title"><spring:message code='${displayName}' text=''/></c:set>
+<c:set var="title"><spring:message code='${displayName}' text='${displayName}'/></c:set>
 
 <div id="${propertyName}-row" class="row">
     <div class="label">

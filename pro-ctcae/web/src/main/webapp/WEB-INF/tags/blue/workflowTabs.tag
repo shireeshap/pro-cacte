@@ -17,7 +17,7 @@
                         test="${fn:contains(unfilledTabs,atab.shortTitle)}"><span
                         class="required-for-submit">&#167;</span></c:if>
                     <a href="#" class="tab${atab.number}">${atab.number + 1}. <spring:message code='${atab.shortTitle}'
-                                                                                              text=''/></a>
+                                                                                              text='${atab.shortTitle}'/></a>
                 </div>
             </li>
         </c:forEach>
