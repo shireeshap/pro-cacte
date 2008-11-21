@@ -27,7 +27,7 @@ public class ParticipantQueryTest extends TestCase {
 
     public void testFilterByParticipantIdentifier() throws Exception {
         ParticipantQuery participantQuery = new ParticipantQuery();
-        participantQuery.filterByParticipantIdentifier("iId001");
+        participantQuery.filterByParticipantIdentifier("id001");
         assertEquals("SELECT p from Participant p WHERE lower(p.assignedIdentifier) LIKE :assignedIdentifier order by p.id",
                 participantQuery.getQueryString());
         assertEquals("wrong number of parameters", participantQuery.getParameterMap().size(), 1);
