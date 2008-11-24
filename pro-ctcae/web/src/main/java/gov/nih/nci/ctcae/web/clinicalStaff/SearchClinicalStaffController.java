@@ -21,4 +21,9 @@ public class SearchClinicalStaffController extends AbstractController {
         return modelAndView;
     }
 
+    public SearchClinicalStaffController() {
+        setSupportedMethods(new String[]{"GET"});
+
+    }
+
 }
