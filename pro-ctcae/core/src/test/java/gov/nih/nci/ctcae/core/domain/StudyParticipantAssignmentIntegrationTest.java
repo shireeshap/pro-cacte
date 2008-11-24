@@ -74,6 +74,9 @@ public class StudyParticipantAssignmentIntegrationTest extends AbstractJpaIntegr
         assertEquals(nciStudySite, studyParticipantAssignment.getStudySite());
         assertEquals(participant, studyParticipantAssignment.getParticipant());
 
+        studyParticipantAssignment =   studyParticipantAssignmentRepository.findById(assignment.getId());
+        assertEquals(studyParticipantAssignment , assignment);
+
 
     }
 
