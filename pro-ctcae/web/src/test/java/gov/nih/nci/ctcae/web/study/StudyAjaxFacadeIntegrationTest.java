@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -13,52 +14,72 @@ import java.util.Map;
  */
 public class StudyAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase {
 
-    private StudyAjaxFacade studyAjaxFacade;
-    protected Map parameterMap;
-    private String type;
-    private String text;
-    private StudyRepository studyRepository;
-    private Study study;
+	private StudyAjaxFacade studyAjaxFacade;
+	protected Map parameterMap;
+	private String type;
+	private String text;
+	private StudyRepository studyRepository;
+	private Study study;
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();
-
-
-        study = Fixture.createStudy("study short title", "study long title", "assigned identifier");
-
-        study = studyRepository.save(study);
+	@Override
+	protected void onSetUpInTransaction() throws Exception {
+		super.onSetUpInTransaction();
 
 
-    }
+		study = Fixture.createStudy("study short title", "study long title", "assigned identifier");
+
+		study = studyRepository.save(study);
 
 
-    public void testSearchStudiesByShortTitle() {
-        type = "shortTitle";
-        text = "short";
+	}
 
-        String table = studyAjaxFacade.searchStudies(parameterMap, type, text, request);
-        assertNotNull(table);
-        assertTrue("must find atleast study matching with short title", table.contains(study.getShortTitle()));
-
-    }
+	public void testFindByMatchingText() {
 
 
-    public void testSearchStudiesByIdentifier() {
-        type = "assignedIdentifier";
-        text = "identifier";
+		Collection<? extends Study> studies = studyAjaxFacade.matchStudy("s");
+		assertFalse(studies.isEmpty());
+		int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.long_title) like '%s%' " +
+			"or lower(studies.short_title ) like '%s%' or lower(studies.assigned_identifier ) like '%s%'");
 
-        String table = studyAjaxFacade.searchStudies(parameterMap, type, text, request);
-        assertNotNull(table);
-        assertTrue("must find atleast study matching with identifier", table.contains(study.getAssignedIdentifier()));
+		assertEquals(size, studies.size());
 
-    }
 
-    public void setStudyAjaxFacade(StudyAjaxFacade studyAjaxFacade) {
-        this.studyAjaxFacade = studyAjaxFacade;
-    }
+		for (Study study : studies)
 
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
+		{
+			assertTrue((study.getShortTitle()!=null && study.getShortTitle().toLowerCase().contains("s"))
+				|| (study.getLongTitle()!=null && study.getLongTitle().toLowerCase().contains("s"))
+				|| (study.getAssignedIdentifier()!=null && study.getAssignedIdentifier().toLowerCase().contains("s")));
+		}
+
+	}
+
+	public void testSearchStudiesByShortTitle() {
+		type = "shortTitle";
+		text = "short";
+
+		String table = studyAjaxFacade.searchStudies(parameterMap, type, text, request);
+		assertNotNull(table);
+		assertTrue("must find atleast study matching with short title", table.contains(study.getShortTitle()));
+
+	}
+
+
+	public void testSearchStudiesByIdentifier() {
+		type = "assignedIdentifier";
+		text = "identifier";
+
+		String table = studyAjaxFacade.searchStudies(parameterMap, type, text, request);
+		assertNotNull(table);
+		assertTrue("must find atleast study matching with identifier", table.contains(study.getAssignedIdentifier()));
+
+	}
+
+	public void setStudyAjaxFacade(StudyAjaxFacade studyAjaxFacade) {
+		this.studyAjaxFacade = studyAjaxFacade;
+	}
+
+	public void setStudyRepository(StudyRepository studyRepository) {
+		this.studyRepository = studyRepository;
+	}
 }
