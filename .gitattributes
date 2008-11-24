@@ -765,6 +765,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFac
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfTabTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SearchParticipantControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/AddStudySiteControllerTest.java -text
