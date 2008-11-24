@@ -44,7 +44,7 @@ public class AddCrfScheduleControllerTest extends WebTestCase {
     public void testHandleRequest() throws Exception {
 
         scheduleCrfController.handleRequest(request, response);
-        Object command = ControllersUtils.getFormCommand(request, scheduleCrfController);
+        Object command = ParticipantControllerUtils.getStudyParticipantCommand(request);
         assertNotNull("command must present in session", command);
         StudyParticipantCommand studyParticipantCommand = (StudyParticipantCommand) command;
 
