@@ -9,8 +9,6 @@ import org.extremecomponents.table.context.HttpServletRequestContext;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
 
-import java.util.Collection;
-
 /**
  * @author
  */
@@ -47,14 +45,14 @@ public abstract class AbstractCellTestCase extends WebTestCase {
         row.setHighlightRow(Boolean.TRUE);
     }
 
-    protected void assembleTable(Collection items) throws Exception {
-        Table table = model.getTableInstance();
-        table.setItems(items);
-        model.addTable(table);
-        row = new Row(model);
-        model.addRow(row);
-        model.addColumn(column);
-        model.assemble();
-
-    }
+//    protected void assembleTable(Collection items) throws Exception {
+//        Table table = model.getTableInstance();
+//        table.setItems(items);
+//        model.addTable(table);
+//        row = new Row(model);
+//        model.addRow(row);
+//        model.addColumn(column);
+//        model.assemble();
+//
+//    }
 }
