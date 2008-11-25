@@ -31,10 +31,27 @@ public class ParticipantAjaxFacadeIntegrationTest extends AbstractWebIntegration
     public void testSearchParticipantByFirstName() {
 
 
-        String table = participantAjaxFacade.searchParticipant(parameterMap, "Meh", "G", "", request);
+        String table = participantAjaxFacade.searchParticipant(parameterMap, "Meh", "G", "12", request);
         assertNotNull(table);
         assertTrue("must find atleast participant matching with first name", table.contains(participant.getFirstName()));
         assertTrue("must find atleast participant matching with first name", table.contains(participant.getLastName()));
+
+
+        table = participantAjaxFacade.searchParticipant(parameterMap, "", "G", "12", request);
+        assertNotNull(table);
+        assertTrue("must find atleast participant matching with first name", table.contains(participant.getFirstName()));
+        assertTrue("must find atleast participant matching with first name", table.contains(participant.getLastName()));
+
+        table = participantAjaxFacade.searchParticipant(parameterMap, "Meh", "", "12", request);
+        assertNotNull(table);
+        assertTrue("must find atleast participant matching with first name", table.contains(participant.getFirstName()));
+        assertTrue("must find atleast participant matching with first name", table.contains(participant.getLastName()));
+
+        table = participantAjaxFacade.searchParticipant(parameterMap, "Meh", "G", "", request);
+        assertNotNull(table);
+        assertTrue("must find atleast participant matching with first name", table.contains(participant.getFirstName()));
+        assertTrue("must find atleast participant matching with first name", table.contains(participant.getLastName()));
+
 
 
         table = participantAjaxFacade.searchParticipant(parameterMap, "ehum", "lat", "", request);
