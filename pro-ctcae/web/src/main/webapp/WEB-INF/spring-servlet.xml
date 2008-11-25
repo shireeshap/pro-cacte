@@ -243,7 +243,6 @@
 
     <bean name="/participant/addCrfSchedule" id="addCrfScheduleController"
           class="gov.nih.nci.ctcae.web.participant.AddCrfScheduleController">
-        <property name="finderRepository" ref="finderRepository"/>
     </bean>
 
     <bean name="/admin/clinicalStaff/createClinicalStaff" id="createClinicalStaffController"
