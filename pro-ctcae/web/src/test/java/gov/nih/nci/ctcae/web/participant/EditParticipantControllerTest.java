@@ -38,6 +38,14 @@ public class EditParticipantControllerTest extends WebTestCase {
         participant = Fixture.createParticipant("test","test","id");
         participant.setId(1);
 
+        Study study = Fixture.createStudyWithStudySite("short","long","id", Fixture.createOrganization("test","test"));
+
+
+        StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
+        studyParticipantAssignment.setStudySite(study.getStudySites().get(0));
+        participant.addStudyParticipantAssignment(studyParticipantAssignment);
+        participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization().setId(1);
+
     }
 
     public void testConstructor() {
@@ -54,8 +62,8 @@ public class EditParticipantControllerTest extends WebTestCase {
 
         assertNotNull(participantCommand);
         assertNotNull(participantCommand.getParticipant());
-        assertEquals(0, participantCommand.getSiteId());
-        assertNull(participantCommand.getSiteName());
+        assertEquals(1, participantCommand.getSiteId());
+        assertEquals("test",participantCommand.getSiteName());
         assertNull(participantCommand.getStudyId());
     }
 }
