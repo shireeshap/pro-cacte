@@ -15,12 +15,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AddCrfScheduleController extends AbstractController {
 
-    protected FinderRepository finderRepository;
-
-    public FinderRepository getFinderRepository() {
-        return finderRepository;
-    }
-
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
@@ -32,7 +26,7 @@ public class AddCrfScheduleController extends AbstractController {
 
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
 
-        StudyParticipantCrf studyParticipantCrf =studyParticipantCommand.getStudyParticipantAssignment().getStudyParticipantCrfs().get(crfIndex.intValue());
+        StudyParticipantCrf studyParticipantCrf = studyParticipantCommand.getStudyParticipantAssignment().getStudyParticipantCrfs().get(crfIndex.intValue());
 
         studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
 
@@ -48,8 +42,5 @@ public class AddCrfScheduleController extends AbstractController {
 
     }
 
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-    }
 
 }
