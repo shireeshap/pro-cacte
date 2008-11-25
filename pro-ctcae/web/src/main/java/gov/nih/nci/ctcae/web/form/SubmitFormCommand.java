@@ -19,7 +19,6 @@ public class SubmitFormCommand implements Serializable {
     private int totalQuestions;
     private String direction = "";
     private String flashMessage;
-    private int questionIndex;
 
     public StudyParticipantCrfSchedule getStudyParticipantCrfSchedule() {
         return studyParticipantCrfSchedule;
@@ -64,14 +63,6 @@ public class SubmitFormCommand implements Serializable {
         this.flashMessage = flashMessage;
     }
 
-    public int getQuestionIndex() {
-        return questionIndex;
-    }
-
-    public void setQuestionIndex(int questionIndex) {
-        this.questionIndex = questionIndex;
-    }
-
     public void saveResponseAndGetQuestion(FinderRepository finderRepository, GenericRepository genericRepository) {
 
         if ("continue".equals(getDirection())) {
@@ -88,9 +79,6 @@ public class SubmitFormCommand implements Serializable {
             if (currentIndex < 0) {
                 currentIndex = 0;
             }
-        }
-        if ("jump".equals(getDirection())) {
-            currentIndex = getQuestionIndex();
         }
         if ("save".equals(getDirection())) {
             studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);

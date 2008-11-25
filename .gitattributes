@@ -440,7 +440,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/form_details.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/manageForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/releaseForm.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/form/reviewParticipantForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/select_study.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text

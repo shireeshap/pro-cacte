@@ -79,8 +79,6 @@ public class StudyParticipantCrfItem extends BaseVersionable {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (proCtcValidValue != null ? !proCtcValidValue.equals(that.proCtcValidValue) : that.proCtcValidValue != null)
             return false;
-        if (studyParticipantCrfSchedule != null ? !studyParticipantCrfSchedule.equals(that.studyParticipantCrfSchedule) : that.studyParticipantCrfSchedule != null)
-            return false;
 
         return true;
     }
@@ -90,7 +88,6 @@ public class StudyParticipantCrfItem extends BaseVersionable {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (proCtcValidValue != null ? proCtcValidValue.hashCode() : 0);
         result = 31 * result + (crfItem != null ? crfItem.hashCode() : 0);
-        result = 31 * result + (studyParticipantCrfSchedule != null ? studyParticipantCrfSchedule.hashCode() : 0);
         return result;
     }
 }

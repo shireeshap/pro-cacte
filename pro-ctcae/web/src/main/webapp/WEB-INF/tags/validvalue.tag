@@ -21,7 +21,6 @@
         document.myForm.direction.value = 'continue';
         var x = document.getElementsByName('studyParticipantCrfSchedule.studyParticipantCrfItems[${crfitemindex}].proCtcValidValue');
         x[index].checked = true;
-        document.myForm.submit();
     }
 </script>
 

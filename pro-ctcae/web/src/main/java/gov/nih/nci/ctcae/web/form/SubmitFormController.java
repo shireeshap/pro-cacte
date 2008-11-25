@@ -27,7 +27,6 @@ public class SubmitFormController extends CtcAeSimpleFormController {
     public SubmitFormController() {
         setFormView("form/submitForm");
         setSuccessView("form/confirmFormSubmission");
-        setReviewView("form/reviewParticipantForm");
         setCommandClass(SubmitFormCommand.class);
         setSessionForm(true);
     }
@@ -43,18 +42,6 @@ public class SubmitFormController extends CtcAeSimpleFormController {
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) errors.getTarget();
         ModelAndView mv = null;
-        if (submitFormCommand.getStudyParticipantCrfSchedule().getStatus().equals(CrfStatus.SCHEDULED)) {
-            mv = showForm(request, errors, getFormView());
-        }
-        if (submitFormCommand.getStudyParticipantCrfSchedule().getStatus().equals(CrfStatus.INPROGRESS)) {
-
-            //show review page if we clicked continue on last question or user is returning back (so there is no direction)
-            if (submitFormCommand.getCurrentIndex() >= submitFormCommand.getTotalQuestions() || "".equals(submitFormCommand.getDirection())) {
-                mv = showForm(request, errors, getReviewView());
-            } else {
-                mv = showForm(request, errors, getFormView());
-            }
-        }
         if (submitFormCommand.getStudyParticipantCrfSchedule().getStatus().equals(CrfStatus.COMPLETED)) {
             if ("".equals(submitFormCommand.getDirection())) {
                 submitFormCommand.setFlashMessage("You have already submitted this form. Below are the responses.");
@@ -62,6 +49,8 @@ public class SubmitFormController extends CtcAeSimpleFormController {
                 submitFormCommand.setFlashMessage("Form was submitted successfully");
             }
             mv = showForm(request, errors, getSuccessView());
+        } else {
+            mv = showForm(request, errors, getFormView());
         }
         return mv;
     }
@@ -102,11 +91,4 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         this.genericRepository = genericRepository;
     }
 
-    public String getReviewView() {
-        return reviewView;
-    }
-
-    public void setReviewView(String reviewView) {
-        this.reviewView = reviewView;
-    }
 }

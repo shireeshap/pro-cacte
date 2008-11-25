@@ -35,15 +35,12 @@
     <c:set var="colspan" value="${fn:length(currentQuestion.validValues)}"/>
 </c:if>
 
-<c:set var="reviewResponse"
-       value="<img src='/ctcae/images/chrome/spacer.gif' height = '1' width='70%' /> (<a href=''>Review responses</a>)"/>
-
 
 <form:form method="post" name="myForm">
     <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}"
                 autopad="true" message="false">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
-        <chrome:division title="Question ${command.currentIndex + 1} of ${command.totalQuestions} ${reviewResponse}" message="false">
+        <chrome:division title="Question ${command.currentIndex + 1} of ${command.totalQuestions}" message="false">
             <table align="center">
                 <c:if test="${currentCrfItem.instructions ne null}">
                     <tr>
@@ -58,9 +55,6 @@
                 <tr>
                     <td colspan="${colspan}">
                         <div class="label">
-                            <c:if test="${currentCrfItem.responseRequired == true}">
-                                <span class="required-indicator">*</span>
-                            </c:if>
                                 ${currentQuestion.questionText}
                         </div>
                     </td>
