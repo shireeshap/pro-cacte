@@ -16,164 +16,173 @@ import java.util.Collection;
  */
 public class CrfItemIntegrationTest extends AbstractJpaIntegrationTestCase {
 
-    public void setCrfItemRepository(CrfItemRepository crfItemRepository) {
-        this.crfItemRepository = crfItemRepository;
-    }
+	public void setCrfItemRepository(CrfItemRepository crfItemRepository) {
+		this.crfItemRepository = crfItemRepository;
+	}
 
-    private CrfItemRepository crfItemRepository;
-    private CRFRepository crfRepository;
-    private ProCtcRepository proCtcRepository;
-    private ProCtcTermRepository proCtcTermRepository;
-    private ProCtcQuestionRepository proCtcQuestionRepository;
-    private CRF crf;
-    private ProCtcQuestion proProCtcQuestion;
-    private ProCtc proCtc;
-    private ProCtcTerm proProCtcTerm;
-    private CrfItem crfItem, invalidCrfItem;
+	private CrfItemRepository crfItemRepository;
+	private CRFRepository crfRepository;
+	private ProCtcRepository proCtcRepository;
+	private ProCtcTermRepository proCtcTermRepository;
+	private ProCtcQuestionRepository proCtcQuestionRepository;
+	private CRF crf;
+	private ProCtcQuestion proCtcQuestion;
+	private ProCtc proCtc;
+	private ProCtcTerm proProCtcTerm;
+	private CrfItem crfItem, invalidCrfItem;
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();
+	@Override
+	protected void onSetUpInTransaction() throws Exception {
+		super.onSetUpInTransaction();
 
-        crf = new CRF();
-        crf.setTitle("Cancer CRF");
-        crf.setDescription("Case Report Form for Cancer Patients");
-        crf.setStatus(CrfStatus.DRAFT);
-        crf.setCrfVersion("1.0");
-        crf = crfRepository.save(crf);
+		crf = new CRF();
+		crf.setTitle("Cancer CRF");
+		crf.setDescription("Case Report Form for Cancer Patients");
+		crf.setStatus(CrfStatus.DRAFT);
+		crf.setCrfVersion("1.0");
+		crf = crfRepository.save(crf);
 
-        proCtc = proCtcRepository.find(new ProCtcQuery()).iterator().next();
-        assertNotNull(proCtc);
+		proCtc = proCtcRepository.find(new ProCtcQuery()).iterator().next();
+		assertNotNull(proCtc);
 
-        proProCtcTerm = proCtcTermRepository.find(new ProCtcTermQuery()).iterator().next();
-        assertNotNull(proProCtcTerm);
-
-
-        proProCtcQuestion = new ProCtcQuestion();
-        proProCtcQuestion.setQuestionText("How is the pain?");
-        proProCtcQuestion.setProCtcTerm(proProCtcTerm);
-        proProCtcQuestion.addValidValue(new ProCtcValidValue("High"));
-        proProCtcQuestion.addValidValue(new ProCtcValidValue("Low"));
-        proProCtcQuestion.addValidValue(new ProCtcValidValue("Severe"));
-        proProCtcQuestion.addValidValue(new ProCtcValidValue("Very High"));
-
-        proCtcQuestionRepository.save(proProCtcQuestion);
-
-        crfItem = new CrfItem();
-        crfItem.setCrf(crf);
-        crfItem.setProCtcQuestion(proProCtcQuestion);
-        crfItem.setDisplayOrder(1);
-        crfItemRepository.save(crfItem);
-        crfItemRepository.find(new CrfItemQuery());
-    }
-
-    public void testSaveCrfItem() {
-        assertNotNull(crfItem.getId());
-    }
-
-    public void testSaveCrfItemWithAdditionalProperties() {
-        crfItem = new CrfItem();
-        crfItem.setCrf(crf);
-        crfItem.setProCtcQuestion(proProCtcQuestion);
-        crfItem.setDisplayOrder(1);
-        crfItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
-        crfItem.setInstructions("instructions");
-        crfItem.setResponseRequired(Boolean.TRUE);
-        CrfItem anotherCrfItem = crfItemRepository.save(crfItem);
-
-        assertNotNull(anotherCrfItem.getId());
-        assertNotNull(crfItem.getId());
-        assertEquals(CrfItemAllignment.HORIZONTAL, anotherCrfItem.getCrfItemAllignment());
-        assertEquals("instructions", anotherCrfItem.getInstructions());
-        assertTrue(anotherCrfItem.getResponseRequired());
+		proProCtcTerm = proCtcTermRepository.find(new ProCtcTermQuery()).iterator().next();
+		assertNotNull(proProCtcTerm);
 
 
-    }
+		proCtcQuestion = new ProCtcQuestion();
+		proCtcQuestion.setQuestionText("How is the pain?");
+		proCtcQuestion.setProCtcTerm(proProCtcTerm);
+		proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.FREQUENCY);
+		ProCtcValidValue proCtcValidValue = new ProCtcValidValue("High");
+		proCtcValidValue.setValue(1);
+		proCtcQuestion.addValidValue(proCtcValidValue);
+		ProCtcValidValue proCtcValidValue1 = new ProCtcValidValue("Low");
+		proCtcValidValue1.setValue(2);
+		proCtcQuestion.addValidValue(proCtcValidValue1);
+		ProCtcValidValue proCtcValidValue2 = new ProCtcValidValue("Severe");
+		proCtcValidValue2.setValue(3);
+		proCtcQuestion.addValidValue(proCtcValidValue2);
+		ProCtcValidValue proCtcValidValue3 = new ProCtcValidValue("Very High");
+		proCtcValidValue3.setValue(3);
+		proCtcQuestion.addValidValue(proCtcValidValue3);
 
-    public void testSavingNullCrfItem() {
-        invalidCrfItem = new CrfItem();
+		proCtcQuestionRepository.save(proCtcQuestion);
 
-        try {
-            invalidCrfItem = crfItemRepository.save(invalidCrfItem);
-            crfItemRepository.find(new CrfItemQuery());
-            fail("Expected DataIntegrityViolationException because title, status and formVersion are null");
-        } catch (DataIntegrityViolationException e) {
-        }
-    }
+		crfItem = new CrfItem();
+		crfItem.setCrf(crf);
+		crfItem.setProCtcQuestion(proCtcQuestion);
+		crfItem.setDisplayOrder(1);
+		crfItemRepository.save(crfItem);
+		crfItemRepository.find(new CrfItemQuery());
+	}
 
-    public void testSavingNullCRFCrfItem() {
-        invalidCrfItem = new CrfItem();
-        try {
-            invalidCrfItem.setProCtcQuestion(proProCtcQuestion);
-            invalidCrfItem.setDisplayOrder(1);
-            invalidCrfItem = crfItemRepository.save(invalidCrfItem);
-            crfItemRepository.find(new CrfItemQuery());
-            fail("Expected DataIntegrityViolationException because CRF is null");
-        } catch (DataIntegrityViolationException e) {
-        }
-    }
+	public void testSaveCrfItem() {
+		assertNotNull(crfItem.getId());
+	}
 
-    public void testSavingNullProCtcTermCrfItem() {
-        invalidCrfItem = new CrfItem();
-        try {
-            invalidCrfItem.setCrf(crf);
-            invalidCrfItem.setDisplayOrder(1);
-            invalidCrfItem = crfItemRepository.save(invalidCrfItem);
-            crfItemRepository.find(new CrfItemQuery());
-            fail("Expected DataIntegrityViolationException because ProCtcQuestion is null");
-        } catch (DataIntegrityViolationException e) {
-        }
-    }
+	public void testSaveCrfItemWithAdditionalProperties() {
+		crfItem = new CrfItem();
+		crfItem.setCrf(crf);
+		crfItem.setProCtcQuestion(proCtcQuestion);
+		crfItem.setDisplayOrder(1);
+		crfItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
+		crfItem.setInstructions("instructions");
+		crfItem.setResponseRequired(Boolean.TRUE);
+		CrfItem anotherCrfItem = crfItemRepository.save(crfItem);
 
-    public void testSavingNullDisplayOrderCrfItem() {
-        invalidCrfItem = new CrfItem();
-        try {
-            invalidCrfItem.setCrf(crf);
-            invalidCrfItem.setDisplayOrder(null);
-            invalidCrfItem.setProCtcQuestion(proProCtcQuestion);
-            invalidCrfItem = crfItemRepository.save(invalidCrfItem);
-            fail("Expected DataIntegrityViolationException because DisplayOrder is null");
-        } catch (DataIntegrityViolationException e) {
-        }
-    }
+		assertNotNull(anotherCrfItem.getId());
+		assertNotNull(crfItem.getId());
+		assertEquals(CrfItemAllignment.HORIZONTAL, anotherCrfItem.getCrfItemAllignment());
+		assertEquals("instructions", anotherCrfItem.getInstructions());
+		assertTrue(anotherCrfItem.getResponseRequired());
 
-    public void testFindById() {
 
-        CrfItem existingCrfItem = crfItemRepository.findById(crfItem.getId());
-        assertEquals(crfItem.getDisplayOrder(), existingCrfItem
-                .getDisplayOrder());
-        assertEquals(crfItem.getProCtcQuestion(), existingCrfItem.getProCtcQuestion());
-        assertEquals(crfItem.getCrf(), existingCrfItem.getCrf());
-        assertEquals(crfItem, existingCrfItem);
-    }
+	}
 
-    public void testFindByQuery() {
+	public void testSavingNullCrfItem() {
+		invalidCrfItem = new CrfItem();
 
-        CrfItemQuery crfItemQuery = new CrfItemQuery();
+		try {
+			invalidCrfItem = crfItemRepository.save(invalidCrfItem);
+			crfItemRepository.find(new CrfItemQuery());
+			fail("Expected DataIntegrityViolationException because title, status and formVersion are null");
+		} catch (DataIntegrityViolationException e) {
+		}
+	}
 
-        Collection<? extends CrfItem> crfItems = crfItemRepository
-                .find(crfItemQuery);
-        assertFalse(crfItems.isEmpty());
-        int size = jdbcTemplate
-                .queryForInt("select count(*) from CRF_ITEMS crfItem");
-        assertEquals(size, crfItems.size());
-    }
+	public void testSavingNullCRFCrfItem() {
+		invalidCrfItem = new CrfItem();
+		try {
+			invalidCrfItem.setProCtcQuestion(proCtcQuestion);
+			invalidCrfItem.setDisplayOrder(1);
+			invalidCrfItem = crfItemRepository.save(invalidCrfItem);
+			crfItemRepository.find(new CrfItemQuery());
+			fail("Expected DataIntegrityViolationException because CRF is null");
+		} catch (DataIntegrityViolationException e) {
+		}
+	}
 
-    @Required
-    public void setCRFRepository(CRFRepository crfRepository) {
-        this.crfRepository = crfRepository;
-    }
+	public void testSavingNullProCtcTermCrfItem() {
+		invalidCrfItem = new CrfItem();
+		try {
+			invalidCrfItem.setCrf(crf);
+			invalidCrfItem.setDisplayOrder(1);
+			invalidCrfItem = crfItemRepository.save(invalidCrfItem);
+			crfItemRepository.find(new CrfItemQuery());
+			fail("Expected DataIntegrityViolationException because ProCtcQuestion is null");
+		} catch (DataIntegrityViolationException e) {
+		}
+	}
 
-    public void setProCtcTermRepository(
-            ProCtcQuestionRepository proCtcQuestionRepository) {
-        this.proCtcQuestionRepository = proCtcQuestionRepository;
-    }
+	public void testSavingNullDisplayOrderCrfItem() {
+		invalidCrfItem = new CrfItem();
+		try {
+			invalidCrfItem.setCrf(crf);
+			invalidCrfItem.setDisplayOrder(null);
+			invalidCrfItem.setProCtcQuestion(proCtcQuestion);
+			invalidCrfItem = crfItemRepository.save(invalidCrfItem);
+			fail("Expected DataIntegrityViolationException because DisplayOrder is null");
+		} catch (DataIntegrityViolationException e) {
+		}
+	}
 
-    public void setProCtcRepository(ProCtcRepository proCtcRepository) {
-        this.proCtcRepository = proCtcRepository;
-    }
+	public void testFindById() {
 
-    public void setCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
-        this.proCtcTermRepository = proCtcTermRepository;
-    }
+		CrfItem existingCrfItem = crfItemRepository.findById(crfItem.getId());
+		assertEquals(crfItem.getDisplayOrder(), existingCrfItem
+			.getDisplayOrder());
+		assertEquals(crfItem.getProCtcQuestion(), existingCrfItem.getProCtcQuestion());
+		assertEquals(crfItem.getCrf(), existingCrfItem.getCrf());
+		assertEquals(crfItem, existingCrfItem);
+	}
+
+	public void testFindByQuery() {
+
+		CrfItemQuery crfItemQuery = new CrfItemQuery();
+
+		Collection<? extends CrfItem> crfItems = crfItemRepository
+			.find(crfItemQuery);
+		assertFalse(crfItems.isEmpty());
+		int size = jdbcTemplate
+			.queryForInt("select count(*) from CRF_ITEMS crfItem");
+		assertEquals(size, crfItems.size());
+	}
+
+	@Required
+	public void setCRFRepository(CRFRepository crfRepository) {
+		this.crfRepository = crfRepository;
+	}
+
+	public void setProCtcTermRepository(
+		ProCtcQuestionRepository proCtcQuestionRepository) {
+		this.proCtcQuestionRepository = proCtcQuestionRepository;
+	}
+
+	public void setProCtcRepository(ProCtcRepository proCtcRepository) {
+		this.proCtcRepository = proCtcRepository;
+	}
+
+	public void setCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+		this.proCtcTermRepository = proCtcTermRepository;
+	}
 }

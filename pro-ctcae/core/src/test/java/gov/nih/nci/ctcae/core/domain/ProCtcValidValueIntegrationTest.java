@@ -47,7 +47,7 @@ public class ProCtcValidValueIntegrationTest extends
         proCtcQuestionRepository.save(proProCtcQuestion);
 
         proCtcValidValue = new ProCtcValidValue();
-        proCtcValidValue.setValue("TestValidValue");
+        proCtcValidValue.setValue(1);
         proCtcValidValue.setProCtcTerm(proProCtcQuestion);
         proCtcValidValue = proCtcValidValueRepository.save(proCtcValidValue);
 

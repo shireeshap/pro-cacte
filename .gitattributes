@@ -60,6 +60,9 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/013_create_study_participan
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/014_add_unique_crf_title_constraints.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/015_alter_study_participant_crf_items.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/019_update_crf_item.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/020_update_pro_ctc_questions.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/021_add_pro_ctc_question_valid_values.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/022_alter_pro_ctc_question.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
@@ -79,6 +82,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Persistable.java -tex
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Person.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtc.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestion.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionType.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTerm.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValue.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Race.java -text
@@ -172,6 +176,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ParticipantTest.java 
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionTypeTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTest.java -text

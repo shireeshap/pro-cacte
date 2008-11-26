@@ -26,12 +26,12 @@ public class ProCtcQuestionIntegrationTest extends AbstractJpaIntegrationTestCas
     private ProCtcRepository proCtcRepository;
     private ProCtcTermRepository proCtcTermRepository;
     private ProCtcValidValueRepository proCtcValidValueRepository;
-    private ProCtcQuestion proProCtcQuestion, inValidproCtcQuestion;
+    private ProCtcQuestion proCtcQuestion, inValidproCtcQuestion;
     private ProCtcTerm proProCtcTerm;
     private ProCtc proCtc;
     private ArrayList<ProCtcValidValue> validValues = new ArrayList<ProCtcValidValue>();
 
-    @Override
+	@Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
@@ -47,17 +47,18 @@ public class ProCtcQuestionIntegrationTest extends AbstractJpaIntegrationTestCas
                 proCtcValidValueRepository.find(validValueQuery));
         assertNotNull(validValues);
 
-        proProCtcQuestion = new ProCtcQuestion();
-        proProCtcQuestion.setQuestionText("How is the pain?");
-        proProCtcQuestion.setProCtcTerm(proProCtcTerm);
+        proCtcQuestion = new ProCtcQuestion();
+		proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.FREQUENCY);
+        proCtcQuestion.setQuestionText("How is the pain?");
+        proCtcQuestion.setProCtcTerm(proProCtcTerm);
         for (ProCtcValidValue validValue : validValues) {
-            proProCtcQuestion.addValidValue(validValue);
+            proCtcQuestion.addValidValue(validValue);
         }
-        proProCtcQuestion = proCtcQuestionRepository.save(proProCtcQuestion);
+        proCtcQuestion = proCtcQuestionRepository.save(proCtcQuestion);
     }
 
     public void testSaveproCtcTerm() {
-        assertNotNull(proProCtcQuestion.getId());
+        assertNotNull(proCtcQuestion.getId());
     }
 
     public void testSavingNullProCtcTerm() {
@@ -105,11 +106,11 @@ public class ProCtcQuestionIntegrationTest extends AbstractJpaIntegrationTestCas
     public void testFindById() {
 
         ProCtcQuestion existingproProCtcQuestion = proCtcQuestionRepository
-                .findById(proProCtcQuestion.getId());
-        assertEquals(proProCtcQuestion.getQuestionText(), existingproProCtcQuestion
+                .findById(proCtcQuestion.getId());
+        assertEquals(proCtcQuestion.getQuestionText(), existingproProCtcQuestion
                 .getQuestionText());
-        assertEquals(proProCtcQuestion.getProCtcTerm(), existingproProCtcQuestion.getProCtcTerm());
-        assertEquals(proProCtcQuestion, existingproProCtcQuestion);
+        assertEquals(proCtcQuestion.getProCtcTerm(), existingproProCtcQuestion.getProCtcTerm());
+        assertEquals(proCtcQuestion, existingproProCtcQuestion);
 
     }
 

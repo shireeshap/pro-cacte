@@ -15,37 +15,54 @@ import java.util.Collection;
  */
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 public class ProCtcTermRepository extends
-        AbstractRepository<ProCtcTerm, ProCtcTermQuery> {
+	AbstractRepository<ProCtcTerm, ProCtcTermQuery> {
 
-    @Override
-    protected Class<ProCtcTerm> getPersistableClass() {
-        return ProCtcTerm.class;
+	@Override
+	protected Class<ProCtcTerm> getPersistableClass() {
+		return ProCtcTerm.class;
 
-    }
+	}
 
-    @Override
-    public void delete(ProCtcTerm t) {
-        throw new UnsupportedOperationException(
-                "Delete is not supported for ProCtcQuestion");
-    }
+	@Override
+	public void delete(ProCtcTerm t) {
+		throw new UnsupportedOperationException(
+			"Delete is not supported for ProCtcQuestion");
+	}
 
-    @Override
-    public ProCtcTerm save(ProCtcTerm t) {
-        throw new UnsupportedOperationException(
-                "Save is not supported for ProCtcQuestion");
-    }
+	@Override
+	public ProCtcTerm save(ProCtcTerm t) {
+		throw new UnsupportedOperationException(
+			"Save is not supported for ProCtcQuestion");
+	}
 
-    public Collection<ProCtcTerm> findAndInitializeTerm(ProCtcTermQuery query) {
-        Collection<ProCtcTerm> proCtcTerms = super.find(query);
-        for (ProCtcTerm proCtcTerm : proCtcTerms) {
-            for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
-                proCtcQuestion.getQuestionText();
-                for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
-                    validValue.getValue();
-                }
-            }
-        }
+	public Collection<ProCtcTerm> findAndInitializeTerm(ProCtcTermQuery query) {
+		Collection<ProCtcTerm> proCtcTerms = super.find(query);
+		for (ProCtcTerm proCtcTerm : proCtcTerms) {
+			intializeTerm(proCtcTerm);
+		}
 
-        return proCtcTerms;
-    }
+		return proCtcTerms;
+	}
+
+	public ProCtcTerm findAndInitializeTerm(Integer proCtcTermId) {
+
+		ProCtcTerm proCtcTerm = super.findById(proCtcTermId);
+		intializeTerm(proCtcTerm);
+
+
+		return proCtcTerm;
+	}
+
+	private void intializeTerm(final ProCtcTerm proCtcTerm) {
+		if (proCtcTerm != null) {
+			for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
+				proCtcQuestion.getQuestionText();
+				for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
+					validValue.getValue();
+				}
+			}
+		} else {
+			log.error("pro ctc term is null");
+		}
+	}
 }
