@@ -70,16 +70,12 @@ public class SubmitFormCommand implements Serializable {
                 studyParticipantCrfSchedule.setStatus(CrfStatus.INPROGRESS);
             }
             currentIndex = currentIndex + 1;
-            if (currentIndex > (totalQuestions - 1)) {
-                currentIndex = totalQuestions;
-            }
         }
+
         if ("back".equals(getDirection())) {
             currentIndex = currentIndex - 1;
-            if (currentIndex < 0) {
-                currentIndex = 0;
-            }
         }
+
         if ("save".equals(getDirection())) {
             studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
         }

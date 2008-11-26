@@ -27,6 +27,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
     public SubmitFormController() {
         setFormView("form/submitForm");
         setSuccessView("form/confirmFormSubmission");
+        setReviewView("form/reviewFormSubmission");
         setCommandClass(SubmitFormCommand.class);
         setSessionForm(true);
     }
@@ -50,7 +51,11 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             }
             mv = showForm(request, errors, getSuccessView());
         } else {
-            mv = showForm(request, errors, getFormView());
+            if (submitFormCommand.getCurrentIndex() > submitFormCommand.getTotalQuestions() - 1) {
+                mv = showForm(request, errors, getReviewView());
+            } else {
+                mv = showForm(request, errors, getFormView());
+            }
         }
         return mv;
     }
@@ -91,4 +96,11 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         this.genericRepository = genericRepository;
     }
 
+    public String getReviewView() {
+        return reviewView;
+    }
+
+    public void setReviewView(String reviewView) {
+        this.reviewView = reviewView;
+    }
 }
