@@ -56,7 +56,7 @@
                                     ${studyParticipantCrfSchedule.status}
                             </td>
                             <td>
-                                    ${studyParticipantCrfSchedule.dueDate}
+                                    <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
                             </td>
                         </tr>
                     </c:if>
