@@ -66,8 +66,8 @@ public class SubmitFormCommandTest extends WebTestCase {
         assertNull(command.getStudyParticipantCrfSchedule());
         assertEquals("", command.getDirection());
         assertNull(command.getFlashMessage());
-        assertEquals(0, command.getCurrentIndex());
-        assertEquals(0, command.getTotalQuestions());
+        //assertEquals(0, command.getCurrentIndex());
+        //assertEquals(0, command.getTotalQuestions());
 
     }
 
@@ -75,8 +75,8 @@ public class SubmitFormCommandTest extends WebTestCase {
 
         command.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
 
-        assertEquals(4, command.getTotalQuestions());
-        assertEquals(1, command.getCurrentIndex());
+        //assertEquals(4, command.getTotalQuestions());
+        //assertEquals(1, command.getCurrentIndex());
         assertEquals(studyParticipantCrfSchedule, command.getStudyParticipantCrfSchedule());
     }
 
@@ -94,17 +94,17 @@ public class SubmitFormCommandTest extends WebTestCase {
 
         assertEquals(CrfStatus.SCHEDULED, command.getStudyParticipantCrfSchedule().getStatus());
         
-        command.setCurrentIndex(0);
+        //command.setCurrentIndex(0);
         command.setDirection("continue");
         command.saveResponseAndGetQuestion(finderRepository, genericRepository);
 
-        assertEquals(1, command.getCurrentIndex());
+       // assertEquals(1, command.getCurrentIndex());
         assertEquals(CrfStatus.INPROGRESS, command.getStudyParticipantCrfSchedule().getStatus());
 
         command.setDirection("back");
         command.saveResponseAndGetQuestion(finderRepository, genericRepository);
 
-        assertEquals(0, command.getCurrentIndex());
+       // assertEquals(0, command.getCurrentIndex());
         assertEquals(CrfStatus.INPROGRESS, command.getStudyParticipantCrfSchedule().getStatus());
 
         command.setDirection("save");

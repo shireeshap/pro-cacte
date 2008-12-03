@@ -28,6 +28,9 @@ public class StudyParticipantCrfItem extends BaseVersionable {
 	@ManyToOne
 	private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
 
+    @Transient
+    private int itemIndex;
+
 	public StudyParticipantCrfItem() {
 	}
 
@@ -89,5 +92,13 @@ public class StudyParticipantCrfItem extends BaseVersionable {
         result = 31 * result + (proCtcValidValue != null ? proCtcValidValue.hashCode() : 0);
         result = 31 * result + (crfItem != null ? crfItem.hashCode() : 0);
         return result;
+    }
+
+    public int getItemIndex() {
+        return itemIndex;
+    }
+
+    public void setItemIndex(int itemIndex) {
+        this.itemIndex = itemIndex;
     }
 }

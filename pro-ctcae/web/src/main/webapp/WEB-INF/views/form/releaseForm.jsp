@@ -20,7 +20,7 @@
                         <p/>
 
                         <div id="errors">
-                            The Form has already been relased :
+                            The Form has already been released :
                         </div>
                         <p>
                             Please

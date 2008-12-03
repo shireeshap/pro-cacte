@@ -119,7 +119,7 @@ public class SubmitFormControllerTest extends WebTestCase {
         assertEquals(controller.getFormView(), modelAndView.getViewName());
 
         //second run (error for null value in mandatory question)
-        command.setCurrentIndex(1);
+        //command.setCurrentIndex(1);
         command.setDirection("continue");
         modelAndView = controller.handleRequest(request, response);
         ModelMap m = modelAndView.getModelMap();
@@ -128,7 +128,7 @@ public class SubmitFormControllerTest extends WebTestCase {
 
 
         //third run (review form if hit continue on last question)
-        command.setCurrentIndex(command.getTotalQuestions() - 1);
+        //command.setCurrentIndex(command.getTotalQuestions() - 1);
         command.setDirection("continue");
         modelAndView = controller.handleRequest(request, response);
         model = modelAndView.getModel();

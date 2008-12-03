@@ -56,6 +56,8 @@
                             <tr id="ss-table-head" class="amendment-table-head">
                                 <th class="tableHeader"><tags:requiredIndicator/><spring:message code="schedulecrf.label.start_date"/></th>
                                 <th class="tableHeader"><tags:requiredIndicator/><spring:message code="schedulecrf.label.due_date"/></th>
+                                <th class="tableHeader"><spring:message code="schedulecrf.label.status"/></th>
+                                <th class="tableHeader"></th>
                             </tr>
                             <c:forEach items="${participantCrf.studyParticipantCrfSchedules}" var="crfSchedule"
                                        varStatus="mystatus">
@@ -63,7 +65,8 @@
                                                   inputName="studyParticipantAssignment.studyParticipantCrfs[${status.index}].studyParticipantCrfSchedules[${mystatus.index}]"
                                                   title="Crf Schedule" displayError="false"
                                                   startDate="${crfSchedule.startDate}"
-                                                  dueDate="${crfSchedule.dueDate}"></tags:crfSchedule>
+                                                  dueDate="${crfSchedule.dueDate}"
+                                                  status="${crfSchedule.status}"></tags:crfSchedule>
                             </c:forEach>
                             <tr id="hiddenDiv-${status.index}"></tr>
                         </table>

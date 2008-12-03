@@ -1,8 +1,10 @@
 <%@ attribute name="crfitemindex" type="java.lang.String" required="true" %>
-<%@ attribute name="currentValue" type="java.lang.String" required="true" %>
-<%@ attribute name="selectedValue" type="java.lang.String" %>
+<%@ attribute name="currentId" type="java.lang.String" required="true" %>
+<%@ attribute name="selectedId" type="java.lang.String" %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="index" type="java.lang.String" required="false" %>
+<%@ attribute name="questionType" type="java.lang.String" required="false" %>
+<%@ attribute name="scaleValue" type="java.lang.String" required="false" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
@@ -17,27 +19,35 @@
     }
 </style>
 <script type="text/javascript">
-    function gonext(index) {
+    function gonext${crfitemindex}(index) {
         document.myForm.direction.value = 'continue';
         var x = document.getElementsByName('studyParticipantCrfSchedule.studyParticipantCrfItems[${crfitemindex}].proCtcValidValue');
         x[index].checked = true;
+
+        <c:if test="${questionType eq 'Severity'}">
+           if(x[index].id > 0){
+               showQuestions();
+           }else{
+                hideQuestions();     
+           }
+        </c:if>
     }
 </script>
 
 <td class="norm" onmouseover="javascript:this.className='over';" onmouseout="javascript:this.className='norm';"
-    onclick="gonext('${index}')">
+    onclick="gonext${crfitemindex}('${index}')">
     <div class="label">
         <c:choose>
-            <c:when test="${currentValue eq selectedValue}">
+            <c:when test="${currentId eq selectedId}">
 
                 <input type="radio"
                        name="studyParticipantCrfSchedule.studyParticipantCrfItems[${crfitemindex}].proCtcValidValue"
-                       value="${currentValue}" checked="true"/> ${title}
+                       value="${currentId}" checked="true" id="${scaleValue}"/> ${title}
             </c:when>
             <c:otherwise>
                 <input type="radio"
                        name="studyParticipantCrfSchedule.studyParticipantCrfItems[${crfitemindex}].proCtcValidValue"
-                       value="${currentValue}"/> ${title}
+                       value="${currentId}"  id="${scaleValue}"/> ${title}
             </c:otherwise>
         </c:choose>
     </div>

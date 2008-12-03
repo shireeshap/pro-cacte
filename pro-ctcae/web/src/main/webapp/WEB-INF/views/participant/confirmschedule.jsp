@@ -60,6 +60,7 @@
                     <th scope="col"><spring:message code="schedulecrf.label.form"/></th>
                     <th scope="col"><spring:message code="schedulecrf.label.start_date"/></th>
                     <th scope="col"><spring:message code="schedulecrf.label.due_date"/></th>
+                    <th scope="col"><spring:message code="schedulecrf.label.status"/></th>
                 </tr>
                 <c:forEach items="${command.studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
                     <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="schedule">
@@ -67,6 +68,7 @@
                             <td>${studyParticipantCrf.studyCrf.crf.title}</td>
                             <td><tags:formatDate value="${schedule.startDate}"/></td>
                             <td><tags:formatDate value="${schedule.dueDate}"/></td>
+                            <td>${schedule.status}</td>
                         </tr>
                     </c:forEach>
                 </c:forEach>

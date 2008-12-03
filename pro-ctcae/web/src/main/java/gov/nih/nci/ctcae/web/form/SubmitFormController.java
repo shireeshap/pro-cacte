@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.validation.BindException;
 import org.springframework.beans.factory.annotation.Required;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
 
 /**
  * User: Harsh
@@ -51,7 +54,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             }
             mv = showForm(request, errors, getSuccessView());
         } else {
-            if (submitFormCommand.getCurrentIndex() > submitFormCommand.getTotalQuestions() - 1) {
+            if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages() - 1) {
                 mv = showForm(request, errors, getReviewView());
             } else {
                 mv = showForm(request, errors, getFormView());
@@ -66,7 +69,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         String crfScheduleId = request.getParameter("id");
         SubmitFormCommand submitFormCommand = new SubmitFormCommand();
 
-        if (crfScheduleId != null && !("".equals(crfScheduleId))) {
+        if (!StringUtils.isBlank(crfScheduleId)) {
             StudyParticipantCrfSchedule studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(crfScheduleId));
             submitFormCommand.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
         }
@@ -81,11 +84,14 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
 
         if ("continue".equals(submitFormCommand.getDirection())) {
-            StudyParticipantCrfItem studyParticipantCrfItem = submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfItems().get(submitFormCommand.getCurrentIndex());
-            if (new Boolean(true).equals(studyParticipantCrfItem.getCrfItem().getResponseRequired())) {
-                if (studyParticipantCrfItem.getProCtcValidValue() == null) {
-                    errors.reject(
-                            "answer", "Please select an answer.");
+            List<StudyParticipantCrfItem> l = submitFormCommand.getPages().get(submitFormCommand.getCurrentPageIndex());
+            for (StudyParticipantCrfItem studyParticipantCrfItem : l) {
+                if (new Boolean(true).equals(studyParticipantCrfItem.getCrfItem().getResponseRequired())) {
+                    if (studyParticipantCrfItem.getProCtcValidValue() == null) {
+                        errors.reject(
+                                "answer", "Please select an answer.");
+                        return;
+                    }
                 }
             }
         }
