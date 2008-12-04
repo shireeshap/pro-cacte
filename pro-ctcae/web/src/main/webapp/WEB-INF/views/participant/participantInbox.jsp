@@ -24,12 +24,36 @@
             padding: 1px;
             font-size: 20px;
         }
+		#inboxTable {
+		width:80%;
+		border:0;
+		margin-left:95px;
+		margin-top:210px;
+		border-collapse:collapse;
+		}
+		#inboxTable th {
+			background-color:#CBD9E4;
+		}
+        #taskbar {
+            font-weight: bold;
+            padding-top: 12px;
+        } #taskbar:after {
+            content: "Welcome $ { user name here }";
+        }
+		#inboxTitle {
+			color:#003E7C;
+			position:absolute;
+			left:150px;
+			top:39px;
+		}
     </style>
 </head>
 <body>
-<chrome:box title="participant.box.inbox">
-
-    <table width="100%" border="0">
+	<img style="position:absolute; top:0px; left:0px;" src=<tags:imageUrl name="blue/mailbox.jpg" /> alt="mailbox" />
+	<div id="inboxTitle"><span style="font-size:75px; line-height:70px;">Inbox</span><br />
+		<span style="font-size:13pt; margin-left:6px;">You have <span style="font-weight:bolder;">$ { numberOfForms }</span> form(s) that need(s) to be completed.</span>
+	</div>
+    <table id="inboxTable">
         <tr>
             <th>
                 <tags:message code="participant.label.title"/>
@@ -64,7 +88,6 @@
             </c:forEach>
         </c:forEach>
     </table>
-</chrome:box>
 
 </body>
 

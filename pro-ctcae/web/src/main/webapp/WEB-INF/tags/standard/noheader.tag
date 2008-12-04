@@ -8,6 +8,7 @@
 
     <div class="background-R">
         <a href="/ctcae/pages/form/createForm" id="logo">ProCtcAE</a>
+        <div id="taskbar"></div>
     </div>
 </div>
 <!-- end header -->

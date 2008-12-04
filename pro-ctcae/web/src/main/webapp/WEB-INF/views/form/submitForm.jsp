@@ -7,23 +7,28 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
-
+        
         div.row div.value {
             white-space: normal;
-        }
-
-        .label {
+        } .label {
             font-weight: bold;
             float: left;
             margin-left: 0.5em;
             margin-right: 0.5em;
             padding: 1px;
             font-size: 20px;
+        } #taskbar {
+            font-weight: bold;
+            padding-top: 12px;
+        } #taskbar:after {
+            content: "Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}";
         }
+		.formbuilderboxTable {
+			margin-bottom:30px;
+		}
     </style>
     <script type="text/javascript">
         var hiddenIds = '';
@@ -75,16 +80,14 @@
             showHideQuestions();
         })    </script>
 </head>
-<body >
+<body>
 <c:set var="currentPage" value="${command.pages[command.currentPageIndex]}"/>
 
 <form:form method="post" name="myForm">
-    <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}"
-                autopad="true" message="false">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
-
         <chrome:division title="Page ${command.currentPageIndex + 1} of ${command.totalPages}" message="false">
-            <c:forEach items="${currentPage}" var="currentStudyParticipantCrfItem">
+           <tags:formbuilderBox> 
+			<c:forEach items="${currentPage}" var="currentStudyParticipantCrfItem">
                 <c:set var="currentCrfItem" value="${currentStudyParticipantCrfItem.crfItem}"/>
 
                 <c:if test="${currentCrfItem.crfItemAllignment eq 'Horizontal'}">
@@ -163,8 +166,8 @@
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
+			</tags:formbuilderBox>
         </chrome:division>
-    </chrome:box>
     <table width="100%">
         <input type="hidden" name="direction"/>
         <tr>

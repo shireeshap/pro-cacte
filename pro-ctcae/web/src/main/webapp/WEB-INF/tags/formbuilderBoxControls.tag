@@ -4,7 +4,7 @@
 <%@attribute name="add" %>
 <%@attribute name="delete" %>
 <%@attribute name="properties" %>
-
+<c:if test="${(properties) || (add) || (delete)}">
 <div class="formbuilderBoxControls">
     <div class="formbuilderBoxControls-left">
         <c:if test="${properties}">
@@ -22,3 +22,4 @@
     </div>
     <div class="formbuilderBoxControls-right"></div>
 </div>
+</c:if>

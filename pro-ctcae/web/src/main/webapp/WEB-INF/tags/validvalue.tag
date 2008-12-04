@@ -9,7 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
     .norm {
-        background: white;
+        background: none;
         cursor: default;
     }
 

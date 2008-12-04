@@ -57,9 +57,9 @@
                 </c:set>
 
 
-                    <a class="${(task == currentTask) || (task.displayName == currentTask.displayName) ?  ( noOfTasks gt 4 ? 'selected gt4' : 'selected lte4') : ( noOfTasks gt 4 ? 'gt4' : 'lte4')} ${(lengthOfTask gt 18 ? 'gt18' : '')}"
+                    <a class="${(task == currentTask) || (task.displayName == currentTask.displayName) ?  ( noOfTasks gt 4 ? 'selected gt4' : 'selected lte4') : ( noOfTasks gt 4 ? 'gt4' : 'lte4')} ${(lengthOfTask gt 22 ? 'gt18' : '')}"
                        id="secondlevelnav_${task.linkName}" href="<c:url value="${task.url}"/>"><img
-                            class="${(lengthOfTask gt 18 ? 'imagegt18' : '')}"
+                            class="${(lengthOfTask gt 22 ? 'imagegt18' : '')}"
                             src="/ctcae/images/blue/icons/${task.linkName}_icon.png"/><spring:message
                             code='${task.displayName}' text=''/></a>
                 </c:forEach>
