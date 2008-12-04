@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
-import gov.nih.nci.ctcae.core.domain.CrfStatus;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
@@ -34,8 +31,8 @@ public class SubmitFormCommand implements Serializable {
     public void setStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
         this.studyParticipantCrfSchedule = studyParticipantCrfSchedule;
         buildPagesForSymptoms();
-      //  totalQuestions = studyParticipantCrfSchedule.getStudyParticipantCrfItems().size();
-      //  currentIndex = getUnansweredQuestionIndex();
+        //  totalQuestions = studyParticipantCrfSchedule.getStudyParticipantCrfItems().size();
+        //  currentIndex = getUnansweredQuestionIndex();
         totalPages = pages.size();
         currentPageIndex = getPageForUnansweredQuestion();
     }
@@ -125,37 +122,43 @@ public class SubmitFormCommand implements Serializable {
         return pages;
     }
 
-    private int getUnansweredQuestionIndex() {
-        int tmp = 0;
-        for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-
-            if (studyParticipantCrfItem.getProCtcValidValue() == null) {
-                break;
-            } else {
-                tmp++;
-            }
-        }
-        return tmp;
-    }
+//    private int getUnansweredQuestionIndex() {
+//        int tmp = 0;
+//        for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+//
+//            if (studyParticipantCrfItem.getProCtcValidValue() == null) {
+//                break;
+//            } else {
+//                tmp++;
+//            }
+//        }
+//        return tmp;
+//    }
 
     private int getPageForUnansweredQuestion() {
+
         int tmp = 0;
-        int unansweredQuestionIndex =getUnansweredQuestionIndex();
-        if(unansweredQuestionIndex == studyParticipantCrfSchedule.getStudyParticipantCrfItems().size()){
-            return pages.size();
-        }
+        for (List<StudyParticipantCrfItem> page : pages) {
+            boolean severityQuestionAnswerIsNone = false;
 
-        StudyParticipantCrfItem unansweredItem = studyParticipantCrfSchedule.getStudyParticipantCrfItems().get(getUnansweredQuestionIndex());
-
-        for (List<StudyParticipantCrfItem> symptom : pages) {
-            for (StudyParticipantCrfItem studyParticipantCrfItem : symptom) {
-                if (studyParticipantCrfItem.equals(unansweredItem)) {
-                    return tmp;
+            for (StudyParticipantCrfItem studyParticipantCrfItem : page) {
+                if (studyParticipantCrfItem.getCrfItem().getProCtcQuestion().getProCtcQuestionType().equals(ProCtcQuestionType.SEVERITY)) {
+                    if (studyParticipantCrfItem.getProCtcValidValue() == null) {
+                        return tmp;
+                    }
+                    if(studyParticipantCrfItem.getProCtcValidValue().getValue().equals(0)){
+                        severityQuestionAnswerIsNone = true;
+                    }
+                }else{
+                    if(!severityQuestionAnswerIsNone){
+                        if(studyParticipantCrfItem.getProCtcValidValue() == null){
+                            return tmp;
+                        }
+                    }
                 }
             }
             tmp++;
         }
         return tmp;
     }
-
 }

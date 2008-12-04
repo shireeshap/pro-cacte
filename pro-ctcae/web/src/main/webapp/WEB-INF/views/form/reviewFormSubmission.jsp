@@ -25,36 +25,170 @@
             padding: 1px;
             font-size: 12px;
         }
+
+        .norm {
+            background: white;
+            cursor: default;
+        }
+
+        .over {
+            background: #3399ff;
+            cursor: pointer;
+        }
     </style>
+    <script type="text/javascript">
+        var hiddenIds = '';
+        var pages = new Array();
+
+
+        Event.observe(window, "load", function () {
+            hideReview();
+        })
+        function hideReview() {
+            $('formbuilderTable').hide();
+        }
+
+        function showReview() {
+            $('formbuilderTable').show();
+            hideQuestions(hiddenIds);
+        }
+
+        function registerToHide(pageindex, itemindex, response) {
+            if (response == '') {
+                hiddenIds = hiddenIds + ',' + itemindex;
+            }
+            if (typeof(pages[pageindex]) == 'undefined') {
+                pages[pageindex] = itemindex;
+            } else {
+                pages[pageindex] = pages[pageindex] + ',' + itemindex;
+            }
+        }
+
+
+        function hideQuestions(hidethem) {
+            var idsArray = hidethem.split(',');
+            for (var i = 0; i < idsArray.length; i++) {
+                if (idsArray[i] != '') {
+                    hideQuestion(idsArray[i]);
+                }
+            }
+        }
+
+        function hideQuestion(questionid) {
+            $("question_" + questionid).hide();
+            var x = document.getElementsByName('response' + questionid);
+            for (var i = 0; i < x.length; i++) {
+                x[i].checked = false;
+            }
+            document.myForm.elements['studyParticipantCrfSchedule.studyParticipantCrfItems[' + questionid + '].proCtcValidValue'].value = '';
+        }
+        function showQuestion(questionid) {
+            $("question_" + questionid).show();
+        }
+        function showQuestions(showthem) {
+            var idsArray = showthem.split(',');
+            for (var i = 0; i < idsArray.length; i++) {
+                if (idsArray[i] != '') {
+                    showQuestion(idsArray[i]);
+                }
+            }
+        }
+
+        function showHideFor(pageindex, type, itemindex, responseindex) {
+            var x = document.getElementsByName('response' + itemindex);
+            x[responseindex].checked = true;
+            document.myForm.elements['studyParticipantCrfSchedule.studyParticipantCrfItems[' + itemindex + '].proCtcValidValue'].value = x[responseindex].value;
+
+
+            if (type == 'Severity') {
+                if (x[responseindex].id > 0) {
+                    showQuestions(pages[pageindex]);
+                } else {
+                    hideQuestions(pages[pageindex]);
+                }
+            }
+        }
+
+        function setValue(itemindex, value){
+            document.myForm.elements['studyParticipantCrfSchedule.studyParticipantCrfItems[' + itemindex + '].proCtcValidValue'].value = value;
+        }
+
+    </script>
+
 
 </head>
 <body>
 <chrome:flashMessage flashMessage="${command.flashMessage}"></chrome:flashMessage>
 <form:form method="post" name="myForm">
-<chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}"
+    <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}"
                 autopad="true" message="false">
 
-    <chrome:division title="Submit">
-        <div class="label">
-            <p>
-                You are about to submit the form. You can not change the responses after submission.
-                <br/>
-                You can <a href="">click here</a> to review your responses and make changes.
-            </p>
-        </div>
-    </chrome:division>
+        <chrome:division title="Submit">
+            <div class="label">
+                <p>
+                    You are about to submit the form. You can not change the responses after submission.
+                    <br/>
+                    You can <a href="javascript:showReview();">click here</a> to review your responses and make changes.
+                </p>
+            </div>
+        </chrome:division>
+        <table id="formbuilderTable">
+            <tr>
+                <td id="left">
+                    <c:forEach items="${command.pages}" var="page" varStatus="pageindex">
+                        <c:forEach items="${page}" var="studyParticipantCrfItem">
+                            <tags:formbuilderBox id="question_${studyParticipantCrfItem.itemIndex}">
+                                ${studyParticipantCrfItem.crfItem.proCtcQuestion.questionText}<br/>
+                                <input type="hidden"
+                                       name="studyParticipantCrfSchedule.studyParticipantCrfItems[${studyParticipantCrfItem.itemIndex}].proCtcValidValue"
+                                       value=""/>
+                                <c:forEach items="${studyParticipantCrfItem.crfItem.proCtcQuestion.validValues}"
+                                           var="validValue" varStatus="status">
+                                    <div class="norm" onmouseover="javascript:this.className='over';"
+                                         onmouseout="javascript:this.className='norm';"
+                                         onclick="showHideFor('${pageindex.index}','${studyParticipantCrfItem.crfItem.proCtcQuestion.proCtcQuestionType}','${studyParticipantCrfItem.itemIndex}','${status.index}')">
+                                        <c:choose>
+                                            <c:when test="${studyParticipantCrfItem.proCtcValidValue.id eq validValue.id}">
+                                                <input type="radio"
+                                                       name="response${studyParticipantCrfItem.itemIndex}"
+                                                       value="${validValue.id}" checked="true"
+                                                       id="${validValue.value}"/> ${validValue.displayName}
+                                                <script type="text/javascript">
+                                                    setValue('${studyParticipantCrfItem.itemIndex}','${validValue.id}');
+                                                </script>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input type="radio"
+                                                       name="response${studyParticipantCrfItem.itemIndex}"
+                                                       value="${validValue.id}"
+                                                       id="${validValue.value}"/> ${validValue.displayName}
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <br/>
+                                    </div>
+                                </c:forEach>
+                            </tags:formbuilderBox>
+                            <c:if test="${studyParticipantCrfItem.crfItem.proCtcQuestion.proCtcQuestionType ne 'Severity'}">
+                                <script type="text/javascript">
+                                    registerToHide('${pageindex.index}', '${studyParticipantCrfItem.itemIndex}', '${studyParticipantCrfItem.proCtcValidValue}');
+                                </script>
+                            </c:if>
+                        </c:forEach>
+                    </c:forEach>
+                </td>
+            </tr>
+        </table>
+        <table width="100%">
+            <input type="hidden" name="direction"/>
+            <tr align="right">
+                <td>
+                    <input onclick="document.myForm.direction.value='save'" type="image"
+                           src="/ctcae/images/blue/submit_btn.png" alt="save &raquo;"/>
+                </td>
+            </tr>
+        </table>
 
-    <table width="100%">
-        <input type="hidden" name="direction"/>
-        <tr align="right">
-            <td>
-                <input onclick="document.myForm.direction.value='save'" type="image"
-                       src="/ctcae/images/blue/submit_btn.png" alt="save &raquo;"/>
-            </td>
-        </tr>
-    </table>
-
-</chrome:box>
+    </chrome:box>
 </form:form>
 </body>
 </html>
