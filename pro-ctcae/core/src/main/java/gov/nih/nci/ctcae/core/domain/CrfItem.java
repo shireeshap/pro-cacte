@@ -106,6 +106,18 @@ public class CrfItem extends BasePersistable {
         this.proCtcQuestion = proCtcQuestion;
     }
 
+    public CrfItem getCopy(){
+        CrfItem copiedCrfItem = new CrfItem();
+        copiedCrfItem.setInstructions(instructions);
+        copiedCrfItem.setDisplayOrder(displayOrder);
+        copiedCrfItem.setResponseRequired(responseRequired);
+        copiedCrfItem.setCrfItemAllignment(crfItemAllignment);
+        copiedCrfItem.setProCtcQuestion(proCtcQuestion);
+
+
+        return copiedCrfItem;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;

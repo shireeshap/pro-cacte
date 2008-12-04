@@ -41,6 +41,7 @@
 
         }
         function buildTable(form) {
+
             var id = $('study').value
             var parameterMap = getParameterMap(form);
             $('bigSearch').show();
@@ -58,6 +59,16 @@
                 indicator: mode.basename + "-indicator"
             })
 
+        }
+
+        function copyForm(studyCrfId) {
+            var request = new Ajax.Request("<c:url value="/pages/form/copyForm"/>", {
+                parameters:"studyCrfId=" + studyCrfId + "&subview=subview",
+                onComplete:function(transport) {
+                    buildTable('assembler');
+                },
+                method:'get'
+            })
         }
         function releaseForm(studyCrfId) {
 

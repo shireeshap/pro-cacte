@@ -39,7 +39,10 @@ public class CRF extends BaseVersionable {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.EAGER)
 	private List<CrfItem> crfItems = new ArrayList<CrfItem>();
 
-	public StudyCrf getStudyCrf() {
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
+    private StudyCrf studyCrf;
+    
+    public StudyCrf getStudyCrf() {
 		return studyCrf;
 	}
 
@@ -47,8 +50,6 @@ public class CRF extends BaseVersionable {
 		this.studyCrf = studyCrf;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
-	private StudyCrf studyCrf;
 
 	public CRF() {
 	}
@@ -216,7 +217,29 @@ public class CRF extends BaseVersionable {
 
 	}
 
-	public void removeExistingAndAddNewCrfItem(final ProCtcTerm proCtcTerm, final Integer displayOrder) {
+    public void addCrfItem(CrfItem crfItem) {
+        if (crfItem != null) {
+            crfItem.setCrf(this);
+            crfItems.add(crfItem);
+        }
+    }
+
+
+    public CRF getCopy() {
+
+        CRF copiedCrf = new CRF();
+        copiedCrf.setTitle("Copy of " + title + "_" + System.currentTimeMillis());
+        copiedCrf.setDescription(description);
+        copiedCrf.setStatus(CrfStatus.DRAFT);
+        copiedCrf.setCrfVersion("1.0");
+        for (CrfItem crfItem : crfItems) {
+            copiedCrf.addCrfItem(crfItem.getCopy());
+        }
+
+        return copiedCrf;
+    }
+
+    public void removeExistingAndAddNewCrfItem(final ProCtcTerm proCtcTerm, final Integer displayOrder) {
 		for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
 			removeExistingAndAddNewCrfItem(proCtcQuestion, displayOrder);
 		}

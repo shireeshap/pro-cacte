@@ -70,6 +70,19 @@ public class StudyCrf extends BaseVersionable {
              studyParticipantCrfs.add(studyParticipantCrf);
          }
      }
+
+    public StudyCrf getCopy() {
+
+        StudyCrf copiedStudyCrf = new StudyCrf();
+        copiedStudyCrf.setStudy(study);
+        CRF copiedCrf = crf.getCopy();
+        copiedStudyCrf.setCrf(copiedCrf);
+        copiedCrf.setStudyCrf(copiedStudyCrf);
+        return copiedStudyCrf;
+
+
+}
+
     @Override
     public int hashCode() {
         final int prime = 31;
