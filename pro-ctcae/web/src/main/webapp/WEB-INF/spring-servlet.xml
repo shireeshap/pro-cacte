@@ -201,6 +201,12 @@
         <property name="crfRepository" ref="crfRepository"/>
 
         </bean>
+    <bean name="/form/deleteForm" id="deleteFormController"
+              class="gov.nih.nci.ctcae.web.form.DeleteFormController">
+        <property name="finderRepository" ref="finderRepository"/>
+        <property name="crfRepository" ref="crfRepository"/>
+
+        </bean>
 
 
     <bean name="/study/createStudy" id="createStudyController"

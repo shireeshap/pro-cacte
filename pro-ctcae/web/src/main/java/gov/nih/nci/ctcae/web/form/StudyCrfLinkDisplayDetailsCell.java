@@ -30,8 +30,9 @@ public class StudyCrfLinkDisplayDetailsCell extends AbstractCell implements Cell
             cellValue = cellValue + " | <a href=\"javascript:copyForm('" +id.toString() + "')\">" + "Copy" + "</a>";
 
         } else {
-            cellValue = "<a href=\"javascript:releaseForm('" + id.toString() + "')\">" + "Release" + "</a>";
+            cellValue = "<a href=\"javascript:releaseForm('" + id.toString() + "')\">" + "Release"+ "&nbsp;&nbsp;" + "</a>";
             cellValue = cellValue + " | <a href=\"javascript:copyForm('" +id.toString() + "')\">" + "Copy" + "</a>";
+            cellValue = cellValue + " | <a href=\"javascript:deleteForm('" +id.toString() + "')\">" + "Delete" + "</a>";
 
         }
         return cellValue;
