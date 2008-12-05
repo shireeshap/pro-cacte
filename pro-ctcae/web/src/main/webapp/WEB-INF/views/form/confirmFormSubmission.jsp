@@ -14,64 +14,33 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
         .label {
-            width: 12em;
-            padding: 1px;
-            margin-right: 0.5em;
-        }
-
-        div.row div.value {
-            white-space: normal;
-        }
-
-        #studyDetails td.label {
             font-weight: bold;
             float: left;
             margin-left: 0.5em;
             margin-right: 0.5em;
-            width: 12em;
             padding: 1px;
+            font-size: 12px;
         }
+
     </style>
 
 </head>
 <body>
 <chrome:flashMessage flashMessage="${command.flashMessage}"></chrome:flashMessage>
 
-<chrome:box title="Confirmation">
+<chrome:box title="Confirmation" autopad="true">
 
-    <div class="instructions">
-
-        <div class="summarylabel">Title</div>
-        <div class="summaryvalue">${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}</div>
-    </div>
-    <table id="formbuilderTable">
+    <table>
         <tr>
-            <td id="left">
-                Questions
-                <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfItems}"
-                           var="studyParticipantCrfItem" varStatus="status">
-                    <tags:formbuilderBox>
-                        ${studyParticipantCrfItem.crfItem.displayOrder} : ${studyParticipantCrfItem.crfItem.proCtcQuestion.questionText}
-                        <ul>
-                            <c:forEach items="${studyParticipantCrfItem.crfItem.proCtcQuestion.validValues}"
-                                       var="proCtcValidValue">
-                                <c:choose>
-                                    <c:when test="${proCtcValidValue.id == studyParticipantCrfItem.proCtcValidValue.id}">
-                                        <li><b><u>${proCtcValidValue.displayName}</u></b></li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li>${proCtcValidValue.displayName}</li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </ul>
-                    </tags:formbuilderBox>
-                    <br>
-                </c:forEach>
-            </td>
-        </tr>
-    </table>
-
+            <td  class="label">
+                You have successfully submitted the form.
+                    <br/>
+                    You can <a
+                        href="../participant/participantInbox?participantId=${command.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id}">click
+                    here</a> to go to your Inbox.
+                </td>
+            </tr>
+        </table>
 
 </chrome:box>
 
