@@ -168,28 +168,25 @@
                         </script>
                     </c:otherwise>
                 </c:choose>
-            </c:forEach>
-        </chrome:division>
-    </chrome:box>
-    <table width="100%">
-        <input type="hidden" name="direction"/>
-        <tr>
-            <td align="left" width="50%">
-                <c:if test="${command.currentPageIndex > 0}">
-                    <input onclick="document.myForm.direction.value='back'" type="image"
-                           src="/ctcae/images/blue/back_btn.png" alt="back &raquo;"/>
-                </c:if>
-            </td>
-            <td align="right" width="50%">
-                <c:choose>
-                    <c:when test="${command.currentPageIndex < command.totalPages}">
-                        <input onclick="document.myForm.direction.value='continue'" type="image"
-                               src="/ctcae/images/blue/continue_btn.png" alt="continue &raquo;"/>
-                    </c:when>
-                </c:choose>
-            </td>
-        </tr>
-    </table>
-</form:form>
+            </tags:formbuilderBox>
+        </c:forEach>
+        <table width="100%" style="position:relative; z-index:1;">
+            <input type="hidden" name="direction"/>
+            <tr>
+                <td align="left" width="50%">
+                    <c:if test="${command.currentPageIndex > 0}">
+                        <input onclick="document.myForm.direction.value='back'" type="image" src="/ctcae/images/blue/back_btn.png" alt="back &raquo;"/>
+                    </c:if>
+                </td>
+                <td align="right" width="50%">
+                    <c:choose>
+                        <c:when test="${command.currentPageIndex < command.totalPages}">
+                            <input onclick="document.myForm.direction.value='continue'" type="image" src="/ctcae/images/blue/continue_btn.png" alt="continue &raquo;"/>
+                        </c:when>
+                    </c:choose>
+                </td>
+            </tr>
+        </table>
+    </form:form>
 </body>
 </html>

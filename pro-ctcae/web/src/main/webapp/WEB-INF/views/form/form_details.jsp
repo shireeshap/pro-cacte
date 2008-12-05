@@ -389,10 +389,10 @@ function previousQuestion(questionIndex) {
                         <ul class="tree">
                             <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
-                                <li><a href="#">${ctcCategory.key.name}</a>
+                                <li>${ctcCategory.key.name}
                                     <ul>
                                         <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
-                                            <li class="closed"><a href="#">${proCtcTerm.term}</a>
+                                            <li class="closed">${proCtcTerm.term}
                                                 <ul><c:forEach items="${proCtcTerm.proCtcQuestions}"
                                                                var="proCtcQuestion">
 
@@ -409,15 +409,15 @@ function previousQuestion(questionIndex) {
                                                             </ul>
                                                         </tags:formbuilderBox>
                                                     </li>
-                                                    <br>
+
                                                 </c:forEach>
                                                 </ul>
                                             </li>
                                         </c:forEach>
-                                        <br>
+
                                     </ul>
                                 </li>
-                                <br>
+
                             </c:forEach>
                         </ul>
 

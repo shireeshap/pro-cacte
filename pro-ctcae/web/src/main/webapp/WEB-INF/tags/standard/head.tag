@@ -1,6 +1,6 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<tags:stylesheetLink name="tree"/>
 <tags:stylesheetLink name="debug"/>
 <tags:stylesheetLink name="common"/>
 <tags:stylesheetLink name="fields"/>
@@ -46,7 +46,7 @@
 <!-- SCRIPACULOUS END -->
 <tags:javascriptLink name="tree"/>
 
-<tags:stylesheetLink name="tree"/>
+
 <tags:javascriptLink name="extremecomponents"/>
 
 

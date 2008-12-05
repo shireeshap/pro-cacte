@@ -667,9 +667,7 @@ img.indicator { visibility: hidden; }
 }
 /* Formbuilder box styles */
 .formbuilderBox {
-	margin-left:14px;
-	margin-top:11px;
-	margin-bottom:-23px;
+	padding-left:14px;
 	position:relative;
 }
 .formbuilderboxTable {
@@ -786,6 +784,9 @@ position:absolute;
 top:9px;
 right:20px;
 }
+/*
+these 3 rules define form builder controls styles
+*/
 .formbuilderBoxControls {
 position:absolute;
 top:3px;
@@ -803,6 +804,28 @@ background-image: url(/ctcae/images/blue/formbuilderBoxControls-R.png);
 height:18px;
 width:6px;
 }
+/*
+these next 3 rules are the same as the previous 3, but need to be more specifically defined to hit the form builder tree
+*/
+ul.tree ul ul li table div.formbuilderBoxControls {
+position:absolute;
+top:3px;
+right:20px;
+}
+ul.tree ul ul li table div.formbuilderBoxControls-left {
+float:left;
+background-image: url(/ctcae/images/blue/formbuilderBoxControls-L.png);
+height:18px;
+padding-left:6px;
+}
+ul.tree ul ul li table div.formbuilderBoxControls-right {
+float:left;
+background-image: url(/ctcae/images/blue/formbuilderBoxControls-R.png);
+height:18px;
+width:6px;
+}
+
+
 .sortableSpan {
 float:left;
 height:100%;
