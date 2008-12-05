@@ -36,7 +36,7 @@ Event.observe(window, "load", function () {
         rows:1,
         cancelControl:false,
         okControl:false,
-        size:50,
+        size:18,
         submitOnBlur:true,
         onEnterEditMode:function() {
             if ($('crfTitle').innerHTML == 'Click here to name') {
@@ -49,7 +49,7 @@ Event.observe(window, "load", function () {
             $('crfTitle').innerHTML = transport.responseText;
             $('formTitle').value = transport.responseText;
             if ($('formTitle').value == '') {
-                //    $('crfTitle').innerHTML = 'Click here to name';
+                    $('crfTitle').innerHTML = 'Click here to name';
 
             }
 
@@ -358,10 +358,6 @@ function previousQuestion(questionIndex) {
     .makeDraggable {
         cursor: move;
     }
-
-        /*.editor_field, #crfTitle-inplaceeditor {
-      font-size:30px;
-      }*/
 </style>
 
 </head>
@@ -444,7 +440,7 @@ function previousQuestion(questionIndex) {
                                 <td id="formbuilderTable-middle">
                                     <div id="formbuilderTable-borderTop">
                                         <span class="formbuilderHeader" id="crfTitle">${command.title}</span>
-                                        <br/>
+                                        
                                         <form:hidden path="studyCrf.crf.title" id="formTitle"/>
 
                                         <span class="formbuildersubHeader">There <span id="plural1">are</span> <span

@@ -652,6 +652,8 @@ img.indicator { visibility: hidden; }
 .formbuildersubHeader {
 	margin-bottom:15px;
 	display:block;
+	margin-left:6px;
+	margin-top:5px;
 }
 #totalQuestionDivision {
 	font-size:15px;
@@ -833,4 +835,13 @@ font-size:30px;
 margin-right:10px;
 vertical-align:middle;
 display:block;
+}
+#crfTitle {
+	padding-left:4px;
+	padding-top:3px;
+}
+#crfTitle-inplaceeditor input {
+	font-size:30px;
+	size:20;
+	color:#00207E;
 }
