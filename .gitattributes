@@ -131,6 +131,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantAssignmentRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/AbstractValidator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/NotEmpty.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/NotEmptyValidator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/NotNull.java -text
@@ -276,7 +277,10 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormController.java
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcAeTabbedFlowController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcCAtegoryComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/DeleteFormController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/EditFormController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/EditStudyCrfLinkCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FindCrfItemController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormCommand.java -text
@@ -765,6 +769,8 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTe
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddCrfItemPropertiesControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneQuestionControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CreateFormCommandTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/EditFormControllerTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/EditStudyCrfLinkCellTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FindCrfItemControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FormDetailsTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/ReleaseFormControllerTest.java -text

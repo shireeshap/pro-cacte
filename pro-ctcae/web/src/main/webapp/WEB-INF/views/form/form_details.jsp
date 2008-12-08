@@ -364,10 +364,8 @@ function previousQuestion(questionIndex) {
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-         <c:if test="${(empty command.studyCrf.id) or ( command.studyCrf.id le 0) }">
              <input type="hidden" name="_finish" value="true"/>
-         </c:if>
-
+         
         <div class="instructions">
 
             <div class="summarylabel"><tags:message code='form.label.study'/></div>

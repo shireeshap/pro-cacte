@@ -9,17 +9,19 @@ import java.lang.annotation.Annotation;
  * @crated Oct 27, 2008
  */
 public interface Validator<A extends Annotation> {
-    /**
-     * does the object/element pass the constraints
-     */
-    public boolean validate(Object value);
+	/**
+	 * does the object/element pass the constraints
+	 */
+	public boolean validate(Object value);
 
-    /**
-     * Take the annotations values
-     *
-     * @param parameters
-     */
-    public void initialize(A parameters);
+	public boolean validate(Object bean, Object value);
 
-    public String message();
+	/**
+	 * Take the annotations values
+	 *
+	 * @param parameters
+	 */
+	public void initialize(A parameters);
+
+	public String message();
 }

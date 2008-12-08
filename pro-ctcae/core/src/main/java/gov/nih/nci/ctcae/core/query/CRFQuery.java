@@ -8,18 +8,26 @@ import org.apache.commons.lang.StringUtils;
  */
 public class CRFQuery extends AbstractQuery {
 
-    private static String queryString = "SELECT o from CRF o order by o.id";
-    private static final String TITLE = "title";
+	private static String queryString = "SELECT o from CRF o order by o.id";
+	private static final String TITLE = "title";
+	private static final String CRFID = "crfId";
 
-    public CRFQuery() {
+	public CRFQuery() {
 
-        super(queryString);
-    }
+		super(queryString);
+	}
 
-    public void filterByTitleExactMatch(final String title) {
-        if (!StringUtils.isBlank(title)) {
-            andWhere("lower(o.title) = :" + TITLE);
-            setParameter(TITLE, title.toLowerCase());
-        }
-    }
+	public void filterByTitleExactMatch(final String title) {
+		if (!StringUtils.isBlank(title)) {
+			andWhere("lower(o.title) = :" + TITLE);
+			setParameter(TITLE, title.toLowerCase());
+		}
+	}
+
+	public void filterByNotHavingCrfId(final Integer crfId) {
+		if (crfId != null) {
+			andWhere("o.id != :" + CRFID);
+			setParameter(CRFID, crfId);
+		}
+	}
 }

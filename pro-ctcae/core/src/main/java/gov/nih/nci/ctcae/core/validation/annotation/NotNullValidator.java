@@ -6,19 +6,19 @@ package gov.nih.nci.ctcae.core.validation.annotation;
  * @author Vinay Kumar
  * @crated Nov 8, 2008
  */
-public class NotNullValidator implements Validator<NotNull> {
+public class NotNullValidator extends AbstractValidator<NotNull> {
 
-    String message;
+	String message;
 
-    public boolean validate(final Object value) {
-        return value != null;
-    }
+	public boolean validate(final Object value) {
+		return value != null;
+	}
 
-    public void initialize(final NotNull parameters) {
-        this.message = parameters.message();
-    }
+	public void initialize(final NotNull parameters) {
+		this.message = parameters.message();
+	}
 
-    public String message() {
-        return this.message;
-    }
+	public String message() {
+		return this.message;
+	}
 }

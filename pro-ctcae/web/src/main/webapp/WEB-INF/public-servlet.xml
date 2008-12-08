@@ -48,9 +48,7 @@
         </property>
     </bean>
 
-    <!--<bean name="/error" id="errorController"-->
-    <!--class="gov.nih.nci.ctcae.web.ErrorController" autowire="byType"/>-->
-
+    
 
     <bean name="/user/emailSent" id="emailSentController" autowire="byType"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController">

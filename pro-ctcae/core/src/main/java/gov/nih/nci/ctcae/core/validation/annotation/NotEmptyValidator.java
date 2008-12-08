@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Vinay Kumar
  * @crated Nov 8, 2008
  */
-public class NotEmptyValidator implements Validator<NotEmpty> {
+public class NotEmptyValidator extends AbstractValidator<NotEmpty> {
     private String message;
 
     public void initialize(final NotEmpty parameters) {
@@ -36,5 +36,7 @@ public class NotEmptyValidator implements Validator<NotEmpty> {
             return ((String) value).trim().length() > 0;
         }
     }
+
+
 
 }

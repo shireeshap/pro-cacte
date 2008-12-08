@@ -11,7 +11,7 @@ import java.util.Collection;
  * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
-public class UniqueIdentifierForStudyValidator implements Validator<UniqueIdentifierForStudy> {
+public class UniqueIdentifierForStudyValidator extends AbstractValidator<UniqueIdentifierForStudy> {
     private String message;
 
     private StudyRepository studyRepository;

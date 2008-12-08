@@ -11,34 +11,33 @@ import java.util.Collection;
  * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
-public class UniqueNciIdentifierForOrganizationValidator implements
-        Validator<UniqueNciIdentifierForOrganization> {
+public class UniqueNciIdentifierForOrganizationValidator extends AbstractValidator<UniqueNciIdentifierForOrganization> {
 
-    String message;
+	String message;
 
-    private OrganizationRepository organizationRepository;
+	private OrganizationRepository organizationRepository;
 
-    public boolean validate(final Object value) {
-        if (value instanceof String) {
-            OrganizationQuery organizationQuery = new OrganizationQuery();
-            organizationQuery.filterByNciCodeExactMatch((String) value);
-            Collection<Organization> organizationList = organizationRepository
-                    .find(organizationQuery);
-            return (organizationList == null || organizationList.isEmpty()) ? true : false;
-        }
-        return true;
-    }
+	public boolean validate(final Object value) {
+		if (value instanceof String) {
+			OrganizationQuery organizationQuery = new OrganizationQuery();
+			organizationQuery.filterByNciCodeExactMatch((String) value);
+			Collection<Organization> organizationList = organizationRepository
+				.find(organizationQuery);
+			return (organizationList == null || organizationList.isEmpty()) ? true : false;
+		}
+		return true;
+	}
 
-    public void initialize(UniqueNciIdentifierForOrganization uniqueNciIdentifierForResearchStaff) {
-        message = uniqueNciIdentifierForResearchStaff.message();
-    }
+	public void initialize(UniqueNciIdentifierForOrganization uniqueNciIdentifierForResearchStaff) {
+		message = uniqueNciIdentifierForResearchStaff.message();
+	}
 
-    public String message() {
-        return message;
-    }
+	public String message() {
+		return message;
+	}
 
-    @Required
-    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
-        this.organizationRepository = organizationRepository;
-    }
+	@Required
+	public void setOrganizationRepository(OrganizationRepository organizationRepository) {
+		this.organizationRepository = organizationRepository;
+	}
 }

@@ -17,55 +17,56 @@ import java.util.ArrayList;
  */
 public class UniqueTitleForCrfValidatorTest extends AbstractTestCase {
 
-    private UniqueTitleForCrfValidator validator;
-    private CRF crf;
-    private CRFRepository crfRepository;
+	private UniqueTitleForCrfValidator validator;
+	private CRF crf;
+	private CRFRepository crfRepository;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        validator = new UniqueTitleForCrfValidator();
-        crfRepository = registerMockFor(CRFRepository.class);
-        validator.setCrfRepository(crfRepository);
-        crf = new CRF();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		validator = new UniqueTitleForCrfValidator();
+		crfRepository = registerMockFor(CRFRepository.class);
+		validator.setCrfRepository(crfRepository);
+		crf = new CRF();
+	}
 
-    public void testValidateUniqueIdentifier() {
+	public void testValidateUniqueIdentifier() {
 
-        expect(crfRepository.find(isA(CRFQuery.class))).andReturn(new ArrayList());
-        replayMocks();
-        assertTrue("title does not exists", validator.validate("title"));
-        verifyMocks();
+		expect(crfRepository.find(isA(CRFQuery.class))).andReturn(new ArrayList());
+		replayMocks();
+		assertTrue("title does not exists", validator.validate(crf, "title"));
+		verifyMocks();
 
-    }
+	}
 
-    public void testInitialzie() {
 
-        BeanWrapperImpl beanWrapperImpl = new BeanWrapperImpl(crf);
-        Annotation[] annotationsArray = beanWrapperImpl.getPropertyDescriptor("title").getReadMethod().getAnnotations();
-        assertFalse("must find annotation", annotationsArray.length == 0);
-        assertTrue("must find UniqueTitleForCrf annotation", annotationsArray[1].annotationType().equals(UniqueTitleForCrf.class));
+	public void testInitialzie() {
+
+		BeanWrapperImpl beanWrapperImpl = new BeanWrapperImpl(crf);
+		Annotation[] annotationsArray = beanWrapperImpl.getPropertyDescriptor("title").getReadMethod().getAnnotations();
+		assertFalse("must find annotation", annotationsArray.length == 0);
+		assertTrue("must find UniqueTitleForCrf annotation", annotationsArray[1].annotationType().equals(UniqueTitleForCrf.class));
 
 
 //        validator.initialize(annotationsArray[0]);
 //        assertEquals("identifier does not exists", validator.message());
 
-    }
+	}
 
-    public void testValidateReturnTrueForWrongValue() {
+	public void testValidateReturnTrueForWrongValue() {
 
-        assertTrue("identifier does not exists", validator.validate(crf));
+		assertTrue("identifier does not exists", validator.validate(crf));
 
-    }
+	}
 
-    public void testValidateNonUniqueIdentifier() {
+	public void testValidateNonUniqueIdentifier() {
 
-        ArrayList list = new ArrayList();
-        list.add(crf);
-        expect(crfRepository.find(isA(CRFQuery.class))).andReturn(list);
-        replayMocks();
-        assertFalse("title already exists", validator.validate("title"));
-        verifyMocks();
+		ArrayList list = new ArrayList();
+		list.add(crf);
+		expect(crfRepository.find(isA(CRFQuery.class))).andReturn(list);
+		replayMocks();
+		assertFalse("title already exists", validator.validate(crf, "title"));
+		verifyMocks();
 
-    }
+	}
 }

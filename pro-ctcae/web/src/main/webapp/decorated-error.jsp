@@ -93,7 +93,7 @@
                                     <a href="javascript:
 			PanelCombo('error');
 				">
-                                        <img id="error-image" src="<tags:imageUrl name="minimize.gif"/>"
+                                        <img id="error-image" src="<tags:imageUrl name="chrome/minimize.gif"/>"
                                              border="0" alt="toggle button"></a>
                                 </div>
                             </td>

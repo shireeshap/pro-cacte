@@ -15,77 +15,78 @@ import java.util.Map;
  */
 public class StudyCrfTableModel extends AbstractTableModel {
 
-    public String buildStudyCrfTable(Map parameterMap, Collection<StudyCrf> objects, HttpServletRequest request) {
+	public String buildStudyCrfTable(Map parameterMap, Collection<StudyCrf> objects, HttpServletRequest request) {
 
-        try {
-            TableModel model = getModel(parameterMap, request, objects);
+		try {
+			TableModel model = getModel(parameterMap, request, objects);
 
-            addTitle(model);
-            addStatus(model);
-            addOptions(model);
-            return model.assemble().toString();
-        } catch (Exception e) {
-            e.printStackTrace();
+			addTitle(model);
+			addStatus(model);
+			addOptions(model);
+			return model.assemble().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
 
-        }
-        return "";
+		}
+		return "";
 
-    }
+	}
 
-    protected Boolean getSortable() {
-        return false;
-    }
+	protected Boolean getSortable() {
+		return false;
+	}
 
-    protected Boolean getFilterable() {
-        return false;
-    }
+	protected Boolean getFilterable() {
+		return false;
+	}
 
-    protected Boolean getToolTips() {
-        return false;
-    }
+	protected Boolean getToolTips() {
+		return false;
+	}
 
-    protected Boolean getTitle() {
-        return false;
-    }
+	protected Boolean getTitle() {
+		return false;
+	}
 
-    protected Boolean getStatusBar() {
-        return false;
-    }
+	protected Boolean getStatusBar() {
+		return false;
+	}
 
-    protected boolean getPagination() {
-        return false;
-    }
+	protected boolean getPagination() {
+		return false;
+	}
 
-    private void addTitle(TableModel model) {
-        Column columnTitle = model.getColumnInstance();
-        columnTitle.setTitle("Title");
-        columnTitle.setProperty("crf.title");
-        columnTitle.setAlias("title");
-        columnTitle.setSortable(Boolean.TRUE);
-        columnTitle.setFilterable(false);
-        model.addColumn(columnTitle);
-    }
+	private void addTitle(TableModel model) {
+		Column columnTitle = model.getColumnInstance();
+		columnTitle.setTitle("Title");
+		columnTitle.setProperty("crf.title");
+		columnTitle.setAlias("title");
+		columnTitle.setSortable(Boolean.TRUE);
+		columnTitle.setFilterable(false);
+		columnTitle.setCell("gov.nih.nci.ctcae.web.form.EditStudyCrfLinkCell");
+		model.addColumn(columnTitle);
+	}
 
-    private void addStatus(TableModel model) {
-        Column columnStatus = model.getColumnInstance();
-        columnStatus.setTitle("Status");
-        columnStatus.setProperty("crf.status");
-        columnStatus.setAlias("status");
-        columnStatus.setSortable(Boolean.TRUE);
-        columnStatus.setFilterable(false);
-        model.addColumn(columnStatus);
-    }
+	private void addStatus(TableModel model) {
+		Column columnStatus = model.getColumnInstance();
+		columnStatus.setTitle("Status");
+		columnStatus.setProperty("crf.status");
+		columnStatus.setAlias("status");
+		columnStatus.setSortable(Boolean.TRUE);
+		columnStatus.setFilterable(false);
+		model.addColumn(columnStatus);
+	}
 
-    private void addOptions(TableModel model) {
-        Column columnOptions = model.getColumnInstance();
-        columnOptions.setTitle("Action");
-        columnOptions.setSortable(Boolean.TRUE);
-        columnOptions.setFilterable(false);
-        columnOptions.setSortable(false);
-        columnOptions.setAlias("options");
-        columnOptions.setCell("gov.nih.nci.ctcae.web.form.StudyCrfLinkDisplayDetailsCell");
-        model.addColumn(columnOptions);
-    }
+	private void addOptions(TableModel model) {
+		Column columnOptions = model.getColumnInstance();
+		columnOptions.setTitle("Action");
+		columnOptions.setSortable(Boolean.TRUE);
+		columnOptions.setFilterable(false);
+		columnOptions.setSortable(false);
+		columnOptions.setAlias("options");
+		columnOptions.setCell("gov.nih.nci.ctcae.web.form.StudyCrfLinkDisplayDetailsCell");
+		model.addColumn(columnOptions);
+	}
 
 
 }
