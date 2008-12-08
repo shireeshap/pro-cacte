@@ -13,65 +13,74 @@ import java.util.Collection;
  */
 public class ProCtcTermIntegrationTest extends AbstractJpaIntegrationTestCase {
 
-    private ProCtcTermRepository proCtcTermRepository;
-    private ProCtcTerm proProCtcTerm;
+	private ProCtcTermRepository proCtcTermRepository;
+	private ProCtcTerm proProCtcTerm;
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();
-    }
+	@Override
+	protected void onSetUpInTransaction() throws Exception {
+		super.onSetUpInTransaction();
+	}
 
-    public void testSaveCtcTerm() {
-        proProCtcTerm = new ProCtcTerm();
-        try {
-            proCtcTermRepository.save(proProCtcTerm);
-            fail("Expecting UnsupportedOperationException: Save is not supported for ProCtcQuestion");
-        } catch (UnsupportedOperationException e) {
-        }
-    }
+	public void testSaveCtcTerm() {
+		proProCtcTerm = new ProCtcTerm();
+		try {
+			proCtcTermRepository.save(proProCtcTerm);
+			fail("Expecting UnsupportedOperationException: Save is not supported for ProCtcQuestion");
+		} catch (UnsupportedOperationException e) {
+		}
+	}
 
-    public void testFindById() {
-        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
-        Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
-                .find(proCtcTermQuery);
-        ProCtcTerm firstProProCtcTerm = ctcTerms.iterator().next();
+	public void testFindNotSupported() {
+		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+		try {
+			proCtcTermRepository.find(proCtcTermQuery);
+			fail("Expecting UnsupportedOperationException: find is not supported for ProCtcTerm. Use findAndInitializeTerm method");
+		} catch (UnsupportedOperationException e) {
+		}
+	}
 
-        proProCtcTerm = proCtcTermRepository.findById(firstProProCtcTerm.getId());
-        assertEquals(proProCtcTerm.getCtepCode(), firstProProCtcTerm.getCtepCode());
-        assertEquals(proProCtcTerm.getCtepTerm(), firstProProCtcTerm.getCtepTerm());
-        assertEquals(proProCtcTerm.getSelect(), firstProProCtcTerm.getSelect());
-        assertEquals(proProCtcTerm.getTerm(), firstProProCtcTerm.getTerm());
-        assertEquals(proProCtcTerm, firstProProCtcTerm);
-    }
+	public void testFindAndInitialize() {
+		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+		Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
+			.findAndInitializeTerm(proCtcTermQuery);
+		ProCtcTerm firstProProCtcTerm = ctcTerms.iterator().next();
 
-    public void testFilterByCtcTermHavingQuestionsOnly() {
-        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
-        proCtcTermQuery.filterByCtcTermHavingQuestionsOnly();
-        Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
-                .find(proCtcTermQuery);
+		proProCtcTerm = proCtcTermRepository.findById(firstProProCtcTerm.getId());
+		assertEquals(proProCtcTerm.getCtepCode(), firstProProCtcTerm.getCtepCode());
+		assertEquals(proProCtcTerm.getCtepTerm(), firstProProCtcTerm.getCtepTerm());
+		assertEquals(proProCtcTerm.getSelect(), firstProProCtcTerm.getSelect());
+		assertEquals(proProCtcTerm.getTerm(), firstProProCtcTerm.getTerm());
+		assertEquals(proProCtcTerm, firstProProCtcTerm);
+	}
 
-        assertFalse("must find atleast one ctc term", ctcTerms.isEmpty());
-        for (ProCtcTerm proCtcTerm : ctcTerms) {
-            assertFalse("must find atleast one question for each term", proCtcTerm.getProCtcQuestions().isEmpty());
+	public void testFilterByCtcTermHavingQuestionsOnly() {
+		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+		proCtcTermQuery.filterByCtcTermHavingQuestionsOnly();
+		Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
+			.findAndInitializeTerm(proCtcTermQuery);
 
-        }
-    }
+		assertFalse("must find atleast one ctc term", ctcTerms.isEmpty());
+		for (ProCtcTerm proCtcTerm : ctcTerms) {
+			assertFalse("must find atleast one question for each term", proCtcTerm.getProCtcQuestions().isEmpty());
 
-    public void testFindByQuery() {
+		}
+	}
 
-        int size = jdbcTemplate
-                .queryForInt("select count(*) from PRO_CTC_TERMS");
-        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
-        proCtcTermQuery.setMaximumResults(size + 1000);
-        Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
-                .find(proCtcTermQuery);
+	public void testFindByQuery() {
 
-        assertFalse(ctcTerms.isEmpty());
-        assertEquals(size, ctcTerms.size());
-    }
+		int size = jdbcTemplate
+			.queryForInt("select count(*) from PRO_CTC_TERMS");
+		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+		proCtcTermQuery.setMaximumResults(size + 1000);
+		Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
+			.findAndInitializeTerm(proCtcTermQuery);
 
-    @Required
-    public void setCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
-        this.proCtcTermRepository = proCtcTermRepository;
-    }
+		assertFalse(ctcTerms.isEmpty());
+		assertEquals(size, ctcTerms.size());
+	}
+
+	@Required
+	public void setCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+		this.proCtcTermRepository = proCtcTermRepository;
+	}
 }
