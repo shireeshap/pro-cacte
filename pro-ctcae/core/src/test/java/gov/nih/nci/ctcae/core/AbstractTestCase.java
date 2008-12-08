@@ -14,48 +14,40 @@ import java.util.Set;
  */
 public abstract class AbstractTestCase extends CoreTestCase {
 
-    protected Organization nci, duke;
+	protected Organization nci, duke;
 
-    private Log log = LogFactory.getLog(getClass());
+	private Log log = LogFactory.getLog(getClass());
 
-    @Override
-    protected void setUp() throws Exception {
-        log.debug("---- Begin test " + getName() + " ----");
-        super.setUp();
-
-
-        nci = Fixture.createOrganization("National Cancer Institute", "NCI");
-        duke = Fixture.createOrganization("DUKE", "DUKE");
+	@Override
+	protected void setUp() throws Exception {
+		log.debug("---- Begin test " + getName() + " ----");
+		super.setUp();
 
 
-    }
+		nci = Fixture.createOrganization("National Cancer Institute", "NCI");
+		duke = Fixture.createOrganization("DUKE", "DUKE");
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-        log.debug("----  End  test " + getName() + " ----");
-    }
 
-    public static void assertNotEquals(Object expected, Object actual) {
-        assertNotEquals(null, expected, actual);
-    }
+	}
 
-    public static void assertNotEquals(String message, Object expected, Object actual) {
-        assertFalse(prependMessage(message) + expected + " is equal to " + actual,
-                expected == null ? actual == null : expected.equals(actual));
-    }
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		log.debug("----  End  test " + getName() + " ----");
+	}
 
-    public static void assertEqualsAndNotSame(Object expected, Object actual) {
-        assertEqualsAndNotSame(null, expected, actual);
-    }
 
-    protected Set<Object> mocks = new HashSet<Object>();
+	public static void assertEqualsAndNotSame(Object expected, Object actual) {
+		assertEqualsAndNotSame(null, expected, actual);
+	}
 
-    ////// MOCK REGISTRATION AND HANDLING
+	protected Set<Object> mocks = new HashSet<Object>();
 
-    public <T> T registerMockFor(Class<T> forClass) {
-        return registered(EasyMock.createMock(forClass));
-    }
+	////// MOCK REGISTRATION AND HANDLING
+
+	public <T> T registerMockFor(Class<T> forClass) {
+		return registered(EasyMock.createMock(forClass));
+	}
 
 
 //    public <T extends AbstractRepository<?,?>> T registerRepositoryMockFor(Class<T> forClass) {
@@ -69,22 +61,22 @@ public abstract class AbstractTestCase extends CoreTestCase {
 //        return registerMockFor(forClass, methods.toArray(new Method[methods.size()]));
 //    }
 
-    public void replayMocks() {
-        for (Object mock : mocks) EasyMock.replay(mock);
-    }
+	public void replayMocks() {
+		for (Object mock : mocks) EasyMock.replay(mock);
+	}
 
-    public void verifyMocks() {
-        for (Object mock : mocks) EasyMock.verify(mock);
-    }
+	public void verifyMocks() {
+		for (Object mock : mocks) EasyMock.verify(mock);
+	}
 
-    public void resetMocks() {
-        for (Object mock : mocks) EasyMock.reset(mock);
-    }
+	public void resetMocks() {
+		for (Object mock : mocks) EasyMock.reset(mock);
+	}
 
-    private <T> T registered(T mock) {
-        mocks.add(mock);
-        return mock;
-    }
+	private <T> T registered(T mock) {
+		mocks.add(mock);
+		return mock;
+	}
 
 
 }
