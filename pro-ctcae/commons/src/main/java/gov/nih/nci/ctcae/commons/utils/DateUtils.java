@@ -71,19 +71,4 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
 
 	}
 
-	public static Date getCurrentDate() {
-		Calendar calendar = Calendar.getInstance();
-
-		try {
-			String dateString = format(calendar.getTime());
-			return parseDate(dateString);
-
-		} catch (ParseException e) {
-
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		}
-
-		return null;
-
-	}
 }
