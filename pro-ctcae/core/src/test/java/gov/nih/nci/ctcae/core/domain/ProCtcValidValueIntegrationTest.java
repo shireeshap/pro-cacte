@@ -55,6 +55,18 @@ public class ProCtcValidValueIntegrationTest extends
 
 	}
 
+	public void testFindByQuery() {
+
+		ProCtcValidValueQuery proCtcValidValueQuery = new ProCtcValidValueQuery();
+
+		Collection<? extends ProCtcValidValue> ProCtcValidValues = proCtcValidValueRepository
+			.find(proCtcValidValueQuery);
+		assertFalse(ProCtcValidValues.isEmpty());
+		int size = jdbcTemplate
+			.queryForInt("select count(*) from PRO_CTC_VALID_VALUES ProCtcValidValue");
+		assertEquals(size, ProCtcValidValues.size());
+	}
+
 	public void testSaveProCtcValidValue() {
 		assertNotNull(proCtcValidValue.getId());
 	}
@@ -79,17 +91,6 @@ public class ProCtcValidValueIntegrationTest extends
 		assertEquals(proCtcValidValue, existingProCtcValidValue);
 	}
 
-	public void testFindByQuery() {
-
-		ProCtcValidValueQuery proCtcValidValueQuery = new ProCtcValidValueQuery();
-
-		Collection<? extends ProCtcValidValue> ProCtcValidValues = proCtcValidValueRepository
-			.find(proCtcValidValueQuery);
-		assertFalse(ProCtcValidValues.isEmpty());
-		int size = jdbcTemplate
-			.queryForInt("select count(*) from PRO_CTC_VALID_VALUES ProCtcValidValue");
-		assertEquals(size, ProCtcValidValues.size());
-	}
 
 	@Required
 	public void setProCtcValidValueRepository(

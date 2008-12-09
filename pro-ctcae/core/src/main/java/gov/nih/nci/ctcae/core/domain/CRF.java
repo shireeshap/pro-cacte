@@ -2,6 +2,8 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,12 +17,14 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "CRFS")
+@Table(name = "crfs")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crfs_id")})
+
 public class CRF extends BaseVersionable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "id", nullable = false)
+	@GeneratedValue(generator = "id-generator")
+	@Column(name = "id")
 	private Integer id;
 
 	@Column(name = "title", nullable = false)
@@ -39,10 +43,10 @@ public class CRF extends BaseVersionable {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.EAGER)
 	private List<CrfItem> crfItems = new ArrayList<CrfItem>();
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
-    private StudyCrf studyCrf;
-    
-    public StudyCrf getStudyCrf() {
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
+	private StudyCrf studyCrf;
+
+	public StudyCrf getStudyCrf() {
 		return studyCrf;
 	}
 
@@ -217,31 +221,30 @@ public class CRF extends BaseVersionable {
 
 	}
 
-    public void addCrfItem(CrfItem crfItem) {
-        if (crfItem != null) {
-            crfItem.setCrf(this);
-            crfItems.add(crfItem);
-        }
-    }
+	public void addCrfItem(CrfItem crfItem) {
+		if (crfItem != null) {
+			crfItem.setCrf(this);
+			crfItems.add(crfItem);
+		}
+	}
 
 
-    public CRF getCopy() {
+	public CRF getCopy() {
 
-        CRF copiedCrf = new CRF();
-        copiedCrf.setTitle("Copy of " + title + "_" + System.currentTimeMillis());
-        copiedCrf.setDescription(description);
-        copiedCrf.setStatus(CrfStatus.DRAFT);
-        copiedCrf.setCrfVersion("1.0");
-        for (CrfItem crfItem : crfItems) {
-            copiedCrf.addCrfItem(crfItem.getCopy());
-        }
+		CRF copiedCrf = new CRF();
+		copiedCrf.setTitle("Copy of " + title + "_" + System.currentTimeMillis());
+		copiedCrf.setDescription(description);
+		copiedCrf.setStatus(CrfStatus.DRAFT);
+		copiedCrf.setCrfVersion("1.0");
+		for (CrfItem crfItem : crfItems) {
+			copiedCrf.addCrfItem(crfItem.getCopy());
+		}
 
-        return copiedCrf;
-    }
+		return copiedCrf;
+	}
 
 
-
-    public void removeExistingAndAddNewCrfItem(final ProCtcTerm proCtcTerm, final Integer displayOrder) {
+	public void removeExistingAndAddNewCrfItem(final ProCtcTerm proCtcTerm, final Integer displayOrder) {
 		for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
 			removeExistingAndAddNewCrfItem(proCtcQuestion, displayOrder);
 		}

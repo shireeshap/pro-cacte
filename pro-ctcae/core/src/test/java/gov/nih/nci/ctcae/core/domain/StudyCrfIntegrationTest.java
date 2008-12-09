@@ -138,6 +138,7 @@ public class StudyCrfIntegrationTest extends AbstractHibernateIntegrationTestCas
 		StudyCrf studyCrf = new StudyCrf();
 		studyCrf.setStudy(studyWithStudyOrganizations);
 		crf.setStudyCrf(studyCrf);
+		studyCrf.setCrf(crf);
 
 		assertNotNull(crf.getStudyCrf());
 

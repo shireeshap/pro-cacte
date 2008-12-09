@@ -14,13 +14,13 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "PRO_CTC_QUESTIONS")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "SEQ_PRO_CTC_QUESTIONS_ID")})
+@Table(name = "pro_ctc_questions")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_questions_id")})
 public class ProCtcQuestion extends BasePersistable {
 
 	@Id
 	@GeneratedValue(generator = "id-generator")
-	@Column(name = "ID")
+	@Column(name = "id")
 	private Integer id;
 
 	@Column(name = "question_text", nullable = false)

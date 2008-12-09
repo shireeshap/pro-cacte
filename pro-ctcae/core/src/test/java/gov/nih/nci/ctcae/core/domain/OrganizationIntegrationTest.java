@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.jpa.JpaSystemException;
 
 import java.util.Collection;
+import java.util.UUID;
 
 /**
  * @author Vinay Kumar
@@ -25,7 +26,7 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 
 		organization = new Organization();
 		organization.setName("National Cancer Institute");
-		organization.setNciInstituteCode("NCI");
+		organization.setNciInstituteCode("NCI" + UUID.randomUUID());
 		organization = organizationRepository.save(organization);
 
 	}
@@ -73,10 +74,6 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 			fail();
 			logger.info("expecting this..contact information and organization date can not be null");
 		}
-		inValidOrganization.setNciInstituteCode("NCI");
-		organizationRepository.save(inValidOrganization);
-		inValidOrganization = organizationRepository.save(inValidOrganization);
-		assertNotNull(inValidOrganization.getId());
 
 	}
 

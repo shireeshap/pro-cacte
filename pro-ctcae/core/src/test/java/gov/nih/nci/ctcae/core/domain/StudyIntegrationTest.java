@@ -57,13 +57,40 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
 		studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
 
 		assertNotNull(studyWithStudyOrganizations.getId());
-		assertNotNull(studyWithStudyOrganizations.getId());
 		assertEquals("must not create multiple study coordinating center", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 		assertEquals("must not create multiple funding sponsor", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
 
 	}
 
+	public void testFindSite() {
+		StudyQuery studyQuery = new StudyQuery();
+		studyQuery.filterStudiesForStudySite(nciStudySite.getOrganization().getId());
+
+		Collection<? extends Study> studies = studyRepository.find(studyQuery);
+		assertFalse(studies.isEmpty());
+//        int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.long_title) like '%s%' " +
+//                "or lower(studies.short_title ) like '%s%' or lower(studies.assigned_identifier ) like '%s%'");
+//
+//        assertEquals(size, studies.size());
+
+
+		for (Study study : studies)
+
+		{
+			assertTrue("must contains study site", study.getStudySites().contains(nciStudySite));
+		}
+
+	}
+
+	public void testFindOrganizationsForStudySites() {
+
+
+		Collection<? extends Organization> organizations = organizationRepository.findOrganizationsForStudySites();
+		assertFalse(organizations.isEmpty());
+
+
+	}
 
 	public void testAddStudyFundingSponsorInCreateStudy() {
 		assertNotNull("must save funding sponsor", studyWithStudyOrganizations.getStudyFundingSponsor());
@@ -271,38 +298,6 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
 	}
 
-	public void testFindSite() {
-//        setComplete();
-//        endTransaction();
-//        startNewTransaction();
-//
-		StudyQuery studyQuery = new StudyQuery();
-		studyQuery.filterStudiesForStudySite(nciStudySite.getOrganization().getId());
-
-		Collection<? extends Study> studies = studyRepository.find(studyQuery);
-		assertFalse(studies.isEmpty());
-//        int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.long_title) like '%s%' " +
-//                "or lower(studies.short_title ) like '%s%' or lower(studies.assigned_identifier ) like '%s%'");
-//
-//        assertEquals(size, studies.size());
-
-
-		for (Study study : studies)
-
-		{
-			assertTrue("must contains study site", study.getStudySites().contains(nciStudySite));
-		}
-
-	}
-
-	public void testFindOrganizationsForStudySites() {
-
-
-		Collection<? extends Organization> organizations = organizationRepository.findOrganizationsForStudySites();
-		assertFalse(organizations.isEmpty());
-
-
-	}
 
 	@Required
 	public void setOrganizationRepository(OrganizationRepository organizationRepository) {

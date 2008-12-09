@@ -1,5 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import javax.persistence.*;
 
 /**
@@ -8,12 +11,13 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "PRO_CTC_VALID_VALUES")
+@Table(name = "pro_ctc_valid_values")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_valid_values_id")})
 public class ProCtcValidValue extends BasePersistable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "id", nullable = false)
+	@GeneratedValue(generator = "id-generator")
+	@Column(name = "id")
 	private Integer id;
 
 	@Column(name = "value", nullable = false)
@@ -61,8 +65,8 @@ public class ProCtcValidValue extends BasePersistable {
 		this.proCtcQuestion = proCtcQuestion;
 	}
 
- 
-    @Override
+
+	@Override
 	public boolean equals(final Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;

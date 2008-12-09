@@ -32,13 +32,12 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public <T extends Persistable> T save(T persistable) {
-		T newPersistable = persistable;
 		if (persistable.isPersisted()) {
-			newPersistable = (T) getHibernateTemplate().merge(persistable);
+			persistable = (T) getHibernateTemplate().merge(persistable);
 		} else {
 			getHibernateTemplate().persist(persistable);
 		}
-		return newPersistable;
+		return persistable;
 	}
 
 	/**
