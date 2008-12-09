@@ -38,6 +38,11 @@ public class ProCtcValidValueTest extends TestCase {
 		assertFalse(proCtcValidValue.equals(anotherProCtcValidValue));
 
 		anotherProCtcValidValue.setDisplayName("Severe");
+		assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
+		assertEquals(anotherProCtcValidValue, proCtcValidValue);
+		proCtcValidValue.setValue(1);
+		assertFalse(proCtcValidValue.equals(anotherProCtcValidValue));
+
 		anotherProCtcValidValue.setValue(1);
 		assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
 		assertEquals(anotherProCtcValidValue, proCtcValidValue);
