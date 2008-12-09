@@ -20,6 +20,16 @@ public class ProCtcQuestionTest extends TestCase {
 		assertEquals("How is the pain?", proCtcQuestion.getQuestionText());
 	}
 
+	public void testGetFormatedquestionText() {
+		proCtcQuestion = new ProCtcQuestion();
+		proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.FREQUENCY);
+		ProCtcTerm term = new ProCtcTerm();
+		term.setCtepTerm("Pain");
+		proCtcQuestion.setProCtcTerm(term);
+
+		assertEquals("Over the past week, how OFTEN did you have Pain", proCtcQuestion.getFormattedQuestionText());
+	}
+
 	public void testEqualsAndHashCode() {
 		ProCtcQuestion anotherProCtcQuestion = null;
 		assertEquals(anotherProCtcQuestion, proCtcQuestion);

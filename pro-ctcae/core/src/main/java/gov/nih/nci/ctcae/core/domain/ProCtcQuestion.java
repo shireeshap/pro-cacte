@@ -1,5 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,11 +15,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "PRO_CTC_QUESTIONS")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "SEQ_PRO_CTC_QUESTIONS_ID")})
 public class ProCtcQuestion extends BasePersistable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "id", nullable = false)
+	@GeneratedValue(generator = "id-generator")
+	@Column(name = "ID")
 	private Integer id;
 
 	@Column(name = "question_text", nullable = false)
@@ -58,17 +62,21 @@ public class ProCtcQuestion extends BasePersistable {
 	}
 
 	public String getQuestionText() {
-        String questionTextNew = "";
-        if(proCtcQuestionType.equals(ProCtcQuestionType.SEVERITY)){
-            questionTextNew = "Over the past week, what was the WORST SEVERITY of your " + proCtcTerm.getCtepTerm();
-        }
-        if(proCtcQuestionType.equals(ProCtcQuestionType.INTERFERENCE)){
-            questionTextNew = "Over the past week, how much has the " + proCtcTerm.getCtepTerm() + " INTERFERED with your daily activities";
-        }
-        if(proCtcQuestionType.equals(ProCtcQuestionType.FREQUENCY)){
-            questionTextNew = "Over the past week, how OFTEN did you have " + proCtcTerm.getCtepTerm();
-        }
-        return questionTextNew;
+		return questionText;
+	}
+
+	public String getFormattedQuestionText() {
+		String questionTextNew = "";
+		if (proCtcQuestionType != null && proCtcQuestionType.equals(ProCtcQuestionType.SEVERITY)) {
+			questionTextNew = "Over the past week, what was the WORST SEVERITY of your " + proCtcTerm.getCtepTerm();
+		}
+		if (proCtcQuestionType != null && proCtcQuestionType.equals(ProCtcQuestionType.INTERFERENCE)) {
+			questionTextNew = "Over the past week, how much has the " + proCtcTerm.getCtepTerm() + " INTERFERED with your daily activities";
+		}
+		if (proCtcQuestionType != null && proCtcQuestionType.equals(ProCtcQuestionType.FREQUENCY)) {
+			questionTextNew = "Over the past week, how OFTEN did you have " + proCtcTerm.getCtepTerm();
+		}
+		return questionTextNew;
 	}
 
 	public void setQuestionText(String questionText) {
@@ -123,7 +131,7 @@ public class ProCtcQuestion extends BasePersistable {
 	}
 
 
-    @Override
+	@Override
 	public boolean equals(final Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
@@ -150,7 +158,7 @@ public class ProCtcQuestion extends BasePersistable {
 		return questionText;
 	}
 
-	public String getDisplayName(){
-		return questionText+" "+proCtcTerm.getCtepTerm();
+	public String getDisplayName() {
+		return questionText + " " + proCtcTerm.getCtepTerm();
 	}
 }
