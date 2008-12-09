@@ -36,6 +36,11 @@ public class SubmitFormControllerTest extends WebTestCase {
         finderRepository = registerMockFor(FinderRepository.class);
         genericRepository = registerMockFor(GenericRepository.class);
         validator = new WebControllerValidatorImpl();
+        ProCtcTerm proCtcTerm1 = new ProCtcTerm();
+        proCtcTerm1.setTerm("Fatigue");
+
+        ProCtcTerm proCtcTerm2 = new ProCtcTerm();
+        proCtcTerm2.setTerm("Pain");
 
         controller.setFinderRepository(finderRepository);
         controller.setGenericRepository(genericRepository);
@@ -43,21 +48,39 @@ public class SubmitFormControllerTest extends WebTestCase {
 
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         CrfItem item1 = new CrfItem();
+        ProCtcQuestion proCtcQuestion1 = new ProCtcQuestion();
+        proCtcQuestion1.setProCtcTerm(proCtcTerm1);
+        proCtcQuestion1.setProCtcQuestionType(ProCtcQuestionType.SEVERITY);
+        item1.setProCtcQuestion(proCtcQuestion1);
         item1.setDisplayOrder(1);
 
+
         CrfItem item2 = new CrfItem();
+        ProCtcQuestion proCtcQuestion2 = new ProCtcQuestion();
+        proCtcQuestion2.setProCtcTerm(proCtcTerm1);
+        proCtcQuestion2.setProCtcQuestionType(ProCtcQuestionType.INTERFERENCE);
+        item2.setProCtcQuestion(proCtcQuestion2);
         item2.setDisplayOrder(2);
-        item2.setResponseRequired(true);
 
         CrfItem item3 = new CrfItem();
+        ProCtcQuestion proCtcQuestion3 = new ProCtcQuestion();
+        proCtcQuestion3.setProCtcTerm(proCtcTerm2);
+        proCtcQuestion3.setProCtcQuestionType(ProCtcQuestionType.SEVERITY);
+        item3.setProCtcQuestion(proCtcQuestion3);
         item3.setDisplayOrder(3);
 
         CrfItem item4 = new CrfItem();
+        ProCtcQuestion proCtcQuestion4 = new ProCtcQuestion();
+        proCtcQuestion4.setProCtcTerm(proCtcTerm2);
+        proCtcQuestion4.setProCtcQuestionType(ProCtcQuestionType.INTERFERENCE);
+        item4.setProCtcQuestion(proCtcQuestion4);
         item4.setDisplayOrder(4);
 
         StudyParticipantCrfItem studyParticipantCrfItem1 = new StudyParticipantCrfItem();
         studyParticipantCrfItem1.setCrfItem(item1);
-        studyParticipantCrfItem1.setProCtcValidValue(new ProCtcValidValue());
+        ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
+        proCtcValidValue.setValue(0);
+        studyParticipantCrfItem1.setProCtcValidValue(proCtcValidValue);
 
         StudyParticipantCrfItem studyParticipantCrfItem2 = new StudyParticipantCrfItem();
         studyParticipantCrfItem2.setCrfItem(item2);
@@ -106,10 +129,10 @@ public class SubmitFormControllerTest extends WebTestCase {
         request.getSession().setAttribute(SubmitFormController.class.getName() + ".FORM." + controller.getCommandName(), command);
 
         expect(genericRepository.save(studyParticipantCrfSchedule)).andReturn(studyParticipantCrfSchedule);
-        EasyMock.expectLastCall().times(4);
+        EasyMock.expectLastCall().times(5);
 
         expect(finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId())).andReturn(studyParticipantCrfSchedule);
-        EasyMock.expectLastCall().times(4);
+        EasyMock.expectLastCall().times(5);
 
         replayMocks();
 
@@ -119,16 +142,16 @@ public class SubmitFormControllerTest extends WebTestCase {
         assertEquals(controller.getFormView(), modelAndView.getViewName());
 
         //second run (error for null value in mandatory question)
-        //command.setCurrentIndex(1);
+        command.setCurrentPageIndex(1);
         command.setDirection("continue");
         modelAndView = controller.handleRequest(request, response);
         ModelMap m = modelAndView.getModelMap();
         BeanPropertyBindingResult r = (BeanPropertyBindingResult)m.get("org.springframework.validation.BindingResult.command");
-        assertEquals(1, r.getAllErrors().size());
+        assertEquals(0, r.getAllErrors().size());
 
 
         //third run (review form if hit continue on last question)
-        //command.setCurrentIndex(command.getTotalQuestions() - 1);
+        command.setCurrentPageIndex(command.getTotalPages() - 1);
         command.setDirection("continue");
         modelAndView = controller.handleRequest(request, response);
         model = modelAndView.getModel();
