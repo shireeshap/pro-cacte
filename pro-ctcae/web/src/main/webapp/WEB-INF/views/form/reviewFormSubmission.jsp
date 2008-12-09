@@ -27,13 +27,14 @@
         }
 
         .norm {
-            background: white;
             cursor: default;
+            width: 15%;
         }
 
         .over {
             background: #3399ff;
             cursor: pointer;
+            width: 15%;
         }
     </style>
     <script type="text/javascript">
@@ -109,7 +110,7 @@
             }
         }
 
-        function setValue(itemindex, value){
+        function setValue(itemindex, value) {
             document.myForm.elements['studyParticipantCrfSchedule.studyParticipantCrfItems[' + itemindex + '].proCtcValidValue'].value = value;
         }
 
@@ -129,6 +130,9 @@
                     You are about to submit the form. You can not change the responses after submission.
                     <br/>
                     You can <a href="javascript:showReview();">click here</a> to review your responses and make changes.
+                    <br/>
+                    If you want to add questions relating to any other symptom, please <a href="">click here.</a>
+                    <br/>
                 </p>
             </div>
         </chrome:division>
@@ -146,7 +150,9 @@
                                            var="validValue" varStatus="status">
                                     <div class="norm" onmouseover="javascript:this.className='over';"
                                          onmouseout="javascript:this.className='norm';"
-                                         onclick="showHideFor('${pageindex.index}','${studyParticipantCrfItem.crfItem.proCtcQuestion.proCtcQuestionType}','${studyParticipantCrfItem.itemIndex}','${status.index}')">
+                                         onclick="showHideFor('${pageindex.index}','${studyParticipantCrfItem.crfItem.proCtcQuestion.proCtcQuestionType}','${studyParticipantCrfItem.itemIndex}','${status.index}')"
+                                         width="20%">
+
                                         <c:choose>
                                             <c:when test="${studyParticipantCrfItem.proCtcValidValue.id eq validValue.id}">
                                                 <input type="radio"
@@ -154,7 +160,7 @@
                                                        value="${validValue.id}" checked="true"
                                                        id="${validValue.value}"/> ${validValue.displayName}
                                                 <script type="text/javascript">
-                                                    setValue('${studyParticipantCrfItem.itemIndex}','${validValue.id}');
+                                                    setValue('${studyParticipantCrfItem.itemIndex}', '${validValue.id}');
                                                 </script>
                                             </c:when>
                                             <c:otherwise>
@@ -178,17 +184,21 @@
                 </td>
             </tr>
         </table>
-        <table width="100%">
-            <input type="hidden" name="direction"/>
-            <tr align="right">
-                <td>
-                    <input onclick="document.myForm.direction.value='save'" type="image"
-                           src="/ctcae/images/blue/submit_btn.png" alt="save &raquo;"/>
-                </td>
-            </tr>
-        </table>
+        <br/>
+        <br/>
 
     </chrome:box>
+    <table width="100%">
+        <input type="hidden" name="direction"/>
+        <tr align="right">
+            <td>
+                <input onclick="document.myForm.direction.value='save'" type="image"
+                       src="/ctcae/images/blue/submit_btn.png" alt="save &raquo;"/>
+            </td>
+        </tr>
+    </table>
+
+
 </form:form>
 </body>
 </html>

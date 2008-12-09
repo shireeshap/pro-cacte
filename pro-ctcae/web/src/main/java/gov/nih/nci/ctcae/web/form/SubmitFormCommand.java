@@ -16,8 +16,6 @@ import java.util.Hashtable;
 public class SubmitFormCommand implements Serializable {
 
     private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
-    //private int currentIndex;
-    //private int totalQuestions;
     private String direction = "";
     private String flashMessage;
     private int totalPages;
@@ -31,8 +29,6 @@ public class SubmitFormCommand implements Serializable {
     public void setStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
         this.studyParticipantCrfSchedule = studyParticipantCrfSchedule;
         buildPagesForSymptoms();
-        //  totalQuestions = studyParticipantCrfSchedule.getStudyParticipantCrfItems().size();
-        //  currentIndex = getUnansweredQuestionIndex();
         totalPages = pages.size();
         currentPageIndex = getPageForUnansweredQuestion();
     }
@@ -63,15 +59,6 @@ public class SubmitFormCommand implements Serializable {
         }
     }
 
-//    public int getCurrentIndex() {
-//
-//        return currentIndex;
-//    }
-
-//    public int getTotalQuestions() {
-//        return totalQuestions;
-//    }
-
     public String getDirection() {
         return direction;
     }
@@ -90,6 +77,14 @@ public class SubmitFormCommand implements Serializable {
 
     public int getCurrentPageIndex() {
         return currentPageIndex;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    public void setCurrentPageIndex(int currentPageIndex) {
+        this.currentPageIndex = currentPageIndex;
     }
 
     public void saveResponseAndGetQuestion(FinderRepository finderRepository, GenericRepository genericRepository) {
@@ -121,19 +116,6 @@ public class SubmitFormCommand implements Serializable {
     public ArrayList<List<StudyParticipantCrfItem>> getPages() {
         return pages;
     }
-
-//    private int getUnansweredQuestionIndex() {
-//        int tmp = 0;
-//        for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-//
-//            if (studyParticipantCrfItem.getProCtcValidValue() == null) {
-//                break;
-//            } else {
-//                tmp++;
-//            }
-//        }
-//        return tmp;
-//    }
 
     private int getPageForUnansweredQuestion() {
 

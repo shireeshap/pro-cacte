@@ -58,40 +58,40 @@
 <body>
 
 <form:form method="post" commandName="participantCommand" id="assembler">
-    <chrome:box title="Patient Details" autopad="true">
+    <chrome:box title="participant.participant_details" autopad="true">
     <p><tags:instructions code="participant.participant_overview.top"/></p>
-    	<chrome:division title="Site">
+    	<chrome:division title="participant.label.site">
 			<b>${participantCommand.siteName}</b>
 		</chrome:division>
-        <chrome:division title="Demographic Information">
+        <chrome:division title="participant.label.demographic_information">
         <input type="hidden" name="participant.id" value="${participantCommand.participant.id}"/>
    
         <table border="0" style="width:100%">
         <tr>
 	        <td>
-		        <tags:renderText propertyName="participant.firstName" displayName="First name"
+		        <tags:renderText propertyName="participant.firstName" displayName="participant.label.first_name"
 		                         required="true"/>
-		        <tags:renderText propertyName="participant.lastName" displayName="Last name"
+		        <tags:renderText propertyName="participant.lastName" displayName="participant.label.last_name"
 		                         required="true"/>
-		        <tags:renderText propertyName="participant.middleName" displayName="Middle name"/>
-		        <tags:renderText propertyName="participant.assignedIdentifier" displayName="Patient identifier"
+		        <tags:renderText propertyName="participant.middleName" displayName="participant.label.middle_name"/>
+		        <tags:renderText propertyName="participant.assignedIdentifier" displayName="participant.label.participant_identifier"
 		                         required="true"/>
 	        </td>
 	        <td>
-		        <tags:renderDate propertyName="participant.birthDate" displayName="Date of birth"
+		        <tags:renderDate propertyName="participant.birthDate" displayName="participant.label.date_of_birth"
 		                         required="true" />
-		        <tags:renderSelect propertyName="participant.gender" displayName="Gender" 
+		        <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
 		                         required="true" options="${genders}" />
-		        <tags:renderSelect propertyName="participant.ethnicity" displayName="Ethnicity"
+		        <tags:renderSelect propertyName="participant.ethnicity" displayName="participant.label.ethnicity"
 		                         required="true" options="${ethnicities}" />
-		        <tags:renderSelect propertyName="participant.race" displayName="Race"
+		        <tags:renderSelect propertyName="participant.race" displayName="participant.label.race"
 		                         required="true" options="${races}"/>
 	        </td>
         </tr>
         </table>
         </chrome:division>
 		<c:if test="${not empty participantCommand.participant.studyParticipantAssignments}">
-        <chrome:division title="Studies">
+        <chrome:division title="participant.label.studies">
         	<tags:indicator id="indicator"/>
 		</chrome:division>
     
