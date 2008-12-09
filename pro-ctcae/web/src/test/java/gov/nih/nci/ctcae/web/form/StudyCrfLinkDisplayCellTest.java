@@ -41,7 +41,7 @@ public class StudyCrfLinkDisplayCellTest extends AbstractCellTestCase {
         model.setCurrentRowBean(studyCrf);
 
 
-        assertEquals("<a href=\"/pages/participant/schedulecrf?studyCrfId=1\">Schedule Form</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
+        assertEquals("<a href=\"/pages/participant/schedulecrf?studyCrfId=1\">Schedule</a> | <a href=\"javascript:copyForm('1')\">Copy</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
     }
 
     public void testReleaseFormStatusLink() {
@@ -55,7 +55,7 @@ public class StudyCrfLinkDisplayCellTest extends AbstractCellTestCase {
         model.setCurrentRowBean(studyCrf);
 
 
-        assertEquals("<a href=\"javascript:releaseForm('1')\">Release Form</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
+        assertEquals("<a href=\"javascript:releaseForm('1')\">Release&nbsp;&nbsp;</a> | <a href=\"javascript:copyForm('1')\">Copy</a> | <a href=\"javascript:deleteForm('1')\">Delete</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
     }
 
 
