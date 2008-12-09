@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.query.CrfItemQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
+import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.*;
 import org.springframework.beans.factory.annotation.Required;
@@ -49,25 +50,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 		assertNotNull(proProCtcTerm);
 
 
-		proCtcQuestion = new ProCtcQuestion();
-		proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.SEVERITY);
-		proCtcQuestion.setQuestionText("How is the pain?");
-		proCtcQuestion.setProCtcTerm(proProCtcTerm);
-		proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.FREQUENCY);
-		ProCtcValidValue proCtcValidValue = new ProCtcValidValue("High");
-		proCtcValidValue.setValue(1);
-		proCtcQuestion.addValidValue(proCtcValidValue);
-		ProCtcValidValue proCtcValidValue1 = new ProCtcValidValue("Low");
-		proCtcValidValue1.setValue(2);
-		proCtcQuestion.addValidValue(proCtcValidValue1);
-		ProCtcValidValue proCtcValidValue2 = new ProCtcValidValue("Severe");
-		proCtcValidValue2.setValue(3);
-		proCtcQuestion.addValidValue(proCtcValidValue2);
-		ProCtcValidValue proCtcValidValue3 = new ProCtcValidValue("Very High");
-		proCtcValidValue3.setValue(3);
-		proCtcQuestion.addValidValue(proCtcValidValue3);
-
-		proCtcQuestionRepository.save(proCtcQuestion);
+		proCtcQuestion = proCtcQuestionRepository.find(new ProCtcQuestionQuery()).iterator().next();
 
 		crfItem = new CrfItem();
 		crfItem.setCrf(crf);
