@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
+import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
@@ -13,148 +13,148 @@ import java.util.Collection;
  * @author Vinay Kumar
  * @crated Oct 7, 2008
  */
-public class StudyIntegrationTest extends AbstractJpaIntegrationTestCase {
+public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
-    private StudyRepository studyRepository;
-    private Study inValidStudy, studyWithStudyOrganizations;
+	private StudyRepository studyRepository;
+	private Study inValidStudy, studyWithStudyOrganizations;
 
-    private StudySite nciStudySite;
-    private Organization nci, duke;
-    private OrganizationRepository organizationRepository;
+	private StudySite nciStudySite;
+	private Organization nci, duke;
+	private OrganizationRepository organizationRepository;
 
-    private StudyFundingSponsor studyFundingSponsor;
-    private StudyCoordinatingCenter studyCoordinatingCenter;
+	private StudyFundingSponsor studyFundingSponsor;
+	private StudyCoordinatingCenter studyCoordinatingCenter;
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();    //To change body of overridden methods use File | Settings | File Templates.
-        login();
+	@Override
+	protected void onSetUpInTransaction() throws Exception {
+		super.onSetUpInTransaction();	//To change body of overridden methods use File | Settings | File Templates.
+		login();
 
-        nci = Fixture.createOrganization("National Cancer Institute", "NCI");
-
-
-        nci = organizationRepository.save(nci);
-
-        duke = Fixture.createOrganization("DUKE", "DUKE");
-
-        duke = organizationRepository.save(duke);
+		nci = Fixture.createOrganization("National Cancer Institute", "NCI");
 
 
-        nciStudySite = new StudySite();
-        nciStudySite.setOrganization(nci);
+		nci = organizationRepository.save(nci);
 
-        studyFundingSponsor = new StudyFundingSponsor();
-        studyFundingSponsor.setOrganization(nci);
+		duke = Fixture.createOrganization("DUKE", "DUKE");
 
-        studyCoordinatingCenter = new StudyCoordinatingCenter();
-        studyCoordinatingCenter.setOrganization(nci);
-
-        studyWithStudyOrganizations = Fixture.createStudy("study short title", "study long title", "assigned identifier");
-        studyWithStudyOrganizations.setStudyFundingSponsor(studyFundingSponsor);
-        studyWithStudyOrganizations.setStudyCoordinatingCenter(studyCoordinatingCenter);
-        studyWithStudyOrganizations.addStudySite(nciStudySite);
-
-        studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
-
-        assertNotNull(studyWithStudyOrganizations.getId());
-        assertNotNull(studyWithStudyOrganizations.getId());
-        assertEquals("must not create multiple study coordinating center", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
-        assertEquals("must not create multiple funding sponsor", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+		duke = organizationRepository.save(duke);
 
 
-    }
+		nciStudySite = new StudySite();
+		nciStudySite.setOrganization(nci);
+
+		studyFundingSponsor = new StudyFundingSponsor();
+		studyFundingSponsor.setOrganization(nci);
+
+		studyCoordinatingCenter = new StudyCoordinatingCenter();
+		studyCoordinatingCenter.setOrganization(nci);
+
+		studyWithStudyOrganizations = Fixture.createStudy("study short title", "study long title", "assigned identifier");
+		studyWithStudyOrganizations.setStudyFundingSponsor(studyFundingSponsor);
+		studyWithStudyOrganizations.setStudyCoordinatingCenter(studyCoordinatingCenter);
+		studyWithStudyOrganizations.addStudySite(nciStudySite);
+
+		studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
+
+		assertNotNull(studyWithStudyOrganizations.getId());
+		assertNotNull(studyWithStudyOrganizations.getId());
+		assertEquals("must not create multiple study coordinating center", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+		assertEquals("must not create multiple funding sponsor", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
 
-    public void testAddStudyFundingSponsorInCreateStudy() {
-        assertNotNull("must save funding sponsor", studyWithStudyOrganizations.getStudyFundingSponsor());
-        assertNotNull(studyWithStudyOrganizations.getStudyFundingSponsor().getId());
-        assertEquals(nci, studyWithStudyOrganizations.getStudyFundingSponsor().getOrganization());
-        assertEquals("must not create multiple funding sponsor", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
-
-    }
+	}
 
 
-    public void testAddStudyCoordinatingCenterInCreateStudy() {
+	public void testAddStudyFundingSponsorInCreateStudy() {
+		assertNotNull("must save funding sponsor", studyWithStudyOrganizations.getStudyFundingSponsor());
+		assertNotNull(studyWithStudyOrganizations.getStudyFundingSponsor().getId());
+		assertEquals(nci, studyWithStudyOrganizations.getStudyFundingSponsor().getOrganization());
+		assertEquals("must not create multiple funding sponsor", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
-        assertNotNull("must save coordinating center", studyWithStudyOrganizations.getStudyCoordinatingCenter());
-
-        assertNotNull(studyWithStudyOrganizations.getStudyCoordinatingCenter().getId());
-        assertEquals(nci, studyWithStudyOrganizations.getStudyCoordinatingCenter().getOrganization());
-        assertEquals("must not create multiple study coordinating center", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
-
-    }
-
-    public void testUpdateStudyCoordinatingCenter() {
-        assertNotNull(studyWithStudyOrganizations.getStudyCoordinatingCenter().getId());
-        assertEquals(nci, studyWithStudyOrganizations.getStudyCoordinatingCenter().getOrganization());
-
-        studyWithStudyOrganizations.getStudyCoordinatingCenter().setOrganization(duke);
-        studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
-        assertNotNull(studyWithStudyOrganizations.getStudyCoordinatingCenter().getId());
-        assertEquals(duke, studyWithStudyOrganizations.getStudyCoordinatingCenter().getOrganization());
-        assertEquals("must not create multiple study coordinating center", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+	}
 
 
-    }
+	public void testAddStudyCoordinatingCenterInCreateStudy() {
 
-    public void testUpdateStudyFundingSponsor() {
-        assertNotNull(studyWithStudyOrganizations.getStudyFundingSponsor().getId());
-        assertEquals(nci, studyWithStudyOrganizations.getStudyFundingSponsor().getOrganization());
+		assertNotNull("must save coordinating center", studyWithStudyOrganizations.getStudyCoordinatingCenter());
 
+		assertNotNull(studyWithStudyOrganizations.getStudyCoordinatingCenter().getId());
+		assertEquals(nci, studyWithStudyOrganizations.getStudyCoordinatingCenter().getOrganization());
+		assertEquals("must not create multiple study coordinating center", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
-        studyWithStudyOrganizations.getStudyFundingSponsor().setOrganization(duke);
-        studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
-        assertNotNull(studyWithStudyOrganizations.getStudyFundingSponsor().getId());
-        assertEquals(duke, studyWithStudyOrganizations.getStudyFundingSponsor().getOrganization());
-        assertEquals("must not create multiple study funding sponsor", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+	}
 
+	public void testUpdateStudyCoordinatingCenter() {
+		assertNotNull(studyWithStudyOrganizations.getStudyCoordinatingCenter().getId());
+		assertEquals(nci, studyWithStudyOrganizations.getStudyCoordinatingCenter().getOrganization());
 
-    }
-
-    public void testAddStudySiteInCreateStudy() {
-        assertFalse("must save study site", studyWithStudyOrganizations.getStudySites().isEmpty());
-        assertEquals(Integer.valueOf(1), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
-        StudyOrganization studyOrganization = studyWithStudyOrganizations.getStudySites().get(0);
-        assertNotNull(studyOrganization.getId());
-        assertEquals(nci, studyOrganization.getOrganization());
-    }
-
-    public void testAddStudySiteInEditStudy() {
-
-        studyWithStudyOrganizations.addStudySite(nciStudySite);
-        studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
-        assertNotNull(studyWithStudyOrganizations.getId());
-        assertFalse("must save study site", studyWithStudyOrganizations.getStudySites().isEmpty());
-        assertEquals(Integer.valueOf(2), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
-        StudyOrganization studyOrganization = studyWithStudyOrganizations.getStudySites().get(0);
-        assertNotNull(studyOrganization.getId());
-        assertEquals(nci, studyOrganization.getOrganization());
+		studyWithStudyOrganizations.getStudyCoordinatingCenter().setOrganization(duke);
+		studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
+		assertNotNull(studyWithStudyOrganizations.getStudyCoordinatingCenter().getId());
+		assertEquals(duke, studyWithStudyOrganizations.getStudyCoordinatingCenter().getOrganization());
+		assertEquals("must not create multiple study coordinating center", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
 
-    }
+	}
 
-    public void testDeleteStudySite() {
-
-        studyWithStudyOrganizations.addStudySite(nciStudySite);
-        studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
-        assertNotNull(studyWithStudyOrganizations.getId());
-        assertFalse("must save study site", studyWithStudyOrganizations.getStudySites().isEmpty());
-        assertEquals(Integer.valueOf(2), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
-        assertNotNull(studyWithStudyOrganizations.getStudySites().get(0).getId());
-
-        studyWithStudyOrganizations.removeStudySite(studyWithStudyOrganizations.getStudySites().get(0));
-        studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
-        assertNotNull(studyWithStudyOrganizations.getId());
-        assertEquals("must remove study site", Integer.valueOf(1), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+	public void testUpdateStudyFundingSponsor() {
+		assertNotNull(studyWithStudyOrganizations.getStudyFundingSponsor().getId());
+		assertEquals(nci, studyWithStudyOrganizations.getStudyFundingSponsor().getOrganization());
 
 
-    }
+		studyWithStudyOrganizations.getStudyFundingSponsor().setOrganization(duke);
+		studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
+		assertNotNull(studyWithStudyOrganizations.getStudyFundingSponsor().getId());
+		assertEquals(duke, studyWithStudyOrganizations.getStudyFundingSponsor().getOrganization());
+		assertEquals("must not create multiple study funding sponsor", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
-    public void testSaveStudy() {
 
-        assertNotNull(studyWithStudyOrganizations.getId());
+	}
 
-    }
+	public void testAddStudySiteInCreateStudy() {
+		assertFalse("must save study site", studyWithStudyOrganizations.getStudySites().isEmpty());
+		assertEquals(Integer.valueOf(1), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+		StudyOrganization studyOrganization = studyWithStudyOrganizations.getStudySites().get(0);
+		assertNotNull(studyOrganization.getId());
+		assertEquals(nci, studyOrganization.getOrganization());
+	}
+
+	public void testAddStudySiteInEditStudy() {
+
+		studyWithStudyOrganizations.addStudySite(nciStudySite);
+		studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
+		assertNotNull(studyWithStudyOrganizations.getId());
+		assertFalse("must save study site", studyWithStudyOrganizations.getStudySites().isEmpty());
+		assertEquals(Integer.valueOf(2), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+		StudyOrganization studyOrganization = studyWithStudyOrganizations.getStudySites().get(0);
+		assertNotNull(studyOrganization.getId());
+		assertEquals(nci, studyOrganization.getOrganization());
+
+
+	}
+
+	public void testDeleteStudySite() {
+
+		studyWithStudyOrganizations.addStudySite(nciStudySite);
+		studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
+		assertNotNull(studyWithStudyOrganizations.getId());
+		assertFalse("must save study site", studyWithStudyOrganizations.getStudySites().isEmpty());
+		assertEquals(Integer.valueOf(2), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+		assertNotNull(studyWithStudyOrganizations.getStudySites().get(0).getId());
+
+		studyWithStudyOrganizations.removeStudySite(studyWithStudyOrganizations.getStudySites().get(0));
+		studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
+		assertNotNull(studyWithStudyOrganizations.getId());
+		assertEquals("must remove study site", Integer.valueOf(1), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+
+
+	}
+
+	public void testSaveStudy() {
+
+		assertNotNull(studyWithStudyOrganizations.getId());
+
+	}
 
 //    public void testValidationExceptionForSavingInValidStudy() {
 //        inValidStudy = new Study();
@@ -180,145 +180,137 @@ public class StudyIntegrationTest extends AbstractJpaIntegrationTestCase {
 //    }
 
 
-    public void testFindById() {
+	public void testFindById() {
 
-        Study existingStudy = studyRepository.findById(this.studyWithStudyOrganizations.getId());
-        assertEquals(this.studyWithStudyOrganizations, existingStudy);
+		Study existingStudy = studyRepository.findById(this.studyWithStudyOrganizations.getId());
+		assertEquals(this.studyWithStudyOrganizations, existingStudy);
 
-    }
-
-
-    public void testFindByName() {
-
-        StudyQuery studyQuery = new StudyQuery();
-        studyQuery.filterStudiesByShortTitle("short");
-
-        Collection<? extends Study> studies = studyRepository.find(studyQuery);
-        assertFalse(studies.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower(studies.short_title ) like '%short%'");
-
-        assertEquals(size, studies.size());
+	}
 
 
-        for (Study study : studies)
+	public void testFindByName() {
 
-        {
-            assertTrue(study.getShortTitle().toLowerCase().contains("short"));
-        }
+		StudyQuery studyQuery = new StudyQuery();
+		studyQuery.filterStudiesByShortTitle("short");
 
-    }
+		Collection<? extends Study> studies = studyRepository.find(studyQuery);
+		assertFalse(studies.isEmpty());
+		int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower(studies.short_title ) like '%short%'");
 
-    public void testFindByNCICode() {
-
-        StudyQuery studyQuery = new StudyQuery();
-        studyQuery.filterStudiesByLongTitle("long");
-
-        Collection<? extends Study> studies = studyRepository.find(studyQuery);
-        assertFalse(studies.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.long_title)  like '%long%'");
-
-        assertEquals(size, studies.size());
+		assertEquals(size, studies.size());
 
 
-        for (Study study : studies)
+		for (Study study : studies)
 
-        {
-            assertTrue(study.getLongTitle().toLowerCase().contains("long"));
-        }
+		{
+			assertTrue(study.getShortTitle().toLowerCase().contains("short"));
+		}
 
-    }
+	}
 
-    public void testFindByNCICodeExactMatch() {
+	public void testFindByNCICode() {
 
-        StudyQuery studyQuery = new StudyQuery();
-        studyQuery.filterByAssignedIdentifierExactMatch("Assigned identifier");
+		StudyQuery studyQuery = new StudyQuery();
+		studyQuery.filterStudiesByLongTitle("long");
 
-        Collection<? extends Study> studies = studyRepository.find(studyQuery);
-        assertFalse(studies.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.assigned_identifier)  = 'assigned identifier'");
+		Collection<? extends Study> studies = studyRepository.find(studyQuery);
+		assertFalse(studies.isEmpty());
+		int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.long_title)  like '%long%'");
 
-        assertEquals(size, studies.size());
-
-
-        for (Study study : studies)
-
-        {
-            assertTrue(study.getAssignedIdentifier().toLowerCase().equals("assigned identifier"));
-        }
-
-    }
-
-    public void testFindByMatchingText() {
-
-        StudyQuery studyQuery = new StudyQuery();
-        studyQuery.filterStudiesWithMatchingText("s");
-
-        Collection<? extends Study> studies = studyRepository.find(studyQuery);
-        assertFalse(studies.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.long_title) like '%s%' " +
-                "or lower(studies.short_title ) like '%s%' or lower(studies.assigned_identifier ) like '%s%'");
-
-        assertEquals(size, studies.size());
+		assertEquals(size, studies.size());
 
 
-        for (Study study : studies)
+		for (Study study : studies)
 
-        {
-            assertTrue(study.getShortTitle().toLowerCase().contains("s")
-                    || study.getLongTitle().toLowerCase().contains("s")
-                    || study.getAssignedIdentifier().toLowerCase().contains("s"));
-        }
+		{
+			assertTrue(study.getLongTitle().toLowerCase().contains("long"));
+		}
 
-    }
+	}
 
-    public void testFindSite() {
+	public void testFindByNCICodeExactMatch() {
+
+		StudyQuery studyQuery = new StudyQuery();
+		studyQuery.filterByAssignedIdentifierExactMatch("Assigned identifier");
+
+		Collection<? extends Study> studies = studyRepository.find(studyQuery);
+		assertFalse(studies.isEmpty());
+		int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.assigned_identifier)  = 'assigned identifier'");
+
+		assertEquals(size, studies.size());
+
+
+		for (Study study : studies)
+
+		{
+			assertTrue(study.getAssignedIdentifier().toLowerCase().equals("assigned identifier"));
+		}
+
+	}
+
+	public void testFindByMatchingText() {
+
+		StudyQuery studyQuery = new StudyQuery();
+		studyQuery.filterStudiesWithMatchingText("s");
+
+		Collection<? extends Study> studies = studyRepository.find(studyQuery);
+		assertFalse(studies.isEmpty());
+		int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.long_title) like '%s%' " +
+			"or lower(studies.short_title ) like '%s%' or lower(studies.assigned_identifier ) like '%s%'");
+
+		assertEquals(size, studies.size());
+
+
+		for (Study study : studies)
+
+		{
+			assertTrue(study.getShortTitle().toLowerCase().contains("s")
+				|| study.getLongTitle().toLowerCase().contains("s")
+				|| study.getAssignedIdentifier().toLowerCase().contains("s"));
+		}
+
+	}
+
+	public void testFindSite() {
 //        setComplete();
 //        endTransaction();
 //        startNewTransaction();
 //
-        StudyQuery studyQuery = new StudyQuery();
-        studyQuery.filterStudiesForStudySite(nciStudySite.getOrganization().getId());
+		StudyQuery studyQuery = new StudyQuery();
+		studyQuery.filterStudiesForStudySite(nciStudySite.getOrganization().getId());
 
-        Collection<? extends Study> studies = studyRepository.find(studyQuery);
-        assertFalse(studies.isEmpty());
+		Collection<? extends Study> studies = studyRepository.find(studyQuery);
+		assertFalse(studies.isEmpty());
 //        int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower (studies.long_title) like '%s%' " +
 //                "or lower(studies.short_title ) like '%s%' or lower(studies.assigned_identifier ) like '%s%'");
 //
 //        assertEquals(size, studies.size());
 
 
-        for (Study study : studies)
+		for (Study study : studies)
 
-        {
-            assertTrue("must contains study site", study.getStudySites().contains(nciStudySite));
-        }
+		{
+			assertTrue("must contains study site", study.getStudySites().contains(nciStudySite));
+		}
 
-    }
+	}
 
-    public void testFindOrganizationsForStudySites() {
-
-
-        Collection<? extends Organization> organizations = organizationRepository.findOrganizationsForStudySites();
-        assertFalse(organizations.isEmpty());
+	public void testFindOrganizationsForStudySites() {
 
 
-    }
-
-    @Override
-    protected void onTearDown() throws Exception {
-        studyRepository.delete(studyWithStudyOrganizations);
-        super.onTearDown();
+		Collection<? extends Organization> organizations = organizationRepository.findOrganizationsForStudySites();
+		assertFalse(organizations.isEmpty());
 
 
-    }
+	}
 
-    @Required
-    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
-        this.organizationRepository = organizationRepository;
-    }
+	@Required
+	public void setOrganizationRepository(OrganizationRepository organizationRepository) {
+		this.organizationRepository = organizationRepository;
+	}
 
-    @Required
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
+	@Required
+	public void setStudyRepository(StudyRepository studyRepository) {
+		this.studyRepository = studyRepository;
+	}
 }

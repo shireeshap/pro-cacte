@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.4"
-         xmlns="http://java.sun.com/xml/ns/j2ee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+		 xmlns="http://java.sun.com/xml/ns/j2ee"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
     <display-name>ctcae web interface</display-name>
 
@@ -35,12 +35,12 @@
     </listener>
 
 
-    <!--<listener>-->
-    <!--<listener-class>edu.northwestern.bioinformatics.bering.servlet.SeparateApplicationContextBeringContextListener-->
-    <!--</listener-class>-->
-    <!--</listener>-->
+	<!--<listener>-->
+	<!--<listener-class>edu.northwestern.bioinformatics.bering.servlet.SeparateApplicationContextBeringContextListener-->
+	<!--</listener-class>-->
+	<!--</listener>-->
 
-    <servlet>
+	<servlet>
         <servlet-name>public</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
@@ -57,7 +57,7 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/spring-servlet.xml
-                <!--/WEB-INF/webflow-mvc-config.xml-->
+				<!--/WEB-INF/webflow-mvc-config.xml-->
             </param-value>
         </init-param>
 
@@ -83,9 +83,9 @@
         <servlet-name>dwr-invoker</servlet-name>
         <url-pattern>/dwr/*</url-pattern>
     </servlet-mapping>
-    <!-- Serves static resource content from .jar files such as spring-faces.jar -->
+	<!-- Serves static resource content from .jar files such as spring-faces.jar -->
 
-    <servlet>
+	<servlet>
         <servlet-name>Resources Servlet</servlet-name>
         <servlet-class>org.springframework.js.resource.ResourceServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
@@ -94,26 +94,61 @@
         <servlet-name>Resources Servlet</servlet-name>
         <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
-    <!--<filter>-->
-    <!--<filter-name>Acegi Filter Chain Proxy</filter-name>-->
-    <!--<filter-class>-->
-    <!--org.acegisecurity.util.FilterToBeanProxy-->
-    <!--</filter-class>-->
-    <!--<init-param>-->
-    <!--<param-name>targetClass</param-name>-->
-    <!--<param-value>-->
-    <!--org.acegisecurity.util.FilterChainProxy-->
-    <!--</param-value>-->
-    <!--</init-param>-->
-    <!--</filter>-->
+	<!--<filter>-->
+	<!--<filter-name>Acegi Filter Chain Proxy</filter-name>-->
+	<!--<filter-class>-->
+	<!--org.acegisecurity.util.FilterToBeanProxy-->
+	<!--</filter-class>-->
+	<!--<init-param>-->
+	<!--<param-name>targetClass</param-name>-->
+	<!--<param-value>-->
+	<!--org.acegisecurity.util.FilterChainProxy-->
+	<!--</param-value>-->
+	<!--</init-param>-->
+	<!--</filter>-->
 
-    <!--<filter-mapping>-->
-    <!--<filter-name>Acegi Filter Chain Proxy</filter-name>-->
-    <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
+	<!--<filter-mapping>-->
+	<!--<filter-name>Acegi Filter Chain Proxy</filter-name>-->
+	<!--<url-pattern>/*</url-pattern>-->
+	<!--</filter-mapping>-->
+	<filter>
+			  <filter-name>AuditInfoFilter</filter-name>
+		<filter-class>gov.nih.nci.ctcae.web.AuditInfoFilter</filter-class>
+		</filter>
+		<filter-mapping>
+			<filter-name>AuditInfoFilter</filter-name>
+			<url-pattern>/*</url-pattern>
+		</filter-mapping>
+	 
+	<filter>
+			<filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
+			<filter-class>gov.nih.nci.ctcae.web.OpenSessionInViewInterceptorFilter</filter-class>
+			<init-param>
+				<param-name>interceptorBeanName</param-name>
+				<param-value>auditOpenSessionInViewInterceptor</param-value>
+			</init-param>
+		</filter>
 
+		<filter-mapping>
+			<filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
+			<url-pattern>/*</url-pattern>
+		</filter-mapping>
 
-    <filter>
+		<filter>
+			<filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+			<filter-class>gov.nih.nci.ctcae.web.OpenSessionInViewInterceptorFilter</filter-class>
+			<init-param>
+				<param-name>interceptorBeanName</param-name>
+				<param-value>openSessionInViewInterceptor</param-value>
+			</init-param>
+		</filter>
+
+		<filter-mapping>
+			<filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+			<url-pattern>/*</url-pattern>
+		</filter-mapping>
+
+	<filter>
         <filter-name>Sitemesh</filter-name>
         <filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
     </filter>
@@ -123,45 +158,22 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <filter>
-        <filter-name>OpenEntityManagerInViewFilter</filter-name>
-        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
-        <init-param>
-            <param-name>entityManagerFactoryBeanName</param-name>
-            <param-value>entityManagerFactory</param-value>
-        </init-param>
-    </filter>
 
-    <filter-mapping>
-        <filter-name>OpenEntityManagerInViewFilter</filter-name>
-        <url-pattern>/pages/*</url-pattern>
-    </filter-mapping>
+	<!--<filter>-->
+	<!--<filter-name>BeansInRequestFilter</filter-name>-->
+	<!--<filter-class>gov.nih.nci.cabig.ctms.web.filters.BeansInRequestFilter</filter-class>-->
+	<!--<init-param>-->
+	<!--<param-name>beanNames</param-name>-->
+	<!--<param-value>configuration, buildInfo</param-value>-->
+	<!--</init-param>-->
+	<!--</filter>-->
 
-    <filter-mapping>
-        <filter-name>OpenEntityManagerInViewFilter</filter-name>
-        <url-pattern>/public/*</url-pattern>
-    </filter-mapping>
+	<!--<filter-mapping>-->
+	<!--<filter-name>BeansInRequestFilter</filter-name>-->
+	<!--<url-pattern>/*</url-pattern>-->
+	<!--</filter-mapping>-->
 
-    <filter-mapping>
-        <filter-name>OpenEntityManagerInViewFilter</filter-name>
-        <url-pattern>/dwr/*</url-pattern>
-    </filter-mapping>
-
-
-    <!--<filter>-->
-    <!--<filter-name>BeansInRequestFilter</filter-name>-->
-    <!--<filter-class>gov.nih.nci.cabig.ctms.web.filters.BeansInRequestFilter</filter-class>-->
-    <!--<init-param>-->
-    <!--<param-name>beanNames</param-name>-->
-    <!--<param-value>configuration, buildInfo</param-value>-->
-    <!--</init-param>-->
-    <!--</filter>-->
-
-    <!--<filter-mapping>-->
-    <!--<filter-name>BeansInRequestFilter</filter-name>-->
-    <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
-    <filter>
+	<filter>
         <filter-name>eXtremeExport</filter-name>
         <filter-class>org.extremecomponents.table.filter.ExportFilter</filter-class>
     </filter>
@@ -178,17 +190,17 @@
         <filter-name>sitemesh</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <!--<filter>-->
-    <!--<filter-name>ExceptionTranslator</filter-name>-->
-    <!--<filter-class>gov.nih.nci.ctcae.web.filter.ExceptionTranslationFilter</filter-class>-->
-    <!--</filter>-->
+	<!--<filter>-->
+	<!--<filter-name>ExceptionTranslator</filter-name>-->
+	<!--<filter-class>gov.nih.nci.ctcae.web.filter.ExceptionTranslationFilter</filter-class>-->
+	<!--</filter>-->
 
-    <!--<filter-mapping>-->
-    <!--<filter-name>ExceptionTranslator</filter-name>-->
-    <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
+	<!--<filter-mapping>-->
+	<!--<filter-name>ExceptionTranslator</filter-name>-->
+	<!--<url-pattern>/*</url-pattern>-->
+	<!--</filter-mapping>-->
 
-    <error-page>
+	<error-page>
         <error-code>500</error-code>
         <location>/decorated-error.jsp</location>
     </error-page>

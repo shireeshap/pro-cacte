@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
+import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
@@ -11,35 +11,35 @@ import org.springframework.beans.factory.annotation.Required;
  * @created Oct 22, 2008
  */
 public class StudyOrganizationIntegrationTest extends
-        AbstractJpaIntegrationTestCase {
+	AbstractHibernateIntegrationTestCase {
 
-    private OrganizationRepository organizationRepository;
-    private StudyRepository studyRepository;
-    private Organization organization, organization1;
-    private Study study;
-    private StudySite studySite;
+	private OrganizationRepository organizationRepository;
+	private StudyRepository studyRepository;
+	private Organization organization, organization1;
+	private Study study;
+	private StudySite studySite;
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();
+	@Override
+	protected void onSetUpInTransaction() throws Exception {
+		super.onSetUpInTransaction();
 
-        organization = createOrganization(0);
-        organization1 = createOrganization(1);
-        study = createStudy(0);
+		organization = createOrganization(0);
+		organization1 = createOrganization(1);
+		study = createStudy(0);
 
-        assertNotNull(organization);
-        assertNotNull(study);
+		assertNotNull(organization);
+		assertNotNull(study);
 
-        studySite = new StudySite();
+		studySite = new StudySite();
 
-        studySite.setOrganization(organization);
-        studySite.setStudy(study);
+		studySite.setOrganization(organization);
+		studySite.setStudy(study);
 //        studyOrganizationRepository.save(studySite);
 
-    }
+	}
 
 
-    public void testFindStudySites() {
+	public void testFindStudySites() {
 
 //        List<Study> studyList = new ArrayList<Study>();
 //
@@ -121,16 +121,16 @@ public class StudyOrganizationIntegrationTest extends
 //        for (Study study1 : studyList) {
 //            studyRepository.delete(study1);
 //        }
-    }
+	}
 
-    public void testStudyOrganizationQuery() {
-        StudyOrganizationQuery query = new StudyOrganizationQuery();
-        query.filterByOrganizationId(organization.getId());
-        query.filterByStudyId(study.getId());
-        query.filterByStudySiteOnly();
+	public void testStudyOrganizationQuery() {
+		StudyOrganizationQuery query = new StudyOrganizationQuery();
+		query.filterByOrganizationId(organization.getId());
+		query.filterByStudyId(study.getId());
+		query.filterByStudySiteOnly();
 
-        System.out.println(organization.getId());
-        System.out.println(study.getId());
+		System.out.println(organization.getId());
+		System.out.println(study.getId());
 //        ArrayList<StudyOrganization> studySites = (ArrayList<StudyOrganization>) studyOrganizationRepository.find(query);
 //        assertEquals(1, studySites.size());
 //
@@ -139,35 +139,35 @@ public class StudyOrganizationIntegrationTest extends
 //        assertEquals(studySite.getOrganization(), organization);
 //        assertEquals(studySite.getStudy(), study);
 
-    }
+	}
 
-    private Study createStudy(int number) {
-        Study study = new Study();
-        study.setDescription("StudyDesc" + number);
-        study.setLongTitle("StudyDesc" + number);
-        study.setShortTitle("StudyDesc" + number);
-        study.setAssignedIdentifier("StudyIdentifier" + number);
-        return studyRepository.save(study);
+	private Study createStudy(int number) {
+		Study study = new Study();
+		study.setDescription("StudyDesc" + number);
+		study.setLongTitle("StudyDesc" + number);
+		study.setShortTitle("StudyDesc" + number);
+		study.setAssignedIdentifier("StudyIdentifier" + number);
+		return studyRepository.save(study);
 
-    }
+	}
 
-    private Organization createOrganization(int number) {
-        Organization organization = new Organization();
-        organization.setName("OrganizationName" + number);
-        organization.setNciInstituteCode("OrganizationNCI" + number);
-        return organizationRepository.save(organization);
-    }
+	private Organization createOrganization(int number) {
+		Organization organization = new Organization();
+		organization.setName("OrganizationName" + number);
+		organization.setNciInstituteCode("OrganizationNCI" + number);
+		return organizationRepository.save(organization);
+	}
 
-    @Required
-    public void setOrganizationRepository(
-            OrganizationRepository organizationRepository) {
-        this.organizationRepository = organizationRepository;
-    }
+	@Required
+	public void setOrganizationRepository(
+		OrganizationRepository organizationRepository) {
+		this.organizationRepository = organizationRepository;
+	}
 
 
-    @Required
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
+	@Required
+	public void setStudyRepository(StudyRepository studyRepository) {
+		this.studyRepository = studyRepository;
+	}
 
 }

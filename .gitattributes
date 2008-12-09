@@ -63,6 +63,8 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/019_update_crf_item.groovy 
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/020_update_pro_ctc_questions.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/021_add_pro_ctc_question_valid_values.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/022_alter_pro_ctc_question.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/023_add_audit_event.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/024_add_audit_event_values.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
@@ -120,7 +122,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ClinicalStaffRepo
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CrfItemRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/FinderRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/GenericRepository.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/JpaGenericRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/OrganizationRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ParticipantRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcQuestionRepository.java -text
@@ -131,6 +133,8 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantAssignmentRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialect.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategy.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/AbstractValidator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/NotEmpty.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/NotEmptyValidator.java -text
@@ -147,7 +151,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/Unique
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/Validator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/ValidatorClass.java -text
 pro-ctcae/core/src/main/resources/META-INF/log4j.properties -text
-pro-ctcae/core/src/main/resources/META-INF/persistence.xml -text
 pro-ctcae/core/src/main/resources/ehcache.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-datasource.xml -text
@@ -155,7 +158,7 @@ pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-jms.
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-util.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/email/template/exception.ftl -text
 pro-ctcae/core/src/main/resources/log4j.properties -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractJpaIntegrationTestCase.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractHibernateIntegrationTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/Fixture.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/TestBean.java -text
@@ -256,10 +259,12 @@ pro-ctcae/web/ivy.xml -text
 pro-ctcae/web/pom.xml -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/AbstractTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ApplicationConversionService.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/AuditInfoFilter.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ControllerTools.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ControllersUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/CtcAeSimpleFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilter.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/AddSiteController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffCommand.java -text
@@ -758,6 +763,7 @@ pro-ctcae/web/src/test/java/SeleniumTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AbstractWebIntegrationTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ApplicationConversionServiceTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ControllersUtilsTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilterTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/WebTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/AddSiteControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffAjaxFacadeIntegrationTest.java -text
@@ -809,5 +815,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCellTe
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tag/AuthorizeTagTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTagTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tools/ObjectToolsTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tools/hibernate/WonderfulNamingStrategyTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorTest.java -text
 pro-ctcae/web/web.iml -text

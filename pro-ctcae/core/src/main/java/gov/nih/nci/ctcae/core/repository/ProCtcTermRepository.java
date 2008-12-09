@@ -44,6 +44,14 @@ public class ProCtcTermRepository extends
 		return proCtcTerms;
 	}
 
+	@Override
+	public Collection<ProCtcTerm> find(final ProCtcTermQuery query) {
+		throw new UnsupportedOperationException(
+			"find is not supported for ProCtcTerm. Use findAndInitializeTerm method");
+
+
+	}
+
 	public ProCtcTerm findAndInitializeTerm(Integer proCtcTermId) {
 
 		ProCtcTerm proCtcTerm = super.findById(proCtcTermId);

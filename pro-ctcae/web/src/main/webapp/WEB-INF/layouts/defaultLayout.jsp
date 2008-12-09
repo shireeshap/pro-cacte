@@ -16,44 +16,44 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
-    <link type="text/css" rel="stylesheet" href="<c:url value="/resources/dijit/themes/tundra/tundra.css" />"/>
+	<%--<link type="text/css" rel="stylesheet" href="<c:url value="/resources/dijit/themes/tundra/tundra.css" />"/>--%>
 
-    <script type="text/javascript" src="<c:url value="/resources/dojo/dojo.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resources/spring/Spring.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resources/spring/Spring-Dojo.js" />"></script>
+	<%--<script type="text/javascript" src="<c:url value="/resources/dojo/dojo.js" />"></script>--%>
+	<%--<script type="text/javascript" src="<c:url value="/resources/spring/Spring.js" />"></script>--%>
+	<%--<script type="text/javascript" src="<c:url value="/resources/spring/Spring-Dojo.js" />"></script>--%>
 
-    <title>ProCtcAE</title>
-    <link rel="icon" href="../../images/ctcae.ico"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<title>ProCtcAE</title>
+	<link rel="icon" href="../../images/ctcae.ico"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
-    <standard:head/>
-    <tags:stylesheetLink name="tabbedflow"/>
+	<standard:head/>
+	<tags:stylesheetLink name="tabbedflow"/>
 
-    <decorator:head/>
+	<decorator:head/>
 </head>
 <body>
 <div id="all">
-    <standard:header/>
+	<standard:header/>
 
-    <tiles:insertAttribute name="body"/>
+	<tiles:insertAttribute name="body"/>
 
-    <div class="tabpane">
+	<div class="tabpane">
 
-        <c:set var="__decorator_title">
-            <decorator:title/>
-        </c:set>
-        <blue:body title="${__decorator_title}">
-            <blue:flashMessage/>
-            <decorator:body/>
-        </blue:body>
+		<c:set var="__decorator_title">
+			<decorator:title/>
+		</c:set>
+		<blue:body title="${__decorator_title}">
+			<blue:flashMessage/>
+			<decorator:body/>
+		</blue:body>
 
-        <standard:footer/>
+		<standard:footer/>
 
 
-        <c:set var="__decorator_title">
-            <decorator:title/>
-        </c:set>
-    </div>
+		<c:set var="__decorator_title">
+			<decorator:title/>
+		</c:set>
+	</div>
 </div>
 </body>
 </html>

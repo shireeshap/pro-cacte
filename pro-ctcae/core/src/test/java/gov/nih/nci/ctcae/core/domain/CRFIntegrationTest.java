@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
+import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import org.springframework.beans.factory.annotation.Required;
@@ -13,7 +13,7 @@ import java.util.UUID;
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
-public class CRFIntegrationTest extends AbstractJpaIntegrationTestCase {
+public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
 	private CRFRepository crfRepository;
 	private CRF crf, inValidCRF;

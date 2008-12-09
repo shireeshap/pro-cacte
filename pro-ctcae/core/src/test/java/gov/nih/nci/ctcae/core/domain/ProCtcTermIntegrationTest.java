@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
+import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import org.springframework.beans.factory.annotation.Required;
@@ -11,7 +11,7 @@ import java.util.Collection;
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
-public class ProCtcTermIntegrationTest extends AbstractJpaIntegrationTestCase {
+public class ProCtcTermIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
 	private ProCtcTermRepository proCtcTermRepository;
 	private ProCtcTerm proProCtcTerm;

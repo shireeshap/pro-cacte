@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractJpaIntegrationTestCase;
+import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.query.CrfItemQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
@@ -14,7 +14,7 @@ import java.util.Collection;
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
-public class CrfItemIntegrationTest extends AbstractJpaIntegrationTestCase {
+public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
 	public void setCrfItemRepository(CrfItemRepository crfItemRepository) {
 		this.crfItemRepository = crfItemRepository;
@@ -45,7 +45,7 @@ public class CrfItemIntegrationTest extends AbstractJpaIntegrationTestCase {
 		proCtc = proCtcRepository.find(new ProCtcQuery()).iterator().next();
 		assertNotNull(proCtc);
 
-		proProCtcTerm = proCtcTermRepository.find(new ProCtcTermQuery()).iterator().next();
+		proProCtcTerm = proCtcTermRepository.findAndInitializeTerm(new ProCtcTermQuery()).iterator().next();
 		assertNotNull(proProCtcTerm);
 
 
