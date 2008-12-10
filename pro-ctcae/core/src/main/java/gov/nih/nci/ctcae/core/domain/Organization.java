@@ -16,7 +16,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "organizations")
-
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_organizations_id")})
 public class Organization extends BaseVersionable {
 

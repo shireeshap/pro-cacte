@@ -52,12 +52,12 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
 	}
 
 	public void testFindbyId() {
-		ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, 1);
+		ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, -1);
 		assertNotNull(proCtcQuestion);
 	}
 
 	public void testFindAndInitializeProCtcQuestion() {
-		ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(1);
+		ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(-1);
 		assertNotNull(proCtcQuestion);
 		assertFalse(proCtcQuestion.getValidValues().isEmpty());
 		proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(-1001);

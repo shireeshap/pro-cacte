@@ -28,10 +28,7 @@ pro-ctcae/core/src/main/db/migrate/001_elaboration_1/009_create_PRO_CTC_VALID_VA
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/010_add_ctcae_v3_terms.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/011_create_CRF_ITEMS.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/012_create_participants.groovy -text
-pro-ctcae/core/src/main/db/migrate/001_elaboration_1/013_create_PRO_CTC_TERM_VALID_VALUES.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/014_create_investigators.groovy -text
-pro-ctcae/core/src/main/db/migrate/001_elaboration_1/015_drop_PRO_CTC_TERM_VALID_VALUES.groovy -text
-pro-ctcae/core/src/main/db/migrate/001_elaboration_1/016_alter_PRO_CTC_VALID_VALUES.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/017_create_site_investigators.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/018_create_STUDY_CRFS.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/019_create_STUDY_PARTICIPANT_ASSIGMENTS.groovy -text
@@ -52,7 +49,6 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/004_add_ctcae_v3_terms.groo
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/005_add_sample_pro_ctc_terms.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/006_add_sample_pro_ctc_terms.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/007_alter_investigator_clinical.groovy -text
-pro-ctcae/core/src/main/db/migrate/002_elaboration_1/008_alter_study_participant_crf_items.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/010_update_sample_pro_ctc_terms.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/011_update_sample_pro_ctc_terms.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/012_alter_study_participant_crfs.groovy -text

@@ -36,6 +36,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 		super.onSetUpInTransaction();
 		DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
 		DataAuditInfo.setLocal(auditInfo);
+
 	}
 
 	@Override

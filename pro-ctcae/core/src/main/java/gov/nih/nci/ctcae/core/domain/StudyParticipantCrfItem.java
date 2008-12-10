@@ -29,7 +29,7 @@ public class StudyParticipantCrfItem extends BaseVersionable {
 	@ManyToOne
 	private CrfItem crfItem;
 
-	@JoinColumn(name = "study_participant_crf_schedule_id", referencedColumnName = "id")
+	@JoinColumn(name = "SP_CRF_SCHEDULE_ID", referencedColumnName = "id")
 	@ManyToOne
 	private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
 

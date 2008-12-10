@@ -35,7 +35,6 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 	}
 
 	public void testFindByName() {
-		saveOrganization();
 
 		OrganizationQuery organizationQuery = new OrganizationQuery();
 		organizationQuery.filterByOrganizationName("N");
