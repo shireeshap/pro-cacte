@@ -21,6 +21,8 @@ public class SubmitFormCommand implements Serializable {
     private int totalPages;
     private int currentPageIndex;
     ArrayList<List<StudyParticipantCrfItem>> pages;
+    List<ProCtcQuestion> proCtcQuestions = new ArrayList<ProCtcQuestion>();
+    ArrayList<Integer> includedQuestionIds;
 
     public StudyParticipantCrfSchedule getStudyParticipantCrfSchedule() {
         return studyParticipantCrfSchedule;
@@ -36,12 +38,15 @@ public class SubmitFormCommand implements Serializable {
     private void buildPagesForSymptoms() {
         pages = new ArrayList<List<StudyParticipantCrfItem>>();
         List<StudyParticipantCrfItem> studyParticipantCrfItems = studyParticipantCrfSchedule.getStudyParticipantCrfItems();
+        includedQuestionIds = new ArrayList<Integer>();
 
         Hashtable<ProCtcTerm, Integer> tempHash = new Hashtable<ProCtcTerm, Integer>();
         int i = 0;
         int j = 0;
 
         for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfItems) {
+
+            includedQuestionIds.add(studyParticipantCrfItem.getCrfItem().getProCtcQuestion().getId());
 
             List<StudyParticipantCrfItem> tmp;
             ProCtcTerm symptom = studyParticipantCrfItem.getCrfItem().getProCtcQuestion().getProCtcTerm();
@@ -128,12 +133,12 @@ public class SubmitFormCommand implements Serializable {
                     if (studyParticipantCrfItem.getProCtcValidValue() == null) {
                         return tmp;
                     }
-                    if(studyParticipantCrfItem.getProCtcValidValue().getValue().equals(0)){
+                    if (studyParticipantCrfItem.getProCtcValidValue().getValue().equals(0)) {
                         severityQuestionAnswerIsNone = true;
                     }
-                }else{
-                    if(!severityQuestionAnswerIsNone){
-                        if(studyParticipantCrfItem.getProCtcValidValue() == null){
+                } else {
+                    if (!severityQuestionAnswerIsNone) {
+                        if (studyParticipantCrfItem.getProCtcValidValue() == null) {
                             return tmp;
                         }
                     }
@@ -142,5 +147,34 @@ public class SubmitFormCommand implements Serializable {
             tmp++;
         }
         return tmp;
+    }
+
+    public List<ProCtcQuestion> getProCtcQuestions() {
+
+        return proCtcQuestions;
+    }
+
+    public void setProCtcQuestions(List<ProCtcQuestion> proCtcQuestions) {
+        this.proCtcQuestions = proCtcQuestions;
+    }
+
+    public Hashtable<String, List<ProCtcQuestion>> getArrangedQuestions() {
+        Hashtable<String, List<ProCtcQuestion>> arrangedQuestions = new Hashtable<String, List<ProCtcQuestion>>();
+        List<ProCtcQuestion> l;
+        for (ProCtcQuestion proCtcQuestion : proCtcQuestions) {
+
+            if (!includedQuestionIds.contains(proCtcQuestion.getId())) {
+                if (arrangedQuestions.containsKey(proCtcQuestion.getProCtcTerm().getTerm())) {
+                    l = arrangedQuestions.get(proCtcQuestion.getProCtcTerm().getTerm());
+                } else {
+                    l = new ArrayList<ProCtcQuestion>();
+                }
+
+                l.add(proCtcQuestion);
+                arrangedQuestions.put(proCtcQuestion.getProCtcTerm().getTerm(), l);
+            }
+        }
+
+        return arrangedQuestions;
     }
 }

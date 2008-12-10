@@ -128,7 +128,7 @@
                 <tr>
                     <td colspan="${colspan}">
                         <div class="label">
-                                ${currentCrfItem.proCtcQuestion.questionText}
+                                ${currentCrfItem.proCtcQuestion.formattedQuestionText}
                         </div>
                     </td>
                 </tr>

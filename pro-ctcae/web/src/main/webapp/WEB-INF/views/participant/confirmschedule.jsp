@@ -49,8 +49,11 @@
         <div class="value">${command.study.shortTitle} </div>
     </div>
     <div class="row">
-        <div class="label"><spring:message code="schedulecrf.label.participant"/></div>
-        <div class="value">${command.participant.displayName}</div>
+            <div class="label"><spring:message code="schedulecrf.label.participant"/></div>
+            <div class="value">${command.participant.displayName}</div>
+        </div>
+    <div class="row">
+            <div class="label"><a href="../participant/participantInbox?participantId=${command.participant.id}">Participant Inbox</a></div>
     </div>
 
     <c:if test="${not empty command.studyParticipantAssignment.studyParticipantCrfs}">

@@ -67,10 +67,12 @@
 
 
         function hideQuestions(hidethem) {
-            var idsArray = hidethem.split(',');
-            for (var i = 0; i < idsArray.length; i++) {
-                if (idsArray[i] != '') {
-                    hideQuestion(idsArray[i]);
+            if (typeof(hidethem) != 'undefined') {
+                var idsArray = hidethem.split(',');
+                for (var i = 0; i < idsArray.length; i++) {
+                    if (idsArray[i] != '') {
+                        hideQuestion(idsArray[i]);
+                    }
                 }
             }
         }
@@ -87,10 +89,12 @@
             $("question_" + questionid).show();
         }
         function showQuestions(showthem) {
-            var idsArray = showthem.split(',');
-            for (var i = 0; i < idsArray.length; i++) {
-                if (idsArray[i] != '') {
-                    showQuestion(idsArray[i]);
+            if (typeof(showthem) != 'undefined') {
+                var idsArray = showthem.split(',');
+                for (var i = 0; i < idsArray.length; i++) {
+                    if (idsArray[i] != '') {
+                        showQuestion(idsArray[i]);
+                    }
                 }
             }
         }
@@ -125,16 +129,16 @@
                 autopad="true" message="false">
 
         <chrome:division title="Submit">
-            <div class="label">
-                <p>
+            <p>
+                <b>
                     You are about to submit the form. You can not change the responses after submission.
                     <br/>
                     You can <a href="javascript:showReview();">click here</a> to review your responses and make changes.
                     <br/>
-                    If you want to add questions relating to any other symptom, please <a href="">click here.</a>
-                    <br/>
-                </p>
-            </div>
+                    If you want to add questions relating to any other symptom, please <a href="../form/addquestion">click
+                    here.</a>
+                </b>
+            </p>
         </chrome:division>
         <table id="formbuilderTable">
             <tr>
@@ -142,7 +146,7 @@
                     <c:forEach items="${command.pages}" var="page" varStatus="pageindex">
                         <c:forEach items="${page}" var="studyParticipantCrfItem">
                             <tags:formbuilderBox id="question_${studyParticipantCrfItem.itemIndex}">
-                                ${studyParticipantCrfItem.crfItem.proCtcQuestion.questionText}<br/>
+                                ${studyParticipantCrfItem.crfItem.proCtcQuestion.formattedQuestionText}<br/>
                                 <input type="hidden"
                                        name="studyParticipantCrfSchedule.studyParticipantCrfItems[${studyParticipantCrfItem.itemIndex}].proCtcValidValue"
                                        value=""/>
@@ -184,9 +188,6 @@
                 </td>
             </tr>
         </table>
-        <br/>
-        <br/>
-
     </chrome:box>
     <table width="100%">
         <input type="hidden" name="direction"/>

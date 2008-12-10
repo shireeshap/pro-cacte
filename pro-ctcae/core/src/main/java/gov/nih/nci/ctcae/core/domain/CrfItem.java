@@ -24,7 +24,7 @@ public class CrfItem extends BasePersistable {
 	@Column(name = "display_order", nullable = false)
 	private Integer displayOrder = 0;
 
-	@JoinColumn(name = "crf_id", referencedColumnName = "id")
+	@JoinColumn(name = "crf_id", referencedColumnName = "id", nullable = true)
 	@ManyToOne
 	private CRF crf;
 

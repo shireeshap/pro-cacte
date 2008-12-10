@@ -202,6 +202,11 @@
 		  class="gov.nih.nci.ctcae.web.form.SubmitFormController" parent="ctcaeSimpleFormController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
+
+    <bean name="/form/addquestion" id="addQuestionByParticipantController"
+		  class="gov.nih.nci.ctcae.web.form.AddQuestionByParticipantController" parent="ctcaeSimpleFormController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
     <bean name="/form/copyForm" id="copyFormController"
 		  class="gov.nih.nci.ctcae.web.form.CopyFormController">
         <property name="finderRepository" ref="finderRepository"/>

@@ -25,6 +25,7 @@
     <decorator name="notabbedflow" page="notabbedflow.jsp">
         <pattern>/pages/form/submit</pattern>
         <pattern>/pages/participant/participantInbox</pattern>
+        <pattern>/pages/form/addquestion</pattern>
     </decorator>
 
     <excludes>

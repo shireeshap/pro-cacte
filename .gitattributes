@@ -61,6 +61,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/021_add_pro_ctc_question_va
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/022_alter_pro_ctc_question.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/023_add_audit_event.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/024_add_audit_event_values.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/025_alter_crf_items.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
@@ -268,6 +269,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddCrfItemPropertiesController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneQuestionController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CopyFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormController.java -text
@@ -437,6 +439,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/createClinicalStaff.js
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/searchClinicalStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/siteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/crfItemProperties.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/name.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneQustionSection.jsp -text
