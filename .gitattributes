@@ -265,7 +265,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffLin
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalStaffController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddCrfItemPropertiesController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneQuestionController.java -text
@@ -765,7 +764,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffCom
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffControllerUtilsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalStaffControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffControllerTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddCrfItemPropertiesControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneQuestionControllerTest.java -text
