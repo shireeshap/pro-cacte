@@ -50,9 +50,19 @@
     </style>
 </head>
 <body>
-	<img style="position:absolute; top:0px; left:0px;" src=<tags:imageUrl name="blue/mailbox.jpg" /> alt="mailbox" />
+<%--this loop is the same code as below that renders the forms, but it just gets the number of forms to display under the 'Inbox' text--%>
+        <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
+            <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
+                <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
+                    <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || studyParticipantCrfSchedule.status eq 'Scheduled'}">
+                        <c:set var="numberofCrfs" scope="page" value="${numberofCrfs + 1}" />
+                    </c:if>
+                </c:forEach>
+            </c:forEach>
+        </c:forEach>	
+<img style="position:absolute; top:0px; left:0px;" src=<tags:imageUrl name="blue/mailbox.jpg" /> alt="mailbox" />
 	<div id="inboxTitle"><span style="font-size:75px; line-height:70px;">Inbox</span><br />
-		<span style="font-size:13pt; margin-left:6px;">You have <span style="font-weight:bolder;">$ { numberOfForms }</span> form(s) that need(s) to be completed.</span>
+		<span style="font-size:13pt; margin-left:6px;">You have <span style="font-weight:bolder;">${numberofCrfs}</span> form<c:if test="${numberofCrfs != 1}">s</c:if> that need<c:if test="${numberofCrfs == 1}">s</c:if> to be completed.</span>
 	</div>
     <table id="inboxTable">
         <tr>

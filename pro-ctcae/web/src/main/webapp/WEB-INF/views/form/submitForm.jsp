@@ -22,23 +22,48 @@
             margin-left: 0.5em;
             margin-right: 0.5em;
             padding: 1px;
-           font-size: 20px;
+            font-size: 20px;
         }
 
-        .progress-bar-outer{
-            border-style:solid;
-            width:150px;
-            border-color: #0066cc;
-            border-width:1px;
-            height:15px;
-            float:right;
-            margin-right:40px;
-            margin-top:10px;
+        #taskbar {
+            font-weight: bold;
+            padding-top: 12px;
         }
-        .progress-bar-inner{
-            background-color:#0066cc;
-            width:${(command.currentPageIndex/command.totalPages)*150}px;
-            height:15px
+
+        #taskbar:after {
+            content: "Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}";
+        }
+
+        .formbuilderboxTable {
+            margin-bottom: 30px;
+        }
+
+        .currentPagediv {
+            color: #666666;
+            font-size: 8pt;
+            padding-right: 30px;
+            text-align: right;
+        }
+
+        .formbilderBox {
+            z-index: -1;
+        }
+
+        .progress-bar-outer {
+            border-style: solid;
+            width: 150px;
+            border-color: #0066cc;
+            border-width: 1px;
+            height: 15px;
+            float: right;
+            margin-right: 40px;
+            margin-top: 10px;
+        }
+
+        .progress-bar-inner {
+            background-color: #0066cc;
+            width: ${(command.currentPageIndex/command.totalPages)*150}px;
+            height: 15px
         }
 
     </style>
@@ -99,12 +124,15 @@
 <c:set var="currentPage" value="${command.pages[command.currentPageIndex]}"/>
 
 <form:form method="post" name="myForm">
-    <div class='progress-bar-outer'><div class='progress-bar-inner'></div></div>
-    <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title} "
-                autopad="true" message="false">
-        <tags:hasErrorsMessage hideErrorDetails="false"/>
-
-        <c:forEach items="${currentPage}" var="currentStudyParticipantCrfItem">
+    <div class='progress-bar-outer'>
+        <div class='progress-bar-inner'></div>
+    </div>
+    <tags:hasErrorsMessage hideErrorDetails="false"/>
+    <div class="currentPagediv">
+        Page ${command.currentPageIndex + 1} of ${command.totalPages}
+    </div>
+    <c:forEach items="${currentPage}" var="currentStudyParticipantCrfItem">
+        <tags:formbuilderBox id="question_${currentStudyParticipantCrfItem.itemIndex}">
             <input type="hidden"
                    name="studyParticipantCrfSchedule.studyParticipantCrfItems[${currentStudyParticipantCrfItem.itemIndex}].proCtcValidValue"
                    value=""/>
@@ -185,8 +213,8 @@
                     </script>
                 </c:otherwise>
             </c:choose>
-        </c:forEach>
-    </chrome:box>
+        </tags:formbuilderBox>
+    </c:forEach>
     <table width="100%">
         <input type="hidden" name="direction"/>
         <tr>
