@@ -5,7 +5,7 @@ class CreateCrfItem extends edu.northwestern.bioinformatics.bering.Migration {
 			t.addColumn('display_order', 'integer', nullable: false)
 		}
 		execute('ALTER TABLE CRF_ITEMS ADD CONSTRAINT fk_crf_items_crf FOREIGN KEY (crf_id) REFERENCES CRFS')
-		execute("ALTER TABLE CRF_ITEMS ADD CONSTRAINT un_crf_terms UNIQUE (crf_id)")
+
 	}
 
 	void down() {

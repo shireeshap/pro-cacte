@@ -41,6 +41,7 @@ class AlterDomainModel extends edu.northwestern.bioinformatics.bering.Migration 
 		execute('delete from crf_items')
 		addColumn('crf_items', 'pro_ctc_question_id', 'integer', nullable: false)
 		execute('ALTER TABLE CRF_ITEMS ADD CONSTRAINT fk_crf_items_ques FOREIGN KEY (pro_ctc_question_id) REFERENCES PRO_CTC_QUESTIONS')
+		execute("ALTER TABLE CRF_ITEMS ADD CONSTRAINT un_crf_terms UNIQUE (crf_id,pro_ctc_question_id)")
 	}
 
 	void down() {
