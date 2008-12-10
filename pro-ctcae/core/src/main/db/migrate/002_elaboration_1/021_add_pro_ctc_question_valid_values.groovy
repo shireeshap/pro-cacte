@@ -11,27 +11,27 @@ class AddProCtcQuestionValidValues extends edu.northwestern.bioinformatics.berin
 		insert('PRO_CTC_VALID_VALUES', [id: -1, display_name: "None", value: 0, pro_ctc_question_id: -1], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -2, display_name: "Mild", value: 1, pro_ctc_question_id: -1], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -3, display_name: "Moderate", value: 2, pro_ctc_question_id: -1], primaryKey: false);
-		insert('PRO_CTC_VALID_VALUES', [id: -4, display_name: "Sevre", value: 3, pro_ctc_question_id: -1], primaryKey: false);
+		insert('PRO_CTC_VALID_VALUES', [id: -4, display_name: "Severe", value: 3, pro_ctc_question_id: -1], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -5, display_name: "Very Severe", value: 5, pro_ctc_question_id: -1], primaryKey: false);
 
 		insert('PRO_CTC_VALID_VALUES', [id: -6, display_name: "None", value: 0, pro_ctc_question_id: -2], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -7, display_name: "Mild", value: 1, pro_ctc_question_id: -2], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -8, display_name: "Moderate", value: 2, pro_ctc_question_id: -2], primaryKey: false);
-		insert('PRO_CTC_VALID_VALUES', [id: -9, display_name: "Sevre", value: 3, pro_ctc_question_id: -2], primaryKey: false);
+		insert('PRO_CTC_VALID_VALUES', [id: -9, display_name: "Severe", value: 3, pro_ctc_question_id: -2], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -10, display_name: "Very Severe", value: 5, pro_ctc_question_id: -2], primaryKey: false);
 
 
 		insert('PRO_CTC_VALID_VALUES', [id: -11, display_name: "None", value: 0, pro_ctc_question_id: -3], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -12, display_name: "Mild", value: 1, pro_ctc_question_id: -3], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -13, display_name: "Moderate", value: 2, pro_ctc_question_id: -3], primaryKey: false);
-		insert('PRO_CTC_VALID_VALUES', [id: -14, display_name: "Sevre", value: 3, pro_ctc_question_id: -3], primaryKey: false);
+		insert('PRO_CTC_VALID_VALUES', [id: -14, display_name: "Severe", value: 3, pro_ctc_question_id: -3], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -15, display_name: "Very Severe", value: 5, pro_ctc_question_id: -3], primaryKey: false);
 
 
 		insert('PRO_CTC_VALID_VALUES', [id: -16, display_name: "Not at all", value: 0, pro_ctc_question_id: -4], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -17, display_name: "Mild", value: 1, pro_ctc_question_id: -4], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -18, display_name: "Moderate", value: 2, pro_ctc_question_id: -4], primaryKey: false);
-		insert('PRO_CTC_VALID_VALUES', [id: -19, display_name: "Sevre", value: 3, pro_ctc_question_id: -4], primaryKey: false);
+		insert('PRO_CTC_VALID_VALUES', [id: -19, display_name: "Severe", value: 3, pro_ctc_question_id: -4], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -20, display_name: "Very Severe", value: 5, pro_ctc_question_id: -4], primaryKey: false)
 
 		insert('PRO_CTC_VALID_VALUES', [id: -21, display_name: "None", value: 0, pro_ctc_question_id: -5], primaryKey: false);
@@ -62,7 +62,7 @@ class AddProCtcQuestionValidValues extends edu.northwestern.bioinformatics.berin
 		insert('PRO_CTC_VALID_VALUES', [id: -41, display_name: "None", value: 0, pro_ctc_question_id: -9], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -42, display_name: "Mild", value: 1, pro_ctc_question_id: -9], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -43, display_name: "Moderate", value: 2, pro_ctc_question_id: -9], primaryKey: false);
-		insert('PRO_CTC_VALID_VALUES', [id: -44, display_name: "Sevre", value: 3, pro_ctc_question_id: -9], primaryKey: false);
+		insert('PRO_CTC_VALID_VALUES', [id: -44, display_name: "Severe", value: 3, pro_ctc_question_id: -9], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -45, display_name: "Very Severe", value: 5, pro_ctc_question_id: -9], primaryKey: false);
 
 		insert('PRO_CTC_VALID_VALUES', [id: -46, display_name: "None", value: 0, pro_ctc_question_id: -10], primaryKey: false);
@@ -74,7 +74,7 @@ class AddProCtcQuestionValidValues extends edu.northwestern.bioinformatics.berin
 		insert('PRO_CTC_VALID_VALUES', [id: -51, display_name: "None", value: 0, pro_ctc_question_id: -11], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -52, display_name: "Mild", value: 1, pro_ctc_question_id: -11], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -53, display_name: "Moderate", value: 2, pro_ctc_question_id: -11], primaryKey: false);
-		insert('PRO_CTC_VALID_VALUES', [id: -54, display_name: "Sevre", value: 3, pro_ctc_question_id: -11], primaryKey: false);
+		insert('PRO_CTC_VALID_VALUES', [id: -54, display_name: "Severe", value: 3, pro_ctc_question_id: -11], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -55, display_name: "Very Severe", value: 5, pro_ctc_question_id: -11], primaryKey: false);
 
 		insert('PRO_CTC_VALID_VALUES', [id: -56, display_name: "None", value: 0, pro_ctc_question_id: -12], primaryKey: false);
