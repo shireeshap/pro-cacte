@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -40,14 +39,6 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
 		return persistable;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public Collection<? extends Persistable> save(Collection<? extends Persistable> persistableObjects) {
-		// throw new Exception("method not implemented");
-		return null;
-	}
 
 	/**
 	 * {@inheritDoc}

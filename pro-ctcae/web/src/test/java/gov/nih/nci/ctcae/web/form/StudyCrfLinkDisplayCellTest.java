@@ -13,50 +13,50 @@ import org.extremecomponents.table.bean.Row;
  */
 public class StudyCrfLinkDisplayCellTest extends AbstractCellTestCase {
 
-    private StudyCrfLinkDisplayDetailsCell studyCrfLinkDisplayDetailsCell;
-    private StudyCrf studyCrf;
-    private Column testOptionsColumn;
+	private StudyCrfLinkDisplayDetailsCell studyCrfLinkDisplayDetailsCell;
+	private StudyCrf studyCrf;
+	private Column testOptionsColumn;
 
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
 
-        studyCrfLinkDisplayDetailsCell = new StudyCrfLinkDisplayDetailsCell();
-        testOptionsColumn = new Column(model);
-        //  testOptionsColumn.setCell("gov.nih.nci.ctcae.web.form.StudyCrfLinkDisplayDetailsCell");
-        //  testOptionsColumn.setTitle("Options");
+		studyCrfLinkDisplayDetailsCell = new StudyCrfLinkDisplayDetailsCell();
+		testOptionsColumn = new Column(model);
+		//  testOptionsColumn.setCell("gov.nih.nci.ctcae.web.form.StudyCrfLinkDisplayDetailsCell");
+		//  testOptionsColumn.setTitle("Options");
 
-    }
-
-
-    public void testScheduleFormStatusLink() {
-        studyCrf = new StudyCrf();
-        studyCrf.setCrf(new CRF());
-        studyCrf.setId(1);
-        studyCrf.getCrf().setStatus(CrfStatus.RELEASED);
-        model.addColumn(testOptionsColumn);
-        row = new Row(model);
-        model.addRow(row);
-        model.setCurrentRowBean(studyCrf);
+	}
 
 
-        assertEquals("<a href=\"/pages/participant/schedulecrf?studyCrfId=1\">Schedule</a> | <a href=\"javascript:copyForm('1')\">Copy</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
-    }
-
-    public void testReleaseFormStatusLink() {
-        studyCrf = new StudyCrf();
-        studyCrf.setCrf(new CRF());
-        studyCrf.setId(1);
-        studyCrf.getCrf().setStatus(CrfStatus.DRAFT);
-        model.addColumn(testOptionsColumn);
-        row = new Row(model);
-        model.addRow(row);
-        model.setCurrentRowBean(studyCrf);
+	public void testScheduleFormStatusLink() {
+		studyCrf = new StudyCrf();
+		studyCrf.setCrf(new CRF());
+		studyCrf.setId(1);
+		studyCrf.getCrf().setStatus(CrfStatus.RELEASED);
+		model.addColumn(testOptionsColumn);
+		row = new Row(model);
+		model.addRow(row);
+		model.setCurrentRowBean(studyCrf);
 
 
-        assertEquals("<a href=\"javascript:releaseForm('1')\">Release&nbsp;&nbsp;</a> | <a href=\"javascript:copyForm('1')\">Copy</a> | <a href=\"javascript:deleteForm('1')\">Delete</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
-    }
+		assertEquals("<a href=\"/pages/participant/schedulecrf?studyCrfId=1\">Schedule</a> | <a href=\"/pages/form/copyForm?studyCrfId=1\">Copy</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
+	}
+
+	public void testReleaseFormStatusLink() {
+		studyCrf = new StudyCrf();
+		studyCrf.setCrf(new CRF());
+		studyCrf.setId(1);
+		studyCrf.getCrf().setStatus(CrfStatus.DRAFT);
+		model.addColumn(testOptionsColumn);
+		row = new Row(model);
+		model.addRow(row);
+		model.setCurrentRowBean(studyCrf);
+
+
+		assertEquals("<a href=\"javascript:releaseForm('1')\">Release&nbsp;&nbsp;</a> | <a href=\"/pages/form/copyForm?studyCrfId=1\">Copy</a> | <a href=\"javascript:deleteForm('1')\">Delete</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
+	}
 
 
 }

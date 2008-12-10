@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Required;
@@ -54,14 +55,54 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 
 	}
 
-	public void testSingle() {
+	public void testSingleThrowsException() {
 
 		OrganizationQuery organizationQuery = new OrganizationQuery();
 		organizationQuery.filterByOrganizationName("N");
+		try {
+			organization = organizationRepository.findSingle(organizationQuery);
+			fail("multiple results found for query");
+		} catch (CtcAeSystemException e) {
+
+		}
+
+	}
+
+	public void testSingle() {
+
+		OrganizationQuery organizationQuery = new OrganizationQuery();
+		organizationQuery.filterByNciInstituteCode("N");
+
+		Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
+		assertFalse(organizations.isEmpty());
+
+		organization = organizations.iterator().next();
+
+		organizationQuery = new OrganizationQuery();
+		organizationQuery.filterByNciCodeExactMatch(organization.getNciInstituteCode());
 		organization = organizationRepository.findSingle(organizationQuery);
 
 		assertNotNull(organization);
 		assertNotNull(organization.getId());
+
+
+	}
+
+	public void testSingleReturnsNull() {
+
+		OrganizationQuery organizationQuery = new OrganizationQuery();
+		organizationQuery.filterByNciInstituteCode("N");
+
+		Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
+		assertFalse(organizations.isEmpty());
+
+		organization = organizations.iterator().next();
+
+		organizationQuery = new OrganizationQuery();
+		organizationQuery.filterByNciCodeExactMatch(organization.getNciInstituteCode() + UUID.randomUUID());
+		organization = organizationRepository.findSingle(organizationQuery);
+
+		assertNull(organization);
 
 
 	}

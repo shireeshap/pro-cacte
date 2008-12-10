@@ -9,51 +9,43 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public abstract class AbstractRepository<T extends Persistable, Q extends Query> implements Repository<T, Q> {
-    protected GenericRepository genericRepository;
-    protected Log log = LogFactory.getLog(getClass());
+	protected GenericRepository genericRepository;
+	protected Log log = LogFactory.getLog(getClass());
 
-    public T findById(final Integer id) {
-        return genericRepository.findById(getPersistableClass(), id);
-    }
+	public T findById(final Integer id) {
+		return genericRepository.findById(getPersistableClass(), id);
+	}
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public T save(final T t) {
-        return genericRepository.save(t);  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public T save(final T t) {
+		return genericRepository.save(t);  //To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void delete(final T t) {
-        genericRepository.delete(t);
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void delete(final T t) {
+		genericRepository.delete(t);
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    public Collection<T> find(final Q query) {
-        return (Collection<T>) genericRepository.find(query);
-    }
+	public Collection<T> find(final Q query) {
+		return (Collection<T>) genericRepository.find(query);
+	}
 
-    @Required
-    public void setGenericRepository(final GenericRepository genericRepository) {
-        this.genericRepository = genericRepository;
-    }
+	@Required
+	public void setGenericRepository(final GenericRepository genericRepository) {
+		this.genericRepository = genericRepository;
+	}
 
-    public T findSingle(final Q query) {
+	public T findSingle(final Q query) {
+		return (T) genericRepository.findSingle(query);
 
-        Collection<T> ts = find(query);
-        if (ts.isEmpty()) {
-            return null;
-        } else {
+	}
 
-            return ((List<T>) ts).get(0);
-
-        }
-    }
-
-    protected abstract Class<T> getPersistableClass();
+	protected abstract Class<T> getPersistableClass();
 }
