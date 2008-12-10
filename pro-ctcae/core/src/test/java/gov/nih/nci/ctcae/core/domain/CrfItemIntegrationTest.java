@@ -101,18 +101,6 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 		}
 	}
 
-	public void testSavingNullCRFCrfItem() {
-		try {
-			invalidCrfItem = new CrfItem();
-			invalidCrfItem.setProCtcQuestion(proCtcQuestion);
-			invalidCrfItem.setDisplayOrder(1);
-			crf.addCrfItem(invalidCrfItem);
-			invalidCrfItem.setCrf(null);
-			crfRepository.save(crf);
-			fail("Expected DataIntegrityViolationException because CRF is null");
-		} catch (DataIntegrityViolationException e) {
-		}
-	}
 
 	public void testSavingNullProCtcTermCrfItem() {
 		invalidCrfItem = new CrfItem();

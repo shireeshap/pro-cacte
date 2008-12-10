@@ -54,6 +54,33 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 
 	}
 
+	public void testSingle() {
+
+		OrganizationQuery organizationQuery = new OrganizationQuery();
+		organizationQuery.filterByOrganizationName("N");
+		organization = organizationRepository.findSingle(organizationQuery);
+
+		assertNotNull(organization);
+		assertNotNull(organization.getId());
+
+
+	}
+
+	public void testDelete() {
+
+		OrganizationQuery organizationQuery = new OrganizationQuery();
+		organizationQuery.filterByNciInstituteCode("N");
+
+		Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
+		assertFalse(organizations.isEmpty());
+
+		organization = organizations.iterator().next();
+
+		organizationRepository.delete(organization);
+		assertNull("must delete organization", organizationRepository.findById(organization.getId()));
+
+	}
+
 
 	public void testSaveOrganization() {
 		saveOrganization();
