@@ -59,17 +59,6 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 		crfItemRepository.save(crfItem);
 	}
 
-	public void testFindByQuery() {
-
-		CrfItemQuery crfItemQuery = new CrfItemQuery();
-
-		Collection<? extends CrfItem> crfItems = crfItemRepository
-			.find(crfItemQuery);
-		assertFalse(crfItems.isEmpty());
-		int size = jdbcTemplate
-			.queryForInt("select count(*) from CRF_ITEMS crfItem");
-		assertEquals(size, crfItems.size());
-	}
 
 	public void testSaveCrfItem() {
 		assertNotNull(crfItem.getId());
@@ -149,6 +138,17 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 		assertEquals(crfItem, existingCrfItem);
 	}
 
+	public void testFindByQuery() {
+
+		CrfItemQuery crfItemQuery = new CrfItemQuery();
+
+		Collection<? extends CrfItem> crfItems = crfItemRepository
+			.find(crfItemQuery);
+		assertFalse(crfItems.isEmpty());
+		int size = jdbcTemplate
+			.queryForInt("select count(*) from CRF_ITEMS crfItem");
+		assertEquals(size, crfItems.size());
+	}
 
 	@Required
 	public void setCRFRepository(CRFRepository crfRepository) {

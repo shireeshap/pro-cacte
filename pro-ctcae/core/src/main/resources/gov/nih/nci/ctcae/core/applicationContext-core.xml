@@ -204,9 +204,6 @@
 		  parent="abstractRepository">
     </bean>
 
-    <bean id="proCtcValidValueRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository"
-		  parent="abstractRepository">
-    </bean>
 
     <bean id="crfItemRepository" class="gov.nih.nci.ctcae.core.repository.CrfItemRepository"
 		  parent="abstractRepository">

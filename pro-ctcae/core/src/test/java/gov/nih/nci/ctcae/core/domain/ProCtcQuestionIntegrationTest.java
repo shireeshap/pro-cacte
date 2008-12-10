@@ -4,11 +4,9 @@ import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.query.ProCtcValidValueQuery;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -25,7 +23,6 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
 
 	private ProCtcRepository proCtcRepository;
 	private ProCtcTermRepository proCtcTermRepository;
-	private ProCtcValidValueRepository proCtcValidValueRepository;
 	private ProCtcQuestion proCtcQuestion, inValidproCtcQuestion;
 	private ProCtcTerm proProCtcTerm;
 	private ProCtc proCtc;
@@ -41,10 +38,8 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
 		proProCtcTerm = proCtcTermRepository.findAndInitializeTerm(new ProCtcTermQuery()).iterator().next();
 		assertNotNull(proProCtcTerm);
 
-		ProCtcValidValueQuery validValueQuery = new ProCtcValidValueQuery();
-		validValueQuery.setMaximumResults(4);
-		validValues = new ArrayList<ProCtcValidValue>(
-			proCtcValidValueRepository.find(validValueQuery));
+		validValues = new ArrayList<ProCtcValidValue>();
+
 		assertNotNull(validValues);
 
 		proCtcQuestion = new ProCtcQuestion();
@@ -142,9 +137,5 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
 		this.proCtcTermRepository = proCtcTermRepository;
 	}
 
-	@Required
-	public void setProCtcValidValueRepository(
-		ProCtcValidValueRepository proCtcValidValueRepository) {
-		this.proCtcValidValueRepository = proCtcValidValueRepository;
-	}
+
 }

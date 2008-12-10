@@ -111,7 +111,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ParticipantQuery.java 
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuestionQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcTermQuery.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcValidValueQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/Query.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQuery.java -text
@@ -128,7 +127,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ParticipantReposi
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcQuestionRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermRepository.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcValidValueRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantAssignmentRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
@@ -184,7 +182,6 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionTypeTes
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RaceEnumTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaffTest.java -text

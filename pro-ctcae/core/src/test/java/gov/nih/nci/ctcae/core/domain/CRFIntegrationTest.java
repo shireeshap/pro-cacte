@@ -53,10 +53,6 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 			fail("Expected DataIntegrityViolationException because title is unique");
 		} catch (DataIntegrityViolationException e) {
 		}
-		inValidCRF.setTitle("another title");
-		crf = crfRepository.save(inValidCRF);
-
-		assertNotNull("must be able to save crf", crf);
 	}
 
 	public void testSavingNullCRF() {
