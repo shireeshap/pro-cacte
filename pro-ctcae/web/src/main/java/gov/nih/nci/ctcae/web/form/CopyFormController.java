@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,16 +21,16 @@ public class CopyFormController extends AbstractController {
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-        ModelAndView modelAndView = new ModelAndView("form/manageForm");
+      //  ModelAndView modelAndView = new ModelAndView("form/manageForm");
 
 
         String studyCrfId = request.getParameter("studyCrfId");
         StudyCrf studyCrf = finderRepository.findById(StudyCrf.class, Integer.parseInt(studyCrfId));
         StudyCrf copiedStudyCrf = studyCrf.getCopy();
         crfRepository.save(copiedStudyCrf.getCrf());
-       
+        RedirectView redirectView = new RedirectView("editForm?studyCrfId=" + copiedStudyCrf.getId());
 
-        return modelAndView;
+        return new ModelAndView(redirectView);
 
   }
 

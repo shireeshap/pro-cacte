@@ -232,7 +232,7 @@ public class CRF extends BaseVersionable {
 	public CRF getCopy() {
 
 		CRF copiedCrf = new CRF();
-		copiedCrf.setTitle("Copy of " + title + "_" + System.currentTimeMillis());
+		copiedCrf.setTitle("Copy of " + title);
 		copiedCrf.setDescription(description);
 		copiedCrf.setStatus(CrfStatus.DRAFT);
 		copiedCrf.setCrfVersion("1.0");

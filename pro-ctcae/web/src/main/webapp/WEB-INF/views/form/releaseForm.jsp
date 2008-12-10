@@ -52,7 +52,7 @@
                     <div class="flow-buttons">
 
                         <input type="submit" id="flow-update"
-                               class="next" value="Submit" alt="Save"
+                               class="next" value="Release" alt="Save"
                                />
 
 

@@ -24,14 +24,15 @@ public class StudyCrfLinkDisplayDetailsCell extends AbstractCell implements Cell
 
         String cellValue = "";
         String link1 = model.getContext().getContextPath() + "/pages/participant/schedulecrf?studyCrfId=";
+        String link2 = model.getContext().getContextPath() + "/pages/form/copyForm?studyCrfId=";
 
         if (bean.getCrf().getStatus().equals(CrfStatus.RELEASED)) {
             cellValue = "<a href=\"" + link1 + id.toString() + "\">" + "Schedule" + "</a>";
-            cellValue = cellValue + " | <a href=\"javascript:copyForm('" +id.toString() + "')\">" + "Copy" + "</a>";
+            cellValue = cellValue + " | <a href=\"" + link2 + id.toString() + "\">" + "Copy" + "</a>";
 
         } else {
             cellValue = "<a href=\"javascript:releaseForm('" + id.toString() + "')\">" + "Release"+ "&nbsp;&nbsp;" + "</a>";
-            cellValue = cellValue + " | <a href=\"javascript:copyForm('" +id.toString() + "')\">" + "Copy" + "</a>";
+            cellValue = cellValue + " | <a href=\"" + link2 + id.toString() + "\">" + "Copy" + "</a>";
             cellValue = cellValue + " | <a href=\"javascript:deleteForm('" +id.toString() + "')\">" + "Delete" + "</a>";
 
         }
