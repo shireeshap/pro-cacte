@@ -24,14 +24,18 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 		super.onSetUpInTransaction();	//To change body of overridden methods use File | Settings | File Templates.
 		login();
 
+
+	}
+
+	private void saveOrganization() {
 		organization = new Organization();
 		organization.setName("National Cancer Institute");
 		organization.setNciInstituteCode("NCI" + UUID.randomUUID());
 		organization = organizationRepository.save(organization);
-
 	}
 
 	public void testFindByName() {
+		saveOrganization();
 
 		OrganizationQuery organizationQuery = new OrganizationQuery();
 		organizationQuery.filterByOrganizationName("N");
@@ -53,6 +57,7 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 
 
 	public void testSaveOrganization() {
+		saveOrganization();
 
 		assertNotNull(organization.getId());
 
@@ -79,6 +84,7 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 
 
 	public void testFindById() {
+		saveOrganization();
 
 		Organization existingOrganization = organizationRepository.findById(organization.getId());
 		assertEquals(organization.getName(), existingOrganization.getName());
@@ -130,6 +136,7 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 	}
 
 	public void testFindByNCICodeExactMatch() {
+		saveOrganization();
 
 		OrganizationQuery organizationQuery = new OrganizationQuery();
 		organizationQuery.filterByNciCodeExactMatch("NCI");

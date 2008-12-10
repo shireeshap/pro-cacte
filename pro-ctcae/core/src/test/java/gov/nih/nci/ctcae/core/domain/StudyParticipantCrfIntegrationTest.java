@@ -2,9 +2,13 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.springframework.beans.factory.annotation.Required;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal
@@ -26,14 +30,12 @@ public class StudyParticipantCrfIntegrationTest extends
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
 		super.onSetUpInTransaction();
-		nci = Fixture.createOrganization("National Cancer Institute", "NCI");
+		OrganizationQuery query = new OrganizationQuery();
+		query.setMaximumResults(10);
+		List<Organization> organizations = new ArrayList<Organization>(organizationRepository.find(query));
 
-
-		nci = organizationRepository.save(nci);
-
-		duke = Fixture.createOrganization("DUKE", "DUKE");
-
-		duke = organizationRepository.save(duke);
+		nci = organizations.get(0);
+		duke = organizations.get(1);
 
 
 		nciStudySite = new StudySite();

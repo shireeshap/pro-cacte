@@ -38,6 +38,9 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
 		proProCtcTerm = proCtcTermRepository.findAndInitializeTerm(new ProCtcTermQuery()).iterator().next();
 		assertNotNull(proProCtcTerm);
 
+	}
+
+	private void saveProCtcQuestion() {
 		validValues = new ArrayList<ProCtcValidValue>();
 
 		assertNotNull(validValues);
@@ -53,6 +56,8 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
 	}
 
 	public void testSaveproCtcTerm() {
+		saveProCtcQuestion();
+
 		assertNotNull(proCtcQuestion.getId());
 	}
 
@@ -61,6 +66,7 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
 
 		try {
 			inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
+
 			fail("Expected DataIntegrityViolationException because all the fields are null");
 		} catch (DataIntegrityViolationException e) {
 		}
@@ -71,6 +77,7 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
 		try {
 			inValidproCtcQuestion.setProCtcTerm(proProCtcTerm);
 			inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
+
 			fail("Expected DataIntegrityViolationException because question is null");
 		} catch (DataIntegrityViolationException e) {
 		}
@@ -81,7 +88,7 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
 		try {
 			inValidproCtcQuestion.setQuestionText("How is the pain?");
 			inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
-			proCtcQuestionRepository.find(new ProCtcQuestionQuery());
+
 			fail("Expected DataIntegrityViolationException because proProCtcTerm is null");
 		} catch (DataIntegrityViolationException e) {
 		}
@@ -92,14 +99,18 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
 		try {
 			inValidproCtcQuestion.setQuestionText("How is the pain?");
 			inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
-			proCtcQuestionRepository.find(new ProCtcQuestionQuery());
 			fail("Expected DataIntegrityViolationException because proCtc is null");
 		} catch (DataIntegrityViolationException e) {
 		}
 	}
 
 	public void testFindById() {
+		ProCtcQuestionQuery proCtcQuestionQuery = new ProCtcQuestionQuery();
 
+		Collection<? extends ProCtcQuestion> proCtcTerms = proCtcQuestionRepository
+			.find(proCtcQuestionQuery);
+		assertFalse(proCtcTerms.isEmpty());
+		proCtcQuestion = proCtcTerms.iterator().next();
 		ProCtcQuestion existingproProCtcQuestion = proCtcQuestionRepository
 			.findById(proCtcQuestion.getId());
 		assertEquals(proCtcQuestion.getQuestionText(), existingproProCtcQuestion

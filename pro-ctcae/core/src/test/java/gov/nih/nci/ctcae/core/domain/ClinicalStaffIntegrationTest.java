@@ -22,6 +22,9 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
 		super.onSetUpInTransaction();
 		login();
 		/*  clinicalStaffRepository.setGenericRepository(new JpaGenericRepository<ClinicalStaff>());   */
+	}
+
+	private void saveClinicalStaff() {
 		clinicalStaff = new ClinicalStaff();
 		clinicalStaff.setFirstName("John");
 		clinicalStaff.setLastName("Dow");
@@ -30,6 +33,8 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
 	}
 
 	public void testSaveClinicalStaff() {
+		saveClinicalStaff();
+
 		assertNotNull(clinicalStaff.getId());
 
 	}
@@ -45,20 +50,23 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
 
 		try {
 			inValidClinicalStaff.setFirstName("John");
-			inValidClinicalStaff = clinicalStaffRepository.save(inValidClinicalStaff);
+			clinicalStaffRepository.save(inValidClinicalStaff);
 		} catch (JpaSystemException e) {
 			fail();
 			logger.info("expecting this.. last name and NCI code is missing");
 		}
-		inValidClinicalStaff = new ClinicalStaff();
-		inValidClinicalStaff.setFirstName("John");
-		inValidClinicalStaff.setLastName("Dow");
-		inValidClinicalStaff.setNciIdentifier("NCI 1");
-		inValidClinicalStaff = clinicalStaffRepository.save(inValidClinicalStaff);
-		assertNotNull(inValidClinicalStaff.getId());
+		try {
+			inValidClinicalStaff.setFirstName("John");
+			inValidClinicalStaff.setLastName("Doe");
+			inValidClinicalStaff = clinicalStaffRepository.save(inValidClinicalStaff);
+		} catch (JpaSystemException e) {
+			fail();
+			logger.info("expecting this.. NCI code is missing");
+		}
 	}
 
 	public void testFindById() {
+		saveClinicalStaff();
 
 		ClinicalStaff existingClinicalStaff = clinicalStaffRepository.findById(clinicalStaff.getId());
 		assertEquals(clinicalStaff.getFirstName(), existingClinicalStaff.getFirstName());
@@ -67,6 +75,7 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
 	}
 
 	public void testFindByFirstName() {
+		saveClinicalStaff();
 
 		ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
 		clinicalStaffQuery.filterByClinicalStaffFirstName("J");
@@ -82,6 +91,7 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
 	}
 
 	public void testFindByLastName() {
+		saveClinicalStaff();
 
 		ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
 		clinicalStaffQuery.filterByClinicalStaffLastName("D");

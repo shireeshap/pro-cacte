@@ -16,10 +16,6 @@ public class ProCtcTermIntegrationTest extends AbstractHibernateIntegrationTestC
 	private ProCtcTermRepository proCtcTermRepository;
 	private ProCtcTerm proProCtcTerm;
 
-	@Override
-	protected void onSetUpInTransaction() throws Exception {
-		super.onSetUpInTransaction();
-	}
 
 	public void testSaveCtcTerm() {
 		proProCtcTerm = new ProCtcTerm();

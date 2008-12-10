@@ -18,17 +18,16 @@ public class ProCtcIntegrationTest extends AbstractHibernateIntegrationTestCase 
 	private ProCtcRepository proCtcRepository;
 	private ProCtc proCtc, inValidProCtc;
 
-	@Override
-	protected void onSetUpInTransaction() throws Exception {
-		super.onSetUpInTransaction();
+
+	private void saveProCtc() {
 		proCtc = new ProCtc();
 		proCtc.setProCtcVersion("2.0");
 		proCtc.setReleaseDate(new Date());
 		proCtc = proCtcRepository.save(proCtc);
-
 	}
 
 	public void testSaveProCtc() {
+		saveProCtc();
 		assertNotNull(proCtc.getId());
 	}
 
@@ -64,7 +63,13 @@ public class ProCtcIntegrationTest extends AbstractHibernateIntegrationTestCase 
 	}
 
 	public void testFindById() {
+		ProCtcQuery proCtcQuery = new ProCtcQuery();
 
+		Collection<? extends ProCtc> proCtcs = proCtcRepository
+			.find(proCtcQuery);
+		assertFalse(proCtcs.isEmpty());
+
+		proCtc = proCtcs.iterator().next();
 		ProCtc existingProCtc = proCtcRepository.findById(proCtc.getId());
 		assertEquals(proCtc.getProCtcVersion(), existingProCtc
 			.getProCtcVersion());
@@ -85,20 +90,19 @@ public class ProCtcIntegrationTest extends AbstractHibernateIntegrationTestCase 
 	}
 
 	public void testFindByProCtcVersion() {
-
 		ProCtcQuery proCtcQuery = new ProCtcQuery();
-		proCtcQuery.filterByProCtcVersion("2.0");
+		proCtcQuery.filterByProCtcVersion("1.0");
 
 		Collection<? extends ProCtc> proCtcs = proCtcRepository
 			.find(proCtcQuery);
 		assertFalse(proCtcs.isEmpty());
 		int size = jdbcTemplate
-			.queryForInt("select count(*) from PRO_CTC proCtc where proCtc.pro_ctc_version = '2.0'");
+			.queryForInt("select count(*) from PRO_CTC proCtc where proCtc.pro_ctc_version = '1.0'");
 
 		assertEquals(size, proCtcs.size());
 		assertEquals(1, proCtcs.size());
 		for (ProCtc proCtc : proCtcs) {
-			assertEquals("2.0", proCtc.getProCtcVersion());
+			assertEquals("1.0", proCtc.getProCtcVersion());
 		}
 
 	}

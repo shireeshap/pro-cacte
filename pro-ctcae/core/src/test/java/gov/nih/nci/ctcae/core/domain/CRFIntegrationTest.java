@@ -23,6 +23,9 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 	protected void onSetUpInTransaction() throws Exception {
 		super.onSetUpInTransaction();
 
+	}
+
+	private void saveCrf() {
 		crf = new CRF();
 		crf.setTitle(title);
 		crf.setDescription("Case Report Form for Cancer Patients");
@@ -32,10 +35,12 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 	}
 
 	public void testSaveCRF() {
+		saveCrf();
 		assertNotNull(crf.getId());
 	}
 
 	public void testUpdateStatusOfCRF() {
+		saveCrf();
 		assertNotNull(crf.getId());
 		crfRepository.updateStatusToReleased(crf);
 		assertEquals(CrfStatus.RELEASED, crf.getStatus());
@@ -43,13 +48,10 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
 	public void testUniqueCrfTitle() {
 		inValidCRF = new CRF();
-		crf.setTitle(title);
-		crf.setDescription("Case Report Form for Cancer Patients");
-		crf.setStatus(CrfStatus.DRAFT);
-		crf.setCrfVersion("1.0");
 
 		try {
 			inValidCRF = crfRepository.save(inValidCRF);
+
 			fail("Expected DataIntegrityViolationException because title is unique");
 		} catch (DataIntegrityViolationException e) {
 		}
@@ -60,7 +62,6 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
 		try {
 			inValidCRF = crfRepository.save(inValidCRF);
-			crfRepository.find(new CRFQuery());
 			fail("Expected DataIntegrityViolationException because title, status and formVersion are null");
 		} catch (DataIntegrityViolationException e) {
 		}
@@ -72,7 +73,6 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 			inValidCRF.setStatus(CrfStatus.DRAFT);
 			inValidCRF.setCrfVersion("1.0");
 			inValidCRF = crfRepository.save(inValidCRF);
-			crfRepository.find(new CRFQuery());
 			fail("Expected DataIntegrityViolationException because title is null");
 		} catch (DataIntegrityViolationException e) {
 		}
@@ -84,7 +84,8 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 			inValidCRF.setTitle("Cancer CRF");
 			inValidCRF.setStatus(null);
 			inValidCRF.setCrfVersion("1.0");
-			inValidCRF = crfRepository.save(inValidCRF);
+			crfRepository.save(inValidCRF);
+
 			fail("Expected DataIntegrityViolationException because status is null");
 		} catch (DataIntegrityViolationException e) {
 		}
@@ -96,13 +97,13 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 			inValidCRF.setTitle(title);
 			inValidCRF.setStatus(CrfStatus.DRAFT);
 			crfRepository.save(inValidCRF);
-			crfRepository.find(new CRFQuery());
 			fail("Expected DataIntegrityViolationException because formVersion is null");
 		} catch (DataIntegrityViolationException e) {
 		}
 	}
 
 	public void testFindById() {
+		saveCrf();
 
 		CRF existingCrf = crfRepository.findById(crf.getId());
 		assertEquals(crf.getTitle(), existingCrf.getTitle());
@@ -114,6 +115,7 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
 
 	public void testFindByQuery() {
+		saveCrf();
 
 		CRFQuery crfQuery = new CRFQuery();
 
@@ -124,6 +126,7 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 	}
 
 	public void testFindByTitleExactMatchQuery() {
+		saveCrf();
 
 		CRFQuery crfQuery = new CRFQuery();
 		crfQuery.filterByTitleExactMatch(crf.getTitle());
@@ -137,6 +140,7 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 	}
 
 	public void testFilterByNotHavingCrfId() {
+		saveCrf();
 
 		CRFQuery crfQuery = new CRFQuery();
 		crfQuery.filterByNotHavingCrfId(crf.getId());

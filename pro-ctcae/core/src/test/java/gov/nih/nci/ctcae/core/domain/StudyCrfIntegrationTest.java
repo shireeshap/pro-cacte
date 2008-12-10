@@ -1,10 +1,14 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.springframework.beans.factory.annotation.Required;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal
@@ -30,15 +34,13 @@ public class StudyCrfIntegrationTest extends AbstractHibernateIntegrationTestCas
 		super.onSetUpInTransaction(); // To change body of overridden methods
 		// use File | Settings | File Templates.
 		login();
-		nci = new Organization();
-		nci.setName("National Cancer Institute");
-		nci.setNciInstituteCode("NCI");
-		nci = organizationRepository.save(nci);
 
-		duke = new Organization();
-		duke.setName("DUKE");
-		duke.setNciInstituteCode("DUKE");
-		duke = organizationRepository.save(duke);
+		OrganizationQuery query = new OrganizationQuery();
+		query.setMaximumResults(10);
+		List<Organization> organizations = new ArrayList<Organization>(organizationRepository.find(query));
+
+		nci = organizations.get(0);
+		duke = organizations.get(1);
 
 		nciStudySite = new StudySite();
 		nciStudySite.setOrganization(nci);

@@ -2,10 +2,14 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -31,10 +35,11 @@ public class StudyParticipantAssignmentIntegrationTest extends AbstractHibernate
 	protected void onSetUpInTransaction() throws Exception {
 		super.onSetUpInTransaction();
 
-		nci = Fixture.createOrganization("National Cancer Institute", "NCI");
+		OrganizationQuery query = new OrganizationQuery();
+		query.setMaximumResults(10);
+		List<Organization> organizations = new ArrayList<Organization>(organizationRepository.find(query));
 
-
-		nci = organizationRepository.save(nci);
+		nci = organizations.get(0);
 
 
 		nciStudySite = new StudySite();

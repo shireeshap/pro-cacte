@@ -24,15 +24,19 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
 		// use File | Settings | File Templates.
 		login();
 
+
+	}
+
+	private void saveParticipant() {
 		participant = new Participant();
 		participant.setFirstName("John");
 		participant.setLastName("Dow");
 		participant.setAssignedIdentifier("1234");
 		participant = participantRepository.save(participant);
-
 	}
 
 	public void testSaveParticipant() {
+		saveParticipant();
 
 		assertNotNull(participant.getId());
 
@@ -54,17 +58,11 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
 			fail();
 			logger.info("expecting this.. last name is missing");
 		}
-		inValidParticipant = new Participant();
-		inValidParticipant.setFirstName("John");
-		inValidParticipant.setLastName("Dow");
-		inValidParticipant.setAssignedIdentifier("1234");
-		participantRepository.save(inValidParticipant);
-		inValidParticipant = participantRepository.save(inValidParticipant);
-		assertNotNull(inValidParticipant.getId());
 
 	}
 
 	public void testFindById() {
+		saveParticipant();
 
 		Participant existingParticipant = participantRepository
 			.findById(participant.getId());
@@ -75,6 +73,7 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
 	}
 
 	public void testFindByFirstName() {
+		saveParticipant();
 
 		ParticipantQuery participantQuery = new ParticipantQuery();
 		participantQuery.filterByParticipantFirstName("J");
@@ -94,6 +93,7 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
 	}
 
 	public void testFindByLastName() {
+		saveParticipant();
 
 		ParticipantQuery participantQuery = new ParticipantQuery();
 		participantQuery.filterByParticipantLastName("D");

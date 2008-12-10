@@ -2,12 +2,15 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.springframework.beans.factory.annotation.Required;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -30,14 +33,13 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
 		super.onSetUpInTransaction();	//To change body of overridden methods use File | Settings | File Templates.
 		login();
 
-		nci = Fixture.createOrganization("National Cancer Institute", "NCI");
 
+		OrganizationQuery query = new OrganizationQuery();
+		query.setMaximumResults(10);
+		List<Organization> organizations = new ArrayList<Organization>(organizationRepository.find(query));
 
-		nci = organizationRepository.save(nci);
-
-		duke = Fixture.createOrganization("DUKE", "DUKE");
-
-		duke = organizationRepository.save(duke);
+		nci = organizations.get(0);
+		duke = organizations.get(1);
 
 
 		nciStudySite = new StudySite();
@@ -64,6 +66,9 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
 	}
 
 	public void testFindSite() {
+		endTransaction();
+		startNewTransaction();
+
 		StudyQuery studyQuery = new StudyQuery();
 		studyQuery.filterStudiesForStudySite(nciStudySite.getOrganization().getId());
 
@@ -78,13 +83,19 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
 		for (Study study : studies)
 
 		{
-			assertTrue("must contains study site", study.getStudySites().contains(nciStudySite));
+			List<StudySite> studySites = study.getStudySites();
+			List<Organization> sites = new ArrayList<Organization>();
+			for (StudySite studySite : studySites) {
+				sites.add(studySite.getOrganization());
+			}
+			assertTrue("must contains study site", sites.contains(nciStudySite.getOrganization()));
 		}
 
 	}
 
 	public void testFindOrganizationsForStudySites() {
-
+		endTransaction();
+		startNewTransaction();
 
 		Collection<? extends Organization> organizations = organizationRepository.findOrganizationsForStudySites();
 		assertFalse(organizations.isEmpty());

@@ -1,10 +1,14 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.springframework.beans.factory.annotation.Required;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal
@@ -22,9 +26,13 @@ public class StudyOrganizationIntegrationTest extends
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
 		super.onSetUpInTransaction();
+		OrganizationQuery query = new OrganizationQuery();
+		query.setMaximumResults(10);
+		List<Organization> organizations = new ArrayList<Organization>(organizationRepository.find(query));
 
-		organization = createOrganization(0);
-		organization1 = createOrganization(1);
+		organization = organizations.get(0);
+		organization1 = organizations.get(1);
+
 		study = createStudy(0);
 
 		assertNotNull(organization);
