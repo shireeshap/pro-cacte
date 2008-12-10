@@ -205,10 +205,7 @@
     </bean>
 
 
-    <bean id="crfItemRepository" class="gov.nih.nci.ctcae.core.repository.CrfItemRepository"
-		  parent="abstractRepository">
-        </bean>
-
+    
     <bean id="studyParticipantAssignmentRepository"
 		  class="gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository"
 		  parent="abstractRepository">

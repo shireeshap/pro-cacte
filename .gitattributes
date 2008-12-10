@@ -104,7 +104,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemExcepti
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/AbstractQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CRFQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ClinicalStaffQuery.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CrfItemQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationHavingStudySiteQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ParticipantQuery.java -text
@@ -118,7 +117,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/AbstractRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CRFRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ClinicalStaffRepository.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CrfItemRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/FinderRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/GenericRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepository.java -text

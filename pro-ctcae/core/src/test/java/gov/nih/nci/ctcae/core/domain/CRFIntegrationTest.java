@@ -85,7 +85,6 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 			inValidCRF.setStatus(null);
 			inValidCRF.setCrfVersion("1.0");
 			inValidCRF = crfRepository.save(inValidCRF);
-			crfRepository.find(new CRFQuery());
 			fail("Expected DataIntegrityViolationException because status is null");
 		} catch (DataIntegrityViolationException e) {
 		}

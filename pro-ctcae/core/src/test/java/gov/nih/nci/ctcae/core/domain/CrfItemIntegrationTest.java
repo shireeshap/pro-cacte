@@ -1,15 +1,15 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
-import gov.nih.nci.ctcae.core.query.CrfItemQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.repository.*;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
-
-import java.util.Collection;
 
 /**
  * @author Harsh Agarwal
@@ -17,11 +17,7 @@ import java.util.Collection;
  */
 public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
-	public void setCrfItemRepository(CrfItemRepository crfItemRepository) {
-		this.crfItemRepository = crfItemRepository;
-	}
 
-	private CrfItemRepository crfItemRepository;
 	private CRFRepository crfRepository;
 	private ProCtcRepository proCtcRepository;
 	private ProCtcTermRepository proCtcTermRepository;
@@ -35,14 +31,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
 		super.onSetUpInTransaction();
-
-		crf = new CRF();
-		crf.setTitle("Cancer CRF");
-		crf.setDescription("Case Report Form for Cancer Patients");
-		crf.setStatus(CrfStatus.DRAFT);
-		crf.setCrfVersion("1.0");
-		crf = crfRepository.save(crf);
-
+		createCrf();
 		proCtc = proCtcRepository.find(new ProCtcQuery()).iterator().next();
 		assertNotNull(proCtc);
 
@@ -52,15 +41,30 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 
 		proCtcQuestion = proCtcQuestionRepository.find(new ProCtcQuestionQuery()).iterator().next();
 
+
+	}
+
+	private void saveCrfItem() {
+
 		crfItem = new CrfItem();
 		crfItem.setCrf(crf);
 		crfItem.setProCtcQuestion(proCtcQuestion);
 		crfItem.setDisplayOrder(1);
-		crfItemRepository.save(crfItem);
+		crf.addCrfItem(crfItem);
+		crf = crfRepository.save(crf);
+	}
+
+	private void createCrf() {
+		crf = new CRF();
+		crf.setTitle("Cancer CRF");
+		crf.setDescription("Case Report Form for Cancer Patients");
+		crf.setStatus(CrfStatus.DRAFT);
+		crf.setCrfVersion("1.0");
 	}
 
 
 	public void testSaveCrfItem() {
+		saveCrfItem();
 		assertNotNull(crfItem.getId());
 	}
 
@@ -72,7 +76,11 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 		crfItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
 		crfItem.setInstructions("instructions");
 		crfItem.setResponseRequired(Boolean.TRUE);
-		CrfItem anotherCrfItem = crfItemRepository.save(crfItem);
+
+		crf.addCrfItem(crfItem);
+		crf = crfRepository.save(crf);
+
+		CrfItem anotherCrfItem = crf.getCrfItems().get(0);
 
 		assertNotNull(anotherCrfItem.getId());
 		assertNotNull(crfItem.getId());
@@ -85,21 +93,22 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 
 	public void testSavingNullCrfItem() {
 		invalidCrfItem = new CrfItem();
-
+		crf.addCrfItem(invalidCrfItem);
 		try {
-			invalidCrfItem = crfItemRepository.save(invalidCrfItem);
-			crfItemRepository.find(new CrfItemQuery());
+			crfRepository.save(crf);
 			fail("Expected DataIntegrityViolationException because title, status and formVersion are null");
 		} catch (DataIntegrityViolationException e) {
 		}
 	}
 
 	public void testSavingNullCRFCrfItem() {
-		invalidCrfItem = new CrfItem();
 		try {
+			invalidCrfItem = new CrfItem();
 			invalidCrfItem.setProCtcQuestion(proCtcQuestion);
 			invalidCrfItem.setDisplayOrder(1);
-			invalidCrfItem = crfItemRepository.save(invalidCrfItem);
+			crf.addCrfItem(invalidCrfItem);
+			invalidCrfItem.setCrf(null);
+			crfRepository.save(crf);
 			fail("Expected DataIntegrityViolationException because CRF is null");
 		} catch (DataIntegrityViolationException e) {
 		}
@@ -110,7 +119,8 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 		try {
 			invalidCrfItem.setCrf(crf);
 			invalidCrfItem.setDisplayOrder(1);
-			invalidCrfItem = crfItemRepository.save(invalidCrfItem);
+			crf.addCrfItem(invalidCrfItem);
+			crfRepository.save(crf);
 			fail("Expected DataIntegrityViolationException because ProCtcQuestion is null");
 		} catch (DataIntegrityViolationException e) {
 		}
@@ -122,33 +132,13 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 			invalidCrfItem.setCrf(crf);
 			invalidCrfItem.setDisplayOrder(null);
 			invalidCrfItem.setProCtcQuestion(proCtcQuestion);
-			invalidCrfItem = crfItemRepository.save(invalidCrfItem);
+			crf.addCrfItem(invalidCrfItem);
+			crfRepository.save(crf);
 			fail("Expected DataIntegrityViolationException because DisplayOrder is null");
 		} catch (DataIntegrityViolationException e) {
 		}
 	}
 
-	public void testFindById() {
-
-		CrfItem existingCrfItem = crfItemRepository.findById(crfItem.getId());
-		assertEquals(crfItem.getDisplayOrder(), existingCrfItem
-			.getDisplayOrder());
-		assertEquals(crfItem.getProCtcQuestion(), existingCrfItem.getProCtcQuestion());
-		assertEquals(crfItem.getCrf(), existingCrfItem.getCrf());
-		assertEquals(crfItem, existingCrfItem);
-	}
-
-	public void testFindByQuery() {
-
-		CrfItemQuery crfItemQuery = new CrfItemQuery();
-
-		Collection<? extends CrfItem> crfItems = crfItemRepository
-			.find(crfItemQuery);
-		assertFalse(crfItems.isEmpty());
-		int size = jdbcTemplate
-			.queryForInt("select count(*) from CRF_ITEMS crfItem");
-		assertEquals(size, crfItems.size());
-	}
 
 	@Required
 	public void setCRFRepository(CRFRepository crfRepository) {
