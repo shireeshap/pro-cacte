@@ -47,9 +47,9 @@ public class StudyAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCa
 		for (Study study : studies)
 
 		{
-			assertTrue((study.getShortTitle()!=null && study.getShortTitle().toLowerCase().contains("s"))
-				|| (study.getLongTitle()!=null && study.getLongTitle().toLowerCase().contains("s"))
-				|| (study.getAssignedIdentifier()!=null && study.getAssignedIdentifier().toLowerCase().contains("s")));
+			assertTrue((study.getShortTitle() != null && study.getShortTitle().toLowerCase().contains("s"))
+				|| (study.getLongTitle() != null && study.getLongTitle().toLowerCase().contains("s"))
+				|| (study.getAssignedIdentifier() != null && study.getAssignedIdentifier().toLowerCase().contains("s")));
 		}
 
 	}
@@ -72,6 +72,15 @@ public class StudyAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCa
 		String table = studyAjaxFacade.searchStudies(parameterMap, type, text, request);
 		assertNotNull(table);
 		assertTrue("must find atleast study matching with identifier", table.contains(study.getAssignedIdentifier()));
+
+	}
+
+	public void testSearchStudiesBySite() {
+		type = "site";
+		text = "1";
+
+		String table = studyAjaxFacade.searchStudies(parameterMap, type, text, request);
+		assertNotNull(table);
 
 	}
 

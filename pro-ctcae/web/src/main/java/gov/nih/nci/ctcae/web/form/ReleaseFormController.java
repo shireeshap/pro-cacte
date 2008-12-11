@@ -18,44 +18,44 @@ import javax.servlet.http.HttpServletResponse;
  * @crated Nov 5, 2008
  */
 public class ReleaseFormController extends CtcAeSimpleFormController {
-    private FinderRepository finderRepository;
-    private CRFRepository crfRepository;
+	private FinderRepository finderRepository;
+	private CRFRepository crfRepository;
 
-    protected ReleaseFormController() {
-        setCommandClass(StudyCrf.class);
-        setFormView("form/releaseForm");
-        setSessionForm(true);
+	protected ReleaseFormController() {
+		setCommandClass(StudyCrf.class);
+		setFormView("form/releaseForm");
+		setSessionForm(true);
 
-    }
+	}
 
-    @Override
-    protected Object formBackingObject(HttpServletRequest request) throws Exception {
+	@Override
+	protected Object formBackingObject(HttpServletRequest request) throws Exception {
 
-        Integer studyCrfId = ServletRequestUtils.getIntParameter(request, "studyCrfId");
-        StudyCrf studyCrf = finderRepository.findAndInitializeStudyCrf(studyCrfId);
-        return studyCrf;
-
-
-    }
-
-    @Override
-    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-
-        StudyCrf studyCrf = (StudyCrf) command;
-        crfRepository.updateStatusToReleased(studyCrf.getCrf());
-        RedirectView redirectView = new RedirectView("manageForm?studyCrfId=" + studyCrf.getId());
-        return new ModelAndView(redirectView);
-    }
+		Integer studyCrfId = ServletRequestUtils.getIntParameter(request, "studyCrfId");
+		StudyCrf studyCrf = finderRepository.findAndInitializeStudyCrf(studyCrfId);
+		return studyCrf;
 
 
-    @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-    }
+	}
 
-    @Required
+	@Override
+	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
-    public void setCrfRepository(CRFRepository crfRepository) {
-        this.crfRepository = crfRepository;
-    }
+		StudyCrf studyCrf = (StudyCrf) command;
+		crfRepository.updateStatusToReleased(studyCrf.getCrf());
+		RedirectView redirectView = new RedirectView("manageForm?studyId=" + studyCrf.getStudy().getId());
+		return new ModelAndView(redirectView);
+	}
+
+
+	@Required
+	public void setFinderRepository(FinderRepository finderRepository) {
+		this.finderRepository = finderRepository;
+	}
+
+	@Required
+
+	public void setCrfRepository(CRFRepository crfRepository) {
+		this.crfRepository = crfRepository;
+	}
 }

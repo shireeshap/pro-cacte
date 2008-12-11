@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -17,31 +16,30 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ManageFormController extends AbstractController {
 
-    private FinderRepository finderRepository;
+	private FinderRepository finderRepository;
 
 
-    public ManageFormController() {
-        setSupportedMethods(new String[]{"GET"});
-    }
+	public ManageFormController() {
+		setSupportedMethods(new String[]{"GET"});
+	}
 
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
-        ModelAndView modelAndView = new ModelAndView("form/manageForm");
-        String studyCrfId = request.getParameter("studyCrfId");
-        if (!StringUtils.isBlank(studyCrfId)) {
-            StudyCrf studyCrf = finderRepository.findById(StudyCrf.class, Integer.parseInt(studyCrfId));
-            if (studyCrf != null) {
-                Study study = studyCrf.getStudy();
-                modelAndView.getModel().put("study", study);
-            }
-        }
-        return modelAndView;
-    }
+		ModelAndView modelAndView = new ModelAndView("form/manageForm");
+		String studyId = request.getParameter("studyId");
+		if (!StringUtils.isBlank(studyId)) {
+			Study study = finderRepository.findById(Study.class, Integer.parseInt(studyId));
+			if (study != null) {
+				modelAndView.getModel().put("study", study);
+			}
+		}
+		return modelAndView;
+	}
 
-    @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-    }
+	@Required
+	public void setFinderRepository(FinderRepository finderRepository) {
+		this.finderRepository = finderRepository;
+	}
 
 }
