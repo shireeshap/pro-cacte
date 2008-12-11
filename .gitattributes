@@ -781,6 +781,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTe
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddCrfItemPropertiesControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneProCtcTermControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneQuestionControllerTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CreateFormCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/EditFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FindCrfItemControllerTest.java -text
