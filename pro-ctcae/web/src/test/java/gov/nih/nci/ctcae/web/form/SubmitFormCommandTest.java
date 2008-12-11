@@ -9,6 +9,10 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import org.easymock.EasyMock;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Hashtable;
+
 /**
  * @author Vinay Kumar
  * @crated Nov 4, 2008
@@ -19,7 +23,7 @@ public class SubmitFormCommandTest extends WebTestCase {
     private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
     FinderRepository finderRepository;
     GenericRepository genericRepository;
-
+    List<ProCtcQuestion> questions = new ArrayList<ProCtcQuestion>();
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -83,6 +87,39 @@ public class SubmitFormCommandTest extends WebTestCase {
         studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem3);
         studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem4);
 
+        ProCtcQuestion proCtcQuestion5 = new ProCtcQuestion();
+        ProCtcQuestion proCtcQuestion6 = new ProCtcQuestion();
+        ProCtcQuestion proCtcQuestion7 = new ProCtcQuestion();
+        ProCtcQuestion proCtcQuestion8 = new ProCtcQuestion();
+
+        proCtcQuestion1.setId(1);
+        proCtcQuestion2.setId(2);
+        proCtcQuestion3.setId(3);
+        proCtcQuestion4.setId(4);
+
+        proCtcQuestion5.setId(5);
+        proCtcQuestion5.setProCtcTerm(proCtcTerm1);
+        proCtcQuestion6.setId(6);
+        proCtcQuestion6.setProCtcTerm(proCtcTerm1);
+        proCtcQuestion7.setId(7);
+        proCtcQuestion7.setProCtcTerm(proCtcTerm2);
+        proCtcQuestion8.setId(8);
+        proCtcQuestion8.setProCtcTerm(proCtcTerm2);
+
+
+
+        questions.add(proCtcQuestion1);
+        questions.add(proCtcQuestion2);
+        questions.add(proCtcQuestion3);
+        questions.add(proCtcQuestion4);
+        questions.add(proCtcQuestion5);
+        questions.add(proCtcQuestion6);
+        questions.add(proCtcQuestion7);
+        questions.add(proCtcQuestion8);
+        command.setProCtcQuestions(questions);
+
+
+
     }
 
     public void testConstructor() {
@@ -139,4 +176,17 @@ public class SubmitFormCommandTest extends WebTestCase {
         verifyMocks();
     }
 
+    public void testGetArrangedQuestions(){
+
+        command.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+
+       Hashtable<String, List<ProCtcQuestion>> h = command.getArrangedQuestions();
+
+        assertTrue(h.containsKey("Fatigue"));
+        assertTrue(h.containsKey("Pain"));
+        assertEquals(2,h.get("Fatigue").size());
+        assertEquals(2,h.get("Pain").size());
+
+
+    }
 }
