@@ -197,6 +197,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.j
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/FinderRepositoryIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepositoryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/NotEmptyValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/NotNullValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueIdentifierForStudyValidatorTest.java -text
