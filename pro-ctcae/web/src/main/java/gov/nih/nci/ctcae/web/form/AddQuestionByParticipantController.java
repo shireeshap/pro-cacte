@@ -76,13 +76,6 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         return submitFormCommand;
     }
 
-    @Override
-    protected void onBindAndValidate(HttpServletRequest request,
-                                     Object command, BindException errors) throws Exception {
-        super.onBindAndValidate(request, command, errors);
-    }
-
-
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
