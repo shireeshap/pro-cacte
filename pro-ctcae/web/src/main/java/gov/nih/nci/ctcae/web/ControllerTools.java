@@ -4,11 +4,9 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.binding.convert.converters.Converter;
 import org.springframework.binding.convert.converters.StringToDate;
 
-import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditor;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author
@@ -27,24 +25,17 @@ public class ControllerTools {
 		return new SimpleDateFormat("MM/dd/yyyy");
 	}
 
-	public static String formatDate(Date date) {
-		if (dateFormat.get() == null) {
-			dateFormat.set(createDateFormat());
-		}
-		return dateFormat.get().format(date);
-	}
 
-
-	/**
-	 * Determine whether the given request was made via an asynchronous request mechanism. Current
-	 * implementation works for prototype.js-initiated requests only.
-	 *
-	 * @param request
-	 */
-	public static boolean isAjaxRequest(HttpServletRequest request) {
-		String header = request.getHeader("X-Requested-With");
-		return header != null && "XMLHttpRequest".equals(header);
-	}
+//	/**
+//	 * Determine whether the given request was made via an asynchronous request mechanism. Current
+//	 * implementation works for prototype.js-initiated requests only.
+//	 *
+//	 * @param request
+//	 */
+//	public static boolean isAjaxRequest(HttpServletRequest request) {
+//		String header = request.getHeader("X-Requested-With");
+//		return header != null && "XMLHttpRequest".equals(header);
+//	}
 
 	public static Converter getDateConverter() {
 		StringToDate stringToDate = new StringToDate();
