@@ -35,6 +35,14 @@ public class ProCtcTermIntegrationTest extends AbstractHibernateIntegrationTestC
 		}
 	}
 
+	public void testDeleteNotSupported() {
+		try {
+			proCtcTermRepository.delete(new ProCtcTerm());
+			fail("Expecting UnsupportedOperationException: delete is not supported for ProCtcTerm.");
+		} catch (UnsupportedOperationException e) {
+		}
+	}
+
 	public void testFindAndInitialize() {
 		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
 		Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
@@ -47,6 +55,17 @@ public class ProCtcTermIntegrationTest extends AbstractHibernateIntegrationTestC
 		assertEquals(proProCtcTerm.getSelect(), firstProProCtcTerm.getSelect());
 		assertEquals(proProCtcTerm.getTerm(), firstProProCtcTerm.getTerm());
 		assertEquals(proProCtcTerm, firstProProCtcTerm);
+	}
+
+	public void testFindAndInitializeById() {
+		ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+		Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
+			.findAndInitializeTerm(proCtcTermQuery);
+		ProCtcTerm firstProProCtcTerm = ctcTerms.iterator().next();
+
+
+		ProCtcTerm proCtcTerm = proCtcTermRepository.findAndInitializeTerm(firstProProCtcTerm.getId());
+		assertEquals(proCtcTerm, firstProProCtcTerm);
 	}
 
 	public void testFilterByCtcTermHavingQuestionsOnly() {
