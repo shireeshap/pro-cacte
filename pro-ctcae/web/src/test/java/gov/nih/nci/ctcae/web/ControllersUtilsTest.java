@@ -2,10 +2,8 @@ package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 import gov.nih.nci.cabig.ctms.web.tabs.TabConfigurer;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
@@ -16,9 +14,6 @@ import gov.nih.nci.ctcae.web.form.EditFormController;
 import gov.nih.nci.ctcae.web.study.CreateStudyController;
 import gov.nih.nci.ctcae.web.study.StudyCommand;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
-
-import java.util.ArrayList;
 
 /**
  * @author Vinay Kumar
@@ -40,8 +35,8 @@ public class ControllersUtilsTest extends WebTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		createFormController = new CreateFormController();
-		 finderRepository = registerMockFor(FinderRepository.class);
-		crfRepository=registerMockFor(CRFRepository.class);
+		finderRepository = registerMockFor(FinderRepository.class);
+		crfRepository = registerMockFor(CRFRepository.class);
 		proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
 		proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
 		crfRepository = registerMockFor(CRFRepository.class);
@@ -86,7 +81,6 @@ public class ControllersUtilsTest extends WebTestCase {
 		StudyCrf studyCrf = new StudyCrf();
 		studyCrf.setCrf(new CRF());
 		expect(finderRepository.findAndInitializeStudyCrf(Integer.valueOf(1))).andReturn(studyCrf);
-		expect(proCtcTermRepository.findAndInitializeTerm(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
 		replayMocks();
 
 		editFormController.handleRequest(request, response);
