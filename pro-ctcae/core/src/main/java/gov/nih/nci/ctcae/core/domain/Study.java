@@ -182,12 +182,6 @@ public class Study extends BasePersistable {
 		}
 	}
 
-	public void addStudyCrfs(List<StudyCrf> studyCrfs) {
-		for (StudyCrf studyCrf : studyCrfs) {
-			addStudyCrf(studyCrf);
-		}
-	}
-
 	public void addCrf(CRF crf) {
 		StudyCrf studyCrf = new StudyCrf();
 		studyCrf.setCrf(crf);

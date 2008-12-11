@@ -112,12 +112,6 @@ public class CRF extends BaseVersionable {
 		}
 	}
 
-	public void removeCrfItems(Collection<CrfItem> crfItems) {
-		for (CrfItem crfItem : crfItems) {
-			removeCrfItem(crfItem);
-		}
-	}
-
 
 	@Override
 	public boolean equals(final Object o) {
