@@ -762,6 +762,7 @@ pro-ctcae/web/src/main/webapp/js/validation.js -text
 pro-ctcae/web/src/test/java/SeleniumTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AbstractWebIntegrationTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ApplicationConversionServiceTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AuditInfoFilterTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ControllersUtilsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilterTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/WebTestCase.java -text
