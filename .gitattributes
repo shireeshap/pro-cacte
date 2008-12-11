@@ -267,6 +267,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalSt
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddCrfItemPropertiesController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneProCtcTermController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneQuestionController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CopyFormController.java -text
@@ -766,6 +767,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalSt
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddCrfItemPropertiesControllerTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneProCtcTermControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneQuestionControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CreateFormCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/EditFormControllerTest.java -text

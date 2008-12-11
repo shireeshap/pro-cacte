@@ -31,7 +31,6 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 	}
 
 
-
 	protected void layoutTabs(Flow<CreateFormCommand> flow) {
 		flow.addTab(new SelectStudyForFormTab());
 		flow.addTab(new FormDetailsTab());
@@ -40,6 +39,8 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
 	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 		CreateFormCommand createFormCommand = (CreateFormCommand) command;
+		createFormCommand.updateCrfItems(finderRepository);
+
 		CRF crf = createFormCommand.getStudyCrf().getCrf();
 		createFormCommand.setStudyCrf(crf.getStudyCrf());
 		CRF savedCrf = crfRepository.save(crf);

@@ -18,40 +18,38 @@ import javax.servlet.http.HttpServletResponse;
 public class AddOneQuestionController extends AbstractController {
 
 
-    private FinderRepository finderRepository;
+	private FinderRepository finderRepository;
 
-    protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-        ModelAndView modelAndView = new ModelAndView("form/ajax/oneQustionSection");
-
-
-        Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
-        Integer displayOrder = ServletRequestUtils.getIntParameter(request, "displayOrder");
-
-        ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
-        CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
-        if (proCtcQuestion != null) {
-            createFormCommand.getStudyCrf().getCrf().removeExistingAndAddNewCrfItem(proCtcQuestion, displayOrder);
-            modelAndView.addObject("proCtcQuestion", proCtcQuestion);
-            modelAndView.addObject("displayOrder", displayOrder);
-        } else {
-            logger.error("can not add question because pro ctc term is null for id:" + questionId);
-            return null;
-        }
-
-        return modelAndView;
+		ModelAndView modelAndView = new ModelAndView("form/ajax/oneQustionSection");
 
 
-    }
+		Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
+
+		ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
+		CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+		if (proCtcQuestion != null) {
+			createFormCommand.getStudyCrf().getCrf().removeExistingAndAddNewCrfItem(proCtcQuestion);
+			modelAndView.addObject("proCtcQuestion", proCtcQuestion);
+		} else {
+			logger.error("can not add question because pro ctc term is null for id:" + questionId);
+			return null;
+		}
+
+		return modelAndView;
 
 
-    public AddOneQuestionController() {
-        setSupportedMethods(new String[]{"GET"});
+	}
 
-    }
 
-    @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-    }
+	public AddOneQuestionController() {
+		setSupportedMethods(new String[]{"GET"});
+
+	}
+
+	@Required
+	public void setFinderRepository(FinderRepository finderRepository) {
+		this.finderRepository = finderRepository;
+	}
 }

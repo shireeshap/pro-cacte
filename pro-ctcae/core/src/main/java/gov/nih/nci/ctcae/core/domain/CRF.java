@@ -152,6 +152,12 @@ public class CRF extends BaseVersionable {
 		return getStatus().equals(CrfStatus.RELEASED);
 	}
 
+	/**
+	 * this is required to update the crf item properties on right side of the create form
+	 *
+	 * @param proCtcQuestion
+	 * @param displayOrder
+	 */
 	public void addOrUpdateCrfItem(final ProCtcQuestion proCtcQuestion, final int displayOrder) {
 		CrfItem crfItem = new CrfItem();
 		crfItem.setProCtcQuestion(proCtcQuestion);
@@ -176,15 +182,13 @@ public class CRF extends BaseVersionable {
 	}
 
 	/**
-	 * used for adding a new crf items with empty properties
+	 * used for adding a new crf items with empty properties..this is required to add questions from left side of the create form
 	 *
 	 * @param proCtcQuestion
-	 * @param displayOrder
 	 */
-	public void removeExistingAndAddNewCrfItem(final ProCtcQuestion proCtcQuestion, final Integer displayOrder) {
+	public void removeExistingAndAddNewCrfItem(final ProCtcQuestion proCtcQuestion) {
 		CrfItem crfItem = new CrfItem();
 		crfItem.setProCtcQuestion(proCtcQuestion);
-		crfItem.setDisplayOrder(displayOrder);
 
 		//check if it already exists
 		CrfItem existingCrfItem = getCrfItemByQuestion(crfItem.getProCtcQuestion());
@@ -244,10 +248,12 @@ public class CRF extends BaseVersionable {
 	}
 
 
-	public void removeExistingAndAddNewCrfItem(final ProCtcTerm proCtcTerm, final Integer displayOrder) {
-		for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
-			removeExistingAndAddNewCrfItem(proCtcQuestion, displayOrder);
-		}
+	public void removeExistingAndAddNewCrfItem(final ProCtcTerm proCtcTerm) {
+		List<ProCtcQuestion> questions = new ArrayList<ProCtcQuestion>(proCtcTerm.getProCtcQuestions());
 
+		for (int i = 0; i < questions.size(); i++) {
+			ProCtcQuestion proCtcQuestion = questions.get(i);
+			removeExistingAndAddNewCrfItem(proCtcQuestion);
+		}
 	}
 }

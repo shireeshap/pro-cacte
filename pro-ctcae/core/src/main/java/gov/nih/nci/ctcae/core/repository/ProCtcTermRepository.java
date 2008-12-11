@@ -14,8 +14,7 @@ import java.util.Collection;
  * @created Oct 14, 2008
  */
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-public class ProCtcTermRepository extends
-	AbstractRepository<ProCtcTerm, ProCtcTermQuery> {
+public class ProCtcTermRepository extends AbstractRepository<ProCtcTerm, ProCtcTermQuery> {
 
 	@Override
 	protected Class<ProCtcTerm> getPersistableClass() {

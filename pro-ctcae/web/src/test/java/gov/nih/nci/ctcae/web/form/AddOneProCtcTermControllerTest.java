@@ -1,31 +1,30 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Vinay Kumar
- * @crated Oct 18, 2008
+ * @crated Dec 18, 2008
  */
-public class AddOneQuestionControllerTest extends WebTestCase {
+public class AddOneProCtcTermControllerTest extends WebTestCase {
 
-	private AddOneQuestionController controller;
+	private AddOneProCtcTermController controller;
 
-	private FinderRepository finderRepository;
-	private ProCtcQuestion proCtcQuestion;
+	private ProCtcTermRepository proCtcTermRepository;
+	private ProCtcTerm proCtcTerm;
 	private CreateFormCommand command;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		controller = new AddOneQuestionController();
-		finderRepository = registerMockFor(FinderRepository.class);
-		controller.setFinderRepository(finderRepository);
-		proCtcQuestion = new ProCtcQuestion();
-		proCtcQuestion.setId(1);
+		controller = new AddOneProCtcTermController();
+		proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
+		controller.setProCtcTermRepository(proCtcTermRepository);
+		proCtcTerm = new ProCtcTerm();
 		command = new CreateFormCommand();
 
 
@@ -36,9 +35,8 @@ public class AddOneQuestionControllerTest extends WebTestCase {
 	}
 
 	public void testHandleRequestIfQuestionIdIsWrong() throws Exception {
-		request.addParameter("questionId", new String[]{"1"});
-		request.addParameter("displayOrder", new String[]{"1"});
-		expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(null);
+		request.addParameter("proCtcTermId", new String[]{"1"});
+		expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(null);
 		replayMocks();
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
 		verifyMocks();
@@ -48,13 +46,13 @@ public class AddOneQuestionControllerTest extends WebTestCase {
 	public void testHandleRequestIfQuestionIdIsCorrect() throws Exception {
 		request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
 
-		request.addParameter("questionId", new String[]{"1"});
+		request.addParameter("proCtcTermId", new String[]{"1"});
 		request.addParameter("displayOrder", new String[]{"1"});
-		expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(proCtcQuestion);
+		expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
 		replayMocks();
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
 		verifyMocks();
-		assertNotNull("must not return null because there is one question  for given id", modelAndView);
-		assertEquals("must return proctc question", proCtcQuestion, modelAndView.getModel().get("proCtcQuestion"));
+		assertNotNull("must not return null because there is one proCtcTerm  for given id", modelAndView);
+		assertEquals("must return proCtcTerm", proCtcTerm, modelAndView.getModel().get("proCtcTerm"));
 	}
 }
