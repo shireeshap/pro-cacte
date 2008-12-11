@@ -188,18 +188,6 @@ public class Study extends BasePersistable {
 		}
 	}
 
-	public void removeStudyCrf(StudyCrf studyCrf) {
-		if (studyCrf != null) {
-			studyCrfs.remove(studyCrf);
-		}
-	}
-
-	public void removeStudyCrfs(List<StudyCrf> studyCrfs) {
-		for (StudyCrf studyCrf : studyCrfs) {
-			removeStudyCrf(studyCrf);
-		}
-	}
-
 	public void addCrf(CRF crf) {
 		StudyCrf studyCrf = new StudyCrf();
 		studyCrf.setCrf(crf);

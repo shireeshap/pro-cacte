@@ -84,10 +84,6 @@ public class SubmitFormCommand implements Serializable {
         return currentPageIndex;
     }
 
-    public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
-    }
-
     public void setCurrentPageIndex(int currentPageIndex) {
         this.currentPageIndex = currentPageIndex;
     }

@@ -94,22 +94,6 @@ public class ProCtcQuestion extends BasePersistable {
 		}
 	}
 
-	public void removeValidValue(ProCtcValidValue validValue) {
-		validValues.remove(validValue);
-	}
-
-	public void addValidValues(ArrayList<ProCtcValidValue> validValues) {
-		for (ProCtcValidValue validValue : validValues) {
-			addValidValue(validValue);
-		}
-	}
-
-	public void removeValidValues(ArrayList<ProCtcValidValue> validValues) {
-		for (ProCtcValidValue validValue : validValues) {
-			removeValidValue(validValue);
-		}
-	}
-
 	public List<CrfItem> getCrfItems() {
 		return crfItems;
 	}

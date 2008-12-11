@@ -68,14 +68,6 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 		}
 	}
 
-	public void removeStudyParticipantCrfItem(
-		StudyParticipantCrfItem studyParticipantCrfItem) {
-		if (studyParticipantCrfItem != null) {
-			studyParticipantCrfItems.remove(studyParticipantCrfItem);
-		}
-	}
-
-
 	public Date getStartDate() {
 		return startDate;
 	}
