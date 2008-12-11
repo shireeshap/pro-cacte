@@ -119,7 +119,7 @@
 </head>
 <body>
 
-<chrome:box title="form.box.select_study" id="study-entry">
+<chrome:box title="form.box.select_study" id="study-entry" cssClass="small">
     <p><tags:instructions code="instruction_select_study"/></p>
     <tags:displayAutocompleter inputName="study" required="true" displayName="Study" size="70"/>
     <p id="studyCrf.study-selected" style="display: none">
@@ -127,10 +127,10 @@
     </p>
     <br>
     <tags:indicator id="indicator"/>
-
-    <div id="noForm" style="display:none;">
-        Click <a href="" id="newFormUrl">here</a> to create a new
-        form.
+</chrome:box>
+</div>
+<div id="noForm" style="display:none;">
+        <a href="" id="newFormUrl">New Form</a>
     </div>
 
     <div id="bigSearch" style="display:none;">
@@ -145,7 +145,5 @@
         </form:form>
 
     </div>
-</chrome:box>
-
 
 </body>

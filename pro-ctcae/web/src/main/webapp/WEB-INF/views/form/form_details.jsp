@@ -409,7 +409,7 @@ function previousQuestion(questionIndex) {
 			<div class="summarylabel"><tags:message code='form.label.study'/></div>
 			<div class="summaryvalue">${command.studyCrf.study.displayName}</div>
 		</div>
-
+<a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>
 
             <table id="formbuilderTable">
 				<tr>
@@ -460,9 +460,9 @@ function previousQuestion(questionIndex) {
 							</c:forEach>
 						</ul>
 
-					</td>
-					<td id="right">
-						<a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>
+                    </td>
+                    <td id="right">
+                        
 							<%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
 							<%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>
 						<table style="border-collapse:collapse; height:800px;">

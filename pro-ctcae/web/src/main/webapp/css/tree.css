@@ -90,7 +90,7 @@ ul.tree ul span.a.children span.c {
 	color:black;	
 }
 
-ul.tree span.a.spanClosed span.c {
+ul.tree span.a.spanClosed span.c, ul.tree ul span.a.spanClosed span.c {
     background-image: url( ../images/page-foldericon.png );
 }
 /*

@@ -11,7 +11,6 @@
 }
 
 .eXtremeTable .tableRegion {
-    border: 1px solid silver;
     padding: 2px;
     font-family: arial, verdana, helvetica, sans-serif;
     font-size: 12px;
@@ -77,10 +76,7 @@
     padding-top: 4px;
     padding-bottom: 4px;
     margin: 0px;
-    border-right-style: solid;
-    border-right-width: 1px;
-    border-color: white;
-    background-image: url( ../images/eXtableheader_bg.png );
+    background-image: url(/ctcae/images/blue/eXtableheader_bg.png );
     background-repeat: repeat-x;
     background-position: top;
 }
@@ -117,10 +113,7 @@
     padding-top: 4px;
     padding-bottom: 4px;
     margin: 0px;
-    border-right-style: solid;
-    border-right-width: 1px;
-    border-color: white;
-    background-image: url( ../images/eXtableheader_bg.png );
+    background-image: url(/ctcae/images/eXtableheader_bg.png );
     background-repeat: repeat-x;
     background-position: top;
 }

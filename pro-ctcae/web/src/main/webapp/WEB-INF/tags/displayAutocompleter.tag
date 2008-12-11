@@ -8,12 +8,15 @@
     <div class="value"><input id="${inputName}" type="hidden" value="" name="study"/>
         <span class="required-indicator">*</span>
         <input id="${inputName}-input" class="autocomplete" type="text" value="" autocomplete="off" size="${size}"/>
-        <input type="button" id="${inputName}-clear" name="C"
+        <input type="image" id="${inputName}-clear" name="C"
                value="Clear"
-               onClick="javascript:$('${inputName}-input').clear();$('${inputName}').clear();"/>
+               onClick="javascript:$('${inputName}-input').clear();$('${inputName}').clear();"
+			   src="/ctcae/images/blue/clear-left-button.png"
+			   style="vertical-align:middle;"
+			   />
 
         <img id="${inputName}-indicator" class="indicator" alt="activity indicator"
-             src="/images/indicator.white.gif"/>
+             src="/ctcae/images/indicator.white.gif"/>
 
         <div id="${inputName}-choices" class="autocomplete" style="display: none;"/>
         <p id="${inputName}-selected" style="display: none;">

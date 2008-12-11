@@ -500,6 +500,11 @@ ul.tabs li {
 	margin: 1em;
 	float:left;
 }
+.box.small {
+	width:610px;
+	margin:0 185px 20px 185px;
+	
+}
 .division { clear: both; }
 /**** REUSABLE PAGE ELEMENTS/CLASSES */
 
@@ -844,4 +849,24 @@ display:block;
 	font-size:30px;
 	size:20;
 	color:#00207E;
+}
+#reviewLink {
+	position:absolute;
+	top:12px;
+	right:134px;
+	background-image:url(/ctcae/images/blue/preview_btn.png);
+	height:0px;
+	overflow:hidden;
+	width:116px;
+	display:block;
+	padding:40px 0 0 0;	
+}
+#newFormUrl {
+	background-image:url(/ctcae/images/blue/new_form_btn.png);
+	height:0px;
+	overflow:hidden;
+	width:131px;
+	display:block;
+	padding:40px 0 0 0;	
+	margin-left:30px;
 }
