@@ -62,6 +62,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/022_alter_pro_ctc_question.
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/023_add_audit_event.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/024_add_audit_event_values.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/025_alter_crf_items.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/026_drop_questions.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text

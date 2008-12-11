@@ -276,7 +276,7 @@ function showCrfItemPropertiesWindow(transport) {
 	var win = Windows.getFocusedWindow();
 	if (win == null) {
 		win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-			true, title: "", height:500, width: 550,top:200,left:250});
+			true, title: "", height:500, width: 650,top:200,left:250});
 		win.setDestroyOnClose();
 		win.setHTMLContent(transport.responseText);
 		win.show(true)
@@ -439,11 +439,11 @@ function previousQuestion(questionIndex) {
 																<tags:formbuilderBoxControls add="true"
 																							 proCtcQuestionId="${proCtcQuestion.id}"
 																							 proCtctermId="${proCtcTerm.id}"/>
-																${proCtcQuestion.questionText}
+																${proCtcQuestion.formattedQuestionText}
 																<ul>
 																	<c:forEach items="${proCtcQuestion.validValues}"
 																			   var="proCtcValidValue">
-																		<li>${proCtcValidValue.value}</li>
+																		<li>${proCtcValidValue.displayName}</li>
 																	</c:forEach>
 																</ul>
 															</tags:formbuilderBox>

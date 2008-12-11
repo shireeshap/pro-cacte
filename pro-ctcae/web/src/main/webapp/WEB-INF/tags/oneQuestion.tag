@@ -19,7 +19,7 @@
 					 style="display:none;"></div>
 
 				<div id="${displayOrder}" class="sortableSpan">${displayOrder}</div>
-				${proCtcQuestion.questionText}
+				${proCtcQuestion.proCtcTerm.term} - ${proCtcQuestion.questionText}
 			</td>
 			<td class="R"></td>
 		</tr>
