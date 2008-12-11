@@ -454,6 +454,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/reorderSucessfull.jsp -tex
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmFormSubmission.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.xml -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/deleteForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/form_details.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/manageForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/releaseForm.jsp -text
