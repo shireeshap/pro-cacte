@@ -65,4 +65,24 @@ public class CreateStudyControllerTest extends WebTestCase {
 
 
 	}
+
+	public void testPostRequestForSite() throws Exception {
+		request.setMethod("GET");
+
+		controller.handleRequest(request, response);
+		assertNotNull("must have command in session", ControllersUtils.getStudyCommand(request));
+
+
+		request.setMethod("POST");
+		request.setAttribute(controller.getClass().getName() + ".PAGE." + controller.getCommandName(), 1);
+
+
+		ModelAndView modelAndView = controller.handleRequest(request, response);
+
+		Map model = modelAndView.getModel();
+		Object command = model.get("command");
+		assertNotNull("must  find command object", command);
+
+
+	}
 }
