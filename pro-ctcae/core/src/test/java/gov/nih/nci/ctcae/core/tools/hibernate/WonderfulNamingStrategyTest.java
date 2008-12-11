@@ -1,19 +1,19 @@
-package gov.nih.nci.ctcae.web.tools.hibernate;
+package gov.nih.nci.ctcae.core.tools.hibernate;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.tools.hibernate.WonderfulNamingStrategy;
-import gov.nih.nci.ctcae.web.WebTestCase;
+import junit.framework.TestCase;
 
 import javax.security.auth.Subject;
 
 /**
  * @author Vinay Kumar
- * @crated Dec 9, 2008
+ * @crated Dec 11, 2008
  */
-public class WonderfulNamingStrategyTest extends WebTestCase {
+public class WonderfulNamingStrategyTest extends TestCase {
+
 	private static final String DC = "DON'T CARE";
 
 	private WonderfulNamingStrategy strategy = new WonderfulNamingStrategy();

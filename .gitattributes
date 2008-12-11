@@ -198,6 +198,8 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssign
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/FinderRepositoryIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepositoryTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialectTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategyTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/NotEmptyValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/NotNullValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueIdentifierForStudyValidatorTest.java -text
@@ -812,6 +814,5 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCellTe
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tag/AuthorizeTagTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTagTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tools/ObjectToolsTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tools/hibernate/WonderfulNamingStrategyTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorTest.java -text
 pro-ctcae/web/web.iml -text
