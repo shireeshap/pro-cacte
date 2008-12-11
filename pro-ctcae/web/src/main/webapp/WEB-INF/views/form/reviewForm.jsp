@@ -10,14 +10,18 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <html>
+
 <body>
-<chrome:flashMessage flashMessage="form.save.confirmation"></chrome:flashMessage>
 
-<chrome:box title="form.confirmation">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="createForm" hideErrorDetails="true">
+    <jsp:attribute name="singleFields">
+		<%--<p><tags:instructions code="instruction_select_study"/></p>--%>
+		<%----%>
+		<tags:reviewForm studyCrf="${command.studyCrf}"></tags:reviewForm>
+		
+    </jsp:attribute>
 
-	<tags:reviewForm studyCrf="${studyCrf}"/>
 
-</chrome:box>
-
+</tags:tabForm>
 </body>
 </html>

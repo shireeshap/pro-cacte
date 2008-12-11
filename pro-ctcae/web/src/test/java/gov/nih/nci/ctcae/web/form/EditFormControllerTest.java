@@ -4,10 +4,8 @@ import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 import gov.nih.nci.cabig.ctms.web.tabs.TabConfigurer;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
@@ -15,10 +13,9 @@ import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -51,19 +48,19 @@ public class EditFormControllerTest extends WebTestCase {
 		studyCrf = new StudyCrf();
 		crf = new CRF();
 		studyCrf.setCrf(crf);
+		crf.setStudyCrf(studyCrf);
 	}
 
 	public void testFirstPage() throws Exception {
-		FormDetailsTab formDetailsTab = new FormDetailsTab();
+		ReviewFormTab reviewFormTab = new ReviewFormTab();
 		request.setMethod("GET");
 		request.addParameter("studyCrfId", "1");
 		expect(finderRepository.findAndInitializeStudyCrf(Integer.valueOf(1))).andReturn(studyCrf);
-		expect(proCtcTermRepository.findAndInitializeTerm(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
 		replayMocks();
 		ModelAndView modelAndView = controller.handleRequest(request, response);
 		verifyMocks();
 		Map model = modelAndView.getModel();
-		assertEquals("first page should be form details", modelAndView.getViewName(), formDetailsTab.getViewName());
+		assertEquals("first page should be review form", modelAndView.getViewName(), reviewFormTab.getViewName());
 		Object command = model.get("command");
 		assertNotNull("must find command object", command);
 		assertTrue(command instanceof CreateFormCommand);
@@ -75,7 +72,6 @@ public class EditFormControllerTest extends WebTestCase {
 		request.setMethod("GET");
 		request.addParameter("studyCrfId", "1");
 		expect(finderRepository.findAndInitializeStudyCrf(Integer.valueOf(1))).andReturn(studyCrf);
-		expect(proCtcTermRepository.findAndInitializeTerm(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
 		replayMocks();
 		ModelAndView modelAndView = controller.handleRequest(request, response);
 		verifyMocks();
@@ -101,22 +97,33 @@ public class EditFormControllerTest extends WebTestCase {
 
 	}
 
-	public void testPostRequest() throws Exception {
+	public void testProcessFinish() throws Exception {
 
-		request.setMethod("POST");
+		request.setMethod("GET");
 		request.addParameter("studyCrfId", "1");
-		expect(proCtcTermRepository.findAndInitializeTerm(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
 		expect(finderRepository.findAndInitializeStudyCrf(Integer.valueOf(1))).andReturn(studyCrf);
-
 		replayMocks();
+		ModelAndView modelAndView1 = controller.handleRequest(request, response);
+		verifyMocks();
+		CreateFormCommand command = (CreateFormCommand) modelAndView1.getModel().get("command");
+		assertNotNull("must find command object", command);
+		assertNotNull("must find command object", command.getStudyCrf());
+
+		resetMocks();
+		request.setMethod("POST");
+
+		request.addParameter("_finish", "_finish");
+		expect(crfRepository.save(studyCrf.getCrf())).andReturn(studyCrf.getCrf());
+		replayMocks();
+		//expect(finderRepository.findAndInitializeStudyCrf(Integer.valueOf(1))).andReturn(studyCrf);
+
 
 		ModelAndView modelAndView = controller.handleRequest(request, response);
 
 		verifyMocks();
 		Map model = modelAndView.getModel();
-//		assertTrue("view must be instance of redirect view", modelAndView.getView() instanceof RedirectView);
-//		Object command = model.get("command");
-//		assertNull("must not find command object", command);
+		assertTrue("view must be instance of redirect view", modelAndView.getView() instanceof RedirectView);
+		assertNull("must not find command object", model.get("command"));
 
 
 	}

@@ -41,16 +41,21 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 		CreateFormCommand createFormCommand = (CreateFormCommand) command;
 		createFormCommand.updateCrfItems(finderRepository);
 
-		CRF crf = createFormCommand.getStudyCrf().getCrf();
-		createFormCommand.setStudyCrf(crf.getStudyCrf());
-		CRF savedCrf = crfRepository.save(crf);
+		save(createFormCommand);
 
 		Map model = new HashMap();
-		model.put("studyCrf", savedCrf.getStudyCrf());
+		model.put("studyCrf", createFormCommand.getStudyCrf());
 		ModelAndView modelAndView = new ModelAndView("form/confirmForm", model);
 		return modelAndView;
 
 
+	}
+
+	protected void save(final CreateFormCommand createFormCommand) {
+		CRF crf = createFormCommand.getStudyCrf().getCrf();
+		createFormCommand.setStudyCrf(crf.getStudyCrf());
+		CRF savedCrf = crfRepository.save(crf);
+		createFormCommand.setStudyCrf(savedCrf.getStudyCrf());
 	}
 
 	@Required

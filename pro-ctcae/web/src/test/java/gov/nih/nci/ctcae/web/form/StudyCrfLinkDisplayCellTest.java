@@ -46,8 +46,11 @@ public class StudyCrfLinkDisplayCellTest extends AbstractCellTestCase {
 
 	public void testReleaseFormStatusLink() {
 		studyCrf = new StudyCrf();
-		studyCrf.setCrf(new CRF());
+		CRF crf = new CRF();
+		crf.setTitle("title");
+		studyCrf.setCrf(crf);
 		studyCrf.setId(1);
+
 		studyCrf.getCrf().setStatus(CrfStatus.DRAFT);
 		model.addColumn(testOptionsColumn);
 		row = new Row(model);
@@ -55,7 +58,7 @@ public class StudyCrfLinkDisplayCellTest extends AbstractCellTestCase {
 		model.setCurrentRowBean(studyCrf);
 
 
-		assertEquals("<a href=\"javascript:releaseForm('1')\">Release&nbsp;&nbsp;</a> | <a href=\"/pages/form/copyForm?studyCrfId=1\">Copy</a> | <a href=\"javascript:deleteForm('1')\">Delete</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
+		assertEquals("<a href=\"javascript:releaseForm('1')\">Release&nbsp;&nbsp;</a> | <a href=\"/pages/form/copyForm?studyCrfId=1\">Copy</a> | <a href=\"javascript:deleteForm('1')\">Delete</a> | <a href=\"/pages/form/editForm?studyCrfId=1\">Edit</a>", studyCrfLinkDisplayDetailsCell.getCellValue(model, testOptionsColumn));
 	}
 
 

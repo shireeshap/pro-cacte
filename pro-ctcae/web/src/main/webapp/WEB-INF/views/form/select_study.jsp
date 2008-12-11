@@ -11,39 +11,47 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <head>
-    <tags:stylesheetLink name="tabbedflow"/>
-    <tags:includeScriptaculous/>
+	<tags:stylesheetLink name="tabbedflow"/>
+	<tags:includeScriptaculous/>
 
-    <tags:includePrototypeWindow/>
+	<tags:includePrototypeWindow/>
 
-    <script type="text/javascript">
-        Event.observe(window, "load", function () {
-            var studyAutoCompleter = new studyAutoComplter('studyCrf.study');
-            acCreate(studyAutoCompleter);
-        <c:if test="${command.studyCrf.study ne null}">
-            initializeAutoCompleter('studyCrf.study', '${command.studyCrf.study.displayName}', '${command.studyCrf.study.id}')
+	<script type="text/javascript">
+		Event.observe(window, "load", function () {
+			var studyAutoCompleter = new studyAutoComplter('studyCrf.study');
+			acCreate(studyAutoCompleter);
+		<c:if test="${command.studyCrf.study ne null}">
+			initializeAutoCompleter('studyCrf.study', '${command.studyCrf.study.displayName}', '${command.studyCrf.study.id}')
 
-        </c:if>
+		</c:if>
 
-            initSearchField();
+			initSearchField();
 
-        })
+		})
 
 
-    </script>
+	</script>
 
 </head>
 <body>
+<c:choose>
+	<c:when test="${command.studyCrf.id ne null}">
+		<c:set var="willSave" value="true"/>
+	</c:when>
+	<c:otherwise>
+		<c:set var="willSave" value="false"/>
+	</c:otherwise>
+</c:choose>
 
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="createForm" hideErrorDetails="true">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="createForm" hideErrorDetails="true">
     <jsp:attribute name="singleFields">
 
         <p><tags:instructions code="instruction_select_study"/></p>
         <tags:renderAutocompleter propertyName="studyCrf.study" required="true" displayName="form.label.study"
-                                  size="70"/>
+								  size="70"/>
         <p id="studyCrf.study-selected" style="display: none">
-            You have selected the study <span id="studyCrf.study-selected-name"></span>.
-        </p>
+			You have selected the study <span id="studyCrf.study-selected-name"></span>.
+		</p>
     </jsp:attribute>
 
 

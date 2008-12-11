@@ -63,7 +63,6 @@ public class StudyCrfTableModel extends AbstractTableModel {
 		columnTitle.setAlias("title");
 		columnTitle.setSortable(Boolean.TRUE);
 		columnTitle.setFilterable(false);
-		columnTitle.setCell("gov.nih.nci.ctcae.web.form.EditStudyCrfLinkCell");
 		model.addColumn(columnTitle);
 	}
 

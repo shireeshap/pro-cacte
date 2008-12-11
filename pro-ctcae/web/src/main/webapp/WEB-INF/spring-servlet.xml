@@ -163,7 +163,6 @@
 
 	<bean name="/form/editForm" id="editFormController" class="gov.nih.nci.ctcae.web.form.EditFormController"
 		  parent="formController">
-        <property name="finderRepository" ref="finderRepository"/>
 	</bean>
 
 	<bean id="formController" class="gov.nih.nci.ctcae.web.form.FormController" abstract="true"
