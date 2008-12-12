@@ -8,7 +8,7 @@
 
     <div class="background-R">
         <a href="/ctcae/pages/form/createForm" id="logo">ProCtcAE</a>
-        <div id="taskbar"></div>
+        <div id="taskbar">Welcome $ { user name here }</div>
     </div>
 </div>
 <!-- end header -->

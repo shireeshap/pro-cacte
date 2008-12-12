@@ -132,7 +132,6 @@
 
 </head>
 <body>
-
 <chrome:box title="form.box.select_study" id="study-entry" cssClass="small">
     <p><tags:instructions code="instruction_select_study"/></p>
     <tags:displayAutocompleter inputName="study" required="true" displayName="Study" size="70"/>

@@ -130,7 +130,6 @@
     vertical-align: middle;
     font-family: Arial, verdana, helvetica, sans-serif;
     font-size: 13px;
-    width: 25px;
 }
 
 .eXtremeTable .odd {
@@ -148,7 +147,9 @@
     padding-bottom: 3px;
     padding-left: 3px;
     vertical-align: middle;
-    background-color: #F09B5D;
+    /*
+background-color: #F09B5D;
+*/
     font-size: 13px;
 }
 

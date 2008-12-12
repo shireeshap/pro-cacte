@@ -84,10 +84,12 @@
 
         <%--<a href="${showAllJavascript}">Show All</a> --%>
 
-        <tags:indicator id="${propertyName}-indicator"/>
-
-        <input type="button" id="${propertyName}-clear" name="C" value="Clear"
-               onClick="javascript:$('${propertyName}-input').clear();$('${propertyName}').clear();"/>
+        <input type="image" id="${propertyName}-clear" name="C" value="Clear"
+               onClick="javascript:$('${propertyName}-input').clear();$('${propertyName}').clear();"
+			   src="/ctcae/images/blue/clear-left-button.png"
+			   style="vertical-align:middle;" />
+			   
+		<tags:indicator id="${propertyName}-indicator"/>
 
         <div id="${propertyName}-choices" class="autocomplete" style="display: none"></div>
 
