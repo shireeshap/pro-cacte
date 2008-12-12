@@ -457,6 +457,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/crfItemProperties.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/name.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneProCtcTermSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneQustionSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/questionReviewSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/reorderSucessfull.jsp -text
