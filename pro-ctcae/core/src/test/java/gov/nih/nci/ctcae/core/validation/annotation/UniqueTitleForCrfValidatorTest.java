@@ -58,6 +58,7 @@ public class UniqueTitleForCrfValidatorTest extends AbstractTestCase {
 
 		assertTrue("identifier does not exists", validator.validate(null, crf));
 		assertTrue("default is true", validator.validate(null, new Study()));
+		assertTrue("default is true", validator.validate(crf));
 
 	}
 
