@@ -63,6 +63,14 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/023_add_audit_event.groovy 
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/024_add_audit_event_values.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/025_alter_crf_items.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/026_drop_questions.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/027_add_organizations_1.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/028_add_organizations_2.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/029_add_organizations_3.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/030_add_organizations_4.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/031_add_organizations_5.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/032_add_organizations_6.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/033_add_organizations_7.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/034_add_organizations_8.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
