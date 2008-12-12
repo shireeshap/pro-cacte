@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import static org.easymock.EasyMock.expect;
@@ -48,14 +49,15 @@ public class UniqueTitleForCrfValidatorTest extends AbstractTestCase {
 		assertTrue("must find UniqueTitleForCrf annotation", annotationsArray[1].annotationType().equals(UniqueTitleForCrf.class));
 
 
-//        validator.initialize(annotationsArray[0]);
-//        assertEquals("identifier does not exists", validator.message());
+		validator.initialize((UniqueTitleForCrf) annotationsArray[1]);
+		assertEquals("Title already exits in database", validator.message());
 
 	}
 
 	public void testValidateReturnTrueForWrongValue() {
 
-		assertTrue("identifier does not exists", validator.validate(crf));
+		assertTrue("identifier does not exists", validator.validate(null, crf));
+		assertTrue("default is true", validator.validate(null, new Study()));
 
 	}
 

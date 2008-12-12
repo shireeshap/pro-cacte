@@ -17,6 +17,7 @@ public class UniqueTitleForCrfValidator extends AbstractValidator<UniqueTitleFor
 
 	private CRFRepository crfRepository;
 
+
 	@Override
 	public boolean validate(final Object bean, final Object value) {
 		if (value instanceof String && bean instanceof CRF) {
