@@ -41,8 +41,9 @@
         .currentPagediv {
             color: #666666;
             font-size: 8pt;
-            padding-right: 30px;
+            padding-right: 200px;
             text-align: right;
+			margin-bottom:15px;
         }
 
         .formbilderBox {
@@ -57,7 +58,6 @@
             height: 15px;
             float: right;
             margin-right: 40px;
-            margin-top: 10px;
         }
 
         .progress-bar-inner {
@@ -122,14 +122,13 @@
 </head>
 <body>
 <c:set var="currentPage" value="${command.pages[command.currentPageIndex]}"/>
-
 <form:form method="post" name="myForm">
     <div class='progress-bar-outer'>
         <div class='progress-bar-inner'></div>
     </div>
     <tags:hasErrorsMessage hideErrorDetails="false"/>
     <div class="currentPagediv">
-        Page ${command.currentPageIndex + 1} of ${command.totalPages}
+        Progress:
     </div>
     <c:forEach items="${currentPage}" var="currentStudyParticipantCrfItem">
         <tags:formbuilderBox id="question_${currentStudyParticipantCrfItem.itemIndex}">
