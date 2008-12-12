@@ -188,7 +188,7 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 
 		Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
 		assertFalse(organizations.isEmpty());
-		int size = jdbcTemplate.queryForInt("select count(*) from organizations organizations where lower(organizations.nci_institute_code ) like '%nci%'");
+		int size = jdbcTemplate.queryForInt("select count(*) from organizations organizations where lower(organizations.nci_institute_code ) like '%nci%' or lower(organizations.name ) like '%nci%'");
 
 		assertEquals(size, organizations.size());
 
@@ -197,7 +197,7 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 
 		{
 			assertTrue(organization.getNciInstituteCode().toLowerCase().contains("nci")
-				|| organization.getNciInstituteCode().toLowerCase().contains("nci"));
+				|| organization.getName().toLowerCase().contains("nci"));
 		}
 
 	}
