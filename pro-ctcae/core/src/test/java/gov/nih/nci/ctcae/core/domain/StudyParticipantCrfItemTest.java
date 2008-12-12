@@ -36,31 +36,7 @@ public class StudyParticipantCrfItemTest extends TestCase {
 
     }
 
-    public void testEqulasHashCode() {
-        studyParticipantCrfItem = new StudyParticipantCrfItem();
-        StudyParticipantCrfItem studyParticipantCrfItem2 = new StudyParticipantCrfItem();
-
-        assertEquals(studyParticipantCrfItem2.hashCode(), studyParticipantCrfItem.hashCode());
-
-        CrfItem crfItem = new CrfItem();
-        ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
-        StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
-
-        studyParticipantCrfItem.setCrfItem(crfItem);
-        studyParticipantCrfItem.setProCtcValidValue(proCtcValidValue);
-        studyParticipantCrfItem.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
-        studyParticipantCrfItem.setId(1);
-
-
-        assertFalse(studyParticipantCrfItem.equals(studyParticipantCrfItem2));
-        studyParticipantCrfItem2.setCrfItem(crfItem);
-        studyParticipantCrfItem2.setProCtcValidValue(proCtcValidValue);
-        studyParticipantCrfItem2.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
-        studyParticipantCrfItem2.setId(1);
-        assertTrue(studyParticipantCrfItem.equals(studyParticipantCrfItem2));
-
-
-    }
+  
 
 
 }
