@@ -71,7 +71,6 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 	public void testSingle() {
 
 		OrganizationQuery organizationQuery = new OrganizationQuery();
-		organizationQuery.filterByNciInstituteCode("N");
 
 		Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
 		assertFalse(organizations.isEmpty());

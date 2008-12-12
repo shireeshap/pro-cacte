@@ -92,7 +92,7 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
 	public Persistable findSingle(Query query) {
 		List<? extends Persistable> persistables = find(query);
 		if (persistables.size() > 1) {
-			String message = "multiple results found for query:" + query;
+			String message = "multiple results found for query:" + query + "parameters " + ((AbstractQuery) query).getParameterMap().values();
 			logger.error(message + " " + query.getQueryString());
 
 			throw new CtcAeSystemException(message);
