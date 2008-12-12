@@ -109,6 +109,10 @@
         <subant target="migrate" buildpath="core/ivy-build.xml"/>
     </target>
 
+	<target name="migrate-sample-data" description="this for migrating sample data">
+        <subant target="migrate-sample-data" buildpath="core/ivy-build.xml"/>
+    </target>
+
 	<!-- ==========================================================
 				 target : insert-csm-policy
 				 This will delegate the call to ctcae-insert-csm-policy

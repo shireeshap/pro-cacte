@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<dataset>
+
+	<STUDIES
+		SHORT_TITLE="A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)"
+		LONG_TITLE="A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)"
+		DESCRIPTION="A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)"
+		ASSIGNED_IDENTIFIER="6882"
+		ID="-1001"
+		VERSION="0"/>
+
+	<STUDIES
+		SHORT_TITLE="A Phase I/II Trial of CCI-779 and Bevacizumab in Stage IV Renal Cell Carcinoma"
+		LONG_TITLE="A Phase I/II Trial of CCI-779 and Bevacizumab in Stage IV Renal Cell Carcinoma"
+		DESCRIPTION="A Phase I/II Trial of CCI-779 and Bevacizumab in Stage IV Renal Cell Carcinoma"
+		ASSIGNED_IDENTIFIER="6986"
+		ID="-1002"
+		VERSION="0"/>
+
+	<STUDIES
+		SHORT_TITLE="A Phase II Test Study"
+		LONG_TITLE="A Phase II Test Study"
+		DESCRIPTION="A Phase II Test Study"
+		ASSIGNED_IDENTIFIER="003"
+		ID="-1003"
+		VERSION="0"/>
+
+	<STUDY_ORGANIZATIONS
+		ORGANIZATION_ID="-1"
+		STUDY_ID="-1001"
+		TYPE="SST"
+		ID="-1001"
+		VERSION="0"/>
+
+	<STUDY_ORGANIZATIONS
+		ORGANIZATION_ID="-2"
+		STUDY_ID="-1001"
+		TYPE="SST"
+		ID="-1002"
+		VERSION="0"/>
+
+	<STUDY_ORGANIZATIONS
+		ORGANIZATION_ID="-3"
+		STUDY_ID="-1002"
+		TYPE="SST"
+		ID="-1003"
+		VERSION="0"/>
+
+	<STUDY_ORGANIZATIONS
+		ORGANIZATION_ID="-4"
+		STUDY_ID="-1002"
+		TYPE="SST"
+		ID="-1004"
+		VERSION="0"/>
+
+	<PARTICIPANTS
+		id="-100"
+		mrn_identifier="P001"
+		first_name="Bruce"
+		last_name="Tanner"
+		birth_date="1982-12-15"
+		gender="Male"
+		ethnicity="Hispanic or Latino"
+		race="Asian"
+		/>
+
+	<PARTICIPANTS
+		id="-101"
+		mrn_identifier="P002"
+		first_name="John"
+		last_name="Miller"
+		birth_date="1982-12-15"
+		gender="Male"
+		ethnicity="Hispanic or Latino"
+		race="Asian"
+		/>
+
+	<PARTICIPANTS
+		id="-102"
+		mrn_identifier="P003"
+		first_name="Newman"
+		last_name="Leslie"
+		birth_date="1982-12-15"
+		gender="Male"
+		ethnicity="Hispanic or Latino"
+		race="Asian"
+		/>
+
+	<study_participant_assignments
+		id="-100"
+		study_site_id="-1001"
+		participant_id="-100"
+		study_participant_identifier="12345"
+		/>
+
+	<study_participant_assignments
+		id="-101"
+		study_site_id="-1001"
+		participant_id="-101"
+		study_participant_identifier="12345"
+		/>
+
+	<study_participant_assignments
+		id="-102"
+		study_site_id="-1003"
+		participant_id="-100"
+		study_participant_identifier="12345"
+		/>
+
+	<study_participant_assignments
+		id="-103"
+		study_site_id="-1003"
+		participant_id="-101"
+		study_participant_identifier="12345"
+		/>
+
+
+
+</dataset>
