@@ -36,12 +36,7 @@ public class WebControllerValidatorImpl implements ApplicationContextAware, WebC
 	 * @return - false, in case of exception, otherwise will delegate to BeanWrapper.
 	 */
 	public static boolean isReadableProperty(BeanWrapper beanWrapper, String propertyName) {
-		try {
-			return beanWrapper.isReadableProperty(propertyName);
-		} catch (RuntimeException e) {
-			logger.warn("error while reading property[" + propertyName + "]", e);
-		}
-		return false;
+		return beanWrapper.isReadableProperty(propertyName);
 	}
 
 	public void validate(final HttpServletRequest request, final Object command, final BindException errors) {
