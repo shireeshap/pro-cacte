@@ -71,7 +71,6 @@ public abstract class StudyOrganization extends BasePersistable {
 
 		StudyOrganization that = (StudyOrganization) o;
 
-		if (id != null ? !id.equals(that.id) : that.id != null) return false;
 		if (organization != null ? !organization.equals(that.organization) : that.organization != null) return false;
 		if (study != null ? !study.equals(that.study) : that.study != null) return false;
 
@@ -80,8 +79,7 @@ public abstract class StudyOrganization extends BasePersistable {
 
 	@Override
 	public int hashCode() {
-		int result = id != null ? id.hashCode() : 0;
-		result = 31 * result + (organization != null ? organization.hashCode() : 0);
+		int result = organization != null ? organization.hashCode() : 0;
 		result = 31 * result + (study != null ? study.hashCode() : 0);
 		return result;
 	}
