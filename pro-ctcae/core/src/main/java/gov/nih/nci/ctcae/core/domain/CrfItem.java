@@ -45,9 +45,6 @@ public class CrfItem extends BasePersistable {
 	public CrfItem() {
 	}
 
-	public CrfItem(Integer id) {
-		this.id = id;
-	}
 
 	public Boolean getResponseRequired() {
 		return responseRequired;
@@ -71,11 +68,6 @@ public class CrfItem extends BasePersistable {
 
 	public void setCrfItemAllignment(final CrfItemAllignment crfItemAllignment) {
 		this.crfItemAllignment = crfItemAllignment;
-	}
-
-	public CrfItem(Integer id, Integer displayOrder) {
-		this.id = id;
-		this.displayOrder = displayOrder;
 	}
 
 	public Integer getId() {
