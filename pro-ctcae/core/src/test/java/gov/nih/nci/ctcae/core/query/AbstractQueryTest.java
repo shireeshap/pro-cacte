@@ -36,6 +36,25 @@ public class AbstractQueryTest extends TestCase {
 
 	}
 
+	public void testJoinMultipleTimes() throws Exception {
+		TestQuery query = new TestQuery();
+		query.Join();
+		query.Join();
+		assertEquals(
+			"SELECT distinct(o) from Organization o join Participant order by o.id",
+			query.getQueryString());
+
+
+	}
+
+	public void testGetMaximumResults() throws Exception {
+		TestQuery query = new TestQuery();
+		query.setMaximumResults(30);
+		assertEquals(Integer.valueOf(30), query.getMaximumResults());
+
+
+	}
+
 
 	private class TestQuery extends AbstractQuery {
 
