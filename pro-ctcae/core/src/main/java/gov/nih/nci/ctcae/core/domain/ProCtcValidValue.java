@@ -33,14 +33,6 @@ public class ProCtcValidValue extends BasePersistable {
 	public ProCtcValidValue() {
 	}
 
-	public ProCtcValidValue(Integer id) {
-		this.id = id;
-	}
-
-	public ProCtcValidValue(final String displayName) {
-		this.displayName = displayName;
-	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -57,11 +49,12 @@ public class ProCtcValidValue extends BasePersistable {
 		this.value = value;
 	}
 
-	public ProCtcQuestion getProCtcTerm() {
+	public ProCtcQuestion getProCtcQuestion() {
 		return proCtcQuestion;
 	}
 
-	public void setProCtcTerm(ProCtcQuestion proCtcQuestion) {
+
+	public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {
 		this.proCtcQuestion = proCtcQuestion;
 	}
 

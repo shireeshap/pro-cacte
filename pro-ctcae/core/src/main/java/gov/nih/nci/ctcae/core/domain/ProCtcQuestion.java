@@ -89,7 +89,7 @@ public class ProCtcQuestion extends BasePersistable {
 
 	public void addValidValue(ProCtcValidValue validValue) {
 		if (validValue != null) {
-			validValue.setProCtcTerm(this);
+			validValue.setProCtcQuestion(this);
 			validValues.add(validValue);
 		}
 	}

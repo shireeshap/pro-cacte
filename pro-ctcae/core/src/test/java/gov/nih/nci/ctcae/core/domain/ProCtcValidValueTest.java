@@ -23,6 +23,14 @@ public class ProCtcValidValueTest extends TestCase {
 		assertEquals(Integer.valueOf(1), proCtcValidValue.getValue());
 	}
 
+	public void tesToString() {
+		proCtcValidValue = new ProCtcValidValue();
+		proCtcValidValue.setDisplayName("Severe");
+		proCtcValidValue.setValue(1);
+
+		assertEquals("1", proCtcValidValue.toString());
+	}
+
 	public void testEqualsAndHashCode() {
 		ProCtcValidValue anotherProCtcValidValue = null;
 
@@ -40,12 +48,24 @@ public class ProCtcValidValueTest extends TestCase {
 		anotherProCtcValidValue.setDisplayName("Severe");
 		assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
 		assertEquals(anotherProCtcValidValue, proCtcValidValue);
+
 		proCtcValidValue.setValue(1);
 		assertFalse(proCtcValidValue.equals(anotherProCtcValidValue));
-
 		anotherProCtcValidValue.setValue(1);
 		assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
 		assertEquals(anotherProCtcValidValue, proCtcValidValue);
+
+		ProCtcQuestion proCtcQuestion = new ProCtcQuestion();
+		proCtcValidValue.setProCtcQuestion(proCtcQuestion);
+		assertFalse(proCtcValidValue.equals(anotherProCtcValidValue));
+		anotherProCtcValidValue.setProCtcQuestion(proCtcQuestion);
+		assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
+		assertEquals(anotherProCtcValidValue, proCtcValidValue);
+
+		proCtcValidValue.setId(1);
+		anotherProCtcValidValue.setId(2);
+		assertEquals("must not consider id", anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
+		assertEquals("must not consider id", anotherProCtcValidValue, proCtcValidValue);
 
 	}
 
