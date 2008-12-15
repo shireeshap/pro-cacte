@@ -47,18 +47,33 @@ public class StudyParticipantCrfItemTest extends TestCase {
 		StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
 
 		studyParticipantCrfItem.setCrfItem(crfItem);
+		assertFalse(studyParticipantCrfItem2.equals(studyParticipantCrfItem));
+		studyParticipantCrfItem2.setCrfItem(crfItem);
+		assertTrue(studyParticipantCrfItem.equals(studyParticipantCrfItem2));
+		assertEquals(studyParticipantCrfItem2.hashCode(), studyParticipantCrfItem.hashCode());
+
 		studyParticipantCrfItem.setProCtcValidValue(proCtcValidValue);
+		assertFalse(studyParticipantCrfItem2.equals(studyParticipantCrfItem));
+		studyParticipantCrfItem2.setProCtcValidValue(proCtcValidValue);
+		assertTrue(studyParticipantCrfItem.equals(studyParticipantCrfItem2));
+		assertEquals(studyParticipantCrfItem2.hashCode(), studyParticipantCrfItem.hashCode());
+
 		studyParticipantCrfItem.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+		assertFalse(studyParticipantCrfItem2.equals(studyParticipantCrfItem));
+		studyParticipantCrfItem2.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+		assertTrue(studyParticipantCrfItem.equals(studyParticipantCrfItem2));
+		assertEquals(studyParticipantCrfItem2.hashCode(), studyParticipantCrfItem.hashCode());
+
+
 		studyParticipantCrfItem.setId(1);
 
+		assertTrue("must not consider id", studyParticipantCrfItem.equals(studyParticipantCrfItem2));
+		assertEquals("must not consider id", studyParticipantCrfItem2.hashCode(), studyParticipantCrfItem.hashCode());
 
-		assertFalse(studyParticipantCrfItem.equals(studyParticipantCrfItem2));
-		studyParticipantCrfItem2.setCrfItem(crfItem);
-		studyParticipantCrfItem2.setProCtcValidValue(proCtcValidValue);
-		studyParticipantCrfItem2.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
-		studyParticipantCrfItem2.setId(1);
-		assertTrue(studyParticipantCrfItem.equals(studyParticipantCrfItem2));
+		studyParticipantCrfItem2.setId(2);
 
+		assertTrue("must not consider id", studyParticipantCrfItem.equals(studyParticipantCrfItem2));
+		assertEquals("must not consider id", studyParticipantCrfItem2.hashCode(), studyParticipantCrfItem.hashCode());
 
 	}
 
