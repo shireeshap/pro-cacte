@@ -7,7 +7,6 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -152,7 +151,7 @@ public class CRF extends BaseVersionable {
 	 * @param proCtcQuestion
 	 * @param displayOrder
 	 */
-	public void addOrUpdateCrfItem(final ProCtcQuestion proCtcQuestion, final int displayOrder) {
+	public void addOrUpdateCrfItem(final ProCtcQuestion proCtcQuestion, final Integer displayOrder) {
 		CrfItem crfItem = new CrfItem();
 		crfItem.setProCtcQuestion(proCtcQuestion);
 		crfItem.setDisplayOrder(displayOrder);
@@ -166,10 +165,7 @@ public class CRF extends BaseVersionable {
 				return;
 			}
 		}
-		if (crfItem.getDisplayOrder() == null || crfItem.getDisplayOrder() == 0) {
-			crfItem.setDisplayOrder(getCrfItems().size() + 1);
-
-		}
+		updateOrderNumber(crfItem);
 		crfItem.setCrf(this);
 		crfItems.add(crfItem);
 
@@ -188,21 +184,25 @@ public class CRF extends BaseVersionable {
 		CrfItem existingCrfItem = getCrfItemByQuestion(crfItem.getProCtcQuestion());
 		if (existingCrfItem != null) {
 			//we are updating order only  and removing properties
-			existingCrfItem.setDisplayOrder(crfItem.getDisplayOrder());
+			existingCrfItem.setDisplayOrder(getCrfItems().size());
 			existingCrfItem.setCrfItemAllignment(null);
 			existingCrfItem.setInstructions(null);
 			existingCrfItem.setResponseRequired(Boolean.FALSE);
 			return;
 		}
 
-		if (crfItem.getDisplayOrder() == null || crfItem.getDisplayOrder() == 0) {
-			crfItem.setDisplayOrder(getCrfItems().size() + 1);
-
-		}
+		updateOrderNumber(crfItem);
 		crfItem.setCrf(this);
 		crfItems.add(crfItem);
 
 
+	}
+
+	private void updateOrderNumber(final CrfItem crfItem) {
+		if (crfItem.getDisplayOrder() == null || crfItem.getDisplayOrder() == 0) {
+			crfItem.setDisplayOrder(getCrfItems().size() + 1);
+
+		}
 	}
 
 	public CrfItem getCrfItemByQuestion(final ProCtcQuestion proCtcQuestion) {
