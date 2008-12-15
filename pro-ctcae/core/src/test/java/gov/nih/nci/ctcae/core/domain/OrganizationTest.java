@@ -24,6 +24,14 @@ public class OrganizationTest extends TestCase {
 		assertEquals("NCI", organization.getNciInstituteCode());
 	}
 
+	public void testToString() {
+		organization = new Organization();
+		organization.setName("National Cancer Institute");
+		organization.setNciInstituteCode("NCI");
+
+		assertEquals("National Cancer Institute ( NCI )", organization.toString());
+	}
+
 	public void testGetDisplayName() {
 		organization = new Organization();
 		organization.setName("National Cancer Institute");

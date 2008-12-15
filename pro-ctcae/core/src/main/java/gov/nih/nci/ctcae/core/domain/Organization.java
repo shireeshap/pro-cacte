@@ -90,6 +90,6 @@ public class Organization extends BaseVersionable {
 
 	@Override
 	public String toString() {
-		return name + " (" + nciInstituteCode + ")";
+		return getDisplayName();
 	}
 }
