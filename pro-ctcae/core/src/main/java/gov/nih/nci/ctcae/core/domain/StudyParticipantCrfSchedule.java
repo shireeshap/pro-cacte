@@ -109,25 +109,19 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 		StudyParticipantCrfSchedule that = (StudyParticipantCrfSchedule) o;
 
 		if (dueDate != null ? !dueDate.equals(that.dueDate) : that.dueDate != null) return false;
-		if (id != null ? !id.equals(that.id) : that.id != null) return false;
 		if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
 		if (status != that.status) return false;
 		if (studyParticipantCrf != null ? !studyParticipantCrf.equals(that.studyParticipantCrf) : that.studyParticipantCrf != null)
 			return false;
-		if (studyParticipantCrfItems != null ? !studyParticipantCrfItems.equals(that.studyParticipantCrfItems) : that.studyParticipantCrfItems != null)
-			return false;
-
 		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		int result = id != null ? id.hashCode() : 0;
-		result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+		int result = startDate != null ? startDate.hashCode() : 0;
 		result = 31 * result + (dueDate != null ? dueDate.hashCode() : 0);
 		result = 31 * result + (status != null ? status.hashCode() : 0);
 		result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
-		result = 31 * result + (studyParticipantCrfItems != null ? studyParticipantCrfItems.hashCode() : 0);
 		return result;
 	}
 }
