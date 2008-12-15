@@ -94,7 +94,6 @@ public class StudyCrf extends BaseVersionable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((crf == null) ? 0 : crf.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((study == null) ? 0 : study.hashCode());
 		return result;
 	}
@@ -112,11 +111,6 @@ public class StudyCrf extends BaseVersionable {
 			if (other.crf != null)
 				return false;
 		} else if (!crf.equals(other.crf))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
 			return false;
 		if (study == null) {
 			if (other.study != null)
