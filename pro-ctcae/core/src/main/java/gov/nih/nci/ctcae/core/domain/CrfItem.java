@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal
@@ -152,5 +153,9 @@ public class CrfItem extends BasePersistable {
 //        return "[DISPLAY ORDER: CRF : QUESTION] " + displayOrder + " : "
 //                + crf.getTitle() + " : " + proCtcQuestion.getQuestionText();
 //    }
+
+	public boolean shouldDisplay(List<ProCtcValidValue> selectedProCtcValidValues) {
+		return true;
+	}
 
 }
