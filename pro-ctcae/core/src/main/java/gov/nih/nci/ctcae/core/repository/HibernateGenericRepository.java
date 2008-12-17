@@ -34,7 +34,7 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
 		if (persistable.isPersisted()) {
 			persistable = (T) getHibernateTemplate().merge(persistable);
 		} else {
-			getHibernateTemplate().persist(persistable);
+			getHibernateTemplate().saveOrUpdate(persistable);
 		}
 		return persistable;
 	}

@@ -1,10 +1,15 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Harsh Agarwal
@@ -42,6 +47,11 @@ public class CrfItem extends BasePersistable {
 	@Enumerated(value = EnumType.STRING)
 	@Column(name = "allignment")
 	private CrfItemAllignment crfItemAllignment = CrfItemAllignment.VERTICAL;
+
+	@OneToMany(mappedBy = "crfItem", fetch = FetchType.LAZY)
+	@Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	private Set<CrfItemDisplayRule> crfItemDisplayRules = new HashSet<CrfItemDisplayRule>();
+
 
 	public CrfItem() {
 	}
@@ -153,6 +163,47 @@ public class CrfItem extends BasePersistable {
 //        return "[DISPLAY ORDER: CRF : QUESTION] " + displayOrder + " : "
 //                + crf.getTitle() + " : " + proCtcQuestion.getQuestionText();
 //    }
+
+
+	public Set<CrfItemDisplayRule> getCrfItemDisplayRules() {
+		return crfItemDisplayRules;
+	}
+
+
+	public void removeCrfItemDisplayRulesByIds(final String objectsIdsToRemove) {
+		Set<String> ids = org.springframework.util.StringUtils.commaDelimitedListToSet(objectsIdsToRemove);
+
+		List<CrfItemDisplayRule> crfItemDisplayRulesToRemove = new ArrayList<CrfItemDisplayRule>();
+		for (String id : ids) {
+			CrfItemDisplayRule crfItemDisplayRule = getCrfDisplayRuleById(Integer.valueOf(id));
+			crfItemDisplayRulesToRemove.add(crfItemDisplayRule);
+		}
+
+		for (CrfItemDisplayRule crfItemDisplayRule : crfItemDisplayRulesToRemove) {
+			this.removeCrfItemDisplayRule(crfItemDisplayRule);
+		}
+	}
+
+	private CrfItemDisplayRule getCrfDisplayRuleById(final Integer id) {
+		for (CrfItemDisplayRule crfItemDisplayRule : getCrfItemDisplayRules()) {
+			if (crfItemDisplayRule.getId().equals(id)) {
+				return crfItemDisplayRule;
+			}
+		}
+		return null;
+	}
+
+	private void removeCrfItemDisplayRule(final CrfItemDisplayRule crfItemDisplayRule) {
+
+		getCrfItemDisplayRules().remove(crfItemDisplayRule);
+	}
+
+	public void addCrfItemDisplayRules(CrfItemDisplayRule crfItemDisplayRule) {
+		if (crfItemDisplayRule != null) {
+			crfItemDisplayRule.setCrfItem(this);
+			getCrfItemDisplayRules().add(crfItemDisplayRule);
+		}
+	}
 
 	public boolean shouldDisplay(List<ProCtcValidValue> selectedProCtcValidValues) {
 		return true;

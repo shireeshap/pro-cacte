@@ -26,6 +26,7 @@
 		<value>gov.nih.nci.ctcae.core.domain.ClinicalStaff</value>
 		<value>gov.nih.nci.ctcae.core.domain.CRF</value>
 		<value>gov.nih.nci.ctcae.core.domain.CrfItem</value>
+		<value>gov.nih.nci.ctcae.core.domain.CrfItemDisplayRule</value>
 		<value>gov.nih.nci.ctcae.core.domain.CtcCategory</value>
 		<value>gov.nih.nci.ctcae.core.domain.Person</value>
 		<value>gov.nih.nci.ctcae.core.domain.Participant</value>
@@ -90,6 +91,7 @@
 		<value>gov.nih.nci.ctcae.core.domain.ClinicalStaff</value>
 		<value>gov.nih.nci.ctcae.core.domain.CRF</value>
 		<value>gov.nih.nci.ctcae.core.domain.CrfItem</value>
+		<value>gov.nih.nci.ctcae.core.domain.CrfItemDisplayRule</value>
 		<value>gov.nih.nci.ctcae.core.domain.CtcCategory</value>
 		<value>gov.nih.nci.ctcae.core.domain.Person</value>
 		<value>gov.nih.nci.ctcae.core.domain.Participant</value>

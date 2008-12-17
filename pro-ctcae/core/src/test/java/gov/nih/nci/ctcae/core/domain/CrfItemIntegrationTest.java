@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
@@ -10,6 +11,8 @@ import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
+
+import java.util.Collection;
 
 /**
  * @author Harsh Agarwal
@@ -28,10 +31,12 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 	private ProCtcTerm proProCtcTerm;
 	private CrfItem crfItem, invalidCrfItem;
 
+	private CrfItemDisplayRule crfItemDisplayRule, anotherCrfItemDisplayRule;
+
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
 		super.onSetUpInTransaction();
-		createCrf();
+		crf = Fixture.createCrf();
 		proCtc = proCtcRepository.find(new ProCtcQuery()).iterator().next();
 		assertNotNull(proCtc);
 
@@ -39,36 +44,9 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 		assertNotNull(proProCtcTerm);
 
 
-		proCtcQuestion = proCtcQuestionRepository.find(new ProCtcQuestionQuery()).iterator().next();
+		Collection<ProCtcQuestion> questions = proCtcQuestionRepository.find(new ProCtcQuestionQuery());
+		proCtcQuestion = questions.iterator().next();
 
-
-	}
-
-	private void saveCrfItem() {
-
-		crfItem = new CrfItem();
-		crfItem.setCrf(crf);
-		crfItem.setProCtcQuestion(proCtcQuestion);
-		crfItem.setDisplayOrder(1);
-		crf.addCrfItem(crfItem);
-		crf = crfRepository.save(crf);
-	}
-
-	private void createCrf() {
-		crf = new CRF();
-		crf.setTitle("Cancer CRF");
-		crf.setDescription("Case Report Form for Cancer Patients");
-		crf.setStatus(CrfStatus.DRAFT);
-		crf.setCrfVersion("1.0");
-	}
-
-
-	public void testSaveCrfItem() {
-		saveCrfItem();
-		assertNotNull(crfItem.getId());
-	}
-
-	public void testSaveCrfItemWithAdditionalProperties() {
 		crfItem = new CrfItem();
 		crfItem.setCrf(crf);
 		crfItem.setProCtcQuestion(proCtcQuestion);
@@ -78,18 +56,81 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 		crfItem.setResponseRequired(Boolean.TRUE);
 
 		crf.addCrfItem(crfItem);
+
+		crfItemDisplayRule = Fixture.createCrfItemDisplayRules(null, 1);
+		anotherCrfItemDisplayRule = Fixture.createCrfItemDisplayRules(null, 2);
+
+	}
+
+
+	private CRF saveCrfItemWithDisplayRule() {
+		crfItem.addCrfItemDisplayRules(crfItemDisplayRule);
 		crf = crfRepository.save(crf);
+		return crf;
+	}
 
-		CrfItem anotherCrfItem = crf.getCrfItems().get(0);
+	public void testSaveCrfItem() {
+		crf = crfRepository.save(crf);
+		crfItem = crf.getCrfItems().iterator().next();
 
-		assertNotNull(anotherCrfItem.getId());
 		assertNotNull(crfItem.getId());
-		assertEquals(CrfItemAllignment.HORIZONTAL, anotherCrfItem.getCrfItemAllignment());
-		assertEquals("instructions", anotherCrfItem.getInstructions());
-		assertTrue(anotherCrfItem.getResponseRequired());
+		assertEquals(CrfItemAllignment.HORIZONTAL, crfItem.getCrfItemAllignment());
+		assertEquals("instructions", crfItem.getInstructions());
+		assertTrue(crfItem.getResponseRequired());
+
+	}
+
+
+	public void testAddCrfItemDisplayRuleInCreateCrfItem() {
+
+		crf = saveCrfItemWithDisplayRule();
+		crfItem = crf.getCrfItems().iterator().next();
+
+		CrfItemDisplayRule savedCrfItemDisplayRule = crfItem.getCrfItemDisplayRules().iterator().next();
+		assertNotNull(savedCrfItemDisplayRule.getId());
+		assertEquals(crfItem, savedCrfItemDisplayRule.getCrfItem());
+		assertEquals(ProCtcValidValue.class.getName(), savedCrfItemDisplayRule.getRequiredObjectClass());
+		assertEquals(Integer.valueOf(1), savedCrfItemDisplayRule.getRequiredObjectId());
+	}
+
+	public void testAddCrfItemDisplayRuleInEditCrfItem() {
+
+		crf = saveCrfItemWithDisplayRule();
+		crfItem = crf.getCrfItems().iterator().next();
+		assertNotNull(crfItem.getId());
+
+		crfItem.addCrfItemDisplayRules(anotherCrfItemDisplayRule);
+		crf = crfRepository.save(crf);
+		crfItem = crf.getCrfItems().iterator().next();
+		assertFalse("must save crf item display rule", crfItem.getCrfItemDisplayRules().isEmpty());
+		assertEquals(Integer.valueOf(2), Integer.valueOf(crfItem.getCrfItemDisplayRules().size()));
+		for (CrfItemDisplayRule savedCrfItemDisplayRule : crfItem.getCrfItemDisplayRules()) {
+			assertNotNull(crfItemDisplayRule.getId());
+			assertEquals(crfItem, savedCrfItemDisplayRule.getCrfItem());
+		}
+
+	}
+
+
+	public void testDeleteCrfItemDisplayRule() {
+
+
+		crf = saveCrfItemWithDisplayRule();
+		crfItem = crf.getCrfItems().iterator().next();
+
+		assertNotNull(crfItem.getId());
+		Integer id = crfItem.getCrfItemDisplayRules().iterator().next().getId();
+		assertNotNull(id);
+
+		crfItem.removeCrfItemDisplayRulesByIds(String.valueOf(id));
+		crf = crfRepository.save(crf);
+		crfItem = crf.getCrfItems().iterator().next();
+		assertNotNull(crfItem.getId());
+		assertTrue("must remove crf item display rule", crfItem.getCrfItemDisplayRules().isEmpty());
 
 
 	}
+
 
 	public void testSavingNullCrfItem() {
 		invalidCrfItem = new CrfItem();
