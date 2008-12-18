@@ -25,7 +25,7 @@
 <c:if test="${empty willSave}"><c:set var="willSave" value="${true}"/></c:if>
 <form:form name="${formName}" enctype="${enctype}" id="command">
 
-    <tags:tabContent notDisplayInBox="${notDisplayInBox}" tab="${tab}" title="${title}">
+    <tags:tabContent notDisplayInBox="${notDisplayInBox}" tab="${tab}" title="${title}" boxClass="${boxClass}">
         <jsp:attribute name="tabContent">
         <chrome:flashMessage/>
 
@@ -44,7 +44,7 @@
                 <jsp:invoke fragment="localButtons"/>
 
             </div>
-            <br><br><br>
+            
 
     </jsp:attribute>
 

@@ -43,9 +43,8 @@
 	</c:otherwise>
 </c:choose>
 
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="createForm" hideErrorDetails="true">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="createForm" hideErrorDetails="true" boxClass="small">
     <jsp:attribute name="singleFields">
-
         <p><tags:instructions code="instruction_select_study"/></p>
         <tags:renderAutocompleter propertyName="studyCrf.study" required="true" displayName="form.label.study"
 								  size="70"/>
