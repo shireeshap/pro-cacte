@@ -72,6 +72,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/032_add_organizations_6.gro
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/033_add_organizations_7.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/034_add_organizations_8.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/035_drop_duplicate_organization.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/001_alter_crf.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/001_create_crf_items_display_rules.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
