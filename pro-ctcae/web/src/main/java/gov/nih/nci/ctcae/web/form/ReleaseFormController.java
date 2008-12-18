@@ -12,6 +12,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 /**
  * @author Vinay Kumar
@@ -33,6 +34,7 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
 
 		Integer studyCrfId = ServletRequestUtils.getIntParameter(request, "studyCrfId");
 		StudyCrf studyCrf = finderRepository.findAndInitializeStudyCrf(studyCrfId);
+        studyCrf.getCrf().setEffectiveStartDate(new Date());
 		return studyCrf;
 
 

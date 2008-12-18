@@ -38,6 +38,8 @@
 							<strong>${command.crf.title}</strong>.
 
 							You will no longer be able to edit it.
+                            Please provide the date on which this form will be effective.
+                            <tags:renderDate propertyName="crf.effectiveStartDate" displayName="form.label.effective_start_date" required="true"/>
 						</p>
 
 						<p>
