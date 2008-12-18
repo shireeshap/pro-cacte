@@ -1,8 +1,10 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CrfItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
+import gov.nih.nci.ctcae.web.ListValues;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,25 +17,31 @@ import javax.servlet.http.HttpServletResponse;
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
-public class AddOneQuestionController extends AbstractController {
+public class AddOneCrfItemController extends AbstractController {
 
 
 	private FinderRepository finderRepository;
 
 	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-		ModelAndView modelAndView = new ModelAndView("form/ajax/oneQustionSection");
+		ModelAndView modelAndView = new ModelAndView("form/ajax/oneCrfItemSection");
 
 
 		Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
 
+
 		ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
 		CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 		if (proCtcQuestion != null) {
-			createFormCommand.getStudyCrf().getCrf().removeExistingAndAddNewCrfItem(proCtcQuestion);
-			modelAndView.addObject("proCtcQuestion", proCtcQuestion);
+			CrfItem crfItem = createFormCommand.getStudyCrf().getCrf().removeExistingAndAddNewCrfItem(proCtcQuestion);
+			modelAndView.addObject("crfItem", crfItem);
+			int index = createFormCommand.getStudyCrf().getCrf().getCrfItems().size() - 1;
+			modelAndView.addObject("index", index);
+			modelAndView.addObject("responseRequired", ListValues.getResponseRequired());
+			modelAndView.addObject("crfItemAllignments", ListValues.getCrfItemAllignments());
+
 		} else {
-			logger.error("can not add question because pro ctc term is null for id:" + questionId);
+			logger.error("can not add question because can not find any question for given question id:" + questionId);
 			return null;
 		}
 
@@ -43,7 +51,7 @@ public class AddOneQuestionController extends AbstractController {
 	}
 
 
-	public AddOneQuestionController() {
+	public AddOneCrfItemController() {
 		setSupportedMethods(new String[]{"GET"});
 
 	}

@@ -145,4 +145,9 @@ public class ProCtcQuestion extends BasePersistable {
 	public String getDisplayName() {
 		return questionText + " " + proCtcTerm.getCtepTerm();
 	}
+
+	public String getShortText() {
+		return proCtcTerm.getTerm() + "-" + questionText;
+
+	}
 }

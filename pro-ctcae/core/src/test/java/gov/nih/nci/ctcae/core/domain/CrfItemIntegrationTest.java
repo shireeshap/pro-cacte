@@ -71,7 +71,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 
 	public void testSaveCrfItem() {
 		crf = crfRepository.save(crf);
-		crfItem = crf.getCrfItems().iterator().next();
+		crfItem = crf.getCrfItemsSortedByDislayOrder().iterator().next();
 
 		assertNotNull(crfItem.getId());
 		assertEquals(CrfItemAllignment.HORIZONTAL, crfItem.getCrfItemAllignment());
@@ -84,7 +84,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 	public void testAddCrfItemDisplayRuleInCreateCrfItem() {
 
 		crf = saveCrfItemWithDisplayRule();
-		crfItem = crf.getCrfItems().iterator().next();
+		crfItem = crf.getCrfItemsSortedByDislayOrder().iterator().next();
 
 		CrfItemDisplayRule savedCrfItemDisplayRule = crfItem.getCrfItemDisplayRules().iterator().next();
 		assertNotNull(savedCrfItemDisplayRule.getId());
@@ -96,12 +96,12 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 	public void testAddCrfItemDisplayRuleInEditCrfItem() {
 
 		crf = saveCrfItemWithDisplayRule();
-		crfItem = crf.getCrfItems().iterator().next();
+		crfItem = crf.getCrfItemsSortedByDislayOrder().iterator().next();
 		assertNotNull(crfItem.getId());
 
 		crfItem.addCrfItemDisplayRules(anotherCrfItemDisplayRule);
 		crf = crfRepository.save(crf);
-		crfItem = crf.getCrfItems().iterator().next();
+		crfItem = crf.getCrfItemsSortedByDislayOrder().iterator().next();
 		assertFalse("must save crf item display rule", crfItem.getCrfItemDisplayRules().isEmpty());
 		assertEquals(Integer.valueOf(2), Integer.valueOf(crfItem.getCrfItemDisplayRules().size()));
 		for (CrfItemDisplayRule savedCrfItemDisplayRule : crfItem.getCrfItemDisplayRules()) {
@@ -116,7 +116,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 
 
 		crf = saveCrfItemWithDisplayRule();
-		crfItem = crf.getCrfItems().iterator().next();
+		crfItem = crf.getCrfItemsSortedByDislayOrder().iterator().next();
 
 		assertNotNull(crfItem.getId());
 		Integer id = crfItem.getCrfItemDisplayRules().iterator().next().getId();
@@ -124,7 +124,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 
 		crfItem.removeCrfItemDisplayRulesByIds(String.valueOf(id));
 		crf = crfRepository.save(crf);
-		crfItem = crf.getCrfItems().iterator().next();
+		crfItem = crf.getCrfItemsSortedByDislayOrder().iterator().next();
 		assertNotNull(crfItem.getId());
 		assertTrue("must remove crf item display rule", crfItem.getCrfItemDisplayRules().isEmpty());
 

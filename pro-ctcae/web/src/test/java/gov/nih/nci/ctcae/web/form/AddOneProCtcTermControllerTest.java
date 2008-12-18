@@ -53,6 +53,6 @@ public class AddOneProCtcTermControllerTest extends WebTestCase {
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
 		verifyMocks();
 		assertNotNull("must not return null because there is one proCtcTerm  for given id", modelAndView);
-		assertEquals("must return proCtcTerm", proCtcTerm, modelAndView.getModel().get("proCtcTerm"));
+		assertNotNull("must return crfItems", modelAndView.getModel().get("crfItems"));
 	}
 }

@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.web.ListValues;
 
 import java.util.*;
 
@@ -50,7 +51,9 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
 
 
 		map.put("ctcCategoryMap", result);
-		map.put("totalQuestions", command.getStudyCrf().getCrf().getCrfItems().size());
+		map.put("totalQuestions", command.getStudyCrf().getCrf().getCrfItemsSortedByDislayOrder().size());
+		map.put("responseRequired", ListValues.getResponseRequired());
+		map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
 
 		return map;
 

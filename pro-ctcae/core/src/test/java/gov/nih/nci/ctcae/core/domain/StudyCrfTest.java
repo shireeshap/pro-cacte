@@ -69,7 +69,7 @@ public class StudyCrfTest extends TestCase {
 		assertEquals(studyCrf1.getStudy(), studyCrf2.getStudy());
 		assertEquals(studyCrf1.getCrf().getCrfVersion(), studyCrf2.getCrf().getCrfVersion());
 		assertEquals(studyCrf1.getCrf().getDescription(), studyCrf2.getCrf().getDescription());
-		assertEquals(studyCrf1.getCrf().getCrfItems(), studyCrf2.getCrf().getCrfItems());
+		assertEquals(studyCrf1.getCrf().getCrfItemsSortedByDislayOrder(), studyCrf2.getCrf().getCrfItemsSortedByDislayOrder());
 		assertEquals(studyCrf1.getCrf().getStatus(), studyCrf2.getCrf().getStatus());
 
 

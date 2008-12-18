@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CrfItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -10,9 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Vinay Kumar
  * @crated Oct 18, 2008
  */
-public class AddOneQuestionControllerTest extends WebTestCase {
+public class AddOneCrfItemControllerTest extends WebTestCase {
 
-	private AddOneQuestionController controller;
+	private AddOneCrfItemController controller;
 
 	private FinderRepository finderRepository;
 	private ProCtcQuestion proCtcQuestion;
@@ -21,7 +22,7 @@ public class AddOneQuestionControllerTest extends WebTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		controller = new AddOneQuestionController();
+		controller = new AddOneCrfItemController();
 		finderRepository = registerMockFor(FinderRepository.class);
 		controller.setFinderRepository(finderRepository);
 		proCtcQuestion = new ProCtcQuestion();
@@ -37,7 +38,6 @@ public class AddOneQuestionControllerTest extends WebTestCase {
 
 	public void testHandleRequestIfQuestionIdIsWrong() throws Exception {
 		request.addParameter("questionId", new String[]{"1"});
-		request.addParameter("displayOrder", new String[]{"1"});
 		expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(null);
 		replayMocks();
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
@@ -49,12 +49,16 @@ public class AddOneQuestionControllerTest extends WebTestCase {
 		request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
 
 		request.addParameter("questionId", new String[]{"1"});
-		request.addParameter("displayOrder", new String[]{"1"});
 		expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(proCtcQuestion);
 		replayMocks();
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
 		verifyMocks();
 		assertNotNull("must not return null because there is one question  for given id", modelAndView);
-		assertEquals("must return proctc question", proCtcQuestion, modelAndView.getModel().get("proCtcQuestion"));
+		assertNotNull("must return crfItem", modelAndView.getModel().get("crfItem"));
+
+		CrfItem crfItem = (CrfItem) modelAndView.getModel().get("crfItem");
+		assertNotNull("must return CrfItem", crfItem);
+		assertEquals("must return proctc question", proCtcQuestion, crfItem.getProCtcQuestion());
 	}
+
 }

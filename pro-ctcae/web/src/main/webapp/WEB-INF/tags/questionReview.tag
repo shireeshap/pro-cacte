@@ -45,7 +45,7 @@
 				  </c:otherwise>
 			  </c:choose>
 
-              <div id="horizontalCrfItems" style="${horizontalCrfItemsStyle}">
+              <div id="horizontalCrfItems_${crfItem.proCtcQuestion.id}" style="${horizontalCrfItemsStyle}">
 				  <br>
 				  <br>
 				  <c:forEach items="${crfItem.proCtcQuestion.validValues}" var="validValue"
@@ -53,7 +53,7 @@
 					  <input type="radio" disabled="true"> ${validValue.displayName}
 				  </c:forEach>
 			  </div>
-              <div id="verticalCrfItems" style="${verticalCrfItemsStyle}">
+              <div id="verticalCrfItems_${crfItem.proCtcQuestion.id}" style="${verticalCrfItemsStyle}">
 				  <ul>
 					  <c:forEach items="${crfItem.proCtcQuestion.validValues}" var="proCtcValidValue">
 						  <li>${proCtcValidValue.displayName}</li>

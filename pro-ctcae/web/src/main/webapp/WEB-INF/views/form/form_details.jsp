@@ -75,8 +75,10 @@ function sortQustions() {
 			updateQuestionsId();
 
 		},
-		onChange:function() {
+		onChange:function(item) {
 			reOrderQuestionNumber();
+			var questionId = item.id.substr(9, item.id.length);
+			showCrfItemPropertiesTab(questionId);
 		}
 
 	})
@@ -94,13 +96,25 @@ function displayReviewLink() {
 	}
 }
 function reOrderQuestionNumber() {
-	var i = 1;
+	var i = 0;
 	$$("div.sortableSpan").each(function (item) {
-		item.innerHTML = i;
+		item.innerHTML = i + 1;
+		var orderNumberAtCrfItemPropertiesPage = $$("span.sortableSpan")[parseInt(item.id) - 1];
+		orderNumberAtCrfItemPropertiesPage.innerHTML = i + 1;
 		i = i + 1;
 
 
 	})
+
+
+}
+function updateOrderId() {
+	var i = 0;
+	$$("div.sortableSpan").each(function (item) {
+		item.id = i + 1;
+
+	})
+
 
 }
 function hideQuestionsFromForm() {
@@ -130,15 +144,7 @@ function hideProCtcTermLinkFromForm(proCtcTermId) {
 function showQuestionInForm(questionId) {
 	$('question_' + questionId).show();
 }
-function addQuestionDiv(transport) {
-	var response = transport.responseText;
-	new Insertion.Before("hiddenDiv", response);
-	sortQustions()
-	updateQuestionsId()
-	reOrderQuestionNumber();
 
-
-}
 function addProCtcTermDiv(transport) {
 	var response = transport.responseText;
 	new Insertion.Before("hiddenDiv", response);
@@ -149,17 +155,27 @@ function addProCtcTermDiv(transport) {
 
 
 }
-function addQuestion(questionId, proCtcTermId) {
+function addCrfItem(questionId, proCtcTermId) {
 	var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
-	var request = new Ajax.Request("<c:url value="/pages/form/addOneQuestion"/>", {
+	var request = new Ajax.Request("<c:url value="/pages/form/addOneCrfItem"/>", {
 		parameters:"questionId=" + questionId + "&subview=subview&displayOrder=" + displayOrder,
-		onComplete:addQuestionDiv,
+		onComplete:function (transport) {
+			var response = transport.responseText;
+			new Insertion.Before("hiddenDiv", response);
+			sortQustions()
+			updateQuestionsId()
+			addCrfItemPropertiesHtml(questionId);
+			reOrderQuestionNumber();
+
+
+		},
 		method:'get'
 	})
 	hideQuestionFromForm(questionId);
 	hideProCtcTermLinkFromForm(proCtcTermId);
 	$('totalQuestions').value = displayOrder;
 	$('totalQuestionDivision').innerHTML = displayOrder;
+
 
 }
 function addProctcTerm(proCtcTermId) {
@@ -204,8 +220,11 @@ function updateQuestionsId() {
 
 function deleteQuestion(questionId) {
 	$('sortable_' + questionId).remove();
+	$('questionProperties_' + questionId).remove();
+
 	sortQustions();
 	updateQuestionsId();
+	updateOrderId();
 	reOrderQuestionNumber()
 	showQuestionInForm(questionId);
 
@@ -213,7 +232,6 @@ function deleteQuestion(questionId) {
 
 
 function reviewForm() {
-	var firstQuestion = $$('div.sortable')[0].id;
 	var firstQuestion = $$('div.sortable')[0].id;
 	var nextQuestionIndex = 1;
 	if ($('totalQuestions').value == '1') {
@@ -238,15 +256,7 @@ function reviewCompleteForm() {
 	}
 
 }
-function playForm() {
 
-	new PeriodicalExecuter(function(pe) {
-		nextQuestionIndex(0);
-
-	}, 3);//display questions in 3 seconds
-
-
-}
 function showNextQuestion(quesitonIndex) {
 	nextQuestionIndex(quesitonIndex);
 	//  return parseInt(quesitonIndex) + parseInt(1);
@@ -262,79 +272,25 @@ function showQuestionForReview(firstQuestion, displayOrder, nextQuestionIndex, p
 	})
 
 }
-function addCrfItemProperties(questionId) {
-
-	var request = new Ajax.Request("<c:url value="/pages/form/addCrfItemProperties"/>", {
-		parameters:"questionId=" + questionId + "&subview=subview",
-		onComplete:showCrfItemPropertiesWindow,
-		method:'get'
-	})
-
-}
-
-function showCrfItemPropertiesWindow(transport) {
-	var win = Windows.getFocusedWindow();
-	if (win == null) {
-		win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-			true, title: "", height:500, width: 650,top:200,left:250});
-		win.setDestroyOnClose();
-		win.setHTMLContent(transport.responseText);
-		win.show(true)
-
-	} else {
-		win.setHTMLContent(transport.responseText);
-		win.refresh();
-	}
 
 
-}
-function updateCrfItemroperties(value, propertyName) {
-	if (propertyName == 'crfItem.crfItemAllignment') {
-		$('crfItem.crfItemAllignment').value = value;
+function updateCrfItemroperties(value, propertyName,questionId) {
+	if (propertyName.include('crfItemAllignment')) {
 		if (value == 'Vertical') {
-			$('horizontalCrfItems').hide();
-			$('verticalCrfItems').show();
+
+			$('horizontalCrfItems_'+questionId).hide();
+			$('verticalCrfItems_'+questionId).show();
 
 		}
 		if (value == 'Horizontal') {
-			$('verticalCrfItems').hide();
-			$('horizontalCrfItems').show();
+			$('verticalCrfItems_'+questionId).hide();
+			$('horizontalCrfItems_'+questionId).show();
 
 		}
 	}
-	if (propertyName == 'crfItem.responseRequired') {
-		$('crfItem.responseRequired').value = value;
-	}
-}
-function submitCrfItemPropertiesWindow(questionId) {
-
-
-	var aElement = '<c:url value="/pages/form/addCrfItemProperties"/>';
-
-
-	var lastRequest = new Ajax.Request(aElement, {
-		method: 'post',
-		parameters: {
-			'instructions': $('crfItem.instructions').value
-			,'crfItemAllignment': $('crfItem.crfItemAllignment').value
-			,'responseRequired': $('crfItem.responseRequired').value
-			,'subview':'test',
-			'questionId':questionId},
-		onSuccess: closeCrfItemPropertiesWindow,
-		onerror:   function() {
-			alert("There was an error with the connection");
-		},
-		onFailure: function() {
-			alert("There was an error with the connection");
-		}
-	});
 
 }
-function closeCrfItemPropertiesWindow(transport) {
-	var win = Windows.getFocusedWindow();
-	win.close();
 
-}
 
 
 function showReviewWindow(transport) {
@@ -389,6 +345,50 @@ function previousQuestion(questionIndex) {
 
 
 }
+function showForm() {
+	$('questionBank').show();
+	hideQuestionSettings();
+}
+function showQuestionSettings() {
+	hideQuestionBank();
+	hideCrfItemProperties();
+	if ($$('div.sortable').size() != 0) {
+		var firstQuestion = $$('div.sortable')[0].id;
+		var questionId = firstQuestion.substr(9, firstQuestion.length)
+		showCrfItemProperties(questionId);
+	}
+}
+function hideQuestionSettings() {
+	hideCrfItemProperties();
+}
+function hideCrfItemProperties() {
+	$$('div.questionProperties').each(function (item) {
+		item.hide();
+	})
+}
+function showCrfItemProperties(questionId) {
+	hideCrfItemProperties();
+
+	addCrfItemPropertiesHtml(questionId);
+	$('questionProperties_' + questionId).show();
+}
+function addCrfItemPropertiesHtml(questionId) {
+
+	var response = $('questionPropertiesDiv_' + questionId).innerHTML;
+
+	if (response != '') {
+		$('questionPropertiesDiv_' + questionId).innerHTML = '';
+		new Insertion.Before("questionProperties0", response);
+	}
+}
+function showCrfItemPropertiesTab(questionId) {
+	hideQuestionBank();
+	showCrfItemProperties(questionId);
+}
+function hideQuestionBank() {
+	$('questionBank').hide();
+}
+
 
 </script>
 <style type="text/css">
@@ -414,55 +414,75 @@ function previousQuestion(questionIndex) {
             <table id="formbuilderTable">
 				<tr>
 					<td id="left">
-
-
-						<div class="formbuilderHeader"><tags:message code='form.label.question_bank'/></div>
-
-						<ul class="tree">
-							<c:forEach items="${ctcCategoryMap}" var="ctcCategory">
-
-								<li>${ctcCategory.key.name}
-									<ul>
-										<c:forEach items="${ctcCategory.value}" var="proCtcTerm">
-											<li class="closed">${proCtcTerm.term}
-
-												<ul><a href="javascript:addProctcTerm(${proCtcTerm.id})"
-													   id="proCtcTerm_${proCtcTerm.id}">
-													<img src="/ctcae/images/blue/select_question_btn.png"
-														 alt="Add" onclick=""/>Add All</a>
-
-													<c:forEach items="${proCtcTerm.proCtcQuestions}"
-															   var="proCtcQuestion">
-
-														<li id="question_${proCtcQuestion.id}">
-															<tags:formbuilderBox>
-																<tags:formbuilderBoxControls add="true"
-																							 proCtcQuestionId="${proCtcQuestion.id}"
-																							 proCtctermId="${proCtcTerm.id}"/>
-																${proCtcQuestion.formattedQuestionText}
-																<ul>
-																	<c:forEach items="${proCtcQuestion.validValues}"
-																			   var="proCtcValidValue">
-																		<li>${proCtcValidValue.displayName}</li>
-																	</c:forEach>
-																</ul>
-															</tags:formbuilderBox>
-														</li>
-
-													</c:forEach>
-												</ul>
-											</li>
-										</c:forEach>
-
-									</ul>
-								</li>
-
-							</c:forEach>
+						<ul id="form-tabs" class="tabs">
+							<li class="selected">
+								<a id="firstlevelnav_1" href="javascript:showForm()">
+									<tags:message code='form.add_question'/>
+									|</a>
+							</li>
+							<li class="">
+								<a id="firstlevelnav_2" href="javascript:showQuestionSettings()">
+									<tags:message code="form.question_settings"/> |</a>
+							</li>
+							<li class="">
+								<a id="firstlevelnav_3" href="javascript:showFormSettings()">
+									<tags:message code='form.form_settings'/> </a>
+							</li>
 						</ul>
+						<br>
+						<br>
+						<br>
 
-                    </td>
-                    <td id="right">
-                        
+						<div id="questionBank">
+							<div class="formbuilderHeader"><tags:message code='form.label.question_bank'/></div>
+
+							<ul class="tree">
+								<c:forEach items="${ctcCategoryMap}" var="ctcCategory">
+
+									<li>${ctcCategory.key.name}
+										<ul>
+											<c:forEach items="${ctcCategory.value}" var="proCtcTerm">
+												<li class="closed">${proCtcTerm.term}
+
+													<ul><a href="javascript:addProctcTerm(${proCtcTerm.id})"
+														   id="proCtcTerm_${proCtcTerm.id}">
+														<img src="/ctcae/images/blue/select_question_btn.png"
+															 alt="Add" onclick=""/>Add All</a>
+
+														<c:forEach items="${proCtcTerm.proCtcQuestions}"
+																   var="proCtcQuestion">
+
+															<li id="question_${proCtcQuestion.id}">
+																<tags:formbuilderBox>
+																	<tags:formbuilderBoxControls add="true"
+																								 proCtcQuestionId="${proCtcQuestion.id}"
+																								 proCtctermId="${proCtcTerm.id}"/>
+																	${proCtcQuestion.formattedQuestionText}
+																	<ul>
+																		<c:forEach items="${proCtcQuestion.validValues}"
+																				   var="proCtcValidValue">
+																			<li>${proCtcValidValue.displayName}</li>
+																		</c:forEach>
+																	</ul>
+																</tags:formbuilderBox>
+															</li>
+
+														</c:forEach>
+													</ul>
+												</li>
+											</c:forEach>
+
+										</ul>
+									</li>
+
+								</c:forEach>
+							</ul>
+
+						</div>
+						<div id="questionProperties0" style="display:none;"></div>
+					</td>
+					<td id="right">
+
 							<%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
 							<%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>
 						<table style="border-collapse:collapse; height:800px;">
@@ -482,9 +502,9 @@ function previousQuestion(questionIndex) {
 										<input type="hidden" id="totalQuestions" value="${totalQuestions}">
 										<c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem"
 												   varStatus="status">
-											<tags:oneQuestion proCtcQuestion="${crfItem.proCtcQuestion}"
-															  displayOrder="${status.index}">
-											</tags:oneQuestion>
+											<tags:oneCrfItem crfItem="${crfItem}"
+															 index="${status.index}">
+											</tags:oneCrfItem>
 										</c:forEach>
 										<div id="hiddenDiv"></div>
 									</div>

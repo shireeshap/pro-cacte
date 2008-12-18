@@ -1,8 +1,10 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CrfItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
+import gov.nih.nci.ctcae.web.ListValues;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,6 +12,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -31,8 +34,11 @@ public class AddOneProCtcTermController extends AbstractController {
 
 		CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 		if (proCtcTerm != null) {
-			createFormCommand.getStudyCrf().getCrf().removeExistingAndAddNewCrfItem(proCtcTerm);
-			modelAndView.addObject("proCtcTerm", proCtcTerm);
+			List<CrfItem> addedCrfItems = createFormCommand.getStudyCrf().getCrf().removeExistingAndAddNewCrfItem(proCtcTerm);
+			modelAndView.addObject("crfItems", addedCrfItems);
+			modelAndView.addObject("responseRequired", ListValues.getResponseRequired());
+			modelAndView.addObject("crfItemAllignments", ListValues.getCrfItemAllignments());
+
 		} else {
 			logger.error("can not add proCtcTerm because pro ctc term is null for id:" + proCtcTermId);
 			return null;

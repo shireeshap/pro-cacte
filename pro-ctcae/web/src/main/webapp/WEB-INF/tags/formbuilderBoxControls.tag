@@ -9,11 +9,11 @@
 	<div class="formbuilderBoxControls">
 		<div class="formbuilderBoxControls-left">
 			<c:if test="${properties}">
-				<a href="javascript:addCrfItemProperties('${proCtcQuestionId}');"><img
+				<a href="javascript:showCrfItemPropertiesTab('${proCtcQuestionId}');"><img
 					src="/ctcae/images/blue/question_properties_btn.png" alt="Configure Item"/></a>
 			</c:if>
 			<c:if test="${add}">
-				<a href="javascript:addQuestion(${proCtcQuestionId},${proCtctermId})"><img
+				<a href="javascript:addCrfItem(${proCtcQuestionId},${proCtctermId})"><img
 					src="/ctcae/images/blue/select_question_btn.png"
 					alt="Add"/></a>
 			</c:if>

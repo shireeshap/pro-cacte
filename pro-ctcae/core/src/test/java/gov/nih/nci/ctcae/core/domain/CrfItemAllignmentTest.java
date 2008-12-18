@@ -6,7 +6,7 @@ import junit.framework.TestCase;
  * @author Vinay Kumar
  * @created Nov 17, 2008
  */
-public class CrfItemAlligmentTest extends TestCase {
+public class CrfItemAllignmentTest extends TestCase {
     public void testStatus() {
         CrfItemAllignment crfItemAllignment = CrfItemAllignment.HORIZONTAL;
         assertEquals("Horizontal", crfItemAllignment.toString());

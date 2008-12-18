@@ -73,7 +73,7 @@ public class CreateFormCommandTest extends WebTestCase {
 
 	public void testUpdateQuestions() {
 		command.updateCrfItems(finderRepository);
-		assertTrue(command.getStudyCrf().getCrf().getCrfItems().isEmpty());
+		assertTrue(command.getStudyCrf().getCrf().getCrfItemsSortedByDislayOrder().isEmpty());
 		command.setQuestionsIds("11,12,15");
 
 		expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
@@ -84,7 +84,7 @@ public class CreateFormCommandTest extends WebTestCase {
 		verify(finderRepository);
 		CRF crf = command.getStudyCrf().getCrf();
 		assertEquals("must have only 2 questions because  first and 5th questions are same", 2,
-			crf.getCrfItems().size());
+			crf.getCrfItemsSortedByDislayOrder().size());
 
 
 	}
@@ -104,14 +104,14 @@ public class CreateFormCommandTest extends WebTestCase {
 		verify(finderRepository);
 		CRF crf = command.getStudyCrf().getCrf();
 		assertEquals("must have 3 questions ", 3,
-			crf.getCrfItems().size());
-		for (int i = 0; i < crf.getCrfItems().size(); i++) {
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItems().get(i).getDisplayOrder());
+			crf.getCrfItemsSortedByDislayOrder().size());
+		for (int i = 0; i < crf.getCrfItemsSortedByDislayOrder().size(); i++) {
+			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
 
 		}
-		assertEquals("must preserve order no", firstQuestion, crf.getCrfItems().get(2).getProCtcQuestion());
-		assertEquals("must preserve order no", thirdQuestion, crf.getCrfItems().get(1).getProCtcQuestion());
-		assertEquals("must preserve order no", secondQuestion, crf.getCrfItems().get(0).getProCtcQuestion());
+		assertEquals("must preserve order no", firstQuestion, crf.getCrfItemsSortedByDislayOrder().get(2).getProCtcQuestion());
+		assertEquals("must preserve order no", thirdQuestion, crf.getCrfItemsSortedByDislayOrder().get(1).getProCtcQuestion());
+		assertEquals("must preserve order no", secondQuestion, crf.getCrfItemsSortedByDislayOrder().get(0).getProCtcQuestion());
 
 	}
 
@@ -133,15 +133,15 @@ public class CreateFormCommandTest extends WebTestCase {
 		resetMocks();
 		CRF crf = command.getStudyCrf().getCrf();
 		assertEquals("must have 4 questions ", 4,
-			crf.getCrfItems().size());
-		for (int i = 0; i < crf.getCrfItems().size(); i++) {
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItems().get(i).getDisplayOrder());
+			crf.getCrfItemsSortedByDislayOrder().size());
+		for (int i = 0; i < crf.getCrfItemsSortedByDislayOrder().size(); i++) {
+			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
 
 		}
-		assertEquals("must preserve order no", firstQuestion, crf.getCrfItems().get(2).getProCtcQuestion());
-		assertEquals("must preserve order no", thirdQuestion, crf.getCrfItems().get(1).getProCtcQuestion());
-		assertEquals("must preserve order no", secondQuestion, crf.getCrfItems().get(0).getProCtcQuestion());
-		assertEquals("must preserve order no", fourthQuestion, crf.getCrfItems().get(3).getProCtcQuestion());
+		assertEquals("must preserve order no", firstQuestion, crf.getCrfItemsSortedByDislayOrder().get(2).getProCtcQuestion());
+		assertEquals("must preserve order no", thirdQuestion, crf.getCrfItemsSortedByDislayOrder().get(1).getProCtcQuestion());
+		assertEquals("must preserve order no", secondQuestion, crf.getCrfItemsSortedByDislayOrder().get(0).getProCtcQuestion());
+		assertEquals("must preserve order no", fourthQuestion, crf.getCrfItemsSortedByDislayOrder().get(3).getProCtcQuestion());
 
 		//now delete the first question
 		command.setQuestionsIds("12,14,13");
@@ -154,14 +154,14 @@ public class CreateFormCommandTest extends WebTestCase {
 		resetMocks();
 		crf = command.getStudyCrf().getCrf();
 		assertEquals("must have 3 questions ", 3,
-			crf.getCrfItems().size());
-		for (int i = 0; i < crf.getCrfItems().size(); i++) {
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItems().get(i).getDisplayOrder());
+			crf.getCrfItemsSortedByDislayOrder().size());
+		for (int i = 0; i < crf.getCrfItemsSortedByDislayOrder().size(); i++) {
+			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
 
 		}
-		assertEquals("must preserve order no", thirdQuestion, crf.getCrfItems().get(2).getProCtcQuestion());
-		assertEquals("must preserve order no", fourthQuestion, crf.getCrfItems().get(1).getProCtcQuestion());
-		assertEquals("must preserve order no", secondQuestion, crf.getCrfItems().get(0).getProCtcQuestion());
+		assertEquals("must preserve order no", thirdQuestion, crf.getCrfItemsSortedByDislayOrder().get(2).getProCtcQuestion());
+		assertEquals("must preserve order no", fourthQuestion, crf.getCrfItemsSortedByDislayOrder().get(1).getProCtcQuestion());
+		assertEquals("must preserve order no", secondQuestion, crf.getCrfItemsSortedByDislayOrder().get(0).getProCtcQuestion());
 
 
 	}
@@ -197,15 +197,15 @@ public class CreateFormCommandTest extends WebTestCase {
 
 		CRF crf = command.getStudyCrf().getCrf();
 		assertEquals("must have 4 questions ", 4,
-			crf.getCrfItems().size());
-		for (int i = 0; i < crf.getCrfItems().size(); i++) {
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItems().get(i).getDisplayOrder());
+			crf.getCrfItemsSortedByDislayOrder().size());
+		for (int i = 0; i < crf.getCrfItemsSortedByDislayOrder().size(); i++) {
+			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
 
 		}
-		assertEquals("must preserve order no", fourthQuestion, crf.getCrfItems().get(3).getProCtcQuestion());
-		assertEquals("must preserve order no", firstQuestion, crf.getCrfItems().get(2).getProCtcQuestion());
-		assertEquals("must preserve order no", thirdQuestion, crf.getCrfItems().get(1).getProCtcQuestion());
-		assertEquals("must preserve order no", secondQuestion, crf.getCrfItems().get(0).getProCtcQuestion());
+		assertEquals("must preserve order no", fourthQuestion, crf.getCrfItemsSortedByDislayOrder().get(3).getProCtcQuestion());
+		assertEquals("must preserve order no", firstQuestion, crf.getCrfItemsSortedByDislayOrder().get(2).getProCtcQuestion());
+		assertEquals("must preserve order no", thirdQuestion, crf.getCrfItemsSortedByDislayOrder().get(1).getProCtcQuestion());
+		assertEquals("must preserve order no", secondQuestion, crf.getCrfItemsSortedByDislayOrder().get(0).getProCtcQuestion());
 
 
 	}

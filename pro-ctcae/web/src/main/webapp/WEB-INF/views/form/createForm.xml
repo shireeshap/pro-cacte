@@ -16,7 +16,7 @@
 
     <view-state id="buildForm" view="form/createForm" model="command">
         <on-render>
-            <evaluate expression="command.studyCrf.crf.crfItems.size()" result="viewScope.totalQuestions"></evaluate>
+            <evaluate expression="command.studyCrf.crf.crfItemsSortedByDislayOrder.size()" result="viewScope.totalQuestions"></evaluate>
             <evaluate expression="proCtcQuestionRepository.findAll()" result="viewScope.proCtcTerms"></evaluate>
         </on-render>
 

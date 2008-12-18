@@ -17,87 +17,87 @@ import java.util.Set;
  */
 public class CreateFormCommand implements Serializable {
 
-    private static Log logger = LogFactory.getLog(CreateFormCommand.class);
+	private static Log logger = LogFactory.getLog(CreateFormCommand.class);
 
-    private StudyCrf studyCrf;
-
-
-    public String getTitle() {
-        String title = getStudyCrf().getCrf().getTitle();
-        return !org.apache.commons.lang.StringUtils.isBlank(title) ? title : "Click here to name";
-    }
+	private StudyCrf studyCrf;
 
 
-    private String questionsIds;
+	public String getTitle() {
+		String title = getStudyCrf().getCrf().getTitle();
+		return !org.apache.commons.lang.StringUtils.isBlank(title) ? title : "Click here to name";
+	}
 
 
-    public CreateFormCommand() {
-        CRF crf = new CRF();
-        crf.setStatus(CrfStatus.DRAFT);
-        crf.setCrfVersion("1.1");
-        this.studyCrf = new StudyCrf();
-        studyCrf.setCrf(crf);
-        crf.setStudyCrf(studyCrf);
-    }
-
-    public void updateCrfItems(FinderRepository finderRepository) {
+	private String questionsIds;
 
 
-        addOrUpdateQuestions(finderRepository);
-        //now delete the questions
-        deleteQuestions();
+	public CreateFormCommand() {
+		CRF crf = new CRF();
+		crf.setStatus(CrfStatus.DRAFT);
+		crf.setCrfVersion("1.1");
+		this.studyCrf = new StudyCrf();
+		studyCrf.setCrf(crf);
+		crf.setStudyCrf(studyCrf);
+	}
+
+	public void updateCrfItems(FinderRepository finderRepository) {
 
 
-    }
-
-    private void addOrUpdateQuestions(final FinderRepository finderRepository) {
-        String[] questionIdsArrays = StringUtils.commaDelimitedListToStringArray(questionsIds);
-
-        logger.debug("found questions to add/update:" + questionsIds);
-        for (int i = 0; i < questionIdsArrays.length; i++) {
-            Integer questionId = Integer.parseInt(questionIdsArrays[i]);
-            ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
-            if (proCtcQuestion != null) {
-                int displayOrder = i + 1;
-                studyCrf.getCrf().addOrUpdateCrfItem(proCtcQuestion, displayOrder);
-            } else {
-                logger.error("can not add question because pro ctc term is null for id:" + questionId);
-            }
-        }
-    }
-
-    private void deleteQuestions() {
-        List<CrfItem> crfItemsToRemove = new ArrayList<CrfItem>();
-        Set questionIdSet = StringUtils.commaDelimitedListToSet(questionsIds);
-        for (CrfItem crfItem : studyCrf.getCrf().getCrfItems()) {
-            if (!questionIdSet.contains(String.valueOf(crfItem.getProCtcQuestion().getId()))) {
-                crfItemsToRemove.add(crfItem);
-            }
-        }
+		addOrUpdateQuestions(finderRepository);
+		//now delete the questions
+		deleteQuestions();
 
 
-        for (CrfItem crfItem : crfItemsToRemove) {
-            studyCrf.getCrf().removeCrfItem(crfItem);
-        }
-    }
+	}
 
-    public StudyCrf getStudyCrf() {
-        return studyCrf;
-    }
+	private void addOrUpdateQuestions(final FinderRepository finderRepository) {
+		String[] questionIdsArrays = StringUtils.commaDelimitedListToStringArray(questionsIds);
 
-    public void setStudyCrf(StudyCrf studyCrf) {
-        this.studyCrf = studyCrf;
-    }
+		logger.debug("found questions to add/update:" + questionsIds);
+		for (int i = 0; i < questionIdsArrays.length; i++) {
+			Integer questionId = Integer.parseInt(questionIdsArrays[i]);
+			ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
+			if (proCtcQuestion != null) {
+				int displayOrder = i + 1;
+				studyCrf.getCrf().addOrUpdateCrfItem(proCtcQuestion, displayOrder);
+			} else {
+				logger.error("can not add question because pro ctc question is null for id:" + questionId);
+			}
+		}
+	}
+
+	private void deleteQuestions() {
+		List<CrfItem> crfItemsToRemove = new ArrayList<CrfItem>();
+		Set questionIdSet = StringUtils.commaDelimitedListToSet(questionsIds);
+		for (CrfItem crfItem : studyCrf.getCrf().getCrfItemsSortedByDislayOrder()) {
+			if (!questionIdSet.contains(String.valueOf(crfItem.getProCtcQuestion().getId()))) {
+				crfItemsToRemove.add(crfItem);
+			}
+		}
 
 
-    public String getQuestionsIds() {
-        return questionsIds;
-    }
+		for (CrfItem crfItem : crfItemsToRemove) {
+			studyCrf.getCrf().removeCrfItem(crfItem);
+		}
+	}
+
+	public StudyCrf getStudyCrf() {
+		return studyCrf;
+	}
+
+	public void setStudyCrf(StudyCrf studyCrf) {
+		this.studyCrf = studyCrf;
+	}
 
 
-    public void setQuestionsIds(String questionsIds) {
-        this.questionsIds = questionsIds;
-    }
+	public String getQuestionsIds() {
+		return questionsIds;
+	}
+
+
+	public void setQuestionsIds(String questionsIds) {
+		this.questionsIds = questionsIds;
+	}
 
 
 }

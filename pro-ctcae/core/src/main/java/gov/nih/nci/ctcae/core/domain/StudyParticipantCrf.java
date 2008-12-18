@@ -73,7 +73,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 	public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
 		if (studyParticipantCrfSchedule != null) {
 			studyParticipantCrfSchedule.setStudyParticipantCrf(this);
-			for (CrfItem crfItem : studyCrf.getCrf().getCrfItems()) {
+			for (CrfItem crfItem : studyCrf.getCrf().getCrfItemsSortedByDislayOrder()) {
 				StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
 				studyParticipantCrfItem.setCrfItem(crfItem);
 				studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);

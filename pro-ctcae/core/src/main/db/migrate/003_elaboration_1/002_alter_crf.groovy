@@ -1,4 +1,4 @@
-class AlterInvestigatorClinical extends edu.northwestern.bioinformatics.bering.Migration {
+class UpdateCrfTable extends edu.northwestern.bioinformatics.bering.Migration {
   void up() {
 
         addColumn('CRFS', 'effective_start_date', 'date', nullable: true);

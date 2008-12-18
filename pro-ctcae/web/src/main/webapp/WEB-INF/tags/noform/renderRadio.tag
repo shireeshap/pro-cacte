@@ -1,3 +1,4 @@
+<%@ attribute name="questionId" %>
 <%@ attribute name="items" type="java.util.List" %>
 <%@ attribute name="propertyValue" %>
 <%@ attribute name="size" %>
@@ -20,20 +21,19 @@
         </label>
     </div>
     <div class="value">
-        <input type="hidden" name="${propertyName}" id="${propertyName}"/>
-        <c:forEach items="${items}" var="item">
+        <c:forEach items="${items}" var="item" varStatus="status">
             <c:choose>
                 <c:when test="${item.code eq propertyValue}">
-                    <input type="radio" class="longselect-radio" name="${propertyName}-radio" id="${propertyName}-radio"
+                    <input type="radio" class="longselect-radio" name="${propertyName}" id="${propertyName}-radio-${status.index}"
                            value="${item.code}"
                            checked="checked" style="margin:3px"
-                           onclick="updateCrfItemroperties('${item.code}','${propertyName}')"/>${item.desc}
+                           onclick="updateCrfItemroperties('${item.code}','${propertyName}','${questionId}')"/>${item.desc}
                 </c:when><c:otherwise>
 
 
-                <input type="radio" class="longselect-radio" name="${propertyName}-radio" id="${propertyName}-radio"
+                <input type="radio" class="longselect-radio" name="${propertyName}" id="${propertyName}-radio-${status.index}"
                        value="${item.code}"
-                       onclick="updateCrfItemroperties('${item.code}','${propertyName}')" style="margin:3px"/>${item.desc}
+                       onclick="updateCrfItemroperties('${item.code}','${propertyName}','${questionId}')" style="margin:3px"/>${item.desc}
             </c:otherwise>
             </c:choose>
         </c:forEach>
