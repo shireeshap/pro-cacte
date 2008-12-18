@@ -9,8 +9,8 @@ input[type=text], input[type=password], select, textarea {
     border-color : #809eba;
     border-style : solid;
     border-width : 1px;
-    font-family: Arial;
     font-size:12px;
+	font-family:Lucida Grande,Trebuchet MS,Arial,Helvetica,sans-serif;
 
 }
 input[disabled], select[disabled], textarea[disabled] {

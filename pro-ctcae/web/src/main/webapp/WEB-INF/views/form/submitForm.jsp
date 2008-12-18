@@ -29,7 +29,7 @@
             font-weight: bold;
             padding-top: 12px;
         }
-
+		/* This variable needs to be moved, this CSS rule will not work in IE */
         #taskbar:after {
             content: "Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}";
         }
@@ -65,7 +65,6 @@
             width: ${(command.currentPageIndex/command.totalPages)*150}px;
             height: 15px
         }
-
     </style>
     <script type="text/javascript">
         var hiddenIds = '';

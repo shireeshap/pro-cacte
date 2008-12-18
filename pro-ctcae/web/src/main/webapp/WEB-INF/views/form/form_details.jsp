@@ -396,6 +396,12 @@ function hideQuestionBank() {
 	.makeDraggable {
 		cursor: move;
 	}
+	.instructions .summaryvalue {
+		font-weight:normal;
+		margin-left:90px;
+		text-align:left;
+		width:60%;
+	}
 </style>
 
 </head>
@@ -444,14 +450,13 @@ function hideQuestionBank() {
 											<c:forEach items="${ctcCategory.value}" var="proCtcTerm">
 												<li class="closed">${proCtcTerm.term}
 
-													<ul><a href="javascript:addProctcTerm(${proCtcTerm.id})"
-														   id="proCtcTerm_${proCtcTerm.id}">
-														<img src="/ctcae/images/blue/select_question_btn.png"
-															 alt="Add" onclick=""/>Add All</a>
 
-														<c:forEach items="${proCtcTerm.proCtcQuestions}"
-																   var="proCtcQuestion">
-
+												<ul>
+													<a href="javascript:addProctcTerm(${proCtcTerm.id})"
+													   id="proCtcTerm_${proCtcTerm.id}">
+													   	<img src="/ctcae/images/blue/add_all_btn.png"
+														 alt="Add" onclick=""/></a>
+													
 															<li id="question_${proCtcQuestion.id}">
 																<tags:formbuilderBox>
 																	<tags:formbuilderBoxControls add="true"

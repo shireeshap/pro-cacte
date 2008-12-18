@@ -11,32 +11,7 @@
 
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <style type="text/css">
-        div.row div.value {
-            white-space: normal;
-        }
 
-        .label {
-            font-weight: bold;
-            float: left;
-            margin-left: 0.5em;
-            margin-right: 0.5em;
-            padding: 1px;
-            font-size: 12px;
-        }
-
-        .norm {
-            cursor: default;
-            width: 15%;
-        }
-
-        .over {
-            background: #3399ff;
-            cursor: pointer;
-            width: 15%;
-        }
-    </style>
     <script type="text/javascript">
         var hiddenIds = '';
         var pages = new Array();
