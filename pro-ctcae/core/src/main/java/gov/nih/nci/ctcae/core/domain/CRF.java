@@ -47,7 +47,7 @@ public class CRF extends BaseVersionable {
 	private Date effectiveEndDate;
 
 	@Column(name = "next_version_id", nullable = true)
-	private CRF nextCrfVersion;
+	private Integer nextCrfVersion;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.EAGER)
 	private List<CrfItem> crfItems = new ArrayList<CrfItem>();
@@ -175,11 +175,11 @@ public class CRF extends BaseVersionable {
 		this.effectiveEndDate = effectiveEndDate;
 	}
 
-	public CRF getNextCrfVersion() {
+	public Integer getNextCrfVersion() {
 		return nextCrfVersion;
 	}
 
-	public void setNextCrfVersion(CRF nextCrfVersion) {
+	public void setNextCrfVersion(Integer nextCrfVersion) {
 		this.nextCrfVersion = nextCrfVersion;
 	}
 
