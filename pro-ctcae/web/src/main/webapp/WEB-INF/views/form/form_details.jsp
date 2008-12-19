@@ -274,23 +274,22 @@ function showQuestionForReview(firstQuestion, displayOrder, nextQuestionIndex, p
 }
 
 
-function updateCrfItemroperties(value, propertyName,questionId) {
+function updateCrfItemroperties(value, propertyName, questionId) {
 	if (propertyName.include('crfItemAllignment')) {
 		if (value == 'Vertical') {
 
-			$('horizontalCrfItems_'+questionId).hide();
-			$('verticalCrfItems_'+questionId).show();
+			$('horizontalCrfItems_' + questionId).hide();
+			$('verticalCrfItems_' + questionId).show();
 
 		}
 		if (value == 'Horizontal') {
-			$('verticalCrfItems_'+questionId).hide();
-			$('horizontalCrfItems_'+questionId).show();
+			$('verticalCrfItems_' + questionId).hide();
+			$('horizontalCrfItems_' + questionId).show();
 
 		}
 	}
 
 }
-
 
 
 function showReviewWindow(transport) {
@@ -396,11 +395,12 @@ function hideQuestionBank() {
 	.makeDraggable {
 		cursor: move;
 	}
+
 	.instructions .summaryvalue {
-		font-weight:normal;
-		margin-left:90px;
-		text-align:left;
-		width:60%;
+		font-weight: normal;
+		margin-left: 90px;
+		text-align: left;
+		width: 60%;
 	}
 </style>
 
@@ -451,12 +451,14 @@ function hideQuestionBank() {
 												<li class="closed">${proCtcTerm.term}
 
 
-												<ul>
-													<a href="javascript:addProctcTerm(${proCtcTerm.id})"
-													   id="proCtcTerm_${proCtcTerm.id}">
-													   	<img src="/ctcae/images/blue/add_all_btn.png"
-														 alt="Add" onclick=""/></a>
-													
+													<ul>
+														<a href="javascript:addProctcTerm(${proCtcTerm.id})"
+														   id="proCtcTerm_${proCtcTerm.id}">
+															<img src="/ctcae/images/blue/add_all_btn.png"
+																 alt="Add" onclick=""/></a>
+														<c:forEach items="${proCtcTerm.proCtcQuestions}"
+																   var="proCtcQuestion">
+
 															<li id="question_${proCtcQuestion.id}">
 																<tags:formbuilderBox>
 																	<tags:formbuilderBoxControls add="true"
