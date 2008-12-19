@@ -99,7 +99,7 @@
             var win = Windows.getFocusedWindow();
             if (win == null) {
                 win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                        true, title: "", height:300, width: 550,top:250,left:200});
+                        true, title: "", height:230, width: 550,top:250,left:200});
                 win.setDestroyOnClose();
                 win.setHTMLContent(transport.responseText);
                 win.show(true)
