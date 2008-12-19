@@ -40,7 +40,7 @@ public class CRF extends BaseVersionable {
 	@Column(name = "crf_version", nullable = false)
 	private String crfVersion;
 
-	@Column(name = "effective_start_date", nullable = false)
+	@Column(name = "effective_start_date", nullable = true)
 	private Date effectiveStartDate;
 
 	@Column(name = "effective_end_date", nullable = true)
