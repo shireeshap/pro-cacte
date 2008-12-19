@@ -47,7 +47,7 @@ public class CRF extends BaseVersionable {
 	private Date effectiveEndDate;
 
 	@Column(name = "next_version_id", nullable = true)
-	private Integer nextCrfVersion;
+	private Integer nextVersionId;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.EAGER)
 	private List<CrfItem> crfItems = new ArrayList<CrfItem>();
@@ -175,15 +175,15 @@ public class CRF extends BaseVersionable {
 		this.effectiveEndDate = effectiveEndDate;
 	}
 
-	public Integer getNextCrfVersion() {
-		return nextCrfVersion;
-	}
+    public Integer getNextVersionId() {
+        return nextVersionId;
+    }
 
-	public void setNextCrfVersion(Integer nextCrfVersion) {
-		this.nextCrfVersion = nextCrfVersion;
-	}
+    public void setNextVersionId(Integer nextVersionId) {
+        this.nextVersionId = nextVersionId;
+    }
 
-	/**
+    /**
 	 * this is required to update the crf item properties on right side of the create form
 	 *
 	 * @param proCtcQuestion
