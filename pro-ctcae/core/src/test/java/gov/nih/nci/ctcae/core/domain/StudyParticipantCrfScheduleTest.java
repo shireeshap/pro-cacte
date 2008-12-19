@@ -68,7 +68,6 @@ public class StudyParticipantCrfScheduleTest extends TestCase {
 		studyParticipantCrfSchedule2.setStartDate(d);
 		assertEquals(studyParticipantCrfSchedule.hashCode(), studyParticipantCrfSchedule2.hashCode());
 		assertEquals(studyParticipantCrfSchedule, studyParticipantCrfSchedule2);
-        assertFalse(studyParticipantCrfSchedule2.equals(studyParticipantCrfSchedule));
 
 		studyParticipantCrfSchedule.setStatus(CrfStatus.INPROGRESS);
 		assertFalse(studyParticipantCrfSchedule.equals(studyParticipantCrfSchedule2));
