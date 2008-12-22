@@ -1,9 +1,11 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.CascadeType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +36,9 @@ public class StudyParticipantAssignment extends BaseVersionable {
 	@ManyToOne
 	private StudyOrganization studySite;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
+	@OneToMany( mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+
 	private List<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
 
 	public StudyParticipantAssignment() {

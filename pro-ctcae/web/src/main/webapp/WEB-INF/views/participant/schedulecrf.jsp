@@ -40,7 +40,7 @@
     </script>
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" >
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false">
     <jsp:attribute name="singleFields">
         <input type="hidden" value="" id="objectsIndexesToRemove" name="objectsIndexesToRemove"/>
         <input type="hidden" name="_finish" value="true"/>
@@ -48,14 +48,18 @@
             <c:forEach items="${command.studyParticipantAssignment.studyParticipantCrfs}" var="participantCrf"
                        varStatus="status">
                 <chrome:division title="${participantCrf.studyCrf.crf.title}" message="false">
-                    <input type="button" value="Add" onClick="addCrfSchedule('${status.index}')"
-                           class="button"/>
-
+                    <jsp:useBean id="today" class="java.util.Date"/>
+                    <c:if test="${participantCrf.studyCrf.crf.effectiveEndDate eq null or participantCrf.studyCrf.crf.effectiveEndDate >= today}">
+                        <input type="button" value="Add" onClick="addCrfSchedule('${status.index}')"
+                               class="button"/>
+                    </c:if>
                     <div align="left" style="margin-left: 50px">
                         <table width="70%" class="tablecontent">
                             <tr id="ss-table-head" class="amendment-table-head">
-                                <th class="tableHeader"><tags:requiredIndicator/><spring:message code="schedulecrf.label.start_date"/></th>
-                                <th class="tableHeader"><tags:requiredIndicator/><spring:message code="schedulecrf.label.due_date"/></th>
+                                <th class="tableHeader"><tags:requiredIndicator/><spring:message
+                                        code="schedulecrf.label.start_date"/></th>
+                                <th class="tableHeader"><tags:requiredIndicator/><spring:message
+                                        code="schedulecrf.label.due_date"/></th>
                                 <th class="tableHeader"><spring:message code="schedulecrf.label.status"/></th>
                                 <th class="tableHeader"></th>
                             </tr>
