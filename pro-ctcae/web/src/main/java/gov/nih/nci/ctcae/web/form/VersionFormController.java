@@ -37,14 +37,16 @@ public class VersionFormController extends CtcAeSimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
         StudyCrf studyCrf = (StudyCrf) command;
+        Integer parentVersionId = studyCrf.getCrf().getId();
         String newVersion =  "" +(new Float(studyCrf.getCrf().getCrfVersion()) + 1);
         StudyCrf copiedStudyCrf = studyCrf.getCopy();
-        copiedStudyCrf.getCrf().setTitle("Version " + newVersion + " of " + studyCrf.getCrf().getTitle() + "_" + System.currentTimeMillis());
+        copiedStudyCrf.getCrf().setTitle(studyCrf.getCrf().getTitle() + " ver " + newVersion + "_" + System.currentTimeMillis());
         copiedStudyCrf.getCrf().setCrfVersion(newVersion);
+        copiedStudyCrf.getCrf().setParentVersionId(parentVersionId);
 
         crfRepository.save(copiedStudyCrf.getCrf());
 
-        Integer nextVersionId = copiedStudyCrf.getId();
+        Integer nextVersionId = copiedStudyCrf.getCrf().getId();
         studyCrf.getCrf().setNextVersionId(nextVersionId);
         crfRepository.save(studyCrf.getCrf());
 

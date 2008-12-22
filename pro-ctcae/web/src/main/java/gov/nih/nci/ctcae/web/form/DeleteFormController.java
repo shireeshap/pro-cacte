@@ -7,6 +7,7 @@ import org.springframework.validation.BindException;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.domain.StudyCrf;
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Mehul Gulati
- * Date: Dec 4, 2008
+ *         Date: Dec 4, 2008
  */
 public class DeleteFormController extends CtcAeSimpleFormController {
 
@@ -39,6 +40,28 @@ public class DeleteFormController extends CtcAeSimpleFormController {
 
         StudyCrf studyCrf = (StudyCrf) command;
         Integer studyId = studyCrf.getStudy().getId();
+
+        if (studyCrf.getCrf().getParentVersionId() != null) {
+            Integer parentId = studyCrf.getCrf().getParentVersionId();
+            CRF parentCrf = finderRepository.findById(CRF.class, parentId);
+            if (studyCrf.getCrf().getNextVersionId() != null) {
+                parentCrf.setNextVersionId(studyCrf.getCrf().getNextVersionId());
+            } else {
+                parentCrf.setNextVersionId(null);
+            }
+            crfRepository.save(parentCrf);
+        }
+
+        if (studyCrf.getCrf().getNextVersionId() != null) {
+            Integer nextVersionId = studyCrf.getCrf().getNextVersionId();
+            CRF childCrf = finderRepository.findById(CRF.class, nextVersionId);
+            if (studyCrf.getCrf().getParentVersionId() != null) {
+                childCrf.setParentVersionId(studyCrf.getCrf().getParentVersionId());
+            } else {
+                childCrf.setParentVersionId(null);
+            }
+            crfRepository.save(childCrf);
+        }
         crfRepository.delete(studyCrf.getCrf());
         RedirectView redirectView = new RedirectView("manageForm?studyId=" + studyId);
 
