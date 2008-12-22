@@ -49,7 +49,10 @@ public class CRF extends BaseVersionable {
 	@Column(name = "next_version_id", nullable = true)
 	private Integer nextVersionId;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.EAGER)
+    @Column(name = "parent_version_id", nullable =true)
+    private Integer parentVersionId;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.EAGER)
 	private List<CrfItem> crfItems = new ArrayList<CrfItem>();
 
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
@@ -183,6 +186,15 @@ public class CRF extends BaseVersionable {
         this.nextVersionId = nextVersionId;
     }
 
+    public Integer getParentVersionId() {
+        return parentVersionId;
+    }
+
+    public void setParentVersionId(Integer parentVersionId) {
+        this.parentVersionId = parentVersionId;
+    }
+    
+
     /**
 	 * this is required to update the crf item properties on right side of the create form
 	 *
@@ -293,4 +305,5 @@ public class CRF extends BaseVersionable {
 		}
 		return addedCrfItems;
 	}
+
 }
