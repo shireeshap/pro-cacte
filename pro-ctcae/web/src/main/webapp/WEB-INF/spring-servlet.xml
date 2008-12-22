@@ -218,6 +218,12 @@
         <property name="crfRepository" ref="crfRepository"/>
 
         </bean>
+    <bean name="/form/versionForm" id="versionFormController"
+		  class="gov.nih.nci.ctcae.web.form.VersionFormController" parent="ctcaeSimpleFormController">
+        <property name="finderRepository" ref="finderRepository"/>
+        <property name="crfRepository" ref="crfRepository"/>
+
+        </bean>
 
 
     <bean name="/study/createStudy" id="createStudyController"

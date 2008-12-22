@@ -79,7 +79,15 @@
                 method:'get'
             })
         }
-        
+
+        function versionForm(studyCrfId) {
+            var request = new Ajax.Request("<c:url value="/pages/form/versionForm"/>", {
+                parameters:"studyCrfId=" + studyCrfId + "&subview=subview",
+                onComplete:showDeleteFormWindow,
+                method:'get'
+            })
+        }
+
         function releaseForm(studyCrfId) {
 
             var request = new Ajax.Request("<c:url value="/pages/form/releaseForm"/>", {
@@ -141,7 +149,6 @@
     <br>
     <tags:indicator id="indicator"/>
 </chrome:box>
-</div>
 <div id="noForm" style="display:none;">
         <a href="" id="newFormUrl">New Form</a>
     </div>
