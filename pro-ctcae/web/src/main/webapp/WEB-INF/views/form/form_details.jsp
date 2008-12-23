@@ -28,6 +28,10 @@ Event.observe(window, "load", function () {
 	hideQuestionsFromForm();
 	hideProCtcTermFromForm();
 
+<c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem" varStatus="status">
+	var id ='${crfItem.proCtcQuestion.id}';
+	addConditionalDisplayToQuestion(id);
+</c:forEach>
 </c:if>
 	displayReviewLink();
 
@@ -359,19 +363,24 @@ function addConditionalQuestion(questionId, selectedValidValues) {
 		parameters:"questionId=" + questionId + "&subview=subview&selectedValidValues=" + selectedValidValues,
 		onComplete:function(transport) {
 			var response = transport.responseText;
-			$('conditionsImage_' + questionId).show();
-			$('conditionsTable_' + questionId).show();
 
 			new Insertion.Before("conditions_" + questionId, response)
-			 addConditionalDisplayToQuestion(questionId);
+			addConditionalDisplayToQuestion(questionId);
 		},
 		method:'get'
 	})
 
 
 }
-function addConditionalDisplayToQuestion(questionId){
-	$("sortable_" + questionId).addClassName('conditional-question')
+function addConditionalDisplayToQuestion(questionId) {
+	var conditions = 'crfItemDisplayRule_' + questionId + '-condition';
+	if ($$('tr.' + conditions).length > 0) {
+
+		$('conditionsImage_' + questionId).show();
+		$('conditionsTable_' + questionId).show();
+
+		$("sortable_" + questionId).addClassName('conditional-question')
+	}
 }
 function deleteConditions(questionId, proCtcValidValueId) {
 
@@ -381,22 +390,22 @@ function deleteConditions(questionId, proCtcValidValueId) {
 		onComplete:function(transport) {
 			var inputName = 'crfItemDisplayRule_' + questionId + '_' + proCtcValidValueId;
 			$(inputName + '-row').remove();
-			 removeConditionalDisplayFromQuestion(questionId)
+			removeConditionalDisplayFromQuestion(questionId)
 		},
 		method:'get'
 	})
 
 
 }
-function removeConditionalDisplayFromQuestion(questionId){
+function removeConditionalDisplayFromQuestion(questionId) {
 	var conditions = 'crfItemDisplayRule_' + questionId + '-condition';
-			if ($$('tr.' + conditions).length == 0) {
-				$("sortable_" + questionId).removeClassName('conditional-question');
-				$('conditionsImage_' + questionId).hide();
-				$('conditionsTable_' + questionId).hide();
+	if ($$('tr.' + conditions).length == 0) {
+		$("sortable_" + questionId).removeClassName('conditional-question');
+		$('conditionsImage_' + questionId).hide();
+		$('conditionsTable_' + questionId).hide();
 
-			}
 	}
+}
 
 function showForm() {
 	$('questionBank').show();
