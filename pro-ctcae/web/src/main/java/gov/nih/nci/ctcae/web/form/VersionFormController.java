@@ -40,7 +40,7 @@ public class VersionFormController extends CtcAeSimpleFormController {
         Integer parentVersionId = studyCrf.getCrf().getId();
         String newVersion =  "" +(new Float(studyCrf.getCrf().getCrfVersion()) + 1);
         StudyCrf copiedStudyCrf = studyCrf.getCopy();
-        copiedStudyCrf.getCrf().setTitle(studyCrf.getCrf().getTitle() + " ver " + newVersion + "_" + System.currentTimeMillis());
+        copiedStudyCrf.getCrf().setTitle(studyCrf.getCrf().getTitle() + " ver " + newVersion);
         copiedStudyCrf.getCrf().setCrfVersion(newVersion);
         copiedStudyCrf.getCrf().setParentVersionId(parentVersionId);
 
