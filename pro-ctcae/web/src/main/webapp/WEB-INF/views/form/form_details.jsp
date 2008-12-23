@@ -97,14 +97,14 @@ function displayReviewLink() {
 }
 function reOrderQuestionNumber() {
 	var i = 0;
-	$$("div.sortableSpan").each(function (item) {
-		item.innerHTML = i + 1;
-		var orderNumberAtCrfItemPropertiesPage = $$("span.sortableSpan")[parseInt(item.id) - 1];
-		orderNumberAtCrfItemPropertiesPage.innerHTML = i + 1;
-		i = i + 1;
-
-
-	})
+//	$$("div.sortableSpan").each(function (item) {
+//		item.innerHTML = i + 1;
+//		var orderNumberAtCrfItemPropertiesPage = $$("span.sortableSpan")[parseInt(item.id) - 1];
+//		orderNumberAtCrfItemPropertiesPage.innerHTML = i + 1;
+//		i = i + 1;
+//
+//
+//	})
 
 
 }
@@ -173,7 +173,7 @@ function addCrfItem(questionId, proCtcTermId) {
 		method:'get'
 	})
 	hideQuestionFromForm(questionId);
-	hideProCtcTermLinkFromForm(proCtcTermId);                                                                                                                    
+	hideProCtcTermLinkFromForm(proCtcTermId);
 	$('totalQuestions').value = displayOrder;
 	$('totalQuestionDivision').innerHTML = displayOrder;
 
@@ -359,7 +359,7 @@ function addConditionalQuestion(questionId, selectedValidValues) {
 		parameters:"questionId=" + questionId + "&subview=subview&selectedValidValues=" + selectedValidValues,
 		onComplete:function(transport) {
 			var response = transport.responseText;
-//			$('conditionsTable_' + questionId).show();
+			//			$('conditionsTable_' + questionId).show();
 			new Insertion.Before("conditions_" + questionId, response)
 		},
 		method:'get'
@@ -412,7 +412,23 @@ function showCrfItemProperties(questionId) {
 	hideCrfItemProperties();
 
 	addCrfItemPropertiesHtml(questionId);
+	removeEditingClassNamesFromQuestions();
 	$('questionProperties_' + questionId).show();
+//	$('questionProperties_' + questionId).addClassName('editing');
+//	$('questionProperties_' + questionId).addClassName('focused');
+	$('sortable_' + questionId).addClassName('editing');
+	//$('sortable_' + questionId).addClassName('focused');
+	$('arrow_' + questionId).show();
+
+}
+function removeEditingClassNamesFromQuestions() {
+	$$('div.sortable').each(function (item) {
+		item.removeClassName('editing');
+		//item.removeClassName('focused');
+		var questionId = item.id.substr(9, item.id.length)
+		$('arrow_' + questionId).hide();
+
+	})
 }
 function addCrfItemPropertiesHtml(questionId) {
 

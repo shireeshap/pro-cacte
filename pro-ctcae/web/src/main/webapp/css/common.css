@@ -665,6 +665,9 @@ img.indicator { visibility: hidden; }
 	font-weight:bold;
 }
 .sortable { padding-top:5px; }
+.editing {
+	background-color:cadetblue; }
+
 #sortable {
 	margin-top:15px;
 	padding-left:15px;

@@ -25,6 +25,9 @@
 		<tr>
 			<td class="L"></td>
 			<td class="formbuilderboxContent">
+				<img class="arrow" alt="" src="<tags:imageUrl name="arrow.png"/>"
+						 id="arrow_${crfItem.proCtcQuestion.id}" style="display:none;" />
+				   
 				<div id="${crfItem.proCtcQuestion.proCtcTerm.id}" class="selectedProCtcTerm"
 					 style="display:none;"></div>
 
@@ -80,7 +83,7 @@
 					</tr>
 
 					<tags:conditions crfItemDisplayRuleList="${crfItem.crfItemDisplayRules}"
-									   selectedQuestionId="${crfItem.proCtcQuestion.id}"></tags:conditions>
+									 selectedQuestionId="${crfItem.proCtcQuestion.id}"></tags:conditions>
 
 
 					<tr id="conditions_${crfItem.proCtcQuestion.id}"></tr>
