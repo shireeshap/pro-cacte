@@ -119,7 +119,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 		crfItem = crf.getCrfItemsSortedByDislayOrder().iterator().next();
 
 		assertNotNull(crfItem.getId());
-		Integer id = crfItem.getCrfItemDisplayRules().iterator().next().getId();
+		Integer id = crfItem.getCrfItemDisplayRules().iterator().next().getRequiredObjectId();
 		assertNotNull(id);
 
 		crfItem.removeCrfItemDisplayRulesByIds(String.valueOf(id));

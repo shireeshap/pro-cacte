@@ -206,6 +206,15 @@
 		  class="gov.nih.nci.ctcae.web.form.AddQuestionByParticipantController" parent="ctcaeSimpleFormController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
+    <bean name="/form/addConditionalQuestion" id="addConditionalQuestionController"
+		  class="gov.nih.nci.ctcae.web.form.AddConditionalQuestionController">
+        <property name="finderRepository" ref="finderRepository"/>
+    </bean>
+    <bean name="/form/removeConditionalQuestion" id="removeConditionalQuestionController"
+		  class="gov.nih.nci.ctcae.web.form.RemoveConditionalQuestionController">
+        <property name="finderRepository" ref="finderRepository"/>
+    </bean>
+
     <bean name="/form/copyForm" id="copyFormController"
 		  class="gov.nih.nci.ctcae.web.form.CopyFormController">
         <property name="finderRepository" ref="finderRepository"/>

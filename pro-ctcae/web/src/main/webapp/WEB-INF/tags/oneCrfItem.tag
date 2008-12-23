@@ -43,27 +43,76 @@
 <div id="questionPropertiesDiv_${crfItem.proCtcQuestion.id}">
 	<div id="questionProperties_${crfItem.proCtcQuestion.id}" style="display:none;" class="questionProperties">
 		<chrome:box title="crfItem.label.properties">
-			<noform:renderTextArea propertyName="studyCrf.crf.crfItems[${index}].instructions" displayName="crfItem.label.instructions"
+			<noform:renderTextArea propertyName="studyCrf.crf.crfItems[${index}].instructions"
+								   displayName="crfItem.label.instructions"
 								   propertyValue="${crfItem.instructions}"></noform:renderTextArea>
 
-			<noform:renderRadio propertyName="studyCrf.crf.crfItems[${index}].responseRequired" displayName="crfItem.label.response_required"
-								propertyValue="${crfItem.responseRequired}" items="${responseRequired}" questionId="${crfItem.proCtcQuestion.id}">
+			<noform:renderRadio propertyName="studyCrf.crf.crfItems[${index}].responseRequired"
+								displayName="crfItem.label.response_required"
+								propertyValue="${crfItem.responseRequired}" items="${responseRequired}"
+								questionId="${crfItem.proCtcQuestion.id}">
 
 			</noform:renderRadio>
 
 
 			<noform:renderRadio
 				propertyName="studyCrf.crf.crfItems[${index}].crfItemAllignment" displayName="crfItem.label.allignment"
-				propertyValue="${crfItem.crfItemAllignment}" items="${crfItemAllignments}" questionId="${crfItem.proCtcQuestion.id}">
+				propertyValue="${crfItem.crfItemAllignment}" items="${crfItemAllignments}"
+				questionId="${crfItem.proCtcQuestion.id}">
 
 			</noform:renderRadio>
 
 
 		</chrome:box>
-		<div id="previewQuestion" class="review">
-			<tags:questionReview crfItem="${crfItem}" showInstructions="false" displayOrder="${crfItem.displayOrder}"/>
+
+
+		<chrome:box title="form.conditional_question">
+			<tags:instructions code="instruction_conditional_question"/>
+
+			<div align="left" style="margin-left: 50px">
+				<table width="95%" class="tablecontent"
+					   id="conditionsTable_${crfItem.proCtcQuestion.id}">
+					<tr id="ss-table-head" class="amendment-table-head">
+						<th width="95%" class="tableHeader"><tags:message
+							code='crfItem.label.conditions'/></th>
+						<th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+
+					</tr>
+
+					<tags:conditions crfItemDisplayRuleList="${crfItem.crfItemDisplayRules}"
+									   selectedQuestionId="${crfItem.proCtcQuestion.id}"></tags:conditions>
+
+
+					<tr id="conditions_${crfItem.proCtcQuestion.id}"></tr>
+
+				</table>
+
+			</div>
+
+			<div>
+				<select name="switchTriggerSelect" id="selectedCrfItems_${crfItem.proCtcQuestion.id}" multiple=""
+						size="20" class="selectedCrfItems">
+					<option value="">Please select..</option>
+					<c:forEach items="${selectedCrfItems}" var="selectedCrfItem">
+
+						<optgroup label="${selectedCrfItem.proCtcQuestion.shortText}">
+							<c:forEach items="${selectedCrfItem.proCtcQuestion.validValues}" var="validValue">
+								<option value="${validValue.id}">${validValue.displayName}</option>
+							</c:forEach>
+						</optgroup>
+
+					</c:forEach>
+				</select>
+			</div>
 			<br>
-			<br>
-		</div>
+			<input type="button" value="Add Conditions" onClick="javascript:addConditionalQuestion('${crfItem.proCtcQuestion.id}',
+			$F('selectedCrfItems_${crfItem.proCtcQuestion.id}'))" class="button"/>
+		</chrome:box>
+
+		<%--<div id="previewQuestion" class="review">--%>
+		<%--<tags:questionReview crfItem="${crfItem}" showInstructions="false" displayOrder="${crfItem.displayOrder}"/>--%>
+		<%--<br>--%>
+		<%--<br>--%>
+		<%--</div>--%>
 	</div>
 </div>

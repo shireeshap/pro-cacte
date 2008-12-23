@@ -31,6 +31,9 @@ public class CrfItemDisplayRule extends BasePersistable {
 	@Column(name = "required_object_id")
 	private Integer requiredObjectId;
 
+	@Transient
+	private Persistable persistable;
+
 	public CrfItemDisplayRule() {
 	}
 
@@ -54,7 +57,7 @@ public class CrfItemDisplayRule extends BasePersistable {
 		return requiredObjectClass;
 	}
 
-	public void setRequiredObjectClass(final String requiredObjectClass) {
+	private void setRequiredObjectClass(final String requiredObjectClass) {
 		this.requiredObjectClass = requiredObjectClass;
 	}
 
@@ -62,7 +65,7 @@ public class CrfItemDisplayRule extends BasePersistable {
 		return requiredObjectId;
 	}
 
-	public void setRequiredObjectId(final Integer requiredObjectId) {
+	private void setRequiredObjectId(final Integer requiredObjectId) {
 		this.requiredObjectId = requiredObjectId;
 	}
 
@@ -90,7 +93,20 @@ public class CrfItemDisplayRule extends BasePersistable {
 		return result;
 	}
 
-	public void setRequiredObjectClass(final Class requiredObjectClass) {
+	private void setRequiredObjectClass(final Class requiredObjectClass) {
 		setRequiredObjectClass(requiredObjectClass.getName());
+	}
+
+	public void setPersistable(final Persistable persistable) {
+		if (persistable != null) {
+			setRequiredObjectClass(persistable.getClass());
+			setRequiredObjectId(persistable.getId());
+		}
+		this.persistable=persistable;
+
+	}
+
+	public Persistable getPersistable() {
+		return persistable;
 	}
 }

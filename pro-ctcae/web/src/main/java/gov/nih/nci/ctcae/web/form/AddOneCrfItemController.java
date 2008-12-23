@@ -39,6 +39,7 @@ public class AddOneCrfItemController extends AbstractController {
 			modelAndView.addObject("index", index);
 			modelAndView.addObject("responseRequired", ListValues.getResponseRequired());
 			modelAndView.addObject("crfItemAllignments", ListValues.getCrfItemAllignments());
+			modelAndView.addObject("selectedCrfItems", createFormCommand.getStudyCrf().getCrf().getCrfItems());
 
 		} else {
 			logger.error("can not add question because can not find any question for given question id:" + questionId);

@@ -186,7 +186,7 @@ public class CrfItem extends BasePersistable {
 
 	private CrfItemDisplayRule getCrfDisplayRuleById(final Integer id) {
 		for (CrfItemDisplayRule crfItemDisplayRule : getCrfItemDisplayRules()) {
-			if (crfItemDisplayRule.getId().equals(id)) {
+			if (crfItemDisplayRule.getRequiredObjectId().equals(id)) {
 				return crfItemDisplayRule;
 			}
 		}
@@ -198,15 +198,28 @@ public class CrfItem extends BasePersistable {
 		getCrfItemDisplayRules().remove(crfItemDisplayRule);
 	}
 
-	public void addCrfItemDisplayRules(CrfItemDisplayRule crfItemDisplayRule) {
+	public boolean addCrfItemDisplayRules(CrfItemDisplayRule crfItemDisplayRule) {
 		if (crfItemDisplayRule != null) {
 			crfItemDisplayRule.setCrfItem(this);
-			getCrfItemDisplayRules().add(crfItemDisplayRule);
+			boolean b = getCrfItemDisplayRules().add(crfItemDisplayRule);
+			return b;
+
 		}
+		return false;
 	}
 
 	public boolean shouldDisplay(List<ProCtcValidValue> selectedProCtcValidValues) {
 		return true;
 	}
 
+	public List<CrfItemDisplayRule> addCrfItemDisplayRules(final List<CrfItemDisplayRule> crfItemDisplayRuleList) {
+		final List<CrfItemDisplayRule> addedCrfItemDisplayRules = new ArrayList<CrfItemDisplayRule>();
+		for (CrfItemDisplayRule crfItemDisplayRule : crfItemDisplayRuleList) {
+			boolean isAdded = addCrfItemDisplayRules(crfItemDisplayRule);
+			if (isAdded) {
+				addedCrfItemDisplayRules.add(crfItemDisplayRule);
+			}
+		}
+		return addedCrfItemDisplayRules;
+	}
 }

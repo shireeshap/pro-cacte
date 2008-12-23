@@ -291,6 +291,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalSt
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddConditionalQuestionController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneCrfItemController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneProCtcTermController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantController.java -text
@@ -307,6 +308,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/RemoveConditionalQuestionController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReviewFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SelectStudyForFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SetNameController.java -text
@@ -387,6 +389,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/chrome/minimizableBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/chrome/section.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/chrome/summary.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/chrome/workflowTabs.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/conditions.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/crfSchedule.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/dateInput.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/debugInfo.tag -text
@@ -466,10 +469,12 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/searchClinicalStaff.js
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/siteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/conditions.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/name.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfItemSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneProCtcTermSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/questionReviewSection.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/removeConditions.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/reorderSucessfull.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmFormSubmission.jsp -text

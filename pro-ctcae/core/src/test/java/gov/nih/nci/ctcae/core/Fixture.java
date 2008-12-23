@@ -28,9 +28,10 @@ public class Fixture {
 
 	public static CrfItemDisplayRule createCrfItemDisplayRules(final Integer id, final Integer requiredObjectId) {
 		CrfItemDisplayRule crfItemDisplayRule = new CrfItemDisplayRule();
-		crfItemDisplayRule.setRequiredObjectClass(ProCtcValidValue.class.getName());
-		crfItemDisplayRule.setRequiredObjectId(requiredObjectId);
+		ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
+		proCtcValidValue.setId(requiredObjectId);
 		crfItemDisplayRule.setId(id);
+		crfItemDisplayRule.setPersistable(proCtcValidValue);
 		return crfItemDisplayRule;
 	}
 

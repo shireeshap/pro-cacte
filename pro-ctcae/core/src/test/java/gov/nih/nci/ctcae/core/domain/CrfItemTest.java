@@ -134,8 +134,8 @@ public class CrfItemTest extends TestCase {
 
 	public void testAddCrfItemDisplayRules() {
 		assertTrue("must not have any display rules", crfItem.getCrfItemDisplayRules().isEmpty());
-
-		crfItem.addCrfItemDisplayRules(null);
+		CrfItemDisplayRule nullCrfItemDisplayRule = null;
+		crfItem.addCrfItemDisplayRules(nullCrfItemDisplayRule);
 		assertTrue("must not add null display rules", crfItem.getCrfItemDisplayRules().isEmpty());
 
 		crfItem.addCrfItemDisplayRules(crfItemDisplayRule1);
@@ -154,8 +154,8 @@ public class CrfItemTest extends TestCase {
 
 	public void testMustNotAddSameCrfItemDisplayRule() {
 		assertTrue("must not have any display rules", crfItem.getCrfItemDisplayRules().isEmpty());
-
-		crfItem.addCrfItemDisplayRules(null);
+		CrfItemDisplayRule nullCrfItemDisplayRule = null;
+		crfItem.addCrfItemDisplayRules(nullCrfItemDisplayRule);
 		assertTrue("must not add null display rules", crfItem.getCrfItemDisplayRules().isEmpty());
 
 		crfItem.addCrfItemDisplayRules(crfItemDisplayRule1);

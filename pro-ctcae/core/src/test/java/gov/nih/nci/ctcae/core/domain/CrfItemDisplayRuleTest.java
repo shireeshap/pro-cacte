@@ -11,11 +11,15 @@ public class CrfItemDisplayRuleTest extends TestCase {
 	private CrfItem crfItem;
 
 	private CrfItemDisplayRule crfItemDisplayRule;
+	private ProCtcValidValue proCtcValidValue1;
+	private ProCtcValidValue proCtcValidValue2;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		crfItem = new CrfItem();
+		proCtcValidValue1 = new ProCtcValidValue();
+		proCtcValidValue2 = new ProCtcValidValue();
 	}
 
 
@@ -40,9 +44,9 @@ public class CrfItemDisplayRuleTest extends TestCase {
 		assertEquals(anotherCrfItemDisplayRule, crfItemDisplayRule);
 		assertEquals(anotherCrfItemDisplayRule.hashCode(), crfItemDisplayRule.hashCode());
 
-		crfItemDisplayRule.setRequiredObjectClass(ProCtcValidValue.class);
+		crfItemDisplayRule.setPersistable(proCtcValidValue1);
 		assertFalse(crfItemDisplayRule.equals(anotherCrfItemDisplayRule));
-		anotherCrfItemDisplayRule.setRequiredObjectClass(ProCtcValidValue.class);
+		anotherCrfItemDisplayRule.setPersistable(proCtcValidValue2);
 		assertEquals(anotherCrfItemDisplayRule.hashCode(), crfItemDisplayRule.hashCode());
 		assertEquals(anotherCrfItemDisplayRule, crfItemDisplayRule);
 
@@ -51,14 +55,14 @@ public class CrfItemDisplayRuleTest extends TestCase {
 		anotherCrfItemDisplayRule.setCrfItem(crfItem);
 		assertEquals(anotherCrfItemDisplayRule.hashCode(), crfItemDisplayRule.hashCode());
 		assertEquals(anotherCrfItemDisplayRule, crfItemDisplayRule);
-
-		crfItemDisplayRule.setRequiredObjectId(2);
-
+		proCtcValidValue1.setId(2);
+		crfItemDisplayRule.setPersistable(proCtcValidValue1);
 		assertFalse(crfItemDisplayRule.equals(anotherCrfItemDisplayRule));
-		anotherCrfItemDisplayRule.setRequiredObjectId(2);
-		assertEquals(anotherCrfItemDisplayRule.hashCode(), crfItemDisplayRule.hashCode());
+		proCtcValidValue2.setId(2);
+		anotherCrfItemDisplayRule.setPersistable(proCtcValidValue2);
 		assertEquals(anotherCrfItemDisplayRule, crfItemDisplayRule);
-
+		assertEquals(anotherCrfItemDisplayRule.hashCode(), crfItemDisplayRule.hashCode());
+				
 
 	}
 

@@ -38,7 +38,7 @@ public class AddOneProCtcTermController extends AbstractController {
 			modelAndView.addObject("crfItems", addedCrfItems);
 			modelAndView.addObject("responseRequired", ListValues.getResponseRequired());
 			modelAndView.addObject("crfItemAllignments", ListValues.getCrfItemAllignments());
-
+			modelAndView.addObject("selectedCrfItems", createFormCommand.getStudyCrf().getCrf().getCrfItems());
 		} else {
 			logger.error("can not add proCtcTerm because pro ctc term is null for id:" + proCtcTermId);
 			return null;

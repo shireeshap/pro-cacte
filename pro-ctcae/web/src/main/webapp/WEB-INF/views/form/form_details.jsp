@@ -164,6 +164,7 @@ function addCrfItem(questionId, proCtcTermId) {
 			new Insertion.Before("hiddenDiv", response);
 			sortQustions()
 			updateQuestionsId()
+			updateSelectedCrfItems(questionId)
 			addCrfItemPropertiesHtml(questionId);
 			reOrderQuestionNumber();
 
@@ -172,12 +173,19 @@ function addCrfItem(questionId, proCtcTermId) {
 		method:'get'
 	})
 	hideQuestionFromForm(questionId);
-	hideProCtcTermLinkFromForm(proCtcTermId);
+	hideProCtcTermLinkFromForm(proCtcTermId);                                                                                                                    
 	$('totalQuestions').value = displayOrder;
 	$('totalQuestionDivision').innerHTML = displayOrder;
 
 
 }
+function updateSelectedCrfItems(questionId) {
+	var selectedCrfItems = $('selectedCrfItems_' + questionId)
+	$$('select.selectedCrfItems').each(function (item) {
+		item.innerHTML = selectedCrfItems.innerHTML;
+	});
+}
+
 function addProctcTerm(proCtcTermId) {
 	var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
 	var request = new Ajax.Request("<c:url value="/pages/form/addOneProCtcTerm"/>", {
@@ -274,22 +282,22 @@ function showQuestionForReview(firstQuestion, displayOrder, nextQuestionIndex, p
 }
 
 
-function updateCrfItemroperties(value, propertyName, questionId) {
-	if (propertyName.include('crfItemAllignment')) {
-		if (value == 'Vertical') {
-
-			$('horizontalCrfItems_' + questionId).hide();
-			$('verticalCrfItems_' + questionId).show();
-
-		}
-		if (value == 'Horizontal') {
-			$('verticalCrfItems_' + questionId).hide();
-			$('horizontalCrfItems_' + questionId).show();
-
-		}
-	}
-
-}
+//function updateCrfItemroperties(value, propertyName, questionId) {
+//	if (propertyName.include('crfItemAllignment')) {
+//		if (value == 'Vertical') {
+//
+//			$('horizontalCrfItems_' + questionId).hide();
+//			$('verticalCrfItems_' + questionId).show();
+//
+//		}
+//		if (value == 'Horizontal') {
+//			$('verticalCrfItems_' + questionId).hide();
+//			$('horizontalCrfItems_' + questionId).show();
+//
+//		}
+//	}
+//
+//}
 
 
 function showReviewWindow(transport) {
@@ -344,6 +352,35 @@ function previousQuestion(questionIndex) {
 
 
 }
+function addConditionalQuestion(questionId, selectedValidValues) {
+
+
+	var request = new Ajax.Request("<c:url value="/pages/form/addConditionalQuestion"/>", {
+		parameters:"questionId=" + questionId + "&subview=subview&selectedValidValues=" + selectedValidValues,
+		onComplete:function(transport) {
+			var response = transport.responseText;
+//			$('conditionsTable_' + questionId).show();
+			new Insertion.Before("conditions_" + questionId, response)
+		},
+		method:'get'
+	})
+
+
+}
+function deleteConditions(questionId, proCtcValidValueId) {
+
+
+	var request = new Ajax.Request("<c:url value="/pages/form/removeConditionalQuestion"/>", {
+		parameters:"questionId=" + questionId + "&subview=subview&proCtcValidValueId=" + proCtcValidValueId,
+		onComplete:function(transport) {
+			$('crfItemDisplayRule_' + questionId + '_' + proCtcValidValueId + '-row').remove();
+		},
+		method:'get'
+	})
+
+
+}
+
 function showForm() {
 	$('questionBank').show();
 	hideQuestionSettings();
@@ -486,6 +523,8 @@ function hideQuestionBank() {
 							</ul>
 
 						</div>
+
+
 						<div id="questionProperties0" style="display:none;"></div>
 					</td>
 					<td id="right">
@@ -507,15 +546,18 @@ function hideQuestionBank() {
 									<div id="sortable">
 										<form:hidden path="questionsIds" id="questionsIds"/>
 										<input type="hidden" id="totalQuestions" value="${totalQuestions}">
-										<c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem"
+										<c:forEach items="${command.studyCrf.crf.crfItems}" var="selectedCrfItem"
 												   varStatus="status">
-											<tags:oneCrfItem crfItem="${crfItem}"
+											<tags:oneCrfItem crfItem="${selectedCrfItem}"
 															 index="${status.index}">
 											</tags:oneCrfItem>
 										</c:forEach>
 										<div id="hiddenDiv"></div>
+
 									</div>
+
 								</td>
+
 							</tr>
 							<tr>
 								<td id="formbuilderTable-borderBottom">
@@ -527,6 +569,7 @@ function hideQuestionBank() {
 				</tr>
 
 			</table>
+
 </jsp:attribute>
 </tags:tabForm>
 </body>

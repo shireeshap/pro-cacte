@@ -1,4 +1,4 @@
-class UpdateCrfTable extends edu.northwestern.bioinformatics.bering.Migration {
+class UpdateCrfTableAddConstraints extends edu.northwestern.bioinformatics.bering.Migration {
   void up() {
 
         addColumn('CRFS', 'parent_version_id', 'integer', nullable: true);
