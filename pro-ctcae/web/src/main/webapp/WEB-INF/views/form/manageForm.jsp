@@ -149,6 +149,7 @@
     <br>
     <tags:indicator id="indicator"/>
 </chrome:box>
+</div>
 <div id="noForm" style="display:none;">
         <a href="" id="newFormUrl">New Form</a>
     </div>

@@ -384,10 +384,16 @@ function deleteConditions(questionId, proCtcValidValueId) {
 function showForm() {
 	$('questionBank').show();
 	hideQuestionSettings();
+	document.getElementById("firstlevelnav_1").className="selected_4thlvl";
+	document.getElementById("firstlevelnav_3").className="";
+	document.getElementById("firstlevelnav_2").className="";
 }
 function showQuestionSettings() {
 	hideQuestionBank();
 	hideCrfItemProperties();
+	document.getElementById("firstlevelnav_2").className="selected_4thlvl";
+	document.getElementById("firstlevelnav_3").className="";
+	document.getElementById("firstlevelnav_1").className="";
 	if ($$('div.sortable').size() != 0) {
 		var firstQuestion = $$('div.sortable')[0].id;
 		var questionId = firstQuestion.substr(9, firstQuestion.length)
@@ -424,6 +430,11 @@ function showCrfItemPropertiesTab(questionId) {
 function hideQuestionBank() {
 	$('questionBank').hide();
 }
+function showFormSettings() {
+	document.getElementById("firstlevelnav_3").className="selected_4thlvl";
+	document.getElementById("firstlevelnav_2").className="";
+	document.getElementById("firstlevelnav_1").className="";
+}
 
 
 </script>
@@ -438,6 +449,57 @@ function hideQuestionBank() {
 		margin-left: 90px;
 		text-align: left;
 		width: 60%;
+	}
+	#form-tabs {
+		position:relative;
+	}
+	#firstlevelnav_1 {
+		position:absolute;
+		left:0;
+		top:0;
+		display:block;
+		height:0px;
+		padding-top:45px;
+		width:145px;
+		background-image:url(../../images/blue/formbuilder_4thlvl_btns.png);
+		overflow:hidden;
+	}
+	#firstlevelnav_2 {
+		position:absolute;
+		left:145px;
+		top:0;
+		display:block;
+		height:0px;
+		padding-top:45px;
+		width:138px;
+		background-image:url(../../images/blue/formbuilder_4thlvl_btns.png);
+		overflow:hidden;
+		background-position:-145px 0;
+	}
+	#firstlevelnav_3 {
+		position:absolute;
+		left:283px;
+		top:0;
+		display:block;
+		height:0px;
+		padding-top:45px;
+		width:145px;
+		background-image:url(../../images/blue/formbuilder_4thlvl_btns.png);
+		overflow:hidden;
+		background-position:-283px 0;
+	}
+	#questionBank {
+		padding:1px;
+		background-color:#E5E9F3;
+	}
+	#firstlevelnav_1.selected_4thlvl {
+	background-position:0px -45px;
+	}
+	#firstlevelnav_2.selected_4thlvl {
+	background-position:-145px -45px;
+	}
+	#firstlevelnav_3.selected_4thlvl {
+	background-position:-283px -45px;
 	}
 </style>
 
@@ -458,8 +520,8 @@ function hideQuestionBank() {
 				<tr>
 					<td id="left">
 						<ul id="form-tabs" class="tabs">
-							<li class="selected">
-								<a id="firstlevelnav_1" href="javascript:showForm()">
+							<li>
+								<a id="firstlevelnav_1" href="javascript:showForm()" class="selected_4thlvl">
 									<tags:message code='form.add_question'/>
 									|</a>
 							</li>
@@ -477,8 +539,6 @@ function hideQuestionBank() {
 						<br>
 
 						<div id="questionBank">
-							<div class="formbuilderHeader"><tags:message code='form.label.question_bank'/></div>
-
 							<ul class="tree">
 								<c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
