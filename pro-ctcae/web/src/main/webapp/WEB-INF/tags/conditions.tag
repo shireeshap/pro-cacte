@@ -13,7 +13,7 @@
 <c:forEach items="${crfItemDisplayRuleList}" var="crfItemDisplayRule">
 	<c:set var="inputName" value="crfItemDisplayRule_${selectedQuestionId}_${crfItemDisplayRule.persistable.id}"/>
 
-	<tr id="${inputName}-row">
+	<tr id="${inputName}-row" class="crfItemDisplayRule_${selectedQuestionId}-condition">
 
 		<td style="border-right:none;">
 

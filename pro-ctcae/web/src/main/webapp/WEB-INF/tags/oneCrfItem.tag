@@ -33,6 +33,10 @@
 
 				<div id="${crfItem.displayOrder}" class="sortableSpan">${crfItem.displayOrder}</div>
 				${crfItem.proCtcQuestion.shortText}
+				
+				<img class="arrow" alt="" src="<tags:imageUrl name="ajax-loading.gif"/>"
+										 id="conditionsImage_${crfItem.proCtcQuestion.id}" style="display:none;"/>
+
 			</td>
 			<td class="R"></td>
 		</tr>
@@ -74,7 +78,7 @@
 
 			<div align="left" style="margin-left: 50px">
 				<table width="95%" class="tablecontent"
-					   id="conditionsTable_${crfItem.proCtcQuestion.id}">
+					   id="conditionsTable_${crfItem.proCtcQuestion.id}" style="display:none;">
 					<tr id="ss-table-head" class="amendment-table-head">
 						<th width="95%" class="tableHeader"><tags:message
 							code='crfItem.label.conditions'/></th>
@@ -91,7 +95,8 @@
 				</table>
 
 			</div>
-
+			 <br>
+			 <br>
 			<div>
 				<select name="switchTriggerSelect" id="selectedCrfItems_${crfItem.proCtcQuestion.id}" multiple=""
 						size="20" class="selectedCrfItems">

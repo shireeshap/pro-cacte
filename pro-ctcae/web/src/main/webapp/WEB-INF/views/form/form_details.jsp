@@ -97,14 +97,14 @@ function displayReviewLink() {
 }
 function reOrderQuestionNumber() {
 	var i = 0;
-//	$$("div.sortableSpan").each(function (item) {
-//		item.innerHTML = i + 1;
-//		var orderNumberAtCrfItemPropertiesPage = $$("span.sortableSpan")[parseInt(item.id) - 1];
-//		orderNumberAtCrfItemPropertiesPage.innerHTML = i + 1;
-//		i = i + 1;
-//
-//
-//	})
+	//	$$("div.sortableSpan").each(function (item) {
+	//		item.innerHTML = i + 1;
+	//		var orderNumberAtCrfItemPropertiesPage = $$("span.sortableSpan")[parseInt(item.id) - 1];
+	//		orderNumberAtCrfItemPropertiesPage.innerHTML = i + 1;
+	//		i = i + 1;
+	//
+	//
+	//	})
 
 
 }
@@ -359,13 +359,19 @@ function addConditionalQuestion(questionId, selectedValidValues) {
 		parameters:"questionId=" + questionId + "&subview=subview&selectedValidValues=" + selectedValidValues,
 		onComplete:function(transport) {
 			var response = transport.responseText;
-			//			$('conditionsTable_' + questionId).show();
+			$('conditionsImage_' + questionId).show();
+			$('conditionsTable_' + questionId).show();
+
 			new Insertion.Before("conditions_" + questionId, response)
+			 addConditionalDisplayToQuestion(questionId);
 		},
 		method:'get'
 	})
 
 
+}
+function addConditionalDisplayToQuestion(questionId){
+	$("sortable_" + questionId).addClassName('conditional-question')
 }
 function deleteConditions(questionId, proCtcValidValueId) {
 
@@ -373,32 +379,49 @@ function deleteConditions(questionId, proCtcValidValueId) {
 	var request = new Ajax.Request("<c:url value="/pages/form/removeConditionalQuestion"/>", {
 		parameters:"questionId=" + questionId + "&subview=subview&proCtcValidValueId=" + proCtcValidValueId,
 		onComplete:function(transport) {
-			$('crfItemDisplayRule_' + questionId + '_' + proCtcValidValueId + '-row').remove();
+			var inputName = 'crfItemDisplayRule_' + questionId + '_' + proCtcValidValueId;
+			$(inputName + '-row').remove();
+			 removeConditionalDisplayFromQuestion(questionId)
 		},
 		method:'get'
 	})
 
 
 }
+function removeConditionalDisplayFromQuestion(questionId){
+	var conditions = 'crfItemDisplayRule_' + questionId + '-condition';
+			if ($$('tr.' + conditions).length == 0) {
+				$("sortable_" + questionId).removeClassName('conditional-question');
+				$('conditionsImage_' + questionId).hide();
+				$('conditionsTable_' + questionId).hide();
+
+			}
+	}
 
 function showForm() {
 	$('questionBank').show();
 	hideQuestionSettings();
-	document.getElementById("firstlevelnav_1").className="selected_4thlvl";
-	document.getElementById("firstlevelnav_3").className="";
-	document.getElementById("firstlevelnav_2").className="";
+	document.getElementById("firstlevelnav_1").className = "selected_4thlvl";
+	document.getElementById("firstlevelnav_3").className = "";
+	document.getElementById("firstlevelnav_2").className = "";
 }
 function showQuestionSettings() {
-	hideQuestionBank();
-	hideCrfItemProperties();
-	document.getElementById("firstlevelnav_2").className="selected_4thlvl";
-	document.getElementById("firstlevelnav_3").className="";
-	document.getElementById("firstlevelnav_1").className="";
+	showQuestionSettingsTab();
+
 	if ($$('div.sortable').size() != 0) {
 		var firstQuestion = $$('div.sortable')[0].id;
 		var questionId = firstQuestion.substr(9, firstQuestion.length)
 		showCrfItemProperties(questionId);
 	}
+}
+function showQuestionSettingsTab() {
+	hideQuestionBank();
+	hideCrfItemProperties();
+	document.getElementById("firstlevelnav_2").className = "selected_4thlvl";
+	document.getElementById("firstlevelnav_3").className = "";
+	document.getElementById("firstlevelnav_1").className = "";
+
+
 }
 function hideQuestionSettings() {
 	hideCrfItemProperties();
@@ -409,19 +432,21 @@ function hideCrfItemProperties() {
 	})
 }
 function showCrfItemProperties(questionId) {
-	hideCrfItemProperties();
-
 	addCrfItemPropertiesHtml(questionId);
-	removeEditingClassNamesFromQuestions();
+	removeEditingDisplayFromQuestions();
 	$('questionProperties_' + questionId).show();
-//	$('questionProperties_' + questionId).addClassName('editing');
-//	$('questionProperties_' + questionId).addClassName('focused');
+
+	//	$('questionProperties_' + questionId).addClassName('editing');
+	//	$('questionProperties_' + questionId).addClassName('focused');
+	addEditingDisplayToQuestion(questionId)
+}
+function addEditingDisplayToQuestion(questionId) {
 	$('sortable_' + questionId).addClassName('editing');
 	//$('sortable_' + questionId).addClassName('focused');
 	$('arrow_' + questionId).show();
 
 }
-function removeEditingClassNamesFromQuestions() {
+function removeEditingDisplayFromQuestions() {
 	$$('div.sortable').each(function (item) {
 		item.removeClassName('editing');
 		//item.removeClassName('focused');
@@ -440,16 +465,16 @@ function addCrfItemPropertiesHtml(questionId) {
 	}
 }
 function showCrfItemPropertiesTab(questionId) {
-	hideQuestionBank();
+	showQuestionSettingsTab()
 	showCrfItemProperties(questionId);
 }
 function hideQuestionBank() {
 	$('questionBank').hide();
 }
 function showFormSettings() {
-	document.getElementById("firstlevelnav_3").className="selected_4thlvl";
-	document.getElementById("firstlevelnav_2").className="";
-	document.getElementById("firstlevelnav_1").className="";
+	document.getElementById("firstlevelnav_3").className = "selected_4thlvl";
+	document.getElementById("firstlevelnav_2").className = "";
+	document.getElementById("firstlevelnav_1").className = "";
 }
 
 
@@ -466,57 +491,67 @@ function showFormSettings() {
 		text-align: left;
 		width: 60%;
 	}
+
 	#form-tabs {
-		position:relative;
+		position: relative;
 	}
+
 	#firstlevelnav_1 {
-		position:absolute;
-		left:0;
-		top:0;
-		display:block;
-		height:0px;
-		padding-top:45px;
-		width:145px;
-		background-image:url(../../images/blue/formbuilder_4thlvl_btns.png);
-		overflow:hidden;
+		position: absolute;
+		left: 0;
+		top: 0;
+		display: block;
+		height: 0px;
+		padding-top: 45px;
+		width: 145px;
+		background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
+		overflow: hidden;
 	}
+
 	#firstlevelnav_2 {
-		position:absolute;
-		left:145px;
-		top:0;
-		display:block;
-		height:0px;
-		padding-top:45px;
-		width:138px;
-		background-image:url(../../images/blue/formbuilder_4thlvl_btns.png);
-		overflow:hidden;
-		background-position:-145px 0;
+		position: absolute;
+		left: 145px;
+		top: 0;
+		display: block;
+		height: 0px;
+		padding-top: 45px;
+		width: 138px;
+		background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
+		overflow: hidden;
+		background-position: -145px 0;
 	}
+
 	#firstlevelnav_3 {
-		position:absolute;
-		left:283px;
-		top:0;
-		display:block;
-		height:0px;
-		padding-top:45px;
-		width:145px;
-		background-image:url(../../images/blue/formbuilder_4thlvl_btns.png);
-		overflow:hidden;
-		background-position:-283px 0;
+		position: absolute;
+		left: 283px;
+		top: 0;
+		display: block;
+		height: 0px;
+		padding-top: 45px;
+		width: 145px;
+		background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
+		overflow: hidden;
+		background-position: -283px 0;
 	}
+
 	#questionBank {
-		padding:1px;
-		background-color:#E5E9F3;
+		padding: 1px;
+		background-color: #E5E9F3;
 	}
+
 	#firstlevelnav_1.selected_4thlvl {
-	background-position:0px -45px;
+		background-position: 0px -45px;
 	}
+
 	#firstlevelnav_2.selected_4thlvl {
-	background-position:-145px -45px;
+		background-position: -145px -45px;
 	}
+
 	#firstlevelnav_3.selected_4thlvl {
-	background-position:-283px -45px;
+		background-position: -283px -45px;
 	}
+
+
 </style>
 
 </head>
