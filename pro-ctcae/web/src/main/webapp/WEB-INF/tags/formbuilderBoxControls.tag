@@ -9,6 +9,15 @@
 	<div class="formbuilderBoxControls">
 		<div class="formbuilderBoxControls-left">
 			<c:if test="${properties}">
+				<a href="javascript:moveQuestionUp('${proCtcQuestionId}');" id="moveQuestionUpLink_${proCtcQuestionId}">
+					<img src="/ctcae/images/up.gif" alt="Up"/>
+				</a>
+
+				<a href="javascript:moveQuestionDown('${proCtcQuestionId}');"
+				   id="moveQuestionDownLink_${proCtcQuestionId}">
+					<img src="/ctcae/images/down.gif" alt="Down"/>
+				</a>
+
 				<a href="javascript:showCrfItemPropertiesTab('${proCtcQuestionId}');"><img
 					src="/ctcae/images/blue/question_properties_btn.png" alt="Configure Item"/></a>
 			</c:if>
@@ -18,8 +27,11 @@
 					alt="Add"/></a>
 			</c:if>
 			<c:if test="${delete}">
-				<a href="javascript:deleteQuestion('${proCtcQuestionId}');"><img src="/ctcae/images/checkno.gif"
-																				 alt="Delete"/></a>
+				<a href="javascript:deleteQuestion('${proCtcQuestionId}');">
+					<img src="/ctcae/images/checkno.gif" alt="Delete"/>
+				</a>
+
+
 			</c:if>
 		</div>
 		<div class="formbuilderBoxControls-right"></div>
