@@ -577,6 +577,7 @@ pro-ctcae/web/src/main/webapp/images/blue/clear-left-button.png -text
 pro-ctcae/web/src/main/webapp/images/blue/continue_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/eXtable_allAE_header_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/eXtableheader_bg.png -text
+pro-ctcae/web/src/main/webapp/images/blue/edit_add.png -text
 pro-ctcae/web/src/main/webapp/images/blue/error.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/B.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/BL.png -text
@@ -657,6 +658,7 @@ pro-ctcae/web/src/main/webapp/images/blue/taskbar_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/thirdlevelarrow.png -text
 pro-ctcae/web/src/main/webapp/images/blue/thirdlevelarrow_grey.png -text
 pro-ctcae/web/src/main/webapp/images/blue/thirdlevelnav_grey_gradient.png -text
+pro-ctcae/web/src/main/webapp/images/blue/undo.png -text
 pro-ctcae/web/src/main/webapp/images/book.gif -text
 pro-ctcae/web/src/main/webapp/images/caaers.ico -text
 pro-ctcae/web/src/main/webapp/images/checkno.gif -text

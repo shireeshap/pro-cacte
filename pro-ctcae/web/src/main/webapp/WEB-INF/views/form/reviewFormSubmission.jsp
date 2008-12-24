@@ -102,6 +102,12 @@
 		float:left;
 		font-size:17px;
 	}
+	#left-panel a{
+		text-decoration:none;
+	}
+	#left-panel a:hover {
+		text-decoration:underline;
+	}
 	#right-panel {
 		width:35%;
 		padding:5px;
@@ -143,9 +149,9 @@
                     <br/>
 					<br/>
                     You can:<br/> 
-					<a href="javascript:showReview();">Review your responses and make changes</a>
+					<a href="javascript:showReview();"><img src="<tags:imageUrl name="blue/undo.png" />" alt="" /> Review your responses and make changes</a>
                     <br/>
-                    <a href="../form/addquestion">Add questions relating to other symptoms</a>
+                    <a href="../form/addquestion"><img src="<tags:imageUrl name="blue/edit_add.png" />" alt="" /> Add questions relating to other symptoms</a>
                 
             </div>
 			<div id="right-panel">
