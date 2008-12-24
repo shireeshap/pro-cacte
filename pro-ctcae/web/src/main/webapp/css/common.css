@@ -118,17 +118,17 @@ a img {
 h1, h2, h3, h4, h5, h6 {
 	margin: 0;
 	padding: 0;
-	color: #2E3257;
+	color: #00207E;
 	font-weight: 600;
 }
 
 h1 {
-	font-size: 1.2em;
-	margin-bottom: 1em;
+	font-size: 2em;
+	margin-bottom: 0.4em;
 }
 
 h2 {
-	font-size: 1.0em;
+	font-size: 1.5em;
 }
 
 h3, h4 {

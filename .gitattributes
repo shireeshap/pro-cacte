@@ -651,6 +651,7 @@ pro-ctcae/web/src/main/webapp/images/blue/studies_btn_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/subjects_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/subjects_btn_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/submit_btn.png -text
+pro-ctcae/web/src/main/webapp/images/blue/submit_sprite.png -text
 pro-ctcae/web/src/main/webapp/images/blue/taskbar_BG.png -text
 pro-ctcae/web/src/main/webapp/images/blue/taskbar_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/thirdlevelarrow.png -text
@@ -789,6 +790,7 @@ pro-ctcae/web/src/main/webapp/js/scriptaculous/slider.js -text
 pro-ctcae/web/src/main/webapp/js/side-bar/side-bar.js -text
 pro-ctcae/web/src/main/webapp/js/sidebar/ssm.js -text
 pro-ctcae/web/src/main/webapp/js/sidebar/ssmItems.js -text
+pro-ctcae/web/src/main/webapp/js/submit_btn_animation.js -text
 pro-ctcae/web/src/main/webapp/js/tabbedflow.js -text
 pro-ctcae/web/src/main/webapp/js/tiger-menu.js -text
 pro-ctcae/web/src/main/webapp/js/tree.js -text

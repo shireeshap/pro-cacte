@@ -11,7 +11,7 @@
 
 <html>
 <head>
-
+	<tags:javascriptLink name="submit_btn_animation" />
     <script type="text/javascript">
         var hiddenIds = '';
         var pages = new Array();
@@ -94,27 +94,65 @@
         }
 
     </script>
-
+	
+<style>
+	#left-panel {
+		padding-left:15px;
+		width:60%;
+		float:left;
+		font-size:17px;
+	}
+	#right-panel {
+		width:35%;
+		padding:5px;
+		float:right;
+		position:relative;
+		height:265px;
+	}
+	#submit_btn {
+		height:0px;
+		padding-top:201px;
+		overflow:hidden;
+		width:200px;
+		background-image:url(../../images/blue/submit_sprite.png);
+		position:relative;
+		display:block;
+		outline:none;
+		left:80px;
+	}
+	#submit_btn:hover {
+		cursor:pointer;
+	}
+	h2 {
+		font-weight:normal;
+	}
+	#left-panel h1{
+		font-size:2em;
+	}
+</style>
 
 </head>
 <body>
 <chrome:flashMessage flashMessage="${command.flashMessage}"></chrome:flashMessage>
 <form:form method="post" name="myForm">
-    <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}"
-                autopad="true" message="false">
-
-        <chrome:division title="Submit">
-            <p>
-                <b>
-                    You are about to submit the form. You can not change the responses after submission.
+		<div style="clear:both;">
+            <div id="left-panel">
+                    <h1>Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}</h1>
+                    You are about to submit this form.<br/> 
+					You can not change the responses after submission.
                     <br/>
-                    You can <a href="javascript:showReview();">click here</a> to review your responses and make changes.
+					<br/>
+                    You can:<br/> 
+					<a href="javascript:showReview();">Review your responses and make changes</a>
                     <br/>
-                    If you want to add questions relating to any other symptom, please <a href="../form/addquestion">click
-                    here.</a>
-                </b>
-            </p>
-        </chrome:division>
+                    <a href="../form/addquestion">Add questions relating to other symptoms</a>
+                
+            </div>
+			<div id="right-panel">
+				<a onmousedown="javascript:activate_button()" id="submit_btn">Submit</a>
+				<h2 style="margin-left:151px; margin-top:10px; color:#999;">Submit</h2>
+			</div>
+        </div>
         <table id="formbuilderTable">
             <tr>
                 <td id="left">
@@ -163,13 +201,12 @@
                 </td>
             </tr>
         </table>
-    </chrome:box>
     <table width="100%">
         <input type="hidden" name="direction"/>
         <tr align="right">
             <td>
-                <input onclick="document.myForm.direction.value='save'" type="image"
-                       src="/ctcae/images/blue/submit_btn.png" alt="save &raquo;"/>
+                <%--<input onclick="document.myForm.direction.value='save'" type="image"
+                       src="/ctcae/images/blue/submit_btn.png" alt="save &raquo;"/>--%>
             </td>
         </tr>
     </table>
