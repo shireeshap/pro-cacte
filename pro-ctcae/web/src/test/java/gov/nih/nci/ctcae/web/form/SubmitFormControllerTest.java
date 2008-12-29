@@ -100,12 +100,12 @@ public class SubmitFormControllerTest extends WebTestCase {
 //
 //    }
 //
-//    public void testConstructor() {
+    public void testConstructor() {
 //        assertEquals("form/submitForm", controller.getFormView());
 //        assertEquals("form/confirmFormSubmission", controller.getSuccessView());
 //        assertEquals("form/reviewFormSubmission", controller.getReviewView());
 //        assertEquals(SubmitFormCommand.class, controller.getCommandClass());
-//    }
+    }
 //
 //    public void testGetRequest() throws Exception {
 //        request.setMethod("GET");

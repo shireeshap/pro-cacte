@@ -122,7 +122,7 @@ public class SubmitFormCommandTest extends WebTestCase {
 //
 //    }
 //
-//    public void testConstructor() {
+    public void testConstructor() {
 //
 //        assertNull(command.getStudyParticipantCrfSchedule());
 //        assertEquals("", command.getDirection());
@@ -131,7 +131,7 @@ public class SubmitFormCommandTest extends WebTestCase {
 //        assertEquals(0, command.getTotalPages());
 //        assertNull(command.getPages());
 //
-//    }
+    }
 //
 //    public void testSetStudyParticipantCrfSchedule() {
 //
