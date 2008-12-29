@@ -34,33 +34,33 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
-        SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
-        if ("continue".equals(submitFormCommand.getDirection())) {
-            String[] selectedQuestions = request.getParameterValues("questionsByParticipants");
-            int i = 0;
-            if (selectedQuestions != null) {
-                for (String questionId : selectedQuestions) {
-                    ProCtcQuestion question = finderRepository.findById(ProCtcQuestion.class, new Integer(questionId));
-                    String answerId = request.getParameter("answer" + questionId);
-                    ProCtcValidValue validValue = finderRepository.findById(ProCtcValidValue.class, new Integer(answerId));
-
-                    StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
-
-                    CrfItem crfItem = new CrfItem();
-                    crfItem.setProCtcQuestion(question);
-                    crfItem.setDisplayOrder(100 + i++);
-
-                    crfItem = genericRepository.save(crfItem);
-
-                    studyParticipantCrfItem.setCrfItem(crfItem);
-                    studyParticipantCrfItem.setStudyParticipantCrfSchedule(submitFormCommand.getStudyParticipantCrfSchedule());
-                    studyParticipantCrfItem.setProCtcValidValue(validValue);
-                    genericRepository.save(studyParticipantCrfItem);
-                }
-            }
-        }
-
-        return new ModelAndView(new RedirectView("submit?id=" + submitFormCommand.getStudyParticipantCrfSchedule().getId()));
+//        SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
+//        if ("continue".equals(submitFormCommand.getDirection())) {
+//            String[] selectedQuestions = request.getParameterValues("questionsByParticipants");
+//            int i = 0;
+//            if (selectedQuestions != null) {
+//                for (String questionId : selectedQuestions) {
+//                    ProCtcQuestion question = finderRepository.findById(ProCtcQuestion.class, new Integer(questionId));
+//                    String answerId = request.getParameter("answer" + questionId);
+//                    ProCtcValidValue validValue = finderRepository.findById(ProCtcValidValue.class, new Integer(answerId));
+//
+//                    StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
+//
+//                    CrfItem crfItem = new CrfItem();
+//                    crfItem.setProCtcQuestion(question);
+//                    crfItem.setDisplayOrder(100 + i++);
+//
+//                    crfItem = genericRepository.save(crfItem);
+//
+//                    studyParticipantCrfItem.setCrfItem(crfItem);
+//                    studyParticipantCrfItem.setStudyParticipantCrfSchedule(submitFormCommand.getStudyParticipantCrfSchedule());
+//                    studyParticipantCrfItem.setProCtcValidValue(validValue);
+//                    genericRepository.save(studyParticipantCrfItem);
+//                }
+//            }
+//
+//        return new ModelAndView(new RedirectView("submit?id=" + submitFormCommand.getStudyParticipantCrfSchedule().getId()));
+        return null;
     }
 
 
@@ -71,7 +71,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
 
         ProCtcQuestionQuery query = new ProCtcQuestionQuery();
         List<ProCtcQuestion> questions = (List<ProCtcQuestion>) finderRepository.find(query);
-        submitFormCommand.setProCtcQuestions(questions);
+       // submitFormCommand.setProCtcQuestions(questions);
 
         return submitFormCommand;
     }

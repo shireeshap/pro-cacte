@@ -11,7 +11,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
-
         div.row div.value {
             white-space: normal;
         }
@@ -25,29 +24,12 @@
             font-size: 20px;
         }
 
-        #taskbar {
-            font-weight: bold;
-            padding-top: 12px;
-        }
-		/* This variable needs to be moved, this CSS rule will not work in IE */
-        #taskbar:after {
-            content: "Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}";
-        }
-
-        .formbuilderboxTable {
-            margin-bottom: 30px;
-        }
-
         .currentPagediv {
             color: #666666;
             font-size: 8pt;
             padding-right: 200px;
             text-align: right;
-			margin-bottom:15px;
-        }
-
-        .formbilderBox {
-            z-index: -1;
+            margin-bottom: 15px;
         }
 
         .progress-bar-outer {
@@ -62,65 +44,96 @@
 
         .progress-bar-inner {
             background-color: #0066cc;
-            width: ${(command.currentPageIndex/command.totalPages)*150}px;
+            width: ${(1/5)*150}px;
             height: 15px
         }
     </style>
     <script type="text/javascript">
-        var hiddenIds = '';
-        var severityQuestionAnswerId = '';
+        var displayRules = new Array();
+        var responses = new Array();
+        var questions = new Array();
+        var nextQuestionIndex = 0;
+        var reverseDisplayRules = new Array();
 
-        function setSeverityQuestionAnswer(answerId) {
-            severityQuestionAnswerId = answerId;
+        <c:forEach items="${command.displayRules}" var="displayRule">
+            displayRules['${displayRule.key}'] = '${displayRule.value}';
+        </c:forEach>
+
+        <c:forEach items="${command.reverseDisplayRules}" var="reverseDisplayRule">
+            reverseDisplayRules['${reverseDisplayRule.key}'] = '${reverseDisplayRule.value}';
+        </c:forEach>
+
+        <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfItems}" var="participantCrfItem">
+            questions[nextQuestionIndex++] = '${participantCrfItem.crfItem.id}';
+        </c:forEach>
+
+        function gonext(crfitemindex, index, column) {
+            var x = document.getElementsByName('studyParticipantCrfSchedule.studyParticipantCrfItems[' + crfitemindex + '].proCtcValidValue');
+            x[index].checked = true;
+            responses[x[index].value] = 'Y';
+            //column.onmouseout="javascript:this.className='over';";
+            for (var i = 0; i < x.length; i++) {
+                if (i != index) {
+                    responses[x[i].value] = 'N';
+                }
+            }
+            showNextQuestion(crfitemindex);
         }
-        function registerToHide(questionid) {
-            hiddenIds = hiddenIds + ',' + questionid;
+
+        function hideAllQuestions() {
+            for (var i = 0; i < questions.length; i++) {
+                if (questions[i] != '') {
+                    hideQuestion(questions[i]);
+                }
+            }
         }
+
         function hideQuestion(questionid) {
             $("question_" + questionid).hide();
-            var x = document.getElementsByName('response' + questionid);
+            var x = document.getElementsByName('studyParticipantCrfSchedule.studyParticipantCrfItems[' + questionid + '].proCtcValidValue');
             for (var i = 0; i < x.length; i++) {
                 x[i].checked = false;
             }
-            document.myForm.elements['studyParticipantCrfSchedule.studyParticipantCrfItems[' + questionid + '].proCtcValidValue'].value = '';
         }
 
         function showQuestion(questionid) {
             $("question_" + questionid).show();
         }
-        function showQuestions() {
-            var idsArray = hiddenIds.split(',');
-            for (var i = 0; i < idsArray.length; i++) {
-                if (idsArray[i] != '') {
-                    showQuestion(idsArray[i]);
-                }
+
+        function showNextQuestion(currentQuestionIndex) {
+            nextQuestionIndex = parseInt(currentQuestionIndex) + 1;
+            var questionid = questions[nextQuestionIndex];
+            if(isDisplay(questionid)){
+                showQuestion(questionid);
+            }else{
+                hideQuestion(questionid);
+                showNextQuestion(nextQuestionIndex);
             }
         }
 
-        function hideQuestions() {
-            var idsArray = hiddenIds.split(',');
-            for (var i = 0; i < idsArray.length; i++) {
-                if (idsArray[i] != '') {
-                    hideQuestion(idsArray[i]);
+        function isDisplay(questionid){
+            var displayRule = displayRules[questionid];
+            var rulesSatisfied = false;
+            if (displayRule == '') {
+                rulesSatisfied = true;
+            } else {
+                var myRules = displayRule.split('~');
+                for (var i = 0; i < myRules.length; i++) {
+                    if (responses[myRules[i]] == 'Y') {
+                        rulesSatisfied= true;
+                    }
                 }
             }
-        }
-        function showHideQuestions() {
-            if (severityQuestionAnswerId == '' || severityQuestionAnswerId == '0') {
-                hideQuestions();
-            } else {
-                showQuestions();
-            }
+            return rulesSatisfied;
         }
 
         Event.observe(window, "load", function () {
-            showHideQuestions();
+            hideAllQuestions();
+            showNextQuestion(-1);
         })
-
     </script>
 </head>
 <body>
-<c:set var="currentPage" value="${command.pages[command.currentPageIndex]}"/>
 <form:form method="post" name="myForm">
     <div class='progress-bar-outer'>
         <div class='progress-bar-inner'></div>
@@ -129,24 +142,23 @@
     <div class="currentPagediv">
         Progress:
     </div>
-    <c:forEach items="${currentPage}" var="currentStudyParticipantCrfItem">
-        <tags:formbuilderBox id="question_${currentStudyParticipantCrfItem.itemIndex}">
-            <input type="hidden"
-                   name="studyParticipantCrfSchedule.studyParticipantCrfItems[${currentStudyParticipantCrfItem.itemIndex}].proCtcValidValue"
-                   value=""/>
-            <c:set var="currentCrfItem" value="${currentStudyParticipantCrfItem.crfItem}"/>
 
-            <c:if test="${currentCrfItem.crfItemAllignment eq 'Horizontal'}">
-                <c:set var="colspan" value="${fn:length(currentCrfItem.proCtcQuestion.validValues)}"/>
+    <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfItems}" var="participantCrfItem"
+               varStatus="crfitemstatus">
+        <tags:formbuilderBox id="question_${participantCrfItem.crfItem.id}">
+
+            <c:set var="crfItem" value="${participantCrfItem.crfItem}"/>
+            <c:if test="${crfItem.crfItemAllignment eq 'Horizontal'}">
+                <c:set var="colspan" value="${fn:length(crfItem.proCtcQuestion.validValues)}"/>
             </c:if>
 
-            <table id="question_${currentStudyParticipantCrfItem.itemIndex}">
-                <c:if test="${currentCrfItem.instructions ne null}">
+            <table>
+                <c:if test="${crfItem.instructions ne null}">
                     <tr>
                         <td colspan="${colspan}">
                             <div class="instructions">
                                 <div class="summarylabel">Instructions</div>
-                                <div class="summaryvalue">${currentCrfItem.instructions}</div>
+                                <div class="summaryvalue">${crfItem.instructions}</div>
                             </div>
                         </td>
                     </tr>
@@ -154,7 +166,7 @@
                 <tr>
                     <td colspan="${colspan}">
                         <div class="label">
-                                ${currentCrfItem.proCtcQuestion.formattedQuestionText}
+                                ${crfItem.proCtcQuestion.formattedQuestionText}
                         </div>
                     </td>
                 </tr>
@@ -164,31 +176,27 @@
                     </td>
                 </tr>
                 <c:choose>
-                    <c:when test="${currentCrfItem.crfItemAllignment eq 'Horizontal'}">
+                    <c:when test="${crfItem.crfItemAllignment eq 'Horizontal'}">
                         <tr>
-                            <c:forEach items="${currentCrfItem.proCtcQuestion.validValues}" var="validValue"
-                                       varStatus="status">
+                            <c:forEach items="${crfItem.proCtcQuestion.validValues}" var="validValue"
+                                       varStatus="validvaluestatus">
                                 <tags:validvalue currentId="${validValue.id}"
                                                  title="${validValue.displayName}"
-                                                 selectedId="${currentStudyParticipantCrfItem.proCtcValidValue.id}"
-                                                 crfitemindex="${currentStudyParticipantCrfItem.itemIndex}"
-                                                 index="${status.index}"
-                                                 questionType="${currentCrfItem.proCtcQuestion.proCtcQuestionType}"
-                                                 scaleValue="${validValue.value}"/>
+                                                 selectedId="${participantCrfItem.proCtcValidValue.id}"
+                                                 crfitemindex="${crfitemstatus.index}"
+                                                 index="${validvaluestatus.index}"/>
                             </c:forEach>
                         </tr>
                     </c:when>
                     <c:otherwise>
-                        <c:forEach items="${currentCrfItem.proCtcQuestion.validValues}" var="validValue"
-                                   varStatus="status">
+                        <c:forEach items="${crfItem.proCtcQuestion.validValues}" var="validValue"
+                                   varStatus="validvaluestatus">
                             <tr>
                                 <tags:validvalue currentId="${validValue.id}"
                                                  title="${validValue.displayName}"
-                                                 selectedId="${currentStudyParticipantCrfItem.proCtcValidValue.id}"
-                                                 crfitemindex="${currentStudyParticipantCrfItem.itemIndex}"
-                                                 index="${status.index}"
-                                                 questionType="${currentCrfItem.proCtcQuestion.proCtcQuestionType}"
-                                                 scaleValue="${validValue.value}"/>
+                                                 selectedId="${participantCrfItem.proCtcValidValue.id}"
+                                                 crfitemindex="${crfitemstatus.index}"
+                                                 index="${validvaluestatus.index}"/>
                             </tr>
                         </c:forEach>
                     </c:otherwise>
@@ -199,39 +207,8 @@
                     </td>
                 </tr>
             </table>
-            <c:choose>
-                <c:when test="${currentCrfItem.proCtcQuestion.proCtcQuestionType eq 'Severity'}">
-                    <script type="text/javascript">
-                        setSeverityQuestionAnswer('${currentStudyParticipantCrfItem.proCtcValidValue.value}');
-                    </script>
-                </c:when>
-                <c:otherwise>
-                    <script type="text/javascript">
-                        registerToHide(${currentStudyParticipantCrfItem.itemIndex});
-                    </script>
-                </c:otherwise>
-            </c:choose>
         </tags:formbuilderBox>
     </c:forEach>
-    <table width="100%">
-        <input type="hidden" name="direction"/>
-        <tr>
-            <td align="left" width="50%">
-                <c:if test="${command.currentPageIndex > 0}">
-                    <input onclick="document.myForm.direction.value='back'" type="image"
-                           src="/ctcae/images/blue/back_btn.png" alt="back &raquo;"/>
-                </c:if>
-            </td>
-            <td align="right" width="50%">
-                <c:choose>
-                    <c:when test="${command.currentPageIndex < command.totalPages}">
-                        <input onclick="document.myForm.direction.value='continue'" type="image"
-                               src="/ctcae/images/blue/continue_btn.png" alt="continue &raquo;"/>
-                    </c:when>
-                </c:choose>
-            </td>
-        </tr>
-    </table>
 </form:form>
 </body>
 </html>

@@ -37,8 +37,9 @@ public class StudyCrf extends BaseVersionable {
 
 	public StudyCrf() {
 	}
-
+               
 	public StudyCrf(Integer id) {
+        
 		this.id = id;
 	}
 

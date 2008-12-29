@@ -33,9 +33,6 @@ public class StudyParticipantCrfItem extends BaseVersionable {
 	@ManyToOne
 	private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
 
-	@Transient
-	private int itemIndex;
-
 	public StudyParticipantCrfItem() {
 	}
 
@@ -74,15 +71,6 @@ public class StudyParticipantCrfItem extends BaseVersionable {
 
 	public void setStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
 		this.studyParticipantCrfSchedule = studyParticipantCrfSchedule;
-	}
-
-
-	public int getItemIndex() {
-		return itemIndex;
-	}
-
-	public void setItemIndex(int itemIndex) {
-		this.itemIndex = itemIndex;
 	}
 
 	@Override
