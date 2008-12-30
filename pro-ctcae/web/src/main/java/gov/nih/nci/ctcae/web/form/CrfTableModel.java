@@ -22,7 +22,10 @@ public class CrfTableModel extends AbstractTableModel {
 			TableModel model = getModel(parameterMap, request, objects);
 
 			addTitle(model);
-			addStatus(model);
+            addVersion(model);
+            addEffectiveDate(model);
+            addExpirationDate(model);
+            addStatus(model);
 			addOptions(model);
 			return model.assemble().toString();
 		} catch (Exception e) {
@@ -67,7 +70,40 @@ public class CrfTableModel extends AbstractTableModel {
 		model.addColumn(columnTitle);
 	}
 
-	private void addStatus(TableModel model) {
+    private void addVersion(TableModel model) {
+        Column columnTitle = model.getColumnInstance();
+        columnTitle.setTitle("Version");
+        columnTitle.setProperty("crfVersion");
+        columnTitle.setAlias("crfVersion");
+        columnTitle.setSortable(Boolean.TRUE);
+        columnTitle.setFilterable(false);
+        model.addColumn(columnTitle);
+
+    }
+
+    private void addEffectiveDate(TableModel model) {
+        Column columnTitle = model.getColumnInstance();
+        columnTitle.setTitle("Effective Date");
+        columnTitle.setProperty("effectiveStartDate");
+        columnTitle.setAlias("effectiveStartDate");
+        columnTitle.setSortable(Boolean.TRUE);
+        columnTitle.setFilterable(false);
+        model.addColumn(columnTitle);
+
+    }
+
+    private void addExpirationDate(TableModel model) {
+        Column columnTitle = model.getColumnInstance();
+        columnTitle.setTitle("Expiration Date");
+        columnTitle.setProperty("effectiveEndDate");
+        columnTitle.setAlias("effectiveEndDate");
+        columnTitle.setSortable(Boolean.TRUE);
+        columnTitle.setFilterable(false);
+        model.addColumn(columnTitle);
+
+    }
+
+    private void addStatus(TableModel model) {
 		Column columnStatus = model.getColumnInstance();
 		columnStatus.setTitle("Status");
 		columnStatus.setProperty("status");
