@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CrfItem;
+import gov.nih.nci.ctcae.core.domain.CRFPage;
+import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
@@ -34,11 +35,16 @@ public class AddOneProCtcTermController extends AbstractController {
 
 		CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 		if (proCtcTerm != null) {
-			List<CrfItem> addedCrfItems = createFormCommand.getStudyCrf().getCrf().removeExistingAndAddNewCrfItem(proCtcTerm);
-			modelAndView.addObject("crfItems", addedCrfItems);
+			CRFPage crfPage = createFormCommand.getStudyCrf().getCrf().getCrfPages().get(0);
+
+			List<CrfPageItem> addedCrfPageItems = crfPage.removeExistingAndAddNewCrfItem(proCtcTerm);
+			modelAndView.addObject("crfPageItems", addedCrfPageItems);
 			modelAndView.addObject("responseRequired", ListValues.getResponseRequired());
+			int index = createFormCommand.getStudyCrf().getCrf().getCrfPages().size() - 1;
+			modelAndView.addObject("crfPageIndex", 0);
+
 			modelAndView.addObject("crfItemAllignments", ListValues.getCrfItemAllignments());
-			modelAndView.addObject("selectedCrfItems", createFormCommand.getStudyCrf().getCrf().getCrfItems());
+			modelAndView.addObject("selectedCrfPageItems", crfPage.getCrfPageItems());
 		} else {
 			logger.error("can not add proCtcTerm because pro ctc term is null for id:" + proCtcTermId);
 			return null;

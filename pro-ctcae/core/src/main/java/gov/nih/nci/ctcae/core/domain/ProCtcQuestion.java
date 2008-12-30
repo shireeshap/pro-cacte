@@ -34,7 +34,7 @@ public class ProCtcQuestion extends BasePersistable {
 	private List<ProCtcValidValue> validValues = new ArrayList<ProCtcValidValue>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcQuestion", fetch = FetchType.LAZY)
-	private List<CrfItem> crfItems = new ArrayList<CrfItem>();
+	private List<CrfPageItem> crfPageItems = new ArrayList<CrfPageItem>();
 
 	@JoinColumn(name = "pro_ctc_term_id", referencedColumnName = "id")
 	@ManyToOne
@@ -94,8 +94,8 @@ public class ProCtcQuestion extends BasePersistable {
 		}
 	}
 
-	public List<CrfItem> getCrfItems() {
-		return crfItems;
+	public List<CrfPageItem> getCrfItems() {
+		return crfPageItems;
 	}
 
 	public ProCtcTerm getProCtcTerm() {

@@ -8,14 +8,14 @@ import junit.framework.TestCase;
  * @created Oct 13, 2008
  */
 public class CrfItemTest extends TestCase {
-	private CrfItem crfItem;
+	private CrfPageItem crfPageItem;
 
 	private CrfItemDisplayRule crfItemDisplayRule1, crfItemDisplayRule2, crfItemDisplayRule3, crfItemDisplayRule4, crfItemDisplayRule5;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		crfItem = new CrfItem();
+		crfPageItem = new CrfPageItem();
 		crfItemDisplayRule1 = createCrfItemDisplayRules(1, 1);
 		crfItemDisplayRule2 = createCrfItemDisplayRules(2, 2);
 		crfItemDisplayRule3 = createCrfItemDisplayRules(3, 3);
@@ -27,147 +27,147 @@ public class CrfItemTest extends TestCase {
 
 
 	public void testConstructor() {
-		assertEquals(Integer.valueOf(0), crfItem.getDisplayOrder());
-		assertFalse("must not require response", crfItem.getResponseRequired());
+		assertEquals(Integer.valueOf(0), crfPageItem.getDisplayOrder());
+		assertFalse("must not require response", crfPageItem.getResponseRequired());
 	}
 
 	public void testGetterAndSetter() {
-		crfItem.setDisplayOrder(1);
-		crfItem.setResponseRequired(Boolean.TRUE);
-		crfItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
-		crfItem.setInstructions("instructions");
+		crfPageItem.setDisplayOrder(1);
+		crfPageItem.setResponseRequired(Boolean.TRUE);
+		crfPageItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
+		crfPageItem.setInstructions("instructions");
 
-		assertEquals(Integer.valueOf(1), crfItem.getDisplayOrder());
-		assertEquals(CrfItemAllignment.HORIZONTAL, crfItem.getCrfItemAllignment());
-		assertEquals("instructions", crfItem.getInstructions());
-		assertTrue(crfItem.getResponseRequired());
+		assertEquals(Integer.valueOf(1), crfPageItem.getDisplayOrder());
+		assertEquals(CrfItemAllignment.HORIZONTAL, crfPageItem.getCrfItemAllignment());
+		assertEquals("instructions", crfPageItem.getInstructions());
+		assertTrue(crfPageItem.getResponseRequired());
 
 	}
 
 	public void testEqualsAndHashCode() {
 
-		crfItem = null;
-		CrfItem anothercrfItem = null;
-		assertEquals(anothercrfItem, crfItem);
+		crfPageItem = null;
+		CrfPageItem anothercrfPageItem = null;
+		assertEquals(anothercrfPageItem, crfPageItem);
 
-		crfItem = new CrfItem();
-		assertFalse(crfItem.equals(anothercrfItem));
+		crfPageItem = new CrfPageItem();
+		assertFalse(crfPageItem.equals(anothercrfPageItem));
 
-		anothercrfItem = new CrfItem();
-		assertEquals(anothercrfItem, crfItem);
-		assertEquals(anothercrfItem.hashCode(), crfItem.hashCode());
+		anothercrfPageItem = new CrfPageItem();
+		assertEquals(anothercrfPageItem, crfPageItem);
+		assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
 
-		crfItem.setDisplayOrder(1);
-		assertFalse(crfItem.equals(anothercrfItem));
-		anothercrfItem.setDisplayOrder(1);
-		assertEquals(anothercrfItem.hashCode(), crfItem.hashCode());
-		assertEquals(anothercrfItem, crfItem);
+		crfPageItem.setDisplayOrder(1);
+		assertFalse(crfPageItem.equals(anothercrfPageItem));
+		anothercrfPageItem.setDisplayOrder(1);
+		assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
+		assertEquals(anothercrfPageItem, crfPageItem);
 
-		CRF crf = new CRF();
-		crfItem.setCrf(crf);
-		assertFalse(crfItem.equals(anothercrfItem));
-		anothercrfItem.setCrf(crf);
-		assertEquals(anothercrfItem.hashCode(), crfItem.hashCode());
-		assertEquals(anothercrfItem, crfItem);
+		CRFPage crfPage = new CRFPage();
+		crfPageItem.setCrfPage(crfPage);
+		assertFalse(crfPageItem.equals(anothercrfPageItem));
+		anothercrfPageItem.setCrfPage(crfPage);
+		assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
+		assertEquals(anothercrfPageItem, crfPageItem);
 
 		ProCtcQuestion proCtcQuestion = new ProCtcQuestion();
-		crfItem.setProCtcQuestion(proCtcQuestion);
-		assertFalse(crfItem.equals(anothercrfItem));
-		anothercrfItem.setProCtcQuestion(proCtcQuestion);
-		assertEquals(anothercrfItem.hashCode(), crfItem.hashCode());
-		assertEquals(anothercrfItem, crfItem);
+		crfPageItem.setProCtcQuestion(proCtcQuestion);
+		assertFalse(crfPageItem.equals(anothercrfPageItem));
+		anothercrfPageItem.setProCtcQuestion(proCtcQuestion);
+		assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
+		assertEquals(anothercrfPageItem, crfPageItem);
 
-		crfItem.setResponseRequired(Boolean.TRUE);
-		assertFalse(crfItem.equals(anothercrfItem));
-		anothercrfItem.setResponseRequired(Boolean.TRUE);
-		assertEquals(anothercrfItem.hashCode(), crfItem.hashCode());
-		assertEquals(anothercrfItem, crfItem);
+		crfPageItem.setResponseRequired(Boolean.TRUE);
+		assertFalse(crfPageItem.equals(anothercrfPageItem));
+		anothercrfPageItem.setResponseRequired(Boolean.TRUE);
+		assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
+		assertEquals(anothercrfPageItem, crfPageItem);
 
-		crfItem.setInstructions("inst");
-		assertFalse(crfItem.equals(anothercrfItem));
-		anothercrfItem.setInstructions("inst");
-		assertEquals(anothercrfItem.hashCode(), crfItem.hashCode());
-		assertEquals(anothercrfItem, crfItem);
+		crfPageItem.setInstructions("inst");
+		assertFalse(crfPageItem.equals(anothercrfPageItem));
+		anothercrfPageItem.setInstructions("inst");
+		assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
+		assertEquals(anothercrfPageItem, crfPageItem);
 
-		crfItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
-		assertFalse(crfItem.equals(anothercrfItem));
-		anothercrfItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
-		assertEquals(anothercrfItem.hashCode(), crfItem.hashCode());
-		assertEquals(anothercrfItem, crfItem);
+		crfPageItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
+		assertFalse(crfPageItem.equals(anothercrfPageItem));
+		anothercrfPageItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
+		assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
+		assertEquals(anothercrfPageItem, crfPageItem);
 
 	}
 
 	public void testEqualsAndHashCodeMustNotConsiderId() {
 
-		CrfItem anothercrfItem = null;
+		CrfPageItem anothercrfPageItem = null;
 
-		crfItem = new CrfItem();
+		crfPageItem = new CrfPageItem();
 
-		anothercrfItem = new CrfItem();
+		anothercrfPageItem = new CrfPageItem();
 
-		crfItem.setDisplayOrder(1);
-		anothercrfItem.setDisplayOrder(1);
-		anothercrfItem.setId(1);
-		assertEquals("must not consider id", anothercrfItem.hashCode(), crfItem.hashCode());
-		assertEquals(anothercrfItem, crfItem);
+		crfPageItem.setDisplayOrder(1);
+		anothercrfPageItem.setDisplayOrder(1);
+		anothercrfPageItem.setId(1);
+		assertEquals("must not consider id", anothercrfPageItem.hashCode(), crfPageItem.hashCode());
+		assertEquals(anothercrfPageItem, crfPageItem);
 
 	}
 
 
 	public void testRemoveCrfItemDisplayRules() {
 
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule1);
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule2);
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule3);
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule4);
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule5);
-		assertEquals("must be 5 rules", 5, crfItem.getCrfItemDisplayRules().size());
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule1);
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule2);
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule3);
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule4);
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule5);
+		assertEquals("must be 5 rules", 5, crfPageItem.getCrfItemDisplayRules().size());
 
-		crfItem.removeCrfItemDisplayRulesByIds("1,3,2");
+		crfPageItem.removeCrfItemDisplayRulesByIds("1,3,2");
 
-		assertEquals("must remove 3 rules", 2, crfItem.getCrfItemDisplayRules().size());
+		assertEquals("must remove 3 rules", 2, crfPageItem.getCrfItemDisplayRules().size());
 
-		assertTrue("must preseve the order of rules", crfItem.getCrfItemDisplayRules().contains(crfItemDisplayRule4));
-		assertTrue("must preseve the order of  rules", crfItem.getCrfItemDisplayRules().contains(crfItemDisplayRule5));
+		assertTrue("must preseve the order of rules", crfPageItem.getCrfItemDisplayRules().contains(crfItemDisplayRule4));
+		assertTrue("must preseve the order of  rules", crfPageItem.getCrfItemDisplayRules().contains(crfItemDisplayRule5));
 
 	}
 
 	public void testAddCrfItemDisplayRules() {
-		assertTrue("must not have any display rules", crfItem.getCrfItemDisplayRules().isEmpty());
+		assertTrue("must not have any display rules", crfPageItem.getCrfItemDisplayRules().isEmpty());
 		CrfItemDisplayRule nullCrfItemDisplayRule = null;
-		crfItem.addCrfItemDisplayRules(nullCrfItemDisplayRule);
-		assertTrue("must not add null display rules", crfItem.getCrfItemDisplayRules().isEmpty());
+		crfPageItem.addCrfItemDisplayRules(nullCrfItemDisplayRule);
+		assertTrue("must not add null display rules", crfPageItem.getCrfItemDisplayRules().isEmpty());
 
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule1);
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule2);
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule3);
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule4);
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule5);
-		assertEquals("must be 5 rules", 5, crfItem.getCrfItemDisplayRules().size());
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule1);
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule2);
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule3);
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule4);
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule5);
+		assertEquals("must be 5 rules", 5, crfPageItem.getCrfItemDisplayRules().size());
 
-		for (CrfItemDisplayRule crfItemDisplayRule : crfItem.getCrfItemDisplayRules()) {
-			assertEquals("crf item must not be null", crfItem, crfItemDisplayRule.getCrfItem());
+		for (CrfItemDisplayRule crfItemDisplayRule : crfPageItem.getCrfItemDisplayRules()) {
+			assertEquals("crf item must not be null", crfPageItem, crfItemDisplayRule.getCrfItem());
 		}
 
 
 	}
 
 	public void testMustNotAddSameCrfItemDisplayRule() {
-		assertTrue("must not have any display rules", crfItem.getCrfItemDisplayRules().isEmpty());
+		assertTrue("must not have any display rules", crfPageItem.getCrfItemDisplayRules().isEmpty());
 		CrfItemDisplayRule nullCrfItemDisplayRule = null;
-		crfItem.addCrfItemDisplayRules(nullCrfItemDisplayRule);
-		assertTrue("must not add null display rules", crfItem.getCrfItemDisplayRules().isEmpty());
+		crfPageItem.addCrfItemDisplayRules(nullCrfItemDisplayRule);
+		assertTrue("must not add null display rules", crfPageItem.getCrfItemDisplayRules().isEmpty());
 
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule1);
-		assertEquals("must be 1 rules", 1, crfItem.getCrfItemDisplayRules().size());
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule1);
+		assertEquals("must be 1 rules", 1, crfPageItem.getCrfItemDisplayRules().size());
 
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule1);
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule1);
 
-		crfItem.addCrfItemDisplayRules(crfItemDisplayRule5);
-		assertEquals("must be 2 rules only because same rule must not be added twice", 2, crfItem.getCrfItemDisplayRules().size());
+		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule5);
+		assertEquals("must be 2 rules only because same rule must not be added twice", 2, crfPageItem.getCrfItemDisplayRules().size());
 
-		for (CrfItemDisplayRule crfItemDisplayRule : crfItem.getCrfItemDisplayRules()) {
-			assertEquals("crf item must not be null", crfItem, crfItemDisplayRule.getCrfItem());
+		for (CrfItemDisplayRule crfItemDisplayRule : crfPageItem.getCrfItemDisplayRules()) {
+			assertEquals("crf item must not be null", crfPageItem, crfItemDisplayRule.getCrfItem());
 		}
 
 

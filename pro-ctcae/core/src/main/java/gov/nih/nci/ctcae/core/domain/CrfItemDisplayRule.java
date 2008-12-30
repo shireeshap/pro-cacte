@@ -23,7 +23,7 @@ public class CrfItemDisplayRule extends BasePersistable {
 
 	@JoinColumn(name = "crf_item_id", referencedColumnName = "id")
 	@ManyToOne
-	private CrfItem crfItem;
+	private CrfPageItem crfPageItem;
 
 	@Column(name = "required_object_class")
 	private String requiredObjectClass;
@@ -45,12 +45,12 @@ public class CrfItemDisplayRule extends BasePersistable {
 		this.id = id;
 	}
 
-	public CrfItem getCrfItem() {
-		return crfItem;
+	public CrfPageItem getCrfItem() {
+		return crfPageItem;
 	}
 
-	public void setCrfItem(final CrfItem crfItem) {
-		this.crfItem = crfItem;
+	public void setCrfItem(final CrfPageItem crfPageItem) {
+		this.crfPageItem = crfPageItem;
 	}
 
 	public String getRequiredObjectClass() {
@@ -76,7 +76,7 @@ public class CrfItemDisplayRule extends BasePersistable {
 
 		final CrfItemDisplayRule that = (CrfItemDisplayRule) o;
 
-		if (crfItem != null ? !crfItem.equals(that.crfItem) : that.crfItem != null) return false;
+		if (crfPageItem != null ? !crfPageItem.equals(that.crfPageItem) : that.crfPageItem != null) return false;
 		if (requiredObjectClass != null ? !requiredObjectClass.equals(that.requiredObjectClass) : that.requiredObjectClass != null)
 			return false;
 		if (requiredObjectId != null ? !requiredObjectId.equals(that.requiredObjectId) : that.requiredObjectId != null)
@@ -87,7 +87,7 @@ public class CrfItemDisplayRule extends BasePersistable {
 
 	@Override
 	public int hashCode() {
-		int result = crfItem != null ? crfItem.hashCode() : 0;
+		int result = crfPageItem != null ? crfPageItem.hashCode() : 0;
 		result = 31 * result + (requiredObjectClass != null ? requiredObjectClass.hashCode() : 0);
 		result = 31 * result + (requiredObjectId != null ? requiredObjectId.hashCode() : 0);
 		return result;

@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CrfItem;
+import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
@@ -33,10 +33,11 @@ public class FindCrfItemController extends AbstractController {
         ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
 
         CreateFormCommand command = ControllersUtils.getFormCommand(request);
-        CrfItem crfItem = command.getStudyCrf().getCrf().getCrfItemByQuestion(proCtcQuestion);
+        CrfPageItem crfPageItem = null;
+			//command.getStudyCrf().getCrf().getCrfItemByQuestion(proCtcQuestion);
 
-        crfItem.setProCtcQuestion(proCtcQuestion);
-        modelAndView.addObject("crfItem", crfItem);
+        crfPageItem.setProCtcQuestion(proCtcQuestion);
+        modelAndView.addObject("crfPageItem", crfPageItem);
         modelAndView.addObject("displayOrder", displayOrder);
 
 

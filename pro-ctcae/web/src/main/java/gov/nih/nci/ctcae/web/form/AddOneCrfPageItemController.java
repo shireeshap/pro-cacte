@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CrfItem;
+import gov.nih.nci.ctcae.core.domain.CRFPage;
+import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
@@ -12,19 +13,20 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
-public class AddOneCrfItemController extends AbstractController {
+public class AddOneCrfPageItemController extends AbstractController {
 
 
 	private FinderRepository finderRepository;
 
 	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-		ModelAndView modelAndView = new ModelAndView("form/ajax/oneCrfItemSection");
+		ModelAndView modelAndView = new ModelAndView("form/ajax/oneCrfPageItemSection");
 
 
 		Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
@@ -33,13 +35,17 @@ public class AddOneCrfItemController extends AbstractController {
 		ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
 		CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 		if (proCtcQuestion != null) {
-			CrfItem crfItem = createFormCommand.getStudyCrf().getCrf().removeExistingAndAddNewCrfItem(proCtcQuestion);
-			modelAndView.addObject("crfItem", crfItem);
-			int index = createFormCommand.getStudyCrf().getCrf().getCrfItems().size() - 1;
-			modelAndView.addObject("index", index);
+
+			List<CRFPage> crfPages = createFormCommand.getStudyCrf().getCrf().getCrfPages();
+			CRFPage crfPage = crfPages.get(0);
+
+			CrfPageItem crfPageItem = crfPage.removeExistingAndAddNewCrfItem(proCtcQuestion);
+			modelAndView.addObject("crfPageItem", crfPageItem);
+			int index = crfPages.size() - 1;
+			modelAndView.addObject("crfPageIndex", 0);
 			modelAndView.addObject("responseRequired", ListValues.getResponseRequired());
 			modelAndView.addObject("crfItemAllignments", ListValues.getCrfItemAllignments());
-			modelAndView.addObject("selectedCrfItems", createFormCommand.getStudyCrf().getCrf().getCrfItems());
+			modelAndView.addObject("selectedCrfPageItems", crfPage.getCrfPageItems());
 
 		} else {
 			logger.error("can not add question because can not find any question for given question id:" + questionId);
@@ -52,7 +58,7 @@ public class AddOneCrfItemController extends AbstractController {
 	}
 
 
-	public AddOneCrfItemController() {
+	public AddOneCrfPageItemController() {
 		setSupportedMethods(new String[]{"GET"});
 
 	}

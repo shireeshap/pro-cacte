@@ -5,10 +5,8 @@ import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Hashtable;
 import java.util.Date;
+import java.util.Hashtable;
 
 /**
  * @author Harsh Agarwal
@@ -28,7 +26,7 @@ public class SubmitFormCommand implements Serializable {
     public void initialize() {
 
         for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-            CrfItem crfItem = studyParticipantCrfItem.getCrfItem();
+            CrfPageItem crfItem = studyParticipantCrfItem.getCrfPageItem();
 
             String displayRule = "";
             for (CrfItemDisplayRule crfItemDisplayRule : crfItem.getCrfItemDisplayRules()) {

@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CrfItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
@@ -36,9 +35,9 @@ public class RemoveConditionalQuestionController extends AbstractController {
 
 		CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
-		CrfItem crfItem = createFormCommand.getStudyCrf().getCrf().getCrfItemByQuestion(proCtcQuestion);
-
-		crfItem.removeCrfItemDisplayRulesByIds(request.getParameter("proCtcValidValueId"));
+//		CrfPageItem crfPageItem = createFormCommand.getStudyCrf().getCrf().getCrfItemByQuestion(proCtcQuestion);
+//
+//		crfPageItem.removeCrfItemDisplayRulesByIds(request.getParameter("proCtcValidValueId"));
 
 
 		return modelAndView;

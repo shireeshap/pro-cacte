@@ -25,7 +25,7 @@
 <div>
     <%--<chrome:box title="form.label.preview" >--%>
 
-    <tags:questionReview crfItem="${crfItem}" showInstructions="true"></tags:questionReview>
+    <tags:questionReview crfPageItem="${crfPageItem}" showInstructions="true"></tags:questionReview>
 
     <%--</chrome:box>--%>
 </div>

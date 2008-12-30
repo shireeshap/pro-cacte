@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CrfItem;
+import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -11,9 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Vinay Kumar
  * @crated Oct 18, 2008
  */
-public class AddOneCrfItemControllerTest extends WebTestCase {
+public class AddOneCrfPageItemControllerTest extends WebTestCase {
 
-	private AddOneCrfItemController controller;
+	private AddOneCrfPageItemController controller;
 
 	private FinderRepository finderRepository;
 	private ProCtcQuestion proCtcQuestion;
@@ -22,7 +22,7 @@ public class AddOneCrfItemControllerTest extends WebTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		controller = new AddOneCrfItemController();
+		controller = new AddOneCrfPageItemController();
 		finderRepository = registerMockFor(FinderRepository.class);
 		controller.setFinderRepository(finderRepository);
 		proCtcQuestion = new ProCtcQuestion();
@@ -54,11 +54,11 @@ public class AddOneCrfItemControllerTest extends WebTestCase {
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
 		verifyMocks();
 		assertNotNull("must not return null because there is one question  for given id", modelAndView);
-		assertNotNull("must return crfItem", modelAndView.getModel().get("crfItem"));
+		assertNotNull("must return crfPageItem", modelAndView.getModel().get("crfPageItem"));
 
-		CrfItem crfItem = (CrfItem) modelAndView.getModel().get("crfItem");
-		assertNotNull("must return CrfItem", crfItem);
-		assertEquals("must return proctc question", proCtcQuestion, crfItem.getProCtcQuestion());
+		CrfPageItem crfPageItem = (CrfPageItem) modelAndView.getModel().get("crfPageItem");
+		assertNotNull("must return CrfPageItem", crfPageItem);
+		assertEquals("must return proctc question", proCtcQuestion, crfPageItem.getProCtcQuestion());
 	}
 
 }

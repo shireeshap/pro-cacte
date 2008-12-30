@@ -22,17 +22,17 @@
 <script type="text/javascript">
 
 Event.observe(window, "load", function () {
-	sortQustions();
-<c:if test="${not empty command.studyCrf.crf.crfItems}">
-	postProcessFormChanges();
-	hideQuestionsFromForm();
-	hideProCtcTermFromForm();
+	sortQuestions();
+<%--<c:if test="${not empty command.studyCrf.crf.crfItems}">--%>
+<%--postProcessFormChanges();--%>
+<%--hideQuestionsFromForm();--%>
+<%--hideProCtcTermFromForm();--%>
 
-<c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem" varStatus="status">
-	var id = '${crfItem.proCtcQuestion.id}';
-	addConditionalDisplayToQuestion(id);
-</c:forEach>
-</c:if>
+<%--<c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem" varStatus="status">--%>
+<%--var id = '${crfItem.proCtcQuestion.id}';--%>
+<%--addConditionalDisplayToQuestion(id);--%>
+<%--</c:forEach>--%>
+<%--</c:if>--%>
 	displayReviewLink();
 
 })
@@ -69,27 +69,6 @@ Event.observe(window, "load", function () {
 })
 
 
-function sortQustions() {
-	Sortable.destroy("sortable")
-	Sortable.create("sortable", {
-		tag:'div',
-		only:['sortable'],
-
-		onUpdate:function () {
-			updateQuestionsId();
-
-		},
-		onChange:function(item) {
-			reOrderQuestionNumber();
-			var questionId = item.id.substr(9, item.id.length);
-			showCrfItemPropertiesTab(questionId);
-			showHideQuestionUpDownLink();
-		}
-
-	})
-
-
-}
 function displayReviewLink() {
 	if ($('totalQuestions').value != '0') {
 		$('reviewLink').show();
@@ -124,8 +103,10 @@ function updateOrderId() {
 }
 function hideQuestionsFromForm() {
 	$$("div.makeDraggable").each(function (item) {
-		var questionId = item.id.substr(9, item.id.length)
-		hideQuestionFromForm(questionId);
+		if (item.id != '') {
+			var questionId = item.id.substr(9, item.id.length)
+			hideQuestionFromForm(questionId);
+		}
 
 	})
 
@@ -153,7 +134,7 @@ function showQuestionInForm(questionId) {
 function addProCtcTermDiv(transport) {
 	var response = transport.responseText;
 	new Insertion.Before("hiddenDiv", response);
-	sortQustions()
+	sortQuestions()
 	updateQuestionsId()
 	hideQuestionsFromForm();
 	postProcessFormChanges()
@@ -163,16 +144,17 @@ function addProCtcTermDiv(transport) {
 function postProcessFormChanges() {
 
 	reOrderQuestionNumber()
-	showHideQuestionUpDownLink()
+	showHideQuestionUpDownLink();
+	updateTotalNumberOfQuestionsInEachPage();
 }
 function addCrfItem(questionId, proCtcTermId) {
 	var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
-	var request = new Ajax.Request("<c:url value="/pages/form/addOneCrfItem"/>", {
+	var request = new Ajax.Request("<c:url value="/pages/form/addOneCrfPageItem"/>", {
 		parameters:"questionId=" + questionId + "&subview=subview&displayOrder=" + displayOrder,
 		onComplete:function (transport) {
 			var response = transport.responseText;
 			new Insertion.Before("hiddenDiv", response);
-			sortQustions()
+			sortQuestions()
 			updateQuestionsId()
 			updateSelectedCrfItems(questionId)
 			addCrfItemPropertiesHtml(questionId);
@@ -186,6 +168,29 @@ function addCrfItem(questionId, proCtcTermId) {
 	hideProCtcTermLinkFromForm(proCtcTermId);
 	$('totalQuestions').value = displayOrder;
 	$('totalQuestionDivision').innerHTML = displayOrder;
+
+
+}
+function addCrfPage() {
+	var request = new Ajax.Request("<c:url value="/pages/form/addOneCrfPage"/>", {
+		parameters:"subview=subview",
+		onComplete:function (transport) {
+			var response = transport.responseText;
+			new Insertion.Before("hiddenCrfPageDiv", response);
+			sortQuestions()
+			updateQuestionsId()
+			//			updateSelectedCrfItems(questionId)
+			//			addCrfItemPropertiesHtml(questionId);
+			postProcessFormChanges();
+
+
+		},
+		method:'get'
+	})
+	//hideQuestionFromForm(questionId);
+	//hideProCtcTermLinkFromForm(proCtcTermId);
+	//	$('totalQuestions').value = displayOrder;
+	//	$('totalQuestionDivision').innerHTML = displayOrder;
 
 
 }
@@ -204,22 +209,22 @@ function addProctcTerm(proCtcTermId) {
 		method:'get'
 	})
 	hideProCtcTermLinkFromForm(proCtcTermId);
-	//    $('totalQuestions').value = displayOrder;
-	//    $('totalQuestionDivision').innerHTML = displayOrder;
-
 }
+
 
 function updateQuestionsId() {
 	var questionsId = '';
 	var i = 0;
 	$$("div.sortable").each(function (item) {
-		var questionId = item.id.substr(9, item.id.length)
-		if (questionsId == '') {
-			questionsId = questionId;
-		} else {
-			questionsId = questionsId + ',' + questionId;
+		if (item.id != '') {
+			var questionId = item.id.substr(9, item.id.length)
+			if (questionsId == '') {
+				questionsId = questionId;
+			} else {
+				questionsId = questionsId + ',' + questionId;
+			}
+			i = i + 1
 		}
-		i = i + 1
 	});
 
 	$('questionsIds').value = questionsId;
@@ -235,28 +240,82 @@ function updateQuestionsId() {
 
 	displayReviewLink();
 }
+function updateTotalNumberOfQuestionsInEachPage() {
+
+	var formPages = $$('div.formpages');
+	var numberOfQuestionsInEachPage = '';
+	var sortableDivs = [];
+	formPages.each(function(item) {
+		var index = item.id.substr(11, item.id.length);
+		numberOfQuestionsInEachPage = numberOfQuestionsInEachPage + parseInt($$('div.sortable_' + index).length)
+
+	})
+	numberOfQuestionsInEachPage = numberOfQuestionsInEachPage.toArray();
+	$('numberOfQuestionsInEachPage').value = numberOfQuestionsInEachPage;
+}
+function sortQuestions() {
+
+	var formPages = $$('div.formpages');
+	var sortableDivs = [];
+	formPages.each(function(item) {
+		var index = item.id.substr(11, item.id.length);
+		sortableDivs.push('sortable_' + index)
+
+	})
+	sortableDivs.each(function (item) {
+		Sortable.destroy(item)
+	})
+	sortableDivs.each(function (item) {
+		Sortable.create(item, {
+			containment:sortableDivs,
+			tag	:'div',
+			only:['sortable'],
+			dropOnEmpty:true,
+
+			onUpdate:function () {
+				updateQuestionsId();
+				updateTotalNumberOfQuestionsInEachPage();
+
+			}
+			,
+			onChange:function(item) {
+				reOrderQuestionNumber();
+				var questionId = item.id.substr(9, item.id.length);
+				//showCrfItemPropertiesTab(questionId);
+				showHideQuestionUpDownLink();
+			}
+
+		})
+	})
+
+
+}
 
 function deleteQuestion(questionId) {
 	$('sortable_' + questionId).remove();
 	$('questionProperties_' + questionId).remove();
 
-	sortQustions();
+	sortQuestions();
 	updateQuestionsId();
 	updateOrderId();
 	postProcessFormChanges()
 	showQuestionInForm(questionId);
 
 }
+
 function moveQuestionUp(selectedQuestionId) {
 	var previousQuestionIdSearch = selectedQuestionId;
 	var previousQuestionId = selectedQuestionId;
 
 	$$('div.sortable').each(function (item) {
-		var questionId = item.id.substr(9, item.id.length)
-		if (questionId == selectedQuestionId) {
-			previousQuestionId = previousQuestionIdSearch;
+		if (item.id != '') {
+
+			var questionId = item.id.substr(9, item.id.length)
+			if (questionId == selectedQuestionId) {
+				previousQuestionId = previousQuestionIdSearch;
+			}
+			previousQuestionIdSearch = questionId;
 		}
-		previousQuestionIdSearch = questionId;
 	})
 	if (selectedQuestionId != previousQuestionId) {
 		Element.insert($('sortable_' + previousQuestionId), {before:$('sortable_' + selectedQuestionId)})
@@ -271,11 +330,13 @@ function moveQuestionDown(selectedQuestionId) {
 	var nextQuestionId = selectedQuestionId;
 	var i = 0;
 	$$('div.sortable').each(function (item) {
-		var questionId = item.id.substr(9, item.id.length)
-		if (questionId == selectedQuestionId) {
-			nextQuestionId = $$('div.sortable')[parseInt(i) + parseInt(1)].id;
+		if (item.id != '') {
+			var questionId = item.id.substr(9, item.id.length)
+			if (questionId == selectedQuestionId) {
+				nextQuestionId = $$('div.sortable')[parseInt(i) + parseInt(1)].id;
+			}
+			i = i + 1;
 		}
-		i = i + 1;
 	})
 	if (selectedQuestionId != nextQuestionId) {
 		Element.insert($(nextQuestionId), {after:$('sortable_' + selectedQuestionId)})
@@ -292,21 +353,22 @@ function showHideQuestionUpDownLink() {
 
 	var i = 0
 	allCrfItems.each(function(item) {
-		var questionId = item.id.substr(9, item.id.length)
-		if (i == 0) {
-			$('moveQuestionUpLink_' + questionId).hide();
-			$('moveQuestionDownLink_' + questionId).show();
-		} else if (i == parseInt(allCrfItems.length) - parseInt(1)) {
-			$('moveQuestionDownLink_' + questionId).hide();
-			$('moveQuestionUpLink_' + questionId).show();
-		} else {
-			$('moveQuestionDownLink_' + questionId).show();
-			$('moveQuestionUpLink_' + questionId).show();
+		if (item.id != '') {
+			var questionId = item.id.substr(9, item.id.length)
+			if (i == 0) {
+				$('moveQuestionUpLink_' + questionId).hide();
+				$('moveQuestionDownLink_' + questionId).show();
+			} else if (i == parseInt(allCrfItems.length) - parseInt(1)) {
+				$('moveQuestionDownLink_' + questionId).hide();
+				$('moveQuestionUpLink_' + questionId).show();
+			} else {
+				$('moveQuestionDownLink_' + questionId).show();
+				$('moveQuestionUpLink_' + questionId).show();
+			}
+
+			i = i + 1;
 		}
-
-		i = i + 1;
 	})
-
 
 
 }
@@ -487,7 +549,7 @@ function showQuestionSettings() {
 	showQuestionSettingsTab();
 
 	if ($$('div.sortable').size() != 0) {
-		var firstQuestion = $$('div.sortable')[0].id;
+		var firstQuestion = $$('div.sortable')[1].id;
 		var questionId = firstQuestion.substr(9, firstQuestion.length)
 		showCrfItemProperties(questionId);
 	}
@@ -526,11 +588,13 @@ function addEditingDisplayToQuestion(questionId) {
 }
 function removeEditingDisplayFromQuestions() {
 	$$('div.sortable').each(function (item) {
-		item.removeClassName('editing');
-		//item.removeClassName('focused');
-		var questionId = item.id.substr(9, item.id.length)
-		$('arrow_' + questionId).hide();
+		if (item.id != '') {
+			item.removeClassName('editing');
+			//item.removeClassName('focused');
+			var questionId = item.id.substr(9, item.id.length)
+			$('arrow_' + questionId).hide();
 
+		}
 	})
 }
 function addCrfItemPropertiesHtml(questionId) {
@@ -658,9 +722,15 @@ function showFormSettings() {
 								<a id="firstlevelnav_2" href="javascript:showQuestionSettings()">
 									<tags:message code="form.question_settings"/> |</a>
 							</li>
+
+								<%--<li class="">--%>
+								<%--<a id="firstlevelnav_3" href="javascript:showFormSettings()">--%>
+								<%--<tags:message code='form.form_settings'/> </a>--%>
+								<%--</li>--%>
+
 							<li class="">
-								<a id="firstlevelnav_3" href="javascript:showFormSettings()">
-									<tags:message code='form.form_settings'/> </a>
+								<a id="firstlevelnav_3" href="javascript:addCrfPage()">
+									<tags:message code='form.add_page'/> </a>
 							</li>
 						</ul>
 						<br>
@@ -732,18 +802,18 @@ function showFormSettings() {
 											id="totalQuestionDivision">${totalQuestions}</span> question<span
 											id="plural2">s</span> in this form.</span>
 									</div>
-									<div id="sortable">
-										<form:hidden path="questionsIds" id="questionsIds"/>
-										<input type="hidden" id="totalQuestions" value="${totalQuestions}">
-										<c:forEach items="${command.studyCrf.crf.crfItems}" var="selectedCrfItem"
-												   varStatus="status">
-											<tags:oneCrfItem crfItem="${selectedCrfItem}"
-															 index="${status.index}">
-											</tags:oneCrfItem>
-										</c:forEach>
-										<div id="hiddenDiv"></div>
 
-									</div>
+									<form:hidden path="questionsIds" id="questionsIds"/>
+									<form:hidden path="numberOfQuestionsInEachPage" id="numberOfQuestionsInEachPage"/>
+									<input type="hidden" id="totalQuestions" value="${totalQuestions}">
+									<c:forEach items="${command.studyCrf.crf.crfPages}" var="selectedCrfPage"
+											   varStatus="status">
+										<tags:oneCrfPage crfPage="${selectedCrfPage}"
+														 index="${status.index}">
+										</tags:oneCrfPage>
+
+									</c:forEach>
+									<div id="hiddenCrfPageDiv"></div>
 
 								</td>
 

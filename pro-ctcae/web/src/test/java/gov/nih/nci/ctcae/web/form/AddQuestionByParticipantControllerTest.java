@@ -9,15 +9,10 @@ import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
-import org.easymock.EasyMock;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BeanPropertyBindingResult;
 
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Harsh Agarwal
@@ -82,7 +77,7 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
         expect(finderRepository.find(isA(Query.class))).andReturn(new ArrayList());
         expect(finderRepository.findById(ProCtcQuestion.class, new Integer("1"))).andReturn(new ProCtcQuestion());
         expect(finderRepository.findById(ProCtcValidValue.class, new Integer("2"))).andReturn(new ProCtcValidValue());
-        expect(genericRepository.save(isA(CrfItem.class))).andReturn(new CrfItem());
+        expect(genericRepository.save(isA(CrfPageItem.class))).andReturn(new CrfPageItem());
         expect(genericRepository.save(isA(StudyParticipantCrfItem.class))).andReturn(new StudyParticipantCrfItem());
         replayMocks();
 

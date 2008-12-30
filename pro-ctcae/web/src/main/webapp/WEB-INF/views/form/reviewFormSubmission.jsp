@@ -165,15 +165,15 @@
                     <c:forEach items="${command.pages}" var="page" varStatus="pageindex">
                         <c:forEach items="${page}" var="studyParticipantCrfItem">
                             <tags:formbuilderBox id="question_${studyParticipantCrfItem.itemIndex}">
-                                ${studyParticipantCrfItem.crfItem.proCtcQuestion.formattedQuestionText}<br/>
+                                ${studyParticipantCrfItem.crfPageItem.proCtcQuestion.formattedQuestionText}<br/>
                                 <input type="hidden"
                                        name="studyParticipantCrfSchedule.studyParticipantCrfItems[${studyParticipantCrfItem.itemIndex}].proCtcValidValue"
                                        value=""/>
-                                <c:forEach items="${studyParticipantCrfItem.crfItem.proCtcQuestion.validValues}"
+                                <c:forEach items="${studyParticipantCrfItem.crfPageItem.proCtcQuestion.validValues}"
                                            var="validValue" varStatus="status">
                                     <div class="norm" onmouseover="javascript:this.className='over';"
                                          onmouseout="javascript:this.className='norm';"
-                                         onclick="showHideFor('${pageindex.index}','${studyParticipantCrfItem.crfItem.proCtcQuestion.proCtcQuestionType}','${studyParticipantCrfItem.itemIndex}','${status.index}')"
+                                         onclick="showHideFor('${pageindex.index}','${studyParticipantCrfItem.crfPageItem.proCtcQuestion.proCtcQuestionType}','${studyParticipantCrfItem.itemIndex}','${status.index}')"
                                          width="20%">
 
                                         <c:choose>
@@ -197,7 +197,7 @@
                                     </div>
                                 </c:forEach>
                             </tags:formbuilderBox>
-                            <c:if test="${studyParticipantCrfItem.crfItem.proCtcQuestion.proCtcQuestionType ne 'Severity'}">
+                            <c:if test="${studyParticipantCrfItem.crfPageItem.proCtcQuestion.proCtcQuestionType ne 'Severity'}">
                                 <script type="text/javascript">
                                     registerToHide('${pageindex.index}', '${studyParticipantCrfItem.itemIndex}', '${studyParticipantCrfItem.proCtcValidValue}');
                                 </script>

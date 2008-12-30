@@ -52,83 +52,9 @@ public class CRFTest extends TestCase {
 		assertEquals(Integer.valueOf(2), crf.getId());
 	}
 
-	public void testGetCrfItems() {
-		crf = new CRF();
-		crf.addOrUpdateCrfItem(proCtcQuestion1, 1);
-		crf.addOrUpdateCrfItem(proCtcQuestion2, 2);
-		assertEquals("must return 2 items", 2, crf.getCrfItemsSortedByDislayOrder().size());
-		for (int i = 0; i < crf.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertNotNull("order number must not be null", crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
 
-		}
-	}
 
-	public void testAddNewCrfItems() {
-		crf = new CRF();
-		crf.removeExistingAndAddNewCrfItem(proCtcQuestion1);
-		crf.removeExistingAndAddNewCrfItem(proCtcQuestion2);
-		assertEquals("must return 2 items", 2, crf.getCrfItemsSortedByDislayOrder().size());
-		for (int i = 0; i < crf.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertNotNull("order number must not be null", crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
 
-		}
-	}
-
-	public void testAddNewCrfItemsMustNotAddQuestionAgain() {
-		crf = new CRF();
-		crf.removeExistingAndAddNewCrfItem(proCtcQuestion1);
-		crf.removeExistingAndAddNewCrfItem(proCtcQuestion1);
-		assertEquals("must return 1 items", 1, crf.getCrfItemsSortedByDislayOrder().size());
-		for (int i = 0; i < crf.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertNotNull("order number must not be null", crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-
-		}
-	}
-
-	public void testAddNewProCtcTerm() {
-		crf = new CRF();
-		crf.removeExistingAndAddNewCrfItem(constipation);
-		assertEquals("must return 2 items", 2, crf.getCrfItemsSortedByDislayOrder().size());
-		for (int i = 0; i < crf.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertNotNull("order number must not be null", crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-
-		}
-	}
-
-	public void testAddMultipleProCtcTerm() {
-		crf = new CRF();
-		crf.removeExistingAndAddNewCrfItem(constipation);
-		crf.removeExistingAndAddNewCrfItem(diarrhea);
-		assertEquals("must return 4 items", 4, crf.getCrfItemsSortedByDislayOrder().size());
-		for (int i = 0; i < crf.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertNotNull("order number must not be null", crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-
-		}
-	}
-
-	public void testReorderCrfItems() {
-		crf = new CRF();
-		crf.addOrUpdateCrfItem(proCtcQuestion1, 1);
-		crf.addOrUpdateCrfItem(proCtcQuestion2, 2);
-		assertEquals("must return 2 items", 2, crf.getCrfItemsSortedByDislayOrder().size());
-		for (int i = 0; i < crf.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-
-		}
-
-		crf.getCrfItemsSortedByDislayOrder().get(0).setDisplayOrder(1);
-		crf.getCrfItemsSortedByDislayOrder().get(1).setDisplayOrder(0);
-		for (int i = 0; i < crf.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertEquals("must preserve order no", Integer.valueOf(i), crf.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-
-		}
-
-	}
 
 	public void testEqualsAndHashCode() {
 		CRF anotherCrf = null;
@@ -221,8 +147,8 @@ public class CRFTest extends TestCase {
 		crf.setCrfVersion("1.0");
 		anotherCrf.setCrfVersion("1.0");
 
-		anotherCrf.addOrUpdateCrfItem(new ProCtcQuestion(1), null);
-		assertFalse(anotherCrf.getCrfItemsSortedByDislayOrder().isEmpty());
+//		anotherCrf.addOrUpdateCrfItemInCrfPage(new ProCtcQuestion(1), null);
+//		assertFalse(anotherCrf.getCrfItemsSortedByDislayOrder().isEmpty());
 		assertEquals("must not consider study crf", anotherCrf.hashCode(), crf.hashCode());
 		assertEquals(anotherCrf, crf);
 

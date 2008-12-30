@@ -75,14 +75,17 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/035_drop_duplicate_organiza
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/001_create_crf_items_display_rules.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/002_alter_crf.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/003_alter_crf.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/004_create_crf_pages.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/005_alter_crf_items.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRF.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFPage.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ClinicalStaff.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItem.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItemAllignment.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItemDisplayRule.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfPageItem.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcCategory.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DisplayOrderComparator.java -text
@@ -170,6 +173,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/Fixture.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/TestBean.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFPageTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffTest.java -text
@@ -226,6 +230,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/Unique
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollectionValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueTitleForCrfValidatorTest.java -text
 pro-ctcae/core/src/test/resources/gov/nih/nci/ctcae/core/sampledata/Sample_Data.xml -text
+pro-ctcae/core/src/test/resources/logback.xml -text
 pro-ctcae/datasource.properties -text
 pro-ctcae/ivy.xml -text
 pro-ctcae/ivysettings-offline.xml -text
@@ -292,7 +297,8 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalSt
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddConditionalQuestionController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneCrfItemController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageItemController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneProCtcTermController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CopyFormController.java -text
@@ -424,7 +430,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/noform/renderSelect.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/noform/renderText.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/noform/renderTextArea.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneAdverseEventMeddra.tag -text
-pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneCrfItem.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneCrfPage.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneCrfPageItem.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneOrganization.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/pageHelp.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/panelBox.tag -text
@@ -471,7 +478,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/conditions.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/name.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfItemSection.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageItemSection.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneProCtcTermSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/questionReviewSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/removeConditions.jsp -text
@@ -813,7 +821,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalSt
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneCrfItemControllerTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageItemControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneProCtcTermControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CopyFormControllerTest.java -text

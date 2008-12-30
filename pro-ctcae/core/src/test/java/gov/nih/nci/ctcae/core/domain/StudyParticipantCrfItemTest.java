@@ -11,7 +11,7 @@ public class StudyParticipantCrfItemTest extends TestCase {
 
 	public void testConstructor() {
 		studyParticipantCrfItem = new StudyParticipantCrfItem();
-		assertNull(studyParticipantCrfItem.getCrfItem());
+		assertNull(studyParticipantCrfItem.getCrfPageItem());
 		assertNull(studyParticipantCrfItem.getId());
 		assertNull(studyParticipantCrfItem.getProCtcValidValue());
 		assertNull(studyParticipantCrfItem.getStudyParticipantCrfSchedule());
@@ -19,16 +19,16 @@ public class StudyParticipantCrfItemTest extends TestCase {
 
 	public void testGetterAndSetter() {
 		studyParticipantCrfItem = new StudyParticipantCrfItem();
-		CrfItem crfItem = new CrfItem();
+		CrfPageItem crfPageItem = new CrfPageItem();
 		ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
 		StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
 
-		studyParticipantCrfItem.setCrfItem(crfItem);
+		studyParticipantCrfItem.setCrfPageItem(crfPageItem);
 		studyParticipantCrfItem.setProCtcValidValue(proCtcValidValue);
 		studyParticipantCrfItem.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
 		studyParticipantCrfItem.setId(1);
 
-		assertEquals(crfItem, studyParticipantCrfItem.getCrfItem());
+		assertEquals(crfPageItem, studyParticipantCrfItem.getCrfPageItem());
 		assertEquals(new Integer(1), studyParticipantCrfItem.getId());
 		assertEquals(proCtcValidValue, studyParticipantCrfItem.getProCtcValidValue());
 		assertEquals(studyParticipantCrfSchedule, studyParticipantCrfItem.getStudyParticipantCrfSchedule());
@@ -42,13 +42,13 @@ public class StudyParticipantCrfItemTest extends TestCase {
 
 		assertEquals(studyParticipantCrfItem2.hashCode(), studyParticipantCrfItem.hashCode());
 
-		CrfItem crfItem = new CrfItem();
+		CrfPageItem crfPageItem = new CrfPageItem();
 		ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
 		StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
 
-		studyParticipantCrfItem.setCrfItem(crfItem);
+		studyParticipantCrfItem.setCrfPageItem(crfPageItem);
 		assertFalse(studyParticipantCrfItem2.equals(studyParticipantCrfItem));
-		studyParticipantCrfItem2.setCrfItem(crfItem);
+		studyParticipantCrfItem2.setCrfPageItem(crfPageItem);
 		assertTrue(studyParticipantCrfItem.equals(studyParticipantCrfItem2));
 		assertEquals(studyParticipantCrfItem2.hashCode(), studyParticipantCrfItem.hashCode());
 

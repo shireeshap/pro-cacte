@@ -27,10 +27,15 @@
 			<div class="instructions">
 				<div class="summarylabel"><tags:message code='form.label.questions'/></div>
 			</div>
-			<c:forEach items="${studyCrf.crf.crfItemsSortedByDislayOrder}" var="crfItem">
-				<tags:questionReview crfItem="${crfItem}" showInstructions="true"
-									 displayOrder="${crfItem.displayOrder}"></tags:questionReview>
-				<br>
+
+			<c:forEach items="${studyCrf.crf.crfPages}" var="crfPage">
+				<chrome:box title="${crfPage.description}">
+					<c:forEach items="${crfPage.crfItemsSortedByDislayOrder}" var="crfPageItem">
+						<tags:questionReview crfPageItem="${crfPageItem}" showInstructions="true"
+											 displayOrder="${crfPageItem.displayOrder}"></tags:questionReview>
+					</c:forEach>
+					<br>
+				</chrome:box>
 			</c:forEach>
 
 		</td>

@@ -8,7 +8,7 @@ import java.util.Comparator;
  */
 public class ParticipantCrfDisplayOrderComparator implements Comparator<StudyParticipantCrfItem> {
     public int compare(StudyParticipantCrfItem object, StudyParticipantCrfItem object1) {
-        return object.getCrfItem().getDisplayOrder().compareTo(object1.getCrfItem().getDisplayOrder());
+        return object.getCrfPageItem().getDisplayOrder().compareTo(object1.getCrfPageItem().getDisplayOrder());
 
     }
 }

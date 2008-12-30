@@ -99,7 +99,7 @@ public class ProCtcQuestionTest extends TestCase {
 
 		proCtcQuestion.setQuestionText("How is the pain?");
 		anotherProCtcQuestion.setQuestionText("How is the pain?");
-		anotherProCtcQuestion.getCrfItems().add(new CrfItem());
+		anotherProCtcQuestion.getCrfItems().add(new CrfPageItem());
 		assertEquals("must not consider crf items", anotherProCtcQuestion.hashCode(), proCtcQuestion.hashCode());
 		assertEquals(anotherProCtcQuestion, proCtcQuestion);
 

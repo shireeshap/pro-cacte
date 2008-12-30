@@ -1,6 +1,6 @@
 <%@ attribute name="displayOrder" %>
 <%@ attribute name="showInstructions" type="java.lang.Boolean" %>
-<%@ attribute name="crfItem" type="gov.nih.nci.ctcae.core.domain.CrfItem" %>
+<%@ attribute name="crfPageItem" type="gov.nih.nci.ctcae.core.domain.CrfPageItem" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -12,13 +12,13 @@
 </style>
 <tags:formbuilderBox cssClass="review">
 	<tags:formbuilderBoxControls add="false"
-								 proCtcQuestionId="${crfItem.proCtcQuestion.id}"/>
+								 proCtcQuestionId="${crfPageItem.proCtcQuestion.id}"/>
 
 	<c:if test="${showInstructions}">
-		<c:if test="${not empty crfItem.instructions}">
+		<c:if test="${not empty crfPageItem.instructions}">
 			<chrome:summary label="Instructions">
           <jsp:attribute name="content">
-           ${crfItem.instructions}
+           ${crfPageItem.instructions}
           </jsp:attribute>
 
 			</chrome:summary>
@@ -29,12 +29,12 @@
 
               <span id="${displayOrder}"
 					class="sortableSpan">${displayOrder}</span>
-              <c:if test="${crfItem.responseRequired == true}">
+              <c:if test="${crfPageItem.responseRequired == true}">
 				  <span class="required-indicator">*</span>
 			  </c:if>
-			  ${crfItem.proCtcQuestion.formattedQuestionText}
+			  ${crfPageItem.proCtcQuestion.formattedQuestionText}
 			  <c:choose>
-				  <c:when test="${crfItem.crfItemAllignment eq 'Horizontal'}">
+				  <c:when test="${crfPageItem.crfItemAllignment eq 'Horizontal'}">
 					  <c:set var="horizontalCrfItemsStyle" value=""/>
 					  <c:set var="verticalCrfItemsStyle" value="display:none;"/>
 
@@ -45,17 +45,17 @@
 				  </c:otherwise>
 			  </c:choose>
 
-              <div id="horizontalCrfItems_${crfItem.proCtcQuestion.id}" style="${horizontalCrfItemsStyle}">
+              <div id="horizontalCrfItems_${crfPageItem.proCtcQuestion.id}" style="${horizontalCrfItemsStyle}">
 				  <br>
 				  <br>
-				  <c:forEach items="${crfItem.proCtcQuestion.validValues}" var="validValue"
+				  <c:forEach items="${crfPageItem.proCtcQuestion.validValues}" var="validValue"
 							 varStatus="status">
 					  <input type="radio" disabled="true"> ${validValue.displayName}
 				  </c:forEach>
 			  </div>
-              <div id="verticalCrfItems_${crfItem.proCtcQuestion.id}" style="${verticalCrfItemsStyle}">
+              <div id="verticalCrfItems_${crfPageItem.proCtcQuestion.id}" style="${verticalCrfItemsStyle}">
 				  <ul>
-					  <c:forEach items="${crfItem.proCtcQuestion.validValues}" var="proCtcValidValue">
+					  <c:forEach items="${crfPageItem.proCtcQuestion.validValues}" var="proCtcValidValue">
 						  <li>${proCtcValidValue.displayName}</li>
 					  </c:forEach>
 				  </ul>

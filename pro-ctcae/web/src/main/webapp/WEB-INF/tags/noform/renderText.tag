@@ -19,7 +19,7 @@
         </label>
     </div>
     <div class="value">
-        <input id="${propertyName}" type="text" size="50" value="${propertyValue}"
+        <input id="${propertyName}" type="text" size="${empty size ? 50 : size}" value="${propertyValue}"
                title="${title}" name="${propertyName}"/>
     </div>
 </div>

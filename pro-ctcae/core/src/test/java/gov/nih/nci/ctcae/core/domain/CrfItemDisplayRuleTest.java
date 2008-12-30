@@ -8,7 +8,7 @@ import junit.framework.TestCase;
  * @created Dec 17, 2008
  */
 public class CrfItemDisplayRuleTest extends TestCase {
-	private CrfItem crfItem;
+	private CrfPageItem crfPageItem;
 
 	private CrfItemDisplayRule crfItemDisplayRule;
 	private ProCtcValidValue proCtcValidValue1;
@@ -17,7 +17,7 @@ public class CrfItemDisplayRuleTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		crfItem = new CrfItem();
+		crfPageItem = new CrfPageItem();
 		proCtcValidValue1 = new ProCtcValidValue();
 		proCtcValidValue2 = new ProCtcValidValue();
 	}
@@ -50,9 +50,9 @@ public class CrfItemDisplayRuleTest extends TestCase {
 		assertEquals(anotherCrfItemDisplayRule.hashCode(), crfItemDisplayRule.hashCode());
 		assertEquals(anotherCrfItemDisplayRule, crfItemDisplayRule);
 
-		crfItemDisplayRule.setCrfItem(crfItem);
+		crfItemDisplayRule.setCrfItem(crfPageItem);
 		assertFalse(crfItemDisplayRule.equals(anotherCrfItemDisplayRule));
-		anotherCrfItemDisplayRule.setCrfItem(crfItem);
+		anotherCrfItemDisplayRule.setCrfItem(crfPageItem);
 		assertEquals(anotherCrfItemDisplayRule.hashCode(), crfItemDisplayRule.hashCode());
 		assertEquals(anotherCrfItemDisplayRule, crfItemDisplayRule);
 		proCtcValidValue1.setId(2);

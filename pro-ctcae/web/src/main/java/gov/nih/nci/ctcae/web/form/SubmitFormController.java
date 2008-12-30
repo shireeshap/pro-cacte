@@ -1,7 +1,5 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CrfStatus;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
@@ -12,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * User: Harsh
@@ -72,7 +69,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
          if ("continue".equals(submitFormCommand.getDirection())) {
              List<StudyParticipantCrfItem> l = submitFormCommand.getPages().get(submitFormCommand.getCurrentPageIndex());
              for (StudyParticipantCrfItem studyParticipantCrfItem : l) {
-                 if (new Boolean(true).equals(studyParticipantCrfItem.getCrfItem().getResponseRequired())) {
+                 if (new Boolean(true).equals(studyParticipantCrfItem.getCrfPageItem().getResponseRequired())) {
                      if (studyParticipantCrfItem.getProCtcValidValue() == null) {
                          errors.reject(
                              "answer", "Please select an answer.");

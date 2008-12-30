@@ -22,21 +22,36 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
 		super.onSetUpInTransaction();
+		createCrf();
 
 	}
 
 	private void saveCrf() {
+		crf = crfRepository.save(crf);
+	}
+
+	private void createCrf() {
 		crf = new CRF();
 		crf.setTitle(title);
 		crf.setDescription("Case Report Form for Cancer Patients");
 		crf.setStatus(CrfStatus.DRAFT);
 		crf.setCrfVersion("1.0");
-		crf = crfRepository.save(crf);
 	}
 
 	public void testSaveCRF() {
 		saveCrf();
 		assertNotNull(crf.getId());
+	}
+
+	public void testSaveCRFWithPage() {
+		crf.addCrfPge(new CRFPage());
+		saveCrf();
+		assertNotNull(crf.getId());
+		assertFalse(crf.getCrfPages().isEmpty());
+		for (CRFPage crfPage : crf.getCrfPages()) {
+			assertNotNull(crfPage.getId());
+			assertSame(crf, crfPage.getCrf());
+		}
 	}
 
 	public void testUpdateStatusOfCRF() {

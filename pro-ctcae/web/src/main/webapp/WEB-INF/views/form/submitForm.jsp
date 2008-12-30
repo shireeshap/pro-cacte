@@ -64,7 +64,7 @@
         </c:forEach>
 
         <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfItems}" var="participantCrfItem">
-            questions[nextQuestionIndex++] = '${participantCrfItem.crfItem.id}';
+            questions[nextQuestionIndex++] = '${participantCrfItem.crfPageItem.id}';
         </c:forEach>
 
         function gonext(crfitemindex, index, column) {
@@ -145,20 +145,20 @@
 
     <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfItems}" var="participantCrfItem"
                varStatus="crfitemstatus">
-        <tags:formbuilderBox id="question_${participantCrfItem.crfItem.id}">
+        <tags:formbuilderBox id="question_${participantCrfItem.crfPageItem.id}">
 
-            <c:set var="crfItem" value="${participantCrfItem.crfItem}"/>
-            <c:if test="${crfItem.crfItemAllignment eq 'Horizontal'}">
-                <c:set var="colspan" value="${fn:length(crfItem.proCtcQuestion.validValues)}"/>
+            <c:set var="crfPageItem" value="${participantCrfItem.crfPageItem}"/>
+            <c:if test="${crfPageItem.crfItemAllignment eq 'Horizontal'}">
+                <c:set var="colspan" value="${fn:length(crfPageItem.proCtcQuestion.validValues)}"/>
             </c:if>
 
             <table>
-                <c:if test="${crfItem.instructions ne null}">
+                <c:if test="${crfPageItem.instructions ne null}">
                     <tr>
                         <td colspan="${colspan}">
                             <div class="instructions">
                                 <div class="summarylabel">Instructions</div>
-                                <div class="summaryvalue">${crfItem.instructions}</div>
+                                <div class="summaryvalue">${crfPageItem.instructions}</div>
                             </div>
                         </td>
                     </tr>
@@ -166,7 +166,7 @@
                 <tr>
                     <td colspan="${colspan}">
                         <div class="label">
-                                ${crfItem.proCtcQuestion.formattedQuestionText}
+                                ${crfPageItem.proCtcQuestion.formattedQuestionText}
                         </div>
                     </td>
                 </tr>
@@ -176,9 +176,9 @@
                     </td>
                 </tr>
                 <c:choose>
-                    <c:when test="${crfItem.crfItemAllignment eq 'Horizontal'}">
+                    <c:when test="${crfPageItem.crfItemAllignment eq 'Horizontal'}">
                         <tr>
-                            <c:forEach items="${crfItem.proCtcQuestion.validValues}" var="validValue"
+                            <c:forEach items="${crfPageItem.proCtcQuestion.validValues}" var="validValue"
                                        varStatus="validvaluestatus">
                                 <tags:validvalue currentId="${validValue.id}"
                                                  title="${validValue.displayName}"
@@ -189,7 +189,7 @@
                         </tr>
                     </c:when>
                     <c:otherwise>
-                        <c:forEach items="${crfItem.proCtcQuestion.validValues}" var="validValue"
+                        <c:forEach items="${crfPageItem.proCtcQuestion.validValues}" var="validValue"
                                    varStatus="validvaluestatus">
                             <tr>
                                 <tags:validvalue currentId="${validValue.id}"

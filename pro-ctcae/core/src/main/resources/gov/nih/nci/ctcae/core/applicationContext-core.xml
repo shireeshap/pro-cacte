@@ -25,7 +25,8 @@
 		<value>gov.nih.nci.ctcae.core.domain.Organization</value>
 		<value>gov.nih.nci.ctcae.core.domain.ClinicalStaff</value>
 		<value>gov.nih.nci.ctcae.core.domain.CRF</value>
-		<value>gov.nih.nci.ctcae.core.domain.CrfItem</value>
+		<value>gov.nih.nci.ctcae.core.domain.CRFPage</value>
+		<value>gov.nih.nci.ctcae.core.domain.CrfPageItem</value>
 		<value>gov.nih.nci.ctcae.core.domain.CrfItemDisplayRule</value>
 		<value>gov.nih.nci.ctcae.core.domain.CtcCategory</value>
 		<value>gov.nih.nci.ctcae.core.domain.Person</value>
@@ -90,7 +91,8 @@
 		<value>gov.nih.nci.ctcae.core.domain.Organization</value>
 		<value>gov.nih.nci.ctcae.core.domain.ClinicalStaff</value>
 		<value>gov.nih.nci.ctcae.core.domain.CRF</value>
-		<value>gov.nih.nci.ctcae.core.domain.CrfItem</value>
+		<value>gov.nih.nci.ctcae.core.domain.CRFPage</value>
+		<value>gov.nih.nci.ctcae.core.domain.CrfPageItem</value>
 		<value>gov.nih.nci.ctcae.core.domain.CrfItemDisplayRule</value>
 		<value>gov.nih.nci.ctcae.core.domain.CtcCategory</value>
 		<value>gov.nih.nci.ctcae.core.domain.Person</value>
@@ -148,9 +150,10 @@
 	<bean id="auditHistoryDao" class="gov.nih.nci.cabig.ctms.audit.dao.AuditHistoryDao">
 		<property name="hibernateTemplate" ref="hibernateTemplate"/>
 	</bean>
-    <bean id="auditHistoryRepository" class="gov.nih.nci.cabig.ctms.audit.dao.AuditHistoryRepository">
-        <property name="auditHistoryDao" ref="auditHistoryDao"></property>
-    </bean>
+
+	<!--<bean id="auditHistoryRepository" class="gov.nih.nci.cabig.ctms.audit.dao.AuditHistoryRepository">-->
+        <!--<property name="auditHistoryDao" ref="auditHistoryDao"></property>-->
+    <!--</bean>-->
 
 
     <tx:annotation-driven proxy-target-class="true"/>

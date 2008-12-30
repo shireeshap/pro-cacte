@@ -4,12 +4,10 @@ import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Harsh Agarwal
@@ -49,11 +47,12 @@ public class CRF extends BaseVersionable {
 	@Column(name = "next_version_id", nullable = true)
 	private Integer nextVersionId;
 
-    @Column(name = "parent_version_id", nullable =true)
-    private Integer parentVersionId;
+	@Column(name = "parent_version_id", nullable = true)
+	private Integer parentVersionId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.EAGER)
-	private List<CrfItem> crfItems = new ArrayList<CrfItem>();
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.EAGER)
+	private List<CRFPage> crfPages = new LinkedList<CRFPage>();
+	;
 
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
 	private StudyCrf studyCrf;
@@ -113,21 +112,6 @@ public class CRF extends BaseVersionable {
 		this.crfVersion = crfVersion;
 	}
 
-	public List<CrfItem> getCrfItemsSortedByDislayOrder() {
-		Collections.sort(crfItems, new DisplayOrderComparator());
-		return crfItems;
-	}
-
-	public List<CrfItem> getCrfItems() {
-		return crfItems;
-	}
-
-	public void removeCrfItem(CrfItem crfItem) {
-		if (crfItem != null) {
-			crfItems.remove(crfItem);
-		}
-	}
-
 
 	@Override
 	public boolean equals(final Object o) {
@@ -178,132 +162,97 @@ public class CRF extends BaseVersionable {
 		this.effectiveEndDate = effectiveEndDate;
 	}
 
-    public Integer getNextVersionId() {
-        return nextVersionId;
-    }
-
-    public void setNextVersionId(Integer nextVersionId) {
-        this.nextVersionId = nextVersionId;
-    }
-
-    public Integer getParentVersionId() {
-        return parentVersionId;
-    }
-
-    public void setParentVersionId(Integer parentVersionId) {
-        this.parentVersionId = parentVersionId;
-    }
-    
-
-    /**
-	 * this is required to update the crf item properties on right side of the create form
-	 *
-	 * @param proCtcQuestion
-	 * @param displayOrder
-	 */
-	public void addOrUpdateCrfItem(final ProCtcQuestion proCtcQuestion, final Integer displayOrder) {
-
-		//check if it already exists
-		for (CrfItem existingCrfItem : getCrfItemsSortedByDislayOrder()) {
-			if (existingCrfItem.getProCtcQuestion() != null
-				&& (existingCrfItem.getProCtcQuestion().equals(proCtcQuestion))) {
-				//probably we are updating order only
-				existingCrfItem.setDisplayOrder(displayOrder);
-				return;
-			}
-		}
-		CrfItem crfItem = new CrfItem();
-		crfItem.setProCtcQuestion(proCtcQuestion);
-		crfItem.setDisplayOrder(displayOrder);
-
-		updateOrderNumber(crfItem);
-		crfItem.setCrf(this);
-		crfItems.add(crfItem);
-
+	public Integer getNextVersionId() {
+		return nextVersionId;
 	}
 
-	/**
-	 * used for adding a new crf items with empty properties..this is required to add questions from left side of the create form
-	 *
-	 * @param proCtcQuestion
-	 */
-	public CrfItem removeExistingAndAddNewCrfItem(final ProCtcQuestion proCtcQuestion) {
-		CrfItem crfItem = new CrfItem();
-		crfItem.setProCtcQuestion(proCtcQuestion);
-
-		//check if it already exists
-		CrfItem existingCrfItem = getCrfItemByQuestion(crfItem.getProCtcQuestion());
-		if (existingCrfItem != null) {
-			//we are updating order only  and removing properties
-			existingCrfItem.setDisplayOrder(getCrfItemsSortedByDislayOrder().size());
-			existingCrfItem.setCrfItemAllignment(null);
-			existingCrfItem.setInstructions(null);
-			existingCrfItem.setResponseRequired(Boolean.FALSE);
-			return existingCrfItem;
-		}
-
-		updateOrderNumber(crfItem);
-		crfItem.setCrf(this);
-		crfItems.add(crfItem);
-
-		return crfItem;
-
-
+	public void setNextVersionId(Integer nextVersionId) {
+		this.nextVersionId = nextVersionId;
 	}
 
-	private void updateOrderNumber(final CrfItem crfItem) {
-		if (crfItem.getDisplayOrder() == null || crfItem.getDisplayOrder() == 0) {
-			crfItem.setDisplayOrder(getCrfItems().size() + 1);
-
-		}
+	public Integer getParentVersionId() {
+		return parentVersionId;
 	}
 
-	public CrfItem getCrfItemByQuestion(final ProCtcQuestion proCtcQuestion) {
-		if (proCtcQuestion != null) {
-			for (CrfItem existingCrfItem : getCrfItems()) {
-				if (existingCrfItem.getProCtcQuestion() != null
-					&& (existingCrfItem.getProCtcQuestion().equals(proCtcQuestion))) {
-					return existingCrfItem;
-				}
-			}
-
-		}
-		return null;
-
+	public void setParentVersionId(Integer parentVersionId) {
+		this.parentVersionId = parentVersionId;
 	}
 
-	public void addCrfItem(CrfItem crfItem) {
-		if (crfItem != null) {
-			crfItem.setCrf(this);
-			crfItems.add(crfItem);
-		}
-	}
 
+	public List<CRFPage> getCrfPages() {
+		return crfPages;
+	}
 
 	public CRF getCopy() {
+		return null;
 
-		CRF copiedCrf = new CRF();
-		copiedCrf.setTitle("Copy of " + title + "_" + System.currentTimeMillis());
-		copiedCrf.setDescription(description);
-		copiedCrf.setStatus(CrfStatus.DRAFT);
-    	copiedCrf.setCrfVersion("1.0");
-		for (CrfItem crfItem : crfItems) {
-			copiedCrf.addCrfItem(crfItem.getCopy());
-		}
 
-		return copiedCrf;
 	}
 
 
-	public List<CrfItem> removeExistingAndAddNewCrfItem(final ProCtcTerm proCtcTerm) {
-		List<ProCtcQuestion> questions = new ArrayList<ProCtcQuestion>(proCtcTerm.getProCtcQuestions());
-		List<CrfItem> addedCrfItems = new ArrayList<CrfItem>();
-		for (int i = 0; i < questions.size(); i++) {
-			ProCtcQuestion proCtcQuestion = questions.get(i);
-			CrfItem crfItem = removeExistingAndAddNewCrfItem(proCtcQuestion);
-			addedCrfItems.add(crfItem);
+	public void addCrfPge(final CRFPage crfPage) {
+		if (crfPage != null) {
+			crfPage.setCrf(this);
+			crfPages.add(crfPage);
 		}
-		return addedCrfItems;
+
+
 	}
 
+	public void addOrUpdateCrfItemInCrfPage(final int crfPageIndex, final ProCtcQuestion proCtcQuestion, final int displayOrder) {
+		CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
+
+		CRFPage anotherCrfPage = getCrfPages().get(crfPageIndex);
+		if (crfPage != null && !anotherCrfPage.equals(crfPage)) {
+			anotherCrfPage.removeExistingButDoNotAddNewCrfItem(proCtcQuestion);
+			crfPage.addOrUpdateCrfItem(proCtcQuestion, displayOrder);
+		} else {
+			anotherCrfPage.addOrUpdateCrfItem(proCtcQuestion, displayOrder);
+		}
+
+	}
+
+
+	public void removeCrfPageItem(final String questionsIds) {
+		List<CrfPageItem> crfPageItemsToRemove = new ArrayList<CrfPageItem>();
+		Set questionIdSet = StringUtils.commaDelimitedListToSet(questionsIds);
+
+		for (CrfPageItem crfPageItem : getAllCrfPageItems()) {
+			if (!questionIdSet.contains(String.valueOf(crfPageItem.getProCtcQuestion().getId()))) {
+				crfPageItemsToRemove.add(crfPageItem);
+			}
+		}
+
+
+		for (CrfPageItem crfPageItem : crfPageItemsToRemove) {
+			removeCrfPageItem(crfPageItem);
+		}
+
+	}
+
+	private CRFPage getCrfPageByQuestion(final ProCtcQuestion proCtcQuestion) {
+		for (CRFPage crfPage : crfPages) {
+			CrfPageItem crfPageItem = crfPage.getCrfPageItemByQuestion(proCtcQuestion);
+			if (crfPageItem != null) {
+				return crfPage;
+			}
+		}
+		return null;
+	}
+
+	private void removeCrfPageItem(CrfPageItem crfPageItem) {
+		if (crfPageItem != null) {
+			crfPages.remove(crfPageItem);
+		}
+	}
+
+
+	private List<CrfPageItem> getAllCrfPageItems() {
+		List<CrfPageItem> crfPageItems = new ArrayList<CrfPageItem>();
+		for (CRFPage crfPage : crfPages) {
+			crfPageItems.addAll(crfPage.getCrfPageItems());
+		}
+		return crfPageItems;
+
+	}
 }

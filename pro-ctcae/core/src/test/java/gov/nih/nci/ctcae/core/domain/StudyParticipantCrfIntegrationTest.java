@@ -61,7 +61,7 @@ public class StudyParticipantCrfIntegrationTest extends
 
 		ProCtcQuestion p = new ProCtcQuestion();
 		//p.setQuestionText();
-		// CrfItem crfItem1 = new CrfItem();
+		// CrfPageItem crfItem1 = new CrfPageItem();
 		// crfItem1.s
 
 
