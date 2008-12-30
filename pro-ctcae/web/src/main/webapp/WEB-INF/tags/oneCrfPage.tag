@@ -71,7 +71,7 @@
 				</tags:oneCrfPageItem>
 			</c:forEach>
 			<c:if test="${index ==0}">
-				<div id="hiddenDiv"/>
+				<div id="hiddenDiv"></div>
 			</c:if>
 		</div>
 	</chrome:box>

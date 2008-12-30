@@ -247,7 +247,7 @@ function updateTotalNumberOfQuestionsInEachPage() {
 	var sortableDivs = [];
 	formPages.each(function(item) {
 		var index = item.id.substr(11, item.id.length);
-		numberOfQuestionsInEachPage = numberOfQuestionsInEachPage + parseInt($$('div.sortable_' + index).length)
+		numberOfQuestionsInEachPage = numberOfQuestionsInEachPage + parseInt($$('#' + item.id + ' div.sortable').length - 1)
 
 	})
 	numberOfQuestionsInEachPage = numberOfQuestionsInEachPage.toArray();
@@ -813,6 +813,7 @@ function showFormSettings() {
 										</tags:oneCrfPage>
 
 									</c:forEach>
+
 									<div id="hiddenCrfPageDiv"></div>
 
 								</td>
