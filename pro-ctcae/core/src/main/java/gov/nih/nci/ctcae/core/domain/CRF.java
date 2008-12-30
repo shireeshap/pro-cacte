@@ -184,7 +184,16 @@ public class CRF extends BaseVersionable {
 	}
 
 	public CRF getCopy() {
-		return null;
+		CRF copiedCrf = new CRF();
+		copiedCrf.setTitle("Copy of " + title + "_" + System.currentTimeMillis());
+		copiedCrf.setDescription(description);
+		copiedCrf.setStatus(CrfStatus.DRAFT);
+		copiedCrf.setCrfVersion("1.0");
+		for (CRFPage crfPage : crfPages) {
+			copiedCrf.addCrfPge(crfPage.getCopy());
+		}
+
+		return copiedCrf;
 
 
 	}
