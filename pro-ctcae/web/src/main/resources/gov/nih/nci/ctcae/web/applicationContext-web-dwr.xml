@@ -33,9 +33,9 @@
         <property name="participantRepository" ref="participantRepository"/>
         <property name="studyRepository" ref="studyRepository"/>
     </bean>
-    <bean id="studyCrfAjaxFacade"
-          class="gov.nih.nci.ctcae.web.form.StudyCrfAjaxFacade">
-          <property name="studyRepository" ref="studyRepository"/>
+    <bean id="crfAjaxFacade"
+          class="gov.nih.nci.ctcae.web.form.CrfAjaxFacade">
+          <property name="crfRepository" ref="crfRepository"/>
       </bean>
 
 

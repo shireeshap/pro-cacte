@@ -11,8 +11,9 @@ public class CRFQuery extends AbstractQuery {
 	private static String queryString = "SELECT o from CRF o order by o.id";
 	private static final String TITLE = "title";
 	private static final String CRFID = "crfId";
+    private static final String STUDYID = "studyId";
 
-	public CRFQuery() {
+    public CRFQuery() {
 
 		super(queryString);
 	}
@@ -30,4 +31,12 @@ public class CRFQuery extends AbstractQuery {
 			setParameter(CRFID, crfId);
 		}
 	}
+
+    public void filterByStudyId(final Integer studyId) {
+        if (studyId != null) {
+            andWhere("o.studyCrf.study.id = :" + STUDYID);
+            setParameter(STUDYID, studyId);
+        }
+
+    }
 }

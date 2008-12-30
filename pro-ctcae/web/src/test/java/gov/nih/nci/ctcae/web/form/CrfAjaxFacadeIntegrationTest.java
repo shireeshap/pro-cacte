@@ -15,9 +15,9 @@ import java.util.Map;
  * @author Mehul Gulati
  *         Date: Nov 6, 2008
  */
-public class StudyCrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase {
+public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase {
 
-    private StudyCrfAjaxFacade studyCrfAjaxFacade;
+    private CrfAjaxFacade crfAjaxFacade;
     protected Map parameterMap;
     private CRFRepository crfRepository;
     private Study study;
@@ -46,14 +46,14 @@ public class StudyCrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTes
     }
 
     public void testSearchStudyCrf() {
-        String table = studyCrfAjaxFacade.searchStudyCrf(parameterMap, study.getId(), request);
+        String table = crfAjaxFacade.searchCrf(parameterMap, study.getId(), request);
         assertNotNull(table);
         assertTrue("must find a crf with title", table.contains(crf.getTitle()));
         assertTrue("must find a crf with status", table.contains(crf.getStatus().toString()));
     }
 
-    public void setStudyCrfAjaxFacade(StudyCrfAjaxFacade studyCrfAjaxFacade) {
-        this.studyCrfAjaxFacade = studyCrfAjaxFacade;
+    public void setStudyCrfAjaxFacade(CrfAjaxFacade crfAjaxFacade) {
+        this.crfAjaxFacade = crfAjaxFacade;
     }
 
     public void setCrfRepository(CRFRepository crfRepository) {

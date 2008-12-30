@@ -15,7 +15,7 @@
     <tags:includeScriptaculous/>
 
     <tags:includePrototypeWindow/>
-    <tags:dwrJavascriptLink objects="studyCrf"/>
+    <tags:dwrJavascriptLink objects="crf"/>
 
     <script type="text/javascript">
         Event.observe(window, "load", function () {
@@ -45,7 +45,7 @@
             var id = $('study').value
             var parameterMap = getParameterMap(form);
             $('bigSearch').show();
-            studyCrf.searchStudyCrf(parameterMap, id, showTable)
+            crf.searchCrf(parameterMap, id, showTable)
         }
 
         function acCreateStudy(mode) {

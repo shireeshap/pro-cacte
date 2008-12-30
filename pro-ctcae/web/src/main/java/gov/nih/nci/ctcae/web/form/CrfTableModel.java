@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.StudyCrf;
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.web.AbstractTableModel;
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.core.TableModel;
@@ -13,9 +14,9 @@ import java.util.Map;
  * @author Mehul Gulati
  *         Date: Nov 5, 2008
  */
-public class StudyCrfTableModel extends AbstractTableModel {
+public class CrfTableModel extends AbstractTableModel {
 
-	public String buildStudyCrfTable(Map parameterMap, Collection<StudyCrf> objects, HttpServletRequest request) {
+	public String buildCrfTable(Map parameterMap, Collection<CRF> objects, HttpServletRequest request) {
 
 		try {
 			TableModel model = getModel(parameterMap, request, objects);
@@ -59,7 +60,7 @@ public class StudyCrfTableModel extends AbstractTableModel {
 	private void addTitle(TableModel model) {
 		Column columnTitle = model.getColumnInstance();
 		columnTitle.setTitle("Title");
-		columnTitle.setProperty("crf.title");
+		columnTitle.setProperty("title");
 		columnTitle.setAlias("title");
 		columnTitle.setSortable(Boolean.TRUE);
 		columnTitle.setFilterable(false);
@@ -69,7 +70,7 @@ public class StudyCrfTableModel extends AbstractTableModel {
 	private void addStatus(TableModel model) {
 		Column columnStatus = model.getColumnInstance();
 		columnStatus.setTitle("Status");
-		columnStatus.setProperty("crf.status");
+		columnStatus.setProperty("status");
 		columnStatus.setAlias("status");
 		columnStatus.setSortable(Boolean.TRUE);
 		columnStatus.setFilterable(false);

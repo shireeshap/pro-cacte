@@ -24,8 +24,8 @@
         <create creator="spring" javascript="scheduleCrf">
             <param name="beanName" value="scheduleCrfAjaxFacade"/>
         </create>
-         <create creator="spring" javascript="studyCrf">
-            <param name="beanName" value="studyCrfAjaxFacade"/>
+         <create creator="spring" javascript="crf">
+            <param name="beanName" value="crfAjaxFacade"/>
         </create>
 
 
