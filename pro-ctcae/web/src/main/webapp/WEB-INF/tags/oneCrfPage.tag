@@ -21,45 +21,53 @@
 
 
 	Event.observe(window, "load", function () {
-		var formNameInPlaceEdit = new Ajax.InPlaceEditor(descriptionProperty, '/ctcae/pages/form/setName', {
-			rows:1,
-			cancelControl:false,
-			okControl:false,
-			size:18,
-			submitOnBlur:true,
-			onEnterEditMode:function() {
-				if ($(descriptionProperty).innerHTML == 'Click here to name') {
-					$(descriptionProperty).innerHTML = ''
+		//		var formNameInPlaceEdit = new Ajax.InPlaceEditor(descriptionProperty, '/ctcae/pages/form/setName', {
+		//			rows:1,
+		//			cancelControl:false,
+		//			okControl:false,
+		//			size:18,
+		//			submitOnBlur:true,
+		//			onEnterEditMode:function() {
+		//				if ($(descriptionProperty).innerHTML == 'Click here to name') {
+		//					$(descriptionProperty).innerHTML = ''
+		//
+		//				}
+		//
+		//			}  ,
+		//			onComplete:function(transport) {
+		//				$(descriptionProperty).innerHTML = transport.responseText;
+		//				$(description).value = transport.responseText;
+		//				if ($(descriptionProperty).value == '') {
+		//					$(descriptionProperty).innerHTML = 'Click here to name';
+		//
+		//				}
+		//
+		//
+		//			},
+		//			callback:function(form, value) {
+		//				return 'crfTitle=' + encodeURIComponent(value)
+		//			}
+		//		});
 
-				}
-
-			}  ,
-			onComplete:function(transport) {
-				$(descriptionProperty).innerHTML = transport.responseText;
-				$(description).value = transport.responseText;
-				if ($(descriptionProperty).value == '') {
-					$(descriptionProperty).innerHTML = 'Click here to name';
-
-				}
-
-
-			},
-			callback:function(form, value) {
-				return 'crfTitle=' + encodeURIComponent(value)
-			}
-		});
 
 	})
 
+
 </script>
-<div class="formpages" id="form-pages_${index}">
+
+<div class="formpages" id="form-pages_${index}" onclick="javascript:selectPage('${index}')">
 
 	<chrome:box>
+		<a href="javascript:unselectPage('${index}')"
+		   id="form-pages-image_${index}" style="display:none;">
+			<img src="<tags:imageUrl name="arrow.png"/>"/>
+		</a>
 
-		<span class="formbuilderHeader" id="studyCrf.crf.crfPages[${index}].description-property">${crfPage.description}Page${index}</span>
 
-		<input id="studyCrf.crf.crfPages[${index}].description" type="hidden" size="30" value="${crfPage.description}"
-			   name="studyCrf.crf.crfPages[${index}].description"/>
+		<%--<span class="formbuilderHeader" id="studyCrf.crf.crfPages[${index}].description-property">${crfPage.description}Page${index}</span>--%>
+
+		<input id="studyCrf.crf.crfPages[${index}].description" type="text" size="30" value="${crfPage.description}"
+			   name="studyCrf.crf.crfPages[${index}].description" class="autocomplete"/>
 
 		<div id="sortable_${index}">
 			<div class="sortable makeDraggable"></div>

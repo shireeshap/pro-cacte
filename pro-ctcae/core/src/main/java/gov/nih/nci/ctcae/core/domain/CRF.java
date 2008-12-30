@@ -215,12 +215,15 @@ public class CRF extends BaseVersionable {
 
 		CRFPage anotherCrfPage = getCrfPages().get(crfPageIndex);
 
-
+		CrfPageItem existingCrfPageItem = null;
 		if (crfPage != null && !anotherCrfPage.equals(crfPage)) {
-			crfPage.removeExistingButDoNotAddNewCrfItem(proCtcQuestion);
+			existingCrfPageItem = crfPage.removeExistingButDoNotAddNewCrfItem(proCtcQuestion);
 		}
-		anotherCrfPage.addOrUpdateCrfItem(proCtcQuestion, displayOrder);
-
+		if (existingCrfPageItem != null) {
+			anotherCrfPage.addOrUpdateCrfItem(existingCrfPageItem);
+		} else {
+			anotherCrfPage.addOrUpdateCrfItem(proCtcQuestion, displayOrder);
+		}
 
 	}
 

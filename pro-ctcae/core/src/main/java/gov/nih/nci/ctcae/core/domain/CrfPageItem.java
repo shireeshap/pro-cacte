@@ -22,6 +22,8 @@ import java.util.Set;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_page_items_id")})
 public class CrfPageItem extends BasePersistable {
 
+	public static final Integer INITIAL_ORDER = 1;
+
 	@Id
 	@GeneratedValue(generator = "id-generator")
 	@Column(name = "id")

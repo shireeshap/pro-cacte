@@ -171,6 +171,22 @@ function addCrfItem(questionId, proCtcTermId) {
 
 
 }
+function selectPage(pageIndex) {
+	unselectAllSelectedPage();
+	$('form-pages_' + pageIndex).addClassName('formpagesselected')
+	$('form-pages-image_' + pageIndex).show();
+}
+function unselectAllSelectedPage() {
+	$$('div.formpagesselected').each(function(item) {
+		var pageIndex = item.id.substr(11, item.id.length);
+
+		unselectPage(pageIndex)
+	})
+}
+function unselectPage(pageIndex) {
+	$('form-pages_' + pageIndex).removeClassName('formpagesselected')
+	$('form-pages-image_' + pageIndex).hide();
+}
 function addCrfPage() {
 	var request = new Ajax.Request("<c:url value="/pages/form/addOneCrfPage"/>", {
 		parameters:"subview=subview",
@@ -182,6 +198,7 @@ function addCrfPage() {
 			//			updateSelectedCrfItems(questionId)
 			//			addCrfItemPropertiesHtml(questionId);
 			postProcessFormChanges();
+			initSearchField();
 
 
 		},
@@ -625,6 +642,11 @@ function showFormSettings() {
 
 	.makeDraggable {
 		cursor: move;
+	}
+
+	.formpagesselected {
+		background-color: darkgreen;
+		border: black;
 	}
 
 	.instructions .summaryvalue {

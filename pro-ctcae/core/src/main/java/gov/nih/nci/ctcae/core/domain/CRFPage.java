@@ -129,6 +129,26 @@ public class CRFPage extends BaseVersionable {
 	}
 
 	/**
+	 * this is required to move crf page item from one crf page to another crf page
+	 */
+	public void addOrUpdateCrfItem(final CrfPageItem crfPageItem) {
+		if (crfPageItem != null) {
+			//check if it already exists..if yes remove it
+			for (CrfPageItem existingCrfPageItem : getCrfItemsSortedByDislayOrder()) {
+				if (existingCrfPageItem.getProCtcQuestion() != null
+					&& (existingCrfPageItem.getProCtcQuestion().equals(crfPageItem.getProCtcQuestion()))) {
+					removeCrfItem(crfPageItem);
+				}
+			}
+		}
+
+		updateOrderNumber(crfPageItem);
+		crfPageItem.setCrfPage(this);
+		crfPageItems.add(crfPageItem);
+
+	}
+
+	/**
 	 * used for adding a new crf items with empty properties..this is required to add questions from left side of the create form
 	 *
 	 * @param proCtcQuestion
@@ -162,10 +182,10 @@ public class CRFPage extends BaseVersionable {
 	 *
 	 * @param proCtcQuestion
 	 */
-	public void removeExistingButDoNotAddNewCrfItem(final ProCtcQuestion proCtcQuestion) {
+	public CrfPageItem removeExistingButDoNotAddNewCrfItem(final ProCtcQuestion proCtcQuestion) {
 		CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(proCtcQuestion);
 		removeCrfItem(existingCrfPageItem);
-
+		return existingCrfPageItem;
 
 	}
 
@@ -234,6 +254,15 @@ public class CRFPage extends BaseVersionable {
 
 		for (CrfPageItem crfPageItem : crfPageItemsToRemove) {
 			removeCrfItem(crfPageItem);
+		}
+
+	}
+
+	public void updateDisplayOrderOfCrfPageItems() {
+		List<CrfPageItem> itemsSortedByDislayOrder = getCrfItemsSortedByDislayOrder();
+		for (int i = 0; i < itemsSortedByDislayOrder.size(); i++) {
+			CrfPageItem crfPageItem = itemsSortedByDislayOrder.get(i);
+			crfPageItem.setDisplayOrder(i + CrfPageItem.INITIAL_ORDER);
 		}
 
 	}

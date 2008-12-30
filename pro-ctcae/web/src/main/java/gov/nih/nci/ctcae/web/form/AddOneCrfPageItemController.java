@@ -46,6 +46,7 @@ public class AddOneCrfPageItemController extends AbstractController {
 			CrfPageItem crfPageItem = crfPage.removeExistingAndAddNewCrfItem(proCtcQuestion);
 			modelAndView.addObject("crfPageItem", crfPageItem);
 			modelAndView.addObject("crfPageIndex", index);
+			modelAndView.addObject("index", crfPage.getCrfPageItems().size()-1);
 			modelAndView.addObject("responseRequired", ListValues.getResponseRequired());
 			modelAndView.addObject("crfItemAllignments", ListValues.getCrfItemAllignments());
 			modelAndView.addObject("selectedCrfPageItems", createFormCommand.getStudyCrf().getCrf().getAllCrfPageItems());

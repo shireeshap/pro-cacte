@@ -1,3 +1,4 @@
+<%@ attribute name="showDelete" type="java.lang.Boolean" %>
 <%@ attribute name="crfItemDisplayRuleList" type="java.util.Collection" required="true" %>
 <%@ attribute name="selectedQuestionId" type="java.lang.Integer" required="true" %>
 
@@ -21,12 +22,13 @@
 		</td>
 
 		<td style="border-left:none;">
-
-			<a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-			   href="javascript:deleteConditions('${selectedQuestionId}','${crfItemDisplayRule.persistable.id}');">
-				<img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
-					 style="vertical-align:middle">
-			</a>
+			<c:if test="${showDelete}">
+				<a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
+				   href="javascript:deleteConditions('${selectedQuestionId}','${crfItemDisplayRule.persistable.id}');">
+					<img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
+						 style="vertical-align:middle">
+				</a>
+			</c:if>
 		</td>
 
 

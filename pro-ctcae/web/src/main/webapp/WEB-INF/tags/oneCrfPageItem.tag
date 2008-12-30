@@ -87,7 +87,7 @@
 					</tr>
 
 					<tags:conditions crfItemDisplayRuleList="${crfPageItem.crfItemDisplayRules}"
-									 selectedQuestionId="${crfPageItem.proCtcQuestion.id}"></tags:conditions>
+									 selectedQuestionId="${crfPageItem.proCtcQuestion.id}" showDelete="true"></tags:conditions>
 
 
 					<tr id="conditions_${crfPageItem.proCtcQuestion.id}"></tr>

@@ -8,7 +8,9 @@ import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vinay Kumar
@@ -60,30 +62,45 @@ public class CreateFormCommand implements Serializable {
 
 		logger.debug("number of questions each page:" + numberOfQuestionsInEachPage);
 		int k = 0;
+
+		Map<Integer, List<Integer>> questionsToKeepMap = new HashMap<Integer, List<Integer>>();
+
 		for (int j = 0; j < numberOfQuestionInEachPageArray.length; j++) {
 			String questionsInEachPage = numberOfQuestionInEachPageArray[j];
 
 			List<Integer> questionsToKeep = new ArrayList<Integer>();
+			int displayOrder = CrfPageItem.INITIAL_ORDER;
+
 			for (int i = k; i < k + Integer.valueOf(questionsInEachPage); i++) {
 				Integer questionId = Integer.parseInt(questionIdsArrays[i]);
 				ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
 				if (proCtcQuestion != null) {
-					int displayOrder = i + 1;
 					studyCrf.getCrf().addOrUpdateCrfItemInCrfPage(j, proCtcQuestion, displayOrder);
 					questionsToKeep.add(questionId);
+					displayOrder++;
+
 				} else {
 					logger.error("can not add question because pro ctc question is null for id:" + questionId);
 				}
 
 			}
-			CRFPage crfPage = studyCrf.getCrf().getCrfPages().get(j);
-
-			//now delete the extra questions
-			crfPage.removeExtraCrfItemsInCrfPage(questionsToKeep);
+			questionsToKeepMap.put(Integer.valueOf(j), questionsToKeep);
 			k = k + Integer.valueOf(questionsInEachPage);
 
 		}
 
+		for (Integer index : questionsToKeepMap.keySet()) {
+			CRFPage crfPage = studyCrf.getCrf().getCrfPages().get(index);
+			//now delete the extra questions
+			crfPage.removeExtraCrfItemsInCrfPage(questionsToKeepMap.get(index));
+
+		}
+
+		//finally reoder crf page items
+
+		for (CRFPage crfPage : studyCrf.getCrf().getCrfPages()) {
+			crfPage.updateDisplayOrderOfCrfPageItems();
+		}
 	}
 
 

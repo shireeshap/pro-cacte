@@ -60,6 +60,38 @@
 					  </c:forEach>
 				  </ul>
 			  </div>
+			  <c:if test="${not empty crfPageItem.crfItemDisplayRules }">
+
+				  <br>
+				  <br>
+
+				  <div id="conditions_${crfPageItem.proCtcQuestion.id}">
+					  <tags:instructions code="instruction_conditional_question"/>
+
+					  <div align="left" style="margin-left: 50px">
+						  <table width="95%" class="tablecontent"
+								 id="conditionsTable_${crfPageItem.proCtcQuestion.id}">
+							  <tr id="ss-table-head" class="amendment-table-head">
+								  <th width="95%" class="tableHeader"><tags:message
+									  code='crfItem.label.conditions'/></th>
+								  <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+
+							  </tr>
+
+							  <tags:conditions crfItemDisplayRuleList="${crfPageItem.crfItemDisplayRules}"
+											   selectedQuestionId="${crfPageItem.proCtcQuestion.id}"
+											   showDelete="false"></tags:conditions>
+
+
+							  <tr id="conditions_${crfPageItem.proCtcQuestion.id}"></tr>
+
+						  </table>
+
+					  </div>
+
+				  </div>
+			  </c:if>
+			  			  
 
           </jsp:attribute>
 	</chrome:summary>
