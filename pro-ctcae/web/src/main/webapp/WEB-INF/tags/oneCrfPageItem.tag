@@ -1,7 +1,7 @@
-<%@ attribute name="crfPageIndex" required="true" %>
 <%@ attribute name="index" required="true" %>
 <%@ attribute name="crfPageItem" type="gov.nih.nci.ctcae.core.domain.CrfPageItem" required="true" %>
-
+<%@ attribute name="crfPageIndex" required="true" %>
+ 
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="noform" tagdir="/WEB-INF/tags/noform" %>
@@ -14,7 +14,7 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<div class="sortable makeDraggable sortable_${crfPageIndex}" id="sortable_${crfPageItem.proCtcQuestion.id}">
+<div class="sortable makeDraggable" id="sortable_${crfPageItem.proCtcQuestion.id}">
 	<tags:formbuilderBoxControls delete="true" properties="true" proCtcQuestionId="${crfPageItem.proCtcQuestion.id}"/>
 	<table class="formbuilderboxTable">
 		<tr>
@@ -50,11 +50,11 @@
 <div id="questionPropertiesDiv_${crfPageItem.proCtcQuestion.id}">
 	<div id="questionProperties_${crfPageItem.proCtcQuestion.id}" style="display:none;" class="questionProperties">
 		<chrome:box title="crfItem.label.properties">
-			<noform:renderTextArea propertyName="studyCrf.crf.crfItems[${index}].instructions"
+			<noform:renderTextArea propertyName="studyCrf.crf.crfPages[${crfPageIndex}].crfPageItems[${index}].instructions"
 								   displayName="crfItem.label.instructions"
 								   propertyValue="${crfPageItem.instructions}"></noform:renderTextArea>
 
-			<noform:renderRadio propertyName="studyCrf.crf.crfItems[${index}].responseRequired"
+			<noform:renderRadio propertyName="studyCrf.crf.crfPages[${crfPageIndex}].crfPageItems[${index}].responseRequired"
 								displayName="crfItem.label.response_required"
 								propertyValue="${crfPageItem.responseRequired}" items="${responseRequired}"
 								questionId="${crfPageItem.proCtcQuestion.id}">
@@ -63,7 +63,7 @@
 
 
 			<noform:renderRadio
-				propertyName="studyCrf.crf.crfItems[${index}].crfItemAllignment" displayName="crfItem.label.allignment"
+				propertyName="studyCrf.crf.crfPages[${crfPageIndex}].crfPageItems[${index}].crfItemAllignment" displayName="crfItem.label.allignment"
 				propertyValue="${crfPageItem.crfItemAllignment}" items="${crfItemAllignments}"
 				questionId="${crfPageItem.proCtcQuestion.id}">
 
@@ -98,10 +98,10 @@
 			 <br>
 			 <br>
 			<div>
-				<select name="switchTriggerSelect" id="selectedCrfItems_${crfPageItem.proCtcQuestion.id}" multiple=""
-						size="20" class="selectedCrfItems">
+				<select name="switchTriggerSelect" id="selectedCrfPageItems_${crfPageItem.proCtcQuestion.id}" multiple=""
+						size="20" class="selectedCrfPageItems">
 					<option value="">Please select..</option>
-					<c:forEach items="${selectedCrfItems}" var="selectedCrfPageItem">
+					<c:forEach items="${selectedCrfPageItems}" var="selectedCrfPageItem">
 
 						<optgroup label="${selectedCrfPageItem.proCtcQuestion.shortText}">
 							<c:forEach items="${selectedCrfPageItem.proCtcQuestion.validValues}" var="validValue">
@@ -114,7 +114,7 @@
 			</div>
 			<br>
 			<input type="button" value="Add Conditions" onClick="javascript:addConditionalQuestion('${crfPageItem.proCtcQuestion.id}',
-			$F('selectedCrfItems_${crfPageItem.proCtcQuestion.id}'))" class="button"/>
+			$F('selectedCrfPageItems_${crfPageItem.proCtcQuestion.id}'))" class="button"/>
 		</chrome:box>
 
 		<%--<div id="previewQuestion" class="review">--%>

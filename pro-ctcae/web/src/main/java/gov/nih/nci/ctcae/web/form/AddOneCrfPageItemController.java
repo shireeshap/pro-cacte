@@ -37,15 +37,18 @@ public class AddOneCrfPageItemController extends AbstractController {
 		if (proCtcQuestion != null) {
 
 			List<CRFPage> crfPages = createFormCommand.getStudyCrf().getCrf().getCrfPages();
-			CRFPage crfPage = crfPages.get(0);
+
+			int index = 0;
+			//crfPages.size() - 1;
+
+			CRFPage crfPage = crfPages.get(index);
 
 			CrfPageItem crfPageItem = crfPage.removeExistingAndAddNewCrfItem(proCtcQuestion);
 			modelAndView.addObject("crfPageItem", crfPageItem);
-			int index = crfPages.size() - 1;
-			modelAndView.addObject("crfPageIndex", 0);
+			modelAndView.addObject("crfPageIndex", index);
 			modelAndView.addObject("responseRequired", ListValues.getResponseRequired());
 			modelAndView.addObject("crfItemAllignments", ListValues.getCrfItemAllignments());
-			modelAndView.addObject("selectedCrfPageItems", crfPage.getCrfPageItems());
+			modelAndView.addObject("selectedCrfPageItems", createFormCommand.getStudyCrf().getCrf().getAllCrfPageItems());
 
 		} else {
 			logger.error("can not add question because can not find any question for given question id:" + questionId);

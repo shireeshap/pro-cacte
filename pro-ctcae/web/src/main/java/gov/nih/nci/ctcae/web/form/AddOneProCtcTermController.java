@@ -35,16 +35,20 @@ public class AddOneProCtcTermController extends AbstractController {
 
 		CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 		if (proCtcTerm != null) {
-			CRFPage crfPage = createFormCommand.getStudyCrf().getCrf().getCrfPages().get(0);
+
+			List<CRFPage> crfPages = createFormCommand.getStudyCrf().getCrf().getCrfPages();
+			int index = 0;
+			//crfPages.size() - 1;
+
+			CRFPage crfPage = crfPages.get(index);
+
 
 			List<CrfPageItem> addedCrfPageItems = crfPage.removeExistingAndAddNewCrfItem(proCtcTerm);
 			modelAndView.addObject("crfPageItems", addedCrfPageItems);
 			modelAndView.addObject("responseRequired", ListValues.getResponseRequired());
-			int index = createFormCommand.getStudyCrf().getCrf().getCrfPages().size() - 1;
-			modelAndView.addObject("crfPageIndex", 0);
-
+			modelAndView.addObject("crfPageIndex", index);
 			modelAndView.addObject("crfItemAllignments", ListValues.getCrfItemAllignments());
-			modelAndView.addObject("selectedCrfPageItems", crfPage.getCrfPageItems());
+			modelAndView.addObject("selectedCrfPageItems", createFormCommand.getStudyCrf().getCrf().getAllCrfPageItems());
 		} else {
 			logger.error("can not add proCtcTerm because pro ctc term is null for id:" + proCtcTermId);
 			return null;

@@ -236,12 +236,19 @@ public class CRF extends BaseVersionable {
 	}
 
 
-	private List<CrfPageItem> getAllCrfPageItems() {
+	public List<CrfPageItem> getAllCrfPageItems() {
 		List<CrfPageItem> crfPageItems = new ArrayList<CrfPageItem>();
 		for (CRFPage crfPage : crfPages) {
 			crfPageItems.addAll(crfPage.getCrfPageItems());
 		}
 		return crfPageItems;
+
+	}
+
+	public CrfPageItem getCrfPageItemByQuestion(final ProCtcQuestion proCtcQuestion) {
+		CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
+		return crfPage != null ? crfPage.getCrfPageItemByQuestion(proCtcQuestion) : null;
+
 
 	}
 }

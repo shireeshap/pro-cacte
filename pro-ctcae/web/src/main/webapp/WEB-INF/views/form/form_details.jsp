@@ -195,9 +195,9 @@ function addCrfPage() {
 
 }
 function updateSelectedCrfItems(questionId) {
-	var selectedCrfItems = $('selectedCrfItems_' + questionId)
-	$$('select.selectedCrfItems').each(function (item) {
-		item.innerHTML = selectedCrfItems.innerHTML;
+	var selectedCrfPageItems = $('selectedCrfPageItems_' + questionId)
+	$$('select.selectedCrfPageItems').each(function (item) {
+		item.innerHTML = selectedCrfPageItems.innerHTML;
 	});
 }
 
