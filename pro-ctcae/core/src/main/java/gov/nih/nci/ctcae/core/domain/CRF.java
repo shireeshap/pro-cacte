@@ -4,10 +4,12 @@ import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal
@@ -212,32 +214,16 @@ public class CRF extends BaseVersionable {
 		CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
 
 		CRFPage anotherCrfPage = getCrfPages().get(crfPageIndex);
+
+
 		if (crfPage != null && !anotherCrfPage.equals(crfPage)) {
-			anotherCrfPage.removeExistingButDoNotAddNewCrfItem(proCtcQuestion);
-			crfPage.addOrUpdateCrfItem(proCtcQuestion, displayOrder);
-		} else {
-			anotherCrfPage.addOrUpdateCrfItem(proCtcQuestion, displayOrder);
+			crfPage.removeExistingButDoNotAddNewCrfItem(proCtcQuestion);
 		}
+		anotherCrfPage.addOrUpdateCrfItem(proCtcQuestion, displayOrder);
+
 
 	}
 
-
-	public void removeCrfPageItem(final String questionsIds) {
-		List<CrfPageItem> crfPageItemsToRemove = new ArrayList<CrfPageItem>();
-		Set questionIdSet = StringUtils.commaDelimitedListToSet(questionsIds);
-
-		for (CrfPageItem crfPageItem : getAllCrfPageItems()) {
-			if (!questionIdSet.contains(String.valueOf(crfPageItem.getProCtcQuestion().getId()))) {
-				crfPageItemsToRemove.add(crfPageItem);
-			}
-		}
-
-
-		for (CrfPageItem crfPageItem : crfPageItemsToRemove) {
-			removeCrfPageItem(crfPageItem);
-		}
-
-	}
 
 	private CRFPage getCrfPageByQuestion(final ProCtcQuestion proCtcQuestion) {
 		for (CRFPage crfPage : crfPages) {
@@ -247,12 +233,6 @@ public class CRF extends BaseVersionable {
 			}
 		}
 		return null;
-	}
-
-	private void removeCrfPageItem(CrfPageItem crfPageItem) {
-		if (crfPageItem != null) {
-			crfPages.remove(crfPageItem);
-		}
 	}
 
 

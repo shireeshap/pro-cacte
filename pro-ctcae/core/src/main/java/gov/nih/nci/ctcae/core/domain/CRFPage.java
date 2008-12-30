@@ -4,9 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Vinay Kumar
@@ -84,23 +82,23 @@ public class CRFPage extends BaseVersionable {
 	}
 
 
-	@Override
-	public boolean equals(final Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		final CRFPage crf = (CRFPage) o;
-
-		if (description != null ? !description.equals(crf.description) : crf.description != null) return false;
-
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = description != null ? description.hashCode() : 0;
-		return result;
-	}
+//	@Override
+//	public boolean equals(final Object o) {
+//		if (this == o) return true;
+//		if (o == null || getClass() != o.getClass()) return false;
+//
+//		final CRFPage crf = (CRFPage) o;
+//
+//		if (description != null ? !description.equals(crf.description) : crf.description != null) return false;
+//
+//		return true;
+//	}
+//
+//	@Override
+//	public int hashCode() {
+//		int result = description != null ? description.hashCode() : 0;
+//		return result;
+//	}
 
 
 	/**
@@ -160,30 +158,13 @@ public class CRFPage extends BaseVersionable {
 	}
 
 	/**
-	 * used for adding a new crf items with empty properties..this is required to add questions from left side of the create form
+	 * used while reordering the crf page item between crf pages
 	 *
 	 * @param proCtcQuestion
 	 */
-	public CrfPageItem removeExistingButDoNotAddNewCrfItem(final ProCtcQuestion proCtcQuestion) {
-		CrfPageItem crfPageItem = new CrfPageItem();
-		crfPageItem.setProCtcQuestion(proCtcQuestion);
-
-		//check if it already exists
-		CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(crfPageItem.getProCtcQuestion());
-		if (existingCrfPageItem != null) {
-			//we are updating order only  and removing properties
-			existingCrfPageItem.setDisplayOrder(getCrfItemsSortedByDislayOrder().size());
-			existingCrfPageItem.setCrfItemAllignment(null);
-			existingCrfPageItem.setInstructions(null);
-			existingCrfPageItem.setResponseRequired(Boolean.FALSE);
-			return existingCrfPageItem;
-		}
-
-		updateOrderNumber(crfPageItem);
-		crfPageItem.setCrfPage(this);
-		crfPageItems.add(crfPageItem);
-
-		return crfPageItem;
+	public void removeExistingButDoNotAddNewCrfItem(final ProCtcQuestion proCtcQuestion) {
+		CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(proCtcQuestion);
+		removeCrfItem(existingCrfPageItem);
 
 
 	}
@@ -240,4 +221,20 @@ public class CRFPage extends BaseVersionable {
 		return addedCrfPageItems;
 	}
 
+	public void removeExtraCrfItemsInCrfPage(final List<Integer> questionsToKeep) {
+		Set<Integer> questionIdSet = new HashSet<Integer>(questionsToKeep);
+		List<CrfPageItem> crfPageItemsToRemove = new ArrayList<CrfPageItem>();
+
+		for (CrfPageItem crfPageItem : getCrfPageItems()) {
+			if (!questionIdSet.contains(crfPageItem.getProCtcQuestion().getId())) {
+				crfPageItemsToRemove.add(crfPageItem);
+			}
+		}
+
+
+		for (CrfPageItem crfPageItem : crfPageItemsToRemove) {
+			removeCrfItem(crfPageItem);
+		}
+
+	}
 }

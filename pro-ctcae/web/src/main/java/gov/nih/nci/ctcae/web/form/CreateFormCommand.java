@@ -7,6 +7,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -48,8 +50,6 @@ public class CreateFormCommand implements Serializable {
 
 
 		addOrUpdateQuestions(finderRepository);
-		//now delete the questions
-		deleteQuestions();
 
 
 	}
@@ -63,26 +63,29 @@ public class CreateFormCommand implements Serializable {
 		for (int j = 0; j < numberOfQuestionInEachPageArray.length; j++) {
 			String questionsInEachPage = numberOfQuestionInEachPageArray[j];
 
-			for (int i = k; i < k+Integer.valueOf(questionsInEachPage); i++) {
+			List<Integer> questionsToKeep = new ArrayList<Integer>();
+			for (int i = k; i < k + Integer.valueOf(questionsInEachPage); i++) {
 				Integer questionId = Integer.parseInt(questionIdsArrays[i]);
 				ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
 				if (proCtcQuestion != null) {
 					int displayOrder = i + 1;
 					studyCrf.getCrf().addOrUpdateCrfItemInCrfPage(j, proCtcQuestion, displayOrder);
+					questionsToKeep.add(questionId);
 				} else {
 					logger.error("can not add question because pro ctc question is null for id:" + questionId);
 				}
 
 			}
+			CRFPage crfPage = studyCrf.getCrf().getCrfPages().get(j);
+
+			//now delete the extra questions
+			crfPage.removeExtraCrfItemsInCrfPage(questionsToKeep);
 			k = k + Integer.valueOf(questionsInEachPage);
 
 		}
 
 	}
 
-	private void deleteQuestions() {
-		studyCrf.getCrf().removeCrfPageItem(questionsIds);
-	}
 
 	public StudyCrf getStudyCrf() {
 		return studyCrf;

@@ -75,6 +75,58 @@ public class CreateFormCommandTest extends WebTestCase {
 
 	}
 
+	public void testAddAndReorderButNotDeleteQuestionsInMultiplePages() {
+
+		command.addAnotherPage();
+		command.addAnotherPage();
+		CRF crf = command.getStudyCrf().getCrf();
+
+		assertEquals("must have three  pages", 3, crf.getCrfPages().size());
+
+
+		command.setQuestionsIds("11,12,13,14");
+		command.setNumberOfQuestionsInEachPage("2,1,1");
+
+		expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
+		expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
+		expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
+		expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
+		replay(finderRepository);
+		command.updateCrfItems(finderRepository);
+		verify(finderRepository);
+		resetMocks();
+		crf = command.getStudyCrf().getCrf();
+
+		assertEquals("must have three  page", 3, crf.getCrfPages().size());
+
+		assertEquals("must have  2 questions ", 2, crf.getCrfPages().get(0).getCrfItemsSortedByDislayOrder().size());
+		assertEquals("must have  1 question ", 1, crf.getCrfPages().get(1).getCrfItemsSortedByDislayOrder().size());
+		assertEquals("must have  1 question ", 1, crf.getCrfPages().get(2).getCrfItemsSortedByDislayOrder().size());
+
+
+		//now reorder questions
+
+		command.setQuestionsIds("14,11,13,12");
+		command.setNumberOfQuestionsInEachPage("1,2,1");
+
+		expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
+		expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
+		expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
+		expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
+		replay(finderRepository);
+		command.updateCrfItems(finderRepository);
+		verify(finderRepository);
+		resetMocks();
+		crf = command.getStudyCrf().getCrf();
+
+		assertEquals("must have three  pages", 3, crf.getCrfPages().size());
+
+		assertEquals("must have  1 questions ", 1, crf.getCrfPages().get(0).getCrfItemsSortedByDislayOrder().size());
+		assertEquals("must have  2 question ", 2, crf.getCrfPages().get(1).getCrfItemsSortedByDislayOrder().size());
+		assertEquals("must have  1 question ", 1, crf.getCrfPages().get(2).getCrfItemsSortedByDislayOrder().size());
+
+	}
+
 	public void testAddQuestionInMultiplePages() {
 
 		command.addAnotherPage();
