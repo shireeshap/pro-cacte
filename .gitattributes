@@ -77,6 +77,7 @@ pro-ctcae/core/src/main/db/migrate/003_elaboration_1/002_alter_crf.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/003_alter_crf.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/004_create_crf_pages.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/005_alter_crf_items.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/006_alter_crf.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
