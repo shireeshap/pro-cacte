@@ -1,17 +1,8 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
-import org.easymock.EasyMock;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Hashtable;
 
 /**
  * @author Vinay Kumar
@@ -67,19 +58,19 @@ public class SubmitFormCommandTest extends WebTestCase {
 //        item4.setDisplayOrder(4);
 //
 //        StudyParticipantCrfItem studyParticipantCrfItem1 = new StudyParticipantCrfItem();
-//        studyParticipantCrfItem1.setCrfItem(item1);
+//        studyParticipantCrfItem1.setCrfPageItem(item1);
 //        ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
 //        proCtcValidValue.setValue(0);
 //        studyParticipantCrfItem1.setProCtcValidValue(proCtcValidValue);
 //
 //        StudyParticipantCrfItem studyParticipantCrfItem2 = new StudyParticipantCrfItem();
-//        studyParticipantCrfItem2.setCrfItem(item2);
+//        studyParticipantCrfItem2.setCrfPageItem(item2);
 //
 //        StudyParticipantCrfItem studyParticipantCrfItem3 = new StudyParticipantCrfItem();
-//        studyParticipantCrfItem3.setCrfItem(item3);
+//        studyParticipantCrfItem3.setCrfPageItem(item3);
 //
 //        StudyParticipantCrfItem studyParticipantCrfItem4 = new StudyParticipantCrfItem();
-//        studyParticipantCrfItem4.setCrfItem(item4);
+//        studyParticipantCrfItem4.setCrfPageItem(item4);
 //
 //
 //        studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem1);

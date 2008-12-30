@@ -1,20 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
-import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
-import org.easymock.EasyMock;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BeanPropertyBindingResult;
-
-import java.util.Map;
 
 /**
  * @author Harsh Agarwal
@@ -77,19 +63,19 @@ public class SubmitFormControllerTest extends WebTestCase {
 //        item4.setDisplayOrder(4);
 //
 //        StudyParticipantCrfItem studyParticipantCrfItem1 = new StudyParticipantCrfItem();
-//        studyParticipantCrfItem1.setCrfItem(item1);
+//        studyParticipantCrfItem1.setCrfPageItem(item1);
 //        ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
 //        proCtcValidValue.setValue(0);
 //        studyParticipantCrfItem1.setProCtcValidValue(proCtcValidValue);
 //
 //        StudyParticipantCrfItem studyParticipantCrfItem2 = new StudyParticipantCrfItem();
-//        studyParticipantCrfItem2.setCrfItem(item2);
+//        studyParticipantCrfItem2.setCrfPageItem(item2);
 //
 //        StudyParticipantCrfItem studyParticipantCrfItem3 = new StudyParticipantCrfItem();
-//        studyParticipantCrfItem3.setCrfItem(item3);
+//        studyParticipantCrfItem3.setCrfPageItem(item3);
 //
 //        StudyParticipantCrfItem studyParticipantCrfItem4 = new StudyParticipantCrfItem();
-//        studyParticipantCrfItem4.setCrfItem(item4);
+//        studyParticipantCrfItem4.setCrfPageItem(item4);
 //
 //
 //        studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem1);
