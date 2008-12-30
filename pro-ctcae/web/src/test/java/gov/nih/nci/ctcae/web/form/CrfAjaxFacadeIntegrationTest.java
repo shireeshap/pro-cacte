@@ -40,6 +40,7 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
         study = Fixture.createStudy("Short Title", "Long Title", "1");
         StudyCrf studyCrf = new StudyCrf();
         studyCrf.setCrf(crf);
+        crf.setStudyCrf(studyCrf);
         study.addStudyCrf(studyCrf);
         study = studyRepository.save(study);
 
