@@ -44,7 +44,7 @@
 
         .progress-bar-inner {
             background-color: #0066cc;
-            width: ${(1/5)*150}px;
+            width: ${(command.currentPageIndex/command.totalPages)*150}px;
             height: 15px
         }
     </style>
@@ -53,18 +53,19 @@
         var responses = new Array();
         var questions = new Array();
         var nextQuestionIndex = 0;
-        var reverseDisplayRules = new Array();
+        var questionIndexes = new Array();
+        var questionPage = new Array();
 
         <c:forEach items="${command.displayRules}" var="displayRule">
-            displayRules['${displayRule.key}'] = '${displayRule.value}';
-        </c:forEach>
-
-        <c:forEach items="${command.reverseDisplayRules}" var="reverseDisplayRule">
-            reverseDisplayRules['${reverseDisplayRule.key}'] = '${reverseDisplayRule.value}';
+        displayRules['${displayRule.key}'] = '${displayRule.value}';
         </c:forEach>
 
         <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfItems}" var="participantCrfItem">
-            questions[nextQuestionIndex++] = '${participantCrfItem.crfPageItem.id}';
+        questions[nextQuestionIndex] = '${participantCrfItem.crfPageItem.id}';
+        questionIndexes['${participantCrfItem.crfPageItem.id}'] = nextQuestionIndex;
+        responses['${participantCrfItem.proCtcValidValue.id}'] = 'Y';
+        questionPage['${participantCrfItem.crfPageItem.id}'] = ${participantCrfItem.crfPageItem.crfPage.pageNumber + 1};
+        nextQuestionIndex++;
         </c:forEach>
 
         function gonext(crfitemindex, index, column) {
@@ -77,22 +78,30 @@
                     responses[x[i].value] = 'N';
                 }
             }
-            showNextQuestion(crfitemindex);
+            evaluateAllQuestions();
         }
 
-        function hideAllQuestions() {
+        function evaluateAllQuestions() {
             for (var i = 0; i < questions.length; i++) {
-                if (questions[i] != '') {
-                    hideQuestion(questions[i]);
-                }
+                showHideQuestion(questions[i]);
             }
         }
 
         function hideQuestion(questionid) {
             $("question_" + questionid).hide();
-            var x = document.getElementsByName('studyParticipantCrfSchedule.studyParticipantCrfItems[' + questionid + '].proCtcValidValue');
+            if (questionPage[questionid] == '${command.currentPageIndex}') {
+                clearResponse(questionid);
+            }
+        }
+        function clearResponseAndEvaluate(questionid) {
+            clearResponse(questionid);
+            evaluateAllQuestions();
+        }
+        function clearResponse(questionid) {
+            var x = document.getElementsByName('studyParticipantCrfSchedule.studyParticipantCrfItems[' + questionIndexes[questionid] + '].proCtcValidValue');
             for (var i = 0; i < x.length; i++) {
                 x[i].checked = false;
+                responses[x[i].value] = 'N';
             }
         }
 
@@ -100,18 +109,18 @@
             $("question_" + questionid).show();
         }
 
-        function showNextQuestion(currentQuestionIndex) {
-            nextQuestionIndex = parseInt(currentQuestionIndex) + 1;
-            var questionid = questions[nextQuestionIndex];
-            if(isDisplay(questionid)){
+        function showHideQuestion(questionid) {
+            if (isDisplay(questionid)) {
                 showQuestion(questionid);
-            }else{
+            } else {
                 hideQuestion(questionid);
-                showNextQuestion(nextQuestionIndex);
             }
         }
 
-        function isDisplay(questionid){
+        function isDisplay(questionid) {
+            if (questionPage[questionid] != '${command.currentPageIndex}') {
+                return false;
+            }
             var displayRule = displayRules[questionid];
             var rulesSatisfied = false;
             if (displayRule == '') {
@@ -119,8 +128,9 @@
             } else {
                 var myRules = displayRule.split('~');
                 for (var i = 0; i < myRules.length; i++) {
-                    if (responses[myRules[i]] == 'Y') {
-                        rulesSatisfied= true;
+                    if (myRules[i] != '' && responses[myRules[i]] == 'Y') {
+                        rulesSatisfied = true;
+                        break;
                     }
                 }
             }
@@ -128,8 +138,7 @@
         }
 
         Event.observe(window, "load", function () {
-            hideAllQuestions();
-            showNextQuestion(-1);
+            evaluateAllQuestions();
         })
     </script>
 </head>
@@ -167,6 +176,7 @@
                     <td colspan="${colspan}">
                         <div class="label">
                                 ${crfPageItem.proCtcQuestion.formattedQuestionText}
+                            (<a href="javascript:clearResponseAndEvaluate('${crfPageItem.id}')">clear this response</a>)
                         </div>
                     </td>
                 </tr>
@@ -209,6 +219,26 @@
             </table>
         </tags:formbuilderBox>
     </c:forEach>
+    <table width="100%">
+        <input type="hidden" name="direction"/>
+        <tr>
+            <td align="left" width="50%">
+                <c:if test="${command.currentPageIndex gt 1}">
+                    <input onclick="document.myForm.direction.value='back'" type="image"
+                           src="/ctcae/images/blue/back_btn.png" alt="back &raquo;"/>
+                </c:if>
+            </td>
+            <td align="right" width="50%">
+                <c:choose>
+                    <c:when test="${command.currentPageIndex le command.totalPages}">
+                        <input onclick="document.myForm.direction.value='continue'" type="image"
+                               src="/ctcae/images/blue/continue_btn.png" alt="continue &raquo;"/>
+                    </c:when>
+                </c:choose>
+            </td>
+        </tr>
+    </table>
+
 </form:form>
 </body>
 </html>

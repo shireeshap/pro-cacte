@@ -494,7 +494,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/form_details.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/manageForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/releaseForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/reviewForm.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/form/reviewFormSubmission.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/select_study.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/versionForm.jsp -text

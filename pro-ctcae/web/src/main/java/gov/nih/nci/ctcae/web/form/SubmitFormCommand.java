@@ -14,36 +14,29 @@ import java.util.Hashtable;
  */
 public class SubmitFormCommand implements Serializable {
 
-    StudyParticipantCrfSchedule studyParticipantCrfSchedule;
-    Hashtable<Integer, String> displayRules = new Hashtable<Integer, String>();
-    Hashtable<Integer, String> reverseDisplayRules = new Hashtable<Integer, String>();
-    FinderRepository finderRepository;
-    GenericRepository genericRepository;
-
-
-    int nextQuestionIndex;
+    private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
+    private Hashtable<Integer, String> displayRules = new Hashtable<Integer, String>();
+    private FinderRepository finderRepository;
+    private GenericRepository genericRepository;
+    private int currentPageIndex;
+    private int totalPages;
+    private String direction = "";
+    private String flashMessage;
 
     public void initialize() {
 
         for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-            CrfPageItem crfItem = studyParticipantCrfItem.getCrfPageItem();
+            CrfPageItem crfPageItem = studyParticipantCrfItem.getCrfPageItem();
 
             String displayRule = "";
-            for (CrfItemDisplayRule crfItemDisplayRule : crfItem.getCrfItemDisplayRules()) {
+            for (CrfItemDisplayRule crfItemDisplayRule : crfPageItem.getCrfItemDisplayRules()) {
                 Integer validValueId = crfItemDisplayRule.getRequiredObjectId();
                 displayRule = displayRule + "~" + validValueId;
-
-                if (reverseDisplayRules.containsKey(validValueId)) {
-                    String crfItemIds = reverseDisplayRules.get(validValueId);
-                    crfItemIds = crfItemIds + "~" + crfItem.getId();
-                    reverseDisplayRules.put(validValueId, crfItemIds);
-                } else {
-                    reverseDisplayRules.put(validValueId, "" + crfItem.getId());
-                }
-
             }
-            displayRules.put(crfItem.getId(), displayRule);
+            displayRules.put(crfPageItem.getId(), displayRule);
         }
+        currentPageIndex = 1;
+        totalPages = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyCrf().getCrf().getCrfPages().size();
     }
 
     private StudyParticipantCrfSchedule findLatestCrfAndCreateSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
@@ -68,9 +61,10 @@ public class SubmitFormCommand implements Serializable {
                         newSchedule.setStartDate(studyParticipantCrfSchedule.getStartDate());
                         newSchedule.setDueDate(studyParticipantCrfSchedule.getDueDate());
                         newSchedule.setStatus(CrfStatus.SCHEDULED);
-                        studyParticipantCrf.addStudyParticipantCrfSchedule(newSchedule);
-                        studyParticipantCrfSchedule.getStudyParticipantCrf().removeCrfSchedule(studyParticipantCrfSchedule);
-                        genericRepository.save(studyParticipantAssignment);
+                        studyParticipantCrf.addStudyParticipantCrfSchedule(newSchedule, latestEffectiveCrf);
+
+                        genericRepository.save(newSchedule);
+                        genericRepository.delete(studyParticipantCrfSchedule);
                         return newSchedule;
                     }
                 }
@@ -91,16 +85,35 @@ public class SubmitFormCommand implements Serializable {
         this.studyParticipantCrfSchedule = findLatestCrfAndCreateSchedule(studyParticipantCrfSchedule);
     }
 
-    public int getNextQuestionIndex() {
-        return nextQuestionIndex;
+    public int getCurrentPageIndex() {
+        if (direction.equals("back")) {
+            currentPageIndex--;
+        }
+        if (direction.equals("continue")) {
+            currentPageIndex++;
+        }
+        direction = "";
+        return currentPageIndex;
     }
 
-    public void setNextQuestionIndex(int nextQuestionIndex) {
-        this.nextQuestionIndex = nextQuestionIndex;
+    public void setCurrentPageIndex(int currentPageIndex) {
+        this.currentPageIndex = currentPageIndex;
     }
 
-    public Hashtable<Integer, String> getReverseDisplayRules() {
-        return reverseDisplayRules;
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
     }
 
     public void setFinderRepository(FinderRepository finderRepository) {
@@ -111,4 +124,11 @@ public class SubmitFormCommand implements Serializable {
         this.genericRepository = genericRepository;
     }
 
+    public String getFlashMessage() {
+        return flashMessage;
+    }
+
+    public void setFlashMessage(String flashMessage) {
+        this.flashMessage = flashMessage;
+    }
 }

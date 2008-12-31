@@ -33,7 +33,6 @@
     <table>
         <tr>
             <td  class="label">
-                You have successfully submitted the form.
                     <br/>
                     You can <a
                         href="../participant/participantInbox?participantId=${command.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id}">click

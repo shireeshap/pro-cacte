@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.apache.commons.lang.StringUtils;
@@ -31,7 +32,13 @@ public class SubmitFormController extends CtcAeSimpleFormController {
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
-        //submitFormCommand.saveResponseAndGetQuestion(finderRepository, genericRepository);
+        if ("save".equals(submitFormCommand.getDirection())) {
+            submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.COMPLETED);
+        } else {
+            submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.INPROGRESS);
+        }
+        genericRepository.save(submitFormCommand.getStudyParticipantCrfSchedule());
+        submitFormCommand.setStudyParticipantCrfSchedule(finderRepository.findById(StudyParticipantCrfSchedule.class, submitFormCommand.getStudyParticipantCrfSchedule().getId()));
         return showForm(request, response, errors);
     }
 
@@ -39,7 +46,22 @@ public class SubmitFormController extends CtcAeSimpleFormController {
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) errors.getTarget();
         ModelAndView mv = null;
-        mv = showForm(request, errors, getFormView());
+
+        if (CrfStatus.COMPLETED.equals(submitFormCommand.getStudyParticipantCrfSchedule().getStatus())) {
+            if ("save".equals(submitFormCommand.getDirection())) {
+                submitFormCommand.setFlashMessage("You have successfully submitted the form.");
+            } else {
+                submitFormCommand.setFlashMessage("You have already submitted the form.");
+            }
+            mv = showForm(request, errors, getSuccessView());
+        } else {
+            if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages()) {
+                mv = showForm(request, errors, getReviewView());
+            } else {
+                mv = showForm(request, errors, getFormView());
+            }
+        }
+
         return mv;
     }
 

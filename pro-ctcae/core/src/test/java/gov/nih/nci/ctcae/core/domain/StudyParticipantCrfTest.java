@@ -37,14 +37,14 @@ public class StudyParticipantCrfTest extends TestCase {
 		studyParticipantCrf.setId(1);
 		studyParticipantCrf.setStudyCrf(studyCrf);
 		studyParticipantCrf.setStudyParticipantAssignment(new StudyParticipantAssignment());
-		studyParticipantCrf.addStudyParticipantCrfSchedule(null);
+		//studyParticipantCrf.addStudyParticipantCrfSchedule(null);
 
 		assertEquals(0, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
 		assertEquals(new Integer(1), studyParticipantCrf.getId());
 		assertEquals(studyCrf, studyParticipantCrf.getStudyCrf());
 		assertNotNull(studyParticipantCrf.getStudyParticipantAssignment());
 
-		studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
+		//studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
 
 		assertEquals(1, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
 

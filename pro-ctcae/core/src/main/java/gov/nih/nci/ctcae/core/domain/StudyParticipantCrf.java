@@ -26,7 +26,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantCrf", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    
+
     private List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = new ArrayList<StudyParticipantCrfSchedule>();
 
     @JoinColumn(name = "study_crf_id", referencedColumnName = "id")
@@ -73,14 +73,16 @@ public class StudyParticipantCrf extends BaseVersionable {
         return studyParticipantCrfSchedules;
     }
 
-    public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+    public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf) {
         if (studyParticipantCrfSchedule != null) {
+            for (CRFPage crfPage : crf.getCrfPages()) {
+                for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                    StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
+                    studyParticipantCrfItem.setCrfPageItem(crfPageItem);
+                    studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
+                }
+            }
             studyParticipantCrfSchedule.setStudyParticipantCrf(this);
-//            for (CrfPageItem crfPageItem : studyCrf.getCrf().getCrfItemsSortedByDislayOrder()) {
-//                StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
-//                studyParticipantCrfItem.setCrfPageItem(crfPageItem);
-//                studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
-//            }
             studyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
         }
     }

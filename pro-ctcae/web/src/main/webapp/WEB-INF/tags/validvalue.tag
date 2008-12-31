@@ -6,7 +6,7 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <td class="norm" onmouseover="javascript:this.className='over';" onmouseout="javascript:this.className='norm';"
-    onclick="gonext('${crfitemindex}','${index}',this)">
+    onclick="gonext('${crfitemindex}','${index}',this)" >
     <div class="label">
         <c:choose>
             <c:when test="${currentId eq selectedId}">
