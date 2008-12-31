@@ -26,6 +26,9 @@ public class CRFPage extends BaseVersionable {
 	@Column(name = "description")
 	private String description;
 
+	@Column(name = "page_number", nullable = false)
+	private Integer pageNumber = 0;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "crfPage", fetch = FetchType.LAZY)
 	private List<CrfPageItem> crfPageItems = new ArrayList<CrfPageItem>();
 
@@ -55,6 +58,13 @@ public class CRFPage extends BaseVersionable {
 		this.id = id;
 	}
 
+	public Integer getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(final Integer pageNumber) {
+		this.pageNumber = pageNumber;
+	}
 
 	public String getDescription() {
 		return description;

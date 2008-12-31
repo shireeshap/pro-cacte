@@ -205,6 +205,7 @@ public class CRF extends BaseVersionable {
 		if (crfPage != null) {
 			crfPage.setCrf(this);
 			crfPages.add(crfPage);
+			crfPage.setPageNumber(crfPages.size() - 1);
 		}
 
 
