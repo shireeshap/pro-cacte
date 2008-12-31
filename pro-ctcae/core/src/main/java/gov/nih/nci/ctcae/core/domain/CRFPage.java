@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -16,6 +18,8 @@ import java.util.*;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_pages_id")})
 
 public class CRFPage extends BaseVersionable {
+
+	private static final Log logger = LogFactory.getLog(CRFPage.class);
 
 	@Id
 	@GeneratedValue(generator = "id-generator")
@@ -164,26 +168,30 @@ public class CRFPage extends BaseVersionable {
 	 * @param proCtcQuestion
 	 */
 	public CrfPageItem removeExistingAndAddNewCrfItem(final ProCtcQuestion proCtcQuestion) {
-		CrfPageItem crfPageItem = new CrfPageItem();
-		crfPageItem.setProCtcQuestion(proCtcQuestion);
+		if (proCtcQuestion != null) {
 
-		//check if it already exists
-		CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(crfPageItem.getProCtcQuestion());
-		if (existingCrfPageItem != null) {
-			//we are updating order only  and removing properties
-			existingCrfPageItem.setDisplayOrder(getCrfItemsSortedByDislayOrder().size());
-			existingCrfPageItem.setCrfItemAllignment(null);
-			existingCrfPageItem.setInstructions(null);
-			existingCrfPageItem.setResponseRequired(Boolean.FALSE);
-			return existingCrfPageItem;
+			CrfPageItem crfPageItem = new CrfPageItem();
+			crfPageItem.setProCtcQuestion(proCtcQuestion);
+
+			//check if it already exists
+			CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(crfPageItem.getProCtcQuestion());
+			if (existingCrfPageItem != null) {
+				//we are updating order only  and removing properties
+				existingCrfPageItem.setDisplayOrder(getCrfItemsSortedByDislayOrder().size());
+				existingCrfPageItem.setCrfItemAllignment(null);
+				existingCrfPageItem.setInstructions(null);
+				existingCrfPageItem.setResponseRequired(Boolean.FALSE);
+				return existingCrfPageItem;
+			}
+
+			updateOrderNumber(crfPageItem);
+			crfPageItem.setCrfPage(this);
+			crfPageItems.add(crfPageItem);
+
+			return crfPageItem;
 		}
-
-		updateOrderNumber(crfPageItem);
-		crfPageItem.setCrfPage(this);
-		crfPageItems.add(crfPageItem);
-
-		return crfPageItem;
-
+		logger.error("can not add crf page item because question is null");
+		return null;
 
 	}
 
@@ -241,14 +249,19 @@ public class CRFPage extends BaseVersionable {
 
 
 	public List<CrfPageItem> removeExistingAndAddNewCrfItem(final ProCtcTerm proCtcTerm) {
-		List<ProCtcQuestion> questions = new ArrayList<ProCtcQuestion>(proCtcTerm.getProCtcQuestions());
-		List<CrfPageItem> addedCrfPageItems = new ArrayList<CrfPageItem>();
-		for (int i = 0; i < questions.size(); i++) {
-			ProCtcQuestion proCtcQuestion = questions.get(i);
-			CrfPageItem crfPageItem = removeExistingAndAddNewCrfItem(proCtcQuestion);
-			addedCrfPageItems.add(crfPageItem);
+		if (proCtcTerm != null) {
+			List<ProCtcQuestion> questions = new ArrayList<ProCtcQuestion>(proCtcTerm.getProCtcQuestions());
+			List<CrfPageItem> addedCrfPageItems = new ArrayList<CrfPageItem>();
+			for (int i = 0; i < questions.size(); i++) {
+				ProCtcQuestion proCtcQuestion = questions.get(i);
+				CrfPageItem crfPageItem = removeExistingAndAddNewCrfItem(proCtcQuestion);
+				addedCrfPageItems.add(crfPageItem);
+			}
+			return addedCrfPageItems;
 		}
-		return addedCrfPageItems;
+		logger.error("can not add proCtcTerm because pro ctc term is null");
+
+		return null;
 	}
 
 	public void removeExtraCrfItemsInCrfPage(final List<Integer> questionsToKeep) {

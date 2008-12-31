@@ -181,16 +181,20 @@
         <property name="finderRepository" ref="finderRepository"/>
         </bean>
 
-    <bean name="/form/addOneCrfPageItem" id="oneQuestionController"
+    <bean name="/form/addOneCrfPageItem" id="oneQuestionController" parent="abstractCrfController"
 		  class="gov.nih.nci.ctcae.web.form.AddOneCrfPageItemController">
-        <property name="finderRepository" ref="finderRepository"/>
     </bean>
-    <bean name="/form/addOneCrfPage" id="oneCrfPageController"
+    <bean name="/form/addOneCrfPage" id="oneCrfPageController" parent="abstractCrfController"
 		  class="gov.nih.nci.ctcae.web.form.AddOneCrfPageController">
     </bean>
-    <bean name="/form/addOneProCtcTerm" id="oneProCtcTermController"
+    <bean name="abstractCrfController" id="crfController" abstract="true"
+		  class="gov.nih.nci.ctcae.web.form.AbstractCrfController">
+		<property name="finderRepository" ref="finderRepository"/>
+		<property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+    </bean>
+    <bean name="/form/addOneProCtcTerm" id="oneProCtcTermController" parent="abstractCrfController"
 		  class="gov.nih.nci.ctcae.web.form.AddOneProCtcTermController">
-        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+
     </bean>
 
     <bean name="/form/findCrfItem" id="findQuestionController"

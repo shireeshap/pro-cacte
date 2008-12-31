@@ -63,9 +63,6 @@ public class CreateFormCommandTest extends WebTestCase {
 		CRF crf = studyCrf.getCrf();
 		assertNotNull("crf must not be null", crf);
 
-		assertFalse("must have one default page", crf.getCrfPages().isEmpty());
-		assertEquals("must have one default page", 1, crf.getCrfPages().size());
-
 
 	}
 

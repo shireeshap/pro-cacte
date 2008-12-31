@@ -1,9 +1,12 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRFPage;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.web.ControllersUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
-public class AddOneCrfPageController extends AbstractController {
+public class AddOneCrfPageController extends AbstractCrfController {
 
 
 	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -22,13 +25,27 @@ public class AddOneCrfPageController extends AbstractController {
 
 		CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
+
 		CRFPage crfPage = createFormCommand.addAnotherPage();
 
+		if (!StringUtils.isBlank(request.getParameter("questionId"))) {
+			Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
+			ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
+			crfPage.removeExistingAndAddNewCrfItem(proCtcQuestion);
+		}
+		if (!StringUtils.isBlank(request.getParameter("proCtcTermId"))) {
+			Integer proCtcTermId = ServletRequestUtils.getIntParameter(request, "proCtcTermId");
+
+			ProCtcTerm proCtcTerm = proCtcTermRepository.findAndInitializeTerm(proCtcTermId);
+
+			crfPage.removeExistingAndAddNewCrfItem(proCtcTerm);
+
+
+		}
+
 		modelAndView.addObject("crfPage", crfPage);
-		int index = createFormCommand.getStudyCrf().getCrf().getCrfPages().size() - 1;
-		modelAndView.addObject("index", index);
 
-
+		modelAndView.addAllObjects(referenceData(createFormCommand));
 
 		return modelAndView;
 

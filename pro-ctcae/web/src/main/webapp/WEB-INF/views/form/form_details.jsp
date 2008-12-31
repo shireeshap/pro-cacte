@@ -131,35 +131,33 @@ function showQuestionInForm(questionId) {
 	$('question_' + questionId).show();
 }
 
-function addProCtcTermDiv(transport) {
-	var response = transport.responseText;
-	new Insertion.Before("hiddenDiv", response);
-	sortQuestions()
-	updateQuestionsId()
-	hideQuestionsFromForm();
-	postProcessFormChanges()
-
-
-}
 function postProcessFormChanges() {
 
 	reOrderQuestionNumber()
 	showHideQuestionUpDownLink();
 	updateTotalNumberOfQuestionsInEachPage();
 }
-function addCrfItem(questionId, proCtcTermId) {
+function addCrfPageItem(questionId, proCtcTermId) {
 	var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
+
+	var crfPageIndex = ''
+	$$('div.formpagesselected').each(function(item) {
+		crfPageIndex = item.id.substr(11, item.id.length);
+
+	})
 	var request = new Ajax.Request("<c:url value="/pages/form/addOneCrfPageItem"/>", {
-		parameters:"questionId=" + questionId + "&subview=subview&displayOrder=" + displayOrder,
+		parameters:"questionId=" + questionId + "&subview=subview&crfPageIndex=" + crfPageIndex,
 		onComplete:function (transport) {
 			var response = transport.responseText;
-			new Insertion.Before("hiddenDiv", response);
-			sortQuestions()
-			updateQuestionsId()
-			updateSelectedCrfItems(questionId)
-			addCrfItemPropertiesHtml(questionId);
-			postProcessFormChanges();
+			if (crfPageIndex == '') {
+				addCrfPageDiv(transport);
 
+			} else {
+				addCrfPageItemDiv(transport, crfPageIndex);
+				updateSelectedCrfItems(questionId)
+				addCrfItemPropertiesHtml(questionId);
+				postProcessFormChanges();
+			}
 
 		},
 		method:'get'
@@ -171,6 +169,40 @@ function addCrfItem(questionId, proCtcTermId) {
 
 
 }
+function addCrfPageItemDiv(transport, crfPageIndex) {
+	var response = transport.responseText;
+
+	new Insertion.Before("hiddenDiv_" + crfPageIndex, response);
+	sortQuestions()
+	updateQuestionsId()
+}
+function addProctcTerm(proCtcTermId) {
+	var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
+	var crfPageIndex = ''
+	$$('div.formpagesselected').each(function(item) {
+		crfPageIndex = item.id.substr(11, item.id.length);
+
+	})
+	var request = new Ajax.Request("<c:url value="/pages/form/addOneProCtcTerm"/>", {
+		parameters:"proCtcTermId=" + proCtcTermId + "&subview=subview&crfPageIndex=" + crfPageIndex,
+		onComplete:function(transport) {
+			if (crfPageIndex == '') {
+				addCrfPageDiv(transport);
+				hideQuestionsFromForm();
+								
+
+			} else {
+				addCrfPageItemDiv(transport, crfPageIndex)
+				hideQuestionsFromForm();
+				postProcessFormChanges()
+
+			}
+		},
+		method:'get'
+	})
+	hideProCtcTermLinkFromForm(proCtcTermId);
+}
+
 function selectPage(pageIndex) {
 	unselectAllSelectedPage();
 	$('form-pages_' + pageIndex).addClassName('formpagesselected')
@@ -187,18 +219,23 @@ function unselectPage(pageIndex) {
 	$('form-pages_' + pageIndex).removeClassName('formpagesselected')
 	$('form-pages-image_' + pageIndex).hide();
 }
+function addCrfPageDiv(transport) {
+	var response = transport.responseText;
+	new Insertion.Before("hiddenCrfPageDiv", response);
+	sortQuestions()
+	updateQuestionsId()
+	//			updateSelectedCrfItems(questionId)
+	//			addCrfItemPropertiesHtml(questionId);
+	postProcessFormChanges();
+	initSearchField();
+
+
+}
 function addCrfPage() {
 	var request = new Ajax.Request("<c:url value="/pages/form/addOneCrfPage"/>", {
 		parameters:"subview=subview",
 		onComplete:function (transport) {
-			var response = transport.responseText;
-			new Insertion.Before("hiddenCrfPageDiv", response);
-			sortQuestions()
-			updateQuestionsId()
-			//			updateSelectedCrfItems(questionId)
-			//			addCrfItemPropertiesHtml(questionId);
-			postProcessFormChanges();
-			initSearchField();
+			addCrfPageDiv(transport);
 
 
 		},
@@ -216,16 +253,6 @@ function updateSelectedCrfItems(questionId) {
 	$$('select.selectedCrfPageItems').each(function (item) {
 		item.innerHTML = selectedCrfPageItems.innerHTML;
 	});
-}
-
-function addProctcTerm(proCtcTermId) {
-	var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
-	var request = new Ajax.Request("<c:url value="/pages/form/addOneProCtcTerm"/>", {
-		parameters:"proCtcTermId=" + proCtcTermId + "&subview=subview&displayOrder=" + displayOrder,
-		onComplete:addProCtcTermDiv,
-		method:'get'
-	})
-	hideProCtcTermLinkFromForm(proCtcTermId);
 }
 
 
@@ -831,7 +858,7 @@ function showFormSettings() {
 									<c:forEach items="${command.studyCrf.crf.crfPages}" var="selectedCrfPage"
 											   varStatus="status">
 										<tags:oneCrfPage crfPage="${selectedCrfPage}"
-														 index="${status.index}">
+														 crfPageIndex="${status.index}">
 										</tags:oneCrfPage>
 
 									</c:forEach>

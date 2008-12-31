@@ -1,7 +1,7 @@
 <%@ attribute name="crfPage" type="gov.nih.nci.ctcae.core.domain.CRFPage" required="true" %>
 
 
-<%@ attribute name="index" required="true" %>
+<%@ attribute name="crfPageIndex" required="true" %>
 
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
@@ -16,7 +16,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <script type="text/javascript">
-	var description = 'studyCrf.crf.crfPages[${index}].description';
+	var description = 'studyCrf.crf.crfPages[${crfPageIndex}].description';
 	var descriptionProperty = description + '-property';
 
 
@@ -55,32 +55,30 @@
 
 </script>
 
-<div class="formpages" id="form-pages_${index}" onclick="javascript:selectPage('${index}')">
+<div class="formpages" id="form-pages_${crfPageIndex}" onclick="javascript:selectPage('${crfPageIndex}')">
 
 	<chrome:box>
-		<a href="javascript:unselectPage('${index}')"
-		   id="form-pages-image_${index}" style="display:none;">
+		<a href="javascript:unselectPage('${crfPageIndex}')"
+		   id="form-pages-image_${crfPageIndex}" style="display:none;">
 			<img src="<tags:imageUrl name="arrow.png"/>"/>
 		</a>
 
 
 		<%--<span class="formbuilderHeader" id="studyCrf.crf.crfPages[${index}].description-property">${crfPage.description}Page${index}</span>--%>
 
-		<input id="studyCrf.crf.crfPages[${index}].description" type="text" size="30" value="${crfPage.description}"
-			   name="studyCrf.crf.crfPages[${index}].description" class="autocomplete"/>
+		<input id="studyCrf.crf.crfPages[${crfPageIndex}].description" type="text" size="30" value="${crfPage.description}"
+			   name="studyCrf.crf.crfPages[${crfPageIndex}].description" class="autocomplete"/>
 
-		<div id="sortable_${index}">
+		<div id="sortable_${crfPageIndex}">
 			<div class="sortable makeDraggable"></div>
 			<c:forEach items="${crfPage.crfPageItems}" var="selectedCrfPageItem"
 					   varStatus="status">
 
 				<tags:oneCrfPageItem crfPageItem="${selectedCrfPageItem}"
-									 index="${status.index}" crfPageIndex="${index}">
+									 index="${status.index}" crfPageIndex="${crfPageIndex}">
 				</tags:oneCrfPageItem>
 			</c:forEach>
-			<c:if test="${index ==0}">
-				<div id="hiddenDiv"></div>
-			</c:if>
+			<div id="hiddenDiv_${crfPageIndex}"></div>
 		</div>
 	</chrome:box>
 
