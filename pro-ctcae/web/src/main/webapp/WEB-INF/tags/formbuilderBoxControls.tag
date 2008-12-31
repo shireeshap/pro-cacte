@@ -10,12 +10,12 @@
 		<div class="formbuilderBoxControls-left">
 			<c:if test="${properties}">
 				<a href="javascript:moveQuestionUp('${proCtcQuestionId}');" id="moveQuestionUpLink_${proCtcQuestionId}">
-					<img src="/ctcae/images/up.gif" alt="Up"/>
+					<img src="/ctcae/images/blue/up.png" alt="Up"/>
 				</a>
 
 				<a href="javascript:moveQuestionDown('${proCtcQuestionId}');"
 				   id="moveQuestionDownLink_${proCtcQuestionId}">
-					<img src="/ctcae/images/down.gif" alt="Down"/>
+					<img src="/ctcae/images/blue/down.png" alt="Down"/>
 				</a>
 
 				<a href="javascript:showCrfItemPropertiesTab('${proCtcQuestionId}');"><img

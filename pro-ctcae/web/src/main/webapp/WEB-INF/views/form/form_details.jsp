@@ -672,8 +672,8 @@ function showFormSettings() {
 	}
 
 	.formpagesselected {
-		background-color: darkgreen;
-		border: black;
+		background-color: #edc0ac;
+		border: 1px solid #da4d01;
 	}
 
 	.instructions .summaryvalue {
@@ -684,7 +684,9 @@ function showFormSettings() {
 	}
 
 	#form-tabs {
-		position: relative;
+		left:5px;
+		position:relative;
+		top:13px;
 	}
 
 	#firstlevelnav_1 {
@@ -693,7 +695,7 @@ function showFormSettings() {
 		top: 0;
 		display: block;
 		height: 0px;
-		padding-top: 45px;
+		padding-top: 41px;
 		width: 145px;
 		background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
 		overflow: hidden;
@@ -705,7 +707,7 @@ function showFormSettings() {
 		top: 0;
 		display: block;
 		height: 0px;
-		padding-top: 45px;
+		padding-top: 41px;
 		width: 138px;
 		background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
 		overflow: hidden;
@@ -718,28 +720,28 @@ function showFormSettings() {
 		top: 0;
 		display: block;
 		height: 0px;
-		padding-top: 45px;
-		width: 145px;
+		padding-top: 41px;
+		width: 160px;
 		background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
 		overflow: hidden;
 		background-position: -283px 0;
 	}
 
-	#questionBank {
+	.leftBox {
 		padding: 1px;
-		background-color: #E5E9F3;
+		background-color: #e7eaf3;
 	}
 
 	#firstlevelnav_1.selected_4thlvl {
-		background-position: 0px -45px;
+		background-position: 0px -41px;
 	}
 
 	#firstlevelnav_2.selected_4thlvl {
-		background-position: -145px -45px;
+		background-position: -145px -41px;
 	}
 
 	#firstlevelnav_3.selected_4thlvl {
-		background-position: -283px -45px;
+		background-position: -283px -41px;
 	}
 
 
@@ -786,7 +788,7 @@ function showFormSettings() {
 						<br>
 						<br>
 
-						<div id="questionBank">
+						<div id="questionBank" class="leftBox">
 							<ul class="tree">
 								<c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 

@@ -48,8 +48,8 @@
 	</table>
 </div>
 <div id="questionPropertiesDiv_${crfPageItem.proCtcQuestion.id}">
-	<div id="questionProperties_${crfPageItem.proCtcQuestion.id}" style="display:none;" class="questionProperties">
-		<chrome:box title="crfItem.label.properties">
+	<div id="questionProperties_${crfPageItem.proCtcQuestion.id}" style="display:none;" class="questionProperties leftBox">
+		crfItem.label.properties
 			<noform:renderTextArea propertyName="studyCrf.crf.crfPages[${crfPageIndex}].crfPageItems[${index}].instructions"
 								   displayName="crfItem.label.instructions"
 								   propertyValue="${crfPageItem.instructions}"></noform:renderTextArea>
@@ -70,10 +70,10 @@
 			</noform:renderRadio>
 
 
-		</chrome:box>
+		
 
 
-		<chrome:box title="form.conditional_question">
+		form.conditional_question
 			<tags:instructions code="instruction_conditional_question"/>
 
 			<div align="left" style="margin-left: 50px">
@@ -115,7 +115,7 @@
 			<br>
 			<input type="button" value="Add Conditions" onClick="javascript:addConditionalQuestion('${crfPageItem.proCtcQuestion.id}',
 			$F('selectedCrfPageItems_${crfPageItem.proCtcQuestion.id}'))" class="button"/>
-		</chrome:box>
+		
 
 		<%--<div id="previewQuestion" class="review">--%>
 		<%--<tags:questionReview crfItem="${crfItem}" showInstructions="false" displayOrder="${crfItem.displayOrder}"/>--%>

@@ -57,10 +57,9 @@
 
 <div class="formpages" id="form-pages_${crfPageIndex}" onclick="javascript:selectPage('${crfPageIndex}')">
 
-	<chrome:box>
 		<a href="javascript:unselectPage('${crfPageIndex}')"
 		   id="form-pages-image_${crfPageIndex}" style="display:none;">
-			<img src="<tags:imageUrl name="arrow.png"/>"/>
+			<img src="<tags:imageUrl name="arrow.png"/>" style="position:absolute; left:-17px;" />
 		</a>
 
 
@@ -80,6 +79,5 @@
 			</c:forEach>
 			<div id="hiddenDiv_${crfPageIndex}"></div>
 		</div>
-	</chrome:box>
 
 </div>

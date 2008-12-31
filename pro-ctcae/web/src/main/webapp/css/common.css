@@ -96,7 +96,7 @@ a img {
 	border-right-style: none;
 	border-bottom-style: none;
 	border-left-style: none;
-	vertical-align: middle;
+	/* vertical-align: middle; */
 }
 
 .eXtremeTable a img {
@@ -935,10 +935,6 @@ img.indicator {
 	padding-top: 5px;
 }
 
-.editing {
-	background-color: cadetblue;
-}
-
 .conditional-question {
 	background-color: brown;
 }
@@ -1023,6 +1019,64 @@ img.indicator {
 
 .formbuilderboxTable ul {
 	margin: 0px;
+}
+
+.editing .TL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/orange/TL.png );
+	background-repeat: no-repeat;
+}
+
+.editing .T {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/orange/T.png );
+	background-repeat: repeat-x;
+}
+
+.editing .TR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/orange/TR.png );
+	background-repeat: no-repeat;
+}
+
+.editing .L {
+	width: 12px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/orange/L.png );
+	background-repeat: repeat-y;
+}
+
+.editing .formbuilderboxContent {
+	background-color: #ffe2d4;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.editing .R {
+	width: 14px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/orange/R.png );
+	background-repeat: repeat-y;
+}
+
+.editing .BL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/orange/BL.png );
+	background-repeat: no-repeat;
+}
+
+.editing .B {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/orange/B.png );
+	background-repeat: repeat-x;
+}
+
+.editing .BR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/orange/BR.png );
+	background-repeat: no-repeat;
 }
 
 /*
@@ -1127,7 +1181,7 @@ these 3 rules define form builder controls styles
 */
 .formbuilderBoxControls {
 	position: absolute;
-	top: 3px;
+	top: 8px;
 	right: 20px;
 }
 
@@ -1227,4 +1281,10 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
 	height: 20px;
 	background-image: url( /ctcae/images/blue/add_all_btn.png );
 	background-repeat: no-repeat;
+}
+.formpages {
+	border:1px solid blue;
+	margin:10px;
+	background-color:#cdd4f7;
+	position:relative;
 }
