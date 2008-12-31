@@ -5,6 +5,8 @@ import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * @author Vinay Kumar
@@ -36,6 +38,7 @@ public class AddOneProCtcTermControllerTest extends WebTestCase {
 
 	public void testHandleRequestIfQuestionIdIsWrong() throws Exception {
 		request.addParameter("proCtcTermId", new String[]{"1"});
+		request.addParameter("crfPageIndex", new String[]{"1"});
 		expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(null);
 		replayMocks();
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
@@ -47,12 +50,23 @@ public class AddOneProCtcTermControllerTest extends WebTestCase {
 		request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
 
 		request.addParameter("proCtcTermId", new String[]{"1"});
-		request.addParameter("displayOrder", new String[]{"1"});
+		request.addParameter("crfPageIndex", new String[]{"1"});
 		expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
 		replayMocks();
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
 		verifyMocks();
 		assertNotNull("must not return null because there is one proCtcTerm  for given id", modelAndView);
-		assertNotNull("must return crfItems", modelAndView.getModel().get("crfItems"));
+		assertNotNull("must return crfPageItems", modelAndView.getModel().get("crfPageItems"));
+	}
+
+	public void testHandleRequestIfCrfPageIsNotSelected() throws Exception {
+		request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
+
+		request.addParameter("proCtcTermId", new String[]{"1"});
+		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
+		View view = modelAndView.getView();
+		assertTrue("must forward to add one crf page", view instanceof RedirectView);
+		String url = ((RedirectView) view).getUrl();
+		assertEquals("addOneCrfPage?subview=subview&proCtcTermId=1", url);
 	}
 }

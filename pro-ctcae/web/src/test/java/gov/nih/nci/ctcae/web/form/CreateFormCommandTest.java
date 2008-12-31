@@ -76,6 +76,7 @@ public class CreateFormCommandTest extends WebTestCase {
 
 		command.addAnotherPage();
 		command.addAnotherPage();
+		command.addAnotherPage();
 		CRF crf = command.getStudyCrf().getCrf();
 
 		assertEquals("must have three  pages", 3, crf.getCrfPages().size());
@@ -129,6 +130,7 @@ public class CreateFormCommandTest extends WebTestCase {
 
 	public void testAddAndUpdateAndReorderButNotDeleteQuestionsInMultiplePages() {
 
+		command.addAnotherPage();
 		command.addAnotherPage();
 
 		command.setQuestionsIds("11,12,13,14");
@@ -189,6 +191,7 @@ public class CreateFormCommandTest extends WebTestCase {
 
 		command.addAnotherPage();
 		command.addAnotherPage();
+		command.addAnotherPage();
 		CRF crf = command.getStudyCrf().getCrf();
 
 		assertEquals("must have three default page", 3, crf.getCrfPages().size());
@@ -231,8 +234,8 @@ public class CreateFormCommandTest extends WebTestCase {
 
 	}
 
-	public void testAddAndUpdateAndReorderAndDeleteQuestionsInDefaultPageOnly() {
-
+	public void testAddAndUpdateAndReorderAndDeleteQuestionsInFirstPageOnly() {
+		command.addAnotherPage();
 
 		command.setQuestionsIds("11,12,14,13");
 		command.setNumberOfQuestionsInEachPage("4");
@@ -286,7 +289,8 @@ public class CreateFormCommandTest extends WebTestCase {
 
 	}
 
-	public void testAddQuestionInDefaultPageOnly() {
+	public void testAddQuestionInFirstPageOnly() {
+		command.addAnotherPage();
 		command.updateCrfItems(finderRepository);
 
 		command.setQuestionsIds("11,12");
@@ -311,7 +315,7 @@ public class CreateFormCommandTest extends WebTestCase {
 	}
 
 	public void testAddAnotherPage() {
-
+		command.addAnotherPage();
 		command.addAnotherPage();
 		CRF crf = command.getStudyCrf().getCrf();
 		assertEquals("must have 2 pages", 2, crf.getCrfPages().size());
@@ -323,8 +327,8 @@ public class CreateFormCommandTest extends WebTestCase {
 
 	}
 
-	public void testAddAndReorderQuestionsButNotDeleteInDefaultPage() {
-
+	public void testAddAndReorderQuestionsButNotDeleteInFirstPage() {
+		command.addAnotherPage();
 		command.getStudyCrf().getCrf().addOrUpdateCrfItemInCrfPage(0, firstQuestion, 3);
 		command.getStudyCrf().getCrf().addOrUpdateCrfItemInCrfPage(0, secondQuestion, 1);
 		command.getStudyCrf().getCrf().addOrUpdateCrfItemInCrfPage(0, thirdQuestion, 2);

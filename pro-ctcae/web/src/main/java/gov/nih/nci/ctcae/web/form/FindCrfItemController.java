@@ -20,50 +20,49 @@ import javax.servlet.http.HttpServletResponse;
 public class FindCrfItemController extends AbstractController {
 
 
-    private FinderRepository finderRepository;
+	private FinderRepository finderRepository;
 
-    protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-        ModelAndView modelAndView = new ModelAndView("form/ajax/questionReviewSection");
-
-
-        Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
-        Integer displayOrder = ServletRequestUtils.getIntParameter(request, "displayOrder");
-
-        ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
-
-        CreateFormCommand command = ControllersUtils.getFormCommand(request);
-        CrfPageItem crfPageItem = null;
-			//command.getStudyCrf().getCrf().getCrfItemByQuestion(proCtcQuestion);
-
-        crfPageItem.setProCtcQuestion(proCtcQuestion);
-        modelAndView.addObject("crfPageItem", crfPageItem);
-        modelAndView.addObject("displayOrder", displayOrder);
+		ModelAndView modelAndView = new ModelAndView("form/ajax/questionReviewSection");
 
 
-        String nextQuestionIndex = request.getParameter("nextQuestionIndex");
-        if (!StringUtils.isBlank(nextQuestionIndex)) {
-            modelAndView.addObject("nextQuestionIndex", nextQuestionIndex);
+		Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
+		Integer displayOrder = ServletRequestUtils.getIntParameter(request, "displayOrder");
 
-        }
-        String previousQuestionIndex = request.getParameter("previousQuestionIndex");
-        if (!StringUtils.isBlank(previousQuestionIndex)) {
-            modelAndView.addObject("previousQuestionIndex", previousQuestionIndex);
+		ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
 
-        }
-        return modelAndView;
+		CreateFormCommand command = ControllersUtils.getFormCommand(request);
+		CrfPageItem crfPageItem = command.getStudyCrf().getCrf().getCrfPageItemByQuestion(proCtcQuestion);
 
-
-    }
+		crfPageItem.setProCtcQuestion(proCtcQuestion);
+		modelAndView.addObject("crfPageItem", crfPageItem);
+		modelAndView.addObject("displayOrder", displayOrder);
 
 
-    public FindCrfItemController() {
-        setSupportedMethods(new String[]{"GET"});
+		String nextQuestionIndex = request.getParameter("nextQuestionIndex");
+		if (!StringUtils.isBlank(nextQuestionIndex)) {
+			modelAndView.addObject("nextQuestionIndex", nextQuestionIndex);
 
-    }
+		}
+		String previousQuestionIndex = request.getParameter("previousQuestionIndex");
+		if (!StringUtils.isBlank(previousQuestionIndex)) {
+			modelAndView.addObject("previousQuestionIndex", previousQuestionIndex);
 
-    @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-    }
+		}
+		return modelAndView;
+
+
+	}
+
+
+	public FindCrfItemController() {
+		setSupportedMethods(new String[]{"GET"});
+
+	}
+
+	@Required
+	public void setFinderRepository(FinderRepository finderRepository) {
+		this.finderRepository = finderRepository;
+	}
 }

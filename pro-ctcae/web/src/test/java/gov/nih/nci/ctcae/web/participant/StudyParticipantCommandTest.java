@@ -1,13 +1,8 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.web.form.CreateFormCommand;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.verify;
 
 /**
  * @author Harsh Agarwal
@@ -21,8 +16,9 @@ public class StudyParticipantCommandTest extends WebTestCase {
     StudyParticipantAssignment studyParticipantAssignment;
     StudyParticipantCrf studyParticipantCrf;
     String objectsIndexesToRemove = "0-1" ;
+	private CRF crf;
 
-    @Override
+	@Override
     protected void setUp() throws Exception {
         super.setUp();
         command = new StudyParticipantCommand();
@@ -40,11 +36,12 @@ public class StudyParticipantCommandTest extends WebTestCase {
         studyParticipantCrf = new StudyParticipantCrf();
         studyParticipantCrf.setStudyCrf(study.getStudyCrfs().get(0));
 
-      //  studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
-      //  studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
-      //  studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
+		crf = new CRF();
+		studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(), crf);
+		studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(),crf);
+		studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(),crf);
 
-        studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
+		studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
 
         command.setStudyParticipantAssignment(studyParticipantAssignment);
         command.setStudy(study);
