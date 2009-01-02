@@ -936,7 +936,7 @@ img.indicator {
 }
 
 .conditional-question {
-	background-color: brown;
+	padding-left:30px;
 }
 
 #sortable {
@@ -948,6 +948,7 @@ img.indicator {
 }
 
 /* Formbuilder box styles */
+/* plain styles */
 .formbuilderBox {
 	padding-left: 14px;
 	position: relative;
@@ -1020,62 +1021,181 @@ img.indicator {
 .formbuilderboxTable ul {
 	margin: 0px;
 }
-
+/* editing styles */
 .editing .TL {
 	width: 12px;
 	height: 15px;
-	background-image: url( /ctcae/images/blue/formbuilderBox/orange/TL.png );
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/TL.png );
 	background-repeat: no-repeat;
 }
 
 .editing .T {
 	height: 15px;
-	background-image: url( /ctcae/images/blue/formbuilderBox/orange/T.png );
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/T.png );
 	background-repeat: repeat-x;
 }
 
 .editing .TR {
 	width: 14px;
 	height: 15px;
-	background-image: url( /ctcae/images/blue/formbuilderBox/orange/TR.png );
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/TR.png );
 	background-repeat: no-repeat;
 }
 
 .editing .L {
 	width: 12px;
-	background-image: url( /ctcae/images/blue/formbuilderBox/orange/L.png );
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/L.png );
 	background-repeat: repeat-y;
 }
 
 .editing .formbuilderboxContent {
-	background-color: #ffe2d4;
+	background-color: #4d6eff;
 	padding-top: 10px;
 	padding-bottom: 10px;
+	color:white;
 }
 
 .editing .R {
 	width: 14px;
-	background-image: url( /ctcae/images/blue/formbuilderBox/orange/R.png );
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/R.png );
 	background-repeat: repeat-y;
 }
 
 .editing .BL {
 	width: 12px;
 	height: 15px;
-	background-image: url( /ctcae/images/blue/formbuilderBox/orange/BL.png );
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/BL.png );
 	background-repeat: no-repeat;
 }
 
 .editing .B {
 	height: 15px;
-	background-image: url( /ctcae/images/blue/formbuilderBox/orange/B.png );
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/B.png );
 	background-repeat: repeat-x;
 }
 
 .editing .BR {
 	width: 14px;
 	height: 15px;
-	background-image: url( /ctcae/images/blue/formbuilderBox/orange/BR.png );
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/BR.png );
+	background-repeat: no-repeat;
+}
+/* conditional styles */
+.conditional-question .TL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/TL.png );
+	background-repeat: no-repeat;
+}
+
+.conditional-question .T {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/T.png );
+	background-repeat: repeat-x;
+}
+
+.conditional-question .TR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/TR.png );
+	background-repeat: no-repeat;
+}
+
+.conditional-question .L {
+	width: 12px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/L.png );
+	background-repeat: repeat-y;
+}
+
+.conditional-question .formbuilderboxContent {
+	background-color: #d0f3c2;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color:black;
+}
+
+.conditional-question .R {
+	width: 14px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/R.png );
+	background-repeat: repeat-y;
+}
+
+.conditional-question .BL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/BL.png );
+	background-repeat: no-repeat;
+}
+
+.conditional-question .B {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/B.png );
+	background-repeat: repeat-x;
+}
+
+.conditional-question .BR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/conditional/BR.png );
+	background-repeat: no-repeat;
+}
+/* editing a conditonal question styles */
+.editing.conditional-question .TL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/TL.png );
+	background-repeat: no-repeat;
+}
+
+.editing.conditional-question .T {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/T.png );
+	background-repeat: repeat-x;
+}
+
+.editing.conditional-question .TR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/TR.png );
+	background-repeat: no-repeat;
+}
+
+.editing.conditional-question .L {
+	width: 12px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/L.png );
+	background-repeat: repeat-y;
+}
+
+.editing.conditional-question .formbuilderboxContent {
+	background-color: #4d6eff;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color:white;
+}
+
+.editing.conditional-question .R {
+	width: 14px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/R.png );
+	background-repeat: repeat-y;
+}
+
+.editing.conditional-question .BL {
+	width: 12px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/BL.png );
+	background-repeat: no-repeat;
+}
+
+.editing.conditional-question .B {
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/B.png );
+	background-repeat: repeat-x;
+}
+
+.editing.conditional-question .BR {
+	width: 14px;
+	height: 15px;
+	background-image: url( /ctcae/images/blue/formbuilderBox/selected/BR.png );
 	background-repeat: no-repeat;
 }
 

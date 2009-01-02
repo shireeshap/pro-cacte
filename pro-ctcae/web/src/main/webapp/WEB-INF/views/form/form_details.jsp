@@ -627,7 +627,7 @@ function showCrfItemProperties(questionId) {
 function addEditingDisplayToQuestion(questionId) {
 	$('sortable_' + questionId).addClassName('editing');
 	//$('sortable_' + questionId).addClassName('focused');
-	$('arrow_' + questionId).show();
+	//$('arrow_' + questionId).show();
 
 }
 function removeEditingDisplayFromQuestions() {
@@ -636,7 +636,7 @@ function removeEditingDisplayFromQuestions() {
 			item.removeClassName('editing');
 			//item.removeClassName('focused');
 			var questionId = item.id.substr(9, item.id.length)
-			$('arrow_' + questionId).hide();
+			//$('arrow_' + questionId).hide();
 
 		}
 	})
@@ -728,8 +728,9 @@ function showFormSettings() {
 	}
 
 	.leftBox {
-		padding: 1px;
+		padding: 10px;
 		background-color: #e7eaf3;
+		margin-right:3px;
 	}
 
 	#firstlevelnav_1.selected_4thlvl {
@@ -742,6 +743,14 @@ function showFormSettings() {
 
 	#firstlevelnav_3.selected_4thlvl {
 		background-position: -283px -41px;
+	}
+	.propertiesHeader{
+		color:#00207E;
+		display:block;
+		font-size:25px;
+	}
+	.arrow {
+		vertical-align:top;
 	}
 
 

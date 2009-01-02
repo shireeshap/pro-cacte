@@ -25,8 +25,8 @@
 		<tr>
 			<td class="L"></td>
 			<td class="formbuilderboxContent">
-				<img class="arrow" alt="" src="<tags:imageUrl name="arrow.png"/>"
-						 id="arrow_${crfPageItem.proCtcQuestion.id}" style="display:none;" />
+				<%--<img class="arrow" alt="" src="<tags:imageUrl name="arrow.png"/>"
+						 id="arrow_${crfPageItem.proCtcQuestion.id}" style="display:none;" />--%>
 				   
 				<div id="${crfPageItem.proCtcQuestion.proCtcTerm.id}" class="selectedProCtcTerm"
 					 style="display:none;"></div>
@@ -34,7 +34,7 @@
 				<div id="${crfPageItem.displayOrder}" class="sortableSpan">${crfPageItem.displayOrder}</div>
 				${crfPageItem.proCtcQuestion.shortText}
 				
-				<img class="arrow" alt="" src="<tags:imageUrl name="ajax-loading.gif"/>"
+				<img class="arrow" alt="Conditional Question" src="<tags:imageUrl name="conditional-icon.png"/>"
 										 id="conditionsImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
 
 			</td>
@@ -49,7 +49,7 @@
 </div>
 <div id="questionPropertiesDiv_${crfPageItem.proCtcQuestion.id}">
 	<div id="questionProperties_${crfPageItem.proCtcQuestion.id}" style="display:none;" class="questionProperties leftBox">
-		crfItem.label.properties
+		<span class="propertiesHeader">crfItem.label.properties</span>
 			<noform:renderTextArea propertyName="studyCrf.crf.crfPages[${crfPageIndex}].crfPageItems[${index}].instructions"
 								   displayName="crfItem.label.instructions"
 								   propertyValue="${crfPageItem.instructions}"></noform:renderTextArea>
@@ -73,7 +73,7 @@
 		
 
 
-		form.conditional_question
+		<span class="propertiesHeader">form.conditional_question</span>
 			<tags:instructions code="instruction_conditional_question"/>
 
 			<div align="left" style="margin-left: 50px">
