@@ -34,7 +34,7 @@
 				<div id="${crfPageItem.displayOrder}" class="sortableSpan">${crfPageItem.displayOrder}</div>
 				${crfPageItem.proCtcQuestion.shortText}
 				
-				<img class="arrow" alt="Conditional Question" src="<tags:imageUrl name="conditional-icon.png"/>"
+				<img class="arrow" alt="Conditional Question" src="<tags:imageUrl name="blue/conditional-icon.png"/>"
 										 id="conditionsImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
 
 			</td>

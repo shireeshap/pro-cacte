@@ -859,8 +859,11 @@ function showFormSettings() {
 										<form:hidden path="studyCrf.crf.title" id="formTitle"/>
 
                                         <span class="formbuildersubHeader">There <span id="plural1">are</span> <span
-											id="totalQuestionDivision">${totalQuestions}</span> question<span
-											id="plural2">s</span> in this form.</span>
+											id="totalQuestionDivision"><c:choose>
+																		<c:when test="${totalQuestions}">${totalQuestions}</c:when>
+																		<c:otherwise>0</c:otherwise>
+																	   </c:choose>
+										</span> question<span id="plural2">s</span> in this form.</span>
 									</div>
 
 									<form:hidden path="questionsIds" id="questionsIds"/>
