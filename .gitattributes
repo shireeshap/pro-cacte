@@ -119,6 +119,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySite.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemException.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/AbstractQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CRFQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CRFSelfQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ClinicalStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationHavingStudySiteQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationQuery.java -text
