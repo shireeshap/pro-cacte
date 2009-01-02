@@ -275,7 +275,8 @@ function initializeAutoCompleter(basename, name, id) {
     if (name != '') {
         $(basename + '-input').value = name;
         $(basename).value = id;
-        $(basename + '-input').class = 'autocomplete';
+        //commented below line to make it work on IE. Did not see any difference in look and feel after commenting
+        //$(basename + '-input').class = 'autocomplete';
 
     }
 }
