@@ -24,9 +24,9 @@
 
                         <p>
                             You cannot reverse this step. If you're not ready to proceed, please
-                            <a href="javascript:closeReleaseFormWindow()">return
+                            hit cancel and return
                                 to
-                                the search results</a>.
+                                the search results.
                         </p>
 
                      </div>
@@ -34,7 +34,7 @@
                     <div class="flow-buttons">
 
                         <input type="submit" id="flow-update"
-                               class="next" value="Version" alt="Save"
+                               class="next" value="Edit" alt="Save"
                                />
 
 

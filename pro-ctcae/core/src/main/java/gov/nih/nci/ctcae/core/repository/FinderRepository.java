@@ -45,6 +45,10 @@ public class FinderRepository {
             }
         }
 
+        List<CRFPage> crfPageList = studyCrf.getCrf().getCrfPages();
+        for(CRFPage crfPage:crfPageList){
+            crfPage.getDescription();
+        }
         return studyCrf;
 
 

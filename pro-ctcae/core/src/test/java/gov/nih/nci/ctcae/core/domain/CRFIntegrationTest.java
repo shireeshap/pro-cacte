@@ -15,160 +15,172 @@ import java.util.UUID;
  */
 public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
-	private CRFRepository crfRepository;
-	private CRF crf, inValidCRF;
-	private String title = "Cancer CRF" + UUID.randomUUID().toString();
+    private CRFRepository crfRepository;
+    private CRF crf, inValidCRF;
+    private String title = "Cancer CRF" + UUID.randomUUID().toString();
 
-	@Override
-	protected void onSetUpInTransaction() throws Exception {
-		super.onSetUpInTransaction();
-		createCrf();
+    @Override
+    protected void onSetUpInTransaction() throws Exception {
+        super.onSetUpInTransaction();
+        createCrf();
 
-	}
+    }
 
-	private void saveCrf() {
-		crf = crfRepository.save(crf);
-	}
+    private void saveCrf() {
+        crf = crfRepository.save(crf);
+    }
 
-	private void createCrf() {
-		crf = new CRF();
-		crf.setTitle(title);
-		crf.setDescription("Case Report Form for Cancer Patients");
-		crf.setStatus(CrfStatus.DRAFT);
-		crf.setCrfVersion("1.0");
-	}
+    private void createCrf() {
+        crf = new CRF();
+        crf.setTitle(title);
+        crf.setDescription("Case Report Form for Cancer Patients");
+        crf.setStatus(CrfStatus.DRAFT);
+        crf.setCrfVersion("1.0");
+    }
 
-	public void testSaveCRF() {
-		saveCrf();
-		assertNotNull(crf.getId());
-	}
+    public void testSaveCRF() {
+        saveCrf();
+        assertNotNull(crf.getId());
+    }
 
-	public void testSaveCRFWithPage() {
-		crf.addCrfPge(new CRFPage());
-		saveCrf();
-		assertNotNull(crf.getId());
-		assertFalse(crf.getCrfPages().isEmpty());
-		for (CRFPage crfPage : crf.getCrfPages()) {
-			assertNotNull(crfPage.getId());
-			assertSame(crf, crfPage.getCrf());
-		}
-	}
+    public void testSaveCRFWithPage() {
+        crf.addCrfPge(new CRFPage());
+        saveCrf();
+        assertNotNull(crf.getId());
+        assertFalse(crf.getCrfPages().isEmpty());
+        for (CRFPage crfPage : crf.getCrfPages()) {
+            assertNotNull(crfPage.getId());
+            assertSame(crf, crfPage.getCrf());
+        }
+    }
 
-	public void testUpdateStatusOfCRF() {
-		saveCrf();
-		assertNotNull(crf.getId());
-		crfRepository.updateStatusToReleased(crf);
-		assertEquals(CrfStatus.RELEASED, crf.getStatus());
-	}
+    public void testUpdateStatusOfCRF() {
+        saveCrf();
+        assertNotNull(crf.getId());
+        crfRepository.updateStatusToReleased(crf);
+        assertEquals(CrfStatus.RELEASED, crf.getStatus());
+    }
 
-	public void testUniqueCrfTitle() {
-		inValidCRF = new CRF();
+    public void testUniqueCrfTitle() {
+        inValidCRF = new CRF();
 
-		try {
-			inValidCRF = crfRepository.save(inValidCRF);
+        try {
+            inValidCRF = crfRepository.save(inValidCRF);
 
-			fail("Expected DataIntegrityViolationException because title is unique");
-		} catch (DataIntegrityViolationException e) {
-		}
-	}
+            fail("Expected DataIntegrityViolationException because title is unique");
+        } catch (DataIntegrityViolationException e) {
+        }
+    }
 
-	public void testSavingNullCRF() {
-		inValidCRF = new CRF();
+    public void testSavingNullCRF() {
+        inValidCRF = new CRF();
 
-		try {
-			inValidCRF = crfRepository.save(inValidCRF);
-			fail("Expected DataIntegrityViolationException because title, status and formVersion are null");
-		} catch (DataIntegrityViolationException e) {
-		}
-	}
+        try {
+            inValidCRF = crfRepository.save(inValidCRF);
+            fail("Expected DataIntegrityViolationException because title, status and formVersion are null");
+        } catch (DataIntegrityViolationException e) {
+        }
+    }
 
-	public void testSavingNullTitleCRF() {
-		inValidCRF = new CRF();
-		try {
-			inValidCRF.setStatus(CrfStatus.DRAFT);
-			inValidCRF.setCrfVersion("1.0");
-			inValidCRF = crfRepository.save(inValidCRF);
-			fail("Expected DataIntegrityViolationException because title is null");
-		} catch (DataIntegrityViolationException e) {
-		}
-	}
+    public void testSavingNullTitleCRF() {
+        inValidCRF = new CRF();
+        try {
+            inValidCRF.setStatus(CrfStatus.DRAFT);
+            inValidCRF.setCrfVersion("1.0");
+            inValidCRF = crfRepository.save(inValidCRF);
+            fail("Expected DataIntegrityViolationException because title is null");
+        } catch (DataIntegrityViolationException e) {
+        }
+    }
 
-	public void testSavingNullStatusCRF() {
-		inValidCRF = new CRF();
-		try {
-			inValidCRF.setTitle("Cancer CRF");
-			inValidCRF.setStatus(null);
-			inValidCRF.setCrfVersion("1.0");
-			crfRepository.save(inValidCRF);
+    public void testSavingNullStatusCRF() {
+        inValidCRF = new CRF();
+        try {
+            inValidCRF.setTitle("Cancer CRF");
+            inValidCRF.setStatus(null);
+            inValidCRF.setCrfVersion("1.0");
+            crfRepository.save(inValidCRF);
 
-			fail("Expected DataIntegrityViolationException because status is null");
-		} catch (DataIntegrityViolationException e) {
-		}
-	}
+            fail("Expected DataIntegrityViolationException because status is null");
+        } catch (DataIntegrityViolationException e) {
+        }
+    }
 
-	public void testSavingNullVersionCRF() {
-		inValidCRF = new CRF();
-		try {
-			inValidCRF.setTitle(title);
-			inValidCRF.setStatus(CrfStatus.DRAFT);
-			crfRepository.save(inValidCRF);
-			fail("Expected DataIntegrityViolationException because formVersion is null");
-		} catch (DataIntegrityViolationException e) {
-		}
-	}
+    public void testSavingNullVersionCRF() {
+        inValidCRF = new CRF();
+        try {
+            inValidCRF.setTitle(title);
+            inValidCRF.setStatus(CrfStatus.DRAFT);
+            crfRepository.save(inValidCRF);
+            fail("Expected DataIntegrityViolationException because formVersion is null");
+        } catch (DataIntegrityViolationException e) {
+        }
+    }
 
-	public void testFindById() {
-		saveCrf();
+    public void testFindById() {
+        saveCrf();
 
-		CRF existingCrf = crfRepository.findById(crf.getId());
-		assertEquals(crf.getTitle(), existingCrf.getTitle());
-		assertEquals(crf.getStatus(), existingCrf.getStatus());
-		assertEquals(crf.getCrfVersion(), existingCrf.getCrfVersion());
-		assertEquals(crf.getDescription(), existingCrf.getDescription());
+        CRF existingCrf = crfRepository.findById(crf.getId());
+        assertEquals(crf.getTitle(), existingCrf.getTitle());
+        assertEquals(crf.getStatus(), existingCrf.getStatus());
+        assertEquals(crf.getCrfVersion(), existingCrf.getCrfVersion());
+        assertEquals(crf.getDescription(), existingCrf.getDescription());
 
-	}
-
-
-	public void testFindByQuery() {
-		saveCrf();
-
-		CRFQuery crfQuery = new CRFQuery();
-
-		Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
-		assertFalse(crfs.isEmpty());
-		int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf");
-		assertEquals(size, crfs.size());
-	}
-
-	public void testFindByTitleExactMatchQuery() {
-		saveCrf();
-
-		CRFQuery crfQuery = new CRFQuery();
-		crfQuery.filterByTitleExactMatch(crf.getTitle());
-		Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
-		assertFalse(crfs.isEmpty());
-		int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf where lower(crf.title)=?", new String[]{crf.getTitle().toLowerCase()});
-		assertEquals(size, crfs.size());
-		assertEquals("title must be unique", Integer.valueOf(1), Integer.valueOf(size));
+    }
 
 
-	}
+    public void testFindByQuery() {
+        saveCrf();
 
-	public void testFilterByNotHavingCrfId() {
-		saveCrf();
+        CRFQuery crfQuery = new CRFQuery();
 
-		CRFQuery crfQuery = new CRFQuery();
-		crfQuery.filterByNotHavingCrfId(crf.getId());
-		Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
-		int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf where crf.id !=?", new Integer[]{crf.getId()});
-		assertEquals(size, crfs.size());
+        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
+        assertFalse(crfs.isEmpty());
+        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf");
+        assertEquals(size, crfs.size());
+    }
+
+    public void testFindByNullNextVersionIdQuery() {
+        saveCrf();
+
+        CRFQuery crfQuery = new CRFQuery();
+        crfQuery.filterByNullNextVersionId();
+        crfQuery.filterByStudyId(1);
+        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
+        assertFalse(crfs.isEmpty());
+        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf, study_Crfs sc where sc.crf_Id = crf.id and sc.study_id = '1' and next_version_id is null");
+        assertEquals(size, crfs.size());
+    }
+
+    public void testFindByTitleExactMatchQuery() {
+        saveCrf();
+
+        CRFQuery crfQuery = new CRFQuery();
+        crfQuery.filterByTitleExactMatch(crf.getTitle());
+        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
+        assertFalse(crfs.isEmpty());
+        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf where lower(crf.title)=?", new String[]{crf.getTitle().toLowerCase()});
+        assertEquals(size, crfs.size());
+        assertEquals("title must be unique", Integer.valueOf(1), Integer.valueOf(size));
 
 
-	}
+    }
 
-	@Required
-	public void setCRFRepository(CRFRepository crfRepository) {
-		this.crfRepository = crfRepository;
-	}
+    public void testFilterByNotHavingCrfId() {
+        saveCrf();
+
+        CRFQuery crfQuery = new CRFQuery();
+        crfQuery.filterByNotHavingCrfId(crf.getId());
+        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
+        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf where crf.id !=?", new Integer[]{crf.getId()});
+        assertEquals(size, crfs.size());
+
+
+    }
+
+    @Required
+    public void setCRFRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
+    }
 
 }

@@ -26,8 +26,11 @@ public class DateFormatterCell extends AbstractCell {
 		String cellValue = "";
 
 		if (beanWrapper.isReadableProperty(column.getProperty())) {
-			cellValue = DateUtils.format((Date) beanWrapper.getPropertyValue(column.getProperty()));
+            Object value = beanWrapper.getPropertyValue(column.getProperty());
+            if (value != null){
+            cellValue = DateUtils.format((Date) value);
 		}
-		return cellValue;
+        }      
+        return cellValue;
 	}
 }

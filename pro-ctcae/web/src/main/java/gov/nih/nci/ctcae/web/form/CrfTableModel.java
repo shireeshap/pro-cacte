@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.web.AbstractTableModel;
 import org.extremecomponents.table.bean.Column;
+import org.extremecomponents.table.bean.Row;
 import org.extremecomponents.table.core.TableModel;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,8 @@ public class CrfTableModel extends AbstractTableModel {
 		try {
 			TableModel model = getModel(parameterMap, request, objects);
 
-			addTitle(model);
+            addShowVersion(model);
+            addTitle(model);
             addVersion(model);
             addEffectiveDate(model);
             addExpirationDate(model);
@@ -60,7 +62,24 @@ public class CrfTableModel extends AbstractTableModel {
 		return false;
 	}
 
-	private void addTitle(TableModel model) {
+    private void addShowVersion(TableModel model) {
+        Column columnShowVersion = model.getColumnInstance();
+        columnShowVersion.setTitle("");
+        columnShowVersion.setProperty("");
+        columnShowVersion.setAlias("");
+        columnShowVersion.setSortable(Boolean.TRUE);
+        columnShowVersion.setFilterable(false);
+        columnShowVersion.setCell("gov.nih.nci.ctcae.web.form.CrfDisplayVersionsCell");
+        model.addColumn(columnShowVersion);
+    }
+
+    protected void updateRow(Row row) {
+
+        row.setHighlightRow(false);
+        row.setInterceptor("gov.nih.nci.ctcae.web.form.ManageFormTableRowInterceptor");
+    }
+
+    private void addTitle(TableModel model) {
 		Column columnTitle = model.getColumnInstance();
 		columnTitle.setTitle("Title");
 		columnTitle.setProperty("title");
@@ -82,24 +101,26 @@ public class CrfTableModel extends AbstractTableModel {
     }
 
     private void addEffectiveDate(TableModel model) {
-        Column columnTitle = model.getColumnInstance();
-        columnTitle.setTitle("Effective Date");
-        columnTitle.setProperty("effectiveStartDate");
-        columnTitle.setAlias("effectiveStartDate");
-        columnTitle.setSortable(Boolean.TRUE);
-        columnTitle.setFilterable(false);
-        model.addColumn(columnTitle);
+        Column columnEffectiveDate = model.getColumnInstance();
+        columnEffectiveDate.setTitle("Effective Date");
+        columnEffectiveDate.setProperty("effectiveStartDate");
+        columnEffectiveDate.setAlias("effectiveStartDate");
+        columnEffectiveDate.setSortable(Boolean.TRUE);
+        columnEffectiveDate.setFilterable(false);
+        columnEffectiveDate.setCell("gov.nih.nci.ctcae.web.table.cell.DateFormatterCell");
+        model.addColumn(columnEffectiveDate);
 
     }
 
     private void addExpirationDate(TableModel model) {
-        Column columnTitle = model.getColumnInstance();
-        columnTitle.setTitle("Expiration Date");
-        columnTitle.setProperty("effectiveEndDate");
-        columnTitle.setAlias("effectiveEndDate");
-        columnTitle.setSortable(Boolean.TRUE);
-        columnTitle.setFilterable(false);
-        model.addColumn(columnTitle);
+        Column columnExpirationDate = model.getColumnInstance();
+        columnExpirationDate.setTitle("Expiration Date");
+        columnExpirationDate.setProperty("effectiveEndDate");
+        columnExpirationDate.setAlias("effectiveEndDate");
+        columnExpirationDate.setSortable(Boolean.TRUE);
+        columnExpirationDate.setFilterable(false);
+        columnExpirationDate.setCell("gov.nih.nci.ctcae.web.table.cell.DateFormatterCell");
+        model.addColumn(columnExpirationDate);
 
     }
 

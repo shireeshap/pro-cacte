@@ -49,7 +49,7 @@ public class AbstractTableModel {
 		table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
 		table.setFilterable(getFilterable());
 		table.setSortable(getSortable());
-		table.setSortRowsCallback("gov.nih.nci.ctcae.web.table.SortRowsCallbackImpl");
+        table.setSortRowsCallback("gov.nih.nci.ctcae.web.table.SortRowsCallbackImpl");
 
 		table.setAutoIncludeParameters(false);
 		model.addTable(table);
@@ -57,7 +57,7 @@ public class AbstractTableModel {
 		Row row = model.getRowInstance();
 		row.setHighlightRow(Boolean.TRUE);
 		updateRow(row);
-		model.addRow(row);
+        model.addRow(row);
 	}
 
 	protected void updateRow(Row row) {

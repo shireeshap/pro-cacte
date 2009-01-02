@@ -11,132 +11,160 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <head>
-    <tags:stylesheetLink name="tabbedflow"/>
-    <tags:includeScriptaculous/>
+<tags:stylesheetLink name="tabbedflow"/>
+<tags:includeScriptaculous/>
 
-    <tags:includePrototypeWindow/>
-    <tags:dwrJavascriptLink objects="crf"/>
+<tags:includePrototypeWindow/>
+<tags:dwrJavascriptLink objects="crf"/>
 
-    <script type="text/javascript">
-        Event.observe(window, "load", function () {
-            var studyAutoCompleter = new studyAutoComplter('study');
-            acCreateStudy(studyAutoCompleter, displayForms);
-        <c:if test="${study ne null}">
-            initializeAutoCompleter('study',
-                    '${study.displayName}', '${study.id}')
+<script type="text/javascript">
+Event.observe(window, "load", function () {
+    var studyAutoCompleter = new studyAutoComplter('study');
+    acCreateStudy(studyAutoCompleter, displayForms);
+<c:if test="${study ne null}">
+    initializeAutoCompleter('study',
+            '${study.displayName}', '${study.id}')
 
+    displayForms();
+</c:if>
+    initSearchField();
+
+})
+
+
+function displayForms() {
+    $('noForm').show();
+    var url = 'createForm?studyId=' + $('study').value
+    $('newFormUrl').href = url;
+
+    buildTable('assembler')
+
+}
+function buildTable(form) {
+
+    var id = $('study').value
+    var parameterMap = getParameterMap(form);
+    $('bigSearch').show();
+    crf.searchCrf(parameterMap, id, showTable)
+}
+
+function acCreateStudy(mode) {
+    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
+            mode.populator, {
+        valueSelector: mode.valueSelector,
+        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+            acPostSelect(mode, selectedChoice);
             displayForms();
-        </c:if>
-            initSearchField();
+        },
+        indicator: mode.basename + "-indicator"
+    })
 
-        })
+}
 
+//     function copyForm(studyCrfId) {
+//         var request = new Ajax.Request("<c:url value="/pages/form/copyForm"/>", {
+//             parameters:"studyCrfId=" + studyCrfId + "&subview=subview",
+//            onComplete:function(transport) {
+//               buildTable('assembler');
 
-        function displayForms() {
-            $('noForm').show();
-            var url = 'createForm?studyId=' + $('study').value
-            $('newFormUrl').href = url;
+//            },
+//            method:'get'
+//        })
+//     }
 
-            buildTable('assembler')
+function deleteForm(studyCrfId) {
+    var request = new Ajax.Request("<c:url value="/pages/form/deleteForm"/>", {
+        parameters:"studyCrfId=" + studyCrfId + "&subview=subview",
+        onComplete:showDeleteFormWindow,
+        method:'get'
+    })
+}
 
-        }
-        function buildTable(form) {
+function versionForm(studyCrfId) {
+    var request = new Ajax.Request("<c:url value="/pages/form/versionForm"/>", {
+        parameters:"studyCrfId=" + studyCrfId + "&subview=subview",
+        onComplete:showDeleteFormWindow,
+        method:'get'
+    })
+}
+function showVersionForm(crfId) {
+    var request = new Ajax.Request("<c:url value="/pages/form/showVersionForm"/>", {
+        parameters:"crfId=" + crfId + "&subview=subview",
+        onComplete:function(transport) {
+            var response = transport.responseText;
+            var selectedCrfId;
+            $$('tr.crf_' + crfId).each(function(item) {
+                item.id = 'selectedCrf_' + crfId;
+                selectedCrfId = item.id;
 
-            var id = $('study').value
-            var parameterMap = getParameterMap(form);
-            $('bigSearch').show();
-            crf.searchCrf(parameterMap, id, showTable)
-        }
-
-        function acCreateStudy(mode) {
-            new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-                    mode.populator, {
-                valueSelector: mode.valueSelector,
-                afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-                    acPostSelect(mode, selectedChoice);
-                    displayForms();
-                },
-                indicator: mode.basename + "-indicator"
             })
-
-        }
-
-   //     function copyForm(studyCrfId) {
-   //         var request = new Ajax.Request("<c:url value="/pages/form/copyForm"/>", {
-   //             parameters:"studyCrfId=" + studyCrfId + "&subview=subview",
-    //            onComplete:function(transport) {
-     //               buildTable('assembler');
-
-    //            },
-    //            method:'get'
-    //        })
-   //     }
-
-        function deleteForm(studyCrfId) {
-            var request = new Ajax.Request("<c:url value="/pages/form/deleteForm"/>", {
-                parameters:"studyCrfId=" + studyCrfId + "&subview=subview",
-                onComplete:showDeleteFormWindow,
-                method:'get'
-            })
-        }
-
-        function versionForm(studyCrfId) {
-            var request = new Ajax.Request("<c:url value="/pages/form/versionForm"/>", {
-                parameters:"studyCrfId=" + studyCrfId + "&subview=subview",
-                onComplete:showDeleteFormWindow,
-                method:'get'
-            })
-        }
-
-        function releaseForm(studyCrfId) {
-
-            var request = new Ajax.Request("<c:url value="/pages/form/releaseForm"/>", {
-                parameters:"studyCrfId=" + studyCrfId + "&subview=subview",
-                onComplete:showReleaseFormWindow,
-                method:'get'
-            })
-
-        }
-        function closeReleaseFormWindow() {
-            var win = Windows.getFocusedWindow();
-            if (win != null) {
-                win.close();
-            }
-        }
-        function showReleaseFormWindow(transport) {
-            var win = Windows.getFocusedWindow();
-            if (win == null) {
-                win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                        true, title: "", height:230, width: 550,top:250,left:200});
-                win.setDestroyOnClose();
-                win.setHTMLContent(transport.responseText);
-                win.show(true)
-
-            } else {
-                win.setHTMLContent(transport.responseText);
-                win.refresh();
-            }
-        }
-
-        function showDeleteFormWindow(transport) {
-            var win = Windows.getFocusedWindow();
-            if (win == null) {
-                win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                        true, title: "", height:300, width: 550,top:250,left:200});
-                win.setDestroyOnClose();
-                win.setHTMLContent(transport.responseText);
-                win.show(true)
-
-            } else {
-                win.setHTMLContent(transport.responseText);
-                win.refresh();
-            }
+            new Insertion.After('selectedCrf_' + crfId, response);
+            $('crfVersionShowImage_' + crfId).hide();
+            $('crfVersionHideImage_' + crfId).show();
+        },
+        method:'get'
+    })
+}
+function hideVersionForm(crfId) {
+    $('crfVersionShowImage_' + crfId).show();
+    $('crfVersionHideImage_' + crfId).hide();
+    $$('tr.childTableRow_' + crfId).each(function(item){
+        item.remove();
+    });
 
 
-        }
+}
+
+function releaseForm(studyCrfId) {
+
+    var request = new Ajax.Request("<c:url value="/pages/form/releaseForm"/>", {
+        parameters:"studyCrfId=" + studyCrfId + "&subview=subview",
+        onComplete:showReleaseFormWindow,
+        method:'get'
+    })
+
+}
+
+function closeReleaseFormWindow() {
+    var win = Windows.getFocusedWindow();
+    if (win != null) {
+        win.close();
+    }
+}
+function showReleaseFormWindow(transport) {
+    var win = Windows.getFocusedWindow();
+    if (win == null) {
+        win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
+                true, title: "", height:230, width: 550,top:250,left:200});
+        win.setDestroyOnClose();
+        win.setHTMLContent(transport.responseText);
+        win.show(true)
+
+    } else {
+        win.setHTMLContent(transport.responseText);
+        win.refresh();
+    }
+}
+
+function showDeleteFormWindow(transport) {
+    var win = Windows.getFocusedWindow();
+    if (win == null) {
+        win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
+                true, title: "", height:300, width: 550,top:250,left:200});
+        win.setDestroyOnClose();
+        win.setHTMLContent(transport.responseText);
+        win.show(true)
+
+    } else {
+        win.setHTMLContent(transport.responseText);
+        win.refresh();
+    }
 
 
-    </script>
+}
+
+
+</script>
 
 </head>
 <body>
@@ -148,23 +176,25 @@
     </p>
     <br>
     <tags:indicator id="indicator"/>
+
 </chrome:box>
-</div>
+
+<div id="crfItem_50"></div>
 <div id="noForm" style="display:none;">
-        <a href="" id="newFormUrl">New Form</a>
-    </div>
+    <a href="" id="newFormUrl">New Form</a>
+</div>
 
-    <div id="bigSearch" style="display:none;">
-        <div class="endpanes"/>
+<div id="bigSearch" style="display:none;">
+    <div class="endpanes"/>
 
-        <form:form id="assembler">
-            <chrome:division id="single-fields">
-                <div id="tableDiv">
-                    <c:out value="${assembler}" escapeXml="false"/>
-                </div>
-            </chrome:division>
-        </form:form>
+    <form:form id="assembler">
+        <chrome:division id="single-fields">
+            <div id="tableDiv">
+                <c:out value="${assembler}" escapeXml="false"/>
+            </div>
+        </chrome:division>
+    </form:form>
 
-    </div>
+</div>
 
 </body>

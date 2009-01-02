@@ -35,7 +35,7 @@
 				${crfPageItem.proCtcQuestion.shortText}
 				
 				<img class="arrow" alt="Conditional Question" src="<tags:imageUrl name="blue/conditional-icon.png"/>"
-										 id="conditionsImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
+										 id="conditionsImage_${crfPageItem.proCtcQuestion.id}" style="display:none;" />
 
 			</td>
 			<td class="R"></td>

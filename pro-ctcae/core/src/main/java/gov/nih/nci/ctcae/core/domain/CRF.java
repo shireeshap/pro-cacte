@@ -190,7 +190,7 @@ public class CRF extends BaseVersionable {
 		copiedCrf.setTitle("Copy of " + title + "_" + System.currentTimeMillis());
 		copiedCrf.setDescription(description);
 		copiedCrf.setStatus(CrfStatus.DRAFT);
-		copiedCrf.setCrfVersion("1.0");
+		copiedCrf.setCrfVersion(crfVersion);
 		for (CRFPage crfPage : crfPages) {
 			copiedCrf.addCrfPge(crfPage.getCopy());
 		}

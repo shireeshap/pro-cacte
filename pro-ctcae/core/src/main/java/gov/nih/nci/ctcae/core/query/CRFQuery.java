@@ -8,29 +8,34 @@ import org.apache.commons.lang.StringUtils;
  */
 public class CRFQuery extends AbstractQuery {
 
-	private static String queryString = "SELECT o from CRF o order by o.id";
-	private static final String TITLE = "title";
-	private static final String CRFID = "crfId";
+    private static String queryString = "SELECT o from CRF o order by o.id";
+    private static final String TITLE = "title";
+    private static final String CRFID = "crfId";
     private static final String STUDYID = "studyId";
+//    private static final String NEXTVERSIONID = "nextVersionId";
 
     public CRFQuery() {
 
-		super(queryString);
-	}
+        super(queryString);
+    }
 
-	public void filterByTitleExactMatch(final String title) {
-		if (!StringUtils.isBlank(title)) {
-			andWhere("lower(o.title) = :" + TITLE);
-			setParameter(TITLE, title.toLowerCase());
-		}
-	}
+    public CRFQuery(String queryString) {
+        super(queryString);
+    }
 
-	public void filterByNotHavingCrfId(final Integer crfId) {
-		if (crfId != null) {
-			andWhere("o.id != :" + CRFID);
-			setParameter(CRFID, crfId);
-		}
-	}
+    public void filterByTitleExactMatch(final String title) {
+        if (!StringUtils.isBlank(title)) {
+            andWhere("lower(o.title) = :" + TITLE);
+            setParameter(TITLE, title.toLowerCase());
+        }
+    }
+
+    public void filterByNotHavingCrfId(final Integer crfId) {
+        if (crfId != null) {
+            andWhere("o.id != :" + CRFID);
+            setParameter(CRFID, crfId);
+        }
+    }
 
     public void filterByStudyId(final Integer studyId) {
         if (studyId != null) {
@@ -39,4 +44,11 @@ public class CRFQuery extends AbstractQuery {
         }
 
     }
+
+    public void filterByNullNextVersionId() {
+        andWhere("o.nextVersionId is null");
+    }
+
 }
+
+

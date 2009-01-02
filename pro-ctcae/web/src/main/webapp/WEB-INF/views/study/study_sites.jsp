@@ -99,7 +99,7 @@
                     </c:forEach>
 
 
-                    <tr id="hiddenDiv"></tr>
+                    <tr id="hiddenDiv" align="center"></tr>
 
                 </table>
 

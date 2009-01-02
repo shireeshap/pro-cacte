@@ -31,6 +31,7 @@ public class CrfAjaxFacade {
 
         if (id != null) {
             crfQuery.filterByStudyId(id);
+            crfQuery.filterByNullNextVersionId();
         }
   //      Study study = studyRepository.findById(id);
         List<CRF> crfs = (List<CRF>)crfRepository.find(crfQuery); 

@@ -24,9 +24,9 @@
 
                         <p>
                             You cannot reverse this step. If you're not ready to proceed, please
-                            <a href="javascript:closeReleaseFormWindow()">return
+                            hit cancel return
                                 to
-                                the search results</a>.
+                                the search results.
                         </p>
 
                      </div>

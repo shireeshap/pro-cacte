@@ -240,6 +240,11 @@
         <property name="crfRepository" ref="crfRepository"/>
 
         </bean>
+    <bean name="/form/showVersionForm" id="showVersionFormController"
+		  class="gov.nih.nci.ctcae.web.form.ShowVersionFormController">
+        <property name="crfRepository" ref="crfRepository"/>
+
+        </bean>
 
 
     <bean name="/study/createStudy" id="createStudyController"

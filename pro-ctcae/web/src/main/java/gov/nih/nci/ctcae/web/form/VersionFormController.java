@@ -14,7 +14,7 @@ import org.springframework.validation.BindException;
 
 /**
  * @author Mehul Gulati
- * Date: Dec 19, 2008
+ *         Date: Dec 19, 2008
  */
 public class VersionFormController extends CtcAeSimpleFormController {
 
@@ -30,17 +30,20 @@ public class VersionFormController extends CtcAeSimpleFormController {
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         String studyCrfId = request.getParameter("studyCrfId");
-        StudyCrf studyCrf = finderRepository.findById(StudyCrf.class,  Integer.parseInt(studyCrfId));
+        StudyCrf studyCrf = finderRepository.findAndInitializeStudyCrf(Integer.parseInt(studyCrfId));
         return studyCrf;
     }
 
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
         StudyCrf studyCrf = (StudyCrf) command;
+
+        //FIXME: Mehul- remove it later
+        studyCrf = finderRepository.findAndInitializeStudyCrf(studyCrf.getId());
         Integer parentVersionId = studyCrf.getCrf().getId();
-        String newVersion =  "" +(new Float(studyCrf.getCrf().getCrfVersion()) + 1);
+        String newVersion = "" + (new Float(studyCrf.getCrf().getCrfVersion()) + 1);
         StudyCrf copiedStudyCrf = studyCrf.getCopy();
-        copiedStudyCrf.getCrf().setTitle(studyCrf.getCrf().getTitle() + " ver " + newVersion);
+        copiedStudyCrf.getCrf().setTitle(studyCrf.getCrf().getTitle());
         copiedStudyCrf.getCrf().setCrfVersion(newVersion);
         copiedStudyCrf.getCrf().setParentVersionId(parentVersionId);
 
