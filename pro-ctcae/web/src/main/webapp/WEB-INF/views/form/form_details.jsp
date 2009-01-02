@@ -731,6 +731,7 @@ function showFormSettings() {
 		padding: 10px;
 		background-color: #e7eaf3;
 		margin-right:3px;
+		position:relative;
 	}
 
 	#firstlevelnav_1.selected_4thlvl {
@@ -751,6 +752,11 @@ function showFormSettings() {
 	}
 	.arrow {
 		vertical-align:top;
+	}
+	#newPageBtn {
+		position:absolute;
+		top:5px;
+		right:10px;
 	}
 
 
@@ -798,6 +804,7 @@ function showFormSettings() {
 						<br>
 
 						<div id="questionBank" class="leftBox">
+							<a id="newPageBtn" href="javascript:addCrfPage()"><img src="<tags:imageUrl name="blue/new_page_button.png" />" alt="New Page"/></a>
 							<ul class="tree">
 								<c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
