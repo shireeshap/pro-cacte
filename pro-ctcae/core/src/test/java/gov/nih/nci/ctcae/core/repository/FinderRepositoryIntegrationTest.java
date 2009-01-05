@@ -6,6 +6,8 @@ import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
+
 /**
  * @author Vinay Kumar
  * @crated Nov 18, 2008
@@ -74,7 +76,15 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
 	public void testFindAndInitializeStudyCrf() {
 		StudyCrf studyCrf = finderRepository.findAndInitializeStudyCrf(study.getStudyCrfs().get(0).getId());
 		assertNotNull(studyCrf);
-		studyCrf = finderRepository.findAndInitializeStudyCrf(-1001);
+        studyCrf = null;
+        try{
+          studyCrf = finderRepository.findAndInitializeStudyCrf(-1001);
+
+            fail("Expected");
+        } catch(NullPointerException e){
+
+        }
+
 		assertNull(studyCrf);
 	}
 
