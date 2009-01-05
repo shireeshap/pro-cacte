@@ -145,10 +145,9 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
         CRFQuery crfQuery = new CRFQuery();
         crfQuery.filterByNullNextVersionId();
-        crfQuery.filterByStudyId(1);
         Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
         assertFalse(crfs.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf, study_Crfs sc where sc.crf_Id = crf.id and sc.study_id = '1' and next_version_id is null");
+        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf where next_version_id is null");
         assertEquals(size, crfs.size());
     }
 
