@@ -636,6 +636,7 @@ pro-ctcae/web/src/main/webapp/images/blue/icons/assignController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/assignParticipantController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/captureAdverseEventController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/configurationController_icon.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/createFormController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createINDController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createInvestigatorController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createNotificationController_icon.png -text
@@ -651,10 +652,12 @@ pro-ctcae/web/src/main/webapp/images/blue/icons/importRuleController_icon.png -t
 pro-ctcae/web/src/main/webapp/images/blue/icons/listAdverseEventsController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/listNotificationController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/listRuleController_icon.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/manageFormController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/participantController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/passwordPolicyConfigurationController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/reportController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/routineReportController_icon.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/scheduleCrfController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/searchParticipantController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/searchStudyController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/studyController_icon.png -text
