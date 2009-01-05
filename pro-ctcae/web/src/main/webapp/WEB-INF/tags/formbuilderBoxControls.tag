@@ -10,25 +10,25 @@
 		<div class="formbuilderBoxControls-left">
 			<c:if test="${properties}">
 				<a href="javascript:moveQuestionUp('${proCtcQuestionId}');" id="moveQuestionUpLink_${proCtcQuestionId}">
-					<img src="/ctcae/images/blue/up.png" alt="Up"/>
+					<img src="<tags:imageUrl name="blue/up.png"/>" alt="Up"/>
 				</a>
 
 				<a href="javascript:moveQuestionDown('${proCtcQuestionId}');"
 				   id="moveQuestionDownLink_${proCtcQuestionId}">
-					<img src="/ctcae/images/blue/down.png" alt="Down"/>
+					<img src="<tags:imageUrl name="blue/down.png"/>" alt="Down"/>
 				</a>
 
 				<a href="javascript:showCrfItemPropertiesTab('${proCtcQuestionId}');"><img
-					src="/ctcae/images/blue/question_properties_btn.png" alt="Configure Item"/></a>
+					src="<tags:imageUrl name="blue/question_properties_btn.png"/>" alt="Configure Item"/></a>
 			</c:if>
 			<c:if test="${add}">
 				<a href="javascript:addCrfPageItem(${proCtcQuestionId},${proCtctermId})"><img
-					src="/ctcae/images/blue/select_question_btn.png"
+					src="<tags:imageUrl name="blue/select_question_btn.png"/>"
 					alt="Add"/></a>
 			</c:if>
 			<c:if test="${delete}">
 				<a href="javascript:deleteQuestion('${proCtcQuestionId}');">
-					<img src="/ctcae/images/checkno.gif" alt="Delete"/>
+					<img src="<tags:imageUrl name="checkno.gif"/>" alt="Delete"/>
 				</a>
 
 
