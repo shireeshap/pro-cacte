@@ -20,14 +20,13 @@ import java.util.List;
 public class AddOneProCtcTermController extends AbstractCrfController {
 
 
-
 	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		String crfPageIndex = request.getParameter("crfPageIndex");
+		String crfPageNumber = request.getParameter("crfPageNumber");
 		Integer proCtcTermId = ServletRequestUtils.getIntParameter(request, "proCtcTermId");
 
 		ModelAndView modelAndView = null;
 
-		if (StringUtils.isBlank(crfPageIndex)) {
+		if (StringUtils.isBlank(crfPageNumber)) {
 			modelAndView = new ModelAndView(new RedirectView("addOneCrfPage?subview=subview&proCtcTermId=" + proCtcTermId));
 
 		} else {
@@ -41,7 +40,7 @@ public class AddOneProCtcTermController extends AbstractCrfController {
 			if (proCtcTerm != null) {
 
 
-				CRFPage crfPage = createFormCommand.addAnotherPage();
+				CRFPage crfPage = createFormCommand.getStudyCrf().getCrf().getCrfPageByPageNumber(Integer.valueOf(crfPageNumber));
 
 				List<CrfPageItem> addedCrfPageItems = crfPage.removeExistingAndAddNewCrfItem(proCtcTerm);
 				modelAndView.addObject("crfPageItems", addedCrfPageItems);

@@ -80,8 +80,11 @@ public class CRFPage extends BaseVersionable {
 
 
 	public List<CrfPageItem> getCrfItemsSortedByDislayOrder() {
-		Collections.sort(crfPageItems, new DisplayOrderComparator());
-		return crfPageItems;
+
+		List<CrfPageItem> sortedCrfPageItems = new ArrayList<CrfPageItem>(crfPageItems);
+
+		Collections.sort(sortedCrfPageItems, new DisplayOrderComparator());
+		return sortedCrfPageItems;
 	}
 
 	public List<CrfPageItem> getCrfPageItems() {
@@ -196,7 +199,7 @@ public class CRFPage extends BaseVersionable {
 	}
 
 	/**
-	 * used while reordering the crf page item between crf pages
+	 * used while reordering the crf page item between crf pages  or removing crf page item mannualy
 	 *
 	 * @param proCtcQuestion
 	 */
@@ -289,4 +292,5 @@ public class CRFPage extends BaseVersionable {
 		}
 
 	}
+
 }

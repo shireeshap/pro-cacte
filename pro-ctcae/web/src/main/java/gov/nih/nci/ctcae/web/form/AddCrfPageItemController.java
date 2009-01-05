@@ -16,16 +16,16 @@ import javax.servlet.http.HttpServletResponse;
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
-public class AddOneCrfPageItemController extends AbstractCrfController {
+public class AddCrfPageItemController extends AbstractCrfController {
 
 
 	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		String crfPageIndex = request.getParameter("crfPageIndex");
+		String crfPageNumber = request.getParameter("crfPageNumber");
 		Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
 
 		ModelAndView modelAndView = null;
 
-		if (StringUtils.isBlank(crfPageIndex)) {
+		if (StringUtils.isBlank(crfPageNumber)) {
 			modelAndView = new ModelAndView(new RedirectView("addOneCrfPage?subview=subview&questionId=" + questionId));
 
 		} else {
@@ -34,7 +34,7 @@ public class AddOneCrfPageItemController extends AbstractCrfController {
 			CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 			if (proCtcQuestion != null) {
 
-				CRFPage crfPage = createFormCommand.addAnotherPage();
+				CRFPage crfPage = createFormCommand.getStudyCrf().getCrf().getCrfPageByPageNumber(Integer.valueOf(crfPageNumber));
 
 				CrfPageItem crfPageItem = crfPage.removeExistingAndAddNewCrfItem(proCtcQuestion);
 				modelAndView.addObject("crfPageItem", crfPageItem);
@@ -53,7 +53,7 @@ public class AddOneCrfPageItemController extends AbstractCrfController {
 	}
 
 
-	public AddOneCrfPageItemController() {
+	public AddCrfPageItemController() {
 		setSupportedMethods(new String[]{"GET"});
 
 	}

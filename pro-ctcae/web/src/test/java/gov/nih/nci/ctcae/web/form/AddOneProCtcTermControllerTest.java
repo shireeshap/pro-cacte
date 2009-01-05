@@ -38,7 +38,7 @@ public class AddOneProCtcTermControllerTest extends WebTestCase {
 
 	public void testHandleRequestIfQuestionIdIsWrong() throws Exception {
 		request.addParameter("proCtcTermId", new String[]{"1"});
-		request.addParameter("crfPageIndex", new String[]{"1"});
+		request.addParameter("crfPageNumber", new String[]{"1"});
 		expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(null);
 		replayMocks();
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
@@ -50,7 +50,7 @@ public class AddOneProCtcTermControllerTest extends WebTestCase {
 		request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
 
 		request.addParameter("proCtcTermId", new String[]{"1"});
-		request.addParameter("crfPageIndex", new String[]{"1"});
+		request.addParameter("crfPageNumber", new String[]{"1"});
 		expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
 		replayMocks();
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);

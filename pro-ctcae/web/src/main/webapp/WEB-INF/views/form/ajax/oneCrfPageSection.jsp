@@ -1,3 +1,3 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
-<tags:oneCrfPage crfPage="${crfPage}" crfPageIndex="${crfPageIndex}"></tags:oneCrfPage>
+<tags:oneCrfPage crfPage="${crfPage}" crfPageNumber="${crfPageNumber}"></tags:oneCrfPage>

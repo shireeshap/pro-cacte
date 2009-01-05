@@ -1,7 +1,7 @@
 <%@ attribute name="crfPage" type="gov.nih.nci.ctcae.core.domain.CRFPage" required="true" %>
 
 
-<%@ attribute name="crfPageIndex" required="true" %>
+<%@ attribute name="crfPageNumber" required="true" %>
 
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
@@ -16,7 +16,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <script type="text/javascript">
-	var description = 'studyCrf.crf.crfPages[${crfPageIndex}].description';
+	var description = 'studyCrf.crf.crfPages[${crfPageNumber}].description';
 	var descriptionProperty = description + '-property';
 
 
@@ -55,29 +55,43 @@
 
 </script>
 
-<div class="formpages" id="form-pages_${crfPageIndex}" onclick="javascript:selectPage('${crfPageIndex}')">
+<div class="formpages" id="form-pages_${crfPageNumber}" onclick="javascript:selectPage('${crfPageNumber}')">
 
-		<a href="javascript:unselectPage('${crfPageIndex}')"
-		   id="form-pages-image_${crfPageIndex}" style="display:none;">
-			<img src="<tags:imageUrl name="arrow.png"/>" style="position:absolute; left:-17px;" />
-		</a>
+	<a href="javascript:unselectPage('${crfPageNumber}')"
+	   id="form-pages-image_${crfPageNumber}" style="display:none;">
+		<img src="<tags:imageUrl name="arrow.png"/>" style="position:absolute; left:-17px;"/>
+	</a>
 
 
-		<%--<span class="formbuilderHeader" id="studyCrf.crf.crfPages[${index}].description-property">${crfPage.description}Page${index}</span>--%>
+	<%--<span class="formbuilderHeader" id="studyCrf.crf.crfPages[${index}].description-property">${crfPage.description}Page${index}</span>--%>
 
-		<input id="studyCrf.crf.crfPages[${crfPageIndex}].description" type="text" size="30" value="${crfPage.description}"
-			   name="studyCrf.crf.crfPages[${crfPageIndex}].description" class="autocomplete"/>
+	<input id="studyCrf.crf.crfPages[${crfPageNumber}].description" type="text" size="30" value="${crfPage.description}"
+		   name="studyCrf.crf.crfPages[${crfPageNumber}].description" class="autocomplete"/>
 
-		<div id="sortable_${crfPageIndex}">
-			<div class="sortable makeDraggable"></div>
-			<c:forEach items="${crfPage.crfPageItems}" var="selectedCrfPageItem"
-					   varStatus="status">
+	<a href="javascript:moveCrfPageUp('${crfPageNumber}');" id="crfPageUpLink_${crfPageNumber}">
+		<img src="<tags:imageUrl name="blue/up.png"/>" alt="Up"/>
+	</a>
 
-				<tags:oneCrfPageItem crfPageItem="${selectedCrfPageItem}"
-									 index="${status.index}" crfPageIndex="${crfPageIndex}">
-				</tags:oneCrfPageItem>
-			</c:forEach>
-			<div id="hiddenDiv_${crfPageIndex}"></div>
-		</div>
+	<a href="javascript:moveCrfPageDown('${crfPageNumber}');"
+	   id="crfPagDownLink_${crfPageNumber}">
+		<img src="<tags:imageUrl name="blue/down.png"/>" alt="Down"/>
+	</a>
+	<a href="javascript:deleteCrfPage('${crfPageNumber}');">
+		<img src="<tags:imageUrl name="checkno.gif"/>" alt="Delete"/>
+	</a>
+
+	<div id="sortable_${crfPageNumber}">
+		<div class="sortable makeDraggable" id="dummySortable_${crfPageNumber}"></div>
+
+		<c:forEach items="${crfPage.crfPageItems}" var="selectedCrfPageItem"
+				   varStatus="status">
+
+			<tags:oneCrfPageItem crfPageItem="${selectedCrfPageItem}"
+								 index="${status.index}" crfPageNumber="${crfPageNumber}">
+
+			</tags:oneCrfPageItem>
+		</c:forEach>
+		<div id="hiddenDiv_${crfPageNumber}"></div>
+	</div>
 
 </div>

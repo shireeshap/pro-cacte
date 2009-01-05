@@ -25,7 +25,7 @@ public abstract class AbstractCrfController extends AbstractController {
 		map.put("selectedCrfPageItems", command.getStudyCrf().getCrf().getAllCrfPageItems());
 
 		int index = command.getStudyCrf().getCrf().getCrfPages().size() - 1;
-		map.put("crfPageIndex", index);
+		map.put("crfPageNumber", index);
 
 		return map;
 	}

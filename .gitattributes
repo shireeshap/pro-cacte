@@ -300,8 +300,8 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AbstractCrfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddConditionalQuestionController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddCrfPageItemController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageItemController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneProCtcTermController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CopyFormController.java -text
@@ -322,6 +322,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormTableRowInterce
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/RemoveConditionalQuestionController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/RemoveCrfPageItemController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReviewFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SelectStudyForFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SetNameController.java -text
@@ -481,6 +482,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/createClinicalStaff.js
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/searchClinicalStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/siteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/dummy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/conditions.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/name.jsp -text

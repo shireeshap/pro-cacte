@@ -25,6 +25,8 @@ public class CreateFormCommand implements Serializable {
 
 	private String questionsIds;
 	private String numberOfQuestionsInEachPage;
+	private String crfPageNumbers;
+	private String crfPageNumbersToRemove="";
 
 
 	public String getTitle() {
@@ -54,8 +56,11 @@ public class CreateFormCommand implements Serializable {
 	}
 
 	private void addOrUpdateQuestions(final FinderRepository finderRepository) {
+
+
 		String[] questionIdsArrays = StringUtils.commaDelimitedListToStringArray(questionsIds);
 		String[] numberOfQuestionInEachPageArray = StringUtils.commaDelimitedListToStringArray(numberOfQuestionsInEachPage);
+		String[] crfPageNumberArray = StringUtils.commaDelimitedListToStringArray(crfPageNumbers);
 
 		logger.debug("number of questions each page:" + numberOfQuestionsInEachPage);
 		int k = 0;
@@ -72,7 +77,7 @@ public class CreateFormCommand implements Serializable {
 				Integer questionId = Integer.parseInt(questionIdsArrays[i]);
 				ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
 				if (proCtcQuestion != null) {
-					studyCrf.getCrf().addOrUpdateCrfItemInCrfPage(j, proCtcQuestion, displayOrder);
+					studyCrf.getCrf().addOrUpdateCrfItemInCrfPage(Integer.valueOf(crfPageNumberArray[j]), proCtcQuestion, displayOrder);
 					questionsToKeep.add(questionId);
 					displayOrder++;
 
@@ -81,7 +86,7 @@ public class CreateFormCommand implements Serializable {
 				}
 
 			}
-			questionsToKeepMap.put(Integer.valueOf(j), questionsToKeep);
+			questionsToKeepMap.put(Integer.valueOf(crfPageNumberArray[j]), questionsToKeep);
 			k = k + Integer.valueOf(questionsInEachPage);
 
 		}
@@ -93,7 +98,16 @@ public class CreateFormCommand implements Serializable {
 
 		}
 
-		//finally reoder crf page items
+		//now remove the pages;
+		String[] crfPageNumberArrayToRemove = StringUtils.commaDelimitedListToStringArray(crfPageNumbersToRemove);
+		for (String crfPageNumberToRemove : crfPageNumberArrayToRemove) {
+			getStudyCrf().getCrf().removeCrfPageByPageNumber(Integer.valueOf(crfPageNumberToRemove));
+		}
+
+		//finally update the crf page numbers;
+		getStudyCrf().getCrf().updatePageNumberOfCrfPageItems();
+
+		//reorder crf page items
 
 		for (CRFPage crfPage : studyCrf.getCrf().getCrfPages()) {
 			crfPage.updateDisplayOrderOfCrfPageItems();
@@ -132,5 +146,21 @@ public class CreateFormCommand implements Serializable {
 		studyCrf.getCrf().addCrfPge(crfPage);
 		return crfPage;
 
+	}
+
+	public String getCrfPageNumbers() {
+		return crfPageNumbers;
+	}
+
+	public void setCrfPageNumbers(final String crfPageNumber) {
+		this.crfPageNumbers = crfPageNumber;
+	}
+
+	public String getCrfPageNumbersToRemove() {
+		return crfPageNumbersToRemove;
+	}
+
+	public void setCrfPageNumbersToRemove(final String crfPageNumbersToRemove) {
+		this.crfPageNumbersToRemove = crfPageNumbersToRemove;
 	}
 }

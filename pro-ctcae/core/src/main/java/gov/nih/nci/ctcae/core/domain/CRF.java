@@ -2,14 +2,13 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Harsh Agarwal
@@ -21,6 +20,10 @@ import java.util.List;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crfs_id")})
 
 public class CRF extends BaseVersionable {
+
+
+	private static final Log logger = LogFactory.getLog(CRF.class);
+	private static final Integer INITIAL_ORDER = 0;
 
 	@Id
 	@GeneratedValue(generator = "id-generator")
@@ -54,7 +57,6 @@ public class CRF extends BaseVersionable {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.EAGER)
 	private List<CRFPage> crfPages = new LinkedList<CRFPage>();
-	;
 
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
 	private StudyCrf studyCrf;
@@ -185,6 +187,38 @@ public class CRF extends BaseVersionable {
 		return crfPages;
 	}
 
+	public List<CRFPage> getCrfPagesSortedByPageNumber() {
+		List<CRFPage> sortedCrfPages = new ArrayList<CRFPage>(crfPages);
+
+		Collections.sort(sortedCrfPages, new DisplayOrderComparator());
+		return sortedCrfPages;
+	}
+
+
+	public void removeCrfPageByPageNumber(final Integer crfPageNumber) {
+
+		CRFPage crfPage = getCrfPageByPageNumber(crfPageNumber);
+		removeCrfPage(crfPage);
+
+	}
+
+	public void updatePageNumberOfCrfPageItems() {
+		List<CRFPage> crfPages = getCrfPagesSortedByPageNumber();
+		for (int i = 0; i < crfPages.size(); i++) {
+			CRFPage crfPage = crfPages.get(i);
+			crfPage.setPageNumber(INITIAL_ORDER+i);
+		}
+
+	}
+
+	private void removeCrfPage(final CRFPage crfPage) {
+		if (crfPage != null) {
+			crfPages.remove(crfPage);
+		} else {
+			logger.error("can not remove crf page because crf page is null");
+		}
+	}
+
 	public CRF getCopy() {
 		CRF copiedCrf = new CRF();
 		copiedCrf.setTitle("Copy of " + title + "_" + System.currentTimeMillis());
@@ -211,10 +245,10 @@ public class CRF extends BaseVersionable {
 
 	}
 
-	public void addOrUpdateCrfItemInCrfPage(final int crfPageIndex, final ProCtcQuestion proCtcQuestion, final int displayOrder) {
+	public void addOrUpdateCrfItemInCrfPage(final int crfPageNumber, final ProCtcQuestion proCtcQuestion, final int displayOrder) {
 		CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
 
-		CRFPage anotherCrfPage = getCrfPages().get(crfPageIndex);
+		CRFPage anotherCrfPage = getCrfPageByPageNumber(crfPageNumber);
 
 		CrfPageItem existingCrfPageItem = null;
 		if (crfPage != null && !anotherCrfPage.equals(crfPage)) {
@@ -225,6 +259,16 @@ public class CRF extends BaseVersionable {
 		} else {
 			anotherCrfPage.addOrUpdateCrfItem(proCtcQuestion, displayOrder);
 		}
+
+	}
+
+	public CRFPage getCrfPageByPageNumber(final Integer crfPageNumber) {
+		for (CRFPage crfPage : getCrfPages()) {
+			if (crfPage.getPageNumber().equals(crfPageNumber)) {
+				return crfPage;
+			}
+		}
+		return null;
 
 	}
 
@@ -253,6 +297,16 @@ public class CRF extends BaseVersionable {
 		CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
 		return crfPage != null ? crfPage.getCrfPageItemByQuestion(proCtcQuestion) : null;
 
+
+	}
+
+	public void removeCrfPageItemByQuestion(final ProCtcQuestion proCtcQuestion) {
+		CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
+		if (crfPage != null) {
+			crfPage.removeExistingButDoNotAddNewCrfItem(proCtcQuestion);
+		} else {
+			logger.error("can not find crf page for the question:" + proCtcQuestion);
+		}
 
 	}
 }

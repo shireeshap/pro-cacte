@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 public class AddOneCrfPageItemControllerTest extends WebTestCase {
 
-	private AddOneCrfPageItemController controller;
+	private AddCrfPageItemController controller;
 
 	private FinderRepository finderRepository;
 	private ProCtcQuestion proCtcQuestion;
@@ -24,7 +24,7 @@ public class AddOneCrfPageItemControllerTest extends WebTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		controller = new AddOneCrfPageItemController();
+		controller = new AddCrfPageItemController();
 		finderRepository = registerMockFor(FinderRepository.class);
 		controller.setFinderRepository(finderRepository);
 		proCtcQuestion = new ProCtcQuestion();
@@ -40,7 +40,7 @@ public class AddOneCrfPageItemControllerTest extends WebTestCase {
 
 	public void testHandleRequestIfQuestionIdIsWrong() throws Exception {
 		request.addParameter("questionId", new String[]{"1"});
-		request.addParameter("crfPageIndex", new String[]{"1"});
+		request.addParameter("crfPageNumber", new String[]{"1"});
 
 		expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(null);
 		replayMocks();
@@ -51,7 +51,7 @@ public class AddOneCrfPageItemControllerTest extends WebTestCase {
 
 	public void testHandleRequestIfQuestionIdIsCorrect() throws Exception {
 		request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
-		request.addParameter("crfPageIndex", new String[]{"1"});
+		request.addParameter("crfPageNumber", new String[]{"1"});
 
 		request.addParameter("questionId", new String[]{"1"});
 		expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(proCtcQuestion);
