@@ -426,6 +426,7 @@ function sortQuestions() {
 			onUpdate:function () {
 				updateQuestionsId();
 				updateTotalNumberOfQuestionsInEachPage();
+				showHideQuestionUpDownLink();
 
 			}
 			,
@@ -433,7 +434,7 @@ function sortQuestions() {
 				reOrderQuestionNumber();
 				var questionId = item.id.substr(9, item.id.length);
 				//showCrfItemPropertiesTab(questionId);
-				showHideQuestionUpDownLink();
+
 			}
 
 		})
@@ -758,9 +759,11 @@ function removeConditionalDisplayFromQuestion(questionId) {
 function showForm() {
 	$('questionBank').show();
 	hideQuestionSettings();
-	document.getElementById("firstlevelnav_1").className = "selected_4thlvl";
-	document.getElementById("firstlevelnav_3").className = "";
-	document.getElementById("firstlevelnav_2").className = "";
+	hideFormSettings();
+	$("firstlevelnav_1").addClassName('selected_4thlvl')
+	$("firstlevelnav_3").removeClassName('selected_4thlvl')
+	$("firstlevelnav_2").removeClassName('selected_4thlvl')
+
 }
 function showQuestionSettings() {
 	showQuestionSettingsTab();
@@ -774,9 +777,10 @@ function showQuestionSettings() {
 function showQuestionSettingsTab() {
 	hideQuestionBank();
 	hideCrfItemProperties();
-	document.getElementById("firstlevelnav_2").className = "selected_4thlvl";
-	document.getElementById("firstlevelnav_3").className = "";
-	document.getElementById("firstlevelnav_1").className = "";
+	hideFormSettings();
+	$("firstlevelnav_2").addClassName('selected_4thlvl')
+	$("firstlevelnav_3").removeClassName('selected_4thlvl')
+	$("firstlevelnav_1").removeClassName('selected_4thlvl')
 
 
 }
@@ -832,9 +836,15 @@ function hideQuestionBank() {
 	$('questionBank').hide();
 }
 function showFormSettings() {
-	document.getElementById("firstlevelnav_3").className = "selected_4thlvl";
-	document.getElementById("firstlevelnav_2").className = "";
-	document.getElementById("firstlevelnav_1").className = "";
+	$("firstlevelnav_3").addClassName("selected_4thlvl");
+	$("firstlevelnav_2").removeClassName('selected_4thlvl');
+	$("firstlevelnav_1").removeClassName('selected_4thlvl');
+	hideQuestionBank();
+	hideQuestionSettings();
+	$('formSettings').show();
+}
+function hideFormSettings() {
+	$('formSettings').hide();
 }
 
 
@@ -1030,6 +1040,9 @@ function showFormSettings() {
 
 
 						<div id="questionProperties0" style="display:none;"></div>
+						<div id="formSettings" style="display:none;">
+							<tags:renderTextArea propertyName="studyCrf.crf.description" displayName="form.label.description" cols="35"/>
+						</div>
 					</td>
 					<td id="right">
 
