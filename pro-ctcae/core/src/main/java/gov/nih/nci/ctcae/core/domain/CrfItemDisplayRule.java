@@ -53,6 +53,14 @@ public class CrfItemDisplayRule extends BasePersistable {
 		this.crfPageItem = crfPageItem;
 	}
 
+	public CrfPageItem getCrfPageItem() {
+		return crfPageItem;
+	}
+
+	public void setCrfPageItem(final CrfPageItem crfPageItem) {
+		this.crfPageItem = crfPageItem;
+	}
+
 	public String getRequiredObjectClass() {
 		return requiredObjectClass;
 	}

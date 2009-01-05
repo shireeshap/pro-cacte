@@ -443,45 +443,20 @@ function sortQuestions() {
 }
 
 function deleteQuestion(questionId) {
-	//	$('sortable_' + questionId).remove();
-	//	$('questionProperties_' + questionId).remove();
-	//
-	//	sortQuestions();
-	//	updateQuestionsId();
-	//	updateOrderId();
-	//	postProcessFormChanges()
-	//	showQuestionInForm(questionId);
+	$('sortable_' + questionId).remove();
+	$('questionProperties_' + questionId).remove();
 
-
-	var request = new Ajax.Request("<c:url value="/pages/form/removeCrfPageItem"/>", {
-		parameters:"questionId=" + questionId + "&subview=subview" ,
-		onComplete:function (transport) {
-			var response = transport.responseText;
-
-			$('sortable_' + questionId).remove();
-			$('questionProperties_' + questionId).remove();
-
-			sortQuestions();
-			updateQuestionsId();
-			updateOrderId();
-			postProcessFormChanges()
-			showQuestionInForm(questionId);
-
-			$$('optgroup.conditions').each(function(item) {
-				if (item.id == 'condition_' + questionId) {
-					item.remove();
-				}
-			})
-
-			//			addCrfPageItemDiv(transport, crfPageNumber);
-			//			updateSelectedCrfItems(questionId)
-			//			addCrfItemPropertiesHtml(questionId);
-			//			postProcessFormChanges();
-
-
-		},
-		method:'get'
+	sortQuestions();
+	updateQuestionsId();
+	updateOrderId();
+	postProcessFormChanges()
+	showQuestionInForm(questionId);
+	$$('optgroup.conditions').each(function(item) {
+		if (item.id == 'condition_' + questionId) {
+			item.remove();
+		}
 	})
+
 
 }
 

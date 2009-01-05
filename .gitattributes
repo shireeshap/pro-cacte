@@ -322,7 +322,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormTableRowInterce
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/RemoveConditionalQuestionController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/RemoveCrfPageItemController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReviewFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SelectStudyForFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SetNameController.java -text

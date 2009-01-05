@@ -184,9 +184,6 @@
     <bean name="/form/addOneCrfPageItem" id="addCrfPageItemController" parent="abstractCrfController"
 		  class="gov.nih.nci.ctcae.web.form.AddCrfPageItemController">
     </bean>
-    <bean name="/form/removeCrfPageItem" id="removeCrfPageItemController" parent="abstractCrfController"
-		  class="gov.nih.nci.ctcae.web.form.RemoveCrfPageItemController">
-    </bean>
     <bean name="/form/addOneCrfPage" id="oneCrfPageController" parent="abstractCrfController"
 		  class="gov.nih.nci.ctcae.web.form.AddOneCrfPageController">
     </bean>
