@@ -178,7 +178,7 @@ function showDeleteFormWindow(transport) {
     <tags:indicator id="indicator"/>
 
 </chrome:box>
-
+</div>
 <div id="crfItem_50"></div>
 <div id="noForm" style="display:none;">
     <a href="" id="newFormUrl">New Form</a>

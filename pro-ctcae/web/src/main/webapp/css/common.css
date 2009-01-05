@@ -456,6 +456,7 @@ ul.tabs li {
 	color: #FFFFFF;
 	vertical-align: middle;
 	z-index: 1;
+	left:0px;
 }
 
 #taskbar a.lte4 {
@@ -703,8 +704,8 @@ ul.tabs li {
 
 .box.small {
 	width: 610px;
-	margin: 0 185px 20px 185px;
-
+	margin-left:185px;
+	display:block;
 }
 
 .division {
@@ -1352,6 +1353,7 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
 #crfTitle {
 	padding-left: 4px;
 	padding-top: 3px;
+	width:90%;
 }
 
 #crfTitle-inplaceeditor input {
