@@ -794,7 +794,6 @@ function hideCrfItemProperties() {
 }
 function showCrfItemProperties(questionId) {
 	addCrfItemPropertiesHtml(questionId);
-	removeEditingDisplayFromQuestions();
 	$('questionProperties_' + questionId).show();
 
 	//	$('questionProperties_' + questionId).addClassName('editing');
@@ -802,6 +801,7 @@ function showCrfItemProperties(questionId) {
 	addEditingDisplayToQuestion(questionId)
 }
 function addEditingDisplayToQuestion(questionId) {
+	removeEditingDisplayFromQuestions();
 	$('sortable_' + questionId).addClassName('editing');
 	//$('sortable_' + questionId).addClassName('focused');
 	//$('arrow_' + questionId).show();

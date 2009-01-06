@@ -16,7 +16,7 @@
 <script type="text/javascript">
 	updateSelectedCrfItems('${crfPageItem.proCtcQuestion.id}')
 </script>
-<div class="sortable makeDraggable" id="sortable_${crfPageItem.proCtcQuestion.id}">
+<div class="sortable makeDraggable" id="sortable_${crfPageItem.proCtcQuestion.id}" onclick="javascript:showCrfItemPropertiesTab(${crfPageItem.proCtcQuestion.id})">
 	<tags:formbuilderBoxControls delete="true" properties="true" proCtcQuestionId="${crfPageItem.proCtcQuestion.id}"/>
 	<table class="formbuilderboxTable">
 		<tr>
