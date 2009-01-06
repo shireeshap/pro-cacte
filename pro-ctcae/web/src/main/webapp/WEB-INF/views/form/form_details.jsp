@@ -849,6 +849,42 @@ function hideFormSettings() {
 
 
 </script>
+<script type="text/javascript">
+	function shrinkQuestionBank() {
+		Effect.SlideUp('left', {
+			scaleX:true,
+			scaleY:false
+		});
+		$('shrinkQuestionBankUrl').hide();
+		$('expandQuestionBankUrl').show();
+	}
+	function expandQuestionBank() {
+		Effect.SlideDown('left', {
+			scaleX:true,
+			scaleY:false
+		});
+
+		$('shrinkQuestionBankUrl').show();
+		$('expandQuestionBankUrl').hide();
+	}
+	function shrinkForm() {
+		Effect.SlideUp('right', {
+			scaleX:true,
+			scaleY:false
+		});
+		$('shrinkFormUrl').hide();
+		$('expandFormUrl').show();
+	}
+	function expandForm() {
+		Effect.SlideDown('right', {
+			scaleX:true,
+			scaleY:false
+		});
+
+		$('shrinkFormUrl').show();
+		$('expandFormUrl').hide();
+	}
+</script>
 <style type="text/css">
 
 	.makeDraggable {
@@ -961,10 +997,14 @@ function hideFormSettings() {
 			<div class="summaryvalue">${command.studyCrf.study.displayName}</div>
 		</div>
 <a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>
+	<a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;">Maximize</a>
+	<a id="expandFormUrl" href="javascript:expandForm()" style="display:none;">Maximize</a>
 
             <table id="formbuilderTable">
 				<tr>
 					<td id="left">
+						<a id="shrinkQuestionBankUrl" href="javascript:shrinkQuestionBank()">Minimize</a>
+
 						<ul id="form-tabs" class="tabs">
 							<li>
 								<a id="firstlevelnav_1" href="javascript:showForm()" class="selected_4thlvl">
@@ -1041,10 +1081,12 @@ function hideFormSettings() {
 
 						<div id="questionProperties0" style="display:none;"></div>
 						<div id="formSettings" style="display:none;">
-							<tags:renderTextArea propertyName="studyCrf.crf.description" displayName="form.label.description" cols="35"/>
+							<tags:renderTextArea propertyName="studyCrf.crf.description"
+												 displayName="form.label.description" cols="35"/>
 						</div>
 					</td>
 					<td id="right">
+						<a id="shrinkFormUrl" href="javascript:shrinkForm()">Minimize</a>
 
 							<%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
 							<%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>
