@@ -50,7 +50,7 @@ public class UniqueTitleForCrfValidatorTest extends AbstractTestCase {
 
 
 		validator.initialize((UniqueTitleForCrf) annotationsArray[1]);
-		assertEquals("Title already exits in database", validator.message());
+		assertEquals("Title already exists in database", validator.message());
 
 	}
 

@@ -21,5 +21,5 @@ public @interface UniqueIdentifierForStudy {
 
     int min() default 0;
 
-    String message() default "Identifier already exits in database";
+    String message() default "Identifier already exists in database";
 }

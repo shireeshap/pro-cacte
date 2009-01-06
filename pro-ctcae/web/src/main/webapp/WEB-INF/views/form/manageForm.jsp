@@ -125,12 +125,6 @@ function releaseForm(studyCrfId) {
 
 }
 
-function closeReleaseFormWindow() {
-    var win = Windows.getFocusedWindow();
-    if (win != null) {
-        win.close();
-    }
-}
 function showReleaseFormWindow(transport) {
     var win = Windows.getFocusedWindow();
     if (win == null) {

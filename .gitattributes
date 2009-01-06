@@ -283,6 +283,7 @@ pro-ctcae/web/pom.xml -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/AbstractTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ApplicationConversionService.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/AuditInfoFilter.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ConfirmationCheckController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ControllerTools.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ControllersUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/CtcAeSimpleFormController.java -text
@@ -484,6 +485,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/dummy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/conditions.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/deleteCrfConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/name.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageItemSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageSection.jsp -text
@@ -840,6 +842,7 @@ pro-ctcae/web/src/test/java/SeleniumTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AbstractWebIntegrationTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ApplicationConversionServiceTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AuditInfoFilterTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ConfirmationCheckControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ControllersUtilsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ListValuesTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilterTest.java -text
@@ -863,6 +866,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/EditFormControllerTest.ja
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FindCrfItemControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FormDetailsTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/ReleaseFormControllerTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SetNameControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/StudyCrfLinkDisplayCellTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormControllerTest.java -text
@@ -884,7 +888,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/AddStudySiteControllerTe
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/CreateStudyControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/ManageFormControllerControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/SearchStudyControllerTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/SetNameControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyTableModelTest.java -text

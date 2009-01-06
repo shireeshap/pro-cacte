@@ -21,5 +21,5 @@ public @interface UniqueTitleForCrf {
 
     public abstract int min() default 0;
 
-    public abstract String message() default "Title already exits in database";
+    public abstract String message() default "Title already exists in database";
 }

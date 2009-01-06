@@ -321,21 +321,7 @@ function updateCrfPageNumberAndShowHideUpDownLink() {
 
 
 }
-function deleteCrfPage(selectedCrfPageNumber) {
 
-	$('form-pages_' + selectedCrfPageNumber).remove();
-
-	var crfPageNumbersToRemove = $('crfPageNumbersToRemove').value;
-	if (crfPageNumbersToRemove.blank()) {
-		crfPageNumbersToRemove = selectedCrfPageNumber;
-	} else {
-		crfPageNumbersToRemove = crfPageNumbersToRemove + ',' + selectedCrfPageNumber;
-	}
-	$('crfPageNumbersToRemove').value = crfPageNumbersToRemove;
-	updateQuestionsId();
-	updateCrfPageNumberAndShowHideUpDownLink();
-	postProcessFormChanges();
-}
 function moveCrfPageUp(selectedCrfPageNumber) {
 
 	var formPages = $$('div.formpages');
@@ -903,7 +889,45 @@ function hideFormSettings() {
 			}
 		});
 
+	}
 
+	function deleteCrfPage(selectedCrfPageNumber) {
+		var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
+			parameters:"confirmationType=deleteCrf&subview=subview&selectedCrfPageNumber=" + selectedCrfPageNumber,
+			onComplete:showConfirmationWindow,
+			method:'get'
+		});
+
+	}
+	function showConfirmationWindow(transport) {
+		var win = Windows.getFocusedWindow();
+		if (win == null) {
+			win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
+				true, title: "", height:300, width: 600,top:250,left:200});
+			win.setDestroyOnClose();
+			win.setHTMLContent(transport.responseText);
+			win.show(true)
+
+		} else {
+			win.setHTMLContent(transport.responseText);
+			win.refresh();
+		}
+	}
+
+	function deleteCrfPageConfirm(selectedCrfPageNumber) {
+		closeWindow();
+		$('form-pages_' + selectedCrfPageNumber).remove();
+
+		var crfPageNumbersToRemove = $('crfPageNumbersToRemove').value;
+		if (crfPageNumbersToRemove.blank()) {
+			crfPageNumbersToRemove = selectedCrfPageNumber;
+		} else {
+			crfPageNumbersToRemove = crfPageNumbersToRemove + ',' + selectedCrfPageNumber;
+		}
+		$('crfPageNumbersToRemove').value = crfPageNumbersToRemove;
+		updateQuestionsId();
+		updateCrfPageNumberAndShowHideUpDownLink();
+		postProcessFormChanges();
 	}
 </script>
 <style type="text/css">

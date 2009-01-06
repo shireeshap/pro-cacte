@@ -89,7 +89,7 @@ public class SeleniumTestCase extends AbstractWebIntegrationTestCase {
 
         //createStudy("another org name", NCI_CODE);
 
-        assertTrue("two organizations must not have same identifier", selenium.isTextPresent("Nci Identifier already exits in the datbase"));
+        assertTrue("two organizations must not have same identifier", selenium.isTextPresent("Nci Identifier already exists in the datbase"));
 
     }
 

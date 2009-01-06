@@ -1,7 +1,6 @@
-package gov.nih.nci.ctcae.web.study;
+package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.web.form.SetNameController;
 import org.springframework.web.servlet.ModelAndView;
 
 /**

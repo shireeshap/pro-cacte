@@ -45,7 +45,7 @@
 
 						<p>
 							You cannot reverse this step. If you're not ready to proceed, please
-							<a href="javascript:closeReleaseFormWindow()">return
+							<a href="javascript:closeWindow()">return
 								to
 								the search results</a>.
 						</p>
@@ -62,7 +62,7 @@
 
 						<input type="button" id="flow-cancel"
 							   class="previous ibutton" value="Cancel" alt="Cancel"
-							   onclick="closeReleaseFormWindow()"/>
+							   onclick="closeWindow()"/>
 					</div>
 				</c:otherwise>
 			</c:choose>

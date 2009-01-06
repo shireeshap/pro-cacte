@@ -12,39 +12,40 @@
 <body>
 
 <form:form method="post">
-    <chrome:box title="form.label.version_form">
-        <chrome:division>
-                    <div id="versionForm">
-                        <p>
-                            You are about to version
+	<chrome:box title="form.label.version_form">
+		<chrome:division>
+			<div id="versionForm">
+				<p>
+					You are about to version
 
-                            <strong>${command.crf.title}</strong>.
+					<strong>${command.crf.title}</strong>.
 
-                        </p>
+				</p>
 
-                        <p>
-                            You cannot reverse this step. If you're not ready to proceed, please
-                            hit cancel and return
-                                to
-                                the search results.
-                        </p>
+				<p>
+					You cannot reverse this step. If you're not ready to proceed, please
+					hit cancel and return
+					to
+					the search results.
+				</p>
 
-                     </div>
-                    <br>
-                    <div class="flow-buttons">
+			</div>
+			<br>
 
-                        <input type="submit" id="flow-update"
-                               class="next" value="Edit" alt="Save"
-                               />
+			<div class="flow-buttons">
 
-
-                        <input type="button" id="flow-cancel"
-                               class="previous ibutton" value="Cancel" alt="Cancel"
-                               onclick="closeReleaseFormWindow()"/>
-                    </div>
+				<input type="submit" id="flow-update"
+					   class="next" value="Edit" alt="Save"
+					/>
 
 
-        </chrome:division>
-    </chrome:box>
+				<input type="button" id="flow-cancel"
+					   class="previous ibutton" value="Cancel" alt="Cancel"
+					   onclick="closeWindow()"/>
+			</div>
+
+
+		</chrome:division>
+	</chrome:box>
 </form:form>
 </body>

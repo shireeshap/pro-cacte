@@ -225,6 +225,12 @@ function showAjaxLoadingImage() {
 function closeAjaxLoadingImage() {
 	Dialog.closeInfo()
 }
+function closeWindow() {
+	var win = Windows.getFocusedWindow();
+	if (win != null) {
+		win.close();
+	}
+}
 function acPostSelect(mode, selectedChoice) {
 	$(mode.basename).value = selectedChoice.id;
 }

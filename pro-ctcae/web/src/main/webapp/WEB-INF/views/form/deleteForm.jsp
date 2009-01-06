@@ -40,7 +40,7 @@
 
                         <input type="button" id="flow-cancel"
                                class="previous ibutton" value="Cancel" alt="Cancel"
-                               onclick="closeReleaseFormWindow()"/>
+                               onclick="closeWindow()"/>
                     </div>
 
 
