@@ -422,6 +422,7 @@ function sortQuestions() {
 			tag	:'div',
 			only:['sortable'],
 			dropOnEmpty:true,
+			scroll:window,
 
 			onUpdate:function () {
 				updateQuestionsId();
