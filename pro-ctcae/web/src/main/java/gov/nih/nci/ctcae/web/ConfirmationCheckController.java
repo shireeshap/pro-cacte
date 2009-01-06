@@ -16,6 +16,7 @@ import java.util.Map;
 public class ConfirmationCheckController extends AbstractController {
 
 	private static final String DELETE_CRF_CONFIRMATION_TYPE = "deleteCrf";
+	private static final String DELETE_QUESTION_CONFIRMATION_TYPE = "deleteQuestion";
 
 	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndView modelAndView = null;
@@ -24,6 +25,11 @@ public class ConfirmationCheckController extends AbstractController {
 			modelAndView = new ModelAndView("form/ajax/deleteCrfConfirmationCheck");
 			Map map = new HashMap();
 			map.put("selectedCrfPageNumber", request.getParameter("selectedCrfPageNumber"));
+			modelAndView.addAllObjects(map);
+		} else if (StringUtils.equals(confirmationType, DELETE_QUESTION_CONFIRMATION_TYPE)) {
+			modelAndView = new ModelAndView("form/ajax/deleteQuestionConfirmationCheck");
+			Map map = new HashMap();
+			map.put("questionId", request.getParameter("questionId"));
 			modelAndView.addAllObjects(map);
 		}
 

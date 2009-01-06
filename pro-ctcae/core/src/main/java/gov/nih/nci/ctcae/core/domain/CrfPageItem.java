@@ -48,7 +48,7 @@ public class CrfPageItem extends BasePersistable {
 
 	@Enumerated(value = EnumType.STRING)
 	@Column(name = "allignment")
-	private CrfItemAllignment crfItemAllignment = CrfItemAllignment.VERTICAL;
+	private CrfItemAllignment crfItemAllignment = CrfItemAllignment.HORIZONTAL;
 
 	@OneToMany(mappedBy = "crfPageItem", fetch = FetchType.LAZY)
 	@Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
@@ -174,16 +174,25 @@ public class CrfPageItem extends BasePersistable {
 
 	public void removeCrfItemDisplayRulesByIds(final String objectsIdsToRemove) {
 		Set<String> ids = org.springframework.util.StringUtils.commaDelimitedListToSet(objectsIdsToRemove);
-
-		List<CrfItemDisplayRule> crfItemDisplayRulesToRemove = new ArrayList<CrfItemDisplayRule>();
+		final Set<Integer> proCtcValidValues = new HashSet();
 		for (String id : ids) {
-			CrfItemDisplayRule crfItemDisplayRule = getCrfDisplayRuleById(Integer.valueOf(id));
+			proCtcValidValues.add(Integer.valueOf(id));
+		}
+		removeCrfItemDisplayRulesByIds(proCtcValidValues);
+
+	}
+
+	public void removeCrfItemDisplayRulesByIds(final Set<Integer> proCtcValidValues) {
+		List<CrfItemDisplayRule> crfItemDisplayRulesToRemove = new ArrayList<CrfItemDisplayRule>();
+		for (Integer id : proCtcValidValues) {
+			CrfItemDisplayRule crfItemDisplayRule = getCrfDisplayRuleById(id);
 			crfItemDisplayRulesToRemove.add(crfItemDisplayRule);
 		}
 
 		for (CrfItemDisplayRule crfItemDisplayRule : crfItemDisplayRulesToRemove) {
 			this.removeCrfItemDisplayRule(crfItemDisplayRule);
 		}
+
 	}
 
 	private CrfItemDisplayRule getCrfDisplayRuleById(final Integer id) {
@@ -224,4 +233,5 @@ public class CrfPageItem extends BasePersistable {
 		}
 		return addedCrfItemDisplayRules;
 	}
+
 }

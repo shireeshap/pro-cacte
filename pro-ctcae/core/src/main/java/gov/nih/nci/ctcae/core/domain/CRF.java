@@ -309,4 +309,20 @@ public class CRF extends BaseVersionable {
 		}
 
 	}
+
+	public void updateCrfItemDisplayRules(final ProCtcQuestion proCtcQuestion) {
+		Set<Integer> proCtcValidValues = new HashSet<Integer>();
+
+		for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
+			proCtcValidValues.add(proCtcValidValue.getId());
+		}
+
+		//now remove the  display rules
+		for (CrfPageItem crfPageItem : getAllCrfPageItems()) {
+				crfPageItem.removeCrfItemDisplayRulesByIds(proCtcValidValues);
+
+
+		}
+
+	}
 }

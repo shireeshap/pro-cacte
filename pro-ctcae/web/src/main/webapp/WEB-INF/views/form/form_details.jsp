@@ -30,7 +30,6 @@ Event.observe(window, "load", function () {
 
 <%--<c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem" varStatus="status">--%>
 <%--var id = '${crfItem.proCtcQuestion.id}';--%>
-<%--addConditionalDisplayToQuestion(id);--%>
 <%--</c:forEach>--%>
 <%--</c:if>--%>
 	displayReviewLink();
@@ -430,23 +429,6 @@ function sortQuestions() {
 
 }
 
-function deleteQuestion(questionId) {
-	$('sortable_' + questionId).remove();
-	$('questionProperties_' + questionId).remove();
-
-	sortQuestions();
-	updateQuestionsId();
-	updateOrderId();
-	postProcessFormChanges()
-	showQuestionInForm(questionId);
-	$$('optgroup.conditions').each(function(item) {
-		if (item.id == 'condition_' + questionId) {
-			item.remove();
-		}
-	})
-
-
-}
 
 function moveQuestionUp(selectedQuestionId) {
 
@@ -701,7 +683,6 @@ function addConditionalQuestion(questionId, selectedValidValues) {
 			var response = transport.responseText;
 
 			new Insertion.Before("conditions_" + questionId, response)
-			addConditionalDisplayToQuestion(questionId);
 			addRemoveConditionalTriggeringDisplayToQuestion();
 		},
 		method:'get'
@@ -709,25 +690,15 @@ function addConditionalQuestion(questionId, selectedValidValues) {
 
 
 }
-function addConditionalDisplayToQuestion(questionId) {
-	var conditions = 'crfItemDisplayRule_' + questionId + '-condition';
-	if ($$('tr.' + conditions).length > 0) {
 
-		$('conditionsImage_' + questionId).show();
-		$('conditionsTable_' + questionId).show();
-
-		$("sortable_" + questionId).addClassName('conditional-question')
-	}
-}
 function deleteConditions(questionId, proCtcValidValueId) {
 
 
-	var request = new Ajax.Request("<c:url value="/pages/form/removeConditionalQuestion"/>", {
+	var request = new Ajax.Request("<c:url value="/pages/form/removeConditions"/>", {
 		parameters:"questionId=" + questionId + "&subview=subview&proCtcValidValueId=" + proCtcValidValueId,
 		onComplete:function(transport) {
-			var inputName = 'crfItemDisplayRule_' + questionId + '_' + proCtcValidValueId;
+			var inputName = 'conditionalQuestion_' + questionId + '_' + proCtcValidValueId;
 			$(inputName + '-row').remove();
-			removeConditionalDisplayFromQuestion(questionId);
 			addRemoveConditionalTriggeringDisplayToQuestion();
 		},
 		method:'get'
@@ -735,15 +706,7 @@ function deleteConditions(questionId, proCtcValidValueId) {
 
 
 }
-function removeConditionalDisplayFromQuestion(questionId) {
-	var conditions = 'crfItemDisplayRule_' + questionId + '-condition';
-	if ($$('tr.' + conditions).length == 0) {
-		$("sortable_" + questionId).removeClassName('conditional-question');
-		$('conditionsImage_' + questionId).hide();
-		$('conditionsTable_' + questionId).hide();
 
-	}
-}
 
 function showForm() {
 	$('questionBank').show();
@@ -879,12 +842,23 @@ function hideFormSettings() {
 			var id = item.id;
 			if (!id.include('dummySortable_')) {
 				var questionId = id.substr(9, id.length)
-				if ($$('td.conditionalTriggering_' + questionId).length > 0) {
+				if ($$('tr.conditionalTriggering_' + questionId).length > 0) {
 					$('conditionalTriggeringImage_' + questionId).show();
 					$("sortable_" + questionId).addClassName('conditional-triggering');
 				} else {
 					$('conditionalTriggeringImage_' + questionId).hide();
 					$("sortable_" + questionId).removeClassName('conditional-triggering');
+				}
+
+				if ($$('tr.conditionalQuestion_' + questionId + '-condition').length == 0) {
+					$("sortable_" + questionId).removeClassName('conditional-question');
+					$('conditionsImage_' + questionId).hide();
+					$('conditionsTable_' + questionId).hide();
+
+				} else {
+					$('conditionsImage_' + questionId).show();
+					$('conditionsTable_' + questionId).show();
+					$("sortable_" + questionId).addClassName('conditional-question')
 				}
 			}
 		});
@@ -899,19 +873,67 @@ function hideFormSettings() {
 		});
 
 	}
-	function showConfirmationWindow(transport) {
-		var win = Windows.getFocusedWindow();
-		if (win == null) {
-			win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-				true, title: "", height:300, width: 600,top:250,left:200});
-			win.setDestroyOnClose();
-			win.setHTMLContent(transport.responseText);
-			win.show(true)
+	function deleteQuestion(questionId) {
+		var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
+			parameters:"confirmationType=deleteQuestion&subview=subview&questionId=" + questionId,
+			onComplete:function(transport) {
 
-		} else {
-			win.setHTMLContent(transport.responseText);
-			win.refresh();
+				showConfirmationWindow(transport);
+				if ($$("#sortable_" + questionId + '.conditional-triggering').length > 0) {
+					$('conditionsWarning_' + questionId).show();
+				}
+			} ,
+			method:'get'
+		});
+
+
+	}
+	function deleteQuestionConfirm(questionId) {
+		closeWindow();
+		$('sortable_' + questionId).remove();
+		$('questionProperties_' + questionId).remove();
+
+		var conditions = $$('tr.conditionalTriggering_' + questionId);
+		if (conditions.length > 0) {
+			conditions.each(function(item) {
+				item.remove();
+			})
+			deleteConditionsOfConditionalTriggeredQuestion(questionId)
+
 		}
+		sortQuestions();
+		updateQuestionsId();
+		updateOrderId();
+		postProcessFormChanges()
+		showQuestionInForm(questionId);
+		$$('optgroup.conditions').each(function(item) {
+			if (item.id == 'condition_' + questionId) {
+				item.remove();
+			}
+		})
+
+
+	}
+
+
+	function deleteConditionsOfConditionalTriggeredQuestion(conditionalTriggeredQuestionId) {
+
+
+		var request = new Ajax.Request("<c:url value="/pages/form/removeConditions"/>", {
+			parameters:"conditionalTriggeredQuestionId=" + conditionalTriggeredQuestionId + "&subview=subview",
+			onComplete:function(transport) {
+				var conditions = $$('tr.conditionalTriggering_' + conditionalTriggeredQuestionId);
+				conditions.each(function(item) {
+					item.remove();
+				})
+				addRemoveConditionalTriggeringDisplayToQuestion();
+
+
+			},
+			method:'get'
+		})
+
+
 	}
 
 	function deleteCrfPageConfirm(selectedCrfPageNumber) {
@@ -1043,7 +1065,7 @@ function hideFormSettings() {
 		</div>
 <a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>
 	<a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;">Maximize</a>
-	<a id="expandFormUrl" href="javascript:expandForm()" style="display:none;">Maximize</a>
+	<a id="expandFormUrl" href="javascript:expandForm()" style="display:none;">Maximize Form</a>
 
             <table id="formbuilderTable">
 				<tr>
@@ -1131,7 +1153,7 @@ function hideFormSettings() {
 						</div>
 					</td>
 					<td id="right">
-						<a id="shrinkFormUrl" href="javascript:shrinkForm()">Minimize</a>
+						<a id="shrinkFormUrl" href="javascript:shrinkForm()">Minimize Form</a>
 
 							<%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
 							<%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>

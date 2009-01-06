@@ -225,6 +225,20 @@ function showAjaxLoadingImage() {
 function closeAjaxLoadingImage() {
 	Dialog.closeInfo()
 }
+function showConfirmationWindow(transport) {
+	var win = Windows.getFocusedWindow();
+	if (win == null) {
+		win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
+			true, title: "", height:300, width: 600,top:250,left:200});
+		win.setDestroyOnClose();
+		win.setHTMLContent(transport.responseText);
+		win.show(true)
+
+	} else {
+		win.setHTMLContent(transport.responseText);
+		win.refresh();
+	}
+}
 function closeWindow() {
 	var win = Windows.getFocusedWindow();
 	if (win != null) {

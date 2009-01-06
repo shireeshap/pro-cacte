@@ -26,7 +26,7 @@ public class CreateFormCommand implements Serializable {
 	private String questionsIds;
 	private String numberOfQuestionsInEachPage;
 	private String crfPageNumbers;
-	private String crfPageNumbersToRemove="";
+	private String crfPageNumbersToRemove = "";
 
 
 	public String getTitle() {
@@ -112,6 +112,7 @@ public class CreateFormCommand implements Serializable {
 		for (CRFPage crfPage : studyCrf.getCrf().getCrfPages()) {
 			crfPage.updateDisplayOrderOfCrfPageItems();
 		}
+
 	}
 
 

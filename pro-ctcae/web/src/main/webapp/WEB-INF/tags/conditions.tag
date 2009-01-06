@@ -12,11 +12,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <c:forEach items="${crfItemDisplayRuleList}" var="crfItemDisplayRule">
-	<c:set var="inputName" value="crfItemDisplayRule_${selectedQuestionId}_${crfItemDisplayRule.persistable.id}"/>
+	<c:set var="inputName" value="conditionalQuestion_${selectedQuestionId}_${crfItemDisplayRule.persistable.id}"/>
 
-	<tr id="${inputName}-row" class="crfItemDisplayRule_${selectedQuestionId}-condition">
+	<tr id="${inputName}-row" class="conditionalQuestion_${selectedQuestionId}-condition conditionalTriggering_${crfItemDisplayRule.persistable.proCtcQuestion.id}">
 
-		<td style="border-right:none;" class="conditionalTriggering_${crfItemDisplayRule.persistable.proCtcQuestion.id}">
+		<td style="border-right:none;" >
 
 				${crfItemDisplayRule.persistable.proCtcQuestion.shortText}-${crfItemDisplayRule.persistable.displayName}
 		</td>

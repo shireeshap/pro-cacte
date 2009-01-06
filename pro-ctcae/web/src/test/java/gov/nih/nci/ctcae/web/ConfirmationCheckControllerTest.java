@@ -15,6 +15,7 @@ public class ConfirmationCheckControllerTest extends WebTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		controller = new ConfirmationCheckController();
+		request.setMethod("GET");
 
 
 	}
@@ -37,6 +38,16 @@ public class ConfirmationCheckControllerTest extends WebTestCase {
 
 		ModelAndView modelAndView = controller.handleRequest(request, response);
 		assertEquals("selectedCrfPageNumber must be present", "1", modelAndView.getModelMap().get("selectedCrfPageNumber"));
+
+
+	}
+
+	public void testHandleDeleteQuestionRequest() throws Exception {
+		request.addParameter("confirmationType", "deleteQuestion");
+		request.addParameter("questionId", "1");
+
+		ModelAndView modelAndView = controller.handleRequest(request, response);
+		assertEquals("selectedCrfPageNumber must be present", "1", modelAndView.getModelMap().get("questionId"));
 
 
 	}
