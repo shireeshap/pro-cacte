@@ -47,10 +47,11 @@ public class AddOneProCtcTermControllerTest extends WebTestCase {
 	}
 
 	public void testHandleRequestIfQuestionIdIsCorrect() throws Exception {
+		command.addAnotherPage();
 		request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
 
 		request.addParameter("proCtcTermId", new String[]{"1"});
-		request.addParameter("crfPageNumber", new String[]{"1"});
+		request.addParameter("crfPageNumber", new String[]{"0"});
 		expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
 		replayMocks();
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);
