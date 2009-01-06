@@ -16,7 +16,8 @@
 <script type="text/javascript">
 	updateSelectedCrfItems('${crfPageItem.proCtcQuestion.id}')
 </script>
-<div class="sortable makeDraggable" id="sortable_${crfPageItem.proCtcQuestion.id}" onclick="javascript:showCrfItemPropertiesTab(${crfPageItem.proCtcQuestion.id})">
+<div class="sortable makeDraggable" id="sortable_${crfPageItem.proCtcQuestion.id}"
+	 onclick="javascript:showCrfItemPropertiesTab(${crfPageItem.proCtcQuestion.id})">
 	<tags:formbuilderBoxControls delete="true" properties="true" proCtcQuestionId="${crfPageItem.proCtcQuestion.id}"/>
 	<table class="formbuilderboxTable">
 		<tr>
@@ -36,8 +37,12 @@
 				<div id="${crfPageItem.displayOrder}" class="sortableSpan">${crfPageItem.displayOrder}</div>
 				${crfPageItem.proCtcQuestion.shortText}
 
-				<img class="arrow" alt="Conditional Question" src="<tags:imageUrl name="blue/conditional-icon.png"/>"
-										 id="conditionsImage_${crfPageItem.proCtcQuestion.id}" style="display:none;" />
+				<img alt="Conditional Question" src="<tags:imageUrl name="blue/conditional-icon.png"/>"
+					 id="conditionsImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
+
+				<img alt="Conditional triggering Question Image"
+					 src="<tags:imageUrl name="blue/conditional-triggering-icon.png"/>"
+					 id="conditionalTriggeringImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
 
 			</td>
 			<td class="R"></td>
@@ -50,11 +55,13 @@
 	</table>
 </div>
 <div id="questionPropertiesDiv_${crfPageItem.proCtcQuestion.id}">
-	<div id="questionProperties_${crfPageItem.proCtcQuestion.id}" style="display:none;" class="questionProperties leftBox">
+	<div id="questionProperties_${crfPageItem.proCtcQuestion.id}" style="display:none;"
+		 class="questionProperties leftBox">
 		<span class="propertiesHeader">crfItem.label.properties</span>
-			<noform:renderTextArea propertyName="studyCrf.crf.crfPages[${crfPageNumber}].crfPageItems[${index}].instructions"
-								   displayName="crfItem.label.instructions"
-								   propertyValue="${crfPageItem.instructions}"></noform:renderTextArea>
+		<noform:renderTextArea
+			propertyName="studyCrf.crf.crfPages[${crfPageNumber}].crfPageItems[${index}].instructions"
+			displayName="crfItem.label.instructions"
+			propertyValue="${crfPageItem.instructions}"></noform:renderTextArea>
 
 		<noform:renderRadio
 			propertyName="studyCrf.crf.crfPages[${crfPageNumber}].crfPageItems[${index}].responseRequired"
@@ -74,11 +81,8 @@
 		</noform:renderRadio>
 
 
-
-
-
 		<span class="propertiesHeader">form.conditional_question</span>
-			<tags:instructions code="instruction_conditional_question"/>
+		<tags:instructions code="instruction_conditional_question"/>
 
 		<div align="left" style="margin-left: 50px">
 			<table width="95%" class="tablecontent"

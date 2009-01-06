@@ -16,7 +16,7 @@
 
 	<tr id="${inputName}-row" class="crfItemDisplayRule_${selectedQuestionId}-condition">
 
-		<td style="border-right:none;">
+		<td style="border-right:none;" class="conditionalTriggering_${crfItemDisplayRule.persistable.proCtcQuestion.id}">
 
 				${crfItemDisplayRule.persistable.proCtcQuestion.shortText}-${crfItemDisplayRule.persistable.displayName}
 		</td>

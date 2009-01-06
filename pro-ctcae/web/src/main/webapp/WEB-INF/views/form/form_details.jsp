@@ -715,6 +715,7 @@ function addConditionalQuestion(questionId, selectedValidValues) {
 
 			new Insertion.Before("conditions_" + questionId, response)
 			addConditionalDisplayToQuestion(questionId);
+			addRemoveConditionalTriggeringDisplayToQuestion();
 		},
 		method:'get'
 	})
@@ -739,7 +740,8 @@ function deleteConditions(questionId, proCtcValidValueId) {
 		onComplete:function(transport) {
 			var inputName = 'crfItemDisplayRule_' + questionId + '_' + proCtcValidValueId;
 			$(inputName + '-row').remove();
-			removeConditionalDisplayFromQuestion(questionId)
+			removeConditionalDisplayFromQuestion(questionId);
+			addRemoveConditionalTriggeringDisplayToQuestion();
 		},
 		method:'get'
 	})
@@ -883,6 +885,24 @@ function hideFormSettings() {
 
 		$('shrinkFormUrl').show();
 		$('expandFormUrl').hide();
+	}
+	function addRemoveConditionalTriggeringDisplayToQuestion() {
+
+		$$("div.sortable").each(function (item) {
+			var id = item.id;
+			if (!id.include('dummySortable_')) {
+				var questionId = id.substr(9, id.length)
+				if ($$('td.conditionalTriggering_' + questionId).length > 0) {
+					$('conditionalTriggeringImage_' + questionId).show();
+					$("sortable_" + questionId).addClassName('conditional-triggering');
+				} else {
+					$('conditionalTriggeringImage_' + questionId).hide();
+					$("sortable_" + questionId).removeClassName('conditional-triggering');
+				}
+			}
+		});
+
+
 	}
 </script>
 <style type="text/css">
