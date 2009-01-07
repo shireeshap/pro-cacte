@@ -159,10 +159,10 @@
 </head>
 <body>
 <form:form method="post" name="myForm">
+    <tags:hasErrorsMessage hideErrorDetails="false"/>
     <div class='progress-bar-outer'>
         <div class='progress-bar-inner'></div>
     </div>
-    <tags:hasErrorsMessage hideErrorDetails="false"/>
     <div class="currentPagediv">
         Progress:
     </div>

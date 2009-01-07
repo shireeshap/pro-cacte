@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.apache.commons.lang.StringUtils;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * User: Harsh
@@ -91,27 +93,29 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         return submitFormCommand;
     }
 
-    /*	@Override
-     protected void onBindAndValidate(HttpServletRequest request,
-                                      Object command, BindException errors) throws Exception {
-         super.onBindAndValidate(request, command, errors);
+    @Override
+    protected void onBindAndValidate(HttpServletRequest request,
+                                     Object command, BindException errors) throws Exception {
+        super.onBindAndValidate(request, command, errors);
 
-         SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
+        SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
 
-         if ("continue".equals(submitFormCommand.getDirection())) {
-             List<StudyParticipantCrfItem> l = submitFormCommand.getPages().get(submitFormCommand.getCurrentPageIndex());
-             for (StudyParticipantCrfItem studyParticipantCrfItem : l) {
-                 if (new Boolean(true).equals(studyParticipantCrfItem.getCrfPageItem().getResponseRequired())) {
-                     if (studyParticipantCrfItem.getProCtcValidValue() == null) {
-                         errors.reject(
-                             "answer", "Please select an answer.");
-                         return;
-                     }
-                 }
-             }
-         }
-     }
-    */
+        if ("continue".equals(submitFormCommand.getDirection())) {
+            for (StudyParticipantCrfItem studyParticipantCrfItem : submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfItems()) {
+                if (studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber() == submitFormCommand.getCurrentPageIndex()-2) {
+                    if (new Boolean(true).equals(studyParticipantCrfItem.getCrfPageItem().getResponseRequired())) {
+                        if (studyParticipantCrfItem.getProCtcValidValue() == null) {
+                            errors.reject(
+                                    "answer", "Please select an answer for question " + studyParticipantCrfItem.getCrfPageItem().getDisplayOrder() + ".");
+                            submitFormCommand.setCurrentPageIndex(submitFormCommand.getCurrentPageIndex()-1);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
