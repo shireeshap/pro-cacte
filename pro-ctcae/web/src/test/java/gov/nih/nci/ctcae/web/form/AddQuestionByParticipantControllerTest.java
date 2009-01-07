@@ -43,7 +43,7 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
 
     public void testConstructor() {
         assertEquals("form/addQuestionForParticipant", controller.getFormView());
-        assertEquals("form/reviewFormSubmission", controller.getSuccessView());
+        assertEquals("form/confirmFormSubmission", controller.getSuccessView());
     }
 
     public void testGetRequest() throws Exception {
