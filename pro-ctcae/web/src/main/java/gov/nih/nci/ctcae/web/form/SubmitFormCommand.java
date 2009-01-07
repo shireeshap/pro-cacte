@@ -5,10 +5,10 @@ import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * @author Harsh Agarwal
@@ -26,6 +26,7 @@ public class SubmitFormCommand implements Serializable {
     private String flashMessage;
     private List<ProCtcQuestion> proCtcQuestions;
     private boolean hasParticipantAddedQuestions = false;
+    private String deletedQuestions;
 
     public void initialize() {
 
@@ -189,5 +190,25 @@ public class SubmitFormCommand implements Serializable {
 
     public void setHasParticipantAddedQuestions(boolean hasParticipantAddedQuestions) {
         this.hasParticipantAddedQuestions = hasParticipantAddedQuestions;
+    }
+
+    public String getDeletedQuestions() {
+        return deletedQuestions;
+    }
+
+    public void setDeletedQuestions(String deletedQuestions) {
+        this.deletedQuestions = deletedQuestions;
+    }
+
+    public void deleteQuestions(String questions){
+
+        if(!StringUtils.isBlank(questions)){
+            StringTokenizer st = new StringTokenizer(questions,",");
+            while(st.hasMoreTokens()){
+                StudyParticipantCrfAddedQuestion s = finderRepository.findById(StudyParticipantCrfAddedQuestion.class, new Integer(st.nextToken()));
+                genericRepository.delete(s);
+            }
+        }
+
     }
 }

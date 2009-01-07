@@ -38,6 +38,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         } else {
             submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.INPROGRESS);
         }
+        submitFormCommand.deleteQuestions(request.getParameter("deletedQuestions"));
         genericRepository.save(submitFormCommand.getStudyParticipantCrfSchedule());
         submitFormCommand.setStudyParticipantCrfSchedule(finderRepository.findById(StudyParticipantCrfSchedule.class, submitFormCommand.getStudyParticipantCrfSchedule().getId()));
         return showForm(request, response, errors);

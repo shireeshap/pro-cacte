@@ -49,7 +49,7 @@
         }
     </style>
     <script type="">
-         function gonext(crfitemindex, index, column) {
+        function gonext(crfitemindex, index, column) {
             var x = document.getElementsByName('response' + crfitemindex);
             x[index].checked = true;
             var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[' + crfitemindex + '].proCtcValidValue';
@@ -64,6 +64,17 @@
             var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[' + questionindex + '].proCtcValidValue';
             document.myForm.elements[elementName].value = '';
         }
+        function deleteQuestion(questionindex, questionid, addedquestionid) {
+            document.myForm.deletedQuestions.value = document.myForm.deletedQuestions.value + ',' + addedquestionid;
+            hideQuestion(questionid);
+            clearResponse(questionindex);
+        }
+
+        function hideQuestion(questionid) {
+            $("question_" + questionid).hide();
+        }
+
+
     </script>
 </head>
 <body>
@@ -75,6 +86,9 @@
     <div class="currentPagediv">
         Progress:
     </div>
+    <input type="hidden"
+           name="deletedQuestions"
+           value=""/>
 
     <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantCrfAddedQuestions}"
                var="participantCrfItem"
@@ -82,15 +96,18 @@
         <tags:formbuilderBox id="question_${participantCrfItem.proCtcQuestion.id}">
 
             <input type="hidden"
-            name="studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[${crfitemstatus.index}].proCtcValidValue"
-            value=""/>
+                   name="studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[${crfitemstatus.index}].proCtcValidValue"
+                   value=""/>
             <table>
                 <tr>
                     <td colspan="${fn:length(participantCrfItem.proCtcQuestion.validValues)}">
                         <div class="label">
                                 ${participantCrfItem.proCtcQuestion.formattedQuestionText}
                             (<a href="javascript:clearResponse('${crfitemstatus.index}')">clear
-                            this response</a>)
+                            this response</a>)(<a
+                                href="javascript:deleteQuestion('${crfitemstatus.index}','${participantCrfItem.proCtcQuestion.id}','${participantCrfItem.id}')">remove
+                            this question</a>)
+
                         </div>
                     </td>
                 </tr>
@@ -103,7 +120,7 @@
                     <c:forEach items="${participantCrfItem.proCtcQuestion.validValues}" var="validValue"
                                varStatus="validvaluestatus">
                         <tags:validvalue currentId="${validValue.id}"
-                                         title="${validValue.displayName}"                                 
+                                         title="${validValue.displayName}"
                                          selectedId=""
                                          crfitemindex="${crfitemstatus.index}"
                                          index="${validvaluestatus.index}"/>
