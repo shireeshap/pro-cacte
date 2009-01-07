@@ -148,17 +148,17 @@ p {
 	background-image: url(../images/blue/header_bg.jpg);
 	background-position: top;
 }
-
+*/
 
 
 a#logo {
-	background-image: url();
-	height: 100px;
-	width: 242px;
+/* 	background-image: url(/ctcae/images/blue/agadoo-logo.png); */
+	height: 98px;
+	width: 220px;
 	position:absolute;
 	text-indent: -9999px;
 }
-
+/*
 a#logo:link {
 background-position: 0px
 }
@@ -496,6 +496,7 @@ ul.tabs li {
 #taskbar a.lte4 img {
 	margin-right: 7px;
 	margin-left: 5px;
+	vertical-align:middle;
 }
 
 #taskbar a:hover {

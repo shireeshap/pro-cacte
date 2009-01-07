@@ -164,7 +164,7 @@ function showDeleteFormWindow(transport) {
 <body>
 <chrome:box title="form.box.select_study" id="study-entry" cssClass="small">
     <p><tags:instructions code="instruction_select_study"/></p>
-    <tags:displayAutocompleter inputName="study" required="true" displayName="Study" size="70"/>
+    <tags:displayAutocompleter inputName="study" required="true" displayName="Study" size="60"/>
     <p id="studyCrf.study-selected" style="display: none">
         You have selected the study <span id="studyCrf.study-selected-name"></span>.
     </p>
