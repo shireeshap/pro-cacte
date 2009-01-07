@@ -283,8 +283,15 @@ public class CRF extends BaseVersionable {
 		return null;
 	}
 
+    public boolean isVersioned() {
+        if (this.getParentVersionId() != null || this.getNextVersionId() !=null){
+            return true;
+        }
+        return false;
+    }
 
-	public List<CrfPageItem> getAllCrfPageItems() {
+
+    public List<CrfPageItem> getAllCrfPageItems() {
 		List<CrfPageItem> crfPageItems = new ArrayList<CrfPageItem>();
 		for (CRFPage crfPage : crfPages) {
 			crfPageItems.addAll(crfPage.getCrfPageItems());
