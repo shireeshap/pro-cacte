@@ -89,9 +89,9 @@ public class CrfItemTest extends TestCase {
 		assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
 		assertEquals(anothercrfPageItem, crfPageItem);
 
-		crfPageItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
+		crfPageItem.setCrfItemAllignment(CrfItemAllignment.VERTICAL);
 		assertFalse(crfPageItem.equals(anothercrfPageItem));
-		anothercrfPageItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
+		anothercrfPageItem.setCrfItemAllignment(CrfItemAllignment.VERTICAL);
 		assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
 		assertEquals(anothercrfPageItem, crfPageItem);
 
