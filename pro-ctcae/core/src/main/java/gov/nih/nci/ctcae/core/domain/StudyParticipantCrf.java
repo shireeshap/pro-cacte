@@ -26,8 +26,11 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantCrf", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-
     private List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = new ArrayList<StudyParticipantCrfSchedule>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantCrf", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyParticipantCrfAddedQuestion> studyParticipantCrfAddedQuestions = new ArrayList<StudyParticipantCrfAddedQuestion>();
 
     @JoinColumn(name = "study_crf_id", referencedColumnName = "id")
     @ManyToOne
@@ -89,5 +92,15 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     public void removeCrfSchedule(StudyParticipantCrfSchedule crfSchedule) {
         studyParticipantCrfSchedules.remove(crfSchedule);
+    }
+
+    public List<StudyParticipantCrfAddedQuestion> getStudyParticipantCrfAddedQuestions() {
+        return studyParticipantCrfAddedQuestions;
+    }
+
+    public void addStudyParticipantCrfAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
+        if(studyParticipantCrfAddedQuestion != null){
+            studyParticipantCrfAddedQuestions.add(studyParticipantCrfAddedQuestion);
+        }
     }
 }

@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.apache.commons.lang.StringUtils;
@@ -55,10 +56,18 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             }
             mv = showForm(request, errors, getSuccessView());
         } else {
-            if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages()) {
+            if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages() || "y".equals(request.getParameter("review"))) {
+                submitFormCommand.setDirection("");
                 mv = showForm(request, errors, getReviewView());
             } else {
-                mv = showForm(request, errors, getFormView());
+                if (submitFormCommand.getCurrentPageIndex() == submitFormCommand.getTotalPages() && submitFormCommand.isHasParticipantAddedQuestions()) {
+                    for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfScheduleAddedQuestions()) {
+                        studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
+                    }
+                    mv = showForm(request, errors, "form/participantAddedQuestion");
+                } else {
+                    mv = showForm(request, errors, getFormView());
+                }
             }
         }
 

@@ -7,6 +7,8 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal
@@ -22,6 +24,8 @@ public class SubmitFormCommand implements Serializable {
     private int totalPages;
     private String direction = "";
     private String flashMessage;
+    private List<ProCtcQuestion> proCtcQuestions;
+    private boolean hasParticipantAddedQuestions = false;
 
     public void initialize() {
 
@@ -37,6 +41,10 @@ public class SubmitFormCommand implements Serializable {
         }
         currentPageIndex = 1;
         totalPages = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyCrf().getCrf().getCrfPages().size();
+        if(studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size() > 0){
+            hasParticipantAddedQuestions = true;
+            totalPages = totalPages + 1;
+        }
     }
 
     private StudyParticipantCrfSchedule findLatestCrfAndCreateSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
@@ -67,6 +75,13 @@ public class SubmitFormCommand implements Serializable {
                         genericRepository.delete(studyParticipantCrfSchedule);
                         return newSchedule;
                     }
+                }
+            }
+        }
+        if(studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size() > 0){
+            if(studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions().size() == 0){
+                for(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion: studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()){
+                    studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(new StudyParticipantCrfScheduleAddedQuestion());
                 }
             }
         }
@@ -130,5 +145,49 @@ public class SubmitFormCommand implements Serializable {
 
     public void setFlashMessage(String flashMessage) {
         this.flashMessage = flashMessage;
+    }
+
+    public Hashtable<String, List<ProCtcQuestion>> getArrangedQuestions() {
+        Hashtable<String, List<ProCtcQuestion>> arrangedQuestions = new Hashtable<String, List<ProCtcQuestion>>();
+        List<ProCtcQuestion> l;
+        ArrayList<Integer> includedQuestionIds = new ArrayList<Integer>();
+
+        for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+            includedQuestionIds.add(studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getId());
+        }
+        if(hasParticipantAddedQuestions){
+            studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
+            for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion: studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
+                includedQuestionIds.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getId());
+            }
+        }
+
+        for (ProCtcQuestion proCtcQuestion : proCtcQuestions) {
+
+            if (!includedQuestionIds.contains(proCtcQuestion.getId())) {
+                if (arrangedQuestions.containsKey(proCtcQuestion.getProCtcTerm().getTerm())) {
+                    l = arrangedQuestions.get(proCtcQuestion.getProCtcTerm().getTerm());
+                } else {
+                    l = new ArrayList<ProCtcQuestion>();
+                }
+
+                l.add(proCtcQuestion);
+                arrangedQuestions.put(proCtcQuestion.getProCtcTerm().getTerm(), l);
+            }
+        }
+
+        return arrangedQuestions;
+    }
+
+    public void setProCtcQuestions(List<ProCtcQuestion> proCtcQuestions) {
+        this.proCtcQuestions = proCtcQuestions;
+    }
+
+    public boolean isHasParticipantAddedQuestions() {
+        return hasParticipantAddedQuestions;
+    }
+
+    public void setHasParticipantAddedQuestions(boolean hasParticipantAddedQuestions) {
+        this.hasParticipantAddedQuestions = hasParticipantAddedQuestions;
     }
 }

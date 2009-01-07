@@ -70,7 +70,7 @@
                     <tags:formbuilderBox>
                         <input type="checkbox" name="questionsByParticipants"
                                value="${question.id}"
-                               onchange="showanswers(this.checked,'answer-div-${question.id}')"/> ${question.formattedQuestionText}
+                               onclick="javascript:showanswers(this.checked,'answer-div-${question.id}')"/> ${question.formattedQuestionText}
                         <br/>
 
                         <div id="answer-div-${question.id}">

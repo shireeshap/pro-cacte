@@ -69,10 +69,23 @@
         </c:forEach>
 
         function gonext(crfitemindex, index, column) {
-            var x = document.getElementsByName('studyParticipantCrfSchedule.studyParticipantCrfItems[' + crfitemindex + '].proCtcValidValue');
+            var x = document.getElementsByName('response' + crfitemindex);
             x[index].checked = true;
             responses[x[index].value] = 'Y';
-            //column.onmouseout="javascript:this.className='over';";
+            var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfItems[' + crfitemindex + '].proCtcValidValue';
+            document.myForm.elements[elementName].value = x[index].value;
+
+//           var column = document.getElementsByName('column_' + crfitemindex);
+//             for(var i=0; i< column.length;i++){
+//                 if(i==index){
+//                    column[i].onmouseout="javascript:this.className='.over';";
+//                 }else{
+//                     column[i].class='norm';
+//                     column[i].onmouseout="javascript:this.className='.norm';";
+//                     column[i].onmouseover="javascript:this.className='.over';";
+//                 }
+//             }
+            
             for (var i = 0; i < x.length; i++) {
                 if (i != index) {
                     responses[x[i].value] = 'N';
@@ -98,11 +111,13 @@
             evaluateAllQuestions();
         }
         function clearResponse(questionid) {
-            var x = document.getElementsByName('studyParticipantCrfSchedule.studyParticipantCrfItems[' + questionIndexes[questionid] + '].proCtcValidValue');
+            var x = document.getElementsByName('response' + questionIndexes[questionid]);
             for (var i = 0; i < x.length; i++) {
                 x[i].checked = false;
                 responses[x[i].value] = 'N';
             }
+            var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfItems[' + questionIndexes[questionid] + '].proCtcValidValue';
+            document.myForm.elements[elementName].value = '';
         }
 
         function showQuestion(questionid) {
@@ -160,7 +175,9 @@
             <c:if test="${crfPageItem.crfItemAllignment eq 'Horizontal'}">
                 <c:set var="colspan" value="${fn:length(crfPageItem.proCtcQuestion.validValues)}"/>
             </c:if>
-
+            <input type="hidden"
+                   name="studyParticipantCrfSchedule.studyParticipantCrfItems[${crfitemstatus.index}].proCtcValidValue"
+                   value="${participantCrfItem.proCtcValidValue.id}"/>
             <table>
                 <c:if test="${crfPageItem.instructions ne null}">
                     <tr>
