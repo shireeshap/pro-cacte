@@ -23,10 +23,7 @@
 				</p>
 
 				<p>
-					You cannot reverse this step. If you're not ready to proceed, please
-					hit cancel and return
-					to
-					the search results.
+					You cannot reverse this step. Do you want to continue?
 				</p>
 
 			</div>
@@ -35,7 +32,7 @@
 			<div class="flow-buttons">
 
 				<input type="submit" id="flow-update"
-					   class="next" value="Edit" alt="Save"
+					   class="next" value="Version" alt="Save"
 					/>
 
 
