@@ -50,15 +50,19 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public CRF save(CRF crf) {
-//        CRF tmp = crf;
-//        while (tmp.getParentVersionId() != null) {
-//            tmp = findById(crf.getParentVersionId());
-//        }
-//        if (tmp.getId() != crf.getId()) {
-//            if (!tmp.getTitle().equals(crf.getTitle())) {
-//                throw (new CtcAeSystemException("You can not update the title if crf is versioned"));
-//            }
-//        }
+        CRF tmp = null;
+        if(crf.getParentVersionId() != null){
+            tmp = findById(crf.getParentVersionId());
+            while (tmp.getParentVersionId() != null) {
+                tmp = findById(tmp.getParentVersionId());
+            }
+        }
+
+        if (tmp!=null && (tmp.getId() != crf.getId())) {
+            if (!tmp.getTitle().equals(crf.getTitle())) {
+                throw (new CtcAeSystemException("You can not update the title if crf is versioned"));
+            }
+        }
 
 //        if (crf.getOldTitle() != null) {
 //            if ((crf.getParentVersionId() != null || crf.getNextVersionId() != null) && !crf.getOldTitle().equals(crf.getTitle())) {
