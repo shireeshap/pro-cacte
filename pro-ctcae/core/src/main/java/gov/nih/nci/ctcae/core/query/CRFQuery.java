@@ -12,6 +12,7 @@ public class CRFQuery extends AbstractQuery {
     private static final String TITLE = "title";
     private static final String CRFID = "crfId";
     private static final String STUDYID = "studyId";
+    private static final String CRF_VERSION = "crfVersion";
 //    private static final String NEXTVERSIONID = "nextVersionId";
 
     public CRFQuery() {
@@ -47,6 +48,11 @@ public class CRFQuery extends AbstractQuery {
 
     public void filterByNullNextVersionId() {
         andWhere("o.nextVersionId is null");
+    }
+
+    public void filterByCrfVersion(final String crfVersion) {
+        andWhere("o.crfVersion =:" + CRF_VERSION);
+        setParameter(CRF_VERSION, crfVersion);
     }
 
 }

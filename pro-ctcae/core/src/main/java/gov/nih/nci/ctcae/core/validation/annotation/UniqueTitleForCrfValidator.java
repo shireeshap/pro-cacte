@@ -13,36 +13,37 @@ import java.util.List;
  * @crated Oct 27, 2008
  */
 public class UniqueTitleForCrfValidator extends AbstractValidator<UniqueTitleForCrf> {
-	private String message;
+    private String message;
 
-	private CRFRepository crfRepository;
-
-
-	@Override
-	public boolean validate(final Object bean, final Object value) {
-		if (value instanceof String && bean instanceof CRF) {
-			CRF crfBean = (CRF) bean;
-			CRFQuery query = new CRFQuery();
-			query.filterByTitleExactMatch((String) value);
-			query.filterByNotHavingCrfId(crfBean.getId());
-			List<CRF> crfs = new ArrayList<CRF>(crfRepository.find(query));
-			return (crfs == null || crfs.isEmpty()) ? true : false;
-		}
-		return super.validate(bean, value);
+    private CRFRepository crfRepository;
 
 
-	}
+    @Override
+    public boolean validate(final Object bean, final Object value) {
+        if (value instanceof String && bean instanceof CRF) {
+            CRF crfBean = (CRF) bean;
+            CRFQuery query = new CRFQuery();
+            query.filterByTitleExactMatch((String) value);
+            query.filterByNotHavingCrfId(crfBean.getId());
+            query.filterByCrfVersion(crfBean.getCrfVersion());
+            List<CRF> crfs = new ArrayList<CRF>(crfRepository.find(query));
+            return (crfs == null || crfs.isEmpty()) ? true : false;
+        }
+        return super.validate(bean, value);
 
-	public void initialize(UniqueTitleForCrf parameters) {
-		message = parameters.message();
-	}
 
-	public String message() {
-		return message;
-	}
+    }
 
-	@Required
-	public void setCrfRepository(final CRFRepository crfRepository) {
-		this.crfRepository = crfRepository;
-	}
+    public void initialize(UniqueTitleForCrf parameters) {
+        message = parameters.message();
+    }
+
+    public String message() {
+        return message;
+    }
+
+    @Required
+    public void setCrfRepository(final CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
+    }
 }

@@ -53,9 +53,10 @@ public class VersionFormController extends CtcAeSimpleFormController {
         studyCrf.getCrf().setNextVersionId(nextVersionId);
         crfRepository.save(studyCrf.getCrf());
 
-        RedirectView redirectView = new RedirectView("editForm?studyCrfId=" + copiedStudyCrf.getId());
+        RedirectView redirectView = new RedirectView("editForm?studyCrfId=" + copiedStudyCrf.getId()+"&showFormDetails=true");
 
-        return new ModelAndView(redirectView);
+        ModelAndView modelAndView = new ModelAndView(redirectView);
+        return modelAndView;
     }
 
     public void setFinderRepository(FinderRepository finderRepository) {

@@ -23,10 +23,8 @@
                         </p>
 
                         <p>
-                            You cannot reverse this step. If you're not ready to proceed, please
-                            hit cancel return
-                                to
-                                the search results.
+                            You cannot reverse this step.
+                            Do you want to continue?
                         </p>
 
                      </div>

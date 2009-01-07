@@ -28,7 +28,7 @@ public class CopyFormController extends AbstractController {
         StudyCrf studyCrf = finderRepository.findById(StudyCrf.class, Integer.parseInt(studyCrfId));
         StudyCrf copiedStudyCrf = studyCrf.getCopy();
         crfRepository.save(copiedStudyCrf.getCrf());
-        RedirectView redirectView = new RedirectView("editForm?studyCrfId=" + copiedStudyCrf.getId());
+        RedirectView redirectView = new RedirectView("editForm?studyCrfId=" + copiedStudyCrf.getId() + "&copyForm=true");
 
         return new ModelAndView(redirectView);
 

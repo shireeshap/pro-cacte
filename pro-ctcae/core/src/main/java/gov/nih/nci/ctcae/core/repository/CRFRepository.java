@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,27 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
             }
         }
         save(crf);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public CRF save(CRF crf) {
+        CRF tmp = crf;
+        while (tmp.getParentVersionId() != null) {
+            tmp = findById(crf.getParentVersionId());
+        }
+        if (tmp.getId() != crf.getId()) {
+            if (!tmp.getTitle().equals(crf.getTitle())) {
+                throw (new CtcAeSystemException("You can not update the title if crf is versioned"));
+            }
+        }
+
+//        if (crf.getOldTitle() != null) {
+//            if ((crf.getParentVersionId() != null || crf.getNextVersionId() != null) && !crf.getOldTitle().equals(crf.getTitle())) {
+//                throw (new CtcAeSystemException("You can not update the title if crf is versioned"));
+//            }
+//
+//        }
+        return super.save(crf);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     @Required
