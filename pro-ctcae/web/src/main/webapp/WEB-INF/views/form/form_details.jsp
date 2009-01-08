@@ -1112,12 +1112,6 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
 	.makeDraggable {
 		cursor: move;
 	}
-
-	.formpagesselected {
-	/* background-color: #edc0ac; */
-		border: 2px solid #4D6EFF;
-	}
-
 	.instructions .summaryvalue {
 		font-weight: normal;
 		margin-left: 90px;

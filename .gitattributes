@@ -680,6 +680,8 @@ pro-ctcae/web/src/main/webapp/images/blue/mailbox.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/mega-huge-background.png -text
 pro-ctcae/web/src/main/webapp/images/blue/new_form_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/new_page_button.png -text
+pro-ctcae/web/src/main/webapp/images/blue/page-border-top.png -text
+pro-ctcae/web/src/main/webapp/images/blue/pageselected-border-top.png -text
 pro-ctcae/web/src/main/webapp/images/blue/power-btn-down.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/power-btn-hover.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/power-btn-up.jpg -text
