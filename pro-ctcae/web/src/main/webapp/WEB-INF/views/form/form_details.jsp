@@ -78,25 +78,13 @@ function displayReviewLink() {
 
 	}
 }
-function reOrderQuestionNumber() {
-	var i = 0;
-	$$("div.sortableSpan").each(function (item) {
-		item.innerHTML = i + 1;
-		//			var orderNumberAtCrfItemPropertiesPage = $$("span.sortableSpan")[parseInt(item.id) - 1];
-		//			orderNumberAtCrfItemPropertiesPage.innerHTML = i + 1;
-		i = i + 1;
 
-
-	})
-
-
-}
 function updateOrderId() {
-	var i = 0;
-	$$("div.sortableSpan").each(function (item) {
-		item.id = i + 1;
-
-	})
+	//	var i = 0;
+	//	$$("div.sortableSpan").each(function (item) {
+	//		item.id = i + 1;
+	//
+	//	})
 
 
 }
@@ -127,7 +115,7 @@ function hideProCtcTermLinkFromForm(proCtcTermId) {
 	$('proCtcTerm_' + proCtcTermId).hide();
 
 }
-function showQuestionInForm(questionId) {
+function showQuestionInQuestionBank(questionId) {
 	$('question_' + questionId).show();
 }
 
@@ -258,35 +246,6 @@ function updateSelectedCrfItems(questionId) {
 }
 
 
-function updateQuestionsId() {
-	var questionsId = '';
-	var i = 0;
-	$$("div.sortable").each(function (item) {
-		var id = item.id;
-		if (!id.include('dummySortable_')) {
-			var questionId = id.substr(9, id.length)
-			if (questionsId == '') {
-				questionsId = questionId;
-			} else {
-				questionsId = questionsId + ',' + questionId;
-			}
-			i = i + 1
-		}
-	});
-
-	$('questionsIds').value = questionsId;
-	$('totalQuestions').value = i;
-	$('totalQuestionDivision').innerHTML = i;
-	if (i == 1) {
-		$('plural1').innerHTML = 'is';
-		$('plural2').innerHTML = '';
-	} else {
-		$('plural1').innerHTML = 'are';
-		$('plural2').innerHTML = 's';
-	}
-
-	displayReviewLink();
-}
 function updateCrfPageNumberAndShowHideUpDownLink() {
 	var crfPageNumbers = '';
 	var formPages = $$('div.formpages');
@@ -389,46 +348,6 @@ function updateTotalNumberOfQuestionsInEachPage() {
 	numberOfQuestionsInEachPage = numberOfQuestionsInEachPage.toArray();
 	$('numberOfQuestionsInEachPage').value = numberOfQuestionsInEachPage;
 }
-function sortQuestions() {
-
-	var formPages = $$('div.formpages');
-	var sortableDivs = [];
-	formPages.each(function(item) {
-		var index = item.id.substr(11, item.id.length);
-		sortableDivs.push('sortable_' + index)
-
-	})
-	sortableDivs.each(function (item) {
-		Sortable.destroy(item)
-	})
-	sortableDivs.each(function (item) {
-		Sortable.create(item, {
-			containment:sortableDivs,
-			tag	:'div',
-			only:['sortable'],
-			dropOnEmpty:true,
-			scroll:window,
-
-			onUpdate:function () {
-				updateQuestionsId();
-				updateTotalNumberOfQuestionsInEachPage();
-				showHideQuestionUpDownLink();
-
-			}
-			,
-			onChange:function(item) {
-				reOrderQuestionNumber();
-				var questionId = item.id.substr(9, item.id.length);
-				//showCrfItemPropertiesTab(questionId);
-
-			}
-
-		})
-	})
-
-
-}
-
 
 function moveQuestionUp(selectedQuestionId) {
 
@@ -744,14 +663,7 @@ function hideCrfItemProperties() {
 		item.hide();
 	})
 }
-function showCrfItemProperties(questionId) {
-	addCrfItemPropertiesHtml(questionId);
-	$('questionProperties_' + questionId).show();
 
-	//	$('questionProperties_' + questionId).addClassName('editing');
-	//	$('questionProperties_' + questionId).addClassName('focused');
-	addEditingDisplayToQuestion(questionId)
-}
 function addEditingDisplayToQuestion(questionId) {
 	removeEditingDisplayFromQuestions();
 	$('sortable_' + questionId).addClassName('editing');
@@ -802,6 +714,223 @@ function hideFormSettings() {
 
 </script>
 <script type="text/javascript">
+
+
+	function updateQuestionsId() {
+		var questionsId = '';
+		var i = 0;
+		$$("div.sortable").each(function (item) {
+			var id = item.id;
+			if (!id.include('dummySortable_')) {
+				var questionId = id.substr(9, id.length)
+				if (questionsId == '') {
+					questionsId = questionId;
+				} else {
+					questionsId = questionsId + ',' + questionId;
+				}
+				i = i + 1
+			}
+		});
+
+		$('questionsIds').value = questionsId;
+		$('totalQuestions').value = i;
+		$('totalQuestionDivision').innerHTML = i;
+		if (i == 1) {
+			$('plural1').innerHTML = 'is';
+			$('plural2').innerHTML = '';
+		} else {
+			$('plural1').innerHTML = 'are';
+			$('plural2').innerHTML = 's';
+		}
+
+		displayReviewLink();
+	}
+	function reOrderQuestionNumber() {
+		var i = 0;
+		$$("div.sortableSpan").each(function (item) {
+			item.innerHTML = i + 1;
+			//			var orderNumberAtCrfItemPropertiesPage = $$("span.sortableSpan")[parseInt(item.id) - 1];
+			//			orderNumberAtCrfItemPropertiesPage.innerHTML = i + 1;
+			i = i + 1;
+
+
+		})
+
+
+	}
+	function revertDummy(element, top_offset, left_offset) {
+		var id = element.id;
+		var revertQuestionAndShowWarning = false;
+		var condtionalQuestionIds = [];
+		var alertMessage = '';
+		if (!id.include('dummySortable_')) {
+
+			var questionId = id.substring(9, id.length);
+
+			var conditionsRow = $$('tr.conditionalTriggering_' + questionId);
+			conditionsRow.each(function(conditionRow) {
+				var conditionalQuestionId = conditionRow.id.substring(conditionRow.id.indexOf('_') + 1, conditionRow.id.lastIndexOf('_'))
+				condtionalQuestionIds.push(conditionalQuestionId);
+			})
+			if (condtionalQuestionIds.length > 0) {
+				condtionalQuestionIds.each(function(item) {
+					if (parseInt($('sortableSpan_' + questionId).innerHTML) > parseInt($('sortableSpan_' + item).innerHTML)) {
+						revertQuestionAndShowWarning = true;
+						alertMessage = 'You can not move this question because Triggered question can not be moved after its Conditional question ';
+					}
+				})
+			}
+
+			//it may be a conditional question
+			condtionalQuestionIds = [];
+			if ($$('tr.conditionalQuestion_' + questionId + '_condition').length > 0) {
+				condtionalQuestionIds.push(questionId)
+			}
+			//						if (condtionalQuestionIds.length > 0) {
+			//							$$('div.sortableSpan').each(function(item) {
+			//								if (parseInt($('sortableSpan_' + questionId).innerHTML) > parseInt(item.innerHTML)) {
+			//									revertQuestionAndShowWarning = true;
+			//									alertMessage = 'You can not move this question because Conditional question can not be moved before its Triggered question ';
+			//								}
+			//							})
+			//						}
+		}
+		if (revertQuestionAndShowWarning) {
+			var dur = Math.sqrt(Math.abs(top_offset ^ 2) + Math.abs(left_offset ^ 2)) * 0.02;
+			new Effect.Move(element, { x: -left_offset, y: -top_offset, duration: dur,
+				queue: {scope:'_draggable', position:'end'}
+			});
+			alert(alertMessage);
+		}
+
+
+	}
+	function sortQuestions() {
+
+		var formPages = $$('div.formpages');
+		var sortableDivs = [];
+		formPages.each(function(item) {
+			var index = item.id.substr(11, item.id.length);
+			sortableDivs.push('sortable_' + index)
+
+		})
+		sortableDivs.each(function (item) {
+			Sortable.destroy(item)
+		})
+		sortableDivs.each(function (item) {
+
+
+			Sortable.create(item, {
+				containment:sortableDivs,
+				tag	:'div',
+				revert:true,
+				only:['sortable'],
+				dropOnEmpty:true,
+				scroll:window,
+				onUpdate:function (element) {
+					var id = element.id;
+					var revertQuestionAndShowWarning = false;
+					var condtionalQuestionIds = [];
+					var alertMessage = '';
+					if (!id.include('dummySortable_')) {
+
+						var questionId = id.substring(9, id.length);
+
+						var conditionsRow = $$('tr.conditionalTriggering_' + questionId);
+						conditionsRow.each(function(conditionRow) {
+							var conditionalQuestionId = conditionRow.id.substring(conditionRow.id.indexOf('_') + 1, conditionRow.id.lastIndexOf('_'))
+							condtionalQuestionIds.push(conditionalQuestionId);
+						})
+						if (condtionalQuestionIds.length > 0) {
+							condtionalQuestionIds.each(function(item) {
+								if (parseInt($('sortableSpan_' + questionId).innerHTML) > parseInt($('sortableSpan_' + item).innerHTML)) {
+									revertQuestionAndShowWarning = true;
+									alertMessage = 'You can not move this question because Triggered question can not be moved after its Conditional question ';
+								}
+							})
+						}
+
+						//it may be a conditional question
+						condtionalQuestionIds = [];
+						if ($$('tr.conditionalQuestion_' + questionId + '_condition').length > 0) {
+							condtionalQuestionIds.push(questionId)
+						}
+						//						if (condtionalQuestionIds.length > 0) {
+						//							$$('div.sortableSpan').each(function(item) {
+						//								if (parseInt($('sortableSpan_' + questionId).innerHTML) > parseInt(item.innerHTML)) {
+						//									revertQuestionAndShowWarning = true;
+						//									alertMessage = 'You can not move this question because Conditional question can not be moved before its Triggered question ';
+						//								}
+						//							})
+						//						}
+					}
+					revertQuestionAndShowWarning = true;
+					if (revertQuestionAndShowWarning) {
+
+						//alert(alertMessage);
+					} else
+					{
+						updateQuestionsId();
+						updateTotalNumberOfQuestionsInEachPage();
+					}
+					showHideQuestionUpDownLink();
+
+				}
+				,
+				onChange:function(item) {
+					reOrderQuestionNumber();
+
+					//showCrfItemPropertiesTab(questionId);
+
+				}
+
+			})
+		}
+			)
+
+
+	}
+
+
+</script>
+<script type="text/javascript">
+	function showCrfItemProperties(selectedQuestionId) {
+		addCrfItemPropertiesHtml(selectedQuestionId);
+		var questionIdsOfConditionsToDisplay = []
+		var addQuestionIdOfConditionsToDisplay = true
+		$$("div.sortable").each(function (item) {
+			var id = item.id;
+
+			if (!id.include('dummySortable_')) {
+				var questionId = id.substr(9, id.length)
+				if (questionId == selectedQuestionId) {
+					addQuestionIdOfConditionsToDisplay = false;
+				}
+				if (addQuestionIdOfConditionsToDisplay) {
+					questionIdsOfConditionsToDisplay.push(questionId)
+				}
+			}
+		});
+		//hide all conditions
+		var allConditions = $$('optgroup.conditions');
+		allConditions.each(function(item) {
+			item.hide();
+		})
+
+		$('questionProperties_' + selectedQuestionId).show();
+
+		questionIdsOfConditionsToDisplay.each(function(item) {
+			$$('#condition_' + item + '.conditions').each(function(condition) {
+				condition.show();
+			});
+
+		})
+
+
+		addEditingDisplayToQuestion(selectedQuestionId)
+	}
+</script>
+<script type="text/javascript">
 	function shrinkQuestionBank() {
 		Effect.SlideUp('left', {
 			scaleX:true,
@@ -850,7 +979,7 @@ function hideFormSettings() {
 					$("sortable_" + questionId).removeClassName('conditional-triggering');
 				}
 
-				if ($$('tr.conditionalQuestion_' + questionId + '-condition').length == 0) {
+				if ($$('tr.conditionalQuestion_' + questionId + '_condition').length == 0) {
 					$("sortable_" + questionId).removeClassName('conditional-question');
 					$('conditionsImage_' + questionId).hide();
 					$('conditionsTable_' + questionId).hide();
@@ -868,7 +997,27 @@ function hideFormSettings() {
 	function deleteCrfPage(selectedCrfPageNumber) {
 		var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
 			parameters:"confirmationType=deleteCrf&subview=subview&selectedCrfPageNumber=" + selectedCrfPageNumber,
-			onComplete:showConfirmationWindow,
+			onComplete:function(transport) {
+				var isAnyConditionalTriggeringQuestion = false;
+				var crfPageItems = $$('#form-pages_' + selectedCrfPageNumber + ' div.sortable');
+				crfPageItems.each(function (item) {
+					var id = item.id;
+					if (!id.include('dummySortable_')) {
+						var conditionalTriggeredQuestionId = id.substr(9, id.length);
+						var conditions = $$('tr.conditionalTriggering_' + conditionalTriggeredQuestionId);
+						conditions.each(function(item) {
+							isAnyConditionalTriggeringQuestion = true;
+						})
+					}
+
+				})
+				showConfirmationWindow(transport);
+				if (isAnyConditionalTriggeringQuestion) {
+					$('conditionsWarningForCrfPage_' + selectedCrfPageNumber).show();
+
+				}
+			},
+
 			method:'get'
 		});
 
@@ -905,7 +1054,7 @@ function hideFormSettings() {
 		updateQuestionsId();
 		updateOrderId();
 		postProcessFormChanges()
-		showQuestionInForm(questionId);
+		showQuestionInQuestionBank(questionId);
 		$$('optgroup.conditions').each(function(item) {
 			if (item.id == 'condition_' + questionId) {
 				item.remove();
@@ -935,21 +1084,51 @@ function hideFormSettings() {
 
 
 	}
+	function deleteConditionsForCrfPage(selectedCrfPageNumber) {
+
+
+		var request = new Ajax.Request("<c:url value="/pages/form/removeConditions"/>", {
+			parameters:"selectedCrfPageNumber=" + selectedCrfPageNumber + "&subview=subview",
+			onComplete:function(transport) {
+				var crfPageItems = $$('#form-pages_' + selectedCrfPageNumber + ' div.sortable');
+				crfPageItems.each(function (item) {
+					var id = item.id;
+					if (!id.include('dummySortable_')) {
+						var conditionalTriggeredQuestionId = id.substr(9, id.length);
+						showQuestionInQuestionBank(conditionalTriggeredQuestionId);
+						var conditions = $$('tr.conditionalTriggering_' + conditionalTriggeredQuestionId);
+						conditions.each(function(item) {
+							item.remove();
+						})
+					}
+
+				})
+				$('form-pages_' + selectedCrfPageNumber).remove();
+
+				var crfPageNumbersToRemove = $('crfPageNumbersToRemove').value;
+				if (crfPageNumbersToRemove.blank()) {
+					crfPageNumbersToRemove = selectedCrfPageNumber;
+				} else {
+					crfPageNumbersToRemove = crfPageNumbersToRemove + ',' + selectedCrfPageNumber;
+				}
+				$('crfPageNumbersToRemove').value = crfPageNumbersToRemove;
+				updateQuestionsId();
+				updateCrfPageNumberAndShowHideUpDownLink();
+				postProcessFormChanges();
+				addRemoveConditionalTriggeringDisplayToQuestion();
+
+
+			},
+			method:'get'
+		})
+
+
+	}
 
 	function deleteCrfPageConfirm(selectedCrfPageNumber) {
 		closeWindow();
-		$('form-pages_' + selectedCrfPageNumber).remove();
+		deleteConditionsForCrfPage(selectedCrfPageNumber);
 
-		var crfPageNumbersToRemove = $('crfPageNumbersToRemove').value;
-		if (crfPageNumbersToRemove.blank()) {
-			crfPageNumbersToRemove = selectedCrfPageNumber;
-		} else {
-			crfPageNumbersToRemove = crfPageNumbersToRemove + ',' + selectedCrfPageNumber;
-		}
-		$('crfPageNumbersToRemove').value = crfPageNumbersToRemove;
-		updateQuestionsId();
-		updateCrfPageNumberAndShowHideUpDownLink();
-		postProcessFormChanges();
 	}
 </script>
 <style type="text/css">

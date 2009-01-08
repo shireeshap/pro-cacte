@@ -34,7 +34,7 @@
 				<div id="${crfPageItem.proCtcQuestion.proCtcTerm.id}" class="selectedProCtcTerm"
 					 style="display:none;"></div>
 
-				<div id="${crfPageItem.displayOrder}" class="sortableSpan">${crfPageItem.displayOrder}</div>
+				<div id="sortableSpan_${crfPageItem.proCtcQuestion.id}" class="sortableSpan">${crfPageItem.displayOrder}</div>
 				${crfPageItem.proCtcQuestion.shortText}
 
 				<img alt="Conditional Question" src="<tags:imageUrl name="blue/conditional-icon.png"/>"

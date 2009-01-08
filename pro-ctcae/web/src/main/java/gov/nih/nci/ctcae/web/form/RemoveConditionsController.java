@@ -51,6 +51,16 @@ public class RemoveConditionsController extends AbstractController {
 
 			createFormCommand.getStudyCrf().getCrf().updateCrfItemDisplayRules(proCtcQuestion);
 
+		} else if (!StringUtils.isBlank(request.getParameter("selectedCrfPageNumber"))) {
+
+			Integer selectedCrfPageNumber = ServletRequestUtils.getIntParameter(request, "selectedCrfPageNumber");
+
+
+			CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+
+
+			createFormCommand.getStudyCrf().getCrf().updateCrfItemDisplayRules(selectedCrfPageNumber);
+
 		}
 
 		return modelAndView;

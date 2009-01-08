@@ -239,10 +239,14 @@ public class CRF extends BaseVersionable {
 		if (crfPage != null) {
 			crfPage.setCrf(this);
 			crfPages.add(crfPage);
-			crfPage.setPageNumber(crfPages.size() - 1);
+			crfPage.setPageNumber(getCrfPageNumber());
 		}
 
 
+	}
+
+	private int getCrfPageNumber() {
+		return crfPages.size() - 1;
 	}
 
 	public void addOrUpdateCrfItemInCrfPage(final int crfPageNumber, final ProCtcQuestion proCtcQuestion, final int displayOrder) {
@@ -326,10 +330,48 @@ public class CRF extends BaseVersionable {
 
 		//now remove the  display rules
 		for (CrfPageItem crfPageItem : getAllCrfPageItems()) {
-				crfPageItem.removeCrfItemDisplayRulesByIds(proCtcValidValues);
+			crfPageItem.removeCrfItemDisplayRulesByIds(proCtcValidValues);
 
 
 		}
+
+	}
+
+	public void updateCrfItemDisplayRules(final Integer selectedCrfPageNumber) {
+		CRFPage crfPage = getCrfPageByPageNumber(selectedCrfPageNumber);
+		if (crfPage != null) {
+			List<CrfPageItem> crfPageItems = crfPage.getCrfPageItems();
+			for (CrfPageItem crfPageItem : crfPageItems) {
+				updateCrfItemDisplayRules(crfPageItem.getProCtcQuestion());
+			}
+		} else {
+			logger.error("can not find crf page for given page number:" + selectedCrfPageNumber);
+		}
+
+	}
+
+	public CRFPage addCrfPage(final ProCtcQuestion proCtcQuestion) {
+		CRFPage crfPage = addNewCrfPage();
+		addOrUpdateCrfItemInCrfPage(getCrfPageNumber(), proCtcQuestion, 0);
+		return crfPage;
+
+	}
+
+	public CRFPage addNewCrfPage() {
+		CRFPage crfPage = new CRFPage();
+		studyCrf.getCrf().addCrfPge(crfPage);
+		return crfPage;
+
+	}
+
+
+	public CRFPage addCrfPage(final ProCtcTerm proCtcTerm) {
+		CRFPage crfPage = addNewCrfPage();
+		crfPage.removeExistingAndAddNewCrfItem(proCtcTerm);
+//		for(ProCtcQuestion )
+//		addOrUpdateCrfItemInCrfPage(getCrfPageNumber(), proCtcQuestion, 0);
+		return crfPage;
+
 
 	}
 }

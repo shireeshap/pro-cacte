@@ -14,7 +14,7 @@
 <c:forEach items="${crfItemDisplayRuleList}" var="crfItemDisplayRule">
 	<c:set var="inputName" value="conditionalQuestion_${selectedQuestionId}_${crfItemDisplayRule.persistable.id}"/>
 
-	<tr id="${inputName}-row" class="conditionalQuestion_${selectedQuestionId}-condition conditionalTriggering_${crfItemDisplayRule.persistable.proCtcQuestion.id}">
+	<tr id="${inputName}-row" class="conditionalQuestion_${selectedQuestionId}_condition conditionalTriggering_${crfItemDisplayRule.persistable.proCtcQuestion.id}">
 
 		<td style="border-right:none;" >
 
