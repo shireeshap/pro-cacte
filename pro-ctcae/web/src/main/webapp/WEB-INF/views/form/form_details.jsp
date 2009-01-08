@@ -185,249 +185,6 @@ function updateSelectedCrfItems(questionId) {
 }
 
 
-function updateCrfPageNumberAndShowHideUpDownLink() {
-	var crfPageNumbers = '';
-	var formPages = $$('div.formpages');
-	var i = 0;
-	formPages.each(function (item) {
-
-		var index = item.id.substr(11, item.id.length);
-
-		if (crfPageNumbers == '') {
-			crfPageNumbers = index;
-		} else {
-			crfPageNumbers = crfPageNumbers + ',' + index;
-		}
-		if (i == 0) {
-			$('crfPageUpLink_' + index).hide();
-			$('crfPagDownLink_' + index).show();
-		} else if (i == formPages.length - 1)
-		{
-			$('crfPagDownLink_' + index).hide();
-			$('crfPageUpLink_' + index).show();
-		} else {
-			$('crfPageUpLink_' + index).show();
-			$('crfPagDownLink_' + index).show();
-
-		}
-
-		i++;
-	});
-
-	$('crfPageNumbers').value = crfPageNumbers;
-
-
-}
-
-function moveCrfPageUp(selectedCrfPageNumber) {
-
-	var formPages = $$('div.formpages');
-
-	var sortableDivs = [];
-	var i = 0;
-	var previousCrfPage = '';
-	formPages.each(function(item) {
-
-
-		if (item.id == 'form-pages_' + selectedCrfPageNumber) {
-
-			previousCrfPage = formPages[i - 1];
-
-		}
-
-		i++;
-
-
-	});
-	if (previousCrfPage != '') {
-		Element.insert(previousCrfPage, {before:$('form-pages_' + selectedCrfPageNumber)})
-
-		updateCrfPageNumberAndShowHideUpDownLink();
-		postProcessFormChanges()
-		updateConditions();
-	}
-}
-function moveCrfPageDown(selectedCrfPageNumber) {
-
-	var formPages = $$('div.formpages');
-
-	var sortableDivs = [];
-	var i = 0;
-	var nextCrfPage = '';
-	formPages.each(function(item) {
-
-
-		if (item.id == 'form-pages_' + selectedCrfPageNumber) {
-
-			nextCrfPage = formPages[i + 1];
-
-		}
-
-		i++;
-
-
-	});
-	if (nextCrfPage != '') {
-		Element.insert(nextCrfPage, {after:$('form-pages_' + selectedCrfPageNumber)})
-
-		updateCrfPageNumberAndShowHideUpDownLink();
-		postProcessFormChanges();
-		updateConditions();
-	}
-}
-
-function updateTotalNumberOfQuestionsInEachPage() {
-
-	var formPages = $$('div.formpages');
-	var numberOfQuestionsInEachPage = '';
-	var sortableDivs = [];
-	formPages.each(function(item) {
-		var index = item.id.substr(11, item.id.length);
-		numberOfQuestionsInEachPage = numberOfQuestionsInEachPage + parseInt($$('#' + item.id + ' div.sortable').length - 1)
-
-	})
-	numberOfQuestionsInEachPage = numberOfQuestionsInEachPage.toArray();
-	$('numberOfQuestionsInEachPage').value = numberOfQuestionsInEachPage;
-}
-
-function moveQuestionUp(selectedQuestionId) {
-
-	var formPages = $$('div.formpages');
-
-	var sortableDivs = [];
-	var j = 0;
-	var previousItemId = '';
-	formPages.each(function(item) {
-		var i = 1;
-
-
-		var crfPageItems = $$('#' + item.id + ' div.sortable');
-
-		crfPageItems.each(function(crfPageItem) {
-			var id = crfPageItem.id;
-			if (!id.include('dummySortable_'))
-			{
-				if (id == 'sortable_' + selectedQuestionId) {
-
-					if (i == 1) {
-						//move to previous page
-						var pageIndex = parseInt(j - 1);
-						var children = $('sortablePage_' + pageIndex).childElements();
-						var previousItem = children[children.length - 1];
-						previousItemId = previousItem.id;
-						Element.insert(previousItem, {after:$('sortable_' + selectedQuestionId)})
-
-						selectPage(pageIndex);
-
-					} else {
-						var previousItem = crfPageItems[i - 1];
-						previousItemId = previousItem.id;
-						Element.insert(previousItem, {before:$('sortable_' + selectedQuestionId)})
-
-
-					}
-
-				}
-				i++;
-			}
-		});
-
-		j++;
-
-	});
-	if (previousItemId != '') {
-
-		updateQuestionsId();
-		updateOrderId();
-		postProcessFormChanges();
-		updateConditions();
-	}
-}
-function moveQuestionDown(selectedQuestionId) {
-	var formPages = $$('div.formpages');
-
-	var sortableDivs = [];
-	var j = 0;
-	var nextItemId = ''
-	formPages.each(function(item) {
-		var i = 1;
-		var crfPageItems = $$('#' + item.id + ' div.sortable');
-		crfPageItems.each(function(crfPageItem)
-		{
-			if (!crfPageItem.id.include('dummySortable_')) {
-				if (crfPageItem.id == 'sortable_' + selectedQuestionId) {
-
-					if (i == crfPageItems.length - 1) {
-						//move to next page
-						var pageIndex = parseInt(j + 1);
-						nextItemId = 'dummySortable_' + pageIndex;
-						selectPage(pageIndex)
-
-					} else {
-						var nextItem = crfPageItems[i + 1];
-						nextItemId = nextItem.id;
-					}
-
-				}
-				i++;
-			}
-		});
-
-
-		j++;
-	});
-	if (nextItemId != '') {
-		Element.insert($(nextItemId), {after:$('sortable_' + selectedQuestionId)})
-		updateQuestionsId();
-		updateOrderId();
-		postProcessFormChanges();
-		updateConditions();
-	}
-
-}
-
-function showHideQuestionUpDownLink() {
-
-	var formPages = $$('div.formpages');
-
-	var j = 0;
-	var nextItemId = ''
-	formPages.each(function(item) {
-		var i = 1;
-		var crfPageItems = $$('#' + item.id + ' div.sortable');
-		crfPageItems.each(function(crfPageItem)
-		{
-			if (!crfPageItem.id.include('dummySortable_')) {
-				var questionId = crfPageItem.id.substr(9, crfPageItem.id.length)
-				if (j == 0) {
-					if (parseInt(crfPageItems.length) == 2) {
-						$('moveQuestionUpLink_' + questionId).hide();
-						$('moveQuestionDownLink_' + questionId).hide();
-					}
-					if (i == 1) {
-
-					} else if (i == parseInt(crfPageItems.length)) {
-						$('moveQuestionDownLink_' + questionId).hide();
-						$('moveQuestionUpLink_' + questionId).show();
-					} else {
-
-					}
-
-				} else {
-					$('moveQuestionDownLink_' + questionId).show();
-					$('moveQuestionUpLink_' + questionId).show();
-				}
-				i++;
-			}
-		});
-
-
-		j++;
-	});
-
-}
-
-
 function reviewForm() {
 	var firstQuestion = $$('div.sortable')[0].id;
 	var nextQuestionIndex = 1;
@@ -845,6 +602,244 @@ function hideFormSettings() {
 		});
 
 	}
+
+</script>
+<script type="text/javascript">
+
+function updateCrfPageNumberAndShowHideUpDownLink() {
+	var crfPageNumbers = '';
+	var formPages = $$('div.formpages');
+	var i = 0;
+	formPages.each(function (item) {
+
+		var index = item.id.substr(11, item.id.length);
+
+		if (crfPageNumbers == '') {
+			crfPageNumbers = index;
+		} else {
+			crfPageNumbers = crfPageNumbers + ',' + index;
+		}
+		if (i == 0) {
+			$('crfPageUpLink_' + index).hide();
+			$('crfPagDownLink_' + index).show();
+		} else if (i == formPages.length - 1)
+		{
+			$('crfPagDownLink_' + index).hide();
+			$('crfPageUpLink_' + index).show();
+		} else {
+			$('crfPageUpLink_' + index).show();
+			$('crfPagDownLink_' + index).show();
+
+		}
+
+		i++;
+	});
+
+	$('crfPageNumbers').value = crfPageNumbers;
+
+
+}
+
+function moveCrfPageUp(selectedCrfPageNumber) {
+
+	var formPages = $$('div.formpages');
+
+	var sortableDivs = [];
+	var i = 0;
+	var previousCrfPage = '';
+	formPages.each(function(item) {
+
+
+		if (item.id == 'form-pages_' + selectedCrfPageNumber) {
+
+			previousCrfPage = formPages[i - 1];
+
+		}
+
+		i++;
+
+
+	});
+	if (previousCrfPage != '') {
+		Element.insert(previousCrfPage, {before:$('form-pages_' + selectedCrfPageNumber)})
+
+		updateCrfPageNumberAndShowHideUpDownLink();
+		postProcessFormChanges()
+		updateConditions();
+	}
+}
+function moveCrfPageDown(selectedCrfPageNumber) {
+
+	var formPages = $$('div.formpages');
+
+	var sortableDivs = [];
+	var i = 0;
+	var nextCrfPage = '';
+	formPages.each(function(item) {
+
+
+		if (item.id == 'form-pages_' + selectedCrfPageNumber) {
+
+			nextCrfPage = formPages[i + 1];
+
+		}
+
+		i++;
+
+
+	});
+	if (nextCrfPage != '') {
+		Element.insert(nextCrfPage, {after:$('form-pages_' + selectedCrfPageNumber)})
+
+		updateCrfPageNumberAndShowHideUpDownLink();
+		postProcessFormChanges();
+		updateConditions();
+	}
+}
+
+function updateTotalNumberOfQuestionsInEachPage() {
+
+	var formPages = $$('div.formpages');
+	var numberOfQuestionsInEachPage = '';
+	var sortableDivs = [];
+	formPages.each(function(item) {
+		var index = item.id.substr(11, item.id.length);
+		numberOfQuestionsInEachPage = numberOfQuestionsInEachPage + parseInt($$('#' + item.id + ' div.sortable').length - 1)
+
+	})
+	numberOfQuestionsInEachPage = numberOfQuestionsInEachPage.toArray();
+	$('numberOfQuestionsInEachPage').value = numberOfQuestionsInEachPage;
+}
+
+function moveQuestionUp(selectedQuestionId) {
+
+	var formPages = $$('div.formpages');
+
+	var sortableDivs = [];
+	var j = 0;
+	var previousItemId = '';
+	formPages.each(function(item) {
+		var i = 1;
+
+
+		var crfPageItems = $$('#' + item.id + ' div.sortable');
+
+		crfPageItems.each(function(crfPageItem) {
+			var id = crfPageItem.id;
+			if (!id.include('dummySortable_'))
+			{
+				if (id == 'sortable_' + selectedQuestionId) {
+
+					if (i == 1) {
+						//move to previous page
+						var pageIndex = parseInt(j - 1);
+						var children = $('sortablePage_' + pageIndex).childElements();
+						var previousItem = children[children.length - 1];
+						previousItemId = previousItem.id;
+						Element.insert(previousItem, {after:$('sortable_' + selectedQuestionId)})
+
+						selectPage(pageIndex);
+
+					} else {
+						var previousItem = crfPageItems[i - 1];
+						previousItemId = previousItem.id;
+						Element.insert(previousItem, {before:$('sortable_' + selectedQuestionId)})
+
+
+					}
+
+				}
+				i++;
+			}
+		});
+
+		j++;
+
+	});
+	if (previousItemId != '') {
+
+		updateQuestionsId();
+		updateOrderId();
+		postProcessFormChanges();
+		updateConditions();
+	}
+}
+function moveQuestionDown(selectedQuestionId) {
+	var formPages = $$('div.formpages');
+
+	var sortableDivs = [];
+	var j = 0;
+	var nextItemId = ''
+	formPages.each(function(item) {
+		var i = 1;
+		var crfPageItems = $$('#' + item.id + ' div.sortable');
+		crfPageItems.each(function(crfPageItem)
+		{
+			if (!crfPageItem.id.include('dummySortable_')) {
+				if (crfPageItem.id == 'sortable_' + selectedQuestionId) {
+
+					if (i == crfPageItems.length - 1) {
+						//move to next page
+						var pageIndex = parseInt(j + 1);
+						nextItemId = 'dummySortable_' + pageIndex;
+						selectPage(pageIndex)
+
+					} else {
+						var nextItem = crfPageItems[i + 1];
+						nextItemId = nextItem.id;
+					}
+
+				}
+				i++;
+			}
+		});
+
+
+		j++;
+	});
+	if (nextItemId != '') {
+		Element.insert($(nextItemId), {after:$('sortable_' + selectedQuestionId)})
+		updateQuestionsId();
+		updateOrderId();
+		postProcessFormChanges();
+		updateConditions();
+	}
+
+}
+
+function showHideQuestionUpDownLink() {
+
+	var i = 0;
+	var j = 0;
+
+	var formPages = $$('div.formpages');
+
+	var totalDummyDiv = formPages.length;
+	var crfPageItems = $$('div.sortable');
+
+	crfPageItems.each(function(crfPageItem)
+	{
+		if (!crfPageItem.id.include('dummySortable_')) {
+			var questionId = crfPageItem.id.substr(9, crfPageItem.id.length)
+			if (i == 0) {
+				$('moveQuestionUpLink_' + questionId).hide();
+				$('moveQuestionDownLink_' + questionId).show();
+
+			} else {
+				$('moveQuestionDownLink_' + questionId).show();
+				$('moveQuestionUpLink_' + questionId).show();
+			}
+			if (j == parseInt(crfPageItems.length) - 1) {
+				$('moveQuestionDownLink_' + questionId).hide();
+				$('moveQuestionUpLink_' + questionId).show();
+			}
+			i++;
+		}
+		j++;
+	});
+
+
+}
 
 </script>
 <script type="text/javascript">
