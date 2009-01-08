@@ -23,7 +23,7 @@
             <c:when test="${status eq 'In-progress' or status eq 'Completed'}">
                 <input id="${inputName}.startDate" type="text"
                        value='<tags:formatDate value="${startDate}"/>'
-                       title="start date" name="${inputName}.startDate" readonly="true"/>
+                       title="start date" name="${inputName}.startDate" readonly="true" disabled="true"/>
             </c:when>
             <c:otherwise>
                 <input id="${inputName}.startDate" class="date validate-NOTEMPTY&&DATE" type="text"
@@ -42,7 +42,7 @@
             <c:when test="${status eq 'Completed'}">
                 <input id="${inputName}.dueDate" type="text"
                        value='<tags:formatDate value="${dueDate}"/>'
-                       title="due date" name="${inputName}.dueDate" readonly="true"/>
+                       title="due date" name="${inputName}.dueDate" readonly="true" disabled="true"/>
             </c:when>
             <c:otherwise>
                 <input id="${inputName}.dueDate" class="date validate-NOTEMPTY&&DATE" type="text"
