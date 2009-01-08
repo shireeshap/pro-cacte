@@ -22,7 +22,9 @@
         <td>
             <c:choose>
                 <c:when test="${crf.status eq 'Released'}">
+                    <c:if test="${crf.nextVersionId eq null}">
                     <a href="../../pages/participant/schedulecrf?studyCrfId=${crf.studyCrf.id}">Schedule |</a>
+                    </c:if>
                     <a href="../../pages/form/copyForm?studyCrfId=${crf.studyCrf.id}">Copy </a>
 
                     <c:if test="${crf.nextVersionId eq null}">
