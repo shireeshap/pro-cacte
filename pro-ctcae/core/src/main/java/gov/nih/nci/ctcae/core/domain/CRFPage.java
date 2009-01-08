@@ -122,22 +122,21 @@ public class CRFPage extends BaseVersionable {
 	 * this is required to update the crf item properties on right side of the create form
 	 *
 	 * @param proCtcQuestion
-	 * @param displayOrder
 	 */
-	public void addOrUpdateCrfItem(final ProCtcQuestion proCtcQuestion, final Integer displayOrder) {
+	public void addOrUpdateCrfItem(final ProCtcQuestion proCtcQuestion) {
 
 		//check if it already exists
 		for (CrfPageItem existingCrfPageItem : getCrfItemsSortedByDislayOrder()) {
 			if (existingCrfPageItem.getProCtcQuestion() != null
 				&& (existingCrfPageItem.getProCtcQuestion().equals(proCtcQuestion))) {
 				//probably we are updating order only
-				existingCrfPageItem.setDisplayOrder(displayOrder);
+				updateOrderNumber(existingCrfPageItem);
+
 				return;
 			}
 		}
 		CrfPageItem crfPageItem = new CrfPageItem();
 		crfPageItem.setProCtcQuestion(proCtcQuestion);
-		crfPageItem.setDisplayOrder(displayOrder);
 
 		updateOrderNumber(crfPageItem);
 		crfPageItem.setCrfPage(this);
@@ -211,10 +210,9 @@ public class CRFPage extends BaseVersionable {
 	}
 
 	private void updateOrderNumber(final CrfPageItem crfPageItem) {
-		if (crfPageItem.getDisplayOrder() == null || crfPageItem.getDisplayOrder() == 0) {
-			crfPageItem.setDisplayOrder(getCrfPageItems().size() + 1);
+		crfPageItem.setDisplayOrder(getCrfPageItems().size() + 1);
 
-		}
+
 	}
 
 	public CrfPageItem getCrfPageItemByQuestion(final ProCtcQuestion proCtcQuestion) {

@@ -31,8 +31,8 @@ public class CRFPageTest extends TestCase {
 
 	public void testGetCrfItems() {
 		crfPage = new CRFPage();
-		crfPage.addOrUpdateCrfItem(proCtcQuestion1, 1);
-		crfPage.addOrUpdateCrfItem(proCtcQuestion2, 2);
+		crfPage.addOrUpdateCrfItem(proCtcQuestion1);
+		crfPage.addOrUpdateCrfItem(proCtcQuestion2);
 		assertEquals("must return 2 items", 2, crfPage.getCrfItemsSortedByDislayOrder().size());
 		for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
 			assertNotNull("order number must not be null", crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
@@ -86,8 +86,8 @@ public class CRFPageTest extends TestCase {
 	}
 
 	public void testReorderCrfItems() {
-		crfPage.addOrUpdateCrfItem(proCtcQuestion1, 1);
-		crfPage.addOrUpdateCrfItem(proCtcQuestion2, 2);
+		crfPage.addOrUpdateCrfItem(proCtcQuestion1);
+		crfPage.addOrUpdateCrfItem(proCtcQuestion2);
 		assertEquals("must return 2 items", 2, crfPage.getCrfItemsSortedByDislayOrder().size());
 		for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
 			assertEquals("must preserve order no", Integer.valueOf(i + 1), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());

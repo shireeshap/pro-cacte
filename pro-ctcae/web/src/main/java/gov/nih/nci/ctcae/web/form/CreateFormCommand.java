@@ -71,15 +71,13 @@ public class CreateFormCommand implements Serializable {
 			String questionsInEachPage = numberOfQuestionInEachPageArray[j];
 
 			List<Integer> questionsToKeep = new ArrayList<Integer>();
-			int displayOrder = CrfPageItem.INITIAL_ORDER;
 
 			for (int i = k; i < k + Integer.valueOf(questionsInEachPage); i++) {
 				Integer questionId = Integer.parseInt(questionIdsArrays[i]);
 				ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
 				if (proCtcQuestion != null) {
-					studyCrf.getCrf().addOrUpdateCrfItemInCrfPage(Integer.valueOf(crfPageNumberArray[j]), proCtcQuestion, displayOrder);
+					studyCrf.getCrf().addOrUpdateCrfItemInCrfPage(Integer.valueOf(crfPageNumberArray[j]), proCtcQuestion);
 					questionsToKeep.add(questionId);
-					displayOrder++;
 
 				} else {
 					logger.error("can not add question because pro ctc question is null for id:" + questionId);
@@ -143,8 +141,7 @@ public class CreateFormCommand implements Serializable {
 	}
 
 	public CRFPage addAnotherPage() {
-		CRFPage crfPage = new CRFPage();
-		studyCrf.getCrf().addCrfPge(crfPage);
+		CRFPage crfPage = studyCrf.getCrf().addNewCrfPage();
 		return crfPage;
 
 	}

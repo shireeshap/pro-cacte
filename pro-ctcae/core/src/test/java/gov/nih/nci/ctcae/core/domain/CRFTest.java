@@ -2,14 +2,16 @@ package gov.nih.nci.ctcae.core.domain;
 
 import junit.framework.TestCase;
 
+import java.util.List;
+
 /**
  * @author Harsh Agarwal
  * @created Oct 13, 2008
  */
 public class CRFTest extends TestCase {
 	private CRF crf;
-	private ProCtcQuestion proCtcQuestion1;
-	private ProCtcQuestion proCtcQuestion2, proCtcQuestion3, proCtcQuestion4;
+	private ProCtcQuestion firstQuestion;
+	private ProCtcQuestion secondQuestion, thirdQuestion, fourthQuestion;
 
 	private ProCtcTerm constipation, diarrhea;
 
@@ -51,9 +53,6 @@ public class CRFTest extends TestCase {
 		assertEquals("1.0", crf.getCrfVersion());
 		assertEquals(Integer.valueOf(2), crf.getId());
 	}
-
-
-
 
 
 	public void testEqualsAndHashCode() {
@@ -192,23 +191,92 @@ public class CRFTest extends TestCase {
 
 	}
 
+	public void testAddCrfPageAndAddQuestion() {
+		crf = new CRF();
+		crf.addCrfPage(firstQuestion);
+
+		assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
+
+		List<CrfPageItem> crfPageItems = crf.getAllCrfPageItems();
+		assertEquals("must be 1 crf page item only", 1, crfPageItems.size());
+		assertSame("must create the crf page item for specified question", firstQuestion, crfPageItems.get(0).getProCtcQuestion());
+
+
+	}
+
+	public void testAddCrfPageAndAddProCtcTerm() {
+		crf = new CRF();
+		crf.addCrfPage(constipation);
+
+		assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
+
+		List<CrfPageItem> crfPageItems = crf.getAllCrfPageItems();
+		assertEquals("must be 2 crf page item", 2, crfPageItems.size());
+
+		assertSame("must create the crf page item for specified question", secondQuestion, crfPageItems.get(1).getProCtcQuestion());
+		assertSame("must create the crf page item for specified question", firstQuestion, crfPageItems.get(0).getProCtcQuestion());
+
+
+	}
+
+	public void testAddCrfPageWithProCtcTermMustRemoveQuestionsFormOtherCrfPagesAlso() {
+		crf = new CRF();
+		crf.addCrfPage(firstQuestion);
+		crf.addCrfPage(constipation);
+
+		assertEquals("must return 2 crfPages", 2, crf.getCrfPagesSortedByPageNumber().size());
+
+		List<CrfPageItem> crfPageItems = crf.getAllCrfPageItems();
+
+		assertEquals("must be 2 crf page item only", 2, crfPageItems.size());
+
+		assertEquals("must be remove crf page item if same question is added to another page", 0, crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems().size());
+
+		CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(1);
+		assertEquals("must create the crf page item for specified question", 2, crfPage.getCrfPageItems().size());
+
+		assertSame("must create the crf page item for specified question", firstQuestion, crfPage.getCrfItemsSortedByDislayOrder().get(0).getProCtcQuestion());
+		assertSame("must create the crf page item for specified question", secondQuestion, crfPage.getCrfItemsSortedByDislayOrder().get(1).getProCtcQuestion());
+
+
+	}
+
+	public void testAddCrfPageWithQuestionMustRemoveQuestionsFormOtherCrfPagesAlso() {
+		crf = new CRF();
+		crf.addCrfPage(firstQuestion);
+		crf.addCrfPage(firstQuestion);
+
+		assertEquals("must return 2 crfPages", 2, crf.getCrfPagesSortedByPageNumber().size());
+
+		List<CrfPageItem> crfPageItems = crf.getAllCrfPageItems();
+
+		assertEquals("must be 1 crf page item only", 1, crfPageItems.size());
+		assertEquals("must be remove crf page item if same question is added to another page", 0, crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems().size());
+		assertEquals("must create the crf page item for specified question", 1, crf.getCrfPagesSortedByPageNumber().get(1).getCrfPageItems().size());
+
+		assertSame("must create the crf page item for specified question", firstQuestion, crfPageItems.get(0).getProCtcQuestion());
+
+
+	}
+
+
 	protected void setUp() throws Exception {
 		super.setUp();
-		proCtcQuestion1 = new ProCtcQuestion();
-		proCtcQuestion1.setQuestionText("first question");
-		proCtcQuestion2 = new ProCtcQuestion();
-		proCtcQuestion2.setQuestionText("second question");
-		proCtcQuestion3 = new ProCtcQuestion();
-		proCtcQuestion3.setQuestionText("third question");
-		proCtcQuestion4 = new ProCtcQuestion();
-		proCtcQuestion4.setQuestionText("fourth question");
+		firstQuestion = new ProCtcQuestion();
+		firstQuestion.setQuestionText("first question");
+		secondQuestion = new ProCtcQuestion();
+		secondQuestion.setQuestionText("second question");
+		thirdQuestion = new ProCtcQuestion();
+		thirdQuestion.setQuestionText("third question");
+		fourthQuestion = new ProCtcQuestion();
+		fourthQuestion.setQuestionText("fourth question");
 
 		constipation = new ProCtcTerm();
-		constipation.getProCtcQuestions().add(proCtcQuestion1);
-		constipation.getProCtcQuestions().add(proCtcQuestion2);
+		constipation.getProCtcQuestions().add(firstQuestion);
+		constipation.getProCtcQuestions().add(secondQuestion);
 
 		diarrhea = new ProCtcTerm();
-		diarrhea.getProCtcQuestions().add(proCtcQuestion3);
-		diarrhea.getProCtcQuestions().add(proCtcQuestion4);
+		diarrhea.getProCtcQuestions().add(thirdQuestion);
+		diarrhea.getProCtcQuestions().add(fourthQuestion);
 	}
 }

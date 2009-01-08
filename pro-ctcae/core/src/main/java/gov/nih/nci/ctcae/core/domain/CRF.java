@@ -249,7 +249,7 @@ public class CRF extends BaseVersionable {
 		return crfPages.size() - 1;
 	}
 
-	public void addOrUpdateCrfItemInCrfPage(final int crfPageNumber, final ProCtcQuestion proCtcQuestion, final int displayOrder) {
+	public void addOrUpdateCrfItemInCrfPage(final int crfPageNumber, final ProCtcQuestion proCtcQuestion) {
 		CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
 
 		CRFPage anotherCrfPage = getCrfPageByPageNumber(crfPageNumber);
@@ -261,7 +261,7 @@ public class CRF extends BaseVersionable {
 		if (existingCrfPageItem != null) {
 			anotherCrfPage.addOrUpdateCrfItem(existingCrfPageItem);
 		} else {
-			anotherCrfPage.addOrUpdateCrfItem(proCtcQuestion, displayOrder);
+			anotherCrfPage.addOrUpdateCrfItem(proCtcQuestion);
 		}
 
 	}
@@ -287,15 +287,15 @@ public class CRF extends BaseVersionable {
 		return null;
 	}
 
-    public boolean isVersioned() {
-        if (this.getParentVersionId() != null || this.getNextVersionId() !=null){
-            return true;
-        }
-        return false;
-    }
+	public boolean isVersioned() {
+		if (this.getParentVersionId() != null || this.getNextVersionId() != null) {
+			return true;
+		}
+		return false;
+	}
 
 
-    public List<CrfPageItem> getAllCrfPageItems() {
+	public List<CrfPageItem> getAllCrfPageItems() {
 		List<CrfPageItem> crfPageItems = new ArrayList<CrfPageItem>();
 		for (CRFPage crfPage : crfPages) {
 			crfPageItems.addAll(crfPage.getCrfPageItems());
@@ -352,14 +352,14 @@ public class CRF extends BaseVersionable {
 
 	public CRFPage addCrfPage(final ProCtcQuestion proCtcQuestion) {
 		CRFPage crfPage = addNewCrfPage();
-		addOrUpdateCrfItemInCrfPage(getCrfPageNumber(), proCtcQuestion, 0);
+		addOrUpdateCrfItemInCrfPage(getCrfPageNumber(), proCtcQuestion);
 		return crfPage;
 
 	}
 
 	public CRFPage addNewCrfPage() {
 		CRFPage crfPage = new CRFPage();
-		studyCrf.getCrf().addCrfPge(crfPage);
+		addCrfPge(crfPage);
 		return crfPage;
 
 	}
@@ -367,9 +367,11 @@ public class CRF extends BaseVersionable {
 
 	public CRFPage addCrfPage(final ProCtcTerm proCtcTerm) {
 		CRFPage crfPage = addNewCrfPage();
-		crfPage.removeExistingAndAddNewCrfItem(proCtcTerm);
-//		for(ProCtcQuestion )
-//		addOrUpdateCrfItemInCrfPage(getCrfPageNumber(), proCtcQuestion, 0);
+
+		for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
+			addOrUpdateCrfItemInCrfPage(getCrfPageNumber(), proCtcQuestion);
+		}
+
 		return crfPage;
 
 
