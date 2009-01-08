@@ -1404,8 +1404,10 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
 	background-repeat: no-repeat;
 }
 .formpages {
-	border:1px solid blue;
+	border:2px dotted #999;
 	margin:10px;
-	background-color:#cdd4f7;
+	padding:5px;
+	/* background-color:#cdd4f7; */
 	position:relative;
+	background-image:url(/ctcae/images/blue/crumpled-paper.png);
 }

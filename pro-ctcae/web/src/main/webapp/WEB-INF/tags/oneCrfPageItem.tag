@@ -40,7 +40,7 @@
 				<img alt="Conditional Question" src="<tags:imageUrl name="blue/conditional-icon.png"/>"
 					 id="conditionsImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
 
-				<img alt="Conditional triggering Question Image"
+				<img alt="Conditional Triggering Question"
 					 src="<tags:imageUrl name="blue/conditional-triggering-icon.png"/>"
 					 id="conditionalTriggeringImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
 

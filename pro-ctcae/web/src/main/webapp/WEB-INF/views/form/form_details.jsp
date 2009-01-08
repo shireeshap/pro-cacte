@@ -1138,8 +1138,8 @@ function hideFormSettings() {
 	}
 
 	.formpagesselected {
-		background-color: #edc0ac;
-		border: 1px solid #da4d01;
+		/* background-color: #edc0ac; */
+		border: 2px solid #4D6EFF;
 	}
 
 	.instructions .summaryvalue {
