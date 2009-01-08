@@ -45,12 +45,17 @@
 
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="createForm" hideErrorDetails="true" boxClass="small">
     <jsp:attribute name="singleFields">
+        <c:choose>
+            <c:when test="${command.studyCrf.crf.crfVersion eq 1.0}">
         <p><tags:instructions code="instruction_select_study"/></p>
         <tags:renderAutocompleter propertyName="studyCrf.study" required="true" displayName="form.label.study"
 								  size="70"/>
         <p id="studyCrf.study-selected" style="display: none">
 			You have selected the study <span id="studyCrf.study-selected-name"></span>.
 		</p>
+        </c:when>
+        <c:otherwise>&nbsp;&nbsp;&nbsp;<b>Study</b>&nbsp;&nbsp; <input type="text" value="${command.studyCrf.study.displayName}" disabled="true" size="70"></c:otherwise>
+        </c:choose>
     </jsp:attribute>
 
 

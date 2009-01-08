@@ -32,12 +32,12 @@
                     <div class="flow-buttons">
 
                         <input type="submit" id="flow-update"
-                               class="next" value="Delete" alt="Save"
+                               class="next" value="Yes" alt="Save"
                                />
 
 
                         <input type="button" id="flow-cancel"
-                               class="previous ibutton" value="Cancel" alt="Cancel"
+                               class="previous ibutton" value="No" alt="Cancel"
                                onclick="closeWindow()"/>
                     </div>
 
