@@ -123,20 +123,21 @@ public class CRFPage extends BaseVersionable {
 	 *
 	 * @param proCtcQuestion
 	 */
-	public void addOrUpdateCrfItem(final ProCtcQuestion proCtcQuestion) {
+	public void addOrUpdateCrfItem(final ProCtcQuestion proCtcQuestion, final Integer displayOrder) {
 
 		//check if it already exists
 		for (CrfPageItem existingCrfPageItem : getCrfItemsSortedByDislayOrder()) {
-			if (existingCrfPageItem.getProCtcQuestion() != null
-				&& (existingCrfPageItem.getProCtcQuestion().equals(proCtcQuestion))) {
+			if (existingCrfPageItem.getProCtcQuestion() != null && (existingCrfPageItem.getProCtcQuestion().equals(proCtcQuestion))) {
 				//probably we are updating order only
-				updateOrderNumber(existingCrfPageItem);
+
+				existingCrfPageItem.setDisplayOrder(displayOrder);
 
 				return;
 			}
 		}
 		CrfPageItem crfPageItem = new CrfPageItem();
 		crfPageItem.setProCtcQuestion(proCtcQuestion);
+		crfPageItem.setDisplayOrder(displayOrder);
 
 		updateOrderNumber(crfPageItem);
 		crfPageItem.setCrfPage(this);
@@ -210,8 +211,24 @@ public class CRFPage extends BaseVersionable {
 	}
 
 	private void updateOrderNumber(final CrfPageItem crfPageItem) {
-		crfPageItem.setDisplayOrder(getCrfPageItems().size() + 1);
+		if (crfPageItem.getDisplayOrder() == null || crfPageItem.getDisplayOrder() == 0) {
+			crfPageItem.setDisplayOrder(getCrfPageItems().size() + 1);
 
+		}
+
+	}
+
+	public CrfPageItem getCrfPageItemByQuestion(final Integer questionId) {
+		if (questionId != null) {
+			for (CrfPageItem existingCrfPageItem : getCrfPageItems()) {
+				if (existingCrfPageItem.getProCtcQuestion() != null
+					&& (existingCrfPageItem.getProCtcQuestion().getId().equals(questionId))) {
+					return existingCrfPageItem;
+				}
+			}
+
+		}
+		return null;
 
 	}
 

@@ -80,18 +80,15 @@
 		<img src="<tags:imageUrl name="checkno.gif"/>" alt="Delete"/>
 	</a>
 
-	<div id="sortable_${crfPageNumber}">
+	<div id="sortablePage_${crfPageNumber}">
 		<div class="sortable makeDraggable" id="dummySortable_${crfPageNumber}"></div>
 
 		<c:forEach items="${crfPage.crfPageItems}" var="selectedCrfPageItem"
 				   varStatus="status">
-
 			<tags:oneCrfPageItem crfPageItem="${selectedCrfPageItem}"
-								 index="${status.index}" crfPageNumber="${crfPageNumber}">
+								 index="${status.index}" crfPageNumber="${crfPageNumber}"/>
 
-			</tags:oneCrfPageItem>
 		</c:forEach>
-		<div id="hiddenDiv_${crfPageNumber}"></div>
 	</div>
 
 </div>

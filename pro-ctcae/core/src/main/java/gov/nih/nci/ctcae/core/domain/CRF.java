@@ -249,7 +249,7 @@ public class CRF extends BaseVersionable {
 		return crfPages.size() - 1;
 	}
 
-	public void addOrUpdateCrfItemInCrfPage(final int crfPageNumber, final ProCtcQuestion proCtcQuestion) {
+	public void addOrUpdateCrfItemInCrfPage(final int crfPageNumber, final ProCtcQuestion proCtcQuestion, final Integer displayOrder) {
 		CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
 
 		CRFPage anotherCrfPage = getCrfPageByPageNumber(crfPageNumber);
@@ -261,7 +261,7 @@ public class CRF extends BaseVersionable {
 		if (existingCrfPageItem != null) {
 			anotherCrfPage.addOrUpdateCrfItem(existingCrfPageItem);
 		} else {
-			anotherCrfPage.addOrUpdateCrfItem(proCtcQuestion);
+			anotherCrfPage.addOrUpdateCrfItem(proCtcQuestion, displayOrder);
 		}
 
 	}
@@ -280,6 +280,16 @@ public class CRF extends BaseVersionable {
 	private CRFPage getCrfPageByQuestion(final ProCtcQuestion proCtcQuestion) {
 		for (CRFPage crfPage : crfPages) {
 			CrfPageItem crfPageItem = crfPage.getCrfPageItemByQuestion(proCtcQuestion);
+			if (crfPageItem != null) {
+				return crfPage;
+			}
+		}
+		return null;
+	}
+
+	private CRFPage getCrfPageByQuestion(final Integer questionId) {
+		for (CRFPage crfPage : crfPages) {
+			CrfPageItem crfPageItem = crfPage.getCrfPageItemByQuestion(questionId);
 			if (crfPageItem != null) {
 				return crfPage;
 			}
@@ -307,6 +317,13 @@ public class CRF extends BaseVersionable {
 	public CrfPageItem getCrfPageItemByQuestion(final ProCtcQuestion proCtcQuestion) {
 		CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
 		return crfPage != null ? crfPage.getCrfPageItemByQuestion(proCtcQuestion) : null;
+
+
+	}
+
+	public CrfPageItem getCrfPageItemByQuestion(final Integer questionId) {
+		CRFPage crfPage = getCrfPageByQuestion(questionId);
+		return crfPage != null ? crfPage.getCrfPageItemByQuestion(questionId) : null;
 
 
 	}
@@ -352,7 +369,7 @@ public class CRF extends BaseVersionable {
 
 	public CRFPage addCrfPage(final ProCtcQuestion proCtcQuestion) {
 		CRFPage crfPage = addNewCrfPage();
-		addOrUpdateCrfItemInCrfPage(getCrfPageNumber(), proCtcQuestion);
+		addOrUpdateCrfItemInCrfPage(getCrfPageNumber(), proCtcQuestion, 0);
 		return crfPage;
 
 	}
@@ -367,9 +384,10 @@ public class CRF extends BaseVersionable {
 
 	public CRFPage addCrfPage(final ProCtcTerm proCtcTerm) {
 		CRFPage crfPage = addNewCrfPage();
-
+		int i = 0;
 		for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
-			addOrUpdateCrfItemInCrfPage(getCrfPageNumber(), proCtcQuestion);
+			addOrUpdateCrfItemInCrfPage(getCrfPageNumber(), proCtcQuestion, i);
+			i++;
 		}
 
 		return crfPage;

@@ -157,40 +157,7 @@ function addCrfPageItem(questionId, proCtcTermId) {
 
 
 }
-function addCrfPageItemDiv(transport, crfPageNumber) {
-	var response = transport.responseText;
 
-	new Insertion.Before("hiddenDiv_" + crfPageNumber, response);
-	sortQuestions()
-	updateQuestionsId();
-	updateCrfPageNumberAndShowHideUpDownLink();
-}
-function addProctcTerm(proCtcTermId) {
-	var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
-	var crfPageNumber = ''
-	$$('div.formpagesselected').each(function(item) {
-		crfPageNumber = item.id.substr(11, item.id.length);
-
-	})
-	var request = new Ajax.Request("<c:url value="/pages/form/addOneProCtcTerm"/>", {
-		parameters:"proCtcTermId=" + proCtcTermId + "&subview=subview&crfPageNumber=" + crfPageNumber,
-		onComplete:function(transport) {
-			if (crfPageNumber == '') {
-				addCrfPageDiv(transport);
-				hideQuestionsFromForm();
-
-
-			} else {
-				addCrfPageItemDiv(transport, crfPageNumber)
-				hideQuestionsFromForm();
-				postProcessFormChanges()
-
-			}
-		},
-		method:'get'
-	})
-	hideProCtcTermLinkFromForm(proCtcTermId);
-}
 
 function selectPage(pageIndex) {
 	unselectAllSelectedPage();
@@ -371,12 +338,18 @@ function moveQuestionUp(selectedQuestionId) {
 					if (i == 1) {
 						//move to previous page
 						var pageIndex = parseInt(j - 1);
-						previousItemId = 'hiddenDiv_' + pageIndex;
+						var children = $('sortablePage_' + pageIndex).childElements();
+						var previousItem = children[children.length - 1];
+						previousItemId = previousItem.id;
+						Element.insert(previousItem, {after:$('sortable_' + selectedQuestionId)})
+
 						selectPage(pageIndex);
 
 					} else {
 						var previousItem = crfPageItems[i - 1];
 						previousItemId = previousItem.id;
+						Element.insert(previousItem, {before:$('sortable_' + selectedQuestionId)})
+
 
 					}
 
@@ -389,7 +362,6 @@ function moveQuestionUp(selectedQuestionId) {
 
 	});
 	if (previousItemId != '') {
-		Element.insert($(previousItemId), {before:$('sortable_' + selectedQuestionId)})
 
 		updateQuestionsId();
 		updateOrderId();
@@ -667,20 +639,11 @@ function hideCrfItemProperties() {
 function addEditingDisplayToQuestion(questionId) {
 	removeEditingDisplayFromQuestions();
 	$('sortable_' + questionId).addClassName('editing');
-	//$('sortable_' + questionId).addClassName('focused');
-	//$('arrow_' + questionId).show();
 
 }
 function removeEditingDisplayFromQuestions() {
-	$$('div.sortable').each(function (item) {
-		var id = item.id;
-		if (!id.include('dummySortable_')) {
-			item.removeClassName('editing');
-			//item.removeClassName('focused');
-			var questionId = id.substr(9, id.length)
-			//$('arrow_' + questionId).hide();
-
-		}
+	$$('div.editing').each(function (item) {
+		item.removeClassName('editing');
 	})
 }
 function addCrfItemPropertiesHtml(questionId) {
@@ -693,8 +656,11 @@ function addCrfItemPropertiesHtml(questionId) {
 	}
 }
 function showCrfItemPropertiesTab(questionId) {
-	showQuestionSettingsTab()
-	showCrfItemProperties(questionId);
+	if (questionId != '') {
+
+		showQuestionSettingsTab()
+		showCrfItemProperties(questionId);
+	}
 }
 function hideQuestionBank() {
 	$('questionBank').hide();
@@ -712,6 +678,43 @@ function hideFormSettings() {
 }
 
 
+</script>
+<script type="text/javascript">
+
+	function addCrfPageItemDiv(transport, crfPageNumber) {
+		var response = transport.responseText;
+		var children = $('sortablePage_' + crfPageNumber).childElements();
+		new Insertion.After(children[children.length - 1].id, response);
+		sortQuestions()
+		updateQuestionsId();
+		updateCrfPageNumberAndShowHideUpDownLink();
+	}
+	function addProctcTerm(proCtcTermId) {
+		var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
+		var crfPageNumber = ''
+		$$('div.formpagesselected').each(function(item) {
+			crfPageNumber = item.id.substr(11, item.id.length);
+
+		})
+		var request = new Ajax.Request("<c:url value="/pages/form/addOneProCtcTerm"/>", {
+			parameters:"proCtcTermId=" + proCtcTermId + "&subview=subview&crfPageNumber=" + crfPageNumber,
+			onComplete:function(transport) {
+				if (crfPageNumber == '') {
+					addCrfPageDiv(transport);
+					hideQuestionsFromForm();
+
+
+				} else {
+					addCrfPageItemDiv(transport, crfPageNumber)
+					hideQuestionsFromForm();
+					postProcessFormChanges()
+
+				}
+			},
+			method:'get'
+		})
+		hideProCtcTermLinkFromForm(proCtcTermId);
+	}
 </script>
 <script type="text/javascript">
 
@@ -811,76 +814,32 @@ function hideFormSettings() {
 		var sortableDivs = [];
 		formPages.each(function(item) {
 			var index = item.id.substr(11, item.id.length);
-			sortableDivs.push('sortable_' + index)
+			sortableDivs.push('sortablePage_' + index)
 
 		})
 		sortableDivs.each(function (item) {
 			Sortable.destroy(item)
 		})
+
+
 		sortableDivs.each(function (item) {
 
 
 			Sortable.create(item, {
 				containment:sortableDivs,
 				tag	:'div',
-				revert:true,
 				only:['sortable'],
 				dropOnEmpty:true,
 				scroll:window,
-				onUpdate:function (element) {
-					var id = element.id;
-					var revertQuestionAndShowWarning = false;
-					var condtionalQuestionIds = [];
-					var alertMessage = '';
-					if (!id.include('dummySortable_')) {
-
-						var questionId = id.substring(9, id.length);
-
-						var conditionsRow = $$('tr.conditionalTriggering_' + questionId);
-						conditionsRow.each(function(conditionRow) {
-							var conditionalQuestionId = conditionRow.id.substring(conditionRow.id.indexOf('_') + 1, conditionRow.id.lastIndexOf('_'))
-							condtionalQuestionIds.push(conditionalQuestionId);
-						})
-						if (condtionalQuestionIds.length > 0) {
-							condtionalQuestionIds.each(function(item) {
-								if (parseInt($('sortableSpan_' + questionId).innerHTML) > parseInt($('sortableSpan_' + item).innerHTML)) {
-									revertQuestionAndShowWarning = true;
-									alertMessage = 'You can not move this question because Triggered question can not be moved after its Conditional question ';
-								}
-							})
-						}
-
-						//it may be a conditional question
-						condtionalQuestionIds = [];
-						if ($$('tr.conditionalQuestion_' + questionId + '_condition').length > 0) {
-							condtionalQuestionIds.push(questionId)
-						}
-						//						if (condtionalQuestionIds.length > 0) {
-						//							$$('div.sortableSpan').each(function(item) {
-						//								if (parseInt($('sortableSpan_' + questionId).innerHTML) > parseInt(item.innerHTML)) {
-						//									revertQuestionAndShowWarning = true;
-						//									alertMessage = 'You can not move this question because Conditional question can not be moved before its Triggered question ';
-						//								}
-						//							})
-						//						}
-					}
-					revertQuestionAndShowWarning = true;
-					if (revertQuestionAndShowWarning) {
-
-						//alert(alertMessage);
-					} else
-					{
-						updateQuestionsId();
-						updateTotalNumberOfQuestionsInEachPage();
-					}
+				onUpdate:function (item) {
+					updateQuestionsId();
+					updateTotalNumberOfQuestionsInEachPage();
 					showHideQuestionUpDownLink();
-
+					updateConditions();
 				}
 				,
 				onChange:function(item) {
 					reOrderQuestionNumber();
-
-					//showCrfItemPropertiesTab(questionId);
 
 				}
 
@@ -890,7 +849,24 @@ function hideFormSettings() {
 
 
 	}
+	function updateConditions() {
+		var request = new Ajax.Request("<c:url value="/pages/form/allConditions"/>", {
+			parameters:"&subview=subview&questionsIds=" + $('questionsIds').value,
+			onComplete:function(transport) {
+				$$('select.selectedCrfPageItems').each(function (item) {
+					item.innerHTML = transport.responseText
+				})
+				var questionId = '';
+				$$('div.editing').each(function (item) {
+					var id = item.id
+					questionId = id.substr(9, id.length);
+				})
+				showCrfItemPropertiesTab(questionId);
+			} ,
+			method:'get'
+		});
 
+	}
 
 </script>
 <script type="text/javascript">
@@ -900,7 +876,6 @@ function hideFormSettings() {
 		var addQuestionIdOfConditionsToDisplay = true
 		$$("div.sortable").each(function (item) {
 			var id = item.id;
-
 			if (!id.include('dummySortable_')) {
 				var questionId = id.substr(9, id.length)
 				if (questionId == selectedQuestionId) {
@@ -1138,7 +1113,7 @@ function hideFormSettings() {
 	}
 
 	.formpagesselected {
-		/* background-color: #edc0ac; */
+	/* background-color: #edc0ac; */
 		border: 2px solid #4D6EFF;
 	}
 
@@ -1340,16 +1315,16 @@ function hideFormSettings() {
 							<tr style="height:100%;">
 								<td id="formbuilderTable-middle">
 									<div id="formbuilderTable-borderTop">
-                                        <c:choose>
-                                            <c:when test="${command.studyCrf.crf.crfVersion eq 1.0}">
+										<c:choose>
+											<c:when test="${command.studyCrf.crf.crfVersion eq 1.0}">
 
-                                        <span class="formbuilderHeader" id="crfTitle">${command.title}</span>
-                                            </c:when>
-                                            <c:otherwise><h1>${command.title}</h1></c:otherwise>
-                                            </c:choose>
+												<span class="formbuilderHeader" id="crfTitle">${command.title}</span>
+											</c:when>
+											<c:otherwise><h1>${command.title}</h1></c:otherwise>
+										</c:choose>
 
 
-                                        <form:hidden path="studyCrf.crf.title" id="formTitle"/>
+										<form:hidden path="studyCrf.crf.title" id="formTitle"/>
 
                                         <span class="formbuildersubHeader">There <span id="plural1">are</span> <span
 											id="totalQuestionDivision"><c:choose>

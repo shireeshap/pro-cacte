@@ -310,6 +310,54 @@ public class CreateFormCommandTest extends WebTestCase {
 
 	}
 
+	public void testReOrderCrfPageItemInASinglePage() {
+
+		command.addAnotherPage();
+
+		command.setQuestionsIds("11,12,13,14");
+		command.setNumberOfQuestionsInEachPage("4");
+		command.setCrfPageNumbers("0");
+
+		expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
+		expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
+		expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
+		expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
+		replay(finderRepository);
+		command.updateCrfItems(finderRepository);
+		verify(finderRepository);
+		resetMocks();
+
+		CRF crf = command.getStudyCrf().getCrf();
+		validateCrfPageAndCrfPageItemOrder(crf);
+
+
+		//now update and reorder questions  and reoder pages also
+
+		command.setQuestionsIds("14,11,13,12");
+
+		expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
+		expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
+		expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
+		expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
+		replay(finderRepository);
+		command.updateCrfItems(finderRepository);
+		verify(finderRepository);
+		resetMocks();
+		crf = command.getStudyCrf().getCrf();
+
+		validateCrfPageAndCrfPageItemOrder(crf);
+
+		CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(0);
+
+		assertEquals("must have 4  crf items", 4, crfPage.getCrfPageItems().size());
+		assertSame("must move the questions also while reordering the pages", fourthQuestion, crfPage.getCrfItemsSortedByDislayOrder().get(0).getProCtcQuestion());
+		assertSame("must move the questions also while reordering the pages", firstQuestion, crfPage.getCrfItemsSortedByDislayOrder().get(1).getProCtcQuestion());
+		assertSame("must move the questions also while reordering the pages", thirdQuestion, crfPage.getCrfItemsSortedByDislayOrder().get(2).getProCtcQuestion());
+		assertSame("must move the questions also while reordering the pages", secondQuestion, crfPage.getCrfItemsSortedByDislayOrder().get(3).getProCtcQuestion());
+
+
+	}
+
 	public void testDeleteAndReorderPageAndReorderAndDeleteCrfPageItem() {
 
 		command.addAnotherPage();
@@ -578,9 +626,9 @@ public class CreateFormCommandTest extends WebTestCase {
 
 	public void testAddAndReorderQuestionsButNotDeleteInFirstPage() {
 		command.addAnotherPage();
-		command.getStudyCrf().getCrf().addOrUpdateCrfItemInCrfPage(0, secondQuestion);
-		command.getStudyCrf().getCrf().addOrUpdateCrfItemInCrfPage(0, thirdQuestion);
-		command.getStudyCrf().getCrf().addOrUpdateCrfItemInCrfPage(0, firstQuestion);
+		command.getStudyCrf().getCrf().addOrUpdateCrfItemInCrfPage(0, secondQuestion, 0);
+		command.getStudyCrf().getCrf().addOrUpdateCrfItemInCrfPage(0, thirdQuestion, 1);
+		command.getStudyCrf().getCrf().addOrUpdateCrfItemInCrfPage(0, firstQuestion, 2);
 
 		command.setQuestionsIds("12,13,11");
 		command.setCrfPageNumbers("0,1,2");

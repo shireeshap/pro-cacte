@@ -308,6 +308,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddCrfPageItemController.
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneProCtcTermController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AllConditionsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CopyFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormController.java -text
@@ -487,6 +488,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/siteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/dummy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/allConditions.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/conditions.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/deleteCrfConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/deleteQuestionConfirmationCheck.jsp -text

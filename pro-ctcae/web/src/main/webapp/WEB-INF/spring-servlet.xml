@@ -184,6 +184,9 @@
     <bean name="/form/addOneCrfPageItem" id="addCrfPageItemController" parent="abstractCrfController"
 		  class="gov.nih.nci.ctcae.web.form.AddCrfPageItemController">
     </bean>
+    <bean name="/form/allConditions" id="allConditionsController"
+		  class="gov.nih.nci.ctcae.web.form.AllConditionsController">
+    </bean>
     <bean name="/form/addOneCrfPage" id="oneCrfPageController" parent="abstractCrfController"
 		  class="gov.nih.nci.ctcae.web.form.AddOneCrfPageController">
     </bean>

@@ -40,7 +40,7 @@ public class FindCrfItemControllerTest extends WebTestCase {
 		request.setParameter("previousQuestionIndex", "0");
 
 		command.addAnotherPage();
-		command.getStudyCrf().getCrf().addOrUpdateCrfItemInCrfPage(0, proCtcQuestion);
+		command.getStudyCrf().getCrf().addOrUpdateCrfItemInCrfPage(0, proCtcQuestion, 0);
 		expect(finderRepository.findById(ProCtcQuestion.class, 1)).andReturn(proCtcQuestion);
 		replayMocks();
 		ModelAndView modelAndView = controller.handleRequestInternal(request, response);

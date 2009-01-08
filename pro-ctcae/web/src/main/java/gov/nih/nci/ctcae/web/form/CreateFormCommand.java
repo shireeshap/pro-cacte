@@ -7,8 +7,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -70,15 +70,16 @@ public class CreateFormCommand implements Serializable {
 		for (int j = 0; j < numberOfQuestionInEachPageArray.length; j++) {
 			String questionsInEachPage = numberOfQuestionInEachPageArray[j];
 
-			List<Integer> questionsToKeep = new ArrayList<Integer>();
+			List<Integer> questionsToKeep = new LinkedList<Integer>();
+			int displayOrder = CrfPageItem.INITIAL_ORDER;
 
 			for (int i = k; i < k + Integer.valueOf(questionsInEachPage); i++) {
 				Integer questionId = Integer.parseInt(questionIdsArrays[i]);
 				ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
 				if (proCtcQuestion != null) {
-					studyCrf.getCrf().addOrUpdateCrfItemInCrfPage(Integer.valueOf(crfPageNumberArray[j]), proCtcQuestion);
+					studyCrf.getCrf().addOrUpdateCrfItemInCrfPage(Integer.valueOf(crfPageNumberArray[j]), proCtcQuestion, displayOrder);
 					questionsToKeep.add(questionId);
-
+					displayOrder++;
 				} else {
 					logger.error("can not add question because pro ctc question is null for id:" + questionId);
 				}
