@@ -59,7 +59,7 @@
 	<div id="questionPropertiesDiv_${crfPageItem.proCtcQuestion.id}">
 		<div id="questionProperties_${crfPageItem.proCtcQuestion.id}" style="display:none;"
 			 class="questionProperties leftBox">
-			<span class="propertiesHeader">crfItem.label.properties</span>
+			<span class="propertiesHeader"><tags:message code="crfItem.label.properties"/> </span>
 			<noform:renderTextArea
 				propertyName="studyCrf.crf.crfPages[${crfPageNumber}].crfPageItems[${index}].instructions"
 				displayName="crfItem.label.instructions"
@@ -83,7 +83,7 @@
 			</noform:renderRadio>
 
 
-			<span class="propertiesHeader">form.conditional_question</span>
+			<span class="propertiesHeader"><tags:message code="form.conditional_question"/> </span>
 			<tags:instructions code="instruction_conditional_question"/>
 
 			<div align="left" style="margin-left: 50px">
