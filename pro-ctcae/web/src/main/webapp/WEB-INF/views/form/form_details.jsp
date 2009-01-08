@@ -1256,13 +1256,13 @@ function showHideQuestionUpDownLink() {
 			<div class="summaryvalue">${command.studyCrf.study.displayName}</div>
 		</div>
 <a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>
-	<a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;">Maximize</a>
-	<a id="expandFormUrl" href="javascript:expandForm()" style="display:none;">Maximize Form</a>
+	<a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;"><img src="<tags:imageUrl name="blue/maximize-right.png" />" style="float:left" alt="Maximize" /></a>
+	<a id="expandFormUrl" href="javascript:expandForm()" style="display:none;" style="float:right;"><img src="<tags:imageUrl name="blue/maximize-left.png" />" alt="Maximize" /></a>
 
             <table id="formbuilderTable">
 				<tr>
 					<td id="left">
-						<a id="shrinkQuestionBankUrl" href="javascript:shrinkQuestionBank()">Minimize</a>
+						<a id="shrinkQuestionBankUrl" href="javascript:shrinkQuestionBank()"><img src="<tags:imageUrl name="blue/minimize-left.png" />" style="float:right" alt="Minimize" /></a>
 
 						<ul id="form-tabs" class="tabs">
 							<li>
@@ -1345,7 +1345,7 @@ function showHideQuestionUpDownLink() {
 						</div>
 					</td>
 					<td id="right">
-						<a id="shrinkFormUrl" href="javascript:shrinkForm()">Minimize Form</a>
+						<a id="shrinkFormUrl" href="javascript:shrinkForm()"><img src="<tags:imageUrl name="blue/minimize-right.png" />" style="float:left" alt="Minimize" /></a>
 
 							<%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
 							<%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>

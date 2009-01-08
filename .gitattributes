@@ -635,6 +635,7 @@ pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/selected/TR.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBoxControls-L.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBoxControls-R.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilder_4thlvl_btns.png -text
+pro-ctcae/web/src/main/webapp/images/blue/formbuilder_min-max_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderselectedbox_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderselectedbox_bottom.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderselectedbox_top.png -text
@@ -677,7 +678,11 @@ pro-ctcae/web/src/main/webapp/images/blue/login-logo.png -text
 pro-ctcae/web/src/main/webapp/images/blue/logout_tab.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/logout_tab.png -text
 pro-ctcae/web/src/main/webapp/images/blue/mailbox.jpg -text
+pro-ctcae/web/src/main/webapp/images/blue/maximize-left.png -text
+pro-ctcae/web/src/main/webapp/images/blue/maximize-right.png -text
 pro-ctcae/web/src/main/webapp/images/blue/mega-huge-background.png -text
+pro-ctcae/web/src/main/webapp/images/blue/minimize-left.png -text
+pro-ctcae/web/src/main/webapp/images/blue/minimize-right.png -text
 pro-ctcae/web/src/main/webapp/images/blue/new_form_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/new_page_button.png -text
 pro-ctcae/web/src/main/webapp/images/blue/page-border-top.png -text

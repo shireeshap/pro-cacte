@@ -1446,3 +1446,22 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
 	top: 0px;
 	right: 5px;
 }
+#shrinkQuestionBankUrl {
+	width:100%;
+	height:22px;
+	background-image:url(/ctcae/images/blue/formbuilder_min-max_bg.png);
+	display:block;
+	border-left:1px solid #cfcfcf;
+}
+#shrinkFormUrl{
+	width:100%;
+	height:22px;
+	background-image:url(/ctcae/images/blue/formbuilder_min-max_bg.png);
+	display:block;
+	border-right:1px solid #cfcfcf;
+	margin-top:1px;
+	margin-bottom:11px;
+}
+#expandFormUrl{
+	float:right;
+}
