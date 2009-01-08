@@ -3,8 +3,9 @@ class AlterCrfItemstoPageItem extends edu.northwestern.bioinformatics.bering.Mig
 		execute('delete from study_participant_crf_items')
 		execute('delete from crf_item_display_rules')
 		execute('delete from crf_items')
-        dropColumn("CRF_ITEMS","crf_id")
-
+        if (databaseMatches('oracle')) {
+		    execute('ALTER TABLE CRF_ITEMS DROP ("CRF_ID") CASCADE CONSTRAINTS');
+        }
 		renameTable('crf_items','CRF_PAGE_ITEMS')
 
 		addColumn("CRF_PAGE_ITEMS","crf_page_id","integer",nullable:false) 
