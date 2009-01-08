@@ -175,36 +175,7 @@ function unselectPage(pageIndex) {
 	$('form-pages_' + pageIndex).removeClassName('formpagesselected')
 	$('form-pages-image_' + pageIndex).hide();
 }
-function addCrfPageDiv(transport) {
-	var response = transport.responseText;
-	new Insertion.Before("hiddenCrfPageDiv", response);
-	sortQuestions()
-	updateQuestionsId()
-	//			updateSelectedCrfItems(questionId)
-	//			addCrfItemPropertiesHtml(questionId);
-	updateCrfPageNumberAndShowHideUpDownLink();
-	postProcessFormChanges();
-	initSearchField();
 
-
-}
-function addCrfPage() {
-	var request = new Ajax.Request("<c:url value="/pages/form/addOneCrfPage"/>", {
-		parameters:"subview=subview",
-		onComplete:function (transport) {
-			addCrfPageDiv(transport);
-
-
-		},
-		method:'get'
-	})
-	//hideQuestionFromForm(questionId);
-	//hideProCtcTermLinkFromForm(proCtcTermId);
-	//	$('totalQuestions').value = displayOrder;
-	//	$('totalQuestionDivision').innerHTML = displayOrder;
-
-
-}
 function updateSelectedCrfItems(questionId) {
 	var selectedCrfPageItems = $('selectedCrfPageItems_' + questionId)
 	$$('select.selectedCrfPageItems').each(function (item) {
@@ -688,6 +659,7 @@ function hideFormSettings() {
 		sortQuestions()
 		updateQuestionsId();
 		updateCrfPageNumberAndShowHideUpDownLink();
+
 	}
 	function addProctcTerm(proCtcTermId) {
 		var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
@@ -1107,11 +1079,81 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
 
 }
 </script>
+<script type="text/javascript">
+	function addCrfPageDiv(transport) {
+		var response = transport.responseText;
+		new Insertion.Before("hiddenCrfPageDiv", response);
+		sortQuestions()
+		updateQuestionsId()
+		//			updateSelectedCrfItems(questionId)
+		//			addCrfItemPropertiesHtml(questionId);
+		updateCrfPageNumberAndShowHideUpDownLink();
+
+
+		var formPages = $$('div.formpages');
+		var item = formPages[formPages.length - 1];
+		var crfPageNumber = item.id.substr(11, item.id.length);
+		crfPageItemEditor(crfPageNumber)
+		postProcessFormChanges();
+
+
+	}
+	function crfPageItemEditor(crfPageNumber) {
+		var description = 'studyCrf.crf.crfPages[' + crfPageNumber + '].description';
+		var descriptionProperty = description + '-property';
+
+		var formNameInPlaceEdit = new Ajax.InPlaceEditor(descriptionProperty, '/ctcae/pages/form/setName', {
+			rows:1,
+			cancelControl:false,
+			okControl:false,
+			size:18,
+			submitOnBlur:true,
+			onEnterEditMode:function() {
+				if ($(descriptionProperty).innerHTML == 'Click here to name') {
+					$(descriptionProperty).innerHTML = ''
+
+				}
+
+			}  ,
+			onComplete:function(transport) {
+				$(descriptionProperty).innerHTML = transport.responseText;
+				$(description).value = transport.responseText;
+				if ($(descriptionProperty).value == '') {
+					$(descriptionProperty).innerHTML = 'Click here to name';
+
+				}
+
+
+			},
+			callback:function(form, value) {
+				return 'crfTitle=' + encodeURIComponent(value)
+			}
+		});
+	}
+	function addCrfPage() {
+		var request = new Ajax.Request("<c:url value="/pages/form/addOneCrfPage"/>", {
+			parameters:"subview=subview",
+			onComplete:function (transport) {
+				addCrfPageDiv(transport);
+
+
+			},
+			method:'get'
+		})
+		//hideQuestionFromForm(questionId);
+		//hideProCtcTermLinkFromForm(proCtcTermId);
+		//	$('totalQuestions').value = displayOrder;
+		//	$('totalQuestionDivision').innerHTML = displayOrder;
+
+
+	}
+</script>
 <style type="text/css">
 
 	.makeDraggable {
 		cursor: move;
 	}
+
 	.instructions .summaryvalue {
 		font-weight: normal;
 		margin-left: 90px;
