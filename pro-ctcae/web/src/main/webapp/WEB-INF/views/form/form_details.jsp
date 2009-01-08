@@ -1340,9 +1340,16 @@ function hideFormSettings() {
 							<tr style="height:100%;">
 								<td id="formbuilderTable-middle">
 									<div id="formbuilderTable-borderTop">
-										<span class="formbuilderHeader" id="crfTitle">${command.title}</span>
+                                        <c:choose>
+                                            <c:when test="${command.studyCrf.crf.crfVersion eq 1.0}">
 
-										<form:hidden path="studyCrf.crf.title" id="formTitle"/>
+                                        <span class="formbuilderHeader" id="crfTitle">${command.title}</span>
+                                            </c:when>
+                                            <c:otherwise><h1>${command.title}</h1></c:otherwise>
+                                            </c:choose>
+
+
+                                        <form:hidden path="studyCrf.crf.title" id="formTitle"/>
 
                                         <span class="formbuildersubHeader">There <span id="plural1">are</span> <span
 											id="totalQuestionDivision"><c:choose>
