@@ -15,106 +15,115 @@ import javax.persistence.*;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_item_display_rules_id")})
 public class CrfItemDisplayRule extends BasePersistable {
 
-	@Id
-	@GeneratedValue(generator = "id-generator")
-	@Column(name = "id")
-	private Integer id;
+    @Id
+    @GeneratedValue(generator = "id-generator")
+    @Column(name = "id")
+    private Integer id;
 
 
-	@JoinColumn(name = "crf_item_id", referencedColumnName = "id")
-	@ManyToOne
-	private CrfPageItem crfPageItem;
+    @JoinColumn(name = "crf_item_id", referencedColumnName = "id")
+    @ManyToOne
+    private CrfPageItem crfPageItem;
 
-	@Column(name = "required_object_class")
-	private String requiredObjectClass;
+    @Column(name = "required_object_class")
+    private String requiredObjectClass;
 
-	@Column(name = "required_object_id")
-	private Integer requiredObjectId;
+    @Column(name = "required_object_id")
+    private Integer requiredObjectId;
 
-	@Transient
-	private Persistable persistable;
+    @Transient
+    private Persistable persistable;
 
-	public CrfItemDisplayRule() {
-	}
+    public CrfItemDisplayRule() {
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public CrfPageItem getCrfItem() {
-		return crfPageItem;
-	}
+    public CrfPageItem getCrfItem() {
+        return crfPageItem;
+    }
 
-	public void setCrfItem(final CrfPageItem crfPageItem) {
-		this.crfPageItem = crfPageItem;
-	}
+    public void setCrfItem(final CrfPageItem crfPageItem) {
+        this.crfPageItem = crfPageItem;
+    }
 
-	public CrfPageItem getCrfPageItem() {
-		return crfPageItem;
-	}
+    public CrfPageItem getCrfPageItem() {
+        return crfPageItem;
+    }
 
-	public void setCrfPageItem(final CrfPageItem crfPageItem) {
-		this.crfPageItem = crfPageItem;
-	}
+    public void setCrfPageItem(final CrfPageItem crfPageItem) {
+        this.crfPageItem = crfPageItem;
+    }
 
-	public String getRequiredObjectClass() {
-		return requiredObjectClass;
-	}
+    public String getRequiredObjectClass() {
+        return requiredObjectClass;
+    }
 
-	private void setRequiredObjectClass(final String requiredObjectClass) {
-		this.requiredObjectClass = requiredObjectClass;
-	}
+    private void setRequiredObjectClass(final String requiredObjectClass) {
+        this.requiredObjectClass = requiredObjectClass;
+    }
 
-	public Integer getRequiredObjectId() {
-		return requiredObjectId;
-	}
+    public Integer getRequiredObjectId() {
+        return requiredObjectId;
+    }
 
-	private void setRequiredObjectId(final Integer requiredObjectId) {
-		this.requiredObjectId = requiredObjectId;
-	}
+    private void setRequiredObjectId(final Integer requiredObjectId) {
+        this.requiredObjectId = requiredObjectId;
+    }
 
-	@Override
-	public boolean equals(final Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-		final CrfItemDisplayRule that = (CrfItemDisplayRule) o;
+        final CrfItemDisplayRule that = (CrfItemDisplayRule) o;
 
-		if (crfPageItem != null ? !crfPageItem.equals(that.crfPageItem) : that.crfPageItem != null) return false;
-		if (requiredObjectClass != null ? !requiredObjectClass.equals(that.requiredObjectClass) : that.requiredObjectClass != null)
-			return false;
-		if (requiredObjectId != null ? !requiredObjectId.equals(that.requiredObjectId) : that.requiredObjectId != null)
-			return false;
+        if (crfPageItem != null ? !crfPageItem.equals(that.crfPageItem) : that.crfPageItem != null) return false;
+        if (requiredObjectClass != null ? !requiredObjectClass.equals(that.requiredObjectClass) : that.requiredObjectClass != null)
+            return false;
+        if (requiredObjectId != null ? !requiredObjectId.equals(that.requiredObjectId) : that.requiredObjectId != null)
+            return false;
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = crfPageItem != null ? crfPageItem.hashCode() : 0;
-		result = 31 * result + (requiredObjectClass != null ? requiredObjectClass.hashCode() : 0);
-		result = 31 * result + (requiredObjectId != null ? requiredObjectId.hashCode() : 0);
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = crfPageItem != null ? crfPageItem.hashCode() : 0;
+        result = 31 * result + (requiredObjectClass != null ? requiredObjectClass.hashCode() : 0);
+        result = 31 * result + (requiredObjectId != null ? requiredObjectId.hashCode() : 0);
+        return result;
+    }
 
-	private void setRequiredObjectClass(final Class requiredObjectClass) {
-		setRequiredObjectClass(requiredObjectClass.getName());
-	}
+    private void setRequiredObjectClass(final Class requiredObjectClass) {
+        setRequiredObjectClass(requiredObjectClass.getName());
+    }
 
-	public void setPersistable(final Persistable persistable) {
-		if (persistable != null) {
-			setRequiredObjectClass(persistable.getClass());
-			setRequiredObjectId(persistable.getId());
-		}
-		this.persistable=persistable;
+    public void setPersistable(final Persistable persistable) {
+        if (persistable != null) {
+            setRequiredObjectClass(persistable.getClass());
+            setRequiredObjectId(persistable.getId());
+        }
+        this.persistable = persistable;
 
-	}
+    }
 
-	public Persistable getPersistable() {
-		return persistable;
-	}
+    public Persistable getPersistable() {
+        return persistable;
+    }
+
+
+    public CrfItemDisplayRule getCopy() {
+        CrfItemDisplayRule copiedCrfItemDisplayRule = new CrfItemDisplayRule();
+        copiedCrfItemDisplayRule.setRequiredObjectClass(requiredObjectClass);
+        copiedCrfItemDisplayRule.setRequiredObjectId(requiredObjectId);
+        return copiedCrfItemDisplayRule;
+
+    }
 }

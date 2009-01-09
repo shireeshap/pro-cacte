@@ -256,13 +256,13 @@ public class CRFPage extends BaseVersionable {
 
 	public CRFPage getCopy() {
 
-		CRFPage copiedCrf = new CRFPage();
-		copiedCrf.setDescription(description);
+		CRFPage copiedCrfPage = new CRFPage();
+		copiedCrfPage.setDescription(description);
 		for (CrfPageItem crfPageItem : crfPageItems) {
-			copiedCrf.addCrfItem(crfPageItem.getCopy());
+			copiedCrfPage.addCrfItem(crfPageItem.getCopy());
 		}
 
-		return copiedCrf;
+		return copiedCrfPage;
 	}
 
 
