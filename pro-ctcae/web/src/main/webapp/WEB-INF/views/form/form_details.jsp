@@ -1060,12 +1060,14 @@ function deleteConditionsForCrfPage(selectedCrfPageNumber) {
 			crfPageItems.each(function (item) {
 				var id = item.id;
 				if (!id.include('dummySortable_')) {
-					var conditionalTriggeredQuestionId = id.substr(9, id.length);
-					showQuestionInQuestionBank(conditionalTriggeredQuestionId);
-					var conditions = $$('tr.conditionalTriggering_' + conditionalTriggeredQuestionId);
+					var questionId = id.substr(9, id.length);
+					showQuestionInQuestionBank(questionId);
+					var conditions = $$('tr.conditionalTriggering_' + questionId);
 					conditions.each(function(item) {
 						item.remove();
 					})
+					$('questionProperties_' + questionId).remove();
+
 				}
 
 			})
@@ -1081,7 +1083,6 @@ function deleteConditionsForCrfPage(selectedCrfPageNumber) {
 			updateQuestionsId();
 			updateCrfPageNumberAndShowHideUpDownLink();
 			postProcessFormChanges();
-			addRemoveConditionalTriggeringDisplayToQuestion();
 			updateConditions();
 
 		},
