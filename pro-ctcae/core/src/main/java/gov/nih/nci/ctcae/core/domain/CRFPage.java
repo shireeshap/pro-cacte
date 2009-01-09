@@ -184,6 +184,7 @@ public class CRFPage extends BaseVersionable {
 				existingCrfPageItem.setCrfItemAllignment(null);
 				existingCrfPageItem.setInstructions(null);
 				existingCrfPageItem.setResponseRequired(Boolean.FALSE);
+				existingCrfPageItem.getCrfItemDisplayRules().clear();
 				return existingCrfPageItem;
 			}
 
