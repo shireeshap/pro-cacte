@@ -55,7 +55,7 @@
 	<div id="sortablePage_${crfPageNumber}">
 		<div class="sortable makeDraggable" id="dummySortable_${crfPageNumber}"></div>
 
-		<c:forEach items="${crfPage.crfPageItems}" var="selectedCrfPageItem"
+		<c:forEach items="${crfPage.crfItemsSortedByDislayOrder}" var="selectedCrfPageItem"
 				   varStatus="status">
 			<tags:oneCrfPageItem crfPageItem="${selectedCrfPageItem}"
 								 index="${status.index}" crfPageNumber="${crfPageNumber}"/>

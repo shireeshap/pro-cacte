@@ -22,16 +22,22 @@
 <script type="text/javascript">
 
 Event.observe(window, "load", function () {
-	sortQuestions();
-<%--<c:if test="${not empty command.studyCrf.crf.crfItems}">--%>
-<%--postProcessFormChanges();--%>
-<%--hideQuestionsFromForm();--%>
-<%--hideProCtcTermFromForm();--%>
 
-<%--<c:forEach items="${command.studyCrf.crf.crfItems}" var="crfItem" varStatus="status">--%>
-<%--var id = '${crfItem.proCtcQuestion.id}';--%>
-<%--</c:forEach>--%>
-<%--</c:if>--%>
+<c:if test="${not empty command.studyCrf.crf.crfPages}">
+	sortQuestions();
+	addRemoveConditionalTriggeringDisplayToQuestion();
+	updateCrfPageNumberAndShowHideUpDownLink();
+	reOrderQuestionNumber()
+	showHideQuestionUpDownLink();
+
+	hideQuestionsFromForm();
+	hideProCtcTermFromForm();
+
+<c:forEach items="${command.studyCrf.crf.crfPages}" var="crfPage" varStatus="status">
+	var crfPageNumber = '${status.index}';
+	crfPageItemEditor(crfPageNumber);
+</c:forEach>
+</c:if>
 	displayReviewLink();
 
 })
@@ -124,6 +130,8 @@ function postProcessFormChanges() {
 	reOrderQuestionNumber()
 	showHideQuestionUpDownLink();
 	updateTotalNumberOfQuestionsInEachPage();
+	addRemoveConditionalTriggeringDisplayToQuestion();
+
 }
 function addCrfPageItem(questionId, proCtcTermId) {
 	var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
@@ -179,9 +187,12 @@ function unselectPage(pageIndex) {
 
 function updateSelectedCrfItems(questionId) {
 	var selectedCrfPageItems = $('selectedCrfPageItems_' + questionId)
-	$$('select.selectedCrfPageItems').each(function (item) {
-		item.innerHTML = selectedCrfPageItems.innerHTML;
-	});
+	if (selectedCrfPageItems != null) {
+		$$('select.selectedCrfPageItems').each(function (item) {
+			item.innerHTML = selectedCrfPageItems.innerHTML;
+		});
+	}
+
 }
 
 
@@ -821,11 +832,16 @@ function showHideQuestionUpDownLink() {
 	{
 		if (!crfPageItem.id.include('dummySortable_')) {
 			var questionId = crfPageItem.id.substr(9, crfPageItem.id.length)
-			if (i == 0) {
+			if (i == 0 & j == 1) {
 				$('moveQuestionUpLink_' + questionId).hide();
 				$('moveQuestionDownLink_' + questionId).show();
 
-			} else {
+			} else if (i == 0 & j == 0) {
+				$('moveQuestionUpLink_' + questionId).hide();
+				$('moveQuestionDownLink_' + questionId).show();
+
+			}
+			else {
 				$('moveQuestionDownLink_' + questionId).show();
 				$('moveQuestionUpLink_' + questionId).show();
 			}
@@ -987,8 +1003,6 @@ function showHideQuestionUpDownLink() {
 	}
 	function deleteQuestionConfirm(questionId) {
 		closeWindow();
-		$('sortable_' + questionId).remove();
-		$('questionProperties_' + questionId).remove();
 
 		var conditions = $$('tr.conditionalTriggering_' + questionId);
 		if (conditions.length > 0) {
@@ -1008,6 +1022,8 @@ function showHideQuestionUpDownLink() {
 				item.remove();
 			}
 		})
+		$('sortable_' + questionId).remove();
+		$('questionProperties_' + questionId).remove();
 
 
 	}
@@ -1256,13 +1272,17 @@ function showHideQuestionUpDownLink() {
 			<div class="summaryvalue">${command.studyCrf.study.displayName}</div>
 		</div>
 <a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>
-	<a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;"><img src="<tags:imageUrl name="blue/maximize-right.png" />" style="float:left" alt="Maximize" /></a>
-	<a id="expandFormUrl" href="javascript:expandForm()" style="display:none;" style="float:right;"><img src="<tags:imageUrl name="blue/maximize-left.png" />" alt="Maximize" /></a>
+	<a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;"><img
+		src="<tags:imageUrl name="blue/maximize-right.png" />" style="float:left" alt="Maximize"/></a>
+	<a id="expandFormUrl" href="javascript:expandForm()" style="display:none;" style="float:right;"><img
+		src="<tags:imageUrl name="blue/maximize-left.png" />" alt="Maximize"/></a>
 
             <table id="formbuilderTable">
 				<tr>
 					<td id="left">
-						<a id="shrinkQuestionBankUrl" href="javascript:shrinkQuestionBank()"><img src="<tags:imageUrl name="blue/minimize-left.png" />" style="float:right" alt="Minimize" /></a>
+						<a id="shrinkQuestionBankUrl" href="javascript:shrinkQuestionBank()"><img
+							src="<tags:imageUrl name="blue/minimize-left.png" />" style="float:right"
+							alt="Minimize"/></a>
 
 						<ul id="form-tabs" class="tabs">
 							<li>
@@ -1345,7 +1365,9 @@ function showHideQuestionUpDownLink() {
 						</div>
 					</td>
 					<td id="right">
-						<a id="shrinkFormUrl" href="javascript:shrinkForm()"><img src="<tags:imageUrl name="blue/minimize-right.png" />" style="float:left" alt="Minimize" /></a>
+						<a id="shrinkFormUrl" href="javascript:shrinkForm()"><img
+							src="<tags:imageUrl name="blue/minimize-right.png" />" style="float:left"
+							alt="Minimize"/></a>
 
 							<%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
 							<%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>
@@ -1376,22 +1398,23 @@ function showHideQuestionUpDownLink() {
 											<c:otherwise>0</c:otherwise>
 										</c:choose>
 										</span> question<span id="plural2">s</span> in this form.</span>
-									
 
-									<form:hidden path="questionsIds" id="questionsIds"/>
-									<form:hidden path="crfPageNumbers" id="crfPageNumbers"/>
-									<form:hidden path="crfPageNumbersToRemove" id="crfPageNumbersToRemove"/>
-									<form:hidden path="numberOfQuestionsInEachPage" id="numberOfQuestionsInEachPage"/>
-									<input type="hidden" id="totalQuestions" value="${totalQuestions}">
-									<c:forEach items="${command.studyCrf.crf.crfPages}" var="selectedCrfPage"
-											   varStatus="status">
-										<tags:oneCrfPage crfPage="${selectedCrfPage}"
-														 crfPageNumber="${status.index}">
-										</tags:oneCrfPage>
 
-									</c:forEach>
+										<form:hidden path="questionsIds" id="questionsIds"/>
+										<form:hidden path="crfPageNumbers" id="crfPageNumbers"/>
+										<form:hidden path="crfPageNumbersToRemove" id="crfPageNumbersToRemove"/>
+										<form:hidden path="numberOfQuestionsInEachPage"
+													 id="numberOfQuestionsInEachPage"/>
+										<input type="hidden" id="totalQuestions" value="${totalQuestions}">
+										<c:forEach items="${command.studyCrf.crf.crfPages}" var="selectedCrfPage"
+												   varStatus="status">
+											<tags:oneCrfPage crfPage="${selectedCrfPage}"
+															 crfPageNumber="${status.index}">
+											</tags:oneCrfPage>
 
-									<div id="hiddenCrfPageDiv"></div>
+										</c:forEach>
+
+										<div id="hiddenCrfPageDiv"></div>
 									</div>
 								</td>
 								<td id="formbuilderTable-R"></td>

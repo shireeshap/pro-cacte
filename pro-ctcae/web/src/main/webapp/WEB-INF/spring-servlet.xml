@@ -168,6 +168,8 @@
 	<bean id="formController" class="gov.nih.nci.ctcae.web.form.FormController" abstract="true"
 		  parent="tabbedFlowFormController">
         <property name="crfRepository" ref="crfRepository"/>
+        <property name="uniqueTitleForCrfValidator" ref="uniqueTitleForCrfValidator"/>
+        <property name="notEmptyValidator" ref="notEmptyValidator"/>
 	</bean>
 
 

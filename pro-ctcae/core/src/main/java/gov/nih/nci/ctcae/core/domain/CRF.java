@@ -202,7 +202,7 @@ public class CRF extends BaseVersionable {
 
 	}
 
-	public void updatePageNumberOfCrfPageItems() {
+	public void updatePageNumberOfCrfPages() {
 		List<CRFPage> crfPages = getCrfPagesSortedByPageNumber();
 		for (int i = 0; i < crfPages.size(); i++) {
 			CRFPage crfPage = crfPages.get(i);

@@ -14,13 +14,12 @@ public class CreateFormController extends FormController {
 	@Override
 	protected int getInitialPage(HttpServletRequest request) {
 		if (!StringUtils.isBlank(request.getParameter("studyId"))) {
-			return 1;
+			return FORM_DETAILS_PAGE_NUMBER;
 		}
 		return super.getInitialPage(request);
 
 
 	}
-
 
 	@Override
 	protected Object formBackingObject(HttpServletRequest request) throws Exception {

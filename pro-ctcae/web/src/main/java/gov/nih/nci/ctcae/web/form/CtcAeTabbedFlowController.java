@@ -54,8 +54,13 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
 	@Override
 	protected void onBindAndValidate(HttpServletRequest request, Object command, BindException errors, int page) throws Exception {
 		super.onBindAndValidate(request, command, errors, page);
-		webControllerValidator.validate(request, command, errors);
+		if (validate()) {
+			webControllerValidator.validate(request, command, errors);
+		}
+	}
 
+	protected boolean validate() {
+		return true;
 	}
 
 	@Required

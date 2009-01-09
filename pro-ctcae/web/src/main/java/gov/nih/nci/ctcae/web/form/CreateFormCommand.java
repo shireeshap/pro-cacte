@@ -104,7 +104,7 @@ public class CreateFormCommand implements Serializable {
 		}
 
 		//finally update the crf page numbers;
-		getStudyCrf().getCrf().updatePageNumberOfCrfPageItems();
+		getStudyCrf().getCrf().updatePageNumberOfCrfPages();
 
 		//reorder crf page items
 
