@@ -86,7 +86,7 @@ class AddProCtcQuestionValidValues extends edu.northwestern.bioinformatics.berin
 		insert('PRO_CTC_VALID_VALUES', [id: -61, display_name: "None", value: 0, pro_ctc_question_id: -13], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -62, display_name: "Mild", value: 1, pro_ctc_question_id: -13], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -63, display_name: "Moderate", value: 2, pro_ctc_question_id: -13], primaryKey: false);
-		insert('PRO_CTC_VALID_VALUES', [id: -64, display_name: "Sevre", value: 3, pro_ctc_question_id: -13], primaryKey: false);
+		insert('PRO_CTC_VALID_VALUES', [id: -64, display_name: "Severe", value: 3, pro_ctc_question_id: -13], primaryKey: false);
 		insert('PRO_CTC_VALID_VALUES', [id: -65, display_name: "Very Severe", value: 5, pro_ctc_question_id: -13], primaryKey: false);
 
 		insert('PRO_CTC_VALID_VALUES', [id: -66, display_name: "None", value: 0, pro_ctc_question_id: -14], primaryKey: false);
