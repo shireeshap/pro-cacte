@@ -608,6 +608,15 @@ pro-ctcae/web/src/main/webapp/images/blue/eXtable_allAE_header_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/eXtableheader_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/edit_add.png -text
 pro-ctcae/web/src/main/webapp/images/blue/error.png -text
+pro-ctcae/web/src/main/webapp/images/blue/form_table/B.png -text
+pro-ctcae/web/src/main/webapp/images/blue/form_table/BL.png -text
+pro-ctcae/web/src/main/webapp/images/blue/form_table/BR.png -text
+pro-ctcae/web/src/main/webapp/images/blue/form_table/L.png -text
+pro-ctcae/web/src/main/webapp/images/blue/form_table/R.png -text
+pro-ctcae/web/src/main/webapp/images/blue/form_table/T.png -text
+pro-ctcae/web/src/main/webapp/images/blue/form_table/TL.png -text
+pro-ctcae/web/src/main/webapp/images/blue/form_table/TR.png -text
+pro-ctcae/web/src/main/webapp/images/blue/form_table/Thumbs.db -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/B.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/BL.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBox/BR.png -text
@@ -636,9 +645,6 @@ pro-ctcae/web/src/main/webapp/images/blue/formbuilderBoxControls-L.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilderBoxControls-R.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilder_4thlvl_btns.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilder_min-max_bg.png -text
-pro-ctcae/web/src/main/webapp/images/blue/formbuilderselectedbox_bg.png -text
-pro-ctcae/web/src/main/webapp/images/blue/formbuilderselectedbox_bottom.png -text
-pro-ctcae/web/src/main/webapp/images/blue/formbuilderselectedbox_top.png -text
 pro-ctcae/web/src/main/webapp/images/blue/forms_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/forms_btn_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/go_to_manage_reports_btn.png -text

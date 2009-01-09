@@ -883,34 +883,60 @@ img.indicator {
 }
 
 #formbuilderTable #right {
-	width: 346px;
 	vertical-align: top;
 	padding: 0px;
 	position: relative;
 	height: 100%;
+	width:375px;
 }
-
-#formbuilderTable-borderTop {
-	background-image: url( /ctcae/images/blue/formbuilderselectedbox_top.png );
-	background-repeat: no-repeat; /*width: 346px;*/
-	padding-left: 15px;
-	padding-right: 15px;
-	padding-top: 15px;
+#formbuilderTable-TL {
+	width:32px;
+	height:33px;
+	background-image:url(/ctcae/images/blue/form_table/TL.png);
+	background-repeat:no-repeat;
 }
-
-#formbuilderTable-middle {
-	background-image: url( /ctcae/images/blue/formbuilderselectedbox_bg.png );
-	background-repeat: repeat-y;
-	vertical-align: top;
-	height: 100%;
-	padding: 0px;
+#formbuilderTable-T {
+	height:33px;
+	background-image:url(/ctcae/images/blue/form_table/T.png);
+	background-repeat:repeat-x;
 }
-
-#formbuilderTable-borderBottom {
-	background-image: url( /ctcae/images/blue/formbuilderselectedbox_bottom.png );
-	background-repeat: no-repeat;
-	height: 35px;
-	width: 346px;
+#formbuilderTable-TR {
+	width:30px;
+	height:33px;
+	background-image:url(/ctcae/images/blue/form_table/TR.png);
+	background-repeat:no-repeat;
+}
+#formbuilderTable-L {
+	width:32px;
+	background-image:url(/ctcae/images/blue/form_table/L.png);
+	background-repeat:repeat-y;
+}
+#formbuilderTable-M {
+	vertical-align:top;
+	background-color:#e4e9f6;
+	position:relative;
+}
+#formbuilderTable-R {
+	width:30px;
+	background-image:url(/ctcae/images/blue/form_table/R.png);
+	background-repeat:repeat-y;
+}
+#formbuilderTable-BL {
+	width:32px;
+	height:32px;
+	background-image:url(/ctcae/images/blue/form_table/BL.png);
+	background-repeat:no-repeat;
+}
+#formbuilderTable-B {
+	height:32px;
+	background-image:url(/ctcae/images/blue/form_table/B.png);
+	background-repeat:repeat-x;
+}
+#formbuilderTable-BR {
+	width:30px;
+	height:32px;
+	background-image:url(/ctcae/images/blue/form_table/BR.png);
+	background-repeat:no-repeat;
 }
 
 .formbuilderHeader {

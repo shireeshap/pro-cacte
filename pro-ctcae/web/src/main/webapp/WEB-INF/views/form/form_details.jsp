@@ -1349,10 +1349,16 @@ function showHideQuestionUpDownLink() {
 
 							<%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
 							<%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>
-						<table style="border-collapse:collapse; height:800px;">
-							<tr style="height:100%;">
-								<td id="formbuilderTable-middle">
-									<div id="formbuilderTable-borderTop">
+						<table style="border-collapse:collapse; height:800px;width:100%;">
+							<tr>
+								<td id="formbuilderTable-TL"></td>
+								<td id="formbuilderTable-T"></td>
+								<td id="formbuilderTable-TR"></td>
+							</tr>
+							<tr>
+								<td id="formbuilderTable-L"></td>
+								<td id="formbuilderTable-M">
+									<div style="width:105%; position:relative; top:-20px; left:-20px;">
 										<c:choose>
 											<c:when test="${command.studyCrf.crf.crfVersion eq 1.0}">
 
@@ -1370,7 +1376,7 @@ function showHideQuestionUpDownLink() {
 											<c:otherwise>0</c:otherwise>
 										</c:choose>
 										</span> question<span id="plural2">s</span> in this form.</span>
-									</div>
+									
 
 									<form:hidden path="questionsIds" id="questionsIds"/>
 									<form:hidden path="crfPageNumbers" id="crfPageNumbers"/>
@@ -1386,13 +1392,14 @@ function showHideQuestionUpDownLink() {
 									</c:forEach>
 
 									<div id="hiddenCrfPageDiv"></div>
-
+									</div>
 								</td>
-
+								<td id="formbuilderTable-R"></td>
 							</tr>
 							<tr>
-								<td id="formbuilderTable-borderBottom">
-								</td>
+								<td id="formbuilderTable-BL"></td>
+								<td id="formbuilderTable-B"></td>
+								<td id="formbuilderTable-BR"></td>
 							</tr>
 						</table>
 					</td>
