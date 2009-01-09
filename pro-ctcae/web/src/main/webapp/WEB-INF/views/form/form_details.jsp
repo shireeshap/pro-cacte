@@ -25,6 +25,7 @@ Event.observe(window, "load", function () {
 
 <c:if test="${not empty command.studyCrf.crf.crfPages}">
 	sortQuestions();
+	updateQuestionsId();
 	addRemoveConditionalTriggeringDisplayToQuestion();
 	updateCrfPageNumberAndShowHideUpDownLink();
 	reOrderQuestionNumber()
