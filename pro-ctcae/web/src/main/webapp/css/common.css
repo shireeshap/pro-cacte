@@ -1491,3 +1491,22 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
 #expandFormUrl{
 	float:right;
 }
+.crfPageTitle{
+	font-size:17px;
+	margin-left:5px;
+	margin-top:5px;
+	position:absolute;
+}
+input.crfPageTitle{
+	font-size:17px;
+	margin-left:5px;
+	margin-top:5px;
+	position:absolute;
+}
+.formpagesselected .crfPageTitle{
+	font-size:17px;
+	margin-left:5px;
+	margin-top:5px;
+	position:absolute;
+	color:white;
+}
