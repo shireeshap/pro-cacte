@@ -18,8 +18,8 @@
 					<img src="<tags:imageUrl name="blue/down.png"/>" alt="Down"/>
 				</a>
 
-				<a href="javascript:showCrfItemPropertiesTab('${proCtcQuestionId}');"><img
-					src="<tags:imageUrl name="blue/question_properties_btn.png"/>" alt="Configure Item"/></a>
+				<%--<a href="javascript:showCrfItemPropertiesTab('${proCtcQuestionId}');"><img
+					src="<tags:imageUrl name="blue/question_properties_btn.png"/>" alt="Configure Item"/></a>--%>
 			</c:if>
 			<c:if test="${add}">
 				<a href="javascript:addCrfPageItem(${proCtcQuestionId},${proCtctermId})"><img
