@@ -28,7 +28,7 @@
 				<div class="summarylabel"><tags:message code='form.label.questions'/></div>
 			</div>
 
-			<c:forEach items="${studyCrf.crf.crfPages}" var="crfPage">
+			<c:forEach items="${studyCrf.crf.crfPagesSortedByPageNumber}" var="crfPage">
 				<chrome:box title="${crfPage.description}">
 					<c:forEach items="${crfPage.crfItemsSortedByDislayOrder}" var="crfPageItem">
 						<tags:questionReview crfPageItem="${crfPageItem}" showInstructions="true"

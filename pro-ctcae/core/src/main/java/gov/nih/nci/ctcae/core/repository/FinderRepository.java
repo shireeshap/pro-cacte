@@ -19,50 +19,63 @@ import java.util.List;
 @org.springframework.stereotype.Repository
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class FinderRepository {
-    protected final Log logger = LogFactory.getLog(getClass());
+	protected final Log logger = LogFactory.getLog(getClass());
 
-    private GenericRepository genericRepository;
+	private GenericRepository genericRepository;
 
-    public <T extends Persistable> T findById(Class<T> classArg, Integer id) {
-        return genericRepository.findById(classArg, id);
-    }
+	public <T extends Persistable> T findById(Class<T> classArg, Integer id) {
+		return genericRepository.findById(classArg, id);
+	}
 
-    public <T extends Persistable> List<? extends Persistable> find(Query query) {
-        return genericRepository.find(query);
-    }
+	public <T extends Persistable> List<? extends Persistable> find(Query query) {
+		return genericRepository.find(query);
+	}
 
-    @Required
-    public void setGenericRepository(final GenericRepository genericRepository) {
-        this.genericRepository = genericRepository;
-    }
-
-
-    public StudyCrf findAndInitializeStudyCrf(final Integer studyCrfId) {
-        StudyCrf studyCrf = findById(StudyCrf.class, studyCrfId);
-        if (studyCrf != null) {
-            for (StudyParticipantCrf studyParticipantCrf : studyCrf.getStudyParticipantCrfs()) {
-                studyParticipantCrf.getStudyCrf();
-            }
-        }
-
-        List<CRFPage> crfPageList = studyCrf.getCrf().getCrfPages();
-        for(CRFPage crfPage:crfPageList){
-            crfPage.getDescription();
-        }
-        return studyCrf;
+	@Required
+	public void setGenericRepository(final GenericRepository genericRepository) {
+		this.genericRepository = genericRepository;
+	}
 
 
-    }
+	public StudyCrf findAndInitializeStudyCrf(final Integer studyCrfId) {
+		StudyCrf studyCrf = findById(StudyCrf.class, studyCrfId);
+		if (studyCrf != null) {
+			for (StudyParticipantCrf studyParticipantCrf : studyCrf.getStudyParticipantCrfs()) {
+				studyParticipantCrf.getStudyCrf();
+			}
+		}
 
-    public ProCtcQuestion findAndInitializeProCtcQuestion(final Integer questionId) {
-        ProCtcQuestion proCtcQuestion = findById(ProCtcQuestion.class, questionId);
-        if (proCtcQuestion != null) {
-            for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
-                validValue.getValue();
-            }
-        }
-        return proCtcQuestion;
+		List<CRFPage> crfPageList = studyCrf.getCrf().getCrfPages();
+		for (CRFPage crfPage : crfPageList) {
+			crfPage.getDescription();
+		}
+		updateStudyCrfForCrfDisplayRules(studyCrf);
+		return studyCrf;
 
 
-    }
+	}
+
+	//remove this method
+	public void updateStudyCrfForCrfDisplayRules(final StudyCrf studyCrf) {
+		List<CrfPageItem> crfPageItems = studyCrf.getCrf().getAllCrfPageItems();
+		for (CrfPageItem crfPageItem : crfPageItems) {
+			for (CrfItemDisplayRule crfItemDisplayRule : crfPageItem.getCrfItemDisplayRules()) {
+				ProCtcValidValue proCtcValidValue = this.findById(ProCtcValidValue.class, crfItemDisplayRule.getRequiredObjectId());
+				crfItemDisplayRule.setPersistable(proCtcValidValue);
+
+			}
+		}
+	}
+
+	public ProCtcQuestion findAndInitializeProCtcQuestion(final Integer questionId) {
+		ProCtcQuestion proCtcQuestion = findById(ProCtcQuestion.class, questionId);
+		if (proCtcQuestion != null) {
+			for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
+				validValue.getValue();
+			}
+		}
+		return proCtcQuestion;
+
+
+	}
 }

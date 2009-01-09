@@ -40,6 +40,7 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
 
 		}
 
+
 		List<CtcCategory> ctcCategoryList = new ArrayList<CtcCategory>(ctcCategoryMap.keySet());
 		Collections.sort(ctcCategoryList, new CtcCAtegoryComparator());
 		Map result = new LinkedHashMap();
@@ -56,6 +57,7 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
 		map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
 		map.put("selectedCrfPageItems", command.getStudyCrf().getCrf().getAllCrfPageItems());
 
+		finderRepository.updateStudyCrfForCrfDisplayRules(command.getStudyCrf());
 		return map;
 
 
