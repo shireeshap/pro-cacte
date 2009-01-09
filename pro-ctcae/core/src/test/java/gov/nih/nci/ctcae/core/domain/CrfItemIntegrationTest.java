@@ -31,7 +31,8 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 	private ProCtcTerm proProCtcTerm;
 	private CrfPageItem crfPageItem, invalidCrfPageItem;
 
-	private CrfItemDisplayRule crfItemDisplayRule, anotherCrfItemDisplayRule;
+
+	private CrfPageItemDisplayRule crfPageItemDisplayRule, anotherCrfPageItemDisplayRule;
 
 	@Override
 	protected void onSetUpInTransaction() throws Exception {
@@ -59,14 +60,16 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 		crfPage.addCrfItem(crfPageItem);
 		crf.addCrfPge(crfPage);
 
-		crfItemDisplayRule = Fixture.createCrfItemDisplayRules(null, 1);
-		anotherCrfItemDisplayRule = Fixture.createCrfItemDisplayRules(null, 2);
+		ProCtcValidValue proCtcValidValue1 = finderRepository.findById(ProCtcValidValue.class, -1);
+		ProCtcValidValue proCtcValidValue2 = finderRepository.findById(ProCtcValidValue.class, -2);
+		crfPageItemDisplayRule = Fixture.createCrfPageItemDisplayRules(null, proCtcValidValue1);
+		anotherCrfPageItemDisplayRule = Fixture.createCrfPageItemDisplayRules(null, proCtcValidValue2);
 
 	}
 
 
 	private CRF saveCrfItemWithDisplayRule() {
-		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule);
+		crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule);
 		crf = crfRepository.save(crf);
 		return crf;
 	}
@@ -83,52 +86,51 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 	}
 
 
-	public void testAddCrfItemDisplayRuleInCreateCrfItem() {
+	public void testAddCrfPageItemDisplayRuleInCreateCrfItem() {
 
 		crf = saveCrfItemWithDisplayRule();
 		crfPageItem = crfPage.getCrfItemsSortedByDislayOrder().iterator().next();
 
-		CrfItemDisplayRule savedCrfItemDisplayRule = crfPageItem.getCrfItemDisplayRules().iterator().next();
-		assertNotNull(savedCrfItemDisplayRule.getId());
-		assertEquals(crfPageItem, savedCrfItemDisplayRule.getCrfItem());
-		assertEquals(ProCtcValidValue.class.getName(), savedCrfItemDisplayRule.getRequiredObjectClass());
-		assertEquals(Integer.valueOf(1), savedCrfItemDisplayRule.getRequiredObjectId());
+		CrfPageItemDisplayRule savedCrfPageItemDisplayRule = crfPageItem.getCrfPageItemDisplayRules().iterator().next();
+		assertNotNull(savedCrfPageItemDisplayRule.getId());
+		assertEquals(crfPageItem, savedCrfPageItemDisplayRule.getCrfItem());
+		assertEquals(Integer.valueOf(-1), savedCrfPageItemDisplayRule.getProCtcValidValue().getId());
 	}
 
-	public void testAddCrfItemDisplayRuleInEditCrfItem() {
+	public void testAddCrfPageItemDisplayRuleInEditCrfItem() {
 
 		crf = saveCrfItemWithDisplayRule();
 		crfPageItem = crfPage.getCrfItemsSortedByDislayOrder().iterator().next();
 		assertNotNull(crfPageItem.getId());
 
-		crfPageItem.addCrfItemDisplayRules(anotherCrfItemDisplayRule);
+		assertTrue("must add another display rules", crfPageItem.addCrfPageItemDisplayRules(anotherCrfPageItemDisplayRule));
 		crf = crfRepository.save(crf);
 		crfPageItem = crfPage.getCrfItemsSortedByDislayOrder().iterator().next();
-		assertFalse("must save crf item display rule", crfPageItem.getCrfItemDisplayRules().isEmpty());
-		assertEquals(Integer.valueOf(2), Integer.valueOf(crfPageItem.getCrfItemDisplayRules().size()));
-		for (CrfItemDisplayRule savedCrfItemDisplayRule : crfPageItem.getCrfItemDisplayRules()) {
-			assertNotNull(crfItemDisplayRule.getId());
-			assertEquals(crfPageItem, savedCrfItemDisplayRule.getCrfItem());
+		assertFalse("must save crf item display rule", crfPageItem.getCrfPageItemDisplayRules().isEmpty());
+		assertEquals(Integer.valueOf(2), Integer.valueOf(crfPageItem.getCrfPageItemDisplayRules().size()));
+		for (CrfPageItemDisplayRule savedCrfPageItemDisplayRule : crfPageItem.getCrfPageItemDisplayRules()) {
+			assertNotNull(crfPageItemDisplayRule.getId());
+			assertEquals(crfPageItem, savedCrfPageItemDisplayRule.getCrfItem());
 		}
 
 	}
 
 
-	public void testDeleteCrfItemDisplayRule() {
+	public void testDeleteCrfPageItemDisplayRule() {
 
 
 		crf = saveCrfItemWithDisplayRule();
 		crfPageItem = crfPage.getCrfItemsSortedByDislayOrder().iterator().next();
 
 		assertNotNull(crfPageItem.getId());
-		Integer id = crfPageItem.getCrfItemDisplayRules().iterator().next().getRequiredObjectId();
+		Integer id = crfPageItem.getCrfPageItemDisplayRules().iterator().next().getProCtcValidValue().getId();
 		assertNotNull(id);
 
-		crfPageItem.removeCrfItemDisplayRulesByIds(String.valueOf(id));
+		crfPageItem.removeCrfPageItemDisplayRulesByProCtcValidValueIds(String.valueOf(id));
 		crf = crfRepository.save(crf);
 		crfPageItem = crfPage.getCrfItemsSortedByDislayOrder().iterator().next();
 		assertNotNull(crfPageItem.getId());
-		assertTrue("must remove crf item display rule", crfPageItem.getCrfItemDisplayRules().isEmpty());
+		assertTrue("must remove crf item display rule", crfPageItem.getCrfPageItemDisplayRules().isEmpty());
 
 
 	}

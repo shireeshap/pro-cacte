@@ -1,12 +1,14 @@
 package gov.nih.nci.ctcae.core;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
 import java.util.Date;
 
 public abstract class AbstractHibernateIntegrationTestCase extends AbstractTransactionalDataSourceSpringContextTests {
 
+	protected FinderRepository finderRepository;
 
 	@Override
 	protected String[] getConfigLocations() {
@@ -37,6 +39,10 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 		DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
 		DataAuditInfo.setLocal(auditInfo);
 
+	}
+
+	public void setFinderRepository(final FinderRepository finderRepository) {
+		this.finderRepository = finderRepository;
 	}
 
 	@Override

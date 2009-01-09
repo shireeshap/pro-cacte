@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CrfItemDisplayRule;
 import gov.nih.nci.ctcae.core.domain.CrfPageItem;
+import gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
@@ -45,17 +45,17 @@ public class AddConditionalQuestionController extends AbstractController {
 
 		String[] selectedValidValuesIds = StringUtils.commaDelimitedListToStringArray(request.getParameter("selectedValidValues"));
 
-		List<CrfItemDisplayRule> crfItemDisplayRuleList = new ArrayList<CrfItemDisplayRule>();
+		List<CrfPageItemDisplayRule> crfPageItemDisplayRuleList = new ArrayList<CrfPageItemDisplayRule>();
 		for (String id : selectedValidValuesIds) {
 			ProCtcValidValue proCtcValidValue = finderRepository.findById(ProCtcValidValue.class, Integer.valueOf(id));
-			CrfItemDisplayRule crfItemDisplayRule = new CrfItemDisplayRule();
-			crfItemDisplayRule.setPersistable(proCtcValidValue);
-			crfItemDisplayRuleList.add(crfItemDisplayRule);
+			CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();
+			crfPageItemDisplayRule.setProCtcValidValue(proCtcValidValue);
+			crfPageItemDisplayRuleList.add(crfPageItemDisplayRule);
 
 		}
-		List<CrfItemDisplayRule> addedCrfItemDisplayRules = crfPageItem.addCrfItemDisplayRules(crfItemDisplayRuleList);
+		List<CrfPageItemDisplayRule> addedCrfPageItemDisplayRules = crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRuleList);
 
-		modelAndView.addObject("crfItemDisplayRuleList", addedCrfItemDisplayRules);
+		modelAndView.addObject("crfPageItemDisplayRules", addedCrfPageItemDisplayRules);
 		modelAndView.addObject("selectedQuestionId", questionId);
 
 		return modelAndView;

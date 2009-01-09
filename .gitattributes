@@ -80,6 +80,7 @@ pro-ctcae/core/src/main/db/migrate/003_elaboration_1/005_alter_crf_items.groovy 
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/006_alter_crf.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/007_alter_crf_pages.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/008_create_added_items.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/009_alter_crf_item_display_rules.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
@@ -87,8 +88,8 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRF.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFPage.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItemAllignment.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItemDisplayRule.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfPageItem.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfPageItemDisplayRule.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcCategory.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DisplayOrderComparator.java -text
@@ -183,9 +184,9 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemAllignmentTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemDisplayRuleTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfPageItemDisplayRuleTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfStatusTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CtcCategoryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/EthnicityEnumTest.java -text

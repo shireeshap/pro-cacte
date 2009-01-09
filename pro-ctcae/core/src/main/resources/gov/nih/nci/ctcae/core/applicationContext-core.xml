@@ -1,17 +1,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
       http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/tx
       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 
     <!--  for @Repository annotation  -->
-    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
-          autowire="byName">
+		  autowire="byName">
         <property name="namingStrategy">
             <bean class="gov.nih.nci.ctcae.core.tools.hibernate.WonderfulNamingStrategy"/>
         </property>
@@ -22,7 +22,7 @@
                 <value>gov.nih.nci.ctcae.core.domain.CRF</value>
                 <value>gov.nih.nci.ctcae.core.domain.CRFPage</value>
                 <value>gov.nih.nci.ctcae.core.domain.CrfPageItem</value>
-                <value>gov.nih.nci.ctcae.core.domain.CrfItemDisplayRule</value>
+                <value>gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule</value>
                 <value>gov.nih.nci.ctcae.core.domain.CtcCategory</value>
                 <value>gov.nih.nci.ctcae.core.domain.Person</value>
                 <value>gov.nih.nci.ctcae.core.domain.Participant</value>
@@ -52,13 +52,13 @@
         <property name="entityInterceptor">
             <!--      <bean class="edu.northwestern.bioinformatics.studycalendar.utils.GridIdentifierInterceptor" autowire="byType">
             </bean>-->
-            <ref local="chainedInterceptor"/>
+			<ref local="chainedInterceptor"/>
         </property>
     </bean>
 
 
     <bean id="auditSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
-          autowire="byName">
+		  autowire="byName">
         <property name="namingStrategy">
             <bean class="gov.nih.nci.ctcae.core.tools.hibernate.WonderfulNamingStrategy"/>
         </property>
@@ -76,7 +76,7 @@
         <property name="interceptors">
             <list>
                 <!--<ref local="gridIdentifierInterceptor"/>-->
-                <ref local="auditInterceptor"/>
+				<ref local="auditInterceptor"/>
             </list>
         </property>
     </bean>
@@ -90,7 +90,7 @@
                 <value>gov.nih.nci.ctcae.core.domain.CRF</value>
                 <value>gov.nih.nci.ctcae.core.domain.CRFPage</value>
                 <value>gov.nih.nci.ctcae.core.domain.CrfPageItem</value>
-                <value>gov.nih.nci.ctcae.core.domain.CrfItemDisplayRule</value>
+                <value>gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule</value>
                 <value>gov.nih.nci.ctcae.core.domain.CtcCategory</value>
                 <value>gov.nih.nci.ctcae.core.domain.Person</value>
                 <value>gov.nih.nci.ctcae.core.domain.Participant</value>
@@ -121,7 +121,7 @@
 
 
     <bean id="openSessionInViewInterceptor"
-          class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor" autowire="byName">
+		  class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor" autowire="byName">
         <property name="singleSession">
             <value>true</value>
         </property>
@@ -131,7 +131,7 @@
     </bean>
 
     <bean id="auditOpenSessionInViewInterceptor"
-          class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">
+		  class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">
         <property name="sessionFactory">
             <ref local="auditSessionFactory"/>
         </property>
@@ -144,7 +144,7 @@
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"
-          autowire="byName"/>
+		  autowire="byName"/>
 
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
         <property name="checkWriteOperations">
@@ -166,41 +166,41 @@
         <property name="hibernateTemplate" ref="hibernateTemplate"/>
     </bean>
 
-    <!--<bean id="auditHistoryRepository" class="gov.nih.nci.cabig.ctms.audit.dao.AuditHistoryRepository">-->
-    <!--<property name="auditHistoryDao" ref="auditHistoryDao"></property>-->
-    <!--</bean>-->
+	<!--<bean id="auditHistoryRepository" class="gov.nih.nci.cabig.ctms.audit.dao.AuditHistoryRepository">-->
+	<!--<property name="auditHistoryDao" ref="auditHistoryDao"></property>-->
+	<!--</bean>-->
 
 
-    <tx:annotation-driven proxy-target-class="true"/>
+	<tx:annotation-driven proxy-target-class="true"/>
 
     <bean id="genericRepository" class="gov.nih.nci.ctcae.core.repository.HibernateGenericRepository">
         <property name="hibernateTemplate" ref="hibernateTemplate"/>
     </bean>
 
 
-    <!--<bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository">-->
-    <!--<property name="genericRepository" ref="genericRepository"></property>-->
-    <!--<property name="passwordEncoder" ref="passwordEncoder"></property>-->
-    <!--<property name="saltSource" ref="saltSource"></property>-->
+	<!--<bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository">-->
+	<!--<property name="genericRepository" ref="genericRepository"></property>-->
+	<!--<property name="passwordEncoder" ref="passwordEncoder"></property>-->
+	<!--<property name="saltSource" ref="saltSource"></property>-->
 
-    <!--</bean>-->
+	<!--</bean>-->
 
 
-    <bean id="finderRepository" class="gov.nih.nci.ctcae.core.repository.FinderRepository">
+	<bean id="finderRepository" class="gov.nih.nci.ctcae.core.repository.FinderRepository">
         <property name="genericRepository" ref="genericRepository"></property>
     </bean>
     <bean id="organizationRepository" class="gov.nih.nci.ctcae.core.repository.OrganizationRepository"
-          parent="abstractRepository">
+		  parent="abstractRepository">
     </bean>
     <bean id="participantRepository" class="gov.nih.nci.ctcae.core.repository.ParticipantRepository"
-          parent="abstractRepository">
+		  parent="abstractRepository">
     </bean>
 
     <bean id="studyRepository" class="gov.nih.nci.ctcae.core.repository.StudyRepository"
-          parent="abstractRepository">
+		  parent="abstractRepository">
     </bean>
     <bean id="clinicalStaffRepository" class="gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository"
-          parent="abstractRepository">
+		  parent="abstractRepository">
     </bean>
 
     <bean id="abstractRepository" class="gov.nih.nci.ctcae.core.repository.AbstractRepository" abstract="true">
@@ -208,26 +208,26 @@
     </bean>
 
     <bean id="crfRepository" class="gov.nih.nci.ctcae.core.repository.CRFRepository"
-          parent="abstractRepository">
+		  parent="abstractRepository">
         <property name="studyRepository" ref="studyRepository"/>
     </bean>
 
     <bean id="proCtcTermRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcTermRepository"
-          parent="abstractRepository">
+		  parent="abstractRepository">
     </bean>
 
     <bean id="proCtcQuestionRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository"
-          parent="abstractRepository">
+		  parent="abstractRepository">
     </bean>
 
     <bean id="proCtcRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcRepository"
-          parent="abstractRepository">
+		  parent="abstractRepository">
     </bean>
 
 
     <bean id="studyParticipantAssignmentRepository"
-          class="gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository"
-          parent="abstractRepository">
+		  class="gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository"
+		  parent="abstractRepository">
     </bean>
 
 

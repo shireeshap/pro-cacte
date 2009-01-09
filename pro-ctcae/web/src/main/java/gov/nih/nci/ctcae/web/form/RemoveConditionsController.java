@@ -40,7 +40,7 @@ public class RemoveConditionsController extends AbstractController {
 
 			CrfPageItem crfPageItem = createFormCommand.getStudyCrf().getCrf().getCrfPageItemByQuestion(proCtcQuestion);
 
-			crfPageItem.removeCrfItemDisplayRulesByIds(request.getParameter("proCtcValidValueId"));
+			crfPageItem.removeCrfPageItemDisplayRulesByProCtcValidValueIds(request.getParameter("proCtcValidValueId"));
 		} else if (!StringUtils.isBlank(request.getParameter("conditionalTriggeredQuestionId"))) {
 
 			Integer conditionalTriggeredQuestionId = ServletRequestUtils.getIntParameter(request, "conditionalTriggeredQuestionId");
@@ -49,7 +49,7 @@ public class RemoveConditionsController extends AbstractController {
 
 			CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
-			createFormCommand.getStudyCrf().getCrf().updateCrfItemDisplayRules(proCtcQuestion);
+			createFormCommand.getStudyCrf().getCrf().updateCrfPageItemDisplayRules(proCtcQuestion);
 
 		} else if (!StringUtils.isBlank(request.getParameter("selectedCrfPageNumber"))) {
 
@@ -59,7 +59,7 @@ public class RemoveConditionsController extends AbstractController {
 			CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
 
-			createFormCommand.getStudyCrf().getCrf().updateCrfItemDisplayRules(selectedCrfPageNumber);
+			createFormCommand.getStudyCrf().getCrf().updateCrfPageItemDisplayRules(selectedCrfPageNumber);
 
 		}
 

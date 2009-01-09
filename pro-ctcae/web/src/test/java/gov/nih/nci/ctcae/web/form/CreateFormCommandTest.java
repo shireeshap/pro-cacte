@@ -219,8 +219,8 @@ public class CreateFormCommandTest extends WebTestCase {
 		crfPageItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
 		crfPageItem.setInstructions("inst");
 		crfPageItem.setResponseRequired(Boolean.TRUE);
-		CrfItemDisplayRule crfItemDisplayRule = new CrfItemDisplayRule();
-		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule);
+		CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();
+		crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule);
 
 		command.setQuestionsIds("14,11,13,12");
 		command.setNumberOfQuestionsInEachPage("1,3");
@@ -493,8 +493,8 @@ public class CreateFormCommandTest extends WebTestCase {
 		crfPageItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
 		crfPageItem.setInstructions("inst");
 		crfPageItem.setResponseRequired(Boolean.TRUE);
-		CrfItemDisplayRule crfItemDisplayRule = new CrfItemDisplayRule();
-		crfPageItem.addCrfItemDisplayRules(crfItemDisplayRule);
+		CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();
+		crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule);
 
 		command.setQuestionsIds("11,13,12");
 		command.setNumberOfQuestionsInEachPage("3");

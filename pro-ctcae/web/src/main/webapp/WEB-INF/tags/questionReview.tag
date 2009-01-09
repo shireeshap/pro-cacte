@@ -60,7 +60,7 @@
 					  </c:forEach>
 				  </ul>
 			  </div>
-			  <c:if test="${not empty crfPageItem.crfItemDisplayRules }">
+			  <c:if test="${not empty crfPageItem.crfPageItemDisplayRules }">
 
 				  <br>
 				  <br>
@@ -78,7 +78,7 @@
 
 							  </tr>
 
-							  <tags:conditions crfItemDisplayRuleList="${crfPageItem.crfItemDisplayRules}"
+							  <tags:conditions crfPageItemDisplayRules="${crfPageItem.crfPageItemDisplayRules}"
 											   selectedQuestionId="${crfPageItem.proCtcQuestion.id}"
 											   showDelete="false"></tags:conditions>
 

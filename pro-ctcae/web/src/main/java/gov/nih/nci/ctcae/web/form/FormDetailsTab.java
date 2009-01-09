@@ -57,7 +57,6 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
 		map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
 		map.put("selectedCrfPageItems", command.getStudyCrf().getCrf().getAllCrfPageItems());
 
-		finderRepository.updateStudyCrfForCrfDisplayRules(command.getStudyCrf());
 		return map;
 
 

@@ -338,7 +338,7 @@ public class CRF extends BaseVersionable {
 
 	}
 
-	public void updateCrfItemDisplayRules(final ProCtcQuestion proCtcQuestion) {
+	public void updateCrfPageItemDisplayRules(final ProCtcQuestion proCtcQuestion) {
 		Set<Integer> proCtcValidValues = new HashSet<Integer>();
 
 		for (ProCtcValidValue proCtcValidValue : proCtcQuestion.getValidValues()) {
@@ -347,19 +347,19 @@ public class CRF extends BaseVersionable {
 
 		//now remove the  display rules
 		for (CrfPageItem crfPageItem : getAllCrfPageItems()) {
-			crfPageItem.removeCrfItemDisplayRulesByIds(proCtcValidValues);
+			crfPageItem.removeCrfPageItemDisplayRulesByIds(proCtcValidValues);
 
 
 		}
 
 	}
 
-	public void updateCrfItemDisplayRules(final Integer selectedCrfPageNumber) {
+	public void updateCrfPageItemDisplayRules(final Integer selectedCrfPageNumber) {
 		CRFPage crfPage = getCrfPageByPageNumber(selectedCrfPageNumber);
 		if (crfPage != null) {
 			List<CrfPageItem> crfPageItems = crfPage.getCrfPageItems();
 			for (CrfPageItem crfPageItem : crfPageItems) {
-				updateCrfItemDisplayRules(crfPageItem.getProCtcQuestion());
+				updateCrfPageItemDisplayRules(crfPageItem.getProCtcQuestion());
 			}
 		} else {
 			logger.error("can not find crf page for given page number:" + selectedCrfPageNumber);

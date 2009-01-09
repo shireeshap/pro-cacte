@@ -49,23 +49,11 @@ public class FinderRepository {
 		for (CRFPage crfPage : crfPageList) {
 			crfPage.getDescription();
 		}
-		updateStudyCrfForCrfDisplayRules(studyCrf);
 		return studyCrf;
 
 
 	}
 
-	//remove this method
-	public void updateStudyCrfForCrfDisplayRules(final StudyCrf studyCrf) {
-		List<CrfPageItem> crfPageItems = studyCrf.getCrf().getAllCrfPageItems();
-		for (CrfPageItem crfPageItem : crfPageItems) {
-			for (CrfItemDisplayRule crfItemDisplayRule : crfPageItem.getCrfItemDisplayRules()) {
-				ProCtcValidValue proCtcValidValue = this.findById(ProCtcValidValue.class, crfItemDisplayRule.getRequiredObjectId());
-				crfItemDisplayRule.setPersistable(proCtcValidValue);
-
-			}
-		}
-	}
 
 	public ProCtcQuestion findAndInitializeProCtcQuestion(final Integer questionId) {
 		ProCtcQuestion proCtcQuestion = findById(ProCtcQuestion.class, questionId);

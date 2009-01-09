@@ -9,6 +9,8 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
@@ -31,11 +33,19 @@ public class EditFormControllerTest extends WebTestCase {
 	private StudyCrf studyCrf;
 	private CRF crf;
 	private TabConfigurer tabConfigurer;
+	private UniqueTitleForCrfValidator uniqueTitleForCrfValidator;
+	private NotEmptyValidator notEmptyValidator;
+
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		controller = new EditFormController();
+		notEmptyValidator = registerMockFor(NotEmptyValidator.class);
+		uniqueTitleForCrfValidator = registerMockFor(UniqueTitleForCrfValidator.class);
+
+		controller.setNotEmptyValidator(notEmptyValidator);
+		controller.setUniqueTitleForCrfValidator(uniqueTitleForCrfValidator);
 		finderRepository = registerMockFor(FinderRepository.class);
 		proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
 		crfRepository = registerMockFor(CRFRepository.class);
@@ -47,6 +57,7 @@ public class EditFormControllerTest extends WebTestCase {
 		controller.setTabConfigurer(tabConfigurer);
 		studyCrf = new StudyCrf();
 		crf = new CRF();
+		crf.setTitle("title");
 		studyCrf.setCrf(crf);
 		crf.setStudyCrf(studyCrf);
 	}
@@ -101,7 +112,9 @@ public class EditFormControllerTest extends WebTestCase {
 
 		request.setMethod("GET");
 		request.addParameter("studyCrfId", "1");
+
 		expect(finderRepository.findAndInitializeStudyCrf(Integer.valueOf(1))).andReturn(studyCrf);
+
 		replayMocks();
 		ModelAndView modelAndView1 = controller.handleRequest(request, response);
 		verifyMocks();
@@ -114,7 +127,10 @@ public class EditFormControllerTest extends WebTestCase {
 
 		request.addParameter("_finish", "_finish");
 		expect(crfRepository.save(studyCrf.getCrf())).andReturn(studyCrf.getCrf());
+		expect(notEmptyValidator.validate("title")).andReturn(true);
+		expect(uniqueTitleForCrfValidator.validate(crf, crf.getTitle())).andReturn(true);
 		replayMocks();
+
 		//expect(finderRepository.findAndInitializeStudyCrf(Integer.valueOf(1))).andReturn(studyCrf);
 
 

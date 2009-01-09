@@ -96,7 +96,7 @@
 
 					</tr>
 
-					<tags:conditions crfItemDisplayRuleList="${crfPageItem.crfItemDisplayRules}"
+					<tags:conditions crfPageItemDisplayRules="${crfPageItem.crfPageItemDisplayRules}"
 									 selectedQuestionId="${crfPageItem.proCtcQuestion.id}"
 									 showDelete="true"></tags:conditions>
 

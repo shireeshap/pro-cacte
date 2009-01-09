@@ -26,13 +26,14 @@ public class Fixture {
 		return crf;
 	}
 
-	public static CrfItemDisplayRule createCrfItemDisplayRules(final Integer id, final Integer requiredObjectId) {
-		CrfItemDisplayRule crfItemDisplayRule = new CrfItemDisplayRule();
-		ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
-		proCtcValidValue.setId(requiredObjectId);
-		crfItemDisplayRule.setId(id);
-		crfItemDisplayRule.setPersistable(proCtcValidValue);
-		return crfItemDisplayRule;
+
+	public static CrfPageItemDisplayRule createCrfPageItemDisplayRules(final Integer id, final ProCtcValidValue proCtcValidValue) {
+		CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();
+		crfPageItemDisplayRule.setId(id);
+		crfPageItemDisplayRule.setProCtcValidValue(proCtcValidValue);
+		return crfPageItemDisplayRule;
+
+
 	}
 
 	public static Study createStudy(final String shortTitle, final String longTitle, final String assignedIdentifier) {
