@@ -1497,10 +1497,10 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
 	margin-top:5px;
 	position:absolute;
 }
-input.crfPageTitle{
+.inplaceeditor-form input[type="text"] {
 	font-size:17px;
 	margin-left:5px;
-	margin-top:5px;
+	margin-top:3px;
 	position:absolute;
 }
 .formpagesselected .crfPageTitle{
