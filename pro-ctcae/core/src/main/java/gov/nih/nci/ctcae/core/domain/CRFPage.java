@@ -181,7 +181,7 @@ public class CRFPage extends BaseVersionable {
 			if (existingCrfPageItem != null) {
 				//we are updating order only  and removing properties
 				existingCrfPageItem.setDisplayOrder(getCrfItemsSortedByDislayOrder().size());
-				existingCrfPageItem.setCrfItemAllignment(null);
+				existingCrfPageItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
 				existingCrfPageItem.setInstructions(null);
 				existingCrfPageItem.setResponseRequired(Boolean.FALSE);
 				existingCrfPageItem.getCrfItemDisplayRules().clear();
