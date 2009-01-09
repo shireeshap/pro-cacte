@@ -180,11 +180,9 @@ public class CRFPage extends BaseVersionable {
 			CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(crfPageItem.getProCtcQuestion());
 			if (existingCrfPageItem != null) {
 				//we are updating order only  and removing properties
+				existingCrfPageItem.resetAllPropertiesToDefault();
 				existingCrfPageItem.setDisplayOrder(getCrfItemsSortedByDislayOrder().size());
-				existingCrfPageItem.setCrfItemAllignment(CrfItemAllignment.HORIZONTAL);
-				existingCrfPageItem.setInstructions(null);
-				existingCrfPageItem.setResponseRequired(Boolean.FALSE);
-				existingCrfPageItem.getCrfItemDisplayRules().clear();
+
 				return existingCrfPageItem;
 			}
 

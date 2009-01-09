@@ -22,217 +22,227 @@ import java.util.Set;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_page_items_id")})
 public class CrfPageItem extends BasePersistable {
 
-    public static final Integer INITIAL_ORDER = 1;
+	public static final Integer INITIAL_ORDER = 1;
 
-    @Id
-    @GeneratedValue(generator = "id-generator")
-    @Column(name = "id")
-    private Integer id;
+	@Id
+	@GeneratedValue(generator = "id-generator")
+	@Column(name = "id")
+	private Integer id;
 
-    @Column(name = "display_order", nullable = false)
-    private Integer displayOrder = 0;
+	@Column(name = "display_order", nullable = false)
+	private Integer displayOrder = 0;
 
-    @JoinColumn(name = "crf_page_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne
-    private CRFPage crfPage;
+	@JoinColumn(name = "crf_page_id", referencedColumnName = "id", nullable = false)
+	@ManyToOne
+	private CRFPage crfPage;
 
-    @JoinColumn(name = "pro_ctc_question_id", referencedColumnName = "id")
-    @ManyToOne
-    private ProCtcQuestion proCtcQuestion;
+	@JoinColumn(name = "pro_ctc_question_id", referencedColumnName = "id")
+	@ManyToOne
+	private ProCtcQuestion proCtcQuestion;
 
-    @Column(name = "response_required")
-    private Boolean responseRequired = Boolean.FALSE;
+	@Column(name = "response_required")
+	private Boolean responseRequired = Boolean.FALSE;
 
-    @Column(name = "instructions")
-    private String instructions;
+	@Column(name = "instructions")
+	private String instructions;
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "allignment")
-    private CrfItemAllignment crfItemAllignment = CrfItemAllignment.HORIZONTAL;
+	public static CrfItemAllignment DEFAULT_ALLIGNMENT = CrfItemAllignment.HORIZONTAL;
 
-    @OneToMany(mappedBy = "crfPageItem", fetch = FetchType.LAZY)
-    @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    private Set<CrfItemDisplayRule> crfItemDisplayRules = new HashSet<CrfItemDisplayRule>();
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "allignment")
+	private CrfItemAllignment crfItemAllignment = DEFAULT_ALLIGNMENT;
 
-
-    public CrfPageItem() {
-    }
+	@OneToMany(mappedBy = "crfPageItem", fetch = FetchType.LAZY)
+	@Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	private Set<CrfPageItemDisplayRule> crfPageItemDisplayRules = new HashSet<CrfPageItemDisplayRule>();
 
 
-    public Boolean getResponseRequired() {
-        return responseRequired;
-    }
-
-    public void setResponseRequired(final Boolean responseRequired) {
-        this.responseRequired = responseRequired;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(final String instructions) {
-        this.instructions = instructions;
-    }
-
-    public CrfItemAllignment getCrfItemAllignment() {
-        return crfItemAllignment;
-    }
-
-    public void setCrfItemAllignment(final CrfItemAllignment crfItemAllignment) {
-        this.crfItemAllignment = crfItemAllignment;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getDisplayOrder() {
-        return displayOrder;
-    }
-
-    public void setDisplayOrder(Integer displayOrder) {
-        this.displayOrder = displayOrder;
-    }
+	public CrfPageItem() {
+	}
 
 
-    public CRFPage getCrfPage() {
-        return crfPage;
-    }
+	public Boolean getResponseRequired() {
+		return responseRequired;
+	}
 
-    public void setCrfPage(final CRFPage crfPage) {
-        this.crfPage = crfPage;
-    }
+	public void setResponseRequired(final Boolean responseRequired) {
+		this.responseRequired = responseRequired;
+	}
 
-    public ProCtcQuestion getProCtcQuestion() {
-        return proCtcQuestion;
-    }
+	public String getInstructions() {
+		return instructions;
+	}
 
-    public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {
-        this.proCtcQuestion = proCtcQuestion;
-    }
+	public void setInstructions(final String instructions) {
+		this.instructions = instructions;
+	}
 
-    public CrfPageItem getCopy() {
-        CrfPageItem copiedCrfPageItem = new CrfPageItem();
-        copiedCrfPageItem.setInstructions(instructions);
-        copiedCrfPageItem.setDisplayOrder(displayOrder);
-        copiedCrfPageItem.setResponseRequired(responseRequired);
-        copiedCrfPageItem.setCrfItemAllignment(crfItemAllignment);
-        copiedCrfPageItem.setProCtcQuestion(proCtcQuestion);
-        for (CrfItemDisplayRule crfItemDisplayRule : crfItemDisplayRules) {
-            copiedCrfPageItem.addCrfItemDisplayRules(crfItemDisplayRule.getCopy());
-        }
-        return copiedCrfPageItem;
-    }
+	public CrfItemAllignment getCrfItemAllignment() {
+		return crfItemAllignment;
+	}
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public void setCrfItemAllignment(final CrfItemAllignment crfItemAllignment) {
+		this.crfItemAllignment = crfItemAllignment;
+	}
 
-        final CrfPageItem crfPageItem = (CrfPageItem) o;
+	public Integer getId() {
+		return id;
+	}
 
-        if (crfPage != null ? !crfPage.equals(crfPageItem.crfPage) : crfPageItem.crfPage != null) return false;
-        if (crfItemAllignment != crfPageItem.crfItemAllignment) return false;
-        if (displayOrder != null ? !displayOrder.equals(crfPageItem.displayOrder) : crfPageItem.displayOrder != null)
-            return false;
-        if (instructions != null ? !instructions.equals(crfPageItem.instructions) : crfPageItem.instructions != null)
-            return false;
-        if (proCtcQuestion != null ? !proCtcQuestion.equals(crfPageItem.proCtcQuestion) : crfPageItem.proCtcQuestion != null)
-            return false;
-        if (responseRequired != null ? !responseRequired.equals(crfPageItem.responseRequired) : crfPageItem.responseRequired != null)
-            return false;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-        return true;
-    }
+	public Integer getDisplayOrder() {
+		return displayOrder;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = displayOrder != null ? displayOrder.hashCode() : 0;
-        result = 31 * result + (crfPage != null ? crfPage.hashCode() : 0);
-        result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
-        result = 31 * result + (responseRequired != null ? responseRequired.hashCode() : 0);
-        result = 31 * result + (instructions != null ? instructions.hashCode() : 0);
-        result = 31 * result + (crfItemAllignment != null ? crfItemAllignment.hashCode() : 0);
-        return result;
-    }
+	public void setDisplayOrder(Integer displayOrder) {
+		this.displayOrder = displayOrder;
+	}
 
-    //    @Override
+
+	public CRFPage getCrfPage() {
+		return crfPage;
+	}
+
+	public void setCrfPage(final CRFPage crfPage) {
+		this.crfPage = crfPage;
+	}
+
+	public ProCtcQuestion getProCtcQuestion() {
+		return proCtcQuestion;
+	}
+
+	public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {
+		this.proCtcQuestion = proCtcQuestion;
+	}
+
+	public CrfPageItem getCopy() {
+		CrfPageItem copiedCrfPageItem = new CrfPageItem();
+		copiedCrfPageItem.setInstructions(instructions);
+		copiedCrfPageItem.setDisplayOrder(displayOrder);
+		copiedCrfPageItem.setResponseRequired(responseRequired);
+		copiedCrfPageItem.setCrfItemAllignment(crfItemAllignment);
+		copiedCrfPageItem.setProCtcQuestion(proCtcQuestion);
+		for (CrfPageItemDisplayRule crfPageItemDisplayRule : crfPageItemDisplayRules) {
+			copiedCrfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule.getCopy());
+		}
+		return copiedCrfPageItem;
+	}
+
+	@Override
+	public boolean equals(final Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		final CrfPageItem crfPageItem = (CrfPageItem) o;
+
+		if (crfPage != null ? !crfPage.equals(crfPageItem.crfPage) : crfPageItem.crfPage != null) return false;
+		if (crfItemAllignment != crfPageItem.crfItemAllignment) return false;
+		if (displayOrder != null ? !displayOrder.equals(crfPageItem.displayOrder) : crfPageItem.displayOrder != null)
+			return false;
+		if (instructions != null ? !instructions.equals(crfPageItem.instructions) : crfPageItem.instructions != null)
+			return false;
+		if (proCtcQuestion != null ? !proCtcQuestion.equals(crfPageItem.proCtcQuestion) : crfPageItem.proCtcQuestion != null)
+			return false;
+		if (responseRequired != null ? !responseRequired.equals(crfPageItem.responseRequired) : crfPageItem.responseRequired != null)
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = displayOrder != null ? displayOrder.hashCode() : 0;
+		result = 31 * result + (crfPage != null ? crfPage.hashCode() : 0);
+		result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
+		result = 31 * result + (responseRequired != null ? responseRequired.hashCode() : 0);
+		result = 31 * result + (instructions != null ? instructions.hashCode() : 0);
+		result = 31 * result + (crfItemAllignment != null ? crfItemAllignment.hashCode() : 0);
+		return result;
+	}
+
+	//    @Override
 //    public String toString() {
 //        return "[DISPLAY ORDER: CRF : QUESTION] " + displayOrder + " : "
 //                + crf.getTitle() + " : " + proCtcQuestion.getQuestionText();
 //    }
 
 
-    public Set<CrfItemDisplayRule> getCrfItemDisplayRules() {
-        return crfItemDisplayRules;
-    }
+	public Set<CrfPageItemDisplayRule> getCrfPageItemDisplayRules() {
+		return crfPageItemDisplayRules;
+	}
 
 
-    public void removeCrfItemDisplayRulesByIds(final String objectsIdsToRemove) {
-        Set<String> ids = org.springframework.util.StringUtils.commaDelimitedListToSet(objectsIdsToRemove);
-        final Set<Integer> proCtcValidValues = new HashSet();
-        for (String id : ids) {
-            proCtcValidValues.add(Integer.valueOf(id));
-        }
-        removeCrfItemDisplayRulesByIds(proCtcValidValues);
+	public void removeCrfPageItemDisplayRulesByProCtcValidValueIds(final String objectsIdsToRemove) {
+		Set<String> ids = org.springframework.util.StringUtils.commaDelimitedListToSet(objectsIdsToRemove);
+		final Set<Integer> proCtcValidValues = new HashSet();
+		for (String id : ids) {
+			proCtcValidValues.add(Integer.valueOf(id));
+		}
+		removeCrfPageItemDisplayRulesByIds(proCtcValidValues);
 
-    }
+	}
 
-    public void removeCrfItemDisplayRulesByIds(final Set<Integer> proCtcValidValues) {
-        List<CrfItemDisplayRule> crfItemDisplayRulesToRemove = new ArrayList<CrfItemDisplayRule>();
-        for (Integer id : proCtcValidValues) {
-            CrfItemDisplayRule crfItemDisplayRule = getCrfDisplayRuleById(id);
-            crfItemDisplayRulesToRemove.add(crfItemDisplayRule);
-        }
+	public void removeCrfPageItemDisplayRulesByIds(final Set<Integer> proCtcValidValues) {
+		List<CrfPageItemDisplayRule> crfPageItemDisplayRulesToRemove = new ArrayList<CrfPageItemDisplayRule>();
+		for (Integer id : proCtcValidValues) {
+			CrfPageItemDisplayRule crfPageItemDisplayRule = getCrfDisplayRuleById(id);
+			crfPageItemDisplayRulesToRemove.add(crfPageItemDisplayRule);
+		}
 
-        for (CrfItemDisplayRule crfItemDisplayRule : crfItemDisplayRulesToRemove) {
-            this.removeCrfItemDisplayRule(crfItemDisplayRule);
-        }
+		for (CrfPageItemDisplayRule crfPageItemDisplayRule : crfPageItemDisplayRulesToRemove) {
+			this.removeCrfPageItemDisplayRule(crfPageItemDisplayRule);
+		}
 
-    }
+	}
 
-    private CrfItemDisplayRule getCrfDisplayRuleById(final Integer id) {
-        for (CrfItemDisplayRule crfItemDisplayRule : getCrfItemDisplayRules()) {
-            if (crfItemDisplayRule.getRequiredObjectId().equals(id)) {
-                return crfItemDisplayRule;
-            }
-        }
-        return null;
-    }
+	private CrfPageItemDisplayRule getCrfDisplayRuleById(final Integer id) {
+		for (CrfPageItemDisplayRule crfPageItemDisplayRule : getCrfPageItemDisplayRules()) {
+			if (crfPageItemDisplayRule.getProCtcValidValue().getId().equals(id)) {
+				return crfPageItemDisplayRule;
+			}
+		}
+		return null;
+	}
 
-    private void removeCrfItemDisplayRule(final CrfItemDisplayRule crfItemDisplayRule) {
+	private void removeCrfPageItemDisplayRule(final CrfPageItemDisplayRule crfPageItemDisplayRule) {
 
-        getCrfItemDisplayRules().remove(crfItemDisplayRule);
-    }
+		getCrfPageItemDisplayRules().remove(crfPageItemDisplayRule);
+	}
 
-    public boolean addCrfItemDisplayRules(CrfItemDisplayRule crfItemDisplayRule) {
-        if (crfItemDisplayRule != null) {
-            crfItemDisplayRule.setCrfItem(this);
-            boolean b = getCrfItemDisplayRules().add(crfItemDisplayRule);
-            return b;
+	public boolean addCrfPageItemDisplayRules(CrfPageItemDisplayRule crfPageItemDisplayRule) {
+		if (crfPageItemDisplayRule != null) {
+			crfPageItemDisplayRule.setCrfItem(this);
+			boolean b = getCrfPageItemDisplayRules().add(crfPageItemDisplayRule);
+			return b;
 
-        }
-        return false;
-    }
+		}
+		return false;
+	}
 
-    public boolean shouldDisplay(List<ProCtcValidValue> selectedProCtcValidValues) {
-        return true;
-    }
+	public boolean shouldDisplay(List<ProCtcValidValue> selectedProCtcValidValues) {
+		return true;
+	}
 
-    public List<CrfItemDisplayRule> addCrfItemDisplayRules(final List<CrfItemDisplayRule> crfItemDisplayRuleList) {
-        final List<CrfItemDisplayRule> addedCrfItemDisplayRules = new ArrayList<CrfItemDisplayRule>();
-        for (CrfItemDisplayRule crfItemDisplayRule : crfItemDisplayRuleList) {
-            boolean isAdded = addCrfItemDisplayRules(crfItemDisplayRule);
-            if (isAdded) {
-                addedCrfItemDisplayRules.add(crfItemDisplayRule);
-            }
-        }
-        return addedCrfItemDisplayRules;
-    }
+	public List<CrfPageItemDisplayRule> addCrfPageItemDisplayRules(final List<CrfPageItemDisplayRule> crfPageItemDisplayRuleList) {
+		final List<CrfPageItemDisplayRule> addedCrfPageItemDisplayRules = new ArrayList<CrfPageItemDisplayRule>();
+		for (CrfPageItemDisplayRule crfPageItemDisplayRule : crfPageItemDisplayRuleList) {
+			boolean isAdded = addCrfPageItemDisplayRules(crfPageItemDisplayRule);
+			if (isAdded) {
+				addedCrfPageItemDisplayRules.add(crfPageItemDisplayRule);
+			}
+		}
+		return addedCrfPageItemDisplayRules;
+	}
 
+	public void resetAllPropertiesToDefault() {
+		this.setCrfItemAllignment(CrfPageItem.DEFAULT_ALLIGNMENT);
+		this.setInstructions(null);
+		this.setResponseRequired(Boolean.FALSE);
+		this.displayOrder = 0;
+		this.getCrfPageItemDisplayRules().clear();
+
+	}
 }
