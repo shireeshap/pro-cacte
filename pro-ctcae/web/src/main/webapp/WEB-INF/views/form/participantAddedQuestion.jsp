@@ -93,19 +93,19 @@
     <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantCrfAddedQuestions}"
                var="participantCrfItem"
                varStatus="crfitemstatus">
+
+        <c:if test="${(participantCrfItem.pageNumber + 1)  eq command.currentPageIndex}">
         <tags:formbuilderBox id="question_${participantCrfItem.proCtcQuestion.id}">
 
             <input type="hidden"
                    name="studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[${crfitemstatus.index}].proCtcValidValue"
-                   value=""/>
+                   value="${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[crfitemstatus.index].proCtcValidValue.id}"/>
             <table>
                 <tr>
                     <td colspan="${fn:length(participantCrfItem.proCtcQuestion.validValues)}">
                         <div class="label">
                                 ${participantCrfItem.proCtcQuestion.formattedQuestionText}
-                            (<a href="javascript:clearResponse('${crfitemstatus.index}')">clear
-                            this response</a>)(<a
-                                href="javascript:deleteQuestion('${crfitemstatus.index}','${participantCrfItem.proCtcQuestion.id}','${participantCrfItem.id}')">remove
+                            (<a href="javascript:deleteQuestion('${crfitemstatus.index}','${participantCrfItem.proCtcQuestion.id}','${participantCrfItem.id}')">remove
                             this question</a>)
 
                         </div>
@@ -121,7 +121,7 @@
                                varStatus="validvaluestatus">
                         <tags:validvalue currentId="${validValue.id}"
                                          title="${validValue.displayName}"
-                                         selectedId=""
+                                         selectedId="${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[crfitemstatus.index].proCtcValidValue.id}"
                                          crfitemindex="${crfitemstatus.index}"
                                          index="${validvaluestatus.index}"/>
                     </c:forEach>
@@ -133,6 +133,7 @@
                 </tr>
             </table>
         </tags:formbuilderBox>
+        </c:if>
     </c:forEach>
     <table width="100%">
         <input type="hidden" name="direction"/>

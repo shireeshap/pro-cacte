@@ -106,10 +106,6 @@
                 clearResponse(questionid);
             }
         }
-        function clearResponseAndEvaluate(questionid) {
-            clearResponse(questionid);
-            evaluateAllQuestions();
-        }
         function clearResponse(questionid) {
             var x = document.getElementsByName('response' + questionIndexes[questionid]);
             for (var i = 0; i < x.length; i++) {
@@ -193,7 +189,6 @@
                     <td colspan="${colspan}">
                         <div class="label">
                                 ${crfPageItem.proCtcQuestion.formattedQuestionText}
-                            (<a href="javascript:clearResponseAndEvaluate('${crfPageItem.id}')">clear this response</a>)
                         </div>
                     </td>
                 </tr>

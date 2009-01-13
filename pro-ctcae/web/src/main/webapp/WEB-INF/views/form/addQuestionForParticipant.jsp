@@ -60,38 +60,19 @@
     <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}"
                 autopad="true" message="false">
         <p>
-            <b>Please select additional questions from below</b>
+            <b>Please select additional symptoms from below:</b>
         </p>
 
-        <c:forEach items="${command.arrangedQuestions}" var="term">
-            <chrome:division title=" ${term.key}">
-
-                <c:forEach items="${term.value}" var="question">
-                    <tags:formbuilderBox>
-                        <input type="checkbox" name="questionsByParticipants"
-                               value="${question.id}"
-                               onclick="javascript:showanswers(this.checked,'answer-div-${question.id}')"/> ${question.formattedQuestionText}
-                        <br/>
-
-                        <div id="answer-div-${question.id}">
-                            <c:forEach items="${question.validValues}" var="validValue" varStatus="status">
-                                <div class="norm" onmouseover="javascript:this.className='over';"
-                                     onmouseout="javascript:this.className='norm';"
-                                     onclick="document.getElementsByName('answer${question.id}')[${status.index}].checked=true"
-                                     width="20%">
-                                    <input type="radio" name="answer${question.id}"
-                                           value="${validValue.id}"/>${validValue.displayName}
-                                    <br/>
-                                </div>
-                            </c:forEach>
-                        </div>
-                    </tags:formbuilderBox>
-                    <script type="text/javascript">
-                        hideme('answer-div-${question.id}');
-                    </script>
-                </c:forEach>
-            </chrome:division>
+        <table>
+        <c:forEach items="${command.arrangedQuestions}" var="term" varStatus="status">
+            <tr>
+                <td>
+                    <input type="checkbox" name="symptomsByParticipants"
+                           value="${term.key}"/> ${term.key}
+                </td>
+            </tr>
         </c:forEach>
+        </table>
     </chrome:box>
     <table width="100%">
         <input type="hidden" name="direction"/>
@@ -106,7 +87,6 @@
             </td>
         </tr>
     </table>
-
 </form:form>
 </body>
 </html>

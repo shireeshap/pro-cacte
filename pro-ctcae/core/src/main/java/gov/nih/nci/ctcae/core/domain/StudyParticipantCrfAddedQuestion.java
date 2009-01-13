@@ -24,6 +24,9 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "page_number")
+    private Integer pageNumber;
+
     @JoinColumn(name = "sp_crf_id", referencedColumnName = "id")
     @ManyToOne
     private StudyParticipantCrf studyParticipantCrf;
@@ -59,5 +62,21 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
 
     public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {
         this.proCtcQuestion = proCtcQuestion;
+    }
+
+    public Integer getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(Integer pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    public StudyParticipantCrfAddedQuestion getCopy(){
+        StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = new StudyParticipantCrfAddedQuestion();
+        studyParticipantCrfAddedQuestion.setPageNumber(pageNumber);
+        studyParticipantCrfAddedQuestion.setStudyParticipantCrf(studyParticipantCrf);
+        studyParticipantCrfAddedQuestion.setProCtcQuestion(proCtcQuestion);
+        return studyParticipantCrfAddedQuestion;
     }
 }

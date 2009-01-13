@@ -100,6 +100,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     public void addStudyParticipantCrfAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
         if(studyParticipantCrfAddedQuestion != null){
+            studyParticipantCrfAddedQuestion.setStudyParticipantCrf(this);
             studyParticipantCrfAddedQuestions.add(studyParticipantCrfAddedQuestion);
         }
     }

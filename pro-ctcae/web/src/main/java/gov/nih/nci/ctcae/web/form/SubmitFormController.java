@@ -58,20 +58,25 @@ public class SubmitFormController extends CtcAeSimpleFormController {
                 submitFormCommand.setFlashMessage("You have already submitted the form.");
             }
             mv = showForm(request, errors, getSuccessView());
-        } else {
-            if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages() || "y".equals(request.getParameter("review"))) {
-                submitFormCommand.setDirection("");
-                mv = showForm(request, errors, getReviewView());
-            } else {
-                if (submitFormCommand.getCurrentPageIndex() == submitFormCommand.getTotalPages() && submitFormCommand.isHasParticipantAddedQuestions()) {
-                    for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfScheduleAddedQuestions()) {
-                        studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
-                    }
-                    mv = showForm(request, errors, "form/participantAddedQuestion");
-                } else {
-                    mv = showForm(request, errors, getFormView());
-                }
+            return mv;
+        }
+
+        if ("y".equals(request.getSession().getAttribute("review"))) {
+            request.getSession().setAttribute("review", "n");
+            submitFormCommand.setCurrentPageIndex(submitFormCommand.getParticipantAddedQuestionIndex());
+        }
+
+        if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages()) {
+            mv = showForm(request, errors, getReviewView());
+            return mv;
+        }
+        if (submitFormCommand.getCurrentPageIndex() >= submitFormCommand.getParticipantAddedQuestionIndex()) {
+            for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfScheduleAddedQuestions()) {
+                studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
             }
+            mv = showForm(request, errors, "form/participantAddedQuestion");
+        } else {
+            mv = showForm(request, errors, getFormView());
         }
 
         return mv;
@@ -99,15 +104,15 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         super.onBindAndValidate(request, command, errors);
 
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
-
+        StudyParticipantCrfSchedule studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, submitFormCommand.getStudyParticipantCrfSchedule().getId());
         if ("continue".equals(submitFormCommand.getDirection())) {
-            for (StudyParticipantCrfItem studyParticipantCrfItem : submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfItems()) {
-                if (studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber() == submitFormCommand.getCurrentPageIndex()-2) {
+            for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+                if (studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber() == submitFormCommand.getCurrentPageIndex() - 2) {
                     if (new Boolean(true).equals(studyParticipantCrfItem.getCrfPageItem().getResponseRequired())) {
                         if (studyParticipantCrfItem.getProCtcValidValue() == null) {
                             errors.reject(
                                     "answer", "Please select an answer for question " + studyParticipantCrfItem.getCrfPageItem().getDisplayOrder() + ".");
-                            submitFormCommand.setCurrentPageIndex(submitFormCommand.getCurrentPageIndex()-1);
+                            submitFormCommand.setCurrentPageIndex(submitFormCommand.getCurrentPageIndex() - 1);
                             return;
                         }
                     }

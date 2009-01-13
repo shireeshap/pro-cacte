@@ -106,5 +106,9 @@
         <dependency org="org.openqa.selenium.client-drivers" name="selenium-java-client-driver" conf="test->default"
                     rev="0.9.2"/>
 
+
+        <!-- JFree Dependency-->
+        <dependency org="jfree" name="jfreechart" rev="1.0.9" force="true"/>
+
     </dependencies>
 </ivy-module>

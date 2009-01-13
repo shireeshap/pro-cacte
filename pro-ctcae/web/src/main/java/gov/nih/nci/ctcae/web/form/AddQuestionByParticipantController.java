@@ -12,6 +12,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Hashtable;
 
 /**
  * Author: Harsh Agarwal
@@ -36,29 +37,32 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = submitFormCommand.getStudyParticipantCrfSchedule();
         StudyParticipantCrf studyParticipantCrf = studyParticipantCrfSchedule.getStudyParticipantCrf();
         if ("continue".equals(submitFormCommand.getDirection())) {
-            String[] selectedQuestions = request.getParameterValues("questionsByParticipants");
-            int i = 0;
-            if (selectedQuestions != null) {
-                for (String questionId : selectedQuestions) {
-                    ProCtcQuestion question = finderRepository.findById(ProCtcQuestion.class, new Integer(questionId));
-                    String answerId = request.getParameter("answer" + questionId);
-                    ProCtcValidValue validValue = finderRepository.findById(ProCtcValidValue.class, new Integer(answerId));
+            String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
+            Hashtable arrangedQuestions = submitFormCommand.getArrangedQuestions();
 
-                    StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = new StudyParticipantCrfAddedQuestion();
-                    studyParticipantCrfAddedQuestion.setProCtcQuestion(question);
-                    studyParticipantCrfAddedQuestion.setStudyParticipantCrf(studyParticipantCrf);
+            int pageNumber = submitFormCommand.getTotalPages();
+            if (selectedSymptoms != null) {
+                for (String symptom : selectedSymptoms) {
+                    List<ProCtcQuestion> questions = (List<ProCtcQuestion>) arrangedQuestions.get(symptom);
+                    for (ProCtcQuestion question : questions) {
 
-                    StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
-                    studyParticipantCrfScheduleAddedQuestion.setProCtcValidValue(validValue);
-                    studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+                        StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = new StudyParticipantCrfAddedQuestion();
+                        studyParticipantCrfAddedQuestion.setProCtcQuestion(question);
+                        studyParticipantCrfAddedQuestion.setStudyParticipantCrf(studyParticipantCrf);
+                        studyParticipantCrfAddedQuestion.setPageNumber(pageNumber);
 
-                    genericRepository.save(studyParticipantCrfAddedQuestion);
-                    genericRepository.save(studyParticipantCrfScheduleAddedQuestion);
+                        StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
+                        studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+
+                        genericRepository.save(studyParticipantCrfAddedQuestion);
+                        genericRepository.save(studyParticipantCrfScheduleAddedQuestion);
+                    }
+                    pageNumber++;
                 }
             }
         }
-
-        return new ModelAndView(new RedirectView("submit?review=y&id=" + submitFormCommand.getStudyParticipantCrfSchedule().getId()));
+        request.getSession().setAttribute("review", "y");
+        return new ModelAndView(new RedirectView("submit?id=" + submitFormCommand.getStudyParticipantCrfSchedule().getId()));
     }
 
 
