@@ -31,7 +31,11 @@ public class AllConditionsController extends AbstractController {
         CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
         for (String questionsId : questionsIdsArray) {
-            selectedCrfPageItems.add(createFormCommand.getCrf().getCrfPageItemByQuestion(Integer.valueOf(questionsId)));
+            CrfPageItem crfPageItem = createFormCommand.getCrf().getCrfPageItemByQuestion(Integer.valueOf(questionsId));
+            if (crfPageItem != null) {
+                selectedCrfPageItems.add(crfPageItem);
+            }
+
         }
 
         ModelAndView modelAndView = new ModelAndView("form/ajax/allConditions");
