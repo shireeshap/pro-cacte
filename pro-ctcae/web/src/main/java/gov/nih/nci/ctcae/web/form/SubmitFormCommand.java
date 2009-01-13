@@ -197,7 +197,6 @@ public class SubmitFormCommand implements Serializable {
             includedQuestionIds.add(studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getId());
         }
         if (hasParticipantAddedQuestions) {
-            studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
             for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
                 includedQuestionIds.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getId());
             }
