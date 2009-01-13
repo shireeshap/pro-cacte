@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -12,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Mehul Gulati
- * Date: Dec 12, 2008
+ *         Date: Dec 12, 2008
  */
 public class CopyFormControllerTest extends WebTestCase {
 
@@ -20,7 +19,7 @@ public class CopyFormControllerTest extends WebTestCase {
     private FinderRepository finderRepository;
     private CRFRepository crfRepository;
 
-    private StudyCrf studyCrf;
+    private CRF crf;
 
     @Override
     protected void setUp() throws Exception {
@@ -31,16 +30,15 @@ public class CopyFormControllerTest extends WebTestCase {
         controller.setFinderRepository(finderRepository);
         controller.setCrfRepository(crfRepository);
 
-        studyCrf = new StudyCrf();
-        studyCrf.setCrf(new CRF());
-        studyCrf.setStudy(new Study());
+        crf = new CRF();
+        crf.setStudy(new Study());
 
     }
 
     public void testGetRequest() throws Exception {
         request.setMethod("GET");
-        request.addParameter("studyCrfId", "1");
-        expect(finderRepository.findById(StudyCrf.class, 1)).andReturn(studyCrf);
+        request.addParameter("crfId", "1");
+        expect(finderRepository.findById(CRF.class, 1)).andReturn(crf);
         expect(crfRepository.save(isA(CRF.class))).andReturn(null);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);

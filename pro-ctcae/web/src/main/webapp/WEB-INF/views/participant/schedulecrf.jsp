@@ -47,9 +47,9 @@
 
             <c:forEach items="${command.studyParticipantAssignment.studyParticipantCrfs}" var="participantCrf"
                        varStatus="status">
-                <chrome:division title="${participantCrf.studyCrf.crf.title} (${participantCrf.studyCrf.crf.crfVersion})" message="false">
+                <chrome:division title="${participantCrf.crf.title} (${participantCrf.crf.crfVersion})" message="false">
                     <jsp:useBean id="today" class="java.util.Date"/>
-                    <c:if test="${participantCrf.studyCrf.crf.nextVersionId eq null}">
+                    <c:if test="${participantCrf.crf.nextVersionId eq null}">
                         <input type="button" value="Add" onClick="addCrfSchedule('${status.index}')"
                                class="button"/>
                     </c:if>

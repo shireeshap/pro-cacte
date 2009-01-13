@@ -13,57 +13,57 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class ManageFormControllerControllerTest extends WebTestCase {
 
-	private ManageFormController controller;
-	private FinderRepository finderRepository;
-	private Study study;
+    private ManageFormController controller;
+    private FinderRepository finderRepository;
+    private Study study;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		controller = new ManageFormController();
-		finderRepository = registerMockFor(FinderRepository.class);
-		controller.setFinderRepository(finderRepository);
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        controller = new ManageFormController();
+        finderRepository = registerMockFor(FinderRepository.class);
+        controller.setFinderRepository(finderRepository);
 
-		study = new Study();
-		request.setMethod("GET");
+        study = new Study();
+        request.setMethod("GET");
 
-	}
+    }
 
-	public void testSupportedMethod() {
-		assertEqualArrays("only get is supported", new String[]{"GET"}, controller.getSupportedMethods());
-	}
+    public void testSupportedMethod() {
+        assertEqualArrays("only get is supported", new String[]{"GET"}, controller.getSupportedMethods());
+    }
 
-	public void testHandleRequestIfNoStudyCrf() throws Exception {
-
-
-		ModelAndView modelAndView = controller.handleRequest(request, response);
-		assertNotNull(modelAndView);
-		assertTrue("moel must be empty", modelAndView.getModel().keySet().isEmpty());
+    public void testHandleRequestIfNoCRF() throws Exception {
 
 
-	}
+        ModelAndView modelAndView = controller.handleRequest(request, response);
+        assertNotNull(modelAndView);
+        assertTrue("moel must be empty", modelAndView.getModel().keySet().isEmpty());
 
-	public void testHandleRequestForSelectedNullStudyCrf() throws Exception {
 
-		request.addParameter("studyId", "1");
-		expect(finderRepository.findById(Study.class, 1)).andReturn(null);
-		replayMocks();
-		ModelAndView modelAndView = controller.handleRequest(request, response);
-		verifyMocks();
-		assertNotNull(modelAndView);
-		assertTrue("moel must be empty", modelAndView.getModel().keySet().isEmpty());
+    }
 
-	}
+    public void testHandleRequestForSelectedNullCRF() throws Exception {
 
-	public void testHandleRequestForSelectedNotNullStudyCrf() throws Exception {
+        request.addParameter("studyId", "1");
+        expect(finderRepository.findById(Study.class, 1)).andReturn(null);
+        replayMocks();
+        ModelAndView modelAndView = controller.handleRequest(request, response);
+        verifyMocks();
+        assertNotNull(modelAndView);
+        assertTrue("moel must be empty", modelAndView.getModel().keySet().isEmpty());
 
-		request.addParameter("studyId", "1");
-		expect(finderRepository.findById(Study.class, 1)).andReturn(study);
-		replayMocks();
-		ModelAndView modelAndView = controller.handleRequest(request, response);
-		verifyMocks();
-		assertNotNull(modelAndView);
-		assertEquals("study  must present in command", study, modelAndView.getModel().get("study"));
+    }
 
-	}
+    public void testHandleRequestForSelectedNotNullCRF() throws Exception {
+
+        request.addParameter("studyId", "1");
+        expect(finderRepository.findById(Study.class, 1)).andReturn(study);
+        replayMocks();
+        ModelAndView modelAndView = controller.handleRequest(request, response);
+        verifyMocks();
+        assertNotNull(modelAndView);
+        assertEquals("study  must present in command", study, modelAndView.getModel().get("study"));
+
+    }
 }

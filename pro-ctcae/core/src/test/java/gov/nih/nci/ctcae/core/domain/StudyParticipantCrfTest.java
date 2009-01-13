@@ -10,46 +10,43 @@ import java.util.Date;
  * @crated Dec 12, 2008
  */
 public class StudyParticipantCrfTest extends TestCase {
-	private StudyParticipantCrf studyParticipantCrf;
+    private StudyParticipantCrf studyParticipantCrf;
 
-	public void testConstructor() {
-		studyParticipantCrf = new StudyParticipantCrf();
-		assertNull(studyParticipantCrf.getId());
-		assertEquals(0, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
-		assertNull(studyParticipantCrf.getStudyCrf());
-		assertNull(studyParticipantCrf.getStudyParticipantAssignment());
+    public void testConstructor() {
+        studyParticipantCrf = new StudyParticipantCrf();
+        assertNull(studyParticipantCrf.getId());
+        assertEquals(0, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
+        assertNull(studyParticipantCrf.getCrf());
+        assertNull(studyParticipantCrf.getStudyParticipantAssignment());
 
-	}
+    }
 
-	public void testGetterAndSetter() {
-		studyParticipantCrf = new StudyParticipantCrf();
+    public void testGetterAndSetter() {
+        studyParticipantCrf = new StudyParticipantCrf();
 
-		CRF crf = Fixture.createCrf("test", CrfStatus.DRAFT, "1.0");
-		crf.addCrfPge(new CRFPage());
-		crf.addCrfPge(new CRFPage());
+        CRF crf = Fixture.createCrf("test", CrfStatus.DRAFT, "1.0");
+        crf.addCrfPge(new CRFPage());
+        crf.addCrfPge(new CRFPage());
 
-		StudyCrf studyCrf = new StudyCrf();
-		Date d = new Date();
-
-		studyCrf.setCrf(crf);
+        Date d = new Date();
 
 
-		studyParticipantCrf.setId(1);
-		studyParticipantCrf.setStudyCrf(studyCrf);
-		studyParticipantCrf.setStudyParticipantAssignment(new StudyParticipantAssignment());
-		//studyParticipantCrf.addStudyParticipantCrfSchedule(null);
+        studyParticipantCrf.setId(1);
+        studyParticipantCrf.setCrf(crf);
+        studyParticipantCrf.setStudyParticipantAssignment(new StudyParticipantAssignment());
+        //studyParticipantCrf.addStudyParticipantCrfSchedule(null);
 
-		assertEquals(0, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
-		assertEquals(new Integer(1), studyParticipantCrf.getId());
-		assertEquals(studyCrf, studyParticipantCrf.getStudyCrf());
-		assertNotNull(studyParticipantCrf.getStudyParticipantAssignment());
+        assertEquals(0, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
+        assertEquals(new Integer(1), studyParticipantCrf.getId());
+        assertEquals(crf, studyParticipantCrf.getCrf());
+        assertNotNull(studyParticipantCrf.getStudyParticipantAssignment());
 
-		studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(),new CRF());
+        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(), new CRF());
 
-		assertEquals(1, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
+        assertEquals(1, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
 
 
-	}
+    }
 
 
 }

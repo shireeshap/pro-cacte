@@ -14,30 +14,30 @@ import java.util.Map;
  * @crated Dec 31, 2008
  */
 public abstract class AbstractCrfController extends AbstractController {
-	protected FinderRepository finderRepository;
+    protected FinderRepository finderRepository;
 
-	protected ProCtcTermRepository proCtcTermRepository;
+    protected ProCtcTermRepository proCtcTermRepository;
 
-	public Map<String, Object> referenceData(CreateFormCommand command) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("responseRequired", ListValues.getResponseRequired());
-		map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
-		map.put("selectedCrfPageItems", command.getStudyCrf().getCrf().getAllCrfPageItems());
+    public Map<String, Object> referenceData(CreateFormCommand command) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("responseRequired", ListValues.getResponseRequired());
+        map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
+        map.put("selectedCrfPageItems", command.getCrf().getAllCrfPageItems());
 
-		int index = command.getStudyCrf().getCrf().getCrfPages().size() - 1;
-		map.put("crfPageNumber", index);
+        int index = command.getCrf().getCrfPages().size() - 1;
+        map.put("crfPageNumber", index);
 
-		return map;
-	}
+        return map;
+    }
 
 
-	@Required
-	public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
-		this.proCtcTermRepository = proCtcTermRepository;
-	}
+    @Required
+    public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+        this.proCtcTermRepository = proCtcTermRepository;
+    }
 
-	@Required
-	public void setFinderRepository(FinderRepository finderRepository) {
-		this.finderRepository = finderRepository;
-	}
+    @Required
+    public void setFinderRepository(FinderRepository finderRepository) {
+        this.finderRepository = finderRepository;
+    }
 }

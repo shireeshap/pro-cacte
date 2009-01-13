@@ -82,6 +82,7 @@ pro-ctcae/core/src/main/db/migrate/003_elaboration_1/007_alter_crf_pages.groovy 
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/008_create_added_items.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/009_alter_crf_item_display_rules.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/010_alter_sp_crf_added_questions.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/010_drop_study_crfs.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
@@ -111,7 +112,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaff.jav
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCoordinatingCenter.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCrf.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyFundingSponsor.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganization.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantAssignment.java -text
@@ -206,8 +206,6 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RaceEnumTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaffTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyCrfIntegrationTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyCrfTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationTest.java -text
@@ -311,6 +309,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageController.j
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneProCtcTermController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AllConditionsController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CRFLinkDisplayDetailsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CopyFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormController.java -text
@@ -326,14 +325,12 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormTableRowInterceptor.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/RemoveConditionsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReviewFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SelectStudyForFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SetNameController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ShowVersionFormController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/StudyCrfLinkDisplayDetailsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/VersionFormController.java -text
@@ -883,6 +880,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTe
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageItemControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneProCtcTermControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantControllerTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CRFLinkDisplayCellTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CopyFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CreateFormCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CrfAjaxFacadeIntegrationTest.java -text
@@ -892,7 +890,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FindCrfItemControllerTest
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FormDetailsTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/ReleaseFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SetNameControllerTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/StudyCrfLinkDisplayCellTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/crfTableModelTest.java -text

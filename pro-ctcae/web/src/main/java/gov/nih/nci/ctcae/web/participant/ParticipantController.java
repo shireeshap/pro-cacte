@@ -1,7 +1,9 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
@@ -14,10 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Harsh Agarwal
@@ -27,6 +26,7 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
     protected ParticipantRepository participantRepository;
     protected FinderRepository finderRepository;
     protected OrganizationRepository organizationRepository;
+    private CRFRepository crfRepository;
 
     protected ParticipantController() {
         setCommandClass(ParticipantCommand.class);
@@ -66,10 +66,13 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
                     .getParameter("participantStudyIdentifier" + studyId));
 
             Study study = studyParticipantAssignment.getStudySite().getStudy();
-            for (StudyCrf studyCrf : study.getStudyCrfs()) {
-                if (studyCrf.getCrf().getStatus().equals(CrfStatus.RELEASED)) {
+            CRFQuery crfQuery = new CRFQuery();
+            crfQuery.filterByStudyId(study.getId());
+            Collection<CRF> crfCollection = crfRepository.find(crfQuery);
+            for (CRF crf : crfCollection) {
+                if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                     StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
-                    studyParticipantCrf.setStudyCrf(studyCrf);
+                    studyParticipantCrf.setCrf(crf);
                     studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
                 }
             }
@@ -117,6 +120,11 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
         referenceData.put("races", listValues.getRaceType());
         referenceData.put("studysites", ListValues.getStudySites(studySites));
         return referenceData;
+    }
+
+    @Required
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
     }
 
     @Required

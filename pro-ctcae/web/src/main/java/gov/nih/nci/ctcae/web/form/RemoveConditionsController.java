@@ -20,56 +20,56 @@ import javax.servlet.http.HttpServletResponse;
 public class RemoveConditionsController extends AbstractController {
 
 
-	private FinderRepository finderRepository;
+    private FinderRepository finderRepository;
 
-	public RemoveConditionsController() {
-		setSupportedMethods(new String[]{"GET"});
-	}
+    public RemoveConditionsController() {
+        setSupportedMethods(new String[]{"GET"});
+    }
 
-	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-		ModelAndView modelAndView = new ModelAndView("form/ajax/removeConditions");
-
-
-		if (!StringUtils.isBlank(request.getParameter("questionId"))) {
-			Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
-
-			ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
-
-			CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
-
-			CrfPageItem crfPageItem = createFormCommand.getStudyCrf().getCrf().getCrfPageItemByQuestion(proCtcQuestion);
-
-			crfPageItem.removeCrfPageItemDisplayRulesByProCtcValidValueIds(request.getParameter("proCtcValidValueId"));
-		} else if (!StringUtils.isBlank(request.getParameter("conditionalTriggeredQuestionId"))) {
-
-			Integer conditionalTriggeredQuestionId = ServletRequestUtils.getIntParameter(request, "conditionalTriggeredQuestionId");
-
-			ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(conditionalTriggeredQuestionId);
-
-			CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
-
-			createFormCommand.getStudyCrf().getCrf().updateCrfPageItemDisplayRules(proCtcQuestion);
-
-		} else if (!StringUtils.isBlank(request.getParameter("selectedCrfPageNumber"))) {
-
-			Integer selectedCrfPageNumber = ServletRequestUtils.getIntParameter(request, "selectedCrfPageNumber");
+        ModelAndView modelAndView = new ModelAndView("form/ajax/removeConditions");
 
 
-			CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+        if (!StringUtils.isBlank(request.getParameter("questionId"))) {
+            Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
+
+            ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
+
+            CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+
+            CrfPageItem crfPageItem = createFormCommand.getCrf().getCrfPageItemByQuestion(proCtcQuestion);
+
+            crfPageItem.removeCrfPageItemDisplayRulesByProCtcValidValueIds(request.getParameter("proCtcValidValueId"));
+        } else if (!StringUtils.isBlank(request.getParameter("conditionalTriggeredQuestionId"))) {
+
+            Integer conditionalTriggeredQuestionId = ServletRequestUtils.getIntParameter(request, "conditionalTriggeredQuestionId");
+
+            ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(conditionalTriggeredQuestionId);
+
+            CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+
+            createFormCommand.getCrf().updateCrfPageItemDisplayRules(proCtcQuestion);
+
+        } else if (!StringUtils.isBlank(request.getParameter("selectedCrfPageNumber"))) {
+
+            Integer selectedCrfPageNumber = ServletRequestUtils.getIntParameter(request, "selectedCrfPageNumber");
 
 
-			createFormCommand.getStudyCrf().getCrf().updateCrfPageItemDisplayRules(selectedCrfPageNumber);
-
-		}
-
-		return modelAndView;
-
-	}
+            CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
 
-	@Required
-	public void setFinderRepository(FinderRepository finderRepository) {
-		this.finderRepository = finderRepository;
-	}
+            createFormCommand.getCrf().updateCrfPageItemDisplayRules(selectedCrfPageNumber);
+
+        }
+
+        return modelAndView;
+
+    }
+
+
+    @Required
+    public void setFinderRepository(FinderRepository finderRepository) {
+        this.finderRepository = finderRepository;
+    }
 }

@@ -1,13 +1,12 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.web.table.AbstractTableModelTestCase;
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
-import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.web.table.AbstractTableModelTestCase;
 
-import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author Mehul Gulati
@@ -27,11 +26,9 @@ public class crfTableModelTest extends AbstractTableModelTestCase {
 
         crf1 = Fixture.createCrf("form1", CrfStatus.DRAFT, "1");
         crf1.setId(10);
-        StudyCrf studyCrf = new StudyCrf();
-        studyCrf.setId(1);
-        crf1.setStudyCrf(studyCrf);
+        CRF crf = new CRF();
+        crf.setId(1);
         crf2 = Fixture.createCrf("form2", CrfStatus.RELEASED, "2");
-        crf2.setStudyCrf(studyCrf);
         crf2.setId(11);
         crfs = new ArrayList<CRF>();
         crfs.add(crf1);

@@ -1,10 +1,12 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
-import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +31,7 @@ public class AddCrfScheduleController extends AbstractController {
 
         StudyParticipantCrf studyParticipantCrf = studyParticipantCommand.getStudyParticipantAssignment().getStudyParticipantCrfs().get(crfIndex.intValue());
 
-        CRF crf = finderRepository.findById(CRF.class, studyParticipantCrf.getStudyCrf().getCrf().getId());
+        CRF crf = finderRepository.findById(CRF.class, studyParticipantCrf.getCrf().getId());
         studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule, crf);
 
         int scheduleindex = studyParticipantCrf.getStudyParticipantCrfSchedules().size() - 1;

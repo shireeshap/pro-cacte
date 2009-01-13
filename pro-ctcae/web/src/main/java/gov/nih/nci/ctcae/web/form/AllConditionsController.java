@@ -20,37 +20,37 @@ import java.util.Map;
 public class AllConditionsController extends AbstractController {
 
 
-	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-		String questionsIds = request.getParameter("questionsIds");
+        String questionsIds = request.getParameter("questionsIds");
 
-		String[] questionsIdsArray = StringUtils.commaDelimitedListToStringArray(questionsIds);
+        String[] questionsIdsArray = StringUtils.commaDelimitedListToStringArray(questionsIds);
 
-		List<CrfPageItem> selectedCrfPageItems = new LinkedList<CrfPageItem>();
+        List<CrfPageItem> selectedCrfPageItems = new LinkedList<CrfPageItem>();
 
-		CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+        CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
-		for (String questionsId : questionsIdsArray) {
-			selectedCrfPageItems.add(createFormCommand.getStudyCrf().getCrf().getCrfPageItemByQuestion(Integer.valueOf(questionsId)));
-		}
+        for (String questionsId : questionsIdsArray) {
+            selectedCrfPageItems.add(createFormCommand.getCrf().getCrfPageItemByQuestion(Integer.valueOf(questionsId)));
+        }
 
-		ModelAndView modelAndView = new ModelAndView("form/ajax/allConditions");
+        ModelAndView modelAndView = new ModelAndView("form/ajax/allConditions");
 
-		Map<String, Object> map = new HashMap<String, Object>();
-
-
-		map.put("selectedCrfPageItems", selectedCrfPageItems);
-		modelAndView.addAllObjects(map);
-
-		return modelAndView;
+        Map<String, Object> map = new HashMap<String, Object>();
 
 
-	}
+        map.put("selectedCrfPageItems", selectedCrfPageItems);
+        modelAndView.addAllObjects(map);
+
+        return modelAndView;
 
 
-	public AllConditionsController() {
-		setSupportedMethods(new String[]{"GET"});
+    }
 
-	}
+
+    public AllConditionsController() {
+        setSupportedMethods(new String[]{"GET"});
+
+    }
 
 }

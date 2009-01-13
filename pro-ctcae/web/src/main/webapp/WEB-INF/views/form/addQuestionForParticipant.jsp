@@ -57,21 +57,21 @@
 <body>
 <chrome:flashMessage flashMessage="${command.flashMessage}"></chrome:flashMessage>
 <form:form method="post" name="myForm">
-    <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}"
+    <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.title}"
                 autopad="true" message="false">
         <p>
             <b>Please select additional symptoms from below:</b>
         </p>
 
         <table>
-        <c:forEach items="${command.arrangedQuestions}" var="term" varStatus="status">
-            <tr>
-                <td>
-                    <input type="checkbox" name="symptomsByParticipants"
-                           value="${term.key}"/> ${term.key}
-                </td>
-            </tr>
-        </c:forEach>
+            <c:forEach items="${command.arrangedQuestions}" var="term" varStatus="status">
+                <tr>
+                    <td>
+                        <input type="checkbox" name="symptomsByParticipants"
+                               value="${term.key}"/> ${term.key}
+                    </td>
+                </tr>
+            </c:forEach>
         </table>
     </chrome:box>
     <table width="100%">

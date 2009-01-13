@@ -20,47 +20,47 @@ import java.util.List;
 public class AddOneProCtcTermController extends AbstractCrfController {
 
 
-	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		String crfPageNumber = request.getParameter("crfPageNumber");
-		Integer proCtcTermId = ServletRequestUtils.getIntParameter(request, "proCtcTermId");
+    protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        String crfPageNumber = request.getParameter("crfPageNumber");
+        Integer proCtcTermId = ServletRequestUtils.getIntParameter(request, "proCtcTermId");
 
-		ModelAndView modelAndView = null;
+        ModelAndView modelAndView = null;
 
-		if (StringUtils.isBlank(crfPageNumber)) {
-			modelAndView = new ModelAndView(new RedirectView("addOneCrfPage?subview=subview&proCtcTermId=" + proCtcTermId));
+        if (StringUtils.isBlank(crfPageNumber)) {
+            modelAndView = new ModelAndView(new RedirectView("addOneCrfPage?subview=subview&proCtcTermId=" + proCtcTermId));
 
-		} else {
+        } else {
 
-			modelAndView = new ModelAndView("form/ajax/oneProCtcTermSection");
-
-
-			ProCtcTerm proCtcTerm = proCtcTermRepository.findAndInitializeTerm(proCtcTermId);
-
-			CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
-			if (proCtcTerm != null) {
+            modelAndView = new ModelAndView("form/ajax/oneProCtcTermSection");
 
 
-				CRFPage crfPage = createFormCommand.getStudyCrf().getCrf().getCrfPageByPageNumber(Integer.valueOf(crfPageNumber));
+            ProCtcTerm proCtcTerm = proCtcTermRepository.findAndInitializeTerm(proCtcTermId);
 
-				List<CrfPageItem> addedCrfPageItems = crfPage.removeExistingAndAddNewCrfItem(proCtcTerm);
-				modelAndView.addObject("crfPageItems", addedCrfPageItems);
-
-
-				modelAndView.addAllObjects(referenceData(createFormCommand));
-			} else {
-				logger.error("can not add proCtcTerm because pro ctc term is null for id:" + proCtcTermId);
-				return null;
-			}
-		}
-		return modelAndView;
+            CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+            if (proCtcTerm != null) {
 
 
-	}
+                CRFPage crfPage = createFormCommand.getCrf().getCrfPageByPageNumber(Integer.valueOf(crfPageNumber));
+
+                List<CrfPageItem> addedCrfPageItems = crfPage.removeExistingAndAddNewCrfItem(proCtcTerm);
+                modelAndView.addObject("crfPageItems", addedCrfPageItems);
 
 
-	public AddOneProCtcTermController() {
-		setSupportedMethods(new String[]{"GET"});
+                modelAndView.addAllObjects(referenceData(createFormCommand));
+            } else {
+                logger.error("can not add proCtcTerm because pro ctc term is null for id:" + proCtcTermId);
+                return null;
+            }
+        }
+        return modelAndView;
 
-	}
+
+    }
+
+
+    public AddOneProCtcTermController() {
+        setSupportedMethods(new String[]{"GET"});
+
+    }
 
 }

@@ -17,57 +17,57 @@ import java.util.*;
  */
 public class FormDetailsTab extends Tab<CreateFormCommand> {
 
-	private ProCtcTermRepository proCtcTermRepository;
-	private FinderRepository finderRepository;
+    private ProCtcTermRepository proCtcTermRepository;
+    private FinderRepository finderRepository;
 
-	public FormDetailsTab() {
-		super("form.tab.form", "form.tab.form_details", "form/form_details");
-	}
+    public FormDetailsTab() {
+        super("form.tab.form", "form.tab.form_details", "form/form_details");
+    }
 
-	@Override
-	public Map<String, Object> referenceData(CreateFormCommand command) {
-		Map<String, Object> map = super.referenceData(command);
+    @Override
+    public Map<String, Object> referenceData(CreateFormCommand command) {
+        Map<String, Object> map = super.referenceData(command);
 
-		ProCtcTermQuery query = new ProCtcTermQuery();
-		query.filterByCtcTermHavingQuestionsOnly();
-		Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.findAndInitializeTerm(query);
-
-
-		Map<CtcCategory, List<ProCtcTerm>> ctcCategoryMap = new HashMap<CtcCategory, List<ProCtcTerm>>();
-
-		for (ProCtcTerm proCtcTerm : proCtcTerms) {
-			CollectionUtils.putInMappedList(ctcCategoryMap, proCtcTerm.getCategory(), proCtcTerm);
-
-		}
+        ProCtcTermQuery query = new ProCtcTermQuery();
+        query.filterByCtcTermHavingQuestionsOnly();
+        Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.findAndInitializeTerm(query);
 
 
-		List<CtcCategory> ctcCategoryList = new ArrayList<CtcCategory>(ctcCategoryMap.keySet());
-		Collections.sort(ctcCategoryList, new CtcCAtegoryComparator());
-		Map result = new LinkedHashMap();
+        Map<CtcCategory, List<ProCtcTerm>> ctcCategoryMap = new HashMap<CtcCategory, List<ProCtcTerm>>();
 
-		for (Iterator<CtcCategory> it = ctcCategoryList.iterator(); it.hasNext();) {
-			CtcCategory ctcCategory = it.next();
-			result.put(ctcCategory, ctcCategoryMap.get(ctcCategory));
-		}
+        for (ProCtcTerm proCtcTerm : proCtcTerms) {
+            CollectionUtils.putInMappedList(ctcCategoryMap, proCtcTerm.getCategory(), proCtcTerm);
+
+        }
 
 
-		map.put("ctcCategoryMap", result);
-		//map.put("totalQuestions", command.getStudyCrf().getCrf().getCrfItemsSortedByDislayOrder().size());
-		map.put("responseRequired", ListValues.getResponseRequired());
-		map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
-		map.put("selectedCrfPageItems", command.getStudyCrf().getCrf().getAllCrfPageItems());
+        List<CtcCategory> ctcCategoryList = new ArrayList<CtcCategory>(ctcCategoryMap.keySet());
+        Collections.sort(ctcCategoryList, new CtcCAtegoryComparator());
+        Map result = new LinkedHashMap();
 
-		return map;
-
-
-	}
+        for (Iterator<CtcCategory> it = ctcCategoryList.iterator(); it.hasNext();) {
+            CtcCategory ctcCategory = it.next();
+            result.put(ctcCategory, ctcCategoryMap.get(ctcCategory));
+        }
 
 
-	public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
-		this.proCtcTermRepository = proCtcTermRepository;
-	}
+        map.put("ctcCategoryMap", result);
+        //map.put("totalQuestions", command.getCRF().getCrf().getCrfItemsSortedByDislayOrder().size());
+        map.put("responseRequired", ListValues.getResponseRequired());
+        map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
+        map.put("selectedCrfPageItems", command.getCrf().getAllCrfPageItems());
 
-	public void setFinderRepository(FinderRepository finderRepository) {
-		this.finderRepository = finderRepository;
-	}
+        return map;
+
+
+    }
+
+
+    public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+        this.proCtcTermRepository = proCtcTermRepository;
+    }
+
+    public void setFinderRepository(FinderRepository finderRepository) {
+        this.finderRepository = finderRepository;
+    }
 }

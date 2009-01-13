@@ -11,34 +11,34 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class CreateFormController extends FormController {
 
-	@Override
-	protected int getInitialPage(HttpServletRequest request) {
-		if (!StringUtils.isBlank(request.getParameter("studyId"))) {
-			return FORM_DETAILS_PAGE_NUMBER;
-		}
-		return super.getInitialPage(request);
+    @Override
+    protected int getInitialPage(HttpServletRequest request) {
+        if (!StringUtils.isBlank(request.getParameter("studyId"))) {
+            return FORM_DETAILS_PAGE_NUMBER;
+        }
+        return super.getInitialPage(request);
 
 
-	}
+    }
 
-	@Override
-	protected Object formBackingObject(HttpServletRequest request) throws Exception {
-		CreateFormCommand command = (CreateFormCommand) ControllersUtils.getFormCommand(request, this);
-		if (command == null) {
-			command = new CreateFormCommand();
+    @Override
+    protected Object formBackingObject(HttpServletRequest request) throws Exception {
+        CreateFormCommand command = (CreateFormCommand) ControllersUtils.getFormCommand(request, this);
+        if (command == null) {
+            command = new CreateFormCommand();
 
-		}
+        }
 ////        else {
 ////            request.setAttribute("flashMessage", "You were already updating one form. Do you want to  resume it or discard it.");
 ////        }
-		//remove this line
-		command = new CreateFormCommand();
-		if (!StringUtils.isBlank(request.getParameter("studyId"))) {
-			command.getStudyCrf().setStudy(studyRepository.findById(Integer.parseInt(request.getParameter("studyId"))));
-		}
-		return command;
+        //remove this line
+        command = new CreateFormCommand();
+        if (!StringUtils.isBlank(request.getParameter("studyId"))) {
+            command.getCrf().setStudy(studyRepository.findById(Integer.parseInt(request.getParameter("studyId"))));
+        }
+        return command;
 
 
-	}
+    }
 
 }

@@ -15,7 +15,7 @@
 
 <chrome:box title="form.confirmation">
 
-	<tags:reviewForm studyCrf="${studyCrf}"/>
+    <tags:reviewForm crf="${crf}"/>
 
 </chrome:box>
 

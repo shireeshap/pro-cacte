@@ -40,7 +40,7 @@ public class CRFQuery extends AbstractQuery {
 
     public void filterByStudyId(final Integer studyId) {
         if (studyId != null) {
-            andWhere("o.studyCrf.study.id = :" + STUDYID);
+            andWhere("o.study.id = :" + STUDYID);
             setParameter(STUDYID, studyId);
         }
 

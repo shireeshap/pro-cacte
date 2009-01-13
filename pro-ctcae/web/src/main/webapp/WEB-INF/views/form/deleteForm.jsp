@@ -14,32 +14,33 @@
 <form:form method="post">
     <chrome:box title="form.label.delete_form">
         <chrome:division>
-                    <div id="releaseForm">
-                        <p>
-                            You are about to delete
+            <div id="releaseForm">
+                <p>
+                    You are about to delete
 
-                            <strong>${command.crf.title}</strong>.
+                    <strong>${crf.title}</strong>.
 
-                        </p>
+                </p>
+                does
+                <p>
+                    You cannot reverse this step.
+                    Do you want to continue?
+                </p>
 
-                        <p>
-                            You cannot reverse this step.
-                            Do you want to continue?
-                        </p>
+            </div>
+            <br>
 
-                     </div>
-                    <br>
-                    <div class="flow-buttons">
+            <div class="flow-buttons">
 
-                        <input type="submit" id="flow-update"
-                               class="next" value="Yes" alt="Save"
-                               />
+                <input type="submit" id="flow-update"
+                       class="next" value="Yes" alt="Save"
+                        />
 
 
-                        <input type="button" id="flow-cancel"
-                               class="previous ibutton" value="No" alt="Cancel"
-                               onclick="closeWindow()"/>
-                    </div>
+                <input type="button" id="flow-cancel"
+                       class="previous ibutton" value="No" alt="Cancel"
+                       onclick="closeWindow()"/>
+            </div>
 
 
         </chrome:division>

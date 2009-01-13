@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
@@ -19,45 +19,45 @@ import java.util.Date;
  * @crated Nov 5, 2008
  */
 public class ReleaseFormController extends CtcAeSimpleFormController {
-	private FinderRepository finderRepository;
-	private CRFRepository crfRepository;
+    private FinderRepository finderRepository;
+    private CRFRepository crfRepository;
 
-	protected ReleaseFormController() {
-		setCommandClass(StudyCrf.class);
-		setFormView("form/releaseForm");
-		setSessionForm(true);
+    protected ReleaseFormController() {
+        setCommandClass(CRF.class);
+        setFormView("form/releaseForm");
+        setSessionForm(true);
 
-	}
+    }
 
-	@Override
-	protected Object formBackingObject(HttpServletRequest request) throws Exception {
+    @Override
+    protected Object formBackingObject(HttpServletRequest request) throws Exception {
 
-		Integer studyCrfId = ServletRequestUtils.getIntParameter(request, "studyCrfId");
-		StudyCrf studyCrf = finderRepository.findAndInitializeStudyCrf(studyCrfId);
-        studyCrf.getCrf().setEffectiveStartDate(new Date());
-		return studyCrf;
-
-
-	}
-
-	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-
-		StudyCrf studyCrf = (StudyCrf) command;
-		crfRepository.updateStatusToReleased(studyCrf.getCrf());
-		RedirectView redirectView = new RedirectView("manageForm?studyId=" + studyCrf.getStudy().getId());
-		return new ModelAndView(redirectView);
-	}
+        Integer crfId = ServletRequestUtils.getIntParameter(request, "crfId");
+        CRF crf = finderRepository.findAndInitializeCrf(crfId);
+        crf.setEffectiveStartDate(new Date());
+        return crf;
 
 
-	@Required
-	public void setFinderRepository(FinderRepository finderRepository) {
-		this.finderRepository = finderRepository;
-	}
+    }
 
-	@Required
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
-	public void setCrfRepository(CRFRepository crfRepository) {
-		this.crfRepository = crfRepository;
-	}
+        CRF crf = (CRF) command;
+        crfRepository.updateStatusToReleased(crf);
+        RedirectView redirectView = new RedirectView("manageForm?studyId=" + crf.getStudy().getId());
+        return new ModelAndView(redirectView);
+    }
+
+
+    @Required
+    public void setFinderRepository(FinderRepository finderRepository) {
+        this.finderRepository = finderRepository;
+    }
+
+    @Required
+
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
+    }
 }

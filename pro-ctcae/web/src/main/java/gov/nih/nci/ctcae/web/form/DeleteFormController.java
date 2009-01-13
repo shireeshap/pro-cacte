@@ -1,14 +1,12 @@
 package gov.nih.nci.ctcae.web.form;
 
-import org.springframework.web.servlet.mvc.AbstractController;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
+import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.validation.BindException;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,46 +21,46 @@ public class DeleteFormController extends CtcAeSimpleFormController {
     private CRFRepository crfRepository;
 
     protected DeleteFormController() {
-        setCommandClass(StudyCrf.class);
+        setCommandClass(CRF.class);
         setFormView("form/deleteForm");
         setSessionForm(true);
     }
 
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        String studyCrfId = request.getParameter("studyCrfId");
-        StudyCrf studyCrf = finderRepository.findById(StudyCrf.class, Integer.parseInt(studyCrfId));
-        return studyCrf;
+        String crfId = request.getParameter("crfId");
+        CRF crf = finderRepository.findById(CRF.class, Integer.parseInt(crfId));
+        return crf;
     }
 
 
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
-        StudyCrf studyCrf = (StudyCrf) command;
-        Integer studyId = studyCrf.getStudy().getId();
+        CRF crf = (CRF) command;
+        Integer studyId = crf.getStudy().getId();
 
-        if (studyCrf.getCrf().getParentVersionId() != null) {
-            Integer parentId = studyCrf.getCrf().getParentVersionId();
+        if (crf.getParentVersionId() != null) {
+            Integer parentId = crf.getParentVersionId();
             CRF parentCrf = finderRepository.findById(CRF.class, parentId);
-            if (studyCrf.getCrf().getNextVersionId() != null) {
-                parentCrf.setNextVersionId(studyCrf.getCrf().getNextVersionId());
+            if (crf.getNextVersionId() != null) {
+                parentCrf.setNextVersionId(crf.getNextVersionId());
             } else {
                 parentCrf.setNextVersionId(null);
             }
             crfRepository.save(parentCrf);
         }
 
-        if (studyCrf.getCrf().getNextVersionId() != null) {
-            Integer nextVersionId = studyCrf.getCrf().getNextVersionId();
+        if (crf.getNextVersionId() != null) {
+            Integer nextVersionId = crf.getNextVersionId();
             CRF childCrf = finderRepository.findById(CRF.class, nextVersionId);
-            if (studyCrf.getCrf().getParentVersionId() != null) {
-                childCrf.setParentVersionId(studyCrf.getCrf().getParentVersionId());
+            if (crf.getParentVersionId() != null) {
+                childCrf.setParentVersionId(crf.getParentVersionId());
             } else {
                 childCrf.setParentVersionId(null);
             }
             crfRepository.save(childCrf);
         }
-        crfRepository.delete(studyCrf.getCrf());
+        crfRepository.delete(crf);
         RedirectView redirectView = new RedirectView("manageForm?studyId=" + studyId);
 
         return new ModelAndView(redirectView);

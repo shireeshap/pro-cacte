@@ -1,22 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
-import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.web.ControllersUtils;
-import gov.nih.nci.ctcae.web.study.AddStudySiteController;
-import gov.nih.nci.ctcae.web.study.CreateStudyController;
-import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
-import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Map;
-import java.util.ArrayList;
 
 /**
  * @author Vinay Kumar
@@ -49,11 +33,11 @@ public class AddCrfScheduleControllerTest extends WebTestCase {
 //        StudyParticipantCommand studyParticipantCommand = (StudyParticipantCommand) command;
 //
 //        CRF crf = Fixture.createCrf("crf", CrfStatus.RELEASED, "1.0");
-//        StudyCrf studyCrf = new StudyCrf();
-//        studyCrf.setCrf(crf);
+//        CRF crf = new CRF();
+//        crf.setCrf(crf);
 //
 //        StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
-//        studyParticipantCrf.setStudyCrf(studyCrf);
+//        studyParticipantCrf.setCRF(crf);
 //
 //        StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
 //        studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);

@@ -1,21 +1,16 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.Fixture;
-import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.verify;
-import org.easymock.EasyMock;
+import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 
-
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -130,16 +125,15 @@ public class SubmitFormCommandTest extends WebTestCase {
 
         crf = Fixture.createCrf();
         crf.setId(1);
-        study = Fixture.createStudyWithStudySite("short", "long", "assigned",Fixture.createOrganization("test","test"));
+        study = Fixture.createStudyWithStudySite("short", "long", "assigned", Fixture.createOrganization("test", "test"));
 
         studyParticipantAssignment = new StudyParticipantAssignment();
         studyParticipantAssignment.setStudySite(study.getStudySites().get(0));
 
-        StudyCrf studyCrf = new StudyCrf();
-        studyCrf.setCrf(crf);
-        studyCrf.setStudy(study);
+
+        crf.setStudy(study);
         StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
-        studyParticipantCrf.setStudyCrf(studyCrf);
+        studyParticipantCrf.setCrf(crf);
         studyParticipantCrfSchedule.setStudyParticipantCrf(studyParticipantCrf);
         studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
     }
@@ -165,11 +159,9 @@ public class SubmitFormCommandTest extends WebTestCase {
         newCrf.setStatus(CrfStatus.RELEASED);
         newCrf.setEffectiveStartDate(new Date());
 
-        StudyCrf studyCrf = new StudyCrf();
-        studyCrf.setCrf(newCrf);
-        studyCrf.setStudy(study);
+        crf.setStudy(study);
         StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
-        studyParticipantCrf.setStudyCrf(studyCrf);
+        studyParticipantCrf.setCrf(crf);
         studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
 
         crf.setNextVersionId(2);
@@ -181,7 +173,6 @@ public class SubmitFormCommandTest extends WebTestCase {
         genericRepository.delete(isA(StudyParticipantCrfSchedule.class));
         replayMocks();
         command.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
-
 
 
     }

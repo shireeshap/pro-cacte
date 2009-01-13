@@ -1,17 +1,11 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.query.CRFQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Hashtable;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 
 /**
  * @author Harsh Agarwal
@@ -31,17 +25,17 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void updateStatusToReleased(CRF crf) {
 
-        crf.setStatus(CrfStatus.RELEASED);
 
-        StudyCrf studyCrf = crf.getStudyCrf();
-        if (studyCrf != null) {
-            Study study = studyRepository.findById(studyCrf.getStudy().getId());
+        if (crf != null) {
+            crf.setStatus(CrfStatus.RELEASED);
+
+            Study study = studyRepository.findById(crf.getStudy().getId());
 
             for (StudySite studySite : study.getStudySites()) {
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
                     StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
                     studyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
-                    studyCrf.addStudyParticipantCrf(studyParticipantCrf);
+                    crf.addStudyParticipantCrf(studyParticipantCrf);
                 }
             }
         }
@@ -51,14 +45,14 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public CRF save(CRF crf) {
         CRF tmp = null;
-        if(crf.getParentVersionId() != null){
+        if (crf.getParentVersionId() != null) {
             tmp = findById(crf.getParentVersionId());
             while (tmp.getParentVersionId() != null) {
                 tmp = findById(tmp.getParentVersionId());
             }
         }
 
-        if (tmp!=null && (tmp.getId() != crf.getId())) {
+        if (tmp != null && (tmp.getId() != crf.getId())) {
             if (!tmp.getTitle().equals(crf.getTitle())) {
                 throw (new CtcAeSystemException("You can not update the title if crf is versioned"));
             }

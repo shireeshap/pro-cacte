@@ -19,43 +19,43 @@ import javax.servlet.http.HttpServletResponse;
 public class AddCrfPageItemController extends AbstractCrfController {
 
 
-	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		String crfPageNumber = request.getParameter("crfPageNumber");
-		Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
+    protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        String crfPageNumber = request.getParameter("crfPageNumber");
+        Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
 
-		ModelAndView modelAndView = null;
+        ModelAndView modelAndView = null;
 
-		if (StringUtils.isBlank(crfPageNumber)) {
-			modelAndView = new ModelAndView(new RedirectView("addOneCrfPage?subview=subview&questionId=" + questionId));
+        if (StringUtils.isBlank(crfPageNumber)) {
+            modelAndView = new ModelAndView(new RedirectView("addOneCrfPage?subview=subview&questionId=" + questionId));
 
-		} else {
-			modelAndView = new ModelAndView("form/ajax/oneCrfPageItemSection");
-			ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
-			CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
-			if (proCtcQuestion != null) {
+        } else {
+            modelAndView = new ModelAndView("form/ajax/oneCrfPageItemSection");
+            ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
+            CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+            if (proCtcQuestion != null) {
 
-				CRFPage crfPage = createFormCommand.getStudyCrf().getCrf().getCrfPageByPageNumber(Integer.valueOf(crfPageNumber));
+                CRFPage crfPage = createFormCommand.getCrf().getCrfPageByPageNumber(Integer.valueOf(crfPageNumber));
 
-				CrfPageItem crfPageItem = crfPage.removeExistingAndAddNewCrfItem(proCtcQuestion);
-				modelAndView.addObject("crfPageItem", crfPageItem);
+                CrfPageItem crfPageItem = crfPage.removeExistingAndAddNewCrfItem(proCtcQuestion);
+                modelAndView.addObject("crfPageItem", crfPageItem);
 
-				modelAndView.addObject("index", crfPage.getCrfPageItems().size() - 1);
+                modelAndView.addObject("index", crfPage.getCrfPageItems().size() - 1);
 
-				modelAndView.addAllObjects(referenceData(createFormCommand));
-			} else {
-				logger.error("can not add question because can not find any question for given question id:" + questionId);
-				return null;
-			}
-		}
-		return modelAndView;
-
-
-	}
+                modelAndView.addAllObjects(referenceData(createFormCommand));
+            } else {
+                logger.error("can not add question because can not find any question for given question id:" + questionId);
+                return null;
+            }
+        }
+        return modelAndView;
 
 
-	public AddCrfPageItemController() {
-		setSupportedMethods(new String[]{"GET"});
+    }
 
-	}
+
+    public AddCrfPageItemController() {
+        setSupportedMethods(new String[]{"GET"});
+
+    }
 
 }

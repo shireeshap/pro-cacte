@@ -16,8 +16,8 @@
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="createForm" hideErrorDetails="true">
     <jsp:attribute name="singleFields">
 		<%--<p><tags:instructions code="instruction_select_study"/></p>--%>
-		<%----%>
-		<tags:reviewForm studyCrf="${command.studyCrf}"></tags:reviewForm>
+        <%----%>
+        <tags:reviewForm crf="${command.crf}"></tags:reviewForm>
 		
     </jsp:attribute>
 

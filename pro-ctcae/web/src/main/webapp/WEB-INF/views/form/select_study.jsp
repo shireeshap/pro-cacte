@@ -11,50 +11,53 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <head>
-	<tags:stylesheetLink name="tabbedflow"/>
-	<tags:includeScriptaculous/>
+    <tags:stylesheetLink name="tabbedflow"/>
+    <tags:includeScriptaculous/>
 
-	<tags:includePrototypeWindow/>
+    <tags:includePrototypeWindow/>
 
-	<script type="text/javascript">
-		Event.observe(window, "load", function () {
-			var studyAutoCompleter = new studyAutoComplter('studyCrf.study');
-			acCreate(studyAutoCompleter);
-		<c:if test="${command.studyCrf.study ne null}">
-			initializeAutoCompleter('studyCrf.study', '${command.studyCrf.study.displayName}', '${command.studyCrf.study.id}')
+    <script type="text/javascript">
+        Event.observe(window, "load", function () {
+            var studyAutoCompleter = new studyAutoComplter('crf.study');
+            acCreate(studyAutoCompleter);
+        <c:if test="${command.crf.study ne null}">
+            initializeAutoCompleter('crf.study', '${command.crf.study.displayName}', '${command.crf.study.id}')
 
-		</c:if>
+        </c:if>
 
-			initSearchField();
+            initSearchField();
 
-		})
+        })
 
 
-	</script>
+    </script>
 
 </head>
 <body>
 <c:choose>
-	<c:when test="${command.studyCrf.id ne null}">
-		<c:set var="willSave" value="true"/>
-	</c:when>
-	<c:otherwise>
-		<c:set var="willSave" value="false"/>
-	</c:otherwise>
+    <c:when test="${command.crf.id ne null}">
+        <c:set var="willSave" value="true"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="willSave" value="false"/>
+    </c:otherwise>
 </c:choose>
 
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="createForm" hideErrorDetails="true" boxClass="small">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="createForm" hideErrorDetails="true"
+              boxClass="small">
     <jsp:attribute name="singleFields">
         <c:choose>
-            <c:when test="${command.studyCrf.crf.crfVersion eq 1.0}">
-        <p><tags:instructions code="instruction_select_study"/></p>
-        <tags:renderAutocompleter propertyName="studyCrf.study" required="true" displayName="form.label.study"
-								  size="70"/>
-        <p id="studyCrf.study-selected" style="display: none">
-			You have selected the study <span id="studyCrf.study-selected-name"></span>.
-		</p>
-        </c:when>
-        <c:otherwise>&nbsp;&nbsp;&nbsp;<b>Study</b>&nbsp;&nbsp; <input type="text" value="${command.studyCrf.study.displayName}" disabled="true" size="70"></c:otherwise>
+            <c:when test="${command.crf.crfVersion eq 1.0}">
+                <p><tags:instructions code="instruction_select_study"/></p>
+                <tags:renderAutocompleter propertyName="crf.study" required="true" displayName="form.label.study"
+                                          size="70"/>
+                <p id="crf.study-selected" style="display: none">
+                    You have selected the study <span id="crf.study-selected-name"></span>.
+                </p>
+            </c:when>
+            <c:otherwise>&nbsp;&nbsp;&nbsp;<b>Study</b>&nbsp;&nbsp; <input type="text"
+                                                                           value="${command.crf.study.displayName}"
+                                                                           disabled="true" size="70"></c:otherwise>
         </c:choose>
     </jsp:attribute>
 

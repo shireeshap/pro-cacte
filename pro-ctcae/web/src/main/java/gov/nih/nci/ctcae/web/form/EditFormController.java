@@ -2,16 +2,16 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.web.ControllersUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,14 +25,14 @@ public class EditFormController extends FormController {
 
     @Override
     protected int getInitialPage(HttpServletRequest request) {
-        if (!StringUtils.isBlank(request.getParameter("showFormDetails")) && !StringUtils.isBlank(request.getParameter("studyCrfId"))) {
+        if (!StringUtils.isBlank(request.getParameter("showFormDetails")) && !StringUtils.isBlank(request.getParameter("crfId"))) {
             if (request.getAttribute("flashMessage") == null) {
                 request.setAttribute("flashMessage", "form.version.success");
             }
             return 2;
         }
 
-        if (!StringUtils.isBlank(request.getParameter("copyForm")) && !StringUtils.isBlank(request.getParameter("studyCrfId"))) {
+        if (!StringUtils.isBlank(request.getParameter("copyForm")) && !StringUtils.isBlank(request.getParameter("crfId"))) {
             if (request.getAttribute("flashMessage") == null) {
                 request.setAttribute("flashMessage", "form.copy.success");
             }
@@ -59,16 +59,16 @@ public class EditFormController extends FormController {
         if (command == null) {
             command = new CreateFormCommand();
         }
-        StudyCrf studyCrf = finderRepository.findAndInitializeStudyCrf(ServletRequestUtils.getRequiredIntParameter(request, "studyCrfId"));
-        if (studyCrf == null) {
-            throw new CtcAeSystemException("No form found for given id" + ServletRequestUtils.getRequiredIntParameter(request, "studyCrfId"));
+        CRF crf = finderRepository.findAndInitializeCrf(ServletRequestUtils.getRequiredIntParameter(request, "crfId"));
+        if (crf == null) {
+            throw new CtcAeSystemException("No form found for given id" + ServletRequestUtils.getRequiredIntParameter(request, "crfId"));
         }
-        command.setStudyCrf(studyCrf);
-        if (CrfStatus.DRAFT.equals(studyCrf.getCrf().getStatus())) {
+        command.setCrf(crf);
+        if (CrfStatus.DRAFT.equals(crf.getStatus())) {
             return command;
         }
 
-        throw new CtcAeSystemException("You can not only edit DRAFT forms. The status of this form is:" + studyCrf.getCrf().getStatus());
+        throw new CtcAeSystemException("You can not only edit DRAFT forms. The status of this form is:" + crf.getStatus());
 
 
     }
@@ -81,7 +81,7 @@ public class EditFormController extends FormController {
         } else {
 
             CreateFormCommand createFormCommand = (CreateFormCommand) command;
-            RedirectView view = new RedirectView("editForm?studyCrfId=" + createFormCommand.getStudyCrf().getId());
+            RedirectView view = new RedirectView("editForm?crfId=" + createFormCommand.getCrf().getId());
             ModelAndView redirectView = new ModelAndView(view);
             return redirectView;
         }

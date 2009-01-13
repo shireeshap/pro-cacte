@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -18,6 +19,8 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
     private CRFRepository crfRepository;
     private CRF crf, inValidCRF;
     private String title = "Cancer CRF" + UUID.randomUUID().toString();
+    private StudyRepository studyRepository;
+    private Study study;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
@@ -27,6 +30,14 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
     }
 
     private void saveCrf() {
+
+        study = new Study();
+        study.setShortTitle("study short title");
+        study.setLongTitle("study long title");
+        study.setAssignedIdentifier("assigned identifier");
+        study = studyRepository.save(study);
+        crf.setStudy(study);
+
         crf = crfRepository.save(crf);
     }
 
@@ -41,6 +52,66 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
     public void testSaveCRF() {
         saveCrf();
         assertNotNull(crf.getId());
+    }
+
+    public void testFindById() {
+        saveCrf();
+
+        CRF existingCrf = crfRepository.findById(crf.getId());
+        assertEquals(crf.getTitle(), existingCrf.getTitle());
+        assertEquals(crf.getStatus(), existingCrf.getStatus());
+        assertEquals(crf.getCrfVersion(), existingCrf.getCrfVersion());
+        assertEquals(crf.getDescription(), existingCrf.getDescription());
+
+    }
+
+
+    public void testFindByQuery() {
+        saveCrf();
+
+        CRFQuery crfQuery = new CRFQuery();
+
+        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
+        assertFalse(crfs.isEmpty());
+        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf");
+        assertEquals(size, crfs.size());
+    }
+
+    public void testFindByNullNextVersionIdQuery() {
+        saveCrf();
+
+        CRFQuery crfQuery = new CRFQuery();
+        crfQuery.filterByNullNextVersionId();
+        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
+        assertFalse(crfs.isEmpty());
+        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf where next_version_id is null");
+        assertEquals(size, crfs.size());
+    }
+
+    public void testFindByTitleExactMatchQuery() {
+        saveCrf();
+
+        CRFQuery crfQuery = new CRFQuery();
+        crfQuery.filterByTitleExactMatch(crf.getTitle());
+        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
+        assertFalse(crfs.isEmpty());
+        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf where lower(crf.title)=?", new String[]{crf.getTitle().toLowerCase()});
+        assertEquals(size, crfs.size());
+        assertEquals("title must be unique", Integer.valueOf(1), Integer.valueOf(size));
+
+
+    }
+
+    public void testFilterByNotHavingCrfId() {
+        saveCrf();
+
+        CRFQuery crfQuery = new CRFQuery();
+        crfQuery.filterByNotHavingCrfId(crf.getId());
+        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
+        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf where crf.id !=?", new Integer[]{crf.getId()});
+        assertEquals(size, crfs.size());
+
+
     }
 
     public void testSaveCRFWithPage() {
@@ -117,64 +188,9 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
         }
     }
 
-    public void testFindById() {
-        saveCrf();
 
-        CRF existingCrf = crfRepository.findById(crf.getId());
-        assertEquals(crf.getTitle(), existingCrf.getTitle());
-        assertEquals(crf.getStatus(), existingCrf.getStatus());
-        assertEquals(crf.getCrfVersion(), existingCrf.getCrfVersion());
-        assertEquals(crf.getDescription(), existingCrf.getDescription());
-
-    }
-
-
-    public void testFindByQuery() {
-        saveCrf();
-
-        CRFQuery crfQuery = new CRFQuery();
-
-        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
-        assertFalse(crfs.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf");
-        assertEquals(size, crfs.size());
-    }
-
-    public void testFindByNullNextVersionIdQuery() {
-        saveCrf();
-
-        CRFQuery crfQuery = new CRFQuery();
-        crfQuery.filterByNullNextVersionId();
-        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
-        assertFalse(crfs.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf where next_version_id is null");
-        assertEquals(size, crfs.size());
-    }
-
-    public void testFindByTitleExactMatchQuery() {
-        saveCrf();
-
-        CRFQuery crfQuery = new CRFQuery();
-        crfQuery.filterByTitleExactMatch(crf.getTitle());
-        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
-        assertFalse(crfs.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf where lower(crf.title)=?", new String[]{crf.getTitle().toLowerCase()});
-        assertEquals(size, crfs.size());
-        assertEquals("title must be unique", Integer.valueOf(1), Integer.valueOf(size));
-
-
-    }
-
-    public void testFilterByNotHavingCrfId() {
-        saveCrf();
-
-        CRFQuery crfQuery = new CRFQuery();
-        crfQuery.filterByNotHavingCrfId(crf.getId());
-        Collection<? extends CRF> crfs = crfRepository.find(crfQuery);
-        int size = jdbcTemplate.queryForInt("select count(*) from CRFS crf where crf.id !=?", new Integer[]{crf.getId()});
-        assertEquals(size, crfs.size());
-
-
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
     }
 
     @Required

@@ -49,11 +49,12 @@
         <div class="value">${command.study.shortTitle} </div>
     </div>
     <div class="row">
-            <div class="label"><spring:message code="schedulecrf.label.participant"/></div>
-            <div class="value">${command.participant.displayName}</div>
-        </div>
+        <div class="label"><spring:message code="schedulecrf.label.participant"/></div>
+        <div class="value">${command.participant.displayName}</div>
+    </div>
     <div class="row">
-            <div class="label"><a href="../participant/participantInbox?participantId=${command.participant.id}">Participant Inbox</a></div>
+        <div class="label"><a href="../participant/participantInbox?participantId=${command.participant.id}">Participant
+            Inbox</a></div>
     </div>
 
     <c:if test="${not empty command.studyParticipantAssignment.studyParticipantCrfs}">
@@ -68,14 +69,14 @@
                 <c:forEach items="${command.studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
                     <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="schedule">
                         <tr class="results">
-                            <td>${studyParticipantCrf.studyCrf.crf.title}</td>
+                            <td>${studyParticipantCrf.crf.title}</td>
                             <td><tags:formatDate value="${schedule.startDate}"/></td>
                             <td><tags:formatDate value="${schedule.dueDate}"/></td>
                             <td>${schedule.status}</td>
                         </tr>
                     </c:forEach>
                 </c:forEach>
-            </table>                                                            
+            </table>
         </chrome:division>
     </c:if>
 </chrome:box>

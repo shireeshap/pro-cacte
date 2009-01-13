@@ -1,16 +1,15 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.validation.BindException;
 
 /**
  * @author Mehul Gulati
@@ -22,38 +21,38 @@ public class VersionFormController extends CtcAeSimpleFormController {
     private CRFRepository crfRepository;
 
     protected VersionFormController() {
-        setCommandClass(StudyCrf.class);
+        setCommandClass(CRF.class);
         setFormView("form/versionForm");
         setSessionForm(true);
     }
 
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        String studyCrfId = request.getParameter("studyCrfId");
-        StudyCrf studyCrf = finderRepository.findAndInitializeStudyCrf(Integer.parseInt(studyCrfId));
-        return studyCrf;
+        String crfId = request.getParameter("crfId");
+        CRF crf = finderRepository.findAndInitializeCrf(Integer.parseInt(crfId));
+        return crf;
     }
 
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
-        StudyCrf studyCrf = (StudyCrf) command;
+        CRF crf = (CRF) command;
 
         //FIXME: Mehul- remove it later
-        studyCrf = finderRepository.findAndInitializeStudyCrf(studyCrf.getId());
-        Integer parentVersionId = studyCrf.getCrf().getId();
-        String newVersion = "" + (new Float(studyCrf.getCrf().getCrfVersion()) + 1);
-        StudyCrf copiedStudyCrf = studyCrf.getCopy();
-        copiedStudyCrf.getCrf().setTitle(studyCrf.getCrf().getTitle());
-        copiedStudyCrf.getCrf().setCrfVersion(newVersion);
-        copiedStudyCrf.getCrf().setParentVersionId(parentVersionId);
+        crf = finderRepository.findAndInitializeCrf(crf.getId());
+        Integer parentVersionId = crf.getId();
+        String newVersion = "" + (new Float(crf.getCrfVersion()) + 1);
+        CRF copiedCRF = crf.getCopy();
+        copiedCRF.setTitle(crf.getTitle());
+        copiedCRF.setCrfVersion(newVersion);
+        copiedCRF.setParentVersionId(parentVersionId);
 
-        crfRepository.save(copiedStudyCrf.getCrf());
+        crfRepository.save(copiedCRF);
 
-        Integer nextVersionId = copiedStudyCrf.getCrf().getId();
-        studyCrf.getCrf().setNextVersionId(nextVersionId);
-        crfRepository.save(studyCrf.getCrf());
+        Integer nextVersionId = copiedCRF.getId();
+        crf.setNextVersionId(nextVersionId);
+        crfRepository.save(crf);
 
-        RedirectView redirectView = new RedirectView("editForm?studyCrfId=" + copiedStudyCrf.getId()+"&showFormDetails=true");
+        RedirectView redirectView = new RedirectView("editForm?crfId=" + copiedCRF.getId() + "&showFormDetails=true");
 
         ModelAndView modelAndView = new ModelAndView(redirectView);
         return modelAndView;

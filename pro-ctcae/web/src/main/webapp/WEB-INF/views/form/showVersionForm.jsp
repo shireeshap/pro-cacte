@@ -14,8 +14,8 @@
         <td></td>
 
         <td></td>
-        <td>${crf.crfVersion}</td>
-          
+        <td>${crfVersion}</td>
+
         <td><tags:formatDate value="${crf.effectiveStartDate}"/></td>
         <td><tags:formatDate value="${crf.effectiveEndDate}"/></td>
         <td>${crf.status}</td>
@@ -23,31 +23,31 @@
             <c:choose>
                 <c:when test="${crf.status eq 'Released'}">
                     <c:if test="${crf.nextVersionId eq null}">
-                    <a href="../../pages/participant/schedulecrf?studyCrfId=${crf.studyCrf.id}">Schedule |</a>
+                        <a href="../../pages/participant/schedulecrf?crfId=${crf.id}">Schedule |</a>
                     </c:if>
-                    <a href="../../pages/form/copyForm?studyCrfId=${crf.studyCrf.id}">Copy </a>
+                    <a href="../../pages/form/copyForm?crfId=${crf.id}">Copy </a>
 
                     <c:if test="${crf.nextVersionId eq null}">
-                        <a href="javascript:versionForm('${crf.studyCrf.id}')">Version </a>
+                        <a href="javascript:versionForm('${crf.id}')">Version </a>
                     </c:if>
                 </c:when>
                 <c:otherwise>
-                    <a href="javascript:releaseForm('${crf.studyCrf.id}')">Release |</a>
-                    <a href="/pages/form/copyForm?studyCrfId=${crf.studyCrf.id}">Copy |</a>
+                    <a href="javascript:releaseForm('${crf.id}')">Release |</a>
+                    <a href="/pages/form/copyForm?crfId=${crf.id}">Copy |</a>
 
-                    <a href="javascript:deleteForm('${crf.studyCrf.id}')">Delete |</a>
+                    <a href="javascript:deleteForm('${crf.id}')">Delete |</a>
                 </c:otherwise>
             </c:choose>
 
             <c:if test="${crf.status eq 'Draft'}">
-                <a href="scheduleCrf?studyCrfId=${crf.studyCrf.id}">Edit</a>
+                <a href="scheduleCrf?crfId=${crf.id}">Edit</a>
             </c:if>
 
 
         </td>
 
-        <!--<td><a href="/ctcae/pages/participant/schedulecrf?studyCrfId=15">Schedule</a> | <a-->
-        <!--href="/ctcae/pages/form/copyForm?studyCrfId=15">Copy</a></td>-->
+        <!--<td><a href="/ctcae/pages/participant/schedulecrf?crfId=15">Schedule</a> | <a-->
+        <!--href="/ctcae/pages/form/copyForm?crfId=15">Copy</a></td>-->
     </tr>
 </c:forEach>
 </body>

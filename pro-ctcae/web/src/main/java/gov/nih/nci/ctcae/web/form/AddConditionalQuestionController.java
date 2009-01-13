@@ -24,47 +24,47 @@ import java.util.List;
 public class AddConditionalQuestionController extends AbstractController {
 
 
-	private FinderRepository finderRepository;
+    private FinderRepository finderRepository;
 
-	public AddConditionalQuestionController() {
-		setSupportedMethods(new String[]{"GET"});
-	}
+    public AddConditionalQuestionController() {
+        setSupportedMethods(new String[]{"GET"});
+    }
 
-	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-		ModelAndView modelAndView = new ModelAndView("form/ajax/conditions");
-
-
-		Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
-
-		ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
-
-		CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
-
-		CrfPageItem crfPageItem = createFormCommand.getStudyCrf().getCrf().getCrfPageItemByQuestion(proCtcQuestion);
-
-		String[] selectedValidValuesIds = StringUtils.commaDelimitedListToStringArray(request.getParameter("selectedValidValues"));
-
-		List<CrfPageItemDisplayRule> crfPageItemDisplayRuleList = new ArrayList<CrfPageItemDisplayRule>();
-		for (String id : selectedValidValuesIds) {
-			ProCtcValidValue proCtcValidValue = finderRepository.findById(ProCtcValidValue.class, Integer.valueOf(id));
-			CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();
-			crfPageItemDisplayRule.setProCtcValidValue(proCtcValidValue);
-			crfPageItemDisplayRuleList.add(crfPageItemDisplayRule);
-
-		}
-		List<CrfPageItemDisplayRule> addedCrfPageItemDisplayRules = crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRuleList);
-
-		modelAndView.addObject("crfPageItemDisplayRules", addedCrfPageItemDisplayRules);
-		modelAndView.addObject("selectedQuestionId", questionId);
-
-		return modelAndView;
-
-	}
+        ModelAndView modelAndView = new ModelAndView("form/ajax/conditions");
 
 
-	@Required
-	public void setFinderRepository(FinderRepository finderRepository) {
-		this.finderRepository = finderRepository;
-	}
+        Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
+
+        ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
+
+        CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+
+        CrfPageItem crfPageItem = createFormCommand.getCrf().getCrfPageItemByQuestion(proCtcQuestion);
+
+        String[] selectedValidValuesIds = StringUtils.commaDelimitedListToStringArray(request.getParameter("selectedValidValues"));
+
+        List<CrfPageItemDisplayRule> crfPageItemDisplayRuleList = new ArrayList<CrfPageItemDisplayRule>();
+        for (String id : selectedValidValuesIds) {
+            ProCtcValidValue proCtcValidValue = finderRepository.findById(ProCtcValidValue.class, Integer.valueOf(id));
+            CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();
+            crfPageItemDisplayRule.setProCtcValidValue(proCtcValidValue);
+            crfPageItemDisplayRuleList.add(crfPageItemDisplayRule);
+
+        }
+        List<CrfPageItemDisplayRule> addedCrfPageItemDisplayRules = crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRuleList);
+
+        modelAndView.addObject("crfPageItemDisplayRules", addedCrfPageItemDisplayRules);
+        modelAndView.addObject("selectedQuestionId", questionId);
+
+        return modelAndView;
+
+    }
+
+
+    @Required
+    public void setFinderRepository(FinderRepository finderRepository) {
+        this.finderRepository = finderRepository;
+    }
 }

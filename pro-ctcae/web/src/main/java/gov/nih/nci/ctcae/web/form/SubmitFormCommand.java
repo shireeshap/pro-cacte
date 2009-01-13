@@ -3,11 +3,10 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
 import java.util.*;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -42,7 +41,7 @@ public class SubmitFormCommand implements Serializable {
             displayRules.put(crfPageItem.getId(), displayRule);
         }
         currentPageIndex = 1;
-        totalPages = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyCrf().getCrf().getCrfPages().size();
+        totalPages = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getCrfPages().size();
         participantAddedQuestionIndex = totalPages + 1;
         if (studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size() > 0) {
             hasParticipantAddedQuestions = true;
@@ -55,7 +54,7 @@ public class SubmitFormCommand implements Serializable {
     }
 
     private StudyParticipantCrfSchedule findLatestCrfAndCreateSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-        CRF originalCrf = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyCrf().getCrf();
+        CRF originalCrf = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf();
         StudyParticipantCrf originalStudyParticipantCrf = studyParticipantCrfSchedule.getStudyParticipantCrf();
         if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
             Date today = new Date();
@@ -72,7 +71,7 @@ public class SubmitFormCommand implements Serializable {
             if (!originalCrf.getId().equals(latestEffectiveCrf.getId())) {
                 StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment();
                 for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-                    if (studyParticipantCrf.getStudyCrf().getCrf().getId().equals(latestEffectiveCrf.getId())) {
+                    if (studyParticipantCrf.getCrf().getId().equals(latestEffectiveCrf.getId())) {
                         int i = 1;
                         Hashtable<String, Integer> symptomPage = new Hashtable<String, Integer>();
                         StudyParticipantCrfSchedule newSchedule = new StudyParticipantCrfSchedule();
@@ -96,7 +95,7 @@ public class SubmitFormCommand implements Serializable {
                                 if (symptomPage.containsKey(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm())) {
                                     myPageNumber = symptomPage.get(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
                                 } else {
-                                    myPageNumber = studyParticipantCrf.getStudyCrf().getCrf().getCrfPages().size() - 1 + i;
+                                    myPageNumber = studyParticipantCrf.getCrf().getCrfPages().size() - 1 + i;
                                     symptomPage.put(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm(), myPageNumber);
                                 }
                                 newStudyParticipantCrfAddedQuestion.setPageNumber(myPageNumber);

@@ -1,14 +1,14 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * @author Harsh Agarwal
@@ -18,9 +18,8 @@ public class SelectStudyParticipantTabTest extends WebTestCase {
     private SelectStudyParticipantTab tab;
     private FinderRepository finderRepository;
     private StudyParticipantCommand command;
-    private StudyCrf studyCrf;
+    private CRF crf;
     Study study;
-    CRF crf;
 
     @Override
     protected void setUp() throws Exception {
@@ -33,17 +32,16 @@ public class SelectStudyParticipantTabTest extends WebTestCase {
 
         study = Fixture.createStudy("short", "long", "id");
         crf = Fixture.createCrf("test", CrfStatus.DRAFT, "1.0");
-        studyCrf = new StudyCrf(1);
-        studyCrf.setStudy(study);
-        studyCrf.setCrf(crf);
-        request.setParameter("studyCrfId", "" + studyCrf.getId());
-         command = new StudyParticipantCommand();
+        crf.setId(1);
+        crf.setStudy(study);
+        request.setParameter("crfId", "" + crf.getId());
+        command = new StudyParticipantCommand();
 
     }
 
     public void testOnDisplay() {
         assertNull(command.getStudy());
-        expect(finderRepository.findById(StudyCrf.class, Integer.valueOf(request.getParameter("studyCrfId")))).andReturn(studyCrf);
+        expect(finderRepository.findById(CRF.class, Integer.valueOf(request.getParameter("crfId")))).andReturn(crf);
         replayMocks();
         tab.onDisplay(request, command);
         verifyMocks();
@@ -53,7 +51,6 @@ public class SelectStudyParticipantTabTest extends WebTestCase {
     public void testPostProcess() {
 
 
-
         Participant participant = Fixture.createParticipant("first", "last", "id");
         participant.setId(1);
         study = Fixture.createStudy("short", "long", "id");
@@ -61,10 +58,10 @@ public class SelectStudyParticipantTabTest extends WebTestCase {
 
         command.setStudy(study);
         command.setParticipant(participant);
-        ArrayList l = new ArrayList();
-        l.add(new StudyParticipantAssignment());
+        ArrayList list = new ArrayList();
+        list.add(new StudyParticipantAssignment());
 
-        expect(finderRepository.find(isA(StudyParticipantAssignmentQuery.class))).andReturn(l);
+        expect(finderRepository.find(isA(StudyParticipantAssignmentQuery.class))).andReturn(list);
         replayMocks();
         tab.postProcess(request, command, null);
         verifyMocks();

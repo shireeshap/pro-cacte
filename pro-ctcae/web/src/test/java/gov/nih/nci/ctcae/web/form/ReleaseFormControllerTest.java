@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyCrf;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -19,59 +18,58 @@ import java.util.Map;
  * @crated Nov 5, 2008
  */
 public class ReleaseFormControllerTest extends WebTestCase {
-	private ReleaseFormController controller;
-	private WebControllerValidator validator;
-	private FinderRepository finderRepository;
-	private CRFRepository crfRepository;
+    private ReleaseFormController controller;
+    private WebControllerValidator validator;
+    private FinderRepository finderRepository;
+    private CRFRepository crfRepository;
 
-	private StudyCrf studyCrf;
+    private CRF crf;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		controller = new ReleaseFormController();
-		finderRepository = registerMockFor(FinderRepository.class);
-		crfRepository = registerMockFor(CRFRepository.class);
-		validator = new WebControllerValidatorImpl();
-		controller.setFinderRepository(finderRepository);
-		controller.setCrfRepository(crfRepository);
-		controller.setWebControllerValidator(validator);
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        controller = new ReleaseFormController();
+        finderRepository = registerMockFor(FinderRepository.class);
+        crfRepository = registerMockFor(CRFRepository.class);
+        validator = new WebControllerValidatorImpl();
+        controller.setFinderRepository(finderRepository);
+        controller.setCrfRepository(crfRepository);
+        controller.setWebControllerValidator(validator);
 
-		studyCrf = new StudyCrf();
-		studyCrf.setCrf(new CRF());
-		studyCrf.setStudy(new Study());
-	}
+        crf = new CRF();
+        crf.setStudy(new Study());
+    }
 
-	public void testGetRequest() throws Exception {
-		request.setMethod("GET");
-		request.addParameter("studyCrfId", "1");
-		expect(finderRepository.findAndInitializeStudyCrf(Integer.valueOf(1))).andReturn(studyCrf);
-		replayMocks();
-		ModelAndView modelAndView = controller.handleRequest(request, response);
-		verifyMocks();
-		Map model = modelAndView.getModel();
-		Object command = model.get("command");
-		assertNotNull("must find command object", command);
-		assertTrue(command instanceof StudyCrf);
+    public void testGetRequest() throws Exception {
+        request.setMethod("GET");
+        request.addParameter("crfId", "1");
+        expect(finderRepository.findAndInitializeCrf(Integer.valueOf(1))).andReturn(crf);
+        replayMocks();
+        ModelAndView modelAndView = controller.handleRequest(request, response);
+        verifyMocks();
+        Map model = modelAndView.getModel();
+        Object command = model.get("command");
+        assertNotNull("must find command object", command);
+        assertTrue(command instanceof CRF);
 
-	}
+    }
 
-	public void testPostRequest() throws Exception {
+    public void testPostRequest() throws Exception {
 
-		request.setMethod("POST");
-		expect(finderRepository.findAndInitializeStudyCrf(null)).andReturn(studyCrf);
-		crfRepository.updateStatusToReleased(studyCrf.getCrf());
+        request.setMethod("POST");
+        expect(finderRepository.findAndInitializeCrf(null)).andReturn(crf);
+        crfRepository.updateStatusToReleased(crf);
 
-		replayMocks();
+        replayMocks();
 
-		ModelAndView modelAndView = controller.handleRequest(request, response);
+        ModelAndView modelAndView = controller.handleRequest(request, response);
 
-		verifyMocks();
-		Map model = modelAndView.getModel();
-		assertTrue("view must be instance of redirect view", modelAndView.getView() instanceof RedirectView);
-		Object command = model.get("command");
-		assertNull("must not find command object", command);
+        verifyMocks();
+        Map model = modelAndView.getModel();
+        assertTrue("view must be instance of redirect view", modelAndView.getView() instanceof RedirectView);
+        Object command = model.get("command");
+        assertNull("must not find command object", command);
 
 
-	}
+    }
 }

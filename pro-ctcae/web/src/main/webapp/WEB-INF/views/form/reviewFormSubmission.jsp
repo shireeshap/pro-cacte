@@ -15,6 +15,7 @@
         div.row div.value {
             white-space: normal;
         }
+
         #left-panel {
             padding-left: 15px;
             width: 100%;
@@ -40,9 +41,9 @@
 
     </style>
     <script type="text/javascript">
-        function goback(){
-            document.myForm.direction.value='back_review';
-            document.myForm.r.value='n';
+        function goback() {
+            document.myForm.direction.value = 'back_review';
+            document.myForm.r.value = 'n';
             document.myForm.submit();
         }
     </script>
@@ -51,14 +52,15 @@
 <form:form method="post" name="myForm">
     <div style="clear:both;">
         <div id="left-panel">
-            <h1>Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.studyCrf.crf.title}</h1>
-            Thank you for completing the questionnaire.  If you would like to make any changes to your answers, please use the back button.  If you are satisfied with your answers, please press the submit button below.
+            <h1>Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.title}</h1>
+            Thank you for completing the questionnaire. If you would like to make any changes to your answers, please
+            use the back button. If you are satisfied with your answers, please press the submit button below.
             <br/>
             <br/>
 
             <!--You can <a href="../form/addquestion"><img src="<tags:imageUrl name="blue/edit_add.png" />" alt=""/> add questions
                 relating to other symptoms</a>-->
-            <a href="../form/addquestion">Click here</a> to add questions relating to other symptoms.             
+            <a href="../form/addquestion">Click here</a> to add questions relating to other symptoms.
 
 
         </div>
@@ -68,12 +70,12 @@
             <input type="hidden" name="r"/>
             <tr>
                 <td align="left" width="50%">
-                        <input onclick="javascript:goback()" type="image"
-                               src="/ctcae/images/blue/back_btn.png" alt="back &raquo;"/>
+                    <input onclick="javascript:goback()" type="image"
+                           src="/ctcae/images/blue/back_btn.png" alt="back &raquo;"/>
                 </td>
                 <td align="right" width="50%">
-                            <input onclick="document.myForm.direction.value='save'" type="image"
-                                   src="/ctcae/images/blue/submit_btn.png" alt="save &raquo;"/>
+                    <input onclick="document.myForm.direction.value='save'" type="image"
+                           src="/ctcae/images/blue/submit_btn.png" alt="save &raquo;"/>
                 </td>
             </tr>
         </table>

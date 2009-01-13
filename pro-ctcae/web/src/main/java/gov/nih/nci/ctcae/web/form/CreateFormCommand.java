@@ -18,148 +18,143 @@ import java.util.Map;
  */
 public class CreateFormCommand implements Serializable {
 
-	private static Log logger = LogFactory.getLog(CreateFormCommand.class);
+    private static Log logger = LogFactory.getLog(CreateFormCommand.class);
 
-	private StudyCrf studyCrf;
-
-
-	private String questionsIds;
-	private String numberOfQuestionsInEachPage;
-	private String crfPageNumbers;
-	private String crfPageNumbersToRemove = "";
+    private CRF crf;
 
 
-	public String getTitle() {
-		String title = getStudyCrf().getCrf().getTitle();
-		return !org.apache.commons.lang.StringUtils.isBlank(title) ? title : "Click here to name";
-	}
+    private String questionsIds;
+    private String numberOfQuestionsInEachPage;
+    private String crfPageNumbers;
+    private String crfPageNumbersToRemove = "";
 
 
-	public CreateFormCommand() {
-		CRF crf = new CRF();
-		crf.setStatus(CrfStatus.DRAFT);
-		crf.setCrfVersion("1.0");
-
-		this.studyCrf = new StudyCrf();
-		studyCrf.setCrf(crf);
-		crf.setStudyCrf(studyCrf);
+    public String getTitle() {
+        String title = getCrf().getTitle();
+        return !org.apache.commons.lang.StringUtils.isBlank(title) ? title : "Click here to name";
+    }
 
 
-	}
+    public CreateFormCommand() {
+        crf = new CRF();
+        crf.setStatus(CrfStatus.DRAFT);
+        crf.setCrfVersion("1.0");
 
-	public void updateCrfItems(FinderRepository finderRepository) {
+    }
 
-
-		addOrUpdateQuestions(finderRepository);
-
-
-	}
-
-	private void addOrUpdateQuestions(final FinderRepository finderRepository) {
+    public void updateCrfItems(FinderRepository finderRepository) {
 
 
-		String[] questionIdsArrays = StringUtils.commaDelimitedListToStringArray(questionsIds);
-		String[] numberOfQuestionInEachPageArray = StringUtils.commaDelimitedListToStringArray(numberOfQuestionsInEachPage);
-		String[] crfPageNumberArray = StringUtils.commaDelimitedListToStringArray(crfPageNumbers);
-
-		logger.debug("number of questions each page:" + numberOfQuestionsInEachPage);
-		int k = 0;
-
-		Map<Integer, List<Integer>> questionsToKeepMap = new HashMap<Integer, List<Integer>>();
-
-		for (int j = 0; j < numberOfQuestionInEachPageArray.length; j++) {
-			String questionsInEachPage = numberOfQuestionInEachPageArray[j];
-
-			List<Integer> questionsToKeep = new LinkedList<Integer>();
-			int displayOrder = CrfPageItem.INITIAL_ORDER;
-
-			for (int i = k; i < k + Integer.valueOf(questionsInEachPage); i++) {
-				Integer questionId = Integer.parseInt(questionIdsArrays[i]);
-				ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
-				if (proCtcQuestion != null) {
-					studyCrf.getCrf().addOrUpdateCrfItemInCrfPage(Integer.valueOf(crfPageNumberArray[j]), proCtcQuestion, displayOrder);
-					questionsToKeep.add(questionId);
-					displayOrder++;
-				} else {
-					logger.error("can not add question because pro ctc question is null for id:" + questionId);
-				}
-
-			}
-			questionsToKeepMap.put(Integer.valueOf(crfPageNumberArray[j]), questionsToKeep);
-			k = k + Integer.valueOf(questionsInEachPage);
-
-		}
-
-		for (Integer index : questionsToKeepMap.keySet()) {
-			CRFPage crfPage = studyCrf.getCrf().getCrfPages().get(index);
-			//now delete the extra questions
-			crfPage.removeExtraCrfItemsInCrfPage(questionsToKeepMap.get(index));
-
-		}
-
-		//now remove the pages;
-		String[] crfPageNumberArrayToRemove = StringUtils.commaDelimitedListToStringArray(crfPageNumbersToRemove);
-		for (String crfPageNumberToRemove : crfPageNumberArrayToRemove) {
-			getStudyCrf().getCrf().removeCrfPageByPageNumber(Integer.valueOf(crfPageNumberToRemove));
-		}
-
-		//finally update the crf page numbers;
-		getStudyCrf().getCrf().updatePageNumberOfCrfPages();
-
-		//reorder crf page items
-
-		for (CRFPage crfPage : studyCrf.getCrf().getCrfPages()) {
-			crfPage.updateDisplayOrderOfCrfPageItems();
-		}
-
-	}
+        addOrUpdateQuestions(finderRepository);
 
 
-	public StudyCrf getStudyCrf() {
-		return studyCrf;
-	}
+    }
 
-	public void setStudyCrf(StudyCrf studyCrf) {
-		this.studyCrf = studyCrf;
-	}
+    private void addOrUpdateQuestions(final FinderRepository finderRepository) {
 
 
-	public String getQuestionsIds() {
-		return questionsIds;
-	}
+        String[] questionIdsArrays = StringUtils.commaDelimitedListToStringArray(questionsIds);
+        String[] numberOfQuestionInEachPageArray = StringUtils.commaDelimitedListToStringArray(numberOfQuestionsInEachPage);
+        String[] crfPageNumberArray = StringUtils.commaDelimitedListToStringArray(crfPageNumbers);
+
+        logger.debug("number of questions each page:" + numberOfQuestionsInEachPage);
+        int k = 0;
+
+        Map<Integer, List<Integer>> questionsToKeepMap = new HashMap<Integer, List<Integer>>();
+
+        for (int j = 0; j < numberOfQuestionInEachPageArray.length; j++) {
+            String questionsInEachPage = numberOfQuestionInEachPageArray[j];
+
+            List<Integer> questionsToKeep = new LinkedList<Integer>();
+            int displayOrder = CrfPageItem.INITIAL_ORDER;
+
+            for (int i = k; i < k + Integer.valueOf(questionsInEachPage); i++) {
+                Integer questionId = Integer.parseInt(questionIdsArrays[i]);
+                ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
+                if (proCtcQuestion != null) {
+                    crf.addOrUpdateCrfItemInCrfPage(Integer.valueOf(crfPageNumberArray[j]), proCtcQuestion, displayOrder);
+                    questionsToKeep.add(questionId);
+                    displayOrder++;
+                } else {
+                    logger.error("can not add question because pro ctc question is null for id:" + questionId);
+                }
+
+            }
+            questionsToKeepMap.put(Integer.valueOf(crfPageNumberArray[j]), questionsToKeep);
+            k = k + Integer.valueOf(questionsInEachPage);
+
+        }
+
+        for (Integer index : questionsToKeepMap.keySet()) {
+            CRFPage crfPage = crf.getCrfPages().get(index);
+            //now delete the extra questions
+            crfPage.removeExtraCrfItemsInCrfPage(questionsToKeepMap.get(index));
+
+        }
+
+        //now remove the pages;
+        String[] crfPageNumberArrayToRemove = StringUtils.commaDelimitedListToStringArray(crfPageNumbersToRemove);
+        for (String crfPageNumberToRemove : crfPageNumberArrayToRemove) {
+            getCrf().removeCrfPageByPageNumber(Integer.valueOf(crfPageNumberToRemove));
+        }
+
+        //finally update the crf page numbers;
+        getCrf().updatePageNumberOfCrfPages();
+
+        //reorder crf page items
+
+        for (CRFPage crfPage : crf.getCrfPages()) {
+            crfPage.updateDisplayOrderOfCrfPageItems();
+        }
+
+    }
 
 
-	public void setQuestionsIds(String questionsIds) {
-		this.questionsIds = questionsIds;
-	}
+    public CRF getCrf() {
+        return crf;
+    }
 
-	public String getNumberOfQuestionsInEachPage() {
-		return numberOfQuestionsInEachPage;
-	}
+    public void setCrf(CRF crf) {
+        this.crf = crf;
+    }
 
-	public void setNumberOfQuestionsInEachPage(final String numberOfQuestionsInEachPage) {
-		this.numberOfQuestionsInEachPage = numberOfQuestionsInEachPage;
-	}
 
-	public CRFPage addAnotherPage() {
-		CRFPage crfPage = studyCrf.getCrf().addNewCrfPage();
-		return crfPage;
+    public String getQuestionsIds() {
+        return questionsIds;
+    }
 
-	}
 
-	public String getCrfPageNumbers() {
-		return crfPageNumbers;
-	}
+    public void setQuestionsIds(String questionsIds) {
+        this.questionsIds = questionsIds;
+    }
 
-	public void setCrfPageNumbers(final String crfPageNumber) {
-		this.crfPageNumbers = crfPageNumber;
-	}
+    public String getNumberOfQuestionsInEachPage() {
+        return numberOfQuestionsInEachPage;
+    }
 
-	public String getCrfPageNumbersToRemove() {
-		return crfPageNumbersToRemove;
-	}
+    public void setNumberOfQuestionsInEachPage(final String numberOfQuestionsInEachPage) {
+        this.numberOfQuestionsInEachPage = numberOfQuestionsInEachPage;
+    }
 
-	public void setCrfPageNumbersToRemove(final String crfPageNumbersToRemove) {
-		this.crfPageNumbersToRemove = crfPageNumbersToRemove;
-	}
+    public CRFPage addAnotherPage() {
+        CRFPage crfPage = crf.addCrfPage();
+        return crfPage;
+
+    }
+
+    public String getCrfPageNumbers() {
+        return crfPageNumbers;
+    }
+
+    public void setCrfPageNumbers(final String crfPageNumber) {
+        this.crfPageNumbers = crfPageNumber;
+    }
+
+    public String getCrfPageNumbersToRemove() {
+        return crfPageNumbersToRemove;
+    }
+
+    public void setCrfPageNumbersToRemove(final String crfPageNumbersToRemove) {
+        this.crfPageNumbersToRemove = crfPageNumbersToRemove;
+    }
 }

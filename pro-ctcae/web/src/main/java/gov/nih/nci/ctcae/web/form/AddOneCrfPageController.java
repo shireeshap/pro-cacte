@@ -19,48 +19,48 @@ import javax.servlet.http.HttpServletResponse;
 public class AddOneCrfPageController extends AbstractCrfController {
 
 
-	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-		ModelAndView modelAndView = new ModelAndView("form/ajax/oneCrfPageSection");
-
-
-		CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+        ModelAndView modelAndView = new ModelAndView("form/ajax/oneCrfPageSection");
 
 
-		CRF crf = createFormCommand.getStudyCrf().getCrf();
-
-		CRFPage crfPage = null;
-
-		if (!StringUtils.isBlank(request.getParameter("questionId"))) {
-			Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
-			ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
-
-			crfPage = crf.addCrfPage(proCtcQuestion);
-
-		} else if (!StringUtils.isBlank(request.getParameter("proCtcTermId"))) {
-			Integer proCtcTermId = ServletRequestUtils.getIntParameter(request, "proCtcTermId");
-
-			ProCtcTerm proCtcTerm = proCtcTermRepository.findAndInitializeTerm(proCtcTermId);
-
-			crfPage = crf.addCrfPage(proCtcTerm);
-
-		} else {
-			crfPage = createFormCommand.addAnotherPage();
-		}
-
-		modelAndView.addObject("crfPage", crfPage);
-
-		modelAndView.addAllObjects(referenceData(createFormCommand));
-
-		return modelAndView;
+        CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
 
-	}
+        CRF crf = createFormCommand.getCrf();
+
+        CRFPage crfPage = null;
+
+        if (!StringUtils.isBlank(request.getParameter("questionId"))) {
+            Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
+            ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
+
+            crfPage = crf.addCrfPage(proCtcQuestion);
+
+        } else if (!StringUtils.isBlank(request.getParameter("proCtcTermId"))) {
+            Integer proCtcTermId = ServletRequestUtils.getIntParameter(request, "proCtcTermId");
+
+            ProCtcTerm proCtcTerm = proCtcTermRepository.findAndInitializeTerm(proCtcTermId);
+
+            crfPage = crf.addCrfPage(proCtcTerm);
+
+        } else {
+            crfPage = createFormCommand.addAnotherPage();
+        }
+
+        modelAndView.addObject("crfPage", crfPage);
+
+        modelAndView.addAllObjects(referenceData(createFormCommand));
+
+        return modelAndView;
 
 
-	public AddOneCrfPageController() {
-		setSupportedMethods(new String[]{"GET"});
+    }
 
-	}
+
+    public AddOneCrfPageController() {
+        setSupportedMethods(new String[]{"GET"});
+
+    }
 
 }

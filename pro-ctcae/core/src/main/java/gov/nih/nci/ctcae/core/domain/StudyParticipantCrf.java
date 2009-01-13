@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -32,9 +32,9 @@ public class StudyParticipantCrf extends BaseVersionable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantCrfAddedQuestion> studyParticipantCrfAddedQuestions = new ArrayList<StudyParticipantCrfAddedQuestion>();
 
-    @JoinColumn(name = "study_crf_id", referencedColumnName = "id")
+    @JoinColumn(name = "crf_id", referencedColumnName = "id")
     @ManyToOne
-    private StudyCrf studyCrf;
+    private CRF crf;
 
     @JoinColumn(name = "study_participant_id", referencedColumnName = "id")
     @ManyToOne
@@ -55,8 +55,8 @@ public class StudyParticipantCrf extends BaseVersionable {
     }
 
 
-    public StudyCrf getStudyCrf() {
-        return studyCrf;
+    public CRF getCrf() {
+        return crf;
     }
 
 
@@ -64,8 +64,8 @@ public class StudyParticipantCrf extends BaseVersionable {
         return studyParticipantAssignment;
     }
 
-    public void setStudyCrf(StudyCrf studyCrf) {
-        this.studyCrf = studyCrf;
+    public void setCrf(CRF crf) {
+        this.crf = crf;
     }
 
     public void setStudyParticipantAssignment(StudyParticipantAssignment studyParticipant) {
@@ -99,7 +99,7 @@ public class StudyParticipantCrf extends BaseVersionable {
     }
 
     public void addStudyParticipantCrfAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
-        if(studyParticipantCrfAddedQuestion != null){
+        if (studyParticipantCrfAddedQuestion != null) {
             studyParticipantCrfAddedQuestion.setStudyParticipantCrf(this);
             studyParticipantCrfAddedQuestions.add(studyParticipantCrfAddedQuestion);
         }

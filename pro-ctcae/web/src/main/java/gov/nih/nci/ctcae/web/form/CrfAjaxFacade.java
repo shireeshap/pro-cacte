@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.Map;
 public class CrfAjaxFacade {
 
     private CRFRepository crfRepository;
-
 
 
     public String searchCrf(Map parameterMap, Integer id, HttpServletRequest request) {
@@ -33,10 +32,8 @@ public class CrfAjaxFacade {
             crfQuery.filterByStudyId(id);
             crfQuery.filterByNullNextVersionId();
         }
-  //      Study study = studyRepository.findById(id);
-        List<CRF> crfs = (List<CRF>)crfRepository.find(crfQuery); 
+        List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
         return crfs;
-  //      return study.getStudyCrfs();
     }
 
 

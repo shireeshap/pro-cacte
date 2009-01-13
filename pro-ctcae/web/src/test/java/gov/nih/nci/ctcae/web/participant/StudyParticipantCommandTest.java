@@ -15,10 +15,10 @@ public class StudyParticipantCommandTest extends WebTestCase {
     Study study;
     StudyParticipantAssignment studyParticipantAssignment;
     StudyParticipantCrf studyParticipantCrf;
-    String objectsIndexesToRemove = "0-1" ;
-	private CRF crf;
+    String objectsIndexesToRemove = "0-1";
+    private CRF crf;
 
-	@Override
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         command = new StudyParticipantCommand();
@@ -31,17 +31,16 @@ public class StudyParticipantCommandTest extends WebTestCase {
         studyParticipantAssignment.setParticipant(participant);
 
         CRF crf = Fixture.createCrf("test", CrfStatus.RELEASED, "1.0");
-        study.addCrf(crf);
-
+        crf.setStudy(study);
         studyParticipantCrf = new StudyParticipantCrf();
-        studyParticipantCrf.setStudyCrf(study.getStudyCrfs().get(0));
+        studyParticipantCrf.setCrf(crf);
 
-		crf = new CRF();
-		studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(), crf);
-		studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(),crf);
-		studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(),crf);
+        crf = new CRF();
+        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(), crf);
+        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(), crf);
+        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(), crf);
 
-		studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
+        studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
 
         command.setStudyParticipantAssignment(studyParticipantAssignment);
         command.setStudy(study);
