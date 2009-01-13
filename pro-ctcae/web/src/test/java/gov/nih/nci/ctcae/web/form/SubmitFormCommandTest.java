@@ -32,6 +32,7 @@ public class SubmitFormCommandTest extends WebTestCase {
     private Study study;
     private ProCtcQuestion proCtcQuestion1, proCtcQuestion2, proCtcQuestion3, proCtcQuestion4, proCtcQuestion5, proCtcQuestion6, proCtcQuestion7, proCtcQuestion8;
     private StudyParticipantAssignment studyParticipantAssignment;
+    private StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion1, studyParticipantCrfAddedQuestion2, studyParticipantCrfAddedQuestion3;
 
     @Override
     protected void setUp() throws Exception {
@@ -156,11 +157,17 @@ public class SubmitFormCommandTest extends WebTestCase {
         crf.setStudy(study);
         StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
 
-        StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion1 = new StudyParticipantCrfAddedQuestion();
+        studyParticipantCrfAddedQuestion1 = new StudyParticipantCrfAddedQuestion();
+        studyParticipantCrfAddedQuestion1.setId(1);
         studyParticipantCrfAddedQuestion1.setProCtcQuestion(proCtcQuestion1);
 
-        StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion2 = new StudyParticipantCrfAddedQuestion();
+        studyParticipantCrfAddedQuestion2 = new StudyParticipantCrfAddedQuestion();
+        studyParticipantCrfAddedQuestion2.setId(2);
         studyParticipantCrfAddedQuestion2.setProCtcQuestion(proCtcQuestion5);
+
+        studyParticipantCrfAddedQuestion3 = new StudyParticipantCrfAddedQuestion();
+        studyParticipantCrfAddedQuestion3.setId(3);
+        studyParticipantCrfAddedQuestion3.setProCtcQuestion(proCtcQuestion6);
 
         studyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion1);
         studyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion2);
@@ -273,5 +280,67 @@ public class SubmitFormCommandTest extends WebTestCase {
         assertEquals(studyParticipantCrfSchedule, command.getStudyParticipantCrfSchedule());
     }
 
+    public void testDeleteQuestions() {
+        command.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+        command.setTotalPages(10);
+        command.setCurrentPageIndex(10);
+
+        expect(finderRepository.findById(StudyParticipantCrfSchedule.class, 1)).andReturn(studyParticipantCrfSchedule);
+        EasyMock.expectLastCall().anyTimes();
+
+        expect(finderRepository.findById(StudyParticipantCrfAddedQuestion.class, new Integer(1))).andReturn(studyParticipantCrfAddedQuestion1);
+        EasyMock.expectLastCall().anyTimes();
+
+        expect(finderRepository.findById(StudyParticipantCrfAddedQuestion.class, new Integer(2))).andReturn(studyParticipantCrfAddedQuestion2);
+        EasyMock.expectLastCall().anyTimes();
+
+        expect(finderRepository.findById(StudyParticipantCrfAddedQuestion.class, new Integer(3))).andReturn(studyParticipantCrfAddedQuestion3);
+        EasyMock.expectLastCall().anyTimes();
+
+        genericRepository.delete(isA(StudyParticipantCrfAddedQuestion.class));
+        EasyMock.expectLastCall().anyTimes();
+
+        expect(genericRepository.save(isA(StudyParticipantCrfAddedQuestion.class))).andReturn(null);
+        EasyMock.expectLastCall().anyTimes();
+
+        replayMocks();
+
+        studyParticipantCrfAddedQuestion1.setPageNumber(9);
+        studyParticipantCrfAddedQuestion2.setPageNumber(10);
+        assertEquals(2, studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size());
+
+        command.deleteQuestions(",1");
+
+        assertEquals(9, command.getTotalPages());
+        assertEquals(9, command.getCurrentPageIndex());
+        assertEquals(9,studyParticipantCrfAddedQuestion2.getPageNumber().intValue());
+        assertEquals(1, studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size());
+
+        studyParticipantCrfSchedule.getStudyParticipantCrf().addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion1);
+        studyParticipantCrfAddedQuestion3.setPageNumber(9);
+        studyParticipantCrfSchedule.getStudyParticipantCrf().addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion3);
+        studyParticipantCrfAddedQuestion2.setPageNumber(10);
+
+        assertEquals(3, studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size());
+
+        command.setTotalPages(10);
+        command.setCurrentPageIndex(10);
+
+        command.deleteQuestions(",1");
+
+        assertEquals(10, command.getTotalPages());
+        assertEquals(10, command.getCurrentPageIndex());
+        assertEquals(10,studyParticipantCrfAddedQuestion2.getPageNumber().intValue());
+        assertEquals(2, studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size());
+
+        studyParticipantCrfSchedule.getStudyParticipantCrf().addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion1);
+
+        command.deleteQuestions(",1,3");
+
+        assertEquals(9, command.getTotalPages());
+        assertEquals(9, command.getCurrentPageIndex());
+        assertEquals(9,studyParticipantCrfAddedQuestion2.getPageNumber().intValue());
+        assertEquals(1, studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size());
+    }
 
 }
