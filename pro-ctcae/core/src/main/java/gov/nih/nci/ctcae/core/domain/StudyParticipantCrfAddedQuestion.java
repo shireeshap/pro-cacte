@@ -79,4 +79,30 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
         studyParticipantCrfAddedQuestion.setProCtcQuestion(proCtcQuestion);
         return studyParticipantCrfAddedQuestion;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StudyParticipantCrfAddedQuestion that = (StudyParticipantCrfAddedQuestion) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (pageNumber != null ? !pageNumber.equals(that.pageNumber) : that.pageNumber != null) return false;
+        if (proCtcQuestion != null ? !proCtcQuestion.equals(that.proCtcQuestion) : that.proCtcQuestion != null)
+            return false;
+        if (studyParticipantCrf != null ? !studyParticipantCrf.equals(that.studyParticipantCrf) : that.studyParticipantCrf != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (pageNumber != null ? pageNumber.hashCode() : 0);
+        result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
+        result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
+        return result;
+    }
 }

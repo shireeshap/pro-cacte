@@ -104,4 +104,8 @@ public class StudyParticipantCrf extends BaseVersionable {
             studyParticipantCrfAddedQuestions.add(studyParticipantCrfAddedQuestion);
         }
     }
+
+    public void removeStudyParticipantCrfAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion){
+        studyParticipantCrfAddedQuestions.remove(studyParticipantCrfAddedQuestion);
+    }
 }

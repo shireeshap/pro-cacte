@@ -245,12 +245,17 @@ public class SubmitFormCommand implements Serializable {
 
             studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
             StringTokenizer st = new StringTokenizer(questions, ",");
+            int myPageNumber = -1;
             while (st.hasMoreTokens()) {
 
-                StudyParticipantCrfAddedQuestion s = finderRepository.findById(StudyParticipantCrfAddedQuestion.class, new Integer(st.nextToken()));
-                int myPageNumber = s.getPageNumber();
+                String id = st.nextToken();
+                StudyParticipantCrfAddedQuestion s = finderRepository.findById(StudyParticipantCrfAddedQuestion.class, new Integer(id));
+                myPageNumber = s.getPageNumber();
+                studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(s);
                 genericRepository.delete(s);
+            }
 
+            if (myPageNumber != -1) {
                 for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
                     if (studyParticipantCrfAddedQuestion.getPageNumber() == myPageNumber) {
                         return;
