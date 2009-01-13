@@ -177,6 +177,7 @@ public class SubmitFormCommandTest extends WebTestCase {
 
         expect(finderRepository.findById(CRF.class, new Integer(2))).andReturn(newCrf);
         expect(genericRepository.save(isA(StudyParticipantCrfSchedule.class))).andReturn(null);
+        expect(genericRepository.save(isA(StudyParticipantCrf.class))).andReturn(null);
         genericRepository.delete(isA(StudyParticipantCrfSchedule.class));
         replayMocks();
         command.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
