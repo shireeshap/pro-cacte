@@ -83,6 +83,7 @@ pro-ctcae/core/src/main/db/migrate/003_elaboration_1/008_create_added_items.groo
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/009_alter_crf_item_display_rules.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/010_drop_study_crfs.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/011_alter_sp_crf_added_questions.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/012_create_proctc_question_display_rules.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
@@ -104,6 +105,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Persistable.java -tex
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Person.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtc.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestion.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionDisplayRule.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionType.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTerm.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValue.java -text
