@@ -315,10 +315,6 @@
               class="gov.nih.nci.ctcae.web.clinicalStaff.SearchClinicalStaffController">
         </bean>
 
-    <bean name="/reports/test" id="testReportController"
-              class="gov.nih.nci.ctcae.web.reports.TestReportController">
-    </bean>
-
 	<!--<bean name="/researchStaff/createResearchStaff" id="createResearchStaffController"-->
 	<!--class="gov.nih.nci.ctcae.web.researchStaff.CreateResearchStaffController" parent="ctcaeSimpleFormController">-->
 	<!--<property name="researchStaffRepository" ref="researchStaffRepository"/>-->
