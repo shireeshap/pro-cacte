@@ -223,6 +223,10 @@ public class SubmitFormCommand implements Serializable {
         this.proCtcQuestions = proCtcQuestions;
     }
 
+    public List<ProCtcQuestion> getProCtcQuestions() {
+        return proCtcQuestions;
+    }
+
     public boolean isHasParticipantAddedQuestions() {
         return hasParticipantAddedQuestions;
     }
@@ -281,4 +285,6 @@ public class SubmitFormCommand implements Serializable {
     public void setParticipantAddedQuestionIndex(int participantAddedQuestionIndex) {
         this.participantAddedQuestionIndex = participantAddedQuestionIndex;
     }
+
+
 }
