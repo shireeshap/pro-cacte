@@ -213,8 +213,8 @@ public class CRFTest extends TestCase {
 
     public void testGetCrfPageByPageNumber() {
         crf = new CRF();
-        crf.addCrfPge(new CRFPage());
-        crf.addCrfPge(new CRFPage());
+        crf.addCrfPage(new CRFPage());
+        crf.addCrfPage(new CRFPage());
         assertEquals("must return 2 crfPages", 2, crf.getCrfPagesSortedByPageNumber().size());
         for (int i = 0; i < crf.getCrfPagesSortedByPageNumber().size(); i++) {
             assertEquals("must preserve page no", Integer.valueOf(i), crf.getCrfPagesSortedByPageNumber().get(i).getPageNumber());
@@ -233,9 +233,9 @@ public class CRFTest extends TestCase {
 
     public void testRemoveCrfPageByPageNumber() {
         crf = new CRF();
-        crf.addCrfPge(new CRFPage());
-        crf.addCrfPge(new CRFPage());
-        crf.addCrfPge(new CRFPage());
+        crf.addCrfPage(new CRFPage());
+        crf.addCrfPage(new CRFPage());
+        crf.addCrfPage(new CRFPage());
         assertEquals("must return 3 crfPages", 3, crf.getCrfPagesSortedByPageNumber().size());
 
         crf.removeCrfPageByPageNumber(1);

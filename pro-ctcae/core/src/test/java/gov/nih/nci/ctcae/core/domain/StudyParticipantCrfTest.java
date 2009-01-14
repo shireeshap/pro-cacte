@@ -25,8 +25,8 @@ public class StudyParticipantCrfTest extends TestCase {
         studyParticipantCrf = new StudyParticipantCrf();
 
         CRF crf = Fixture.createCrf("test", CrfStatus.DRAFT, "1.0");
-        crf.addCrfPge(new CRFPage());
-        crf.addCrfPge(new CRFPage());
+        crf.addCrfPage(new CRFPage());
+        crf.addCrfPage(new CRFPage());
 
         Date d = new Date();
 

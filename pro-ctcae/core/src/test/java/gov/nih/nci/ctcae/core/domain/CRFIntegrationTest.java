@@ -123,7 +123,7 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
     }
 
     public void testSaveCRFWithPage() {
-        crf.addCrfPge(new CRFPage());
+        crf.addCrfPage(new CRFPage());
         saveCrf();
         assertNotNull(crf.getId());
         assertFalse(crf.getCrfPages().isEmpty());

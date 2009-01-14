@@ -254,7 +254,7 @@ public class CRF extends BaseVersionable {
         copiedCrf.setCrfVersion(crfVersion);
         copiedCrf.setStudy(getStudy());
         for (CRFPage crfPage : crfPages) {
-            copiedCrf.addCrfPge(crfPage.getCopy());
+            copiedCrf.addCrfPage(crfPage.getCopy());
         }
 
         return copiedCrf;
@@ -263,7 +263,7 @@ public class CRF extends BaseVersionable {
     }
 
 
-    public void addCrfPge(final CRFPage crfPage) {
+    public void addCrfPage(final CRFPage crfPage) {
         if (crfPage != null) {
             crfPage.setCrf(this);
             crfPages.add(crfPage);
@@ -404,7 +404,7 @@ public class CRF extends BaseVersionable {
 
     public CRFPage addCrfPage() {
         CRFPage crfPage = new CRFPage();
-        addCrfPge(crfPage);
+        addCrfPage(crfPage);
         return crfPage;
 
     }

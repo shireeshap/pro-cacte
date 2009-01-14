@@ -57,7 +57,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
         crfPageItem.setResponseRequired(Boolean.TRUE);
 
         crfPage.addCrfItem(crfPageItem);
-        crf.addCrfPge(crfPage);
+        crf.addCrfPage(crfPage);
 
         ProCtcValidValue proCtcValidValue1 = finderRepository.findById(ProCtcValidValue.class, -1);
         ProCtcValidValue proCtcValidValue2 = finderRepository.findById(ProCtcValidValue.class, -2);
@@ -149,7 +149,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
     public void testSavingNullCrfItem() {
         invalidCrfPageItem = new CrfPageItem();
         crfPage.addCrfItem(invalidCrfPageItem);
-        crf.addCrfPge(crfPage);
+        crf.addCrfPage(crfPage);
         try {
             crfRepository.save(crf);
             fail("Expected DataIntegrityViolationException because title, status and formVersion are null");
@@ -164,7 +164,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
             invalidCrfPageItem.setCrfPage(crfPage);
             invalidCrfPageItem.setDisplayOrder(1);
             crfPage.addCrfItem(invalidCrfPageItem);
-            crf.addCrfPge(crfPage);
+            crf.addCrfPage(crfPage);
             crfRepository.save(crf);
             fail("Expected DataIntegrityViolationException because ProCtcQuestion is null");
         } catch (DataIntegrityViolationException e) {
@@ -178,7 +178,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
             invalidCrfPageItem.setDisplayOrder(null);
             invalidCrfPageItem.setProCtcQuestion(proCtcQuestion);
             crfPage.addCrfItem(invalidCrfPageItem);
-            crf.addCrfPge(crfPage);
+            crf.addCrfPage(crfPage);
 
             crfRepository.save(crf);
             fail("Expected DataIntegrityViolationException because DisplayOrder is null");
