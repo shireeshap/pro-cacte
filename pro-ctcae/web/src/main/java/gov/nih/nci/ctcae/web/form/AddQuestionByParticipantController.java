@@ -51,16 +51,17 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
                         studyParticipantCrfAddedQuestion.setProCtcQuestion(question);
                         studyParticipantCrfAddedQuestion.setPageNumber(pageNumber);
                         studyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+                        genericRepository.save(studyParticipantCrfAddedQuestion);
 
                         StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
                         studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfScheduleAddedQuestion);
+                        genericRepository.save(studyParticipantCrfScheduleAddedQuestion);
 
                     }
                     pageNumber++;
                 }
             }
         }
-        genericRepository.save(studyParticipantCrf);
         request.getSession().setAttribute("review", "y");
         return new ModelAndView(new RedirectView("submit?id=" + ((SubmitFormCommand) command).getStudyParticipantCrfSchedule().getId()));
     }

@@ -155,7 +155,9 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
     public void testPostRequest() throws Exception {
         expect((List<ProCtcQuestion>) finderRepository.find(isA(Query.class))).andReturn(questions);
         EasyMock.expectLastCall().anyTimes();
-        expect(genericRepository.save(isA(StudyParticipantCrf.class))).andReturn(null);
+        expect(genericRepository.save(isA(StudyParticipantCrfAddedQuestion.class))).andReturn(null);
+        EasyMock.expectLastCall().anyTimes();
+        expect(genericRepository.save(isA(StudyParticipantCrfScheduleAddedQuestion.class))).andReturn(null);
         EasyMock.expectLastCall().anyTimes();
         expect(finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId())).andReturn(studyParticipantCrfSchedule);
         EasyMock.expectLastCall().anyTimes();
