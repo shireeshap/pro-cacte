@@ -75,6 +75,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionType.ja
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTerm.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValue.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Race.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RecallPeriod.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyClinicalStaff.java -text

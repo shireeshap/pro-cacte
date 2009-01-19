@@ -62,6 +62,17 @@ public class CRF extends BaseVersionable {
     @ManyToOne
     private Study study;
 
+    @Column(name = "recall_period", nullable = false)
+    private String recallPeriod = RecallPeriod.WEEKLY.getDisplayName();
+
+    public String getRecallPeriod() {
+        return recallPeriod;
+    }
+
+    public void setRecallPeriod(String recallPeriod) {
+        this.recallPeriod = recallPeriod;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
     private Collection<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
 
