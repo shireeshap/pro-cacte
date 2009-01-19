@@ -392,6 +392,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/errors.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowControls.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowSaveButton.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/form.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/form/formSettings.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formatDate.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formbuilderBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formbuilderBoxControls.tag -text

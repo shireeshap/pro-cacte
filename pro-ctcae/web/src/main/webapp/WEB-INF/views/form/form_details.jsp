@@ -1,6 +1,7 @@
 <%-- This is the standard decorator for all caAERS pages --%>
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="crf" tagdir="/WEB-INF/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
@@ -75,15 +76,15 @@ Event.observe(window, "load", function () {
 
 function displayReviewLink() {
 
-    if ($('totalQuestions').value != '0') {
-        $('reviewLink').show();
-        //$('reviewAllLink').show();
-
-    } else {
-        $('reviewLink').hide();
-        //$('reviewAllLink').hide();
-
-    }
+    //    if ($('totalQuestions').value != '0') {
+    //        $('reviewLink').show();
+    //        //$('reviewAllLink').show();
+    //
+    //    } else {
+    //        $('reviewLink').hide();
+    //        //$('reviewAllLink').hide();
+    //
+    //    }
 }
 
 function updateOrderId() {
@@ -112,6 +113,7 @@ function hideProCtcTermFromForm() {
 
     })
 
+
 }
 
 function hideQuestionFromForm(questionId) {
@@ -120,6 +122,10 @@ function hideQuestionFromForm(questionId) {
 }
 function hideProCtcTermLinkFromForm(proCtcTermId) {
     $('proCtcTerm_' + proCtcTermId).hide();
+
+}
+function showProCtcTermLinkFromForm(proCtcTermId) {
+    $('proCtcTerm_' + proCtcTermId).show();
 
 }
 function showQuestionInQuestionBank(questionId) {
@@ -1274,8 +1280,20 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
             <div class="summarylabel"><tags:message code='form.label.study'/></div>
             <div class="summaryvalue">${command.crf.study.displayName}</div>
         </div>
-<a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>
-	<a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;"><img
+    <%--<a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>--%>
+    <c:choose>
+        <c:when test="${advance}"> <a id="basicMode" href="javascript:reviewForm()">Switch to Basic Form Builder</a>
+        </c:when>
+        <c:otherwise>
+            <a id="basicMode" href="javascript:reviewForm()">Switch to Advance Form Builder</a>
+
+        </c:otherwise>
+    </c:choose>
+    <c:if test="${advance}">
+
+    </c:if>
+
+    <a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;"><img
             src="<tags:imageUrl name="blue/maximize-right.png" />" style="float:left" alt="Maximize"/></a>
 	<a id="expandFormUrl" href="javascript:expandForm()" style="display:none;" style="float:right;"><img
             src="<tags:imageUrl name="blue/maximize-left.png" />" alt="Maximize"/></a>
@@ -1313,9 +1331,12 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
                         <br>
 
                         <div id="questionBank" class="leftBox">
-                            <a id="newPageBtn" href="javascript:addCrfPage()"><img
-                                    src="<tags:imageUrl name="blue/new_page_button.png" />" alt="New Page"/></a>
+                            <c:if test="${advance}">
+                                <a id="newPageBtn" href="javascript:addCrfPage()"><img
+                                        src="<tags:imageUrl name="blue/new_page_button.png" />"
+                                        alt="New Page"/></a></c:if>
                             <ul class="tree">
+                                <c:set var="add" value="${advance}"/>
                                 <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
                                     <li>${ctcCategory.key.name}
@@ -1334,7 +1355,7 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
 
                                                             <li id="question_${proCtcQuestion.id}">
                                                                 <tags:formbuilderBox>
-                                                                    <tags:formbuilderBoxControls add="true"
+                                                                    <tags:formbuilderBoxControls add="${add}"
                                                                                                  proCtcQuestionId="${proCtcQuestion.id}"
                                                                                                  proCtctermId="${proCtcTerm.id}"/>
                                                                     ${proCtcQuestion.formattedQuestionText}
@@ -1363,8 +1384,7 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
 
                         <div id="questionProperties0" style="display:none;"></div>
                         <div id="formSettings" style="display:none;">
-                            <tags:renderTextArea propertyName="crf.description"
-                                                 displayName="form.label.description" cols="35"/>
+                            <crf:formSettings crf="${command.crf}"></crf:formSettings>
                         </div>
                     </td>
                     <td id="right">

@@ -55,6 +55,7 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
         //map.put("totalQuestions", command.getCRF().getCrf().getCrfItemsSortedByDislayOrder().size());
         map.put("responseRequired", ListValues.getResponseRequired());
         map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
+        map.put("recallPeriods", ListValues.getRecallPeriods());
         map.put("selectedCrfPageItems", command.getCrf().getAllCrfPageItems());
 
         return map;

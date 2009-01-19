@@ -109,6 +109,17 @@ public class ListValues {
         return valuesList;
     }
 
+    public static List<ListValues> getRecallPeriods() {
+        List<ListValues> valuesList = new ArrayList<ListValues>();
+
+        for (RecallPeriod recallPeriod : RecallPeriod.values()) {
+            valuesList.add(new ListValues(recallPeriod.getDisplayName(), recallPeriod.getDisplayName()));
+        }
+
+
+        return valuesList;
+    }
+
 
     public static List<ListValues> getStudySites(ArrayList<Organization> organizations) {
         List<ListValues> valuesList = new ArrayList<ListValues>();
