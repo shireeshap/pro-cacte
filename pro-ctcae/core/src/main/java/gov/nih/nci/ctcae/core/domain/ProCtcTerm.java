@@ -14,139 +14,115 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "pro_ctc_terms")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_terms_id")})
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {
+    @Parameter(name = "sequence", value = "seq_pro_ctc_terms_id")})
 public class ProCtcTerm extends BasePersistable {
 
-	@Id
-	@GeneratedValue(generator = "id-generator")
-	@Column(name = "id")
-	private Integer id;
+    @Id
+    @GeneratedValue(generator = "id-generator")
+    @Column(name = "id")
+    private Integer id;
 
-	@Column(name = "term", nullable = false)
-	private String term;
+    @Column(name = "term", nullable = false)
+    private String term;
 
-	@JoinColumn(name = "category_id", referencedColumnName = "id")
-	@ManyToOne
-	private CtcCategory category;
 
-	@Column(name = "select_ae")
-	private String select;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcTerm")
+    private Collection<ProCtcQuestion> proCtcQuestions = new ArrayList<ProCtcQuestion>();
 
-	@Column(name = "ctep_term")
-	private String ctepTerm;
+    @JoinColumn(name = "pro_ctc_id", referencedColumnName = "id")
+    @ManyToOne
+    private ProCtc proCtc;
 
-	@Column(name = "ctep_code")
-	private String ctepCode;
+    @JoinColumn(name = "ctc_term_id", referencedColumnName = "id")
+    @ManyToOne
+    private CtcTerm ctcTerm;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcTerm")
-	private Collection<ProCtcQuestion> proCtcQuestions = new ArrayList<ProCtcQuestion>();
+    public ProCtcTerm() {
+    }
 
-	@JoinColumn(name = "pro_ctc_id", referencedColumnName = "id")
-	@ManyToOne
-	private ProCtc proCtc;
+    public ProCtcTerm(Integer id) {
+        this.id = id;
+    }
 
-	public ProCtcTerm() {
-	}
+    public ProCtcTerm(Integer id, String term) {
+        this.id = id;
+        this.term = term;
+    }
 
-	public ProCtcTerm(Integer id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public ProCtcTerm(Integer id, String term) {
-		this.id = id;
-		this.term = term;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public String getTerm() {
+        return term;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setTerm(String term) {
+        this.term = term;
+    }
 
-	public String getTerm() {
-		return term;
-	}
 
-	public void setTerm(String term) {
-		this.term = term;
-	}
+    public Collection<ProCtcQuestion> getProCtcQuestions() {
+        return proCtcQuestions;
+    }
 
-	public String getSelect() {
-		return select;
-	}
+    public ProCtc getProCtc() {
+        return proCtc;
+    }
 
-	public void setSelect(String select) {
-		this.select = select;
-	}
+    public void setProCtc(ProCtc proCtc) {
+        this.proCtc = proCtc;
+    }
 
-	public String getCtepTerm() {
-		return ctepTerm;
-	}
 
-	public void setCtepTerm(String ctepTerm) {
-		this.ctepTerm = ctepTerm;
-	}
+    public void addProCtcQuestion(ProCtcQuestion proCtcQuestion) {
+        if (proCtcQuestion != null) {
+            proCtcQuestion.setProCtcTerm(this);
+            proCtcQuestions.add(proCtcQuestion);
+        }
+    }
 
-	public String getCtepCode() {
-		return ctepCode;
-	}
 
-	public void setCtepCode(String ctepCode) {
-		this.ctepCode = ctepCode;
-	}
+    @Override
+    public String toString() {
+        return term;
+    }
 
-	public Collection<ProCtcQuestion> getProCtcQuestions() {
-		return proCtcQuestions;
-	}
+    public CtcTerm getCtcTerm() {
+        return ctcTerm;
+    }
 
-	public ProCtc getProCtc() {
-		return proCtc;
-	}
+    public void setCtcTerm(CtcTerm ctcTerm) {
+        this.ctcTerm = ctcTerm;
+    }
 
-	public void setProCtc(ProCtc proCtc) {
-		this.proCtc = proCtc;
-	}
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProCtcTerm)) return false;
 
-	public CtcCategory getCategory() {
-		return category;
-	}
+        ProCtcTerm that = (ProCtcTerm) o;
 
-	public void setCategory(CtcCategory category) {
-		this.category = category;
-	}
+        if (ctcTerm != null ? !ctcTerm.equals(that.ctcTerm) : that.ctcTerm != null) return false;
+        if (proCtc != null ? !proCtc.equals(that.proCtc) : that.proCtc != null) return false;
+        if (proCtcQuestions != null ? !proCtcQuestions.equals(that.proCtcQuestions) : that.proCtcQuestions != null)
+            return false;
+        if (term != null ? !term.equals(that.term) : that.term != null) return false;
 
-	@Override
-	public boolean equals(final Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+        return true;
+    }
 
-		final ProCtcTerm that = (ProCtcTerm) o;
-
-		if (category != null ? !category.equals(that.category) : that.category != null) return false;
-		if (ctepCode != null ? !ctepCode.equals(that.ctepCode) : that.ctepCode != null) return false;
-		if (ctepTerm != null ? !ctepTerm.equals(that.ctepTerm) : that.ctepTerm != null) return false;
-		if (proCtc != null ? !proCtc.equals(that.proCtc) : that.proCtc != null) return false;
-		if (select != null ? !select.equals(that.select) : that.select != null) return false;
-		if (term != null ? !term.equals(that.term) : that.term != null) return false;
-
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = term != null ? term.hashCode() : 0;
-		result = 31 * result + (category != null ? category.hashCode() : 0);
-		result = 31 * result + (select != null ? select.hashCode() : 0);
-		result = 31 * result + (ctepTerm != null ? ctepTerm.hashCode() : 0);
-		result = 31 * result + (ctepCode != null ? ctepCode.hashCode() : 0);
-		result = 31 * result + (proCtc != null ? proCtc.hashCode() : 0);
-		return result;
-	}
-
-	@Override
-	public String toString() {
-		return term;
-	}
+    public int hashCode() {
+        int result;
+        result = (id != null ? id.hashCode() : 0);
+        result = 31 * result + (term != null ? term.hashCode() : 0);
+        result = 31 * result + (proCtcQuestions != null ? proCtcQuestions.hashCode() : 0);
+        result = 31 * result + (proCtc != null ? proCtc.hashCode() : 0);
+        result = 31 * result + (ctcTerm != null ? ctcTerm.hashCode() : 0);
+        return result;
+    }
 }

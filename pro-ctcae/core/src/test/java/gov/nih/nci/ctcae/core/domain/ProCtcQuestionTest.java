@@ -26,7 +26,8 @@ public class ProCtcQuestionTest extends TestCase {
 		assertTrue(StringUtils.isBlank(proCtcQuestion.getFormattedQuestionText()));
 		proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.FREQUENCY);
 		ProCtcTerm term = new ProCtcTerm();
-		term.setCtepTerm("Pain");
+        term.setCtcTerm(new CtcTerm());
+        term.getCtcTerm().setCtepTerm("Pain");
 		proCtcQuestion.setProCtcTerm(term);
 
 		assertEquals("Over the past week, how OFTEN did you have Pain", proCtcQuestion.getFormattedQuestionText());

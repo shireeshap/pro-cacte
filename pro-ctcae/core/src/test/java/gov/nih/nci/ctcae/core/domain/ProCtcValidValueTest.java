@@ -16,16 +16,13 @@ public class ProCtcValidValueTest extends TestCase {
 
 	public void testGetterAndSetter() {
 		proCtcValidValue = new ProCtcValidValue();
-		proCtcValidValue.setDisplayName("Severe");
 		proCtcValidValue.setValue(1);
 
-		assertEquals("Severe", proCtcValidValue.getDisplayName());
 		assertEquals(Integer.valueOf(1), proCtcValidValue.getValue());
 	}
 
 	public void tesToString() {
 		proCtcValidValue = new ProCtcValidValue();
-		proCtcValidValue.setDisplayName("Severe");
 		proCtcValidValue.setValue(1);
 
 		assertEquals("1", proCtcValidValue.toString());
@@ -41,13 +38,6 @@ public class ProCtcValidValueTest extends TestCase {
 		anotherProCtcValidValue = new ProCtcValidValue();
 		assertEquals(anotherProCtcValidValue, proCtcValidValue);
 		assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
-
-		proCtcValidValue.setDisplayName("Severe");
-		assertFalse(proCtcValidValue.equals(anotherProCtcValidValue));
-
-		anotherProCtcValidValue.setDisplayName("Severe");
-		assertEquals(anotherProCtcValidValue.hashCode(), proCtcValidValue.hashCode());
-		assertEquals(anotherProCtcValidValue, proCtcValidValue);
 
 		proCtcValidValue.setValue(1);
 		assertFalse(proCtcValidValue.equals(anotherProCtcValidValue));

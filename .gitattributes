@@ -49,6 +49,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/008_add_organizations_6.gro
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/009_add_organizations_7.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/010_add_organizations_8.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/011_drop_duplicate_organization.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/012_create_ctc.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
@@ -59,7 +60,9 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItemAllignment.jav
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfPageItem.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfPageItemDisplayRule.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfStatus.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Ctc.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcCategory.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcTerm.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DisplayOrderComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Ethnicity.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Gender.java -text
@@ -158,6 +161,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemTest.java -tex
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfPageItemDisplayRuleTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfStatusTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CtcCategoryTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CtcTermTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/EthnicityEnumTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/GenderTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/OrganizationIntegrationTest.java -text

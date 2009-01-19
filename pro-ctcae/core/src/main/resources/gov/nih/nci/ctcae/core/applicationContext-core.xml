@@ -20,6 +20,7 @@
                 <value>gov.nih.nci.ctcae.core.domain.Organization</value>
                 <value>gov.nih.nci.ctcae.core.domain.ClinicalStaff</value>
                 <value>gov.nih.nci.ctcae.core.domain.CRF</value>
+                <value>gov.nih.nci.ctcae.core.domain.Ctc</value>
                 <value>gov.nih.nci.ctcae.core.domain.CRFPage</value>
                 <value>gov.nih.nci.ctcae.core.domain.CrfPageItem</value>
                 <value>gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule</value>
@@ -29,6 +30,7 @@
                 <value>gov.nih.nci.ctcae.core.domain.ProCtc</value>
                 <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestion</value>
                 <value>gov.nih.nci.ctcae.core.domain.ProCtcTerm</value>
+                <value>gov.nih.nci.ctcae.core.domain.CtcTerm</value>
                 <value>gov.nih.nci.ctcae.core.domain.ProCtcValidValue</value>
                 <value>gov.nih.nci.ctcae.core.domain.SiteClinicalStaff</value>
                 <value>gov.nih.nci.ctcae.core.domain.Study</value>
@@ -87,6 +89,7 @@
                 <value>gov.nih.nci.ctcae.core.domain.Organization</value>
                 <value>gov.nih.nci.ctcae.core.domain.ClinicalStaff</value>
                 <value>gov.nih.nci.ctcae.core.domain.CRF</value>
+                <value>gov.nih.nci.ctcae.core.domain.Ctc</value>                
                 <value>gov.nih.nci.ctcae.core.domain.CRFPage</value>
                 <value>gov.nih.nci.ctcae.core.domain.CrfPageItem</value>
                 <value>gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule</value>
@@ -96,6 +99,7 @@
                 <value>gov.nih.nci.ctcae.core.domain.ProCtc</value>
                 <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestion</value>
                 <value>gov.nih.nci.ctcae.core.domain.ProCtcTerm</value>
+                <value>gov.nih.nci.ctcae.core.domain.CtcTerm</value>              
                 <value>gov.nih.nci.ctcae.core.domain.ProCtcValidValue</value>
                 <value>gov.nih.nci.ctcae.core.domain.SiteClinicalStaff</value>
                 <value>gov.nih.nci.ctcae.core.domain.Study</value>

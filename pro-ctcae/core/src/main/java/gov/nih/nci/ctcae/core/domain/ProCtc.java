@@ -75,37 +75,39 @@ public class ProCtc extends BasePersistable {
 		return proCtcTerms;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+    public void addProCtcTerm(ProCtcTerm proCtcTerm){
+        if(proCtcTerm != null){
+            proCtcTerm.setProCtc(this);
+            proCtcTerms.add(proCtcTerm);
+        }
+    }
 
-		ProCtc proCtc = (ProCtc) o;
-
-		if (proCtcVersion != null ? !proCtcVersion.equals(proCtc.proCtcVersion)
-			: proCtc.proCtcVersion != null)
-			return false;
-		if (releaseDate != null ? !releaseDate.equals(proCtc.releaseDate)
-			: proCtc.releaseDate != null)
-			return false;
-
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int result;
-		result = (proCtcVersion != null ? proCtcVersion.hashCode() : 0);
-		result = 31 * result
-			+ (releaseDate != null ? releaseDate.hashCode() : 0);
-		return result;
-	}
 
 	@Override
 	public String toString() {
 		return "Version: " + proCtcVersion + ", Released: " + releaseDate;
 	}
 
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProCtc)) return false;
+
+        ProCtc proCtc = (ProCtc) o;
+
+        if (proCtcTerms != null ? !proCtcTerms.equals(proCtc.proCtcTerms) : proCtc.proCtcTerms != null) return false;
+        if (proCtcVersion != null ? !proCtcVersion.equals(proCtc.proCtcVersion) : proCtc.proCtcVersion != null)
+            return false;
+        if (releaseDate != null ? !releaseDate.equals(proCtc.releaseDate) : proCtc.releaseDate != null) return false;
+
+        return true;
+    }
+
+    public int hashCode() {
+        int result;
+        result = (id != null ? id.hashCode() : 0);
+        result = 31 * result + (proCtcVersion != null ? proCtcVersion.hashCode() : 0);
+        result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
+        result = 31 * result + (proCtcTerms != null ? proCtcTerms.hashCode() : 0);
+        return result;
+    }
 }

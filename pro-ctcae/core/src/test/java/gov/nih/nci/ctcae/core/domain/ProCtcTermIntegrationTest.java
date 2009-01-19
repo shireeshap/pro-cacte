@@ -50,9 +50,9 @@ public class ProCtcTermIntegrationTest extends AbstractHibernateIntegrationTestC
 		ProCtcTerm firstProProCtcTerm = ctcTerms.iterator().next();
 
 		proProCtcTerm = proCtcTermRepository.findById(firstProProCtcTerm.getId());
-		assertEquals(proProCtcTerm.getCtepCode(), firstProProCtcTerm.getCtepCode());
-		assertEquals(proProCtcTerm.getCtepTerm(), firstProProCtcTerm.getCtepTerm());
-		assertEquals(proProCtcTerm.getSelect(), firstProProCtcTerm.getSelect());
+		assertEquals(proProCtcTerm.getCtcTerm().getCtepCode(), firstProProCtcTerm.getCtcTerm().getCtepCode());
+		assertEquals(proProCtcTerm.getCtcTerm().getCtepTerm(), firstProProCtcTerm.getCtcTerm().getCtepTerm());
+		assertEquals(proProCtcTerm.getCtcTerm().getSelect(), firstProProCtcTerm.getCtcTerm().getSelect());
 		assertEquals(proProCtcTerm.getTerm(), firstProProCtcTerm.getTerm());
 		assertEquals(proProCtcTerm, firstProProCtcTerm);
 	}

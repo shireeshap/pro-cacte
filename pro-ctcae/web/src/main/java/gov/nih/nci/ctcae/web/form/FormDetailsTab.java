@@ -36,7 +36,7 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
         Map<CtcCategory, List<ProCtcTerm>> ctcCategoryMap = new HashMap<CtcCategory, List<ProCtcTerm>>();
 
         for (ProCtcTerm proCtcTerm : proCtcTerms) {
-            CollectionUtils.putInMappedList(ctcCategoryMap, proCtcTerm.getCategory(), proCtcTerm);
+            CollectionUtils.putInMappedList(ctcCategoryMap, proCtcTerm.getCtcTerm().getCategory(), proCtcTerm);
 
         }
 
