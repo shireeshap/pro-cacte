@@ -108,10 +108,10 @@ function hideQuestionsFromForm() {
 
 }
 function hideProCtcTermFromForm() {
-    $$("div.selectedProCtcTerm").each(function (item) {
-        hideProCtcTermLinkFromForm(item.id);
-
-    })
+    //    $$("div.selectedProCtcTerm").each(function (item) {
+    //        hideProCtcTermLinkFromForm(item.id);
+    //
+    //    })
 
 
 }
@@ -176,9 +176,12 @@ function addCrfPageItem(questionId, proCtcTermId) {
 
 
 function selectPage(pageIndex) {
+
+<c:if test="${command.advance}">
     unselectAllSelectedPage();
     $('form-pages_' + pageIndex).addClassName('formpagesselected')
     $('form-pages-image_' + pageIndex).show();
+</c:if>
 }
 function unselectAllSelectedPage() {
     $$('div.formpagesselected').each(function(item) {
@@ -563,6 +566,7 @@ function hideFormSettings() {
     }
     function sortQuestions() {
 
+    <c:if test="${command.advance}">
         var formPages = $$('div.formpages');
         var sortableDivs = [];
         formPages.each(function(item) {
@@ -600,7 +604,7 @@ function hideFormSettings() {
         }
                 )
 
-
+    </c:if>
     }
     function updateConditions() {
         var request = new Ajax.Request("<c:url value="/pages/form/allConditions"/>", {
@@ -1011,27 +1015,36 @@ function deleteQuestion(questionId) {
 function deleteQuestionConfirm(questionId) {
     closeWindow();
 
-    var conditions = $$('tr.conditionalTriggering_' + questionId);
-    if (conditions.length > 0) {
-        conditions.each(function(item) {
-            item.remove();
-        })
-        deleteConditionsOfConditionalTriggeredQuestion(questionId)
+    var request = new Ajax.Request("<c:url value="/pages/form/removeCrfPageItem"/>", {
+        parameters:"questionId=" + questionId + "&subview=subview" ,
+        onComplete:function (transport) {
 
-    }
-    $$('optgroup.conditions').each(function(item) {
-        if (item.id == 'condition_' + questionId) {
-            item.remove();
-        }
+            var conditions = $$('tr.conditionalTriggering_' + questionId);
+            if (conditions.length > 0) {
+                conditions.each(function(item) {
+                    item.remove();
+                })
+                deleteConditionsOfConditionalTriggeredQuestion(questionId)
+
+            }
+            $$('optgroup.conditions').each(function(item) {
+                if (item.id == 'condition_' + questionId) {
+                    item.remove();
+                }
+            })
+            $('sortable_' + questionId).remove();
+            $('questionProperties_' + questionId).remove();
+
+            sortQuestions();
+            updateQuestionsId();
+            updateOrderId();
+            postProcessFormChanges();
+            showQuestionInQuestionBank(questionId);
+
+
+        },
+        method:'get'
     })
-    $('sortable_' + questionId).remove();
-    $('questionProperties_' + questionId).remove();
-
-    sortQuestions();
-    updateQuestionsId();
-    updateOrderId();
-    postProcessFormChanges();
-    showQuestionInQuestionBank(questionId);
 
 
 }
@@ -1432,7 +1445,8 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
                                         <c:forEach items="${command.crf.crfPages}" var="selectedCrfPage"
                                                    varStatus="status">
                                             <tags:oneCrfPage crfPage="${selectedCrfPage}"
-                                                             crfPageNumber="${status.index}">
+                                                             crfPageNumber="${status.index}"
+                                                             advance="${command.advance}">
                                             </tags:oneCrfPage>
 
                                         </c:forEach>

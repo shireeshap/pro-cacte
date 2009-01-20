@@ -21,6 +21,7 @@ public abstract class AbstractCrfController extends AbstractController {
     public Map<String, Object> referenceData(CreateFormCommand command) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("responseRequired", ListValues.getResponseRequired());
+        map.put("advance", command.getAdvance());
         map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
         map.put("selectedCrfPageItems", command.getCrf().getAllCrfPageItems());
 

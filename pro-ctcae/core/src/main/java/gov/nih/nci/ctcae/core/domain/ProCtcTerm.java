@@ -118,7 +118,7 @@ public class ProCtcTerm extends BasePersistable {
 
     public int hashCode() {
         int result;
-        result = (id != null ? id.hashCode() : 0);
+        result = (term != null ? term.hashCode() : 0);
         result = 31 * result + (term != null ? term.hashCode() : 0);
 //        result = 31 * result + (proCtcQuestions != null ? proCtcQuestions.hashCode() : 0);
         result = 31 * result + (proCtc != null ? proCtc.hashCode() : 0);

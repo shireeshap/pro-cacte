@@ -66,7 +66,7 @@ public class ProCtcTest extends TestCase {
 
     }
 
-    public void testEqualsAndHashCodeMustMNotConsiderProCtcTerm() {
+    public void testEqualsAndHashCodeMustNotConsiderProCtcTerm() {
         ProCtc anotherProCtc = new ProCtc();
 
         proCtc = new ProCtc();

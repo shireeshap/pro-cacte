@@ -76,8 +76,7 @@ public class ProCtcValidValue extends BasePersistable {
 
     public int hashCode() {
         int result;
-        result = (id != null ? id.hashCode() : 0);
-        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = (value != null ? value.hashCode() : 0);
         result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
         return result;
     }

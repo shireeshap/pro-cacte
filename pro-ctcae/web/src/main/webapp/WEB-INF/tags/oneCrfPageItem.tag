@@ -1,4 +1,6 @@
 <%@ attribute name="index" required="true" %>
+<%@ attribute name="advance" type="java.lang.Boolean" required="true" %>
+
 <%@ attribute name="crfPageItem" type="gov.nih.nci.ctcae.core.domain.CrfPageItem" required="true" %>
 <%@ attribute name="crfPageNumber" required="true" %>
 
@@ -19,7 +21,8 @@
 <div class="sortable makeDraggable" id="sortable_${crfPageItem.proCtcQuestion.id}"
      onclick="javascript:showCrfItemPropertiesTab(${crfPageItem.proCtcQuestion.id})">
 
-    <tags:formbuilderBoxControls delete="true" properties="true" proCtcQuestionId="${crfPageItem.proCtcQuestion.id}"/>
+    <tags:formbuilderBoxControls delete="true" properties="${advance}"
+                                 proCtcQuestionId="${crfPageItem.proCtcQuestion.id}"/>
     <table class="formbuilderboxTable">
         <tr>
             <td class="TL"></td>

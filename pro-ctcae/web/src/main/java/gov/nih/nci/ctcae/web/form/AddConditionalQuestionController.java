@@ -45,15 +45,15 @@ public class AddConditionalQuestionController extends AbstractController {
 
         String[] selectedValidValuesIds = StringUtils.commaDelimitedListToStringArray(request.getParameter("selectedValidValues"));
 
-        List<CrfPageItemDisplayRule> crfPageItemDisplayRuleList = new ArrayList<CrfPageItemDisplayRule>();
+        List<ProCtcValidValue> proCtcValidValues = new ArrayList<ProCtcValidValue>();
         for (String id : selectedValidValuesIds) {
             ProCtcValidValue proCtcValidValue = finderRepository.findById(ProCtcValidValue.class, Integer.valueOf(id));
             CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();
             crfPageItemDisplayRule.setProCtcValidValue(proCtcValidValue);
-            crfPageItemDisplayRuleList.add(crfPageItemDisplayRule);
+            proCtcValidValues.add(proCtcValidValue);
 
         }
-        List<CrfPageItemDisplayRule> addedCrfPageItemDisplayRules = crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRuleList);
+        List<CrfPageItemDisplayRule> addedCrfPageItemDisplayRules = crfPageItem.addCrfPageItemDisplayRules(proCtcValidValues);
 
         modelAndView.addObject("crfPageItemDisplayRules", addedCrfPageItemDisplayRules);
         modelAndView.addObject("selectedQuestionId", questionId);

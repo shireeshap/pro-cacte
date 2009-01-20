@@ -653,6 +653,7 @@ public class CreateFormCommandTest extends WebTestCase {
 
         List<CrfPageItem> crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
         assertEquals("must have 4 crf page items", 4, crfPageItems.size());
+        validateCrfPageAndCrfPageItemOrder(crf);
 
 
     }
@@ -684,6 +685,7 @@ public class CreateFormCommandTest extends WebTestCase {
         assertEquals("must not add any crf page items", 4, crfPageItems.size());
         assertEquals("must not remove existing crf page items", crfPageItem, crfPageItems.get(0));
 
+        validateCrfPageAndCrfPageItemOrder(crf);
 
     }
 
@@ -705,7 +707,9 @@ public class CreateFormCommandTest extends WebTestCase {
         crfPageItem.setResponseRequired(Boolean.TRUE);
 
         //now remove this crf page item;
-        crfPageItems.remove(0);
+
+        crf.removeCrfPageItemByQuestion(firstQuestion);
+        crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
         assertEquals("must have 3 crf page items", 3, crfPageItems.size());
 
         //now add pro cterm again
@@ -718,6 +722,7 @@ public class CreateFormCommandTest extends WebTestCase {
         crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
         assertEquals("must  add one crf page items", 4, crfPageItems.size());
         assertFalse("must  add a new empty crf page items", crfPageItem.equals(crfPageItems.get(0)));
+        validateCrfPageAndCrfPageItemOrder(crf);
 
 
     }

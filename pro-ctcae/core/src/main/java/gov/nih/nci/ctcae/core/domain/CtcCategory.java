@@ -15,34 +15,33 @@ import javax.persistence.*;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_ctc_categories_id")})
 public class CtcCategory extends BasePersistable {
 
-	@Column(name = "name")
-	private String name;
+    @Column(name = "name")
+    private String name;
 
-	@Id
-	@GeneratedValue(generator = "id-generator")
-	@Column(name = "id")
-	private Integer id;
+    @Id
+    @GeneratedValue(generator = "id-generator")
+    @Column(name = "id")
+    private Integer id;
 
     @JoinColumn(name = "version_id", referencedColumnName = "id")
     @ManyToOne
     private Ctc ctc;
 
     public Integer getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
+    public void setName(String name) {
+        this.name = name;
+    }
 
 
     public Ctc getCtc() {
@@ -68,7 +67,6 @@ public class CtcCategory extends BasePersistable {
     public int hashCode() {
         int result;
         result = (name != null ? name.hashCode() : 0);
-        result = 31 * result + (id != null ? id.hashCode() : 0);
         result = 31 * result + (ctc != null ? ctc.hashCode() : 0);
         return result;
     }

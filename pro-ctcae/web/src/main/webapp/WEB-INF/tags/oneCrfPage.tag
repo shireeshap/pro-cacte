@@ -1,3 +1,4 @@
+<%@ attribute name="advance" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="crfPage" type="gov.nih.nci.ctcae.core.domain.CRFPage" required="true" %>
 
 
@@ -57,7 +58,7 @@
         <c:forEach items="${crfPage.crfItemsSortedByDislayOrder}" var="selectedCrfPageItem"
                    varStatus="status">
             <tags:oneCrfPageItem crfPageItem="${selectedCrfPageItem}"
-                                 index="${status.index}" crfPageNumber="${crfPageNumber}"/>
+                                 index="${status.index}" crfPageNumber="${crfPageNumber}" advance="${advance}"/>
 
         </c:forEach>
     </div>
