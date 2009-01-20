@@ -1,7 +1,10 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,23 +15,75 @@ import org.springframework.web.servlet.view.RedirectView;
  * @author Vinay Kumar
  * @crated Dec 18, 2008
  */
-public class AddOneProCtcTermControllerTest extends WebTestCase {
+public class AddCrfComponentControllerTest extends WebTestCase {
 
-    private AddOneProCtcTermController controller;
+    private AddCrfComponentController controller;
 
     private ProCtcTermRepository proCtcTermRepository;
     private ProCtcTerm proCtcTerm;
     private CreateFormCommand command;
+    private ProCtcQuestion firstQuestion;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        controller = new AddOneProCtcTermController();
+        controller = new AddCrfComponentController();
         proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
         controller.setProCtcTermRepository(proCtcTermRepository);
         proCtcTerm = new ProCtcTerm();
         command = new CreateFormCommand();
 
+        firstQuestion = new ProCtcQuestion();
+        firstQuestion.setId(11);
+        firstQuestion.setQuestionText("sample question1");
+
+        proCtcTerm.addProCtcQuestion(firstQuestion);
+    }
+
+    public void testAddProCtcTermForBasicMode() throws Exception {
+
+        command.setAdvance(Boolean.FALSE);
+        request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
+
+        request.addParameter("proCtcTermId", new String[]{"1"});
+        request.addParameter("componentType", new String[]{AddCrfComponentController.PRO_CTC_TERM_COMPONENT});
+        expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
+        replayMocks();
+        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
+        verifyMocks();
+
+        assertEquals("must return view for new crf page", "form/ajax/oneCrfPageSection", modelAndView.getViewName());
+        assertNotNull("must return crf page", modelAndView.getModel().get("crfPage"));
+
+        CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+
+        CRF crf = createFormCommand.getCrf();
+        assertFalse("must add crf page", crf.getCrfPages().isEmpty());
+        assertEquals("must add only one page", 1, crf.getCrfPages().size());
+
+
+    }
+
+    public void testAddProCtcTermAgainForBasicMode() throws Exception {
+
+        command.setAdvance(Boolean.FALSE);
+        request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
+
+        request.addParameter("proCtcTermId", new String[]{"1"});
+        request.addParameter("componentType", new String[]{AddCrfComponentController.PRO_CTC_TERM_COMPONENT});
+        expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
+        replayMocks();
+        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
+        verifyMocks();
+        resetMocks();
+
+        expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
+        replayMocks();
+        modelAndView = controller.handleRequestInternal(request, response);
+        verifyMocks();
+
+        assertEquals("must return view for new pro ctc term", "form/ajax/oneProCtcTermSection", modelAndView.getViewName());
+        assertNotNull("must return crf page items", modelAndView.getModel().get("crfPageItems"));
 
     }
 

@@ -46,9 +46,9 @@ public class CreateFormCommand implements Serializable {
 
     public void updateCrfItems(FinderRepository finderRepository) {
 
-
-        addOrUpdateQuestions(finderRepository);
-
+        if (advance) {
+            addOrUpdateQuestions(finderRepository);
+        }
 
     }
 
@@ -181,9 +181,15 @@ public class CreateFormCommand implements Serializable {
 
     }
 
-    public CRFPage addCrfPage(ProCtcTerm proCtcTerm) {
-        CRFPage crfPage = crf.addCrfPage(proCtcTerm);
-        return crfPage;
+    public Object addProCtcTerm(ProCtcTerm proCtcTerm) {
+        if (advance) {
+            CRFPage crfPage = crf.addCrfPage(proCtcTerm);///FIXME:SAURABH -- this will not work...
+            return crfPage;
+        } else {
+
+            Object object = crf.addProCtcTerm(proCtcTerm);
+            return object;
+        }
 
     }
 }

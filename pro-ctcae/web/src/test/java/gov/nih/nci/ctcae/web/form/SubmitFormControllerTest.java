@@ -1,21 +1,19 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.Fixture;
 import org.easymock.EasyMock;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
-import java.util.Date;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Harsh Agarwal
@@ -100,7 +98,7 @@ public class SubmitFormControllerTest extends WebTestCase {
         StudyParticipantCrfItem studyParticipantCrfItem1 = new StudyParticipantCrfItem();
         studyParticipantCrfItem1.setCrfPageItem(item1);
         ProCtcValidValue proCtcValidValue2 = new ProCtcValidValue();
-        proCtcValidValue2.setValue(0);
+        proCtcValidValue2.setValue("value0");
         studyParticipantCrfItem1.setProCtcValidValue(proCtcValidValue2);
 
         StudyParticipantCrfItem studyParticipantCrfItem2 = new StudyParticipantCrfItem();
@@ -257,7 +255,6 @@ public class SubmitFormControllerTest extends WebTestCase {
         assertEquals(controller.getSuccessView(), modelAndView.getViewName());
         assertEquals(CrfStatus.COMPLETED, command.getStudyParticipantCrfSchedule().getStatus());
         assertEquals("You have successfully submitted the form.", command.getFlashMessage());
-
 
 
         verifyMocks();

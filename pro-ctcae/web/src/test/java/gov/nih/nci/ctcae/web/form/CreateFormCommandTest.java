@@ -8,6 +8,8 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
+import java.util.List;
+
 /**
  * @author Vinay Kumar
  * @crated Nov 4, 2008
@@ -17,7 +19,7 @@ public class CreateFormCommandTest extends WebTestCase {
     private CreateFormCommand command;
     private ProCtcQuestion firstQuestion, secondQuestion, thirdQuestion, fourthQuestion, fifthQustion;
     private CrfPageItem crfItem1Page, crfItem2Page, crfItem3Page, crfItem4Page;
-
+    private ProCtcTerm proCtcTerm;
     FinderRepository finderRepository;
 
     @Override
@@ -56,6 +58,11 @@ public class CreateFormCommandTest extends WebTestCase {
         fifthQustion.setId(15);
         fifthQustion.setQuestionText("sample question1");
 
+        proCtcTerm = new ProCtcTerm();
+        proCtcTerm.addProCtcQuestion(firstQuestion);
+        proCtcTerm.addProCtcQuestion(secondQuestion);
+        proCtcTerm.addProCtcQuestion(thirdQuestion);
+        proCtcTerm.addProCtcQuestion(fourthQuestion);
 
     }
 
@@ -634,6 +641,84 @@ public class CreateFormCommandTest extends WebTestCase {
         } catch (CtcAeSystemException e) {
 
         }
+
+    }
+
+    public void testAddProCtcTermInBasicMode() {
+
+        command.addProCtcTerm(proCtcTerm);
+        CRF crf = command.getCrf();
+
+        assertEquals("must have 1 pages", 1, crf.getCrfPages().size());
+
+        List<CrfPageItem> crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
+        assertEquals("must have 4 crf page items", 4, crfPageItems.size());
+
+
+    }
+
+    public void testAdddingProCtcTermInBasicModeAgainAfterUpdatingCrfPageItem() {
+
+        command.setAdvance(Boolean.FALSE);
+        command.addProCtcTerm(proCtcTerm);
+        CRF crf = command.getCrf();
+
+        assertEquals("must have 1 pages", 1, crf.getCrfPages().size());
+
+        List<CrfPageItem> crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
+        assertEquals("must have 4 crf page items", 4, crfPageItems.size());
+
+        //now update one crf page item
+        CrfPageItem crfPageItem = crfPageItems.get(0);
+        crfPageItem.setInstructions("inst");
+        crfPageItem.setResponseRequired(Boolean.TRUE);
+
+        //now add pro cterm again
+
+        command.addProCtcTerm(proCtcTerm);
+        crf = command.getCrf();
+
+        assertEquals("must not add any more pages", 1, crf.getCrfPages().size());
+
+        crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
+        assertEquals("must not add any crf page items", 4, crfPageItems.size());
+        assertEquals("must not remove existing crf page items", crfPageItem, crfPageItems.get(0));
+
+
+    }
+
+    public void testAdddingProCtcTermInBasicModeAgainAfterUpdatingAndRemovingCrfPageItem() {
+
+        command.setAdvance(Boolean.FALSE);
+        command.addProCtcTerm(proCtcTerm);
+        CRF crf = command.getCrf();
+
+        assertEquals("must have 1 pages", 1, crf.getCrfPages().size());
+
+        List<CrfPageItem> crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
+        assertEquals("must have 4 crf page items", 4, crfPageItems.size());
+
+
+        //now update one crf page item
+        CrfPageItem crfPageItem = crfPageItems.get(0);
+        crfPageItem.setInstructions("inst");
+        crfPageItem.setResponseRequired(Boolean.TRUE);
+
+        //now remove this crf page item;
+        crfPageItems.remove(0);
+        assertEquals("must have 3 crf page items", 3, crfPageItems.size());
+
+        //now add pro cterm again
+
+        command.addProCtcTerm(proCtcTerm);
+        crf = command.getCrf();
+
+        assertEquals("must not add any more pages", 1, crf.getCrfPages().size());
+
+        crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
+        assertEquals("must  add one crf page items", 4, crfPageItems.size());
+        assertFalse("must  add a new empty crf page items", crfPageItem.equals(crfPageItems.get(0)));
+
 
     }
 

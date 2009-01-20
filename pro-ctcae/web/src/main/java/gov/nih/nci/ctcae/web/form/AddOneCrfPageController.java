@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRFPage;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -25,7 +24,7 @@ public class AddOneCrfPageController extends AbstractCrfController {
 
         CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
-        CRFPage crfPage;
+        CRFPage crfPage = null;
 
         if (!StringUtils.isBlank(request.getParameter("questionId"))) {
             Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
@@ -33,16 +32,17 @@ public class AddOneCrfPageController extends AbstractCrfController {
 
             crfPage = createFormCommand.addCrfPage(proCtcQuestion);
 
-        } else if (!StringUtils.isBlank(request.getParameter("proCtcTermId"))) {
-            Integer proCtcTermId = ServletRequestUtils.getIntParameter(request, "proCtcTermId");
-
-            ProCtcTerm proCtcTerm = proCtcTermRepository.findAndInitializeTerm(proCtcTermId);
-
-            crfPage = createFormCommand.addCrfPage(proCtcTerm);
-
-        } else {
-            crfPage = createFormCommand.addCrfPage();
         }
+//        else if (!StringUtils.isBlank(request.getParameter("proCtcTermId"))) {
+//            Integer proCtcTermId = ServletRequestUtils.getIntParameter(request, "proCtcTermId");
+//
+//            ProCtcTerm proCtcTerm = proCtcTermRepository.findAndInitializeTerm(proCtcTermId);
+//
+//            crfPage = createFormCommand.addCrfPage(proCtcTerm);
+//
+//        } else {
+//            crfPage = createFormCommand.addCrfPage();
+//        }
 
         modelAndView.addObject("crfPage", crfPage);
 

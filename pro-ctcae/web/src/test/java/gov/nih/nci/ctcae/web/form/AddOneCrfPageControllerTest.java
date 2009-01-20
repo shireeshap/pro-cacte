@@ -79,23 +79,6 @@ public class AddOneCrfPageControllerTest extends WebTestCase {
 
     }
 
-    public void testAddProCtcTermForBasicMode() throws Exception {
-        command.setAdvance(Boolean.FALSE);
-        request.getSession().setAttribute(AdvanceFormController.class.getName() + ".FORM." + "command", command);
-
-        request.addParameter("proCtcTermId", new String[]{"1"});
-        expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
-        replayMocks();
-        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
-        verifyMocks();
-
-        CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
-
-        CRF crf = createFormCommand.getCrf();
-        assertFalse("must add crf page", crf.getCrfPages().isEmpty());
-        assertEquals("must add only one page", 1, crf.getCrfPages().size());
-
-    }
 
     public void testHandleRequestIfCrfPageIsNotSelected() throws Exception {
         request.getSession().setAttribute(AdvanceFormController.class.getName() + ".FORM." + "command", command);

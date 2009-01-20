@@ -448,8 +448,8 @@ function hideFormSettings() {
             crfPageNumber = item.id.substr(11, item.id.length);
 
         })
-        var request = new Ajax.Request("<c:url value="/pages/form/addOneProCtcTerm"/>", {
-            parameters:"proCtcTermId=" + proCtcTermId + "&subview=subview&crfPageNumber=" + crfPageNumber,
+        var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
+            parameters:"proCtcTermId=" + proCtcTermId + "&subview=subview&crfPageNumber=" + crfPageNumber + "&componentType=proCtcTerm",
             onComplete:function(transport) {
                 if (crfPageNumber == '') {
                     addCrfPageDiv(transport);

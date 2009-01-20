@@ -433,4 +433,31 @@ public class CRF extends BaseVersionable {
 
 
     }
+
+    public Object addProCtcTerm(ProCtcTerm proCtcTerm) {
+        //first check if pro ctc term exists
+        CRFPage crfPage = getCrfPageByProCtcTerm(proCtcTerm);
+
+        if (crfPage == null) {
+            crfPage = addCrfPage(proCtcTerm);
+            return crfPage;
+        } else {
+
+            List<CrfPageItem> addedCrfPageItems = crfPage.addProCtcTerm(proCtcTerm);
+
+            return addedCrfPageItems;
+        }
+
+    }
+
+    private CRFPage getCrfPageByProCtcTerm(ProCtcTerm proCtcTerm) {
+        for (CRFPage crfPage : getCrfPages()) {
+            if (crfPage.checkIfProCtcTermExists(proCtcTerm)) {
+                return crfPage;
+            }
+        }
+
+        return null;
+
+    }
 }

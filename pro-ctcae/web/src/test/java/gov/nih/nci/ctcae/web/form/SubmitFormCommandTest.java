@@ -1,21 +1,18 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.Fixture;
-import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.verify;
+import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.web.WebTestCase;
 import org.easymock.EasyMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 
-
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Date;
+import java.util.Hashtable;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -95,7 +92,7 @@ public class SubmitFormCommandTest extends WebTestCase {
         StudyParticipantCrfItem studyParticipantCrfItem1 = new StudyParticipantCrfItem();
         studyParticipantCrfItem1.setCrfPageItem(item1);
         ProCtcValidValue proCtcValidValue2 = new ProCtcValidValue();
-        proCtcValidValue2.setValue(0);
+        proCtcValidValue2.setValue("value0");
         studyParticipantCrfItem1.setProCtcValidValue(proCtcValidValue2);
 
         StudyParticipantCrfItem studyParticipantCrfItem2 = new StudyParticipantCrfItem();
@@ -313,7 +310,7 @@ public class SubmitFormCommandTest extends WebTestCase {
 
         assertEquals(9, command.getTotalPages());
         assertEquals(9, command.getCurrentPageIndex());
-        assertEquals(9,studyParticipantCrfAddedQuestion2.getPageNumber().intValue());
+        assertEquals(9, studyParticipantCrfAddedQuestion2.getPageNumber().intValue());
         assertEquals(1, studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size());
 
         studyParticipantCrfSchedule.getStudyParticipantCrf().addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion1);
@@ -330,7 +327,7 @@ public class SubmitFormCommandTest extends WebTestCase {
 
         assertEquals(10, command.getTotalPages());
         assertEquals(10, command.getCurrentPageIndex());
-        assertEquals(10,studyParticipantCrfAddedQuestion2.getPageNumber().intValue());
+        assertEquals(10, studyParticipantCrfAddedQuestion2.getPageNumber().intValue());
         assertEquals(2, studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size());
 
         studyParticipantCrfSchedule.getStudyParticipantCrf().addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion1);
@@ -339,7 +336,7 @@ public class SubmitFormCommandTest extends WebTestCase {
 
         assertEquals(9, command.getTotalPages());
         assertEquals(9, command.getCurrentPageIndex());
-        assertEquals(9,studyParticipantCrfAddedQuestion2.getPageNumber().intValue());
+        assertEquals(9, studyParticipantCrfAddedQuestion2.getPageNumber().intValue());
         assertEquals(1, studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size());
     }
 

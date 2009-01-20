@@ -200,8 +200,8 @@
         <property name="finderRepository" ref="finderRepository"/>
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
     </bean>
-    <bean name="/form/addOneProCtcTerm" id="oneProCtcTermController" parent="abstractCrfController"
-          class="gov.nih.nci.ctcae.web.form.AddOneProCtcTermController">
+    <bean name="/form/addCrfComponent" id="addCrfComponentController" parent="abstractCrfController"
+          class="gov.nih.nci.ctcae.web.form.AddCrfComponentController">
 
     </bean>
 

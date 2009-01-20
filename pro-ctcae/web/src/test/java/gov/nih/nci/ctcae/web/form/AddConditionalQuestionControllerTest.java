@@ -35,9 +35,9 @@ public class AddConditionalQuestionControllerTest extends WebTestCase {
 
         proCtcQuestion = new ProCtcQuestion();
         proCtcValidValue1 = new ProCtcValidValue();
-        proCtcValidValue1.setValue(1);
+        proCtcValidValue1.setValue("value1");
         proCtcValidValue2 = new ProCtcValidValue();
-        proCtcValidValue2.setValue(2);
+        proCtcValidValue2.setValue("value2");
         command.getCrf().addCrfPage(proCtcQuestion);
 
     }
