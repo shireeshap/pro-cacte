@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CRFPage;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
@@ -26,23 +25,20 @@ public class AddOneCrfPageController extends AbstractCrfController {
 
         CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
-
-        CRF crf = createFormCommand.getCrf();
-
-        CRFPage crfPage = null;
+        CRFPage crfPage;
 
         if (!StringUtils.isBlank(request.getParameter("questionId"))) {
             Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
             ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
 
-            crfPage = crf.addCrfPage(proCtcQuestion);
+            crfPage = createFormCommand.addCrfPage(proCtcQuestion);
 
         } else if (!StringUtils.isBlank(request.getParameter("proCtcTermId"))) {
             Integer proCtcTermId = ServletRequestUtils.getIntParameter(request, "proCtcTermId");
 
             ProCtcTerm proCtcTerm = proCtcTermRepository.findAndInitializeTerm(proCtcTermId);
 
-            crfPage = crf.addCrfPage(proCtcTerm);
+            crfPage = createFormCommand.addCrfPage(proCtcTerm);
 
         } else {
             crfPage = createFormCommand.addAnotherPage();

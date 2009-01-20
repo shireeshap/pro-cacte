@@ -37,7 +37,7 @@ public class AllConditionsControllerTest extends WebTestCase {
 
 
     public void testHandleRequest() throws Exception {
-        request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
+        request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
 
         request.addParameter("questionsIds", new String[]{"1,2"});
         replayMocks();

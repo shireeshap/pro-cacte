@@ -6,6 +6,8 @@ import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
+import gov.nih.nci.ctcae.web.ControllersUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +28,16 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     protected static final Integer FORM_DETAILS_PAGE_NUMBER = 1;
 
+    @Override
+    protected int getInitialPage(HttpServletRequest request) {
+        if (!StringUtils.isBlank(request.getParameter("studyId"))) {
+            return FORM_DETAILS_PAGE_NUMBER;
+        }
+        return super.getInitialPage(request);
+
+
+    }
+
     public FormController() {
         setCommandClass(CreateFormCommand.class);
         Flow<CreateFormCommand> flow = new Flow<CreateFormCommand>("Build Form");
@@ -36,6 +48,26 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
         setSessionForm(true);
     }
 
+    @Override
+    protected Object formBackingObject(HttpServletRequest request) throws Exception {
+        CreateFormCommand command = (CreateFormCommand) ControllersUtils.getFormCommand(request, this);
+        if (command == null) {
+            command = new CreateFormCommand();
+
+        }
+////        else {
+////            request.setAttribute("flashMessage", "You were already updating one form. Do you want to  resume it or discard it.");
+////        }
+        //remove this line
+        command = new CreateFormCommand();
+        if (!StringUtils.isBlank(request.getParameter("studyId"))) {
+            command.getCrf().setStudy(studyRepository.findById(Integer.parseInt(request.getParameter("studyId"))));
+        }
+        command.setAdvance(Boolean.FALSE);
+        return command;
+
+
+    }
 
     protected void layoutTabs(Flow<CreateFormCommand> flow) {
         flow.addTab(new SelectStudyForFormTab());

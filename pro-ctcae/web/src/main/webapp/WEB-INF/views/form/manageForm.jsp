@@ -34,7 +34,7 @@
 
         function displayForms() {
             $('noForm').show();
-            var url = 'createForm?studyId=' + $('study').value
+            var url = 'basicForm?studyId=' + $('study').value
             $('newFormUrl').href = url;
 
             buildTable('assembler')

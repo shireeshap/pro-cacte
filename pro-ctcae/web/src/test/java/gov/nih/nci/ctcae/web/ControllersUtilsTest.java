@@ -7,8 +7,8 @@ import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.web.form.BasicFormController;
 import gov.nih.nci.ctcae.web.form.CreateFormCommand;
-import gov.nih.nci.ctcae.web.form.CreateFormController;
 import gov.nih.nci.ctcae.web.form.EditFormController;
 import gov.nih.nci.ctcae.web.study.CreateStudyController;
 import gov.nih.nci.ctcae.web.study.StudyCommand;
@@ -20,7 +20,7 @@ import static org.easymock.EasyMock.expect;
  */
 public class ControllersUtilsTest extends WebTestCase {
 
-    private CreateFormController createFormController;
+    private BasicFormController basicFormController;
     private EditFormController editFormController;
     private CreateStudyController createStudyController;
     private ProCtcQuestionRepository proCtcQuestionRepository;
@@ -33,7 +33,7 @@ public class ControllersUtilsTest extends WebTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        createFormController = new CreateFormController();
+        basicFormController = new BasicFormController();
         finderRepository = registerMockFor(FinderRepository.class);
         crfRepository = registerMockFor(CRFRepository.class);
         proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
@@ -54,7 +54,7 @@ public class ControllersUtilsTest extends WebTestCase {
     public void testNoCommandInCreateForm() {
 
 
-        assertNull("no command should present in session", ControllersUtils.getFormCommand(request, createFormController));
+        assertNull("no command should present in session", ControllersUtils.getFormCommand(request, basicFormController));
 
 
     }
@@ -68,8 +68,8 @@ public class ControllersUtilsTest extends WebTestCase {
     }
 
     public void testCommandInGetRequestOfCreateForm() throws Exception {
-        createFormController.handleRequest(request, response);
-        Object command = ControllersUtils.getFormCommand(request, createFormController);
+        basicFormController.handleRequest(request, response);
+        Object command = ControllersUtils.getFormCommand(request, basicFormController);
         assertNotNull("command must present in session", command);
         assertTrue(command instanceof CreateFormCommand);
 

@@ -280,11 +280,12 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddCrfPageItemController.
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneProCtcTermController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AdvanceFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AllConditionsController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/BasicFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CRFLinkDisplayDetailsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CopyFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfDisplayVersionsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfTableModel.java -text
@@ -855,7 +856,9 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageControllerTe
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageItemControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneProCtcTermControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantControllerTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AdvanceFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AllConditionsControllerTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/BasicFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CRFLinkDisplayCellTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CopyFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CreateFormCommandTest.java -text

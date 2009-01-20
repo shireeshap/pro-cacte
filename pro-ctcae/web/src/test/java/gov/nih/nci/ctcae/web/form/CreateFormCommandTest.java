@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
@@ -23,6 +24,7 @@ public class CreateFormCommandTest extends WebTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         command = new CreateFormCommand();
+        command.setAdvance(true);
         finderRepository = registerMockFor(FinderRepository.class);
 
         firstQuestion = new ProCtcQuestion();
@@ -610,7 +612,7 @@ public class CreateFormCommandTest extends WebTestCase {
     }
 
 
-    public void testAddAnotherPage() {
+    public void testAddAnotherPageInAdvanceFormMode() {
         command.addAnotherPage();
         command.addAnotherPage();
         CRF crf = getCrf();
@@ -620,6 +622,18 @@ public class CreateFormCommandTest extends WebTestCase {
         crf = command.getCrf();
         assertEquals("must have 3 pages", 3, crf.getCrfPages().size());
 
+
+    }
+
+    public void testAddAnotherPageInBasicFormMode() {
+        command.setAdvance(Boolean.FALSE);
+
+        try {
+            command.addAnotherPage();
+            fail("You can not add new page in basic form creation mode.");
+        } catch (CtcAeSystemException e) {
+
+        }
 
     }
 

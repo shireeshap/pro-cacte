@@ -33,12 +33,13 @@ public class FindCrfItemControllerTest extends WebTestCase {
     }
 
     public void testGetRequest() throws Exception {
-        request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
+        request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
         request.setMethod("GET");
         request.setParameter("questionId", "1");
         request.setParameter("nextQuestionIndex", "2");
         request.setParameter("previousQuestionIndex", "0");
 
+        command.setAdvance(Boolean.TRUE);
         command.addAnotherPage();
         command.getCrf().addOrUpdateCrfItemInCrfPage(0, proCtcQuestion, 0);
         expect(finderRepository.findById(ProCtcQuestion.class, 1)).andReturn(proCtcQuestion);

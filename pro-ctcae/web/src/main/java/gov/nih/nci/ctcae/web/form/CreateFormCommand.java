@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,6 +23,7 @@ public class CreateFormCommand implements Serializable {
 
     private CRF crf;
 
+    private Boolean advance = Boolean.FALSE;
 
     private String questionsIds;
     private String numberOfQuestionsInEachPage;
@@ -137,8 +139,11 @@ public class CreateFormCommand implements Serializable {
     }
 
     public CRFPage addAnotherPage() {
-        CRFPage crfPage = crf.addCrfPage();
-        return crfPage;
+        if (advance) {
+            CRFPage crfPage = crf.addCrfPage();
+            return crfPage;
+        }
+        throw new CtcAeSystemException("You can not add new page in basic form creation mode.");
 
     }
 
@@ -156,5 +161,29 @@ public class CreateFormCommand implements Serializable {
 
     public void setCrfPageNumbersToRemove(final String crfPageNumbersToRemove) {
         this.crfPageNumbersToRemove = crfPageNumbersToRemove;
+    }
+
+    public Boolean getAdvance() {
+        return advance;
+    }
+
+    public void setAdvance(Boolean advance) {
+        this.advance = advance;
+    }
+
+    public CRFPage addCrfPage(ProCtcQuestion proCtcQuestion) {
+        if (advance) {
+            CRFPage crfPage = crf.addCrfPage(proCtcQuestion);
+            return crfPage;
+        }
+        throw new CtcAeSystemException("You can not add individual questions in basic form creation mode.");
+
+
+    }
+
+    public CRFPage addCrfPage(ProCtcTerm proCtcTerm) {
+        CRFPage crfPage = crf.addCrfPage(proCtcTerm);
+        return crfPage;
+
     }
 }

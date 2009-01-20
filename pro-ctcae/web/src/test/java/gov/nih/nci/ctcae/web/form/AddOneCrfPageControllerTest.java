@@ -33,6 +33,7 @@ public class AddOneCrfPageControllerTest extends WebTestCase {
         controller.setProCtcTermRepository(proCtcTermRepository);
         proCtcTerm = new ProCtcTerm();
         command = new CreateFormCommand();
+        command.setAdvance(Boolean.TRUE);
         controller.setFinderRepository(finderRepository);
 
 
@@ -45,7 +46,7 @@ public class AddOneCrfPageControllerTest extends WebTestCase {
 
 
     public void testHandleRequestIfAddingQuestionBySelectingPage() throws Exception {
-        request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
+        request.getSession().setAttribute(AdvanceFormController.class.getName() + ".FORM." + "command", command);
 
         request.addParameter("questionId", new String[]{"1"});
         expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(proCtcQuestion);
@@ -62,7 +63,25 @@ public class AddOneCrfPageControllerTest extends WebTestCase {
     }
 
     public void testHandleRequestIfAddingProCtcTermBySelectingPage() throws Exception {
-        request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
+        request.getSession().setAttribute(AdvanceFormController.class.getName() + ".FORM." + "command", command);
+
+        request.addParameter("proCtcTermId", new String[]{"1"});
+        expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
+        replayMocks();
+        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
+        verifyMocks();
+
+        CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
+
+        CRF crf = createFormCommand.getCrf();
+        assertFalse("must add crf page", crf.getCrfPages().isEmpty());
+        assertEquals("must add only one page", 1, crf.getCrfPages().size());
+
+    }
+
+    public void testAddProCtcTermForBasicMode() throws Exception {
+        command.setAdvance(Boolean.FALSE);
+        request.getSession().setAttribute(AdvanceFormController.class.getName() + ".FORM." + "command", command);
 
         request.addParameter("proCtcTermId", new String[]{"1"});
         expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
@@ -79,7 +98,7 @@ public class AddOneCrfPageControllerTest extends WebTestCase {
     }
 
     public void testHandleRequestIfCrfPageIsNotSelected() throws Exception {
-        request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
+        request.getSession().setAttribute(AdvanceFormController.class.getName() + ".FORM." + "command", command);
 
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
 

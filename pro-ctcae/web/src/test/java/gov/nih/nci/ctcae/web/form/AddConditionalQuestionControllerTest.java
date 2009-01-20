@@ -48,7 +48,7 @@ public class AddConditionalQuestionControllerTest extends WebTestCase {
 
 
     public void testHandleRequest() throws Exception {
-        request.getSession().setAttribute(CreateFormController.class.getName() + ".FORM." + "command", command);
+        request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
 
         request.addParameter("questionId", new String[]{"1"});
         request.addParameter("selectedValidValues", new String[]{"3,4"});
