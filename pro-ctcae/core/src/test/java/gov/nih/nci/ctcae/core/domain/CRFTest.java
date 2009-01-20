@@ -11,8 +11,7 @@ import java.util.List;
  */
 public class CRFTest extends TestCase {
     private CRF crf;
-    private ProCtcQuestion firstQuestion;
-    private ProCtcQuestion secondQuestion, thirdQuestion, fourthQuestion;
+    private ProCtcQuestion firstQuestion, secondQuestion, thirdQuestion, fourthQuestion, fifthQuestion;
 
     private ProCtcTerm constipation, diarrhea;
     private Study study;
@@ -249,6 +248,50 @@ public class CRFTest extends TestCase {
 
     }
 
+    public void testRemoveCrfPageItem() {
+        crf = new CRF();
+        crf.addProCtcTerm(constipation);
+        assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
+
+        CRFPage crfPage = crf.getCrfPages().get(0);
+        assertEquals("must return 2 crf page items", 2, crfPage.getCrfPageItems().size());
+
+        crf.removeCrfPageItemByQuestion(fifthQuestion);
+
+        assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
+
+        crfPage = crf.getCrfPages().get(0);
+        assertEquals("must remove 1 crf page items", 1, crfPage.getCrfPageItems().size());
+
+
+    }
+
+    private void validateCrfPageItemDisplayOrder(final CRF crf) {
+
+        for (CRFPage crfPage : crf.getCrfPages()) {
+            for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
+                assertEquals("must preserve order no", Integer.valueOf(i + 1), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
+
+            }
+        }
+    }
+
+
+    private void validateCrfPageAndCrfPageItemOrder(final CRF crf) {
+        validateCrfPageItemDisplayOrder(crf);
+        verifyCrfPageNumber(crf);
+    }
+
+
+    private void verifyCrfPageNumber(final CRF crf) {
+        for (int i = 0; i < crf.getCrfPages().size(); i++) {
+            CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(i);
+            assertEquals("must preserve crf page number", Integer.valueOf(i), crfPage.getPageNumber());
+
+
+        }
+    }
+
     public void testAddCrfPageAndAddQuestion() {
         crf = new CRF();
         crf.addCrfPage(firstQuestion);
@@ -264,7 +307,8 @@ public class CRFTest extends TestCase {
 
     public void testAddCrfPageAndAddProCtcTerm() {
         crf = new CRF();
-        crf.addCrfPage(constipation);
+        crf.addProCtcTerm(constipation);
+
 
         assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
 
@@ -280,7 +324,7 @@ public class CRFTest extends TestCase {
     public void testAddCrfPageWithProCtcTermMustRemoveQuestionsFormOtherCrfPagesAlso() {
         crf = new CRF();
         crf.addCrfPage(firstQuestion);
-        crf.addCrfPage(constipation);
+        crf.addProCtcTerm(constipation);
 
         assertEquals("must return 2 crfPages", 2, crf.getCrfPagesSortedByPageNumber().size());
 
@@ -317,15 +361,27 @@ public class CRFTest extends TestCase {
 
     }
 
+    @Override
+    protected void tearDown() throws Exception {
+        validateCrfPageAndCrfPageItemOrder(crf);
+
+
+    }
 
     protected void setUp() throws Exception {
         super.setUp();
         firstQuestion = new ProCtcQuestion();
         firstQuestion.setQuestionText("first question");
+
+        fifthQuestion = new ProCtcQuestion();
+        fifthQuestion.setQuestionText("first question");
+
         secondQuestion = new ProCtcQuestion();
         secondQuestion.setQuestionText("second question");
+
         thirdQuestion = new ProCtcQuestion();
         thirdQuestion.setQuestionText("third question");
+
         fourthQuestion = new ProCtcQuestion();
         fourthQuestion.setQuestionText("fourth question");
 

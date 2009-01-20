@@ -182,14 +182,10 @@ public class CreateFormCommand implements Serializable {
     }
 
     public Object addProCtcTerm(ProCtcTerm proCtcTerm) {
-        if (advance) {
-            CRFPage crfPage = crf.addCrfPage(proCtcTerm);///FIXME:SAURABH -- this will not work...
-            return crfPage;
-        } else {
 
-            Object object = crf.addProCtcTerm(proCtcTerm);
-            return object;
-        }
+        Object object = crf.addProCtcTerm(proCtcTerm);
+        return object;
+
 
     }
 }

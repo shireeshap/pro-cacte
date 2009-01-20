@@ -421,30 +421,17 @@ public class CRF extends BaseVersionable {
     }
 
 
-    public CRFPage addCrfPage(final ProCtcTerm proCtcTerm) {
-        CRFPage crfPage = addCrfPage();
-        int i = 0;
-        for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
-            addOrUpdateCrfItemInCrfPage(getCrfPageNumber(), proCtcQuestion, i);
-            i++;
-        }
-
-        return crfPage;
-
-
-    }
-
     public Object addProCtcTerm(ProCtcTerm proCtcTerm) {
         //first check if pro ctc term exists
         CRFPage crfPage = getCrfPageByProCtcTerm(proCtcTerm);
 
         if (crfPage == null) {
-            crfPage = addCrfPage(proCtcTerm);
+            crfPage = addCrfPage();
+            crfPage.addProCtcTerm(proCtcTerm);
             return crfPage;
         } else {
 
             List<CrfPageItem> addedCrfPageItems = crfPage.addProCtcTerm(proCtcTerm);
-
             return addedCrfPageItems;
         }
 

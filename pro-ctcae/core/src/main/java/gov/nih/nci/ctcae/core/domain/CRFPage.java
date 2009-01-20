@@ -92,9 +92,10 @@ public class CRFPage extends BaseVersionable {
     }
 
 
-    public void removeCrfItem(CrfPageItem crfPageItem) {
+    private void removeCrfItem(CrfPageItem crfPageItem) {
         if (crfPageItem != null) {
             crfPageItems.remove(crfPageItem);
+            updateDisplayOrderOfCrfPageItems();
         }
     }
 
@@ -162,6 +163,7 @@ public class CRFPage extends BaseVersionable {
         updateOrderNumber(crfPageItem);
         crfPageItem.setCrfPage(this);
         crfPageItems.add(crfPageItem);
+        updateDisplayOrderOfCrfPageItems();
 
     }
 
@@ -292,6 +294,7 @@ public class CRFPage extends BaseVersionable {
                     addedCrfPageItems.add(crfPageItem);
                 }
             }
+            updateDisplayOrderOfCrfPageItems();
             return addedCrfPageItems;
         }
         logger.error("can not add proCtcTerm because pro ctc term is null");

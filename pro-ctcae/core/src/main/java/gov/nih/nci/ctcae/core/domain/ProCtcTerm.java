@@ -109,8 +109,6 @@ public class ProCtcTerm extends BasePersistable {
 
         if (ctcTerm != null ? !ctcTerm.equals(that.ctcTerm) : that.ctcTerm != null) return false;
         if (proCtc != null ? !proCtc.equals(that.proCtc) : that.proCtc != null) return false;
-//        if (proCtcQuestions != null ? !proCtcQuestions.equals(that.proCtcQuestions) : that.proCtcQuestions != null)
-//            return false;
         if (term != null ? !term.equals(that.term) : that.term != null) return false;
 
         return true;
@@ -119,8 +117,6 @@ public class ProCtcTerm extends BasePersistable {
     public int hashCode() {
         int result;
         result = (term != null ? term.hashCode() : 0);
-        result = 31 * result + (term != null ? term.hashCode() : 0);
-//        result = 31 * result + (proCtcQuestions != null ? proCtcQuestions.hashCode() : 0);
         result = 31 * result + (proCtc != null ? proCtc.hashCode() : 0);
         result = 31 * result + (ctcTerm != null ? ctcTerm.hashCode() : 0);
         return result;
