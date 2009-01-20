@@ -41,7 +41,7 @@ public class AddOneCrfPageController extends AbstractCrfController {
             crfPage = createFormCommand.addCrfPage(proCtcTerm);
 
         } else {
-            crfPage = createFormCommand.addAnotherPage();
+            crfPage = createFormCommand.addCrfPage();
         }
 
         modelAndView.addObject("crfPage", crfPage);

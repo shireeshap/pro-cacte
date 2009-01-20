@@ -95,44 +95,44 @@
                varStatus="crfitemstatus">
 
         <c:if test="${(participantCrfItem.pageNumber + 1)  eq command.currentPageIndex}">
-        <tags:formbuilderBox id="question_${participantCrfItem.proCtcQuestion.id}">
+            <tags:formbuilderBox id="question_${participantCrfItem.proCtcQuestion.id}">
 
-            <input type="hidden"
-                   name="studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[${crfitemstatus.index}].proCtcValidValue"
-                   value="${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[crfitemstatus.index].proCtcValidValue.id}"/>
-            <table>
-                <tr>
-                    <td colspan="${fn:length(participantCrfItem.proCtcQuestion.validValues)}">
-                        <div class="label">
-                                ${participantCrfItem.proCtcQuestion.formattedQuestionText}
-                            (<a href="javascript:deleteQuestion('${crfitemstatus.index}','${participantCrfItem.proCtcQuestion.id}','${participantCrfItem.id}')">remove
-                            this question</a>)
+                <input type="hidden"
+                       name="studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[${crfitemstatus.index}].proCtcValidValue"
+                       value="${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[crfitemstatus.index].proCtcValidValue.id}"/>
+                <table>
+                    <tr>
+                        <td colspan="${fn:length(participantCrfItem.proCtcQuestion.validValues)}">
+                            <div class="label">
+                                    ${participantCrfItem.proCtcQuestion.formattedQuestionText}
+                                (<a href="javascript:deleteQuestion('${crfitemstatus.index}','${participantCrfItem.proCtcQuestion.id}','${participantCrfItem.id}')">remove
+                                this question</a>)
 
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="label"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <c:forEach items="${participantCrfItem.proCtcQuestion.validValues}" var="validValue"
-                               varStatus="validvaluestatus">
-                        <tags:validvalue currentId="${validValue.id}"
-                                         title="${validValue.displayName}"
-                                         selectedId="${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[crfitemstatus.index].proCtcValidValue.id}"
-                                         crfitemindex="${crfitemstatus.index}"
-                                         index="${validvaluestatus.index}"/>
-                    </c:forEach>
-                </tr>
-                <tr>
-                    <td>
-                        <chrome:division title=" " message="false"/>
-                    </td>
-                </tr>
-            </table>
-        </tags:formbuilderBox>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="label"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <c:forEach items="${participantCrfItem.proCtcQuestion.validValues}" var="validValue"
+                                   varStatus="validvaluestatus">
+                            <tags:validvalue currentId="${validValue.id}"
+                                             title="${validValue.value}"
+                                             selectedId="${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[crfitemstatus.index].proCtcValidValue.id}"
+                                             crfitemindex="${crfitemstatus.index}"
+                                             index="${validvaluestatus.index}"/>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <td>
+                            <chrome:division title=" " message="false"/>
+                        </td>
+                    </tr>
+                </table>
+            </tags:formbuilderBox>
         </c:if>
     </c:forEach>
     <table width="100%">

@@ -48,7 +48,7 @@ public class AddOneProCtcTermControllerTest extends WebTestCase {
 
     public void testHandleRequestIfQuestionIdIsCorrect() throws Exception {
         command.setAdvance(true);
-        command.addAnotherPage();
+        command.addCrfPage();
         request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
 
         request.addParameter("proCtcTermId", new String[]{"1"});

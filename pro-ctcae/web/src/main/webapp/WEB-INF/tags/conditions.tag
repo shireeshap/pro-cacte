@@ -12,28 +12,28 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <c:forEach items="${crfPageItemDisplayRules}" var="crfPageItemDisplayRule">
-	<c:set var="inputName"
-		   value="conditionalQuestion_${selectedQuestionId}_${crfPageItemDisplayRule.proCtcValidValue.id}"/>
+    <c:set var="inputName"
+           value="conditionalQuestion_${selectedQuestionId}_${crfPageItemDisplayRule.proCtcValidValue.id}"/>
 
-	<tr id="${inputName}-row"
-		class="conditionalQuestion_${selectedQuestionId}_condition conditionalTriggering_${crfPageItemDisplayRule.proCtcValidValue.proCtcQuestion.id}">
+    <tr id="${inputName}-row"
+        class="conditionalQuestion_${selectedQuestionId}_condition conditionalTriggering_${crfPageItemDisplayRule.proCtcValidValue.proCtcQuestion.id}">
 
-		<td style="border-right:none;">
+        <td style="border-right:none;">
 
-				${crfPageItemDisplayRule.proCtcValidValue.proCtcQuestion.shortText}-${crfPageItemDisplayRule.proCtcValidValue.displayName}
-		</td>
+                ${crfPageItemDisplayRule.proCtcValidValue.proCtcQuestion.shortText}-${crfPageItemDisplayRule.proCtcValidValue.value}
+        </td>
 
-		<td style="border-left:none;">
-			<c:if test="${showDelete}">
-				<a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-				   href="javascript:deleteConditions('${selectedQuestionId}','${crfPageItemDisplayRule.proCtcValidValue.id}');">
-					<img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
-						 style="vertical-align:middle">
-				</a>
-			</c:if>
-		</td>
+        <td style="border-left:none;">
+            <c:if test="${showDelete}">
+                <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
+                   href="javascript:deleteConditions('${selectedQuestionId}','${crfPageItemDisplayRule.proCtcValidValue.id}');">
+                    <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
+                         style="vertical-align:middle">
+                </a>
+            </c:if>
+        </td>
 
 
-	</tr>
+    </tr>
 
 </c:forEach>

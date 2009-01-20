@@ -138,7 +138,7 @@ public class CreateFormCommand implements Serializable {
         this.numberOfQuestionsInEachPage = numberOfQuestionsInEachPage;
     }
 
-    public CRFPage addAnotherPage() {
+    public CRFPage addCrfPage() {
         if (advance) {
             CRFPage crfPage = crf.addCrfPage();
             return crfPage;

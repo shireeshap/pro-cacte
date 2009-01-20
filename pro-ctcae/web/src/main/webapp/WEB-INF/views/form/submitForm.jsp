@@ -75,17 +75,17 @@
             var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfItems[' + crfitemindex + '].proCtcValidValue';
             document.myForm.elements[elementName].value = x[index].value;
 
-//           var column = document.getElementsByName('column_' + crfitemindex);
-//             for(var i=0; i< column.length;i++){
-//                 if(i==index){
-//                    column[i].onmouseout="javascript:this.className='.over';";
-//                 }else{
-//                     column[i].class='norm';
-//                     column[i].onmouseout="javascript:this.className='.norm';";
-//                     column[i].onmouseover="javascript:this.className='.over';";
-//                 }
-//             }
-            
+            //           var column = document.getElementsByName('column_' + crfitemindex);
+            //             for(var i=0; i< column.length;i++){
+            //                 if(i==index){
+            //                    column[i].onmouseout="javascript:this.className='.over';";
+            //                 }else{
+            //                     column[i].class='norm';
+            //                     column[i].onmouseout="javascript:this.className='.norm';";
+            //                     column[i].onmouseover="javascript:this.className='.over';";
+            //                 }
+            //             }
+
             for (var i = 0; i < x.length; i++) {
                 if (i != index) {
                     responses[x[i].value] = 'N';
@@ -203,7 +203,7 @@
                             <c:forEach items="${crfPageItem.proCtcQuestion.validValues}" var="validValue"
                                        varStatus="validvaluestatus">
                                 <tags:validvalue currentId="${validValue.id}"
-                                                 title="${validValue.displayName}"
+                                                 title="${validValue.value}"
                                                  selectedId="${participantCrfItem.proCtcValidValue.id}"
                                                  crfitemindex="${crfitemstatus.index}"
                                                  index="${validvaluestatus.index}"/>
@@ -215,7 +215,7 @@
                                    varStatus="validvaluestatus">
                             <tr>
                                 <tags:validvalue currentId="${validValue.id}"
-                                                 title="${validValue.displayName}"
+                                                 title="${validValue.value}"
                                                  selectedId="${participantCrfItem.proCtcValidValue.id}"
                                                  crfitemindex="${crfitemstatus.index}"
                                                  index="${validvaluestatus.index}"/>

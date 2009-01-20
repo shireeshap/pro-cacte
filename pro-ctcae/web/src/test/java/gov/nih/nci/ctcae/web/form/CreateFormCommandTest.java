@@ -75,9 +75,9 @@ public class CreateFormCommandTest extends WebTestCase {
 
     public void testRemoveCrfPageWithQuestionsMustRemoveQuestionAlso() {
 
-        command.addAnotherPage();
-        command.addAnotherPage();
-        command.addAnotherPage();
+        command.addCrfPage();
+        command.addCrfPage();
+        command.addCrfPage();
         CRF crf = command.getCrf();
 
         assertEquals("must have three  pages", 3, crf.getCrfPages().size());
@@ -136,9 +136,9 @@ public class CreateFormCommandTest extends WebTestCase {
 
     public void testAddAndReorderButNotDeleteQuestionsInMultiplePages() {
 
-        command.addAnotherPage();
-        command.addAnotherPage();
-        command.addAnotherPage();
+        command.addCrfPage();
+        command.addCrfPage();
+        command.addCrfPage();
         CRF crf = getCrf();
 
         assertEquals("must have three  pages", 3, crf.getCrfPages().size());
@@ -193,8 +193,8 @@ public class CreateFormCommandTest extends WebTestCase {
 
     public void testAddAndUpdateAndReorderButNotDeleteQuestionsInMultiplePages() {
 
-        command.addAnotherPage();
-        command.addAnotherPage();
+        command.addCrfPage();
+        command.addCrfPage();
 
         command.setQuestionsIds("11,12,13,14");
         command.setNumberOfQuestionsInEachPage("2,2");
@@ -258,8 +258,8 @@ public class CreateFormCommandTest extends WebTestCase {
 
     public void testReOrderPageAndReorderCrfPageItem() {
 
-        command.addAnotherPage();
-        command.addAnotherPage();
+        command.addCrfPage();
+        command.addCrfPage();
 
         command.setQuestionsIds("11,12,13,14");
         command.setNumberOfQuestionsInEachPage("2,2");
@@ -313,7 +313,7 @@ public class CreateFormCommandTest extends WebTestCase {
 
     public void testReOrderCrfPageItemInASinglePage() {
 
-        command.addAnotherPage();
+        command.addCrfPage();
 
         command.setQuestionsIds("11,12,13,14");
         command.setNumberOfQuestionsInEachPage("4");
@@ -361,9 +361,9 @@ public class CreateFormCommandTest extends WebTestCase {
 
     public void testDeleteAndReorderPageAndReorderAndDeleteCrfPageItem() {
 
-        command.addAnotherPage();
-        command.addAnotherPage();
-        command.addAnotherPage();
+        command.addCrfPage();
+        command.addCrfPage();
+        command.addCrfPage();
 
         command.setQuestionsIds("11,12,13,14");
         command.setNumberOfQuestionsInEachPage("2,1,1");
@@ -419,9 +419,9 @@ public class CreateFormCommandTest extends WebTestCase {
 
     public void testAddQuestionInMultiplePages() {
 
-        command.addAnotherPage();
-        command.addAnotherPage();
-        command.addAnotherPage();
+        command.addCrfPage();
+        command.addCrfPage();
+        command.addCrfPage();
         CRF crf = command.getCrf();
 
         assertEquals("must have three default page", 3, crf.getCrfPages().size());
@@ -467,7 +467,7 @@ public class CreateFormCommandTest extends WebTestCase {
     }
 
     public void testAddAndUpdateAndReorderAndDeleteQuestionsInFirstPageOnly() {
-        command.addAnotherPage();
+        command.addCrfPage();
 
         command.setQuestionsIds("11,12,14,13");
         command.setNumberOfQuestionsInEachPage("4");
@@ -524,7 +524,7 @@ public class CreateFormCommandTest extends WebTestCase {
     }
 
     public void testAddQuestionInFirstPageOnly() {
-        command.addAnotherPage();
+        command.addCrfPage();
         command.updateCrfItems(finderRepository);
 
         command.setQuestionsIds("11,12");
@@ -551,9 +551,9 @@ public class CreateFormCommandTest extends WebTestCase {
     }
 
     public void testReOrderPageButDoNotReorderCrfPageItem() {
-        command.addAnotherPage();
-        command.addAnotherPage();
-        command.addAnotherPage();
+        command.addCrfPage();
+        command.addCrfPage();
+        command.addCrfPage();
         CRF crf = command.getCrf();
 
         assertEquals("must have three default page", 3, crf.getCrfPages().size());
@@ -613,11 +613,11 @@ public class CreateFormCommandTest extends WebTestCase {
 
 
     public void testAddAnotherPageInAdvanceFormMode() {
-        command.addAnotherPage();
-        command.addAnotherPage();
+        command.addCrfPage();
+        command.addCrfPage();
         CRF crf = getCrf();
         assertEquals("must have 2 pages", 2, crf.getCrfPages().size());
-        command.addAnotherPage();
+        command.addCrfPage();
 
         crf = command.getCrf();
         assertEquals("must have 3 pages", 3, crf.getCrfPages().size());
@@ -629,7 +629,7 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setAdvance(Boolean.FALSE);
 
         try {
-            command.addAnotherPage();
+            command.addCrfPage();
             fail("You can not add new page in basic form creation mode.");
         } catch (CtcAeSystemException e) {
 
@@ -643,7 +643,7 @@ public class CreateFormCommandTest extends WebTestCase {
     }
 
     public void testAddAndReorderQuestionsButNotDeleteInFirstPage() {
-        command.addAnotherPage();
+        command.addCrfPage();
         getCrf().addOrUpdateCrfItemInCrfPage(0, secondQuestion, 0);
         getCrf().addOrUpdateCrfItemInCrfPage(0, thirdQuestion, 1);
         getCrf().addOrUpdateCrfItemInCrfPage(0, firstQuestion, 2);

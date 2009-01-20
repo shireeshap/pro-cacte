@@ -50,7 +50,7 @@ public class AddOneCrfPageItemControllerTest extends WebTestCase {
     }
 
     public void testHandleRequestIfQuestionIdIsCorrect() throws Exception {
-        command.addAnotherPage();
+        command.addCrfPage();
         request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
         request.addParameter("crfPageNumber", new String[]{"0"});
 
