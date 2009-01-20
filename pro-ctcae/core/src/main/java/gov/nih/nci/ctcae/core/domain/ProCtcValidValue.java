@@ -15,51 +15,51 @@ import javax.persistence.*;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_valid_values_id")})
 public class ProCtcValidValue extends BasePersistable {
 
-	@Id
-	@GeneratedValue(generator = "id-generator")
-	@Column(name = "id")
-	private Integer id;
+    @Id
+    @GeneratedValue(generator = "id-generator")
+    @Column(name = "id")
+    private Integer id;
 
-	@Column(name = "value", nullable = false)
-	private Integer value;
+    @Column(name = "value", nullable = false)
+    private String value;
 
-	@JoinColumn(name = "pro_ctc_question_id", referencedColumnName = "id")
-	@ManyToOne
-	private ProCtcQuestion proCtcQuestion;
+    @JoinColumn(name = "pro_ctc_question_id", referencedColumnName = "id")
+    @ManyToOne
+    private ProCtcQuestion proCtcQuestion;
 
-	public ProCtcValidValue() {
-	}
+    public ProCtcValidValue() {
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	public void setValue(Integer value) {
-		this.value = value;
-	}
+    public void setValue(String value) {
+        this.value = value;
+    }
 
-	public ProCtcQuestion getProCtcQuestion() {
-		return proCtcQuestion;
-	}
-
-
-	public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {
-		this.proCtcQuestion = proCtcQuestion;
-	}
+    public ProCtcQuestion getProCtcQuestion() {
+        return proCtcQuestion;
+    }
 
 
-	@Override
-	public String toString() {
-		return value + "";
-	}
+    public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {
+        this.proCtcQuestion = proCtcQuestion;
+    }
+
+
+    @Override
+    public String toString() {
+        return value + "";
+    }
 
     public boolean equals(Object o) {
         if (this == o) return true;
