@@ -2,326 +2,328 @@
 
 <dataset>
 
-	<STUDIES
-		SHORT_TITLE="A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)"
-		LONG_TITLE="A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)"
-		DESCRIPTION="A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)"
-		ASSIGNED_IDENTIFIER="6882"
-		ID="-1001"
-		VERSION="0"/>
+    <STUDIES
+            SHORT_TITLE="A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)"
+            LONG_TITLE="A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)"
+            DESCRIPTION="A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)"
+            ASSIGNED_IDENTIFIER="6882"
+            ID="-1001"
+            VERSION="0"/>
 
-	<STUDIES
-		SHORT_TITLE="A Phase I/II Trial of CCI-779 and Bevacizumab in Stage IV Renal Cell Carcinoma"
-		LONG_TITLE="A Phase I/II Trial of CCI-779 and Bevacizumab in Stage IV Renal Cell Carcinoma"
-		DESCRIPTION="A Phase I/II Trial of CCI-779 and Bevacizumab in Stage IV Renal Cell Carcinoma"
-		ASSIGNED_IDENTIFIER="6986"
-		ID="-1002"
-		VERSION="0"/>
+    <STUDIES
+            SHORT_TITLE="A Phase I/II Trial of CCI-779 and Bevacizumab in Stage IV Renal Cell Carcinoma"
+            LONG_TITLE="A Phase I/II Trial of CCI-779 and Bevacizumab in Stage IV Renal Cell Carcinoma"
+            DESCRIPTION="A Phase I/II Trial of CCI-779 and Bevacizumab in Stage IV Renal Cell Carcinoma"
+            ASSIGNED_IDENTIFIER="6986"
+            ID="-1002"
+            VERSION="0"/>
 
-	<STUDIES
-		SHORT_TITLE="A Phase II Test Study"
-		LONG_TITLE="A Phase II Test Study"
-		DESCRIPTION="A Phase II Test Study"
-		ASSIGNED_IDENTIFIER="003"
-		ID="-1003"
-		VERSION="0"/>
+    <STUDIES
+            SHORT_TITLE="A Phase II Test Study"
+            LONG_TITLE="A Phase II Test Study"
+            DESCRIPTION="A Phase II Test Study"
+            ASSIGNED_IDENTIFIER="003"
+            ID="-1003"
+            VERSION="0"/>
 
-	<STUDY_ORGANIZATIONS
-		ORGANIZATION_ID="105051"
-		STUDY_ID="-1001"
-		TYPE="SST"
-		ID="-1001"
-		VERSION="0"/>
+    <STUDY_ORGANIZATIONS
+            ORGANIZATION_ID="105051"
+            STUDY_ID="-1001"
+            TYPE="SST"
+            ID="-1001"
+            VERSION="0"/>
 
-	<STUDY_ORGANIZATIONS
-		ORGANIZATION_ID="104880"
-		STUDY_ID="-1001"
-		TYPE="SST"
-		ID="-1002"
-		VERSION="0"/>
+    <STUDY_ORGANIZATIONS
+            ORGANIZATION_ID="104880"
+            STUDY_ID="-1001"
+            TYPE="SST"
+            ID="-1002"
+            VERSION="0"/>
 
-	<STUDY_ORGANIZATIONS
-		ORGANIZATION_ID="104880"
-		STUDY_ID="-1002"
-		TYPE="SST"
-		ID="-1003"
-		VERSION="0"/>
+    <STUDY_ORGANIZATIONS
+            ORGANIZATION_ID="104880"
+            STUDY_ID="-1002"
+            TYPE="SST"
+            ID="-1003"
+            VERSION="0"/>
 
-	<STUDY_ORGANIZATIONS
-		ORGANIZATION_ID="104873"
-		STUDY_ID="-1002"
-		TYPE="SST"
-		ID="-1004"
-		VERSION="0"/>
+    <STUDY_ORGANIZATIONS
+            ORGANIZATION_ID="104873"
+            STUDY_ID="-1002"
+            TYPE="SST"
+            ID="-1004"
+            VERSION="0"/>
 
-	<PARTICIPANTS
-		id="-100"
-		mrn_identifier="P001"
-		first_name="Bruce"
-		last_name="Tanner"
-		birth_date="1982-12-15"
-		gender="Male"
-		ethnicity="Hispanic or Latino"
-		race="Asian"
-		/>
+    <PARTICIPANTS
+            id="-100"
+            mrn_identifier="P001"
+            first_name="Bruce"
+            last_name="Tanner"
+            birth_date="1982-12-15"
+            gender="Male"
+            ethnicity="Hispanic or Latino"
+            race="Asian"
+            />
 
-	<PARTICIPANTS
-		id="-101"
-		mrn_identifier="P002"
-		first_name="John"
-		last_name="Miller"
-		birth_date="1982-12-15"
-		gender="Male"
-		ethnicity="Hispanic or Latino"
-		race="Asian"
-		/>
+    <PARTICIPANTS
+            id="-101"
+            mrn_identifier="P002"
+            first_name="John"
+            last_name="Miller"
+            birth_date="1982-12-15"
+            gender="Male"
+            ethnicity="Hispanic or Latino"
+            race="Asian"
+            />
 
-	<PARTICIPANTS
-		id="-102"
-		mrn_identifier="P003"
-		first_name="Newman"
-		last_name="Leslie"
-		birth_date="1982-12-15"
-		gender="Male"
-		ethnicity="Hispanic or Latino"
-		race="Asian"
-		/>
-
-	<study_participant_assignments
-		id="-100"
-		study_site_id="-1001"
-		participant_id="-100"
-		study_participant_identifier="12345"
-		/>
-
-	<study_participant_assignments
-		id="-101"
-		study_site_id="-1001"
-		participant_id="-101"
-		study_participant_identifier="12345"
-		/>
-
-	<study_participant_assignments
-		id="-102"
-		study_site_id="-1003"
-		participant_id="-100"
-		study_participant_identifier="12345"
-		/>
+    <PARTICIPANTS
+            id="-102"
+            mrn_identifier="P003"
+            first_name="Newman"
+            last_name="Leslie"
+            birth_date="1982-12-15"
+            gender="Male"
+            ethnicity="Hispanic or Latino"
+            race="Asian"
+            />
 
     <study_participant_assignments
-        id="-103"
-        study_site_id="-1003"
-        participant_id="-101"
-        study_participant_identifier="12345"
-        />
+            id="-100"
+            study_site_id="-1001"
+            participant_id="-100"
+            study_participant_identifier="12345"
+            />
+
+    <study_participant_assignments
+            id="-101"
+            study_site_id="-1001"
+            participant_id="-101"
+            study_participant_identifier="12345"
+            />
+
+    <study_participant_assignments
+            id="-102"
+            study_site_id="-1003"
+            participant_id="-100"
+            study_participant_identifier="12345"
+            />
+
+    <study_participant_assignments
+            id="-103"
+            study_site_id="-1003"
+            participant_id="-101"
+            study_participant_identifier="12345"
+            />
 
     <pro_ctc_terms
-        id="-1"
-        term="Fatigue"
-        ctc_term_id="3081"
-        />
+            id="-1"
+            term="Fatigue"
+            ctc_term_id="3081"
+            pro_ctc_id="1"
+            />
     <pro_ctc_terms
-        id="-2"
-        term="Constipation"
-        ctc_term_id="3141"
-        />
+            id="-2"
+            term="Constipation"
+            ctc_term_id="3141"
+            pro_ctc_id="1"
+            />
     <pro_ctc_questions
-        id="-1"
-        question_text="how OFTEN did you have Fatigue"
-        pro_ctc_term_id="-1"
-        question_type="FREQUENCY"
-        />
+            id="-1"
+            question_text="how OFTEN did you have Fatigue"
+            pro_ctc_term_id="-1"
+            question_type="FREQUENCY"
+            />
     <pro_ctc_questions
-        id="-2"
-        question_text="what was the WORST SEVERITY of your Fatigue"
-        pro_ctc_term_id="-1"
-        question_type="SEVERITY"
-        />
+            id="-2"
+            question_text="what was the WORST SEVERITY of your Fatigue"
+            pro_ctc_term_id="-1"
+            question_type="SEVERITY"
+            />
     <pro_ctc_questions
-        id="-3"
-        question_text="how much did Fatigue INTERFERE with your (daily activities)"
-        pro_ctc_term_id="-1"
-        question_type="INTERFERENCE"
-        />
+            id="-3"
+            question_text="how much did Fatigue INTERFERE with your (daily activities)"
+            pro_ctc_term_id="-1"
+            question_type="INTERFERENCE"
+            />
 
     <pro_ctc_questions
-        id="-4"
-        question_text="how OFTEN did you have Constipation"
-        pro_ctc_term_id="-2"
-        question_type="FREQUENCY"
-        />
+            id="-4"
+            question_text="how OFTEN did you have Constipation"
+            pro_ctc_term_id="-2"
+            question_type="FREQUENCY"
+            />
     <pro_ctc_questions
-        id="-5"
-        question_text="what was the WORST SEVERITY of your Constipation"
-        pro_ctc_term_id="-2"
-        question_type="SEVERITY"
-        />
+            id="-5"
+            question_text="what was the WORST SEVERITY of your Constipation"
+            pro_ctc_term_id="-2"
+            question_type="SEVERITY"
+            />
     <pro_ctc_questions
-        id="-6"
-        question_text="how much did Constipation INTERFERE with your (daily activities)"
-        pro_ctc_term_id="-2"
-        question_type="INTERFERENCE"
-        />
+            id="-6"
+            question_text="how much did Constipation INTERFERE with your (daily activities)"
+            pro_ctc_term_id="-2"
+            question_type="INTERFERENCE"
+            />
 
     <pro_ctc_valid_values
             id="-1"
             value="Never"
-          pro_ctc_question_id="-1"
+            pro_ctc_question_id="-1"
             />
 
     <pro_ctc_valid_values
             id="-2"
             value="Rarely"
-          pro_ctc_question_id="-1"
+            pro_ctc_question_id="-1"
             />
     <pro_ctc_valid_values
             id="-3"
             value="Occasionally"
-          pro_ctc_question_id="-1"
+            pro_ctc_question_id="-1"
             />
     <pro_ctc_valid_values
             id="-4"
             value="Frequently"
-          pro_ctc_question_id="-1"
+            pro_ctc_question_id="-1"
             />
     <pro_ctc_valid_values
             id="-5"
             value="Almost Constantly"
-          pro_ctc_question_id="-1"
+            pro_ctc_question_id="-1"
             />
 
     <pro_ctc_valid_values
             id="-6"
             value="None"
-          pro_ctc_question_id="-2"
+            pro_ctc_question_id="-2"
             />
 
     <pro_ctc_valid_values
             id="-7"
             value="Mild"
-          pro_ctc_question_id="-2"
+            pro_ctc_question_id="-2"
             />
     <pro_ctc_valid_values
             id="-8"
             value="Moderate"
-          pro_ctc_question_id="-2"
+            pro_ctc_question_id="-2"
             />
     <pro_ctc_valid_values
             id="-9"
             value="Severe"
-          pro_ctc_question_id="-2"
+            pro_ctc_question_id="-2"
             />
     <pro_ctc_valid_values
             id="-10"
             value="Very severe"
-          pro_ctc_question_id="-2"
+            pro_ctc_question_id="-2"
             />
 
-     <pro_ctc_valid_values
+    <pro_ctc_valid_values
             id="-11"
             value="Not at all"
-          pro_ctc_question_id="-3"
+            pro_ctc_question_id="-3"
             />
 
     <pro_ctc_valid_values
             id="-12"
             value="A little bit"
-          pro_ctc_question_id="-3"
+            pro_ctc_question_id="-3"
             />
     <pro_ctc_valid_values
             id="-13"
             value="Somewhat"
-          pro_ctc_question_id="-3"
+            pro_ctc_question_id="-3"
             />
     <pro_ctc_valid_values
             id="-14"
             value="Quite a bit"
-          pro_ctc_question_id="-3"
+            pro_ctc_question_id="-3"
             />
     <pro_ctc_valid_values
             id="-15"
             value="Very much"
-          pro_ctc_question_id="-3"
+            pro_ctc_question_id="-3"
             />
 
     <pro_ctc_valid_values
             id="-16"
             value="Never"
-          pro_ctc_question_id="-4"
+            pro_ctc_question_id="-4"
             />
 
     <pro_ctc_valid_values
             id="-17"
             value="Rarely"
-          pro_ctc_question_id="-4"
+            pro_ctc_question_id="-4"
             />
     <pro_ctc_valid_values
             id="-18"
             value="Occasionally"
-          pro_ctc_question_id="-4"
+            pro_ctc_question_id="-4"
             />
     <pro_ctc_valid_values
             id="-19"
             value="Frequently"
-          pro_ctc_question_id="-4"
+            pro_ctc_question_id="-4"
             />
     <pro_ctc_valid_values
             id="-20"
             value="Almost Constantly"
-          pro_ctc_question_id="-4"
+            pro_ctc_question_id="-4"
             />
 
     <pro_ctc_valid_values
             id="-21"
             value="None"
-          pro_ctc_question_id="-5"
+            pro_ctc_question_id="-5"
             />
 
     <pro_ctc_valid_values
             id="-22"
             value="Mild"
-          pro_ctc_question_id="-5"
+            pro_ctc_question_id="-5"
             />
     <pro_ctc_valid_values
             id="-23"
             value="Moderate"
-          pro_ctc_question_id="-5"
+            pro_ctc_question_id="-5"
             />
     <pro_ctc_valid_values
             id="-24"
             value="Severe"
-          pro_ctc_question_id="-2"
+            pro_ctc_question_id="-2"
             />
     <pro_ctc_valid_values
             id="-25"
             value="Very severe"
-          pro_ctc_question_id="-5"
+            pro_ctc_question_id="-5"
             />
 
-     <pro_ctc_valid_values
+    <pro_ctc_valid_values
             id="-26"
             value="Not at all"
-          pro_ctc_question_id="-6"
+            pro_ctc_question_id="-6"
             />
 
     <pro_ctc_valid_values
             id="-27"
             value="A little bit"
-          pro_ctc_question_id="-6"
+            pro_ctc_question_id="-6"
             />
     <pro_ctc_valid_values
             id="-28"
             value="Somewhat"
-          pro_ctc_question_id="-6"
+            pro_ctc_question_id="-6"
             />
     <pro_ctc_valid_values
             id="-29"
             value="Quite a bit"
-          pro_ctc_question_id="-6"
+            pro_ctc_question_id="-6"
             />
     <pro_ctc_valid_values
             id="-30"
             value="Very much"
-          pro_ctc_question_id="-6"
+            pro_ctc_question_id="-6"
             />
 </dataset>
