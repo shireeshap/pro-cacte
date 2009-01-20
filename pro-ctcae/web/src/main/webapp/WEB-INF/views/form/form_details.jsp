@@ -1362,7 +1362,7 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
                                                                     <ul>
                                                                         <c:forEach items="${proCtcQuestion.validValues}"
                                                                                    var="proCtcValidValue">
-                                                                            <li>${proCtcValidValue.displayName}</li>
+                                                                            <li>${proCtcValidValue.value}</li>
                                                                         </c:forEach>
                                                                     </ul>
                                                                 </tags:formbuilderBox>
