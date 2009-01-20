@@ -15,7 +15,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "pro_ctc_terms")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
-    @Parameter(name = "sequence", value = "seq_pro_ctc_terms_id")})
+        @Parameter(name = "sequence", value = "seq_pro_ctc_terms_id")})
 public class ProCtcTerm extends BasePersistable {
 
     @Id
@@ -109,8 +109,8 @@ public class ProCtcTerm extends BasePersistable {
 
         if (ctcTerm != null ? !ctcTerm.equals(that.ctcTerm) : that.ctcTerm != null) return false;
         if (proCtc != null ? !proCtc.equals(that.proCtc) : that.proCtc != null) return false;
-        if (proCtcQuestions != null ? !proCtcQuestions.equals(that.proCtcQuestions) : that.proCtcQuestions != null)
-            return false;
+//        if (proCtcQuestions != null ? !proCtcQuestions.equals(that.proCtcQuestions) : that.proCtcQuestions != null)
+//            return false;
         if (term != null ? !term.equals(that.term) : that.term != null) return false;
 
         return true;
@@ -120,7 +120,7 @@ public class ProCtcTerm extends BasePersistable {
         int result;
         result = (id != null ? id.hashCode() : 0);
         result = 31 * result + (term != null ? term.hashCode() : 0);
-        result = 31 * result + (proCtcQuestions != null ? proCtcQuestions.hashCode() : 0);
+//        result = 31 * result + (proCtcQuestions != null ? proCtcQuestions.hashCode() : 0);
         result = 31 * result + (proCtc != null ? proCtc.hashCode() : 0);
         result = 31 * result + (ctcTerm != null ? ctcTerm.hashCode() : 0);
         return result;
