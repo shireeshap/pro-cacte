@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Harsh Agarwal
+ * @author Mehul Gulati
  * @created Oct 13, 2008
  */
 
@@ -68,8 +68,6 @@ public class Ctc extends BasePersistable {
     }
 
     public int hashCode() {
-        int result;
-        result = (name != null ? name.hashCode() : 0);
-        return result;
+        return (name != null ? name.hashCode() : 0);
     }
 }
