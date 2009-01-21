@@ -245,6 +245,9 @@ public class CRF extends BaseVersionable {
 
     }
 
+    /**
+     * it is required to make sure crf page numbers stars from  INITIAL_ORDER not from 2,3,4
+     */
     public void updatePageNumberOfCrfPages() {
         List<CRFPage> crfPages = getCrfPagesSortedByPageNumber();
         for (int i = 0; i < crfPages.size(); i++) {

@@ -46,11 +46,26 @@ public class CreateFormCommand implements Serializable {
             addOrUpdateQuestions(finderRepository);
         }
 
-        //finally update the crf page numbers;
-        getCrf().updatePageNumberOfCrfPages();
+        String[] crfPageNumberArray = StringUtils.commaDelimitedListToStringArray(crfPageNumbers);
+
+        //now clear the empty pages
+        clearEmptyPages();
 
         //reorder crf page items
 
+        try {
+            List<CRFPage> crfPages = crf.getCrfPages();
+            for (int i = 0; i < crfPages.size(); i++) {
+                CRFPage crfPage = crfPages.get(i);
+                crfPage.setPageNumber(Integer.valueOf(crfPageNumberArray[i]));
+
+            }
+        } catch (Exception e) {
+            logger.error("error while reordering crf page numbers" + e);
+            //FIXME:SAURABH throw this exception
+        }
+
+        crf.updatePageNumberOfCrfPages();
         crf.updateDisplayOrderOfCrfPageItems();
 
 

@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -373,6 +374,18 @@ public class CRFTest extends AbstractTestCase {
     protected void tearDown() throws Exception {
         validateCrfPageAndCrfPageItemOrder(crf);
 
+
+    }
+
+    public void testAddAnotherPageInBasicFormMode() {
+        crf.setCrfCreationMode(CrfCreationMode.BASIC);
+
+        try {
+            crf.addCrfPage();
+            fail("You can not add new page in basic form creation mode.");
+        } catch (CtcAeSystemException e) {
+
+        }
 
     }
 
