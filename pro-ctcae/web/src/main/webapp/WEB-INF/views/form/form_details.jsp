@@ -1105,6 +1105,7 @@ function showHideQuestionUpDownLink() {
 
     .makeDraggable {
         cursor: move;
+		position:relative;
     }
 
     .instructions .summaryvalue {
@@ -1192,6 +1193,10 @@ function showHideQuestionUpDownLink() {
         top: 5px;
         right: 10px;
     }
+	ul.tree span.a.children a.addallbtn {
+		background-image:none;
+		padding:0;
+	}
 
 
 </style>
@@ -1263,13 +1268,14 @@ function showHideQuestionUpDownLink() {
                                         <ul>
                                             <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
                                                 <li class="closed">${proCtcTerm.term}
+												<a href="javascript:addProctcTerm(${proCtcTerm.id})"
+                                                           id="proCtcTerm_${proCtcTerm.id}" class="addallbtn">
+                                                            <img src="/ctcae/images/blue/add_all_btn.png"
+                                                                 alt="Add" onclick=""/></a>
 
 
                                                     <ul>
-                                                        <a href="javascript:addProctcTerm(${proCtcTerm.id})"
-                                                           id="proCtcTerm_${proCtcTerm.id}">
-                                                            <img src="/ctcae/images/blue/add_all_btn.png"
-                                                                 alt="Add" onclick=""/></a>
+                                                        
                                                         <c:forEach items="${proCtcTerm.proCtcQuestions}"
                                                                    var="proCtcQuestion">
 

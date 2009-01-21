@@ -1400,15 +1400,42 @@ ul.tree ul ul li table div.formbuilderBoxControls-right {
 	display: block;
 	padding: 40px 0 0 0;
 }
-
-#newFormUrl {
-	background-image: url( /ctcae/images/blue/new_form_btn.png );
-	height: 0px;
-	overflow: hidden;
-	width: 131px;
-	display: block;
-	padding: 40px 0 0 0;
-	margin-left: 30px;
+#noForm {
+	margin-left:25px;
+}
+a.ctcae-button {
+	height: 40px;
+	padding:8px;
+	background-image:url(/ctcae/images/blue_btn_bg.png);
+	background-position:left;
+	background-repeat:no-repeat;
+	border:none;
+	background-color:transparent;
+	position:relative;
+	font-size:1.4em;
+	color:#2B406E;
+	text-decoration:none;
+}
+a.ctcae-button:active {
+	background-image:url(/ctcae/images/blue_btn_bg_active.png);
+}
+a.ctcae-button:active .right {
+	background-image:url(/ctcae/images/blue_btn_bg_active.png);
+}
+a.ctcae-button .right {
+	background-color:white;
+background-image:url(/ctcae/images/blue_btn_bg.png);
+background-position:right center;
+background-repeat:no-repeat;
+display:block;
+height:40px;
+position:absolute;
+right:6px;
+top:0px;
+width:3px;
+}
+a.ctcae-button img {
+	vertical-align:middle;
 }
 
 .norm {

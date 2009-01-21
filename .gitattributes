@@ -534,6 +534,7 @@ pro-ctcae/web/src/main/webapp/css/tabbedflow.css -text
 pro-ctcae/web/src/main/webapp/css/tree.css -text
 pro-ctcae/web/src/main/webapp/decorated-error.jsp -text
 pro-ctcae/web/src/main/webapp/error.jsp -text
+pro-ctcae/web/src/main/webapp/images/add_icon.png -text
 pro-ctcae/web/src/main/webapp/images/ajax-loading.gif -text
 pro-ctcae/web/src/main/webapp/images/alphacube/bottom-left-c.gif -text
 pro-ctcae/web/src/main/webapp/images/alphacube/bottom-middle.gif -text
@@ -702,6 +703,8 @@ pro-ctcae/web/src/main/webapp/images/blue/thirdlevelarrow_grey.png -text
 pro-ctcae/web/src/main/webapp/images/blue/thirdlevelnav_grey_gradient.png -text
 pro-ctcae/web/src/main/webapp/images/blue/undo.png -text
 pro-ctcae/web/src/main/webapp/images/blue/up.png -text
+pro-ctcae/web/src/main/webapp/images/blue_btn_bg.png -text
+pro-ctcae/web/src/main/webapp/images/blue_btn_bg_active.png -text
 pro-ctcae/web/src/main/webapp/images/book.gif -text
 pro-ctcae/web/src/main/webapp/images/caaers.ico -text
 pro-ctcae/web/src/main/webapp/images/checkno.gif -text
@@ -745,6 +748,7 @@ pro-ctcae/web/src/main/webapp/images/chrome/workflow-tab_BG_s1.gif -text
 pro-ctcae/web/src/main/webapp/images/chrome/workflow-tab_BG_s2.gif -text
 pro-ctcae/web/src/main/webapp/images/chrome/workflow-tab_R.gif -text
 pro-ctcae/web/src/main/webapp/images/chrome/workflow-tab_R_s.gif -text
+pro-ctcae/web/src/main/webapp/images/disk_icon.png -text
 pro-ctcae/web/src/main/webapp/images/error-yellow.png -text
 pro-ctcae/web/src/main/webapp/images/error.png -text
 pro-ctcae/web/src/main/webapp/images/gears_bottom.png -text
@@ -757,6 +761,7 @@ pro-ctcae/web/src/main/webapp/images/minus.gif -text
 pro-ctcae/web/src/main/webapp/images/page-file.png -text
 pro-ctcae/web/src/main/webapp/images/page-foldericon.png -text
 pro-ctcae/web/src/main/webapp/images/page-openfoldericon.png -text
+pro-ctcae/web/src/main/webapp/images/page_icon.png -text
 pro-ctcae/web/src/main/webapp/images/plus.gif -text
 pro-ctcae/web/src/main/webapp/images/pointer.gif -text
 pro-ctcae/web/src/main/webapp/images/q.gif -text
@@ -803,6 +808,7 @@ pro-ctcae/web/src/main/webapp/images/table/separator.gif -text
 pro-ctcae/web/src/main/webapp/images/table/sortAsc.gif -text
 pro-ctcae/web/src/main/webapp/images/table/sortDesc.gif -text
 pro-ctcae/web/src/main/webapp/images/table/xls.gif -text
+pro-ctcae/web/src/main/webapp/images/window_icon.png -text
 pro-ctcae/web/src/main/webapp/index.jsp -text
 pro-ctcae/web/src/main/webapp/js/D2H_ctxt.js -text
 pro-ctcae/web/src/main/webapp/js/calendar.js -text

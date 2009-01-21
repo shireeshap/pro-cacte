@@ -27,3 +27,15 @@ div.row {
 .formbuildersubHeader {
 	position:relative;
 }
+a.ctcae-button .right {
+	background-color:white;
+background-image:url(/ctcae/images/blue_btn_bg.png);
+background-position:right center;
+background-repeat:no-repeat;
+display:block;
+height:40px;
+position:absolute;
+right:0px;
+top:1px;
+width:3px;
+}
