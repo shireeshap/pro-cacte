@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
@@ -42,7 +43,7 @@ public class AddCrfComponentControllerTest extends WebTestCase {
 
     public void testAddProCtcTermForBasicMode() throws Exception {
 
-        command.setAdvance(Boolean.FALSE);
+        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
         request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
 
         request.addParameter("proCtcTermId", new String[]{"1"});
@@ -66,7 +67,7 @@ public class AddCrfComponentControllerTest extends WebTestCase {
 
     public void testAddProCtcTermAgainForBasicMode() throws Exception {
 
-        command.setAdvance(Boolean.FALSE);
+        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
         request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
 
         request.addParameter("proCtcTermId", new String[]{"1"});
@@ -102,7 +103,7 @@ public class AddCrfComponentControllerTest extends WebTestCase {
     }
 
     public void testHandleRequestIfQuestionIdIsCorrect() throws Exception {
-        command.setAdvance(true);
+        command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
         command.addCrfPage();
         request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
 

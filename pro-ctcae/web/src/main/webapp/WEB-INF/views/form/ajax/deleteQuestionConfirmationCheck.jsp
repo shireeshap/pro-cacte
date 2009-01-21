@@ -11,14 +11,14 @@
 <chrome:box title="form.label.delete_question">
 <chrome:division>
 <p>
-	<strong><tags:message code="form.label.delete_question_instruction"/></strong>
+    <strong><tags:message code="form.label.delete_question_instruction"/></strong>
 
-	<br/>
+    <br/>
 </p>
 
 <p>
-	<strong id="conditionsWarning_${questionId}" style="display:none"><tags:message
-		code="form.label.delete_conditional_triggering_question_instruction"/></strong>
+    <strong id="conditionsWarning_${questionId}" style="display:none"><tags:message
+            code="form.label.delete_conditional_triggering_question_instruction"/></strong>
 </p>
 
 Click on cancel button to cancel it or click on delete button to delete this question.
@@ -30,14 +30,14 @@ Click on cancel button to cancel it or click on delete button to delete this que
 
 <div class="flow-buttons">
 
-	<input type="button" id="flow-update" class="next" value="<tags:message code="label.delete"/>"
-		   alt="Delete" onclick="deleteQuestionConfirm('${questionId}')"/>
+    <input type="button" id="flow-update" class="next" value="<tags:message code="label.delete"/>"
+           alt="Delete" onclick="deleteQuestionConfirm('${questionId}','${proCtcTermId}')"/>
 
 
-	<input type="button" id="flow-cancel" class="previous ibutton" value="<tags:message code="label.cancel"/>"
-		   alt="Cancel" onclick="closeWindow()"/>
+    <input type="button" id="flow-cancel" class="previous ibutton" value="<tags:message code="label.cancel"/>"
+           alt="Cancel" onclick="closeWindow()"/>
 
 
-	</chrome:division>
-	</chrome:box>
+    </chrome:division>
+    </chrome:box>
 </body>

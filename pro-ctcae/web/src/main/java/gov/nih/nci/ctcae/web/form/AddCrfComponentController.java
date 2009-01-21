@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
  * @crated Dec 11, 2008
  */
 public class AddCrfComponentController extends AbstractCrfController {
-    public static final String PRO_CTC_TERM_COMPONENT = "proCtcTerm";
 
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

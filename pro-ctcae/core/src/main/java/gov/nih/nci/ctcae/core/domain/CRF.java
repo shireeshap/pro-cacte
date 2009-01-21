@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
 import org.apache.commons.logging.Log;
@@ -371,15 +372,6 @@ public class CRF extends BaseVersionable {
 
     }
 
-    public void removeCrfPageItemByQuestion(final ProCtcQuestion proCtcQuestion) {
-        CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
-        if (crfPage != null) {
-            crfPage.removeExistingButDoNotAddNewCrfItem(proCtcQuestion);
-        } else {
-            logger.error("can not find crf page for the question:" + proCtcQuestion);
-        }
-
-    }
 
     public void updateCrfPageItemDisplayRules(final ProCtcQuestion proCtcQuestion) {
         Set<Integer> proCtcValidValues = new HashSet<Integer>();
@@ -418,26 +410,36 @@ public class CRF extends BaseVersionable {
     }
 
     public CRFPage addCrfPage() {
-        CRFPage crfPage = new CRFPage();
-        addCrfPage(crfPage);
-        return crfPage;
+        if (getAdvance()) {
+            CRFPage crfPage = new CRFPage();
+            addCrfPage(crfPage);
+            return crfPage;
+
+        }
+        throw new CtcAeSystemException("You can not add new page in basic form creation mode.");
+
 
     }
 
 
     public Object addProCtcTerm(ProCtcTerm proCtcTerm) {
         //first check if pro ctc term exists
-        CRFPage crfPage = getCrfPageByProCtcTerm(proCtcTerm);
 
-        if (crfPage == null) {
-            crfPage = addCrfPage();
-            crfPage.addProCtcTerm(proCtcTerm);
-            return crfPage;
-        } else {
+        if (!getAdvance()) {
+            CRFPage crfPage = getCrfPageByProCtcTerm(proCtcTerm);
 
-            List<CrfPageItem> addedCrfPageItems = crfPage.addProCtcTerm(proCtcTerm);
-            return addedCrfPageItems;
+            if (crfPage == null) {
+                crfPage = new CRFPage();
+                addCrfPage(crfPage);
+                crfPage.addProCtcTerm(proCtcTerm);
+                return crfPage;
+            } else {
+
+                List<CrfPageItem> addedCrfPageItems = crfPage.addProCtcTerm(proCtcTerm);
+                return addedCrfPageItems;
+            }
         }
+        return null;
 
     }
 
@@ -458,5 +460,30 @@ public class CRF extends BaseVersionable {
 
     public void setCrfCreationMode(CrfCreationMode crfCreationMode) {
         this.crfCreationMode = crfCreationMode;
+    }
+
+    public Boolean getAdvance() {
+        return getCrfCreationMode().equals(CrfCreationMode.ADVANCE);
+
+
+    }
+
+    /**
+     * This is used when user deletes a crf page
+     *
+     * @param questionIds
+     */
+    public void removeCrfPageItemByQuestionIds(Set<Integer> questionIds) {
+        for (Integer questionId : questionIds) {
+            CrfPageItem crfPageItem = getCrfPageItemByQuestion(questionId);
+            CRFPage crfPage = getCrfPageByQuestion(questionId);
+            if (crfPage != null) {
+                crfPage.removeCrfPageItem(crfPageItem);
+            } else {
+                logger.error("can not find crf page for the question:" + questionId);
+            }
+
+        }
+
     }
 }

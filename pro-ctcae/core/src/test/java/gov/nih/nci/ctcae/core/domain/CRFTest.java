@@ -3,7 +3,9 @@ package gov.nih.nci.ctcae.core.domain;
 import junit.framework.TestCase;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Harsh Agarwal
@@ -276,7 +278,10 @@ public class CRFTest extends TestCase {
         CRFPage crfPage = crf.getCrfPages().get(0);
         assertEquals("must return 2 crf page items", 2, crfPage.getCrfPageItems().size());
 
-        crf.removeCrfPageItemByQuestion(fifthQuestion);
+
+        Set<Integer> questionIds = new HashSet<Integer>();
+        questionIds.add(fifthQuestion.getId());
+        crf.removeCrfPageItemByQuestionIds(questionIds);
 
         assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
 

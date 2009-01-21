@@ -16,17 +16,17 @@ import java.util.List;
  */
 public class CreateFormCommandTest extends WebTestCase {
 
-    private CreateFormCommand command;
-    private ProCtcQuestion firstQuestion, secondQuestion, thirdQuestion, fourthQuestion, fifthQustion;
+    private ProCtcQuestion firstQuestion, secondQuestion, thirdQuestion, fourthQuestion, fifthQustion, sixthQuestion;
     private CrfPageItem crfItem1Page, crfItem2Page, crfItem3Page, crfItem4Page;
-    private ProCtcTerm proCtcTerm;
+    private ProCtcTerm proCtcTerm1, proCtcTerm2;
     FinderRepository finderRepository;
+    private CreateFormCommand command;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         command = new CreateFormCommand();
-        command.setAdvance(true);
+        command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
         finderRepository = registerMockFor(FinderRepository.class);
 
         firstQuestion = new ProCtcQuestion();
@@ -58,13 +58,94 @@ public class CreateFormCommandTest extends WebTestCase {
         fifthQustion.setId(15);
         fifthQustion.setQuestionText("sample question1");
 
-        proCtcTerm = new ProCtcTerm();
-        proCtcTerm.addProCtcQuestion(firstQuestion);
-        proCtcTerm.addProCtcQuestion(secondQuestion);
-        proCtcTerm.addProCtcQuestion(thirdQuestion);
-        proCtcTerm.addProCtcQuestion(fourthQuestion);
+        sixthQuestion = new ProCtcQuestion();
+        sixthQuestion.setId(16);
+        sixthQuestion.setQuestionText("sample question6");
+
+        proCtcTerm1 = new ProCtcTerm();
+        proCtcTerm1.addProCtcQuestion(firstQuestion);
+        proCtcTerm1.addProCtcQuestion(secondQuestion);
+        proCtcTerm1.addProCtcQuestion(thirdQuestion);
+
+        proCtcTerm2 = new ProCtcTerm();
+        proCtcTerm2.addProCtcQuestion(fourthQuestion);
+        proCtcTerm2.addProCtcQuestion(sixthQuestion);
 
     }
+
+    public void testAddProCtcTermInBasicMode() {
+
+        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
+        command.addProCtcTerm(proCtcTerm1);
+        CRF crf = command.getCrf();
+
+        assertEquals("must have 1 pages", 1, crf.getCrfPages().size());
+
+        List<CrfPageItem> crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
+        assertEquals("must have 3 crf page items", 3, crfPageItems.size());
+        validateCrfPageAndCrfPageItemOrder(crf);
+
+
+    }
+
+    public void testRemoveQuestionInBasicMode() {
+
+        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
+        command.addProCtcTerm(proCtcTerm1);
+        CRF crf = command.getCrf();
+
+        assertEquals("must have 1 pages", 1, crf.getCrfPages().size());
+
+        List<CrfPageItem> crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
+        assertEquals("must have 3 crf page items", 3, crfPageItems.size());
+        validateCrfPageAndCrfPageItemOrder(crf);
+
+        //now remove 1 question
+
+        command.removeQuestionByQuesitonIds(new String[]{String.valueOf(secondQuestion.getId())});
+
+        assertEquals("must remove 1 crf page item", 2, crfPageItems.size());
+        validateCrfPageAndCrfPageItemOrder(crf);
+
+
+    }
+
+    public void testRemoveAndAddSameQuestionInBasicMode() {
+
+        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
+        command.addProCtcTerm(proCtcTerm1);
+        CRF crf = command.getCrf();
+
+        List<CrfPageItem> crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
+        assertEquals("must have 3 crf page items", 3, crfPageItems.size());
+
+        //now remove 1 question
+        command.removeQuestionByQuesitonIds(new String[]{String.valueOf(secondQuestion.getId())});
+
+        assertEquals("must remove 1 crf page item", 2, crfPageItems.size());
+
+        //now add same question again
+        assertEquals("must not add any more page", 1, crf.getCrfPages().size());
+
+        command.addProCtcTerm(proCtcTerm1);
+        assertEquals("must add only 1 question", 3, crfPageItems.size());
+        validateCrfPageAndCrfPageItemOrder(crf);
+
+
+    }
+
+    public void testAddAnotherPageInBasicFormMode() {
+        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
+
+        try {
+            command.addCrfPage();
+            fail("You can not add new page in basic form creation mode.");
+        } catch (CtcAeSystemException e) {
+
+        }
+
+    }
+
 
     public void testConstructor() {
         CRF crf = command.getCrf();
@@ -117,6 +198,70 @@ public class CreateFormCommandTest extends WebTestCase {
 
         command.setNumberOfQuestionsInEachPage("1,2");
         command.setCrfPageNumbersToRemove("1");
+
+        command.setCrfPageNumbers("0,1");
+        //command.clearCrfPage(1);
+
+        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
+        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
+        replay(finderRepository);
+        command.updateCrfItems(finderRepository);
+        verify(finderRepository);
+        resetMocks();
+        crf = command.getCrf();
+
+        assertEquals("must have 2  pages", 2, crf.getCrfPages().size());
+
+        assertEquals("must have  1 questions ", 1, crf.getCrfPages().get(0).getCrfItemsSortedByDislayOrder().size());
+        assertEquals("must have  2 question ", 2, crf.getCrfPages().get(1).getCrfItemsSortedByDislayOrder().size());
+        for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
+            assertNotSame("must remove the questions also when you remove a crf page", thirdQuestion, crfPageItem.getProCtcQuestion());
+        }
+
+        validateCrfPageAndCrfPageItemOrder(crf);
+
+    }
+
+    public void testRemoveAndAddProCtcTermInBasicForm() {
+
+        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
+
+        command.addProCtcTerm(proCtcTerm1);
+
+        CRF crf = command.getCrf();
+
+        assertEquals("must have one  pages", 1, crf.getCrfPages().size());
+        List<CrfPageItem> crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
+        assertEquals("must have 4 crf page items", 4, crfPageItems.size());
+
+
+        command.setQuestionsIds("11,12,13,14");
+        command.setNumberOfQuestionsInEachPage("2,1,1");
+        command.setCrfPageNumbers("0,1,2");
+
+        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
+        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
+        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
+        replay(finderRepository);
+        command.updateCrfItems(finderRepository);
+        verify(finderRepository);
+        resetMocks();
+        crf = command.getCrf();
+        validateCrfPageAndCrfPageItemOrder(crf);
+        assertEquals("must have three  page", 3, crf.getCrfPages().size());
+
+        assertEquals("must have  2 questions ", 2, crf.getCrfPages().get(0).getCrfItemsSortedByDislayOrder().size());
+        assertEquals("must have  1 question ", 1, crf.getCrfPages().get(1).getCrfItemsSortedByDislayOrder().size());
+        assertEquals("must have  1 question ", 1, crf.getCrfPages().get(2).getCrfItemsSortedByDislayOrder().size());
+
+
+        //now remove 2nd page
+        command.setQuestionsIds("11,12,14");
+
+
+        command.setNumberOfQuestionsInEachPage("1,2");
 
         command.setCrfPageNumbers("0,2");
 
@@ -632,36 +777,11 @@ public class CreateFormCommandTest extends WebTestCase {
 
     }
 
-    public void testAddAnotherPageInBasicFormMode() {
-        command.setAdvance(Boolean.FALSE);
-
-        try {
-            command.addCrfPage();
-            fail("You can not add new page in basic form creation mode.");
-        } catch (CtcAeSystemException e) {
-
-        }
-
-    }
-
-    public void testAddProCtcTermInBasicMode() {
-
-        command.addProCtcTerm(proCtcTerm);
-        CRF crf = command.getCrf();
-
-        assertEquals("must have 1 pages", 1, crf.getCrfPages().size());
-
-        List<CrfPageItem> crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
-        assertEquals("must have 4 crf page items", 4, crfPageItems.size());
-        validateCrfPageAndCrfPageItemOrder(crf);
-
-
-    }
 
     public void testAdddingProCtcTermInBasicModeAgainAfterUpdatingCrfPageItem() {
 
-        command.setAdvance(Boolean.FALSE);
-        command.addProCtcTerm(proCtcTerm);
+        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
+        command.addProCtcTerm(proCtcTerm1);
         CRF crf = command.getCrf();
 
         assertEquals("must have 1 pages", 1, crf.getCrfPages().size());
@@ -676,7 +796,7 @@ public class CreateFormCommandTest extends WebTestCase {
 
         //now add pro cterm again
 
-        command.addProCtcTerm(proCtcTerm);
+        command.addProCtcTerm(proCtcTerm1);
         crf = command.getCrf();
 
         assertEquals("must not add any more pages", 1, crf.getCrfPages().size());
@@ -691,8 +811,8 @@ public class CreateFormCommandTest extends WebTestCase {
 
     public void testAdddingProCtcTermInBasicModeAgainAfterUpdatingAndRemovingCrfPageItem() {
 
-        command.setAdvance(Boolean.FALSE);
-        command.addProCtcTerm(proCtcTerm);
+        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
+        command.addProCtcTerm(proCtcTerm1);
         CRF crf = command.getCrf();
 
         assertEquals("must have 1 pages", 1, crf.getCrfPages().size());
@@ -708,13 +828,13 @@ public class CreateFormCommandTest extends WebTestCase {
 
         //now remove this crf page item;
 
-        crf.removeCrfPageItemByQuestion(firstQuestion);
+        command.removeQuestionByQuesitonIds(new String[]{String.valueOf(firstQuestion.getId())});
         crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
         assertEquals("must have 3 crf page items", 3, crfPageItems.size());
 
         //now add pro cterm again
 
-        command.addProCtcTerm(proCtcTerm);
+        command.addProCtcTerm(proCtcTerm1);
         crf = command.getCrf();
 
         assertEquals("must not add any more pages", 1, crf.getCrfPages().size());

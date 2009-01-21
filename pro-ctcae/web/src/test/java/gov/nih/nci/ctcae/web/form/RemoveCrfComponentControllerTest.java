@@ -12,9 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Vinay Kumar
  * @crated Oct 18, 2008
  */
-public class RemoveCrfPageItemControllerTest extends WebTestCase {
+public class RemoveCrfComponentControllerTest extends WebTestCase {
 
-    private RemoveCrfPageItemController controller;
+    private RemoveCrfComponentController controller;
 
     private FinderRepository finderRepository;
     private ProCtcQuestion proCtcQuestion;
@@ -24,7 +24,7 @@ public class RemoveCrfPageItemControllerTest extends WebTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        controller = new RemoveCrfPageItemController();
+        controller = new RemoveCrfComponentController();
         finderRepository = registerMockFor(FinderRepository.class);
         controller.setFinderRepository(finderRepository);
         proCtcQuestion = new ProCtcQuestion();

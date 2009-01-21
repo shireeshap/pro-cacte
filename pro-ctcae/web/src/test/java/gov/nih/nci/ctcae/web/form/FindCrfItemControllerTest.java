@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -39,7 +40,7 @@ public class FindCrfItemControllerTest extends WebTestCase {
         request.setParameter("nextQuestionIndex", "2");
         request.setParameter("previousQuestionIndex", "0");
 
-        command.setAdvance(Boolean.TRUE);
+        command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
         command.addCrfPage();
         command.getCrf().addOrUpdateCrfItemInCrfPage(0, proCtcQuestion, 0);
         expect(finderRepository.findById(ProCtcQuestion.class, 1)).andReturn(proCtcQuestion);

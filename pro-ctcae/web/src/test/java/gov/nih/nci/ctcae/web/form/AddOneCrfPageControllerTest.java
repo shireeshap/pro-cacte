@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
@@ -33,7 +34,7 @@ public class AddOneCrfPageControllerTest extends WebTestCase {
         controller.setProCtcTermRepository(proCtcTermRepository);
         proCtcTerm = new ProCtcTerm();
         command = new CreateFormCommand();
-        command.setAdvance(Boolean.TRUE);
+        command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
         controller.setFinderRepository(finderRepository);
 
 

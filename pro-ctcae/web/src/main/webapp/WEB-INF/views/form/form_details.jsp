@@ -22,414 +22,304 @@
 
 <script type="text/javascript">
 
-Event.observe(window, "load", function () {
+    Event.observe(window, "load", function () {
 
-<c:if test="${not empty command.crf.crfPages}">
-    sortQuestions();
-    updateQuestionsId();
-    addRemoveConditionalTriggeringDisplayToQuestion();
-    updateCrfPageNumberAndShowHideUpDownLink();
-    reOrderQuestionNumber()
-    showHideQuestionUpDownLink();
+    <c:if test="${not empty command.crf.crfPages}">
+        sortQuestions();
+        updateQuestionsId();
+        addRemoveConditionalTriggeringDisplayToQuestion();
+        updateCrfPageNumberAndShowHideUpDownLink();
+        reOrderQuestionNumber()
+        showHideQuestionUpDownLink();
 
-    hideQuestionsFromForm();
-    hideProCtcTermFromForm();
+        hideQuestionsFromForm();
+        hideProCtcTermFromForm();
 
-<c:forEach items="${command.crf.crfPages}" var="crfPage" varStatus="status">
-    var crfPageNumber = '${status.index}';
-    crfPageItemEditor(crfPageNumber);
-</c:forEach>
-</c:if>
-    displayReviewLink();
+    <c:forEach items="${command.crf.crfPages}" var="crfPage" varStatus="status">
+        var crfPageNumber = '${status.index}';
+        crfPageItemEditor(crfPageNumber);
+    </c:forEach>
+    </c:if>
+        displayReviewLink();
+    })
 
-})
+    Event.observe(window, "load", function () {
+        var formNameInPlaceEdit = new Ajax.InPlaceEditor('crfTitle', '/ctcae/pages/form/setName', {
+            rows:1,
+            cancelControl:false,
+            okControl:false,
+            size:18,
+            submitOnBlur:true,
+            onEnterEditMode:function() {
+                if ($('crfTitle').innerHTML == 'Click here to name') {
+                    $('crfTitle').innerHTML = ''
 
-Event.observe(window, "load", function () {
-    var formNameInPlaceEdit = new Ajax.InPlaceEditor('crfTitle', '/ctcae/pages/form/setName', {
-        rows:1,
-        cancelControl:false,
-        okControl:false,
-        size:18,
-        submitOnBlur:true,
-        onEnterEditMode:function() {
-            if ($('crfTitle').innerHTML == 'Click here to name') {
-                $('crfTitle').innerHTML = ''
+                }
 
+            }  ,
+            onComplete:function(transport) {
+                $('crfTitle').innerHTML = transport.responseText;
+                $('formTitle').value = transport.responseText;
+                if ($('formTitle').value == '') {
+                    $('crfTitle').innerHTML = 'Click here to name';
+
+                }
+
+
+            },
+            callback:function(form, value) {
+                return 'crfTitle=' + encodeURIComponent(value)
             }
-
-        }  ,
-        onComplete:function(transport) {
-            $('crfTitle').innerHTML = transport.responseText;
-            $('formTitle').value = transport.responseText;
-            if ($('formTitle').value == '') {
-                $('crfTitle').innerHTML = 'Click here to name';
-
-            }
-
-
-        },
-        callback:function(form, value) {
-            return 'crfTitle=' + encodeURIComponent(value)
-        }
-    });
-})
-
-function displayReviewLink() {
-
-    //    if ($('totalQuestions').value != '0') {
-    //        $('reviewLink').show();
-    //        //$('reviewAllLink').show();
-    //
-    //    } else {
-    //        $('reviewLink').hide();
-    //        //$('reviewAllLink').hide();
-    //
-    //    }
-}
-
-function updateOrderId() {
-    //	var i = 0;
-    //	$$("div.sortableSpan").each(function (item) {
-    //		item.id = i + 1;
-    //
-    //	})
-
-
-}
-function hideQuestionsFromForm() {
-    $$("div.makeDraggable").each(function (item) {
-        var id = item.id;
-        if (!id.include('dummySortable_')) {
-            var questionId = id.substr(9, id.length)
-            hideQuestionFromForm(questionId);
-        }
-
-    })
-
-}
-function hideProCtcTermFromForm() {
-    //    $$("div.selectedProCtcTerm").each(function (item) {
-    //        hideProCtcTermLinkFromForm(item.id);
-    //
-    //    })
-
-
-}
-
-function hideQuestionFromForm(questionId) {
-    $('question_' + questionId).hide();
-
-}
-function hideProCtcTermLinkFromForm(proCtcTermId) {
-    $('proCtcTerm_' + proCtcTermId).hide();
-
-}
-function showProCtcTermLinkFromForm(proCtcTermId) {
-    $('proCtcTerm_' + proCtcTermId).show();
-
-}
-function showQuestionInQuestionBank(questionId) {
-    $('question_' + questionId).show();
-}
-
-function postProcessFormChanges() {
-
-    reOrderQuestionNumber()
-    showHideQuestionUpDownLink();
-    updateTotalNumberOfQuestionsInEachPage();
-    addRemoveConditionalTriggeringDisplayToQuestion();
-
-}
-function addCrfPageItem(questionId, proCtcTermId) {
-    var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
-
-    var crfPageNumber = ''
-    $$('div.formpagesselected').each(function(item) {
-        crfPageNumber = item.id.substr(11, item.id.length);
-
-    })
-    var request = new Ajax.Request("<c:url value="/pages/form/addOneCrfPageItem"/>", {
-        parameters:"questionId=" + questionId + "&subview=subview&crfPageNumber=" + crfPageNumber,
-        onComplete:function (transport) {
-            var response = transport.responseText;
-            if (crfPageNumber == '') {
-                addCrfPageDiv(transport);
-
-            } else {
-                addCrfPageItemDiv(transport, crfPageNumber);
-                updateSelectedCrfItems(questionId)
-                addCrfItemPropertiesHtml(questionId);
-                postProcessFormChanges();
-                updateConditions();
-            }
-
-        },
-        method:'get'
-    })
-    hideQuestionFromForm(questionId);
-    hideProCtcTermLinkFromForm(proCtcTermId);
-    $('totalQuestions').value = displayOrder;
-    $('totalQuestionDivision').innerHTML = displayOrder;
-
-
-}
-
-
-function selectPage(pageIndex) {
-
-<c:if test="${command.advance}">
-    unselectAllSelectedPage();
-    $('form-pages_' + pageIndex).addClassName('formpagesselected')
-    $('form-pages-image_' + pageIndex).show();
-</c:if>
-}
-function unselectAllSelectedPage() {
-    $$('div.formpagesselected').each(function(item) {
-        var pageIndex = item.id.substr(11, item.id.length);
-
-        unselectPage(pageIndex)
-    })
-}
-function unselectPage(pageIndex) {
-    $('form-pages_' + pageIndex).removeClassName('formpagesselected')
-    $('form-pages-image_' + pageIndex).hide();
-}
-
-function updateSelectedCrfItems(questionId) {
-    var selectedCrfPageItems = $('selectedCrfPageItems_' + questionId)
-    if (selectedCrfPageItems != null) {
-        $$('select.selectedCrfPageItems').each(function (item) {
-            item.innerHTML = selectedCrfPageItems.innerHTML;
         });
-    }
-
-}
-
-
-function reviewForm() {
-    var firstQuestion = $$('div.sortable')[0].id;
-    var nextQuestionIndex = 1;
-    if ($('totalQuestions').value == '1') {
-        nextQuestionIndex = '';
-    }
-    showQuestionForReview(firstQuestion, 1, nextQuestionIndex, '');
-
-
-}
-function reviewCompleteForm() {
-    var win = Windows.getFocusedWindow();
-    if (win == null) {
-        win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                true, title: "Review Form", height:500, width: 750,top:150,left:300});
-        win.setDestroyOnClose();
-        win.setContent('sortable');
-        win.show(true)
-
-    } else {
-        win.setContent('sortable');
-        win.refresh();
-    }
-
-}
-
-function showNextQuestion(quesitonIndex) {
-    nextQuestionIndex(quesitonIndex);
-    //  return parseInt(quesitonIndex) + parseInt(1);
-}
-function showQuestionForReview(firstQuestion, displayOrder, nextQuestionIndex, previousQuestionIndex) {
-    var questionId = firstQuestion.substr(9, firstQuestion.length)
-
-    var request = new Ajax.Request("<c:url value="/pages/form/findCrfItem"/>", {
-        parameters:"questionId=" + questionId + "&subview=subview&displayOrder=" + displayOrder
-                + "&nextQuestionIndex=" + nextQuestionIndex + "&previousQuestionIndex=" + previousQuestionIndex,
-        onComplete:showReviewWindow,
-        method:'get'
     })
 
-}
+    function displayReviewLink() {
+
+        //    if ($('totalQuestions').value != '0') {
+        //        $('reviewLink').show();
+        //        //$('reviewAllLink').show();
+        //
+        //    } else {
+        //        $('reviewLink').hide();
+        //        //$('reviewAllLink').hide();
+        //
+        //    }
+    }
+
+    function updateOrderId() {
+        //	var i = 0;
+        //	$$("div.sortableSpan").each(function (item) {
+        //		item.id = i + 1;
+        //
+        //	})
 
 
-//function updateCrfItemroperties(value, propertyName, questionId) {
-//	if (propertyName.include('crfItemAllignment')) {
-//		if (value == 'Vertical') {
-//
-//			$('horizontalCrfItems_' + questionId).hide();
-//			$('verticalCrfItems_' + questionId).show();
-//
-//		}
-//		if (value == 'Horizontal') {
-//			$('verticalCrfItems_' + questionId).hide();
-//			$('horizontalCrfItems_' + questionId).show();
-//
-//		}
-//	}
-//
-//}
+    }
+    function hideQuestionsFromForm() {
+        $$("div.makeDraggable").each(function (item) {
+            var id = item.id;
+            if (!id.include('dummySortable_')) {
+                var questionId = id.substr(9, id.length)
+                hideQuestionFromForm(questionId);
+            }
+
+        })
+
+    }
+    function hideProCtcTermFromForm() {
+        //    $$("div.selectedProCtcTerm").each(function (item) {
+        //        hideProCtcTermLinkFromForm(item.id);
+        //
+        //    })
 
 
-function showReviewWindow(transport) {
-    var win = Windows.getFocusedWindow();
-    if (win == null) {
-        win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                true, title: "", height:300, width: 600,top:250,left:200});
-        win.setDestroyOnClose();
-        win.setHTMLContent(transport.responseText);
-        win.show(true)
+    }
 
-    } else {
-        win.setHTMLContent(transport.responseText);
-        win.refresh();
+    function hideQuestionFromForm(questionId) {
+        $('question_' + questionId).hide();
+
+    }
+    function hideProCtcTermLinkFromForm(proCtcTermId) {
+        $('proCtcTerm_' + proCtcTermId).hide();
+
+    }
+    function showProCtcTermLinkFromForm(proCtcTermId) {
+        $('proCtcTerm_' + proCtcTermId).show();
+
+    }
+    function showQuestionInQuestionBank(questionId) {
+        $('question_' + questionId).show();
+    }
+
+    function postProcessFormChanges() {
+
+        reOrderQuestionNumber()
+        showHideQuestionUpDownLink();
+        updateTotalNumberOfQuestionsInEachPage();
+        addRemoveConditionalTriggeringDisplayToQuestion();
+
+    }
+</script>
+<script type="text/javascript">
+    function addCrfPageItem(questionId, proCtcTermId) {
+        var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
+
+        var crfPageNumber = ''
+        $$('div.formpagesselected').each(function(item) {
+            crfPageNumber = item.id.substr(11, item.id.length);
+
+        })
+        var request = new Ajax.Request("<c:url value="/pages/form/addOneCrfPageItem"/>", {
+            parameters:"questionId=" + questionId + "&subview=subview&crfPageNumber=" + crfPageNumber,
+            onComplete:function (transport) {
+                var response = transport.responseText;
+                if (crfPageNumber == '') {
+                    addCrfPageDiv(transport);
+
+                } else {
+                    addCrfPageItemDiv(transport, crfPageNumber);
+                    updateSelectedCrfItems(questionId)
+                    addCrfItemPropertiesHtml(questionId);
+                    postProcessFormChanges();
+                    updateConditions();
+                }
+
+            },
+            method:'get'
+        })
+        hideQuestionFromForm(questionId);
+        hideProCtcTermLinkFromForm(proCtcTermId);
+        $('totalQuestions').value = displayOrder;
+        $('totalQuestionDivision').innerHTML = displayOrder;
+
+
     }
 
 
-}
-function nextQuestion(questionIndex) {
+    function selectPage(pageIndex) {
 
-    var nextQuestion = $$('div.sortable')[parseInt(questionIndex)].id;
-    var displayOrder = parseInt(questionIndex) + parseInt(1);
+    <c:if test="${command.crf.advance}">
+        unselectAllSelectedPage();
+        $('form-pages_' + pageIndex).addClassName('formpagesselected')
+        $('form-pages-image_' + pageIndex).show();
+    </c:if>
+    }
+    function unselectAllSelectedPage() {
+        $$('div.formpagesselected').each(function(item) {
+            var pageIndex = item.id.substr(11, item.id.length);
 
-    var previousQuestionIndex = parseInt(questionIndex) - parseInt(1)
-    var nextQuestionIndex = parseInt(questionIndex) + parseInt(1);
-
-    if (nextQuestionIndex == $$('div.sortable').length)
-    {
-        nextQuestionIndex = '';
+            unselectPage(pageIndex)
+        })
+    }
+    function unselectPage(pageIndex) {
+        $('form-pages_' + pageIndex).removeClassName('formpagesselected')
+        $('form-pages-image_' + pageIndex).hide();
     }
 
-    showQuestionForReview(nextQuestion, displayOrder, nextQuestionIndex, previousQuestionIndex)
-
-
-}
-
-function previousQuestion(questionIndex) {
-
-    var previousQuestion = $$('div.sortable')[parseInt(questionIndex)].id;
-    var displayOrder = parseInt(questionIndex) + parseInt(1);
-
-    var nextQuestionIndex = parseInt(questionIndex) + parseInt(1)
-
-
-    var previousQuestionIndex = '';
-    if (questionIndex != 0)
-    {
-        previousQuestionIndex = parseInt(questionIndex) - parseInt(1)
+    function updateSelectedCrfItems(questionId) {
+        var selectedCrfPageItems = $('selectedCrfPageItems_' + questionId)
+        if (selectedCrfPageItems != null) {
+            $$('select.selectedCrfPageItems').each(function (item) {
+                item.innerHTML = selectedCrfPageItems.innerHTML;
+            });
+        }
 
     }
-    showQuestionForReview(previousQuestion, displayOrder, nextQuestionIndex, previousQuestionIndex)
 
 
-}
-function addConditionalQuestion(questionId, selectedValidValues) {
+</script>
+<script type="text/javascript">
+    function addConditionalQuestion(questionId, selectedValidValues) {
 
 
-    var request = new Ajax.Request("<c:url value="/pages/form/addConditionalQuestion"/>", {
-        parameters:"questionId=" + questionId + "&subview=subview&selectedValidValues=" + selectedValidValues,
-        onComplete:function(transport) {
-            var response = transport.responseText;
+        var request = new Ajax.Request("<c:url value="/pages/form/addConditionalQuestion"/>", {
+            parameters:"questionId=" + questionId + "&subview=subview&selectedValidValues=" + selectedValidValues,
+            onComplete:function(transport) {
+                var response = transport.responseText;
 
-            new Insertion.Before("conditions_" + questionId, response)
-            addRemoveConditionalTriggeringDisplayToQuestion();
-        },
-        method:'get'
-    })
-
-
-}
-
-function deleteConditions(questionId, proCtcValidValueId) {
+                new Insertion.Before("conditions_" + questionId, response)
+                addRemoveConditionalTriggeringDisplayToQuestion();
+            },
+            method:'get'
+        })
 
 
-    var request = new Ajax.Request("<c:url value="/pages/form/removeConditions"/>", {
-        parameters:"questionId=" + questionId + "&subview=subview&proCtcValidValueId=" + proCtcValidValueId,
-        onComplete:function(transport) {
-            var inputName = 'conditionalQuestion_' + questionId + '_' + proCtcValidValueId;
-            $(inputName + '-row').remove();
-            addRemoveConditionalTriggeringDisplayToQuestion();
-        },
-        method:'get'
-    })
-
-
-}
-
-
-function showForm() {
-    $('questionBank').show();
-    hideQuestionSettings();
-    hideFormSettings();
-    $("firstlevelnav_1").addClassName('selected_4thlvl')
-    $("firstlevelnav_3").removeClassName('selected_4thlvl')
-    $("firstlevelnav_2").removeClassName('selected_4thlvl')
-
-}
-function showQuestionSettings() {
-    showQuestionSettingsTab();
-
-    if ($$('div.sortable').size() != 0) {
-        var firstQuestion = $$('div.sortable')[1].id;
-        var questionId = firstQuestion.substr(9, firstQuestion.length)
-        showCrfItemProperties(questionId);
     }
-}
-function showQuestionSettingsTab() {
-    hideQuestionBank();
-    hideCrfItemProperties();
-    hideFormSettings();
-    $("firstlevelnav_2").addClassName('selected_4thlvl')
-    $("firstlevelnav_3").removeClassName('selected_4thlvl')
-    $("firstlevelnav_1").removeClassName('selected_4thlvl')
+
+    function deleteConditions(questionId, proCtcValidValueId) {
 
 
-}
-function hideQuestionSettings() {
-    hideCrfItemProperties();
-}
-function hideCrfItemProperties() {
-    $$('div.questionProperties').each(function (item) {
-        item.hide();
-    })
-}
+        var request = new Ajax.Request("<c:url value="/pages/form/removeConditions"/>", {
+            parameters:"questionId=" + questionId + "&subview=subview&proCtcValidValueId=" + proCtcValidValueId,
+            onComplete:function(transport) {
+                var inputName = 'conditionalQuestion_' + questionId + '_' + proCtcValidValueId;
+                $(inputName + '-row').remove();
+                addRemoveConditionalTriggeringDisplayToQuestion();
+            },
+            method:'get'
+        })
 
-function addEditingDisplayToQuestion(questionId) {
-    removeEditingDisplayFromQuestions();
-    $('sortable_' + questionId).addClassName('editing');
 
-}
-function removeEditingDisplayFromQuestions() {
-    $$('div.editing').each(function (item) {
-        item.removeClassName('editing');
-    })
-}
-function addCrfItemPropertiesHtml(questionId) {
-
-    var response = $('questionPropertiesDiv_' + questionId).innerHTML;
-
-    if (response != '') {
-        $('questionPropertiesDiv_' + questionId).innerHTML = '';
-        new Insertion.Before("questionProperties0", response);
     }
-}
-function showCrfItemPropertiesTab(questionId) {
-    if (questionId != '') {
 
-        showQuestionSettingsTab()
-        showCrfItemProperties(questionId);
+
+    function showForm() {
+        $('questionBank').show();
+        hideQuestionSettings();
+        hideFormSettings();
+        $("firstlevelnav_1").addClassName('selected_4thlvl')
+        $("firstlevelnav_3").removeClassName('selected_4thlvl')
+        $("firstlevelnav_2").removeClassName('selected_4thlvl')
+
     }
-}
-function hideQuestionBank() {
-    $('questionBank').hide();
-}
-function showFormSettings() {
-    $("firstlevelnav_3").addClassName("selected_4thlvl");
-    $("firstlevelnav_2").removeClassName('selected_4thlvl');
-    $("firstlevelnav_1").removeClassName('selected_4thlvl');
-    hideQuestionBank();
-    hideQuestionSettings();
-    $('formSettings').show();
-}
-function hideFormSettings() {
-    $('formSettings').hide();
-}
+    function showQuestionSettings() {
+        showQuestionSettingsTab();
+
+        if ($$('div.sortable').size() != 0) {
+            var firstQuestion = $$('div.sortable')[1].id;
+            var questionId = firstQuestion.substr(9, firstQuestion.length)
+            showCrfItemProperties(questionId);
+        }
+    }
+    function showQuestionSettingsTab() {
+        hideQuestionBank();
+        hideCrfItemProperties();
+        hideFormSettings();
+        $("firstlevelnav_2").addClassName('selected_4thlvl')
+        $("firstlevelnav_3").removeClassName('selected_4thlvl')
+        $("firstlevelnav_1").removeClassName('selected_4thlvl')
+
+
+    }
+    function hideQuestionSettings() {
+        hideCrfItemProperties();
+    }
+    function hideCrfItemProperties() {
+        $$('div.questionProperties').each(function (item) {
+            item.hide();
+        })
+    }
+
+    function addEditingDisplayToQuestion(questionId) {
+        removeEditingDisplayFromQuestions();
+        $('sortable_' + questionId).addClassName('editing');
+
+    }
+    function removeEditingDisplayFromQuestions() {
+        $$('div.editing').each(function (item) {
+            item.removeClassName('editing');
+        })
+    }
+    function addCrfItemPropertiesHtml(questionId) {
+
+        var response = $('questionPropertiesDiv_' + questionId).innerHTML;
+
+        if (response != '') {
+            $('questionPropertiesDiv_' + questionId).innerHTML = '';
+            new Insertion.Before("questionProperties0", response);
+        }
+    }
+    function showCrfItemPropertiesTab(questionId) {
+        if (questionId != '') {
+
+            showQuestionSettingsTab()
+            showCrfItemProperties(questionId);
+        }
+    }
+    function hideQuestionBank() {
+        $('questionBank').hide();
+    }
+    function showFormSettings() {
+        $("firstlevelnav_3").addClassName("selected_4thlvl");
+        $("firstlevelnav_2").removeClassName('selected_4thlvl');
+        $("firstlevelnav_1").removeClassName('selected_4thlvl');
+        hideQuestionBank();
+        hideQuestionSettings();
+        $('formSettings').show();
+    }
+    function hideFormSettings() {
+        $('formSettings').hide();
+    }
 
 
 </script>
@@ -451,12 +341,22 @@ function hideFormSettings() {
             crfPageNumber = item.id.substr(11, item.id.length);
 
         })
+    <c:if test="${!command.crf.advance}">
+
+        getCrfPageNumbersForProCtcTerm(proCtcTermId).each(function(item) {
+            crfPageNumber = item;
+
+        })
+    </c:if>
+
         var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
             parameters:"proCtcTermId=" + proCtcTermId + "&subview=subview&crfPageNumber=" + crfPageNumber + "&componentType=proCtcTerm",
             onComplete:function(transport) {
+
+
+                var response = transport.responseText;
                 if (crfPageNumber == '') {
                     addCrfPageDiv(transport);
-                    hideQuestionsFromForm();
 
 
                 } else {
@@ -466,6 +366,7 @@ function hideFormSettings() {
                     updateConditions();
 
                 }
+
             },
             method:'get'
         })
@@ -517,56 +418,9 @@ function hideFormSettings() {
 
 
     }
-    function revertDummy(element, top_offset, left_offset) {
-        var id = element.id;
-        var revertQuestionAndShowWarning = false;
-        var condtionalQuestionIds = [];
-        var alertMessage = '';
-        if (!id.include('dummySortable_')) {
-
-            var questionId = id.substring(9, id.length);
-
-            var conditionsRow = $$('tr.conditionalTriggering_' + questionId);
-            conditionsRow.each(function(conditionRow) {
-                var conditionalQuestionId = conditionRow.id.substring(conditionRow.id.indexOf('_') + 1, conditionRow.id.lastIndexOf('_'))
-                condtionalQuestionIds.push(conditionalQuestionId);
-            })
-            if (condtionalQuestionIds.length > 0) {
-                condtionalQuestionIds.each(function(item) {
-                    if (parseInt($('sortableSpan_' + questionId).innerHTML) > parseInt($('sortableSpan_' + item).innerHTML)) {
-                        revertQuestionAndShowWarning = true;
-                        alertMessage = 'You can not move this question because Triggered question can not be moved after its Conditional question ';
-                    }
-                })
-            }
-
-            //it may be a conditional question
-            condtionalQuestionIds = [];
-            if ($$('tr.conditionalQuestion_' + questionId + '_condition').length > 0) {
-                condtionalQuestionIds.push(questionId)
-            }
-            //						if (condtionalQuestionIds.length > 0) {
-            //							$$('div.sortableSpan').each(function(item) {
-            //								if (parseInt($('sortableSpan_' + questionId).innerHTML) > parseInt(item.innerHTML)) {
-            //									revertQuestionAndShowWarning = true;
-            //									alertMessage = 'You can not move this question because Conditional question can not be moved before its Triggered question ';
-            //								}
-            //							})
-            //						}
-        }
-        if (revertQuestionAndShowWarning) {
-            var dur = Math.sqrt(Math.abs(top_offset ^ 2) + Math.abs(left_offset ^ 2)) * 0.02;
-            new Effect.Move(element, { x: -left_offset, y: -top_offset, duration: dur,
-                queue: {scope:'_draggable', position:'end'}
-            });
-            alert(alertMessage);
-        }
-
-
-    }
     function sortQuestions() {
 
-    <c:if test="${command.advance}">
+    <c:if test="${command.crf.advance}">
         var formPages = $$('div.formpages');
         var sortableDivs = [];
         formPages.each(function(item) {
@@ -830,6 +684,7 @@ function moveQuestionDown(selectedQuestionId) {
 }
 
 function showHideQuestionUpDownLink() {
+<c:if test="${command.crf.advance}">
 
     var i = 0;
     var j = 0;
@@ -864,7 +719,7 @@ function showHideQuestionUpDownLink() {
         }
         j++;
     });
-
+</c:if>
 
 }
 
@@ -906,119 +761,138 @@ function showHideQuestionUpDownLink() {
     }
 </script>
 <script type="text/javascript">
-function shrinkQuestionBank() {
-    Effect.SlideUp('left', {
-        scaleX:true,
-        scaleY:false
-    });
-    $('shrinkQuestionBankUrl').hide();
-    $('expandQuestionBankUrl').show();
-}
-function expandQuestionBank() {
-    Effect.SlideDown('left', {
-        scaleX:true,
-        scaleY:false
-    });
+    function shrinkQuestionBank() {
+        Effect.SlideUp('left', {
+            scaleX:true,
+            scaleY:false
+        });
+        $('shrinkQuestionBankUrl').hide();
+        $('expandQuestionBankUrl').show();
+    }
+    function expandQuestionBank() {
+        Effect.SlideDown('left', {
+            scaleX:true,
+            scaleY:false
+        });
 
-    $('shrinkQuestionBankUrl').show();
-    $('expandQuestionBankUrl').hide();
-}
-function shrinkForm() {
-    Effect.SlideUp('right', {
-        scaleX:true,
-        scaleY:false
-    });
-    $('shrinkFormUrl').hide();
-    $('expandFormUrl').show();
-}
-function expandForm() {
-    Effect.SlideDown('right', {
-        scaleX:true,
-        scaleY:false
-    });
+        $('shrinkQuestionBankUrl').show();
+        $('expandQuestionBankUrl').hide();
+    }
+    function shrinkForm() {
+        Effect.SlideUp('right', {
+            scaleX:true,
+            scaleY:false
+        });
+        $('shrinkFormUrl').hide();
+        $('expandFormUrl').show();
+    }
+    function expandForm() {
+        Effect.SlideDown('right', {
+            scaleX:true,
+            scaleY:false
+        });
 
-    $('shrinkFormUrl').show();
-    $('expandFormUrl').hide();
-}
-function addRemoveConditionalTriggeringDisplayToQuestion() {
+        $('shrinkFormUrl').show();
+        $('expandFormUrl').hide();
+    }
+    function addRemoveConditionalTriggeringDisplayToQuestion() {
 
-    $$("div.sortable").each(function (item) {
-        var id = item.id;
-        if (!id.include('dummySortable_')) {
-            var questionId = id.substr(9, id.length)
-            if ($$('tr.conditionalTriggering_' + questionId).length > 0) {
-                $('conditionalTriggeringImage_' + questionId).show();
-                $("sortable_" + questionId).addClassName('conditional-triggering');
-            } else {
-                $('conditionalTriggeringImage_' + questionId).hide();
-                $("sortable_" + questionId).removeClassName('conditional-triggering');
-            }
-
-            if ($$('tr.conditionalQuestion_' + questionId + '_condition').length == 0) {
-                $("sortable_" + questionId).removeClassName('conditional-question');
-                $('conditionsImage_' + questionId).hide();
-                $('conditionsTable_' + questionId).hide();
-
-            } else {
-                $('conditionsImage_' + questionId).show();
-                $('conditionsTable_' + questionId).show();
-                $("sortable_" + questionId).addClassName('conditional-question')
-            }
-        }
-    });
-
-}
-
-function deleteCrfPage(selectedCrfPageNumber) {
-    var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-        parameters:"confirmationType=deleteCrf&subview=subview&selectedCrfPageNumber=" + selectedCrfPageNumber,
-        onComplete:function(transport) {
-            var isAnyConditionalTriggeringQuestion = false;
-            var crfPageItems = $$('#form-pages_' + selectedCrfPageNumber + ' div.sortable');
-            crfPageItems.each(function (item) {
-                var id = item.id;
-                if (!id.include('dummySortable_')) {
-                    var conditionalTriggeredQuestionId = id.substr(9, id.length);
-                    var conditions = $$('tr.conditionalTriggering_' + conditionalTriggeredQuestionId);
-                    conditions.each(function(item) {
-                        isAnyConditionalTriggeringQuestion = true;
-                    })
+        $$("div.sortable").each(function (item) {
+            var id = item.id;
+            if (!id.include('dummySortable_')) {
+                var questionId = id.substr(9, id.length)
+                if ($$('tr.conditionalTriggering_' + questionId).length > 0) {
+                    $('conditionalTriggeringImage_' + questionId).show();
+                    $("sortable_" + questionId).addClassName('conditional-triggering');
+                } else {
+                    $('conditionalTriggeringImage_' + questionId).hide();
+                    $("sortable_" + questionId).removeClassName('conditional-triggering');
                 }
 
-            })
-            showConfirmationWindow(transport);
-            if (isAnyConditionalTriggeringQuestion) {
-                $('conditionsWarningForCrfPage_' + selectedCrfPageNumber).show();
+                if ($$('tr.conditionalQuestion_' + questionId + '_condition').length == 0) {
+                    $("sortable_" + questionId).removeClassName('conditional-question');
+                    $('conditionsImage_' + questionId).hide();
+                    $('conditionsTable_' + questionId).hide();
 
+                } else {
+                    $('conditionsImage_' + questionId).show();
+                    $('conditionsTable_' + questionId).show();
+                    $("sortable_" + questionId).addClassName('conditional-question')
+                }
             }
-        },
+        });
 
-        method:'get'
-    });
+    }
 
-}
-function deleteQuestion(questionId) {
-    var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-        parameters:"confirmationType=deleteQuestion&subview=subview&questionId=" + questionId,
-        onComplete:function(transport) {
+</script>
+<script type="text/javascript">
+    function deleteCrfPage(selectedCrfPageNumber) {
+        var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
+            parameters:"confirmationType=deleteCrf&subview=subview&selectedCrfPageNumber=" + selectedCrfPageNumber,
+            onComplete:function(transport) {
+                var isAnyConditionalTriggeringQuestion = false;
+                var crfPageItems = $$('#form-pages_' + selectedCrfPageNumber + ' div.sortable');
+                crfPageItems.each(function (item) {
+                    var id = item.id;
+                    if (!id.include('dummySortable_')) {
+                        var conditionalTriggeredQuestionId = id.substr(9, id.length);
+                        var conditions = $$('tr.conditionalTriggering_' + conditionalTriggeredQuestionId);
+                        conditions.each(function(item) {
+                            isAnyConditionalTriggeringQuestion = true;
+                        })
+                    }
 
-            showConfirmationWindow(transport);
-            if ($$("#sortable_" + questionId + '.conditional-triggering').length > 0) {
-                $('conditionsWarning_' + questionId).show();
-            }
-        } ,
-        method:'get'
-    });
+                })
+                showConfirmationWindow(transport);
+                if (isAnyConditionalTriggeringQuestion) {
+                    $('conditionsWarningForCrfPage_' + selectedCrfPageNumber).show();
+
+                }
+            },
+
+            method:'get'
+        });
+
+    }
+    function deleteQuestion(questionId, proCtcTermId) {
+        var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
+            parameters:"confirmationType=deleteQuestion&subview=subview&questionId=" + questionId + "&proCtcTermId=" + proCtcTermId,
+            onComplete:function(transport) {
+
+                showConfirmationWindow(transport);
+                if ($$("#sortable_" + questionId + '.conditional-triggering').length > 0) {
+                    $('conditionsWarning_' + questionId).show();
+                }
+            } ,
+            method:'get'
+        });
 
 
-}
-function deleteQuestionConfirm(questionId) {
-    closeWindow();
+    }
+    function deleteQuestionConfirm(questionId, proCtcTermId) {
+        closeWindow();
 
-    var request = new Ajax.Request("<c:url value="/pages/form/removeCrfPageItem"/>", {
-        parameters:"questionId=" + questionId + "&subview=subview" ,
-        onComplete:function (transport) {
+        var request = new Ajax.Request("<c:url value="/pages/form/removeCrfComponent"/>", {
+            parameters:"questionIds=" + questionId + "&subview=subview&componentType=proCtcQuestion" ,
+            onComplete:function (transport) {
 
+                postProcessQuestionDelete(questionId);
+
+                sortQuestions();
+                updateQuestionsId();
+                updateOrderId();
+                postProcessFormChanges();
+                showProCtcTermLinkFromForm(proCtcTermId);
+
+            },
+            method:'get'
+        })
+
+
+    }
+
+    function postProcessQuestionDelete(questionId) {
+        if (questionId != '') {
             var conditions = $$('tr.conditionalTriggering_' + questionId);
             if (conditions.length > 0) {
                 conditions.each(function(item) {
@@ -1032,90 +906,118 @@ function deleteQuestionConfirm(questionId) {
                     item.remove();
                 }
             })
+            if ($('questionProperties_' + questionId) != null) {
+                $('questionProperties_' + questionId).remove();
+            }
             $('sortable_' + questionId).remove();
-            $('questionProperties_' + questionId).remove();
-
-            sortQuestions();
-            updateQuestionsId();
-            updateOrderId();
-            postProcessFormChanges();
             showQuestionInQuestionBank(questionId);
 
-
-        },
-        method:'get'
-    })
-
-
-}
+        }
+    }
+    function deleteConditionsOfConditionalTriggeredQuestion(conditionalTriggeredQuestionId) {
 
 
-function deleteConditionsOfConditionalTriggeredQuestion(conditionalTriggeredQuestionId) {
+    <%--var request = new Ajax.Request("<c:url value="/pages/form/removeConditions"/>", {--%>
+    <%--parameters:"conditionalTriggeredQuestionId=" + conditionalTriggeredQuestionId + "&subview=subview",--%>
+    <%--onComplete:function(transport) {--%>
+    <%--var conditions = $$('tr.conditionalTriggering_' + conditionalTriggeredQuestionId);--%>
+    <%--conditions.each(function(item) {--%>
+    <%--item.remove();--%>
+    <%--})--%>
+    <%--addRemoveConditionalTriggeringDisplayToQuestion();--%>
 
 
-    var request = new Ajax.Request("<c:url value="/pages/form/removeConditions"/>", {
-        parameters:"conditionalTriggeredQuestionId=" + conditionalTriggeredQuestionId + "&subview=subview",
-        onComplete:function(transport) {
-            var conditions = $$('tr.conditionalTriggering_' + conditionalTriggeredQuestionId);
-            conditions.each(function(item) {
-                item.remove();
-            })
-            addRemoveConditionalTriggeringDisplayToQuestion();
+    <%--},--%>
+    <%--method:'get'--%>
+    <%--})--%>
 
 
-        },
-        method:'get'
-    })
+    }
 
+</script>
+<script type="text/javascript">
+    function getQuestionIdsInAPage(selectedCrfPageNumber) {
+        var questionIds = [];
+        var crfPageItems = $$('#form-pages_' + selectedCrfPageNumber + ' div.sortable');
+        crfPageItems.each(function (item) {
+            var id = item.id;
+            if (!id.include('dummySortable_')) {
+                var questionId = id.substr(9, id.length);
+                questionIds.push(questionId);
 
-}
-function deleteConditionsForCrfPage(selectedCrfPageNumber) {
-
-
-    var request = new Ajax.Request("<c:url value="/pages/form/removeConditions"/>", {
-        parameters:"selectedCrfPageNumber=" + selectedCrfPageNumber + "&subview=subview",
-        onComplete:function(transport) {
-            var crfPageItems = $$('#form-pages_' + selectedCrfPageNumber + ' div.sortable');
-            crfPageItems.each(function (item) {
-                var id = item.id;
-                if (!id.include('dummySortable_')) {
-                    var questionId = id.substr(9, id.length);
-                    showQuestionInQuestionBank(questionId);
-                    var conditions = $$('tr.conditionalTriggering_' + questionId);
-                    conditions.each(function(item) {
-                        item.remove();
-                    })
-                    $('questionProperties_' + questionId).remove();
-
-                }
-
-            })
-            $('form-pages_' + selectedCrfPageNumber).remove();
-
-            var crfPageNumbersToRemove = $('crfPageNumbersToRemove').value;
-            if (crfPageNumbersToRemove.blank()) {
-                crfPageNumbersToRemove = selectedCrfPageNumber;
-            } else {
-                crfPageNumbersToRemove = crfPageNumbersToRemove + ',' + selectedCrfPageNumber;
             }
-            $('crfPageNumbersToRemove').value = crfPageNumbersToRemove;
-            updateQuestionsId();
-            updateCrfPageNumberAndShowHideUpDownLink();
-            postProcessFormChanges();
-            updateConditions();
 
-        },
-        method:'get'
-    })
+        })
+        return questionIds;
+
+    }
+    function getProCtcTermId(id) {
+        var proCtcTermId = id.substr(19, id.length);
+        return proCtcTermId;
+    }
+    function getProCtcTermsInAPage(selectedCrfPageNumber) {
+        var proCtcTermIds = [];
+        var proCtcTerms = $$('#form-pages_' + selectedCrfPageNumber + ' div.selectedCrfPageForProCtcTerm_' + selectedCrfPageNumber);
+        proCtcTerms.each(function (item) {
+            var id = item.id;
+            var proCtcTermId = getProCtcTermId(id);
+            proCtcTermIds.push(proCtcTermId);
 
 
-}
+        })
+        return proCtcTermIds;
 
-function deleteCrfPageConfirm(selectedCrfPageNumber) {
-    closeWindow();
-    deleteConditionsForCrfPage(selectedCrfPageNumber);
+    }
+    function getCrfPageNumbersForProCtcTerm(proCtcTermId) {
+        var crfPageNumbers = [];
 
-}
+        var formPages = $$('div.formpages');
+        formPages.each(function(item) {
+            var crfPageNumber = item.id.substr(11, item.id.length);
+            if ($$('#form-pages_' + crfPageNumber + ' div.selectedProCtcTerm_' + proCtcTermId).length > 0) {
+                crfPageNumbers.push(crfPageNumber);
+            }
+        });
+        return crfPageNumbers;
+
+    }
+    function deleteCrfPageConfirm(selectedCrfPageNumber) {
+        closeWindow();
+        var questionIds = getQuestionIdsInAPage(selectedCrfPageNumber);
+
+        var request = new Ajax.Request("<c:url value="/pages/form/removeCrfComponent"/>", {
+            parameters:"questionIds=" + questionIds + "&subview=subview&componentType=proCtcQuestion" ,
+            onComplete:function(transport) {
+
+                getProCtcTermsInAPage(selectedCrfPageNumber).each(function(proCtcTermId) {
+                    showProCtcTermLinkFromForm(proCtcTermId);
+                })
+                questionIds.each(function(questionId) {
+                    postProcessQuestionDelete(questionId);
+                });
+
+
+                $('form-pages_' + selectedCrfPageNumber).remove();
+
+                var crfPageNumbersToRemove = $('crfPageNumbersToRemove').value;
+                if (crfPageNumbersToRemove.blank()) {
+                    crfPageNumbersToRemove = selectedCrfPageNumber;
+                } else {
+                    crfPageNumbersToRemove = crfPageNumbersToRemove + ',' + selectedCrfPageNumber;
+                }
+                $('crfPageNumbersToRemove').value = crfPageNumbersToRemove;
+                updateQuestionsId();
+                updateCrfPageNumberAndShowHideUpDownLink();
+                postProcessFormChanges();
+                updateConditions();
+
+
+            },
+            method:'get'
+        })
+
+
+    }
 </script>
 <script type="text/javascript">
     function addCrfPageDiv(transport) {
@@ -1132,6 +1034,8 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
         var item = formPages[formPages.length - 1];
         var crfPageNumber = item.id.substr(11, item.id.length);
         crfPageItemEditor(crfPageNumber);
+        hideQuestionsFromForm();
+
         postProcessFormChanges();
         updateConditions();
 
@@ -1185,6 +1089,18 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
         //	$('totalQuestionDivision').innerHTML = displayOrder;
 
 
+    }
+</script>
+
+<script type="text/javascript">
+    function switchToAdvance() {
+        $('switchToAdvance').value = true;
+        $('command').submit();
+
+    }
+    function switchToBasic() {
+        $('switchToBasic').value = true;
+        $('command').submit();
     }
 </script>
 <style type="text/css">
@@ -1295,16 +1211,14 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
         </div>
     <%--<a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>--%>
     <c:choose>
-        <c:when test="${advance}"> <a id="basicMode" href="javascript:reviewForm()">Switch to Basic Form Builder</a>
+        <c:when test="${command.crf.advance}"> <a id="basicMode" href="javascript:switchToBasic()">Switch to Basic Form
+            Builder</a>
         </c:when>
         <c:otherwise>
-            <a id="basicMode" href="javascript:reviewForm()">Switch to Advance Form Builder</a>
+            <a id="advanceMode" href="javascript:switchToAdvance()">Switch to Advance Form Builder</a>
 
         </c:otherwise>
     </c:choose>
-    <c:if test="${advance}">
-
-    </c:if>
 
     <a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;"><img
             src="<tags:imageUrl name="blue/maximize-right.png" />" style="float:left" alt="Maximize"/></a>
@@ -1370,7 +1284,7 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
                                                                 <tags:formbuilderBox>
                                                                     <tags:formbuilderBoxControls add="${add}"
                                                                                                  proCtcQuestionId="${proCtcQuestion.id}"
-                                                                                                 proCtctermId="${proCtcTerm.id}"/>
+                                                                                                 proCtcTermId="${proCtcTerm.id}"/>
                                                                     ${proCtcQuestion.formattedQuestionText}
                                                                     <ul>
                                                                         <c:forEach items="${proCtcQuestion.validValues}"
@@ -1394,8 +1308,10 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
 
                         </div>
 
+                        <div id="questionProperties">
+                            <div id="questionProperties0" style="display:none;"></div>
+                        </div>
 
-                        <div id="questionProperties0" style="display:none;"></div>
                         <div id="formSettings" style="display:none;">
                             <crf:formSettings crf="${command.crf}"></crf:formSettings>
                         </div>
@@ -1436,7 +1352,11 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
 										</span> question<span id="plural2">s</span> in this form.</span>
 
 
+                                        <input type="hidden" id="switchToAdvance" name="switchToAdvance" value=""/>
+                                        <input type="hidden" id="switchToBasic" name="switchToBasic" value=""/>
+
                                         <form:hidden path="questionsIds" id="questionsIds"/>
+
                                         <form:hidden path="crfPageNumbers" id="crfPageNumbers"/>
                                         <form:hidden path="crfPageNumbersToRemove" id="crfPageNumbersToRemove"/>
                                         <form:hidden path="numberOfQuestionsInEachPage"
@@ -1446,7 +1366,7 @@ function deleteCrfPageConfirm(selectedCrfPageNumber) {
                                                    varStatus="status">
                                             <tags:oneCrfPage crfPage="${selectedCrfPage}"
                                                              crfPageNumber="${status.index}"
-                                                             advance="${command.advance}">
+                                                             advance="${command.crf.advance}">
                                             </tags:oneCrfPage>
 
                                         </c:forEach>

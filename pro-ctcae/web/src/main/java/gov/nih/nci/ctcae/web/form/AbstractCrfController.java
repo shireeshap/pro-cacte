@@ -15,13 +15,16 @@ import java.util.Map;
  */
 public abstract class AbstractCrfController extends AbstractController {
     protected FinderRepository finderRepository;
+    public static final String PRO_CTC_TERM_COMPONENT = "proCtcTerm";
+    public static final String CRF_PAGE_COMPONENT = "crfPage";
+    public static final String PRO_CTC_QUESTIONS_COMPONENT = "proCtcQuestion";
 
     protected ProCtcTermRepository proCtcTermRepository;
 
     public Map<String, Object> referenceData(CreateFormCommand command) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("responseRequired", ListValues.getResponseRequired());
-        map.put("advance", command.getAdvance());
+        map.put("advance", command.getCrf().getAdvance());
         map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
         map.put("selectedCrfPageItems", command.getCrf().getAllCrfPageItems());
 

@@ -204,9 +204,10 @@
     <bean name="/form/addCrfComponent" id="addCrfComponentController" parent="abstractCrfController"
           class="gov.nih.nci.ctcae.web.form.AddCrfComponentController">
     </bean>
-    <bean name="/form/removeCrfPageItem" id="removeCrfPageItemController" parent="abstractCrfController"
-          class="gov.nih.nci.ctcae.web.form.RemoveCrfPageItemController">
+    <bean name="/form/removeCrfComponent" id="removeCrfComponentController" parent="abstractCrfController"
+          class="gov.nih.nci.ctcae.web.form.RemoveCrfComponentController">
     </bean>
+
 
     <bean name="/form/findCrfItem" id="findQuestionController"
           class="gov.nih.nci.ctcae.web.form.FindCrfItemController">

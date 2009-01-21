@@ -12,7 +12,8 @@
 </style>
 <tags:formbuilderBox cssClass="review">
     <tags:formbuilderBoxControls add="false"
-                                 proCtcQuestionId="${crfPageItem.proCtcQuestion.id}"/>
+                                 proCtcQuestionId="${crfPageItem.proCtcQuestion.id}"
+                                 proCtcTermId="${crfPageItem.proCtcQuestion.proCtcTerm.id}"/>
 
     <c:if test="${showInstructions}">
         <c:if test="${not empty crfPageItem.instructions}">

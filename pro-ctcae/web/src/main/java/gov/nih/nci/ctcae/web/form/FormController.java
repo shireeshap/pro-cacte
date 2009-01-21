@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
@@ -63,7 +64,7 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
         if (!StringUtils.isBlank(request.getParameter("studyId"))) {
             command.getCrf().setStudy(studyRepository.findById(Integer.parseInt(request.getParameter("studyId"))));
         }
-        command.setAdvance(Boolean.FALSE);
+        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
         return command;
 
 
@@ -77,23 +78,32 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CreateFormCommand createFormCommand = (CreateFormCommand) command;
-        createFormCommand.updateCrfItems(finderRepository);
-        CRF crf = createFormCommand.getCrf();
-        if (!notEmptyValidator.validate(crf.getTitle()) || !uniqueTitleForCrfValidator.validate(crf, crf.getTitle())) {
-            errors.rejectValue("crf.title", "form.missing_title", "form.missing_title");
+        if (!StringUtils.isBlank(request.getParameter("switchToAdvance"))) {
+            createFormCommand.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
+            return showPage(request, errors, getCurrentPage(request));
+        } else if (!StringUtils.isBlank(request.getParameter("switchToBasic"))) {
+            createFormCommand.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
+            return showPage(request, errors, getCurrentPage(request));
+        } else {
+
+
+            createFormCommand.updateCrfItems(finderRepository);
+            CRF crf = createFormCommand.getCrf();
+            if (!notEmptyValidator.validate(crf.getTitle()) || !uniqueTitleForCrfValidator.validate(crf, crf.getTitle())) {
+                errors.rejectValue("crf.title", "form.missing_title", "form.missing_title");
+            }
+
+            if (errors.hasErrors()) {
+                return showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
+            }
+
+            save(createFormCommand);
+
+            Map model = new HashMap();
+            model.put("crf", createFormCommand.getCrf());
+            ModelAndView modelAndView = new ModelAndView("form/confirmForm", model);
+            return modelAndView;
         }
-
-        if (errors.hasErrors()) {
-            return showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
-        }
-
-        save(createFormCommand);
-
-        Map model = new HashMap();
-        model.put("crf", createFormCommand.getCrf());
-        ModelAndView modelAndView = new ModelAndView("form/confirmForm", model);
-        return modelAndView;
-
 
     }
 

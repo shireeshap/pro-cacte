@@ -8,10 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Vinay Kumar
@@ -23,7 +20,6 @@ public class CreateFormCommand implements Serializable {
 
     private CRF crf;
 
-    private Boolean advance = Boolean.FALSE;
 
     private String questionsIds;
     private String numberOfQuestionsInEachPage;
@@ -46,7 +42,7 @@ public class CreateFormCommand implements Serializable {
 
     public void updateCrfItems(FinderRepository finderRepository) {
 
-        if (advance) {
+        if (getCrf().getAdvance()) {
             addOrUpdateQuestions(finderRepository);
         }
 
@@ -139,12 +135,7 @@ public class CreateFormCommand implements Serializable {
     }
 
     public CRFPage addCrfPage() {
-        if (advance) {
-            CRFPage crfPage = crf.addCrfPage();
-            return crfPage;
-        }
-        throw new CtcAeSystemException("You can not add new page in basic form creation mode.");
-
+        return crf.addCrfPage();
     }
 
     public String getCrfPageNumbers() {
@@ -163,16 +154,9 @@ public class CreateFormCommand implements Serializable {
         this.crfPageNumbersToRemove = crfPageNumbersToRemove;
     }
 
-    public Boolean getAdvance() {
-        return advance;
-    }
-
-    public void setAdvance(Boolean advance) {
-        this.advance = advance;
-    }
 
     public CRFPage addCrfPage(ProCtcQuestion proCtcQuestion) {
-        if (advance) {
+        if (getCrf().getAdvance()) {
             CRFPage crfPage = crf.addCrfPage(proCtcQuestion);
             return crfPage;
         }
@@ -185,6 +169,18 @@ public class CreateFormCommand implements Serializable {
 
         Object object = crf.addProCtcTerm(proCtcTerm);
         return object;
+
+
+    }
+
+    public void removeQuestionByQuesitonIds(String[] questionIdsArray) {
+        Set<Integer> questionIds = new HashSet<Integer>();
+        for (String questionId : questionIdsArray) {
+            if (!org.apache.commons.lang.StringUtils.isBlank(questionId)) {
+                questionIds.add(Integer.valueOf(questionId));
+            }
+        }
+        crf.removeCrfPageItemByQuestionIds(questionIds);
 
 
     }

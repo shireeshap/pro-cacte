@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -11,7 +13,7 @@ public class AdvanceFormController extends FormController {
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         CreateFormCommand command = (CreateFormCommand) super.formBackingObject(request);
-        command.setAdvance(Boolean.TRUE);
+        command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
         return command;
 
 

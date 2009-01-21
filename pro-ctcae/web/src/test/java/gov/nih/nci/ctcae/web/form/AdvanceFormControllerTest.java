@@ -24,7 +24,7 @@ public class AdvanceFormControllerTest extends WebTestCase {
         Object command = model.get("command");
         assertNotNull("must find command object", command);
         assertTrue(command instanceof CreateFormCommand);
-        assertTrue("must be advance form creation", ((CreateFormCommand) command).getAdvance());
+        assertTrue("must be advance form creation", ((CreateFormCommand) command).getCrf().getAdvance());
 
     }
 

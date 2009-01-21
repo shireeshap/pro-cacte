@@ -92,7 +92,7 @@ public class CRFPage extends BaseVersionable {
     }
 
 
-    private void removeCrfItem(CrfPageItem crfPageItem) {
+    public void removeCrfPageItem(CrfPageItem crfPageItem) {
         if (crfPageItem != null) {
             crfPageItems.remove(crfPageItem);
             updateDisplayOrderOfCrfPageItems();
@@ -155,7 +155,7 @@ public class CRFPage extends BaseVersionable {
             for (CrfPageItem existingCrfPageItem : getCrfItemsSortedByDislayOrder()) {
                 if (existingCrfPageItem.getProCtcQuestion() != null
                         && (existingCrfPageItem.getProCtcQuestion().equals(crfPageItem.getProCtcQuestion()))) {
-                    removeCrfItem(crfPageItem);
+                    removeCrfPageItem(crfPageItem);
                 }
             }
         }
@@ -206,7 +206,7 @@ public class CRFPage extends BaseVersionable {
      */
     public CrfPageItem removeExistingButDoNotAddNewCrfItem(final ProCtcQuestion proCtcQuestion) {
         CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(proCtcQuestion);
-        removeCrfItem(existingCrfPageItem);
+        removeCrfPageItem(existingCrfPageItem);
         return existingCrfPageItem;
 
     }
@@ -338,7 +338,7 @@ public class CRFPage extends BaseVersionable {
 
 
         for (CrfPageItem crfPageItem : crfPageItemsToRemove) {
-            removeCrfItem(crfPageItem);
+            removeCrfPageItem(crfPageItem);
         }
 
     }

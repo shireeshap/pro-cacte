@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.CtcCategory;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
@@ -48,13 +48,7 @@ public class FormDetailsTabTest extends WebTestCase {
         ctcCategory3.setName("AUDITORY/EAR");
 
         proCtcTerm1 = new ProCtcTerm();
-        proCtcTerm1.setCategory(ctcCategory1);
-        proCtcTerm2 = new ProCtcTerm();
-        proCtcTerm2.setCategory(ctcCategory1);
-        proCtcTerm3 = new ProCtcTerm();
-        proCtcTerm3.setCategory(ctcCategory2);
-        proCtcTerm4 = new ProCtcTerm();
-        proCtcTerm4.setCategory(ctcCategory3);
+
 
         command = new CreateFormCommand();
         proCtcTerms.add(proCtcTerm1);

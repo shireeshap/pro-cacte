@@ -1,4 +1,4 @@
-<%@ attribute name="proCtctermId" %>
+<%@ attribute name="proCtcTermId" required="true" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@attribute name="proCtcQuestionId" %>
@@ -19,15 +19,15 @@
                 </a>
 
                 <%--<a href="javascript:showCrfItemPropertiesTab('${proCtcQuestionId}');"><img
-                        src="<tags:imageUrl name="blue/question_properties_btn.png"/>" alt="Configure Item"/></a>--%>
+             src="<tags:imageUrl name="blue/question_properties_btn.png"/>" alt="Configure Item"/></a>--%>
             </c:if>
             <c:if test="${add}">
-                <a href="javascript:addCrfPageItem(${proCtcQuestionId},${proCtctermId})"><img
+                <a href="javascript:addCrfPageItem('${proCtcQuestionId}','${proCtcTermId}')"><img
                         src="<tags:imageUrl name="blue/select_question_btn.png"/>"
                         alt="Add"/></a>
             </c:if>
             <c:if test="${delete}">
-                <a href="javascript:deleteQuestion('${proCtcQuestionId}');">
+                <a href="javascript:deleteQuestion('${proCtcQuestionId}','${proCtcTermId}');">
                     <img src="<tags:imageUrl name="checkno.gif"/>" alt="Delete"/>
                 </a>
 

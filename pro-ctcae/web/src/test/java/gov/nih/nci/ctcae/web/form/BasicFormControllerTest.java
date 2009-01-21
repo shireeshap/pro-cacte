@@ -68,7 +68,7 @@ public class BasicFormControllerTest extends WebTestCase {
         Object command = model.get("command");
         assertNotNull("must find command object", command);
         assertTrue(command instanceof CreateFormCommand);
-        assertFalse("must be basic form creation", ((CreateFormCommand) command).getAdvance());
+        assertFalse("must be basic form creation", ((CreateFormCommand) command).getCrf().getAdvance());
 
     }
 
