@@ -78,17 +78,13 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CreateFormCommand createFormCommand = (CreateFormCommand) command;
-        createFormCommand.clearEmptyPages();
+        createFormCommand.updateCrfItems(finderRepository);
+        CRF crf = createFormCommand.getCrf();
 
         if (!StringUtils.isBlank(request.getParameter("switchToAdvance"))) {
             createFormCommand.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
             return showPage(request, errors, getCurrentPage(request));
         } else {
-
-
-            createFormCommand.updateCrfItems(finderRepository);
-            CRF crf = createFormCommand.getCrf();
-
             if (!notEmptyValidator.validate(crf.getTitle())) {
                 errors.rejectValue("crf.title", "form.missing_title", "form.missing_title");
             } else if (!uniqueTitleForCrfValidator.validate(crf, crf.getTitle())) {
