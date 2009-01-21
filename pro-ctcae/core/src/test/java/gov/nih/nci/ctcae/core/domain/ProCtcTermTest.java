@@ -69,7 +69,7 @@ public class ProCtcTermTest extends TestCase {
 
         proCtcTerm = new ProCtcTerm();
 
-        anotherProCtcTerm.setId(2);
+        anotherProCtcTerm.setId(1);
         assertEquals("must not consider id", anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
         assertEquals(anotherProCtcTerm, proCtcTerm);
 

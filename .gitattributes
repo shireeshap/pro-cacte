@@ -162,6 +162,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfPageItemDisplayRul
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfStatusTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CtcCategoryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CtcTermTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CtcTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/EthnicityEnumTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/GenderTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/OrganizationIntegrationTest.java -text
