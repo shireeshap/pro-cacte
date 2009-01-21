@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import junit.framework.TestCase;
+import gov.nih.nci.ctcae.core.AbstractTestCase;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import java.util.Set;
  * @author Harsh Agarwal
  * @created Oct 13, 2008
  */
-public class CRFTest extends TestCase {
+public class CRFTest extends AbstractTestCase {
     private CRF crf;
     private ProCtcQuestion firstQuestion, secondQuestion, thirdQuestion, fourthQuestion, fifthQuestion;
 
@@ -196,6 +196,7 @@ public class CRFTest extends TestCase {
     public void testEqualsAndHashCodeMustNotConsiderCrfPages() {
         CRF anotherCrf = null;
         crf = new CRF();
+        crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
         anotherCrf = new CRF();
         crf.setTitle("Cancer CRF");
         anotherCrf.setTitle("Cancer CRF");
@@ -278,9 +279,10 @@ public class CRFTest extends TestCase {
         CRFPage crfPage = crf.getCrfPages().get(0);
         assertEquals("must return 2 crf page items", 2, crfPage.getCrfPageItems().size());
 
-
+        assertNotNull(crf.getCrfPageItemByQuestion(firstQuestion));
         Set<Integer> questionIds = new HashSet<Integer>();
-        questionIds.add(fifthQuestion.getId());
+
+        questionIds.add(firstQuestion.getId());
         crf.removeCrfPageItemByQuestionIds(questionIds);
 
         assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
@@ -291,34 +293,11 @@ public class CRFTest extends TestCase {
 
     }
 
-    private void validateCrfPageItemDisplayOrder(final CRF crf) {
-
-        for (CRFPage crfPage : crf.getCrfPages()) {
-            for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
-                assertEquals("must preserve order no", Integer.valueOf(i + 1), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-
-            }
-        }
-    }
-
-
-    private void validateCrfPageAndCrfPageItemOrder(final CRF crf) {
-        validateCrfPageItemDisplayOrder(crf);
-        verifyCrfPageNumber(crf);
-    }
-
-
-    private void verifyCrfPageNumber(final CRF crf) {
-        for (int i = 0; i < crf.getCrfPages().size(); i++) {
-            CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(i);
-            assertEquals("must preserve crf page number", Integer.valueOf(i), crfPage.getPageNumber());
-
-
-        }
-    }
 
     public void testAddCrfPageAndAddQuestion() {
         crf = new CRF();
+
+        crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
         crf.addCrfPage(firstQuestion);
 
         assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
@@ -348,6 +327,8 @@ public class CRFTest extends TestCase {
 
     public void testAddCrfPageWithProCtcTermMustRemoveQuestionsFormOtherCrfPagesAlso() {
         crf = new CRF();
+
+        crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
         crf.addCrfPage(firstQuestion);
         crf.addProCtcTerm(constipation);
 
@@ -370,6 +351,8 @@ public class CRFTest extends TestCase {
 
     public void testAddCrfPageWithQuestionMustRemoveQuestionsFormOtherCrfPagesAlso() {
         crf = new CRF();
+
+        crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
         crf.addCrfPage(firstQuestion);
         crf.addCrfPage(firstQuestion);
 
@@ -397,18 +380,23 @@ public class CRFTest extends TestCase {
         super.setUp();
         firstQuestion = new ProCtcQuestion();
         firstQuestion.setQuestionText("first question");
+        firstQuestion.setId(11);
 
         fifthQuestion = new ProCtcQuestion();
         fifthQuestion.setQuestionText("first question");
+        fifthQuestion.setId(15);
 
         secondQuestion = new ProCtcQuestion();
         secondQuestion.setQuestionText("second question");
+        secondQuestion.setId(12);
 
         thirdQuestion = new ProCtcQuestion();
         thirdQuestion.setQuestionText("third question");
+        thirdQuestion.setId(13);
 
         fourthQuestion = new ProCtcQuestion();
         fourthQuestion.setQuestionText("fourth question");
+        fourthQuestion.setId(14);
 
         constipation = new ProCtcTerm();
         constipation.getProCtcQuestions().add(firstQuestion);

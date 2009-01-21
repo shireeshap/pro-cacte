@@ -46,6 +46,14 @@ public class CreateFormCommand implements Serializable {
             addOrUpdateQuestions(finderRepository);
         }
 
+        //finally update the crf page numbers;
+        getCrf().updatePageNumberOfCrfPages();
+
+        //reorder crf page items
+
+        crf.updateDisplayOrderOfCrfPageItems();
+
+
     }
 
     private void addOrUpdateQuestions(final FinderRepository finderRepository) {
@@ -96,14 +104,6 @@ public class CreateFormCommand implements Serializable {
             getCrf().removeCrfPageByPageNumber(Integer.valueOf(crfPageNumberToRemove));
         }
 
-        //finally update the crf page numbers;
-        getCrf().updatePageNumberOfCrfPages();
-
-        //reorder crf page items
-
-        for (CRFPage crfPage : crf.getCrfPages()) {
-            crfPage.updateDisplayOrderOfCrfPageItems();
-        }
 
     }
 
@@ -182,6 +182,11 @@ public class CreateFormCommand implements Serializable {
         }
         crf.removeCrfPageItemByQuestionIds(questionIds);
 
+
+    }
+
+    public void clearEmptyPages() {
+        crf.clearEmptyPages();
 
     }
 }

@@ -88,6 +88,20 @@ public class CreateFormCommandTest extends WebTestCase {
 
     }
 
+    public void testAddMultipleProCtcTermInBasicMode() {
+
+        command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
+        command.addProCtcTerm(proCtcTerm1);
+        command.addProCtcTerm(proCtcTerm2);
+        CRF crf = command.getCrf();
+        command.updateCrfItems(finderRepository);
+        assertEquals("must have 2 pages", 2, crf.getCrfPages().size());
+
+        validateCrfPageAndCrfPageItemOrder(crf);
+
+
+    }
+
     public void testRemoveQuestionInBasicMode() {
 
         command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
@@ -880,31 +894,6 @@ public class CreateFormCommandTest extends WebTestCase {
         assertEquals("must preserve order no", thirdQuestion, crfPage.getCrfItemsSortedByDislayOrder().get(1).getProCtcQuestion());
         assertEquals("must preserve order no", secondQuestion, crfPage.getCrfItemsSortedByDislayOrder().get(0).getProCtcQuestion());
 
-    }
-
-    private void validateCrfPageItemDisplayOrder(final CRF crf) {
-
-        for (CRFPage crfPage : crf.getCrfPages()) {
-            for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
-                assertEquals("must preserve order no", Integer.valueOf(i + 1), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-
-            }
-        }
-    }
-
-    private void validateCrfPageAndCrfPageItemOrder(final CRF crf) {
-        validateCrfPageItemDisplayOrder(crf);
-        verifyCrfPageNumber(crf);
-    }
-
-
-    private void verifyCrfPageNumber(final CRF crf) {
-        for (int i = 0; i < crf.getCrfPages().size(); i++) {
-            CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(i);
-            assertEquals("must preserve crf page number", Integer.valueOf(i), crfPage.getPageNumber());
-
-
-        }
     }
 
 

@@ -486,4 +486,27 @@ public class CRF extends BaseVersionable {
         }
 
     }
+
+    public void clearEmptyPages() {
+        List<CRFPage> emptyCrfPages = new ArrayList<CRFPage>();
+        for (CRFPage crfPage : getCrfPages()) {
+            if (crfPage.getCrfPageItems().isEmpty()) {
+                emptyCrfPages.add(crfPage);
+            }
+        }
+        for (CRFPage crfPage : emptyCrfPages) {
+            removeCrfPage(crfPage);
+        }
+
+
+    }
+
+    public void updateDisplayOrderOfCrfPageItems() {
+        int i = CrfPageItem.INITIAL_ORDER;
+        for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
+            crfPage.updateDisplayOrderOfCrfPageItems(i);
+            i = i + crfPage.getCrfPageItems().size();
+        }
+
+    }
 }

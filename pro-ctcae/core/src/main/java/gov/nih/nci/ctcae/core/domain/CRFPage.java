@@ -95,7 +95,7 @@ public class CRFPage extends BaseVersionable {
     public void removeCrfPageItem(CrfPageItem crfPageItem) {
         if (crfPageItem != null) {
             crfPageItems.remove(crfPageItem);
-            updateDisplayOrderOfCrfPageItems();
+            updateDisplayOrderOfCrfPageItems(CrfPageItem.INITIAL_ORDER);
         }
     }
 
@@ -163,7 +163,7 @@ public class CRFPage extends BaseVersionable {
         updateOrderNumber(crfPageItem);
         crfPageItem.setCrfPage(this);
         crfPageItems.add(crfPageItem);
-        updateDisplayOrderOfCrfPageItems();
+        updateDisplayOrderOfCrfPageItems(CrfPageItem.INITIAL_ORDER);
 
     }
 
@@ -294,7 +294,7 @@ public class CRFPage extends BaseVersionable {
                     addedCrfPageItems.add(crfPageItem);
                 }
             }
-            updateDisplayOrderOfCrfPageItems();
+            updateDisplayOrderOfCrfPageItems(CrfPageItem.INITIAL_ORDER);
             return addedCrfPageItems;
         }
         logger.error("can not add proCtcTerm because pro ctc term is null");
@@ -343,11 +343,11 @@ public class CRFPage extends BaseVersionable {
 
     }
 
-    public void updateDisplayOrderOfCrfPageItems() {
+    public void updateDisplayOrderOfCrfPageItems(Integer initialOrder) {
         List<CrfPageItem> itemsSortedByDislayOrder = getCrfItemsSortedByDislayOrder();
         for (int i = 0; i < itemsSortedByDislayOrder.size(); i++) {
             CrfPageItem crfPageItem = itemsSortedByDislayOrder.get(i);
-            crfPageItem.setDisplayOrder(i + CrfPageItem.INITIAL_ORDER);
+            crfPageItem.setDisplayOrder(i + initialOrder);
         }
 
     }

@@ -37,7 +37,7 @@
                              id="arrow_${crfPageItem.proCtcQuestion.id}" style="display:none;" />--%>
 
                 <div id="selectedProCtcTerm_${crfPageItem.proCtcQuestion.proCtcTerm.id}"
-                     class="selectedCrfPageForProCtcTerm_${crfPageNumber} selectedProCtcTerm_${crfPageItem.proCtcQuestion.proCtcTerm.id}"
+                     class="selectedCrfPageForProCtcTerm_${crfPageNumber} selectedProCtcTerm_${crfPageItem.proCtcQuestion.proCtcTerm.id} selectedProCtcTerm"
                      style="display:none;"></div>
 
                 <div id="sortableSpan_${crfPageItem.proCtcQuestion.id}"

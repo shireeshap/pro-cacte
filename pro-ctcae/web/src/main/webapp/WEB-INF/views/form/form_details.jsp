@@ -107,10 +107,12 @@
 
     }
     function hideProCtcTermFromForm() {
-        //    $$("div.selectedProCtcTerm").each(function (item) {
-        //        hideProCtcTermLinkFromForm(item.id);
+        //        $$("div.selectedProCtcTerm").each(function (item) {
         //
-        //    })
+        //            var proCtcTermId = getProCtcTermId(item.id);
+        //
+        //
+        //        })
 
 
     }
@@ -1098,10 +1100,6 @@ function showHideQuestionUpDownLink() {
         $('command').submit();
 
     }
-    function switchToBasic() {
-        $('switchToBasic').value = true;
-        $('command').submit();
-    }
 </script>
 <style type="text/css">
 
@@ -1210,15 +1208,10 @@ function showHideQuestionUpDownLink() {
             <div class="summaryvalue">${command.crf.study.displayName}</div>
         </div>
     <%--<a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>--%>
-    <c:choose>
-        <c:when test="${command.crf.advance}"> <a id="basicMode" href="javascript:switchToBasic()">Switch to Basic Form
-            Builder</a>
-        </c:when>
-        <c:otherwise>
-            <a id="advanceMode" href="javascript:switchToAdvance()">Switch to Advance Form Builder</a>
+    <c:if test="${!command.crf.advance}"> <a id="advanceMode" href="javascript:switchToAdvance()">Switch to Advance Form
+        Builder</a>
+    </c:if>
 
-        </c:otherwise>
-    </c:choose>
 
     <a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;"><img
             src="<tags:imageUrl name="blue/maximize-right.png" />" style="float:left" alt="Maximize"/></a>
@@ -1353,7 +1346,6 @@ function showHideQuestionUpDownLink() {
 
 
                                         <input type="hidden" id="switchToAdvance" name="switchToAdvance" value=""/>
-                                        <input type="hidden" id="switchToBasic" name="switchToBasic" value=""/>
 
                                         <form:hidden path="questionsIds" id="questionsIds"/>
 
