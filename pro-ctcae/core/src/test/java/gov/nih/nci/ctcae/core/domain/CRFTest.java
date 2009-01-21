@@ -123,6 +123,26 @@ public class CRFTest extends TestCase {
 
     }
 
+    public void testEqualsAndHashCodeMustNotConsiderCreationMode() {
+        CRF anotherCrf = null;
+        crf = new CRF();
+        anotherCrf = new CRF();
+        crf.setTitle("Cancer CRF");
+        anotherCrf.setTitle("Cancer CRF");
+        crf.setDescription("Case Report Form for Cancer Patients");
+        anotherCrf.setDescription("Case Report Form for Cancer Patients");
+
+        crf.setStatus(CrfStatus.DRAFT);
+        crf.setCrfVersion("1.0");
+        anotherCrf.setCrfVersion("1.0");
+
+        anotherCrf.setCrfCreationMode(CrfCreationMode.ADVANCE);
+        crf.setCrfCreationMode(CrfCreationMode.BASIC);
+        assertEquals("must not consider creation mode", anotherCrf.hashCode(), crf.hashCode());
+        assertEquals(anotherCrf, crf);
+
+    }
+
     public void testEqualsAndHashCodeMustNotConsiderStudyParticipantCrf() {
         CRF anotherCrf = null;
         crf = new CRF();

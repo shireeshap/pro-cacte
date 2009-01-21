@@ -50,12 +50,14 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/009_add_organizations_7.gro
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/010_add_organizations_8.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/011_drop_duplicate_organization.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/012_create_ctc.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/013_create_study_participant_crf_schedules.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRF.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFPage.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ClinicalStaff.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfCreationMode.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItemAllignment.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfPageItem.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfPageItemDisplayRule.java -text
@@ -155,6 +157,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFPageTest.java -tex
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfCreationModeTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemAllignmentTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemTest.java -text

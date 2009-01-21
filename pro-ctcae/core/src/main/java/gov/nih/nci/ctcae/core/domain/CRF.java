@@ -65,6 +65,10 @@ public class CRF extends BaseVersionable {
     @Column(name = "recall_period", nullable = false)
     private String recallPeriod = RecallPeriod.WEEKLY.getDisplayName();
 
+    @Column(name = "crf_creation_mode", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private CrfCreationMode crfCreationMode = CrfCreationMode.BASIC;
+
     public String getRecallPeriod() {
         return recallPeriod;
     }
@@ -446,5 +450,13 @@ public class CRF extends BaseVersionable {
 
         return null;
 
+    }
+
+    public CrfCreationMode getCrfCreationMode() {
+        return crfCreationMode;
+    }
+
+    public void setCrfCreationMode(CrfCreationMode crfCreationMode) {
+        this.crfCreationMode = crfCreationMode;
     }
 }
