@@ -28,8 +28,6 @@ public abstract class AbstractCrfController extends AbstractController {
         map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
         map.put("selectedCrfPageItems", command.getCrf().getAllCrfPageItems());
 
-        int index = command.getCrf().getCrfPages().size() - 1;
-        map.put("crfPageNumber", index);
 
         return map;
     }

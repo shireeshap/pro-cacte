@@ -1263,7 +1263,7 @@ function showHideQuestionUpDownLink() {
                                         <form:hidden path="numberOfQuestionsInEachPage"
                                                      id="numberOfQuestionsInEachPage"/>
                                         <input type="hidden" id="totalQuestions" value="${totalQuestions}">
-                                        <c:forEach items="${command.crf.crfPagesSortedByPageNumber}"
+                                        <c:forEach items="${command.crf.crfPages}"
                                                    var="selectedCrfPage"
                                                    varStatus="status">
                                             <tags:oneCrfPage crfPage="${selectedCrfPage}"

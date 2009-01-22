@@ -37,23 +37,6 @@ public class FinderRepository {
     }
 
 
-    public CRF findAndInitializeCrf(final Integer crfId) {
-        CRF crf = findById(CRF.class, crfId);
-        if (crf != null) {
-            for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
-                studyParticipantCrf.getCrf();
-            }
-        }
-
-        List<CRFPage> crfPageList = crf.getCrfPages();
-        for (CRFPage crfPage : crfPageList) {
-            crfPage.getDescription();
-        }
-        return crf;
-
-
-    }
-
 
     public ProCtcQuestion findAndInitializeProCtcQuestion(final Integer questionId) {
         ProCtcQuestion proCtcQuestion = findById(ProCtcQuestion.class, questionId);

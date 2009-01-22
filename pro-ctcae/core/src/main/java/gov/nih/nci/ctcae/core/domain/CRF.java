@@ -227,15 +227,11 @@ public class CRF extends BaseVersionable {
 
 
     public List<CRFPage> getCrfPages() {
+        Collections.sort(crfPages, new DisplayOrderComparator());
         return crfPages;
     }
 
-    public List<CRFPage> getCrfPagesSortedByPageNumber() {
-        List<CRFPage> sortedCrfPages = new ArrayList<CRFPage>(crfPages);
 
-        Collections.sort(sortedCrfPages, new DisplayOrderComparator());
-        return sortedCrfPages;
-    }
 
 
     public void removeCrfPageByPageNumber(final Integer crfPageNumber) {
@@ -249,7 +245,7 @@ public class CRF extends BaseVersionable {
      * it is required to make sure crf page numbers stars from  INITIAL_ORDER not from 2,3,4
      */
     public void updatePageNumberOfCrfPages() {
-        List<CRFPage> crfPages = getCrfPagesSortedByPageNumber();
+        List<CRFPage> crfPages = getCrfPages();
         for (int i = 0; i < crfPages.size(); i++) {
             CRFPage crfPage = crfPages.get(i);
             crfPage.setPageNumber(INITIAL_ORDER + i);
@@ -506,7 +502,7 @@ public class CRF extends BaseVersionable {
 
     public void updateDisplayOrderOfCrfPageItems() {
         int i = CrfPageItem.INITIAL_ORDER;
-        for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
+        for (CRFPage crfPage : getCrfPages()) {
             crfPage.updateDisplayOrderOfCrfPageItems(i);
             i = i + crfPage.getCrfPageItems().size();
         }

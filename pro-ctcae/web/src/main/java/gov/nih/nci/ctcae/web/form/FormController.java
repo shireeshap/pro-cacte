@@ -7,10 +7,10 @@ import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
-import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +33,8 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
     protected int getInitialPage(HttpServletRequest request) {
         if (!StringUtils.isBlank(request.getParameter("studyId"))) {
             return FORM_DETAILS_PAGE_NUMBER;
+        } else if (!StringUtils.isBlank(request.getParameter("crfId"))) {
+            return FORM_DETAILS_PAGE_NUMBER;
         }
         return super.getInitialPage(request);
 
@@ -51,18 +53,13 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        CreateFormCommand command = (CreateFormCommand) ControllersUtils.getFormCommand(request, this);
-        if (command == null) {
-            command = new CreateFormCommand();
-
-        }
-////        else {
-////            request.setAttribute("flashMessage", "You were already updating one form. Do you want to  resume it or discard it.");
-////        }
-
+        CreateFormCommand command = new CreateFormCommand();
 
         if (!StringUtils.isBlank(request.getParameter("studyId"))) {
             command.getCrf().setStudy(studyRepository.findById(Integer.parseInt(request.getParameter("studyId"))));
+        } else if (!StringUtils.isBlank(request.getParameter("crfId"))) {
+            CRF crf = crfRepository.findById(ServletRequestUtils.getRequiredIntParameter(request, "crfId"));
+            command.setCrf(crf);
         }
         command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
         return command;
@@ -81,12 +78,14 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
         createFormCommand.updateCrfItems(finderRepository);
         CRF crf = createFormCommand.getCrf();
 
+        ModelAndView defaultModelAndView = showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
+
         if (!StringUtils.isBlank(request.getParameter("switchToAdvance"))) {
             createFormCommand.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
-            return showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
+            return defaultModelAndView;
         } else if (!StringUtils.isBlank(request.getParameter("showForm"))) {
 
-            return showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
+            return defaultModelAndView;
         } else {
             if (!notEmptyValidator.validate(crf.getTitle())) {
                 errors.rejectValue("crf.title", "form.missing_title", "form.missing_title");
@@ -95,7 +94,7 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
             }
 
             if (errors.hasErrors()) {
-                return showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
+                return defaultModelAndView;
             }
 
             save(createFormCommand);

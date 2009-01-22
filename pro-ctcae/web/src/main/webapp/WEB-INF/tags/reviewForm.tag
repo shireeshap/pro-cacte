@@ -28,14 +28,22 @@
                 <div class="summarylabel"><tags:message code='form.label.questions'/></div>
             </div>
 
-            <c:forEach items="${crf.crfPagesSortedByPageNumber}" var="crfPage">
-                <chrome:box title="${crfPage.description}">
+            <c:forEach items="${crf.crfPages}" var="crfPage">
+
+                <div class="formpages">
+                    <div class="formpageheader">
+                            ${crfPage.description}
+                    </div>
+                            ${crfPage.instructions}
+                    <br>
+
                     <c:forEach items="${crfPage.crfItemsSortedByDislayOrder}" var="crfPageItem">
                         <tags:questionReview crfPageItem="${crfPageItem}" showInstructions="true"
                                              displayOrder="${crfPageItem.displayOrder}"></tags:questionReview>
                     </c:forEach>
                     <br>
-                </chrome:box>
+
+                </div>
             </c:forEach>
 
         </td>

@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRFPage;
+import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.apache.commons.lang.StringUtils;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -34,10 +36,22 @@ public class AddCrfComponentController extends AbstractCrfController {
 
                 if (object instanceof CRFPage) {
                     modelAndView = new ModelAndView("form/ajax/oneCrfPageSection");
-                    modelAndView.addObject("crfPage", object);
+                    CRFPage crfPage = (CRFPage) object;
+                    modelAndView.addObject("crfPage", crfPage);
+                    modelAndView.addObject("crfPageNumber", crfPage.getPageNumber());
+
                 } else {
+                    List<CrfPageItem> addedCrfPageItems = (List<CrfPageItem>) object;
                     modelAndView = new ModelAndView("form/ajax/oneProCtcTermSection");
-                    modelAndView.addObject("crfPageItems", object);
+
+                    if (!addedCrfPageItems.isEmpty()) {
+                        CRFPage crfPage = addedCrfPageItems.get(0).getCrfPage();
+                        Integer startIndex = crfPage.getCrfPageItems().size() - addedCrfPageItems.size();
+                        modelAndView.addObject("crfPageNumber", crfPage.getPageNumber());
+                        modelAndView.addObject("startIndex", startIndex);
+                    }
+
+                    modelAndView.addObject("crfPageItems", addedCrfPageItems);
                 }
 
                 modelAndView.addAllObjects(referenceData(createFormCommand));

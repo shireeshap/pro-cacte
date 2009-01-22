@@ -57,27 +57,12 @@ public class EditFormControllerTest extends WebTestCase {
         crf.setTitle("title");
     }
 
-    public void testFirstPage() throws Exception {
-        ReviewFormTab reviewFormTab = new ReviewFormTab();
-        request.setMethod("GET");
-        request.addParameter("crfId", "1");
-        expect(finderRepository.findAndInitializeCrf(Integer.valueOf(1))).andReturn(crf);
-        replayMocks();
-        ModelAndView modelAndView = controller.handleRequest(request, response);
-        verifyMocks();
-        Map model = modelAndView.getModel();
-        assertEquals("first page should be review form", modelAndView.getViewName(), reviewFormTab.getViewName());
-        Object command = model.get("command");
-        assertNotNull("must find command object", command);
-        assertTrue(command instanceof CreateFormCommand);
-
-    }
 
     public void testShouldOnlyEditDraftForm() throws Exception {
         crf.setStatus(CrfStatus.DRAFT);
         request.setMethod("GET");
         request.addParameter("crfId", "1");
-        expect(finderRepository.findAndInitializeCrf(Integer.valueOf(1))).andReturn(crf);
+        expect(crfRepository.findById(Integer.valueOf(1))).andReturn(crf);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
         verifyMocks();
@@ -91,7 +76,7 @@ public class EditFormControllerTest extends WebTestCase {
         crf.setStatus(CrfStatus.RELEASED);
         request.setMethod("GET");
         request.addParameter("crfId", "1");
-        expect(finderRepository.findAndInitializeCrf(Integer.valueOf(1))).andReturn(crf);
+        expect(crfRepository.findById(Integer.valueOf(1))).andReturn(crf);
         replayMocks();
         try {
             controller.handleRequest(request, response);
@@ -108,7 +93,7 @@ public class EditFormControllerTest extends WebTestCase {
         request.setMethod("GET");
         request.addParameter("crfId", "1");
 
-        expect(finderRepository.findAndInitializeCrf(Integer.valueOf(1))).andReturn(crf);
+        expect(crfRepository.findById(Integer.valueOf(1))).andReturn(crf);
 
         replayMocks();
         ModelAndView modelAndView1 = controller.handleRequest(request, response);
@@ -126,7 +111,7 @@ public class EditFormControllerTest extends WebTestCase {
         expect(uniqueTitleForCrfValidator.validate(crf, crf.getTitle())).andReturn(true);
         replayMocks();
 
-        //expect(finderRepository.findAndInitializeCrf(Integer.valueOf(1))).andReturn(crf);
+        //expect(crfRepository.findById(Integer.valueOf(1))).andReturn(crf);
 
 
         ModelAndView modelAndView = controller.handleRequest(request, response);

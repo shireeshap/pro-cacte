@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author Harsh Agarwal
  * @created Oct 14, 2008
@@ -19,6 +21,30 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     @Override
     protected Class<CRF> getPersistableClass() {
         return CRF.class;
+
+    }
+
+    @Override
+    public CRF findById(Integer crfId) {
+        CRF crf = genericRepository.findById(CRF.class, crfId);
+        if (crf != null) {
+            for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
+                studyParticipantCrf.getCrf();
+            }
+        }
+
+        List<CRFPage> crfPageList = crf.getCrfPages();
+        for (CRFPage crfPage : crfPageList) {
+            crfPage.getDescription();
+            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                crfPageItem.getDisplayOrder();
+                for (CrfPageItemDisplayRule crfPageItemDisplayRule : crfPageItem.getCrfPageItemDisplayRules()) {
+                    crfPageItemDisplayRule.getProCtcValidValue();
+                }
+            }
+        }
+        return crf;
+
 
     }
 

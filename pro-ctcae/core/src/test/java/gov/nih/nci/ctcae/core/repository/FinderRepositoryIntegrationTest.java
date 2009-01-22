@@ -72,11 +72,11 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
 
     public void testFindAndInitializeCRF() {
 
-        CRF anotherCrf = finderRepository.findAndInitializeCrf(crf.getId());
+        CRF anotherCrf = crfRepository.findById(crf.getId());
         assertNotNull(anotherCrf);
         anotherCrf = null;
         try {
-            anotherCrf = finderRepository.findAndInitializeCrf(-1001);
+            anotherCrf = crfRepository.findById(-1001);
 
             fail("Expected");
         } catch (NullPointerException e) {

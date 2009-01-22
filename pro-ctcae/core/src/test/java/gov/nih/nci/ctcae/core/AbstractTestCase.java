@@ -84,7 +84,7 @@ public abstract class AbstractTestCase extends CoreTestCase {
     private void validateCrfPageItemDisplayOrder(final CRF crf) {
 
         int j = CrfPageItem.INITIAL_ORDER;
-        for (CRFPage crfPage : crf.getCrfPagesSortedByPageNumber()) {
+        for (CRFPage crfPage : crf.getCrfPages()) {
 
             for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
                 assertEquals("must preserve order no", Integer.valueOf(i + j), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
@@ -95,14 +95,16 @@ public abstract class AbstractTestCase extends CoreTestCase {
     }
 
     public void validateCrfPageAndCrfPageItemOrder(final CRF crf) {
-        validateCrfPageItemDisplayOrder(crf);
-        verifyCrfPageNumber(crf);
+        if (crf != null) {
+            validateCrfPageItemDisplayOrder(crf);
+            verifyCrfPageNumber(crf);
+        }
     }
 
 
     private void verifyCrfPageNumber(final CRF crf) {
         for (int i = 0; i < crf.getCrfPages().size(); i++) {
-            CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(i);
+            CRFPage crfPage = crf.getCrfPages().get(i);
             assertEquals("must preserve crf page number", Integer.valueOf(i), crfPage.getPageNumber());
 
 

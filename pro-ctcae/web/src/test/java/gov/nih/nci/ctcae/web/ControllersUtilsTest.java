@@ -77,7 +77,7 @@ public class ControllersUtilsTest extends WebTestCase {
 
     public void testCommandInGetRequestOfEditForm() throws Exception {
         request.addParameter("crfId", "1");
-        expect(finderRepository.findAndInitializeCrf(Integer.valueOf(1))).andReturn(new CRF());
+        expect(crfRepository.findById(Integer.valueOf(1))).andReturn(new CRF());
         replayMocks();
 
         editFormController.handleRequest(request, response);
