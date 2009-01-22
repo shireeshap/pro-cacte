@@ -53,6 +53,8 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/012_create_ctc.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/013_create_study_participant_crf_schedules.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/014_alter_crfpage_add_Instructions.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLine.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRF.java -text
@@ -152,6 +154,7 @@ pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/email/template/exceptio
 pro-ctcae/core/src/main/resources/log4j.properties -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractHibernateIntegrationTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractTestCase.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/CsvLoader/CsvImporterIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/Fixture.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/TestBean.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFIntegrationTest.java -text

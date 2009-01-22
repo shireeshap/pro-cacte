@@ -98,8 +98,12 @@
         <dependency org="javax.mail" name="mail" rev="1.4"/>
         <dependency org="javax.activation" name="activation" rev="1.1"/>
 
+        <!-- CSV reader -->
+              <dependency org="com.csvreader" name="csvreader" rev="2.0" />
+        
 
-		<!-- CTMS commons dependencies -->
+
+        <!-- CTMS commons dependencies -->
 		<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-base" rev="${ctms.version}" transitive="false"/>
         <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-core" rev="${ctms.version}" transitive="false"/>
 

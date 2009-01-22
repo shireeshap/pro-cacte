@@ -63,6 +63,7 @@
         <dependency org="commons-collections" name="commons-collections" rev="2.1" conf="checkstyle->default"/>
         <dependency org="commons-logging" name="commons-logging" rev="1.0.3" conf="checkstyle->default"/>
 
+      
         <!-- Cobertura Code Coverage -->
         
         <!-- Findbugs -->
