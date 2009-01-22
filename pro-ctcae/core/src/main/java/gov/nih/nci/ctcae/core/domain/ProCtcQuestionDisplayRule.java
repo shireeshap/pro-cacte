@@ -68,8 +68,7 @@ public class ProCtcQuestionDisplayRule extends BasePersistable {
 
     public int hashCode() {
         int result;
-        result = (id != null ? id.hashCode() : 0);
-        result = 31 * result + (proCtcValidValue != null ? proCtcValidValue.hashCode() : 0);
+        result = (proCtcValidValue != null ? proCtcValidValue.hashCode() : 0);
         result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
         return result;
     }

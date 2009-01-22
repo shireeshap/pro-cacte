@@ -84,6 +84,7 @@ public class ProCtcTerm extends BasePersistable {
         if (proCtcQuestion != null) {
             proCtcQuestion.setProCtcTerm(this);
             proCtcQuestions.add(proCtcQuestion);
+            
         }
     }
 
