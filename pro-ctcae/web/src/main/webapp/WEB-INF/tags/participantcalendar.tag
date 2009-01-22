@@ -1,0 +1,38 @@
+<%@ attribute name="schedule" type="gov.nih.nci.ctcae.web.participant.ParticipantSchedule" required="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<c:forEach items="${schedule.currentMonthSchedules}" var="studyParticipantCrfSchedule">
+    <div id="${schedule.studyParticipantCrf.id}_temp_<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />"
+         name="${schedule.studyParticipantCrf.id}_temp_div">
+            ${schedule.studyParticipantCrf.crf.title} (${studyParticipantCrfSchedule.status})
+    </div>
+</c:forEach>
+<table class="widget" cellspacing="0" cellpadding="0" border="0" align="center">
+    <tr class="header">
+        <td colspan="7" align="left" style="border-bottom:1px solid #77a9ff">
+           <b> <fmt:formatDate value="${schedule.calendar.time}" pattern="MMM"/> - <fmt:formatDate value="${schedule.calendar.time}" pattern="yyyy"/></b>    
+        </td>
+    </tr>
+    <tr class="header">
+        <td class="header">Sun</td>
+        <td class="header">Mon</td>
+        <td class="header">Tue</td>
+        <td class="header">Wed</td>
+        <td class="header">Thu</td>
+        <td class="header">Fri</td>
+        <td class="header">Sat</td>
+    </tr>
+    <c:forEach items="${schedule.calendar.htmlCalendar}" var="week">
+        <tr>
+            <c:forEach items="${week}" var="day" varStatus="status">
+                <td class="data">
+                    <div class="grey">${day}&nbsp;&nbsp;</div>
+                    <div id="${schedule.studyParticipantCrf.id}_schedule_${day}"
+                         name="${schedule.studyParticipantCrf.id}_schedule_div" class="passive">&nbsp;</div>
+                </td>
+            </c:forEach>
+        </tr>
+    </c:forEach>
+</table>

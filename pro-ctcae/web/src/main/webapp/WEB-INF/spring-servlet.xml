@@ -318,6 +318,10 @@
     <bean name="/admin/clinicalStaff/searchClinicalStaff" id="searchClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.SearchClinicalStaffController">
     </bean>
+    <bean name="/participant/displaycalendar" id="displayCalendarController"
+          class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
+        <property name="finderRepository" ref="finderRepository"/>
+    </bean>
 
     <!--<bean name="/researchStaff/createResearchStaff" id="createResearchStaffController"-->
     <!--class="gov.nih.nci.ctcae.web.researchStaff.CreateResearchStaffController" parent="ctcaeSimpleFormController">-->

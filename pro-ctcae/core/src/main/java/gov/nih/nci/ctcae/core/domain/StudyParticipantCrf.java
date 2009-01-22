@@ -78,11 +78,13 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf) {
         if (studyParticipantCrfSchedule != null) {
-            for (CRFPage crfPage : crf.getCrfPages()) {
-                for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-                    StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
-                    studyParticipantCrfItem.setCrfPageItem(crfPageItem);
-                    studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
+            if (crf != null) {
+                for (CRFPage crfPage : crf.getCrfPages()) {
+                    for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                        StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
+                        studyParticipantCrfItem.setCrfPageItem(crfPageItem);
+                        studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
+                    }
                 }
             }
             studyParticipantCrfSchedule.setStudyParticipantCrf(this);
@@ -105,7 +107,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         }
     }
 
-    public void removeStudyParticipantCrfAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion){
+    public void removeStudyParticipantCrfAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
         studyParticipantCrfAddedQuestions.remove(studyParticipantCrfAddedQuestion);
     }
 }

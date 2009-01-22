@@ -317,6 +317,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/VersionFormController.jav
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/CreateParticipantController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayCalendarController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/EditParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantCommand.java -text
@@ -429,6 +430,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneOrganization.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/pageHelp.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/panelBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/parsedStylesheetLink.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/participantcalendar.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/printRow.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/putSpecialRequiredIndicator.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/questionReview.tag -text
@@ -496,6 +498,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/showVersionForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/versionForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/displaycalendar.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/oneCrfScheduleSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/confirmParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/confirmschedule.jsp -text
@@ -900,6 +903,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfTabTest
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SearchParticipantControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommandTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendarTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/AddStudySiteControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/CreateStudyControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/ManageFormControllerControllerTest.java -text

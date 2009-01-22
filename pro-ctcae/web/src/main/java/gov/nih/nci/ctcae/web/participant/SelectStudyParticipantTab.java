@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import org.apache.commons.lang.StringUtils;
@@ -43,9 +44,12 @@ public class SelectStudyParticipantTab extends Tab<StudyParticipantCommand> {
         query.filterByStudyId(studyParticipantCommand.getStudy().getId());
         List<StudyParticipantAssignment> persistables = (List<StudyParticipantAssignment>) finderRepository.find(query);
         StudyParticipantAssignment studyParticipantAssignment = persistables.get(0);
-
+        List<StudyParticipantCrf> studyParticipantCrfs = studyParticipantAssignment.getStudyParticipantCrfs();
+        for(StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs){
+            studyParticipantCrf.getStudyParticipantCrfSchedules();
+        }
         studyParticipantCommand.setStudyParticipantAssignment(studyParticipantAssignment);
-
+        studyParticipantCommand.getParticipantSchedules();
     }
 
 

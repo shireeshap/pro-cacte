@@ -27,6 +27,7 @@ public class SubmitFormCommand implements Serializable {
     private boolean hasParticipantAddedQuestions = false;
     private String deletedQuestions;
     private int participantAddedQuestionIndex = 0;
+    private String pageHeader = "";
 
     public void initialize() {
 
@@ -284,6 +285,22 @@ public class SubmitFormCommand implements Serializable {
 
     public void setParticipantAddedQuestionIndex(int participantAddedQuestionIndex) {
         this.participantAddedQuestionIndex = participantAddedQuestionIndex;
+    }
+
+    public String getPageHeader() {
+        String symptom = "";
+
+        if (currentPageIndex <= totalPages) {
+            for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+                if(studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber() == currentPageIndex-1){
+                    symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getTerm();
+                }
+            }
+        }
+        if(!StringUtils.isBlank(symptom)){
+            pageHeader ="Please think back " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + " when answering the question(s) about " + symptom + ":"; 
+        }
+        return pageHeader;
     }
 
 
