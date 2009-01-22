@@ -84,6 +84,9 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
         if (!StringUtils.isBlank(request.getParameter("switchToAdvance"))) {
             createFormCommand.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
             return showPage(request, errors, getCurrentPage(request));
+        } else if (!StringUtils.isBlank(request.getParameter("showForm"))) {
+
+            return showPage(request, errors, getCurrentPage(request));
         } else {
             if (!notEmptyValidator.validate(crf.getTitle())) {
                 errors.rejectValue("crf.title", "form.missing_title", "form.missing_title");

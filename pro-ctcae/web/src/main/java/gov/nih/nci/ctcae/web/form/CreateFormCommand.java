@@ -25,6 +25,7 @@ public class CreateFormCommand implements Serializable {
     private String numberOfQuestionsInEachPage;
     private String crfPageNumbers;
     private String crfPageNumbersToRemove = "";
+    private String questionIdsToRemove = "";
 
 
     public String getTitle() {
@@ -45,6 +46,16 @@ public class CreateFormCommand implements Serializable {
         if (getCrf().getAdvance()) {
             addOrUpdateQuestions(finderRepository);
         }
+
+
+        removeQuestions(finderRepository);
+
+        if (!org.apache.commons.lang.StringUtils.isBlank(crfPageNumbersToRemove)) {
+            crf.removeCrfPageByPageNumber(Integer.valueOf(crfPageNumbersToRemove));
+        }
+
+        setQuestionIdsToRemove("");
+        setCrfPageNumbersToRemove("");
 
         String[] crfPageNumberArray = StringUtils.commaDelimitedListToStringArray(crfPageNumbers);
 
@@ -69,6 +80,21 @@ public class CreateFormCommand implements Serializable {
         crf.updateDisplayOrderOfCrfPageItems();
 
 
+    }
+
+    private void removeQuestions(FinderRepository finderRepository) {
+        String[] questionIdsToRemoveArrays = StringUtils.commaDelimitedListToStringArray(questionIdsToRemove);
+        Set<Integer> questionIds = new HashSet<Integer>();
+        for (String questionId : questionIdsToRemoveArrays) {
+            if (!org.apache.commons.lang.StringUtils.isBlank(questionId)) {
+                questionIds.add(Integer.valueOf(questionId));
+            }
+        }
+        crf.removeCrfPageItemByQuestionIds(questionIds);
+        for (Integer questionId : questionIds) {
+            ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
+            crf.updateCrfPageItemDisplayRules(proCtcQuestion);
+        }
     }
 
     private void addOrUpdateQuestions(final FinderRepository finderRepository) {
@@ -188,20 +214,16 @@ public class CreateFormCommand implements Serializable {
 
     }
 
-    public void removeQuestionByQuesitonIds(String[] questionIdsArray) {
-        Set<Integer> questionIds = new HashSet<Integer>();
-        for (String questionId : questionIdsArray) {
-            if (!org.apache.commons.lang.StringUtils.isBlank(questionId)) {
-                questionIds.add(Integer.valueOf(questionId));
-            }
-        }
-        crf.removeCrfPageItemByQuestionIds(questionIds);
-
-
-    }
-
     public void clearEmptyPages() {
         crf.clearEmptyPages();
 
+    }
+
+    public String getQuestionIdsToRemove() {
+        return questionIdsToRemove;
+    }
+
+    public void setQuestionIdsToRemove(String questionIdsToRemove) {
+        this.questionIdsToRemove = questionIdsToRemove;
     }
 }

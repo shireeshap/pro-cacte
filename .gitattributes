@@ -162,6 +162,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemAllignmentTest
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfItemTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfPageItemDisplayRuleTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfPageItemTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfStatusTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CtcCategoryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CtcTermTest.java -text
@@ -304,7 +305,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormTableRowInterceptor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/RemoveConditionsController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/RemoveCrfComponentController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReviewFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SelectStudyForFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SetNameController.java -text
@@ -880,7 +880,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/EditFormControllerTest.ja
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FindCrfItemControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FormDetailsTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/ReleaseFormControllerTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/RemoveCrfComponentControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SetNameControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormControllerTest.java -text

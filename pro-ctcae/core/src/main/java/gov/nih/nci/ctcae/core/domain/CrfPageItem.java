@@ -189,7 +189,9 @@ public class CrfPageItem extends BasePersistable {
         List<CrfPageItemDisplayRule> crfPageItemDisplayRulesToRemove = new ArrayList<CrfPageItemDisplayRule>();
         for (Integer id : proCtcValidValues) {
             CrfPageItemDisplayRule crfPageItemDisplayRule = getCrfDisplayRuleById(id);
-            crfPageItemDisplayRulesToRemove.add(crfPageItemDisplayRule);
+            if (crfPageItemDisplayRule != null) {
+                crfPageItemDisplayRulesToRemove.add(crfPageItemDisplayRule);
+            }
         }
 
         for (CrfPageItemDisplayRule crfPageItemDisplayRule : crfPageItemDisplayRulesToRemove) {

@@ -132,7 +132,7 @@ public class CreateFormCommandTest extends WebTestCase {
         command.addProCtcTerm(proCtcTerm2);
 
         //now remove one page
-        command.removeQuestionByQuesitonIds(new String[]{String.valueOf(firstQuestion.getId()), String.valueOf(secondQuestion.getId()), String.valueOf(thirdQuestion.getId())});
+        command.setQuestionIdsToRemove(firstQuestion.getId() + "," + secondQuestion.getId() + "," + thirdQuestion.getId());
 
         assertEquals("proctc term 1 must have 3 questions only", 3, proCtcTerm1.getProCtcQuestions().size());
 
@@ -174,7 +174,7 @@ public class CreateFormCommandTest extends WebTestCase {
 
         //now remove 1 question
 
-        command.removeQuestionByQuesitonIds(new String[]{String.valueOf(secondQuestion.getId())});
+        command.setQuestionIdsToRemove(String.valueOf(secondQuestion.getId()));
 
         assertEquals("must remove 1 crf page item", 2, crfPageItems.size());
         validateCrfPageAndCrfPageItemOrder(crf);
@@ -192,7 +192,7 @@ public class CreateFormCommandTest extends WebTestCase {
         assertEquals("must have 3 crf page items", 3, crfPageItems.size());
 
         //now remove 1 question
-        command.removeQuestionByQuesitonIds(new String[]{String.valueOf(secondQuestion.getId())});
+        command.setQuestionIdsToRemove(String.valueOf(secondQuestion.getId()));
 
         assertEquals("must remove 1 crf page item", 2, crfPageItems.size());
 
@@ -837,8 +837,8 @@ public class CreateFormCommandTest extends WebTestCase {
         crfPageItem.setResponseRequired(Boolean.TRUE);
 
         //now remove this crf page item;
+        command.setQuestionIdsToRemove(String.valueOf(firstQuestion.getId()));
 
-        command.removeQuestionByQuesitonIds(new String[]{String.valueOf(firstQuestion.getId())});
         crfPageItems = crf.getCrfPages().get(0).getCrfPageItems();
         assertEquals("must have 3 crf page items", 3, crfPageItems.size());
 

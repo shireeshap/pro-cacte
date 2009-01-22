@@ -857,6 +857,7 @@ function showHideQuestionUpDownLink() {
 
     }
     function deleteQuestion(questionId, proCtcTermId) {
+
         var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
             parameters:"confirmationType=deleteQuestion&subview=subview&questionId=" + questionId + "&proCtcTermId=" + proCtcTermId,
             onComplete:function(transport) {
@@ -873,68 +874,12 @@ function showHideQuestionUpDownLink() {
     }
     function deleteQuestionConfirm(questionId, proCtcTermId) {
         closeWindow();
-
-        var request = new Ajax.Request("<c:url value="/pages/form/removeCrfComponent"/>", {
-            parameters:"questionIds=" + questionId + "&subview=subview&componentType=proCtcQuestion" ,
-            onComplete:function (transport) {
-
-                postProcessQuestionDelete(questionId);
-
-                sortQuestions();
-                updateQuestionsId();
-                updateOrderId();
-                postProcessFormChanges();
-                showProCtcTermLinkFromForm(proCtcTermId);
-
-            },
-            method:'get'
-        })
-
+        $('showForm').value = true;
+        $('questionIdsToRemove').value = questionId;
+        $('command').submit();
 
     }
 
-    function postProcessQuestionDelete(questionId) {
-        if (questionId != '') {
-            var conditions = $$('tr.conditionalTriggering_' + questionId);
-            if (conditions.length > 0) {
-                conditions.each(function(item) {
-                    item.remove();
-                })
-                deleteConditionsOfConditionalTriggeredQuestion(questionId)
-
-            }
-            $$('optgroup.conditions').each(function(item) {
-                if (item.id == 'condition_' + questionId) {
-                    item.remove();
-                }
-            })
-            if ($('questionProperties_' + questionId) != null) {
-                $('questionProperties_' + questionId).remove();
-            }
-            $('sortable_' + questionId).remove();
-            showQuestionInQuestionBank(questionId);
-
-        }
-    }
-    function deleteConditionsOfConditionalTriggeredQuestion(conditionalTriggeredQuestionId) {
-
-
-    <%--var request = new Ajax.Request("<c:url value="/pages/form/removeConditions"/>", {--%>
-    <%--parameters:"conditionalTriggeredQuestionId=" + conditionalTriggeredQuestionId + "&subview=subview",--%>
-    <%--onComplete:function(transport) {--%>
-    <%--var conditions = $$('tr.conditionalTriggering_' + conditionalTriggeredQuestionId);--%>
-    <%--conditions.each(function(item) {--%>
-    <%--item.remove();--%>
-    <%--})--%>
-    <%--addRemoveConditionalTriggeringDisplayToQuestion();--%>
-
-
-    <%--},--%>
-    <%--method:'get'--%>
-    <%--})--%>
-
-
-    }
 
 </script>
 <script type="text/javascript">
@@ -953,23 +898,8 @@ function showHideQuestionUpDownLink() {
         return questionIds;
 
     }
-    function getProCtcTermId(id) {
-        var proCtcTermId = id.substr(19, id.length);
-        return proCtcTermId;
-    }
-    function getProCtcTermsInAPage(selectedCrfPageNumber) {
-        var proCtcTermIds = [];
-        var proCtcTerms = $$('#form-pages_' + selectedCrfPageNumber + ' div.selectedCrfPageForProCtcTerm_' + selectedCrfPageNumber);
-        proCtcTerms.each(function (item) {
-            var id = item.id;
-            var proCtcTermId = getProCtcTermId(id);
-            proCtcTermIds.push(proCtcTermId);
 
 
-        })
-        return proCtcTermIds;
-
-    }
     function getCrfPageNumbersForProCtcTerm(proCtcTermId) {
         var crfPageNumbers = [];
 
@@ -985,39 +915,9 @@ function showHideQuestionUpDownLink() {
     }
     function deleteCrfPageConfirm(selectedCrfPageNumber) {
         closeWindow();
-        var questionIds = getQuestionIdsInAPage(selectedCrfPageNumber);
-
-        var request = new Ajax.Request("<c:url value="/pages/form/removeCrfComponent"/>", {
-            parameters:"questionIds=" + questionIds + "&subview=subview&componentType=proCtcQuestion" ,
-            onComplete:function(transport) {
-
-                getProCtcTermsInAPage(selectedCrfPageNumber).each(function(proCtcTermId) {
-                    showProCtcTermLinkFromForm(proCtcTermId);
-                })
-                questionIds.each(function(questionId) {
-                    postProcessQuestionDelete(questionId);
-                });
-
-
-                $('form-pages_' + selectedCrfPageNumber).remove();
-
-                var crfPageNumbersToRemove = $('crfPageNumbersToRemove').value;
-                if (crfPageNumbersToRemove.blank()) {
-                    crfPageNumbersToRemove = selectedCrfPageNumber;
-                } else {
-                    crfPageNumbersToRemove = crfPageNumbersToRemove + ',' + selectedCrfPageNumber;
-                }
-                $('crfPageNumbersToRemove').value = crfPageNumbersToRemove;
-                updateQuestionsId();
-                updateCrfPageNumberAndShowHideUpDownLink();
-                postProcessFormChanges();
-                updateConditions();
-
-
-            },
-            method:'get'
-        })
-
+        $('showForm').value = true;
+        $('crfPageNumbersToRemove').value = selectedCrfPageNumber;
+        $('command').submit();
 
     }
 </script>
@@ -1105,7 +1005,7 @@ function showHideQuestionUpDownLink() {
 
     .makeDraggable {
         cursor: move;
-		position:relative;
+        position: relative;
     }
 
     .instructions .summaryvalue {
@@ -1193,10 +1093,11 @@ function showHideQuestionUpDownLink() {
         top: 5px;
         right: 10px;
     }
-	ul.tree span.a.children a.addallbtn {
-		background-image:none;
-		padding:0;
-	}
+
+    ul.tree span.a.children a.addallbtn {
+        background-image: none;
+        padding: 0;
+    }
 
 
 </style>
@@ -1268,14 +1169,14 @@ function showHideQuestionUpDownLink() {
                                         <ul>
                                             <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
                                                 <li class="closed">${proCtcTerm.term}
-												<a href="javascript:addProctcTerm(${proCtcTerm.id})"
-                                                           id="proCtcTerm_${proCtcTerm.id}" class="addallbtn">
-                                                            <img src="/ctcae/images/blue/add_all_btn.png"
-                                                                 alt="Add" onclick=""/></a>
+                                                    <a href="javascript:addProctcTerm(${proCtcTerm.id})"
+                                                       id="proCtcTerm_${proCtcTerm.id}" class="addallbtn">
+                                                        <img src="/ctcae/images/blue/add_all_btn.png"
+                                                             alt="Add" onclick=""/></a>
 
 
                                                     <ul>
-                                                        
+
                                                         <c:forEach items="${proCtcTerm.proCtcQuestions}"
                                                                    var="proCtcQuestion">
 
@@ -1352,15 +1253,18 @@ function showHideQuestionUpDownLink() {
 
 
                                         <input type="hidden" id="switchToAdvance" name="switchToAdvance" value=""/>
+                                        <input type="hidden" id="showForm" name="showForm" value=""/>
 
                                         <form:hidden path="questionsIds" id="questionsIds"/>
+                                        <form:hidden path="questionIdsToRemove" id="questionIdsToRemove"/>
 
                                         <form:hidden path="crfPageNumbers" id="crfPageNumbers"/>
                                         <form:hidden path="crfPageNumbersToRemove" id="crfPageNumbersToRemove"/>
                                         <form:hidden path="numberOfQuestionsInEachPage"
                                                      id="numberOfQuestionsInEachPage"/>
                                         <input type="hidden" id="totalQuestions" value="${totalQuestions}">
-                                        <c:forEach items="${command.crf.crfPages}" var="selectedCrfPage"
+                                        <c:forEach items="${command.crf.crfPagesSortedByPageNumber}"
+                                                   var="selectedCrfPage"
                                                    varStatus="status">
                                             <tags:oneCrfPage crfPage="${selectedCrfPage}"
                                                              crfPageNumber="${status.index}"
