@@ -55,6 +55,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/014_alter_crfpage_add_Instr
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLine.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRF.java -text
