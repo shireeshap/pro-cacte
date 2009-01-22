@@ -325,6 +325,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantControl
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantControllerUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantInboxController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantLinkDisplayDetailsCell.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantSchedule.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfController.java -text
