@@ -28,12 +28,7 @@ public class ProCtcTermRepository extends AbstractRepository<ProCtcTerm, ProCtcT
 			"Delete is not supported for ProCtcQuestion");
 	}
 
-	@Override
-	public ProCtcTerm save(ProCtcTerm t) {
-		throw new UnsupportedOperationException(
-			"Save is not supported for ProCtcQuestion");
-	}
-
+	
 	public Collection<ProCtcTerm> findAndInitializeTerm(ProCtcTermQuery query) {
 		Collection<ProCtcTerm> proCtcTerms = super.find(query);
 		for (ProCtcTerm proCtcTerm : proCtcTerms) {

@@ -5,10 +5,14 @@ import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.repository.*;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
+import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * @author Harsh Agarwal
@@ -19,7 +23,6 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 
     private CRFRepository crfRepository;
     private ProCtcRepository proCtcRepository;
-    private ProCtcTermRepository proCtcTermRepository;
     private ProCtcQuestionRepository proCtcQuestionRepository;
     private CRF crf;
     private CRFPage crfPage;
@@ -32,9 +35,13 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
     private CrfPageItemDisplayRule crfPageItemDisplayRule, anotherCrfPageItemDisplayRule;
     private StudyRepository studyRepository;
     private Study study;
+    protected ProCtcValidValue proCtcValidValue1;
+    protected ProCtcValidValue proCtcValidValue2;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
+
+
         super.onSetUpInTransaction();
         crf = Fixture.createCrf();
         crfPage = new CRFPage();
@@ -59,8 +66,12 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
         crfPage.addCrfItem(crfPageItem);
         crf.addCrfPage(crfPage);
 
-        ProCtcValidValue proCtcValidValue1 = finderRepository.findById(ProCtcValidValue.class, -1);
-        ProCtcValidValue proCtcValidValue2 = finderRepository.findById(ProCtcValidValue.class, -2);
+        Collection<ProCtcValidValue> proCtcValidValues = proProCtcTerm.getProCtcQuestions().iterator().next().getValidValues();
+        Iterator<ProCtcValidValue> iterator = proCtcValidValues.iterator();
+        proCtcValidValue1 = iterator.next();
+        proCtcValidValue2 = iterator.next();
+
+
         crfPageItemDisplayRule = Fixture.createCrfPageItemDisplayRules(null, proCtcValidValue1);
         anotherCrfPageItemDisplayRule = Fixture.createCrfPageItemDisplayRules(null, proCtcValidValue2);
 
@@ -104,7 +115,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
         CrfPageItemDisplayRule savedCrfPageItemDisplayRule = crfPageItem.getCrfPageItemDisplayRules().iterator().next();
         assertNotNull(savedCrfPageItemDisplayRule.getId());
         assertEquals(crfPageItem, savedCrfPageItemDisplayRule.getCrfItem());
-        assertEquals(Integer.valueOf(-1), savedCrfPageItemDisplayRule.getProCtcValidValue().getId());
+        assertEquals(proCtcValidValue1, savedCrfPageItemDisplayRule.getProCtcValidValue());
     }
 
     public void testAddCrfPageItemDisplayRuleInEditCrfItem() {
@@ -191,8 +202,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
         this.crfRepository = crfRepository;
     }
 
-    public void setProCtcTermRepository(
-            ProCtcQuestionRepository proCtcQuestionRepository) {
+    public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
         this.proCtcQuestionRepository = proCtcQuestionRepository;
     }
 
@@ -200,11 +210,8 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
         this.proCtcRepository = proCtcRepository;
     }
 
-    public void setCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
-        this.proCtcTermRepository = proCtcTermRepository;
-    }
-
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
     }
+
 }
