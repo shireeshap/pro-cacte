@@ -11,8 +11,8 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "proctc_question_display_rules")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_proctc_question_display_rule")})
+@Table(name = "question_display_rules")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_question_display_rule")})
 public class ProCtcQuestionDisplayRule extends BasePersistable {
 
     @Id
@@ -20,11 +20,11 @@ public class ProCtcQuestionDisplayRule extends BasePersistable {
     @Column(name = "id")    
     private Integer id;
 
-    @JoinColumn(name = "proctc_valid_value_id", referencedColumnName = "id")
+    @JoinColumn(name = "pro_ctc_valid_value_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtcValidValue proCtcValidValue;
 
-    @JoinColumn(name = "proctc_question_id", referencedColumnName = "id")
+    @JoinColumn(name = "pro_ctc_question_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtcQuestion proCtcQuestion;
 

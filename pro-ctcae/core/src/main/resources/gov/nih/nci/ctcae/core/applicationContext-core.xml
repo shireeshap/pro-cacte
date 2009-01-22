@@ -45,6 +45,7 @@
                 <value>gov.nih.nci.ctcae.core.domain.StudySite</value>
                 <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion</value>
                 <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion</value>
+                <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestionDisplayRule</value>
             </list>
         </property>
 
