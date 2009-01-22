@@ -9,5 +9,5 @@ class AlterCrfPageAddInstructions extends edu.northwestern.bioinformatics.bering
     dropColumn("crf_pages", "instructions");
   }
 
-  s
+
 }
