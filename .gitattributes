@@ -51,6 +51,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/010_add_organizations_8.gro
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/011_drop_duplicate_organization.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/012_create_ctc.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/013_create_study_participant_crf_schedules.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/014_alter_crfpage_add_Instructions.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text

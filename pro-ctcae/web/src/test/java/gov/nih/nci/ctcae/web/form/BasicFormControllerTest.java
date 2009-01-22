@@ -72,6 +72,20 @@ public class BasicFormControllerTest extends WebTestCase {
 
     }
 
+    public void testFormBackingObjectMustReturnSameCommandObjectAlways() throws Exception {
+        ModelAndView modelAndView = controller.handleRequest(request, response);
+        Map model = modelAndView.getModel();
+        Object command = model.get("command");
+        assertNotNull("must find command object", command);
+        assertTrue(command instanceof CreateFormCommand);
+        assertFalse("must be basic form creation", ((CreateFormCommand) command).getCrf().getAdvance());
+
+
+        Object anotherCommand = controller.formBackingObject(request);
+        assertSame("must return same command object", command, anotherCommand);
+
+    }
+
     public void testFirstPage() throws Exception {
         SelectStudyForFormTab selectStudyForFormTab = new SelectStudyForFormTab();
         ModelAndView modelAndView = controller.handleRequest(request, response);

@@ -175,7 +175,10 @@ public class CreateFormCommandTest extends WebTestCase {
         //now remove 1 question
 
         command.setQuestionIdsToRemove(String.valueOf(secondQuestion.getId()));
-
+        expect(finderRepository.findAndInitializeProCtcQuestion(secondQuestion.getId())).andReturn(secondQuestion);
+        replayMocks();
+        command.updateCrfItems(finderRepository);
+        verifyMocks();
         assertEquals("must remove 1 crf page item", 2, crfPageItems.size());
         validateCrfPageAndCrfPageItemOrder(crf);
 
@@ -194,6 +197,12 @@ public class CreateFormCommandTest extends WebTestCase {
         //now remove 1 question
         command.setQuestionIdsToRemove(String.valueOf(secondQuestion.getId()));
 
+        expect(finderRepository.findAndInitializeProCtcQuestion(secondQuestion.getId())).andReturn(secondQuestion);
+        replayMocks();
+        command.updateCrfItems(finderRepository);
+        verifyMocks();
+
+        resetMocks();
         assertEquals("must remove 1 crf page item", 2, crfPageItems.size());
 
         //now add same question again

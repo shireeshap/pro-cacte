@@ -54,10 +54,20 @@ public class CrfPageItem extends BasePersistable {
 
     @OneToMany(mappedBy = "crfPageItem", fetch = FetchType.LAZY)
     @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    private Set<CrfPageItemDisplayRule> crfPageItemDisplayRules = new HashSet<CrfPageItemDisplayRule>();
+    private List<CrfPageItemDisplayRule> crfPageItemDisplayRules = new ArrayList<CrfPageItemDisplayRule>();
 
 
     public CrfPageItem() {
+    }
+
+    public CrfPageItem(ProCtcQuestion proCtcQuestion) {
+        super();
+        this.proCtcQuestion = proCtcQuestion;
+        for (ProCtcQuestionDisplayRule proCtcQuestionDisplayRule : proCtcQuestion.getProCtcQuestionDisplayRules()) {
+            CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule(proCtcQuestionDisplayRule);
+            this.addCrfPageItemDisplayRules(crfPageItemDisplayRule);
+        }
+
     }
 
 
@@ -163,14 +173,8 @@ public class CrfPageItem extends BasePersistable {
         return result;
     }
 
-    //    @Override
-//    public String toString() {
-//        return "[DISPLAY ORDER: CRF : QUESTION] " + displayOrder + " : "
-//                + crf.getTitle() + " : " + proCtcQuestion.getQuestionText();
-//    }
 
-
-    public Set<CrfPageItemDisplayRule> getCrfPageItemDisplayRules() {
+    public List<CrfPageItemDisplayRule> getCrfPageItemDisplayRules() {
         return crfPageItemDisplayRules;
     }
 
@@ -188,7 +192,7 @@ public class CrfPageItem extends BasePersistable {
     public void removeCrfPageItemDisplayRulesByIds(final Set<Integer> proCtcValidValues) {
         List<CrfPageItemDisplayRule> crfPageItemDisplayRulesToRemove = new ArrayList<CrfPageItemDisplayRule>();
         for (Integer id : proCtcValidValues) {
-            CrfPageItemDisplayRule crfPageItemDisplayRule = getCrfDisplayRuleById(id);
+            CrfPageItemDisplayRule crfPageItemDisplayRule = getCrfDisplayRuleByProCtcValidValueId(id);
             if (crfPageItemDisplayRule != null) {
                 crfPageItemDisplayRulesToRemove.add(crfPageItemDisplayRule);
             }
@@ -200,7 +204,7 @@ public class CrfPageItem extends BasePersistable {
 
     }
 
-    private CrfPageItemDisplayRule getCrfDisplayRuleById(final Integer id) {
+    private CrfPageItemDisplayRule getCrfDisplayRuleByProCtcValidValueId(final Integer id) {
         for (CrfPageItemDisplayRule crfPageItemDisplayRule : getCrfPageItemDisplayRules()) {
             if (crfPageItemDisplayRule.getProCtcValidValue().getId().equals(id)) {
                 return crfPageItemDisplayRule;
@@ -216,17 +220,18 @@ public class CrfPageItem extends BasePersistable {
 
     public boolean addCrfPageItemDisplayRules(CrfPageItemDisplayRule crfPageItemDisplayRule) {
         if (crfPageItemDisplayRule != null) {
-            crfPageItemDisplayRule.setCrfItem(this);
-            boolean b = getCrfPageItemDisplayRules().add(crfPageItemDisplayRule);
-            return b;
+            CrfPageItemDisplayRule anotherCrfPageItemDisplayRule = getCrfDisplayRuleByProCtcValidValueId(crfPageItemDisplayRule.getProCtcValidValue().getId());
+            if (anotherCrfPageItemDisplayRule == null) {
+                crfPageItemDisplayRule.setCrfItem(this);
+                getCrfPageItemDisplayRules().add(crfPageItemDisplayRule);
+                return true;
+            }
+
 
         }
         return false;
     }
 
-    public boolean shouldDisplay(List<ProCtcValidValue> selectedProCtcValidValues) {
-        return true;
-    }
 
     public List<CrfPageItemDisplayRule> addCrfPageItemDisplayRules(final List<ProCtcValidValue> proCtcValidValues) {
         final List<CrfPageItemDisplayRule> addedCrfPageItemDisplayRules = new ArrayList<CrfPageItemDisplayRule>();
@@ -248,6 +253,7 @@ public class CrfPageItem extends BasePersistable {
         this.setResponseRequired(Boolean.FALSE);
         this.displayOrder = 0;
         this.getCrfPageItemDisplayRules().clear();
+
 
     }
 }

@@ -30,6 +30,9 @@ public class CRFPage extends BaseVersionable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "instructions")
+    private String instructions;
+
     @Column(name = "page_number", nullable = false)
     private Integer pageNumber = 0;
 
@@ -302,18 +305,25 @@ public class CRFPage extends BaseVersionable {
         return null;
     }
 
+    public void updateInstructions() {
+        if (!getCrfPageItems().isEmpty()) {
+            ProCtcTerm proCtcTerm = getCrfPageItems().get(0).getProCtcQuestion().getProCtcTerm();
+            setInstructions(String.format("Please think back %s when answering the question(s) about %s", getCrf().getRecallPeriod(), proCtcTerm.getTerm()));
+        }
+    }
+
     public CrfPageItem addProCtcQuestion(final ProCtcQuestion proCtcQuestion) {
         if (proCtcQuestion != null) {
 
-            CrfPageItem crfPageItem = new CrfPageItem();
-            crfPageItem.setProCtcQuestion(proCtcQuestion);
 
             //check if it already exists
-            CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(crfPageItem.getProCtcQuestion());
+            CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(proCtcQuestion);
 
             if (existingCrfPageItem != null) {
                 return null;
             }
+
+            CrfPageItem crfPageItem = new CrfPageItem(proCtcQuestion);
 
             updateOrderNumber(crfPageItem);
             crfPageItem.setCrfPage(this);
@@ -361,5 +371,13 @@ public class CRFPage extends BaseVersionable {
         }
         return false;
 
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
     }
 }

@@ -15,81 +15,88 @@ import javax.persistence.*;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_item_display_rules_id")})
 public class CrfPageItemDisplayRule extends BasePersistable {
 
-	@Id
-	@GeneratedValue(generator = "id-generator")
-	@Column(name = "id")
-	private Integer id;
+    @Id
+    @GeneratedValue(generator = "id-generator")
+    @Column(name = "id")
+    private Integer id;
 
-	@JoinColumn(name = "pro_ctc_valid_value_id", referencedColumnName = "id")
-	@ManyToOne
-	private ProCtcValidValue proCtcValidValue;
-
-
-	@JoinColumn(name = "crf_item_id", referencedColumnName = "id")
-	@ManyToOne
-	private CrfPageItem crfPageItem;
+    @JoinColumn(name = "pro_ctc_valid_value_id", referencedColumnName = "id")
+    @ManyToOne
+    private ProCtcValidValue proCtcValidValue;
 
 
-	public CrfPageItemDisplayRule() {
-	}
+    @JoinColumn(name = "crf_item_id", referencedColumnName = "id")
+    @ManyToOne
+    private CrfPageItem crfPageItem;
 
-	public Integer getId() {
-		return id;
-	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public CrfPageItemDisplayRule() {
+    }
 
-	public CrfPageItem getCrfItem() {
-		return crfPageItem;
-	}
+    public CrfPageItemDisplayRule(ProCtcQuestionDisplayRule proCtcQuestionDisplayRule) {
+        super();
+        this.proCtcValidValue = proCtcQuestionDisplayRule.getProCtcValidValue();
 
-	public void setCrfItem(final CrfPageItem crfPageItem) {
-		this.crfPageItem = crfPageItem;
-	}
 
-	public CrfPageItem getCrfPageItem() {
-		return crfPageItem;
-	}
+    }
 
-	public void setCrfPageItem(final CrfPageItem crfPageItem) {
-		this.crfPageItem = crfPageItem;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	@Override
-	public boolean equals(final Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-		final CrfPageItemDisplayRule that = (CrfPageItemDisplayRule) o;
+    public CrfPageItem getCrfItem() {
+        return crfPageItem;
+    }
 
-		if (crfPageItem != null ? !crfPageItem.equals(that.crfPageItem) : that.crfPageItem != null) return false;
-		if (proCtcValidValue != null ? !proCtcValidValue.equals(that.proCtcValidValue) : that.proCtcValidValue != null)
-			return false;
+    public void setCrfItem(final CrfPageItem crfPageItem) {
+        this.crfPageItem = crfPageItem;
+    }
 
-		return true;
-	}
+    public CrfPageItem getCrfPageItem() {
+        return crfPageItem;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = proCtcValidValue != null ? proCtcValidValue.hashCode() : 0;
-		result = 31 * result + (crfPageItem != null ? crfPageItem.hashCode() : 0);
-		return result;
-	}
+    public void setCrfPageItem(final CrfPageItem crfPageItem) {
+        this.crfPageItem = crfPageItem;
+    }
 
-	public ProCtcValidValue getProCtcValidValue() {
-		return proCtcValidValue;
-	}
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-	public void setProCtcValidValue(final ProCtcValidValue proCtcValidValue) {
-		this.proCtcValidValue = proCtcValidValue;
-	}
+        final CrfPageItemDisplayRule that = (CrfPageItemDisplayRule) o;
 
-	public CrfPageItemDisplayRule getCopy() {
-		CrfPageItemDisplayRule copiedCrfPageItemDisplayRule = new CrfPageItemDisplayRule();
-		copiedCrfPageItemDisplayRule.setProCtcValidValue(getProCtcValidValue());
-		return copiedCrfPageItemDisplayRule;
+        if (crfPageItem != null ? !crfPageItem.equals(that.crfPageItem) : that.crfPageItem != null) return false;
+        if (proCtcValidValue != null ? !proCtcValidValue.equals(that.proCtcValidValue) : that.proCtcValidValue != null)
+            return false;
 
-	}
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = proCtcValidValue != null ? proCtcValidValue.hashCode() : 0;
+        result = 31 * result + (crfPageItem != null ? crfPageItem.hashCode() : 0);
+        return result;
+    }
+
+    public ProCtcValidValue getProCtcValidValue() {
+        return proCtcValidValue;
+    }
+
+    public void setProCtcValidValue(final ProCtcValidValue proCtcValidValue) {
+        this.proCtcValidValue = proCtcValidValue;
+    }
+
+    public CrfPageItemDisplayRule getCopy() {
+        CrfPageItemDisplayRule copiedCrfPageItemDisplayRule = new CrfPageItemDisplayRule();
+        copiedCrfPageItemDisplayRule.setProCtcValidValue(getProCtcValidValue());
+        return copiedCrfPageItemDisplayRule;
+
+    }
 }

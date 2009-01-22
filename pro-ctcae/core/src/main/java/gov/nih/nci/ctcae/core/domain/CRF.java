@@ -512,4 +512,11 @@ public class CRF extends BaseVersionable {
         }
 
     }
+
+    public void updateCrfPageInstructions() {
+        for (CRFPage crfPage : crfPages) {
+            crfPage.updateInstructions();
+        }
+
+    }
 }

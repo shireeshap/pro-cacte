@@ -77,6 +77,7 @@ public class CreateFormCommand implements Serializable {
         }
 
         crf.updatePageNumberOfCrfPages();
+        crf.updateCrfPageInstructions();
         crf.updateDisplayOrderOfCrfPageItems();
 
 

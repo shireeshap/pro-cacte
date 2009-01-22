@@ -59,8 +59,8 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 ////        else {
 ////            request.setAttribute("flashMessage", "You were already updating one form. Do you want to  resume it or discard it.");
 ////        }
-        //remove this line
-        command = new CreateFormCommand();
+
+
         if (!StringUtils.isBlank(request.getParameter("studyId"))) {
             command.getCrf().setStudy(studyRepository.findById(Integer.parseInt(request.getParameter("studyId"))));
         }
@@ -83,10 +83,10 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
         if (!StringUtils.isBlank(request.getParameter("switchToAdvance"))) {
             createFormCommand.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
-            return showPage(request, errors, getCurrentPage(request));
+            return showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
         } else if (!StringUtils.isBlank(request.getParameter("showForm"))) {
 
-            return showPage(request, errors, getCurrentPage(request));
+            return showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
         } else {
             if (!notEmptyValidator.validate(crf.getTitle())) {
                 errors.rejectValue("crf.title", "form.missing_title", "form.missing_title");
