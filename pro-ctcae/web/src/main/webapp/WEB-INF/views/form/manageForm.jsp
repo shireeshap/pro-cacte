@@ -175,7 +175,7 @@
 </div>
 <div id="crfItem_50"></div>
 <div id="noForm" style="display:none;">
-<tags:button id="newFormUrl" icon="add" value="New Form" onClick=""/>
+<tags:button type="anchor" id="newFormUrl" icon="add" value="New Form"/>
 </div>
 <div id="bigSearch" style="display:none;">
     <div class="endpanes"/>

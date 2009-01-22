@@ -67,7 +67,7 @@
         </c:forEach>
     </c:forEach>
 </c:forEach>
-<img style="position:absolute; top:0px; left:0px;" src=<tags:imageUrl name="blue/mailbox.jpg" />alt="mailbox" />
+<img style="position:absolute; top:0px; left:0px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox" />
 <div id="inboxTitle"><span style="font-size:75px; line-height:70px;">Inbox</span><br/>
     <span style="font-size:13pt; margin-left:6px;">You have <span style="font-weight:bolder;">${numberofCrfs}</span> form<c:if
             test="${numberofCrfs != 1}">s</c:if> that need<c:if
