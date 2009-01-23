@@ -760,9 +760,9 @@ function showHideQuestionUpDownLink() {
 
 
         addEditingDisplayToQuestion(selectedQuestionId);
-        //        var yPosition =parseInt($('sortable_' + selectedQuestionId).cumulativeOffset()[1])-parseInt($('questionProperties_' + selectedQuestionId).cumulativeOffset()[1]) - 100;
-        //        new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'absolute' });
-        //
+        var yPosition = parseInt($('sortable_' + selectedQuestionId).cumulativeOffset()[1]) - parseInt($('questionProperties_' + selectedQuestionId).cumulativeOffset()[1]) - 100;
+        new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
+
     }
 </script>
 <script type="text/javascript">
