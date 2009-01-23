@@ -21,7 +21,7 @@
                     <strong>${crf.title}</strong>.
 
                 </p>
-                does
+               
                 <p>
                     You cannot reverse this step.
                     Do you want to continue?
