@@ -29,11 +29,11 @@
         <c:set var="crfPageTitle" value="${empty crfPage.description ?'Optional page title':crfPage.description}"/>
 
 
-        <span id="crf.crfPages[${crfPageNumber}].description-property" class="crfPageTitle">${crfPageTitle}</span>
+        <span id="crf.crfPagesSortedByPageNumber[${crfPageNumber}].description-property" class="crfPageTitle">${crfPageTitle}</span>
 
-        <input id="crf.crfPages[${crfPageNumber}].description" type="hidden" size="30"
+        <input id="crf.crfPagesSortedByPageNumber[${crfPageNumber}].description" type="hidden" size="30"
                value="${crfPage.description}"
-               name="crf.crfPages[${crfPageNumber}].description" class="autocomplete crfPageTitle"/>
+               name="crf.crfPagesSortedByPageNumber[${crfPageNumber}].description" class="autocomplete crfPageTitle"/>
 
         <div class="formbuilderBoxControls">
             <div class="formbuilderBoxControls-left">

@@ -59,8 +59,8 @@ public class AddCrfComponentControllerTest extends WebTestCase {
         CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
         CRF crf = createFormCommand.getCrf();
-        assertFalse("must add crf page", crf.getCrfPages().isEmpty());
-        assertEquals("must add only one page", 1, crf.getCrfPages().size());
+        assertFalse("must add crf page", crf.getCrfPagesSortedByPageNumber().isEmpty());
+        assertEquals("must add only one page", 1, crf.getCrfPagesSortedByPageNumber().size());
 
 
     }

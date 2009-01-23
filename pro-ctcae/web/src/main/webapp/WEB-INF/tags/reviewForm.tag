@@ -28,7 +28,7 @@
                 <div class="summarylabel"><tags:message code='form.label.questions'/></div>
             </div>
 
-            <c:forEach items="${crf.crfPages}" var="crfPage">
+            <c:forEach items="${crf.crfPagesSortedByPageNumber}" var="crfPage">
 
                 <div class="formpages">
                     <div class="formpageheader">

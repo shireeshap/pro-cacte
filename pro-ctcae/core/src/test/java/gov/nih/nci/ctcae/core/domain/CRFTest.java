@@ -238,17 +238,17 @@ public class CRFTest extends AbstractTestCase {
         crf = new CRF();
         crf.addCrfPage(new CRFPage());
         crf.addCrfPage(new CRFPage());
-        assertEquals("must return 2 crfPages", 2, crf.getCrfPages().size());
-        for (int i = 0; i < crf.getCrfPages().size(); i++) {
-            assertEquals("must preserve page no", Integer.valueOf(i), crf.getCrfPages().get(i).getPageNumber());
+        assertEquals("must return 2 crfPages", 2, crf.getCrfPagesSortedByPageNumber().size());
+        for (int i = 0; i < crf.getCrfPagesSortedByPageNumber().size(); i++) {
+            assertEquals("must preserve page no", Integer.valueOf(i), crf.getCrfPagesSortedByPageNumber().get(i).getPageNumber());
 
         }
-        crf.getCrfPages().get(0).setPageNumber(1);
-        crf.getCrfPages().get(1).setPageNumber(0);
+        crf.getCrfPagesSortedByPageNumber().get(0).setPageNumber(1);
+        crf.getCrfPagesSortedByPageNumber().get(1).setPageNumber(0);
 
-        assertEquals("must return 2 crfPages", 2, crf.getCrfPages().size());
-        for (int i = 0; i < crf.getCrfPages().size(); i++) {
-            assertEquals("must preserve page no", Integer.valueOf(i), crf.getCrfPages().get(i).getPageNumber());
+        assertEquals("must return 2 crfPages", 2, crf.getCrfPagesSortedByPageNumber().size());
+        for (int i = 0; i < crf.getCrfPagesSortedByPageNumber().size(); i++) {
+            assertEquals("must preserve page no", Integer.valueOf(i), crf.getCrfPagesSortedByPageNumber().get(i).getPageNumber());
 
         }
 
@@ -259,14 +259,14 @@ public class CRFTest extends AbstractTestCase {
         crf.addCrfPage(new CRFPage());
         crf.addCrfPage(new CRFPage());
         crf.addCrfPage(new CRFPage());
-        assertEquals("must return 3 crfPages", 3, crf.getCrfPages().size());
+        assertEquals("must return 3 crfPages", 3, crf.getCrfPagesSortedByPageNumber().size());
 
         crf.removeCrfPageByPageNumber(1);
 
-        assertEquals("must return 2 crfPages", 2, crf.getCrfPages().size());
+        assertEquals("must return 2 crfPages", 2, crf.getCrfPagesSortedByPageNumber().size());
         crf.updatePageNumberOfCrfPages();
-        for (int i = 0; i < crf.getCrfPages().size(); i++) {
-            assertEquals("must preserve page no", Integer.valueOf(i), crf.getCrfPages().get(i).getPageNumber());
+        for (int i = 0; i < crf.getCrfPagesSortedByPageNumber().size(); i++) {
+            assertEquals("must preserve page no", Integer.valueOf(i), crf.getCrfPagesSortedByPageNumber().get(i).getPageNumber());
 
         }
 
@@ -275,9 +275,9 @@ public class CRFTest extends AbstractTestCase {
     public void testRemoveCrfPageItem() {
         crf = new CRF();
         crf.addProCtcTerm(constipation);
-        assertEquals("must return 1 crfPages", 1, crf.getCrfPages().size());
+        assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
 
-        CRFPage crfPage = crf.getCrfPages().get(0);
+        CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(0);
         assertEquals("must return 2 crf page items", 2, crfPage.getCrfPageItems().size());
 
         assertNotNull(crf.getCrfPageItemByQuestion(firstQuestion));
@@ -286,9 +286,9 @@ public class CRFTest extends AbstractTestCase {
         questionIds.add(firstQuestion.getId());
         crf.removeCrfPageItemByQuestionIds(questionIds);
 
-        assertEquals("must return 1 crfPages", 1, crf.getCrfPages().size());
+        assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
 
-        crfPage = crf.getCrfPages().get(0);
+        crfPage = crf.getCrfPagesSortedByPageNumber().get(0);
         assertEquals("must remove 1 crf page items", 1, crfPage.getCrfPageItems().size());
 
 
@@ -301,7 +301,7 @@ public class CRFTest extends AbstractTestCase {
         crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
         crf.addCrfPage(firstQuestion);
 
-        assertEquals("must return 1 crfPages", 1, crf.getCrfPages().size());
+        assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
 
         List<CrfPageItem> crfPageItems = crf.getAllCrfPageItems();
         assertEquals("must be 1 crf page item only", 1, crfPageItems.size());
@@ -315,7 +315,7 @@ public class CRFTest extends AbstractTestCase {
         crf.addProCtcTerm(constipation);
 
 
-        assertEquals("must return 1 crfPages", 1, crf.getCrfPages().size());
+        assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
 
         List<CrfPageItem> crfPageItems = crf.getAllCrfPageItems();
         assertEquals("must be 2 crf page item", 2, crfPageItems.size());
@@ -333,15 +333,15 @@ public class CRFTest extends AbstractTestCase {
 //        crf.addCrfPage(firstQuestion);
 //        crf.addProCtcTerm(constipation);
 //
-//        assertEquals("must return 2 crfPages", 2, crf.getCrfPages().size());
+//        assertEquals("must return 2 crfPages", 2, crf.getCrfPagesSortedByPageNumber().size());
 //
 //        List<CrfPageItem> crfPageItems = crf.getAllCrfPageItems();
 //
 //        assertEquals("must be 2 crf page item only", 2, crfPageItems.size());
 //
-//        assertEquals("must be remove crf page item if same question is added to another page", 0, crf.getCrfPages().get(0).getCrfPageItems().size());
+//        assertEquals("must be remove crf page item if same question is added to another page", 0, crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems().size());
 //
-//        CRFPage crfPage = crf.getCrfPages().get(1);
+//        CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(1);
 //        assertEquals("must create the crf page item for specified question", 2, crfPage.getCrfPageItems().size());
 //
 //        assertSame("must create the crf page item for specified question", firstQuestion, crfPage.getCrfItemsSortedByDislayOrder().get(0).getProCtcQuestion());
@@ -357,13 +357,13 @@ public class CRFTest extends AbstractTestCase {
         crf.addCrfPage(firstQuestion);
         crf.addCrfPage(firstQuestion);
 
-        assertEquals("must return 2 crfPages", 2, crf.getCrfPages().size());
+        assertEquals("must return 2 crfPages", 2, crf.getCrfPagesSortedByPageNumber().size());
 
         List<CrfPageItem> crfPageItems = crf.getAllCrfPageItems();
 
         assertEquals("must be 1 crf page item only", 1, crfPageItems.size());
-        assertEquals("must be remove crf page item if same question is added to another page", 0, crf.getCrfPages().get(0).getCrfPageItems().size());
-        assertEquals("must create the crf page item for specified question", 1, crf.getCrfPages().get(1).getCrfPageItems().size());
+        assertEquals("must be remove crf page item if same question is added to another page", 0, crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems().size());
+        assertEquals("must create the crf page item for specified question", 1, crf.getCrfPagesSortedByPageNumber().get(1).getCrfPageItems().size());
 
         assertSame("must create the crf page item for specified question", firstQuestion, crfPageItems.get(0).getProCtcQuestion());
 

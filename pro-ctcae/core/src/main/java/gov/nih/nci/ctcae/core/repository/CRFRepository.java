@@ -33,7 +33,7 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
             }
         }
 
-        List<CRFPage> crfPageList = crf.getCrfPages();
+        List<CRFPage> crfPageList = crf.getCrfPagesSortedByPageNumber();
         for (CRFPage crfPage : crfPageList) {
             crfPage.getDescription();
             for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {

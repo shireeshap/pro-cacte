@@ -42,7 +42,7 @@ public class SubmitFormCommand implements Serializable {
             displayRules.put(crfPageItem.getId(), displayRule);
         }
         currentPageIndex = 1;
-        totalPages = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getCrfPages().size();
+        totalPages = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber().size();
         participantAddedQuestionIndex = totalPages + 1;
         if (studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size() > 0) {
             hasParticipantAddedQuestions = true;
@@ -83,7 +83,7 @@ public class SubmitFormCommand implements Serializable {
 
                         for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : originalStudyParticipantCrf.getStudyParticipantCrfAddedQuestions()) {
                             boolean isAlreadyPresent = false;
-                            for (CRFPage crfPage : latestEffectiveCrf.getCrfPages()) {
+                            for (CRFPage crfPage : latestEffectiveCrf.getCrfPagesSortedByPageNumber()) {
                                 for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
                                     if (crfPageItem.getProCtcQuestion().getId().equals(studyParticipantCrfAddedQuestion.getProCtcQuestion().getId())) {
                                         isAlreadyPresent = true;
@@ -96,7 +96,7 @@ public class SubmitFormCommand implements Serializable {
                                 if (symptomPage.containsKey(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm())) {
                                     myPageNumber = symptomPage.get(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
                                 } else {
-                                    myPageNumber = studyParticipantCrf.getCrf().getCrfPages().size() - 1 + i;
+                                    myPageNumber = studyParticipantCrf.getCrf().getCrfPagesSortedByPageNumber().size() - 1 + i;
                                     symptomPage.put(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm(), myPageNumber);
                                 }
                                 newStudyParticipantCrfAddedQuestion.setPageNumber(myPageNumber);

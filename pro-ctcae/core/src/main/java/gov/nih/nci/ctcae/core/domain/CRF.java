@@ -226,12 +226,16 @@ public class CRF extends BaseVersionable {
     }
 
 
-    public List<CRFPage> getCrfPages() {
-        Collections.sort(crfPages, new DisplayOrderComparator());
-        return crfPages;
+//    public List<CRFPage> getCrfPages() {
+//        return crfPages;
+//    }
+
+    public List<CRFPage> getCrfPagesSortedByPageNumber() {
+        List<CRFPage> sortedCrfPages = new ArrayList<CRFPage>(crfPages);
+
+        Collections.sort(sortedCrfPages, new DisplayOrderComparator());
+        return sortedCrfPages;
     }
-
-
 
 
     public void removeCrfPageByPageNumber(final Integer crfPageNumber) {
@@ -245,7 +249,7 @@ public class CRF extends BaseVersionable {
      * it is required to make sure crf page numbers stars from  INITIAL_ORDER not from 2,3,4
      */
     public void updatePageNumberOfCrfPages() {
-        List<CRFPage> crfPages = getCrfPages();
+        List<CRFPage> crfPages = getCrfPagesSortedByPageNumber();
         for (int i = 0; i < crfPages.size(); i++) {
             CRFPage crfPage = crfPages.get(i);
             crfPage.setPageNumber(INITIAL_ORDER + i);
@@ -310,7 +314,7 @@ public class CRF extends BaseVersionable {
     }
 
     public CRFPage getCrfPageByPageNumber(final Integer crfPageNumber) {
-        for (CRFPage crfPage : getCrfPages()) {
+        for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
             if (crfPage.getPageNumber().equals(crfPageNumber)) {
                 return crfPage;
             }
@@ -443,7 +447,7 @@ public class CRF extends BaseVersionable {
     }
 
     private CRFPage getCrfPageByProCtcTerm(ProCtcTerm proCtcTerm) {
-        for (CRFPage crfPage : getCrfPages()) {
+        for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
             if (crfPage.checkIfProCtcTermExists(proCtcTerm)) {
                 return crfPage;
             }
@@ -488,7 +492,7 @@ public class CRF extends BaseVersionable {
 
     public void clearEmptyPages() {
         List<CRFPage> emptyCrfPages = new ArrayList<CRFPage>();
-        for (CRFPage crfPage : getCrfPages()) {
+        for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
             if (crfPage.getCrfPageItems().isEmpty()) {
                 emptyCrfPages.add(crfPage);
             }
@@ -502,7 +506,7 @@ public class CRF extends BaseVersionable {
 
     public void updateDisplayOrderOfCrfPageItems() {
         int i = CrfPageItem.INITIAL_ORDER;
-        for (CRFPage crfPage : getCrfPages()) {
+        for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
             crfPage.updateDisplayOrderOfCrfPageItems(i);
             i = i + crfPage.getCrfPageItems().size();
         }

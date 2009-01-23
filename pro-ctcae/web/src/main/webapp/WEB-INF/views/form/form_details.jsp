@@ -24,7 +24,7 @@
 
     Event.observe(window, "load", function () {
 
-    <c:if test="${not empty command.crf.crfPages}">
+    <c:if test="${not empty command.crf.crfPagesSortedByPageNumber}">
         sortQuestions();
         updateQuestionsId();
         addRemoveConditionalTriggeringDisplayToQuestion();
@@ -35,7 +35,7 @@
         hideQuestionsFromForm();
         hideProCtcTermFromForm();
 
-    <c:forEach items="${command.crf.crfPages}" var="crfPage" varStatus="status">
+    <c:forEach items="${command.crf.crfPagesSortedByPageNumber}" var="crfPage" varStatus="status">
         var crfPageNumber = '${status.index}';
         crfPageItemEditor(crfPageNumber);
     </c:forEach>
@@ -759,7 +759,10 @@ function showHideQuestionUpDownLink() {
         })
 
 
-        addEditingDisplayToQuestion(selectedQuestionId)
+        addEditingDisplayToQuestion(selectedQuestionId);
+//       var yPosition=$('sortable_'+selectedQuestionId).y
+//        new Effect.Move($('questionProperties_' + selectedQuestionId), { y: 130, mode: 'relative' });
+//
     }
 </script>
 <script type="text/javascript">
@@ -944,7 +947,7 @@ function showHideQuestionUpDownLink() {
 
     }
     function crfPageItemEditor(crfPageNumber) {
-        var description = 'crf.crfPages[' + crfPageNumber + '].description';
+        var description = 'crf.crfPagesSortedByPageNumber[' + crfPageNumber + '].description';
         var descriptionProperty = description + '-property';
 
         var formNameInPlaceEdit = new Ajax.InPlaceEditor(descriptionProperty, '/ctcae/pages/form/setName', {
@@ -1263,7 +1266,7 @@ function showHideQuestionUpDownLink() {
                                         <form:hidden path="numberOfQuestionsInEachPage"
                                                      id="numberOfQuestionsInEachPage"/>
                                         <input type="hidden" id="totalQuestions" value="${totalQuestions}">
-                                        <c:forEach items="${command.crf.crfPages}"
+                                        <c:forEach items="${command.crf.crfPagesSortedByPageNumber}"
                                                    var="selectedCrfPage"
                                                    varStatus="status">
                                             <tags:oneCrfPage crfPage="${selectedCrfPage}"

@@ -14,12 +14,12 @@
          class="questionProperties leftBox">
         <span class="propertiesHeader"><tags:message code="crfItem.label.properties"/> </span>
         <noform:renderTextArea
-                propertyName="crf.crfPages[${crfPageNumber}].crfPageItems[${index}].instructions"
+                propertyName="crf.crfPagesSortedByPageNumber[${crfPageNumber}].crfPageItems[${index}].instructions"
                 displayName="crfItem.label.instructions"
                 propertyValue="${crfPageItem.instructions}"></noform:renderTextArea>
 
         <noform:renderRadio
-                propertyName="crf.crfPages[${crfPageNumber}].crfPageItems[${index}].responseRequired"
+                propertyName="crf.crfPagesSortedByPageNumber[${crfPageNumber}].crfPageItems[${index}].responseRequired"
                 displayName="crfItem.label.response_required"
                 propertyValue="${crfPageItem.responseRequired}" items="${responseRequired}"
                 questionId="${crfPageItem.proCtcQuestion.id}">
@@ -28,7 +28,7 @@
 
 
         <noform:renderRadio
-                propertyName="crf.crfPages[${crfPageNumber}].crfPageItems[${index}].crfItemAllignment"
+                propertyName="crf.crfPagesSortedByPageNumber[${crfPageNumber}].crfPageItems[${index}].crfItemAllignment"
                 displayName="crfItem.label.allignment"
                 propertyValue="${crfPageItem.crfItemAllignment}" items="${crfItemAllignments}"
                 questionId="${crfPageItem.proCtcQuestion.id}">

@@ -65,7 +65,7 @@ public class CreateFormCommand implements Serializable {
         //reorder crf page items
 
         try {
-            List<CRFPage> crfPages = crf.getCrfPages();
+            List<CRFPage> crfPages = crf.getCrfPagesSortedByPageNumber();
             for (int i = 0; i < crfPages.size(); i++) {
                 CRFPage crfPage = crfPages.get(i);
                 crfPage.setPageNumber(Integer.valueOf(crfPageNumberArray[i]));
@@ -134,7 +134,7 @@ public class CreateFormCommand implements Serializable {
         }
 
         for (Integer index : questionsToKeepMap.keySet()) {
-            CRFPage crfPage = crf.getCrfPages().get(index);
+            CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(index);
             //now delete the extra questions
             crfPage.removeExtraCrfItemsInCrfPage(questionsToKeepMap.get(index));
 

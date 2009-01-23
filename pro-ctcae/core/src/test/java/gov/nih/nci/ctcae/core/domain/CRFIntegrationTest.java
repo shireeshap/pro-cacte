@@ -38,6 +38,10 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
         study = studyRepository.save(study);
         crf.setStudy(study);
 
+        crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
+        crf.addCrfPage();
+        crf.addCrfPage();
+
         crf = crfRepository.save(crf);
     }
 
@@ -126,8 +130,8 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
         crf.addCrfPage(new CRFPage());
         saveCrf();
         assertNotNull(crf.getId());
-        assertFalse(crf.getCrfPages().isEmpty());
-        for (CRFPage crfPage : crf.getCrfPages()) {
+        assertFalse(crf.getCrfPagesSortedByPageNumber().isEmpty());
+        for (CRFPage crfPage : crf.getCrfPagesSortedByPageNumber()) {
             assertNotNull(crfPage.getId());
             assertSame(crf, crfPage.getCrf());
         }
