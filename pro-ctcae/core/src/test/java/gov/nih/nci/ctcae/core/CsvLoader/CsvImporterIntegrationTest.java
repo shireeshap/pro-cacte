@@ -26,20 +26,20 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
 
     private void saveCsv() throws IOException {
 
-   //     ProCtc pro = finderRepository.findById(ProCtc.class, 2);
-   //     genericRepository.delete(pro);
-   //     setComplete();
-   //     endTransaction();
-   //     startNewTransaction();
+       //ProCtc pro = finderRepository.findById(ProCtc.class, 1);
+        //genericRepository.delete(pro);
+        setComplete();
+        endTransaction();
+        startNewTransaction();
 
-//        csvImporter = new CsvImporter();
-//        csvImporter.setFinderRepository(finderRepository);
-//        ProCtc proctc = csvImporter.readCsv();
+        csvImporter = new CsvImporter();
+        csvImporter.setFinderRepository(finderRepository);
+        ProCtc proctc = csvImporter.readCsv();
         //assertEquals(65,proctc.getProCtcTerms().size());
-       // genericRepository.save(proctc);
-//        setComplete();
-//        endTransaction();
-//        startNewTransaction();
+        genericRepository.save(proctc);
+        setComplete();
+        endTransaction();
+        startNewTransaction();
     }
 
     public void testSaveCsv() throws IOException {

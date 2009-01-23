@@ -39,8 +39,8 @@ public class DisplayCalendarController extends AbstractController {
             participantSchedule.setRepetitionPeriodAmount(Integer.parseInt(request.getParameter("reppa")));
             participantSchedule.setRepetitionPeriodUnit(request.getParameter("reppu"));
             participantSchedule.setStartDate(new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("sdate")));
-            studyParticipantCommand.setFinderRepository(finderRepository);
-            studyParticipantCommand.createSchedules(index);
+            participantSchedule.setFinderRepository(finderRepository);
+            participantSchedule.createSchedules();
         } else {
             if (direction.equals("prev")) {
                 participantSchedule.getCalendar().add(-1);
@@ -48,10 +48,10 @@ public class DisplayCalendarController extends AbstractController {
             if (direction.equals("next")) {
                 participantSchedule.getCalendar().add(1);
             }
-
         }
 
         modelAndView.addObject("participantSchedule", studyParticipantCommand.getParticipantSchedules().get(index));
+        modelAndView.addObject("index", index);
 
         return modelAndView;
     }

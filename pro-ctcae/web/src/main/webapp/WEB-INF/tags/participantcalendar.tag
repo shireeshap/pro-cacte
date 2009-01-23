@@ -1,12 +1,13 @@
 <%@ attribute name="schedule" type="gov.nih.nci.ctcae.web.participant.ParticipantSchedule" required="true" %>
+<%@ attribute name="index" type="java.lang.String" required="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:forEach items="${schedule.currentMonthSchedules}" var="studyParticipantCrfSchedule">
-    <div id="${schedule.studyParticipantCrf.id}_temp_<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />"
-         name="${schedule.studyParticipantCrf.id}_temp_div">
-            ${schedule.studyParticipantCrf.crf.title} (${studyParticipantCrfSchedule.status})
+    <div id="${index}_temp_<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />"
+         name="${index}_temp_div">
+            (${studyParticipantCrfSchedule.status})
     </div>
 </c:forEach>
 <table class="widget" cellspacing="0" cellpadding="0" border="0" align="center">
@@ -29,8 +30,8 @@
             <c:forEach items="${week}" var="day" varStatus="status">
                 <td class="data">
                     <div class="grey">${day}&nbsp;&nbsp;</div>
-                    <div id="${schedule.studyParticipantCrf.id}_schedule_${day}"
-                         name="${schedule.studyParticipantCrf.id}_schedule_div" class="passive">&nbsp;</div>
+                    <div id="${index}_schedule_${day}"
+                         name="${index}_schedule_div" class="passive" ondblclick="javascript:selectDate(this, '(Scheduled)','${index}');">&nbsp;</div>
                 </td>
             </c:forEach>
         </tr>

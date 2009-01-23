@@ -292,13 +292,10 @@ public class SubmitFormCommand implements Serializable {
 
         if (currentPageIndex <= totalPages) {
             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-                if(studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber() == currentPageIndex-1){
-                    symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getTerm();
+                if (studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber() == currentPageIndex - 1) {
+                    pageHeader = studyParticipantCrfItem.getCrfPageItem().getCrfPage().getInstructions();
                 }
             }
-        }
-        if(!StringUtils.isBlank(symptom)){
-            pageHeader ="Please think back " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + " when answering the question(s) about " + symptom + ":"; 
         }
         return pageHeader;
     }

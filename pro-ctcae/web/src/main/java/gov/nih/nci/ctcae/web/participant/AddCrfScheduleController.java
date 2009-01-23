@@ -10,6 +10,10 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.text.SimpleDateFormat;
 
 /**
  * @author Harsh Agarwal
@@ -21,23 +25,37 @@ public class AddCrfScheduleController extends AbstractController {
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-        ModelAndView modelAndView = new ModelAndView("participant/ajax/oneCrfScheduleSection");
-
         StudyParticipantCommand studyParticipantCommand = ParticipantControllerUtils.getStudyParticipantCommand(request);
+        Integer index = Integer.parseInt(request.getParameter("index"));
+        String action = request.getParameter("action");
+        String date = request.getParameter("date");
 
-        Integer crfIndex = Integer.parseInt(request.getParameter("crfindex"));
+        ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(index);
+        participantSchedule.setFinderRepository(finderRepository);
+        Calendar c = new GregorianCalendar();
+        c.setTime(participantSchedule.getCalendar().getTime());
+        int duedate = 24 * 60 * 60 * 1000;
 
-        StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
+        if ("add,del".equals(action)) {
+            String newdate = date.substring(0, date.indexOf(","));
+            String olddate = date.substring(date.indexOf(",") + 1);
 
-        StudyParticipantCrf studyParticipantCrf = studyParticipantCommand.getStudyParticipantAssignment().getStudyParticipantCrfs().get(crfIndex.intValue());
+            c.set(Calendar.DATE, Integer.parseInt(newdate));
+            participantSchedule.createSchedule(c, duedate);
 
-        CRF crf = finderRepository.findById(CRF.class, studyParticipantCrf.getCrf().getId());
-        studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule, crf);
+            c.set(Calendar.DATE, Integer.parseInt(olddate));
+            participantSchedule.removeSchedule(c);
+        } else {
+            c.set(Calendar.DATE, Integer.parseInt(date));
+            if ("add".equals(action)) {
+                participantSchedule.createSchedule(c, duedate);
+            }
+            if ("del".equals(action)) {
+                participantSchedule.removeSchedule(c);
+            }
+        }
 
-        int scheduleindex = studyParticipantCrf.getStudyParticipantCrfSchedules().size() - 1;
-        modelAndView.addObject("scheduleindex", scheduleindex);
-        modelAndView.addObject("crfindex", crfIndex);
-        return modelAndView;
+        return null;
     }
 
 

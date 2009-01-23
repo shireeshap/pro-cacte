@@ -204,6 +204,13 @@
             <version>1.6.0</version>
         </dependency>
 
+        <!-- CSV reader -->
+        <dependency>
+            <groupId>com.csvreader</groupId>
+            <artifactId>csvreader</artifactId>
+            <version>2.0</version>
+        </dependency>
+
 
         <!-- Below dependencies were added as part of Single-SignOn integration-->
         <!-- RUNTIME-ONLY DEPS -->

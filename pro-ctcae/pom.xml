@@ -79,6 +79,11 @@
             <name>psc Repository</name>
             <url>http://download.bioinformatics.northwestern.edu/maven2</url>
         </repository>
+        <repository>
+            <id>nexus-repo</id>
+            <name>nexus-repo</name>
+            <url>https://internal.hmsinc.com/nexus/content/repositories/hms-repo/</url>
+        </repository>
     </repositories>
 
     <properties>
