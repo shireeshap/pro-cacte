@@ -10,172 +10,204 @@
 <html>
 <head>
 
-    <tags:stylesheetLink name="tabbedflow"/>
-    <script type="text/javascript">
-    </script>
-    <style type="text/css">
+<tags:stylesheetLink name="tabbedflow"/>
+<script type="text/javascript">
+</script>
+<style type="text/css">
 
-        table.top-widget {
-            border-bottom: 1px solid #cccccc;
-            border-right: 1px solid #cccccc;
-            border-left: 1px solid #cccccc;
-            table-layout: fixed;
-            background-color: #E7EAF3;
-        }
+    table.top-widget {
+        border-bottom: 1px solid #cccccc;
+        border-right: 1px solid #cccccc;
+        border-left: 1px solid #cccccc;
+        table-layout: fixed;
+        background-color: #E7EAF3;
+    }
 
-        tr.top-header {
-            background-color: #cccccc;
-            height: 30px;
-        }
+    tr.top-header {
+        background-color: #cccccc;
+        height: 30px;
+    }
 
-        table.widget {
-            border-left: 9px solid #C3D9FF;
-            border-bottom: 6px solid #C3D9FF;
-            width: 60%;
-            table-layout: fixed;
-            background-color: #FFFFFF;
-            font-size: x-small;
-            font-family: verdana, arial;
-        }
+    table.widget {
+        border-left: 9px solid #C3D9FF;
+        border-bottom: 6px solid #C3D9FF;
+        width: 60%;
+        table-layout: fixed;
+        background-color: #FFFFFF;
+        font-size: x-small;
+        font-family: verdana, arial;
+    }
 
-        tr.header {
-            background-color: #C3D9FF;
-            color: #0e0094;
-            text-align: center;
-            height: 30px;
-        }
+    tr.header {
+        background-color: #C3D9FF;
+        color: #0e0094;
+        text-align: center;
+        height: 30px;
+    }
 
-        td.header {
-            border-bottom: 1px solid #77a9ff;
-        }
+    td.header {
+        border-bottom: 1px solid #77a9ff;
+    }
 
-        td.border-td {
-            border-bottom: 1px solid #cccccc;
-            border-left: 1px solid #cccccc;
-        }
+    td.border-td {
+        border-bottom: 1px solid #cccccc;
+        border-left: 1px solid #cccccc;
+    }
 
-        td.data {
-            height: 70px;
-            text-align: right;
-            vertical-align: top;
-            border-bottom: 1px solid #C3D9FF;
-            border-left: 1px solid #C3D9FF;
-        }
+    td.data {
+        height: 70px;
+        text-align: right;
+        vertical-align: top;
+        border-bottom: 1px solid #C3D9FF;
+        border-left: 1px solid #C3D9FF;
+    }
 
-        .grey {
-            background-color: #eaf1f4;
-            height: 20px;
-            color: #666666;
-        }
+    .grey {
+        background-color: #eaf1f4;
+        height: 20px;
+        color: #666666;
+    }
 
-        .blue {
-            background-color: #0051fc;
-            height: 50px;
-            text-align: center;
-            color: #FFFFFF;
-            cursor: pointer;
-        }
+    .blue {
+        background-color: #0051fc;
+        height: 50px;
+        text-align: center;
+        color: #FFFFFF;
+        cursor: pointer;
+    }
 
-        .hoverActive {
-            background-color: #990033;
-        }
+    .hoverActive {
+        background-color: #990033;
+    }
 
-        .passive {
-            height: 50px;
-        }
+    .passive {
+        height: 50px;
+    }
 
-    </style>
-    <script type="text/javascript">
+    img.navBack {
+        background-image: url( /ctcae/images/combined_v5.gif );
+        background-position: -148px -17px;
+        padding-left: 2px;
+        padding-right: 0;
+        vertical-align: middle;
+    }
 
-        function applyCalendar(index, direction) {
-            var duea = document.getElementsByName('dueDateAmount_' + index)[0].value;
-            var dueu = document.getElementsByName('dueDateUnit_' + index)[0].value;
-            var reppu = document.getElementsByName('repetitionPeriodUnit_' + index)[0].value;
-            var reppa = document.getElementsByName('repetitionPeriodAmount_' + index)[0].value;
-            var repuu = document.getElementsByName('repeatUntilUnit_' + index)[0].value;
-            var repuv = document.getElementsByName('repeatUntilValue_' + index)[0].value;
-            var sdate = document.getElementsByName('startDate_' + index)[0].value;
+    img.navForward {
+        background-image: url( /ctcae/images/combined_v5.gif );
+        background-position: -148px 0;
+        padding-left: 2px;
+        padding-right: 2px;
+        vertical-align: middle;
+    }
 
-            var request = new Ajax.Request("<c:url value="/pages/participant/displaycalendar"/>", {
-                onComplete:function(transport) {
-                    var response = transport.responseText;
-                    $("calendar_" + index).innerHTML = response;
-                    initializeCalendar(index);
-                },
-                parameters:"subview=subview&index=" + index + "&duea=" + duea + "&dueu=" + dueu + "&reppu=" + reppu + "&reppa=" + reppa + "&repuu=" + repuu + "&repuv=" + repuv + "&sdate=" + sdate + "&dir=" + direction,
-                method:'get'
-            })
+    img.navbutton {
+        cursor: pointer;
+    }
 
-        }
-        var checkStatus = true;
-        function initializeCalendar(id) {
-            var items = document.getElementsByName(id + '_schedule_div');
-            for (var i = 0; i < items.length; i++) {
-                try {
-                    Droppables.add(id + '_schedule_' + (i + 1), {hoverclass: 'hoverActive', onDrop: moveItem});
-                } catch(err) {
-                }
-            }
+    img {
+        border: 0 none;
+    }
+</style>
+<script type="text/javascript">
 
-            items = document.getElementsByName(id + '_temp_div');
-            var j = items.length;
-            while (j > 0) {
-                var item = items[0];
-                var date = item.id.substring(item.id.indexOf('_', 2) + 1);
-                item.addClassName('blue');
-                new Draggable(item, {revert:true});
-                checkStatus = false;
-                moveItem(item, $(id + '_schedule_' + date));
-                j--;
-            }
-        }
+    function applyCalendar(index, direction) {
+        var duea = document.getElementsByName('dueDateAmount_' + index)[0].value;
+        var dueu = document.getElementsByName('dueDateUnit_' + index)[0].value;
+        var reppu = document.getElementsByName('repetitionPeriodUnit_' + index)[0].value;
+        var reppa = document.getElementsByName('repetitionPeriodAmount_' + index)[0].value;
+        var repuu = document.getElementsByName('repeatUntilUnit_' + index)[0].value;
+        var repuv = document.getElementsByName('repeatUntilValue_' + index)[0].value;
+        var sdate = document.getElementsByName('startDate_' + index)[0].value;
 
+        getCalendar(index, "duea=" + duea + "&dueu=" + dueu + "&reppu=" + reppu + "&reppa=" + reppa + "&repuu=" + repuu + "&repuv=" + repuv + "&sdate=" + sdate + "&dir=" + direction);
+    }
 
-        function moveItem(draggable, droparea) {
-            if(checkStatus){
-                if(draggable.innerHTML.indexOf('(Scheduled)') == -1){
-                   return;
-                }
-            }
-            checkStatus = true;
-            droparea.innerHTML = '';
-            draggable.parentNode.removeChild(draggable);
-            droparea.appendChild(draggable);
-            var olddate = draggable.id.substring(draggable.id.indexOf('_', 2) + 1);
-            var newdate = droparea.id.substring(droparea.id.indexOf('_', 2) + 1);
-            var index = draggable.id.substring(0, draggable.id.indexOf('_'));
-            draggable.id = index + '_temp_' + newdate;
-            if (newdate != olddate) {
-                addRemoveSchedule(index, newdate + ',' + olddate, 'add,del');
-            }
-        }
+    function addRemoveSchedule(index, date, action) {
+        var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
+            onComplete:function(transport) {
+                getCalendar(index, "dir=refresh");
+            },
+            parameters:"subview=subview&index=" + index + "&date=" + date + "&action=" + action,
+            method:'get'
+        })
+    }
 
-        function selectDate(obj, text, index) {
-            var myclasses = obj.classNames().toString();
-            var date = obj.id.substring(obj.id.indexOf('_', 2) + 1);
-            myclasses.indexOf('blue');
-            if (myclasses.indexOf('blue') == -1) {
-                obj.addClassName('blue');
-                obj.innerHTML = text;
-                addRemoveSchedule(index, date, 'add');
-            } else {
-                obj.removeClassName('blue');
-                obj.innerHTML = '';
-                addRemoveSchedule(index, date, 'del');
+    function getCalendar(index, parameters) {
+        var request = new Ajax.Request("<c:url value="/pages/participant/displaycalendar"/>", {
+            onComplete:function(transport) {
+                var response = transport.responseText;
+                $("calendar_" + index).innerHTML = response;
+                initializeCalendar(index);
+            },
+            parameters:"subview=subview&index=" + index + "&" + parameters,
+            method:'get'
+        })
+
+    }
+
+    var checkStatus = true;
+    function initializeCalendar(id) {
+        var items = document.getElementsByName(id + '_schedule_div');
+        for (var i = 0; i < items.length; i++) {
+            try {
+                Droppables.add(id + '_schedule_' + (i + 1), {hoverclass: 'hoverActive', onDrop: moveItem});
+            } catch(err) {
             }
         }
 
-        function addRemoveSchedule(index, date, action) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
-                onComplete:function(transport) {
-                },
-                parameters:"subview=subview&index=" + index + "&date=" + date + "&action=" + action,
-                method:'get'
-            })
+        items = document.getElementsByName(id + '_temp_div');
+        var j = items.length;
+        while (j > 0) {
+            var item = items[0];
+            var date = item.id.substring(item.id.indexOf('_', 2) + 1);
+            item.addClassName('blue');
+            new Draggable(item, {revert:true});
+            checkStatus = false;
+            moveItem(item, $(id + '_schedule_' + date));
+            j--;
+        }
+    }
+
+
+    function moveItem(draggable, droparea) {
+        if (checkStatus) {
+            if (draggable.innerHTML.indexOf('(Scheduled)') == -1) {
+                return;
+            }
+        }
+        checkStatus = true;
+        droparea.innerHTML = '';
+        draggable.parentNode.removeChild(draggable);
+        droparea.appendChild(draggable);
+        var olddate = draggable.id.substring(draggable.id.indexOf('_', 2) + 1);
+        var newdate = droparea.id.substring(droparea.id.indexOf('_', 2) + 1);
+        var index = draggable.id.substring(0, draggable.id.indexOf('_'));
+        //alert(olddate + ',' + newdate);
+                  droparea.addClassName('blue');
+                  if (droparea.id != (index + '_schedule_' + olddate)) {
+                      $(index + '_schedule_' + olddate).removeClassName('blue');
+                  }
+        //          draggable.id = index + '_temp_' + newdate;
+        if (newdate != olddate) {
+            addRemoveSchedule(index, newdate + ',' + olddate, 'add,del');
+        }
+    }
+
+    function selectDate(obj, text, index) {
+
+        var myclasses = obj.classNames().toString();
+        var date = obj.id.substring(obj.id.indexOf('_', 2) + 1);
+        if (myclasses.indexOf('blue') == -1) {
+            addRemoveSchedule(index, date, 'add');
+        } else {
+            addRemoveSchedule(index, date, 'del');
         }
 
 
-    </script>
+    }
+
+
+</script>
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="myForm">
@@ -276,10 +308,6 @@
                             </tr>
                             <tr>
                                 <td colspan="4">
-                                    <a href="javascript:applyCalendar('${status.index}','prev');">
-                                        &lt;</a>&nbsp;&nbsp;<a
-                                        href="javascript:applyCalendar('${status.index}','next');">
-                                    &gt;</a>
 
                                     <div id="calendar_${status.index}">
                                         <tags:participantcalendar schedule="${participantSchedule}"

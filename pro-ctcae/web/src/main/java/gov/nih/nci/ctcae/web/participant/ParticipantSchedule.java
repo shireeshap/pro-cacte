@@ -174,7 +174,9 @@ public class ParticipantSchedule {
             }
         }
         if (schToRemove != null) {
-            studyParticipantCrf.removeCrfSchedule(schToRemove);
+            if (schToRemove.getStatus().equals(CrfStatus.SCHEDULED)) {
+                studyParticipantCrf.removeCrfSchedule(schToRemove);
+            }
         }
     }
 

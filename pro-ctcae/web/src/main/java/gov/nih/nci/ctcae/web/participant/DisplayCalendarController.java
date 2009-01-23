@@ -48,6 +48,9 @@ public class DisplayCalendarController extends AbstractController {
             if (direction.equals("next")) {
                 participantSchedule.getCalendar().add(1);
             }
+            if (direction.equals("refresh")) {
+                participantSchedule.getCalendar().add(0);
+            }
         }
 
         modelAndView.addObject("participantSchedule", studyParticipantCommand.getParticipantSchedules().get(index));
