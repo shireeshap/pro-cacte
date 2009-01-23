@@ -87,7 +87,7 @@
     </style>
     <script type="text/javascript">
 
-        function applyCalendar(index, scheduleid, direction) {
+        function applyCalendar(index, direction) {
             var duea = document.getElementsByName('dueDateAmount_' + index)[0].value;
             var dueu = document.getElementsByName('dueDateUnit_' + index)[0].value;
             var reppu = document.getElementsByName('repetitionPeriodUnit_' + index)[0].value;
@@ -100,14 +100,14 @@
                 onComplete:function(transport) {
                     var response = transport.responseText;
                     $("calendar_" + index).innerHTML = response;
-                    initializeCalendar(scheduleid);
+                    initializeCalendar(index);
                 },
                 parameters:"subview=subview&index=" + index + "&duea=" + duea + "&dueu=" + dueu + "&reppu=" + reppu + "&reppa=" + reppa + "&repuu=" + repuu + "&repuv=" + repuv + "&sdate=" + sdate + "&dir=" + direction,
                 method:'get'
             })
 
         }
-
+        var checkStatus = true;
         function initializeCalendar(id) {
             var items = document.getElementsByName(id + '_schedule_div');
             for (var i = 0; i < items.length; i++) {
@@ -124,16 +124,56 @@
                 var date = item.id.substring(item.id.indexOf('_', 2) + 1);
                 item.addClassName('blue');
                 new Draggable(item, {revert:true});
+                checkStatus = false;
                 moveItem(item, $(id + '_schedule_' + date));
                 j--;
             }
         }
 
+
         function moveItem(draggable, droparea) {
+            if(checkStatus){
+                if(draggable.innerHTML.indexOf('(Scheduled)') == -1){
+                   return;
+                }
+            }
+            checkStatus = true;
             droparea.innerHTML = '';
             draggable.parentNode.removeChild(draggable);
             droparea.appendChild(draggable);
+            var olddate = draggable.id.substring(draggable.id.indexOf('_', 2) + 1);
+            var newdate = droparea.id.substring(droparea.id.indexOf('_', 2) + 1);
+            var index = draggable.id.substring(0, draggable.id.indexOf('_'));
+            draggable.id = index + '_temp_' + newdate;
+            if (newdate != olddate) {
+                addRemoveSchedule(index, newdate + ',' + olddate, 'add,del');
+            }
         }
+
+        function selectDate(obj, text, index) {
+            var myclasses = obj.classNames().toString();
+            var date = obj.id.substring(obj.id.indexOf('_', 2) + 1);
+            myclasses.indexOf('blue');
+            if (myclasses.indexOf('blue') == -1) {
+                obj.addClassName('blue');
+                obj.innerHTML = text;
+                addRemoveSchedule(index, date, 'add');
+            } else {
+                obj.removeClassName('blue');
+                obj.innerHTML = '';
+                addRemoveSchedule(index, date, 'del');
+            }
+        }
+
+        function addRemoveSchedule(index, date, action) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
+                onComplete:function(transport) {
+                },
+                parameters:"subview=subview&index=" + index + "&date=" + date + "&action=" + action,
+                method:'get'
+            })
+        }
+
 
     </script>
 </head>
@@ -228,7 +268,7 @@
                                                    name="repeatUntilValue_${status.index}"
                                                    type="text">&nbsp;&nbsp;&nbsp;&nbsp;
                                             <input type="button" value="Apply"
-                                                   onclick="applyCalendar('${status.index}','${participantSchedule.studyParticipantCrf.id}','');"/>
+                                                   onclick="applyCalendar('${status.index}','');"/>
 
                                         </div>
                                     </div>
@@ -236,14 +276,16 @@
                             </tr>
                             <tr>
                                 <td colspan="4">
-                                    <a href="javascript:applyCalendar('${status.index}','${participantSchedule.studyParticipantCrf.id}','prev');">
+                                    <a href="javascript:applyCalendar('${status.index}','prev');">
                                         &lt;</a>&nbsp;&nbsp;<a
-                                        href="javascript:applyCalendar('${status.index}','${participantSchedule.studyParticipantCrf.id}','next');">
+                                        href="javascript:applyCalendar('${status.index}','next');">
                                     &gt;</a>
+
                                     <div id="calendar_${status.index}">
-                                        <tags:participantcalendar schedule="${participantSchedule}"/>
+                                        <tags:participantcalendar schedule="${participantSchedule}"
+                                                                  index="${status.index}"/>
                                         <script type="text/javascript">
-                                            initializeCalendar('${participantSchedule.studyParticipantCrf.id}');
+                                            initializeCalendar('${status.index}');
                                         </script>
 
                                     </div>
