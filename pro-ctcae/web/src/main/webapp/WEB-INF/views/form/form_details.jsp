@@ -760,9 +760,9 @@ function showHideQuestionUpDownLink() {
 
 
         addEditingDisplayToQuestion(selectedQuestionId);
-//       var yPosition=$('sortable_'+selectedQuestionId).y
-//        new Effect.Move($('questionProperties_' + selectedQuestionId), { y: 130, mode: 'relative' });
-//
+        //        var yPosition =parseInt($('sortable_' + selectedQuestionId).cumulativeOffset()[1])-parseInt($('questionProperties_' + selectedQuestionId).cumulativeOffset()[1]) - 100;
+        //        new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'absolute' });
+        //
     }
 </script>
 <script type="text/javascript">

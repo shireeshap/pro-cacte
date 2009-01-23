@@ -20,7 +20,7 @@
 
         <td style="border-right:none;">
 
-                ${crfPageItemDisplayRule.proCtcValidValue.proCtcQuestion.shortText}-${crfPageItemDisplayRule.proCtcValidValue.value}
+                ${crfPageItemDisplayRule.proCtcValidValue.proCtcQuestion.questionText}-${crfPageItemDisplayRule.proCtcValidValue.value}
         </td>
 
         <td style="border-left:none;">
