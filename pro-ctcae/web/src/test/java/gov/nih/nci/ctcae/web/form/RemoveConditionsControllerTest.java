@@ -8,42 +8,54 @@ import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+
 /**
  * @author Vinay Kumar
  * @crated Jan 13, 2008
  */
-public class AddConditionalQuestionControllerTest extends WebTestCase {
+public class RemoveConditionsControllerTest extends WebTestCase {
 
-    private AddConditionalQuestionController controller;
+    private RemoveConditionsController controller;
 
     private CreateFormCommand command;
     protected FinderRepository finderRepository;
     private ProCtcQuestion proCtcQuestion;
     private ProCtcValidValue proCtcValidValue1;
     private ProCtcValidValue proCtcValidValue2;
+    private ProCtcValidValue proCtcValidValue;
+    private ArrayList<ProCtcValidValue> proCtcValidValues;
     private ProCtcQuestionRepository proCtcQuestionRepository;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        controller = new AddConditionalQuestionController();
+        controller = new RemoveConditionsController();
         finderRepository = registerMockFor(FinderRepository.class);
-        proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
         command = new CreateFormCommand();
-        controller.setFinderRepository(finderRepository);
+        proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
         controller.setProCtcQuestionRepository(proCtcQuestionRepository);
+
 
         proCtcQuestion = new ProCtcQuestion();
         proCtcValidValue1 = new ProCtcValidValue();
         proCtcValidValue1.setValue("value1");
-        proCtcValidValue1.setId(1);
+        proCtcValidValue1.setId(3);
         proCtcValidValue2 = new ProCtcValidValue();
         proCtcValidValue2.setValue("value2");
-        proCtcValidValue2.setId(2);
+        proCtcValidValue2.setId(4);
         command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
 
         command.getCrf().addCrfPage(proCtcQuestion);
 
+        proCtcValidValue = new ProCtcValidValue();
+        proCtcValidValue.setValue("value0");
+        proCtcValidValue.setId(0);
+
+
+        proCtcValidValues = new ArrayList<ProCtcValidValue>();
+        proCtcValidValues.add(proCtcValidValue1);
+        proCtcValidValues.add(proCtcValidValue2);
     }
 
     public void testSupportedMethod() {
@@ -51,25 +63,28 @@ public class AddConditionalQuestionControllerTest extends WebTestCase {
     }
 
 
-    public void testHandleRequest() throws Exception {
+    public void testHandleRequestForRemovingConditionsOnAQuestion() throws Exception {
+        CRF crf = command.getCrf();
+        CrfPageItem crfPageItem = crf.getCrfPageItemByQuestion(proCtcQuestion);
+        crfPageItem.addCrfPageItemDisplayRules(proCtcValidValues);
+        assertEquals("must add 2 rules", 2, crfPageItem.getCrfPageItemDisplayRules().size());
+
         request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
 
         request.addParameter("questionId", new String[]{"1"});
-        request.addParameter("selectedValidValues", new String[]{"3,4"});
+        request.addParameter("proCtcValidValueId", new String[]{"1,6,4"});
         expect(proCtcQuestionRepository.findById(1)).andReturn(proCtcQuestion);
-        expect(finderRepository.findById(ProCtcValidValue.class, 3)).andReturn(proCtcValidValue1);
-        expect(finderRepository.findById(ProCtcValidValue.class, 4)).andReturn(proCtcValidValue2);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();
 
         CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
-        CRF crf = createFormCommand.getCrf();
-        CrfPageItem crfPageItem = crf.getCrfPageItemByQuestion(proCtcQuestion);
+        crf = createFormCommand.getCrf();
+        crfPageItem = crf.getCrfPageItemByQuestion(proCtcQuestion);
         assertNotNull("crf page item must not be null", crfPageItem);
-        assertFalse("must add rules", crfPageItem.getCrfPageItemDisplayRules().isEmpty());
-        assertEquals("must add 2 riles", 2, crfPageItem.getCrfPageItemDisplayRules().size());
+        assertFalse("must remove 1 rule", crfPageItem.getCrfPageItemDisplayRules().isEmpty());
+        assertEquals("must have 1 rule only because 1 rule has been removed", 1, crfPageItem.getCrfPageItemDisplayRules().size());
 
     }
 

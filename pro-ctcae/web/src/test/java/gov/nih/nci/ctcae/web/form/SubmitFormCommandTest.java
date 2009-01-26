@@ -179,6 +179,7 @@ public class SubmitFormCommandTest extends WebTestCase {
         newCrf.setId(2);
         newCrf.setStatus(CrfStatus.RELEASED);
         newCrf.setEffectiveStartDate(new Date());
+        newCrf.setCrfCreationMode(CrfCreationMode.ADVANCE);
         newCrf.addCrfPage(proCtcQuestion1);
 
         newCrf.setStudy(study);
