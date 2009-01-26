@@ -35,6 +35,7 @@ public class ParticipantSchedule {
 
     public ParticipantSchedule() {
         calendar = new StudyParticipantCrfCalendar();
+        startDate = new Date();
     }
 
     public int getRepetitionPeriodAmount() {
@@ -155,6 +156,12 @@ public class ParticipantSchedule {
     }
 
     public void createSchedule(Calendar c, int dueAfterPeriodInMill) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+            if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
+                return;
+            }
+        }
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         studyParticipantCrfSchedule.setStartDate(c.getTime());
         studyParticipantCrfSchedule.setDueDate(new Date(c.getTime().getTime() + dueAfterPeriodInMill));

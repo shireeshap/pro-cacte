@@ -80,8 +80,16 @@
         background-color: #990033;
     }
 
+    .aaa {
+        background-color: #ff9900;
+    }
+
     .passive {
         height: 50px;
+    }
+
+    .passive:hover {
+        background-color: #DDDDDD;
     }
 
     img.navBack {
@@ -111,6 +119,8 @@
 <script type="text/javascript">
 
     function applyCalendar(index, direction) {
+        document.body.style.cursor = 'wait';
+
         var duea = document.getElementsByName('dueDateAmount_' + index)[0].value;
         var dueu = document.getElementsByName('dueDateUnit_' + index)[0].value;
         var reppu = document.getElementsByName('repetitionPeriodUnit_' + index)[0].value;
@@ -123,6 +133,7 @@
     }
 
     function addRemoveSchedule(index, date, action) {
+
         var request = new Ajax.Request("<c:url value="/pages/participant/addCrfSchedule"/>", {
             onComplete:function(transport) {
                 getCalendar(index, "dir=refresh");
@@ -133,6 +144,7 @@
     }
 
     function getCalendar(index, parameters) {
+        document.body.style.cursor = 'wait';
         var request = new Ajax.Request("<c:url value="/pages/participant/displaycalendar"/>", {
             onComplete:function(transport) {
                 var response = transport.responseText;
@@ -142,7 +154,6 @@
             parameters:"subview=subview&index=" + index + "&" + parameters,
             method:'get'
         })
-
     }
 
     var checkStatus = true;
@@ -161,17 +172,24 @@
             var item = items[0];
             var date = item.id.substring(item.id.indexOf('_', 2) + 1);
             item.addClassName('blue');
+            if (item.innerHTML.indexOf('In-progress') != -1) {
+                item.style.background = '#ff9900';
+            }
+            if (item.innerHTML.indexOf('Completed') != -1) {
+                item.style.background = '#00cc00';
+            }
             new Draggable(item, {revert:true});
             checkStatus = false;
             moveItem(item, $(id + '_schedule_' + date));
             j--;
         }
+        document.body.style.cursor = 'default';
     }
 
 
     function moveItem(draggable, droparea) {
         if (checkStatus) {
-            if (draggable.innerHTML.indexOf('(Scheduled)') == -1) {
+            if (draggable.innerHTML.indexOf('Scheduled') == -1) {
                 return;
             }
         }
@@ -180,21 +198,21 @@
         draggable.parentNode.removeChild(draggable);
         droparea.appendChild(draggable);
         var olddate = draggable.id.substring(draggable.id.indexOf('_', 2) + 1);
-        var newdate = droparea.id.substring(droparea.id.indexOf('_', 2) + 1);
-        var index = draggable.id.substring(0, draggable.id.indexOf('_'));
-        //alert(olddate + ',' + newdate);
-                  droparea.addClassName('blue');
-                  if (droparea.id != (index + '_schedule_' + olddate)) {
-                      $(index + '_schedule_' + olddate).removeClassName('blue');
-                  }
-        //          draggable.id = index + '_temp_' + newdate;
-        if (newdate != olddate) {
-            addRemoveSchedule(index, newdate + ',' + olddate, 'add,del');
+        if (olddate != '') {
+            var newdate = droparea.id.substring(droparea.id.indexOf('_', 2) + 1);
+            var index = draggable.id.substring(0, draggable.id.indexOf('_'));
+            droparea.addClassName('blue');
+            if (droparea.id != (index + '_schedule_' + olddate)) {
+                $(index + '_schedule_' + olddate).removeClassName('blue');
+            }
+            if (newdate != olddate) {
+                addRemoveSchedule(index, newdate + ',' + olddate, 'add,del');
+            }
         }
     }
 
     function selectDate(obj, text, index) {
-
+        document.body.style.cursor = 'wait';
         var myclasses = obj.classNames().toString();
         var date = obj.id.substring(obj.id.indexOf('_', 2) + 1);
         if (myclasses.indexOf('blue') == -1) {
@@ -202,16 +220,14 @@
         } else {
             addRemoveSchedule(index, date, 'del');
         }
-
-
     }
-
 
 </script>
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="myForm">
     <jsp:attribute name="singleFields">
+        
         <input type="hidden" name="_finish" value="true"/>
 
             <c:forEach items="${command.participantSchedules}" var="participantSchedule" varStatus="status">
@@ -228,7 +244,8 @@
                             </tr>
                             <tr>
                                 <td class="border-td">
-                                    <input value="01/21/2009" title="start date" type="text"
+                                    <input value="<tags:formatDate value='${participantSchedule.startDate}'/>"
+                                           title="start date" type="text"
                                            name="startDate_${status.index}"><a href="#"
                                                                                id="${title}-calbutton">
                                     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17"
@@ -308,7 +325,6 @@
                             </tr>
                             <tr>
                                 <td colspan="4">
-
                                     <div id="calendar_${status.index}">
                                         <tags:participantcalendar schedule="${participantSchedule}"
                                                                   index="${status.index}"/>
@@ -327,6 +343,7 @@
                             </tr>
                         </table>
                     </div>
+
                 </chrome:division>
             </c:forEach>
 </jsp:attribute>

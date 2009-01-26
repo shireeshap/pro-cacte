@@ -7,7 +7,7 @@
 <c:forEach items="${schedule.currentMonthSchedules}" var="studyParticipantCrfSchedule">
     <div id="${index}_temp_<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />"
          name="${index}_temp_div">
-        (${studyParticipantCrfSchedule.status})
+            ${studyParticipantCrfSchedule.status}
     </div>
 </c:forEach>
 <table class="widget" cellspacing="0" cellpadding="0" border="0" align="center">
@@ -40,9 +40,18 @@
             <c:forEach items="${week}" var="day" varStatus="status">
                 <td class="data">
                     <div class="grey">${day}&nbsp;&nbsp;</div>
-                    <div id="${index}_schedule_${day}"
-                         name="${index}_schedule_div" class="passive"
-                         ondblclick="javascript:selectDate(this, '(Scheduled)','${index}');">&nbsp;</div>
+                    <c:choose>
+                        <c:when test="${day eq ''}">
+                            <div id="${index}_schedule_${day}"
+                                 name="${index}_schedule_div" height="50px">&nbsp;</div>
+                        </c:when>
+                        <c:otherwise>
+                            <div id="${index}_schedule_${day}"
+                                 name="${index}_schedule_div" class="passive"
+                                 ondblclick="javascript:selectDate(this, '(Scheduled)','${index}');">&nbsp;</div>
+
+                        </c:otherwise>
+                    </c:choose>
                 </td>
             </c:forEach>
         </tr>

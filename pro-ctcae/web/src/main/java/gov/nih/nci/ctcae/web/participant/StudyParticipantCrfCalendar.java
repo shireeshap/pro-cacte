@@ -15,6 +15,7 @@ public class StudyParticipantCrfCalendar {
 
     public StudyParticipantCrfCalendar() {
         calendar = new GregorianCalendar();
+        calendar.set(Calendar.DATE , 1);
     }
 
     public List<List<String>> getHtmlCalendar() {
