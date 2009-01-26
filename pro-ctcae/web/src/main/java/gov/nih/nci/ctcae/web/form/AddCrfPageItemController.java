@@ -30,7 +30,7 @@ public class AddCrfPageItemController extends AbstractCrfController {
 
         } else {
             modelAndView = new ModelAndView("form/ajax/oneCrfPageItemSection");
-            ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
+            ProCtcQuestion proCtcQuestion = proCtcQuestionRepository.findById(questionId);
             CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
             if (proCtcQuestion != null) {
 

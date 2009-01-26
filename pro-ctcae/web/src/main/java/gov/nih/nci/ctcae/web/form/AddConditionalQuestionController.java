@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.StringUtils;
@@ -24,6 +25,7 @@ import java.util.List;
 public class AddConditionalQuestionController extends AbstractController {
 
 
+    private ProCtcQuestionRepository proCtcQuestionRepository;
     private FinderRepository finderRepository;
 
     public AddConditionalQuestionController() {
@@ -37,7 +39,7 @@ public class AddConditionalQuestionController extends AbstractController {
 
         Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
 
-        ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
+        ProCtcQuestion proCtcQuestion = proCtcQuestionRepository.findById(questionId);
 
         CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
@@ -66,5 +68,10 @@ public class AddConditionalQuestionController extends AbstractController {
     @Required
     public void setFinderRepository(FinderRepository finderRepository) {
         this.finderRepository = finderRepository;
+    }
+
+    @Required
+    public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
+        this.proCtcQuestionRepository = proCtcQuestionRepository;
     }
 }

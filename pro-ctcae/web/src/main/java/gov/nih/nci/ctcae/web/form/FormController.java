@@ -75,7 +75,7 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CreateFormCommand createFormCommand = (CreateFormCommand) command;
-        createFormCommand.updateCrfItems(finderRepository);
+        createFormCommand.updateCrfItems(proCtcQuestionRepository);
         CRF crf = createFormCommand.getCrf();
 
         ModelAndView defaultModelAndView = showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);

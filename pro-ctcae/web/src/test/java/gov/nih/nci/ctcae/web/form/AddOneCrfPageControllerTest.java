@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -24,6 +25,7 @@ public class AddOneCrfPageControllerTest extends WebTestCase {
     private CreateFormCommand command;
     protected FinderRepository finderRepository;
     private ProCtcQuestion proCtcQuestion;
+    private ProCtcQuestionRepository proCtcQuestionRepository;
 
     @Override
     protected void setUp() throws Exception {
@@ -35,7 +37,8 @@ public class AddOneCrfPageControllerTest extends WebTestCase {
         proCtcTerm = new ProCtcTerm();
         command = new CreateFormCommand();
         command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
-        controller.setFinderRepository(finderRepository);
+        proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
+        controller.setProCtcQuestionRepository(proCtcQuestionRepository);
 
 
         proCtcQuestion = new ProCtcQuestion();
@@ -50,7 +53,7 @@ public class AddOneCrfPageControllerTest extends WebTestCase {
         request.getSession().setAttribute(AdvanceFormController.class.getName() + ".FORM." + "command", command);
 
         request.addParameter("questionId", new String[]{"1"});
-        expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(proCtcQuestion);
+        expect(proCtcQuestionRepository.findById(1)).andReturn(proCtcQuestion);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();

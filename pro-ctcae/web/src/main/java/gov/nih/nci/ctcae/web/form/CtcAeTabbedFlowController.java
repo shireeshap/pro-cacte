@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.ControllerTools;
 import gov.nih.nci.ctcae.web.editor.EnumByNameEditor;
@@ -25,66 +26,72 @@ import java.util.Date;
  * @crated Nov 5, 2008
  */
 public abstract class CtcAeTabbedFlowController<C extends Object> extends AbstractTabbedFlowFormController<C> {
-	protected StudyRepository studyRepository;
-	private OrganizationRepository organizationRepository;
-	protected FinderRepository finderRepository;
-	protected ControllerTools controllerTools;
-	private WebControllerValidator webControllerValidator;
+    protected StudyRepository studyRepository;
+    private OrganizationRepository organizationRepository;
+    protected FinderRepository finderRepository;
+    protected ProCtcQuestionRepository proCtcQuestionRepository;
+    protected ControllerTools controllerTools;
+    private WebControllerValidator webControllerValidator;
 
-	@Override
-	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
-		super.initBinder(request, binder);
-		binder.registerCustomEditor(Date.class, controllerTools.getDateEditor(true));
-		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    @Override
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
+        super.initBinder(request, binder);
+        binder.registerCustomEditor(Date.class, controllerTools.getDateEditor(true));
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 
-		RepositoryBasedEditor studyEditor = new RepositoryBasedEditor(finderRepository, Study.class);
-		binder.registerCustomEditor(Study.class, studyEditor);
+        RepositoryBasedEditor studyEditor = new RepositoryBasedEditor(finderRepository, Study.class);
+        binder.registerCustomEditor(Study.class, studyEditor);
 
-		RepositoryBasedEditor organizationEditor = new RepositoryBasedEditor(finderRepository, Organization.class);
-		binder.registerCustomEditor(Organization.class, organizationEditor);
+        RepositoryBasedEditor organizationEditor = new RepositoryBasedEditor(finderRepository, Organization.class);
+        binder.registerCustomEditor(Organization.class, organizationEditor);
 
-		RepositoryBasedEditor participantEditor = new RepositoryBasedEditor(finderRepository, Participant.class);
-		binder.registerCustomEditor(Participant.class, participantEditor);
+        RepositoryBasedEditor participantEditor = new RepositoryBasedEditor(finderRepository, Participant.class);
+        binder.registerCustomEditor(Participant.class, participantEditor);
 
-		binder.registerCustomEditor(CrfItemAllignment.class, new EnumByNameEditor<CrfItemAllignment>(CrfItemAllignment.class));
+        binder.registerCustomEditor(CrfItemAllignment.class, new EnumByNameEditor<CrfItemAllignment>(CrfItemAllignment.class));
 
 
-	}
+    }
 
-	@Override
-	protected void onBindAndValidate(HttpServletRequest request, Object command, BindException errors, int page) throws Exception {
-		super.onBindAndValidate(request, command, errors, page);
-		if (validate()) {
-			webControllerValidator.validate(request, command, errors);
-		}
-	}
+    @Override
+    protected void onBindAndValidate(HttpServletRequest request, Object command, BindException errors, int page) throws Exception {
+        super.onBindAndValidate(request, command, errors, page);
+        if (validate()) {
+            webControllerValidator.validate(request, command, errors);
+        }
+    }
 
-	protected boolean validate() {
-		return true;
-	}
+    protected boolean validate() {
+        return true;
+    }
 
-	@Required
-	public void setOrganizationRepository(OrganizationRepository organizationRepository) {
-		this.organizationRepository = organizationRepository;
-	}
+    @Required
+    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
+        this.organizationRepository = organizationRepository;
+    }
 
-	@Required
-	public void setFinderRepository(FinderRepository finderRepository) {
-		this.finderRepository = finderRepository;
-	}
+    @Required
+    public void setFinderRepository(FinderRepository finderRepository) {
+        this.finderRepository = finderRepository;
+    }
 
-	@Required
-	public void setControllerTools(ControllerTools controllerTools) {
-		this.controllerTools = controllerTools;
-	}
+    @Required
+    public void setControllerTools(ControllerTools controllerTools) {
+        this.controllerTools = controllerTools;
+    }
 
-	@Required
-	public void setWebControllerValidator(WebControllerValidator webControllerValidator) {
-		this.webControllerValidator = webControllerValidator;
-	}
+    @Required
+    public void setWebControllerValidator(WebControllerValidator webControllerValidator) {
+        this.webControllerValidator = webControllerValidator;
+    }
 
-	@Required
-	public void setStudyRepository(StudyRepository studyRepository) {
-		this.studyRepository = studyRepository;
-	}
+    @Required
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
+    }
+
+    @Required
+    public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
+        this.proCtcQuestionRepository = proCtcQuestionRepository;
+    }
 }

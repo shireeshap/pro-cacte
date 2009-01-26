@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
@@ -20,15 +21,17 @@ public class AddConditionalQuestionControllerTest extends WebTestCase {
     private ProCtcQuestion proCtcQuestion;
     private ProCtcValidValue proCtcValidValue1;
     private ProCtcValidValue proCtcValidValue2;
+    private ProCtcQuestionRepository proCtcQuestionRepository;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         controller = new AddConditionalQuestionController();
         finderRepository = registerMockFor(FinderRepository.class);
+        proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
         command = new CreateFormCommand();
         controller.setFinderRepository(finderRepository);
-
+        controller.setProCtcQuestionRepository(proCtcQuestionRepository);
 
         proCtcQuestion = new ProCtcQuestion();
         proCtcValidValue1 = new ProCtcValidValue();
@@ -51,7 +54,7 @@ public class AddConditionalQuestionControllerTest extends WebTestCase {
 
         request.addParameter("questionId", new String[]{"1"});
         request.addParameter("selectedValidValues", new String[]{"3,4"});
-        expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(proCtcQuestion);
+        expect(proCtcQuestionRepository.findById(1)).andReturn(proCtcQuestion);
         expect(finderRepository.findById(ProCtcValidValue.class, 3)).andReturn(proCtcValidValue1);
         expect(finderRepository.findById(ProCtcValidValue.class, 4)).andReturn(proCtcValidValue2);
         replayMocks();

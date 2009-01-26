@@ -3,7 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,16 +18,17 @@ public class AddOneCrfPageItemControllerTest extends WebTestCase {
 
     private AddCrfPageItemController controller;
 
-    private FinderRepository finderRepository;
     private ProCtcQuestion proCtcQuestion;
     private CreateFormCommand command;
+    private ProCtcQuestionRepository proCtcQuestionRepository;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         controller = new AddCrfPageItemController();
-        finderRepository = registerMockFor(FinderRepository.class);
-        controller.setFinderRepository(finderRepository);
+
+        proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
+        controller.setProCtcQuestionRepository(proCtcQuestionRepository);
         proCtcQuestion = new ProCtcQuestion();
         proCtcQuestion.setId(1);
         command = new CreateFormCommand();
@@ -43,7 +44,7 @@ public class AddOneCrfPageItemControllerTest extends WebTestCase {
         request.addParameter("questionId", new String[]{"1"});
         request.addParameter("crfPageNumber", new String[]{"1"});
 
-        expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(null);
+        expect(proCtcQuestionRepository.findById(1)).andReturn(null);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();
@@ -58,7 +59,7 @@ public class AddOneCrfPageItemControllerTest extends WebTestCase {
         request.addParameter("crfPageNumber", new String[]{"0"});
 
         request.addParameter("questionId", new String[]{"1"});
-        expect(finderRepository.findAndInitializeProCtcQuestion(1)).andReturn(proCtcQuestion);
+        expect(proCtcQuestionRepository.findById(1)).andReturn(proCtcQuestion);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();

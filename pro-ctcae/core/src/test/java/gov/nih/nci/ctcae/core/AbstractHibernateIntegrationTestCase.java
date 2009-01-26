@@ -77,6 +77,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
     }
 
+    @Required
     public void setFinderRepository(final FinderRepository finderRepository) {
         this.finderRepository = finderRepository;
     }

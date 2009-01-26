@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.replay;
@@ -19,7 +19,7 @@ public class CreateFormCommandTest extends WebTestCase {
     private ProCtcQuestion firstQuestion, secondQuestion, thirdQuestion, fourthQuestion, fifthQustion, sixthQuestion;
     private CrfPageItem crfItem1Page, crfItem2Page, crfItem3Page, crfItem4Page;
     private ProCtcTerm proCtcTerm1, proCtcTerm2;
-    FinderRepository finderRepository;
+    ProCtcQuestionRepository proCtcQuestionRepository;
     private CreateFormCommand command;
 
     @Override
@@ -27,7 +27,7 @@ public class CreateFormCommandTest extends WebTestCase {
         super.setUp();
         command = new CreateFormCommand();
         command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
-        finderRepository = registerMockFor(FinderRepository.class);
+        proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
 
         firstQuestion = new ProCtcQuestion();
         firstQuestion.setId(11);
@@ -94,7 +94,7 @@ public class CreateFormCommandTest extends WebTestCase {
         command.addProCtcTerm(proCtcTerm1);
         command.addProCtcTerm(proCtcTerm2);
         CRF crf = command.getCrf();
-        command.updateCrfItems(finderRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
         assertEquals("must have 2 pages", 2, crf.getCrfPagesSortedByPageNumber().size());
 
         validateCrfPageAndCrfPageItemOrder(crf);
@@ -110,7 +110,7 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setCrfPageNumbers("1,0");
 
         CRF crf = command.getCrf();
-        command.updateCrfItems(finderRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
         assertEquals("must have 2 pages", 2, crf.getCrfPagesSortedByPageNumber().size());
 
         CRFPage crfPage = crf.getCrfPageItemByQuestion(proCtcTerm1.getProCtcQuestions().iterator().next()).getCrfPage();
@@ -145,7 +145,7 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setCrfPageNumbers("2,1");
 
 
-        command.updateCrfItems(finderRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
         assertEquals("must have 2 pages", 2, crf.getCrfPagesSortedByPageNumber().size());
 
         CRFPage crfPage = crf.getCrfPageItemByQuestion(proCtcTerm1.getProCtcQuestions().iterator().next()).getCrfPage();
@@ -175,9 +175,9 @@ public class CreateFormCommandTest extends WebTestCase {
         //now remove 1 question
 
         command.setQuestionIdsToRemove(String.valueOf(secondQuestion.getId()));
-        expect(finderRepository.findAndInitializeProCtcQuestion(secondQuestion.getId())).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(secondQuestion.getId())).andReturn(secondQuestion);
         replayMocks();
-        command.updateCrfItems(finderRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
         verifyMocks();
         assertEquals("must remove 1 crf page item", 2, crfPageItems.size());
         validateCrfPageAndCrfPageItemOrder(crf);
@@ -197,9 +197,9 @@ public class CreateFormCommandTest extends WebTestCase {
         //now remove 1 question
         command.setQuestionIdsToRemove(String.valueOf(secondQuestion.getId()));
 
-        expect(finderRepository.findAndInitializeProCtcQuestion(secondQuestion.getId())).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(secondQuestion.getId())).andReturn(secondQuestion);
         replayMocks();
-        command.updateCrfItems(finderRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
         verifyMocks();
 
         resetMocks();
@@ -256,13 +256,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setNumberOfQuestionsInEachPage("2,1,1");
         command.setCrfPageNumbers("0,1,2");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
         crf = command.getCrf();
         validateCrfPageAndCrfPageItemOrder(crf);
@@ -283,12 +283,12 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setCrfPageNumbers("0,1");
         //command.clearCrfPage(1);
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
         crf = command.getCrf();
 
@@ -319,13 +319,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setNumberOfQuestionsInEachPage("2,1,1");
         command.setCrfPageNumbers("0,1,2");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
         crf = command.getCrf();
         validateCrfPageAndCrfPageItemOrder(crf);
@@ -341,13 +341,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setQuestionsIds("14,11,13,12");
         command.setNumberOfQuestionsInEachPage("1,2,1");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
         crf = command.getCrf();
 
@@ -371,13 +371,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setNumberOfQuestionsInEachPage("2,2");
         command.setCrfPageNumbers("0,1");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
 
         CRF crf = getCrf();
@@ -397,13 +397,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setQuestionsIds("14,11,13,12");
         command.setNumberOfQuestionsInEachPage("1,3");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
         crf = command.getCrf();
 
@@ -436,13 +436,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setNumberOfQuestionsInEachPage("2,2");
         command.setCrfPageNumbers("0,1");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
 
         CRF crf = getCrf();
@@ -455,13 +455,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setNumberOfQuestionsInEachPage("1,3");
         command.setCrfPageNumbers("1,0");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
         crf = command.getCrf();
 
@@ -490,13 +490,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setNumberOfQuestionsInEachPage("4");
         command.setCrfPageNumbers("0");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
 
         CRF crf = getCrf();
@@ -507,13 +507,13 @@ public class CreateFormCommandTest extends WebTestCase {
 
         command.setQuestionsIds("14,11,13,12");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
         crf = command.getCrf();
 
@@ -540,13 +540,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setNumberOfQuestionsInEachPage("2,1,1");
         command.setCrfPageNumbers("0,1,2");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
 
         CRF crf = command.getCrf();
@@ -560,12 +560,12 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setCrfPageNumbers("2,0");
         command.setCrfPageNumbersToRemove("1");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
         crf = command.getCrf();
 
@@ -603,13 +603,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setCrfPageNumbers("0,1,2");
 
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         crf = command.getCrf();
         validateCrfPageAndCrfPageItemOrder(crf);
 
@@ -645,13 +645,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setCrfPageNumbers("0");
 
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(14))).andReturn(fourthQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(14))).andReturn(fourthQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
 
         CRF crf = command.getCrf();
@@ -671,12 +671,12 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setQuestionsIds("11,13,12");
         command.setNumberOfQuestionsInEachPage("3");
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
         crf = command.getCrf();
 
@@ -696,18 +696,18 @@ public class CreateFormCommandTest extends WebTestCase {
 
     public void testAddQuestionInFirstPageOnly() {
         command.addCrfPage();
-        command.updateCrfItems(finderRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
 
         command.setQuestionsIds("11,12");
         command.setNumberOfQuestionsInEachPage("2");
         command.setCrfPageNumbers("0");
 
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         CRF crf = command.getCrf();
         validateCrfPageAndCrfPageItemOrder(crf);
 
@@ -735,13 +735,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setCrfPageNumbers("0,1,2");
 
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         resetMocks();
         crf = command.getCrf();
         validateCrfPageAndCrfPageItemOrder(crf);
@@ -752,13 +752,13 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setCrfPageNumbers("2,0,1");
 
 
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(11))).andReturn(firstQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 12)).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(11))).andReturn(firstQuestion);
+        expect(proCtcQuestionRepository.findById(12)).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(14)).andReturn(fourthQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         crf = command.getCrf();
         validateCrfPageAndCrfPageItemOrder(crf);
 
@@ -881,12 +881,12 @@ public class CreateFormCommandTest extends WebTestCase {
         command.setCrfPageNumbers("0,1,2");
 
         command.setNumberOfQuestionsInEachPage("3");
-        expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(12))).andReturn(secondQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-        expect(finderRepository.findById(ProCtcQuestion.class, 11)).andReturn(firstQuestion);
-        replay(finderRepository);
-        command.updateCrfItems(finderRepository);
-        verify(finderRepository);
+        expect(proCtcQuestionRepository.findById(Integer.valueOf(12))).andReturn(secondQuestion);
+        expect(proCtcQuestionRepository.findById(13)).andReturn(thirdQuestion);
+        expect(proCtcQuestionRepository.findById(11)).andReturn(firstQuestion);
+        replay(proCtcQuestionRepository);
+        command.updateCrfItems(proCtcQuestionRepository);
+        verify(proCtcQuestionRepository);
         CRF crf = getCrf();
         assertEquals("must have only one default page", 1, crf.getCrfPagesSortedByPageNumber().size());
         validateCrfPageAndCrfPageItemOrder(crf);
@@ -910,10 +910,10 @@ public class CreateFormCommandTest extends WebTestCase {
 //		command.getCRF().getCrf().addOrUpdateCrfItemInCrfPage(fourthQuestion, 2);
 //		command.setQuestionsIds("12,13,11,14");
 //
-//		expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(12))).andReturn(secondQuestion);
-//		expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-//		expect(finderRepository.findById(ProCtcQuestion.class, 11)).andReturn(firstQuestion);
-//		expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
+//		expect(finderRepository.findById( Integer.valueOf(12))).andReturn(secondQuestion);
+//		expect(finderRepository.findById( 13)).andReturn(thirdQuestion);
+//		expect(finderRepository.findById( 11)).andReturn(firstQuestion);
+//		expect(finderRepository.findById( 14)).andReturn(fourthQuestion);
 //		replay(finderRepository);
 //		command.updateCrfItems(finderRepository);
 //		verify(finderRepository);
@@ -932,9 +932,9 @@ public class CreateFormCommandTest extends WebTestCase {
 //
 //		//now delete the first question
 //		command.setQuestionsIds("12,14,13");
-//		expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(12))).andReturn(secondQuestion);
-//		expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-//		expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
+//		expect(finderRepository.findById( Integer.valueOf(12))).andReturn(secondQuestion);
+//		expect(finderRepository.findById( 13)).andReturn(thirdQuestion);
+//		expect(finderRepository.findById( 14)).andReturn(fourthQuestion);
 //		replay(finderRepository);
 //		command.updateCrfItems(finderRepository);
 //		verify(finderRepository);
@@ -961,10 +961,10 @@ public class CreateFormCommandTest extends WebTestCase {
 //		command.getCRF().getCrf().addOrUpdateCrfItemInCrfPage(fourthQuestion, 2);
 //		command.setQuestionsIds("12,13,11,14");
 //
-//		expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(12))).andReturn(secondQuestion);
-//		expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-//		expect(finderRepository.findById(ProCtcQuestion.class, 11)).andReturn(firstQuestion);
-//		expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
+//		expect(finderRepository.findById( Integer.valueOf(12))).andReturn(secondQuestion);
+//		expect(finderRepository.findById( 13)).andReturn(thirdQuestion);
+//		expect(finderRepository.findById( 11)).andReturn(firstQuestion);
+//		expect(finderRepository.findById( 14)).andReturn(fourthQuestion);
 //		replay(finderRepository);
 //		command.updateCrfItems(finderRepository);
 //		verify(finderRepository);
@@ -974,10 +974,10 @@ public class CreateFormCommandTest extends WebTestCase {
 //		command.getCRF().getCrf().addOrUpdateCrfItemInCrfPage(firstQuestion, 3);
 //		command.setQuestionsIds("12,13,11,14");
 //
-//		expect(finderRepository.findById(ProCtcQuestion.class, Integer.valueOf(12))).andReturn(secondQuestion);
-//		expect(finderRepository.findById(ProCtcQuestion.class, 13)).andReturn(thirdQuestion);
-//		expect(finderRepository.findById(ProCtcQuestion.class, 11)).andReturn(firstQuestion);
-//		expect(finderRepository.findById(ProCtcQuestion.class, 14)).andReturn(fourthQuestion);
+//		expect(finderRepository.findById( Integer.valueOf(12))).andReturn(secondQuestion);
+//		expect(finderRepository.findById( 13)).andReturn(thirdQuestion);
+//		expect(finderRepository.findById( 11)).andReturn(firstQuestion);
+//		expect(finderRepository.findById( 14)).andReturn(fourthQuestion);
 //		replay(finderRepository);
 //		command.updateCrfItems(finderRepository);
 //		verify(finderRepository);

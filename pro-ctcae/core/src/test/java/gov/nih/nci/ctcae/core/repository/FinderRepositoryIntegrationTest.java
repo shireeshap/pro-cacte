@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
     private FinderRepository finderRepository;
     private CRF crf;
     private Study study;
+    private ProCtcQuestionRepository proCtcQuestionRepository;
 
     private StudyRepository studyRepository;
     private CRFRepository crfRepository;
@@ -51,17 +53,13 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
     }
 
     public void testFindbyId() {
-        ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, -1);
+        ProCtcQuestion question = proCtcQuestionRepository.find(new ProCtcQuestionQuery()).iterator().next();
+        assertNotNull(question);
+
+        ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, question.getId());
         assertNotNull(proCtcQuestion);
     }
 
-    public void testFindAndInitializeProCtcQuestion() {
-        ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(-1);
-        assertNotNull(proCtcQuestion);
-        assertFalse(proCtcQuestion.getValidValues().isEmpty());
-        proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(-1001);
-        assertNull(proCtcQuestion);
-    }
 
     public void testFind() {
         ProCtcTermQuery query = new ProCtcTermQuery();
@@ -70,21 +68,6 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
         assertFalse(list.isEmpty());
     }
 
-    public void testFindAndInitializeCRF() {
-
-        CRF anotherCrf = crfRepository.findById(crf.getId());
-        assertNotNull(anotherCrf);
-        anotherCrf = null;
-        try {
-            anotherCrf = crfRepository.findById(-1001);
-
-            fail("Expected");
-        } catch (NullPointerException e) {
-
-        }
-
-        assertNull(anotherCrf);
-    }
 
     public void setStudyRepository(final StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
@@ -96,5 +79,9 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
 
     public void setFinderRepository(final FinderRepository finderRepository) {
         this.finderRepository = finderRepository;
+    }
+
+    public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
+        this.proCtcQuestionRepository = proCtcQuestionRepository;
     }
 }

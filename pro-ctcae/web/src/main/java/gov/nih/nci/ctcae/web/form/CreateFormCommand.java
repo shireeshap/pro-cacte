@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
@@ -41,14 +41,14 @@ public class CreateFormCommand implements Serializable {
 
     }
 
-    public void updateCrfItems(FinderRepository finderRepository) {
+    public void updateCrfItems(ProCtcQuestionRepository proCtcQuestionRepository) {
 
         if (getCrf().getAdvance()) {
-            addOrUpdateQuestions(finderRepository);
+            addOrUpdateQuestions(proCtcQuestionRepository);
         }
 
 
-        removeQuestions(finderRepository);
+        removeQuestions(proCtcQuestionRepository);
 
         if (!org.apache.commons.lang.StringUtils.isBlank(crfPageNumbersToRemove)) {
             crf.removeCrfPageByPageNumber(Integer.valueOf(crfPageNumbersToRemove));
@@ -83,7 +83,7 @@ public class CreateFormCommand implements Serializable {
 
     }
 
-    private void removeQuestions(FinderRepository finderRepository) {
+    private void removeQuestions(ProCtcQuestionRepository proCtcQuestionRepository) {
         String[] questionIdsToRemoveArrays = StringUtils.commaDelimitedListToStringArray(questionIdsToRemove);
         Set<Integer> questionIds = new HashSet<Integer>();
         for (String questionId : questionIdsToRemoveArrays) {
@@ -93,12 +93,12 @@ public class CreateFormCommand implements Serializable {
         }
         crf.removeCrfPageItemByQuestionIds(questionIds);
         for (Integer questionId : questionIds) {
-            ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
+            ProCtcQuestion proCtcQuestion = proCtcQuestionRepository.findById(questionId);
             crf.updateCrfPageItemDisplayRules(proCtcQuestion);
         }
     }
 
-    private void addOrUpdateQuestions(final FinderRepository finderRepository) {
+    private void addOrUpdateQuestions(final ProCtcQuestionRepository proCtcQuestionRepository) {
 
 
         String[] questionIdsArrays = StringUtils.commaDelimitedListToStringArray(questionsIds);
@@ -118,7 +118,7 @@ public class CreateFormCommand implements Serializable {
 
             for (int i = k; i < k + Integer.valueOf(questionsInEachPage); i++) {
                 Integer questionId = Integer.parseInt(questionIdsArrays[i]);
-                ProCtcQuestion proCtcQuestion = finderRepository.findById(ProCtcQuestion.class, questionId);
+                ProCtcQuestion proCtcQuestion = proCtcQuestionRepository.findById(questionId);
                 if (proCtcQuestion != null) {
                     crf.addOrUpdateCrfItemInCrfPage(Integer.valueOf(crfPageNumberArray[j]), proCtcQuestion, displayOrder);
                     questionsToKeep.add(questionId);

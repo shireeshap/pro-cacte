@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -19,8 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class RemoveConditionsController extends AbstractController {
 
-
-    private FinderRepository finderRepository;
+    private ProCtcQuestionRepository proCtcQuestionRepository;
 
     public RemoveConditionsController() {
         setSupportedMethods(new String[]{"GET"});
@@ -34,7 +33,7 @@ public class RemoveConditionsController extends AbstractController {
         if (!StringUtils.isBlank(request.getParameter("questionId"))) {
             Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
 
-            ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
+            ProCtcQuestion proCtcQuestion = proCtcQuestionRepository.findById(questionId);
 
             CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
@@ -48,7 +47,7 @@ public class RemoveConditionsController extends AbstractController {
 
 
     @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
+    public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
+        this.proCtcQuestionRepository = proCtcQuestionRepository;
     }
 }

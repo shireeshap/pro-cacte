@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.repository;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.Persistable;
 import gov.nih.nci.ctcae.core.query.Query;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,16 +37,4 @@ public class FinderRepository {
     }
 
 
-
-    public ProCtcQuestion findAndInitializeProCtcQuestion(final Integer questionId) {
-        ProCtcQuestion proCtcQuestion = findById(ProCtcQuestion.class, questionId);
-        if (proCtcQuestion != null) {
-            for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
-                validValue.getValue();
-            }
-        }
-        return proCtcQuestion;
-
-
-    }
 }

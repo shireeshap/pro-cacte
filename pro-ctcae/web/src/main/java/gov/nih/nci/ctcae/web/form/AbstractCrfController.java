@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import org.springframework.beans.factory.annotation.Required;
@@ -14,7 +14,7 @@ import java.util.Map;
  * @crated Dec 31, 2008
  */
 public abstract class AbstractCrfController extends AbstractController {
-    protected FinderRepository finderRepository;
+    protected ProCtcQuestionRepository proCtcQuestionRepository;
     public static final String PRO_CTC_TERM_COMPONENT = "proCtcTerm";
     public static final String CRF_PAGE_COMPONENT = "crfPage";
     public static final String PRO_CTC_QUESTIONS_COMPONENT = "proCtcQuestion";
@@ -39,7 +39,7 @@ public abstract class AbstractCrfController extends AbstractController {
     }
 
     @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
+    public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
+        this.proCtcQuestionRepository = proCtcQuestionRepository;
     }
 }

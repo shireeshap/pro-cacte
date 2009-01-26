@@ -28,7 +28,7 @@ public class AddOneCrfPageController extends AbstractCrfController {
 
         if (!StringUtils.isBlank(request.getParameter("questionId"))) {
             Integer questionId = ServletRequestUtils.getIntParameter(request, "questionId");
-            ProCtcQuestion proCtcQuestion = finderRepository.findAndInitializeProCtcQuestion(questionId);
+            ProCtcQuestion proCtcQuestion = proCtcQuestionRepository.findById(questionId);
 
             crfPage = createFormCommand.addCrfPage(proCtcQuestion);
 

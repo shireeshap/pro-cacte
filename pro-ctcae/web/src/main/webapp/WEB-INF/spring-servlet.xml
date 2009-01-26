@@ -196,7 +196,7 @@
     </bean>
     <bean name="abstractCrfController" id="crfController" abstract="true"
           class="gov.nih.nci.ctcae.web.form.AbstractCrfController">
-        <property name="finderRepository" ref="finderRepository"/>
+        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
     </bean>
 
@@ -227,11 +227,12 @@
     <bean name="/form/addConditionalQuestion" id="addConditionalQuestionController"
           class="gov.nih.nci.ctcae.web.form.AddConditionalQuestionController">
         <property name="finderRepository" ref="finderRepository"/>
+        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
     </bean>
 
     <bean name="/form/removeConditions" id="removeConditionsController"
           class="gov.nih.nci.ctcae.web.form.RemoveConditionsController">
-        <property name="finderRepository" ref="finderRepository"/>
+        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
     </bean>
 
     <bean name="/form/copyForm" id="copyFormController"
@@ -352,6 +353,7 @@
         <property name="finderRepository" ref="finderRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
         <property name="webControllerValidator" ref="webControllerValidator"/>
+        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
     </bean>
 
 
