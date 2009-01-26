@@ -36,12 +36,12 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = ((SubmitFormCommand) command).getStudyParticipantCrfSchedule();
         studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
         StudyParticipantCrf studyParticipantCrf = finderRepository.findById(StudyParticipantCrf.class, studyParticipantCrfSchedule.getStudyParticipantCrf().getId());
-
+        int pageNumber = ((SubmitFormCommand) command).getTotalPages();
+        request.getSession().setAttribute("gotopage", "" + (pageNumber+1));
         if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
             String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
             Hashtable arrangedQuestions = ((SubmitFormCommand) command).getArrangedQuestions();
 
-            int pageNumber = ((SubmitFormCommand) command).getTotalPages();
             if (selectedSymptoms != null) {
                 for (String symptom : selectedSymptoms) {
                     List<ProCtcQuestion> questions = (List<ProCtcQuestion>) arrangedQuestions.get(symptom);
@@ -62,7 +62,6 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
                 }
             }
         }
-        request.getSession().setAttribute("review", "y");
         return new ModelAndView(new RedirectView("submit?id=" + ((SubmitFormCommand) command).getStudyParticipantCrfSchedule().getId()));
     }
 

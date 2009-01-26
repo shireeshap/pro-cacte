@@ -144,10 +144,6 @@ public class SubmitFormCommand implements Serializable {
             currentPageIndex++;
         }
 
-        if (direction.equals("back_review")) {
-            currentPageIndex = totalPages;
-        }
-
         direction = "";
         return currentPageIndex;
     }
@@ -217,9 +213,17 @@ public class SubmitFormCommand implements Serializable {
             }
         }
 
-        return arrangedQuestions;
+       return arrangedQuestions;
     }
 
+    public ArrayList<String> getSortedSymptoms(){
+        Hashtable<String, List<ProCtcQuestion>> arrangedQuestions = getArrangedQuestions();
+        ArrayList<String> sortedList = new ArrayList(arrangedQuestions.keySet());
+        Collections.sort(sortedList);
+
+        return sortedList;
+
+    }
     public void setProCtcQuestions(List<ProCtcQuestion> proCtcQuestions) {
         this.proCtcQuestions = proCtcQuestions;
     }

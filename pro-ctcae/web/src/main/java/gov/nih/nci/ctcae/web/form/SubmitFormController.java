@@ -61,15 +61,21 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             return mv;
         }
 
-        if ("y".equals(request.getSession().getAttribute("review"))) {
-            request.getSession().setAttribute("review", "n");
-            submitFormCommand.setCurrentPageIndex(submitFormCommand.getParticipantAddedQuestionIndex());
+        if (!StringUtils.isBlank((String) request.getSession().getAttribute("gotopage"))) {
+            submitFormCommand.setCurrentPageIndex(Integer.parseInt((String) request.getSession().getAttribute("gotopage")));
+            request.getSession().removeAttribute("gotopage");
         }
 
-        if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages()) {
+        if (submitFormCommand.getCurrentPageIndex() == submitFormCommand.getTotalPages() + 1) {
+            mv = showForm(request, errors, "form/addquestion");
+            return mv;
+        }
+
+        if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages() + 1) {
             mv = showForm(request, errors, getReviewView());
             return mv;
         }
+
         if (submitFormCommand.getCurrentPageIndex() >= submitFormCommand.getParticipantAddedQuestionIndex()) {
             for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfScheduleAddedQuestions()) {
                 studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();

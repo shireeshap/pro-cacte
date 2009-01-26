@@ -195,14 +195,14 @@ public class SubmitFormControllerTest extends WebTestCase {
         assertTrue(command instanceof SubmitFormCommand);
         assertEquals(controller.getFormView(), modelAndView.getViewName());
 
-        request.getSession().setAttribute("review", "y");
+        request.getSession().setAttribute("gotopage", "" + 10);
         modelAndView = controller.handleRequest(request, response);
         model = modelAndView.getModel();
         command = model.get("command");
         assertNotNull("must find command object", command);
         assertTrue(command instanceof SubmitFormCommand);
-        assertEquals("form/participantAddedQuestion", modelAndView.getViewName());
-        assertEquals("n", request.getSession().getAttribute("review"));
+        assertEquals(10, ((SubmitFormCommand)command).getCurrentPageIndex());
+        assertEquals(null, request.getSession().getAttribute("gotopage"));
 
         verifyMocks();
 
@@ -247,9 +247,33 @@ public class SubmitFormControllerTest extends WebTestCase {
         command.setCurrentPageIndex(command.getTotalPages());
         command.setDirection("continue");
         modelAndView = controller.handleRequest(request, response);
+        assertEquals("form/addquestion", modelAndView.getViewName());
+        assertEquals(CrfStatus.INPROGRESS, command.getStudyParticipantCrfSchedule().getStatus());
+
+        command.setDirection("continue");
+        modelAndView = controller.handleRequest(request, response);
         assertEquals(controller.getReviewView(), modelAndView.getViewName());
         assertEquals(CrfStatus.INPROGRESS, command.getStudyParticipantCrfSchedule().getStatus());
 
+        command.setDirection("back");
+        modelAndView = controller.handleRequest(request, response);
+        assertEquals("form/addquestion", modelAndView.getViewName());
+        assertEquals(CrfStatus.INPROGRESS, command.getStudyParticipantCrfSchedule().getStatus());
+
+        command.setDirection("back");
+        modelAndView = controller.handleRequest(request, response);
+        assertEquals("form/participantAddedQuestion", modelAndView.getViewName());
+        assertEquals(CrfStatus.INPROGRESS, command.getStudyParticipantCrfSchedule().getStatus());
+
+        command.setDirection("back");
+        modelAndView = controller.handleRequest(request, response);
+        assertEquals("form/participantAddedQuestion", modelAndView.getViewName());
+        assertEquals(CrfStatus.INPROGRESS, command.getStudyParticipantCrfSchedule().getStatus());
+
+        command.setDirection("back");
+        modelAndView = controller.handleRequest(request, response);
+        assertEquals(controller.getFormView(), modelAndView.getViewName());
+        assertEquals(CrfStatus.INPROGRESS, command.getStudyParticipantCrfSchedule().getStatus());
 
         command.setDirection("save");
         modelAndView = controller.handleRequest(request, response);

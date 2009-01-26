@@ -1162,7 +1162,7 @@ function showHideQuestionUpDownLink() {
                                                                     <tags:formbuilderBoxControls add="${add}"
                                                                                                  proCtcQuestionId="${proCtcQuestion.id}"
                                                                                                  proCtcTermId="${proCtcTerm.id}"/>
-                                                                    ${proCtcQuestion.formattedQuestionText}
+                                                                    ${proCtcQuestion.questionText}
                                                                     <ul>
                                                                         <c:forEach items="${proCtcQuestion.validValues}"
                                                                                    var="proCtcValidValue">

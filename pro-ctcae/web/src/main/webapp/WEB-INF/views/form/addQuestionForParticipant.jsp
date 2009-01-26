@@ -13,46 +13,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
-        div.row div.value {
-            white-space: normal;
-        }
-
-        .label {
-            font-weight: bold;
-            float: left;
-            margin-left: 0.5em;
-            margin-right: 0.5em;
-            padding: 1px;
-            font-size: 12px;
-        }
-
-        .norm {
-            cursor: default;
-            width: 15%;
-        }
-
-        .over {
-            background: #3399ff;
-            cursor: pointer;
-            width: 15%;
+        tr{
+            border-bottom:1px solid #123121;
         }
     </style>
-    <script type="text/javascript">
-
-        function hideme(divid) {
-            $(divid).hide();
-        }
-        function showanswers(ischecked, divid) {
-            if (ischecked) {
-                $(divid).show();
-            } else {
-                hideme(divid);
-            }
-        }
-
-    </script>
-
-
 </head>
 <body>
 <chrome:flashMessage flashMessage="${command.flashMessage}"></chrome:flashMessage>
@@ -64,13 +28,17 @@
         </p>
 
         <table>
-            <c:forEach items="${command.arrangedQuestions}" var="term" varStatus="status">
-                <tr>
-                    <td>
-                        <input type="checkbox" name="symptomsByParticipants"
-                               value="${term.key}"/> ${term.key}
-                    </td>
-                </tr>
+            <c:forEach items="${command.sortedSymptoms}" var="term" varStatus="status">
+                <c:if test="${status.index%3==0}">
+                    <tr>
+                </c:if>
+                <td width="33%">
+                    <input type="checkbox" name="symptomsByParticipants"
+                           value="${term}"/> ${term}
+                </td>
+                <c:if test="${status.index%3==2}">
+                    </tr>
+                </c:if>
             </c:forEach>
         </table>
     </chrome:box>

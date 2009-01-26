@@ -104,7 +104,7 @@
                     <tr>
                         <td colspan="${fn:length(participantCrfItem.proCtcQuestion.validValues)}">
                             <div class="label">
-                                    ${participantCrfItem.proCtcQuestion.formattedQuestionText}
+                                    ${participantCrfItem.proCtcQuestion.questionText}
                                 (<a href="javascript:deleteQuestion('${crfitemstatus.index}','${participantCrfItem.proCtcQuestion.id}','${participantCrfItem.id}')">remove
                                 this question</a>)
 
