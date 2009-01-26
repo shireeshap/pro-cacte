@@ -43,11 +43,14 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
 
         List<CtcCategory> ctcCategoryList = new ArrayList<CtcCategory>(ctcCategoryMap.keySet());
         Collections.sort(ctcCategoryList, new CtcCAtegoryComparator());
-        Map result = new LinkedHashMap();
+        Map<CtcCategory, List<ProCtcTerm>> result = new LinkedHashMap<CtcCategory, List<ProCtcTerm>>();
 
         for (Iterator<CtcCategory> it = ctcCategoryList.iterator(); it.hasNext();) {
             CtcCategory ctcCategory = it.next();
-            result.put(ctcCategory, ctcCategoryMap.get(ctcCategory));
+            List<ProCtcTerm> proCtcTermList = ctcCategoryMap.get(ctcCategory);
+            Collections.sort(proCtcTermList, new ProCtcTermComparator());
+
+            result.put(ctcCategory, proCtcTermList);
         }
 
 
