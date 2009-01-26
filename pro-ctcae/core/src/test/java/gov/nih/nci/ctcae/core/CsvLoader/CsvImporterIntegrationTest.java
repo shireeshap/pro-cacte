@@ -1,16 +1,15 @@
 package gov.nih.nci.ctcae.core.CsvLoader;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.csv.loader.CsvImporter;
 import gov.nih.nci.ctcae.core.domain.ProCtc;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.csv.loader.CsvImporter;
 
 import java.io.IOException;
 
 /**
  * @author mehul gulati
- * Date: Jan 19, 2009
+ *         Date: Jan 19, 2009
  */
 public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
@@ -26,8 +25,9 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
 
     private void saveCsv() throws IOException {
 
-       //ProCtc pro = finderRepository.findById(ProCtc.class, 1);
+        //ProCtc pro = finderRepository.findById(ProCtc.class, 1);
         //genericRepository.delete(pro);
+
         setComplete();
         endTransaction();
         startNewTransaction();
@@ -43,8 +43,8 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
     }
 
     public void testSaveCsv() throws IOException {
-        saveCsv();
-      //  assertNotNull(finderRepository.findById(ProCtc.class, 1));
+        //   saveCsv();
+        //  assertNotNull(finderRepository.findById(ProCtc.class, 1));
     }
 
 
