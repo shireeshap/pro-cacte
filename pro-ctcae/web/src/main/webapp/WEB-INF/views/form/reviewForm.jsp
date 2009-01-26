@@ -10,7 +10,15 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <html>
+<head>
+    <script type="text/javascript">
+        Event.observe(window, "load", function () {
+            addRemoveConditionalTriggeringDisplayToQuestion();
+        })
 
+    </script>
+
+</head>
 <body>
 
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="createForm" hideErrorDetails="true">
@@ -18,7 +26,7 @@
 		<%--<p><tags:instructions code="instruction_select_study"/></p>--%>
         <%----%>
         <tags:reviewForm crf="${command.crf}"></tags:reviewForm>
-		
+
     </jsp:attribute>
 
 

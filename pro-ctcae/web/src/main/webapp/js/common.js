@@ -361,3 +361,35 @@ function dump(arr, level) {
     return dumped_text;
 }
 
+function addRemoveConditionalTriggeringDisplayToQuestion() {
+
+    $$("div.sortable").each(function (item) {
+        var id = item.id;
+        if (!id.include('dummySortable_')) {
+            var questionId = id.substr(9, id.length)
+            if ($$('tr.conditionalTriggering_' + questionId).length > 0) {
+                $('conditionalTriggeringImage_' + questionId).show();
+                $("sortable_" + questionId).addClassName('conditional-triggering');
+            } else {
+                $('conditionalTriggeringImage_' + questionId).hide();
+                $("sortable_" + questionId).removeClassName('conditional-triggering');
+            }
+            var conditionsTable = $('conditionsTable_' + questionId)
+            if ($$('tr.conditionalQuestion_' + questionId + '_condition').length == 0) {
+                $("sortable_" + questionId).removeClassName('conditional-question');
+                $('conditionsImage_' + questionId).hide();
+                if (conditionsTable != null) {
+                    conditionsTable.hide();
+                }
+
+            } else {
+                $('conditionsImage_' + questionId).show();
+                if (conditionsTable != null) {
+                    conditionsTable.show();
+                }
+                $("sortable_" + questionId).addClassName('conditional-question')
+            }
+        }
+    });
+
+}

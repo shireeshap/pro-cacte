@@ -10,22 +10,26 @@
         font-size: 15px;
     }
 </style>
-<tags:formbuilderBox cssClass="review">
-    <tags:formbuilderBoxControls add="false"
-                                 proCtcQuestionId="${crfPageItem.proCtcQuestion.id}"
-                                 proCtcTermId="${crfPageItem.proCtcQuestion.proCtcTerm.id}"/>
 
-    <c:if test="${showInstructions}">
-        <c:if test="${not empty crfPageItem.instructions}">
-            <chrome:summary label="Instructions">
+<div class="sortable" id="sortable_${crfPageItem.proCtcQuestion.id}">
+
+    <tags:formbuilderBox
+            cssClass="review">
+        <tags:formbuilderBoxControls add="false"
+                                     proCtcQuestionId="${crfPageItem.proCtcQuestion.id}"
+                                     proCtcTermId="${crfPageItem.proCtcQuestion.proCtcTerm.id}"/>
+
+        <c:if test="${showInstructions}">
+            <c:if test="${not empty crfPageItem.instructions}">
+                <chrome:summary label="Instructions">
           <jsp:attribute name="content">
            ${crfPageItem.instructions}
           </jsp:attribute>
 
-            </chrome:summary>
+                </chrome:summary>
+            </c:if>
         </c:if>
-    </c:if>
-    <chrome:summary>
+        <chrome:summary>
           <jsp:attribute name="content">
 
               <span id="${displayOrder}"
@@ -34,6 +38,13 @@
                   <span class="required-indicator">*</span>
               </c:if>
               ${crfPageItem.proCtcQuestion.formattedQuestionText}
+              <img alt="Conditional Question" src="<tags:imageUrl name="blue/conditional-icon.png"/>"
+                   id="conditionsImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
+
+               <img alt="Conditional Triggering Question"
+                    src="<tags:imageUrl name="blue/conditional-triggering-icon.png"/>"
+                    id="conditionalTriggeringImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
+
               <c:choose>
                   <c:when test="${crfPageItem.crfItemAllignment eq 'Horizontal'}">
                       <c:set var="horizontalCrfItemsStyle" value=""/>
@@ -61,6 +72,7 @@
                       </c:forEach>
                   </ul>
               </div>
+
 			  <c:if test="${not empty crfPageItem.crfPageItemDisplayRules }">
 
                   <br>
@@ -92,10 +104,10 @@
 
                   </div>
               </c:if>
-			  			  
+
 
           </jsp:attribute>
-    </chrome:summary>
-</tags:formbuilderBox>
+        </chrome:summary>
+    </tags:formbuilderBox></div>
 
 

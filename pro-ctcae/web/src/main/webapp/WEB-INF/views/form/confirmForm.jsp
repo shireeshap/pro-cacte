@@ -10,6 +10,15 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <html>
+<head>
+    <script type="text/javascript">
+        Event.observe(window, "load", function () {
+            addRemoveConditionalTriggeringDisplayToQuestion();
+        })
+
+    </script>
+
+</head>
 <body>
 <chrome:flashMessage flashMessage="form.save.confirmation"></chrome:flashMessage>
 

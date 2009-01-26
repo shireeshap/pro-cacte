@@ -800,34 +800,7 @@ function showHideQuestionUpDownLink() {
         $('shrinkFormUrl').show();
         $('expandFormUrl').hide();
     }
-    function addRemoveConditionalTriggeringDisplayToQuestion() {
 
-        $$("div.sortable").each(function (item) {
-            var id = item.id;
-            if (!id.include('dummySortable_')) {
-                var questionId = id.substr(9, id.length)
-                if ($$('tr.conditionalTriggering_' + questionId).length > 0) {
-                    $('conditionalTriggeringImage_' + questionId).show();
-                    $("sortable_" + questionId).addClassName('conditional-triggering');
-                } else {
-                    $('conditionalTriggeringImage_' + questionId).hide();
-                    $("sortable_" + questionId).removeClassName('conditional-triggering');
-                }
-
-                if ($$('tr.conditionalQuestion_' + questionId + '_condition').length == 0) {
-                    $("sortable_" + questionId).removeClassName('conditional-question');
-                    $('conditionsImage_' + questionId).hide();
-                    $('conditionsTable_' + questionId).hide();
-
-                } else {
-                    $('conditionsImage_' + questionId).show();
-                    $('conditionsTable_' + questionId).show();
-                    $("sortable_" + questionId).addClassName('conditional-question')
-                }
-            }
-        });
-
-    }
 
 </script>
 <script type="text/javascript">
@@ -1117,7 +1090,8 @@ function showHideQuestionUpDownLink() {
             <div class="summaryvalue">${command.crf.study.displayName}</div>
         </div>
     <%--<a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>--%>
-    <c:if test="${!command.crf.advance}"> <a id="advanceMode" href="javascript:switchToAdvance()">Switch to Advance Form
+    <c:if test="${!command.crf.advance}"> <a id="advanceMode" href="javascript:switchToAdvance()">Switch to Advanced
+        Form
         Builder</a>
     </c:if>
 
