@@ -1,0 +1,18 @@
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+        >
+
+    <bean id="seleniumProperties" class="gov.nih.nci.ctcae.web.SeleniumProperties">
+        <property name="browser" value="${selenium.browser}"/>
+        <property name="waitTime" value="${selenium.wait.time}"/>
+        <property name="baseUrl" value="${selenium.base.url}"/>
+        <property name="seleniumClientUrl" value="${selenium.client.url}"/>
+    </bean>
+
+
+</beans>

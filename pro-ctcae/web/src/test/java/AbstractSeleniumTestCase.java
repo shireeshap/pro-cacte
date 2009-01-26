@@ -1,0 +1,150 @@
+import com.thoughtworks.selenium.DefaultSelenium;
+import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
+import gov.nih.nci.ctcae.web.SeleniumProperties;
+import org.springframework.beans.factory.annotation.Required;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+
+/**
+ * @author Vinay Kumar
+ * @crated Jan 26, 2009
+ */
+public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
+    DefaultSelenium selenium;
+
+    private SeleniumProperties seleniumProperties;
+
+    @Override
+    protected String[] getConfigLocations() {
+        String[] configLocations = super.getConfigLocations();
+        List<String> list = new ArrayList<String>(Arrays.asList(configLocations));
+        list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-selenium.xml");
+        return list.toArray(new String[]{});
+
+
+    }
+
+    @Override
+    protected void onSetUpInTransaction() throws Exception {
+        super.onSetUpInTransaction();
+        selenium = createSeleniumClient(seleniumProperties.getSeleniumClientUrl());
+        selenium.start();
+    }
+
+    @Override
+    protected void onTearDownAfterTransaction() throws Exception {
+        super.onTearDownAfterTransaction();
+
+        // selenium.stop();
+
+    }
+
+    protected DefaultSelenium createSeleniumClient(String url) throws Exception {
+        DefaultSelenium defaultSelenium = new DefaultSelenium("localhost", 4444, seleniumProperties.getBrowser(), url);
+        return defaultSelenium;
+    }
+
+    protected void createStudy() {
+        String shortTitle = randomString();
+
+        String longTitle = randomString();
+        String assignedIdentifier = randomString();
+
+        openCreateStudyPage();
+        selenium.type("shortTitle", shortTitle);
+        selenium.type("assignedIdentifier", assignedIdentifier);
+        selenium.type("longTitle", longTitle);
+
+        String autoComplterInputId = "studyCoordinatingCenter.organization";
+        String selectedValue = "National";
+        selectAutoCompleter("studyFundingSponsor.organization", "forest", "Wake");
+
+        selectAutoCompleter(autoComplterInputId, "nci", selectedValue);
+
+
+        selenium.click("submitButton");
+        selenium.waitForPageToLoad("5000");
+
+
+        assertTrue(selenium.isTextPresent("Confirmation"));
+        assertTrue(selenium.isTextPresent(shortTitle));
+        assertTrue(selenium.isTextPresent(longTitle));
+        assertTrue(selenium.isTextPresent(assignedIdentifier));
+        assertTrue(selenium.isTextPresent("Wake"));
+        assertTrue(selenium.isTextPresent("National"));
+
+    }
+
+    public String randomString() {
+        String name = "" + Calendar.getInstance().getTime().getTime();
+        name = name.substring(name.length() - 5, name.length() - 1);
+        return name;
+
+        //      return UUID.randomUUID().toString();
+    }
+
+
+    private void selectAutoCompleter(String autoComplterInputId, String input, String selectedValue) {
+        String locator = autoComplterInputId + "-input";
+
+        if (input.length() < 2) {
+            fail("input must be atleast 2 char long");
+        }
+        selenium.type(locator, input.substring(0, 1));
+        selenium.typeKeys(locator, input.substring(1, input.length()));
+
+
+        String selectedText = String.format("//li[contains(text(), '%s')]", selectedValue);
+
+        selenium.waitForCondition(String.format("selenium.isTextPresent('%s')", selectedValue), "10000");
+        selenium.click(selectedText);
+    }
+
+
+    public void loginAdmin() {
+        login("SYSTEM_ADMIN", "system_admin");
+    }
+
+    public void login(String userId, String password) {
+        selenium.type("j_username", userId);
+        selenium.type("j_password", password);
+
+        selenium.submit("login");
+        selenium.waitForPageToLoad(seleniumProperties.getWaitTime());
+    }
+
+    public void testSystemAdminLogin() {
+
+        openLoginPage();
+        loginAdmin();
+        assertEquals("caAERS || Welcome to caAERS", selenium.getTitle());
+
+    }
+
+    protected void openLoginPage() {
+        selenium.open("/public/login");
+    }
+
+    protected void openCreateStudyPage() {
+        openPage("/study/createStudy");
+    }
+
+    protected void openSearchStudyPage() {
+        openPage("/study/searchStudy");
+    }
+
+    private void openPage(String pageUrl) {
+        selenium.open(seleniumProperties.getBaseUrl() + pageUrl);
+        if (selenium.isTextPresent("Enter caAERS")) {
+            loginAdmin();
+        }
+    }
+
+    @Required
+    public void setSeleniumProperties(SeleniumProperties seleniumProperties) {
+        this.seleniumProperties = seleniumProperties;
+    }
+}
