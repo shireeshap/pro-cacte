@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -24,7 +25,7 @@ public class AllConditionsControllerTest extends WebTestCase {
         super.setUp();
         controller = new AllConditionsController();
         command = new CreateFormCommand();
-
+        command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
 
         proCtcQuestion = new ProCtcQuestion();
         proCtcQuestion.setId(1);

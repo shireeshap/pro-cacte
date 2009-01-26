@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.CrfPageItem;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -38,6 +35,8 @@ public class AddConditionalQuestionControllerTest extends WebTestCase {
         proCtcValidValue1.setValue("value1");
         proCtcValidValue2 = new ProCtcValidValue();
         proCtcValidValue2.setValue("value2");
+        command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
+
         command.getCrf().addCrfPage(proCtcQuestion);
 
     }

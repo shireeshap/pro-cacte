@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
@@ -50,6 +51,8 @@ public class AddOneCrfPageItemControllerTest extends WebTestCase {
     }
 
     public void testHandleRequestIfQuestionIdIsCorrect() throws Exception {
+        command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
+
         command.addCrfPage();
         request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
         request.addParameter("crfPageNumber", new String[]{"0"});

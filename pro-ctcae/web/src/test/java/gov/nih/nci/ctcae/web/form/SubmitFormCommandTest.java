@@ -141,6 +141,7 @@ public class SubmitFormCommandTest extends WebTestCase {
 
         crf = Fixture.createCrf();
         crf.setId(1);
+        crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
         crf.addCrfPage(proCtcQuestion1);
         crf.addCrfPage(proCtcQuestion2);
         crf.addCrfPage(proCtcQuestion3);

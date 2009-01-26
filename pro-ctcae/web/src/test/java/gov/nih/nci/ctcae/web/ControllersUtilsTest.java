@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 import gov.nih.nci.cabig.ctms.web.tabs.TabConfigurer;
-import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
@@ -12,7 +11,6 @@ import gov.nih.nci.ctcae.web.form.CreateFormCommand;
 import gov.nih.nci.ctcae.web.form.EditFormController;
 import gov.nih.nci.ctcae.web.study.CreateStudyController;
 import gov.nih.nci.ctcae.web.study.StudyCommand;
-import static org.easymock.EasyMock.expect;
 
 /**
  * @author Vinay Kumar
@@ -76,12 +74,8 @@ public class ControllersUtilsTest extends WebTestCase {
     }
 
     public void testCommandInGetRequestOfEditForm() throws Exception {
-        request.addParameter("crfId", "1");
-        expect(crfRepository.findById(Integer.valueOf(1))).andReturn(new CRF());
-        replayMocks();
 
         editFormController.handleRequest(request, response);
-        verifyMocks();
         Object command = ControllersUtils.getFormCommand(request);
         assertNotNull("command must present in session", command);
         assertTrue(command instanceof CreateFormCommand);

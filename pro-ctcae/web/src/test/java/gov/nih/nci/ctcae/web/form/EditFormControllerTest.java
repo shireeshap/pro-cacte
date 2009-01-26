@@ -4,7 +4,9 @@ import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 import gov.nih.nci.cabig.ctms.web.tabs.TabConfigurer;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
@@ -14,9 +16,10 @@ import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -63,6 +66,7 @@ public class EditFormControllerTest extends WebTestCase {
         request.setMethod("GET");
         request.addParameter("crfId", "1");
         expect(crfRepository.findById(Integer.valueOf(1))).andReturn(crf);
+        expect(proCtcTermRepository.findAndInitializeTerm(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
         verifyMocks();
@@ -94,6 +98,7 @@ public class EditFormControllerTest extends WebTestCase {
         request.addParameter("crfId", "1");
 
         expect(crfRepository.findById(Integer.valueOf(1))).andReturn(crf);
+        expect(proCtcTermRepository.findAndInitializeTerm(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
 
         replayMocks();
         ModelAndView modelAndView1 = controller.handleRequest(request, response);
@@ -109,7 +114,10 @@ public class EditFormControllerTest extends WebTestCase {
         expect(crfRepository.save(crf)).andReturn(crf);
         expect(notEmptyValidator.validate("title")).andReturn(true);
         expect(uniqueTitleForCrfValidator.validate(crf, crf.getTitle())).andReturn(true);
+        expect(proCtcTermRepository.findAndInitializeTerm(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
+
         replayMocks();
+
 
         //expect(crfRepository.findById(Integer.valueOf(1))).andReturn(crf);
 
@@ -118,7 +126,6 @@ public class EditFormControllerTest extends WebTestCase {
 
         verifyMocks();
         Map model = modelAndView.getModel();
-        assertTrue("view must be instance of redirect view", modelAndView.getView() instanceof RedirectView);
         assertNull("must not find command object", model.get("command"));
 
 

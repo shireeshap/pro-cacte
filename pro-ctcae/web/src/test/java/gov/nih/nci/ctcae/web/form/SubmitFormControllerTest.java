@@ -61,6 +61,7 @@ public class SubmitFormControllerTest extends WebTestCase {
 
         crf = Fixture.createCrf();
         crf.setId(1);
+        crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
         CrfPageItem item1 = crf.addCrfPage(proCtcQuestion1).getCrfPageItems().get(0);
         item1.setId(1);
         CrfPageItem item2 = crf.addCrfPage(proCtcQuestion2).getCrfPageItems().get(0);

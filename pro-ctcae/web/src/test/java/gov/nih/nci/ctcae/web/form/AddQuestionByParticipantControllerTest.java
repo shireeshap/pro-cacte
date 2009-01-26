@@ -1,21 +1,21 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.Query;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.query.Query;
-import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
+import org.easymock.EasyMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
-import org.easymock.EasyMock;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Harsh Agarwal
@@ -95,6 +95,7 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
 
         crf = Fixture.createCrf();
         crf.setId(1);
+        crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
         CrfPageItem item1 = crf.addCrfPage(proCtcQuestion1).getCrfPageItems().get(0);
         item1.setId(1);
         CrfPageItem item2 = crf.addCrfPage(proCtcQuestion2).getCrfPageItems().get(0);
