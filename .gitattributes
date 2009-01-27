@@ -863,7 +863,7 @@ pro-ctcae/web/src/main/webapp/js/tiger-menu.js -text
 pro-ctcae/web/src/main/webapp/js/tree.js -text
 pro-ctcae/web/src/main/webapp/js/validation.js -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/AbstractSeleniumTestCase.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/study/StudySeleniumTestCase.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/study/StudySeleniumTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AbstractWebIntegrationTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ApplicationConversionServiceTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AuditInfoFilterTest.java -text

@@ -616,7 +616,7 @@
     </condition>
 
 
-    <target name="test" if="run.test" depends="clean-test-results, compile-test"
+    <target name="test" if="run.test" depends="clean-test-results, compile-test,resolve-test"
             description="Runs the testcases">
         <echo message="Executing in ${ant.project.name}"/>
         <echo

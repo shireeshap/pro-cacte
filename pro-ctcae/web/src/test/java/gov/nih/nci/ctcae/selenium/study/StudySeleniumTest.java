@@ -11,7 +11,7 @@ import java.util.Collection;
  * @author Vinay Kumar
  * @crated Oct 22, 2008
  */
-public class StudySeleniumTestCase extends AbstractSeleniumTestCase {
+public class StudySeleniumTest extends AbstractSeleniumTestCase {
 
     private StudyRepository studyRepository;
 

@@ -127,7 +127,22 @@
         </dbunit>
     </target>
 
-    <!--<target name="build_tests" depends="clean, compile, start-server,  tests, stop-server"/>-->
+
+    <condition property="selenium-testPattern" value="**/${test}.class"
+               else="gov/nih/nci/ctcae/selenium/study/*Test.class">
+        <isset property="test"/>
+    </condition>
+
+
+    <target name="selenium-test" if="run.test" description="Runs the selenium testcases">
+
+        <antcall target="test">
+            <param name="testPattern" value="${selenium-testPattern}"/>
+        </antcall>
+
+    </target>
+
+
     <!-- ========================================================================
        target: start-server
         Will start the selenium server..
