@@ -140,6 +140,9 @@
             <param name="testPattern" value="${selenium-testPattern}"/>
         </antcall>
 
+        <antcall target="stop-server">
+        </antcall>
+
     </target>
 
 
