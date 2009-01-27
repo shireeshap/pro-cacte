@@ -163,7 +163,7 @@
                 displayRules['${participantCrfItem.proCtcQuestion.id}'] = displayRules['${participantCrfItem.proCtcQuestion.id}'] + '~' + ${rule.proCtcValidValue.id};
                 </c:forEach>
             </script>
-            <tags:formbuilderBox id="question_${participantCrfItem.proCtcQuestion.id}">
+            <tags:formbuilderBox id="question_${participantCrfItem.proCtcQuestion.id}" style="display:none">
 
                 <input type="hidden"
                        name="studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[${crfitemstatus.index}].proCtcValidValue"

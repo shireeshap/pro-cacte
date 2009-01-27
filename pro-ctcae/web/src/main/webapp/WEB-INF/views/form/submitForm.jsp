@@ -153,7 +153,7 @@
     <div class="label">${command.pageHeader}</div>
     <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfItems}" var="participantCrfItem"
                varStatus="crfitemstatus">
-        <tags:formbuilderBox id="question_${participantCrfItem.crfPageItem.id}">
+        <tags:formbuilderBox id="question_${participantCrfItem.crfPageItem.id}" style="display:none">
 
             <c:set var="crfPageItem" value="${participantCrfItem.crfPageItem}"/>
             <c:if test="${crfPageItem.crfItemAllignment eq 'Horizontal'}">
