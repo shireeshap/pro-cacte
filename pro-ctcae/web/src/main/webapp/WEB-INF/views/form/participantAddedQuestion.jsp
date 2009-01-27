@@ -49,11 +49,26 @@
         }
     </style>
     <script type="">
+
+        var displayRules = new Array();
+        var questions = new Array();
+        var i = 0;
+        var responses = new Array();
+        var questionindexes = new Array();
+
+
         function gonext(crfitemindex, index, column) {
             var x = document.getElementsByName('response' + crfitemindex);
             x[index].checked = true;
+            responses[x[index].value] = 'Y';
             var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[' + crfitemindex + '].proCtcValidValue';
             document.myForm.elements[elementName].value = x[index].value;
+            for (var i = 0; i < x.length; i++) {
+                if (i != index) {
+                    responses[x[i].value] = 'N';
+                }
+            }
+            evaluateAllQuestions();
         }
 
         function clearResponse(questionindex) {
@@ -64,14 +79,57 @@
             var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[' + questionindex + '].proCtcValidValue';
             document.myForm.elements[elementName].value = '';
         }
+
         function deleteQuestion(questionindex, questionid, addedquestionid) {
             document.myForm.deletedQuestions.value = document.myForm.deletedQuestions.value + ',' + addedquestionid;
             hideQuestion(questionid);
             clearResponse(questionindex);
         }
 
+        Event.observe(window, "load", function () {
+            evaluateAllQuestions();
+        })
+
+
+        function evaluateAllQuestions() {
+            for (var i = 0; i < questions.length; i++) {
+                showHideQuestion(questions[i]);
+            }
+        }
+
+
+        function showHideQuestion(questionid) {
+            if (isDisplay(questionid)) {
+                showQuestion(questionid);
+            } else {
+                hideQuestion(questionid);
+            }
+        }
+
+        function showQuestion(questionid) {
+            $("question_" + questionid).show();
+        }
+
         function hideQuestion(questionid) {
             $("question_" + questionid).hide();
+            clearResponse(questionindexes[questionid]);
+        }
+
+        function isDisplay(questionid) {
+            var displayRule = displayRules[questionid];
+            var rulesSatisfied = false;
+            if (displayRule == '') {
+                rulesSatisfied = true;
+            } else {
+                var myRules = displayRule.split('~');
+                for (var i = 0; i < myRules.length; i++) {
+                    if (myRules[i] != '' && responses[myRules[i]] == 'Y') {
+                        rulesSatisfied = true;
+                        break;
+                    }
+                }
+            }
+            return rulesSatisfied;
         }
 
 
@@ -95,6 +153,16 @@
                varStatus="crfitemstatus">
 
         <c:if test="${(participantCrfItem.pageNumber + 1)  eq command.currentPageIndex}">
+            <script type="text/javascript">
+                questions[i] = ${participantCrfItem.proCtcQuestion.id};
+                questionindexes['${participantCrfItem.proCtcQuestion.id}'] = i;
+                i++;
+                displayRules['${participantCrfItem.proCtcQuestion.id}'] = '';
+                responses['${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[crfitemstatus.index].proCtcValidValue.id}'] = 'Y';
+                <c:forEach items="${participantCrfItem.proCtcQuestion.proCtcQuestionDisplayRules}" var="rule">
+                displayRules['${participantCrfItem.proCtcQuestion.id}'] = displayRules['${participantCrfItem.proCtcQuestion.id}'] + '~' + ${rule.proCtcValidValue.id};
+                </c:forEach>
+            </script>
             <tags:formbuilderBox id="question_${participantCrfItem.proCtcQuestion.id}">
 
                 <input type="hidden"
