@@ -2,11 +2,11 @@
     <property file="build.properties"/>
     <import file="${basedir}/common.xml"/>
 
-	<!-- ==================================================================
-			 target : buildlist
-		 ====================================================================== -->
-	<target name="buildlist" depends="load-ivy" unless="buildlist.done"
-			description="Will find the correct order of build dependency">
+    <!-- ==================================================================
+       target : buildlist
+   ====================================================================== -->
+    <target name="buildlist" depends="load-ivy" unless="buildlist.done"
+            description="Will find the correct order of build dependency">
         <ivy:buildlist reference="build-path">
 
             <fileset file="${basedir}/commons/ivy-build.xml"/>
@@ -19,113 +19,117 @@
         <echo message="buildList : ${build-path}"/>
     </target>
 
-	<!-- ==================================================================
-			 target : publish-all
-		 ====================================================================== -->
-	<target name="publish-all" depends="buildlist, clean-all, clean-repo"
-			description="compile, jar and publish all projects in the right order, publishes them into local repository">
+    <!-- ==================================================================
+              target : publish-all
+          ====================================================================== -->
+    <target name="publish-all" depends="buildlist, clean-all, clean-repo"
+            description="compile, jar and publish all projects in the right order, publishes them into local repository">
         <subant target="publish-local" buildpathref="build-path"/>
     </target>
-	<!-- ==================================================================
-			 target : publish-clover
-		 ====================================================================== -->
-	<target name="publish-clover" depends="buildlist, clean-all, clean-repo"
-			description="compile, jar and publish all projects in the right order, publishes them into local repository">
+    <!-- ==================================================================
+              target : publish-clover
+          ====================================================================== -->
+    <target name="publish-clover" depends="buildlist, clean-all, clean-repo"
+            description="compile, jar and publish all projects in the right order, publishes them into local repository">
         <subant target="publish-local-clover" buildpathref="build-path"/>
         <subant target="clover.report" buildpathref="build-path"/>
         <subant target="clover.xml" buildpathref="build-path"/>
         <subant target="coverageAlert" buildpathref="build-path"/>
     </target>
 
-	<!-- =================================================================== -->
-	<!-- Target for automated build  								         -->
-	<!-- =================================================================== -->
-	<target name="automatedBuild" depends="migrate,publish-clover, pmd"
-			description="build project including migration of data..use it in CI server.."/>
-	<!--<target name="automatedBuild" depends="publish-all, findbugs, coverage, checkstyle, pmd, cpd"/>-->
+    <!-- =================================================================== -->
+    <!-- Target for automated build  								         -->
+    <!-- =================================================================== -->
+    <target name="automatedBuild" depends="migrate,publish-clover, pmd"
+            description="build project including migration of data..use it in CI server.."/>
+    <!--<target name="automatedBuild" depends="publish-all, findbugs, coverage, checkstyle, pmd, cpd"/>-->
 
 
-	<!-- ==================================================================
-		   target : release-all
-	   ====================================================================== -->
-	<target name="release-all" depends="buildlist, clean-all"
-			description="compile, jar and publish all projects in the right order, then releases it to Shared Repository">
+    <!-- ==================================================================
+            target : release-all
+        ====================================================================== -->
+    <target name="release-all" depends="buildlist, clean-all"
+            description="compile, jar and publish all projects in the right order, then releases it to Shared Repository">
         <subant target="publish" buildpathref="build-path"/>
     </target>
 
-	<!-- ==================================================================
-			 target : resolve-all
-		 ====================================================================== -->
-	<target name="resolve-all" depends="buildlist"
-			description="Will call the resolve target on each of the module">
+    <!-- ==================================================================
+              target : resolve-all
+          ====================================================================== -->
+    <target name="resolve-all" depends="buildlist"
+            description="Will call the resolve target on each of the module">
         <subant target="resolve" buildpathref="build-path"/>
     </target>
 
-	<!-- ==================================================================
-			 target : clean-all
-		 ====================================================================== -->
-	<target name="clean-all" depends="buildlist, clean-pmd" description="clean all projects">
+    <!-- ==================================================================
+              target : clean-all
+          ====================================================================== -->
+    <target name="clean-all" depends="buildlist, clean-pmd" description="clean all projects">
         <subant target="clean" buildpathref="build-path"/>
     </target>
 
-	<!-- ==================================================================
-			 target : clean
-		 ====================================================================== -->
-	<target name="clean" depends="clean-all, clean-repo"
-			description="clean delete repository, and all projects"/>
+    <!-- ==================================================================
+              target : clean
+          ====================================================================== -->
+    <target name="clean" depends="clean-all, clean-repo"
+            description="clean delete repository, and all projects"/>
 
     <target name="clean-repo" description="cleans the local repository">
         <delete dir="${local.repo.dir}"/>
     </target>
 
-	<!-- ==================================================================
-			 target : clean-pmd
-		 ====================================================================== -->
-	<target name="clean-pmd" description="cleans the pmd report directory ">
+    <!-- ==================================================================
+              target : clean-pmd
+          ====================================================================== -->
+    <target name="clean-pmd" description="cleans the pmd report directory ">
         <delete dir="${pmd.report.dir}"/>
     </target>
 
-	<!-- ==================================================================
-				 target : clean-j2h
-		 ====================================================================== -->
-	<target name="clean-j2h" description="cleans the java2html directory ">
+    <!-- ==================================================================
+                  target : clean-j2h
+          ====================================================================== -->
+    <target name="clean-j2h" description="cleans the java2html directory ">
         <delete dir="${j2h.dir}"/>
     </target>
 
-	<!-- ==================================================================
-			 target : clean-cache
-		 ====================================================================== -->
-	<target name="clean-cache" depends="load-ivy" description="Cleans the ivy cache">
+    <!-- ==================================================================
+              target : clean-cache
+          ====================================================================== -->
+    <target name="clean-cache" depends="load-ivy" description="Cleans the ivy cache">
         <ivy:cleancache/>
     </target>
 
 
-	<!-- ==========================================================
-			 target : migrate
-			 This will delegate the call to ctcae-core:migrate, this is added
-			 to do migrate and build as a single job using hudson.
-		 =============================================================-->
-	<target name="migrate" description="this is added to do migrate and build as a single job using hudson">
+    <!-- ==========================================================
+              target : migrate
+              This will delegate the call to ctcae-core:migrate, this is added
+              to do migrate and build as a single job using hudson.
+          =============================================================-->
+    <target name="migrate" description="this is added to do migrate and build as a single job using hudson">
         <subant target="migrate" buildpath="core/ivy-build.xml"/>
     </target>
 
-	<target name="migrate-sample-data" description="this for migrating sample data">
+    <target name="migrate-sample-data" description="this for migrating sample data">
         <subant target="migrate-sample-data" buildpath="core/ivy-build.xml"/>
     </target>
 
-	<!-- ==========================================================
-				 target : insert-csm-policy
-				 This will delegate the call to ctcae-insert-csm-policy
-			 =============================================================-->
-	<target name="insert-csm-policy">
+    <target name="migrate-selenium-data" description="this for migrating sample data for selenium">
+        <subant target="migrate-selenium-data" buildpath="web/ivy-build.xml"/>
+    </target>
+
+    <!-- ==========================================================
+                  target : insert-csm-policy
+                  This will delegate the call to ctcae-insert-csm-policy
+              =============================================================-->
+    <target name="insert-csm-policy">
         <subant target="insert-csm-policy" buildpath="core/ivy-build.xml"/>
     </target>
 
 
-	<!-- =======================================================
-		   target : sync-classpath
-	   ============================================================ -->
-	<target name="sync-classpath" depends="buildlist">
+    <!-- =======================================================
+            target : sync-classpath
+        ============================================================ -->
+    <target name="sync-classpath" depends="buildlist">
         <mkdir dir="${user.home}/ivylibs"/>
         <subant target="resolve" buildpathref="build-path">
             <property name="resolve.confs" value="runtime,test"/>
@@ -142,36 +146,36 @@
         </taskdef>
 
         <eclipseClasspath templatefile=".classpath.tmpl" destinationfile=".classpath"
-						  srcpattern="src/main/java,src/main/resources,src/test/java,src/test/resources,build/generated-sources/xjc"
-						  excludes="**/*ctcae-*.jar" ivylibdir="${user.home}/ivylibs"
-						  modulerefs="build-path">
+                          srcpattern="src/main/java,src/main/resources,src/test/java,src/test/resources,build/generated-sources/xjc"
+                          excludes="**/*ctcae-*.jar" ivylibdir="${user.home}/ivylibs"
+                          modulerefs="build-path">
         </eclipseClasspath>
 
     </target>
-	<!-- =================================
-		target: report-all
-	   ================================= -->
-	<target name="report-all" depends="buildlist" description="--> Generate report of all the project dependencies">
+    <!-- =================================
+         target: report-all
+        ================================= -->
+    <target name="report-all" depends="buildlist" description="--> Generate report of all the project dependencies">
         <subant target="report" buildpathref="build-path"/>
     </target>
 
 
-	<!-- ===================================================================
-		   target : java2html
-	   ====================================================================== -->
-	<target name="java2html" depends="load-ivy, clean-j2h"
-			description="--> Generates Html represenation of the source code">
+    <!-- ===================================================================
+            target : java2html
+        ====================================================================== -->
+    <target name="java2html" depends="load-ivy, clean-j2h"
+            description="--> Generates Html represenation of the source code">
         <ivy:resolve inline="true" organisation="java2html" module="j2h" revision="1.3.1"/>
         <ivy:cachepath organisation="java2html" module="j2h" revision="1.3.1" inline="true" pathid="j2h.classpath"/>
         <mkdir dir="${j2h.dir}"/>
         <taskdef name="java2html" classname="com.java2html.Java2HTMLTask" classpathref="j2h.classpath"/>
         <java2html title="ProCtcAe source code"
-				   simple="no"
-				   tabsize="4"
-				   marginsize="2"
-				   header="true"
-				   footer="false"
-				   destination="${j2h.dir}">
+                   simple="no"
+                   tabsize="4"
+                   marginsize="2"
+                   header="true"
+                   footer="false"
+                   destination="${j2h.dir}">
             <fileset dir="commons/src/main/java">
                 <include name="**/*.java"/>
             </fileset>
@@ -184,12 +188,12 @@
         </java2html>
     </target>
 
-	<!-- ================================================
-			  target: pmd-report
-		 ===================================================== -->
+    <!-- ================================================
+               target: pmd-report
+          ===================================================== -->
 
 
-	<target name="pmd" depends="load-ivy, clean-pmd" description="--> Generates the pmd report">
+    <target name="pmd" depends="load-ivy, clean-pmd" description="--> Generates the pmd report">
 
         <ivy:resolve inline="true" organisation="pmd" module="pmd" revision="4.2.1"/>
         <ivy:cachepath organisation="pmd" module="pmd" revision="4.2.1" inline="true" pathid="pmd.classpath"/>
@@ -214,20 +218,20 @@
     </target>
 
 
-	<!--- =================================================================================
-		   target : javadoc
-	   ======================================================================================= -->
-	<target name="javadoc" depends="load-ivy" description="Compile the Javadoc API documentation to javadoc dir">
+    <!--- =================================================================================
+            target : javadoc
+        ======================================================================================= -->
+    <target name="javadoc" depends="load-ivy" description="Compile the Javadoc API documentation to javadoc dir">
         <mkdir dir="${javadoc.dir}"/>
         <javadoc
-			destdir="${javadoc.dir}"
-			use="true"
-			protected="true"
-			version="true"
-			windowtitle="ProCtcAe API Documentation"
-			Overview="${javadoc.dir}/package.html"
-			doctitle="ProCtcAe API Documentation"
-			link="${sun.javadoc.link}">
+                destdir="${javadoc.dir}"
+                use="true"
+                protected="true"
+                version="true"
+                windowtitle="ProCtcAe API Documentation"
+                Overview="${javadoc.dir}/package.html"
+                doctitle="ProCtcAe API Documentation"
+                link="${sun.javadoc.link}">
             <fileset dir="commons/src/main/java">
                 <include name="**/*.java"/>
             </fileset>
@@ -243,22 +247,22 @@
         </javadoc>
 
 
-		<!--<javadoc packagenames="${javadoc.package.names}" sourcepath="${src.java}" destdir="${javadoc}" author="true"-->
-		<!--version="false" use="true"-->
-		<!--windowtitle="${ant.project.name} Application API" doctitle="${ant.project.name} Application API"-->
-		<!--bottom="Copyright &#169; 2007 ${company.name}. All Rights Reserved." classpath="${master.class.path}">-->
-		<!--<tag name="todo" scope="all" description="To do:"/>-->
-		<!--<link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>-->
-		<!--<link href="http://java.sun.com/j2ee/1.4/docs/api/"/>-->
-		<!--</javadoc>-->
+        <!--<javadoc packagenames="${javadoc.package.names}" sourcepath="${src.java}" destdir="${javadoc}" author="true"-->
+        <!--version="false" use="true"-->
+        <!--windowtitle="${ant.project.name} Application API" doctitle="${ant.project.name} Application API"-->
+        <!--bottom="Copyright &#169; 2007 ${company.name}. All Rights Reserved." classpath="${master.class.path}">-->
+        <!--<tag name="todo" scope="all" description="To do:"/>-->
+        <!--<link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>-->
+        <!--<link href="http://java.sun.com/j2ee/1.4/docs/api/"/>-->
+        <!--</javadoc>-->
 
 
     </target>
-	<!-- ==========================================================
-				 target : recreate-db-hudson
-				 This will recreate the db in hudson
-			 =============================================================-->
-	<target name="recreate-db-hudson">
+    <!-- ==========================================================
+                  target : recreate-db-hudson
+                  This will recreate the db in hudson
+              =============================================================-->
+    <target name="recreate-db-hudson">
         <subant target="recreate-db-hudson" buildpath="core/ivy-build.xml"/>
     </target>
 

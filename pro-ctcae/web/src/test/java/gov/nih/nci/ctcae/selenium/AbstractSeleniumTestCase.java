@@ -1,3 +1,5 @@
+package gov.nih.nci.ctcae.selenium;
+
 import com.thoughtworks.selenium.DefaultSelenium;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 import gov.nih.nci.ctcae.web.SeleniumProperties;
@@ -13,7 +15,7 @@ import java.util.List;
  * @crated Jan 26, 2009
  */
 public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
-    DefaultSelenium selenium;
+    protected DefaultSelenium selenium;
 
     private SeleniumProperties seleniumProperties;
 

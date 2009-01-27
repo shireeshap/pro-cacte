@@ -2,6 +2,7 @@
     <property name="parent.dir" value="${basedir}/.."/>
     <property file="${parent.dir}/build.properties"/>
     <import file="${parent.dir}/common.xml"/>
+    <property name="create-hsqldb.dbname" value="hsqldb-ctcae"/>
 
     <target name="module-specific-flow" depends="resolve">
         <mkdir dir="${classes.dir}/db"/>
@@ -9,98 +10,84 @@
     </target>
 
 
-	<!-- ========================================================================
-			target : jar-test
-				Will call aspectj-compile of test classes then delegates to common jar-test
-		============================================================================-->
-	<target name="jar-test" depends="common.jar-test">
+    <!-- ========================================================================
+             target : jar-test
+                 Will call aspectj-compile of test classes then delegates to common jar-test
+         ============================================================================-->
+    <target name="jar-test" depends="common.jar-test">
         <!--<makeJar dir="${dist.dir}" dir.classes="${test.classes.dir}" file.name="${test.jar.file}"/> -->
     </target>
 
 
-	<!-- ========================================================================
-		   target: load-datasource
-			   Will check the datsource properties identified by -Ddb=xxx, in USER_HOME/.ctcae/
-			   if not available there, it will search in /etc/ctcae/
-	   ============================================================================= -->
-	<target name="find-datasource" unless="dsFile.loaded" description="Loads the datasource properties">
-        <echo message="databaseConfigurationName : ${databaseConfigurationName}"/>
-        <condition property="dsFile" value="${user.home}/.ctcae/${databaseConfigurationName}.properties"
-				   else="/etc/ctcae/${databaseConfigurationName}.properties">
-            <available file="${user.home}/.ctcae/${databaseConfigurationName}.properties"/>
-        </condition>
-        <property name="dsFile.loaded" value="true"/>
-    </target>
-
-	<!-- ========================================================================
-			 target: migrate
-			  Will run the bering migration ..
-		 ============================================================================= -->
-	<target name="migrate" description="does bering migration" depends="resolve,find-datasource">
+    <!-- ========================================================================
+              target: migrate
+               Will run the bering migration ..
+          ============================================================================= -->
+    <target name="migrate" description="does bering migration" depends="resolve,find-datasource">
         <echo message="Datasource File : ${dsFile}"/>
         <property file="${dsFile}"/>
         <taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml" classpathref="main.classpath"/>
         <property name="migrate.version" value=""/>
         <property name="bering.dialect" value=""/>
         <migrate classpathRef="main.classpath"
-				 driver="${datasource.driver}"
-				 dialect="${bering.dialect}"
-				 url="${datasource.url}"
-				 userid="${datasource.username}"
-				 password="${datasource.password}"
-				 targetVersion="${migrate.version}"
-				 migrationsdir="${main.src}/../db/migrate"/>
+                 driver="${datasource.driver}"
+                 dialect="${bering.dialect}"
+                 url="${datasource.url}"
+                 userid="${datasource.username}"
+                 password="${datasource.password}"
+                 targetVersion="${migrate.version}"
+                 migrationsdir="${main.src}/../db/migrate"/>
         <echo message="migrate.version : ${migrate.version}"/>
         <echo message="bering.dialect : ${bering.dialect}"/>
     </target>
 
-	<!-- ========================================================================
-         target: migrate
-          Will run the bering migration ..
-     ============================================================================= -->
+    <!-- ========================================================================
+       target: migrate
+        Will run the bering migration ..
+   ============================================================================= -->
 
-	<target name="migrate-sample-data" description="add sample data" depends="find-datasource">
-			<taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="main.classpath"/>
-			<property file="${dsFile}"/>
-			<echo>add sample data into ${datasource.url}</echo>
-			<dbunit classpathRef="main.classpath"
-					driver="${datasource.driver}"
-					url="${datasource.url}"
-					userid="${datasource.username}"
-					password="${datasource.password}">
-				<operation type="INSERT"
-						   src="src/test/resources/gov/nih/nci/ctcae/core/sampledata/Sample_Data.xml"/>
-			</dbunit>
-		</target>
+    <target name="migrate-sample-data" description="add sample data" depends="find-datasource">
+        <taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="main.classpath"/>
+        <property file="${dsFile}"/>
+        <echo>add sample data into ${datasource.url}</echo>
+        <dbunit classpathRef="main.classpath"
+                driver="${datasource.driver}"
+                url="${datasource.url}"
+                userid="${datasource.username}"
+                password="${datasource.password}">
+            <operation type="INSERT"
+                       src="src/test/resources/gov/nih/nci/ctcae/core/sampledata/Sample_Data.xml"/>
+        </dbunit>
+    </target>
 
 
-	<!-- ========================================================================
-		   target: find-admin-datasource
-			   Will check the datsource properties identified by -Ddb=xxx, in USER_HOME/.ctcae/
-			   if not available there, it will search in /etc/ctcae/
-	   ============================================================================= -->
-	<target name="find-admin-datasource" unless="adminDsFile.loaded"
-			description="Loads the admin datasource properties">
+    <!-- ========================================================================
+            target: find-admin-datasource
+                Will check the datsource properties identified by -Ddb=xxx, in USER_HOME/.ctcae/
+                if not available there, it will search in /etc/ctcae/
+        ============================================================================= -->
+    <target name="find-admin-datasource" unless="adminDsFile.loaded"
+            description="Loads the admin datasource properties">
         <echo message="databaseConfigurationName : ${databaseConfigurationName}-admin"/>
         <condition property="adminDsFile" value="${user.home}/.ctcae/${databaseConfigurationName}-admin.properties"
-				   else="/etc/ctcae/${databaseConfigurationName}-admin.properties">
+                   else="/etc/ctcae/${databaseConfigurationName}-admin.properties">
             <available file="${user.home}/.ctcae/${databaseConfigurationName}-admin.properties"/>
         </condition>
         <property name="adminDsFile.loaded" value="true"/>
     </target>
-	<!-- ===============================================================================================
-			 target : recreate-db-hudson
-		  ================================================================================================= -->
-	<target name="recreate-db-hudson" description="drop the database and create new database"
-			depends="resolve, find-admin-datasource">
+    <!-- ===============================================================================================
+              target : recreate-db-hudson
+           ================================================================================================= -->
+    <target name="recreate-db-hudson" description="drop the database and create new database"
+            depends="resolve, find-admin-datasource">
         <property file="${adminDsFile}"/>
         <echo message="${datasource.driver}"/>
         <echo message="${datasource.url}"/>
         <echo message="${datasource.username}"/>
         <echo message="${datasource.password}"/>
         <sql driver="${datasource.driver}" userid="${datasource.username}" password="${datasource.password}"
-			 url="${datasource.url}"
-			 classpathref="main.classpath" onerror="abort" autocommit="true">
+             url="${datasource.url}"
+             classpathref="main.classpath" onerror="abort" autocommit="true">
             ${query1}
             ${query2}
             ${query3}
@@ -108,6 +95,53 @@
             ${query5}
             ${query6}
         </sql>
+    </target>
+
+
+    <!-- ========================================================================
+         target: create-hsqldb
+             will load hsql databse. use this database for running selenium test cases
+     ============================================================================= -->
+
+    <!-- N.b.: this task must not depend on init (directly or otherwise) or the automated build will break. -->
+    <target name="create-hsqldb" description="Creates the read-only HSQLDB instance for testing">
+        <property name="config.database" value="${create-hsqldb.dbname}"/>
+        <property name="hsqldb-dir" value="db/hsqldb"/>
+        <property name="create-hsqldb.url" value="jdbc:hsqldb:file:${basedir}/${hsqldb-dir}/${create-hsqldb.dbname}"/>
+        <delete dir="${hsqldb-dir}"/>
+
+        <propertyfile file="${user.home}/.ctcae/${config.database}.properties"
+                      comment="Generated by ProCtcAE's create-hsqldb task">
+            <entry key="datasource.url" value="${create-hsqldb.url}"/>
+            <entry key="datasource.username" value="sa"/>
+            <entry key="datasource.password" value=""/>
+            <entry key="datasource.driver" value="org.hsqldb.jdbcDriver"/>
+        </propertyfile>
+
+        <echo>${create-hsqldb.url}</echo>
+        <mkdir dir="${hsqldb-dir}"/>
+        <ant antfile="${basedir}/ivy-build.xml">
+            <property name="datasource.url" value="${create-hsqldb.url}"/>
+            <target name="hsqldb"/>
+            <target name="migrate"/>
+        </ant>
+
+        <sql driver="org.hsqldb.jdbcDriver" url="${create-hsqldb.url}"
+             userid="sa" password="" classpathref="main.classpath" autocommit="true">
+            <!-- database must be explicitly shutdown in HSQLDB >=1.7.2, so that the lock is
+     released and the tests can reopen it -->
+            SHUTDOWN SCRIPT;
+        </sql>
+
+        <echo>Marking ${create-hsqldb.url} read-only</echo>
+        <echo append="true" file="${hsqldb-dir}/${create-hsqldb.dbname}.properties">
+            hsqldb.files_readonly=true${line.separator}
+        </echo>
+    </target>
+
+    <target name="hsqldb">
+        <property name="dsFile" value="${user.home}/.ctcae/${create-hsqldb.dbname}.properties"/>
+
     </target>
 
 

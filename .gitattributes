@@ -862,8 +862,8 @@ pro-ctcae/web/src/main/webapp/js/tabbedflow.js -text
 pro-ctcae/web/src/main/webapp/js/tiger-menu.js -text
 pro-ctcae/web/src/main/webapp/js/tree.js -text
 pro-ctcae/web/src/main/webapp/js/validation.js -text
-pro-ctcae/web/src/test/java/AbstractSeleniumTestCase.java -text
-pro-ctcae/web/src/test/java/StudySeleniumTestCase.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/AbstractSeleniumTestCase.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/study/StudySeleniumTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AbstractWebIntegrationTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ApplicationConversionServiceTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AuditInfoFilterTest.java -text
@@ -934,5 +934,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tag/AuthorizeTagTest.java -tex
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTagTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tools/ObjectToolsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorTest.java -text
+pro-ctcae/web/src/test/resources/gov/nih/nci/ctcae/selenium/testdata/questions.xml -text
+pro-ctcae/web/src/test/resources/gov/nih/nci/ctcae/selenium/testdata/studies-participants.xml -text
 pro-ctcae/web/src/test/resources/gov/nih/nci/ctcae/web/applicationContext-selenium.xml -text
 pro-ctcae/web/web.iml -text

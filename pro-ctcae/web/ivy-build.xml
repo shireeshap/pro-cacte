@@ -105,4 +105,53 @@
         </java>
     </target>
 
+
+    <!-- ========================================================================
+       target: migrate-selenium-data
+        Will run the sample data migration for selenium..
+   ============================================================================= -->
+
+    <target name="migrate-selenium-data" description="add sample data" depends="find-datasource">
+        <taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="main.classpath"/>
+        <property file="${dsFile}"/>
+        <echo>add sample data into ${datasource.url}</echo>
+        <dbunit classpathRef="main.classpath"
+                driver="${datasource.driver}"
+                url="${datasource.url}"
+                userid="${datasource.username}"
+                password="${datasource.password}">
+            <operation type="INSERT"
+                       src="src/test/resources/gov/nih/nci/ctcae/selenium/testdata/studies-participants.xml"/>
+            <operation type="INSERT"
+                       src="src/test/resources/gov/nih/nci/ctcae/selenium/testdata/questions.xml"/>
+        </dbunit>
+    </target>
+
+    <!--<target name="build_tests" depends="clean, compile, start-server,  tests, stop-server"/>-->
+    <!-- ========================================================================
+       target: start-server
+        Will start the selenium server..
+   ============================================================================= -->
+
+    <target name="start-server">
+        <java jar="../tools/selenium/selenium-server.jar" fork="true" failonerror="true">
+            <!--<arg line="-timeout 30"/>-->
+            <!--<jvmarg value="-Dhttp.proxyHost=proxy.proxyhost.com" />-->
+            <!--<jvmarg value="-Dhttp.proxyPort=44444" />-->
+        </java>
+    </target>
+
+
+    <!-- ========================================================================
+       target: stop-server
+        Will stop the selenium server..
+   ============================================================================= -->
+    <target name="stop-server">
+        <get taskname="selenium-shutdown"
+             src="http://localhost:4444/selenium-server/driver/?cmd=shutDown"
+             dest="result.txt" ignoreerrors="true"/>
+        <echo taskname="selenium-shutdown" message="DGF Errors during shutdown are expected"/>
+    </target>
+
+
 </project>
