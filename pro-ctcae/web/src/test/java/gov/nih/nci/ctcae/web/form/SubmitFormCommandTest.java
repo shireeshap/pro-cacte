@@ -219,7 +219,6 @@ public class SubmitFormCommandTest extends WebTestCase {
 
         command.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
 
-        assertNull(command.getStudyParticipantCrfSchedule().getId());
         assertEquals(command.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getCrf().getId(), newCrf.getId());
         assertEquals(1, command.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size());
         assertEquals(1, command.getStudyParticipantCrfSchedule().getStudyParticipantCrfScheduleAddedQuestions().size());
@@ -239,7 +238,7 @@ public class SubmitFormCommandTest extends WebTestCase {
         assertEquals("", command.getDirection());
 
         command.setDirection("back_review");
-        assertEquals(10, command.getCurrentPageIndex());
+        assertEquals(2, command.getCurrentPageIndex());
         assertEquals("", command.getDirection());
 
     }
