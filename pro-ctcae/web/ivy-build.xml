@@ -152,7 +152,7 @@
    ============================================================================= -->
 
     <target name="start-server">
-        <java jar="../tools/selenium/selenium-server.jar" fork="true" failonerror="true">
+        <java jar="../tools/selenium/selenium-server.jar" fork="true" failonerror="true" spawn="true">
             <!--<arg line="-timeout 30"/>-->
             <!--<jvmarg value="-Dhttp.proxyHost=proxy.proxyhost.com" />-->
             <!--<jvmarg value="-Dhttp.proxyPort=44444" />-->
