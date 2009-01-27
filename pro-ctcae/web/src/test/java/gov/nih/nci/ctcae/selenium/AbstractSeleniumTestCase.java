@@ -17,7 +17,7 @@ import java.util.List;
 public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
     protected DefaultSelenium selenium;
 
-    private SeleniumProperties seleniumProperties;
+    protected SeleniumProperties seleniumProperties;
 
     @Override
     protected String[] getConfigLocations() {
@@ -89,7 +89,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
     }
 
 
-    private void selectAutoCompleter(String autoComplterInputId, String input, String selectedValue) {
+    protected void selectAutoCompleter(String autoComplterInputId, String input, String selectedValue) {
         String locator = autoComplterInputId + "-input";
 
         if (input.length() < 2) {
@@ -105,6 +105,33 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         selenium.click(selectedText);
     }
 
+    public void typeAutosuggest(String element, String text, String elemPresent)
+            throws InterruptedException {
+        selenium.click(element);
+        selenium.typeKeys(element, "");
+        selenium.typeKeys(element, text);
+        waitForElementPresent("//div[@id='" + elemPresent + "']/ul/li");
+
+        selenium.click("//div[@id='" + elemPresent + "']/ul/li[1]");
+        selenium.click(element);
+    }
+
+    public void waitForElementPresent(String xPathElement)
+            throws InterruptedException {
+        for (int second = 0; ; second++) {
+            if (second >= 60)
+                fail("Timed out waiting for element to be created: "
+                        + xPathElement);
+            try {
+                if (selenium.isElementPresent(xPathElement))
+                    break;
+            } catch (Exception e) {
+            }
+            Thread.sleep(1000);
+
+        }
+    }    
+
 
     public void loginAdmin() {
         login("SYSTEM_ADMIN", "system_admin");
@@ -117,14 +144,14 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         selenium.submit("login");
         selenium.waitForPageToLoad(seleniumProperties.getWaitTime());
     }
-
-    public void testSystemAdminLogin() {
-
-//        openLoginPage();
-//        loginAdmin();
-//        assertEquals("caAERS || Welcome to caAERS", selenium.getTitle());
-
-    }
+//
+//    public void testSystemAdminLogin() {
+//
+////        openLoginPage();
+////        loginAdmin();
+////        assertEquals("caAERS || Welcome to caAERS", selenium.getTitle());
+//
+//    }
 
     protected void openLoginPage() {
         selenium.open("/public/login");
@@ -144,6 +171,8 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
             loginAdmin();
         }
     }
+
+
 
     @Required
     public void setSeleniumProperties(SeleniumProperties seleniumProperties) {
