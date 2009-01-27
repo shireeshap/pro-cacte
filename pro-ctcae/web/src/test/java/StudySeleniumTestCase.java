@@ -19,7 +19,7 @@ public class StudySeleniumTestCase extends AbstractSeleniumTestCase {
 
     }
 
-    public void testSearchStudyByShorTitle() {
+    public void testSearchStudyByShortTitle() {
 
         searchStudy("%");
 

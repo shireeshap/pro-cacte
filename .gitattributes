@@ -262,7 +262,7 @@ pro-ctcae/tools/clover/clover-ant-2.4.0/tutorial/src/main/java/com/cenqua/sample
 pro-ctcae/tools/clover/clover-ant-2.4.0/tutorial/src/test/java/com/cenqua/samples/money/MoneyBagTest.java -text
 pro-ctcae/tools/clover/clover-ant-2.4.0/tutorial/src/test/java/com/cenqua/samples/money/MoneyTest.java -text
 pro-ctcae/tools/pmd/pmdRuleset.xml -text
-pro-ctcae/tools/selenium/selenium-server-0.8.1.jar -text
+pro-ctcae/tools/selenium/selenium-server.jar -text
 pro-ctcae/web/ivy-build.xml -text
 pro-ctcae/web/ivy.xml -text
 pro-ctcae/web/pom.xml -text
