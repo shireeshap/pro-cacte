@@ -11,7 +11,7 @@ public class SeleniumProperties {
     private String baseUrl;
     private String seleniumClientUrl;
     private String browser;
-
+    private String serverHost;
 
     public String getWaitTime() {
         return waitTime;
@@ -42,6 +42,14 @@ public class SeleniumProperties {
     @Required
     public void setSeleniumClientUrl(String seleniumClientUrl) {
         this.seleniumClientUrl = seleniumClientUrl;
+    }
+
+    public String getServerHost() {
+        return serverHost;
+    }
+
+    public void setServerHost(String serverHost) {
+        this.serverHost = serverHost;
     }
 
     @Required

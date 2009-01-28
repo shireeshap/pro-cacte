@@ -12,6 +12,7 @@
         <property name="waitTime" value="${selenium.wait.time}"/>
         <property name="baseUrl" value="${selenium.base.url}"/>
         <property name="seleniumClientUrl" value="${selenium.client.url}"/>
+        <property name="serverHost" value="${selenium.server.host}"/>
     </bean>
 
 
