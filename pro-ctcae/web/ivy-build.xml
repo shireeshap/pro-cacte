@@ -165,7 +165,7 @@
         Will start the selenium server..
    ============================================================================= -->
 
-    <target name="start-server">
+    <target name="start-server" depends="stop-server">
         <java jar="../tools/selenium/selenium-server.jar" fork="true" failonerror="true"/>
     </target>
 
@@ -179,7 +179,7 @@
         <echo message="shutdown failed" file="selenium-shutdown-result.txt"/>
         <property file="${seleniumFile}"/>
 
-        <get src="http://${selenium.server.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDown"
+        <get src="http://localhost:4444/selenium-server/driver/?cmd=shutDown"
              dest="selenium-shutdown-result.txt"
              ignoreerrors="true"/>
         <loadfile property="selenium.shutdown.results" srcfile="selenium-shutdown-result.txt"/>
