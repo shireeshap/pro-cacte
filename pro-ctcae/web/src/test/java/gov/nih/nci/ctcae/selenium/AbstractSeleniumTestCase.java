@@ -38,9 +38,18 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
 
     @Override
     protected void onTearDownAfterTransaction() throws Exception {
-        super.onTearDownAfterTransaction();
+
+        deleteFromTables(new String[]{"study_participant_crf_items",
+                "sp_crf_schedules",
+                "study_participant_crfs",
+                "crf_page_item_display_rules",
+                "crf_page_items",
+                "CRF_PAGES",
+                 "CRFS"});
 
         selenium.stop();
+
+        super.onTearDownAfterTransaction();
 
     }
 
@@ -104,6 +113,40 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         selenium.waitForCondition(String.format("selenium.isTextPresent('%s')", selectedValue), "10000");
         selenium.click(selectedText);
     }
+
+    public void createForm(String title) throws InterruptedException {
+        String formTitle = title;
+        selenium.open("/ctcae/pages/form/manageForm;jsessionid=49D7D0CAE625FDD18B54526844931B79");
+        selenium.setSpeed("1000");
+        typeAutosuggest("study-input", "p", "study-choices");
+        selenium.click("//div[@id='study-choices']/ul/li[1]");
+        selenium.click("newFormUrl");
+        selenium.waitForPageToLoad(seleniumProperties.getWaitTime());
+        selenium.click("crfTitle");
+        //    selenium.type("value", "testformselenium_" + new Date().getTime());
+        selenium.type("crf.title", formTitle);
+        selenium.click("//img[@alt='Add']");
+        selenium.click("//a[@id='proCtcTerm_29']/img");
+        selenium.click("//a[@id='proCtcTerm_15']/img");
+        selenium.click("proCtcTerm_18");
+        selenium.click("flow-next");
+        selenium.waitForPageToLoad("30000");
+        assertTrue(selenium.isTextPresent("The Form was saved successfully"));
+
+    }
+
+    public void searchForm(String title) throws InterruptedException {
+        String formTitle = title;
+        selenium.open("/ctcae/pages/form/manageForm");
+        selenium.setSpeed("1000");
+        selenium.click("secondlevelnav_manageFormController");
+        selenium.waitForPageToLoad("30000");
+        typeAutosuggest("study-input", "p", "study-choices");
+        selenium.click("//div[@id='study-choices']/ul/li[1]");
+        selenium.waitForCondition(String.format("selenium.isTextPresent('%s')", formTitle), "10000");
+
+    }
+
 
     public void typeAutosuggest(String element, String text, String elemPresent)
             throws InterruptedException {

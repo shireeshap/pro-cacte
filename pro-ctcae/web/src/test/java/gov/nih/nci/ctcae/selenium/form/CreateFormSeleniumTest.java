@@ -12,7 +12,7 @@ import java.util.Date;
 
 import gov.nih.nci.ctcae.selenium.AbstractSeleniumTestCase;
 
-public class CreateFormSeleniumTestCase extends AbstractSeleniumTestCase {
+public class CreateFormSeleniumTest extends AbstractSeleniumTestCase {
     public void testNew() throws Exception {
         selenium.open("/ctcae/pages/form/manageForm;jsessionid=49D7D0CAE625FDD18B54526844931B79");
         selenium.setSpeed("1000");
@@ -21,7 +21,7 @@ public class CreateFormSeleniumTestCase extends AbstractSeleniumTestCase {
         selenium.click("newFormUrl");
         selenium.waitForPageToLoad(seleniumProperties.getWaitTime());
         selenium.click("crfTitle");
-    //    selenium.type("value", "testformselenium_" + new Date().getTime());
+        //    selenium.type("value", "testformselenium_" + new Date().getTime());
         selenium.type("crf.title", "testformselenium_" + new Date().getTime());
         selenium.click("//img[@alt='Add']");
         selenium.click("//a[@id='proCtcTerm_29']/img");
@@ -29,9 +29,18 @@ public class CreateFormSeleniumTestCase extends AbstractSeleniumTestCase {
         selenium.click("proCtcTerm_18");
         selenium.click("flow-next");
         selenium.waitForPageToLoad("30000");
-    }
+        assertTrue(selenium.isTextPresent("The Form was saved successfully"));
+
 
     }
+
+    @Override
+    protected void onTearDownAfterTransaction() throws Exception {
+        super.onTearDownAfterTransaction();
+    }
+}
+
+
 
 
 
