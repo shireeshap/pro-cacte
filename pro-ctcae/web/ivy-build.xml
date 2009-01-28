@@ -189,9 +189,29 @@
     so for example. if you want to use firefox with postgress, use -Ddb=fiefox-postgres or use -Ddb=ie-oracle (if you want to use ie on oracle)
     -->
 
-    <target name="migrate-selenium-proeprtis-to-hsql" depends="find-datasource">
-        <echo message="Selenium properties File : ${dsFile}"/>
-        <property file="${dsFile}"/>
+    <!-- The default selenium setting to be used
+         can be overriden using -Dselenium=xxxx runtime option.
+    -->
+    <condition property="seleniumFileConfigurationName" else="${default.selenium}" value="${selenium}">
+        <isset property="selenium"/>
+    </condition>
+
+    <target name="find-selenium" unless="seleniumFile.loaded" description="Loads the seleniumFile properties">
+        <echo message="seleniumFileConfigurationName : ${seleniumFileConfigurationName}"/>
+        <condition property="seleniumFile" value="${user.home}/.ctcae/${seleniumFileConfigurationName}.properties"
+                   else="/etc/ctcae/${seleniumFileConfigurationName}.properties">
+            <available file="${user.home}/.ctcae/${seleniumFileConfigurationName}.properties"/>
+        </condition>
+        <property name="seleniumFile.loaded" value="true"/>
+    </target>
+
+    <!--this is required only for hsql db. Please define selenium properties in databse-specefic.properties file if you are using any other database
+    -->
+
+
+    <target name="migrate-selenium-proeprtis-to-hsql" depends="find-selenium">
+        <echo message="Selenium properties File : ${seleniumFileConfigurationName}"/>
+        <property file="${seleniumFile}"/>
 
         <property name="selenium.browser" value="${selenium.browser}"/>
         <property name="selenium.base.url" value="${selenium.base.url}"/>
