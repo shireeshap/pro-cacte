@@ -1,6 +1,8 @@
 <project name="ctcae-web" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
     <property name="parent.dir" value="${basedir}/.."/>
     <property file="${parent.dir}/build.properties"/>
+    <property name="default.selenium" value="selenium"/>
+
 
     <!-- Logic that finds the conf to be used while making war -->
     <condition property="webConf" value="distGrid" else="dist">
@@ -128,35 +130,43 @@
     </target>
 
 
-    <condition property="selenium-testPattern" value="**/${test}.class"
-               else="gov/nih/nci/ctcae/selenium/study/*Test.class">
-        <isset property="test"/>
-    </condition>
+    <target name="selenium-test" if="run.test" depends="clean-test-results, compile-test,resolve-test,start-server"
+            description="Runs the selenium testcases">
 
+        <echo message="Executing in ${ant.project.name}"/>
+        <echo
+                message="Test results dir: ${test.results.dir}, with pattern ${selenium-testPattern} and classes from ${test.classes.dir}"/>
+        <mkdir dir="${test.results.dir}"/>
 
-    <target name="selenium-test" if="run.test" description="Runs the selenium testcases">
+        <echo message="clover path is ${clover.jar}"></echo>
 
-        <antcall target="test">
-            <param name="testPattern" value="${selenium-testPattern}"/>
-        </antcall>
+        <junit printsummary="yes" errorproperty="test.failed" failureproperty="test.failed"
+               showoutput="true" fork="true" forkmode="once" timeout="600000">
 
-        <antcall target="stop-server">
-        </antcall>
+            <classpath refid="test.run.classpath"/>
+            <classpath>
+                <pathelement path="${clover.jar}"/>
+            </classpath>
+
+            <formatter type="plain"/>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="${test.results.dir}">
+                <fileset dir="${test.classes.dir}">
+                    <include name="${selenium-testPattern}"/>
+                </fileset>
+            </batchtest>
+        </junit>
+
 
     </target>
-
 
     <!-- ========================================================================
        target: start-server
         Will start the selenium server..
    ============================================================================= -->
 
-    <target name="start-server">
-        <java jar="../tools/selenium/selenium-server.jar" fork="true" failonerror="true" spawn="true">
-            <!--<arg line="-timeout 30"/>-->
-            <!--<jvmarg value="-Dhttp.proxyHost=proxy.proxyhost.com" />-->
-            <!--<jvmarg value="-Dhttp.proxyPort=44444" />-->
-        </java>
+    <target name="start-server" depends="stop-server">
+        <java jar="../tools/selenium/selenium-server.jar" fork="true" spawn="true"/>
     </target>
 
 
@@ -164,11 +174,43 @@
        target: stop-server
         Will stop the selenium server..
    ============================================================================= -->
-    <target name="stop-server">
-        <get taskname="selenium-shutdown"
-             src="http://localhost:4444/selenium-server/driver/?cmd=shutDown"
-             dest="result.txt" ignoreerrors="true"/>
-        <echo taskname="selenium-shutdown" message="DGF Errors during shutdown are expected"/>
+
+    <target name="stop-server" description="description">
+        <echo message="shutdown failed" file="selenium-shutdown-result.txt"/>
+        <get src="http://localhost:4444/selenium-server/driver/?cmd=shutDown" dest="selenium-shutdown-result.txt"
+             ignoreerrors="true"/>
+        <loadfile property="selenium.shutdown.results" srcfile="selenium-shutdown-result.txt"/>
+        <echo message="selenium shutdown status: ${selenium.shutdown.results}"/>
+    </target>
+
+
+    <!--this is required only for hsql db. Please define selenium properties in databse-specefic.properties file if you are using any other database ...
+
+    so for example. if you want to use firefox with postgress, use -Ddb=fiefox-postgres or use -Ddb=ie-oracle (if you want to use ie on oracle)
+    -->
+
+    <target name="migrate-selenium-proeprtis-to-hsql" depends="find-datasource">
+        <echo message="Selenium properties File : ${dsFile}"/>
+        <property file="${dsFile}"/>
+
+        <property name="selenium.browser" value="${selenium.browser}"/>
+        <property name="selenium.base.url" value="${selenium.base.url}"/>
+        <property name="selenium.client.url" value="${selenium.client.url}"/>
+        <property name="selenium.wait.time" value="${selenium.wait.time}"/>
+
+        <echo message="selenium.browser: ${selenium.browser}"/>
+        <echo message="selenium.base.url: ${selenium.base.url}"/>
+        <echo message="selenium.client.url: ${selenium.client.url}"/>
+        <echo message="selenium.wait.time: ${selenium.wait.time}"/>
+
+        <propertyfile file="${user.home}/.ctcae/${create-hsqldb.dbname}.properties"
+                      comment="Generated by ProCtcAE's create-hsqldb task">
+            <entry key="selenium.browser" value="${selenium.browser}"/>
+            <entry key="selenium.base.url" value="${selenium.base.url}"/>
+            <entry key="selenium.client.url" value="${selenium.client.url}"/>
+            <entry key="selenium.wait.time" value="${selenium.wait.time}"/>
+        </propertyfile>
+
     </target>
 
 

@@ -616,6 +616,12 @@
     </condition>
 
 
+    <condition property="selenium-testPattern" value="**/${test}.class"
+               else="gov/nih/nci/ctcae/selenium/**/*Test.class">
+        <isset property="test"/>
+    </condition>
+
+
     <target name="test" if="run.test" depends="clean-test-results, compile-test,resolve-test"
             description="Runs the testcases">
         <echo message="Executing in ${ant.project.name}"/>
@@ -638,6 +644,7 @@
             <batchtest fork="yes" todir="${test.results.dir}">
                 <fileset dir="${test.classes.dir}">
                     <include name="${testPattern}"/>
+                    <exclude name="${selenium-testPattern}"/>
                 </fileset>
             </batchtest>
         </junit>

@@ -23,7 +23,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
     protected String[] getConfigLocations() {
         String[] configLocations = super.getConfigLocations();
         List<String> list = new ArrayList<String>(Arrays.asList(configLocations));
-        list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-selenium.xml");
+        list.add("classpath*:gov/nih/nci/ctcae/selenium/applicationContext-selenium.xml");
         return list.toArray(new String[]{});
 
 
@@ -40,7 +40,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
     protected void onTearDownAfterTransaction() throws Exception {
         super.onTearDownAfterTransaction();
 
-        // selenium.stop();
+        selenium.stop();
 
     }
 
@@ -130,7 +130,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
             Thread.sleep(1000);
 
         }
-    }    
+    }
 
 
     public void loginAdmin() {
@@ -171,7 +171,6 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
             loginAdmin();
         }
     }
-
 
 
     @Required
