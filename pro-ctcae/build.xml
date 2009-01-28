@@ -280,12 +280,12 @@
                         target : autoBuild-selenium
                         This will build and run selenium test cases
     =============================================================-->
-    <target name="autoBuild-selenium" description="build and run selenium test cases" depends="create-hsqldb">
+    <target name="autoBuild-selenium" description="build and run selenium test cases">
 
-        <antcall target="publish-all">
-            <param name="db" value="${create-hsqldb.dbname}"/>
-            <param name="skip.test" value="true"/>
-        </antcall>
+        <!--<antcall target="publish-all">-->
+        <!--<param name="db" value="${create-hsqldb.dbname}"/>-->
+        <!--<param name="skip.test" value="true"/>-->
+        <!--</antcall>-->
 
         <subant target="migrate-selenium-data" buildpath="web/ivy-build.xml">
             <property name="db" value="${create-hsqldb.dbname}"/>
