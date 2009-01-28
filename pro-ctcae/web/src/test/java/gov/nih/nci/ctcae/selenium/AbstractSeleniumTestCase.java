@@ -45,7 +45,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
     }
 
     protected DefaultSelenium createSeleniumClient(String url) throws Exception {
-        DefaultSelenium defaultSelenium = new DefaultSelenium(seleniumProperties.getServerHost(), 4444, seleniumProperties.getBrowser(), url);
+        DefaultSelenium defaultSelenium = new DefaultSelenium(seleniumProperties.getServerHost(), seleniumProperties.getServerPort(), seleniumProperties.getBrowser(), url);
         return defaultSelenium;
     }
 

@@ -7,11 +7,21 @@ import org.springframework.beans.factory.annotation.Required;
  * @crated Jan 26, 2009
  */
 public class SeleniumProperties {
-    String waitTime;
+    private String waitTime;
     private String baseUrl;
     private String seleniumClientUrl;
     private String browser;
     private String serverHost;
+    private Integer serverPort;
+
+
+    public Integer getServerPort() {
+        return serverPort;
+    }
+
+    public void setServerPort(Integer serverPort) {
+        this.serverPort = serverPort;
+    }
 
     public String getWaitTime() {
         return waitTime;

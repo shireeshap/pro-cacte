@@ -58,19 +58,19 @@ public class StudySeleniumTest extends AbstractSeleniumTestCase {
     }
 
 
-    public void testCreateOrganiationForExistingIdentifier() {
-
-        //createStudy("Org name", NCI_CODE);
-        //validateStudyCreation("Org name", NCI_CODE);
-
-        //now create the same organization again
-
-        //createStudy("another org name", NCI_CODE);
-
-        assertTrue("two organizations must not have same identifier", selenium.isTextPresent("Nci Identifier already exists in the datbase"));
-
-    }
-
+//    public void testCreateOrganiationForExistingIdentifier() {
+//
+//        //createStudy("Org name", NCI_CODE);
+//        //validateStudyCreation("Org name", NCI_CODE);
+//
+//        //now create the same organization again
+//
+//        //createStudy("another org name", NCI_CODE);
+//
+//      //  assertTrue("two organizations must not have same identifier", selenium.isTextPresent("Nci Identifier already exists in the datbase"));
+//
+//    }
+//
 
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
