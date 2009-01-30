@@ -2,7 +2,6 @@
          xmlns:ivy="antlib:org.apache.ivy.ant">
 
     <property environment="env"/>
-    <property name="create-hsqldb.dbname" value="hsqldb-ctcae"/>
     <property name="default.datasource" value="datasource"/>
 
     <!-- Ivy jar location -->

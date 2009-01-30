@@ -34,6 +34,8 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         super.onSetUpInTransaction();
         selenium = createSeleniumClient(seleniumProperties.getSeleniumClientUrl());
         selenium.start();
+        logger.debug("selenium server started for:" + seleniumProperties.getSeleniumClientUrl());
+
     }
 
     @Override
@@ -45,7 +47,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
                 "crf_page_item_display_rules",
                 "crf_page_items",
                 "CRF_PAGES",
-                 "CRFS"});
+                "CRFS"});
 
         selenium.stop();
 
