@@ -16,15 +16,14 @@ public class EditFormSeleniumTest extends AbstractSeleniumTestCase {
         selenium.setSpeed("1000");
         typeStudyAutoCompleter("p");
         selenium.click("link=Edit");
-        selenium.waitForPageToLoad("30000");
-        selenium.click("crfTitle");
-        selenium.type("value", "abc");
-        selenium.type("crf.title", "abc");
 
-        selenium.click("//a[@id='proCtcTerm_-2']/img");
-        selenium.click("flow-next");
-        selenium.waitForPageToLoad("30000");
-        assertTrue(selenium.isTextPresent("The Form was saved successfully"));
+
+        selenium.waitForPageToLoad(seleniumProperties.getWaitTime());
+
+        updateCrfTitle("abc");
+
+
+        postProcessFormSave();
         assertTrue(selenium.isTextPresent("abc"));
 
 

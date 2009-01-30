@@ -36,11 +36,22 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         selenium.start();
         logger.debug("selenium server started for:" + seleniumProperties.getSeleniumClientUrl());
 
+        dropData();
+
     }
 
     @Override
     protected void onTearDownAfterTransaction() throws Exception {
 
+        dropData();
+
+        // selenium.stop();
+
+        super.onTearDownAfterTransaction();
+
+    }
+
+    private void dropData() {
         deleteFromTables(new String[]{"study_participant_crf_items",
                 "sp_crf_schedules",
                 "study_participant_crfs",
@@ -48,11 +59,6 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
                 "crf_page_items",
                 "CRF_PAGES",
                 "CRFS"});
-
-        selenium.stop();
-
-        super.onTearDownAfterTransaction();
-
     }
 
     protected DefaultSelenium createSeleniumClient(String url) throws Exception {
@@ -121,28 +127,60 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
 
     public void createForm(String title) throws InterruptedException {
         String formTitle = title;
-        selenium.open("/ctcae/pages/form/manageForm;jsessionid=49D7D0CAE625FDD18B54526844931B79");
+        openManageForm();
         selenium.setSpeed("1000");
 
         typeStudyAutoCompleter("p");
         selenium.click("newFormUrl");
+
         selenium.waitForPageToLoad(seleniumProperties.getWaitTime());
+
+
+        updateCrfTitle(formTitle);
+
+        addFatigueTerm();
+
+        postProcessFormSave();
+
+
+    }
+
+    public void openManageForm() {
+        selenium.open("/ctcae/pages/form/manageForm");
+    }
+
+    public void updateCrfTitle(String formTitle) {
         selenium.click("crfTitle");
-        //    selenium.type("value", "testformselenium_" + new Date().getTime());
         selenium.type("crf.title", formTitle);
+    }
+
+    public void addConstipationTerm() {
+        selenium.click("//a[@id='proCtcTerm_-2']/img");
+        selenium.waitForCondition(String.format("selenium.isTextPresent('%s')", "how OFTEN did you have Constipation"), seleniumProperties.getWaitTime());
+
+    }
+
+    public void addFatigueTerm() {
         selenium.click("//img[@alt='Add']");
+        selenium.waitForCondition(String.format("selenium.isTextPresent('%s')", "how OFTEN did you have Fatigue "), seleniumProperties.getWaitTime());
+
+    }
+
+    public void postProcessFormSave() {
+        addConstipationTerm();
+
         selenium.click("flow-next");
-        selenium.waitForPageToLoad("30000");
+        selenium.waitForPageToLoad(seleniumProperties.getWaitTime());
         assertTrue(selenium.isTextPresent("The Form was saved successfully"));
 
     }
 
     public void searchForm(String title) throws InterruptedException {
         String formTitle = title;
-        selenium.open("/ctcae/pages/form/manageForm");
+        openManageForm();
         selenium.setSpeed("1000");
         selenium.click("secondlevelnav_manageFormController");
-        selenium.waitForPageToLoad("30000");
+        selenium.waitForPageToLoad(seleniumProperties.getWaitTime());
         typeAutosuggest("study-input", "p", "study-choices");
         selenium.waitForCondition(String.format("selenium.isTextPresent('%s')", formTitle), "10000");
 

@@ -5,12 +5,9 @@ package gov.nih.nci.ctcae.selenium.form;
  * Date: Jan 27, 2009
  */
 
-import com.thoughtworks.selenium.*;
-
-import java.util.regex.Pattern;
-import java.util.Date;
-
 import gov.nih.nci.ctcae.selenium.AbstractSeleniumTestCase;
+
+import java.util.Date;
 
 public class CreateFormSeleniumTest extends AbstractSeleniumTestCase {
     public void testNew() throws Exception {
@@ -24,10 +21,9 @@ public class CreateFormSeleniumTest extends AbstractSeleniumTestCase {
         selenium.type("crf.title", "testformselenium_" + new Date().getTime());
         selenium.click("//img[@alt='Add']");
         selenium.click("//img[@alt='Add']");
-		selenium.click("//a[@id='proCtcTerm_-2']/img");
-        selenium.click("flow-next");
-        selenium.waitForPageToLoad("30000");
-        assertTrue(selenium.isTextPresent("The Form was saved successfully"));
+
+        postProcessFormSave();
+
         selenium.click("secondlevelnav_manageFormController");
         selenium.waitForPageToLoad("30000");
         typeAutosuggest("study-input", "p", "study-choices");
