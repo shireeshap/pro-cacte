@@ -19,6 +19,8 @@
         <pattern>/pages/participant/assignParticipant</pattern>
         <pattern>/pages/form/createForm</pattern>
         <pattern>/pages/form/editForm</pattern>
+        <pattern>/pages/form/basicForm</pattern>
+        <pattern>/pages/form/advanceForm</pattern>
         <pattern>/pages/participant/schedulecrf</pattern>
     </decorator>
 
