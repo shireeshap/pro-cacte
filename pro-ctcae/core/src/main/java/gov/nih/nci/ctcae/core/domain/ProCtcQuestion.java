@@ -79,20 +79,6 @@ public class ProCtcQuestion extends BasePersistable {
     }
 
 
-    public String getFormattedQuestionText() {
-        String questionTextNew = "";
-        if (proCtcQuestionType != null && proCtcQuestionType.equals(ProCtcQuestionType.SEVERITY)) {
-            questionTextNew = "Over the past week, what was the WORST SEVERITY of your " + proCtcTerm.getCtcTerm().getCtepTerm();
-        }
-        if (proCtcQuestionType != null && proCtcQuestionType.equals(ProCtcQuestionType.INTERFERENCE)) {
-            questionTextNew = "Over the past week, how much has the " + proCtcTerm.getCtcTerm().getCtepTerm() + " INTERFERED with your daily activities";
-        }
-        if (proCtcQuestionType != null && proCtcQuestionType.equals(ProCtcQuestionType.FREQUENCY)) {
-            questionTextNew = "Over the past week, how OFTEN did you have " + proCtcTerm.getCtcTerm().getCtepTerm();
-        }
-        return questionTextNew;
-    }
-
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }

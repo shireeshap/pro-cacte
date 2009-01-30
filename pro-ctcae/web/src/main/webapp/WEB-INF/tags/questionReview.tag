@@ -37,7 +37,7 @@
               <c:if test="${crfPageItem.responseRequired == true}">
                   <span class="required-indicator">*</span>
               </c:if>
-              ${crfPageItem.proCtcQuestion.formattedQuestionText}
+              ${crfPageItem.proCtcQuestion.questionText}
               <img alt="Conditional Question" src="<tags:imageUrl name="blue/conditional-icon.png"/>"
                    id="conditionsImage_${crfPageItem.proCtcQuestion.id}" style="display:none;"/>
 

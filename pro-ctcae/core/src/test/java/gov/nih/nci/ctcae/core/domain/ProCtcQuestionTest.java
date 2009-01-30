@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import junit.framework.TestCase;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Harsh Agarwal
@@ -21,21 +20,6 @@ public class ProCtcQuestionTest extends TestCase {
         assertEquals("How is the pain?", proCtcQuestion.getQuestionText());
     }
 
-    public void testGetFormatedquestionText() {
-        proCtcQuestion = new ProCtcQuestion();
-        assertTrue(StringUtils.isBlank(proCtcQuestion.getFormattedQuestionText()));
-        proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.FREQUENCY);
-        ProCtcTerm term = new ProCtcTerm();
-        term.setCtcTerm(new CtcTerm());
-        term.getCtcTerm().setCtepTerm("Pain");
-        proCtcQuestion.setProCtcTerm(term);
-
-        assertEquals("Over the past week, how OFTEN did you have Pain", proCtcQuestion.getFormattedQuestionText());
-        proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.SEVERITY);
-        assertEquals("Over the past week, what was the WORST SEVERITY of your Pain", proCtcQuestion.getFormattedQuestionText());
-        proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.INTERFERENCE);
-        assertEquals("Over the past week, how much has the Pain INTERFERED with your daily activities", proCtcQuestion.getFormattedQuestionText());
-    }
 
     public void testEqualsAndHashCode() {
         ProCtcQuestion anotherProCtcQuestion = null;
