@@ -9,9 +9,9 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
  */
 public enum RecallPeriod implements CodedEnum<String> {
 
-    WEEKLY("recall.period.weekly"),
-    MONTHLY("recall.period.monthly"),
-    LAST_CANCER_TREATMENT("recall.period.last.cancer.treatment");
+    WEEKLY("over the past 7 days"),
+    MONTHLY("over the past 30 days"),
+    LAST_CANCER_TREATMENT("since your last cancer treatment");
 
     private final String displayText;
 

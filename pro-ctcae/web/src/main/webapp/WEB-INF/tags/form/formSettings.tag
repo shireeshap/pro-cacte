@@ -35,7 +35,7 @@
                            id="crf.recallPeriod-radio-${status.index}"
                            value="${code}"
                            checked="checked" style="margin:3px" onclick="javascript:selectRecallPeriod()"/>
-                    ${desc}
+                    <tags:recallPeriodFormatter desc="${desc}"/>
                     <c:set var="otherSpecify" value=""/>
 
                 </c:when><c:when test="${item.code eq crf.recallPeriod}">
@@ -43,7 +43,7 @@
                        id="crf.recallPeriod-radio-${status.index}"
                        value="${code}"
                        checked="checked" style="margin:3px" onclick="javascript:selectRecallPeriod()"/>
-                ${desc}
+                <tags:recallPeriodFormatter desc="${desc}"/>
                 <c:set var="otherSpecify" value=""/>
 
             </c:when>
@@ -51,7 +51,9 @@
                     <input type="radio" class="longselect-radio recallperiod" name="crf.recallPeriod"
                            id="crf.recallPeriod-radio-${status.index}"
                            value="${code}"
-                           style="margin:3px" onclick="javascript:selectRecallPeriod()"/>${desc}
+                           style="margin:3px" onclick="javascript:selectRecallPeriod()"/> <tags:recallPeriodFormatter
+                        desc="${desc}"/>
+
                 </c:otherwise>
             </c:choose>
             <br>

@@ -441,6 +441,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/participantcalendar.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/printRow.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/putSpecialRequiredIndicator.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/questionReview.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/recallPeriodFormatter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderAutocompleter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderCheckBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderDate.tag -text

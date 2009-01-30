@@ -150,7 +150,7 @@
     <div class="currentPagediv">
         Progress:
     </div>
-    <div class="label">${command.pageHeader}</div>
+    <div class="label"><tags:recallPeriodFormatter desc="${command.pageHeader}"/></div>
     <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfItems}" var="participantCrfItem"
                varStatus="crfitemstatus">
         <tags:formbuilderBox id="question_${participantCrfItem.crfPageItem.id}" style="display:none">

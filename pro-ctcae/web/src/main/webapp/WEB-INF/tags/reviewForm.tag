@@ -34,7 +34,7 @@
                     <div class="formpageheader">
                             ${crfPage.description}
                     </div>
-                            ${crfPage.instructions}
+                    <tags:recallPeriodFormatter desc="${crfPage.instructions}"/>
                     <br>
 
                     <c:forEach items="${crfPage.crfItemsSortedByDislayOrder}" var="crfPageItem">
