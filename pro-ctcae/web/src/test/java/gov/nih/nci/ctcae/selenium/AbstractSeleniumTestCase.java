@@ -45,7 +45,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
 
         dropData();
 
-        // selenium.stop();
+        selenium.stop();
 
         super.onTearDownAfterTransaction();
 
@@ -73,19 +73,17 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         String assignedIdentifier = randomString();
 
         openCreateStudyPage();
-        selenium.type("shortTitle", shortTitle);
-        selenium.type("assignedIdentifier", assignedIdentifier);
-        selenium.type("longTitle", longTitle);
-
-        String autoComplterInputId = "studyCoordinatingCenter.organization";
-        String selectedValue = "National";
-        selectAutoCompleter("studyFundingSponsor.organization", "forest", "Wake");
-
-        selectAutoCompleter(autoComplterInputId, "nci", selectedValue);
+        selenium.type("study.shortTitle", shortTitle);
+        selenium.type("study.assignedIdentifier", assignedIdentifier);
+        selenium.type("study.longTitle", longTitle);
 
 
-        selenium.click("submitButton");
-        selenium.waitForPageToLoad("5000");
+        selectAutoCompleter("study.studyFundingSponsor.organization", "forest", "Wake");
+        selectAutoCompleter("study.studyCoordinatingCenter.organization", "forest", "Wake");
+
+
+        selenium.click("flow-next");
+        selenium.waitForPageToLoad(seleniumProperties.getWaitTime());
 
 
         assertTrue(selenium.isTextPresent("Confirmation"));
@@ -93,7 +91,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         assertTrue(selenium.isTextPresent(longTitle));
         assertTrue(selenium.isTextPresent(assignedIdentifier));
         assertTrue(selenium.isTextPresent("Wake"));
-        assertTrue(selenium.isTextPresent("National"));
+        assertTrue(selenium.isTextPresent("Wake"));
 
     }
 

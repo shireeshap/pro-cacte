@@ -16,12 +16,6 @@ public class StudySeleniumTest extends AbstractSeleniumTestCase {
     private StudyRepository studyRepository;
 
 
-    public void testCreateStudy() {
-        createStudy();
-
-
-    }
-
     public void testSearchStudyByShortTitle() {
 
         searchStudy("%");
