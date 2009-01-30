@@ -99,6 +99,9 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         //      return UUID.randomUUID().toString();
     }
 
+    public void typeStudyAutoCompleter(final String studySearchString) throws InterruptedException {
+        typeAutosuggest("study-input", studySearchString, "study-choices");
+    }
 
     protected void selectAutoCompleter(String autoComplterInputId, String input, String selectedValue) {
         String locator = autoComplterInputId + "-input";
@@ -120,7 +123,8 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         String formTitle = title;
         selenium.open("/ctcae/pages/form/manageForm;jsessionid=49D7D0CAE625FDD18B54526844931B79");
         selenium.setSpeed("1000");
-        typeAutosuggest("study-input", "p", "study-choices");
+
+        typeStudyAutoCompleter("p");
         selenium.click("newFormUrl");
         selenium.waitForPageToLoad(seleniumProperties.getWaitTime());
         selenium.click("crfTitle");

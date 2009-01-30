@@ -14,7 +14,7 @@ public class EditFormSeleniumTest extends AbstractSeleniumTestCase {
 
         selenium.open("/ctcae/pages/form/manageForm");
         selenium.setSpeed("1000");
-        typeAutosuggest("study-input", "p", "study-choices");
+        typeStudyAutoCompleter("p");
         selenium.click("link=Edit");
         selenium.waitForPageToLoad("30000");
         selenium.click("crfTitle");
@@ -29,4 +29,6 @@ public class EditFormSeleniumTest extends AbstractSeleniumTestCase {
 
 
     }
+
+
 }
