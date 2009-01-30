@@ -57,11 +57,12 @@
     </style>
 </head>
 <body>
+<c:set var="todaysdate" value="<%= new Date()%>"/>
 <%--this loop is the same code as below that renders the forms, but it just gets the number of forms to display under the 'Inbox' text--%>
 <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
         <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
-            <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || studyParticipantCrfSchedule.status eq 'Scheduled'}">
+            <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
                 <c:set var="numberofCrfs" scope="page" value="${numberofCrfs + 1}"/>
             </c:if>
         </c:forEach>
@@ -87,12 +88,12 @@
     </tr>
     <c:forEach items="${command.studyParticipantAssignments}"
                var="studyParticipantAssignment">
-        <c:set var="todaysdate" value="<%= new Date()%>"/>
+
         <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}"
                    var="studyParticipantCrf">
             <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
                        var="studyParticipantCrfSchedule">
-                <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate}">
+                <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
                     <tr>
                         <td>
                             <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}"> ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title} </a>
