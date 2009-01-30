@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -27,7 +28,8 @@ public class ProCtcTerm extends BasePersistable {
     private String term;
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcTerm")
+    @OneToMany(mappedBy = "proCtcTerm")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private Collection<ProCtcQuestion> proCtcQuestions = new ArrayList<ProCtcQuestion>();
 
     @JoinColumn(name = "pro_ctc_id", referencedColumnName = "id")
@@ -84,7 +86,7 @@ public class ProCtcTerm extends BasePersistable {
         if (proCtcQuestion != null) {
             proCtcQuestion.setProCtcTerm(this);
             proCtcQuestions.add(proCtcQuestion);
-            
+
         }
     }
 

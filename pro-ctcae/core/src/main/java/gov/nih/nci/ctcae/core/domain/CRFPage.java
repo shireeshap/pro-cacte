@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -36,7 +37,8 @@ public class CRFPage extends BaseVersionable {
     @Column(name = "page_number", nullable = false)
     private Integer pageNumber = 0;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "crfPage", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "crfPage", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<CrfPageItem> crfPageItems = new ArrayList<CrfPageItem>();
 
 

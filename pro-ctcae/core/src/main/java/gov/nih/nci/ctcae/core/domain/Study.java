@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudy;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollection;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -45,7 +46,8 @@ public class Study extends BasePersistable {
     @Transient
     private StudyCoordinatingCenter studyCoordinatingCenter;
 
-    @OneToMany(mappedBy = "study", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
 
 

@@ -51,6 +51,17 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
         setSessionForm(true);
     }
 
+    protected String getFormSessionAttributeName() {
+        return FormController.class.getName() + ".FORM." + getCommandName();
+    }
+
+    @Override
+    protected String getPageSessionAttributeName() {
+        return FormController.class.getName() + ".PAGE." + getCommandName();
+
+
+    }
+
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         CreateFormCommand command = new CreateFormCommand();

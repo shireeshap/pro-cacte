@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -30,7 +31,9 @@ public class ProCtc extends BasePersistable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date releaseDate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtc")
+    @OneToMany(mappedBy = "proCtc")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+
     private List<ProCtcTerm> proCtcTerms = new ArrayList<ProCtcTerm>();
 
     public ProCtc() {

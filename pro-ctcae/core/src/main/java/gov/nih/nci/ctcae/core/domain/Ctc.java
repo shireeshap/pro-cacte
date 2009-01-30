@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -25,7 +26,9 @@ public class Ctc extends BasePersistable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ctc")
+    @OneToMany(mappedBy = "ctc")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+
     private List<CtcCategory> ctcCategories = new ArrayList<CtcCategory>();
 
     public Ctc() {

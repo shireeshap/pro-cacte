@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -30,10 +31,12 @@ public class ProCtcQuestion extends BasePersistable {
     @Enumerated(value = EnumType.STRING)
     private ProCtcQuestionType proCtcQuestionType;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcQuestion", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "proCtcQuestion", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<ProCtcValidValue> validValues = new ArrayList<ProCtcValidValue>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proCtcQuestion", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "proCtcQuestion", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<ProCtcQuestionDisplayRule> proCtcQuestionDisplayRules = new ArrayList<ProCtcQuestionDisplayRule>();
 
 

@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -40,10 +41,13 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @ManyToOne
     private StudyParticipantCrf studyParticipantCrf;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+
     private List<StudyParticipantCrfItem> studyParticipantCrfItems = new ArrayList<StudyParticipantCrfItem>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantCrfScheduleAddedQuestion> studyParticipantCrfScheduleAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
 
     public StudyParticipantCrfSchedule() {

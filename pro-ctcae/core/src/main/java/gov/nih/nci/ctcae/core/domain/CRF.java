@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -56,7 +57,9 @@ public class CRF extends BaseVersionable {
     @Column(name = "parent_version_id", nullable = true)
     private Integer parentVersionId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "crf", fetch = FetchType.EAGER)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+
     private List<CRFPage> crfPages = new LinkedList<CRFPage>();
 
     @JoinColumn(name = "study_id", referencedColumnName = "id")
@@ -78,7 +81,9 @@ public class CRF extends BaseVersionable {
         this.recallPeriod = recallPeriod;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "crf", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+
     private Collection<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
 
     public Collection<StudyParticipantCrf> getStudyParticipantCrfs() {

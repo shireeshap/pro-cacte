@@ -52,7 +52,7 @@ public class ControllersUtilsTest extends WebTestCase {
     public void testNoCommandInCreateForm() {
 
 
-        assertNull("no command should present in session", ControllersUtils.getFormCommand(request, basicFormController));
+        assertNull("no command should present in session", ControllersUtils.getFormCommand(request));
 
 
     }
@@ -60,14 +60,14 @@ public class ControllersUtilsTest extends WebTestCase {
     public void testNoCommandInCreateStudy() {
 
 
-        assertNull("no command should present in session", ControllersUtils.getFormCommand(request, createStudyController));
+        assertNull("no command should present in session", ControllersUtils.getStudyCommand(request));
 
 
     }
 
     public void testCommandInGetRequestOfCreateForm() throws Exception {
         basicFormController.handleRequest(request, response);
-        Object command = ControllersUtils.getFormCommand(request, basicFormController);
+        Object command = ControllersUtils.getFormCommand(request);
         assertNotNull("command must present in session", command);
         assertTrue(command instanceof CreateFormCommand);
 
@@ -85,7 +85,7 @@ public class ControllersUtilsTest extends WebTestCase {
     public void testCommandInGetRequestOfCreateStudy() throws Exception {
 
         createStudyController.handleRequest(request, response);
-        Object command = ControllersUtils.getFormCommand(request, createStudyController);
+        Object command = ControllersUtils.getStudyCommand(request);
         assertNotNull("command must present in session", command);
         assertTrue(command instanceof StudyCommand);
 

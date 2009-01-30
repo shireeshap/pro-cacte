@@ -30,7 +30,7 @@ public class AddStudySiteControllerTest extends WebTestCase {
     public void testHandleRequest() throws Exception {
 
         createStudyController.handleRequest(request, response);
-        Object command = ControllersUtils.getFormCommand(request, createStudyController);
+        Object command = ControllersUtils.getStudyCommand(request);
         assertNotNull("command must present in session", command);
 
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
