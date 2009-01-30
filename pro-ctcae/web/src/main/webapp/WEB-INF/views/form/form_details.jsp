@@ -1148,7 +1148,7 @@ function showHideQuestionUpDownLink() {
                                                 <li class="closed">${proCtcTerm.term}
                                                     <a href="javascript:addProctcTerm(${proCtcTerm.id})"
                                                        id="proCtcTerm_${proCtcTerm.id}" class="addallbtn">
-                                                        <img src="/ctcae/images/blue/add_all_btn.png"
+                                                        <img src="/ctcae/images/blue/select_question_btn.png"
                                                              alt="Add" onclick=""/></a>
 
 
