@@ -14,10 +14,13 @@ public class ReleaseFormSeleniumTest extends AbstractSeleniumTestCase {
             searchForm(formTitle);
             selenium.setSpeed("1000");
             selenium.click("link=Release");
-            assertTrue(selenium.isTextPresent("Release form"));            
+            selenium.waitForCondition(String.format("selenium.isTextPresent('%s')", "Release form"), "10000");
             selenium.click("flow-update");
             selenium.waitForPageToLoad("30000");
             assertTrue(selenium.isTextPresent("Released"));
+            assertFalse(selenium.isTextPresent("Delete"));
+            assertFalse(selenium.isTextPresent("Edit"));
+
         }
     }
 

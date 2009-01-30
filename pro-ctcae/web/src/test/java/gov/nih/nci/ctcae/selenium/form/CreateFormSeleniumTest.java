@@ -14,30 +14,28 @@ import gov.nih.nci.ctcae.selenium.AbstractSeleniumTestCase;
 
 public class CreateFormSeleniumTest extends AbstractSeleniumTestCase {
     public void testNew() throws Exception {
-        selenium.open("/ctcae/pages/form/manageForm;jsessionid=49D7D0CAE625FDD18B54526844931B79");
+        selenium.open("/ctcae/pages/form/manageForm");
         selenium.setSpeed("1000");
         typeAutosuggest("study-input", "p", "study-choices");
-        selenium.click("//div[@id='study-choices']/ul/li[1]");
         selenium.click("newFormUrl");
         selenium.waitForPageToLoad(seleniumProperties.getWaitTime());
         selenium.click("crfTitle");
         //    selenium.type("value", "testformselenium_" + new Date().getTime());
         selenium.type("crf.title", "testformselenium_" + new Date().getTime());
         selenium.click("//img[@alt='Add']");
-        selenium.click("//a[@id='proCtcTerm_29']/img");
-        selenium.click("//a[@id='proCtcTerm_15']/img");
-        selenium.click("proCtcTerm_18");
+        selenium.click("//img[@alt='Add']");
+		selenium.click("//a[@id='proCtcTerm_-2']/img");
         selenium.click("flow-next");
         selenium.waitForPageToLoad("30000");
         assertTrue(selenium.isTextPresent("The Form was saved successfully"));
+        selenium.click("secondlevelnav_manageFormController");
+        selenium.waitForPageToLoad("30000");
+        typeAutosuggest("study-input", "p", "study-choices");
+        assertFalse(selenium.isTextPresent("Copy | Version"));
 
 
     }
 
-    @Override
-    protected void onTearDownAfterTransaction() throws Exception {
-        super.onTearDownAfterTransaction();
-    }
 }
 
 
