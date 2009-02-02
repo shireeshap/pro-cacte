@@ -46,7 +46,7 @@ public class AddCrfComponentControllerTest extends WebTestCase {
 
         request.addParameter("proCtcTermId", new String[]{"1"});
         request.addParameter("componentType", new String[]{AddCrfComponentController.PRO_CTC_TERM_COMPONENT});
-        expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
+        expect(proCtcTermRepository.findById(1)).andReturn(proCtcTerm);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();
@@ -70,13 +70,13 @@ public class AddCrfComponentControllerTest extends WebTestCase {
 
         request.addParameter("proCtcTermId", new String[]{"1"});
         request.addParameter("componentType", new String[]{AddCrfComponentController.PRO_CTC_TERM_COMPONENT});
-        expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
+        expect(proCtcTermRepository.findById(1)).andReturn(proCtcTerm);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();
         resetMocks();
 
-        expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
+        expect(proCtcTermRepository.findById(1)).andReturn(proCtcTerm);
         replayMocks();
         modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();
@@ -93,7 +93,7 @@ public class AddCrfComponentControllerTest extends WebTestCase {
 //    public void testHandleRequestIfQuestionIdIsWrong() throws Exception {
 //        request.addParameter("proCtcTermId", new String[]{"1"});
 //        request.addParameter("crfPageNumber", new String[]{"1"});
-//        expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(null);
+//        expect(proCtcTermRepository.find(1)).andReturn(null);
 //        replayMocks();
 //        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
 //        verifyMocks();
@@ -107,7 +107,7 @@ public class AddCrfComponentControllerTest extends WebTestCase {
 //
 //        request.addParameter("proCtcTermId", new String[]{"1"});
 //        request.addParameter("crfPageNumber", new String[]{"0"});
-//        expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
+//        expect(proCtcTermRepository.find(1)).andReturn(proCtcTerm);
 //        replayMocks();
 //        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
 //        verifyMocks();

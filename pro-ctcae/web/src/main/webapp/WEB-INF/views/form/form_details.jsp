@@ -159,7 +159,7 @@
                     addCrfPageDiv(transport);
 
                 } else {
-                    addCrfPageItemDiv(transport, crfPageNumber);
+                    addCrfPageItemDiv(response, crfPageNumber);
                     updateSelectedCrfItems(questionId)
                     addCrfItemPropertiesHtml(questionId);
                     postProcessFormChanges();
@@ -327,8 +327,7 @@
 </script>
 <script type="text/javascript">
 
-    function addCrfPageItemDiv(transport, crfPageNumber) {
-        var response = transport.responseText;
+    function addCrfPageItemDiv(response, crfPageNumber) {
         var children = $('sortablePage_' + crfPageNumber).childElements();
         new Insertion.After(children[children.length - 1].id, response);
         sortQuestions()
@@ -337,20 +336,21 @@
 
     }
     function addProctcTerm(proCtcTermId) {
-        var displayOrder = parseInt($('totalQuestions').value) + parseInt(1);
         var crfPageNumber = ''
-        $$('div.formpagesselected').each(function(item) {
-            crfPageNumber = item.id.substr(11, item.id.length);
 
-        })
     <c:if test="${!command.crf.advance}">
 
         getCrfPageNumbersForProCtcTerm(proCtcTermId).each(function(item) {
             crfPageNumber = item;
 
         })
-    </c:if>
 
+    </c:if>
+        addProCtcTermForCrfPage(proCtcTermId, crfPageNumber);
+
+
+    }
+    function addProCtcTermForCrfPage(proCtcTermId, crfPageNumber) {
         var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
             parameters:"proCtcTermId=" + proCtcTermId + "&subview=subview&crfPageNumber=" + crfPageNumber + "&componentType=proCtcTerm",
             onComplete:function(transport) {
@@ -362,7 +362,7 @@
 
 
                 } else {
-                    addCrfPageItemDiv(transport, crfPageNumber)
+                    addCrfPageItemDiv(response, crfPageNumber)
                     hideQuestionsFromForm();
                     postProcessFormChanges();
                     updateConditions();
@@ -977,6 +977,52 @@ function showHideQuestionUpDownLink() {
 
     }
 </script>
+
+<script type="text/javascript">
+
+    function addCtcCategory(ctcCategoryId) {
+
+        getAllSelectedProCtcTerm();
+        var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
+            parameters:"subview=subview&ctcCategoryId=" + ctcCategoryId + "&componentType=ctcCategory",
+            onComplete:function(transport) {
+
+                var response = transport.responseText;
+                addCrfPageDiv(transport);
+                $$('div.crfPageItemsToAdd').each(function(crfPageItemToAdd) {
+                    var crfPageNumber = crfPageItemToAdd.id.substr(22, crfPageItemToAdd.id.length);
+                    var crfPageItemHtml = $(crfPageItemToAdd.id).innerHTML;
+                    addCrfPageItemDiv(crfPageItemHtml, crfPageNumber);
+                    crfPageItemToAdd.remove();
+
+                });
+
+                postProcessFormChanges();
+            },
+            method:'get'
+        })
+
+        // hideProCtcTermLinkFromForm(proCtcTermId);
+    }
+
+    function getAllSelectedProCtcTerm() {
+        var proCtcTermIds = [];
+
+        var formPages = $$('div.formpages');
+        formPages.each(function(item) {
+            var crfPageNumber = item.id.substr(11, item.id.length);
+            //this will break for advance form builder
+            $$(' div.selectedCrfPageForProCtcTerm_' + crfPageNumber).each(function(proCtcTerm) {
+                var proCtcTermId = proCtcTerm.id.substr(19, proCtcTerm.id.length);
+                if (proCtcTermIds.indexOf(proCtcTermId) == -1)
+                    proCtcTermIds.push(proCtcTermId);
+            })
+
+        });
+        return proCtcTermIds;
+
+    }
+</script>
 <style type="text/css">
 
     .makeDraggable {
@@ -1142,7 +1188,11 @@ function showHideQuestionUpDownLink() {
                                 <c:set var="add" value="${advance}"/>
                                 <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
 
-                                    <li>${ctcCategory.key.name}
+                                    <li>${ctcCategory.key.name}<a
+                                            href="javascript:addCtcCategory(${ctcCategory.key.id})"
+                                            id="ctcCategory_${ctcCategory.key.id}" class="addallbtn">
+                                        <img src="/ctcae/images/blue/select_question_btn.png"
+                                             alt="Add" onclick=""/></a>
                                         <ul>
                                             <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
                                                 <li class="closed">${proCtcTerm.term}

@@ -14,15 +14,6 @@ public class ProCtcTermIntegrationTest extends AbstractHibernateIntegrationTestC
     private ProCtcTerm proProCtcTerm;
 
 
-    public void testFindNotSupported() {
-        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
-        try {
-            proCtcTermRepository.find(proCtcTermQuery);
-            fail("Expecting UnsupportedOperationException: find is not supported for ProCtcTerm. Use findAndInitializeTerm method");
-        } catch (UnsupportedOperationException e) {
-        }
-    }
-
     public void testDeleteNotSupported() {
         try {
             proCtcTermRepository.delete(new ProCtcTerm());
@@ -33,8 +24,7 @@ public class ProCtcTermIntegrationTest extends AbstractHibernateIntegrationTestC
 
     public void testFindAndInitialize() {
         ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
-        Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
-                .findAndInitializeTerm(proCtcTermQuery);
+        Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository.find(proCtcTermQuery);
         ProCtcTerm firstProProCtcTerm = ctcTerms.iterator().next();
 
         proProCtcTerm = proCtcTermRepository.findById(firstProProCtcTerm.getId());
@@ -48,11 +38,11 @@ public class ProCtcTermIntegrationTest extends AbstractHibernateIntegrationTestC
     public void testFindAndInitializeById() {
         ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
         Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
-                .findAndInitializeTerm(proCtcTermQuery);
+                .find(proCtcTermQuery);
         ProCtcTerm firstProProCtcTerm = ctcTerms.iterator().next();
 
 
-        ProCtcTerm proCtcTerm = proCtcTermRepository.findAndInitializeTerm(firstProProCtcTerm.getId());
+        ProCtcTerm proCtcTerm = proCtcTermRepository.findById(firstProProCtcTerm.getId());
         assertEquals(proCtcTerm, firstProProCtcTerm);
     }
 
@@ -60,7 +50,7 @@ public class ProCtcTermIntegrationTest extends AbstractHibernateIntegrationTestC
         ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
         proCtcTermQuery.filterByCtcTermHavingQuestionsOnly();
         Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
-                .findAndInitializeTerm(proCtcTermQuery);
+                .find(proCtcTermQuery);
 
         assertFalse("must find atleast one ctc term", ctcTerms.isEmpty());
         for (ProCtcTerm proCtcTerm : ctcTerms) {
@@ -76,7 +66,7 @@ public class ProCtcTermIntegrationTest extends AbstractHibernateIntegrationTestC
         ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
         proCtcTermQuery.setMaximumResults(size + 1000);
         Collection<? extends ProCtcTerm> ctcTerms = proCtcTermRepository
-                .findAndInitializeTerm(proCtcTermQuery);
+                .find(proCtcTermQuery);
 
         assertFalse(ctcTerms.isEmpty());
         assertEquals(size, ctcTerms.size());

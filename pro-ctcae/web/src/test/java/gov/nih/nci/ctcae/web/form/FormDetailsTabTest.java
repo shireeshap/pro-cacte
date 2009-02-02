@@ -87,7 +87,7 @@ public class FormDetailsTabTest extends WebTestCase {
     }
 
     public void testRefereceData() {
-        expect(proCtcTermRepository.findAndInitializeTerm(isA(ProCtcTermQuery.class))).andReturn(proCtcTerms);
+        expect(proCtcTermRepository.find(isA(ProCtcTermQuery.class))).andReturn(proCtcTerms);
         replayMocks();
         Map<String, Object> map = tab.referenceData(command);
         verifyMocks();

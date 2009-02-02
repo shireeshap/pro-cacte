@@ -36,7 +36,7 @@ public class AddOneCrfPageController extends AbstractCrfController {
 //        else if (!StringUtils.isBlank(request.getParameter("proCtcTermId"))) {
 //            Integer proCtcTermId = ServletRequestUtils.getIntParameter(request, "proCtcTermId");
 //
-//            ProCtcTerm proCtcTerm = proCtcTermRepository.findAndInitializeTerm(proCtcTermId);
+//            ProCtcTerm proCtcTerm = proCtcTermRepository.find(proCtcTermId);
 //
 //            crfPage = createFormCommand.addCrfPage(proCtcTerm);
 //

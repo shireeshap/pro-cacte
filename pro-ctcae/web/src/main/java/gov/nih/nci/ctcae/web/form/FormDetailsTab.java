@@ -30,7 +30,7 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
 
         ProCtcTermQuery query = new ProCtcTermQuery();
         query.filterByCtcTermHavingQuestionsOnly();
-        Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.findAndInitializeTerm(query);
+        Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.find(query);
 
 
         Map<CtcCategory, List<ProCtcTerm>> ctcCategoryMap = new HashMap<CtcCategory, List<ProCtcTerm>>();

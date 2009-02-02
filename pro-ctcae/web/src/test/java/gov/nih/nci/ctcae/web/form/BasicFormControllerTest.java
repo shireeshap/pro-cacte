@@ -90,7 +90,7 @@ public class BasicFormControllerTest extends WebTestCase {
         request.addParameter("studyId", "1");
         expect(studyRepository.findById(Integer.valueOf(1))).andReturn(new Study());
         Collection<ProCtcTerm> proCtcTerms = new ArrayList();
-        expect(proCtcTermRepository.findAndInitializeTerm(isA(ProCtcTermQuery.class))).andReturn(proCtcTerms);
+        expect(proCtcTermRepository.find(isA(ProCtcTermQuery.class))).andReturn(proCtcTerms);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
         verifyMocks();

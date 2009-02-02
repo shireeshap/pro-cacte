@@ -45,7 +45,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
 
-        Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.findAndInitializeTerm(new ProCtcTermQuery());
+        Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.find(new ProCtcTermQuery());
         if (proCtcTerms.isEmpty()) {
             //create a new pro ctc term
 

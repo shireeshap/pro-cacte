@@ -70,7 +70,7 @@ public class AddOneCrfPageControllerTest extends WebTestCase {
 //        request.getSession().setAttribute(AdvanceFormController.class.getName() + ".FORM." + "command", command);
 //
 //        request.addParameter("proCtcTermId", new String[]{"1"});
-//        expect(proCtcTermRepository.findAndInitializeTerm(1)).andReturn(proCtcTerm);
+//        expect(proCtcTermRepository.find(1)).andReturn(proCtcTerm);
 //        replayMocks();
 //        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
 //        verifyMocks();

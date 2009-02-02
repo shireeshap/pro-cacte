@@ -33,7 +33,7 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
         proCtc = proCtcRepository.find(new ProCtcQuery()).iterator().next();
         assertNotNull(proCtc);
 
-        proProCtcTerm = proCtcTermRepository.findAndInitializeTerm(new ProCtcTermQuery()).iterator().next();
+        proProCtcTerm = proCtcTermRepository.find(new ProCtcTermQuery()).iterator().next();
         assertNotNull(proProCtcTerm);
 
     }

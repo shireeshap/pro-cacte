@@ -66,7 +66,7 @@ public class EditFormControllerTest extends WebTestCase {
         request.setMethod("GET");
         request.addParameter("crfId", "1");
         expect(crfRepository.findById(Integer.valueOf(1))).andReturn(crf);
-        expect(proCtcTermRepository.findAndInitializeTerm(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
+        expect(proCtcTermRepository.find(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
         verifyMocks();
@@ -98,7 +98,7 @@ public class EditFormControllerTest extends WebTestCase {
         request.addParameter("crfId", "1");
 
         expect(crfRepository.findById(Integer.valueOf(1))).andReturn(crf);
-        expect(proCtcTermRepository.findAndInitializeTerm(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
+        expect(proCtcTermRepository.find(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
 
         replayMocks();
         ModelAndView modelAndView1 = controller.handleRequest(request, response);
@@ -114,7 +114,7 @@ public class EditFormControllerTest extends WebTestCase {
         expect(crfRepository.save(crf)).andReturn(crf);
         expect(notEmptyValidator.validate("title")).andReturn(true);
         expect(uniqueTitleForCrfValidator.validate(crf, crf.getTitle())).andReturn(true);
-        expect(proCtcTermRepository.findAndInitializeTerm(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
+        expect(proCtcTermRepository.find(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
 
         replayMocks();
 
