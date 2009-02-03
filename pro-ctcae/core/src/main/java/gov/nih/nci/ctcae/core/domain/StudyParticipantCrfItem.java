@@ -14,7 +14,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "study_participant_crf_items")
+@Table(name = "STUDY_PARTICIPANT_CRF_ITEMS")
 
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_study_participant_crf_items_id")})
 public class StudyParticipantCrfItem extends BaseVersionable {

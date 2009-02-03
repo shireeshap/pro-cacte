@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "participants")
+@Table(name = "PARTICIPANTS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_participants_id")})
 public class Participant extends Person {
 

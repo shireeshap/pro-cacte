@@ -1,18 +1,18 @@
 class CreateStudyOrganizations extends edu.northwestern.bioinformatics.bering.Migration {
   void up() {
-    createTable('study_organizations') {t ->
+    createTable('STUDY_ORGANIZATIONS') {t ->
       t.addColumn('organization_id', 'integer', nullable: false)
       t.addColumn('study_id', 'integer', nullable: false)
       t.addColumn('type', 'string', nullable: false);
 
       t.addVersionColumn()
     }
-	execute('ALTER TABLE study_organizations ADD CONSTRAINT fk_so_study FOREIGN KEY (study_id) REFERENCES studies (id)    ')
-	execute('ALTER TABLE study_organizations ADD CONSTRAINT fk_so_organization FOREIGN KEY (organization_id) REFERENCES organizations (id)  ')
+	execute('ALTER TABLE STUDY_ORGANIZATIONS ADD CONSTRAINT fk_so_study FOREIGN KEY (study_id) REFERENCES STUDIES (id)    ')
+	execute('ALTER TABLE STUDY_ORGANIZATIONS ADD CONSTRAINT fk_so_organization FOREIGN KEY (organization_id) REFERENCES ORGANIZATIONS (id)  ')
 
   }
 
   void down() {
-    dropTable('study_organizations')
+    dropTable('STUDY_ORGANIZATIONS')
   }
 }

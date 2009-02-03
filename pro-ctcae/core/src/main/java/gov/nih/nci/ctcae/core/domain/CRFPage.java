@@ -18,7 +18,7 @@ import java.util.*;
  */
 
 @Entity
-@Table(name = "crf_pages")
+@Table(name = "CRF_PAGES")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_pages_id")})
 
 public class CRFPage extends BaseVersionable {

@@ -1,6 +1,6 @@
 class CreateProtocols extends edu.northwestern.bioinformatics.bering.Migration {
   void up() {
-    createTable("studies") {t ->
+    createTable("STUDIES") {t ->
       t.addVersionColumn()
       t.addColumn("short_title", "string", nullable: false)
       t.addColumn("long_title", "string", nullable: true)
@@ -14,6 +14,6 @@ class CreateProtocols extends edu.northwestern.bioinformatics.bering.Migration {
   }
 
   void down() {
-    dropTable("studies")
+    dropTable("STUDIES")
   }
 }

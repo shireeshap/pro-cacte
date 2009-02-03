@@ -20,7 +20,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "crf_page_items")
+@Table(name = "CRF_PAGE_ITEMS")
 
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_page_items_id")})
 public class CrfPageItem extends BasePersistable {

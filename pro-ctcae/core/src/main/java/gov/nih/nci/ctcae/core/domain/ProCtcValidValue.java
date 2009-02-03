@@ -14,7 +14,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "pro_ctc_valid_values")
+@Table(name = "PRO_CTC_VALID_VALUES")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_valid_values_id")})
 public class ProCtcValidValue extends BasePersistable {
 

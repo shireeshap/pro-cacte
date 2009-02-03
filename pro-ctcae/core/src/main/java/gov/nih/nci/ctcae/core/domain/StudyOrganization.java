@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "study_organizations")
+@Table(name = "STUDY_ORGANIZATIONS")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 

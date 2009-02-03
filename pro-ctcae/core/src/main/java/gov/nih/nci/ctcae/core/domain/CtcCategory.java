@@ -13,7 +13,7 @@ import javax.persistence.*;
  * @crated Nov 6, 2008
  */
 @Entity
-@Table(name = "ctc_categories")
+@Table(name = "CTC_CATEGORIES")
 
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_ctc_categories_id")})
 public class CtcCategory extends BasePersistable {

@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "pro_ctc")
+@Table(name = "PRO_CTC")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_id")})
 public class ProCtc extends BasePersistable {
 

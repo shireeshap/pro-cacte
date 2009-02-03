@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "studies")
+@Table(name = "STUDIES")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_studies_id")})
 
 public class Study extends BasePersistable {

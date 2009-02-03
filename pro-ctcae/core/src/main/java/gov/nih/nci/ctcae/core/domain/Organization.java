@@ -15,7 +15,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "organizations")
+@Table(name = "ORGANIZATIONS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_organizations_id")})
 public class Organization extends BaseVersionable {
 

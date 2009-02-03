@@ -1,15 +1,15 @@
 class CreateCrfItemDisplayRules extends edu.northwestern.bioinformatics.bering.Migration {
 	void up() {
-		createTable("crf_page_item_display_rules") {t ->
+		createTable("CRF_PAGE_ITEM_DISPLAY_RULES") {t ->
 			t.addColumn('crf_item_id', 'integer', nullable: false)
 			t.addColumn('pro_ctc_valid_value_id', 'integer', nullable: false)
 		}
-		execute('ALTER TABLE crf_page_item_display_rules ADD CONSTRAINT fk_pro_ctc_value_id FOREIGN KEY (pro_ctc_valid_value_id) REFERENCES pro_ctc_valid_values')
-		execute('ALTER TABLE crf_page_item_display_rules ADD CONSTRAINT fk_cidr_crf_item FOREIGN KEY (crf_item_id) REFERENCES crf_page_items')
+		execute('ALTER TABLE CRF_PAGE_ITEM_DISPLAY_RULES ADD CONSTRAINT fk_pro_ctc_value_id FOREIGN KEY (pro_ctc_valid_value_id) REFERENCES PRO_CTC_VALID_VALUES')
+		execute('ALTER TABLE CRF_PAGE_ITEM_DISPLAY_RULES ADD CONSTRAINT fk_cidr_crf_item FOREIGN KEY (crf_item_id) REFERENCES CRF_PAGE_ITEMS')
 
 	}
 
 	void down() {
-		dropTable("crf_page_item_display_rules")
+		dropTable("CRF_PAGE_ITEM_DISPLAY_RULES")
 	}
 }

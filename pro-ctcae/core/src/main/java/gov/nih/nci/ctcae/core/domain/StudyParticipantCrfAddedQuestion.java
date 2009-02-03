@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "sp_crf_added_questions")
+@Table(name = "SP_CRF_ADDED_QUESTIONS")
 
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_sp_crf_added_questions_id")})
 public class StudyParticipantCrfAddedQuestion extends BaseVersionable {

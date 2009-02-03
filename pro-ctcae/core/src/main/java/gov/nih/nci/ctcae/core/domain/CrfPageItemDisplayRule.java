@@ -14,7 +14,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "crf_page_item_display_rules")
+@Table(name = "CRF_PAGE_ITEM_DISPLAY_RULES")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_item_display_rules_id")})
 public class CrfPageItemDisplayRule extends BasePersistable {
 

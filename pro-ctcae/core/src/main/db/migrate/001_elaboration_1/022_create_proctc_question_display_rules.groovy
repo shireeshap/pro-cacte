@@ -1,14 +1,15 @@
 class CreateProctcQuestionDisplayRules extends edu.northwestern.bioinformatics.bering.Migration {
 	void up() {
-		createTable("question_display_rules") {t ->
+		createTable("QUESTION_DISPLAY_RULES") {t ->
 			t.addColumn('pro_ctc_valid_value_id', 'integer', nullable: false)
 			t.addColumn('pro_ctc_question_id', 'integer', nullable: false)
 		}
-		execute('ALTER TABLE question_display_rules ADD CONSTRAINT fk_pro_ctc_valid_val_id FOREIGN KEY (pro_ctc_valid_value_id) REFERENCES pro_ctc_valid_values')
-
+		execute('ALTER TABLE QUESTION_DISPLAY_RULES ADD CONSTRAINT fk_pro_ctc_valid_val_id FOREIGN KEY (pro_ctc_valid_value_id) REFERENCES PRO_CTC_VALID_VALUES')
+        execute('ALTER TABLE QUESTION_DISPLAY_RULES ADD CONSTRAINT fk_pro_ctc_question_id FOREIGN KEY (pro_ctc_question_id) REFERENCES PRO_CTC_QUESTIONS')
+        
 	}
 
 	void down() {
-		dropTable("question_display_rules")
+		dropTable("QUESTION_DISPLAY_RULES")
 	}
 }

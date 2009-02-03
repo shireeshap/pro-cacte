@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "clinical_staffs")
+@Table(name = "CLINICAL_STAFFS")
 @GenericGenerator(name = "id-generator", strategy = "native",
         parameters = {@Parameter(name = "sequence", value = "seq_clinical_staffs_id")})
 

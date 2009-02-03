@@ -1,6 +1,6 @@
 class CreateAuditEventValues extends edu.northwestern.bioinformatics.bering.Migration {
 	void up() {
-		createTable('audit_event_values') {t ->
+		createTable('AUDIT_EVENT_VALUES') {t ->
 			t.addColumn('audit_event_id', 'integer', nullable: false)
 			t.addColumn('attribute_name', 'string', nullable: false)
 			t.addColumn('previous_value', 'string', nullable: true)
@@ -10,6 +10,6 @@ class CreateAuditEventValues extends edu.northwestern.bioinformatics.bering.Migr
 	}
 
 	void down() {
-		dropTable('audit_event_values')
+		dropTable('AUDIT_EVENT_VALUES')
 	}
 }

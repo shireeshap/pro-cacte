@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "study_participant_crfs")
+@Table(name = "STUDY_PARTICIPANT_CRFS")
 
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_study_participant_crfs_id")})
 public class StudyParticipantCrf extends BaseVersionable {

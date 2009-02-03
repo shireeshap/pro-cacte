@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "sp_crf_schedules")
+@Table(name = "SP_CRF_SCHEDULES")
 
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_sp_crf_schedules_id")})
 public class StudyParticipantCrfSchedule extends BasePersistable {

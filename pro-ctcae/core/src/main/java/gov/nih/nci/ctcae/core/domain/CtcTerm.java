@@ -14,7 +14,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "ctc_terms")
+@Table(name = "CTC_TERMS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_terms_id")})
 public class CtcTerm extends BasePersistable {
 
