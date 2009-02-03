@@ -14,31 +14,33 @@ import java.util.Date;
 // TODO: Auto-generated Javadoc
 /**
  * The Class DateFormatterCell.
- * 
+ *
  * @author
  */
 public class DateFormatterCell extends AbstractCell {
-	
-	/** The log. */
-	protected final Log log = LogFactory.getLog(getClass());
+
+    /**
+     * The log.
+     */
+    protected final Log logger = LogFactory.getLog(getClass());
 
 
-	/* (non-Javadoc)
-	 * @see org.extremecomponents.table.cell.AbstractCell#getCellValue(org.extremecomponents.table.core.TableModel, org.extremecomponents.table.bean.Column)
-	 */
-	@Override
-	protected String getCellValue(TableModel model, Column column) {
+    /* (non-Javadoc)
+      * @see org.extremecomponents.table.cell.AbstractCell#getCellValue(org.extremecomponents.table.core.TableModel, org.extremecomponents.table.bean.Column)
+      */
+    @Override
+    protected String getCellValue(TableModel model, Column column) {
 
-		BeanWrapper beanWrapper = new BeanWrapperImpl(model.getCurrentRowBean());
+        BeanWrapper beanWrapper = new BeanWrapperImpl(model.getCurrentRowBean());
 
-		String cellValue = "";
+        String cellValue = "";
 
-		if (beanWrapper.isReadableProperty(column.getProperty())) {
+        if (beanWrapper.isReadableProperty(column.getProperty())) {
             Object value = beanWrapper.getPropertyValue(column.getProperty());
-            if (value != null){
-            cellValue = DateUtils.format((Date) value);
-		}
-        }      
+            if (value != null) {
+                cellValue = DateUtils.format((Date) value);
+            }
+        }
         return cellValue;
 	}
 }

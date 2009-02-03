@@ -21,22 +21,30 @@ import java.util.Map;
 // TODO: Auto-generated Javadoc
 /**
  * The Class FormController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Dec 8, 2008
  */
 public abstract class FormController<C extends CreateFormCommand> extends CtcAeTabbedFlowController<CreateFormCommand> {
-    
-    /** The crf repository. */
+
+    /**
+     * The crf repository.
+     */
     private CRFRepository crfRepository;
-    
-    /** The unique title for crf validator. */
+
+    /**
+     * The unique title for crf validator.
+     */
     private UniqueTitleForCrfValidator uniqueTitleForCrfValidator;
-    
-    /** The not empty validator. */
+
+    /**
+     * The not empty validator.
+     */
     private NotEmptyValidator notEmptyValidator;
 
-    /** The Constant FORM_DETAILS_PAGE_NUMBER. */
+    /**
+     * The Constant FORM_DETAILS_PAGE_NUMBER.
+     */
     protected static final Integer FORM_DETAILS_PAGE_NUMBER = 1;
 
     /* (non-Javadoc)
@@ -105,13 +113,13 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     /**
      * Layout tabs.
-     * 
+     *
      * @param flow the flow
      */
     protected void layoutTabs(Flow<CreateFormCommand> flow) {
         flow.addTab(new SelectStudyForFormTab());
         flow.addTab(new FormDetailsTab());
-        flow.addTab(new CalendarTemplateTab());
+        // flow.addTab(new CalendarTemplateTab());
 
     }
 
@@ -154,7 +162,7 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     /**
      * Save.
-     * 
+     *
      * @param createFormCommand the create form command
      */
     protected void save(final CreateFormCommand createFormCommand) {
@@ -176,7 +184,7 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     /**
      * Sets the not empty validator.
-     * 
+     *
      * @param notEmptyValidator the new not empty validator
      */
     @Required
@@ -186,7 +194,7 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     /**
      * Sets the unique title for crf validator.
-     * 
+     *
      * @param uniqueTitleForCrfValidator the new unique title for crf validator
      */
     @Required
@@ -196,7 +204,7 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     /**
      * Sets the crf repository.
-     * 
+     *
      * @param crfRepository the new crf repository
      */
     @Required

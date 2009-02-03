@@ -1,6 +1,9 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.cell.Cell;
 import org.extremecomponents.table.core.TableModel;
@@ -12,15 +15,17 @@ import java.util.HashMap;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TextBoxCell.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 23, 2008
  */
 public class TextBoxCell implements Cell {
 
+    protected Log logger = LogFactory.getLog(getClass());
+
     /* (non-Javadoc)
-     * @see org.extremecomponents.table.cell.Cell#getExportDisplay(org.extremecomponents.table.core.TableModel, org.extremecomponents.table.bean.Column)
-     */
+    * @see org.extremecomponents.table.cell.Cell#getExportDisplay(org.extremecomponents.table.core.TableModel, org.extremecomponents.table.bean.Column)
+    */
     public String getExportDisplay(TableModel model, Column column) {
         return column.getValueAsString();
     }
@@ -52,6 +57,9 @@ public class TextBoxCell implements Cell {
             inputBuilder.getHtmlBuilder().xclose();
 
         } catch (Exception e) {
+            logger.error("error while generating table for text box. " + e.getMessage(), e);
+            throw new CtcAeSystemException(e);
+
         }
         inputBuilder.tdEnd();
 

@@ -1,14 +1,13 @@
 package gov.nih.nci.ctcae.core.csv.loader;
 
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.query.CtcQuery;
-
-import java.util.*;
-import java.io.IOException;
-
-import org.apache.commons.lang.StringUtils;
 import com.csvreader.CsvReader;
+import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.CtcQuery;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import org.apache.commons.lang.StringUtils;
+
+import java.io.IOException;
+import java.util.*;
 
 
 /**

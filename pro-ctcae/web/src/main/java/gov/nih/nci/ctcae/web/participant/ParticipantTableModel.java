@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.web.AbstractTableModel;
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.core.TableModel;
@@ -12,19 +13,18 @@ import java.util.Map;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ParticipantTableModel.
- * 
+ *
  * @author Harsh Agarwal
- * Date: Oct 23, 2008
+ *         Date: Oct 23, 2008
  */
 public class ParticipantTableModel extends AbstractTableModel {
 
     /**
      * Builds the participant table.
-     * 
+     *
      * @param parameterMap the parameter map
-     * @param objects the objects
-     * @param request the request
-     * 
+     * @param objects      the objects
+     * @param request      the request
      * @return the string
      */
     public String buildParticipantTable(Map parameterMap, Collection<Participant> objects, HttpServletRequest request) {
@@ -40,14 +40,15 @@ public class ParticipantTableModel extends AbstractTableModel {
             return model.assemble().toString();
 
         } catch (Exception e) {
+            logger.error("error while generating table for participant. " + e.getMessage(), e);
+            throw new CtcAeSystemException(e);
 
         }
-        return "";
     }
 
     /**
      * Adds the first name.
-     * 
+     *
      * @param model the model
      */
     private void addFirstName(TableModel model) {
@@ -61,7 +62,7 @@ public class ParticipantTableModel extends AbstractTableModel {
 
     /**
      * Adds the last name.
-     * 
+     *
      * @param model the model
      */
     private void addLastName(TableModel model) {
@@ -75,7 +76,7 @@ public class ParticipantTableModel extends AbstractTableModel {
 
     /**
      * Adds the middle name.
-     * 
+     *
      * @param model the model
      */
     private void addMiddleName(TableModel model) {
@@ -89,7 +90,7 @@ public class ParticipantTableModel extends AbstractTableModel {
 
     /**
      * Adds the identifier.
-     * 
+     *
      * @param model the model
      */
     private void addIdentifier(TableModel model) {

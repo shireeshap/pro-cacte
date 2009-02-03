@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.web.AbstractTableModel;
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.bean.Row;
@@ -13,19 +14,18 @@ import java.util.Map;
 // TODO: Auto-generated Javadoc
 /**
  * The Class CrfTableModel.
- * 
+ *
  * @author Mehul Gulati
- * Date: Nov 5, 2008
+ *         Date: Nov 5, 2008
  */
 public class CrfTableModel extends AbstractTableModel {
 
     /**
      * Builds the crf table.
-     * 
+     *
      * @param parameterMap the parameter map
-     * @param objects the objects
-     * @param request the request
-     * 
+     * @param objects      the objects
+     * @param request      the request
      * @return the string
      */
     public String buildCrfTable(Map parameterMap, Collection<CRF> objects, HttpServletRequest request) {
@@ -42,10 +42,10 @@ public class CrfTableModel extends AbstractTableModel {
             addOptions(model);
             return model.assemble().toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("error while generating table for crf. " + e.getMessage(), e);
+            throw new CtcAeSystemException(e);
 
         }
-        return "";
 
     }
 
@@ -93,7 +93,7 @@ public class CrfTableModel extends AbstractTableModel {
 
     /**
      * Adds the show version.
-     * 
+     *
      * @param model the model
      */
     private void addShowVersion(TableModel model) {
@@ -118,7 +118,7 @@ public class CrfTableModel extends AbstractTableModel {
 
     /**
      * Adds the title.
-     * 
+     *
      * @param model the model
      */
     private void addTitle(TableModel model) {
@@ -133,7 +133,7 @@ public class CrfTableModel extends AbstractTableModel {
 
     /**
      * Adds the version.
-     * 
+     *
      * @param model the model
      */
     private void addVersion(TableModel model) {
@@ -149,7 +149,7 @@ public class CrfTableModel extends AbstractTableModel {
 
     /**
      * Adds the effective date.
-     * 
+     *
      * @param model the model
      */
     private void addEffectiveDate(TableModel model) {
@@ -166,7 +166,7 @@ public class CrfTableModel extends AbstractTableModel {
 
     /**
      * Adds the expiration date.
-     * 
+     *
      * @param model the model
      */
     private void addExpirationDate(TableModel model) {
@@ -183,7 +183,7 @@ public class CrfTableModel extends AbstractTableModel {
 
     /**
      * Adds the status.
-     * 
+     *
      * @param model the model
      */
     private void addStatus(TableModel model) {
@@ -198,7 +198,7 @@ public class CrfTableModel extends AbstractTableModel {
 
     /**
      * Adds the options.
-     * 
+     *
      * @param model the model
      */
     private void addOptions(TableModel model) {

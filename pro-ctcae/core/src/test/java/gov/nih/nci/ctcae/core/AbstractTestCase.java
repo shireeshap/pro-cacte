@@ -19,11 +19,11 @@ public abstract class AbstractTestCase extends CoreTestCase {
 
     protected Organization nci, duke;
 
-    private Log log = LogFactory.getLog(getClass());
+    protected Log logger = LogFactory.getLog(getClass());
 
     @Override
     protected void setUp() throws Exception {
-        log.debug("---- Begin test " + getName() + " ----");
+        logger.debug("---- Begin test " + getName() + " ----");
         super.setUp();
 
 
@@ -36,7 +36,7 @@ public abstract class AbstractTestCase extends CoreTestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        log.debug("----  End  test " + getName() + " ----");
+        logger.debug("----  End  test " + getName() + " ----");
     }
 
 

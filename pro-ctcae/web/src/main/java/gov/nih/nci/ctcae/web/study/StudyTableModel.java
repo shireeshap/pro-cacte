@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.web.AbstractTableModel;
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.core.TableModel;
@@ -12,7 +13,7 @@ import java.util.Map;
 // TODO: Auto-generated Javadoc
 /**
  * The Class StudyTableModel.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 17, 2008
  */
@@ -20,11 +21,10 @@ public class StudyTableModel extends AbstractTableModel {
 
     /**
      * Builds the study table.
-     * 
+     *
      * @param parameterMap the parameter map
-     * @param objects the objects
-     * @param request the request
-     * 
+     * @param objects      the objects
+     * @param request      the request
      * @return the string
      */
     public String buildStudyTable(Map parameterMap, Collection<Study> objects,
@@ -41,18 +41,18 @@ public class StudyTableModel extends AbstractTableModel {
             addStudyCoordinatingCenter(model);
             return model.assemble().toString();
         } catch (Exception e) {
+            logger.error("error while generating table for study. " + e.getMessage(), e);
+            throw new CtcAeSystemException(e);
 
         }
-        return "";
     }
 
     /**
      * Builds the study table for selection.
-     * 
+     *
      * @param parameterMap the parameter map
-     * @param objects the objects
-     * @param request the request
-     * 
+     * @param objects      the objects
+     * @param request      the request
      * @return the string
      */
     public String buildStudyTableForSelection(Map parameterMap,
@@ -79,7 +79,7 @@ public class StudyTableModel extends AbstractTableModel {
 
     /**
      * Adds the study coordinating center.
-     * 
+     *
      * @param model the model
      */
     private void addStudyCoordinatingCenter(TableModel model) {
@@ -95,7 +95,7 @@ public class StudyTableModel extends AbstractTableModel {
 
     /**
      * Adds the sponsor column.
-     * 
+     *
      * @param model the model
      */
     private void addSponsorColumn(TableModel model) {
@@ -110,7 +110,7 @@ public class StudyTableModel extends AbstractTableModel {
 
     /**
      * Adds the shor title column.
-     * 
+     *
      * @param model the model
      */
     private void addShorTitleColumn(TableModel model) {
@@ -124,7 +124,7 @@ public class StudyTableModel extends AbstractTableModel {
 
     /**
      * Adds the assigned identifier.
-     * 
+     *
      * @param model the model
      */
     private void addAssignedIdentifier(TableModel model) {
@@ -138,7 +138,7 @@ public class StudyTableModel extends AbstractTableModel {
 
     /**
      * Adds the assigned identifier for selection.
-     * 
+     *
      * @param model the model
      */
     private void addAssignedIdentifierForSelection(TableModel model) {
@@ -153,7 +153,7 @@ public class StudyTableModel extends AbstractTableModel {
 
     /**
      * Adds the participant study identifier text.
-     * 
+     *
      * @param model the model
      */
     private void addParticipantStudyIdentifierText(TableModel model) {

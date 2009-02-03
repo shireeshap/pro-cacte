@@ -1128,16 +1128,18 @@ function showHideQuestionUpDownLink() {
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-        <div class="instructions">
+    <input type="hidden" name="_finish" value="true"/>
+        
+    <div class="instructions">
 
-            <div class="summarylabel"><tags:message code='form.label.study'/></div>
-            <div class="summaryvalue">${command.crf.study.displayName}</div>
-        </div>
+        <div class="summarylabel"><tags:message code='form.label.study'/></div>
+        <div class="summaryvalue">${command.crf.study.displayName}</div>
+    </div>
     <%--<a id="reviewLink" href="javascript:reviewForm()" style="display:none">Preview</a>--%>
-    <c:if test="${!command.crf.advance}"> <a id="advanceMode" href="javascript:switchToAdvance()">Switch to Advanced
-        Form
-        Builder</a>
-    </c:if>
+    <%--<c:if test="${!command.crf.advance}"> <a id="advanceMode" href="javascript:switchToAdvance()">Switch to Advanced--%>
+    <%--Form--%>
+    <%--Builder</a>--%>
+    <%--</c:if>--%>
 
 
     <a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;"><img

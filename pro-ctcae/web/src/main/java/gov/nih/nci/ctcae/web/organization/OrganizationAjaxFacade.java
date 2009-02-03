@@ -15,29 +15,32 @@ import java.util.List;
 // TODO: Auto-generated Javadoc
 /**
  * The Class OrganizationAjaxFacade.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 17, 2008
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class OrganizationAjaxFacade {
 
-    /** The organization repository. */
+    /**
+     * The organization repository.
+     */
     private OrganizationRepository organizationRepository;
-    
-    /** The log. */
-    protected final Log log = LogFactory.getLog(getClass());
+
+    /**
+     * The log.
+     */
+    protected final Log logger = LogFactory.getLog(getClass());
 
 
     /**
      * Match organization.
-     * 
+     *
      * @param text the text
-     * 
      * @return the list< organization>
      */
     public List<Organization> matchOrganization(final String text) {
-        log.info("in match organization method. Search string :" + text);
+        logger.info("in match organization method. Search string :" + text);
         OrganizationQuery organizationQuery = new OrganizationQuery();
         organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
         List<Organization> organizations = (List<Organization>) organizationRepository.find(organizationQuery);
@@ -48,7 +51,7 @@ public class OrganizationAjaxFacade {
 
     /**
      * Sets the organization repository.
-     * 
+     *
      * @param organizationRepository the new organization repository
      */
     @Required

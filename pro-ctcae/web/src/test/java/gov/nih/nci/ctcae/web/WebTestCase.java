@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
@@ -17,7 +15,6 @@ public abstract class WebTestCase extends AbstractTestCase {
     protected MockServletContext servletContext;
     protected MockHttpSession session;
     protected ControllerTools controllerTools;
-    protected final Log log = LogFactory.getLog(getClass());
 
     @Override
     protected void setUp() throws Exception {

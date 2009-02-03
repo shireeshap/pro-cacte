@@ -5,8 +5,6 @@ import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.validation.BindException;
@@ -22,21 +20,25 @@ import java.util.Map;
 // TODO: Auto-generated Javadoc
 /**
  * The Class CtcAeSimpleFormController.
- * 
+ *
  * @author
  */
 public class CtcAeSimpleFormController extends SimpleFormController {
-    
-    /** The log. */
-    protected final Log log = LogFactory.getLog(getClass());
-    
-    /** The finder repository. */
+
+
+    /**
+     * The finder repository.
+     */
     protected FinderRepository finderRepository;
 
-    /** The controller tools. */
+    /**
+     * The controller tools.
+     */
     protected ControllerTools controllerTools;
-    
-    /** The web controller validator. */
+
+    /**
+     * The web controller validator.
+     */
     private WebControllerValidator webControllerValidator;
 
     /**
@@ -75,7 +77,7 @@ public class CtcAeSimpleFormController extends SimpleFormController {
 
     /**
      * Sets the web controller validator.
-     * 
+     *
      * @param webControllerValidator the new web controller validator
      */
     @Required
@@ -94,7 +96,7 @@ public class CtcAeSimpleFormController extends SimpleFormController {
 
     /**
      * Sets the controller tools.
-     * 
+     *
      * @param controllerTools the new controller tools
      */
     @Required
@@ -105,7 +107,7 @@ public class CtcAeSimpleFormController extends SimpleFormController {
 
     /**
      * Sets the finder repository.
-     * 
+     *
      * @param finderRepository the new finder repository
      */
     @Required

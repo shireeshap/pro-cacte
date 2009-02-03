@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.web.AbstractTableModel;
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.core.TableModel;
@@ -12,19 +13,18 @@ import java.util.Map;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ClinicalStaffTableModel.
- * 
+ *
  * @author Mehul Gulati
- * Date: Oct 22, 2008
+ *         Date: Oct 22, 2008
  */
 public class ClinicalStaffTableModel extends AbstractTableModel {
 
     /**
      * Builds the clinical staff table.
-     * 
+     *
      * @param parameterMap the parameter map
-     * @param objects the objects
-     * @param request the request
-     * 
+     * @param objects      the objects
+     * @param request      the request
      * @return the string
      */
     public String buildClinicalStaffTable(Map parameterMap, Collection<ClinicalStaff> objects, HttpServletRequest request) {
@@ -39,14 +39,14 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
             return model.assemble().toString();
 
         } catch (Exception e) {
-
+            logger.error("error while generating table for clinical staff. " + e.getMessage(), e);
+            throw new CtcAeSystemException(e);
         }
-        return "";
     }
 
     /**
      * Adds the first name.
-     * 
+     *
      * @param model the model
      */
     private void addFirstName(TableModel model) {
@@ -61,7 +61,7 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
 
     /**
      * Adds the last name.
-     * 
+     *
      * @param model the model
      */
     private void addLastName(TableModel model) {
@@ -75,7 +75,7 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
 
     /**
      * Adds the middle name.
-     * 
+     *
      * @param model the model
      */
     private void addMiddleName(TableModel model) {
@@ -89,7 +89,7 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
 
     /**
      * Adds the nci identifier.
-     * 
+     *
      * @param model the model
      */
     private void addNciIdentifier(TableModel model) {
