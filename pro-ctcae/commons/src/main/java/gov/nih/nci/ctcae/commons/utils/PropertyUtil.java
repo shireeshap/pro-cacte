@@ -8,57 +8,58 @@ import org.apache.commons.logging.LogFactory;
  * @crated Oct 27, 2008
  */
 public class PropertyUtil {
-	private static final Log logger = LogFactory.getLog(PropertyUtil.class);
 
-	private static String PROPERTY_KEY_PREFIX = "[";
+    private static final Log logger = LogFactory.getLog(PropertyUtil.class);
 
-	private static char PROPERTY_KEY_PREFIX_CHAR = '[';
+    private static final String PROPERTY_KEY_PREFIX = "[";
 
-	private static String PROPERTY_KEY_SUFFIX = "]";
+    private static final char PROPERTY_KEY_PREFIX_CHAR = '[';
 
-	private static char PROPERTY_KEY_SUFFIX_CHAR = ']';
+    private static final String PROPERTY_KEY_SUFFIX = "]";
 
-	private static char DOT_CHAR = '.';
+    private static final char PROPERTY_KEY_SUFFIX_CHAR = ']';
 
-	public static String getCollectionMethodName(String propertyName) {
+    private static final char DOT_CHAR = '.';
 
-		if (propertyName == null || propertyName.indexOf(PROPERTY_KEY_PREFIX) == -1
-			|| propertyName.indexOf(PROPERTY_KEY_SUFFIX) == -1
-			// || propertyName.indexOf(DOT_CHAR) == -1
-			) {
-			return null;
-		}
-		int keyStart = propertyName.lastIndexOf(PROPERTY_KEY_PREFIX);
-		int keyEnd = propertyName.lastIndexOf(PROPERTY_KEY_SUFFIX);
+    public static String getCollectionMethodName(String propertyName) {
 
-		return propertyName.substring(0, keyStart);
-	}
+        if (propertyName == null || propertyName.indexOf(PROPERTY_KEY_PREFIX) == -1
+                || propertyName.indexOf(PROPERTY_KEY_SUFFIX) == -1
+            // || propertyName.indexOf(DOT_CHAR) == -1
+                ) {
+            return null;
+        }
+        int keyStart = propertyName.lastIndexOf(PROPERTY_KEY_PREFIX);
+        int keyEnd = propertyName.lastIndexOf(PROPERTY_KEY_SUFFIX);
 
-
-	public static String getColletionPropertyName(String propertyName) {
-
-		if (propertyName == null || propertyName.indexOf(PROPERTY_KEY_PREFIX) == -1
-			|| propertyName.indexOf(PROPERTY_KEY_SUFFIX) == -1
-			|| propertyName.indexOf(DOT_CHAR) == -1) {
-			return null;
-		}
-		int keyStart = propertyName.indexOf(DOT_CHAR);
-		// propertyName.lastIndexOf(PROPERTY_KEY_PREFIX);
-		int keyEnd = propertyName.lastIndexOf(PROPERTY_KEY_SUFFIX);
-
-		return propertyName.substring(0, keyEnd + 1);
-	}
+        return propertyName.substring(0, keyStart);
+    }
 
 
-	public static String getNestedPropertyParent(final String propertyName) {
-		if (propertyName == null) {
-			return null;
-		} else if (propertyName.indexOf(DOT_CHAR) == -1) {
-			return propertyName;
-		}
-		int keyEnd = propertyName.lastIndexOf(DOT_CHAR);
+    public static String getColletionPropertyName(String propertyName) {
 
-		return propertyName.substring(0, keyEnd);
-	}
+        if (propertyName == null || propertyName.indexOf(PROPERTY_KEY_PREFIX) == -1
+                || propertyName.indexOf(PROPERTY_KEY_SUFFIX) == -1
+                || propertyName.indexOf(DOT_CHAR) == -1) {
+            return null;
+        }
+        int keyStart = propertyName.indexOf(DOT_CHAR);
+        // propertyName.lastIndexOf(PROPERTY_KEY_PREFIX);
+        int keyEnd = propertyName.lastIndexOf(PROPERTY_KEY_SUFFIX);
+
+        return propertyName.substring(0, keyEnd + 1);
+    }
+
+
+    public static String getNestedPropertyParent(final String propertyName) {
+        if (propertyName == null) {
+            return null;
+        } else if (propertyName.indexOf(DOT_CHAR) == -1) {
+            return propertyName;
+        }
+        int keyEnd = propertyName.lastIndexOf(DOT_CHAR);
+
+        return propertyName.substring(0, keyEnd);
+    }
 }
 
