@@ -62,17 +62,6 @@
 
         }
 
-        //     function copyForm(crfId) {
-        //         var request = new Ajax.Request("<c:url value="/pages/form/copyForm"/>", {
-        //             parameters:"crfId=" + crfId + "&subview=subview",
-        //            onComplete:function(transport) {
-        //               buildTable('assembler');
-
-        //            },
-        //            method:'get'
-        //        })
-        //     }
-
         function deleteForm(crfId) {
             var request = new Ajax.Request("<c:url value="/pages/form/deleteForm"/>", {
                 parameters:"crfId=" + crfId + "&subview=subview",

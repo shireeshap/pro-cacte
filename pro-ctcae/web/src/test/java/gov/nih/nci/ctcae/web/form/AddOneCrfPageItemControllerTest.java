@@ -55,7 +55,7 @@ public class AddOneCrfPageItemControllerTest extends WebTestCase {
         command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
 
         command.addCrfPage();
-        request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
+        request.getSession().setAttribute(FormController.class.getName() + ".FORM." + "command", command);
         request.addParameter("crfPageNumber", new String[]{"0"});
 
         request.addParameter("questionId", new String[]{"1"});
@@ -72,7 +72,7 @@ public class AddOneCrfPageItemControllerTest extends WebTestCase {
     }
 
     public void testHandleRequestIfCrfPageIsNotSelected() throws Exception {
-        request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
+        request.getSession().setAttribute(FormController.class.getName() + ".FORM." + "command", command);
         request.addParameter("questionId", new String[]{"1"});
 
         request.addParameter("proCtcTermId", new String[]{"1"});

@@ -69,7 +69,7 @@ public class RemoveConditionsControllerTest extends WebTestCase {
         crfPageItem.addCrfPageItemDisplayRules(proCtcValidValues);
         assertEquals("must add 2 rules", 2, crfPageItem.getCrfPageItemDisplayRules().size());
 
-        request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
+        request.getSession().setAttribute(FormController.class.getName() + ".FORM." + "command", command);
 
         request.addParameter("questionId", new String[]{"1"});
         request.addParameter("proCtcValidValueId", new String[]{"1,6,4"});

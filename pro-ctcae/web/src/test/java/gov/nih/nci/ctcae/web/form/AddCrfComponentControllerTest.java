@@ -42,7 +42,7 @@ public class AddCrfComponentControllerTest extends WebTestCase {
     public void testAddProCtcTermForBasicMode() throws Exception {
 
         command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
-        request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
+        request.getSession().setAttribute(FormController.class.getName() + ".FORM." + "command", command);
 
         request.addParameter("proCtcTermId", new String[]{"1"});
         request.addParameter("componentType", new String[]{AddCrfComponentController.PRO_CTC_TERM_COMPONENT});
@@ -66,7 +66,7 @@ public class AddCrfComponentControllerTest extends WebTestCase {
     public void testAddProCtcTermAgainForBasicMode() throws Exception {
 
         command.getCrf().setCrfCreationMode(CrfCreationMode.BASIC);
-        request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
+        request.getSession().setAttribute(FormController.class.getName() + ".FORM." + "command", command);
 
         request.addParameter("proCtcTermId", new String[]{"1"});
         request.addParameter("componentType", new String[]{AddCrfComponentController.PRO_CTC_TERM_COMPONENT});
@@ -103,7 +103,7 @@ public class AddCrfComponentControllerTest extends WebTestCase {
 //    public void testHandleRequestIfQuestionIdIsCorrect() throws Exception {
 //        command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
 //        command.addCrfPage();
-//        request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
+//        request.getSession().setAttribute(FormController.class.getName() + ".FORM." + "command", command);
 //
 //        request.addParameter("proCtcTermId", new String[]{"1"});
 //        request.addParameter("crfPageNumber", new String[]{"0"});
@@ -116,7 +116,7 @@ public class AddCrfComponentControllerTest extends WebTestCase {
 //    }
 //
 //    public void testHandleRequestIfCrfPageIsNotSelected() throws Exception {
-//        request.getSession().setAttribute(BasicFormController.class.getName() + ".FORM." + "command", command);
+//        request.getSession().setAttribute(FormController.class.getName() + ".FORM." + "command", command);
 //
 //        request.addParameter("proCtcTermId", new String[]{"1"});
 //        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
