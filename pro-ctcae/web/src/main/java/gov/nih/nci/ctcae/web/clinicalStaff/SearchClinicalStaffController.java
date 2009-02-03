@@ -6,10 +6,10 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class SearchClinicalStaffController.
- * 
+ *
  * @autjor Mehul Gulati
  * Date: Oct 22, 2008
  * Time: 10:21:08 AM
@@ -31,6 +31,7 @@ public class SearchClinicalStaffController extends AbstractController {
      * Instantiates a new search clinical staff controller.
      */
     public SearchClinicalStaffController() {
+        super();
         setSupportedMethods(new String[]{"GET"});
 
     }

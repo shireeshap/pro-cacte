@@ -11,7 +11,7 @@ import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.view.html.ColumnBuilder;
 
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ParticipantLinkDisplayDetailsCell.
  *

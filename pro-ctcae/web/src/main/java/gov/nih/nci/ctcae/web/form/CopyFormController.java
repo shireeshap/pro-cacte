@@ -10,19 +10,23 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CopyFormController.
- * 
+ *
  * @author Mehul Gulati
- * Date: Dec 3, 2008
+ *         Date: Dec 3, 2008
  */
 public class CopyFormController extends AbstractController {
 
-    /** The finder repository. */
+    /**
+     * The finder repository.
+     */
     private FinderRepository finderRepository;
-    
-    /** The crf repository. */
+
+    /**
+     * The crf repository.
+     */
     private CRFRepository crfRepository;
 
     /* (non-Javadoc)
@@ -46,7 +50,7 @@ public class CopyFormController extends AbstractController {
 
     /**
      * Sets the finder repository.
-     * 
+     *
      * @param finderRepository the new finder repository
      */
     public void setFinderRepository(FinderRepository finderRepository) {
@@ -55,7 +59,7 @@ public class CopyFormController extends AbstractController {
 
     /**
      * Sets the crf repository.
-     * 
+     *
      * @param crfRepository the new crf repository
      */
     public void setCrfRepository(CRFRepository crfRepository) {

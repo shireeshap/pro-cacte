@@ -8,26 +8,27 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CrfAjaxFacade.
- * 
+ *
  * @author Mehul Gulati
- * Date: Nov 6, 2008
+ *         Date: Nov 6, 2008
  */
 public class CrfAjaxFacade {
 
-    /** The crf repository. */
+    /**
+     * The crf repository.
+     */
     private CRFRepository crfRepository;
 
 
     /**
      * Search crf.
-     * 
+     *
      * @param parameterMap the parameter map
-     * @param id the id
-     * @param request the request
-     * 
+     * @param id           the id
+     * @param request      the request
      * @return the string
      */
     public String searchCrf(Map parameterMap, Integer id, HttpServletRequest request) {
@@ -40,9 +41,8 @@ public class CrfAjaxFacade {
 
     /**
      * Gets the objects.
-     * 
+     *
      * @param id the id
-     * 
      * @return the objects
      */
     private List<CRF> getObjects(Integer id) {
@@ -59,7 +59,7 @@ public class CrfAjaxFacade {
 
     /**
      * Sets the crf repository.
-     * 
+     *
      * @param crfRepository the new crf repository
      */
     public void setCrfRepository(CRFRepository crfRepository) {

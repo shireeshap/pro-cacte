@@ -9,27 +9,28 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ParticipantAjaxFacade.
- * 
+ *
  * @author Harsh Agarwal
  * @created Date: Oct 23, 2008
  */
 public class ParticipantAjaxFacade {
-    
-    /** The participant repository. */
+
+    /**
+     * The participant repository.
+     */
     private ParticipantRepository participantRepository;
 
     /**
      * Search participant.
-     * 
+     *
      * @param parameterMap the parameter map
-     * @param firstName the first name
-     * @param lastName the last name
-     * @param identifier the identifier
-     * @param request the request
-     * 
+     * @param firstName    the first name
+     * @param lastName     the last name
+     * @param identifier   the identifier
+     * @param request      the request
      * @return the string
      */
     public String searchParticipant(Map parameterMap, String firstName,
@@ -46,11 +47,10 @@ public class ParticipantAjaxFacade {
 
     /**
      * Gets the objects.
-     * 
-     * @param firstName the first name
-     * @param lastName the last name
+     *
+     * @param firstName  the first name
+     * @param lastName   the last name
      * @param identifier the identifier
-     * 
      * @return the objects
      */
     private List<Participant> getObjects(String firstName, String lastName,
@@ -73,7 +73,7 @@ public class ParticipantAjaxFacade {
 
     /**
      * Sets the participant repository.
-     * 
+     *
      * @param participantRepository the new participant repository
      */
     @Required

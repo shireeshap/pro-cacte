@@ -11,10 +11,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CrfPageItem.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 13, 2008
  */
@@ -25,46 +25,66 @@ import java.util.Set;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_page_items_id")})
 public class CrfPageItem extends BasePersistable {
 
-    /** The Constant INITIAL_ORDER. */
+    /**
+     * The Constant INITIAL_ORDER.
+     */
     public static final Integer INITIAL_ORDER = 1;
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The display order. */
+    /**
+     * The display order.
+     */
     @Column(name = "display_order", nullable = false)
     private Integer displayOrder = 0;
 
-    /** The crf page. */
+    /**
+     * The crf page.
+     */
     @JoinColumn(name = "crf_page_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
     private CRFPage crfPage;
 
-    /** The pro ctc question. */
+    /**
+     * The pro ctc question.
+     */
     @JoinColumn(name = "pro_ctc_question_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtcQuestion proCtcQuestion;
 
-    /** The response required. */
+    /**
+     * The response required.
+     */
     @Column(name = "response_required")
     private Boolean responseRequired = Boolean.FALSE;
 
-    /** The instructions. */
+    /**
+     * The instructions.
+     */
     @Column(name = "instructions")
     private String instructions;
 
-    /** The DEFAUL t_ allignment. */
+    /**
+     * The DEFAUL t_ allignment.
+     */
     public static CrfItemAllignment DEFAULT_ALLIGNMENT = CrfItemAllignment.HORIZONTAL;
 
-    /** The crf item allignment. */
+    /**
+     * The crf item allignment.
+     */
     @Enumerated(value = EnumType.STRING)
     @Column(name = "allignment")
     private CrfItemAllignment crfItemAllignment = DEFAULT_ALLIGNMENT;
 
-    /** The crf page item display rules. */
+    /**
+     * The crf page item display rules.
+     */
     @OneToMany(mappedBy = "crfPageItem", fetch = FetchType.LAZY)
     @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     private List<CrfPageItemDisplayRule> crfPageItemDisplayRules = new ArrayList<CrfPageItemDisplayRule>();
@@ -74,11 +94,12 @@ public class CrfPageItem extends BasePersistable {
      * Instantiates a new crf page item.
      */
     public CrfPageItem() {
+        super();
     }
 
     /**
      * Instantiates a new crf page item.
-     * 
+     *
      * @param proCtcQuestion the pro ctc question
      */
     public CrfPageItem(ProCtcQuestion proCtcQuestion) {
@@ -94,7 +115,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Gets the response required.
-     * 
+     *
      * @return the response required
      */
     public Boolean getResponseRequired() {
@@ -103,7 +124,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Sets the response required.
-     * 
+     *
      * @param responseRequired the new response required
      */
     public void setResponseRequired(final Boolean responseRequired) {
@@ -112,7 +133,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Gets the instructions.
-     * 
+     *
      * @return the instructions
      */
     public String getInstructions() {
@@ -121,7 +142,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Sets the instructions.
-     * 
+     *
      * @param instructions the new instructions
      */
     public void setInstructions(final String instructions) {
@@ -130,7 +151,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Gets the crf item allignment.
-     * 
+     *
      * @return the crf item allignment
      */
     public CrfItemAllignment getCrfItemAllignment() {
@@ -139,7 +160,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Sets the crf item allignment.
-     * 
+     *
      * @param crfItemAllignment the new crf item allignment
      */
     public void setCrfItemAllignment(final CrfItemAllignment crfItemAllignment) {
@@ -162,7 +183,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Gets the display order.
-     * 
+     *
      * @return the display order
      */
     public Integer getDisplayOrder() {
@@ -171,7 +192,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Sets the display order.
-     * 
+     *
      * @param displayOrder the new display order
      */
     public void setDisplayOrder(Integer displayOrder) {
@@ -181,7 +202,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Gets the crf page.
-     * 
+     *
      * @return the crf page
      */
     public CRFPage getCrfPage() {
@@ -190,7 +211,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Sets the crf page.
-     * 
+     *
      * @param crfPage the new crf page
      */
     public void setCrfPage(final CRFPage crfPage) {
@@ -199,7 +220,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Gets the pro ctc question.
-     * 
+     *
      * @return the pro ctc question
      */
     public ProCtcQuestion getProCtcQuestion() {
@@ -208,7 +229,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Sets the pro ctc question.
-     * 
+     *
      * @param proCtcQuestion the new pro ctc question
      */
     public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {
@@ -217,7 +238,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Gets the copy.
-     * 
+     *
      * @return the copy
      */
     public CrfPageItem getCopy() {
@@ -274,7 +295,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Gets the crf page item display rules.
-     * 
+     *
      * @return the crf page item display rules
      */
     public List<CrfPageItemDisplayRule> getCrfPageItemDisplayRules() {
@@ -284,7 +305,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Removes the crf page item display rules by pro ctc valid value ids.
-     * 
+     *
      * @param objectsIdsToRemove the objects ids to remove
      */
     public void removeCrfPageItemDisplayRulesByProCtcValidValueIds(final String objectsIdsToRemove) {
@@ -299,7 +320,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Removes the crf page item display rules by ids.
-     * 
+     *
      * @param proCtcValidValues the pro ctc valid values
      */
     public void removeCrfPageItemDisplayRulesByIds(final Set<Integer> proCtcValidValues) {
@@ -319,9 +340,8 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Gets the crf display rule by pro ctc valid value id.
-     * 
+     *
      * @param id the id
-     * 
      * @return the crf display rule by pro ctc valid value id
      */
     private CrfPageItemDisplayRule getCrfDisplayRuleByProCtcValidValueId(final Integer id) {
@@ -335,7 +355,7 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Removes the crf page item display rule.
-     * 
+     *
      * @param crfPageItemDisplayRule the crf page item display rule
      */
     private void removeCrfPageItemDisplayRule(final CrfPageItemDisplayRule crfPageItemDisplayRule) {
@@ -345,9 +365,8 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Adds the crf page item display rules.
-     * 
+     *
      * @param crfPageItemDisplayRule the crf page item display rule
-     * 
      * @return true, if successful
      */
     public boolean addCrfPageItemDisplayRules(CrfPageItemDisplayRule crfPageItemDisplayRule) {
@@ -367,9 +386,8 @@ public class CrfPageItem extends BasePersistable {
 
     /**
      * Adds the crf page item display rules.
-     * 
+     *
      * @param proCtcValidValues the pro ctc valid values
-     * 
      * @return the list< crf page item display rule>
      */
     public List<CrfPageItemDisplayRule> addCrfPageItemDisplayRules(final List<ProCtcValidValue> proCtcValidValues) {

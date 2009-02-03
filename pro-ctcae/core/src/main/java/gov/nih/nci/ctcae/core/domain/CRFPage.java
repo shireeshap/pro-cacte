@@ -9,10 +9,10 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.*;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CRFPage.
- * 
+ *
  * @author Vinay Kumar
  * @created Dec 29, 2008
  */
@@ -23,35 +23,49 @@ import java.util.*;
 
 public class CRFPage extends BaseVersionable {
 
-    /** The Constant logger. */
+    /**
+     * The Constant logger.
+     */
     private static final Log logger = LogFactory.getLog(CRFPage.class);
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
 
-    /** The description. */
+    /**
+     * The description.
+     */
     @Column(name = "description")
     private String description;
 
-    /** The instructions. */
+    /**
+     * The instructions.
+     */
     @Column(name = "instructions")
     private String instructions;
 
-    /** The page number. */
+    /**
+     * The page number.
+     */
     @Column(name = "page_number", nullable = false)
     private Integer pageNumber = 0;
 
-    /** The crf page items. */
+    /**
+     * The crf page items.
+     */
     @OneToMany(mappedBy = "crfPage", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<CrfPageItem> crfPageItems = new ArrayList<CrfPageItem>();
 
 
-    /** The crf. */
+    /**
+     * The crf.
+     */
     @JoinColumn(name = "crf_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
     private CRF crf;
@@ -61,12 +75,13 @@ public class CRFPage extends BaseVersionable {
      * Instantiates a new cRF page.
      */
     public CRFPage() {
+        super();
     }
 
 
     /**
      * Gets the crf.
-     * 
+     *
      * @return the crf
      */
     public CRF getCrf() {
@@ -75,7 +90,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Sets the crf.
-     * 
+     *
      * @param crf the new crf
      */
     public void setCrf(final CRF crf) {
@@ -98,7 +113,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Gets the page number.
-     * 
+     *
      * @return the page number
      */
     public Integer getPageNumber() {
@@ -107,7 +122,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Sets the page number.
-     * 
+     *
      * @param pageNumber the new page number
      */
     public void setPageNumber(final Integer pageNumber) {
@@ -116,7 +131,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Gets the description.
-     * 
+     *
      * @return the description
      */
     public String getDescription() {
@@ -125,7 +140,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Sets the description.
-     * 
+     *
      * @param description the new description
      */
     public void setDescription(String description) {
@@ -135,7 +150,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Gets the crf items sorted by dislay order.
-     * 
+     *
      * @return the crf items sorted by dislay order
      */
     public List<CrfPageItem> getCrfItemsSortedByDislayOrder() {
@@ -148,7 +163,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Gets the crf page items.
-     * 
+     *
      * @return the crf page items
      */
     public List<CrfPageItem> getCrfPageItems() {
@@ -158,7 +173,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Removes the crf page item.
-     * 
+     *
      * @param crfPageItem the crf page item
      */
     public void removeCrfPageItem(CrfPageItem crfPageItem) {
@@ -189,11 +204,11 @@ public class CRFPage extends BaseVersionable {
 
 
     /**
- * this is required to update the crf item properties on right side of the create form.
- * 
- * @param proCtcQuestion the pro ctc question
- * @param displayOrder the display order
- */
+     * this is required to update the crf item properties on right side of the create form.
+     *
+     * @param proCtcQuestion the pro ctc question
+     * @param displayOrder   the display order
+     */
     public void addOrUpdateCrfItem(final ProCtcQuestion proCtcQuestion, final Integer displayOrder) {
 
         //check if it already exists
@@ -218,7 +233,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * this is required to move crf page item from one crf page to another crf page.
-     * 
+     *
      * @param crfPageItem the crf page item
      */
     public void addOrUpdateCrfItem(final CrfPageItem crfPageItem) {
@@ -241,9 +256,8 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * used for adding a new crf items with empty properties..this is required to add questions from left side of the create form
-     * 
+     *
      * @param proCtcQuestion the pro ctc question
-     * 
      * @return the crf page item
      */
     public CrfPageItem removeExistingAndAddNewCrfItem(final ProCtcQuestion proCtcQuestion) {
@@ -275,9 +289,8 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * used while reordering the crf page item between crf pages  or removing crf page item mannualy.
-     * 
+     *
      * @param proCtcQuestion the pro ctc question
-     * 
      * @return the crf page item
      */
     public CrfPageItem removeExistingButDoNotAddNewCrfItem(final ProCtcQuestion proCtcQuestion) {
@@ -289,7 +302,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Update order number.
-     * 
+     *
      * @param crfPageItem the crf page item
      */
     private void updateOrderNumber(final CrfPageItem crfPageItem) {
@@ -302,9 +315,8 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Gets the crf page item by question.
-     * 
+     *
      * @param questionId the question id
-     * 
      * @return the crf page item by question
      */
     public CrfPageItem getCrfPageItemByQuestion(final Integer questionId) {
@@ -323,9 +335,8 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Gets the crf page item by question.
-     * 
+     *
      * @param proCtcQuestion the pro ctc question
-     * 
      * @return the crf page item by question
      */
     public CrfPageItem getCrfPageItemByQuestion(final ProCtcQuestion proCtcQuestion) {
@@ -344,7 +355,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Adds the crf item.
-     * 
+     *
      * @param crfPageItem the crf page item
      */
     public void addCrfItem(CrfPageItem crfPageItem) {
@@ -357,7 +368,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Gets the copy.
-     * 
+     *
      * @return the copy
      */
     public CRFPage getCopy() {
@@ -374,9 +385,8 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Removes the existing and add new crf item.
-     * 
+     *
      * @param proCtcTerm the pro ctc term
-     * 
      * @return the list< crf page item>
      */
     public List<CrfPageItem> removeExistingAndAddNewCrfItem(final ProCtcTerm proCtcTerm) {
@@ -397,9 +407,8 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Adds the pro ctc term.
-     * 
+     *
      * @param proCtcTerm the pro ctc term
-     * 
      * @return the list< crf page item>
      */
     public List<CrfPageItem> addProCtcTerm(final ProCtcTerm proCtcTerm) {
@@ -433,9 +442,8 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Adds the pro ctc question.
-     * 
+     *
      * @param proCtcQuestion the pro ctc question
-     * 
      * @return the crf page item
      */
     public CrfPageItem addProCtcQuestion(final ProCtcQuestion proCtcQuestion) {
@@ -464,7 +472,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Removes the extra crf items in crf page.
-     * 
+     *
      * @param questionsToKeep the questions to keep
      */
     public void removeExtraCrfItemsInCrfPage(final List<Integer> questionsToKeep) {
@@ -486,7 +494,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Update display order of crf page items.
-     * 
+     *
      * @param initialOrder the initial order
      */
     public void updateDisplayOrderOfCrfPageItems(Integer initialOrder) {
@@ -500,9 +508,8 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Check if pro ctc term exists.
-     * 
+     *
      * @param proCtcTerm the pro ctc term
-     * 
      * @return true, if successful
      */
     public boolean checkIfProCtcTermExists(ProCtcTerm proCtcTerm) {
@@ -518,7 +525,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Gets the instructions.
-     * 
+     *
      * @return the instructions
      */
     public String getInstructions() {
@@ -527,7 +534,7 @@ public class CRFPage extends BaseVersionable {
 
     /**
      * Sets the instructions.
-     * 
+     *
      * @param instructions the new instructions
      */
     public void setInstructions(String instructions) {

@@ -1,24 +1,32 @@
 package gov.nih.nci.ctcae.core.query;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class StudyOrganizationQuery.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 22, 2008
  */
 public class StudyOrganizationQuery extends AbstractQuery {
 
-    /** The query string. */
+    /**
+     * The query string.
+     */
     private static String queryString = "SELECT o from StudyOrganization o order by o.organization.name";
-    
-    /** The STUD y_ id. */
+
+    /**
+     * The STUD y_ id.
+     */
     private static String STUDY_ID = "studyId";
-    
-    /** The ORGANIZATIO n_ id. */
+
+    /**
+     * The ORGANIZATIO n_ id.
+     */
     private static String ORGANIZATION_ID = "organizationId";
-    
-    /** The Constant STUDY_SITE. */
+
+    /**
+     * The Constant STUDY_SITE.
+     */
     private static final String STUDY_SITE = "studySite";
 
     /**
@@ -32,7 +40,7 @@ public class StudyOrganizationQuery extends AbstractQuery {
 
     /**
      * Filter by study id.
-     * 
+     *
      * @param studyId the study id
      */
     public void filterByStudyId(final int studyId) {
@@ -51,7 +59,7 @@ public class StudyOrganizationQuery extends AbstractQuery {
 
     /**
      * Filter by organization id.
-     * 
+     *
      * @param organizationId the organization id
      */
     public void filterByOrganizationId(final int organizationId) {

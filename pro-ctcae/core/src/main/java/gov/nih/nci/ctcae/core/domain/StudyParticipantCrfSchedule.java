@@ -10,10 +10,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class StudyParticipantCrfSchedule.
- * 
+ *
  * @author
  * @crated Oct 7, 2008
  */
@@ -24,38 +24,52 @@ import java.util.List;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_sp_crf_schedules_id")})
 public class StudyParticipantCrfSchedule extends BasePersistable {
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The start date. */
+    /**
+     * The start date.
+     */
     @Column(name = "start_date")
     private Date startDate;
 
-    /** The due date. */
+    /**
+     * The due date.
+     */
     @Column(name = "due_date")
     private Date dueDate;
 
-    /** The status. */
+    /**
+     * The status.
+     */
     @Column(name = "status", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private CrfStatus status = CrfStatus.SCHEDULED;
 
 
-    /** The study participant crf. */
+    /**
+     * The study participant crf.
+     */
     @JoinColumn(name = "study_participant_crf_id", referencedColumnName = "id")
     @ManyToOne
     private StudyParticipantCrf studyParticipantCrf;
 
-    /** The study participant crf items. */
+    /**
+     * The study participant crf items.
+     */
     @OneToMany(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
 
     private List<StudyParticipantCrfItem> studyParticipantCrfItems = new ArrayList<StudyParticipantCrfItem>();
 
-    /** The study participant crf schedule added questions. */
+    /**
+     * The study participant crf schedule added questions.
+     */
     @OneToMany(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantCrfScheduleAddedQuestion> studyParticipantCrfScheduleAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
@@ -64,6 +78,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
      * Instantiates a new study participant crf schedule.
      */
     public StudyParticipantCrfSchedule() {
+        super();
 
     }
 
@@ -83,7 +98,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
      * Gets the study participant crf items.
-     * 
+     *
      * @return the study participant crf items
      */
     public List<StudyParticipantCrfItem> getStudyParticipantCrfItems() {
@@ -93,7 +108,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
      * Adds the study participant crf item.
-     * 
+     *
      * @param studyParticipantCrfItem the study participant crf item
      */
     public void addStudyParticipantCrfItem(
@@ -106,7 +121,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
      * Gets the start date.
-     * 
+     *
      * @return the start date
      */
     public Date getStartDate() {
@@ -115,7 +130,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
      * Sets the start date.
-     * 
+     *
      * @param startDate the new start date
      */
     public void setStartDate(Date startDate) {
@@ -125,7 +140,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
      * Gets the due date.
-     * 
+     *
      * @return the due date
      */
     public Date getDueDate() {
@@ -134,7 +149,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
      * Sets the due date.
-     * 
+     *
      * @param dueDate the new due date
      */
     public void setDueDate(Date dueDate) {
@@ -143,7 +158,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
      * Gets the study participant crf.
-     * 
+     *
      * @return the study participant crf
      */
     public StudyParticipantCrf getStudyParticipantCrf() {
@@ -152,7 +167,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
      * Sets the study participant crf.
-     * 
+     *
      * @param studyParticipantCrf the new study participant crf
      */
     public void setStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
@@ -161,7 +176,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
      * Gets the status.
-     * 
+     *
      * @return the status
      */
     public CrfStatus getStatus() {
@@ -170,7 +185,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
      * Sets the status.
-     * 
+     *
      * @param status the new status
      */
     public void setStatus(CrfStatus status) {
@@ -209,7 +224,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
      * Gets the study participant crf schedule added questions.
-     * 
+     *
      * @return the study participant crf schedule added questions
      */
     public List<StudyParticipantCrfScheduleAddedQuestion> getStudyParticipantCrfScheduleAddedQuestions() {
@@ -218,8 +233,9 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
      * Adds the study participant crf schedule added question.
-     * 
-     * @param studyParticipantCrfScheduleAddedQuestion the study participant crf schedule added question
+     *
+     * @param studyParticipantCrfScheduleAddedQuestion
+     *         the study participant crf schedule added question
      */
     public void addStudyParticipantCrfScheduleAddedQuestion(StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion) {
         if (studyParticipantCrfScheduleAddedQuestion != null) {

@@ -4,35 +4,47 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.cabig.ctms.domain.CodedEnumHelper;
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Enum CrfStatus.
- * 
+ *
  * @author Vinay Kumar
  */
 public enum CrfStatus implements CodedEnum<String> {
 
-    /** The DRAFT. */
+    /**
+     * The DRAFT.
+     */
     DRAFT("Draft"),
-    
-    /** The RELEASED. */
+
+    /**
+     * The RELEASED.
+     */
     RELEASED("Released"),
-    
-    /** The INPROGRESS. */
+
+    /**
+     * The INPROGRESS.
+     */
     INPROGRESS("In-progress"),
-    
-    /** The SCHEDULED. */
+
+    /**
+     * The SCHEDULED.
+     */
     SCHEDULED("Scheduled"),
-    
-    /** The COMPLETED. */
+
+    /**
+     * The COMPLETED.
+     */
     COMPLETED("Completed");
 
-    /** The display text. */
+    /**
+     * The display text.
+     */
     private final String displayText;
 
     /**
      * Instantiates a new crf status.
-     * 
+     *
      * @param displayText the display text
      */
     CrfStatus(String displayText) {
@@ -44,9 +56,8 @@ public enum CrfStatus implements CodedEnum<String> {
 
     /**
      * Gets the by code.
-     * 
+     *
      * @param code the code
-     * 
      * @return the by code
      */
     public static CrfStatus getByCode(String code) {

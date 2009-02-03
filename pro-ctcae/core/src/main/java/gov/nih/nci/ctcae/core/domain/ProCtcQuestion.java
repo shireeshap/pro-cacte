@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ProCtcQuestion.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 13, 2008
  */
@@ -22,39 +22,53 @@ import java.util.List;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_questions_id")})
 public class ProCtcQuestion extends BasePersistable {
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The question text. */
+    /**
+     * The question text.
+     */
     @Column(name = "question_text", nullable = false)
     private String questionText;
 
-    /** The pro ctc question type. */
+    /**
+     * The pro ctc question type.
+     */
     @Column(name = "question_type", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private ProCtcQuestionType proCtcQuestionType;
 
-    /** The valid values. */
+    /**
+     * The valid values.
+     */
     @OneToMany(mappedBy = "proCtcQuestion", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<ProCtcValidValue> validValues = new ArrayList<ProCtcValidValue>();
 
-    /** The pro ctc question display rules. */
+    /**
+     * The pro ctc question display rules.
+     */
     @OneToMany(mappedBy = "proCtcQuestion", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<ProCtcQuestionDisplayRule> proCtcQuestionDisplayRules = new ArrayList<ProCtcQuestionDisplayRule>();
 
 
-    /** The pro ctc term. */
+    /**
+     * The pro ctc term.
+     */
     @JoinColumn(name = "pro_ctc_term_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtcTerm proCtcTerm;
 
 
-    /** The display order. */
+    /**
+     * The display order.
+     */
     @Column(name = "display_order", nullable = true)
     private Integer displayOrder;
 
@@ -63,21 +77,14 @@ public class ProCtcQuestion extends BasePersistable {
      * Instantiates a new pro ctc question.
      */
     public ProCtcQuestion() {
+        super();
     }
+
 
     /**
      * Instantiates a new pro ctc question.
-     * 
-     * @param id the id
-     */
-    public ProCtcQuestion(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * Instantiates a new pro ctc question.
-     * 
-     * @param id the id
+     *
+     * @param id           the id
      * @param questionText the question text
      */
     public ProCtcQuestion(Integer id, String questionText) {
@@ -101,7 +108,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Gets the question text.
-     * 
+     *
      * @return the question text
      */
     public String getQuestionText() {
@@ -110,7 +117,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Gets the display order.
-     * 
+     *
      * @return the display order
      */
     public Integer getDisplayOrder() {
@@ -119,7 +126,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Sets the display order.
-     * 
+     *
      * @param displayOrder the new display order
      */
     public void setDisplayOrder(Integer displayOrder) {
@@ -129,7 +136,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Sets the question text.
-     * 
+     *
      * @param questionText the new question text
      */
     public void setQuestionText(String questionText) {
@@ -138,7 +145,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Gets the valid values.
-     * 
+     *
      * @return the valid values
      */
     public Collection<ProCtcValidValue> getValidValues() {
@@ -147,7 +154,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Adds the valid value.
-     * 
+     *
      * @param validValue the valid value
      */
     public void addValidValue(ProCtcValidValue validValue) {
@@ -159,7 +166,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Adds the display rules.
-     * 
+     *
      * @param proCtcQuestionDisplayRule the pro ctc question display rule
      */
     public void addDisplayRules(ProCtcQuestionDisplayRule proCtcQuestionDisplayRule) {
@@ -172,7 +179,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Gets the pro ctc term.
-     * 
+     *
      * @return the pro ctc term
      */
     public ProCtcTerm getProCtcTerm() {
@@ -181,7 +188,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Sets the pro ctc term.
-     * 
+     *
      * @param proCtcTerm the new pro ctc term
      */
     public void setProCtcTerm(ProCtcTerm proCtcTerm) {
@@ -190,7 +197,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Gets the pro ctc question type.
-     * 
+     *
      * @return the pro ctc question type
      */
     public ProCtcQuestionType getProCtcQuestionType() {
@@ -199,7 +206,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Sets the pro ctc question type.
-     * 
+     *
      * @param proCtcQuestionType the new pro ctc question type
      */
     public void setProCtcQuestionType(final ProCtcQuestionType proCtcQuestionType) {
@@ -217,7 +224,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Gets the display name.
-     * 
+     *
      * @return the display name
      */
     public String getDisplayName() {
@@ -226,7 +233,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Gets the short text.
-     * 
+     *
      * @return the short text
      */
     public String getShortText() {
@@ -265,7 +272,7 @@ public class ProCtcQuestion extends BasePersistable {
 
     /**
      * Gets the pro ctc question display rules.
-     * 
+     *
      * @return the pro ctc question display rules
      */
     public List<ProCtcQuestionDisplayRule> getProCtcQuestionDisplayRules() {

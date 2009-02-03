@@ -9,17 +9,19 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CreateClinicalStaffController.
- * 
+ *
  * @author Mehul Gulati
  */
 public class CreateClinicalStaffController extends CtcAeSimpleFormController {
 
     // same controller for edit clinicalstaff
 
-    /** The clinical staff repository. */
+    /**
+     * The clinical staff repository.
+     */
     private ClinicalStaffRepository clinicalStaffRepository;
 
 
@@ -27,6 +29,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
      * Instantiates a new creates the clinical staff controller.
      */
     public CreateClinicalStaffController() {
+        super();
         setCommandClass(gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand.class);
         setCommandName("clinicalStaffCommand");
         setFormView("clinicalStaff/createClinicalStaff");
@@ -74,7 +77,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
 
     /**
      * Sets the clinical staff repository.
-     * 
+     *
      * @param clinicalStaffRepository the new clinical staff repository
      */
     @Required

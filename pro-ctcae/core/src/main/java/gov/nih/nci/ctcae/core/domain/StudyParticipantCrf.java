@@ -8,10 +8,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class StudyParticipantCrf.
- * 
+ *
  * @author
  * @crated Oct 7, 2008
  */
@@ -22,28 +22,38 @@ import java.util.List;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_study_participant_crfs_id")})
 public class StudyParticipantCrf extends BaseVersionable {
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The study participant crf schedules. */
+    /**
+     * The study participant crf schedules.
+     */
     @OneToMany(mappedBy = "studyParticipantCrf", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = new ArrayList<StudyParticipantCrfSchedule>();
 
-    /** The study participant crf added questions. */
+    /**
+     * The study participant crf added questions.
+     */
     @OneToMany(mappedBy = "studyParticipantCrf", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantCrfAddedQuestion> studyParticipantCrfAddedQuestions = new ArrayList<StudyParticipantCrfAddedQuestion>();
 
-    /** The crf. */
+    /**
+     * The crf.
+     */
     @JoinColumn(name = "crf_id", referencedColumnName = "id")
     @ManyToOne
     private CRF crf;
 
-    /** The study participant assignment. */
+    /**
+     * The study participant assignment.
+     */
     @JoinColumn(name = "study_participant_id", referencedColumnName = "id")
     @ManyToOne
     private StudyParticipantAssignment studyParticipantAssignment;
@@ -53,7 +63,7 @@ public class StudyParticipantCrf extends BaseVersionable {
      * Instantiates a new study participant crf.
      */
     public StudyParticipantCrf() {
-
+        super();
     }
 
 
@@ -74,7 +84,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     /**
      * Gets the crf.
-     * 
+     *
      * @return the crf
      */
     public CRF getCrf() {
@@ -84,7 +94,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     /**
      * Gets the study participant assignment.
-     * 
+     *
      * @return the study participant assignment
      */
     public StudyParticipantAssignment getStudyParticipantAssignment() {
@@ -93,7 +103,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     /**
      * Sets the crf.
-     * 
+     *
      * @param crf the new crf
      */
     public void setCrf(CRF crf) {
@@ -102,7 +112,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     /**
      * Sets the study participant assignment.
-     * 
+     *
      * @param studyParticipant the new study participant assignment
      */
     public void setStudyParticipantAssignment(StudyParticipantAssignment studyParticipant) {
@@ -111,7 +121,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     /**
      * Gets the study participant crf schedules.
-     * 
+     *
      * @return the study participant crf schedules
      */
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules() {
@@ -120,9 +130,9 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     /**
      * Adds the study participant crf schedule.
-     * 
+     *
      * @param studyParticipantCrfSchedule the study participant crf schedule
-     * @param crf the crf
+     * @param crf                         the crf
      */
     public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf) {
         if (studyParticipantCrfSchedule != null) {
@@ -142,7 +152,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     /**
      * Removes the crf schedule.
-     * 
+     *
      * @param crfSchedule the crf schedule
      */
     public void removeCrfSchedule(StudyParticipantCrfSchedule crfSchedule) {
@@ -151,7 +161,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     /**
      * Gets the study participant crf added questions.
-     * 
+     *
      * @return the study participant crf added questions
      */
     public List<StudyParticipantCrfAddedQuestion> getStudyParticipantCrfAddedQuestions() {
@@ -160,8 +170,9 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     /**
      * Adds the study participant crf added question.
-     * 
-     * @param studyParticipantCrfAddedQuestion the study participant crf added question
+     *
+     * @param studyParticipantCrfAddedQuestion
+     *         the study participant crf added question
      */
     public void addStudyParticipantCrfAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
         if (studyParticipantCrfAddedQuestion != null) {
@@ -172,8 +183,9 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     /**
      * Removes the study participant crf added question.
-     * 
-     * @param studyParticipantCrfAddedQuestion the study participant crf added question
+     *
+     * @param studyParticipantCrfAddedQuestion
+     *         the study participant crf added question
      */
     public void removeStudyParticipantCrfAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
         studyParticipantCrfAddedQuestions.remove(studyParticipantCrfAddedQuestion);

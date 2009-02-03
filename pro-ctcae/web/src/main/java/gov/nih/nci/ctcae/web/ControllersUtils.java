@@ -7,10 +7,10 @@ import gov.nih.nci.ctcae.web.study.StudyCommand;
 
 import javax.servlet.http.HttpServletRequest;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ControllersUtils.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
@@ -19,9 +19,8 @@ public class ControllersUtils {
 
     /**
      * Gets the form command.
-     * 
+     *
      * @param request the request
-     * 
      * @return the form command
      */
     public static CreateFormCommand getFormCommand(final HttpServletRequest request) {
@@ -33,9 +32,8 @@ public class ControllersUtils {
 
     /**
      * Gets the study command.
-     * 
+     *
      * @param request the request
-     * 
      * @return the study command
      */
     public static StudyCommand getStudyCommand(HttpServletRequest request) {

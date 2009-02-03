@@ -9,52 +9,78 @@ import java.io.Serializable;
 import java.util.*;
 
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class SubmitFormCommand.
- * 
+ *
  * @author Harsh Agarwal
  * @crated Nov 12, 2008
  */
 public class SubmitFormCommand implements Serializable {
 
-    /** The study participant crf schedule. */
+    /**
+     * The study participant crf schedule.
+     */
     private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
-    
-    /** The display rules. */
+
+    /**
+     * The display rules.
+     */
     private Hashtable<Integer, String> displayRules = new Hashtable<Integer, String>();
-    
-    /** The finder repository. */
+
+    /**
+     * The finder repository.
+     */
     private FinderRepository finderRepository;
-    
-    /** The generic repository. */
+
+    /**
+     * The generic repository.
+     */
     private GenericRepository genericRepository;
-    
-    /** The current page index. */
+
+    /**
+     * The current page index.
+     */
     private int currentPageIndex;
-    
-    /** The total pages. */
+
+    /**
+     * The total pages.
+     */
     private int totalPages;
-    
-    /** The direction. */
+
+    /**
+     * The direction.
+     */
     private String direction = "";
-    
-    /** The flash message. */
+
+    /**
+     * The flash message.
+     */
     private String flashMessage;
-    
-    /** The pro ctc questions. */
+
+    /**
+     * The pro ctc questions.
+     */
     private List<ProCtcQuestion> proCtcQuestions;
-    
-    /** The has participant added questions. */
+
+    /**
+     * The has participant added questions.
+     */
     private boolean hasParticipantAddedQuestions = false;
-    
-    /** The deleted questions. */
+
+    /**
+     * The deleted questions.
+     */
     private String deletedQuestions;
-    
-    /** The participant added question index. */
+
+    /**
+     * The participant added question index.
+     */
     private int participantAddedQuestionIndex = 0;
-    
-    /** The page header. */
+
+    /**
+     * The page header.
+     */
     private String pageHeader = "";
 
     /**
@@ -87,9 +113,8 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Find latest crf and create schedule.
-     * 
+     *
      * @param studyParticipantCrfSchedule the study participant crf schedule
-     * 
      * @return the study participant crf schedule
      */
     private StudyParticipantCrfSchedule findLatestCrfAndCreateSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
@@ -164,7 +189,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Gets the display rules.
-     * 
+     *
      * @return the display rules
      */
     public Hashtable<Integer, String> getDisplayRules() {
@@ -173,7 +198,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Gets the study participant crf schedule.
-     * 
+     *
      * @return the study participant crf schedule
      */
     public StudyParticipantCrfSchedule getStudyParticipantCrfSchedule() {
@@ -182,7 +207,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Sets the study participant crf schedule.
-     * 
+     *
      * @param studyParticipantCrfSchedule the new study participant crf schedule
      */
     public void setStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
@@ -191,7 +216,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Gets the current page index.
-     * 
+     *
      * @return the current page index
      */
     public int getCurrentPageIndex() {
@@ -208,7 +233,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Sets the current page index.
-     * 
+     *
      * @param currentPageIndex the new current page index
      */
     public void setCurrentPageIndex(int currentPageIndex) {
@@ -217,7 +242,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Gets the total pages.
-     * 
+     *
      * @return the total pages
      */
     public int getTotalPages() {
@@ -226,7 +251,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Sets the total pages.
-     * 
+     *
      * @param totalPages the new total pages
      */
     public void setTotalPages(int totalPages) {
@@ -235,7 +260,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Gets the direction.
-     * 
+     *
      * @return the direction
      */
     public String getDirection() {
@@ -244,7 +269,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Sets the direction.
-     * 
+     *
      * @param direction the new direction
      */
     public void setDirection(String direction) {
@@ -253,7 +278,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Sets the finder repository.
-     * 
+     *
      * @param finderRepository the new finder repository
      */
     public void setFinderRepository(FinderRepository finderRepository) {
@@ -262,7 +287,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Sets the generic repository.
-     * 
+     *
      * @param genericRepository the new generic repository
      */
     public void setGenericRepository(GenericRepository genericRepository) {
@@ -271,7 +296,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Gets the flash message.
-     * 
+     *
      * @return the flash message
      */
     public String getFlashMessage() {
@@ -280,7 +305,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Sets the flash message.
-     * 
+     *
      * @param flashMessage the new flash message
      */
     public void setFlashMessage(String flashMessage) {
@@ -289,7 +314,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Gets the arranged questions.
-     * 
+     *
      * @return the arranged questions
      */
     public Hashtable<String, List<ProCtcQuestion>> getArrangedQuestions() {
@@ -321,15 +346,15 @@ public class SubmitFormCommand implements Serializable {
             }
         }
 
-       return arrangedQuestions;
+        return arrangedQuestions;
     }
 
     /**
      * Gets the sorted symptoms.
-     * 
+     *
      * @return the sorted symptoms
      */
-    public ArrayList<String> getSortedSymptoms(){
+    public ArrayList<String> getSortedSymptoms() {
         Hashtable<String, List<ProCtcQuestion>> arrangedQuestions = getArrangedQuestions();
         ArrayList<String> sortedList = new ArrayList(arrangedQuestions.keySet());
         Collections.sort(sortedList);
@@ -337,10 +362,10 @@ public class SubmitFormCommand implements Serializable {
         return sortedList;
 
     }
-    
+
     /**
      * Sets the pro ctc questions.
-     * 
+     *
      * @param proCtcQuestions the new pro ctc questions
      */
     public void setProCtcQuestions(List<ProCtcQuestion> proCtcQuestions) {
@@ -349,7 +374,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Gets the pro ctc questions.
-     * 
+     *
      * @return the pro ctc questions
      */
     public List<ProCtcQuestion> getProCtcQuestions() {
@@ -358,7 +383,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Checks if is checks for participant added questions.
-     * 
+     *
      * @return true, if is checks for participant added questions
      */
     public boolean isHasParticipantAddedQuestions() {
@@ -367,7 +392,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Sets the checks for participant added questions.
-     * 
+     *
      * @param hasParticipantAddedQuestions the new checks for participant added questions
      */
     public void setHasParticipantAddedQuestions(boolean hasParticipantAddedQuestions) {
@@ -376,7 +401,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Gets the deleted questions.
-     * 
+     *
      * @return the deleted questions
      */
     public String getDeletedQuestions() {
@@ -385,7 +410,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Sets the deleted questions.
-     * 
+     *
      * @param deletedQuestions the new deleted questions
      */
     public void setDeletedQuestions(String deletedQuestions) {
@@ -394,7 +419,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Delete questions.
-     * 
+     *
      * @param questions the questions
      */
     public void deleteQuestions(String questions) {
@@ -434,7 +459,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Gets the participant added question index.
-     * 
+     *
      * @return the participant added question index
      */
     public int getParticipantAddedQuestionIndex() {
@@ -443,7 +468,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Sets the participant added question index.
-     * 
+     *
      * @param participantAddedQuestionIndex the new participant added question index
      */
     public void setParticipantAddedQuestionIndex(int participantAddedQuestionIndex) {
@@ -452,7 +477,7 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Gets the page header.
-     * 
+     *
      * @return the page header
      */
     public String getPageHeader() {

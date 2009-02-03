@@ -1,10 +1,10 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import java.util.*;
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * User: Harsh
  * Date: Jan 19, 2009
@@ -12,52 +12,81 @@ import java.text.ParseException;
  */
 public class ProCtcAECalendar {
 
-    /** The html calendar. */
+    /**
+     * The html calendar.
+     */
     private static List<List<String>> htmlCalendar = new ArrayList<List<String>>();
-    
-    /** The calendar. */
+
+    /**
+     * The calendar.
+     */
     private Calendar calendar;
-    
-    /** The repetition period amount. */
+
+    /**
+     * The repetition period amount.
+     */
     private int repetitionPeriodAmount;
-    
-    /** The repetition period unit. */
+
+    /**
+     * The repetition period unit.
+     */
     private String repetitionPeriodUnit;
-    
-    /** The due date amount. */
+
+    /**
+     * The due date amount.
+     */
     private int dueDateAmount;
-    
-    /** The due date unit. */
+
+    /**
+     * The due date unit.
+     */
     private String dueDateUnit;
-    
-    /** The repeat on. */
+
+    /**
+     * The repeat on.
+     */
     private String repeatOn;
-    
-    /** The repeat until unit. */
+
+    /**
+     * The repeat until unit.
+     */
     private String repeatUntilUnit;
-    
-    /** The repeat until value. */
+
+    /**
+     * The repeat until value.
+     */
     private String repeatUntilValue;
-    
-    /** The start date. */
+
+    /**
+     * The start date.
+     */
     private Date startDate;
-    
-    /** The due after period in mill. */
+
+    /**
+     * The due after period in mill.
+     */
     private int dueAfterPeriodInMill;
-    
-    /** The number of repetitions. */
+
+    /**
+     * The number of repetitions.
+     */
     private int numberOfRepetitions;
-    
-    /** The current index. */
+
+    /**
+     * The current index.
+     */
     private int currentIndex;
-    
-    /** The temp. */
+
+    /**
+     * The temp.
+     */
     private Calendar temp;
 
     /**
      * Instantiates a new pro ctc ae calendar.
      */
     public ProCtcAECalendar() {
+        super();
         calendar = new GregorianCalendar();
         startDate = new Date();
         calendar.set(Calendar.DATE, 1);
@@ -65,7 +94,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the html calendar.
-     * 
+     *
      * @return the html calendar
      */
     public List<List<String>> getHtmlCalendar() {
@@ -105,9 +134,8 @@ public class ProCtcAECalendar {
 
     /**
      * Checks if is date within month.
-     * 
+     *
      * @param date the date
-     * 
      * @return true, if is date within month
      */
     public boolean isDateWithinMonth(Date date) {
@@ -126,7 +154,7 @@ public class ProCtcAECalendar {
 
     /**
      * Adds the.
-     * 
+     *
      * @param amount the amount
      */
     public void add(int amount) {
@@ -135,7 +163,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the time.
-     * 
+     *
      * @return the time
      */
     public Date getTime() {
@@ -144,15 +172,13 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the number of repetitions.
-     * 
-     * @param repeatUntil the repeat until
+     *
+     * @param repeatUntil      the repeat until
      * @param repeatUntilValue the repeat until value
-     * @param startDate the start date
-     * @param repeatEvery the repeat every
+     * @param startDate        the start date
+     * @param repeatEvery      the repeat every
      * @param repeatEveryValue the repeat every value
-     * 
      * @return the number of repetitions
-     * 
      * @throws ParseException the parse exception
      */
     private int getNumberOfRepetitions(String repeatUntil, String repeatUntilValue, Date startDate, String repeatEvery, int repeatEveryValue) throws ParseException {
@@ -168,7 +194,7 @@ public class ProCtcAECalendar {
             Date endDate = sdf.parse(repeatUntilValue);
             int numberOfDays = (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
             if ("Days".equals(repeatEvery)) {
-                numberOfRepetitions = (numberOfDays / repeatEveryValue) +1;
+                numberOfRepetitions = (numberOfDays / repeatEveryValue) + 1;
             }
             if ("Weeks".equals(repeatEvery)) {
                 numberOfRepetitions = numberOfDays / 7;
@@ -183,7 +209,7 @@ public class ProCtcAECalendar {
 
     /**
      * Prepare schedules.
-     * 
+     *
      * @throws ParseException the parse exception
      */
     public void prepareSchedules() throws ParseException {
@@ -198,7 +224,7 @@ public class ProCtcAECalendar {
 
     /**
      * Checks for more schedules.
-     * 
+     *
      * @return true, if successful
      */
     public boolean hasMoreSchedules() {
@@ -207,7 +233,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the next scehdule.
-     * 
+     *
      * @return the next scehdule
      */
     public Calendar getNextScehdule() {
@@ -228,9 +254,8 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the calendar for date.
-     * 
+     *
      * @param date the date
-     * 
      * @return the calendar for date
      */
     public Calendar getCalendarForDate(Date date) {
@@ -250,10 +275,9 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the due period in millis.
-     * 
-     * @param dueAfter the due after
+     *
+     * @param dueAfter      the due after
      * @param dueAfterValue the due after value
-     * 
      * @return the due period in millis
      */
     private int getDuePeriodInMillis(String dueAfter, int dueAfterValue) {
@@ -272,7 +296,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the calendar.
-     * 
+     *
      * @return the calendar
      */
     public Calendar getCalendar() {
@@ -281,7 +305,7 @@ public class ProCtcAECalendar {
 
     /**
      * Sets the calendar.
-     * 
+     *
      * @param calendar the new calendar
      */
     public void setCalendar(Calendar calendar) {
@@ -290,7 +314,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the repetition period amount.
-     * 
+     *
      * @return the repetition period amount
      */
     public int getRepetitionPeriodAmount() {
@@ -299,7 +323,7 @@ public class ProCtcAECalendar {
 
     /**
      * Sets the repetition period amount.
-     * 
+     *
      * @param repetitionPeriodAmount the new repetition period amount
      */
     public void setRepetitionPeriodAmount(int repetitionPeriodAmount) {
@@ -308,7 +332,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the repetition period unit.
-     * 
+     *
      * @return the repetition period unit
      */
     public String getRepetitionPeriodUnit() {
@@ -317,7 +341,7 @@ public class ProCtcAECalendar {
 
     /**
      * Sets the repetition period unit.
-     * 
+     *
      * @param repetitionPeriodUnit the new repetition period unit
      */
     public void setRepetitionPeriodUnit(String repetitionPeriodUnit) {
@@ -326,7 +350,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the due date amount.
-     * 
+     *
      * @return the due date amount
      */
     public int getDueDateAmount() {
@@ -335,7 +359,7 @@ public class ProCtcAECalendar {
 
     /**
      * Sets the due date amount.
-     * 
+     *
      * @param dueDateAmount the new due date amount
      */
     public void setDueDateAmount(int dueDateAmount) {
@@ -344,7 +368,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the due date unit.
-     * 
+     *
      * @return the due date unit
      */
     public String getDueDateUnit() {
@@ -353,7 +377,7 @@ public class ProCtcAECalendar {
 
     /**
      * Sets the due date unit.
-     * 
+     *
      * @param dueDateUnit the new due date unit
      */
     public void setDueDateUnit(String dueDateUnit) {
@@ -362,7 +386,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the repeat on.
-     * 
+     *
      * @return the repeat on
      */
     public String getRepeatOn() {
@@ -371,7 +395,7 @@ public class ProCtcAECalendar {
 
     /**
      * Sets the repeat on.
-     * 
+     *
      * @param repeatOn the new repeat on
      */
     public void setRepeatOn(String repeatOn) {
@@ -380,7 +404,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the repeat until unit.
-     * 
+     *
      * @return the repeat until unit
      */
     public String getRepeatUntilUnit() {
@@ -389,7 +413,7 @@ public class ProCtcAECalendar {
 
     /**
      * Sets the repeat until unit.
-     * 
+     *
      * @param repeatUntilUnit the new repeat until unit
      */
     public void setRepeatUntilUnit(String repeatUntilUnit) {
@@ -398,7 +422,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the repeat until value.
-     * 
+     *
      * @return the repeat until value
      */
     public String getRepeatUntilValue() {
@@ -407,7 +431,7 @@ public class ProCtcAECalendar {
 
     /**
      * Sets the repeat until value.
-     * 
+     *
      * @param repeatUntilValue the new repeat until value
      */
     public void setRepeatUntilValue(String repeatUntilValue) {
@@ -416,7 +440,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the start date.
-     * 
+     *
      * @return the start date
      */
     public Date getStartDate() {
@@ -425,7 +449,7 @@ public class ProCtcAECalendar {
 
     /**
      * Sets the start date.
-     * 
+     *
      * @param startDate the new start date
      */
     public void setStartDate(Date startDate) {
@@ -434,7 +458,7 @@ public class ProCtcAECalendar {
 
     /**
      * Gets the due after period in mill.
-     * 
+     *
      * @return the due after period in mill
      */
     public int getDueAfterPeriodInMill() {

@@ -1,16 +1,16 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 
-import java.util.*;
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * User: Harsh
  * Date: Jan 19, 2009
@@ -18,28 +18,37 @@ import java.text.ParseException;
  */
 public class ParticipantSchedule {
 
-    /** The current month schedules. */
+    /**
+     * The current month schedules.
+     */
     private List<StudyParticipantCrfSchedule> currentMonthSchedules = new ArrayList<StudyParticipantCrfSchedule>();
-    
-    /** The calendar. */
+
+    /**
+     * The calendar.
+     */
     private ProCtcAECalendar calendar;
-    
-    /** The study participant crf. */
+
+    /**
+     * The study participant crf.
+     */
     private StudyParticipantCrf studyParticipantCrf;
-    
-    /** The finder repository. */
+
+    /**
+     * The finder repository.
+     */
     private FinderRepository finderRepository;
 
     /**
      * Instantiates a new participant schedule.
      */
     public ParticipantSchedule() {
+        super();
         calendar = new ProCtcAECalendar();
     }
 
     /**
      * Gets the calendar.
-     * 
+     *
      * @return the calendar
      */
     public ProCtcAECalendar getCalendar() {
@@ -48,7 +57,7 @@ public class ParticipantSchedule {
 
     /**
      * Sets the calendar.
-     * 
+     *
      * @param calendar the new calendar
      */
     public void setCalendar(ProCtcAECalendar calendar) {
@@ -57,7 +66,7 @@ public class ParticipantSchedule {
 
     /**
      * Gets the study participant crf.
-     * 
+     *
      * @return the study participant crf
      */
     public StudyParticipantCrf getStudyParticipantCrf() {
@@ -66,7 +75,7 @@ public class ParticipantSchedule {
 
     /**
      * Sets the study participant crf.
-     * 
+     *
      * @param studyParticipantCrf the new study participant crf
      */
     public void setStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
@@ -75,7 +84,7 @@ public class ParticipantSchedule {
 
     /**
      * Gets the current month schedules.
-     * 
+     *
      * @return the current month schedules
      */
     public List<StudyParticipantCrfSchedule> getCurrentMonthSchedules() {
@@ -93,7 +102,7 @@ public class ParticipantSchedule {
 
     /**
      * Creates the schedules.
-     * 
+     *
      * @throws ParseException the parse exception
      */
     public void createSchedules() throws ParseException {
@@ -107,10 +116,9 @@ public class ParticipantSchedule {
 
     /**
      * Creates the schedule.
-     * 
+     *
      * @param startDate the start date
-     * @param dueDate the due date
-     * 
+     * @param dueDate   the due date
      * @throws ParseException the parse exception
      */
     public void createSchedule(String startDate, String dueDate) throws ParseException {
@@ -126,8 +134,8 @@ public class ParticipantSchedule {
 
     /**
      * Creates the schedule.
-     * 
-     * @param c the c
+     *
+     * @param c                    the c
      * @param dueAfterPeriodInMill the due after period in mill
      */
     public void createSchedule(Calendar c, long dueAfterPeriodInMill) {
@@ -146,7 +154,7 @@ public class ParticipantSchedule {
 
     /**
      * Removes the schedule.
-     * 
+     *
      * @param c the c
      */
     public void removeSchedule(Calendar c) {
@@ -187,7 +195,7 @@ public class ParticipantSchedule {
 
     /**
      * Sets the finder repository.
-     * 
+     *
      * @param finderRepository the new finder repository
      */
     public void setFinderRepository(FinderRepository finderRepository) {
@@ -196,7 +204,7 @@ public class ParticipantSchedule {
 
     /**
      * Checks if is repeat.
-     * 
+     *
      * @return true, if is repeat
      */
     public boolean isRepeat() {

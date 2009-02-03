@@ -1,21 +1,27 @@
 package gov.nih.nci.ctcae.core.query;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class StudyParticipantAssignmentQuery.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 22, 2008
  */
 public class StudyParticipantAssignmentQuery extends AbstractQuery {
 
-    /** The query string. */
+    /**
+     * The query string.
+     */
     private static String queryString = "SELECT o from StudyParticipantAssignment o";
-    
-    /** The STUD y_ id. */
+
+    /**
+     * The STUD y_ id.
+     */
     private static String STUDY_ID = "studyId";
-    
-    /** The PARTICIPAN t_ id. */
+
+    /**
+     * The PARTICIPAN t_ id.
+     */
     private static String PARTICIPANT_ID = "participantId";
 
     /**
@@ -28,7 +34,7 @@ public class StudyParticipantAssignmentQuery extends AbstractQuery {
 
     /**
      * Filter by study id.
-     * 
+     *
      * @param studyId the study id
      */
     public void filterByStudyId(final int studyId) {
@@ -39,7 +45,7 @@ public class StudyParticipantAssignmentQuery extends AbstractQuery {
 
     /**
      * Filter by participant id.
-     * 
+     *
      * @param participantId the participant id
      */
     public void filterByParticipantId(final int participantId) {

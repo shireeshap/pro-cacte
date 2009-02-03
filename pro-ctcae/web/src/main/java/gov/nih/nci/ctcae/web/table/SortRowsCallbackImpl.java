@@ -15,16 +15,18 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class SortRowsCallbackImpl.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 18, 2008
  */
 public class SortRowsCallbackImpl implements SortRowsCallback {
 
-    /** The logger. */
+    /**
+     * The logger.
+     */
     private static Log logger = LogFactory.getLog(SortRowsCallbackImpl.class);
 
     /* (non-Javadoc)

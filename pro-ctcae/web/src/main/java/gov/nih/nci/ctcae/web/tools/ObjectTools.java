@@ -7,24 +7,23 @@ import org.springframework.beans.BeanWrapperImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ObjectTools.
- * 
+ *
  * @author Saurabh Agrawal
  * @crated Nov 5, 2008
  */
 public class ObjectTools {
-    
+
     /**
      * Creates a copy of the given object with only the listed properties included.
-     * 
-     * @param src the src
+     *
+     * @param src         the src
      * @param initializer if supplied, the new instance will be passed to this object's
-     * {@link Initializer#initialize} method before the properties are copied. This
-     * provides an opportunity to initialize intermediate objects.
-     * @param properties the properties
-     * 
+     *                    {@link Initializer#initialize} method before the properties are copied. This
+     *                    provides an opportunity to initialize intermediate objects.
+     * @param properties  the properties
      * @return a newly-created object of the same class as <code>src</code>
      */
     @SuppressWarnings("unchecked")
@@ -50,11 +49,10 @@ public class ObjectTools {
 
     /**
      * Reduce all.
-     * 
-     * @param src the src
+     *
+     * @param src         the src
      * @param initializer the initializer
-     * @param properties the properties
-     * 
+     * @param properties  the properties
      * @return the list< t>
      */
     public static <T> List<T> reduceAll(List<T> src, Initializer<T> initializer,
@@ -68,10 +66,9 @@ public class ObjectTools {
 
     /**
      * Creates a copy of the given object with only the listed properties included.
-     * 
-     * @param src the src
+     *
+     * @param src        the src
      * @param properties the properties
-     * 
      * @return a newly-created object of the same class as <code>src</code>
      */
     public static <T> T reduce(T src, String... properties) {
@@ -80,10 +77,9 @@ public class ObjectTools {
 
     /**
      * Reduce all.
-     * 
-     * @param src the src
+     *
+     * @param src        the src
      * @param properties the properties
-     * 
      * @return the list< t>
      */
     public static <T> List<T> reduceAll(List<T> src, String... properties) {
@@ -96,10 +92,10 @@ public class ObjectTools {
      * The Interface Initializer.
      */
     public static interface Initializer<T> {
-        
+
         /**
          * Initialize.
-         * 
+         *
          * @param instance the instance
          */
         void initialize(T instance);
@@ -110,5 +106,6 @@ public class ObjectTools {
      * Instantiates a new object tools.
      */
     private ObjectTools() {
+        super();
     }
 }

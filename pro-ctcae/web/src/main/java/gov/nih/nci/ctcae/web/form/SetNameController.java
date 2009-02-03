@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class SetNameController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
@@ -38,6 +38,7 @@ public class SetNameController extends AbstractController {
      * Instantiates a new sets the name controller.
      */
     public SetNameController() {
+        super();
         setSupportedMethods(new String[]{"POST"});
 
     }

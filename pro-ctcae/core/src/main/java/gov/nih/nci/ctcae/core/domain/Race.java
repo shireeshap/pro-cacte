@@ -2,33 +2,49 @@ package gov.nih.nci.ctcae.core.domain;
 
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Enum Race.
  */
 public enum Race {
 
-    /** The ASIAN. */
-    ASIAN("Asian"), /** The WHITE. */
- WHITE("White"), /** The BLACK. */
- BLACK("Black or African American"), /** The AMERICANINDIAN. */
- AMERICANINDIAN(
-            "American Indian or Alaska Native"), 
- /** The NATIVEHAWAII. */
- NATIVEHAWAII(
-            "Native Hawaiian or Other PacificIslander"), 
- /** The NOTREPORTED. */
- NOTREPORTED(
-            "Not Reported"), 
- /** The UNKNOWN. */
- UNKNOWN("Unknown");
+    /**
+     * The ASIAN.
+     */
+    ASIAN("Asian"), /**
+     * The WHITE.
+     */
+    WHITE("White"), /**
+     * The BLACK.
+     */
+    BLACK("Black or African American"), /**
+     * The AMERICANINDIAN.
+     */
+    AMERICANINDIAN(
+                    "American Indian or Alaska Native"),
+    /**
+     * The NATIVEHAWAII.
+     */
+    NATIVEHAWAII(
+            "Native Hawaiian or Other PacificIslander"),
+    /**
+     * The NOTREPORTED.
+     */
+    NOTREPORTED(
+            "Not Reported"),
+    /**
+     * The UNKNOWN.
+     */
+    UNKNOWN("Unknown");
 
-    /** The display text. */
+    /**
+     * The display text.
+     */
     private final String displayText;
 
     /**
      * Instantiates a new race.
-     * 
+     *
      * @param displayText the display text
      */
     Race(String displayText) {
@@ -45,7 +61,7 @@ public enum Race {
 
     /**
      * Gets the display text.
-     * 
+     *
      * @return the display text
      */
     public String getDisplayText() {
@@ -54,7 +70,7 @@ public enum Race {
 
     /**
      * Gets the all races.
-     * 
+     *
      * @return the all races
      */
     public static ArrayList<Race> getAllRaces() {

@@ -3,10 +3,10 @@ package gov.nih.nci.ctcae.core.repository;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ParticipantRepository.
- * 
+ *
  * @author mehul
  */
 

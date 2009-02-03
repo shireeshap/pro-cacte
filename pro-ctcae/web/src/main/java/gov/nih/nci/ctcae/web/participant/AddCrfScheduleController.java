@@ -1,8 +1,5 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,21 +8,21 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.text.SimpleDateFormat;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class AddCrfScheduleController.
- * 
+ *
  * @author Harsh Agarwal
  * @created Nov 6, 2008
  * Controller class called via Ajax. Used to add / delete schedule based on the date parameter
  */
 public class AddCrfScheduleController extends AbstractController {
 
-    /** The finder repository. */
+    /**
+     * The finder repository.
+     */
     FinderRepository finderRepository;
 
 
@@ -76,13 +73,14 @@ public class AddCrfScheduleController extends AbstractController {
      * Instantiates a new adds the crf schedule controller.
      */
     public AddCrfScheduleController() {
+        super();
         setSupportedMethods(new String[]{"GET"});
 
     }
 
     /**
      * Sets the finder repository.
-     * 
+     *
      * @param finderRepository the new finder repository
      */
     @Required

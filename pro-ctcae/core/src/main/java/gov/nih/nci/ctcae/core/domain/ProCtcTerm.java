@@ -8,10 +8,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ProCtcTerm.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 13, 2008
  */
@@ -22,28 +22,38 @@ import java.util.Collection;
         @Parameter(name = "sequence", value = "seq_pro_ctc_terms_id")})
 public class ProCtcTerm extends BasePersistable {
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The term. */
+    /**
+     * The term.
+     */
     @Column(name = "term", nullable = false)
     private String term;
 
 
-    /** The pro ctc questions. */
+    /**
+     * The pro ctc questions.
+     */
     @OneToMany(mappedBy = "proCtcTerm")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private Collection<ProCtcQuestion> proCtcQuestions = new ArrayList<ProCtcQuestion>();
 
-    /** The pro ctc. */
+    /**
+     * The pro ctc.
+     */
     @JoinColumn(name = "pro_ctc_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtc proCtc;
 
-    /** The ctc term. */
+    /**
+     * The ctc term.
+     */
     @JoinColumn(name = "ctc_term_id", referencedColumnName = "id")
     @ManyToOne
     private CtcTerm ctcTerm;
@@ -52,31 +62,13 @@ public class ProCtcTerm extends BasePersistable {
      * Instantiates a new pro ctc term.
      */
     public ProCtcTerm() {
+        super();
     }
 
-    /**
-     * Instantiates a new pro ctc term.
-     * 
-     * @param id the id
-     */
-    public ProCtcTerm(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * Instantiates a new pro ctc term.
-     * 
-     * @param id the id
-     * @param term the term
-     */
-    public ProCtcTerm(Integer id, String term) {
-        this.id = id;
-        this.term = term;
-    }
 
     /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
-     */
+    * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
+    */
     public Integer getId() {
         return id;
     }
@@ -90,7 +82,7 @@ public class ProCtcTerm extends BasePersistable {
 
     /**
      * Gets the term.
-     * 
+     *
      * @return the term
      */
     public String getTerm() {
@@ -99,7 +91,7 @@ public class ProCtcTerm extends BasePersistable {
 
     /**
      * Sets the term.
-     * 
+     *
      * @param term the new term
      */
     public void setTerm(String term) {
@@ -109,7 +101,7 @@ public class ProCtcTerm extends BasePersistable {
 
     /**
      * Gets the pro ctc questions.
-     * 
+     *
      * @return the pro ctc questions
      */
     public Collection<ProCtcQuestion> getProCtcQuestions() {
@@ -118,7 +110,7 @@ public class ProCtcTerm extends BasePersistable {
 
     /**
      * Gets the pro ctc.
-     * 
+     *
      * @return the pro ctc
      */
     public ProCtc getProCtc() {
@@ -127,7 +119,7 @@ public class ProCtcTerm extends BasePersistable {
 
     /**
      * Sets the pro ctc.
-     * 
+     *
      * @param proCtc the new pro ctc
      */
     public void setProCtc(ProCtc proCtc) {
@@ -137,7 +129,7 @@ public class ProCtcTerm extends BasePersistable {
 
     /**
      * Adds the pro ctc question.
-     * 
+     *
      * @param proCtcQuestion the pro ctc question
      */
     public void addProCtcQuestion(ProCtcQuestion proCtcQuestion) {
@@ -159,7 +151,7 @@ public class ProCtcTerm extends BasePersistable {
 
     /**
      * Gets the ctc term.
-     * 
+     *
      * @return the ctc term
      */
     public CtcTerm getCtcTerm() {
@@ -168,7 +160,7 @@ public class ProCtcTerm extends BasePersistable {
 
     /**
      * Sets the ctc term.
-     * 
+     *
      * @param ctcTerm the new ctc term
      */
     public void setCtcTerm(CtcTerm ctcTerm) {

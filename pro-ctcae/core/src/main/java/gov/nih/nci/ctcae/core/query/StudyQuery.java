@@ -2,34 +2,48 @@ package gov.nih.nci.ctcae.core.query;
 
 import org.apache.commons.lang.StringUtils;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class StudyQuery.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 14, 2008
  */
 public class StudyQuery extends AbstractQuery {
 
-    /** The query string. */
+    /**
+     * The query string.
+     */
     private static String queryString = "Select study from Study study order by study.shortTitle ";
 
-    /** The Constant SHORT_TITLE. */
+    /**
+     * The Constant SHORT_TITLE.
+     */
     private static final String SHORT_TITLE = "shortTitle";
-    
-    /** The Constant LONG_TITLE. */
+
+    /**
+     * The Constant LONG_TITLE.
+     */
     private static final String LONG_TITLE = "longTitle";
-    
-    /** The Constant ASSIGNED_IDENTIFIER. */
+
+    /**
+     * The Constant ASSIGNED_IDENTIFIER.
+     */
     private static final String ASSIGNED_IDENTIFIER = "assignedIdentifier";
-    
-    /** The Constant PARTICIPANT_ID. */
+
+    /**
+     * The Constant PARTICIPANT_ID.
+     */
     private static final String PARTICIPANT_ID = "participantId";
-    
-    /** The ORGANIZATIO n_ id. */
+
+    /**
+     * The ORGANIZATIO n_ id.
+     */
     private static String ORGANIZATION_ID = "organizationId";
-    
-    /** The Constant STUDY_SITE. */
+
+    /**
+     * The Constant STUDY_SITE.
+     */
     private static final String STUDY_SITE = "studySite";
 
     /**
@@ -43,7 +57,7 @@ public class StudyQuery extends AbstractQuery {
 
     /**
      * Filter studies with matching text.
-     * 
+     *
      * @param text the text
      */
     public void filterStudiesWithMatchingText(String text) {
@@ -59,7 +73,7 @@ public class StudyQuery extends AbstractQuery {
 
     /**
      * Filter studies by long title.
-     * 
+     *
      * @param text the text
      */
     public void filterStudiesByLongTitle(String text) {
@@ -72,7 +86,7 @@ public class StudyQuery extends AbstractQuery {
 
     /**
      * Filter studies by assigned identifier.
-     * 
+     *
      * @param text the text
      */
     public void filterStudiesByAssignedIdentifier(String text) {
@@ -85,7 +99,7 @@ public class StudyQuery extends AbstractQuery {
 
     /**
      * Filter by assigned identifier exact match.
-     * 
+     *
      * @param assignedIdentifier the assigned identifier
      */
     public void filterByAssignedIdentifierExactMatch(final String assignedIdentifier) {
@@ -97,7 +111,7 @@ public class StudyQuery extends AbstractQuery {
 
     /**
      * Filter studies by short title.
-     * 
+     *
      * @param text the text
      */
     public void filterStudiesByShortTitle(String text) {
@@ -111,7 +125,7 @@ public class StudyQuery extends AbstractQuery {
 
     /**
      * Filter studies for study site.
-     * 
+     *
      * @param siteId the site id
      */
     public void filterStudiesForStudySite(Integer siteId) {
@@ -126,7 +140,7 @@ public class StudyQuery extends AbstractQuery {
 
     /**
      * Filter by participant.
-     * 
+     *
      * @param participantId the participant id
      */
     public void filterByParticipant(Integer participantId) {

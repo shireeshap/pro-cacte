@@ -11,25 +11,30 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class DeleteFormController.
- * 
+ *
  * @author Mehul Gulati
- * Date: Dec 4, 2008
+ *         Date: Dec 4, 2008
  */
 public class DeleteFormController extends CtcAeSimpleFormController {
 
-    /** The finder repository. */
+    /**
+     * The finder repository.
+     */
     private FinderRepository finderRepository;
-    
-    /** The crf repository. */
+
+    /**
+     * The crf repository.
+     */
     private CRFRepository crfRepository;
 
     /**
      * Instantiates a new delete form controller.
      */
     protected DeleteFormController() {
+        super();
         setCommandClass(CRF.class);
         setFormView("form/deleteForm");
         setSessionForm(true);
@@ -90,7 +95,7 @@ public class DeleteFormController extends CtcAeSimpleFormController {
 
     /**
      * Sets the crf repository.
-     * 
+     *
      * @param crfRepository the new crf repository
      */
     public void setCrfRepository(CRFRepository crfRepository) {

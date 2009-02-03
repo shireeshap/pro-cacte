@@ -4,10 +4,10 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ProCtcQuestionRepository.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */

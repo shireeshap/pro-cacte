@@ -1,27 +1,37 @@
 package gov.nih.nci.ctcae.core.query;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ParticipantQuery.
- * 
+ *
  * @author mehul
  */
 
 public class ParticipantQuery extends AbstractQuery {
 
-    /** The query string. */
+    /**
+     * The query string.
+     */
     private static String queryString = "SELECT p from Participant p order by p.id";
 
-    /** The FIRS t_ name. */
+    /**
+     * The FIRS t_ name.
+     */
     private static String FIRST_NAME = "firstName";
 
-    /** The LAS t_ name. */
+    /**
+     * The LAS t_ name.
+     */
     private static String LAST_NAME = "lastName";
 
-    /** The IDENTIFIER. */
+    /**
+     * The IDENTIFIER.
+     */
     private static String IDENTIFIER = "assignedIdentifier";
-    
-    /** The Constant STUDY_ID. */
+
+    /**
+     * The Constant STUDY_ID.
+     */
     private static final String STUDY_ID = "studyId";
 
     /**
@@ -34,7 +44,7 @@ public class ParticipantQuery extends AbstractQuery {
 
     /**
      * Filter by participant first name.
-     * 
+     *
      * @param firstName the first name
      */
     public void filterByParticipantFirstName(final String firstName) {
@@ -45,7 +55,7 @@ public class ParticipantQuery extends AbstractQuery {
 
     /**
      * Filter by participant last name.
-     * 
+     *
      * @param lastName the last name
      */
     public void filterByParticipantLastName(final String lastName) {
@@ -56,7 +66,7 @@ public class ParticipantQuery extends AbstractQuery {
 
     /**
      * Filter by participant identifier.
-     * 
+     *
      * @param identifier the identifier
      */
     public void filterByParticipantIdentifier(final String identifier) {
@@ -68,7 +78,7 @@ public class ParticipantQuery extends AbstractQuery {
 
     /**
      * Filter participants with matching text.
-     * 
+     *
      * @param text the text
      */
     public void filterParticipantsWithMatchingText(String text) {
@@ -85,7 +95,7 @@ public class ParticipantQuery extends AbstractQuery {
 
     /**
      * Filter by study.
-     * 
+     *
      * @param studyId the study id
      */
     public void filterByStudy(Integer studyId) {

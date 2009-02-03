@@ -4,16 +4,18 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * Check the non emptyness of the element.
- * 
+ *
  * @author Vinay Kumar
  * @crated Nov 8, 2008
  */
 public class NotEmptyValidator extends AbstractValidator<NotEmpty> {
-    
-    /** The message. */
+
+    /**
+     * The message.
+     */
     private String message;
 
     /* (non-Javadoc)
@@ -48,7 +50,6 @@ public class NotEmptyValidator extends AbstractValidator<NotEmpty> {
             return ((String) value).trim().length() > 0;
         }
     }
-
 
 
 }

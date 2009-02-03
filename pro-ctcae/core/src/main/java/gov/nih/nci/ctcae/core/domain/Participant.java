@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class Participant.
- * 
+ *
  * @author mehul
  */
 
@@ -21,33 +21,45 @@ import java.util.List;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_participants_id")})
 public class Participant extends Person {
 
-    /** The maiden name. */
+    /**
+     * The maiden name.
+     */
     @Column(name = "maiden_name", nullable = true)
     private String maidenName;
 
-    /** The birth date. */
+    /**
+     * The birth date.
+     */
     @Column(name = "birth_date", nullable = true)
     private Date birthDate;
 
-    /** The race. */
+    /**
+     * The race.
+     */
     @Column(name = "race", nullable = true)
     private String race;
 
-    /** The ethnicity. */
+    /**
+     * The ethnicity.
+     */
     @Column(name = "ethnicity", nullable = true)
     private String ethnicity;
 
-    /** The gender. */
+    /**
+     * The gender.
+     */
     @Column(name = "gender", nullable = true)
     private String gender;
 
-    /** The assigned identifier. */
+    /**
+     * The assigned identifier.
+     */
     @Column(name = "mrn_identifier", nullable = false)
     private String assignedIdentifier;
 
     /**
      * Gets the assigned identifier.
-     * 
+     *
      * @return the assigned identifier
      */
     public String getAssignedIdentifier() {
@@ -56,21 +68,23 @@ public class Participant extends Person {
 
     /**
      * Sets the assigned identifier.
-     * 
+     *
      * @param assignedIdentifier the new assigned identifier
      */
     public void setAssignedIdentifier(String assignedIdentifier) {
         this.assignedIdentifier = assignedIdentifier;
     }
 
-    /** The study participant assignments. */
+    /**
+     * The study participant assignments.
+     */
     @OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
 
     /**
      * Gets the maiden name.
-     * 
+     *
      * @return the maiden name
      */
     public String getMaidenName() {
@@ -79,7 +93,7 @@ public class Participant extends Person {
 
     /**
      * Sets the maiden name.
-     * 
+     *
      * @param maidenName the new maiden name
      */
     public void setMaidenName(String maidenName) {
@@ -88,7 +102,7 @@ public class Participant extends Person {
 
     /**
      * Gets the birth date.
-     * 
+     *
      * @return the birth date
      */
     public Date getBirthDate() {
@@ -97,7 +111,7 @@ public class Participant extends Person {
 
     /**
      * Sets the birth date.
-     * 
+     *
      * @param birthDate the new birth date
      */
     public void setBirthDate(Date birthDate) {
@@ -106,7 +120,7 @@ public class Participant extends Person {
 
     /**
      * Gets the race.
-     * 
+     *
      * @return the race
      */
     public String getRace() {
@@ -115,7 +129,7 @@ public class Participant extends Person {
 
     /**
      * Sets the race.
-     * 
+     *
      * @param race the new race
      */
     public void setRace(String race) {
@@ -124,7 +138,7 @@ public class Participant extends Person {
 
     /**
      * Gets the ethnicity.
-     * 
+     *
      * @return the ethnicity
      */
     public String getEthnicity() {
@@ -133,7 +147,7 @@ public class Participant extends Person {
 
     /**
      * Sets the ethnicity.
-     * 
+     *
      * @param ethnicity the new ethnicity
      */
     public void setEthnicity(String ethnicity) {
@@ -142,7 +156,7 @@ public class Participant extends Person {
 
     /**
      * Gets the gender.
-     * 
+     *
      * @return the gender
      */
     public String getGender() {
@@ -151,7 +165,7 @@ public class Participant extends Person {
 
     /**
      * Sets the gender.
-     * 
+     *
      * @param gender the new gender
      */
     public void setGender(String gender) {
@@ -160,7 +174,7 @@ public class Participant extends Person {
 
     /**
      * Adds the study participant assignment.
-     * 
+     *
      * @param spa the spa
      */
     public void addStudyParticipantAssignment(StudyParticipantAssignment spa) {
@@ -172,7 +186,7 @@ public class Participant extends Person {
 
     /**
      * Gets the study participant assignments.
-     * 
+     *
      * @return the study participant assignments
      */
     public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
@@ -188,7 +202,7 @@ public class Participant extends Person {
 
     /**
      * Gets the display name.
-     * 
+     *
      * @return the display name
      */
     @Transient

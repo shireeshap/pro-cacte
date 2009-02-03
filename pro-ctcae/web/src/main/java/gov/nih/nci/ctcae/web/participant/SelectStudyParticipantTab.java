@@ -13,16 +13,18 @@ import org.springframework.validation.Errors;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class SelectStudyParticipantTab.
- * 
+ *
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */
 public class SelectStudyParticipantTab extends Tab<StudyParticipantCommand> {
-    
-    /** The finder repository. */
+
+    /**
+     * The finder repository.
+     */
     private FinderRepository finderRepository;
 
     /**
@@ -59,7 +61,7 @@ public class SelectStudyParticipantTab extends Tab<StudyParticipantCommand> {
         List<StudyParticipantAssignment> persistables = (List<StudyParticipantAssignment>) finderRepository.find(query);
         StudyParticipantAssignment studyParticipantAssignment = persistables.get(0);
         List<StudyParticipantCrf> studyParticipantCrfs = studyParticipantAssignment.getStudyParticipantCrfs();
-        for(StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs){
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
             studyParticipantCrf.getStudyParticipantCrfSchedules();
         }
         studyParticipantCommand.setStudyParticipantAssignment(studyParticipantAssignment);
@@ -69,7 +71,7 @@ public class SelectStudyParticipantTab extends Tab<StudyParticipantCommand> {
 
     /**
      * Sets the finder repository.
-     * 
+     *
      * @param finderRepository the new finder repository
      */
     @Required

@@ -1,17 +1,17 @@
 package gov.nih.nci.ctcae.web.form;
 
+import gov.nih.nci.ctcae.core.domain.CRF;
+import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.cell.AbstractCell;
 import org.extremecomponents.table.cell.Cell;
 import org.extremecomponents.table.core.TableModel;
-import org.extremecomponents.table.bean.Column;
-import gov.nih.nci.ctcae.core.domain.CRF;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CrfDisplayVersionsCell.
- * 
+ *
  * @author Mehul Gulati
- * Date: Dec 30, 2008
+ *         Date: Dec 30, 2008
  */
 public class CrfDisplayVersionsCell extends AbstractCell implements Cell {
 

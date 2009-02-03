@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class FormController.
  *
@@ -66,6 +66,7 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
      * Instantiates a new form controller.
      */
     public FormController() {
+        super();
         setCommandClass(CreateFormCommand.class);
         Flow<CreateFormCommand> flow = new Flow<CreateFormCommand>("Build Form");
         layoutTabs(flow);

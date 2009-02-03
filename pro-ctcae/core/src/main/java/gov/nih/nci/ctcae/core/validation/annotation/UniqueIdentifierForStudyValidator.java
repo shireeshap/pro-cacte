@@ -7,19 +7,23 @@ import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Collection;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class UniqueIdentifierForStudyValidator.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
 public class UniqueIdentifierForStudyValidator extends AbstractValidator<UniqueIdentifierForStudy> {
-    
-    /** The message. */
+
+    /**
+     * The message.
+     */
     private String message;
 
-    /** The study repository. */
+    /**
+     * The study repository.
+     */
     private StudyRepository studyRepository;
 
     /* (non-Javadoc)
@@ -52,7 +56,7 @@ public class UniqueIdentifierForStudyValidator extends AbstractValidator<UniqueI
 
     /**
      * Sets the study repository.
-     * 
+     *
      * @param studyRepository the new study repository
      */
     @Required

@@ -9,19 +9,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class StudyCommand.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
 public class StudyCommand {
 
-    /** The study. */
+    /**
+     * The study.
+     */
     private Study study;
 
-    /** The objects ids to remove. */
+    /**
+     * The objects ids to remove.
+     */
     private String objectsIdsToRemove;
 
 
@@ -29,25 +33,17 @@ public class StudyCommand {
      * Instantiates a new study command.
      */
     public StudyCommand() {
+        super();
         this.study = new Study();
         study.setStudyFundingSponsor(new StudyFundingSponsor());
         study.setStudyCoordinatingCenter(new StudyCoordinatingCenter());
 
     }
 
-    /**
-     * Instantiates a new study command.
-     * 
-     * @param study the study
-     */
-    public StudyCommand(Study study) {
-        this.study = study;
-    }
-
 
     /**
      * Sets the study.
-     * 
+     *
      * @param study the new study
      */
     public void setStudy(Study study) {
@@ -56,7 +52,7 @@ public class StudyCommand {
 
     /**
      * Gets the objects ids to remove.
-     * 
+     *
      * @return the objects ids to remove
      */
     public String getObjectsIdsToRemove() {
@@ -65,7 +61,7 @@ public class StudyCommand {
 
     /**
      * Sets the objects ids to remove.
-     * 
+     *
      * @param objectsIdsToRemove the new objects ids to remove
      */
     public void setObjectsIdsToRemove(String objectsIdsToRemove) {
@@ -74,7 +70,7 @@ public class StudyCommand {
 
     /**
      * Gets the study.
-     * 
+     *
      * @return the study
      */
     public Study getStudy() {

@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ClinicalStaff.
- * 
+ *
  * @author mehul
  */
 
@@ -25,30 +25,40 @@ import java.util.List;
 
 public class ClinicalStaff extends Person {
 
-    /** The email address. */
+    /**
+     * The email address.
+     */
     @Column(name = "email_address", nullable = true)
     private String emailAddress;
 
-    /** The fax number. */
+    /**
+     * The fax number.
+     */
     @Column(name = "fax_number", nullable = true)
     private String faxNumber;
 
-    /** The nci identifier. */
+    /**
+     * The nci identifier.
+     */
     @Column(name = "nci_identifier", nullable = false)
     private String nciIdentifier;
 
-    /** The phone number. */
+    /**
+     * The phone number.
+     */
     @Column(name = "phone_number", nullable = true)
     private String phoneNumber;
 
-    /** The site clinical staffs. */
+    /**
+     * The site clinical staffs.
+     */
     @OneToMany(mappedBy = "clinicalStaff", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<SiteClinicalStaff> siteClinicalStaffs = new ArrayList<SiteClinicalStaff>();
 
     /**
      * Gets the email address.
-     * 
+     *
      * @return the email address
      */
     public String getEmailAddress() {
@@ -57,7 +67,7 @@ public class ClinicalStaff extends Person {
 
     /**
      * Sets the email address.
-     * 
+     *
      * @param emailAddress the new email address
      */
     public void setEmailAddress(String emailAddress) {
@@ -66,7 +76,7 @@ public class ClinicalStaff extends Person {
 
     /**
      * Gets the fax number.
-     * 
+     *
      * @return the fax number
      */
     public String getFaxNumber() {
@@ -75,7 +85,7 @@ public class ClinicalStaff extends Person {
 
     /**
      * Sets the fax number.
-     * 
+     *
      * @param faxNumber the new fax number
      */
     public void setFaxNumber(String faxNumber) {
@@ -84,7 +94,7 @@ public class ClinicalStaff extends Person {
 
     /**
      * Gets the nci identifier.
-     * 
+     *
      * @return the nci identifier
      */
     public String getNciIdentifier() {
@@ -93,7 +103,7 @@ public class ClinicalStaff extends Person {
 
     /**
      * Sets the nci identifier.
-     * 
+     *
      * @param nciIdentifier the new nci identifier
      */
     public void setNciIdentifier(String nciIdentifier) {
@@ -102,7 +112,7 @@ public class ClinicalStaff extends Person {
 
     /**
      * Gets the phone number.
-     * 
+     *
      * @return the phone number
      */
     public String getPhoneNumber() {
@@ -111,7 +121,7 @@ public class ClinicalStaff extends Person {
 
     /**
      * Sets the phone number.
-     * 
+     *
      * @param phoneNumber the new phone number
      */
     public void setPhoneNumber(String phoneNumber) {
@@ -120,7 +130,7 @@ public class ClinicalStaff extends Person {
 
     /**
      * Gets the site clinical staffs.
-     * 
+     *
      * @return the site clinical staffs
      */
     @UniqueObjectInCollection(message = "Duplicate Site")
@@ -130,7 +140,7 @@ public class ClinicalStaff extends Person {
 
     /**
      * Adds the site clinical staff.
-     * 
+     *
      * @param siteClinicalStaff the site clinical staff
      */
     public void addSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
@@ -142,7 +152,7 @@ public class ClinicalStaff extends Person {
 
     /**
      * Adds the site clinical staffs.
-     * 
+     *
      * @param siteClinicalStaffs the site clinical staffs
      */
     public void addSiteClinicalStaffs(Collection<SiteClinicalStaff> siteClinicalStaffs) {
@@ -153,7 +163,7 @@ public class ClinicalStaff extends Person {
 
     /**
      * Removes the site clinical staff.
-     * 
+     *
      * @param siteClinicalStaff the site clinical staff
      */
     public void removeSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
@@ -164,7 +174,7 @@ public class ClinicalStaff extends Person {
 
     /**
      * Removes the site clinical staffs.
-     * 
+     *
      * @param siteClinicalStaffs the site clinical staffs
      */
     public void removeSiteClinicalStaffs(List<SiteClinicalStaff> siteClinicalStaffs) {

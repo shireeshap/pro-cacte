@@ -4,29 +4,37 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.cabig.ctms.domain.CodedEnumHelper;
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Enum RecallPeriod.
- * 
+ *
  * @author Vinay Kumar
  */
 public enum RecallPeriod implements CodedEnum<String> {
 
-    /** The WEEKLY. */
+    /**
+     * The WEEKLY.
+     */
     WEEKLY("over the past 7 days"),
-    
-    /** The MONTHLY. */
+
+    /**
+     * The MONTHLY.
+     */
     MONTHLY("over the past 30 days"),
-    
-    /** The LAS t_ cance r_ treatment. */
+
+    /**
+     * The LAS t_ cance r_ treatment.
+     */
     LAST_CANCER_TREATMENT("since your last cancer treatment");
 
-    /** The display text. */
+    /**
+     * The display text.
+     */
     private final String displayText;
 
     /**
      * Instantiates a new recall period.
-     * 
+     *
      * @param displayText the display text
      */
     RecallPeriod(String displayText) {
@@ -38,9 +46,8 @@ public enum RecallPeriod implements CodedEnum<String> {
 
     /**
      * Gets the by code.
-     * 
+     *
      * @param code the code
-     * 
      * @return the by code
      */
     public static RecallPeriod getByCode(String code) {

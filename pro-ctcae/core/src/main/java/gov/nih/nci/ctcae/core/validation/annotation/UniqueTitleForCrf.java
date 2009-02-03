@@ -8,10 +8,10 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Interface UniqueTitleForCrf.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
@@ -20,24 +20,24 @@ import java.lang.annotation.Target;
 @Target({METHOD, FIELD, ElementType.PARAMETER})
 @Retention(RUNTIME)
 public @interface UniqueTitleForCrf {
-    
+
     /**
      * Max.
-     * 
+     *
      * @return the int
      */
     public abstract int max() default Integer.MAX_VALUE;
 
     /**
      * Min.
-     * 
+     *
      * @return the int
      */
     public abstract int min() default 0;
 
     /**
      * Message.
-     * 
+     *
      * @return the string
      */
     public abstract String message() default "Title already exists in database";

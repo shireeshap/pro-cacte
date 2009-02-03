@@ -7,10 +7,10 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class SearchStudyController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 17, 2008
  */
@@ -36,6 +36,7 @@ public class SearchStudyController extends AbstractController {
      * Instantiates a new search study controller.
      */
     public SearchStudyController() {
+        super();
         setSupportedMethods(new String[]{"GET"});
 
     }

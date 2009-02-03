@@ -4,17 +4,19 @@ import org.apache.commons.collections.comparators.NullComparator;
 
 import java.util.Comparator;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * A Comparator that will compare nulls to be either lower or higher than
  * other String objects.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 18, 2008
  */
 public class NullStringComparator extends NullComparator {
-    
-    /** The string comparator. */
+
+    /**
+     * The string comparator.
+     */
     private Comparator<String> stringComparator;
 
 
@@ -42,7 +44,7 @@ public class NullStringComparator extends NullComparator {
 
     /**
      * Gets the string comparator.
-     * 
+     *
      * @return the string comparator
      */
     public Comparator<String> getStringComparator() {

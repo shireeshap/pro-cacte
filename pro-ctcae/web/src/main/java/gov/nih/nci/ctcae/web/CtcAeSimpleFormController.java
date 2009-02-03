@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CtcAeSimpleFormController.
  *
@@ -45,6 +45,7 @@ public class CtcAeSimpleFormController extends SimpleFormController {
      * Instantiates a new ctc ae simple form controller.
      */
     protected CtcAeSimpleFormController() {
+        super();
         setBindOnNewForm(true);
     }
 

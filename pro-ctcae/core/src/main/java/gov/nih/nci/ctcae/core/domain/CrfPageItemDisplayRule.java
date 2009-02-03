@@ -5,10 +5,10 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CrfPageItemDisplayRule.
- * 
+ *
  * @author Vinay Kumar
  * @created Dec 17, 2008
  */
@@ -18,19 +18,25 @@ import javax.persistence.*;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_item_display_rules_id")})
 public class CrfPageItemDisplayRule extends BasePersistable {
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The pro ctc valid value. */
+    /**
+     * The pro ctc valid value.
+     */
     @JoinColumn(name = "pro_ctc_valid_value_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtcValidValue proCtcValidValue;
 
 
-    /** The crf page item. */
+    /**
+     * The crf page item.
+     */
     @JoinColumn(name = "crf_item_id", referencedColumnName = "id")
     @ManyToOne
     private CrfPageItem crfPageItem;
@@ -40,11 +46,12 @@ public class CrfPageItemDisplayRule extends BasePersistable {
      * Instantiates a new crf page item display rule.
      */
     public CrfPageItemDisplayRule() {
+        super();
     }
 
     /**
      * Instantiates a new crf page item display rule.
-     * 
+     *
      * @param proCtcQuestionDisplayRule the pro ctc question display rule
      */
     public CrfPageItemDisplayRule(ProCtcQuestionDisplayRule proCtcQuestionDisplayRule) {
@@ -70,7 +77,7 @@ public class CrfPageItemDisplayRule extends BasePersistable {
 
     /**
      * Gets the crf item.
-     * 
+     *
      * @return the crf item
      */
     public CrfPageItem getCrfItem() {
@@ -79,7 +86,7 @@ public class CrfPageItemDisplayRule extends BasePersistable {
 
     /**
      * Sets the crf item.
-     * 
+     *
      * @param crfPageItem the new crf item
      */
     public void setCrfItem(final CrfPageItem crfPageItem) {
@@ -88,7 +95,7 @@ public class CrfPageItemDisplayRule extends BasePersistable {
 
     /**
      * Gets the crf page item.
-     * 
+     *
      * @return the crf page item
      */
     public CrfPageItem getCrfPageItem() {
@@ -97,7 +104,7 @@ public class CrfPageItemDisplayRule extends BasePersistable {
 
     /**
      * Sets the crf page item.
-     * 
+     *
      * @param crfPageItem the new crf page item
      */
     public void setCrfPageItem(final CrfPageItem crfPageItem) {
@@ -133,7 +140,7 @@ public class CrfPageItemDisplayRule extends BasePersistable {
 
     /**
      * Gets the pro ctc valid value.
-     * 
+     *
      * @return the pro ctc valid value
      */
     public ProCtcValidValue getProCtcValidValue() {
@@ -142,7 +149,7 @@ public class CrfPageItemDisplayRule extends BasePersistable {
 
     /**
      * Sets the pro ctc valid value.
-     * 
+     *
      * @param proCtcValidValue the new pro ctc valid value
      */
     public void setProCtcValidValue(final ProCtcValidValue proCtcValidValue) {
@@ -151,7 +158,7 @@ public class CrfPageItemDisplayRule extends BasePersistable {
 
     /**
      * Gets the copy.
-     * 
+     *
      * @return the copy
      */
     public CrfPageItemDisplayRule getCopy() {

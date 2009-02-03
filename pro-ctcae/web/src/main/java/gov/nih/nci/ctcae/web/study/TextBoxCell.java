@@ -12,7 +12,7 @@ import org.extremecomponents.util.HtmlBuilder;
 
 import java.util.HashMap;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class TextBoxCell.
  *

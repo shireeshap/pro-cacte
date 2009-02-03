@@ -2,9 +2,9 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -13,22 +13,25 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ScheduleCrfController.
- * 
+ *
  * @author Harsh Agarwal
  * @crated Nov 5, 2008
  */
 public class ScheduleCrfController<C extends StudyParticipantCommand> extends CtcAeTabbedFlowController<StudyParticipantCommand> {
 
-    /** The study participant assignment repository. */
+    /**
+     * The study participant assignment repository.
+     */
     private StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
 
     /**
      * Instantiates a new schedule crf controller.
      */
     public ScheduleCrfController() {
+        super();
         setCommandClass(StudyParticipantCommand.class);
         Flow<StudyParticipantCommand> flow = new Flow<StudyParticipantCommand>("Schedule Crf");
         layoutTabs(flow);
@@ -41,7 +44,7 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
 
     /**
      * Layout tabs.
-     * 
+     *
      * @param flow the flow
      */
     private void layoutTabs(Flow<StudyParticipantCommand> flow) {
@@ -69,7 +72,7 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
         studyParticipantAssignmentRepository.save(studyParticipantCommand.getStudyParticipantAssignment());
 
         StudyParticipantAssignment studyParticipantAssignment = finderRepository.findById(StudyParticipantAssignment.class, studyParticipantCommand.getStudyParticipantAssignment().getId());
-        for(StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()){
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
             studyParticipantCrf.getStudyParticipantCrfSchedules();
         }
         studyParticipantCommand.setStudyParticipantAssignment(studyParticipantAssignment);
@@ -80,8 +83,9 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
 
     /**
      * Sets the study participant assignment repository.
-     * 
-     * @param studyParticipantAssignmentRepository the new study participant assignment repository
+     *
+     * @param studyParticipantAssignmentRepository
+     *         the new study participant assignment repository
      */
     @Required
     public void setStudyParticipantAssignmentRepository(StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {

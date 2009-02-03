@@ -1,48 +1,63 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 
-import java.util.*;
-import java.text.ParseException;
-
-
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class StudyParticipantCommand.
  */
 public class StudyParticipantCommand {
 
-    /** The participant. */
+    /**
+     * The participant.
+     */
     private Participant participant;
-    
-    /** The study. */
+
+    /**
+     * The study.
+     */
     private Study study;
-    
-    /** The study participant assignment. */
+
+    /**
+     * The study participant assignment.
+     */
     StudyParticipantAssignment studyParticipantAssignment;
-    
-    /** The participant schedules. */
+
+    /**
+     * The participant schedules.
+     */
     private List<ParticipantSchedule> participantSchedules;
-    
-    /** The finder repository. */
+
+    /**
+     * The finder repository.
+     */
     private FinderRepository finderRepository;
-    
-    /** The repeatdropdown. */
+
+    /**
+     * The repeatdropdown.
+     */
     private String[] repeatdropdown;
 
     /**
      * Instantiates a new study participant command.
      */
     public StudyParticipantCommand() {
+        super();
     }
 
     /**
      * Gets the participant.
-     * 
+     *
      * @return the participant
      */
     public Participant getParticipant() {
@@ -51,7 +66,7 @@ public class StudyParticipantCommand {
 
     /**
      * Gets the finder repository.
-     * 
+     *
      * @return the finder repository
      */
     public FinderRepository getFinderRepository() {
@@ -60,7 +75,7 @@ public class StudyParticipantCommand {
 
     /**
      * Sets the finder repository.
-     * 
+     *
      * @param finderRepository the new finder repository
      */
     public void setFinderRepository(FinderRepository finderRepository) {
@@ -69,7 +84,7 @@ public class StudyParticipantCommand {
 
     /**
      * Sets the participant.
-     * 
+     *
      * @param participant the new participant
      */
     public void setParticipant(Participant participant) {
@@ -78,7 +93,7 @@ public class StudyParticipantCommand {
 
     /**
      * Gets the study.
-     * 
+     *
      * @return the study
      */
     public Study getStudy() {
@@ -87,7 +102,7 @@ public class StudyParticipantCommand {
 
     /**
      * Sets the study.
-     * 
+     *
      * @param study the new study
      */
     public void setStudy(Study study) {
@@ -96,7 +111,7 @@ public class StudyParticipantCommand {
 
     /**
      * Gets the study participant assignment.
-     * 
+     *
      * @return the study participant assignment
      */
     public StudyParticipantAssignment getStudyParticipantAssignment() {
@@ -105,7 +120,7 @@ public class StudyParticipantCommand {
 
     /**
      * Sets the study participant assignment.
-     * 
+     *
      * @param studyParticipantAssignment the new study participant assignment
      */
     public void setStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment) {
@@ -114,7 +129,7 @@ public class StudyParticipantCommand {
 
     /**
      * Gets the participant schedules.
-     * 
+     *
      * @return the participant schedules
      */
     public List<ParticipantSchedule> getParticipantSchedules() {
@@ -132,7 +147,7 @@ public class StudyParticipantCommand {
 
     /**
      * Sets the participant schedules.
-     * 
+     *
      * @param participantSchedules the new participant schedules
      */
     public void setParticipantSchedules(List<ParticipantSchedule> participantSchedules) {
@@ -141,7 +156,7 @@ public class StudyParticipantCommand {
 
     /**
      * Gets the repeatdropdown.
-     * 
+     *
      * @return the repeatdropdown
      */
     public String[] getRepeatdropdown() {
@@ -150,7 +165,7 @@ public class StudyParticipantCommand {
 
     /**
      * Sets the repeatdropdown.
-     * 
+     *
      * @param repeatdropdown the new repeatdropdown
      */
     public void setRepeatdropdown(String[] repeatdropdown) {
@@ -159,17 +174,16 @@ public class StudyParticipantCommand {
 
     /**
      * Check repetition.
-     * 
+     *
      * @param request the request
-     * 
      * @throws ParseException the parse exception
      */
     public void checkRepetition(HttpServletRequest request) throws ParseException {
         int i = 0;
-        for(String repeat:repeatdropdown){
-            if(repeat.equals("No")){
-                String startDate = request.getParameter("startDate_"+i);
-                String dueDate = request.getParameter("dueDate_"+i);
+        for (String repeat : repeatdropdown) {
+            if (repeat.equals("No")) {
+                String startDate = request.getParameter("startDate_" + i);
+                String dueDate = request.getParameter("dueDate_" + i);
                 participantSchedules.get(0).setFinderRepository(finderRepository);
                 participantSchedules.get(0).removeSchedules();
                 participantSchedules.get(0).createSchedule(startDate, dueDate);

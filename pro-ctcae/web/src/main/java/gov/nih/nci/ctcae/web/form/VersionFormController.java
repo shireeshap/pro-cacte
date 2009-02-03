@@ -10,22 +10,25 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class VersionFormController.
- * 
+ *
  * @author Mehul Gulati
- * Date: Dec 19, 2008
+ *         Date: Dec 19, 2008
  */
 public class VersionFormController extends CtcAeSimpleFormController {
 
-    /** The crf repository. */
+    /**
+     * The crf repository.
+     */
     private CRFRepository crfRepository;
 
     /**
      * Instantiates a new version form controller.
      */
     protected VersionFormController() {
+        super();
         setCommandClass(CRF.class);
         setFormView("form/versionForm");
         setSessionForm(true);
@@ -72,7 +75,7 @@ public class VersionFormController extends CtcAeSimpleFormController {
 
     /**
      * Sets the crf repository.
-     * 
+     *
      * @param crfRepository the new crf repository
      */
     public void setCrfRepository(CRFRepository crfRepository) {

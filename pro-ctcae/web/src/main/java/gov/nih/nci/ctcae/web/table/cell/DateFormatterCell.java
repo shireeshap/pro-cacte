@@ -11,7 +11,7 @@ import org.springframework.beans.BeanWrapperImpl;
 
 import java.util.Date;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class DateFormatterCell.
  *
@@ -42,5 +42,5 @@ public class DateFormatterCell extends AbstractCell {
             }
         }
         return cellValue;
-	}
+    }
 }

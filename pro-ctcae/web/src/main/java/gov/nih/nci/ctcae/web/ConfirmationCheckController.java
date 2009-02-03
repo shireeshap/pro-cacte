@@ -9,19 +9,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ConfirmationCheckController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
 public class ConfirmationCheckController extends AbstractController {
 
-    /** The Constant DELETE_CRF_CONFIRMATION_TYPE. */
+    /**
+     * The Constant DELETE_CRF_CONFIRMATION_TYPE.
+     */
     private static final String DELETE_CRF_CONFIRMATION_TYPE = "deleteCrf";
-    
-    /** The Constant DELETE_QUESTION_CONFIRMATION_TYPE. */
+
+    /**
+     * The Constant DELETE_QUESTION_CONFIRMATION_TYPE.
+     */
     private static final String DELETE_QUESTION_CONFIRMATION_TYPE = "deleteQuestion";
 
     /* (non-Javadoc)
@@ -54,6 +58,7 @@ public class ConfirmationCheckController extends AbstractController {
      * Instantiates a new confirmation check controller.
      */
     public ConfirmationCheckController() {
+        super();
         setSupportedMethods(new String[]{"GET"});
 
     }

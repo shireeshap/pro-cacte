@@ -2,42 +2,52 @@ package gov.nih.nci.ctcae.core.query;
 
 import org.apache.commons.lang.StringUtils;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CRFQuery.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
 public class CRFQuery extends AbstractQuery {
 
-    /** The query string. */
+    /**
+     * The query string.
+     */
     private static String queryString = "SELECT o from CRF o order by o.id";
-    
-    /** The Constant TITLE. */
+
+    /**
+     * The Constant TITLE.
+     */
     private static final String TITLE = "title";
-    
-    /** The Constant CRFID. */
+
+    /**
+     * The Constant CRFID.
+     */
     private static final String CRFID = "crfId";
-    
-    /** The Constant STUDYID. */
+
+    /**
+     * The Constant STUDYID.
+     */
     private static final String STUDYID = "studyId";
-    
-    /** The Constant CRF_VERSION. */
+
+    /**
+     * The Constant CRF_VERSION.
+     */
     private static final String CRF_VERSION = "crfVersion";
 //    private static final String NEXTVERSIONID = "nextVersionId";
 
     /**
- * Instantiates a new cRF query.
- */
-public CRFQuery() {
+     * Instantiates a new cRF query.
+     */
+    public CRFQuery() {
 
         super(queryString);
     }
 
     /**
      * Instantiates a new cRF query.
-     * 
+     *
      * @param queryString the query string
      */
     public CRFQuery(String queryString) {
@@ -46,7 +56,7 @@ public CRFQuery() {
 
     /**
      * Filter by title exact match.
-     * 
+     *
      * @param title the title
      */
     public void filterByTitleExactMatch(final String title) {
@@ -58,7 +68,7 @@ public CRFQuery() {
 
     /**
      * Filter by not having crf id.
-     * 
+     *
      * @param crfId the crf id
      */
     public void filterByNotHavingCrfId(final Integer crfId) {
@@ -70,7 +80,7 @@ public CRFQuery() {
 
     /**
      * Filter by study id.
-     * 
+     *
      * @param studyId the study id
      */
     public void filterByStudyId(final Integer studyId) {
@@ -90,7 +100,7 @@ public CRFQuery() {
 
     /**
      * Filter by crf version.
-     * 
+     *
      * @param crfVersion the crf version
      */
     public void filterByCrfVersion(final String crfVersion) {

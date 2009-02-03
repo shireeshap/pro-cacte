@@ -7,12 +7,12 @@ import org.extremecomponents.table.cell.AbstractCell;
 import org.extremecomponents.table.cell.Cell;
 import org.extremecomponents.table.core.TableModel;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CRFLinkDisplayDetailsCell.
- * 
+ *
  * @author Mehul Gulati
- * Date: Nov 5, 2008
+ *         Date: Nov 5, 2008
  */
 public class CRFLinkDisplayDetailsCell extends AbstractCell implements Cell {
 

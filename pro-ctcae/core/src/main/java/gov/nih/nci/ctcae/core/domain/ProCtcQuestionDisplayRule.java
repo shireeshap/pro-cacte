@@ -5,12 +5,12 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ProCtcQuestionDisplayRule.
- * 
+ *
  * @author Mehul Gulati
- * Date: Jan 14, 2009
+ *         Date: Jan 14, 2009
  */
 
 @Entity
@@ -18,18 +18,24 @@ import javax.persistence.*;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_question_display_rule")})
 public class ProCtcQuestionDisplayRule extends BasePersistable {
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
-    @Column(name = "id")    
+    @Column(name = "id")
     private Integer id;
 
-    /** The pro ctc valid value. */
+    /**
+     * The pro ctc valid value.
+     */
     @JoinColumn(name = "pro_ctc_valid_value_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtcValidValue proCtcValidValue;
 
-    /** The pro ctc question. */
+    /**
+     * The pro ctc question.
+     */
     @JoinColumn(name = "pro_ctc_question_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtcQuestion proCtcQuestion;
@@ -50,7 +56,7 @@ public class ProCtcQuestionDisplayRule extends BasePersistable {
 
     /**
      * Gets the pro ctc valid value.
-     * 
+     *
      * @return the pro ctc valid value
      */
     public ProCtcValidValue getProCtcValidValue() {
@@ -59,7 +65,7 @@ public class ProCtcQuestionDisplayRule extends BasePersistable {
 
     /**
      * Sets the pro ctc valid value.
-     * 
+     *
      * @param proCtcValidValue the new pro ctc valid value
      */
     public void setProCtcValidValue(ProCtcValidValue proCtcValidValue) {
@@ -68,7 +74,7 @@ public class ProCtcQuestionDisplayRule extends BasePersistable {
 
     /**
      * Gets the pro ctc question.
-     * 
+     *
      * @return the pro ctc question
      */
     public ProCtcQuestion getProCtcQuestion() {
@@ -77,7 +83,7 @@ public class ProCtcQuestionDisplayRule extends BasePersistable {
 
     /**
      * Sets the pro ctc question.
-     * 
+     *
      * @param proCtcQuestion the new pro ctc question
      */
     public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {

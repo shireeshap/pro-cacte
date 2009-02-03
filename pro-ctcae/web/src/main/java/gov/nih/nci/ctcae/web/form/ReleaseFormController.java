@@ -13,22 +13,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ReleaseFormController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Nov 5, 2008
  */
 public class ReleaseFormController extends CtcAeSimpleFormController {
-    
-    /** The crf repository. */
+
+    /**
+     * The crf repository.
+     */
     private CRFRepository crfRepository;
 
     /**
      * Instantiates a new release form controller.
      */
     protected ReleaseFormController() {
+        super();
         setCommandClass(CRF.class);
         setFormView("form/releaseForm");
         setSessionForm(true);
@@ -63,7 +66,7 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
 
     /**
      * Sets the crf repository.
-     * 
+     *
      * @param crfRepository the new crf repository
      */
     @Required

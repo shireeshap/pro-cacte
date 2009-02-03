@@ -3,10 +3,10 @@ package gov.nih.nci.ctcae.core.repository;
 import gov.nih.nci.ctcae.core.domain.ProCtc;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ProCtcRepository.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */

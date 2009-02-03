@@ -8,10 +8,10 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Interface UniqueObjectInCollection.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
@@ -25,7 +25,7 @@ public @interface UniqueObjectInCollection
 
     /**
      * Message.
-     * 
+     *
      * @return the string
      */
     public abstract String message() default "Duplicate..!";

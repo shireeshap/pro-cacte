@@ -10,10 +10,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class Study.
- * 
+ *
  * @author
  * @crated Oct 7, 2008
  */
@@ -24,40 +24,58 @@ import java.util.List;
 
 public class Study extends BasePersistable {
 
-    /** The Constant DEFAULT_SITE_NAME. */
+    /**
+     * The Constant DEFAULT_SITE_NAME.
+     */
     public static final String DEFAULT_SITE_NAME = "default";
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The short title. */
+    /**
+     * The short title.
+     */
     @Column(name = "SHORT_TITLE", nullable = false)
     private String shortTitle;
 
-    /** The long title. */
+    /**
+     * The long title.
+     */
     @Column(name = "LONG_TITLE", nullable = false)
     private String longTitle;
 
-    /** The description. */
+    /**
+     * The description.
+     */
     @Column(name = "DESCRIPTION", nullable = true)
     private String description;
 
-    /** The assigned identifier. */
+    /**
+     * The assigned identifier.
+     */
     @Column(name = "ASSIGNED_IDENTIFIER", nullable = false)
     private String assignedIdentifier;
 
-    /** The study funding sponsor. */
+    /**
+     * The study funding sponsor.
+     */
     @Transient
     private StudyFundingSponsor studyFundingSponsor;
 
-    /** The study coordinating center. */
+    /**
+     * The study coordinating center.
+     */
     @Transient
     private StudyCoordinatingCenter studyCoordinatingCenter;
 
-    /** The study organizations. */
+    /**
+     * The study organizations.
+     */
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
@@ -65,7 +83,7 @@ public class Study extends BasePersistable {
 
     /**
      * Gets the study sites.
-     * 
+     *
      * @return the study sites
      */
     @UniqueObjectInCollection(message = "Duplicate Site")
@@ -81,7 +99,7 @@ public class Study extends BasePersistable {
 
     /**
      * Gets the study funding sponsor.
-     * 
+     *
      * @return the study funding sponsor
      */
     public StudyFundingSponsor getStudyFundingSponsor() {
@@ -98,7 +116,7 @@ public class Study extends BasePersistable {
 
     /**
      * Sets the study funding sponsor.
-     * 
+     *
      * @param studyFundingSponsor the new study funding sponsor
      */
     public void setStudyFundingSponsor(StudyFundingSponsor studyFundingSponsor) {
@@ -110,7 +128,7 @@ public class Study extends BasePersistable {
 
     /**
      * Gets the study coordinating center.
-     * 
+     *
      * @return the study coordinating center
      */
     public StudyCoordinatingCenter getStudyCoordinatingCenter() {
@@ -124,7 +142,7 @@ public class Study extends BasePersistable {
 
     /**
      * Sets the study coordinating center.
-     * 
+     *
      * @param studyCoordinatingCenter the new study coordinating center
      */
     public void setStudyCoordinatingCenter(
@@ -137,7 +155,7 @@ public class Study extends BasePersistable {
 
     /**
      * Gets the study organizations.
-     * 
+     *
      * @return the study organizations
      */
     public List<StudyOrganization> getStudyOrganizations() {
@@ -146,7 +164,7 @@ public class Study extends BasePersistable {
 
     /**
      * Gets the short title.
-     * 
+     *
      * @return the short title
      */
     public String getShortTitle() {
@@ -155,7 +173,7 @@ public class Study extends BasePersistable {
 
     /**
      * Sets the short title.
-     * 
+     *
      * @param shortTitle the new short title
      */
     public void setShortTitle(String shortTitle) {
@@ -164,7 +182,7 @@ public class Study extends BasePersistable {
 
     /**
      * Gets the long title.
-     * 
+     *
      * @return the long title
      */
     public String getLongTitle() {
@@ -173,7 +191,7 @@ public class Study extends BasePersistable {
 
     /**
      * Sets the long title.
-     * 
+     *
      * @param longTitle the new long title
      */
     public void setLongTitle(String longTitle) {
@@ -182,7 +200,7 @@ public class Study extends BasePersistable {
 
     /**
      * Gets the description.
-     * 
+     *
      * @return the description
      */
     public String getDescription() {
@@ -191,7 +209,7 @@ public class Study extends BasePersistable {
 
     /**
      * Sets the description.
-     * 
+     *
      * @param description the new description
      */
     public void setDescription(String description) {
@@ -200,7 +218,7 @@ public class Study extends BasePersistable {
 
     /**
      * Gets the display name.
-     * 
+     *
      * @return the display name
      */
     public String getDisplayName() {
@@ -211,7 +229,7 @@ public class Study extends BasePersistable {
 
     /**
      * Gets the assigned identifier.
-     * 
+     *
      * @return the assigned identifier
      */
     @UniqueIdentifierForStudy(message = "Identifier already exists.")
@@ -221,7 +239,7 @@ public class Study extends BasePersistable {
 
     /**
      * Sets the assigned identifier.
-     * 
+     *
      * @param assignedIdentifier the new assigned identifier
      */
     public void setAssignedIdentifier(String assignedIdentifier) {
@@ -244,7 +262,7 @@ public class Study extends BasePersistable {
 
     /**
      * Adds the study site.
-     * 
+     *
      * @param studySite the study site
      */
     public void addStudySite(StudySite studySite) {
@@ -254,7 +272,7 @@ public class Study extends BasePersistable {
 
     /**
      * Adds the study organization.
-     * 
+     *
      * @param studyOrganization the study organization
      */
     private void addStudyOrganization(StudyOrganization studyOrganization) {
@@ -266,7 +284,7 @@ public class Study extends BasePersistable {
 
     /**
      * Removes the study organization.
-     * 
+     *
      * @param studyOrganization the study organization
      */
     private void removeStudyOrganization(StudyOrganization studyOrganization) {
@@ -276,7 +294,7 @@ public class Study extends BasePersistable {
 
     /**
      * Removes the study site.
-     * 
+     *
      * @param studySite the study site
      */
     public void removeStudySite(StudySite studySite) {

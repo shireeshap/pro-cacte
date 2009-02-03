@@ -4,10 +4,10 @@ import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 
 import javax.servlet.http.HttpServletRequest;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class AdvanceFormController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 17, 2008
  */

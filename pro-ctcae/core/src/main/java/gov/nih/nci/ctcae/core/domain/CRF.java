@@ -12,10 +12,10 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.*;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CRF.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 13, 2008
  */
@@ -27,74 +27,104 @@ import java.util.*;
 public class CRF extends BaseVersionable {
 
 
-    /** The Constant logger. */
+    /**
+     * The Constant logger.
+     */
     private static final Log logger = LogFactory.getLog(CRF.class);
-    
-    /** The Constant INITIAL_ORDER. */
+
+    /**
+     * The Constant INITIAL_ORDER.
+     */
     private static final Integer INITIAL_ORDER = 0;
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The title. */
+    /**
+     * The title.
+     */
     @Column(name = "title", nullable = false)
     private String title;
 
-    /** The description. */
+    /**
+     * The description.
+     */
     @Column(name = "description")
     private String description;
 
-    /** The status. */
+    /**
+     * The status.
+     */
     @Column(name = "status", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private CrfStatus status = CrfStatus.DRAFT;
 
-    /** The crf version. */
+    /**
+     * The crf version.
+     */
     @Column(name = "crf_version", nullable = false)
     private String crfVersion;
 
-    /** The effective start date. */
+    /**
+     * The effective start date.
+     */
     @Column(name = "effective_start_date", nullable = true)
     private Date effectiveStartDate;
 
-    /** The effective end date. */
+    /**
+     * The effective end date.
+     */
     @Column(name = "effective_end_date", nullable = true)
     private Date effectiveEndDate;
 
-    /** The next version id. */
+    /**
+     * The next version id.
+     */
     @Column(name = "next_version_id", nullable = true)
     private Integer nextVersionId;
 
-    /** The parent version id. */
+    /**
+     * The parent version id.
+     */
     @Column(name = "parent_version_id", nullable = true)
     private Integer parentVersionId;
 
-    /** The crf pages. */
+    /**
+     * The crf pages.
+     */
     @OneToMany(mappedBy = "crf", fetch = FetchType.EAGER)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
 
     private List<CRFPage> crfPages = new LinkedList<CRFPage>();
 
-    /** The study. */
+    /**
+     * The study.
+     */
     @JoinColumn(name = "study_id", referencedColumnName = "id")
     @ManyToOne
     private Study study;
 
-    /** The recall period. */
+    /**
+     * The recall period.
+     */
     @Column(name = "recall_period", nullable = false)
     private String recallPeriod = RecallPeriod.WEEKLY.getDisplayName();
 
-    /** The crf creation mode. */
+    /**
+     * The crf creation mode.
+     */
     @Column(name = "crf_creation_mode", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private CrfCreationMode crfCreationMode = CrfCreationMode.BASIC;
 
     /**
      * Gets the recall period.
-     * 
+     *
      * @return the recall period
      */
     public String getRecallPeriod() {
@@ -103,14 +133,16 @@ public class CRF extends BaseVersionable {
 
     /**
      * Sets the recall period.
-     * 
+     *
      * @param recallPeriod the new recall period
      */
     public void setRecallPeriod(String recallPeriod) {
         this.recallPeriod = recallPeriod;
     }
 
-    /** The study participant crfs. */
+    /**
+     * The study participant crfs.
+     */
     @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
 
@@ -118,7 +150,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Gets the study participant crfs.
-     * 
+     *
      * @return the study participant crfs
      */
     public Collection<StudyParticipantCrf> getStudyParticipantCrfs() {
@@ -127,7 +159,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Adds the study participant crf.
-     * 
+     *
      * @param studyParticipantCrf the study participant crf
      */
     public void addStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
@@ -139,7 +171,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Gets the study.
-     * 
+     *
      * @return the study
      */
     public Study getStudy() {
@@ -148,7 +180,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Sets the study.
-     * 
+     *
      * @param study the new study
      */
     public void setStudy(Study study) {
@@ -159,6 +191,7 @@ public class CRF extends BaseVersionable {
      * Instantiates a new cRF.
      */
     public CRF() {
+        super();
     }
 
 
@@ -178,7 +211,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Gets the title.
-     * 
+     *
      * @return the title
      */
     @NotEmpty(message = "Missing Title")
@@ -189,7 +222,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Sets the title.
-     * 
+     *
      * @param title the new title
      */
     public void setTitle(String title) {
@@ -198,7 +231,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Gets the description.
-     * 
+     *
      * @return the description
      */
     public String getDescription() {
@@ -207,7 +240,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Sets the description.
-     * 
+     *
      * @param description the new description
      */
     public void setDescription(String description) {
@@ -216,7 +249,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Gets the status.
-     * 
+     *
      * @return the status
      */
     public CrfStatus getStatus() {
@@ -225,7 +258,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Sets the status.
-     * 
+     *
      * @param status the new status
      */
     public void setStatus(CrfStatus status) {
@@ -234,7 +267,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Gets the crf version.
-     * 
+     *
      * @return the crf version
      */
     public String getCrfVersion() {
@@ -243,7 +276,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Sets the crf version.
-     * 
+     *
      * @param crfVersion the new crf version
      */
     public void setCrfVersion(String crfVersion) {
@@ -304,7 +337,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Checks if is released.
-     * 
+     *
      * @return true, if is released
      */
     public boolean isReleased() {
@@ -313,7 +346,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Gets the effective start date.
-     * 
+     *
      * @return the effective start date
      */
     public Date getEffectiveStartDate() {
@@ -322,7 +355,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Sets the effective start date.
-     * 
+     *
      * @param effectiveStartDate the new effective start date
      */
     public void setEffectiveStartDate(Date effectiveStartDate) {
@@ -331,7 +364,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Gets the effective end date.
-     * 
+     *
      * @return the effective end date
      */
     public Date getEffectiveEndDate() {
@@ -340,7 +373,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Sets the effective end date.
-     * 
+     *
      * @param effectiveEndDate the new effective end date
      */
     public void setEffectiveEndDate(Date effectiveEndDate) {
@@ -349,7 +382,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Gets the next version id.
-     * 
+     *
      * @return the next version id
      */
     public Integer getNextVersionId() {
@@ -358,7 +391,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Sets the next version id.
-     * 
+     *
      * @param nextVersionId the new next version id
      */
     public void setNextVersionId(Integer nextVersionId) {
@@ -367,7 +400,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Gets the parent version id.
-     * 
+     *
      * @return the parent version id
      */
     public Integer getParentVersionId() {
@@ -376,7 +409,7 @@ public class CRF extends BaseVersionable {
 
     /**
      * Sets the parent version id.
-     * 
+     *
      * @param parentVersionId the new parent version id
      */
     public void setParentVersionId(Integer parentVersionId) {
@@ -389,11 +422,11 @@ public class CRF extends BaseVersionable {
 //    }
 
     /**
- * Gets the crf pages sorted by page number.
- * 
- * @return the crf pages sorted by page number
- */
-public List<CRFPage> getCrfPagesSortedByPageNumber() {
+     * Gets the crf pages sorted by page number.
+     *
+     * @return the crf pages sorted by page number
+     */
+    public List<CRFPage> getCrfPagesSortedByPageNumber() {
         List<CRFPage> sortedCrfPages = new ArrayList<CRFPage>(crfPages);
 
         Collections.sort(sortedCrfPages, new DisplayOrderComparator());
@@ -403,7 +436,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Removes the crf page by page number.
-     * 
+     *
      * @param crfPageNumber the crf page number
      */
     public void removeCrfPageByPageNumber(final Integer crfPageNumber) {
@@ -427,7 +460,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Removes the crf page.
-     * 
+     *
      * @param crfPage the crf page
      */
     private void removeCrfPage(final CRFPage crfPage) {
@@ -440,7 +473,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Gets the copy.
-     * 
+     *
      * @return the copy
      */
     public CRF getCopy() {
@@ -462,7 +495,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Adds the crf page.
-     * 
+     *
      * @param crfPage the crf page
      */
     public void addCrfPage(final CRFPage crfPage) {
@@ -477,7 +510,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Gets the crf page number.
-     * 
+     *
      * @return the crf page number
      */
     private int getCrfPageNumber() {
@@ -486,10 +519,10 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Adds the or update crf item in crf page.
-     * 
-     * @param crfPageNumber the crf page number
+     *
+     * @param crfPageNumber  the crf page number
      * @param proCtcQuestion the pro ctc question
-     * @param displayOrder the display order
+     * @param displayOrder   the display order
      */
     public void addOrUpdateCrfItemInCrfPage(final int crfPageNumber, final ProCtcQuestion proCtcQuestion, final Integer displayOrder) {
         CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
@@ -510,9 +543,8 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Gets the crf page by page number.
-     * 
+     *
      * @param crfPageNumber the crf page number
-     * 
      * @return the crf page by page number
      */
     public CRFPage getCrfPageByPageNumber(final Integer crfPageNumber) {
@@ -528,9 +560,8 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Gets the crf page by question.
-     * 
+     *
      * @param proCtcQuestion the pro ctc question
-     * 
      * @return the crf page by question
      */
     private CRFPage getCrfPageByQuestion(final ProCtcQuestion proCtcQuestion) {
@@ -545,9 +576,8 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Gets the crf page by question.
-     * 
+     *
      * @param questionId the question id
-     * 
      * @return the crf page by question
      */
     private CRFPage getCrfPageByQuestion(final Integer questionId) {
@@ -562,7 +592,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Checks if is versioned.
-     * 
+     *
      * @return true, if is versioned
      */
     public boolean isVersioned() {
@@ -575,7 +605,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Gets the all crf page items.
-     * 
+     *
      * @return the all crf page items
      */
     public List<CrfPageItem> getAllCrfPageItems() {
@@ -589,9 +619,8 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Gets the crf page item by question.
-     * 
+     *
      * @param proCtcQuestion the pro ctc question
-     * 
      * @return the crf page item by question
      */
     public CrfPageItem getCrfPageItemByQuestion(final ProCtcQuestion proCtcQuestion) {
@@ -603,9 +632,8 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Gets the crf page item by question.
-     * 
+     *
      * @param questionId the question id
-     * 
      * @return the crf page item by question
      */
     public CrfPageItem getCrfPageItemByQuestion(final Integer questionId) {
@@ -618,7 +646,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Update crf page item display rules.
-     * 
+     *
      * @param proCtcQuestion the pro ctc question
      */
     public void updateCrfPageItemDisplayRules(final ProCtcQuestion proCtcQuestion) {
@@ -639,7 +667,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Update crf page item display rules.
-     * 
+     *
      * @param selectedCrfPageNumber the selected crf page number
      */
     public void updateCrfPageItemDisplayRules(final Integer selectedCrfPageNumber) {
@@ -657,9 +685,8 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Adds the crf page.
-     * 
+     *
      * @param proCtcQuestion the pro ctc question
-     * 
      * @return the cRF page
      */
     public CRFPage addCrfPage(final ProCtcQuestion proCtcQuestion) {
@@ -671,7 +698,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Adds the crf page.
-     * 
+     *
      * @return the cRF page
      */
     public CRFPage addCrfPage() {
@@ -689,9 +716,8 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Adds the pro ctc term.
-     * 
+     *
      * @param proCtcTerm the pro ctc term
-     * 
      * @return the object
      */
     public Object addProCtcTerm(ProCtcTerm proCtcTerm) {
@@ -717,9 +743,8 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Gets the crf page by pro ctc term.
-     * 
+     *
      * @param proCtcTerm the pro ctc term
-     * 
      * @return the crf page by pro ctc term
      */
     private CRFPage getCrfPageByProCtcTerm(ProCtcTerm proCtcTerm) {
@@ -735,7 +760,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Gets the crf creation mode.
-     * 
+     *
      * @return the crf creation mode
      */
     public CrfCreationMode getCrfCreationMode() {
@@ -744,7 +769,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Sets the crf creation mode.
-     * 
+     *
      * @param crfCreationMode the new crf creation mode
      */
     public void setCrfCreationMode(CrfCreationMode crfCreationMode) {
@@ -753,7 +778,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * Gets the advance.
-     * 
+     *
      * @return the advance
      */
     public Boolean getAdvance() {
@@ -764,7 +789,7 @@ public List<CRFPage> getCrfPagesSortedByPageNumber() {
 
     /**
      * This is used when user deletes a crf page.
-     * 
+     *
      * @param questionIds the question ids
      */
     public void removeCrfPageItemByQuestionIds(Set<Integer> questionIds) {

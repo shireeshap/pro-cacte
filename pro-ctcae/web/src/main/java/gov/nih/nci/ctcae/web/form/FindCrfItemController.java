@@ -13,17 +13,19 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class FindCrfItemController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
 public class FindCrfItemController extends AbstractController {
 
 
-    /** The finder repository. */
+    /**
+     * The finder repository.
+     */
     private FinderRepository finderRepository;
 
     /* (non-Javadoc)
@@ -67,13 +69,14 @@ public class FindCrfItemController extends AbstractController {
      * Instantiates a new find crf item controller.
      */
     public FindCrfItemController() {
+        super();
         setSupportedMethods(new String[]{"GET"});
 
     }
 
     /**
      * Sets the finder repository.
-     * 
+     *
      * @param finderRepository the new finder repository
      */
     @Required

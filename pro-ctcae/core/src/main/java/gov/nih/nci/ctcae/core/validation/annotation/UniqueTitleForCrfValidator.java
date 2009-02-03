@@ -8,19 +8,23 @@ import org.springframework.beans.factory.annotation.Required;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class UniqueTitleForCrfValidator.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
 public class UniqueTitleForCrfValidator extends AbstractValidator<UniqueTitleForCrf> {
-    
-    /** The message. */
+
+    /**
+     * The message.
+     */
     private String message;
 
-    /** The crf repository. */
+    /**
+     * The crf repository.
+     */
     private CRFRepository crfRepository;
 
 
@@ -59,7 +63,7 @@ public class UniqueTitleForCrfValidator extends AbstractValidator<UniqueTitleFor
 
     /**
      * Sets the crf repository.
-     * 
+     *
      * @param crfRepository the new crf repository
      */
     @Required

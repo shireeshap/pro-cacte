@@ -1,17 +1,16 @@
 package gov.nih.nci.ctcae.web.form;
 
-import org.extremecomponents.table.interceptor.RowInterceptor;
-import org.extremecomponents.table.core.TableModel;
-import org.extremecomponents.table.core.TableModelImpl;
-import org.extremecomponents.table.bean.Row;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import org.extremecomponents.table.bean.Row;
+import org.extremecomponents.table.core.TableModel;
+import org.extremecomponents.table.interceptor.RowInterceptor;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ManageFormTableRowInterceptor.
- * 
+ *
  * @author Harsh Agarwal
- * Date: Dec 31, 2008
+ *         Date: Dec 31, 2008
  */
 
 public class ManageFormTableRowInterceptor implements RowInterceptor {
@@ -26,20 +25,19 @@ public class ManageFormTableRowInterceptor implements RowInterceptor {
      * @see org.extremecomponents.table.interceptor.RowInterceptor#modifyRowAttributes(org.extremecomponents.table.core.TableModel, org.extremecomponents.table.bean.Row)
      */
     public void modifyRowAttributes(TableModel tableModel, Row row) {
-        String crfClass="crf_"+((CRF)tableModel.getCurrentRowBean()).getId();
+        String crfClass = "crf_" + ((CRF) tableModel.getCurrentRowBean()).getId();
         if (isRowEven(row)) {
-            row.setStyleClass("even "+crfClass);
-        } else{
-            row.setStyleClass("odd "+crfClass);
+            row.setStyleClass("even " + crfClass);
+        } else {
+            row.setStyleClass("odd " + crfClass);
         }
 
     }
 
     /**
      * Checks if is row even.
-     * 
+     *
      * @param row the row
-     * 
      * @return true, if is row even
      */
     public boolean isRowEven(Row row) {
@@ -52,9 +50,8 @@ public class ManageFormTableRowInterceptor implements RowInterceptor {
 
     /**
      * Find out if the column is sitting on an odd row.
-     * 
+     *
      * @param row the row
-     * 
      * @return true, if checks if is row odd
      */
     public boolean isRowOdd(Row row) {

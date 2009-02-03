@@ -11,22 +11,25 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class StudyController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 17, 2008
  */
 public abstract class StudyController<C extends StudyCommand> extends CtcAeTabbedFlowController<StudyCommand> {
 
-    /** The study repository. */
+    /**
+     * The study repository.
+     */
     private StudyRepository studyRepository;
 
     /**
      * Instantiates a new study controller.
      */
     public StudyController() {
+        super();
         setCommandClass(StudyCommand.class);
         Flow<StudyCommand> flow = new Flow<StudyCommand>("Enter Study");
         layoutTabs(flow);
@@ -38,7 +41,7 @@ public abstract class StudyController<C extends StudyCommand> extends CtcAeTabbe
 
     /**
      * Layout tabs.
-     * 
+     *
      * @param flow the flow
      */
     protected abstract void layoutTabs(final Flow<StudyCommand> flow);

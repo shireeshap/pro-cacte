@@ -9,10 +9,10 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class AddStudySiteController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
@@ -47,6 +47,7 @@ public class AddStudySiteController extends AbstractController {
      * Instantiates a new adds the study site controller.
      */
     public AddStudySiteController() {
+        super();
         setSupportedMethods(new String[]{"GET"});
 
     }

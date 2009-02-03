@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.exception;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CtcAeSystemException.
  *

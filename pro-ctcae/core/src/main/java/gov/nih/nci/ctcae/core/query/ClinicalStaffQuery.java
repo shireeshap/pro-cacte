@@ -1,22 +1,30 @@
 package gov.nih.nci.ctcae.core.query;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * User: Mehul Gulati
  * Date: Oct 15, 2008.
  */
 public class ClinicalStaffQuery extends AbstractQuery {
 
-    /** The query string. */
+    /**
+     * The query string.
+     */
     private static String queryString = "SELECT i from ClinicalStaff i order by i.id";
 
-    /** The FIRS t_ name. */
+    /**
+     * The FIRS t_ name.
+     */
     private static String FIRST_NAME = "firstName";
 
-    /** The LAS t_ name. */
+    /**
+     * The LAS t_ name.
+     */
     private static String LAST_NAME = "lastName";
 
-    /** The NC i_ identifier. */
+    /**
+     * The NC i_ identifier.
+     */
     private static String NCI_IDENTIFIER = "nciIdentifier";
 
 
@@ -30,7 +38,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
 
     /**
      * Filter by clinical staff first name.
-     * 
+     *
      * @param firstName the first name
      */
     public void filterByClinicalStaffFirstName(final String firstName) {
@@ -41,7 +49,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
 
     /**
      * Filter by clinical staff last name.
-     * 
+     *
      * @param lastName the last name
      */
     public void filterByClinicalStaffLastName(final String lastName) {
@@ -61,7 +69,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
 
     /**
      * Filter by nci identifier.
-     * 
+     *
      * @param nciIdentifier the nci identifier
      */
     public void filterByNciIdentifier(final String nciIdentifier) {

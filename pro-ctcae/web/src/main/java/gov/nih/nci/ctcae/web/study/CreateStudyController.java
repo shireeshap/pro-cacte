@@ -5,10 +5,10 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CreateStudyController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */

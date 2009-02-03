@@ -1,21 +1,27 @@
 package gov.nih.nci.ctcae.core.query;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class OrganizationQuery.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 7, 2008
  */
 public class OrganizationQuery extends AbstractQuery {
 
-    /** The query string. */
+    /**
+     * The query string.
+     */
     private static String queryString = "SELECT distinct(o) from Organization o order by o.id";
 
-    /** The ORGANIZATIO n_ name. */
+    /**
+     * The ORGANIZATIO n_ name.
+     */
     private static String ORGANIZATION_NAME = "name";
 
-    /** The NC i_ code. */
+    /**
+     * The NC i_ code.
+     */
     private static String NCI_CODE = "nciInstituteCode";
 
     /**
@@ -28,7 +34,7 @@ public class OrganizationQuery extends AbstractQuery {
 
     /**
      * Filter by organization name.
-     * 
+     *
      * @param name the name
      */
     public void filterByOrganizationName(final String name) {
@@ -39,7 +45,7 @@ public class OrganizationQuery extends AbstractQuery {
 
     /**
      * Filter by organization name or nci institute code.
-     * 
+     *
      * @param text the text
      */
     public void filterByOrganizationNameOrNciInstituteCode(final String text) {
@@ -51,7 +57,7 @@ public class OrganizationQuery extends AbstractQuery {
 
     /**
      * Filter by nci institute code.
-     * 
+     *
      * @param nciInstituteCode the nci institute code
      */
     public void filterByNciInstituteCode(final String nciInstituteCode) {
@@ -62,7 +68,7 @@ public class OrganizationQuery extends AbstractQuery {
 
     /**
      * Filter by nci code exact match.
-     * 
+     *
      * @param nciCode the nci code
      */
     public void filterByNciCodeExactMatch(final String nciCode) {

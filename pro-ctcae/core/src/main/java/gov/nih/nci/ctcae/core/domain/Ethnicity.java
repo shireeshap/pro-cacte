@@ -2,30 +2,40 @@ package gov.nih.nci.ctcae.core.domain;
 
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Enum Ethnicity.
  */
 public enum Ethnicity {
 
-    /** The HISPANIC. */
+    /**
+     * The HISPANIC.
+     */
     HISPANIC("Hispanic or Latino"),
-    
-    /** The NONHISPANIC. */
+
+    /**
+     * The NONHISPANIC.
+     */
     NONHISPANIC("Not Hispanic or Latino"),
-    
-    /** The NOTREPORTED. */
+
+    /**
+     * The NOTREPORTED.
+     */
     NOTREPORTED("Not Reported"),
-    
-    /** The UNKNOWN. */
+
+    /**
+     * The UNKNOWN.
+     */
     UNKNOWN("Unknown");
 
-    /** The display text. */
+    /**
+     * The display text.
+     */
     private final String displayText;
 
     /**
      * Instantiates a new ethnicity.
-     * 
+     *
      * @param displayText the display text
      */
     Ethnicity(String displayText) {
@@ -42,7 +52,7 @@ public enum Ethnicity {
 
     /**
      * Gets the display text.
-     * 
+     *
      * @return the display text
      */
     public String getDisplayText() {
@@ -51,7 +61,7 @@ public enum Ethnicity {
 
     /**
      * Gets the all ethnicities.
-     * 
+     *
      * @return the all ethnicities
      */
     public static ArrayList<Ethnicity> getAllEthnicities() {

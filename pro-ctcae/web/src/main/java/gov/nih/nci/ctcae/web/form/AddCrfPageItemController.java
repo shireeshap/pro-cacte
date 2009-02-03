@@ -12,10 +12,10 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class AddCrfPageItemController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
@@ -63,6 +63,7 @@ public class AddCrfPageItemController extends AbstractCrfController {
      * Instantiates a new adds the crf page item controller.
      */
     public AddCrfPageItemController() {
+        super();
         setSupportedMethods(new String[]{"GET"});
 
     }

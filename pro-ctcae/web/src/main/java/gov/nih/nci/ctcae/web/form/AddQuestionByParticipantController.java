@@ -11,10 +11,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Hashtable;
+import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * Author: Harsh Agarwal
  * Date: Dec 10, 2008
@@ -22,16 +22,21 @@ import java.util.Hashtable;
  */
 public class AddQuestionByParticipantController extends CtcAeSimpleFormController {
 
-    /** The generic repository. */
+    /**
+     * The generic repository.
+     */
     private GenericRepository genericRepository;
-    
-    /** The review view. */
+
+    /**
+     * The review view.
+     */
     private String reviewView;
 
     /**
      * Instantiates a new adds the question by participant controller.
      */
     public AddQuestionByParticipantController() {
+        super();
         setFormView("form/addQuestionForParticipant");
         setSuccessView("form/confirmFormSubmission");
         setReviewView("form/reviewFormSubmission");
@@ -47,7 +52,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
         StudyParticipantCrf studyParticipantCrf = finderRepository.findById(StudyParticipantCrf.class, studyParticipantCrfSchedule.getStudyParticipantCrf().getId());
         int pageNumber = ((SubmitFormCommand) command).getTotalPages();
-        request.getSession().setAttribute("gotopage", "" + (pageNumber+1));
+        request.getSession().setAttribute("gotopage", "" + (pageNumber + 1));
         if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
             String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
             Hashtable arrangedQuestions = ((SubmitFormCommand) command).getArrangedQuestions();
@@ -93,7 +98,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
 
     /**
      * Sets the generic repository.
-     * 
+     *
      * @param genericRepository the new generic repository
      */
     @Required
@@ -103,7 +108,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
 
     /**
      * Gets the review view.
-     * 
+     *
      * @return the review view
      */
     public String getReviewView() {
@@ -112,7 +117,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
 
     /**
      * Sets the review view.
-     * 
+     *
      * @param reviewView the new review view
      */
     public void setReviewView(String reviewView) {

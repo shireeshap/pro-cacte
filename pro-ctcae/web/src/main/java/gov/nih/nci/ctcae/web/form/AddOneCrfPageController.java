@@ -10,10 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class AddOneCrfPageController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
@@ -64,6 +64,7 @@ public class AddOneCrfPageController extends AbstractCrfController {
      * Instantiates a new adds the one crf page controller.
      */
     public AddOneCrfPageController() {
+        super();
         setSupportedMethods(new String[]{"GET"});
 
     }

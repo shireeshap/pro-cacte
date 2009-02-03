@@ -12,26 +12,29 @@ import org.springframework.beans.factory.annotation.Required;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class StudyAjaxFacade.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 17, 2008
  */
 public class StudyAjaxFacade {
-    
-    /** The study repository. */
+
+    /**
+     * The study repository.
+     */
     private StudyRepository studyRepository;
-    
-    /** The participant repository. */
+
+    /**
+     * The participant repository.
+     */
     private ParticipantRepository participantRepository;
 
     /**
      * Match study.
-     * 
+     *
      * @param text the text
-     * 
      * @return the list< study>
      */
     public List<Study> matchStudy(final String text) {
@@ -44,12 +47,11 @@ public class StudyAjaxFacade {
 
     /**
      * Search studies.
-     * 
+     *
      * @param parameterMap the parameter map
-     * @param type the type
-     * @param text the text
-     * @param request the request
-     * 
+     * @param type         the type
+     * @param text         the text
+     * @param request      the request
      * @return the string
      */
     public String searchStudies(Map parameterMap, String type, String text,
@@ -64,12 +66,11 @@ public class StudyAjaxFacade {
 
     /**
      * Search studies for selection.
-     * 
+     *
      * @param parameterMap the parameter map
-     * @param type the type
-     * @param text the text
-     * @param request the request
-     * 
+     * @param type         the type
+     * @param text         the text
+     * @param request      the request
      * @return the string
      */
     public String searchStudiesForSelection(Map parameterMap, String type,
@@ -102,10 +103,9 @@ public class StudyAjaxFacade {
 
     /**
      * Gets the objects.
-     * 
+     *
      * @param type the type
      * @param text the text
-     * 
      * @return the objects
      */
     private List<Study> getObjects(String type, String text) {
@@ -127,7 +127,7 @@ public class StudyAjaxFacade {
 
     /**
      * Sets the study repository.
-     * 
+     *
      * @param studyRepository the new study repository
      */
     @Required
@@ -138,7 +138,7 @@ public class StudyAjaxFacade {
 
     /**
      * Sets the participant repository.
-     * 
+     *
      * @param participantRepository the new participant repository
      */
     @Required

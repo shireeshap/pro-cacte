@@ -2,10 +2,10 @@ package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class StudyDetailsTab.
- * 
+ *
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */

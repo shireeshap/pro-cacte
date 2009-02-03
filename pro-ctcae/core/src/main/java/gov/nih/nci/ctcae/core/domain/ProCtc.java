@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ProCtc.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 13, 2008
  */
@@ -22,22 +22,30 @@ import java.util.List;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_id")})
 public class ProCtc extends BasePersistable {
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The pro ctc version. */
+    /**
+     * The pro ctc version.
+     */
     @Column(name = "pro_ctc_version", nullable = false, unique = true)
     private String proCtcVersion;
 
-    /** The release date. */
+    /**
+     * The release date.
+     */
     @Column(name = "release_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date releaseDate;
 
-    /** The pro ctc terms. */
+    /**
+     * The pro ctc terms.
+     */
     @OneToMany(mappedBy = "proCtc")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
 
@@ -47,23 +55,16 @@ public class ProCtc extends BasePersistable {
      * Instantiates a new pro ctc.
      */
     public ProCtc() {
+        super();
     }
+
 
     /**
      * Instantiates a new pro ctc.
-     * 
-     * @param id the id
-     */
-    public ProCtc(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * Instantiates a new pro ctc.
-     * 
-     * @param id the id
+     *
+     * @param id            the id
      * @param proCtcVersion the pro ctc version
-     * @param releaseDate the release date
+     * @param releaseDate   the release date
      */
     public ProCtc(Integer id, String proCtcVersion, Date releaseDate) {
         this.id = id;
@@ -87,7 +88,7 @@ public class ProCtc extends BasePersistable {
 
     /**
      * Gets the pro ctc version.
-     * 
+     *
      * @return the pro ctc version
      */
     public String getProCtcVersion() {
@@ -96,7 +97,7 @@ public class ProCtc extends BasePersistable {
 
     /**
      * Sets the pro ctc version.
-     * 
+     *
      * @param proCtcVersion the new pro ctc version
      */
     public void setProCtcVersion(String proCtcVersion) {
@@ -105,7 +106,7 @@ public class ProCtc extends BasePersistable {
 
     /**
      * Gets the release date.
-     * 
+     *
      * @return the release date
      */
     public Date getReleaseDate() {
@@ -114,7 +115,7 @@ public class ProCtc extends BasePersistable {
 
     /**
      * Sets the release date.
-     * 
+     *
      * @param releaseDate the new release date
      */
     public void setReleaseDate(Date releaseDate) {
@@ -124,7 +125,7 @@ public class ProCtc extends BasePersistable {
 
     /**
      * Gets the pro ctc terms.
-     * 
+     *
      * @return the pro ctc terms
      */
     public List<ProCtcTerm> getProCtcTerms() {
@@ -133,7 +134,7 @@ public class ProCtc extends BasePersistable {
 
     /**
      * Adds the pro ctc term.
-     * 
+     *
      * @param proCtcTerm the pro ctc term
      */
     public void addProCtcTerm(ProCtcTerm proCtcTerm) {

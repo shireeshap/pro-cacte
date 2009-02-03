@@ -5,10 +5,10 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ProCtcValidValue.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 13, 2008
  */
@@ -18,17 +18,23 @@ import javax.persistence.*;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_valid_values_id")})
 public class ProCtcValidValue extends BasePersistable {
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The value. */
+    /**
+     * The value.
+     */
     @Column(name = "value", nullable = false)
     private String value;
 
-    /** The pro ctc question. */
+    /**
+     * The pro ctc question.
+     */
     @JoinColumn(name = "pro_ctc_question_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtcQuestion proCtcQuestion;
@@ -55,7 +61,7 @@ public class ProCtcValidValue extends BasePersistable {
 
     /**
      * Gets the value.
-     * 
+     *
      * @return the value
      */
     public String getValue() {
@@ -64,7 +70,7 @@ public class ProCtcValidValue extends BasePersistable {
 
     /**
      * Sets the value.
-     * 
+     *
      * @param value the new value
      */
     public void setValue(String value) {
@@ -73,7 +79,7 @@ public class ProCtcValidValue extends BasePersistable {
 
     /**
      * Gets the pro ctc question.
-     * 
+     *
      * @return the pro ctc question
      */
     public ProCtcQuestion getProCtcQuestion() {
@@ -83,7 +89,7 @@ public class ProCtcValidValue extends BasePersistable {
 
     /**
      * Sets the pro ctc question.
-     * 
+     *
      * @param proCtcQuestion the new pro ctc question
      */
     public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {

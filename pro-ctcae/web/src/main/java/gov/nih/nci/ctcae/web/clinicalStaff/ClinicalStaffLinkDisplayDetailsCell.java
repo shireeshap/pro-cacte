@@ -6,12 +6,12 @@ import org.extremecomponents.table.cell.Cell;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.view.html.ColumnBuilder;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ClinicalStaffLinkDisplayDetailsCell.
- * 
+ *
  * @author Mehul Gulati
- * Date: Oct 28, 2008
+ *         Date: Oct 28, 2008
  */
 public class ClinicalStaffLinkDisplayDetailsCell implements Cell {
 

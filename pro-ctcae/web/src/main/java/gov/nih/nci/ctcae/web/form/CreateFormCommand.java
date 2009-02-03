@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 import java.io.Serializable;
 import java.util.*;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CreateFormCommand.
  *
@@ -71,6 +71,7 @@ public class CreateFormCommand implements Serializable {
      * Instantiates a new creates the form command.
      */
     public CreateFormCommand() {
+        super();
         crf = new CRF();
         crf.setStatus(CrfStatus.DRAFT);
         crf.setCrfVersion("1.0");

@@ -18,31 +18,40 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ParticipantController.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 21, 2008
  */
 public abstract class ParticipantController extends CtcAeSimpleFormController {
-    
-    /** The participant repository. */
+
+    /**
+     * The participant repository.
+     */
     protected ParticipantRepository participantRepository;
-    
-    /** The finder repository. */
+
+    /**
+     * The finder repository.
+     */
     protected FinderRepository finderRepository;
-    
-    /** The organization repository. */
+
+    /**
+     * The organization repository.
+     */
     protected OrganizationRepository organizationRepository;
-    
-    /** The crf repository. */
+
+    /**
+     * The crf repository.
+     */
     private CRFRepository crfRepository;
 
     /**
      * Instantiates a new participant controller.
      */
     protected ParticipantController() {
+        super();
         setCommandClass(ParticipantCommand.class);
         setCommandName("participantCommand");
         setSuccessView("participant/confirmParticipant");
@@ -147,7 +156,7 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
 
     /**
      * Sets the crf repository.
-     * 
+     *
      * @param crfRepository the new crf repository
      */
     @Required
@@ -157,7 +166,7 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
 
     /**
      * Sets the participant repository.
-     * 
+     *
      * @param participantRepository the new participant repository
      */
     @Required
@@ -168,7 +177,7 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
 
     /**
      * Sets the organization repository.
-     * 
+     *
      * @param organizationRepository the new organization repository
      */
     @Required

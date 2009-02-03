@@ -4,26 +4,32 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.cabig.ctms.domain.CodedEnumHelper;
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Enum CrfCreationMode.
- * 
+ *
  * @author Vinay Kumar
  */
 public enum CrfCreationMode implements CodedEnum<String> {
 
-    /** The BASIC. */
+    /**
+     * The BASIC.
+     */
     BASIC("Basic"),
-    
-    /** The ADVANCE. */
+
+    /**
+     * The ADVANCE.
+     */
     ADVANCE("Advance");
 
-    /** The display text. */
+    /**
+     * The display text.
+     */
     private final String displayText;
 
     /**
      * Instantiates a new crf creation mode.
-     * 
+     *
      * @param displayText the display text
      */
     CrfCreationMode(String displayText) {
@@ -35,9 +41,8 @@ public enum CrfCreationMode implements CodedEnum<String> {
 
     /**
      * Gets the by code.
-     * 
+     *
      * @param code the code
-     * 
      * @return the by code
      */
     public static CrfCreationMode getByCode(String code) {

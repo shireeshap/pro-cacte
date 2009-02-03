@@ -18,26 +18,31 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class AddConditionalQuestionController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Dec 22, 2008
  */
 public class AddConditionalQuestionController extends AbstractController {
 
 
-    /** The pro ctc question repository. */
+    /**
+     * The pro ctc question repository.
+     */
     private ProCtcQuestionRepository proCtcQuestionRepository;
-    
-    /** The finder repository. */
+
+    /**
+     * The finder repository.
+     */
     private FinderRepository finderRepository;
 
     /**
      * Instantiates a new adds the conditional question controller.
      */
     public AddConditionalQuestionController() {
+        super();
         setSupportedMethods(new String[]{"GET"});
     }
 
@@ -79,7 +84,7 @@ public class AddConditionalQuestionController extends AbstractController {
 
     /**
      * Sets the finder repository.
-     * 
+     *
      * @param finderRepository the new finder repository
      */
     @Required
@@ -89,7 +94,7 @@ public class AddConditionalQuestionController extends AbstractController {
 
     /**
      * Sets the pro ctc question repository.
-     * 
+     *
      * @param proCtcQuestionRepository the new pro ctc question repository
      */
     @Required

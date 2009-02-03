@@ -6,52 +6,55 @@ import org.apache.commons.lang.StringUtils;
 
 import java.beans.PropertyEditorSupport;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class EnumByNameEditor.
- * 
+ *
  * @author Vinay Kumar
  * @crated Dec 18, 2008
  */
 public class EnumByNameEditor<E extends CodedEnum> extends PropertyEditorSupport {
-	
-	/** The enum class. */
-	Class<E> enumClass;
 
-	/**
-	 * Instantiates a new enum by name editor.
-	 * 
-	 * @param enumClass the enum class
-	 */
-	public EnumByNameEditor(Class<E> enumClass) {
-		this.enumClass = enumClass;
-	}
+    /**
+     * The enum class.
+     */
+    Class<E> enumClass;
 
-	/* (non-Javadoc)
-	 * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
-	 */
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		if (text == null || StringUtils.isBlank(text)) {
-			setValue(null);
-		} else {
-			CodedEnum code = getByClassAndCode(enumClass, text);
+    /**
+     * Instantiates a new enum by name editor.
+     *
+     * @param enumClass the enum class
+     */
+    public EnumByNameEditor(Class<E> enumClass) {
+        super();
+        this.enumClass = enumClass;
+    }
 
-			setValue(code);
-		}
-	}
+    /* (non-Javadoc)
+      * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
+      */
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        if (text == null || StringUtils.isBlank(text)) {
+            setValue(null);
+        } else {
+            CodedEnum code = getByClassAndCode(enumClass, text);
 
-	/* (non-Javadoc)
-	 * @see java.beans.PropertyEditorSupport#getAsText()
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public String getAsText() {
-		Object o = getValue();
-		if (o == null) {
-			return null;
-		} else {
-			return o.toString();
+            setValue(code);
+        }
+    }
+
+    /* (non-Javadoc)
+      * @see java.beans.PropertyEditorSupport#getAsText()
+      */
+    @Override
+    @SuppressWarnings("unchecked")
+    public String getAsText() {
+        Object o = getValue();
+        if (o == null) {
+            return null;
+        } else {
+            return o.toString();
 		}
 	}
 }

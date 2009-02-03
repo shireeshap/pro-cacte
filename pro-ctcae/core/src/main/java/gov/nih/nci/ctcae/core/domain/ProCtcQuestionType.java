@@ -4,36 +4,48 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.cabig.ctms.domain.CodedEnumHelper;
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Enum ProCtcQuestionType.
- * 
+ *
  * @author Vinay Kumar
  */
 public enum ProCtcQuestionType implements CodedEnum<String> {
 
-    /** The PRESENT. */
+    /**
+     * The PRESENT.
+     */
     PRESENT("Present/Not Present"),
-    
-    /** The AMOUNT. */
+
+    /**
+     * The AMOUNT.
+     */
     AMOUNT("Amount"),
-    
-    /** The SEVERITY. */
+
+    /**
+     * The SEVERITY.
+     */
     SEVERITY("Severity"),
-    
-    /** The INTERFERENCE. */
+
+    /**
+     * The INTERFERENCE.
+     */
     INTERFERENCE("Interference"),
-    
-    /** The FREQUENCY. */
+
+    /**
+     * The FREQUENCY.
+     */
     FREQUENCY("Frequency");
 
 
-    /** The display text. */
+    /**
+     * The display text.
+     */
     private final String displayText;
 
     /**
      * Instantiates a new pro ctc question type.
-     * 
+     *
      * @param displayText the display text
      */
     ProCtcQuestionType(String displayText) {
@@ -45,9 +57,8 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
 
     /**
      * Gets the by code.
-     * 
+     *
      * @param code the code
-     * 
      * @return the by code
      */
     public static ProCtcQuestionType getByCode(String code) {
@@ -79,9 +90,8 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
 
     /**
      * Gets the by display name.
-     * 
+     *
      * @param displayName the display name
-     * 
      * @return the by display name
      */
     public static ProCtcQuestionType getByDisplayName(String displayName) {

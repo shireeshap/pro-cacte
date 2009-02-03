@@ -2,10 +2,10 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ScheduleCrfTab.
- * 
+ *
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */

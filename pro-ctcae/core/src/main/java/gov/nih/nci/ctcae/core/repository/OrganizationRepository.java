@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class OrganizationRepository.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 7, 2008
  */
@@ -31,7 +31,7 @@ public class OrganizationRepository extends
 
     /**
      * Find organizations for study sites.
-     * 
+     *
      * @return the array list< organization>
      */
     public ArrayList<Organization> findOrganizationsForStudySites() {

@@ -8,10 +8,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class Ctc.
- * 
+ *
  * @author Mehul Gulati
  * @created Oct 13, 2008
  */
@@ -21,17 +21,23 @@ import java.util.List;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_ctc_id")})
 public class Ctc extends BasePersistable {
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The name. */
+    /**
+     * The name.
+     */
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    /** The ctc categories. */
+    /**
+     * The ctc categories.
+     */
     @OneToMany(mappedBy = "ctc")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
 
@@ -41,6 +47,7 @@ public class Ctc extends BasePersistable {
      * Instantiates a new ctc.
      */
     public Ctc() {
+        super();
     }
 
 
@@ -60,7 +67,7 @@ public class Ctc extends BasePersistable {
 
     /**
      * Gets the name.
-     * 
+     *
      * @return the name
      */
     public String getName() {
@@ -69,7 +76,7 @@ public class Ctc extends BasePersistable {
 
     /**
      * Sets the name.
-     * 
+     *
      * @param name the new name
      */
     public void setName(String name) {
@@ -78,7 +85,7 @@ public class Ctc extends BasePersistable {
 
     /**
      * Gets the ctc categories.
-     * 
+     *
      * @return the ctc categories
      */
     public List<CtcCategory> getCtcCategories() {
@@ -87,7 +94,7 @@ public class Ctc extends BasePersistable {
 
     /**
      * Sets the ctc categories.
-     * 
+     *
      * @param ctcCategories the new ctc categories
      */
     public void setCtcCategories(List<CtcCategory> ctcCategories) {

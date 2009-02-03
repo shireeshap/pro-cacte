@@ -9,17 +9,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CRFRepository.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
 
-    /** The study repository. */
+    /**
+     * The study repository.
+     */
     private StudyRepository studyRepository;
 
     /* (non-Javadoc)
@@ -60,7 +62,7 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
 
     /**
      * Update status to released.
-     * 
+     *
      * @param crf the crf
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
@@ -113,7 +115,7 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
 
     /**
      * Sets the study repository.
-     * 
+     *
      * @param studyRepository the new study repository
      */
     @Required

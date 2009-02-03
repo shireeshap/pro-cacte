@@ -5,10 +5,10 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CtcCategory.
- * 
+ *
  * @author Vinay Kumar
  * @crated Nov 6, 2008
  */
@@ -18,17 +18,23 @@ import javax.persistence.*;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_ctc_categories_id")})
 public class CtcCategory extends BasePersistable {
 
-    /** The name. */
+    /**
+     * The name.
+     */
     @Column(name = "name")
     private String name;
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The ctc. */
+    /**
+     * The ctc.
+     */
     @JoinColumn(name = "version_id", referencedColumnName = "id")
     @ManyToOne
     private Ctc ctc;
@@ -49,7 +55,7 @@ public class CtcCategory extends BasePersistable {
 
     /**
      * Gets the name.
-     * 
+     *
      * @return the name
      */
     public String getName() {
@@ -58,7 +64,7 @@ public class CtcCategory extends BasePersistable {
 
     /**
      * Sets the name.
-     * 
+     *
      * @param name the new name
      */
     public void setName(String name) {
@@ -68,7 +74,7 @@ public class CtcCategory extends BasePersistable {
 
     /**
      * Gets the ctc.
-     * 
+     *
      * @return the ctc
      */
     public Ctc getCtc() {
@@ -77,7 +83,7 @@ public class CtcCategory extends BasePersistable {
 
     /**
      * Sets the ctc.
-     * 
+     *
      * @param ctc the new ctc
      */
     public void setCtc(Ctc ctc) {

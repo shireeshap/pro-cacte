@@ -1,9 +1,9 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.apache.commons.lang.StringUtils;
@@ -13,26 +13,30 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * User: Harsh
  * Date: Nov 12, 2008
  * Time: 1:36:54 PM.
  */
 public class SubmitFormController extends CtcAeSimpleFormController {
-    
-    /** The generic repository. */
+
+    /**
+     * The generic repository.
+     */
     GenericRepository genericRepository;
-    
-    /** The review view. */
+
+    /**
+     * The review view.
+     */
     private String reviewView;
 
     /**
      * Instantiates a new submit form controller.
      */
     public SubmitFormController() {
+        super();
         setFormView("form/submitForm");
         setSuccessView("form/confirmFormSubmission");
         setReviewView("form/reviewFormSubmission");
@@ -149,7 +153,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
 
     /**
      * Sets the generic repository.
-     * 
+     *
      * @param genericRepository the new generic repository
      */
     @Required
@@ -159,7 +163,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
 
     /**
      * Gets the review view.
-     * 
+     *
      * @return the review view
      */
     public String getReviewView() {
@@ -168,7 +172,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
 
     /**
      * Sets the review view.
-     * 
+     *
      * @param reviewView the new review view
      */
     public void setReviewView(String reviewView) {

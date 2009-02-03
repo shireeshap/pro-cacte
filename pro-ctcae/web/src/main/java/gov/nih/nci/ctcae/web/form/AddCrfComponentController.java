@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class AddCrfComponentController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Dec 11, 2008
  */
@@ -108,6 +108,7 @@ public class AddCrfComponentController extends AbstractCrfController {
      * Instantiates a new adds the crf component controller.
      */
     public AddCrfComponentController() {
+        super();
         setSupportedMethods(new String[]{"GET"});
 
     }

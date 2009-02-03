@@ -21,31 +21,43 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CtcAeTabbedFlowController.
- * 
+ *
  * @author Saurabh Agrawal
  * @crated Nov 5, 2008
  */
 public abstract class CtcAeTabbedFlowController<C extends Object> extends AbstractTabbedFlowFormController<C> {
-    
-    /** The study repository. */
+
+    /**
+     * The study repository.
+     */
     protected StudyRepository studyRepository;
-    
-    /** The organization repository. */
+
+    /**
+     * The organization repository.
+     */
     private OrganizationRepository organizationRepository;
-    
-    /** The finder repository. */
+
+    /**
+     * The finder repository.
+     */
     protected FinderRepository finderRepository;
-    
-    /** The pro ctc question repository. */
+
+    /**
+     * The pro ctc question repository.
+     */
     protected ProCtcQuestionRepository proCtcQuestionRepository;
-    
-    /** The controller tools. */
+
+    /**
+     * The controller tools.
+     */
     protected ControllerTools controllerTools;
-    
-    /** The web controller validator. */
+
+    /**
+     * The web controller validator.
+     */
     private WebControllerValidator webControllerValidator;
 
     /* (non-Javadoc)
@@ -84,7 +96,7 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
 
     /**
      * Validate.
-     * 
+     *
      * @return true, if successful
      */
     protected boolean validate() {
@@ -93,7 +105,7 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
 
     /**
      * Sets the organization repository.
-     * 
+     *
      * @param organizationRepository the new organization repository
      */
     @Required
@@ -103,7 +115,7 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
 
     /**
      * Sets the finder repository.
-     * 
+     *
      * @param finderRepository the new finder repository
      */
     @Required
@@ -113,7 +125,7 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
 
     /**
      * Sets the controller tools.
-     * 
+     *
      * @param controllerTools the new controller tools
      */
     @Required
@@ -123,7 +135,7 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
 
     /**
      * Sets the web controller validator.
-     * 
+     *
      * @param webControllerValidator the new web controller validator
      */
     @Required
@@ -133,7 +145,7 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
 
     /**
      * Sets the study repository.
-     * 
+     *
      * @param studyRepository the new study repository
      */
     @Required
@@ -143,7 +155,7 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
 
     /**
      * Sets the pro ctc question repository.
-     * 
+     *
      * @param proCtcQuestionRepository the new pro ctc question repository
      */
     @Required

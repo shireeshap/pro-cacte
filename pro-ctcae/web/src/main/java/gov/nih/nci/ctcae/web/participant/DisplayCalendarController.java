@@ -1,31 +1,27 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
-import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.servlet.mvc.AbstractController;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.beans.factory.annotation.Required;
-import org.apache.commons.lang.StringUtils;
-
 import java.text.SimpleDateFormat;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class DisplayCalendarController.
- * 
+ *
  * @author Harsh Agarwal
  * @crated Nov 5, 2008
  */
 public class DisplayCalendarController extends AbstractController {
 
-    /** The finder repository. */
+    /**
+     * The finder repository.
+     */
     FinderRepository finderRepository;
 
     /* (non-Javadoc)
@@ -71,13 +67,14 @@ public class DisplayCalendarController extends AbstractController {
      * Instantiates a new display calendar controller.
      */
     public DisplayCalendarController() {
+        super();
         setSupportedMethods(new String[]{"GET"});
 
     }
 
     /**
      * Sets the finder repository.
-     * 
+     *
      * @param finderRepository the new finder repository
      */
     @Required

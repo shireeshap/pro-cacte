@@ -5,10 +5,10 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CtcTerm.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 13, 2008
  */
@@ -18,30 +18,42 @@ import javax.persistence.*;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_terms_id")})
 public class CtcTerm extends BasePersistable {
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The term. */
+    /**
+     * The term.
+     */
     @Column(name = "term", nullable = false)
     private String term;
 
-    /** The category. */
+    /**
+     * The category.
+     */
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne
     private CtcCategory category;
 
-    /** The select. */
+    /**
+     * The select.
+     */
     @Column(name = "select_ae")
     private String select;
 
-    /** The ctep term. */
+    /**
+     * The ctep term.
+     */
     @Column(name = "ctep_term")
     private String ctepTerm;
 
-    /** The ctep code. */
+    /**
+     * The ctep code.
+     */
     @Column(name = "ctep_code")
     private String ctepCode;
 
@@ -50,11 +62,12 @@ public class CtcTerm extends BasePersistable {
      * Instantiates a new ctc term.
      */
     public CtcTerm() {
+        super();
     }
 
     /**
      * Instantiates a new ctc term.
-     * 
+     *
      * @param id the id
      */
     public CtcTerm(Integer id) {
@@ -63,8 +76,8 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * Instantiates a new ctc term.
-     * 
-     * @param id the id
+     *
+     * @param id   the id
      * @param term the term
      */
     public CtcTerm(Integer id, String term) {
@@ -88,7 +101,7 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * Gets the term.
-     * 
+     *
      * @return the term
      */
     public String getTerm() {
@@ -97,7 +110,7 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * Sets the term.
-     * 
+     *
      * @param term the new term
      */
     public void setTerm(String term) {
@@ -106,7 +119,7 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * Gets the select.
-     * 
+     *
      * @return the select
      */
     public String getSelect() {
@@ -115,7 +128,7 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * Sets the select.
-     * 
+     *
      * @param select the new select
      */
     public void setSelect(String select) {
@@ -124,7 +137,7 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * Gets the ctep term.
-     * 
+     *
      * @return the ctep term
      */
     public String getCtepTerm() {
@@ -133,7 +146,7 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * Sets the ctep term.
-     * 
+     *
      * @param ctepTerm the new ctep term
      */
     public void setCtepTerm(String ctepTerm) {
@@ -142,7 +155,7 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * Gets the ctep code.
-     * 
+     *
      * @return the ctep code
      */
     public String getCtepCode() {
@@ -151,7 +164,7 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * Sets the ctep code.
-     * 
+     *
      * @param ctepCode the new ctep code
      */
     public void setCtepCode(String ctepCode) {
@@ -161,7 +174,7 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * Gets the category.
-     * 
+     *
      * @return the category
      */
     public CtcCategory getCategory() {
@@ -170,7 +183,7 @@ public class CtcTerm extends BasePersistable {
 
     /**
      * Sets the category.
-     * 
+     *
      * @param category the new category
      */
     public void setCategory(CtcCategory category) {

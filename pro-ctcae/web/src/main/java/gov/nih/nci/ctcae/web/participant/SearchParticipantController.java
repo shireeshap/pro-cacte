@@ -6,12 +6,12 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class SearchParticipantController.
- * 
+ *
  * @author Harsh Agarwal
- * Date: Oct 23, 2008
+ *         Date: Oct 23, 2008
  */
 public class SearchParticipantController extends AbstractController {
 

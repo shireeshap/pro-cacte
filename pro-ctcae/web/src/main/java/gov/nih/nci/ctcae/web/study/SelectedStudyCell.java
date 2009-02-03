@@ -12,7 +12,7 @@ import org.extremecomponents.util.HtmlBuilder;
 
 import java.util.HashSet;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class SelectedStudyCell.
  *

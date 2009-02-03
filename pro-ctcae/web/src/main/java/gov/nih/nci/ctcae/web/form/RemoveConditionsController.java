@@ -13,22 +13,25 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class RemoveConditionsController.
- * 
+ *
  * @author Vinay Kumar
  * @crated Dec 22, 2008
  */
 public class RemoveConditionsController extends AbstractController {
 
-    /** The pro ctc question repository. */
+    /**
+     * The pro ctc question repository.
+     */
     private ProCtcQuestionRepository proCtcQuestionRepository;
 
     /**
      * Instantiates a new removes the conditions controller.
      */
     public RemoveConditionsController() {
+        super();
         setSupportedMethods(new String[]{"GET"});
     }
 
@@ -58,7 +61,7 @@ public class RemoveConditionsController extends AbstractController {
 
     /**
      * Sets the pro ctc question repository.
-     * 
+     *
      * @param proCtcQuestionRepository the new pro ctc question repository
      */
     @Required

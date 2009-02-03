@@ -29,19 +29,14 @@ public class ProCtcTermRepository extends AbstractRepository<ProCtcTerm, ProCtcT
     }
 
 
-    public Collection<ProCtcTerm> findAndInitializeTerm(ProCtcTermQuery query) {
+    @Override
+    public Collection<ProCtcTerm> find(final ProCtcTermQuery query) {
         Collection<ProCtcTerm> proCtcTerms = super.find(query);
         for (ProCtcTerm proCtcTerm : proCtcTerms) {
             intializeTerm(proCtcTerm);
         }
 
         return proCtcTerms;
-    }
-
-    @Override
-    public Collection<ProCtcTerm> find(final ProCtcTermQuery query) {
-        throw new UnsupportedOperationException(
-                "find is not supported for ProCtcTerm. Use findAndInitializeTerm method");
 
 
     }

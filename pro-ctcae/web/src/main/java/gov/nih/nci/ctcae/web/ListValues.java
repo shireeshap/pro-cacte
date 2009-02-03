@@ -5,31 +5,35 @@ import gov.nih.nci.ctcae.core.domain.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ListValues.
- * 
+ *
  * @author Vinay Kumar
  * @crated Oct 18, 2008
  */
 public class ListValues {
 
-    /** The code. */
+    /**
+     * The code.
+     */
     private String code;
 
-    /** The desc. */
+    /**
+     * The desc.
+     */
     private String desc;
 
     /**
      * Instantiates a new list values.
      */
     public ListValues() {
-        // TODO Auto-generated constructor stub
+        super();
     }
 
     /**
      * Instantiates a new list values.
-     * 
+     *
      * @param code the code
      * @param desc the desc
      */
@@ -40,7 +44,7 @@ public class ListValues {
 
     /**
      * Gets the code.
-     * 
+     *
      * @return the code
      */
     public String getCode() {
@@ -49,7 +53,7 @@ public class ListValues {
 
     /**
      * Sets the code.
-     * 
+     *
      * @param code the new code
      */
     public void setCode(final String code) {
@@ -58,7 +62,7 @@ public class ListValues {
 
     /**
      * Gets the desc.
-     * 
+     *
      * @return the desc
      */
     public String getDesc() {
@@ -67,7 +71,7 @@ public class ListValues {
 
     /**
      * Sets the desc.
-     * 
+     *
      * @param desc the new desc
      */
     public void setDesc(final String desc) {
@@ -76,7 +80,7 @@ public class ListValues {
 
     /**
      * Gets the study search type.
-     * 
+     *
      * @return the study search type
      */
     public List<ListValues> getStudySearchType() {
@@ -92,7 +96,7 @@ public class ListValues {
 
     /**
      * Gets the gender type.
-     * 
+     *
      * @return the gender type
      */
     public List<ListValues> getGenderType() {
@@ -108,7 +112,7 @@ public class ListValues {
 
     /**
      * Gets the race type.
-     * 
+     *
      * @return the race type
      */
     public List<ListValues> getRaceType() {
@@ -124,7 +128,7 @@ public class ListValues {
 
     /**
      * Gets the ethnicity type.
-     * 
+     *
      * @return the ethnicity type
      */
     public List<ListValues> getEthnicityType() {
@@ -140,7 +144,7 @@ public class ListValues {
 
     /**
      * Gets the participant search type.
-     * 
+     *
      * @return the participant search type
      */
     public List<ListValues> getParticipantSearchType() {
@@ -161,7 +165,7 @@ public class ListValues {
 
     /**
      * Gets the response required.
-     * 
+     *
      * @return the response required
      */
     public static List<ListValues> getResponseRequired() {
@@ -175,7 +179,7 @@ public class ListValues {
 
     /**
      * Gets the recall periods.
-     * 
+     *
      * @return the recall periods
      */
     public static List<ListValues> getRecallPeriods() {
@@ -192,9 +196,8 @@ public class ListValues {
 
     /**
      * Gets the study sites.
-     * 
+     *
      * @param organizations the organizations
-     * 
      * @return the study sites
      */
     public static List<ListValues> getStudySites(ArrayList<Organization> organizations) {
@@ -212,7 +215,7 @@ public class ListValues {
 
     /**
      * Gets the crf item allignments.
-     * 
+     *
      * @return the crf item allignments
      */
     public static List<ListValues> getCrfItemAllignments() {

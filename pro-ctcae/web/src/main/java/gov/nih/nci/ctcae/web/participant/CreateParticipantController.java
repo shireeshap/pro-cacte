@@ -3,10 +3,10 @@ package gov.nih.nci.ctcae.web.participant;
 import javax.servlet.http.HttpServletRequest;
 
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class CreateParticipantController.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 21, 2008
  */
@@ -16,6 +16,7 @@ public class CreateParticipantController extends ParticipantController {
      * Instantiates a new creates the participant controller.
      */
     public CreateParticipantController() {
+        super();
         setFormView("participant/createParticipant");
     }
 

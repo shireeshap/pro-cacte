@@ -3,12 +3,12 @@ package gov.nih.nci.ctcae.core.repository;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ClinicalStaffRepository.
- * 
+ *
  * @author Mehul Gulati
- * Date: Oct 15, 2008
+ *         Date: Oct 15, 2008
  */
 public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, ClinicalStaffQuery> {
 

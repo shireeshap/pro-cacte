@@ -1,18 +1,22 @@
 package gov.nih.nci.ctcae.core.query;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ProCtcQuery.
- * 
+ *
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
 public class ProCtcQuery extends AbstractQuery {
 
-    /** The query string. */
+    /**
+     * The query string.
+     */
     private static String queryString = "SELECT o from ProCtc o order by o.id";
-    
-    /** The PR o_ ct c_ version. */
+
+    /**
+     * The PR o_ ct c_ version.
+     */
     private static String PRO_CTC_VERSION = "proCtcVersion";
 
     /**
@@ -25,7 +29,7 @@ public class ProCtcQuery extends AbstractQuery {
 
     /**
      * Filter by pro ctc version.
-     * 
+     *
      * @param proCtcVersion the pro ctc version
      */
     public void filterByProCtcVersion(final String proCtcVersion) {

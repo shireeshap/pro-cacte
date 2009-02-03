@@ -2,16 +2,13 @@ package gov.nih.nci.ctcae.core.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class StudyParticipantCrfAddedQuestion.
- * 
+ *
  * @author Harsh Agarwal
  * @crated jan 5, 2008
  */
@@ -22,22 +19,30 @@ import java.util.List;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_sp_crf_added_questions_id")})
 public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
 
-    /** The id. */
+    /**
+     * The id.
+     */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
-    /** The page number. */
+    /**
+     * The page number.
+     */
     @Column(name = "page_number")
     private Integer pageNumber;
 
-    /** The study participant crf. */
+    /**
+     * The study participant crf.
+     */
     @JoinColumn(name = "sp_crf_id", referencedColumnName = "id")
     @ManyToOne
     private StudyParticipantCrf studyParticipantCrf;
 
-    /** The pro ctc question. */
+    /**
+     * The pro ctc question.
+     */
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtcQuestion proCtcQuestion;
@@ -47,7 +52,7 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
      * Instantiates a new study participant crf added question.
      */
     public StudyParticipantCrfAddedQuestion() {
-
+        super();
     }
 
     /* (non-Javadoc)
@@ -66,7 +71,7 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
 
     /**
      * Gets the study participant crf.
-     * 
+     *
      * @return the study participant crf
      */
     public StudyParticipantCrf getStudyParticipantCrf() {
@@ -75,7 +80,7 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
 
     /**
      * Sets the study participant crf.
-     * 
+     *
      * @param studyParticipantCrf the new study participant crf
      */
     public void setStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
@@ -84,7 +89,7 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
 
     /**
      * Gets the pro ctc question.
-     * 
+     *
      * @return the pro ctc question
      */
     public ProCtcQuestion getProCtcQuestion() {
@@ -93,7 +98,7 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
 
     /**
      * Sets the pro ctc question.
-     * 
+     *
      * @param proCtcQuestion the new pro ctc question
      */
     public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {
@@ -102,7 +107,7 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
 
     /**
      * Gets the page number.
-     * 
+     *
      * @return the page number
      */
     public Integer getPageNumber() {
@@ -111,7 +116,7 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
 
     /**
      * Sets the page number.
-     * 
+     *
      * @param pageNumber the new page number
      */
     public void setPageNumber(Integer pageNumber) {
@@ -120,10 +125,10 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
 
     /**
      * Gets the copy.
-     * 
+     *
      * @return the copy
      */
-    public StudyParticipantCrfAddedQuestion getCopy(){
+    public StudyParticipantCrfAddedQuestion getCopy() {
         StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = new StudyParticipantCrfAddedQuestion();
         studyParticipantCrfAddedQuestion.setPageNumber(pageNumber);
         studyParticipantCrfAddedQuestion.setStudyParticipantCrf(studyParticipantCrf);
