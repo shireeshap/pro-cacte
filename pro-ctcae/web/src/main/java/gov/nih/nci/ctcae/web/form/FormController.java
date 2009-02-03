@@ -117,7 +117,7 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
      *
      * @param flow the flow
      */
-    protected void layoutTabs(Flow<CreateFormCommand> flow) {
+    private void layoutTabs(Flow<CreateFormCommand> flow) {
         flow.addTab(new SelectStudyForFormTab());
         flow.addTab(new FormDetailsTab());
         // flow.addTab(new CalendarTemplateTab());

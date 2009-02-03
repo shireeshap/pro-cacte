@@ -39,7 +39,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         super();
         setFormView("form/submitForm");
         setSuccessView("form/confirmFormSubmission");
-        setReviewView("form/reviewFormSubmission");
+        this.reviewView = "form/reviewFormSubmission";
         setCommandClass(SubmitFormCommand.class);
         setSessionForm(true);
     }
@@ -170,12 +170,5 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         return reviewView;
     }
 
-    /**
-     * Sets the review view.
-     *
-     * @param reviewView the new review view
-     */
-    public void setReviewView(String reviewView) {
-        this.reviewView = reviewView;
-    }
+
 }
