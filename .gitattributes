@@ -305,7 +305,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcAeTabbedFlowController
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcCAtegoryComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/DeleteFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/EditFormController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FindCrfItemController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
@@ -313,7 +312,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormTableRowInterce
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ProCtcTermComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/RemoveConditionsController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReviewFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SelectStudyForFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SetNameController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ShowVersionFormController.java -text
@@ -412,6 +410,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowControls.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowSaveButton.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/form.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/form/formSettings.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/formBuilder.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formatDate.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formbuilderBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formbuilderBoxControls.tag -text
@@ -442,7 +441,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/parsedStylesheetLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/participantcalendar.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/printRow.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/putSpecialRequiredIndicator.tag -text
-pro-ctcae/web/src/main/webapp/WEB-INF/tags/questionReview.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/recallPeriodFormatter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderAutocompleter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderCheckBox.tag -text
@@ -459,7 +457,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderSelectForDomainObject.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderText.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderTextArea.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/requiredIndicator.tag -text
-pro-ctcae/web/src/main/webapp/WEB-INF/tags/reviewForm.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/reviewCrfPageItem.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/reviewQuestion.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/splitDateInput.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/ssoForm.tag -text
@@ -492,19 +490,16 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageItemSection.jsp 
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneCtcCategorySection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneProCtcTermSection.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/questionReviewSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/removeConditions.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/reorderSucessfull.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/calendar_template.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmFormSubmission.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/deleteForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/form_details.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/manageForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/participantAddedQuestion.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/releaseForm.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/form/reviewForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/reviewFormSubmission.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/select_study.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/showVersionForm.jsp -text
@@ -917,7 +912,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CreateFormCommandTest.jav
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CrfAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/DeleteFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/EditFormControllerTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FindCrfItemControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FormDetailsTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/ReleaseFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/RemoveConditionsControllerTest.java -text

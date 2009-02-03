@@ -36,7 +36,6 @@
 
     <webflow:flow-registry id="mvcFlowRegistry" flow-builder-services="mvcFlowBuilderServices">
         <webflow:flow-location path="/WEB-INF/views/participant/assignParticipant.xml" id="assignParticipant"/>
-        <webflow:flow-location path="/WEB-INF/views/form/createForm.xml" id="createForm"/>
 
     </webflow:flow-registry>
 

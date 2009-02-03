@@ -9,8 +9,11 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
-<html>
 <head>
+
+    <tags:formBuilder/>
+    <tags:includePrototypeWindow/>
+
     <script type="text/javascript">
         Event.observe(window, "load", function () {
             addRemoveConditionalTriggeringDisplayToQuestion();
@@ -22,11 +25,56 @@
 <body>
 <chrome:flashMessage flashMessage="form.save.confirmation"></chrome:flashMessage>
 
-<chrome:box title="form.confirmation">
 
-    <tags:reviewForm crf="${crf}"/>
+<a href="javascript:releaseForm('${crf.id}')">Release Form</a>
+<br>
+<br>
 
-</chrome:box>
+<div class="instructions">
+    <div class="summarylabel"><tags:message code='form.label.study'/></div>
+    <div class="summaryvalue">${crf.study.displayName}</div>
+</div>
+
+
+<div class="instructions">
+
+    <div class="summarylabel"><tags:message code='form.label.title'/></div>
+    <div class="summaryvalue">${crf.title}</div>
+</div>
+<br>
+
+<table id="formbuilderTable">
+    <tr>
+        <td id="left">
+            <div class="instructions">
+                <div class="summarylabel"><tags:message code='form.label.questions'/></div>
+            </div>
+
+            <c:forEach items="${crf.crfPagesSortedByPageNumber}" var="crfPage">
+
+                <div class="formpages">
+                    <div class="formpageheader">
+                            ${crfPage.description}
+                    </div>
+                    <tags:recallPeriodFormatter desc="${crfPage.instructions}"/>
+                    <br>
+
+                    <c:forEach items="${crfPage.crfItemsSortedByDislayOrder}" var="crfPageItem">
+                        <tags:reviewCrfPageItem crfPageItem="${crfPageItem}" showInstructions="true"
+                                                displayOrder="${crfPageItem.displayOrder}"></tags:reviewCrfPageItem>
+                    </c:forEach>
+                    <br>
+
+                </div>
+            </c:forEach>
+
+        </td>
+    </tr>
+
+</table>
+
+<br>
+<br>
+
 
 </body>
-</html>

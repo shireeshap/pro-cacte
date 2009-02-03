@@ -46,9 +46,7 @@
 
                         <p>
                             You cannot reverse this step. If you're not ready to proceed, please
-                            <a href="javascript:closeWindow()">return
-                                to
-                                the search results</a>.
+                            <a href="javascript:closeWindow()">click here</a>.
                         </p>
 
                     </div>

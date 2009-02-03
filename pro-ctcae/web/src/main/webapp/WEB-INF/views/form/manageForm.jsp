@@ -11,6 +11,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <head>
+    <tags:formBuilder/>
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:includeScriptaculous/>
 
@@ -75,7 +76,9 @@
         function deleteForm(crfId) {
             var request = new Ajax.Request("<c:url value="/pages/form/deleteForm"/>", {
                 parameters:"crfId=" + crfId + "&subview=subview",
-                onComplete:showDeleteFormWindow,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport);
+                },
                 method:'get'
             })
         }
@@ -83,7 +86,9 @@
         function versionForm(crfId) {
             var request = new Ajax.Request("<c:url value="/pages/form/versionForm"/>", {
                 parameters:"crfId=" + crfId + "&subview=subview",
-                onComplete:showDeleteFormWindow,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport);
+                },
                 method:'get'
             })
         }
@@ -115,48 +120,6 @@
 
         }
 
-        function releaseForm(crfId) {
-
-            var request = new Ajax.Request("<c:url value="/pages/form/releaseForm"/>", {
-                parameters:"crfId=" + crfId + "&subview=subview",
-                onComplete:showReleaseFormWindow,
-                method:'get'
-            })
-
-        }
-
-        function showReleaseFormWindow(transport) {
-            var win = Windows.getFocusedWindow();
-            if (win == null) {
-                win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                        true, title: "", height:230, width: 550,top:250,left:200});
-                win.setDestroyOnClose();
-                win.setHTMLContent(transport.responseText);
-                win.show(true)
-
-            } else {
-                win.setHTMLContent(transport.responseText);
-                win.refresh();
-            }
-        }
-
-        function showDeleteFormWindow(transport) {
-            var win = Windows.getFocusedWindow();
-            if (win == null) {
-                win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                        true, title: "", height:300, width: 550,top:250,left:200});
-                win.setDestroyOnClose();
-                win.setHTMLContent(transport.responseText);
-                win.show(true)
-
-            } else {
-                win.setHTMLContent(transport.responseText);
-                win.refresh();
-            }
-
-
-        }
-
 
     </script>
 
@@ -175,7 +138,7 @@
 </div>
 <div id="crfItem_50"></div>
 <div id="noForm" style="display:none;">
-<tags:button type="anchor" id="newFormUrl" icon="add" value="New Form"/>
+    <tags:button type="anchor" id="newFormUrl" icon="add" value="New Form"/>
 </div>
 <div id="bigSearch" style="display:none;">
     <div class="endpanes"/>

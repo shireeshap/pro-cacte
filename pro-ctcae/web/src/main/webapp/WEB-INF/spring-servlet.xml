@@ -205,10 +205,6 @@
     </bean>
 
 
-    <bean name="/form/findCrfItem" id="findQuestionController"
-          class="gov.nih.nci.ctcae.web.form.FindCrfItemController">
-        <property name="finderRepository" ref="finderRepository"/>
-    </bean>
     <bean name="/form/setName" id="setNameController"
           class="gov.nih.nci.ctcae.web.form.SetNameController">
     </bean>
