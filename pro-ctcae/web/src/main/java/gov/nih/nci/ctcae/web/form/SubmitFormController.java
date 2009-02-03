@@ -15,15 +15,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
  * User: Harsh
  * Date: Nov 12, 2008
- * Time: 1:36:54 PM
+ * Time: 1:36:54 PM.
  */
 public class SubmitFormController extends CtcAeSimpleFormController {
+    
+    /** The generic repository. */
     GenericRepository genericRepository;
+    
+    /** The review view. */
     private String reviewView;
 
+    /**
+     * Instantiates a new submit form controller.
+     */
     public SubmitFormController() {
         setFormView("form/submitForm");
         setSuccessView("form/confirmFormSubmission");
@@ -32,6 +40,9 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         setSessionForm(true);
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+     */
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
@@ -46,6 +57,9 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         return showForm(request, response, errors);
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.SimpleFormController#showForm(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.validation.BindException)
+     */
     @Override
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) errors.getTarget();
@@ -88,6 +102,9 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         return mv;
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
 
@@ -104,6 +121,9 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         return submitFormCommand;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.CtcAeSimpleFormController#onBindAndValidate(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.BindException)
+     */
     @Override
     protected void onBindAndValidate(HttpServletRequest request,
                                      Object command, BindException errors) throws Exception {
@@ -127,15 +147,30 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         }
     }
 
+    /**
+     * Sets the generic repository.
+     * 
+     * @param genericRepository the new generic repository
+     */
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
 
+    /**
+     * Gets the review view.
+     * 
+     * @return the review view
+     */
     public String getReviewView() {
         return reviewView;
     }
 
+    /**
+     * Sets the review view.
+     * 
+     * @param reviewView the new review view
+     */
     public void setReviewView(String reviewView) {
         this.reviewView = reviewView;
     }

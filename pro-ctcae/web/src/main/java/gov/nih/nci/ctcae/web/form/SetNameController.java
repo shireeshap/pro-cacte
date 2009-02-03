@@ -8,13 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class SetNameController.
+ * 
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
 public class SetNameController extends AbstractController {
 
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("form/ajax/name");
@@ -28,6 +34,9 @@ public class SetNameController extends AbstractController {
     }
 
 
+    /**
+     * Instantiates a new sets the name controller.
+     */
     public SetNameController() {
         setSupportedMethods(new String[]{"POST"});
 

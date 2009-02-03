@@ -8,7 +8,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ProCtcTerm.
+ * 
  * @author Harsh Agarwal
  * @created Oct 13, 2008
  */
@@ -19,69 +22,124 @@ import java.util.Collection;
         @Parameter(name = "sequence", value = "seq_pro_ctc_terms_id")})
 public class ProCtcTerm extends BasePersistable {
 
+    /** The id. */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
+    /** The term. */
     @Column(name = "term", nullable = false)
     private String term;
 
 
+    /** The pro ctc questions. */
     @OneToMany(mappedBy = "proCtcTerm")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private Collection<ProCtcQuestion> proCtcQuestions = new ArrayList<ProCtcQuestion>();
 
+    /** The pro ctc. */
     @JoinColumn(name = "pro_ctc_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtc proCtc;
 
+    /** The ctc term. */
     @JoinColumn(name = "ctc_term_id", referencedColumnName = "id")
     @ManyToOne
     private CtcTerm ctcTerm;
 
+    /**
+     * Instantiates a new pro ctc term.
+     */
     public ProCtcTerm() {
     }
 
+    /**
+     * Instantiates a new pro ctc term.
+     * 
+     * @param id the id
+     */
     public ProCtcTerm(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Instantiates a new pro ctc term.
+     * 
+     * @param id the id
+     * @param term the term
+     */
     public ProCtcTerm(Integer id, String term) {
         this.id = id;
         this.term = term;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
+     */
     public Integer getId() {
         return id;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets the term.
+     * 
+     * @return the term
+     */
     public String getTerm() {
         return term;
     }
 
+    /**
+     * Sets the term.
+     * 
+     * @param term the new term
+     */
     public void setTerm(String term) {
         this.term = term;
     }
 
 
+    /**
+     * Gets the pro ctc questions.
+     * 
+     * @return the pro ctc questions
+     */
     public Collection<ProCtcQuestion> getProCtcQuestions() {
         return proCtcQuestions;
     }
 
+    /**
+     * Gets the pro ctc.
+     * 
+     * @return the pro ctc
+     */
     public ProCtc getProCtc() {
         return proCtc;
     }
 
+    /**
+     * Sets the pro ctc.
+     * 
+     * @param proCtc the new pro ctc
+     */
     public void setProCtc(ProCtc proCtc) {
         this.proCtc = proCtc;
     }
 
 
+    /**
+     * Adds the pro ctc question.
+     * 
+     * @param proCtcQuestion the pro ctc question
+     */
     public void addProCtcQuestion(ProCtcQuestion proCtcQuestion) {
         if (proCtcQuestion != null) {
             proCtcQuestion.setProCtcTerm(this);
@@ -91,19 +149,35 @@ public class ProCtcTerm extends BasePersistable {
     }
 
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return term;
     }
 
+    /**
+     * Gets the ctc term.
+     * 
+     * @return the ctc term
+     */
     public CtcTerm getCtcTerm() {
         return ctcTerm;
     }
 
+    /**
+     * Sets the ctc term.
+     * 
+     * @param ctcTerm the new ctc term
+     */
     public void setCtcTerm(CtcTerm ctcTerm) {
         this.ctcTerm = ctcTerm;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ProCtcTerm)) return false;
@@ -117,6 +191,9 @@ public class ProCtcTerm extends BasePersistable {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     public int hashCode() {
         int result;
         result = (term != null ? term.hashCode() : 0);

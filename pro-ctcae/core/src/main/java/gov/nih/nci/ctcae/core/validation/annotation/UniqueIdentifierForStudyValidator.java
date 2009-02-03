@@ -7,15 +7,24 @@ import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Collection;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class UniqueIdentifierForStudyValidator.
+ * 
  * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
 public class UniqueIdentifierForStudyValidator extends AbstractValidator<UniqueIdentifierForStudy> {
+    
+    /** The message. */
     private String message;
 
+    /** The study repository. */
     private StudyRepository studyRepository;
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.validation.annotation.AbstractValidator#validate(java.lang.Object)
+     */
     public boolean validate(Object value) {
         if (value instanceof String) {
             StudyQuery studyQuery = new StudyQuery();
@@ -27,14 +36,25 @@ public class UniqueIdentifierForStudyValidator extends AbstractValidator<UniqueI
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.validation.annotation.Validator#initialize(java.lang.annotation.Annotation)
+     */
     public void initialize(UniqueIdentifierForStudy parameters) {
         message = parameters.message();
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.validation.annotation.Validator#message()
+     */
     public String message() {
         return message;
     }
 
+    /**
+     * Sets the study repository.
+     * 
+     * @param studyRepository the new study repository
+     */
     @Required
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;

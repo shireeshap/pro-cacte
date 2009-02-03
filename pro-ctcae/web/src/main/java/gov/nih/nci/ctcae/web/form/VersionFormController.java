@@ -10,20 +10,30 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class VersionFormController.
+ * 
  * @author Mehul Gulati
- *         Date: Dec 19, 2008
+ * Date: Dec 19, 2008
  */
 public class VersionFormController extends CtcAeSimpleFormController {
 
+    /** The crf repository. */
     private CRFRepository crfRepository;
 
+    /**
+     * Instantiates a new version form controller.
+     */
     protected VersionFormController() {
         setCommandClass(CRF.class);
         setFormView("form/versionForm");
         setSessionForm(true);
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         String crfId = request.getParameter("crfId");
@@ -31,6 +41,9 @@ public class VersionFormController extends CtcAeSimpleFormController {
         return crf;
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+     */
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
         CRF crf = (CRF) command;
@@ -57,6 +70,11 @@ public class VersionFormController extends CtcAeSimpleFormController {
     }
 
 
+    /**
+     * Sets the crf repository.
+     * 
+     * @param crfRepository the new crf repository
+     */
     public void setCrfRepository(CRFRepository crfRepository) {
         this.crfRepository = crfRepository;
     }

@@ -4,85 +4,119 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 
 import java.util.*;
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 
+import javax.servlet.http.HttpServletRequest;
+
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StudyParticipantCommand.
+ */
 public class StudyParticipantCommand {
 
+    /** The participant. */
     private Participant participant;
+    
+    /** The study. */
     private Study study;
+    
+    /** The study participant assignment. */
     StudyParticipantAssignment studyParticipantAssignment;
-    private String objectsIndexesToRemove;
+    
+    /** The participant schedules. */
     private List<ParticipantSchedule> participantSchedules;
+    
+    /** The finder repository. */
     private FinderRepository finderRepository;
+    
+    /** The repeatdropdown. */
+    private String[] repeatdropdown;
 
+    /**
+     * Instantiates a new study participant command.
+     */
     public StudyParticipantCommand() {
     }
 
+    /**
+     * Gets the participant.
+     * 
+     * @return the participant
+     */
     public Participant getParticipant() {
         return participant;
     }
 
+    /**
+     * Gets the finder repository.
+     * 
+     * @return the finder repository
+     */
     public FinderRepository getFinderRepository() {
         return finderRepository;
     }
 
+    /**
+     * Sets the finder repository.
+     * 
+     * @param finderRepository the new finder repository
+     */
     public void setFinderRepository(FinderRepository finderRepository) {
         this.finderRepository = finderRepository;
     }
 
+    /**
+     * Sets the participant.
+     * 
+     * @param participant the new participant
+     */
     public void setParticipant(Participant participant) {
         this.participant = participant;
     }
 
+    /**
+     * Gets the study.
+     * 
+     * @return the study
+     */
     public Study getStudy() {
         return study;
     }
 
+    /**
+     * Sets the study.
+     * 
+     * @param study the new study
+     */
     public void setStudy(Study study) {
         this.study = study;
     }
 
+    /**
+     * Gets the study participant assignment.
+     * 
+     * @return the study participant assignment
+     */
     public StudyParticipantAssignment getStudyParticipantAssignment() {
         return studyParticipantAssignment;
     }
 
+    /**
+     * Sets the study participant assignment.
+     * 
+     * @param studyParticipantAssignment the new study participant assignment
+     */
     public void setStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment) {
         this.studyParticipantAssignment = studyParticipantAssignment;
     }
 
-    public String getObjectsIndexesToRemove() {
-        return objectsIndexesToRemove;
-    }
-
-    public void setObjectsIndexesToRemove(String objectsIndexesToRemove) {
-        this.objectsIndexesToRemove = objectsIndexesToRemove;
-    }
-
-//    public void removeCrfSchedules() {
-//        Set<String> indexes = org.springframework.util.StringUtils.commaDelimitedListToSet(objectsIndexesToRemove);
-//        HashMap<StudyParticipantCrf, List<StudyParticipantCrfSchedule>> schedulesToRemove = new HashMap<StudyParticipantCrf, List<StudyParticipantCrfSchedule>>();
-//        for (String index : indexes) {
-//            String crfIndex = index.substring(0, index.indexOf('-'));
-//            String scheduleIndex = index.substring(index.indexOf('-') + 1);
-//
-//            StudyParticipantCrf crf = studyParticipantAssignment.getStudyParticipantCrfs().get(Integer.parseInt(crfIndex));
-//            StudyParticipantCrfSchedule crfSchedule = crf.getStudyParticipantCrfSchedules().get(Integer.parseInt(scheduleIndex));
-//
-//            if (schedulesToRemove.get(crf) == null) {
-//                schedulesToRemove.put(crf, new ArrayList<StudyParticipantCrfSchedule>());
-//            }
-//            schedulesToRemove.get(crf).add(crfSchedule);
-//        }
-//
-//        for (StudyParticipantCrf crf : schedulesToRemove.keySet()) {
-//            for (StudyParticipantCrfSchedule crfSchedule : schedulesToRemove.get(crf)) {
-//                crf.removeCrfSchedule(crfSchedule);
-//            }
-//        }
-//    }
-
+    /**
+     * Gets the participant schedules.
+     * 
+     * @return the participant schedules
+     */
     public List<ParticipantSchedule> getParticipantSchedules() {
         if (participantSchedules == null) {
             participantSchedules = new ArrayList<ParticipantSchedule>();
@@ -96,11 +130,50 @@ public class StudyParticipantCommand {
         return participantSchedules;
     }
 
+    /**
+     * Sets the participant schedules.
+     * 
+     * @param participantSchedules the new participant schedules
+     */
     public void setParticipantSchedules(List<ParticipantSchedule> participantSchedules) {
         this.participantSchedules = participantSchedules;
     }
 
+    /**
+     * Gets the repeatdropdown.
+     * 
+     * @return the repeatdropdown
+     */
+    public String[] getRepeatdropdown() {
+        return repeatdropdown;
+    }
 
+    /**
+     * Sets the repeatdropdown.
+     * 
+     * @param repeatdropdown the new repeatdropdown
+     */
+    public void setRepeatdropdown(String[] repeatdropdown) {
+        this.repeatdropdown = repeatdropdown;
+    }
 
-
+    /**
+     * Check repetition.
+     * 
+     * @param request the request
+     * 
+     * @throws ParseException the parse exception
+     */
+    public void checkRepetition(HttpServletRequest request) throws ParseException {
+        int i = 0;
+        for(String repeat:repeatdropdown){
+            if(repeat.equals("No")){
+                String startDate = request.getParameter("startDate_"+i);
+                String dueDate = request.getParameter("dueDate_"+i);
+                participantSchedules.get(0).setFinderRepository(finderRepository);
+                participantSchedules.get(0).removeSchedules();
+                participantSchedules.get(0).createSchedule(startDate, dueDate);
+            }
+        }
+    }
 }

@@ -19,26 +19,34 @@ import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class WebControllerValidatorImpl.
+ * 
  * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
 public class WebControllerValidatorImpl implements ApplicationContextAware, WebControllerValidator {
+	
+	/** The Constant logger. */
 	private static final Log logger = LogFactory.getLog(WebControllerValidatorImpl.class);
 
 	/**
 	 * This checks if the property is readable ?
 	 * Will prevent the exception from being thrown.
-	 *
+	 * 
 	 * @param beanWrapper  - BeanWarapper, wrapping the command object
 	 * @param propertyName - The property name to evaluate
-	 *
+	 * 
 	 * @return - false, in case of exception, otherwise will delegate to BeanWrapper.
 	 */
 	public static boolean isReadableProperty(BeanWrapper beanWrapper, String propertyName) {
 		return beanWrapper.isReadableProperty(propertyName);
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator#validate(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.BindException)
+	 */
 	public void validate(final HttpServletRequest request, final Object command, final BindException errors) {
 
 		if (request != null && command != null && errors != null) {
@@ -86,6 +94,15 @@ public class WebControllerValidatorImpl implements ApplicationContextAware, WebC
 
 	}
 
+	/**
+	 * Validate collection property.
+	 * 
+	 * @param readMethodName the read method name
+	 * @param beanWrapperImpl the bean wrapper impl
+	 * @param propertyName the property name
+	 * @param errors the errors
+	 * @param propertyNameWhereErrorWillBeDisplayed the property name where error will be displayed
+	 */
 	private void validateCollectionProperty(String readMethodName, BeanWrapperImpl beanWrapperImpl, String propertyName, BindException errors,
 											String propertyNameWhereErrorWillBeDisplayed) {
 		if (readMethodName != null) {
@@ -102,12 +119,14 @@ public class WebControllerValidatorImpl implements ApplicationContextAware, WebC
 	}
 
 	/**
+	 * Validate property.
+	 * 
 	 * @param readMethodName  method name which has the annotation present. it will be the same as property name for normal (non collection) properties.
-	 * @param beanWrapperImpl
-	 * @param propertyName	name of the property
-	 * @param errors
-	 * @param propertyNameWhereErrorWillBeDisplayed
-	 *                        name of the proeprty where errros should be displayed.
+	 * @param beanWrapperImpl the bean wrapper impl
+	 * @param propertyName name of the property
+	 * @param errors the errors
+	 * @param propertyNameWhereErrorWillBeDisplayed name of the proeprty where errros should be displayed.
+	 * @param parent the parent
 	 */
 	private void validateProperty(String readMethodName, BeanWrapperImpl beanWrapperImpl, String propertyName, BindException errors,
 								  String propertyNameWhereErrorWillBeDisplayed, final Object parent) {
@@ -125,6 +144,15 @@ public class WebControllerValidatorImpl implements ApplicationContextAware, WebC
 	}
 
 
+	/**
+	 * Validate.
+	 * 
+	 * @param annotationsArray the annotations array
+	 * @param propertyValue the property value
+	 * @param errorPropertyName the error property name
+	 * @param errors the errors
+	 * @param parent the parent
+	 */
 	private void validate(Annotation[] annotationsArray, Object propertyValue, String errorPropertyName, BindException errors, final Object parent) {
 		for (Annotation validatorAnnotation : annotationsArray) {
 			Validator<Annotation> validator = createValidator(validatorAnnotation);
@@ -144,6 +172,14 @@ public class WebControllerValidatorImpl implements ApplicationContextAware, WebC
 		}
 	}
 
+	/**
+	 * Generate error message.
+	 * 
+	 * @param propertyValue the property value
+	 * @param errorPropertyName the error property name
+	 * @param errors the errors
+	 * @param validator the validator
+	 */
 	private void generateErrorMessage(final Object propertyValue, final String errorPropertyName, final BindException errors, final Validator<Annotation> validator) {
 		String errMsg = validator.message();
 		logger.info("Found error code:" + errMsg + " for property:" + errorPropertyName + " value:"
@@ -157,9 +193,9 @@ public class WebControllerValidatorImpl implements ApplicationContextAware, WebC
 
 	/**
 	 * Creates the validator for a given annotation type.
-	 *
+	 * 
 	 * @param annotation the annotation
-	 *
+	 * 
 	 * @return the validator
 	 */
 	@SuppressWarnings("unchecked")
@@ -186,10 +222,14 @@ public class WebControllerValidatorImpl implements ApplicationContextAware, WebC
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
+	 */
 	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}
 
+	/** The application context. */
 	private ApplicationContext applicationContext;
 
 }

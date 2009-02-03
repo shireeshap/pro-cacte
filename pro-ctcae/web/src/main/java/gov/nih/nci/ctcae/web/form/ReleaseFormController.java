@@ -13,13 +13,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ReleaseFormController.
+ * 
  * @author Vinay Kumar
  * @crated Nov 5, 2008
  */
 public class ReleaseFormController extends CtcAeSimpleFormController {
+    
+    /** The crf repository. */
     private CRFRepository crfRepository;
 
+    /**
+     * Instantiates a new release form controller.
+     */
     protected ReleaseFormController() {
         setCommandClass(CRF.class);
         setFormView("form/releaseForm");
@@ -27,6 +35,9 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
 
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
 
@@ -38,6 +49,9 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
 
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+     */
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
@@ -47,6 +61,11 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
         return new ModelAndView(redirectView);
     }
 
+    /**
+     * Sets the crf repository.
+     * 
+     * @param crfRepository the new crf repository
+     */
     @Required
 
     public void setCrfRepository(CRFRepository crfRepository) {

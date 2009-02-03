@@ -10,12 +10,18 @@ import org.springframework.validation.Errors;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class EditFormController.
+ * 
  * @author Vinay Kumar
  * @crated Oct 17, 2008
  */
 public class EditFormController extends FormController {
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController#referenceData(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.Errors, int)
+     */
     @Override
     protected Map referenceData(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception {
 
@@ -35,6 +41,9 @@ public class EditFormController extends FormController {
 
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.form.FormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         CreateFormCommand command = (CreateFormCommand) super.formBackingObject(request);
@@ -48,6 +57,9 @@ public class EditFormController extends FormController {
 
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController#postProcessPage(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.Errors, int)
+     */
     @Override
     @SuppressWarnings({"unchecked"})
     protected void postProcessPage(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception {
@@ -58,6 +70,15 @@ public class EditFormController extends FormController {
         }
     }
 
+    /**
+     * Should save.
+     * 
+     * @param request the request
+     * @param command the command
+     * @param tab the tab
+     * 
+     * @return true, if successful
+     */
     protected boolean shouldSave(final HttpServletRequest request, final CreateFormCommand command, final Tab tab) {
         return true;
     }

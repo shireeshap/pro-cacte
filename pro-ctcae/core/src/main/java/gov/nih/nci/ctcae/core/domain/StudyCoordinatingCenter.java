@@ -4,6 +4,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 /**
+ * The Class StudyCoordinatingCenter.
+ * 
  * @author
  * @crated Oct 7, 2008
  */

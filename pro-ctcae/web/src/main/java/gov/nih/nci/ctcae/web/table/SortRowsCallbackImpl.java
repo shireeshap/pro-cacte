@@ -15,14 +15,21 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class SortRowsCallbackImpl.
+ * 
  * @author Vinay Kumar
  * @crated Oct 18, 2008
  */
 public class SortRowsCallbackImpl implements SortRowsCallback {
 
+    /** The logger. */
     private static Log logger = LogFactory.getLog(SortRowsCallbackImpl.class);
 
+    /* (non-Javadoc)
+     * @see org.extremecomponents.table.callback.SortRowsCallback#sortRows(org.extremecomponents.table.core.TableModel, java.util.Collection)
+     */
     public Collection sortRows(TableModel model, Collection rows) throws Exception {
         boolean sorted = model.getLimit().isSorted();
 

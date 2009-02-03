@@ -1,37 +1,64 @@
 package gov.nih.nci.ctcae.core.query;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ParticipantQuery.
+ * 
  * @author mehul
  */
 
 public class ParticipantQuery extends AbstractQuery {
 
+    /** The query string. */
     private static String queryString = "SELECT p from Participant p order by p.id";
 
+    /** The FIRS t_ name. */
     private static String FIRST_NAME = "firstName";
 
+    /** The LAS t_ name. */
     private static String LAST_NAME = "lastName";
 
+    /** The IDENTIFIER. */
     private static String IDENTIFIER = "assignedIdentifier";
+    
+    /** The Constant STUDY_ID. */
     private static final String STUDY_ID = "studyId";
 
+    /**
+     * Instantiates a new participant query.
+     */
     public ParticipantQuery() {
 
         super(queryString);
     }
 
+    /**
+     * Filter by participant first name.
+     * 
+     * @param firstName the first name
+     */
     public void filterByParticipantFirstName(final String firstName) {
         String searchString = "%" + firstName.toLowerCase() + "%";
         andWhere("lower(p.firstName) LIKE :" + FIRST_NAME);
         setParameter(FIRST_NAME, searchString);
     }
 
+    /**
+     * Filter by participant last name.
+     * 
+     * @param lastName the last name
+     */
     public void filterByParticipantLastName(final String lastName) {
         String searchString = "%" + lastName.toLowerCase() + "%";
         andWhere("lower(p.lastName) LIKE :" + LAST_NAME);
         setParameter(LAST_NAME, searchString);
     }
 
+    /**
+     * Filter by participant identifier.
+     * 
+     * @param identifier the identifier
+     */
     public void filterByParticipantIdentifier(final String identifier) {
         String searchString = "%" + identifier.toLowerCase() + "%";
         andWhere("lower(p.assignedIdentifier) LIKE :" + IDENTIFIER);
@@ -39,6 +66,11 @@ public class ParticipantQuery extends AbstractQuery {
     }
 
 
+    /**
+     * Filter participants with matching text.
+     * 
+     * @param text the text
+     */
     public void filterParticipantsWithMatchingText(String text) {
 
         String searchString = text != null ? "%" + text.toLowerCase() + "%" : null;
@@ -51,6 +83,11 @@ public class ParticipantQuery extends AbstractQuery {
 
     }
 
+    /**
+     * Filter by study.
+     * 
+     * @param studyId the study id
+     */
     public void filterByStudy(Integer studyId) {
         if (studyId != null) {
 

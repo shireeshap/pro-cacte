@@ -2,27 +2,50 @@ package gov.nih.nci.ctcae.core.query;
 
 import org.apache.commons.lang.StringUtils;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class StudyQuery.
+ * 
  * @author Vinay Kumar
  * @crated Oct 14, 2008
  */
 public class StudyQuery extends AbstractQuery {
 
+    /** The query string. */
     private static String queryString = "Select study from Study study order by study.shortTitle ";
 
+    /** The Constant SHORT_TITLE. */
     private static final String SHORT_TITLE = "shortTitle";
+    
+    /** The Constant LONG_TITLE. */
     private static final String LONG_TITLE = "longTitle";
+    
+    /** The Constant ASSIGNED_IDENTIFIER. */
     private static final String ASSIGNED_IDENTIFIER = "assignedIdentifier";
+    
+    /** The Constant PARTICIPANT_ID. */
     private static final String PARTICIPANT_ID = "participantId";
+    
+    /** The ORGANIZATIO n_ id. */
     private static String ORGANIZATION_ID = "organizationId";
+    
+    /** The Constant STUDY_SITE. */
     private static final String STUDY_SITE = "studySite";
 
+    /**
+     * Instantiates a new study query.
+     */
     public StudyQuery() {
         super(queryString);
 
 
     }
 
+    /**
+     * Filter studies with matching text.
+     * 
+     * @param text the text
+     */
     public void filterStudiesWithMatchingText(String text) {
         String searchString = text != null ? "%" + text.toLowerCase() + "%" : null;
 
@@ -34,6 +57,11 @@ public class StudyQuery extends AbstractQuery {
 
     }
 
+    /**
+     * Filter studies by long title.
+     * 
+     * @param text the text
+     */
     public void filterStudiesByLongTitle(String text) {
         String searchString = text != null ? "%" + text.toLowerCase() + "%" : null;
 
@@ -42,6 +70,11 @@ public class StudyQuery extends AbstractQuery {
 
     }
 
+    /**
+     * Filter studies by assigned identifier.
+     * 
+     * @param text the text
+     */
     public void filterStudiesByAssignedIdentifier(String text) {
         String searchString = text != null ? "%" + text.toLowerCase() + "%" : null;
 
@@ -50,6 +83,11 @@ public class StudyQuery extends AbstractQuery {
 
     }
 
+    /**
+     * Filter by assigned identifier exact match.
+     * 
+     * @param assignedIdentifier the assigned identifier
+     */
     public void filterByAssignedIdentifierExactMatch(final String assignedIdentifier) {
         if (!StringUtils.isBlank(assignedIdentifier)) {
             andWhere("lower(study.assignedIdentifier) = :" + ASSIGNED_IDENTIFIER);
@@ -57,6 +95,11 @@ public class StudyQuery extends AbstractQuery {
         }
     }
 
+    /**
+     * Filter studies by short title.
+     * 
+     * @param text the text
+     */
     public void filterStudiesByShortTitle(String text) {
         String searchString = text != null ? "%" + text.toLowerCase() + "%" : null;
 
@@ -66,6 +109,11 @@ public class StudyQuery extends AbstractQuery {
     }
 
 
+    /**
+     * Filter studies for study site.
+     * 
+     * @param siteId the site id
+     */
     public void filterStudiesForStudySite(Integer siteId) {
         if (siteId != null) {
             leftJoin("study.studyOrganizations as sso");
@@ -76,6 +124,11 @@ public class StudyQuery extends AbstractQuery {
         }
     }
 
+    /**
+     * Filter by participant.
+     * 
+     * @param participantId the participant id
+     */
     public void filterByParticipant(Integer participantId) {
 
         leftJoin("study.studyOrganizations as ss join ss.studyParticipantAssignments as spa join spa.participant as p");

@@ -10,19 +10,29 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ManageFormController.
+ * 
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */
 public class ManageFormController extends AbstractController {
 
+	/** The finder repository. */
 	private FinderRepository finderRepository;
 
 
+	/**
+	 * Instantiates a new manage form controller.
+	 */
 	public ManageFormController() {
 		setSupportedMethods(new String[]{"GET"});
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
@@ -37,6 +47,11 @@ public class ManageFormController extends AbstractController {
 		return modelAndView;
 	}
 
+	/**
+	 * Sets the finder repository.
+	 * 
+	 * @param finderRepository the new finder repository
+	 */
 	@Required
 	public void setFinderRepository(FinderRepository finderRepository) {
 		this.finderRepository = finderRepository;

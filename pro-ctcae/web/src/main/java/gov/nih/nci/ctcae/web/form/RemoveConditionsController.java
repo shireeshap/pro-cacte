@@ -13,18 +13,28 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class RemoveConditionsController.
+ * 
  * @author Vinay Kumar
  * @crated Dec 22, 2008
  */
 public class RemoveConditionsController extends AbstractController {
 
+    /** The pro ctc question repository. */
     private ProCtcQuestionRepository proCtcQuestionRepository;
 
+    /**
+     * Instantiates a new removes the conditions controller.
+     */
     public RemoveConditionsController() {
         setSupportedMethods(new String[]{"GET"});
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("form/ajax/removeConditions");
@@ -46,6 +56,11 @@ public class RemoveConditionsController extends AbstractController {
     }
 
 
+    /**
+     * Sets the pro ctc question repository.
+     * 
+     * @param proCtcQuestionRepository the new pro ctc question repository
+     */
     @Required
     public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
         this.proCtcQuestionRepository = proCtcQuestionRepository;

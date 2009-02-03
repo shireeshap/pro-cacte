@@ -15,13 +15,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class AddCrfComponentController.
+ * 
  * @author Vinay Kumar
  * @crated Dec 11, 2008
  */
 public class AddCrfComponentController extends AbstractCrfController {
 
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         String componentType = request.getParameter("componentType");
 
@@ -98,6 +104,9 @@ public class AddCrfComponentController extends AbstractCrfController {
     }
 
 
+    /**
+     * Instantiates a new adds the crf component controller.
+     */
     public AddCrfComponentController() {
         setSupportedMethods(new String[]{"GET"});
 

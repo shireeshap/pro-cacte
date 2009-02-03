@@ -5,30 +5,32 @@ import gov.nih.nci.ctcae.core.query.Query;
 
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
  * Main interface to access ORM layer. It defines all CRUD related operations
  * for a persistable object
- *
+ * 
  * @author , Created on July, 20th, 2007
  */
 public interface GenericRepository {
 
 	/**
-	 * Find persistable object by primary key
-	 *
+	 * Find persistable object by primary key.
+	 * 
 	 * @param id the primary key of persistable object
-	 *
+	 * @param classArg the class arg
+	 * 
 	 * @return the persistable object
 	 */
 	<T extends Persistable> T findById(Class<T> classArg, Integer id);
 
 	/**
 	 * Save the persistable object in the DB or updates the persistable object
-	 * if object already exists in the database
-	 *
+	 * if object already exists in the database.
+	 * 
 	 * @param persistable the persistable object that needs to be saved/updated
-	 *                    in the database
-	 *
+	 * in the database
+	 * 
 	 * @return the saved/updated object
 	 */
 	<T extends Persistable> T save(T persistable);
@@ -36,17 +38,17 @@ public interface GenericRepository {
 
 	/**
 	 * Deletes the persistable object from database.
-	 *
+	 * 
 	 * @param persistable object the object that need to be deleted from
-	 *                    database
+	 * database
 	 */
 	void delete(Persistable persistable);
 
 	/**
 	 * Find persistable objects for a query.
-	 *
+	 * 
 	 * @param query the query
-	 *
+	 * 
 	 * @return the collection of persistable objects
 	 */
 
@@ -54,9 +56,9 @@ public interface GenericRepository {
 
 	/**
 	 * Find single persistable object for a query.
-	 *
+	 * 
 	 * @param query the query
-	 *
+	 * 
 	 * @return the single persistable object
 	 */
 

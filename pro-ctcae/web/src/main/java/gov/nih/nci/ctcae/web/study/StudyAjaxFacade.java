@@ -12,14 +12,28 @@ import org.springframework.beans.factory.annotation.Required;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class StudyAjaxFacade.
+ * 
  * @author Vinay Kumar
  * @crated Oct 17, 2008
  */
 public class StudyAjaxFacade {
+    
+    /** The study repository. */
     private StudyRepository studyRepository;
+    
+    /** The participant repository. */
     private ParticipantRepository participantRepository;
 
+    /**
+     * Match study.
+     * 
+     * @param text the text
+     * 
+     * @return the list< study>
+     */
     public List<Study> matchStudy(final String text) {
         StudyQuery studyQuery = new StudyQuery();
         studyQuery.filterStudiesWithMatchingText(text);
@@ -28,6 +42,16 @@ public class StudyAjaxFacade {
 
     }
 
+    /**
+     * Search studies.
+     * 
+     * @param parameterMap the parameter map
+     * @param type the type
+     * @param text the text
+     * @param request the request
+     * 
+     * @return the string
+     */
     public String searchStudies(Map parameterMap, String type, String text,
                                 HttpServletRequest request) {
         List<Study> studies = getObjects(type, text);
@@ -38,6 +62,16 @@ public class StudyAjaxFacade {
         return table;
     }
 
+    /**
+     * Search studies for selection.
+     * 
+     * @param parameterMap the parameter map
+     * @param type the type
+     * @param text the text
+     * @param request the request
+     * 
+     * @return the string
+     */
     public String searchStudiesForSelection(Map parameterMap, String type,
                                             String text, HttpServletRequest request) {
         List<Study> studies = getObjects(type, text);
@@ -66,6 +100,14 @@ public class StudyAjaxFacade {
         return table;
     }
 
+    /**
+     * Gets the objects.
+     * 
+     * @param type the type
+     * @param text the text
+     * 
+     * @return the objects
+     */
     private List<Study> getObjects(String type, String text) {
         StudyQuery studyQuery = new StudyQuery();
         List<Study> studies = new ArrayList<Study>();
@@ -83,12 +125,22 @@ public class StudyAjaxFacade {
         return studies;
     }
 
+    /**
+     * Sets the study repository.
+     * 
+     * @param studyRepository the new study repository
+     */
     @Required
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
     }
 
 
+    /**
+     * Sets the participant repository.
+     * 
+     * @param participantRepository the new participant repository
+     */
     @Required
     public void setParticipantRepository(
             ParticipantRepository participantRepository) {

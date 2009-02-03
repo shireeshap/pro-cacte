@@ -18,20 +18,32 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class AddConditionalQuestionController.
+ * 
  * @author Vinay Kumar
  * @crated Dec 22, 2008
  */
 public class AddConditionalQuestionController extends AbstractController {
 
 
+    /** The pro ctc question repository. */
     private ProCtcQuestionRepository proCtcQuestionRepository;
+    
+    /** The finder repository. */
     private FinderRepository finderRepository;
 
+    /**
+     * Instantiates a new adds the conditional question controller.
+     */
     public AddConditionalQuestionController() {
         setSupportedMethods(new String[]{"GET"});
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("form/ajax/conditions");
@@ -65,11 +77,21 @@ public class AddConditionalQuestionController extends AbstractController {
     }
 
 
+    /**
+     * Sets the finder repository.
+     * 
+     * @param finderRepository the new finder repository
+     */
     @Required
     public void setFinderRepository(FinderRepository finderRepository) {
         this.finderRepository = finderRepository;
     }
 
+    /**
+     * Sets the pro ctc question repository.
+     * 
+     * @param proCtcQuestionRepository the new pro ctc question repository
+     */
     @Required
     public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
         this.proCtcQuestionRepository = proCtcQuestionRepository;

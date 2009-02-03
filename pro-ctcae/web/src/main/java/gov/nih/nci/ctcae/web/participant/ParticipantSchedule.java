@@ -6,110 +6,78 @@ import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
+// TODO: Auto-generated Javadoc
 /**
  * User: Harsh
  * Date: Jan 19, 2009
- * Time: 12:13:05 PM
+ * Time: 12:13:05 PM.
  */
 public class ParticipantSchedule {
 
-    private int repetitionPeriodAmount;
-    private String repetitionPeriodUnit;
-    private int dueDateAmount;
-    private String dueDateUnit;
-    private String repeatOn;
-    private String repeatUntilUnit;
-    private String repeatUntilValue;
+    /** The current month schedules. */
     private List<StudyParticipantCrfSchedule> currentMonthSchedules = new ArrayList<StudyParticipantCrfSchedule>();
-    private StudyParticipantCrfCalendar calendar;
+    
+    /** The calendar. */
+    private ProCtcAECalendar calendar;
+    
+    /** The study participant crf. */
     private StudyParticipantCrf studyParticipantCrf;
-    private Date startDate;
+    
+    /** The finder repository. */
     private FinderRepository finderRepository;
 
+    /**
+     * Instantiates a new participant schedule.
+     */
     public ParticipantSchedule() {
-        calendar = new StudyParticipantCrfCalendar();
-        startDate = new Date();
+        calendar = new ProCtcAECalendar();
     }
 
-    public int getRepetitionPeriodAmount() {
-        return repetitionPeriodAmount;
-    }
-
-    public void setRepetitionPeriodAmount(int repetitionPeriodAmount) {
-        this.repetitionPeriodAmount = repetitionPeriodAmount;
-    }
-
-    public String getRepetitionPeriodUnit() {
-        return repetitionPeriodUnit;
-    }
-
-    public void setRepetitionPeriodUnit(String repetitionPeriodUnit) {
-        this.repetitionPeriodUnit = repetitionPeriodUnit;
-    }
-
-    public int getDueDateAmount() {
-        return dueDateAmount;
-    }
-
-    public void setDueDateAmount(int dueDateAmount) {
-        this.dueDateAmount = dueDateAmount;
-    }
-
-    public String getDueDateUnit() {
-        return dueDateUnit;
-    }
-
-    public void setDueDateUnit(String dueDateUnit) {
-        this.dueDateUnit = dueDateUnit;
-    }
-
-    public String getRepeatOn() {
-        return repeatOn;
-    }
-
-    public void setRepeatOn(String repeatOn) {
-        this.repeatOn = repeatOn;
-    }
-
-    public String getRepeatUntilUnit() {
-        return repeatUntilUnit;
-    }
-
-    public void setRepeatUntilUnit(String repeatUntilUnit) {
-        this.repeatUntilUnit = repeatUntilUnit;
-    }
-
-    public String getRepeatUntilValue() {
-        return repeatUntilValue;
-    }
-
-    public void setRepeatUntilValue(String repeatUntilValue) {
-        this.repeatUntilValue = repeatUntilValue;
-    }
-
-    public StudyParticipantCrfCalendar getCalendar() {
+    /**
+     * Gets the calendar.
+     * 
+     * @return the calendar
+     */
+    public ProCtcAECalendar getCalendar() {
         return calendar;
     }
 
-    public void setCalendar(StudyParticipantCrfCalendar calendar) {
+    /**
+     * Sets the calendar.
+     * 
+     * @param calendar the new calendar
+     */
+    public void setCalendar(ProCtcAECalendar calendar) {
         this.calendar = calendar;
     }
 
+    /**
+     * Gets the study participant crf.
+     * 
+     * @return the study participant crf
+     */
     public StudyParticipantCrf getStudyParticipantCrf() {
         return studyParticipantCrf;
     }
 
+    /**
+     * Sets the study participant crf.
+     * 
+     * @param studyParticipantCrf the new study participant crf
+     */
     public void setStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
         this.studyParticipantCrf = studyParticipantCrf;
     }
 
+    /**
+     * Gets the current month schedules.
+     * 
+     * @return the current month schedules
+     */
     public List<StudyParticipantCrfSchedule> getCurrentMonthSchedules() {
         currentMonthSchedules = new ArrayList<StudyParticipantCrfSchedule>();
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
@@ -123,39 +91,46 @@ public class ParticipantSchedule {
     }
 
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
+    /**
+     * Creates the schedules.
+     * 
+     * @throws ParseException the parse exception
+     */
     public void createSchedules() throws ParseException {
-
-        int numberOfRepetitions = getNumberOfRepetitions(repeatUntilUnit, repeatUntilValue, startDate, repetitionPeriodUnit, repetitionPeriodAmount);
-        Calendar c = getCalendarForDate(startDate);
-        int dueAfterPeriodInMill = getDuePeriodInMillis(dueDateUnit, dueDateAmount);
-
-        removeSchedules(startDate);
-
-
-        for (int i = 0; i < numberOfRepetitions; i++) {
-            createSchedule(c, dueAfterPeriodInMill);
-            if ("Days".equals(repetitionPeriodUnit)) {
-                c.add(Calendar.DATE, repetitionPeriodAmount);
-            }
-            if ("Weeks".equals(repetitionPeriodUnit)) {
-                c.add(Calendar.WEEK_OF_MONTH, repetitionPeriodAmount);
-            }
-            if ("Months".equals(repetitionPeriodUnit)) {
-                c.add(Calendar.MONTH, repetitionPeriodAmount);
-            }
+        removeSchedules();
+        calendar.prepareSchedules();
+        int dueAfterPeriodInMill = calendar.getDueAfterPeriodInMill();
+        while (calendar.hasMoreSchedules()) {
+            createSchedule(calendar.getNextScehdule(), dueAfterPeriodInMill);
         }
+    }
+
+    /**
+     * Creates the schedule.
+     * 
+     * @param startDate the start date
+     * @param dueDate the due date
+     * 
+     * @throws ParseException the parse exception
+     */
+    public void createSchedule(String startDate, String dueDate) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        Calendar cstart = new GregorianCalendar();
+        cstart.setTime(sdf.parse(startDate));
+        Calendar cdue = new GregorianCalendar();
+        cdue.setTime(sdf.parse(dueDate));
+
+        createSchedule(cstart, cdue.getTimeInMillis() - cstart.getTimeInMillis());
 
     }
 
-    public void createSchedule(Calendar c, int dueAfterPeriodInMill) {
+    /**
+     * Creates the schedule.
+     * 
+     * @param c the c
+     * @param dueAfterPeriodInMill the due after period in mill
+     */
+    public void createSchedule(Calendar c, long dueAfterPeriodInMill) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
             if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
@@ -169,6 +144,11 @@ public class ParticipantSchedule {
         studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule, crf);
     }
 
+    /**
+     * Removes the schedule.
+     * 
+     * @param c the c
+     */
     public void removeSchedule(Calendar c) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         StudyParticipantCrfSchedule schToRemove = null;
@@ -187,62 +167,11 @@ public class ParticipantSchedule {
         }
     }
 
-    public Calendar getCalendarForDate(Date date) {
-        SimpleDateFormat sdfMonth = new SimpleDateFormat("MM");
-        SimpleDateFormat sdfDay = new SimpleDateFormat("dd");
-        SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");
 
-        int month = Integer.parseInt(sdfMonth.format(date));
-        int day = Integer.parseInt(sdfDay.format(date));
-        int year = Integer.parseInt(sdfYear.format(date));
-
-        Calendar c1 = Calendar.getInstance();
-        c1.set(year, month - 1, day);
-        return c1;
-    }
-
-
-    private int getNumberOfRepetitions(String repeatUntil, String repeatUntilValue, Date startDate, String repeatEvery, int repeatEveryValue) throws ParseException {
-        int numberOfRepetitions = 0;
-        if ("Number".equals(repeatUntil)) {
-            numberOfRepetitions = Integer.parseInt(repeatUntilValue);
-        }
-        if ("Indefinitely".equals(repeatUntil)) {
-            numberOfRepetitions = 100;
-        }
-        if ("Date".equals(repeatUntil)) {
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-            Date endDate = sdf.parse(repeatUntilValue);
-            int numberOfDays = (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-            if ("Days".equals(repeatEvery)) {
-                numberOfRepetitions = numberOfDays / repeatEveryValue;
-            }
-            if ("Weeks".equals(repeatEvery)) {
-                numberOfRepetitions = numberOfDays / 7;
-            }
-            if ("Months".equals(repeatEvery)) {
-                numberOfRepetitions = numberOfDays / 30;
-            }
-        }
-        return numberOfRepetitions;
-
-    }
-
-    private int getDuePeriodInMillis(String dueAfter, int dueAfterValue) {
-        int dueAfterPeriodInMillis = 0;
-        if ("Hours".equals(dueAfter)) {
-            dueAfterPeriodInMillis = dueAfterValue * 60 * 60 * 1000;
-        }
-        if ("Days".equals(dueAfter)) {
-            dueAfterPeriodInMillis = dueAfterValue * 24 * 60 * 60 * 1000;
-        }
-        if ("Weeks".equals(dueAfter)) {
-            dueAfterPeriodInMillis = dueAfterValue * 7 * 24 * 60 * 60 * 1000;
-        }
-        return dueAfterPeriodInMillis;
-    }
-
-    private void removeSchedules(Date startDate) {
+    /**
+     * Removes the schedules.
+     */
+    public void removeSchedules() {
         List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
@@ -256,7 +185,21 @@ public class ParticipantSchedule {
         }
     }
 
+    /**
+     * Sets the finder repository.
+     * 
+     * @param finderRepository the new finder repository
+     */
     public void setFinderRepository(FinderRepository finderRepository) {
         this.finderRepository = finderRepository;
+    }
+
+    /**
+     * Checks if is repeat.
+     * 
+     * @return true, if is repeat
+     */
+    public boolean isRepeat() {
+        return studyParticipantCrf.getStudyParticipantCrfSchedules().size() > 1 ? true : false;
     }
 }

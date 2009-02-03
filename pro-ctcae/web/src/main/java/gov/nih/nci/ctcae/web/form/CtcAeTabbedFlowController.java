@@ -21,18 +21,36 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class CtcAeTabbedFlowController.
+ * 
  * @author Saurabh Agrawal
  * @crated Nov 5, 2008
  */
 public abstract class CtcAeTabbedFlowController<C extends Object> extends AbstractTabbedFlowFormController<C> {
+    
+    /** The study repository. */
     protected StudyRepository studyRepository;
+    
+    /** The organization repository. */
     private OrganizationRepository organizationRepository;
+    
+    /** The finder repository. */
     protected FinderRepository finderRepository;
+    
+    /** The pro ctc question repository. */
     protected ProCtcQuestionRepository proCtcQuestionRepository;
+    
+    /** The controller tools. */
     protected ControllerTools controllerTools;
+    
+    /** The web controller validator. */
     private WebControllerValidator webControllerValidator;
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.BaseCommandController#initBinder(javax.servlet.http.HttpServletRequest, org.springframework.web.bind.ServletRequestDataBinder)
+     */
     @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
@@ -53,6 +71,9 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
 
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#onBindAndValidate(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.BindException, int)
+     */
     @Override
     protected void onBindAndValidate(HttpServletRequest request, Object command, BindException errors, int page) throws Exception {
         super.onBindAndValidate(request, command, errors, page);
@@ -61,35 +82,70 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
         }
     }
 
+    /**
+     * Validate.
+     * 
+     * @return true, if successful
+     */
     protected boolean validate() {
         return true;
     }
 
+    /**
+     * Sets the organization repository.
+     * 
+     * @param organizationRepository the new organization repository
+     */
     @Required
     public void setOrganizationRepository(OrganizationRepository organizationRepository) {
         this.organizationRepository = organizationRepository;
     }
 
+    /**
+     * Sets the finder repository.
+     * 
+     * @param finderRepository the new finder repository
+     */
     @Required
     public void setFinderRepository(FinderRepository finderRepository) {
         this.finderRepository = finderRepository;
     }
 
+    /**
+     * Sets the controller tools.
+     * 
+     * @param controllerTools the new controller tools
+     */
     @Required
     public void setControllerTools(ControllerTools controllerTools) {
         this.controllerTools = controllerTools;
     }
 
+    /**
+     * Sets the web controller validator.
+     * 
+     * @param webControllerValidator the new web controller validator
+     */
     @Required
     public void setWebControllerValidator(WebControllerValidator webControllerValidator) {
         this.webControllerValidator = webControllerValidator;
     }
 
+    /**
+     * Sets the study repository.
+     * 
+     * @param studyRepository the new study repository
+     */
     @Required
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
     }
 
+    /**
+     * Sets the pro ctc question repository.
+     * 
+     * @param proCtcQuestionRepository the new pro ctc question repository
+     */
     @Required
     public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
         this.proCtcQuestionRepository = proCtcQuestionRepository;

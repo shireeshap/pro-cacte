@@ -8,12 +8,18 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class AddSiteController.
+ * 
  * @author Mehul Gulati
- *         Date: Oct 30, 2008
+ * Date: Oct 30, 2008
  */
 public class AddSiteController extends AbstractController {
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("clinicalStaff/siteSection");
@@ -30,6 +36,9 @@ public class AddSiteController extends AbstractController {
         return modelAndView;
     }
 
+    /**
+     * Instantiates a new adds the site controller.
+     */
     public AddSiteController() {
         setSupportedMethods(new String[]{"GET"});
     }

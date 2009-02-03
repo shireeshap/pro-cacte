@@ -11,14 +11,21 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class StudyController.
+ * 
  * @author Vinay Kumar
  * @crated Oct 17, 2008
  */
 public abstract class StudyController<C extends StudyCommand> extends CtcAeTabbedFlowController<StudyCommand> {
 
+    /** The study repository. */
     private StudyRepository studyRepository;
 
+    /**
+     * Instantiates a new study controller.
+     */
     public StudyController() {
         setCommandClass(StudyCommand.class);
         Flow<StudyCommand> flow = new Flow<StudyCommand>("Enter Study");
@@ -29,8 +36,16 @@ public abstract class StudyController<C extends StudyCommand> extends CtcAeTabbe
 
     }
 
+    /**
+     * Layout tabs.
+     * 
+     * @param flow the flow
+     */
     protected abstract void layoutTabs(final Flow<StudyCommand> flow);
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+     */
     @Override
     protected ModelAndView processFinish(final HttpServletRequest request,
                                          final HttpServletResponse response, final Object command,
@@ -48,6 +63,9 @@ public abstract class StudyController<C extends StudyCommand> extends CtcAeTabbe
     }
 
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController#setStudyRepository(gov.nih.nci.ctcae.core.repository.StudyRepository)
+     */
     @Required
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;

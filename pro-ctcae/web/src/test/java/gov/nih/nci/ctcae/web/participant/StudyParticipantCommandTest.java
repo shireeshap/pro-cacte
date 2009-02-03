@@ -45,7 +45,6 @@ public class StudyParticipantCommandTest extends WebTestCase {
         command.setStudyParticipantAssignment(studyParticipantAssignment);
         command.setStudy(study);
         command.setParticipant(participant);
-        command.setObjectsIndexesToRemove(objectsIndexesToRemove);
 
 
     }
@@ -55,7 +54,6 @@ public class StudyParticipantCommandTest extends WebTestCase {
         assertEquals(command.getStudy(), study);
         assertEquals(command.getParticipant(), participant);
         assertEquals(command.getStudyParticipantAssignment(), studyParticipantAssignment);
-        assertEquals(command.getObjectsIndexesToRemove(), objectsIndexesToRemove);
     }
 
     public void testRemoveCrfSchedules() {

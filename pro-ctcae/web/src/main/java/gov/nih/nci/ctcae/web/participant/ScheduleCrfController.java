@@ -13,14 +13,21 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ScheduleCrfController.
+ * 
  * @author Harsh Agarwal
  * @crated Nov 5, 2008
  */
 public class ScheduleCrfController<C extends StudyParticipantCommand> extends CtcAeTabbedFlowController<StudyParticipantCommand> {
 
+    /** The study participant assignment repository. */
     private StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
 
+    /**
+     * Instantiates a new schedule crf controller.
+     */
     public ScheduleCrfController() {
         setCommandClass(StudyParticipantCommand.class);
         Flow<StudyParticipantCommand> flow = new Flow<StudyParticipantCommand>("Schedule Crf");
@@ -32,22 +39,33 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
 
     }
 
+    /**
+     * Layout tabs.
+     * 
+     * @param flow the flow
+     */
     private void layoutTabs(Flow<StudyParticipantCommand> flow) {
         flow.addTab(new SelectStudyParticipantTab());
         flow.addTab(new ScheduleCrfTab());
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         StudyParticipantCommand studyParticipantCommand = new StudyParticipantCommand();
         return studyParticipantCommand;
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+     */
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         StudyParticipantCommand studyParticipantCommand = (StudyParticipantCommand) command;
 
         studyParticipantCommand.setFinderRepository(finderRepository);
-        //studyParticipantCommand.createSchedules();
+        studyParticipantCommand.checkRepetition(request);
         studyParticipantAssignmentRepository.save(studyParticipantCommand.getStudyParticipantAssignment());
 
         StudyParticipantAssignment studyParticipantAssignment = finderRepository.findById(StudyParticipantAssignment.class, studyParticipantCommand.getStudyParticipantAssignment().getId());
@@ -60,6 +78,11 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
         return modelAndView;
     }
 
+    /**
+     * Sets the study participant assignment repository.
+     * 
+     * @param studyParticipantAssignmentRepository the new study participant assignment repository
+     */
     @Required
     public void setStudyParticipantAssignmentRepository(StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {
         this.studyParticipantAssignmentRepository = studyParticipantAssignmentRepository;

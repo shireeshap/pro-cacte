@@ -13,15 +13,22 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class FindCrfItemController.
+ * 
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
 public class FindCrfItemController extends AbstractController {
 
 
+    /** The finder repository. */
     private FinderRepository finderRepository;
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("form/ajax/questionReviewSection");
@@ -56,11 +63,19 @@ public class FindCrfItemController extends AbstractController {
     }
 
 
+    /**
+     * Instantiates a new find crf item controller.
+     */
     public FindCrfItemController() {
         setSupportedMethods(new String[]{"GET"});
 
     }
 
+    /**
+     * Sets the finder repository.
+     * 
+     * @param finderRepository the new finder repository
+     */
     @Required
     public void setFinderRepository(FinderRepository finderRepository) {
         this.finderRepository = finderRepository;

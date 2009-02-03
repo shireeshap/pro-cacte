@@ -9,12 +9,24 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ParticipantTableModel.
+ * 
  * @author Harsh Agarwal
- *         Date: Oct 23, 2008
+ * Date: Oct 23, 2008
  */
 public class ParticipantTableModel extends AbstractTableModel {
 
+    /**
+     * Builds the participant table.
+     * 
+     * @param parameterMap the parameter map
+     * @param objects the objects
+     * @param request the request
+     * 
+     * @return the string
+     */
     public String buildParticipantTable(Map parameterMap, Collection<Participant> objects, HttpServletRequest request) {
 
         try {
@@ -33,6 +45,11 @@ public class ParticipantTableModel extends AbstractTableModel {
         return "";
     }
 
+    /**
+     * Adds the first name.
+     * 
+     * @param model the model
+     */
     private void addFirstName(TableModel model) {
         Column columnFirstName = model.getColumnInstance();
         columnFirstName.setTitle("First name");
@@ -42,6 +59,11 @@ public class ParticipantTableModel extends AbstractTableModel {
         model.addColumn(columnFirstName);
     }
 
+    /**
+     * Adds the last name.
+     * 
+     * @param model the model
+     */
     private void addLastName(TableModel model) {
         Column columnLastName = model.getColumnInstance();
         columnLastName.setTitle("Last name");
@@ -51,6 +73,11 @@ public class ParticipantTableModel extends AbstractTableModel {
         model.addColumn(columnLastName);
     }
 
+    /**
+     * Adds the middle name.
+     * 
+     * @param model the model
+     */
     private void addMiddleName(TableModel model) {
         Column columnMiddleName = model.getColumnInstance();
         columnMiddleName.setTitle("Middle name");
@@ -60,6 +87,11 @@ public class ParticipantTableModel extends AbstractTableModel {
         model.addColumn(columnMiddleName);
     }
 
+    /**
+     * Adds the identifier.
+     * 
+     * @param model the model
+     */
     private void addIdentifier(TableModel model) {
         Column columnIdentifier = model.getColumnInstance();
         columnIdentifier.setTitle("Patient identifier");

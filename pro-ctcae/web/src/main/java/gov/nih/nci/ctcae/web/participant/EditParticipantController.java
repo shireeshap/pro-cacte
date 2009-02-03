@@ -6,16 +6,25 @@ import gov.nih.nci.ctcae.core.domain.Participant;
 import javax.servlet.http.HttpServletRequest;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class EditParticipantController.
+ * 
  * @author Harsh Agarwal
  * @created Oct 21, 2008
  */
 public class EditParticipantController extends ParticipantController {
 
+    /**
+     * Instantiates a new edits the participant controller.
+     */
     public EditParticipantController() {
         setFormView("participant/editParticipant");
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     protected Object formBackingObject(HttpServletRequest request)
             throws Exception {

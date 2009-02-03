@@ -6,29 +6,42 @@ import org.apache.commons.lang.StringUtils;
 
 import java.beans.PropertyEditorSupport;
 
+// TODO: Auto-generated Javadoc
 /**
  * A {@link java.beans.PropertyEditor} that supports binding domain objects by their IDs.
- *
+ * 
  * @author
  */
 public class RepositoryBasedEditor extends PropertyEditorSupport {
+    
+    /** The null for blanks. */
     private boolean strictIdChecking, nullForBlanks;
+    
+    /** The finder repository. */
     private FinderRepository finderRepository;
+    
+    /** The class arg. */
     private Class<? extends Persistable> classArg;
 
     /**
      * Same as <code>{@link #RepositoryBasedEditor(gov.nih.nci.ctcae.core.repository.FinderRepository , boolean, boolean,Class<? extends Persistable> )}(dao, false, true)</code>
+     * 
+     * @param finderRepository the finder repository
+     * @param classArg the class arg
      */
     public RepositoryBasedEditor(FinderRepository finderRepository, Class<? extends Persistable> classArg) {
         this(finderRepository, false, true, classArg);
     }
 
     /**
+     * The Constructor.
+     * 
      * @param finderRepository The dao against which to resolve provided IDs
      * @param strictIdChecking Whether or not to allow {@link #setValue} where the value has no ID.
-     *                         Due to the sometimes-odd way spring uses PEs, you probably want this to be false.
+     * Due to the sometimes-odd way spring uses PEs, you probably want this to be false.
      * @param nullForBlanks    Whether to treat a blank string as "no object".  If false, you'll get a
-     *                         NumberFormatException for blank strings.
+     * NumberFormatException for blank strings.
+     * @param classArg the class arg
      */
     public RepositoryBasedEditor(FinderRepository finderRepository, boolean strictIdChecking, boolean nullForBlanks,
                                  Class<? extends Persistable> classArg) {
@@ -38,14 +51,27 @@ public class RepositoryBasedEditor extends PropertyEditorSupport {
         this.classArg = classArg;
     }
 
+    /**
+     * Sets the strict id checking.
+     * 
+     * @param strictIdChecking the new strict id checking
+     */
     public void setStrictIdChecking(boolean strictIdChecking) {
         this.strictIdChecking = strictIdChecking;
     }
 
+    /**
+     * Sets the null for blanks.
+     * 
+     * @param nullForBlanks the new null for blanks
+     */
     public void setNullForBlanks(boolean nullForBlanks) {
         this.nullForBlanks = nullForBlanks;
     }
 
+    /* (non-Javadoc)
+     * @see java.beans.PropertyEditorSupport#setValue(java.lang.Object)
+     */
     @Override
     public void setValue(Object value) {
         if (value != null && !(classArg.isAssignableFrom(value.getClass()))) {
@@ -54,6 +80,11 @@ public class RepositoryBasedEditor extends PropertyEditorSupport {
         setValue((Persistable) value);
     }
 
+    /**
+     * Sets the value.
+     * 
+     * @param value the new value
+     */
     private void setValue(Persistable value) {
         if (value != null && value.getId() == null && strictIdChecking) {
             throw new IllegalArgumentException("This editor can't handle values without IDs");
@@ -61,6 +92,9 @@ public class RepositoryBasedEditor extends PropertyEditorSupport {
         super.setValue(value);
     }
 
+    /* (non-Javadoc)
+     * @see java.beans.PropertyEditorSupport#getAsText()
+     */
     @Override
     public String getAsText() {
         Persistable domainObj = (Persistable) getValue();
@@ -72,6 +106,9 @@ public class RepositoryBasedEditor extends PropertyEditorSupport {
         }
     }
 
+    /* (non-Javadoc)
+     * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
+     */
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
         Persistable newValue;

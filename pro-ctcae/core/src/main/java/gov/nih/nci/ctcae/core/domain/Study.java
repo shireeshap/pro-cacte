@@ -10,7 +10,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class Study.
+ * 
  * @author
  * @crated Oct 7, 2008
  */
@@ -21,36 +24,50 @@ import java.util.List;
 
 public class Study extends BasePersistable {
 
+    /** The Constant DEFAULT_SITE_NAME. */
     public static final String DEFAULT_SITE_NAME = "default";
 
+    /** The id. */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
+    /** The short title. */
     @Column(name = "SHORT_TITLE", nullable = false)
     private String shortTitle;
 
+    /** The long title. */
     @Column(name = "LONG_TITLE", nullable = false)
     private String longTitle;
 
+    /** The description. */
     @Column(name = "DESCRIPTION", nullable = true)
     private String description;
 
+    /** The assigned identifier. */
     @Column(name = "ASSIGNED_IDENTIFIER", nullable = false)
     private String assignedIdentifier;
 
+    /** The study funding sponsor. */
     @Transient
     private StudyFundingSponsor studyFundingSponsor;
 
+    /** The study coordinating center. */
     @Transient
     private StudyCoordinatingCenter studyCoordinatingCenter;
 
+    /** The study organizations. */
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
 
 
+    /**
+     * Gets the study sites.
+     * 
+     * @return the study sites
+     */
     @UniqueObjectInCollection(message = "Duplicate Site")
     public List<StudySite> getStudySites() {
         List<StudySite> studySites = new ArrayList<StudySite>();
@@ -62,6 +79,11 @@ public class Study extends BasePersistable {
         return studySites;
     }
 
+    /**
+     * Gets the study funding sponsor.
+     * 
+     * @return the study funding sponsor
+     */
     public StudyFundingSponsor getStudyFundingSponsor() {
 
         for (StudyOrganization studyOrganization : studyOrganizations) {
@@ -74,6 +96,11 @@ public class Study extends BasePersistable {
 
     }
 
+    /**
+     * Sets the study funding sponsor.
+     * 
+     * @param studyFundingSponsor the new study funding sponsor
+     */
     public void setStudyFundingSponsor(StudyFundingSponsor studyFundingSponsor) {
         this.studyFundingSponsor = studyFundingSponsor;
         if (!studyFundingSponsor.isPersisted()) {
@@ -81,6 +108,11 @@ public class Study extends BasePersistable {
         }
     }
 
+    /**
+     * Gets the study coordinating center.
+     * 
+     * @return the study coordinating center
+     */
     public StudyCoordinatingCenter getStudyCoordinatingCenter() {
         for (StudyOrganization studyOrganization : studyOrganizations) {
             if (studyOrganization instanceof StudyCoordinatingCenter) {
@@ -90,6 +122,11 @@ public class Study extends BasePersistable {
         return studyCoordinatingCenter;
     }
 
+    /**
+     * Sets the study coordinating center.
+     * 
+     * @param studyCoordinatingCenter the new study coordinating center
+     */
     public void setStudyCoordinatingCenter(
             StudyCoordinatingCenter studyCoordinatingCenter) {
         this.studyCoordinatingCenter = studyCoordinatingCenter;
@@ -98,62 +135,128 @@ public class Study extends BasePersistable {
         }
     }
 
+    /**
+     * Gets the study organizations.
+     * 
+     * @return the study organizations
+     */
     public List<StudyOrganization> getStudyOrganizations() {
         return studyOrganizations;
     }
 
+    /**
+     * Gets the short title.
+     * 
+     * @return the short title
+     */
     public String getShortTitle() {
         return shortTitle;
     }
 
+    /**
+     * Sets the short title.
+     * 
+     * @param shortTitle the new short title
+     */
     public void setShortTitle(String shortTitle) {
         this.shortTitle = shortTitle;
     }
 
+    /**
+     * Gets the long title.
+     * 
+     * @return the long title
+     */
     public String getLongTitle() {
         return longTitle;
     }
 
+    /**
+     * Sets the long title.
+     * 
+     * @param longTitle the new long title
+     */
     public void setLongTitle(String longTitle) {
         this.longTitle = longTitle;
     }
 
+    /**
+     * Gets the description.
+     * 
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Sets the description.
+     * 
+     * @param description the new description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Gets the display name.
+     * 
+     * @return the display name
+     */
     public String getDisplayName() {
         return getShortTitle()
                 + (getAssignedIdentifier() == null ? "" : " ("
                 + getAssignedIdentifier() + ")");
     }
 
+    /**
+     * Gets the assigned identifier.
+     * 
+     * @return the assigned identifier
+     */
     @UniqueIdentifierForStudy(message = "Identifier already exists.")
     public String getAssignedIdentifier() {
         return assignedIdentifier;
     }
 
+    /**
+     * Sets the assigned identifier.
+     * 
+     * @param assignedIdentifier the new assigned identifier
+     */
     public void setAssignedIdentifier(String assignedIdentifier) {
         this.assignedIdentifier = assignedIdentifier;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
+     */
     public Integer getId() {
         return id;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Adds the study site.
+     * 
+     * @param studySite the study site
+     */
     public void addStudySite(StudySite studySite) {
         addStudyOrganization(studySite);
 
     }
 
+    /**
+     * Adds the study organization.
+     * 
+     * @param studyOrganization the study organization
+     */
     private void addStudyOrganization(StudyOrganization studyOrganization) {
         if (studyOrganization != null) {
             studyOrganization.setStudy(this);
@@ -161,17 +264,30 @@ public class Study extends BasePersistable {
         }
     }
 
+    /**
+     * Removes the study organization.
+     * 
+     * @param studyOrganization the study organization
+     */
     private void removeStudyOrganization(StudyOrganization studyOrganization) {
         studyOrganizations.remove(studyOrganization);
 
     }
 
+    /**
+     * Removes the study site.
+     * 
+     * @param studySite the study site
+     */
     public void removeStudySite(StudySite studySite) {
         removeStudyOrganization(studySite);
 
     }
 
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -187,6 +303,9 @@ public class Study extends BasePersistable {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         int result = shortTitle != null ? shortTitle.hashCode() : 0;

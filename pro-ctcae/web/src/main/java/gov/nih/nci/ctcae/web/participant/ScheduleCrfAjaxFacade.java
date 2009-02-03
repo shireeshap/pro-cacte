@@ -11,14 +11,29 @@ import org.springframework.beans.factory.annotation.Required;
 
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ScheduleCrfAjaxFacade.
+ * 
  * @author Harsh Agarwal
  * @created Date: Oct 23, 2008
  */
 public class ScheduleCrfAjaxFacade {
+    
+    /** The participant repository. */
     private ParticipantRepository participantRepository;
+    
+    /** The study repository. */
     private StudyRepository studyRepository;
 
+    /**
+     * Match studies.
+     * 
+     * @param text the text
+     * @param participantId the participant id
+     * 
+     * @return the list< study>
+     */
     public List<Study> matchStudies(String text, Integer participantId) {
         StudyQuery studyQuery = new StudyQuery();
         studyQuery.filterStudiesWithMatchingText(text);
@@ -29,6 +44,14 @@ public class ScheduleCrfAjaxFacade {
         return ObjectTools.reduceAll(studies, "id", "shortTitle", "assignedIdentifier");
     }
 
+    /**
+     * Match participants.
+     * 
+     * @param text the text
+     * @param studyId the study id
+     * 
+     * @return the list< participant>
+     */
     public List<Participant> matchParticipants(String text, Integer studyId) {
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterParticipantsWithMatchingText(text);
@@ -37,12 +60,22 @@ public class ScheduleCrfAjaxFacade {
         return ObjectTools.reduceAll(participants, "id", "firstName", "lastName");
     }
 
+    /**
+     * Sets the participant repository.
+     * 
+     * @param participantRepository the new participant repository
+     */
     @Required
     public void setParticipantRepository(
             ParticipantRepository participantRepository) {
         this.participantRepository = participantRepository;
     }
 
+    /**
+     * Sets the study repository.
+     * 
+     * @param studyRepository the new study repository
+     */
     public void setStudyRepository(gov.nih.nci.ctcae.core.repository.StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
     }

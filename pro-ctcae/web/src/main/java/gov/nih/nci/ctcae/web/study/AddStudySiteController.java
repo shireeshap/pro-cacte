@@ -9,13 +9,19 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class AddStudySiteController.
+ * 
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
 public class AddStudySiteController extends AbstractController {
 
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("study/ajax/oneStudySiteSection");
@@ -37,6 +43,9 @@ public class AddStudySiteController extends AbstractController {
     }
 
 
+    /**
+     * Instantiates a new adds the study site controller.
+     */
     public AddStudySiteController() {
         setSupportedMethods(new String[]{"GET"});
 

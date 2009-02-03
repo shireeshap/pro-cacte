@@ -9,21 +9,31 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class CRFRepository.
+ * 
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
 
+    /** The study repository. */
     private StudyRepository studyRepository;
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#getPersistableClass()
+     */
     @Override
     protected Class<CRF> getPersistableClass() {
         return CRF.class;
 
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#findById(java.lang.Integer)
+     */
     @Override
     public CRF findById(Integer crfId) {
         CRF crf = genericRepository.findById(CRF.class, crfId);
@@ -48,6 +58,11 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
 
     }
 
+    /**
+     * Update status to released.
+     * 
+     * @param crf the crf
+     */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void updateStatusToReleased(CRF crf) {
 
@@ -68,6 +83,9 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
         save(crf);
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#save(gov.nih.nci.ctcae.core.domain.Persistable)
+     */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public CRF save(CRF crf) {
         CRF tmp = null;
@@ -93,6 +111,11 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
         return super.save(crf);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
+    /**
+     * Sets the study repository.
+     * 
+     * @param studyRepository the new study repository
+     */
     @Required
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;

@@ -9,26 +9,57 @@ import java.io.Serializable;
 import java.util.*;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class SubmitFormCommand.
+ * 
  * @author Harsh Agarwal
  * @crated Nov 12, 2008
  */
 public class SubmitFormCommand implements Serializable {
 
+    /** The study participant crf schedule. */
     private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
+    
+    /** The display rules. */
     private Hashtable<Integer, String> displayRules = new Hashtable<Integer, String>();
+    
+    /** The finder repository. */
     private FinderRepository finderRepository;
+    
+    /** The generic repository. */
     private GenericRepository genericRepository;
+    
+    /** The current page index. */
     private int currentPageIndex;
+    
+    /** The total pages. */
     private int totalPages;
+    
+    /** The direction. */
     private String direction = "";
+    
+    /** The flash message. */
     private String flashMessage;
+    
+    /** The pro ctc questions. */
     private List<ProCtcQuestion> proCtcQuestions;
+    
+    /** The has participant added questions. */
     private boolean hasParticipantAddedQuestions = false;
+    
+    /** The deleted questions. */
     private String deletedQuestions;
+    
+    /** The participant added question index. */
     private int participantAddedQuestionIndex = 0;
+    
+    /** The page header. */
     private String pageHeader = "";
 
+    /**
+     * Initialize.
+     */
     public void initialize() {
 
         for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
@@ -54,6 +85,13 @@ public class SubmitFormCommand implements Serializable {
         }
     }
 
+    /**
+     * Find latest crf and create schedule.
+     * 
+     * @param studyParticipantCrfSchedule the study participant crf schedule
+     * 
+     * @return the study participant crf schedule
+     */
     private StudyParticipantCrfSchedule findLatestCrfAndCreateSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
         CRF originalCrf = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf();
         StudyParticipantCrf originalStudyParticipantCrf = studyParticipantCrfSchedule.getStudyParticipantCrf();
@@ -124,18 +162,38 @@ public class SubmitFormCommand implements Serializable {
         return studyParticipantCrfSchedule;
     }
 
+    /**
+     * Gets the display rules.
+     * 
+     * @return the display rules
+     */
     public Hashtable<Integer, String> getDisplayRules() {
         return displayRules;
     }
 
+    /**
+     * Gets the study participant crf schedule.
+     * 
+     * @return the study participant crf schedule
+     */
     public StudyParticipantCrfSchedule getStudyParticipantCrfSchedule() {
         return studyParticipantCrfSchedule;
     }
 
+    /**
+     * Sets the study participant crf schedule.
+     * 
+     * @param studyParticipantCrfSchedule the new study participant crf schedule
+     */
     public void setStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
         this.studyParticipantCrfSchedule = findLatestCrfAndCreateSchedule(studyParticipantCrfSchedule);
     }
 
+    /**
+     * Gets the current page index.
+     * 
+     * @return the current page index
+     */
     public int getCurrentPageIndex() {
         if (direction.equals("back")) {
             currentPageIndex--;
@@ -148,42 +206,92 @@ public class SubmitFormCommand implements Serializable {
         return currentPageIndex;
     }
 
+    /**
+     * Sets the current page index.
+     * 
+     * @param currentPageIndex the new current page index
+     */
     public void setCurrentPageIndex(int currentPageIndex) {
         this.currentPageIndex = currentPageIndex;
     }
 
+    /**
+     * Gets the total pages.
+     * 
+     * @return the total pages
+     */
     public int getTotalPages() {
         return totalPages;
     }
 
+    /**
+     * Sets the total pages.
+     * 
+     * @param totalPages the new total pages
+     */
     public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
     }
 
+    /**
+     * Gets the direction.
+     * 
+     * @return the direction
+     */
     public String getDirection() {
         return direction;
     }
 
+    /**
+     * Sets the direction.
+     * 
+     * @param direction the new direction
+     */
     public void setDirection(String direction) {
         this.direction = direction;
     }
 
+    /**
+     * Sets the finder repository.
+     * 
+     * @param finderRepository the new finder repository
+     */
     public void setFinderRepository(FinderRepository finderRepository) {
         this.finderRepository = finderRepository;
     }
 
+    /**
+     * Sets the generic repository.
+     * 
+     * @param genericRepository the new generic repository
+     */
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
 
+    /**
+     * Gets the flash message.
+     * 
+     * @return the flash message
+     */
     public String getFlashMessage() {
         return flashMessage;
     }
 
+    /**
+     * Sets the flash message.
+     * 
+     * @param flashMessage the new flash message
+     */
     public void setFlashMessage(String flashMessage) {
         this.flashMessage = flashMessage;
     }
 
+    /**
+     * Gets the arranged questions.
+     * 
+     * @return the arranged questions
+     */
     public Hashtable<String, List<ProCtcQuestion>> getArrangedQuestions() {
         Hashtable<String, List<ProCtcQuestion>> arrangedQuestions = new Hashtable<String, List<ProCtcQuestion>>();
         List<ProCtcQuestion> l;
@@ -216,6 +324,11 @@ public class SubmitFormCommand implements Serializable {
        return arrangedQuestions;
     }
 
+    /**
+     * Gets the sorted symptoms.
+     * 
+     * @return the sorted symptoms
+     */
     public ArrayList<String> getSortedSymptoms(){
         Hashtable<String, List<ProCtcQuestion>> arrangedQuestions = getArrangedQuestions();
         ArrayList<String> sortedList = new ArrayList(arrangedQuestions.keySet());
@@ -224,30 +337,66 @@ public class SubmitFormCommand implements Serializable {
         return sortedList;
 
     }
+    
+    /**
+     * Sets the pro ctc questions.
+     * 
+     * @param proCtcQuestions the new pro ctc questions
+     */
     public void setProCtcQuestions(List<ProCtcQuestion> proCtcQuestions) {
         this.proCtcQuestions = proCtcQuestions;
     }
 
+    /**
+     * Gets the pro ctc questions.
+     * 
+     * @return the pro ctc questions
+     */
     public List<ProCtcQuestion> getProCtcQuestions() {
         return proCtcQuestions;
     }
 
+    /**
+     * Checks if is checks for participant added questions.
+     * 
+     * @return true, if is checks for participant added questions
+     */
     public boolean isHasParticipantAddedQuestions() {
         return hasParticipantAddedQuestions;
     }
 
+    /**
+     * Sets the checks for participant added questions.
+     * 
+     * @param hasParticipantAddedQuestions the new checks for participant added questions
+     */
     public void setHasParticipantAddedQuestions(boolean hasParticipantAddedQuestions) {
         this.hasParticipantAddedQuestions = hasParticipantAddedQuestions;
     }
 
+    /**
+     * Gets the deleted questions.
+     * 
+     * @return the deleted questions
+     */
     public String getDeletedQuestions() {
         return deletedQuestions;
     }
 
+    /**
+     * Sets the deleted questions.
+     * 
+     * @param deletedQuestions the new deleted questions
+     */
     public void setDeletedQuestions(String deletedQuestions) {
         this.deletedQuestions = deletedQuestions;
     }
 
+    /**
+     * Delete questions.
+     * 
+     * @param questions the questions
+     */
     public void deleteQuestions(String questions) {
 
         if (!StringUtils.isBlank(questions)) {
@@ -283,14 +432,29 @@ public class SubmitFormCommand implements Serializable {
         }
     }
 
+    /**
+     * Gets the participant added question index.
+     * 
+     * @return the participant added question index
+     */
     public int getParticipantAddedQuestionIndex() {
         return participantAddedQuestionIndex;
     }
 
+    /**
+     * Sets the participant added question index.
+     * 
+     * @param participantAddedQuestionIndex the new participant added question index
+     */
     public void setParticipantAddedQuestionIndex(int participantAddedQuestionIndex) {
         this.participantAddedQuestionIndex = participantAddedQuestionIndex;
     }
 
+    /**
+     * Gets the page header.
+     * 
+     * @return the page header
+     */
     public String getPageHeader() {
         String symptom = "";
 

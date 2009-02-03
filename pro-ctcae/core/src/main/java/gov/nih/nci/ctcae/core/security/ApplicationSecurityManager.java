@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.security;
 
 /**
+ * The Class ApplicationSecurityManager.
+ * 
  * @author
  */
 public class ApplicationSecurityManager {

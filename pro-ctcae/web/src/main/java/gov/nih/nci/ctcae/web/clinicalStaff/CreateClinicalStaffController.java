@@ -9,16 +9,23 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class CreateClinicalStaffController.
+ * 
  * @author Mehul Gulati
  */
 public class CreateClinicalStaffController extends CtcAeSimpleFormController {
 
     // same controller for edit clinicalstaff
 
+    /** The clinical staff repository. */
     private ClinicalStaffRepository clinicalStaffRepository;
 
 
+    /**
+     * Instantiates a new creates the clinical staff controller.
+     */
     public CreateClinicalStaffController() {
         setCommandClass(gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand.class);
         setCommandName("clinicalStaffCommand");
@@ -28,6 +35,9 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         setSessionForm(true);
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+     */
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, org.springframework.validation.BindException errors) throws Exception {
 
@@ -43,6 +53,9 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         return modelAndView;
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     protected Object formBackingObject(HttpServletRequest request)
             throws Exception {
@@ -59,6 +72,11 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     }
 
 
+    /**
+     * Sets the clinical staff repository.
+     * 
+     * @param clinicalStaffRepository the new clinical staff repository
+     */
     @Required
     public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
         this.clinicalStaffRepository = clinicalStaffRepository;

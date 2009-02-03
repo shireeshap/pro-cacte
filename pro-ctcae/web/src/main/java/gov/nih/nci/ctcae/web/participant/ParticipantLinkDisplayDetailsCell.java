@@ -8,16 +8,25 @@ import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.view.html.ColumnBuilder;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ParticipantLinkDisplayDetailsCell.
+ * 
  * @author Harsh Agarwal
  * @created Oct 23, 2008
  */
 public class ParticipantLinkDisplayDetailsCell implements Cell {
 
+    /* (non-Javadoc)
+     * @see org.extremecomponents.table.cell.Cell#getExportDisplay(org.extremecomponents.table.core.TableModel, org.extremecomponents.table.bean.Column)
+     */
     public String getExportDisplay(TableModel model, Column column) {
         return column.getValueAsString();
     }
 
+    /* (non-Javadoc)
+     * @see org.extremecomponents.table.cell.Cell#getHtmlDisplay(org.extremecomponents.table.core.TableModel, org.extremecomponents.table.bean.Column)
+     */
     public String getHtmlDisplay(TableModel model, Column column) {
         ColumnBuilder inputBuilder = new ColumnBuilder(column);
         inputBuilder.tdStart();

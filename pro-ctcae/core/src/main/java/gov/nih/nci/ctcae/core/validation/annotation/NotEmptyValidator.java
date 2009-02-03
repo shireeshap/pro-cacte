@@ -4,24 +4,36 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
- * Check the non emptyness of the element
- *
+ * Check the non emptyness of the element.
+ * 
  * @author Vinay Kumar
  * @crated Nov 8, 2008
  */
 public class NotEmptyValidator extends AbstractValidator<NotEmpty> {
+    
+    /** The message. */
     private String message;
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.validation.annotation.Validator#initialize(java.lang.annotation.Annotation)
+     */
     public void initialize(final NotEmpty parameters) {
         message = parameters.message();
 
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.validation.annotation.Validator#message()
+     */
     public String message() {
         return this.message;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.validation.annotation.AbstractValidator#validate(java.lang.Object)
+     */
     public boolean validate(final Object value) {
         if (value == null) {
             return false;

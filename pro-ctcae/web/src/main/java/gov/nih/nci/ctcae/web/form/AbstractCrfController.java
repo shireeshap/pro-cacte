@@ -16,7 +16,6 @@ import java.util.Map;
 public abstract class AbstractCrfController extends AbstractController {
     protected ProCtcQuestionRepository proCtcQuestionRepository;
     public static final String PRO_CTC_TERM_COMPONENT = "proCtcTerm";
-    public static final String CTC_CATEGORY_COMPONENT = "ctcCategory";
     public static final String CRF_PAGE_COMPONENT = "crfPage";
     public static final String PRO_CTC_QUESTIONS_COMPONENT = "proCtcQuestion";
 

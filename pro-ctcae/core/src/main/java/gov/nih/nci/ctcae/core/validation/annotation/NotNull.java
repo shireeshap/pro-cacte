@@ -8,9 +8,10 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
 
+// TODO: Auto-generated Javadoc
 /**
- * not null constraint
- *
+ * not null constraint.
+ * 
  * @author Vinay Kumar
  * @crated Nov 8, 2008
  */
@@ -19,6 +20,12 @@ import java.lang.annotation.Target;
 @Target({METHOD, FIELD, ElementType.PARAMETER})
 @Retention(RUNTIME)
 public @interface NotNull {
+    
+    /**
+     * Message.
+     * 
+     * @return the string
+     */
     String message() default "Not null";
 
 }

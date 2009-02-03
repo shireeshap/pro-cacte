@@ -7,16 +7,24 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class UniqueObjectInCollectionValidator.
+ * 
  * @author Vinay Kumar
  * @crated Oct 27, 2008
  */
 public class UniqueObjectInCollectionValidator extends AbstractValidator<UniqueObjectInCollection> {
 
+	/** The message. */
 	String message;
 
+	/** The logger. */
 	private static Log logger = LogFactory.getLog(UniqueObjectInCollectionValidator.class);
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.ctcae.core.validation.annotation.AbstractValidator#validate(java.lang.Object)
+	 */
 	public boolean validate(final Object value) {
 		logger.info("in the validate method of" + this.getClass().getName());
 		if (value instanceof Collection) {
@@ -26,10 +34,16 @@ public class UniqueObjectInCollectionValidator extends AbstractValidator<UniqueO
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.ctcae.core.validation.annotation.Validator#initialize(java.lang.annotation.Annotation)
+	 */
 	public void initialize(final UniqueObjectInCollection parameters) {
 		this.message = parameters.message();
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.ctcae.core.validation.annotation.Validator#message()
+	 */
 	public String message() {
 		return this.message;
 	}

@@ -10,12 +10,24 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class CrfTableModel.
+ * 
  * @author Mehul Gulati
- *         Date: Nov 5, 2008
+ * Date: Nov 5, 2008
  */
 public class CrfTableModel extends AbstractTableModel {
 
+    /**
+     * Builds the crf table.
+     * 
+     * @param parameterMap the parameter map
+     * @param objects the objects
+     * @param request the request
+     * 
+     * @return the string
+     */
     public String buildCrfTable(Map parameterMap, Collection<CRF> objects, HttpServletRequest request) {
 
         try {
@@ -37,30 +49,53 @@ public class CrfTableModel extends AbstractTableModel {
 
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.AbstractTableModel#getSortable()
+     */
     protected Boolean getSortable() {
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.AbstractTableModel#getFilterable()
+     */
     protected Boolean getFilterable() {
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.AbstractTableModel#getToolTips()
+     */
     protected Boolean getToolTips() {
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.AbstractTableModel#getTitle()
+     */
     protected Boolean getTitle() {
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.AbstractTableModel#getStatusBar()
+     */
     protected Boolean getStatusBar() {
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.AbstractTableModel#getPagination()
+     */
     protected boolean getPagination() {
         return false;
     }
 
+    /**
+     * Adds the show version.
+     * 
+     * @param model the model
+     */
     private void addShowVersion(TableModel model) {
         Column columnShowVersion = model.getColumnInstance();
         columnShowVersion.setTitle("");
@@ -72,12 +107,20 @@ public class CrfTableModel extends AbstractTableModel {
         model.addColumn(columnShowVersion);
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.AbstractTableModel#updateRow(org.extremecomponents.table.bean.Row)
+     */
     protected void updateRow(Row row) {
 
         row.setHighlightRow(false);
         row.setInterceptor("gov.nih.nci.ctcae.web.form.ManageFormTableRowInterceptor");
     }
 
+    /**
+     * Adds the title.
+     * 
+     * @param model the model
+     */
     private void addTitle(TableModel model) {
         Column columnTitle = model.getColumnInstance();
         columnTitle.setTitle("Title");
@@ -88,6 +131,11 @@ public class CrfTableModel extends AbstractTableModel {
         model.addColumn(columnTitle);
     }
 
+    /**
+     * Adds the version.
+     * 
+     * @param model the model
+     */
     private void addVersion(TableModel model) {
         Column columnTitle = model.getColumnInstance();
         columnTitle.setTitle("Version");
@@ -99,6 +147,11 @@ public class CrfTableModel extends AbstractTableModel {
 
     }
 
+    /**
+     * Adds the effective date.
+     * 
+     * @param model the model
+     */
     private void addEffectiveDate(TableModel model) {
         Column columnEffectiveDate = model.getColumnInstance();
         columnEffectiveDate.setTitle("Effective Date");
@@ -111,6 +164,11 @@ public class CrfTableModel extends AbstractTableModel {
 
     }
 
+    /**
+     * Adds the expiration date.
+     * 
+     * @param model the model
+     */
     private void addExpirationDate(TableModel model) {
         Column columnExpirationDate = model.getColumnInstance();
         columnExpirationDate.setTitle("Expiration Date");
@@ -123,6 +181,11 @@ public class CrfTableModel extends AbstractTableModel {
 
     }
 
+    /**
+     * Adds the status.
+     * 
+     * @param model the model
+     */
     private void addStatus(TableModel model) {
         Column columnStatus = model.getColumnInstance();
         columnStatus.setTitle("Status");
@@ -133,6 +196,11 @@ public class CrfTableModel extends AbstractTableModel {
         model.addColumn(columnStatus);
     }
 
+    /**
+     * Adds the options.
+     * 
+     * @param model the model
+     */
     private void addOptions(TableModel model) {
         Column columnOptions = model.getColumnInstance();
         columnOptions.setTitle("Action");

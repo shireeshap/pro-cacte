@@ -8,7 +8,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class StudyOrganization.
+ * 
  * @author
  * @crated Oct 7, 2008
  */
@@ -21,51 +24,89 @@ import java.util.List;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_study_organizations_id")})
 public abstract class StudyOrganization extends BasePersistable {
 
+    /** The id. */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
+     */
     public Integer getId() {
         return id;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /** The study participant assignments. */
     @OneToMany(mappedBy = "studySite", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
 
+    /** The organization. */
     @ManyToOne
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 
+    /** The study. */
     @ManyToOne
     @JoinColumn(name = "study_id", nullable = false)
     private Study study;
 
+    /**
+     * Gets the study participant assignments.
+     * 
+     * @return the study participant assignments
+     */
     public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
         return studyParticipantAssignments;
     }
 
+    /**
+     * Gets the study.
+     * 
+     * @return the study
+     */
     public Study getStudy() {
         return study;
     }
 
+    /**
+     * Gets the organization.
+     * 
+     * @return the organization
+     */
     public Organization getOrganization() {
         return organization;
     }
 
+    /**
+     * Sets the organization.
+     * 
+     * @param organization the new organization
+     */
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 
+    /**
+     * Sets the study.
+     * 
+     * @param study the new study
+     */
     public void setStudy(Study study) {
         this.study = study;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,6 +120,9 @@ public abstract class StudyOrganization extends BasePersistable {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         int result = organization != null ? organization.hashCode() : 0;

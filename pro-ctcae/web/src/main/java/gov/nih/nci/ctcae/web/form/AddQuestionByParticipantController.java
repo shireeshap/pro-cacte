@@ -14,22 +14,32 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Hashtable;
 
+// TODO: Auto-generated Javadoc
 /**
  * Author: Harsh Agarwal
  * Date: Dec 10, 2008
- * Time: 1:36:54 PM
+ * Time: 1:36:54 PM.
  */
 public class AddQuestionByParticipantController extends CtcAeSimpleFormController {
 
+    /** The generic repository. */
     private GenericRepository genericRepository;
+    
+    /** The review view. */
     private String reviewView;
 
+    /**
+     * Instantiates a new adds the question by participant controller.
+     */
     public AddQuestionByParticipantController() {
         setFormView("form/addQuestionForParticipant");
         setSuccessView("form/confirmFormSubmission");
         setReviewView("form/reviewFormSubmission");
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+     */
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
@@ -66,6 +76,9 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
     }
 
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand)
@@ -78,15 +91,30 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         return submitFormCommand;
     }
 
+    /**
+     * Sets the generic repository.
+     * 
+     * @param genericRepository the new generic repository
+     */
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
 
+    /**
+     * Gets the review view.
+     * 
+     * @return the review view
+     */
     public String getReviewView() {
         return reviewView;
     }
 
+    /**
+     * Sets the review view.
+     * 
+     * @param reviewView the new review view
+     */
     public void setReviewView(String reviewView) {
         this.reviewView = reviewView;
     }

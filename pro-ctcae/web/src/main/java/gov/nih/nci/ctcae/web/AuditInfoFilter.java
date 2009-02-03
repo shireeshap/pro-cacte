@@ -11,12 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class AuditInfoFilter.
+ * 
  * @author Vinay Kumar
  * @crated Dec 9, 2008
  */
 public class AuditInfoFilter extends ContextRetainingFilterAdapter {
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.cabig.ctms.web.filters.FilterAdapter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 */
 	@Override
 	public void doFilter(final ServletRequest request, final ServletResponse response,
 						 final FilterChain chain) throws IOException, ServletException {

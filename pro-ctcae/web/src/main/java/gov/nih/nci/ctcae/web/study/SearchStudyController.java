@@ -7,13 +7,19 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class SearchStudyController.
+ * 
  * @author Vinay Kumar
  * @crated Oct 17, 2008
  */
 public class SearchStudyController extends AbstractController {
 
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("study/searchStudy");
@@ -26,6 +32,9 @@ public class SearchStudyController extends AbstractController {
 
     }
 
+    /**
+     * Instantiates a new search study controller.
+     */
     public SearchStudyController() {
         setSupportedMethods(new String[]{"GET"});
 

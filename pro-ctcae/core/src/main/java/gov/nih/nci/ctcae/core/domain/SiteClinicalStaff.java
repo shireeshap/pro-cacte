@@ -6,7 +6,10 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.Date;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class SiteClinicalStaff.
+ * 
  * @author mehul
  */
 
@@ -15,66 +18,120 @@ import java.util.Date;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "site_clinical_staffs_id_seq")})
 public class SiteClinicalStaff extends BasePersistable {
 
+	/** The id. */
 	@Id
 	@GeneratedValue(generator = "id-generator")
 	@Column(name = "id")
 	private Integer id;
 
+	/** The status code. */
 	@Column(name = "status_code", nullable = true)
 	private String statusCode;
 
+	/** The status date. */
 	@Column(name = "status_date", nullable = true)
 	private Date statusDate;
 
+	/** The clinical staff. */
 	@JoinColumn(name = "clinical_staff_id", referencedColumnName = "id")
 	@ManyToOne
 	private ClinicalStaff clinicalStaff;
 
+	/** The organization. */
 	@JoinColumn(name = "organization_id", referencedColumnName = "id")
 	@ManyToOne
 	private Organization organization;
 
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
+	 */
 	public Integer getId() {
 		return id;
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
+	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	/**
+	 * Gets the status code.
+	 * 
+	 * @return the status code
+	 */
 	public String getStatusCode() {
 		return statusCode;
 	}
 
+	/**
+	 * Sets the status code.
+	 * 
+	 * @param statusCode the new status code
+	 */
 	public void setStatusCode(String statusCode) {
 		this.statusCode = statusCode;
 	}
 
+	/**
+	 * Gets the status date.
+	 * 
+	 * @return the status date
+	 */
 	public Date getStatusDate() {
 		return statusDate;
 	}
 
+	/**
+	 * Sets the status date.
+	 * 
+	 * @param statusDate the new status date
+	 */
 	public void setStatusDate(Date statusDate) {
 		this.statusDate = statusDate;
 	}
 
+	/**
+	 * Gets the clinical staff.
+	 * 
+	 * @return the clinical staff
+	 */
 	public ClinicalStaff getClinicalStaff() {
 		return clinicalStaff;
 	}
 
+	/**
+	 * Sets the clinical staff.
+	 * 
+	 * @param clinicalStaff the new clinical staff
+	 */
 	public void setClinicalStaff(ClinicalStaff clinicalStaff) {
 		this.clinicalStaff = clinicalStaff;
 	}
 
+	/**
+	 * Gets the organization.
+	 * 
+	 * @return the organization
+	 */
 	public Organization getOrganization() {
 		return organization;
 	}
 
+	/**
+	 * Sets the organization.
+	 * 
+	 * @param organization the new organization
+	 */
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -92,6 +149,9 @@ public class SiteClinicalStaff extends BasePersistable {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int result;

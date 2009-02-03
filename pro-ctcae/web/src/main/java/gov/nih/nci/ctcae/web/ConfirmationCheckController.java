@@ -9,15 +9,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ConfirmationCheckController.
+ * 
  * @author Vinay Kumar
  * @crated Oct 21, 2008
  */
 public class ConfirmationCheckController extends AbstractController {
 
+    /** The Constant DELETE_CRF_CONFIRMATION_TYPE. */
     private static final String DELETE_CRF_CONFIRMATION_TYPE = "deleteCrf";
+    
+    /** The Constant DELETE_QUESTION_CONFIRMATION_TYPE. */
     private static final String DELETE_QUESTION_CONFIRMATION_TYPE = "deleteQuestion";
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = null;
         String confirmationType = request.getParameter("confirmationType");
@@ -41,6 +50,9 @@ public class ConfirmationCheckController extends AbstractController {
     }
 
 
+    /**
+     * Instantiates a new confirmation check controller.
+     */
     public ConfirmationCheckController() {
         setSupportedMethods(new String[]{"GET"});
 

@@ -6,16 +6,25 @@ import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.bean.Column;
 import gov.nih.nci.ctcae.core.domain.CRF;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class CrfDisplayVersionsCell.
+ * 
  * @author Mehul Gulati
- *         Date: Dec 30, 2008
+ * Date: Dec 30, 2008
  */
 public class CrfDisplayVersionsCell extends AbstractCell implements Cell {
 
+    /* (non-Javadoc)
+     * @see org.extremecomponents.table.cell.AbstractCell#getExportDisplay(org.extremecomponents.table.core.TableModel, org.extremecomponents.table.bean.Column)
+     */
     public String getExportDisplay(TableModel model, Column column) {
         return column.getValueAsString();
     }
 
+    /* (non-Javadoc)
+     * @see org.extremecomponents.table.cell.AbstractCell#getCellValue(org.extremecomponents.table.core.TableModel, org.extremecomponents.table.bean.Column)
+     */
     protected String getCellValue(TableModel model, Column column) {
         CRF bean = (CRF) model.getCurrentRowBean();
         Integer id = bean.getId();

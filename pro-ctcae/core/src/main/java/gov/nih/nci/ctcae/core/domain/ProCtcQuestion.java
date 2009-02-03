@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ProCtcQuestion.
+ * 
  * @author Harsh Agarwal
  * @created Oct 13, 2008
  */
@@ -19,77 +22,134 @@ import java.util.List;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_questions_id")})
 public class ProCtcQuestion extends BasePersistable {
 
+    /** The id. */
     @Id
     @GeneratedValue(generator = "id-generator")
     @Column(name = "id")
     private Integer id;
 
+    /** The question text. */
     @Column(name = "question_text", nullable = false)
     private String questionText;
 
+    /** The pro ctc question type. */
     @Column(name = "question_type", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private ProCtcQuestionType proCtcQuestionType;
 
+    /** The valid values. */
     @OneToMany(mappedBy = "proCtcQuestion", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<ProCtcValidValue> validValues = new ArrayList<ProCtcValidValue>();
 
+    /** The pro ctc question display rules. */
     @OneToMany(mappedBy = "proCtcQuestion", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<ProCtcQuestionDisplayRule> proCtcQuestionDisplayRules = new ArrayList<ProCtcQuestionDisplayRule>();
 
 
+    /** The pro ctc term. */
     @JoinColumn(name = "pro_ctc_term_id", referencedColumnName = "id")
     @ManyToOne
     private ProCtcTerm proCtcTerm;
 
 
+    /** The display order. */
     @Column(name = "display_order", nullable = true)
     private Integer displayOrder;
 
 
+    /**
+     * Instantiates a new pro ctc question.
+     */
     public ProCtcQuestion() {
     }
 
+    /**
+     * Instantiates a new pro ctc question.
+     * 
+     * @param id the id
+     */
     public ProCtcQuestion(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Instantiates a new pro ctc question.
+     * 
+     * @param id the id
+     * @param questionText the question text
+     */
     public ProCtcQuestion(Integer id, String questionText) {
         this.id = id;
         this.questionText = questionText;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
+     */
     public Integer getId() {
         return id;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets the question text.
+     * 
+     * @return the question text
+     */
     public String getQuestionText() {
         return questionText;
     }
 
+    /**
+     * Gets the display order.
+     * 
+     * @return the display order
+     */
     public Integer getDisplayOrder() {
         return displayOrder;
     }
 
+    /**
+     * Sets the display order.
+     * 
+     * @param displayOrder the new display order
+     */
     public void setDisplayOrder(Integer displayOrder) {
         this.displayOrder = displayOrder;
     }
 
 
+    /**
+     * Sets the question text.
+     * 
+     * @param questionText the new question text
+     */
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }
 
+    /**
+     * Gets the valid values.
+     * 
+     * @return the valid values
+     */
     public Collection<ProCtcValidValue> getValidValues() {
         return validValues;
     }
 
+    /**
+     * Adds the valid value.
+     * 
+     * @param validValue the valid value
+     */
     public void addValidValue(ProCtcValidValue validValue) {
         if (validValue != null) {
             validValue.setProCtcQuestion(this);
@@ -97,6 +157,11 @@ public class ProCtcQuestion extends BasePersistable {
         }
     }
 
+    /**
+     * Adds the display rules.
+     * 
+     * @param proCtcQuestionDisplayRule the pro ctc question display rule
+     */
     public void addDisplayRules(ProCtcQuestionDisplayRule proCtcQuestionDisplayRule) {
         if (proCtcQuestionDisplayRule != null) {
             proCtcQuestionDisplayRule.setProCtcQuestion(this);
@@ -105,37 +170,73 @@ public class ProCtcQuestion extends BasePersistable {
     }
 
 
+    /**
+     * Gets the pro ctc term.
+     * 
+     * @return the pro ctc term
+     */
     public ProCtcTerm getProCtcTerm() {
         return proCtcTerm;
     }
 
+    /**
+     * Sets the pro ctc term.
+     * 
+     * @param proCtcTerm the new pro ctc term
+     */
     public void setProCtcTerm(ProCtcTerm proCtcTerm) {
         this.proCtcTerm = proCtcTerm;
     }
 
+    /**
+     * Gets the pro ctc question type.
+     * 
+     * @return the pro ctc question type
+     */
     public ProCtcQuestionType getProCtcQuestionType() {
         return proCtcQuestionType;
     }
 
+    /**
+     * Sets the pro ctc question type.
+     * 
+     * @param proCtcQuestionType the new pro ctc question type
+     */
     public void setProCtcQuestionType(final ProCtcQuestionType proCtcQuestionType) {
         this.proCtcQuestionType = proCtcQuestionType;
     }
 
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return questionText;
     }
 
+    /**
+     * Gets the display name.
+     * 
+     * @return the display name
+     */
     public String getDisplayName() {
         return questionText + " " + proCtcTerm.getCtcTerm().getCtepTerm();
     }
 
+    /**
+     * Gets the short text.
+     * 
+     * @return the short text
+     */
     public String getShortText() {
         return proCtcTerm.getTerm() + "-" + questionText;
 
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ProCtcQuestion)) return false;
@@ -150,6 +251,9 @@ public class ProCtcQuestion extends BasePersistable {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     public int hashCode() {
         int result;
         result = (questionText != null ? questionText.hashCode() : 0);
@@ -159,6 +263,11 @@ public class ProCtcQuestion extends BasePersistable {
         return result;
     }
 
+    /**
+     * Gets the pro ctc question display rules.
+     * 
+     * @return the pro ctc question display rules
+     */
     public List<ProCtcQuestionDisplayRule> getProCtcQuestionDisplayRules() {
         return proCtcQuestionDisplayRules;
     }

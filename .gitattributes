@@ -295,6 +295,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AdvanceFormController.jav
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AllConditionsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/BasicFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CRFLinkDisplayDetailsCell.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CalendarTemplateTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CopyFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfAjaxFacade.java -text
@@ -332,13 +333,13 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantInboxCo
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantLinkDisplayDetailsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantSchedule.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantTableModel.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ProCtcAECalendar.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendar.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudySiteController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/CreateStudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/EmptyStudyTab.java -text
@@ -384,6 +385,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/imageUrl.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/minimizableBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/workflowTabs.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/button.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/calendartemplate.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/chrome/body.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/chrome/box.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/chrome/collapsableElement.tag -text
@@ -493,6 +495,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneProCtcTermSection.jsp -
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/questionReviewSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/removeConditions.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/reorderSucessfull.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/calendar_template.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmFormSubmission.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/createForm.xml -text

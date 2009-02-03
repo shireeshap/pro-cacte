@@ -18,17 +18,30 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class FormController.
+ * 
  * @author Vinay Kumar
  * @crated Dec 8, 2008
  */
 public abstract class FormController<C extends CreateFormCommand> extends CtcAeTabbedFlowController<CreateFormCommand> {
+    
+    /** The crf repository. */
     private CRFRepository crfRepository;
+    
+    /** The unique title for crf validator. */
     private UniqueTitleForCrfValidator uniqueTitleForCrfValidator;
+    
+    /** The not empty validator. */
     private NotEmptyValidator notEmptyValidator;
 
+    /** The Constant FORM_DETAILS_PAGE_NUMBER. */
     protected static final Integer FORM_DETAILS_PAGE_NUMBER = 1;
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#getInitialPage(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     protected int getInitialPage(HttpServletRequest request) {
         if (!StringUtils.isBlank(request.getParameter("studyId"))) {
@@ -41,6 +54,9 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     }
 
+    /**
+     * Instantiates a new form controller.
+     */
     public FormController() {
         setCommandClass(CreateFormCommand.class);
         Flow<CreateFormCommand> flow = new Flow<CreateFormCommand>("Build Form");
@@ -51,10 +67,16 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
         setSessionForm(true);
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#getFormSessionAttributeName()
+     */
     protected String getFormSessionAttributeName() {
         return FormController.class.getName() + ".FORM." + getCommandName();
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#getPageSessionAttributeName()
+     */
     @Override
     protected String getPageSessionAttributeName() {
         return FormController.class.getName() + ".PAGE." + getCommandName();
@@ -62,6 +84,9 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         CreateFormCommand command = new CreateFormCommand();
@@ -78,12 +103,21 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     }
 
+    /**
+     * Layout tabs.
+     * 
+     * @param flow the flow
+     */
     protected void layoutTabs(Flow<CreateFormCommand> flow) {
         flow.addTab(new SelectStudyForFormTab());
         flow.addTab(new FormDetailsTab());
+        flow.addTab(new CalendarTemplateTab());
 
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+     */
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CreateFormCommand createFormCommand = (CreateFormCommand) command;
         createFormCommand.updateCrfItems(proCtcQuestionRepository);
@@ -118,6 +152,11 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     }
 
+    /**
+     * Save.
+     * 
+     * @param createFormCommand the create form command
+     */
     protected void save(final CreateFormCommand createFormCommand) {
         CRF crf = createFormCommand.getCrf();
         createFormCommand.setCrf(crf);
@@ -125,6 +164,9 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
         createFormCommand.setCrf(savedCrf);
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController#validate()
+     */
     @Override
     protected boolean validate() {
         return false;
@@ -132,16 +174,31 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     }
 
+    /**
+     * Sets the not empty validator.
+     * 
+     * @param notEmptyValidator the new not empty validator
+     */
     @Required
     public void setNotEmptyValidator(final NotEmptyValidator notEmptyValidator) {
         this.notEmptyValidator = notEmptyValidator;
     }
 
+    /**
+     * Sets the unique title for crf validator.
+     * 
+     * @param uniqueTitleForCrfValidator the new unique title for crf validator
+     */
     @Required
     public void setUniqueTitleForCrfValidator(final UniqueTitleForCrfValidator uniqueTitleForCrfValidator) {
         this.uniqueTitleForCrfValidator = uniqueTitleForCrfValidator;
     }
 
+    /**
+     * Sets the crf repository.
+     * 
+     * @param crfRepository the new crf repository
+     */
     @Required
     public void setCrfRepository(CRFRepository crfRepository) {
         this.crfRepository = crfRepository;

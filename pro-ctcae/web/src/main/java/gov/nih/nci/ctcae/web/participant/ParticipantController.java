@@ -18,16 +18,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ParticipantController.
+ * 
  * @author Harsh Agarwal
  * @created Oct 21, 2008
  */
 public abstract class ParticipantController extends CtcAeSimpleFormController {
+    
+    /** The participant repository. */
     protected ParticipantRepository participantRepository;
+    
+    /** The finder repository. */
     protected FinderRepository finderRepository;
+    
+    /** The organization repository. */
     protected OrganizationRepository organizationRepository;
+    
+    /** The crf repository. */
     private CRFRepository crfRepository;
 
+    /**
+     * Instantiates a new participant controller.
+     */
     protected ParticipantController() {
         setCommandClass(ParticipantCommand.class);
         setCommandName("participantCommand");
@@ -36,6 +50,9 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
         setSessionForm(true);
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+     */
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request,
                                     HttpServletResponse response, Object oCommand,
@@ -88,6 +105,9 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
     }
 
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.CtcAeSimpleFormController#onBindAndValidate(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.BindException)
+     */
     @Override
     protected void onBindAndValidate(HttpServletRequest request,
                                      Object command, BindException errors) throws Exception {
@@ -104,6 +124,9 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
 
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.CtcAeSimpleFormController#referenceData(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.Errors)
+     */
     @Override
     protected Map referenceData(HttpServletRequest request, Object command,
                                 Errors errors) throws Exception {
@@ -122,22 +145,40 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
         return referenceData;
     }
 
+    /**
+     * Sets the crf repository.
+     * 
+     * @param crfRepository the new crf repository
+     */
     @Required
     public void setCrfRepository(CRFRepository crfRepository) {
         this.crfRepository = crfRepository;
     }
 
+    /**
+     * Sets the participant repository.
+     * 
+     * @param participantRepository the new participant repository
+     */
     @Required
     public void setParticipantRepository(
             ParticipantRepository participantRepository) {
         this.participantRepository = participantRepository;
     }
 
+    /**
+     * Sets the organization repository.
+     * 
+     * @param organizationRepository the new organization repository
+     */
     @Required
     public void setOrganizationRepository(OrganizationRepository organizationRepository) {
         this.organizationRepository = organizationRepository;
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.web.CtcAeSimpleFormController#setFinderRepository(gov.nih.nci.ctcae.core.repository.FinderRepository)
+     */
     @Required
     public void setFinderRepository(
             FinderRepository finderRepository) {

@@ -11,13 +11,21 @@ import org.springframework.beans.BeanWrapperImpl;
 
 import java.util.Date;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class DateFormatterCell.
+ * 
  * @author
  */
 public class DateFormatterCell extends AbstractCell {
+	
+	/** The log. */
 	protected final Log log = LogFactory.getLog(getClass());
 
 
+	/* (non-Javadoc)
+	 * @see org.extremecomponents.table.cell.AbstractCell#getCellValue(org.extremecomponents.table.core.TableModel, org.extremecomponents.table.bean.Column)
+	 */
 	@Override
 	protected String getCellValue(TableModel model, Column column) {
 

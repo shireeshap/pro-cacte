@@ -11,19 +11,31 @@ import gov.nih.nci.ctcae.web.ListValues;
 
 import java.util.*;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class FormDetailsTab.
+ * 
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */
 public class FormDetailsTab extends Tab<CreateFormCommand> {
 
+    /** The pro ctc term repository. */
     private ProCtcTermRepository proCtcTermRepository;
+    
+    /** The finder repository. */
     private FinderRepository finderRepository;
 
+    /**
+     * Instantiates a new form details tab.
+     */
     public FormDetailsTab() {
         super("form.tab.form", "form.tab.form_details", "form/form_details");
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.cabig.ctms.web.tabs.Tab#referenceData(java.lang.Object)
+     */
     @Override
     public Map<String, Object> referenceData(CreateFormCommand command) {
         Map<String, Object> map = super.referenceData(command);
@@ -67,10 +79,20 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
     }
 
 
+    /**
+     * Sets the pro ctc term repository.
+     * 
+     * @param proCtcTermRepository the new pro ctc term repository
+     */
     public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
         this.proCtcTermRepository = proCtcTermRepository;
     }
 
+    /**
+     * Sets the finder repository.
+     * 
+     * @param finderRepository the new finder repository
+     */
     public void setFinderRepository(FinderRepository finderRepository) {
         this.finderRepository = finderRepository;
     }

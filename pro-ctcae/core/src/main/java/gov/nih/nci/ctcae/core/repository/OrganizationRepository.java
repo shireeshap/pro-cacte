@@ -9,7 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class OrganizationRepository.
+ * 
  * @author Vinay Kumar
  * @crated Oct 7, 2008
  */
@@ -17,12 +20,20 @@ import java.util.Collection;
 public class OrganizationRepository extends
         AbstractRepository<Organization, OrganizationQuery> {
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#getPersistableClass()
+     */
     @Override
     protected Class<Organization> getPersistableClass() {
         return Organization.class;
 
     }
 
+    /**
+     * Find organizations for study sites.
+     * 
+     * @return the array list< organization>
+     */
     public ArrayList<Organization> findOrganizationsForStudySites() {
         OrganizationHavingStudySiteQuery query = new OrganizationHavingStudySiteQuery();
         return new ArrayList<Organization>((Collection<Organization>) genericRepository.find(query));

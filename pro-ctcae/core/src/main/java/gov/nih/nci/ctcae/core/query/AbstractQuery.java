@@ -5,38 +5,60 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class AbstractQuery.
+ * 
  * @author
  */
 public abstract class AbstractQuery implements Query {
 
+	/** The query string. */
 	private final String queryString;
 
+	/** The query buffer. */
 	private StringBuffer queryBuffer;
 
+	/** The and conditions. */
 	private final Set<String> andConditions = new HashSet<String>();
 
+	/** The or conditions. */
 	private final Set<String> orConditions = new HashSet<String>();
 
+	/** The joins. */
 	private final Set<String> joins = new HashSet<String>();
 
+	/** The query parameter map. */
 	private final Map<String, Object> queryParameterMap;
 
+	/** The Constant ID. */
 	public final static String ID = "OBJID";
 
+	/** The Constant WHERE. */
 	public final static String WHERE = "WHERE";
 
+	/** The Constant AND. */
 	public final static String AND = "AND";
 
+	/** The Constant OR. */
 	public final static String OR = "OR";
 
+	/** The maximum results. */
 	private Integer maximumResults = 30;
 
+	/**
+	 * Instantiates a new abstract query.
+	 * 
+	 * @param queryString the query string
+	 */
 	public AbstractQuery(final String queryString) {
 		this.queryString = queryString;
 		queryParameterMap = new HashMap<String, Object>(0);
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.ctcae.core.query.Query#getQueryString()
+	 */
 	public String getQueryString() {
 		String orderByString = "";
 		if (queryString.lastIndexOf("order by") > 0) {
@@ -94,7 +116,7 @@ public abstract class AbstractQuery implements Query {
 
 	/**
 	 * Bind an argument to a named parameter.
-	 *
+	 * 
 	 * @param key   the key of the parameter
 	 * @param value the value of the parameter
 	 */
@@ -109,13 +131,18 @@ public abstract class AbstractQuery implements Query {
 	 * andWhere("a.name=:name") will append queryString to "Select * from Article a WHERE
 	 * a.name=:name order by a.id"
 	 * </p>
-	 *
+	 * 
 	 * @param condition the condition
 	 */
 	protected void andWhere(final String condition) {
 		andConditions.add(condition);
 	}
 
+	/**
+	 * Gets the parameter map.
+	 * 
+	 * @return the parameter map
+	 */
 	public Map<String, Object> getParameterMap() {
 		return queryParameterMap;
 	}
@@ -123,8 +150,8 @@ public abstract class AbstractQuery implements Query {
 	/**
 	 * Joins an object to the query select * from Study s join s.identifiers as id where
 	 * s.shortTitle='study'
-	 *
-	 * @param join
+	 * 
+	 * @param objectQuery the object query
 	 */
 	protected void join(String objectQuery) {
 		addToJoinsSet(" join " + objectQuery);
@@ -134,29 +161,52 @@ public abstract class AbstractQuery implements Query {
 	/**
 	 * Joins an object to the query select * from Study s left join s.identifiers as id where
 	 * s.shortTitle='study'
-	 *
-	 * @param join
+	 * 
+	 * @param objectQuery the object query
 	 */
 	protected void leftJoin(String objectQuery) {
 		addToJoinsSet(" left join " + objectQuery);
 	}
 
+	/**
+	 * Inner join.
+	 * 
+	 * @param objectQuery the object query
+	 */
 	protected void innerJoin(String objectQuery) {
 		addToJoinsSet(" inner join " + objectQuery);
 	}
 
+	/**
+	 * Left join fetch.
+	 * 
+	 * @param objectQuery the object query
+	 */
 	protected void leftJoinFetch(String objectQuery) {
 		addToJoinsSet(" left join fetch " + objectQuery);
 	}
 
+	/**
+	 * Adds the to joins set.
+	 * 
+	 * @param object the object
+	 */
 	private void addToJoinsSet(String object) {
 		if (!joins.contains(object)) joins.add(object);
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.ctcae.core.query.Query#getMaximumResults()
+	 */
 	public Integer getMaximumResults() {
 		return maximumResults;
 	}
 
+	/**
+	 * Sets the maximum results.
+	 * 
+	 * @param maximumResults the new maximum results
+	 */
 	public void setMaximumResults(final Integer maximumResults) {
 		this.maximumResults = maximumResults;
 	}

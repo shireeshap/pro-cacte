@@ -2,10 +2,11 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 
 import java.lang.annotation.*;
 
+// TODO: Auto-generated Javadoc
 /**
  * Check that a String is not empty (not null and length > 0) or that a Collection (or
- * array or map) is not empty (not null and length > 0)
- *
+ * array or map) is not empty (not null and length > 0).
+ * 
  * @author Vinay Kumar
  * @crated Nov 8, 2008
  */
@@ -14,5 +15,11 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotEmpty {
+    
+    /**
+     * Message.
+     * 
+     * @return the string
+     */
     String message() default "Not empty";
 }

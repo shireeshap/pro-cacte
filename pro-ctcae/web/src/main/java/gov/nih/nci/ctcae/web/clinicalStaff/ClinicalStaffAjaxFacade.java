@@ -9,13 +9,29 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ClinicalStaffAjaxFacade.
+ * 
  * @author Mehul Gulati
- *         Date: Oct 22, 2008
+ * Date: Oct 22, 2008
  */
 public class ClinicalStaffAjaxFacade {
+    
+    /** The clinical staff repository. */
     private ClinicalStaffRepository clinicalStaffRepository;
 
+    /**
+     * Search clinical staff.
+     * 
+     * @param parameterMap the parameter map
+     * @param firstName the first name
+     * @param lastName the last name
+     * @param nciIdentifier the nci identifier
+     * @param request the request
+     * 
+     * @return the string
+     */
     public String searchClinicalStaff(Map parameterMap, String firstName, String lastName, String nciIdentifier, HttpServletRequest request) {
 
         List<ClinicalStaff> clinicalStaffs = getObjects(firstName, lastName, nciIdentifier);
@@ -26,6 +42,15 @@ public class ClinicalStaffAjaxFacade {
 
     }
 
+    /**
+     * Gets the objects.
+     * 
+     * @param firstName the first name
+     * @param lastName the last name
+     * @param nciIdentifier the nci identifier
+     * 
+     * @return the objects
+     */
     private List<ClinicalStaff> getObjects(String firstName, String lastName, String nciIdentifier) {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
 
@@ -42,6 +67,11 @@ public class ClinicalStaffAjaxFacade {
         return clinicalStaffs;
     }
 
+    /**
+     * Sets the clinical staff repository.
+     * 
+     * @param clinicalStaffRepository the new clinical staff repository
+     */
     @Required
     public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
         this.clinicalStaffRepository = clinicalStaffRepository;
