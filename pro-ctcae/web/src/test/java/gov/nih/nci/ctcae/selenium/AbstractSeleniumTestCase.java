@@ -16,6 +16,9 @@ import java.util.List;
  */
 public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
     protected DefaultSelenium selenium;
+    protected final String FATIGUE_FREQUENCY_QUESTION_TEXT = "how OFTEN did you have Fatigue ";
+    protected final String FATIGUE_SEVERE_QUESTION_TEXT = "what was the WORST SEVERITY of your Fatigue";
+    protected final String FATIGUE_INTERFERENCE_QUESTION_TEXT = " how much did Fatigue INTERFERE";
 
     protected SeleniumProperties seleniumProperties;
 
@@ -71,50 +74,50 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         String longTitle = study;
         String assignedIdentifier = study;
 
-    selenium.open("ctcae/pages/study/createStudy");
-    selenium.setSpeed("1000");
-    selenium.click("firstlevelnav_createStudyController");
-    selenium.waitForPageToLoad("30000");
-    selenium.type("study.assignedIdentifier", assignedIdentifier);
-    selenium.type("study.shortTitle", shortTitle);
-    selenium.type("study.longTitle", longTitle);
-    typeAutosuggest("study.studyCoordinatingCenter.organization-input", "h", "study.studyCoordinatingCenter.organization-choices");
-    typeAutosuggest("study.studyFundingSponsor.organization-input", "c", "study.studyFundingSponsor.organization-choices");
-    selenium.click("flow-next");
-    selenium.waitForPageToLoad("30000");
-    selenium.click("//input[@value='Add Study Site']");
-    typeAutosuggest("study.studySites[0].organization-input", "n", "study.studySites[0].organization-choices");
-    selenium.click("flow-next");
-    selenium.waitForPageToLoad("30000");
-    assertTrue(selenium.isTextPresent("Overview"));
-    assertTrue(selenium.isTextPresent(shortTitle));
-    selenium.click("flow-next");
-    selenium.waitForPageToLoad("30000");
-    assertTrue(selenium.isTextPresent("The Study was saved successfully"));
-    assertTrue(selenium.isTextPresent(shortTitle));
+        selenium.open("ctcae/pages/study/createStudy");
+        selenium.setSpeed("1000");
+        selenium.click("firstlevelnav_createStudyController");
+        selenium.waitForPageToLoad("30000");
+        selenium.type("study.assignedIdentifier", assignedIdentifier);
+        selenium.type("study.shortTitle", shortTitle);
+        selenium.type("study.longTitle", longTitle);
+        typeAutosuggest("study.studyCoordinatingCenter.organization-input", "h", "study.studyCoordinatingCenter.organization-choices");
+        typeAutosuggest("study.studyFundingSponsor.organization-input", "c", "study.studyFundingSponsor.organization-choices");
+        selenium.click("flow-next");
+        selenium.waitForPageToLoad("30000");
+        selenium.click("//input[@value='Add Study Site']");
+        typeAutosuggest("study.studySites[0].organization-input", "n", "study.studySites[0].organization-choices");
+        selenium.click("flow-next");
+        selenium.waitForPageToLoad("30000");
+        assertTrue(selenium.isTextPresent("Overview"));
+        assertTrue(selenium.isTextPresent(shortTitle));
+        selenium.click("flow-next");
+        selenium.waitForPageToLoad("30000");
+        assertTrue(selenium.isTextPresent("The Study was saved successfully"));
+        assertTrue(selenium.isTextPresent(shortTitle));
     }
 
     protected void createParticipant(String participant) throws InterruptedException {
-            String firstName = participant;
-            String lastName = participant;
+        String firstName = participant;
+        String lastName = participant;
         selenium.open("/ctcae/pages/participant/create");
         selenium.setSpeed("1000");
         selenium.click("secondlevelnav_createParticipantController");
-		selenium.waitForPageToLoad("30000");
-		selenium.select("siteId", "label=National Cancer Institute ( NCI )");
-		selenium.type("participant.firstName", firstName);
-		selenium.type("participant.lastName", lastName);
-		selenium.type("participant.assignedIdentifier", "NCI 1");
-		selenium.click("participant.birthDate");
-		selenium.type("participant.birthDate", "12/12/1981");
-		selenium.select("participant.gender", "label=Male");
-		selenium.select("participant.ethnicity", "label=Hispanic or Latino");
-		selenium.select("participant.race", "label=White");
-		selenium.click("studyId");
-		selenium.click("flow-next");
-		selenium.waitForPageToLoad("30000");
-		assertTrue(selenium.isTextPresent("Participant was saved successfully"));
-		assertTrue(selenium.isTextPresent(firstName));
+        selenium.waitForPageToLoad("30000");
+        selenium.select("siteId", "label=National Cancer Institute ( NCI )");
+        selenium.type("participant.firstName", firstName);
+        selenium.type("participant.lastName", lastName);
+        selenium.type("participant.assignedIdentifier", "NCI 1");
+        selenium.click("participant.birthDate");
+        selenium.type("participant.birthDate", "12/12/1981");
+        selenium.select("participant.gender", "label=Male");
+        selenium.select("participant.ethnicity", "label=Hispanic or Latino");
+        selenium.select("participant.race", "label=White");
+        selenium.click("studyId");
+        selenium.click("flow-next");
+        selenium.waitForPageToLoad("30000");
+        assertTrue(selenium.isTextPresent("Participant was saved successfully"));
+        assertTrue(selenium.isTextPresent(firstName));
 
     }
 

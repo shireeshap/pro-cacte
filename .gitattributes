@@ -869,7 +869,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/form/DeleteFormSeleniumTe
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/form/EditFormSeleniumTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/form/ManageFormSeleniumTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/form/ReleaseFormSeleniumTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/form/SymptomPerPageSeleniumTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/form/UniqueFormTitleSeleniumTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/form/VersionFormSeleniumTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/participant/CreateParticipantSeleniumTest.java -text
