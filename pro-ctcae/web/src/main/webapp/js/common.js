@@ -393,3 +393,16 @@ function addRemoveConditionalTriggeringDisplayToQuestion() {
     });
 
 }
+function reOrderQuestionNumber() {
+    var i = 0;
+    $$("div.sortableSpan").each(function (item) {
+        item.innerHTML = i + 1;
+        //			var orderNumberAtCrfItemPropertiesPage = $$("span.sortableSpan")[parseInt(item.id) - 1];
+        //			orderNumberAtCrfItemPropertiesPage.innerHTML = i + 1;
+        i = i + 1;
+
+
+    })
+
+
+}

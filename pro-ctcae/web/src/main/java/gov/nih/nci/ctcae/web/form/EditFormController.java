@@ -82,5 +82,10 @@ public class EditFormController extends FormController {
         return true;
     }
 
+    @Override
+    protected boolean shouldSave(HttpServletRequest request, Object command) {
+        return true;
 
+
+    }
 }

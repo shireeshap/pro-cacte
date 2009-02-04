@@ -17,6 +17,7 @@
     <script type="text/javascript">
         Event.observe(window, "load", function () {
             addRemoveConditionalTriggeringDisplayToQuestion();
+            reOrderQuestionNumber();
         })
 
     </script>
@@ -59,7 +60,7 @@
                     <tags:recallPeriodFormatter desc="${crfPage.instructions}"/>
                     <br>
 
-                    <c:forEach items="${crfPage.crfItemsSortedByDislayOrder}" var="crfPageItem">
+                    <c:forEach items="${crfPage.crfPageItems}" var="crfPageItem">
                         <tags:reviewCrfPageItem crfPageItem="${crfPageItem}" showInstructions="true"
                                                 displayOrder="${crfPageItem.displayOrder}"></tags:reviewCrfPageItem>
                     </c:forEach>

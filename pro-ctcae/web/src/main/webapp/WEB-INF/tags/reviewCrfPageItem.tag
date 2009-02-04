@@ -32,8 +32,8 @@
         <chrome:summary>
           <jsp:attribute name="content">
 
-              <span id="${displayOrder}"
-                    class="sortableSpan">${displayOrder}</span>
+              <div id="${displayOrder}"
+                    class="sortableSpan">${displayOrder}</div>
               <c:if test="${crfPageItem.responseRequired == true}">
                   <span class="required-indicator">*</span>
               </c:if>

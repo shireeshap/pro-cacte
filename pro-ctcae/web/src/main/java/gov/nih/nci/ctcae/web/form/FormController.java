@@ -133,12 +133,10 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
         CRF crf = createFormCommand.getCrf();
 
         ModelAndView defaultModelAndView = showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
-
-        if (!StringUtils.isBlank(request.getParameter("switchToAdvance"))) {
-            createFormCommand.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
-            return defaultModelAndView;
-        } else if (!StringUtils.isBlank(request.getParameter("showForm"))) {
-
+        if (!StringUtils.isBlank(request.getParameter("showForm"))) {
+            if (shouldSave(request, command)) {
+                save(createFormCommand);
+            }
             return defaultModelAndView;
         } else {
             if (!notEmptyValidator.validate(crf.getTitle())) {
@@ -159,6 +157,10 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
             return modelAndView;
         }
 
+    }
+
+    protected boolean shouldSave(HttpServletRequest request, Object command) {
+        return false;
     }
 
     /**
