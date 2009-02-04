@@ -1,6 +1,9 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ page import="org.springframework.security.ui.AbstractProcessingFilter" %>
+<%@ page import="org.springframework.security.ui.webapp.AuthenticationProcessingFilter" %>
+<%@ page import="org.springframework.security.AuthenticationException" %>
 
 <html>
 <head>
@@ -25,7 +28,16 @@
 </head>
 <body>
 <chrome:box title="Please log in" autopad="true">
-    <form method="POST" id="loginForm" action="<c:url value="/j_acegi_security_check"/>">
+
+    <c:if test="${not empty param.login_error}">
+        <font color="red">
+            Your login attempt was not successful, try again.<br/><br/>
+            Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
+        </font>
+    </c:if>
+
+
+    <form method="POST" id="loginForm" action="<c:url value="/j_spring_security_check"/>">
 
         <c:if test="${not empty param.login_error}">
             <p class="errors">Incorrect username and/or password. Please try again.</p>
@@ -37,7 +49,7 @@
             </div>
             <div class="value">
                 <input type="text" name="j_username"
-                       value="${sessionScope['ACEGI_SECURITY_LAST_USERNAME']}"
+                       value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}"
                         />
             </div>
         </div>
@@ -55,7 +67,7 @@
                 Remember me:
             </div>
             <div class="value">
-                <input type="checkbox" name="_acegi_security_remember_me"/>
+                <input type="checkbox" name="_spring_security_remember_me"/>
             </div>
         </div>
 
@@ -78,3 +90,5 @@
 
 </body>
 </html>
+
+

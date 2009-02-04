@@ -1,10 +1,10 @@
 package gov.nih.nci.ctcae.web.tag;
 
 
-import org.acegisecurity.Authentication;
-import org.acegisecurity.context.SecurityContextHolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContextHolder;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;

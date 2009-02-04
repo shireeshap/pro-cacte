@@ -62,8 +62,15 @@
                 />
 
 
-        <dependency org="org.acegisecurity" name="acegi-security" rev="1.0.3" transitive="false">
+        <dependency org="org.springframework.security" name="spring-security-taglibs" rev="2.0.4">
+            <artifact name="spring-security-taglibs" type="jar"/>
 
+        </dependency>
+        <dependency org="org.springframework.security" name="spring-security-core" rev="2.0.4">
+            <artifact name="spring-security-core" type="jar"/>
+        </dependency>
+        <dependency org="org.springframework.security" name="spring-security-acl" rev="2.0.4">
+            <artifact name="spring-security-acl" type="jar"/>
         </dependency>
 
 

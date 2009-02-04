@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="authz" uri="http://acegisecurity.org/authz" %>
+<%@ taglib prefix="authz" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
 
@@ -12,25 +12,24 @@
 
         <a href="/ctcae/pages/form/basicForm" id="logo">ProCtcAE</a>
 
-        <ctcae:authorize>
-            <!--<div id="welcome-user">Welcome<b/>-->
-            <authz:authentication operation="username"></authz:authentication>
-            <!--</div>-->
-        </ctcae:authorize>
 
-        <%--<div id="login-action">--%>
-        <%--<ctcae:publicAuthorize>--%>
-        <%--<a href="<c:url value="/public/login"/>">Log in</a>--%>
+        <div id="login-action">
 
+            <ctcae:authorize>
+                <div id="welcome-user">Welcome
+                    <authz:authentication property="name"></authz:authentication>
+                </div>
+            </ctcae:authorize>
 
-        <%--|&nbsp;<a href='<c:url value="/pages/signUp"/>'>Sign up</a>--%>
-        <%--</ctcae:publicAuthorize>--%>
+            <ctcae:publicAuthorize>
+                <a href="<c:url value="/public/login"/>">Log in</a>
 
-        <%--<ctcae:authorize>--%>
-        <%--&nbsp;<div id="logout"><a href="<c:url value="/j_acegi_logout"/>">Log out</a> </div>--%>
-        <%--|&nbsp;<a href='<c:url value="/pages/myProfile"/>'>My Profile</a>--%>
-        <%--</ctcae:authorize>--%>
-        <%--</div>--%>
+            </ctcae:publicAuthorize>
+
+            <ctcae:authorize>
+                &nbsp;<div id="logout"><a href="<c:url value="/j_spring_security_logout"/>">Log out</a> </div>
+            </ctcae:authorize>
+        </div>
 
 
         <ul id="sections" class="tabs">
