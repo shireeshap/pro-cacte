@@ -38,10 +38,7 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
         study = studyRepository.save(study);
         crf.setStudy(study);
 
-        crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
-        crf.addCrfPage();
-        crf.addCrfPage();
-
+     
         crf = crfRepository.save(crf);
     }
 

@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
 import org.apache.commons.logging.Log;
@@ -517,29 +516,6 @@ public class CRF extends BaseVersionable {
         return crfPages.size() - 1;
     }
 
-    /**
-     * Adds the or update crf item in crf page.
-     *
-     * @param crfPageNumber  the crf page number
-     * @param proCtcQuestion the pro ctc question
-     * @param displayOrder   the display order
-     */
-    public void addOrUpdateCrfItemInCrfPage(final int crfPageNumber, final ProCtcQuestion proCtcQuestion, final Integer displayOrder) {
-        CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
-
-        CRFPage anotherCrfPage = getCrfPageByPageNumber(crfPageNumber);
-
-        CrfPageItem existingCrfPageItem = null;
-        if (crfPage != null && !anotherCrfPage.equals(crfPage)) {
-            existingCrfPageItem = crfPage.removeExistingButDoNotAddNewCrfItem(proCtcQuestion);
-        }
-        if (existingCrfPageItem != null) {
-            anotherCrfPage.addOrUpdateCrfItem(existingCrfPageItem);
-        } else {
-            anotherCrfPage.addOrUpdateCrfItem(proCtcQuestion, displayOrder);
-        }
-
-    }
 
     /**
      * Gets the crf page by page number.
@@ -683,36 +659,6 @@ public class CRF extends BaseVersionable {
 
     }
 
-    /**
-     * Adds the crf page.
-     *
-     * @param proCtcQuestion the pro ctc question
-     * @return the cRF page
-     */
-    public CRFPage addCrfPage(final ProCtcQuestion proCtcQuestion) {
-        CRFPage crfPage = addCrfPage();
-        addOrUpdateCrfItemInCrfPage(getCrfPageNumber(), proCtcQuestion, 0);
-        return crfPage;
-
-    }
-
-    /**
-     * Adds the crf page.
-     *
-     * @return the cRF page
-     */
-    public CRFPage addCrfPage() {
-        if (getAdvance()) {
-            CRFPage crfPage = new CRFPage();
-            addCrfPage(crfPage);
-            return crfPage;
-
-        }
-        throw new CtcAeSystemException("You can not add new page in basic form creation mode.");
-
-
-    }
-
 
     /**
      * Adds the pro ctc term.
@@ -788,23 +734,22 @@ public class CRF extends BaseVersionable {
     }
 
     /**
-     * This is used when user deletes a crf page.
+     * This is used when user deletes a pro ctc question.
      *
-     * @param questionIds the question ids
+     * @param proCtcQuestion the proCtcQuestion to remove
      */
-    public void removeCrfPageItemByQuestionIds(Set<Integer> questionIds) {
-        for (Integer questionId : questionIds) {
-            CrfPageItem crfPageItem = getCrfPageItemByQuestion(questionId);
-            CRFPage crfPage = getCrfPageByQuestion(questionId);
-            if (crfPage != null) {
-                crfPage.removeCrfPageItem(crfPageItem);
-            } else {
-                logger.error("can not find crf page for the question:" + questionId);
-            }
-
+    public void removeCrfPageItemByQuestion(ProCtcQuestion proCtcQuestion) {
+        CrfPageItem crfPageItem = getCrfPageItemByQuestion(proCtcQuestion);
+        CRFPage crfPage = getCrfPageByQuestion(proCtcQuestion);
+        if (crfPage != null) {
+            crfPage.removeCrfPageItem(crfPageItem);
+        } else {
+            logger.error("can not find crf page for the question:" + proCtcQuestion);
         }
+        updateCrfPageItemDisplayRules(proCtcQuestion);
 
     }
+
 
     /**
      * Clear empty pages.
@@ -823,17 +768,6 @@ public class CRF extends BaseVersionable {
 
     }
 
-    /**
-     * Update display order of crf page items.
-     */
-    public void updateDisplayOrderOfCrfPageItems() {
-        int i = CrfPageItem.INITIAL_ORDER;
-        for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
-            crfPage.updateDisplayOrderOfCrfPageItems(i);
-            i = i + crfPage.getCrfPageItems().size();
-        }
-
-    }
 
     /**
      * Update crf page instructions.
@@ -844,4 +778,5 @@ public class CRF extends BaseVersionable {
         }
 
     }
+
 }

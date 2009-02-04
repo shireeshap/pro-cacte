@@ -1,12 +1,9 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
-import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Harsh Agarwal
@@ -205,7 +202,7 @@ public class CRFTest extends AbstractTestCase {
         anotherCrf.setDescription("Case Report Form for Cancer Patients");
 
         crf.setStatus(CrfStatus.DRAFT);
-        crf.addCrfPage();
+        crf.addProCtcTerm(constipation);
         crf.setCrfVersion("1.0");
         anotherCrf.setCrfVersion("1.0");
 
@@ -228,7 +225,7 @@ public class CRFTest extends AbstractTestCase {
         anotherCrf.setCrfVersion("1.0");
 
 //		anotherCrf.addOrUpdateCrfItemInCrfPage(new ProCtcQuestion(1), null);
-//		assertFalse(anotherCrf.getCrfItemsSortedByDislayOrder().isEmpty());
+//		assertFalse(anotherCrf.getCrfPageItems().isEmpty());
         assertEquals("must not consider study crf", anotherCrf.hashCode(), crf.hashCode());
         assertEquals(anotherCrf, crf);
 
@@ -281,10 +278,8 @@ public class CRFTest extends AbstractTestCase {
         assertEquals("must return 2 crf page items", 2, crfPage.getCrfPageItems().size());
 
         assertNotNull(crf.getCrfPageItemByQuestion(firstQuestion));
-        Set<Integer> questionIds = new HashSet<Integer>();
 
-        questionIds.add(firstQuestion.getId());
-        crf.removeCrfPageItemByQuestionIds(questionIds);
+        crf.removeCrfPageItemByQuestion(fifthQuestion);
 
         assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
 
@@ -294,21 +289,6 @@ public class CRFTest extends AbstractTestCase {
 
     }
 
-
-    public void testAddCrfPageAndAddQuestion() {
-        crf = new CRF();
-
-        crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
-        crf.addCrfPage(firstQuestion);
-
-        assertEquals("must return 1 crfPages", 1, crf.getCrfPagesSortedByPageNumber().size());
-
-        List<CrfPageItem> crfPageItems = crf.getAllCrfPageItems();
-        assertEquals("must be 1 crf page item only", 1, crfPageItems.size());
-        assertSame("must create the crf page item for specified question", firstQuestion, crfPageItems.get(0).getProCtcQuestion());
-
-
-    }
 
     public void testAddCrfPageAndAddProCtcTerm() {
         crf = new CRF();
@@ -344,31 +324,12 @@ public class CRFTest extends AbstractTestCase {
 //        CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(1);
 //        assertEquals("must create the crf page item for specified question", 2, crfPage.getCrfPageItems().size());
 //
-//        assertSame("must create the crf page item for specified question", firstQuestion, crfPage.getCrfItemsSortedByDislayOrder().get(0).getProCtcQuestion());
-//        assertSame("must create the crf page item for specified question", secondQuestion, crfPage.getCrfItemsSortedByDislayOrder().get(1).getProCtcQuestion());
+//        assertSame("must create the crf page item for specified question", firstQuestion, crfPage.getCrfPageItems().get(0).getProCtcQuestion());
+//        assertSame("must create the crf page item for specified question", secondQuestion, crfPage.getCrfPageItems().get(1).getProCtcQuestion());
 //
 //
 //    }
 
-    public void testAddCrfPageWithQuestionMustRemoveQuestionsFormOtherCrfPagesAlso() {
-        crf = new CRF();
-
-        crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
-        crf.addCrfPage(firstQuestion);
-        crf.addCrfPage(firstQuestion);
-
-        assertEquals("must return 2 crfPages", 2, crf.getCrfPagesSortedByPageNumber().size());
-
-        List<CrfPageItem> crfPageItems = crf.getAllCrfPageItems();
-
-        assertEquals("must be 1 crf page item only", 1, crfPageItems.size());
-        assertEquals("must be remove crf page item if same question is added to another page", 0, crf.getCrfPagesSortedByPageNumber().get(0).getCrfPageItems().size());
-        assertEquals("must create the crf page item for specified question", 1, crf.getCrfPagesSortedByPageNumber().get(1).getCrfPageItems().size());
-
-        assertSame("must create the crf page item for specified question", firstQuestion, crfPageItems.get(0).getProCtcQuestion());
-
-
-    }
 
     @Override
     protected void tearDown() throws Exception {
@@ -377,18 +338,6 @@ public class CRFTest extends AbstractTestCase {
 
     }
 
-    public void testAddAnotherPageInBasicFormMode() {
-        crf = new CRF();
-        crf.setCrfCreationMode(CrfCreationMode.BASIC);
-
-        try {
-            crf.addCrfPage();
-            fail("You can not add new page in basic form creation mode.");
-        } catch (CtcAeSystemException e) {
-
-        }
-
-    }
 
     protected void setUp() throws Exception {
         super.setUp();

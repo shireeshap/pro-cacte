@@ -1,14 +1,11 @@
-<%@ attribute name="index" required="true" %>
-
 <%@ attribute name="crfPageItem" type="gov.nih.nci.ctcae.core.domain.CrfPageItem" required="true" %>
 <%@ attribute name="crfPageNumber" required="true" %>
 
-<%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="noform" tagdir="/WEB-INF/tags/noform" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
+<c:set var="index" value="${crfPageItem.displayOrder}"/>
 <div id="questionPropertiesDiv_${crfPageItem.proCtcQuestion.id}">
     <div id="questionProperties_${crfPageItem.proCtcQuestion.id}" style="display:none;"
          class="questionProperties leftBox">

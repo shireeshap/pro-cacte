@@ -11,7 +11,7 @@
 <c:forEach items="${crfPageItems}" var="selectedCrfPageItem">
     <div id="crfPageNumberToUpdate_${selectedCrfPageItem.crfPage.pageNumber}" style="display:none;"
          class="crfPageItemsToAdd">
-        <tags:oneCrfPageItem crfPageItem="${selectedCrfPageItem}" index="${selectedCrfPageItem.displayOrder}"
+        <tags:oneCrfPageItem crfPageItem="${selectedCrfPageItem}"
                              crfPageNumber="${selectedCrfPageItem.crfPage.pageNumber}"
                              advance="${advance}"></tags:oneCrfPageItem>
     </div>

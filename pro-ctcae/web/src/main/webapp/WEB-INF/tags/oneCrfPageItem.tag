@@ -1,4 +1,3 @@
-<%@ attribute name="index" required="true" %>
 <%@ attribute name="advance" type="java.lang.Boolean" required="true" %>
 
 <%@ attribute name="crfPageItem" type="gov.nih.nci.ctcae.core.domain.CrfPageItem" required="true" %>
@@ -61,6 +60,6 @@
         </tr>
     </table>
 
-    <tags:oneCrfPageItemProperties crfPageItem="${crfPageItem}" crfPageNumber="${crfPageNumber}"
-                                   index="${index}"></tags:oneCrfPageItemProperties>
+    <tags:oneCrfPageItemProperties crfPageItem="${crfPageItem}" crfPageNumber="${crfPageNumber}"/>
+
 </div>

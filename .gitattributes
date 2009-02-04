@@ -288,8 +288,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.j
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AbstractCrfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddConditionalQuestionController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddCrfComponentController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddCrfPageItemController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AdvanceFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AllConditionsController.java -text
@@ -900,10 +898,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditorTest.ja
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddConditionalQuestionControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddCrfComponentControllerTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageControllerTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddOneCrfPageItemControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantControllerTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AdvanceFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AllConditionsControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/BasicFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CRFLinkDisplayCellTest.java -text

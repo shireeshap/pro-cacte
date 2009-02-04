@@ -63,7 +63,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
         crfPageItem.setInstructions("instructions");
         crfPageItem.setResponseRequired(Boolean.TRUE);
 
-        crfPage.addCrfItem(crfPageItem);
+        crfPage.addCrfPageItem(crfPageItem);
         crf.addCrfPage(crfPage);
 
         Collection<ProCtcValidValue> proCtcValidValues = proProCtcTerm.getProCtcQuestions().iterator().next().getValidValues();
@@ -97,7 +97,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
         crf.setStudy(study);
 
         crf = crfRepository.save(crf);
-        crfPageItem = crfPage.getCrfItemsSortedByDislayOrder().iterator().next();
+        crfPageItem = crfPage.getCrfPageItems().iterator().next();
 
         assertNotNull(crfPageItem.getId());
         assertEquals(CrfItemAllignment.HORIZONTAL, crfPageItem.getCrfItemAllignment());
@@ -110,7 +110,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
     public void testAddCrfPageItemDisplayRuleInCreateCrfItem() {
 
         crf = saveCrfItemWithDisplayRule();
-        crfPageItem = crfPage.getCrfItemsSortedByDislayOrder().iterator().next();
+        crfPageItem = crfPage.getCrfPageItems().iterator().next();
 
         CrfPageItemDisplayRule savedCrfPageItemDisplayRule = crfPageItem.getCrfPageItemDisplayRules().iterator().next();
         assertNotNull(savedCrfPageItemDisplayRule.getId());
@@ -121,12 +121,12 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
     public void testAddCrfPageItemDisplayRuleInEditCrfItem() {
 
         crf = saveCrfItemWithDisplayRule();
-        crfPageItem = crfPage.getCrfItemsSortedByDislayOrder().iterator().next();
+        crfPageItem = crfPage.getCrfPageItems().iterator().next();
         assertNotNull(crfPageItem.getId());
 
         assertTrue("must add another display rules", crfPageItem.addCrfPageItemDisplayRules(anotherCrfPageItemDisplayRule));
         crf = crfRepository.save(crf);
-        crfPageItem = crfPage.getCrfItemsSortedByDislayOrder().iterator().next();
+        crfPageItem = crfPage.getCrfPageItems().iterator().next();
         assertFalse("must save crf item display rule", crfPageItem.getCrfPageItemDisplayRules().isEmpty());
         assertEquals(Integer.valueOf(2), Integer.valueOf(crfPageItem.getCrfPageItemDisplayRules().size()));
         for (CrfPageItemDisplayRule savedCrfPageItemDisplayRule : crfPageItem.getCrfPageItemDisplayRules()) {
@@ -141,7 +141,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 
 
         crf = saveCrfItemWithDisplayRule();
-        crfPageItem = crfPage.getCrfItemsSortedByDislayOrder().iterator().next();
+        crfPageItem = crfPage.getCrfPageItems().iterator().next();
 
         assertNotNull(crfPageItem.getId());
         Integer id = crfPageItem.getCrfPageItemDisplayRules().iterator().next().getProCtcValidValue().getId();
@@ -149,7 +149,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 
         crfPageItem.removeCrfPageItemDisplayRulesByProCtcValidValueIds(String.valueOf(id));
         crf = crfRepository.save(crf);
-        crfPageItem = crfPage.getCrfItemsSortedByDislayOrder().iterator().next();
+        crfPageItem = crfPage.getCrfPageItems().iterator().next();
         assertNotNull(crfPageItem.getId());
         assertTrue("must remove crf item display rule", crfPageItem.getCrfPageItemDisplayRules().isEmpty());
 
@@ -159,7 +159,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 
     public void testSavingNullCrfItem() {
         invalidCrfPageItem = new CrfPageItem();
-        crfPage.addCrfItem(invalidCrfPageItem);
+        crfPage.addCrfPageItem(invalidCrfPageItem);
         crf.addCrfPage(crfPage);
         try {
             crfRepository.save(crf);
@@ -174,7 +174,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
         try {
             invalidCrfPageItem.setCrfPage(crfPage);
             invalidCrfPageItem.setDisplayOrder(1);
-            crfPage.addCrfItem(invalidCrfPageItem);
+            crfPage.addCrfPageItem(invalidCrfPageItem);
             crf.addCrfPage(crfPage);
             crfRepository.save(crf);
             fail("Expected DataIntegrityViolationException because ProCtcQuestion is null");
@@ -188,7 +188,7 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
             invalidCrfPageItem.setCrfPage(crfPage);
             invalidCrfPageItem.setDisplayOrder(null);
             invalidCrfPageItem.setProCtcQuestion(proCtcQuestion);
-            crfPage.addCrfItem(invalidCrfPageItem);
+            crfPage.addCrfPageItem(invalidCrfPageItem);
             crf.addCrfPage(crfPage);
 
             crfRepository.save(crf);

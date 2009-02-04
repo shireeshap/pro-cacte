@@ -1,10 +1,7 @@
 package gov.nih.nci.ctcae.core;
 
 import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.CRFPage;
-import gov.nih.nci.ctcae.core.domain.CrfPageItem;
-import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.easymock.classextension.EasyMock;
@@ -19,7 +16,10 @@ public abstract class AbstractTestCase extends CoreTestCase {
 
     protected Organization nci, duke;
 
+    protected ProCtcQuestion proCtcQuestion1, proCtcQuestion2, proCtcQuestion3, proCtcQuestion4, proCtcQuestion5, proCtcQuestion6, proCtcQuestion7, proCtcQuestion8;
+
     protected Log logger = LogFactory.getLog(getClass());
+    protected ProCtcTerm proCtcTerm1, proCtcTerm2, proCtcTerm3;
 
     @Override
     protected void setUp() throws Exception {
@@ -30,6 +30,55 @@ public abstract class AbstractTestCase extends CoreTestCase {
         nci = Fixture.createOrganization("National Cancer Institute", "NCI");
         duke = Fixture.createOrganization("DUKE", "DUKE");
 
+        proCtcTerm1 = new ProCtcTerm();
+        proCtcTerm1.setTerm("Fatigue");
+
+        proCtcTerm2 = new ProCtcTerm();
+        proCtcTerm2.setTerm("Pain");
+
+        proCtcTerm3 = new ProCtcTerm();
+        proCtcTerm3.setTerm("Cough");
+
+        proCtcQuestion1 = new ProCtcQuestion();
+        proCtcQuestion1.setQuestionText("first question");
+        proCtcQuestion1.setId(1);
+
+        proCtcQuestion2 = new ProCtcQuestion();
+        proCtcQuestion2.setQuestionText("second question");
+        proCtcQuestion2.setId(2);
+
+        proCtcQuestion3 = new ProCtcQuestion();
+        proCtcQuestion3.setQuestionText("third question");
+        proCtcQuestion3.setId(3);
+
+        proCtcQuestion4 = new ProCtcQuestion();
+        proCtcQuestion4.setQuestionText("fourth question");
+        proCtcQuestion4.setId(4);
+
+        proCtcQuestion5 = new ProCtcQuestion();
+        proCtcQuestion5.setQuestionText("fifth question");
+        proCtcQuestion5.setId(5);
+
+        proCtcQuestion6 = new ProCtcQuestion();
+        proCtcQuestion6.setQuestionText("6th question");
+        proCtcQuestion6.setId(6);
+
+        proCtcQuestion7 = new ProCtcQuestion();
+        proCtcQuestion7.setQuestionText("seventh question");
+        proCtcQuestion7.setId(7);
+
+        proCtcQuestion8 = new ProCtcQuestion();
+        proCtcQuestion8.setQuestionText("8th question");
+        proCtcQuestion8.setId(8);
+
+        proCtcTerm1.addProCtcQuestion(proCtcQuestion1);
+        proCtcTerm1.addProCtcQuestion(proCtcQuestion2);
+        proCtcTerm2.addProCtcQuestion(proCtcQuestion3);
+        proCtcTerm2.addProCtcQuestion(proCtcQuestion4);
+        proCtcTerm3.addProCtcQuestion(proCtcQuestion5);
+        proCtcTerm3.addProCtcQuestion(proCtcQuestion6);
+        proCtcTerm3.addProCtcQuestion(proCtcQuestion7);
+        proCtcTerm3.addProCtcQuestion(proCtcQuestion8);
 
     }
 
@@ -83,14 +132,12 @@ public abstract class AbstractTestCase extends CoreTestCase {
 
     private void validateCrfPageItemDisplayOrder(final CRF crf) {
 
-        int j = CrfPageItem.INITIAL_ORDER;
         for (CRFPage crfPage : crf.getCrfPagesSortedByPageNumber()) {
 
-            for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
-                assertEquals("must preserve order no", Integer.valueOf(i + j), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
+            for (int i = 0; i < crfPage.getCrfPageItems().size(); i++) {
+                assertEquals("must preserve order no", Integer.valueOf(i + CrfPageItem.INITIAL_ORDER), crfPage.getCrfPageItems().get(i).getDisplayOrder());
 
             }
-            j = j + crfPage.getCrfPageItems().size();
         }
     }
 

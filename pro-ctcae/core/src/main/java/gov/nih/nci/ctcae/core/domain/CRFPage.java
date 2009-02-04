@@ -7,7 +7,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 //
 /**
@@ -60,7 +62,7 @@ public class CRFPage extends BaseVersionable {
      */
     @OneToMany(mappedBy = "crfPage", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<CrfPageItem> crfPageItems = new ArrayList<CrfPageItem>();
+    private List<CrfPageItem> crfPageItems = new LinkedList<CrfPageItem>();
 
 
     /**
@@ -149,19 +151,6 @@ public class CRFPage extends BaseVersionable {
 
 
     /**
-     * Gets the crf items sorted by dislay order.
-     *
-     * @return the crf items sorted by dislay order
-     */
-    public List<CrfPageItem> getCrfItemsSortedByDislayOrder() {
-
-        List<CrfPageItem> sortedCrfPageItems = new ArrayList<CrfPageItem>(crfPageItems);
-
-        Collections.sort(sortedCrfPageItems, new DisplayOrderComparator());
-        return sortedCrfPageItems;
-    }
-
-    /**
      * Gets the crf page items.
      *
      * @return the crf page items
@@ -178,13 +167,19 @@ public class CRFPage extends BaseVersionable {
      */
     public void removeCrfPageItem(CrfPageItem crfPageItem) {
         if (crfPageItem != null) {
-            crfPageItems.remove(crfPageItem);
-            updateDisplayOrderOfCrfPageItems(CrfPageItem.INITIAL_ORDER);
+            this.crfPageItems.remove(crfPageItem);
+
+            //now reorder the crf page items
+            List<CrfPageItem> crfPageItems = getCrfPageItems();
+            for (int i = 0; i < crfPageItems.size(); i++) {
+                CrfPageItem anotherCrfPageItem = crfPageItems.get(i);
+                anotherCrfPageItem.setDisplayOrder(i + CrfPageItem.INITIAL_ORDER);
+            }
         }
     }
 
 
-//	@Override
+//	@Override ///not required because two crf page will be different only if there ids are different
 //	public boolean equals(final Object o) {
 //		if (this == o) return true;
 //		if (o == null || getClass() != o.getClass()) return false;
@@ -202,116 +197,6 @@ public class CRFPage extends BaseVersionable {
 //		return result;
 //	}
 
-
-    /**
-     * this is required to update the crf item properties on right side of the create form.
-     *
-     * @param proCtcQuestion the pro ctc question
-     * @param displayOrder   the display order
-     */
-    public void addOrUpdateCrfItem(final ProCtcQuestion proCtcQuestion, final Integer displayOrder) {
-
-        //check if it already exists
-        for (CrfPageItem existingCrfPageItem : getCrfItemsSortedByDislayOrder()) {
-            if (existingCrfPageItem.getProCtcQuestion() != null && (existingCrfPageItem.getProCtcQuestion().equals(proCtcQuestion))) {
-                //probably we are updating order only
-
-                existingCrfPageItem.setDisplayOrder(displayOrder);
-
-                return;
-            }
-        }
-        CrfPageItem crfPageItem = new CrfPageItem();
-        crfPageItem.setProCtcQuestion(proCtcQuestion);
-        crfPageItem.setDisplayOrder(displayOrder);
-
-        updateOrderNumber(crfPageItem);
-        crfPageItem.setCrfPage(this);
-        crfPageItems.add(crfPageItem);
-
-    }
-
-    /**
-     * this is required to move crf page item from one crf page to another crf page.
-     *
-     * @param crfPageItem the crf page item
-     */
-    public void addOrUpdateCrfItem(final CrfPageItem crfPageItem) {
-        if (crfPageItem != null) {
-            //check if it already exists..if yes remove it
-            for (CrfPageItem existingCrfPageItem : getCrfItemsSortedByDislayOrder()) {
-                if (existingCrfPageItem.getProCtcQuestion() != null
-                        && (existingCrfPageItem.getProCtcQuestion().equals(crfPageItem.getProCtcQuestion()))) {
-                    removeCrfPageItem(crfPageItem);
-                }
-            }
-        }
-
-        updateOrderNumber(crfPageItem);
-        crfPageItem.setCrfPage(this);
-        crfPageItems.add(crfPageItem);
-        updateDisplayOrderOfCrfPageItems(CrfPageItem.INITIAL_ORDER);
-
-    }
-
-    /**
-     * used for adding a new crf items with empty properties..this is required to add questions from left side of the create form
-     *
-     * @param proCtcQuestion the pro ctc question
-     * @return the crf page item
-     */
-    public CrfPageItem removeExistingAndAddNewCrfItem(final ProCtcQuestion proCtcQuestion) {
-        if (proCtcQuestion != null) {
-
-            CrfPageItem crfPageItem = new CrfPageItem();
-            crfPageItem.setProCtcQuestion(proCtcQuestion);
-
-            //check if it already exists
-            CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(crfPageItem.getProCtcQuestion());
-            if (existingCrfPageItem != null) {
-                //we are updating order only  and removing properties
-                existingCrfPageItem.resetAllPropertiesToDefault();
-                existingCrfPageItem.setDisplayOrder(getCrfItemsSortedByDislayOrder().size());
-
-                return existingCrfPageItem;
-            }
-
-            updateOrderNumber(crfPageItem);
-            crfPageItem.setCrfPage(this);
-            crfPageItems.add(crfPageItem);
-
-            return crfPageItem;
-        }
-        logger.error("can not add crf page item because question is null");
-        return null;
-
-    }
-
-    /**
-     * used while reordering the crf page item between crf pages  or removing crf page item mannualy.
-     *
-     * @param proCtcQuestion the pro ctc question
-     * @return the crf page item
-     */
-    public CrfPageItem removeExistingButDoNotAddNewCrfItem(final ProCtcQuestion proCtcQuestion) {
-        CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(proCtcQuestion);
-        removeCrfPageItem(existingCrfPageItem);
-        return existingCrfPageItem;
-
-    }
-
-    /**
-     * Update order number.
-     *
-     * @param crfPageItem the crf page item
-     */
-    private void updateOrderNumber(final CrfPageItem crfPageItem) {
-        if (crfPageItem.getDisplayOrder() == null || crfPageItem.getDisplayOrder() == 0) {
-            crfPageItem.setDisplayOrder(getCrfPageItems().size() + 1);
-
-        }
-
-    }
 
     /**
      * Gets the crf page item by question.
@@ -358,9 +243,10 @@ public class CRFPage extends BaseVersionable {
      *
      * @param crfPageItem the crf page item
      */
-    public void addCrfItem(CrfPageItem crfPageItem) {
+    public void addCrfPageItem(CrfPageItem crfPageItem) {
         if (crfPageItem != null) {
             crfPageItem.setCrfPage(this);
+            crfPageItem.setDisplayOrder(getCrfPageItems().size());
             crfPageItems.add(crfPageItem);
         }
     }
@@ -376,34 +262,12 @@ public class CRFPage extends BaseVersionable {
         CRFPage copiedCrfPage = new CRFPage();
         copiedCrfPage.setDescription(description);
         for (CrfPageItem crfPageItem : crfPageItems) {
-            copiedCrfPage.addCrfItem(crfPageItem.getCopy());
+            copiedCrfPage.addCrfPageItem(crfPageItem.getCopy());
         }
 
         return copiedCrfPage;
     }
 
-
-    /**
-     * Removes the existing and add new crf item.
-     *
-     * @param proCtcTerm the pro ctc term
-     * @return the list< crf page item>
-     */
-    public List<CrfPageItem> removeExistingAndAddNewCrfItem(final ProCtcTerm proCtcTerm) {
-        if (proCtcTerm != null) {
-            List<ProCtcQuestion> questions = new ArrayList<ProCtcQuestion>(proCtcTerm.getProCtcQuestions());
-            List<CrfPageItem> addedCrfPageItems = new ArrayList<CrfPageItem>();
-            for (int i = 0; i < questions.size(); i++) {
-                ProCtcQuestion proCtcQuestion = questions.get(i);
-                CrfPageItem crfPageItem = removeExistingAndAddNewCrfItem(proCtcQuestion);
-                addedCrfPageItems.add(crfPageItem);
-            }
-            return addedCrfPageItems;
-        }
-        logger.error("can not add proCtcTerm because pro ctc term is null");
-
-        return null;
-    }
 
     /**
      * Adds the pro ctc term.
@@ -417,12 +281,18 @@ public class CRFPage extends BaseVersionable {
             List<CrfPageItem> addedCrfPageItems = new ArrayList<CrfPageItem>();
             for (int i = 0; i < questions.size(); i++) {
                 ProCtcQuestion proCtcQuestion = questions.get(i);
-                CrfPageItem crfPageItem = addProCtcQuestion(proCtcQuestion);
-                if (crfPageItem != null) {
+                CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(proCtcQuestion);
+
+                if (existingCrfPageItem == null) {
+                    CrfPageItem crfPageItem = new CrfPageItem(proCtcQuestion);
+                    addCrfPageItem(crfPageItem);
                     addedCrfPageItems.add(crfPageItem);
+                } else {
+                    logger.debug("question has already been added." + proCtcQuestion.toString());
                 }
+
+
             }
-            updateDisplayOrderOfCrfPageItems(CrfPageItem.INITIAL_ORDER);
             return addedCrfPageItems;
         }
         logger.error("can not add proCtcTerm because pro ctc term is null");
@@ -440,71 +310,6 @@ public class CRFPage extends BaseVersionable {
         }
     }
 
-    /**
-     * Adds the pro ctc question.
-     *
-     * @param proCtcQuestion the pro ctc question
-     * @return the crf page item
-     */
-    public CrfPageItem addProCtcQuestion(final ProCtcQuestion proCtcQuestion) {
-        if (proCtcQuestion != null) {
-
-
-            //check if it already exists
-            CrfPageItem existingCrfPageItem = getCrfPageItemByQuestion(proCtcQuestion);
-
-            if (existingCrfPageItem != null) {
-                return null;
-            }
-
-            CrfPageItem crfPageItem = new CrfPageItem(proCtcQuestion);
-
-            updateOrderNumber(crfPageItem);
-            crfPageItem.setCrfPage(this);
-            crfPageItems.add(crfPageItem);
-
-            return crfPageItem;
-        }
-        logger.error("can not add crf page item because question is null");
-        return null;
-
-    }
-
-    /**
-     * Removes the extra crf items in crf page.
-     *
-     * @param questionsToKeep the questions to keep
-     */
-    public void removeExtraCrfItemsInCrfPage(final List<Integer> questionsToKeep) {
-        Set<Integer> questionIdSet = new HashSet<Integer>(questionsToKeep);
-        List<CrfPageItem> crfPageItemsToRemove = new ArrayList<CrfPageItem>();
-
-        for (CrfPageItem crfPageItem : getCrfPageItems()) {
-            if (!questionIdSet.contains(crfPageItem.getProCtcQuestion().getId())) {
-                crfPageItemsToRemove.add(crfPageItem);
-            }
-        }
-
-
-        for (CrfPageItem crfPageItem : crfPageItemsToRemove) {
-            removeCrfPageItem(crfPageItem);
-        }
-
-    }
-
-    /**
-     * Update display order of crf page items.
-     *
-     * @param initialOrder the initial order
-     */
-    public void updateDisplayOrderOfCrfPageItems(Integer initialOrder) {
-        List<CrfPageItem> itemsSortedByDislayOrder = getCrfItemsSortedByDislayOrder();
-        for (int i = 0; i < itemsSortedByDislayOrder.size(); i++) {
-            CrfPageItem crfPageItem = itemsSortedByDislayOrder.get(i);
-            crfPageItem.setDisplayOrder(i + initialOrder);
-        }
-
-    }
 
     /**
      * Check if pro ctc term exists.

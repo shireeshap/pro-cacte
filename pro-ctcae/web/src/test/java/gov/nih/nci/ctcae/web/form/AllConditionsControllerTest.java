@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,7 +17,6 @@ public class AllConditionsControllerTest extends WebTestCase {
     private AllConditionsController controller;
 
     private CreateFormCommand command;
-    private ProCtcQuestion proCtcQuestion;
     String questionsIds;
 
     @Override
@@ -25,11 +24,8 @@ public class AllConditionsControllerTest extends WebTestCase {
         super.setUp();
         controller = new AllConditionsController();
         command = new CreateFormCommand();
-        command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
 
-        proCtcQuestion = new ProCtcQuestion();
-        proCtcQuestion.setId(1);
-        command.getCrf().addCrfPage(proCtcQuestion);
+        command.getCrf().addProCtcTerm(proCtcTerm1);
     }
 
     public void testSupportedMethod() {
@@ -40,7 +36,7 @@ public class AllConditionsControllerTest extends WebTestCase {
     public void testHandleRequest() throws Exception {
         request.getSession().setAttribute(FormController.class.getName() + ".FORM." + "command", command);
 
-        request.addParameter("questionsIds", new String[]{"1,2"});
+        request.addParameter("questionsIds", new String[]{"1,-11,-12"});
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();

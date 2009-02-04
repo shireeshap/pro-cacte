@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.CrfPageItem;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
@@ -20,7 +22,6 @@ public class RemoveConditionsControllerTest extends WebTestCase {
 
     private CreateFormCommand command;
     protected FinderRepository finderRepository;
-    private ProCtcQuestion proCtcQuestion;
     private ProCtcValidValue proCtcValidValue1;
     private ProCtcValidValue proCtcValidValue2;
     private ProCtcValidValue proCtcValidValue;
@@ -37,16 +38,14 @@ public class RemoveConditionsControllerTest extends WebTestCase {
         controller.setProCtcQuestionRepository(proCtcQuestionRepository);
 
 
-        proCtcQuestion = new ProCtcQuestion();
         proCtcValidValue1 = new ProCtcValidValue();
         proCtcValidValue1.setValue("value1");
         proCtcValidValue1.setId(3);
         proCtcValidValue2 = new ProCtcValidValue();
         proCtcValidValue2.setValue("value2");
         proCtcValidValue2.setId(4);
-        command.getCrf().setCrfCreationMode(CrfCreationMode.ADVANCE);
 
-        command.getCrf().addCrfPage(proCtcQuestion);
+        command.addProCtcTerm(proCtcTerm1);
 
         proCtcValidValue = new ProCtcValidValue();
         proCtcValidValue.setValue("value0");
@@ -65,7 +64,7 @@ public class RemoveConditionsControllerTest extends WebTestCase {
 
     public void testHandleRequestForRemovingConditionsOnAQuestion() throws Exception {
         CRF crf = command.getCrf();
-        CrfPageItem crfPageItem = crf.getCrfPageItemByQuestion(proCtcQuestion);
+        CrfPageItem crfPageItem = crf.getCrfPageItemByQuestion(proCtcQuestion1);
         crfPageItem.addCrfPageItemDisplayRules(proCtcValidValues);
         assertEquals("must add 2 rules", 2, crfPageItem.getCrfPageItemDisplayRules().size());
 
@@ -73,7 +72,7 @@ public class RemoveConditionsControllerTest extends WebTestCase {
 
         request.addParameter("questionId", new String[]{"1"});
         request.addParameter("proCtcValidValueId", new String[]{"1,6,4"});
-        expect(proCtcQuestionRepository.findById(1)).andReturn(proCtcQuestion);
+        expect(proCtcQuestionRepository.findById(1)).andReturn(proCtcQuestion1);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();
@@ -81,7 +80,7 @@ public class RemoveConditionsControllerTest extends WebTestCase {
         CreateFormCommand createFormCommand = ControllersUtils.getFormCommand(request);
 
         crf = createFormCommand.getCrf();
-        crfPageItem = crf.getCrfPageItemByQuestion(proCtcQuestion);
+        crfPageItem = crf.getCrfPageItemByQuestion(proCtcQuestion1);
         assertNotNull("crf page item must not be null", crfPageItem);
         assertFalse("must remove 1 rule", crfPageItem.getCrfPageItemDisplayRules().isEmpty());
         assertEquals("must have 1 rule only because 1 rule has been removed", 1, crfPageItem.getCrfPageItemDisplayRules().size());

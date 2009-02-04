@@ -1,107 +1,90 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import junit.framework.TestCase;
+import gov.nih.nci.ctcae.core.AbstractTestCase;
 
 /**
  * @author Vinay Kumar
  * @created Dec 29, 2008
  */
-public class CRFPageTest extends TestCase {
-	private CRFPage crfPage;
-	private ProCtcQuestion proCtcQuestion1;
-	private ProCtcQuestion proCtcQuestion2, proCtcQuestion3, proCtcQuestion4;
+public class CRFPageTest extends AbstractTestCase {
+    private CRFPage crfPage;
+    private ProCtcQuestion proCtcQuestion1;
+    private ProCtcQuestion proCtcQuestion2, proCtcQuestion3, proCtcQuestion4;
 
-	private ProCtcTerm constipation, diarrhea;
+    private ProCtcTerm constipation, diarrhea;
 
 
-	public void testConstructor() {
-		crfPage = new CRFPage();
-		assertNull(crfPage.getDescription());
-		assertEquals(Integer.valueOf(0), crfPage.getVersion());
-	}
+    public void testConstructor() {
+        crfPage = new CRFPage();
+        assertNull(crfPage.getDescription());
+        assertEquals(Integer.valueOf(0), crfPage.getVersion());
+    }
 
-	public void testGetterAndSetter() {
-		crfPage = new CRFPage();
-		crfPage.setDescription("Case Report Form for Cancer Patients");
-		crfPage.setId(2);
+    public void testGetterAndSetter() {
+        crfPage = new CRFPage();
+        crfPage.setDescription("Case Report Form for Cancer Patients");
+        crfPage.setId(2);
 
-		assertEquals("Case Report Form for Cancer Patients", crfPage.getDescription());
-		assertEquals(Integer.valueOf(2), crfPage.getId());
-	}
+        assertEquals("Case Report Form for Cancer Patients", crfPage.getDescription());
+        assertEquals(Integer.valueOf(2), crfPage.getId());
+    }
 
-	public void testGetCrfItems() {
-		crfPage = new CRFPage();
-		crfPage.addOrUpdateCrfItem(proCtcQuestion1, 1);
-		crfPage.addOrUpdateCrfItem(proCtcQuestion2, 2);
-		assertEquals("must return 2 items", 2, crfPage.getCrfItemsSortedByDislayOrder().size());
-		for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertNotNull("order number must not be null", crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
+    public void testGetCrfItems() {
+        crfPage = new CRFPage();
+        crfPage.addProCtcTerm(constipation);
+        assertEquals("must return 2 items", 2, crfPage.getCrfPageItems().size());
+        validateCrfPage();
+    }
 
-		}
-	}
+    public void testAddNewCrfItems() {
+        crfPage = new CRFPage();
+        crfPage.addProCtcTerm(constipation);
+        assertEquals("must return 2 items", 2, crfPage.getCrfPageItems().size());
+        validateCrfPage();
+    }
 
-	public void testAddNewCrfItems() {
-		crfPage = new CRFPage();
-		crfPage.removeExistingAndAddNewCrfItem(proCtcQuestion1);
-		crfPage.removeExistingAndAddNewCrfItem(proCtcQuestion2);
-		assertEquals("must return 2 items", 2, crfPage.getCrfItemsSortedByDislayOrder().size());
-		for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertNotNull("order number must not be null", crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
+    public void testAddNewCrfItemsMustNotAddQuestionAgain() {
+        crfPage.addProCtcTerm(constipation);
+        crfPage.addProCtcTerm(constipation);
+        assertEquals("must return 2 items", constipation.getProCtcQuestions().size(), crfPage.getCrfPageItems().size());
+        validateCrfPage();
+    }
 
-		}
-	}
+    public void testAddNewProCtcTerm() {
+        crfPage.addProCtcTerm(constipation);
+        assertEquals("must return 2 items", 2, crfPage.getCrfPageItems().size());
+        validateCrfPage();
+    }
 
-	public void testAddNewCrfItemsMustNotAddQuestionAgain() {
-		crfPage.removeExistingAndAddNewCrfItem(proCtcQuestion1);
-		crfPage.removeExistingAndAddNewCrfItem(proCtcQuestion1);
-		assertEquals("must return 1 items", 1, crfPage.getCrfItemsSortedByDislayOrder().size());
-		for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertNotNull("order number must not be null", crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
+    public void testAddMultipleProCtcTerm() {
+        crfPage.addProCtcTerm(constipation);
+        crfPage.addProCtcTerm(diarrhea);
+        assertEquals("must return 4 items", 4, crfPage.getCrfPageItems().size());
+        validateCrfPage();
+    }
 
-		}
-	}
+    private void validateCrfPage() {
+        validateCrfPageAndCrfPageItemOrder(crfPage.getCrf());
+    }
 
-	public void testAddNewProCtcTerm() {
-		crfPage.removeExistingAndAddNewCrfItem(constipation);
-		assertEquals("must return 2 items", 2, crfPage.getCrfItemsSortedByDislayOrder().size());
-		for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertNotNull("order number must not be null", crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-
-		}
-	}
-
-	public void testAddMultipleProCtcTerm() {
-		crfPage.removeExistingAndAddNewCrfItem(constipation);
-		crfPage.removeExistingAndAddNewCrfItem(diarrhea);
-		assertEquals("must return 4 items", 4, crfPage.getCrfItemsSortedByDislayOrder().size());
-		for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertNotNull("order number must not be null", crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-
-		}
-	}
-
-	public void testReorderCrfItems() {
-		crfPage.addOrUpdateCrfItem(proCtcQuestion1, 1);
-		crfPage.addOrUpdateCrfItem(proCtcQuestion2, 2);
-		assertEquals("must return 2 items", 2, crfPage.getCrfItemsSortedByDislayOrder().size());
-		for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertEquals("must preserve order no", Integer.valueOf(i + 1), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-
-		}
-
-		crfPage.getCrfItemsSortedByDislayOrder().get(0).setDisplayOrder(1);
-		crfPage.getCrfItemsSortedByDislayOrder().get(1).setDisplayOrder(0);
-		for (int i = 0; i < crfPage.getCrfItemsSortedByDislayOrder().size(); i++) {
-			assertEquals("must preserve order no", Integer.valueOf(i), crfPage.getCrfItemsSortedByDislayOrder().get(i).getDisplayOrder());
-
-		}
-
-	}
+    //required only for advance form because you can not reorder crf page item in basic form mode
+//	public void testReorderCrfItems() {
+//		crfPage.addOrUpdateCrfPageItem(proCtcQuestion1, 1);
+//		crfPage.addOrUpdateCrfPageItem(proCtcQuestion2, 2);
+//		assertEquals("must return 2 items", 2, crfPage.getCrfPageItems().size());
+//		for (int i = 0; i < crfPage.getCrfPageItems().size(); i++) {
+//			assertEquals("must preserve order no", Integer.valueOf(i + 1), crfPage.getCrfPageItems().get(i).getDisplayOrder());
+//
+//		}
+//
+//		crfPage.getCrfPageItems().get(0).setDisplayOrder(1);
+//		crfPage.getCrfPageItems().get(1).setDisplayOrder(0);
+//		for (int i = 0; i < crfPage.getCrfPageItems().size(); i++) {
+//			assertEquals("must preserve order no", Integer.valueOf(i), crfPage.getCrfPageItems().get(i).getDisplayOrder());
+//
+//		}
+//
+//	}
 
 //	public void testEqualsAndHashCode() {
 //		CRFPage anotherCrfPage = null;
@@ -142,33 +125,33 @@ public class CRFPageTest extends TestCase {
 //		anotherCrfPage.setDescription("Case Report Form for Cancer Patients");
 //
 //
-//		anotherCrfPage.addOrUpdateCrfItem(new ProCtcQuestion(1), null);
-//		assertFalse(anotherCrfPage.getCrfItemsSortedByDislayOrder().isEmpty());
+//		anotherCrfPage.addOrUpdateCrfPageItem(new ProCtcQuestion(1), null);
+//		assertFalse(anotherCrfPage.getCrfPageItems().isEmpty());
 //		assertEquals("must not consider study crf", anotherCrfPage.hashCode(), crfPage.hashCode());
 //		assertEquals(anotherCrfPage, crfPage);
 //
 //	}
 
-	protected void setUp() throws Exception {
-		super.setUp();
+    protected void setUp() throws Exception {
+        super.setUp();
 
-		crfPage = new CRFPage();
+        crfPage = new CRFPage();
 
-		proCtcQuestion1 = new ProCtcQuestion();
-		proCtcQuestion1.setQuestionText("first question");
-		proCtcQuestion2 = new ProCtcQuestion();
-		proCtcQuestion2.setQuestionText("second question");
-		proCtcQuestion3 = new ProCtcQuestion();
-		proCtcQuestion3.setQuestionText("third question");
-		proCtcQuestion4 = new ProCtcQuestion();
-		proCtcQuestion4.setQuestionText("fourth question");
+        proCtcQuestion1 = new ProCtcQuestion();
+        proCtcQuestion1.setQuestionText("first question");
+        proCtcQuestion2 = new ProCtcQuestion();
+        proCtcQuestion2.setQuestionText("second question");
+        proCtcQuestion3 = new ProCtcQuestion();
+        proCtcQuestion3.setQuestionText("third question");
+        proCtcQuestion4 = new ProCtcQuestion();
+        proCtcQuestion4.setQuestionText("fourth question");
 
-		constipation = new ProCtcTerm();
-		constipation.getProCtcQuestions().add(proCtcQuestion1);
-		constipation.getProCtcQuestions().add(proCtcQuestion2);
+        constipation = new ProCtcTerm();
+        constipation.getProCtcQuestions().add(proCtcQuestion1);
+        constipation.getProCtcQuestions().add(proCtcQuestion2);
 
-		diarrhea = new ProCtcTerm();
-		diarrhea.getProCtcQuestions().add(proCtcQuestion3);
-		diarrhea.getProCtcQuestions().add(proCtcQuestion4);
-	}
+        diarrhea = new ProCtcTerm();
+        diarrhea.getProCtcQuestions().add(proCtcQuestion3);
+        diarrhea.getProCtcQuestions().add(proCtcQuestion4);
+    }
 }

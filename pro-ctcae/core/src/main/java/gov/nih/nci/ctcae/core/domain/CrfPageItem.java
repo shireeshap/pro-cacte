@@ -26,9 +26,9 @@ import java.util.Set;
 public class CrfPageItem extends BasePersistable {
 
     /**
-     * The Constant INITIAL_ORDER.
+     * The Constant INITIAL_ORDER. This must be 0 only otherwise index at ui will not work
      */
-    public static final Integer INITIAL_ORDER = 1;
+    public static final Integer INITIAL_ORDER = 0;
 
     /**
      * The id.
@@ -42,7 +42,7 @@ public class CrfPageItem extends BasePersistable {
      * The display order.
      */
     @Column(name = "display_order", nullable = false)
-    private Integer displayOrder = 0;
+    private Integer displayOrder = INITIAL_ORDER;
 
     /**
      * The crf page.

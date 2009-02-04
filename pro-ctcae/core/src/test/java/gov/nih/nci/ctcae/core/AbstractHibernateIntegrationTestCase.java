@@ -52,7 +52,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
             ProCtcTerm proCtcTerm = new ProCtcTerm();
             proCtcTerm.setCtcTerm(finderRepository.findById(CtcTerm.class, 3141));
             proCtcTerm.setProCtc(finderRepository.findById(ProCtc.class, 1));
-            proCtcTerm.setTerm("Constipation");
+            proCtcTerm.setTerm("Anxiety");
 
             ProCtcQuestion proCtcQuestion = new ProCtcQuestion();
             proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.SEVERITY);

@@ -27,7 +27,6 @@ public class SubmitFormCommandTest extends WebTestCase {
     List<ProCtcQuestion> questions = new ArrayList<ProCtcQuestion>();
     private CRF crf, newCrf;
     private Study study;
-    private ProCtcQuestion proCtcQuestion1, proCtcQuestion2, proCtcQuestion3, proCtcQuestion4, proCtcQuestion5, proCtcQuestion6, proCtcQuestion7, proCtcQuestion8;
     private StudyParticipantAssignment studyParticipantAssignment;
     private StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion1, studyParticipantCrfAddedQuestion2, studyParticipantCrfAddedQuestion3;
 
@@ -40,14 +39,6 @@ public class SubmitFormCommandTest extends WebTestCase {
         command.setFinderRepository(finderRepository);
         command.setGenericRepository(genericRepository);
 
-        ProCtcTerm proCtcTerm1 = new ProCtcTerm();
-        proCtcTerm1.setTerm("Fatigue");
-
-        ProCtcTerm proCtcTerm2 = new ProCtcTerm();
-        proCtcTerm2.setTerm("Pain");
-
-        ProCtcTerm proCtcTerm3 = new ProCtcTerm();
-        proCtcTerm3.setTerm("Cough");
 
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         studyParticipantCrfSchedule.setId(1);
@@ -58,36 +49,25 @@ public class SubmitFormCommandTest extends WebTestCase {
         proCtcValidValue1.setId(-10);
         crfPageItemDisplayRule.setProCtcValidValue(proCtcValidValue1);
         item1.addCrfPageItemDisplayRules(crfPageItemDisplayRule);
-        proCtcQuestion1 = new ProCtcQuestion();
-        proCtcQuestion1.setProCtcTerm(proCtcTerm1);
-        proCtcQuestion1.setProCtcQuestionType(ProCtcQuestionType.SEVERITY);
         item1.setProCtcQuestion(proCtcQuestion1);
         item1.setDisplayOrder(1);
 
 
         CrfPageItem item2 = new CrfPageItem();
         item2.setId(2);
-        proCtcQuestion2 = new ProCtcQuestion();
-        proCtcQuestion2.setProCtcTerm(proCtcTerm1);
-        proCtcQuestion2.setProCtcQuestionType(ProCtcQuestionType.INTERFERENCE);
         item2.setProCtcQuestion(proCtcQuestion2);
         item2.setDisplayOrder(2);
 
         CrfPageItem item3 = new CrfPageItem();
         item3.setId(3);
-        proCtcQuestion3 = new ProCtcQuestion();
-        proCtcQuestion3.setProCtcTerm(proCtcTerm2);
-        proCtcQuestion3.setProCtcQuestionType(ProCtcQuestionType.SEVERITY);
         item3.setProCtcQuestion(proCtcQuestion3);
         item3.setDisplayOrder(3);
 
         CrfPageItem item4 = new CrfPageItem();
         item4.setId(4);
-        proCtcQuestion4 = new ProCtcQuestion();
-        proCtcQuestion4.setProCtcTerm(proCtcTerm2);
-        proCtcQuestion4.setProCtcQuestionType(ProCtcQuestionType.INTERFERENCE);
         item4.setProCtcQuestion(proCtcQuestion4);
         item4.setDisplayOrder(4);
+
 
         StudyParticipantCrfItem studyParticipantCrfItem1 = new StudyParticipantCrfItem();
         studyParticipantCrfItem1.setCrfPageItem(item1);
@@ -110,24 +90,7 @@ public class SubmitFormCommandTest extends WebTestCase {
         studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem3);
         studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem4);
 
-        proCtcQuestion5 = new ProCtcQuestion();
-        proCtcQuestion6 = new ProCtcQuestion();
-        proCtcQuestion7 = new ProCtcQuestion();
-        proCtcQuestion8 = new ProCtcQuestion();
 
-        proCtcQuestion1.setId(1);
-        proCtcQuestion2.setId(2);
-        proCtcQuestion3.setId(3);
-        proCtcQuestion4.setId(4);
-
-        proCtcQuestion5.setId(5);
-        proCtcQuestion5.setProCtcTerm(proCtcTerm3);
-        proCtcQuestion6.setId(6);
-        proCtcQuestion6.setProCtcTerm(proCtcTerm3);
-        proCtcQuestion7.setId(7);
-        proCtcQuestion7.setProCtcTerm(proCtcTerm3);
-        proCtcQuestion8.setId(8);
-        proCtcQuestion8.setProCtcTerm(proCtcTerm3);
 
         questions.add(proCtcQuestion1);
         questions.add(proCtcQuestion2);
@@ -139,13 +102,12 @@ public class SubmitFormCommandTest extends WebTestCase {
         questions.add(proCtcQuestion8);
         command.setProCtcQuestions(questions);
 
+
+
         crf = Fixture.createCrf();
         crf.setId(1);
         crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
-        crf.addCrfPage(proCtcQuestion1);
-        crf.addCrfPage(proCtcQuestion2);
-        crf.addCrfPage(proCtcQuestion3);
-        crf.addCrfPage(proCtcQuestion4);
+
 
         study = Fixture.createStudyWithStudySite("short", "long", "assigned", Fixture.createOrganization("test", "test"));
 
@@ -180,7 +142,6 @@ public class SubmitFormCommandTest extends WebTestCase {
         newCrf.setStatus(CrfStatus.RELEASED);
         newCrf.setEffectiveStartDate(new Date());
         newCrf.setCrfCreationMode(CrfCreationMode.ADVANCE);
-        newCrf.addCrfPage(proCtcQuestion1);
 
         newCrf.setStudy(study);
         StudyParticipantCrf newStudyParticipantCrf = new StudyParticipantCrf();

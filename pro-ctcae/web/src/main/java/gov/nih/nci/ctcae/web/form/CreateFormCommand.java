@@ -1,14 +1,17 @@
 package gov.nih.nci.ctcae.web.form;
 
+import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 //
 /**
@@ -35,10 +38,6 @@ public class CreateFormCommand implements Serializable {
      */
     private String questionsIds;
 
-    /**
-     * The number of questions in each page.
-     */
-    private String numberOfQuestionsInEachPage;
 
     /**
      * The crf page numbers.
@@ -48,12 +47,12 @@ public class CreateFormCommand implements Serializable {
     /**
      * The crf page numbers to remove.
      */
-    private String crfPageNumbersToRemove = "";
+    private String crfPageNumberToRemove = "";
 
     /**
      * The question ids to remove.
      */
-    private String questionIdsToRemove = "";
+    private String questionIdToRemove = "";
 
 
     /**
@@ -85,19 +84,15 @@ public class CreateFormCommand implements Serializable {
      */
     public void updateCrfItems(ProCtcQuestionRepository proCtcQuestionRepository) {
 
-        if (getCrf().getAdvance()) {
-            addOrUpdateQuestions(proCtcQuestionRepository);
-        }
-
 
         removeQuestions(proCtcQuestionRepository);
 
-        if (!org.apache.commons.lang.StringUtils.isBlank(crfPageNumbersToRemove)) {
-            crf.removeCrfPageByPageNumber(Integer.valueOf(crfPageNumbersToRemove));
+        if (!org.apache.commons.lang.StringUtils.isBlank(crfPageNumberToRemove)) {
+            crf.removeCrfPageByPageNumber(Integer.valueOf(crfPageNumberToRemove));
         }
 
-        setQuestionIdsToRemove("");
-        setCrfPageNumbersToRemove("");
+        setQuestionIdToRemove("");
+        setCrfPageNumberToRemove("");
 
         String[] crfPageNumberArray = StringUtils.commaDelimitedListToStringArray(crfPageNumbers);
 
@@ -121,7 +116,6 @@ public class CreateFormCommand implements Serializable {
 
         crf.updatePageNumberOfCrfPages();
         crf.updateCrfPageInstructions();
-        crf.updateDisplayOrderOfCrfPageItems();
 
 
     }
@@ -132,74 +126,13 @@ public class CreateFormCommand implements Serializable {
      * @param proCtcQuestionRepository the pro ctc question repository
      */
     private void removeQuestions(ProCtcQuestionRepository proCtcQuestionRepository) {
-        String[] questionIdsToRemoveArrays = StringUtils.commaDelimitedListToStringArray(questionIdsToRemove);
-        Set<Integer> questionIds = new HashSet<Integer>();
-        for (String questionId : questionIdsToRemoveArrays) {
-            if (!org.apache.commons.lang.StringUtils.isBlank(questionId)) {
-                questionIds.add(Integer.valueOf(questionId));
-            }
+
+        if (!org.apache.commons.lang.StringUtils.isBlank(questionIdToRemove)) {
+            ProCtcQuestion proCtcQuestion = proCtcQuestionRepository.findById(Integer.valueOf(questionIdToRemove));
+            crf.removeCrfPageItemByQuestion(proCtcQuestion);
+        } else {
+            logger.debug("no question to remove as value ofquestionIdToRemove is either empty or null:" + questionIdToRemove);
         }
-        crf.removeCrfPageItemByQuestionIds(questionIds);
-        for (Integer questionId : questionIds) {
-            ProCtcQuestion proCtcQuestion = proCtcQuestionRepository.findById(questionId);
-            crf.updateCrfPageItemDisplayRules(proCtcQuestion);
-        }
-    }
-
-    /**
-     * Adds the or update questions.
-     *
-     * @param proCtcQuestionRepository the pro ctc question repository
-     */
-    private void addOrUpdateQuestions(final ProCtcQuestionRepository proCtcQuestionRepository) {
-
-
-        String[] questionIdsArrays = StringUtils.commaDelimitedListToStringArray(questionsIds);
-        String[] numberOfQuestionInEachPageArray = StringUtils.commaDelimitedListToStringArray(numberOfQuestionsInEachPage);
-        String[] crfPageNumberArray = StringUtils.commaDelimitedListToStringArray(crfPageNumbers);
-
-        logger.debug("number of questions each page:" + numberOfQuestionsInEachPage);
-        int k = 0;
-
-        Map<Integer, List<Integer>> questionsToKeepMap = new HashMap<Integer, List<Integer>>();
-
-        for (int j = 0; j < numberOfQuestionInEachPageArray.length; j++) {
-            String questionsInEachPage = numberOfQuestionInEachPageArray[j];
-
-            List<Integer> questionsToKeep = new LinkedList<Integer>();
-            int displayOrder = CrfPageItem.INITIAL_ORDER;
-
-            for (int i = k; i < k + Integer.valueOf(questionsInEachPage); i++) {
-                Integer questionId = Integer.parseInt(questionIdsArrays[i]);
-                ProCtcQuestion proCtcQuestion = proCtcQuestionRepository.findById(questionId);
-                if (proCtcQuestion != null) {
-                    crf.addOrUpdateCrfItemInCrfPage(Integer.valueOf(crfPageNumberArray[j]), proCtcQuestion, displayOrder);
-                    questionsToKeep.add(questionId);
-                    displayOrder++;
-                } else {
-                    logger.error("can not add question because pro ctc question is null for id:" + questionId);
-                }
-
-            }
-            questionsToKeepMap.put(Integer.valueOf(crfPageNumberArray[j]), questionsToKeep);
-            k = k + Integer.valueOf(questionsInEachPage);
-
-        }
-
-        for (Integer index : questionsToKeepMap.keySet()) {
-            CRFPage crfPage = crf.getCrfPagesSortedByPageNumber().get(index);
-            //now delete the extra questions
-            crfPage.removeExtraCrfItemsInCrfPage(questionsToKeepMap.get(index));
-
-        }
-
-        //now remove the pages;
-        String[] crfPageNumberArrayToRemove = StringUtils.commaDelimitedListToStringArray(crfPageNumbersToRemove);
-        for (String crfPageNumberToRemove : crfPageNumberArrayToRemove) {
-            getCrf().removeCrfPageByPageNumber(Integer.valueOf(crfPageNumberToRemove));
-        }
-
-
     }
 
 
@@ -241,32 +174,6 @@ public class CreateFormCommand implements Serializable {
         this.questionsIds = questionsIds;
     }
 
-    /**
-     * Gets the number of questions in each page.
-     *
-     * @return the number of questions in each page
-     */
-    public String getNumberOfQuestionsInEachPage() {
-        return numberOfQuestionsInEachPage;
-    }
-
-    /**
-     * Sets the number of questions in each page.
-     *
-     * @param numberOfQuestionsInEachPage the new number of questions in each page
-     */
-    public void setNumberOfQuestionsInEachPage(final String numberOfQuestionsInEachPage) {
-        this.numberOfQuestionsInEachPage = numberOfQuestionsInEachPage;
-    }
-
-    /**
-     * Adds the crf page.
-     *
-     * @return the cRF page
-     */
-    public CRFPage addCrfPage() {
-        return crf.addCrfPage();
-    }
 
     /**
      * Gets the crf page numbers.
@@ -276,6 +183,7 @@ public class CreateFormCommand implements Serializable {
     public String getCrfPageNumbers() {
         return crfPageNumbers;
     }
+
 
     /**
      * Sets the crf page numbers.
@@ -291,35 +199,19 @@ public class CreateFormCommand implements Serializable {
      *
      * @return the crf page numbers to remove
      */
-    public String getCrfPageNumbersToRemove() {
-        return crfPageNumbersToRemove;
+    public String getCrfPageNumberToRemove() {
+        return crfPageNumberToRemove;
     }
 
     /**
      * Sets the crf page numbers to remove.
      *
-     * @param crfPageNumbersToRemove the new crf page numbers to remove
+     * @param crfPageNumberToRemove the new crf page numbers to remove
      */
-    public void setCrfPageNumbersToRemove(final String crfPageNumbersToRemove) {
-        this.crfPageNumbersToRemove = crfPageNumbersToRemove;
+    public void setCrfPageNumberToRemove(final String crfPageNumberToRemove) {
+        this.crfPageNumberToRemove = crfPageNumberToRemove;
     }
 
-
-    /**
-     * Adds the crf page.
-     *
-     * @param proCtcQuestion the pro ctc question
-     * @return the cRF page
-     */
-    public CRFPage addCrfPage(ProCtcQuestion proCtcQuestion) {
-        if (getCrf().getAdvance()) {
-            CRFPage crfPage = crf.addCrfPage(proCtcQuestion);
-            return crfPage;
-        }
-        throw new CtcAeSystemException("You can not add individual questions in basic form creation mode.");
-
-
-    }
 
     /**
      * Adds the pro ctc term.
@@ -348,16 +240,44 @@ public class CreateFormCommand implements Serializable {
      *
      * @return the question ids to remove
      */
-    public String getQuestionIdsToRemove() {
-        return questionIdsToRemove;
+
+    public String getQuestionIdToRemove() {
+        return questionIdToRemove;
     }
 
     /**
      * Sets the question ids to remove.
      *
-     * @param questionIdsToRemove the new question ids to remove
+     * @param questionIdToRemove the new question ids to remove
      */
-    public void setQuestionIdsToRemove(String questionIdsToRemove) {
-        this.questionIdsToRemove = questionIdsToRemove;
+    public void setQuestionIdToRemove(String questionIdToRemove) {
+        this.questionIdToRemove = questionIdToRemove;
     }
+
+
+    /**
+     * Returns the selected pro ctc terms
+     *
+     * @return
+     */
+    public List<Integer> getSelectedProCtcTerms() {
+        List<CrfPageItem> crfPageItems = getCrf().getAllCrfPageItems();
+        Map<ProCtcTerm, List<CrfPageItem>> proCtcTermAndCrfPageItemMap = new HashMap<ProCtcTerm, List<CrfPageItem>>();
+
+        for (CrfPageItem crfPageItem : crfPageItems) {
+            CollectionUtils.putInMappedList(proCtcTermAndCrfPageItemMap, crfPageItem.getProCtcQuestion().getProCtcTerm(), crfPageItem);
+
+        }
+
+        List<Integer> selectedProCtcTerms = new ArrayList<Integer>();
+
+        for (ProCtcTerm proCtcTerm : proCtcTermAndCrfPageItemMap.keySet()) {
+            if (Integer.valueOf(proCtcTermAndCrfPageItemMap.get(proCtcTerm).size()).equals(proCtcTerm.getProCtcQuestions().size())) {
+                selectedProCtcTerms.add(proCtcTerm.getId());
+            }
+        }
+        return selectedProCtcTerms;
+    }
+
+
 }

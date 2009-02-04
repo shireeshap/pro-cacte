@@ -29,7 +29,8 @@
         <c:set var="crfPageTitle" value="${empty crfPage.description ?'Optional page title':crfPage.description}"/>
 
 
-        <span id="crf.crfPagesSortedByPageNumber[${crfPageNumber}].description-property" class="crfPageTitle">${crfPageTitle}</span>
+        <span id="crf.crfPagesSortedByPageNumber[${crfPageNumber}].description-property"
+              class="crfPageTitle">${crfPageTitle}</span>
 
         <input id="crf.crfPagesSortedByPageNumber[${crfPageNumber}].description" type="hidden" size="30"
                value="${crfPage.description}"
@@ -55,10 +56,9 @@
     <div id="sortablePage_${crfPageNumber}">
         <div class="sortable makeDraggable" id="dummySortable_${crfPageNumber}"></div>
 
-        <c:forEach items="${crfPage.crfItemsSortedByDislayOrder}" var="selectedCrfPageItem"
-                   varStatus="status">
-            <tags:oneCrfPageItem crfPageItem="${selectedCrfPageItem}"
-                                 index="${status.index}" crfPageNumber="${crfPageNumber}" advance="${advance}"/>
+        <c:forEach items="${crfPage.crfPageItems}" var="selectedCrfPageItem">
+            <tags:oneCrfPageItem crfPageItem="${selectedCrfPageItem}" crfPageNumber="${crfPageNumber}"
+                                 advance="${advance}"/>
 
         </c:forEach>
     </div>

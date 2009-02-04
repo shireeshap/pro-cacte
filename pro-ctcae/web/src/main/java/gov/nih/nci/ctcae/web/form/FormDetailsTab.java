@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.CtcCategory;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
@@ -71,16 +72,23 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
 
 
         map.put("ctcCategoryMap", result);
-        //map.put("totalQuestions", command.getCRF().getCrf().getCrfItemsSortedByDislayOrder().size());
+        //map.put("totalQuestions", command.getCRF().getCrf().getCrfPageItems().size());
         map.put("responseRequired", ListValues.getResponseRequired());
         map.put("crfItemAllignments", ListValues.getCrfItemAllignments());
         map.put("recallPeriods", ListValues.getRecallPeriods());
-        map.put("selectedCrfPageItems", command.getCrf().getAllCrfPageItems());
+
+        List<CrfPageItem> crfPageItems = command.getCrf().getAllCrfPageItems();
+        map.put("selectedCrfPageItems", crfPageItems);
+
+        List<Integer> selectedProCtcTerms = command.getSelectedProCtcTerms();
+        map.put("selectedProCtcTerms", selectedProCtcTerms);
+
 
         return map;
 
 
     }
+
 
 
     /**
