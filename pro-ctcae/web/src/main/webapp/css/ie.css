@@ -27,15 +27,14 @@ div.row {
 .formbuildersubHeader {
 	position:relative;
 }
+button.ctcae-button {
+	padding:8px 0;
+}
 a.ctcae-button .right {
-	background-color:white;
-background-image:url(/ctcae/images/blue_btn_bg.png);
-background-position:right center;
-background-repeat:no-repeat;
-display:block;
-height:40px;
-position:absolute;
-right:0px;
-top:1px;
-width:3px;
+	right:0px;
+	top:1px;
+}
+button.ctcae-button .right {
+	right:0px;
+	top:0px;
 }

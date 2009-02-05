@@ -45,7 +45,7 @@
     </a>
 </c:if>
 <c:if test="${type=='button'}">
-    <button class="ctcae-button ${cssClass}"
+    <button class="ctcae-button ${cssClass}" type="submit"
         <c:if test="${href}">
             href="${href}"
         </c:if>

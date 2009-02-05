@@ -645,10 +645,10 @@ pro-ctcae/web/src/main/webapp/images/blue/header_bg.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/html_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/assignController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/assignParticipantController_icon.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/basicFormController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/captureAdverseEventController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/configurationController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createClinicalStaffController_icon.png -text
-pro-ctcae/web/src/main/webapp/images/blue/icons/createFormController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createINDController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createInvestigatorController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createNotificationController_icon.png -text
@@ -825,6 +825,7 @@ pro-ctcae/web/src/main/webapp/images/table/xls.gif -text
 pro-ctcae/web/src/main/webapp/images/window_icon.png -text
 pro-ctcae/web/src/main/webapp/index.jsp -text
 pro-ctcae/web/src/main/webapp/js/D2H_ctxt.js -text
+pro-ctcae/web/src/main/webapp/js/button-pseudoclass-IE-hack.htc -text
 pro-ctcae/web/src/main/webapp/js/calendar.js -text
 pro-ctcae/web/src/main/webapp/js/calendar/calendar-setup.js -text
 pro-ctcae/web/src/main/webapp/js/calendar/calendar.js -text

@@ -1,5 +1,6 @@
 <!-- BEGIN tags\tabControls.tag -->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%-- must specify either tab & flow or tabNumber and isLast --%>
 <%@attribute name="tab" type="gov.nih.nci.cabig.ctms.web.tabs.Tab" %>
 <%@attribute name="flow" type="gov.nih.nci.cabig.ctms.web.tabs.Flow" %>
@@ -17,27 +18,30 @@
     <div class="flow-buttons">
         <span class="prev">
             <c:if test="${tabNumber > 0}">
-                <input type="image" src="<c:url value="/images/blue/${willSave ? 'save' : ''}back_btn.png"/>"
+                <%--<input type="image" src="<c:url value="/images/blue/${willSave ? 'save' : ''}back_btn.png"/>"
                        id="flow-prev" class="tab${tabNumber - 1}" value="&laquo; ${willSave ? 'save' : ''}back"
-                       alt="&laquo; ${willSave ? 'Save &amp; ' : ''}Back"/>
+                       alt="&laquo; ${willSave ? 'Save &amp; ' : ''}Back"/>--%>
+					   <tags:button type="button" id="flow-prev" cssClass="tab${tabNumber - 1}" value="${willSave ? 'Save &amp; ' : ''}Back" icon="${willSave ? 'Save &amp; ' : ''}Back"/>
             </c:if>
         </span>
         <span class="next">
 
             <c:if test="${not isLast  and willSave}">
-                <input type="image" src="<c:url value="/images/blue/save_btn.png"/>" id="flow-update"
-                       class="tab${tabNumber}" value="Save" alt="Save"/>
+                <%--<input type="image" src="<c:url value="/images/blue/save_btn.png"/>" id="flow-update"
+                       class="tab${tabNumber}" value="Save" alt="Save"/>--%>
+					   <tags:button type="button" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="save" />
             </c:if>
-			<c:set var="saveText" value="save"/>
+			<c:set var="saveText" value="Save"/>
             <c:set var="continueLabel" value="${isLast || willSave ? saveText : ''}"/>
             <c:if test="${not empty continueLabel && not isLast}">
-                <c:set var="continueLabel" value="${continueLabel}"/>
+                <c:set var="continueLabel" value="${continueLabel} &amp; "/>
             </c:if>
             <c:if test="${not isLast}">
-                <c:set var="continueLabel" value="${continueLabel}continue"/>
+                <c:set var="continueLabel" value="${continueLabel}Continue"/>
             </c:if>
-            <input type="image" src="<c:url value="/images/blue/${continueLabel}_btn.png"/>" id="flow-next"
-                   value="${continueLabel} &raquo;" alt="${continueLabel} &raquo;"/>
+			<tags:button type="button" id="flow-next" value="${continueLabel}" icon="${continueLabel}" />
+            <%--<input type="image" src="<c:url value="/images/blue/${continueLabel}_btn.png"/>" id="flow-next"
+                   value="${continueLabel} &raquo;" alt="${continueLabel} &raquo;"/>--%>
         </span>
     </div>
 </div>
