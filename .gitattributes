@@ -127,7 +127,15 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermReposit
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantAssignmentRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/AbstractAuthorizationProvider.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/AclEntry.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectAuthorizationStrategy.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentity.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentityImpl.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentityRetrievalStrategy.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentityRetrievalStrategyImpl.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/UserDetails.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialect.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategy.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/AbstractValidator.java -text
@@ -147,6 +155,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/Valida
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/ValidatorClass.java -text
 pro-ctcae/core/src/main/resources/META-INF/log4j.properties -text
 pro-ctcae/core/src/main/resources/ehcache.xml -text
+pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core-security.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-datasource.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-jms.xml -text
