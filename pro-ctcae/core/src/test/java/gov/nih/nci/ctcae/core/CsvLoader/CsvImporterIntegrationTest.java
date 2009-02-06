@@ -1,4 +1,4 @@
-package gov.nih.nci.ctcae.core.CsvLoader;
+package gov.nih.nci.ctcae.core.csvloader;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.csv.loader.CsvImporter;
