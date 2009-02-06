@@ -164,7 +164,6 @@ pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/email/template/exceptio
 pro-ctcae/core/src/main/resources/log4j.properties -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractHibernateIntegrationTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractTestCase.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/CsvLoader/CsvImporterIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/Fixture.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/TestBean.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFIntegrationTest.java -text
@@ -208,6 +207,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfSc
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemExceptionTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/loader/CsvImporterIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/AbstractQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/CRFQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ClinicalStaffQueryTest.java -text
