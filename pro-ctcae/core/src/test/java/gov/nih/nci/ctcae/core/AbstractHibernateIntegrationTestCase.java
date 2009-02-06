@@ -46,34 +46,34 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         DataAuditInfo.setLocal(auditInfo);
 
         Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.find(new ProCtcTermQuery());
-        if (proCtcTerms.isEmpty()) {
-            //create a new pro ctc term
-
-            ProCtcTerm proCtcTerm = new ProCtcTerm();
-            proCtcTerm.setCtcTerm(finderRepository.findById(CtcTerm.class, 3141));
-            proCtcTerm.setProCtc(finderRepository.findById(ProCtc.class, 1));
-            proCtcTerm.setTerm("Anxiety");
-
-            ProCtcQuestion proCtcQuestion = new ProCtcQuestion();
-            proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.SEVERITY);
-            proCtcQuestion.setQuestionText("test question");
-            proCtcQuestion.setDisplayOrder(0);
-            proCtcTerm.addProCtcQuestion(proCtcQuestion);
-
-            ProCtcValidValue proCtcValidValue1 = new ProCtcValidValue();
-            proCtcValidValue1.setValue("value1");
-            proCtcQuestion.addValidValue(proCtcValidValue1);
-
-            ProCtcValidValue proCtcValidValue2 = new ProCtcValidValue();
-            proCtcValidValue2.setValue("value1");
-            proCtcQuestion.addValidValue(proCtcValidValue2);
-
-
-//            proCtcTermRepository.save(proCtcTerm);
-            setComplete();
-            endTransaction();
-            startNewTransaction();
-        }
+//        if (proCtcTerms.isEmpty()) {
+//            //create a new pro ctc term
+//
+//            ProCtcTerm proCtcTerm = new ProCtcTerm();
+//            proCtcTerm.setCtcTerm(finderRepository.findById(CtcTerm.class, 3141));
+//            proCtcTerm.setProCtc(finderRepository.findById(ProCtc.class, 1));
+//            proCtcTerm.setTerm("Anxiety");
+//
+//            ProCtcQuestion proCtcQuestion = new ProCtcQuestion();
+//            proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.SEVERITY);
+//            proCtcQuestion.setQuestionText("test question");
+//            proCtcQuestion.setDisplayOrder(0);
+//            proCtcTerm.addProCtcQuestion(proCtcQuestion);
+//
+//            ProCtcValidValue proCtcValidValue1 = new ProCtcValidValue();
+//            proCtcValidValue1.setValue("value1");
+//            proCtcQuestion.addValidValue(proCtcValidValue1);
+//
+//            ProCtcValidValue proCtcValidValue2 = new ProCtcValidValue();
+//            proCtcValidValue2.setValue("value1");
+//            proCtcQuestion.addValidValue(proCtcValidValue2);
+//
+//
+////            proCtcTermRepository.save(proCtcTerm);
+//            setComplete();
+//            endTransaction();
+//            startNewTransaction();
+//        }
 
     }
 
