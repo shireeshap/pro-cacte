@@ -66,18 +66,5 @@ public class ProCtcTest extends TestCase {
 
     }
 
-    public void testEqualsAndHashCodeMustNotConsiderProCtcTerm() {
-        ProCtc anotherProCtc = new ProCtc();
-
-        proCtc = new ProCtc();
-
-        proCtc.setProCtcVersion("1.0");
-        anotherProCtc.setProCtcVersion("1.0");
-
-        proCtc.getProCtcTerms().add(new ProCtcTerm());
-        assertEquals("must not consider pro ctc terms", anotherProCtc, proCtc);
-        assertEquals(anotherProCtc.hashCode(), proCtc.hashCode());
-
-    }
 
 }

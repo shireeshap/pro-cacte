@@ -149,7 +149,6 @@ public class SiteClinicalStaff extends BasePersistable {
 
         SiteClinicalStaff that = (SiteClinicalStaff) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (clinicalStaff != null ? !clinicalStaff.equals(that.clinicalStaff) : that.clinicalStaff != null)
             return false;
         if (organization != null ? !organization.equals(that.organization) : that.organization != null) return false;
@@ -165,8 +164,7 @@ public class SiteClinicalStaff extends BasePersistable {
     @Override
     public int hashCode() {
         int result;
-        result = (id != null ? id.hashCode() : 0);
-        result = 31 * result + (statusCode != null ? statusCode.hashCode() : 0);
+        result = (statusCode != null ? statusCode.hashCode() : 0);
         result = 31 * result + (statusDate != null ? statusDate.hashCode() : 0);
         result = 31 * result + (clinicalStaff != null ? clinicalStaff.hashCode() : 0);
 		result = 31 * result + (organization != null ? organization.hashCode() : 0);

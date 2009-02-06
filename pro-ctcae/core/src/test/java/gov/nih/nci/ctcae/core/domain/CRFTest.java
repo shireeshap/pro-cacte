@@ -104,24 +104,6 @@ public class CRFTest extends AbstractTestCase {
 
     }
 
-    public void testEqualsAndHashCodeMustNotConsiderId() {
-        CRF anotherCrf = null;
-        crf = new CRF();
-        anotherCrf = new CRF();
-        crf.setTitle("Cancer CRF");
-        anotherCrf.setTitle("Cancer CRF");
-        crf.setDescription("Case Report Form for Cancer Patients");
-        anotherCrf.setDescription("Case Report Form for Cancer Patients");
-
-        crf.setStatus(CrfStatus.DRAFT);
-        crf.setCrfVersion("1.0");
-        anotherCrf.setCrfVersion("1.0");
-
-        anotherCrf.setId(1);
-        assertEquals("must not consider id", anotherCrf.hashCode(), crf.hashCode());
-        assertEquals(anotherCrf, crf);
-
-    }
 
     public void testEqualsAndHashCodeMustNotConsiderCreationMode() {
         CRF anotherCrf = null;
@@ -143,93 +125,8 @@ public class CRFTest extends AbstractTestCase {
 
     }
 
-    public void testEqualsAndHashCodeMustNotConsiderStudyParticipantCrf() {
-        CRF anotherCrf = null;
-        crf = new CRF();
-        anotherCrf = new CRF();
-        crf.setTitle("Cancer CRF");
-        anotherCrf.setTitle("Cancer CRF");
-        crf.setDescription("Case Report Form for Cancer Patients");
-        anotherCrf.setDescription("Case Report Form for Cancer Patients");
-
-        crf.setStatus(CrfStatus.DRAFT);
-        crf.addStudyParticipantCrf(new StudyParticipantCrf());
-        crf.setCrfVersion("1.0");
-        anotherCrf.setCrfVersion("1.0");
-
-        assertEquals("must not consider study participant crf", anotherCrf.hashCode(), crf.hashCode());
-        assertEquals(anotherCrf, crf);
-
-        crf.setEffectiveEndDate(effectiveEndDate);
-        assertFalse(crf.equals(anotherCrf));
-        anotherCrf.setEffectiveEndDate(effectiveEndDate);
-
-        assertEquals(anotherCrf.hashCode(), crf.hashCode());
-        assertEquals(anotherCrf, crf);
-
-        crf.setEffectiveStartDate(effectiveEndDate);
-        assertFalse(crf.equals(anotherCrf));
-        anotherCrf.setEffectiveStartDate(effectiveEndDate);
-
-        assertEquals(anotherCrf.hashCode(), crf.hashCode());
-        assertEquals(anotherCrf, crf);
-
-        crf.setNextVersionId(1);
-        assertFalse(crf.equals(anotherCrf));
-        anotherCrf.setNextVersionId(1);
-
-        assertEquals(anotherCrf.hashCode(), crf.hashCode());
-        assertEquals(anotherCrf, crf);
-
-        crf.setParentVersionId(1);
-        assertFalse(crf.equals(anotherCrf));
-        anotherCrf.setParentVersionId(1);
-
-        assertEquals(anotherCrf.hashCode(), crf.hashCode());
-        assertEquals(anotherCrf, crf);
 
 
-    }
-
-    public void testEqualsAndHashCodeMustNotConsiderCrfPages() {
-        CRF anotherCrf = null;
-        crf = new CRF();
-        crf.setCrfCreationMode(CrfCreationMode.ADVANCE);
-        anotherCrf = new CRF();
-        crf.setTitle("Cancer CRF");
-        anotherCrf.setTitle("Cancer CRF");
-        crf.setDescription("Case Report Form for Cancer Patients");
-        anotherCrf.setDescription("Case Report Form for Cancer Patients");
-
-        crf.setStatus(CrfStatus.DRAFT);
-        crf.addProCtcTerm(constipation);
-        crf.setCrfVersion("1.0");
-        anotherCrf.setCrfVersion("1.0");
-
-        assertEquals("must not consider crf pages", anotherCrf.hashCode(), crf.hashCode());
-        assertEquals(anotherCrf, crf);
-
-    }
-
-    public void testEqualsAndHashCodeMustNotConsiderCrfItems() {
-        CRF anotherCrf = null;
-        crf = new CRF();
-        anotherCrf = new CRF();
-        crf.setTitle("Cancer CRF");
-        anotherCrf.setTitle("Cancer CRF");
-        crf.setDescription("Case Report Form for Cancer Patients");
-        anotherCrf.setDescription("Case Report Form for Cancer Patients");
-
-        crf.setStatus(CrfStatus.DRAFT);
-        crf.setCrfVersion("1.0");
-        anotherCrf.setCrfVersion("1.0");
-
-//		anotherCrf.addOrUpdateCrfItemInCrfPage(new ProCtcQuestion(1), null);
-//		assertFalse(anotherCrf.getCrfPageItems().isEmpty());
-        assertEquals("must not consider study crf", anotherCrf.hashCode(), crf.hashCode());
-        assertEquals(anotherCrf, crf);
-
-    }
 
     public void testGetCrfPageByPageNumber() {
         crf = new CRF();

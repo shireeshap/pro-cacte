@@ -4,24 +4,24 @@ import junit.framework.TestCase;
 
 /**
  * @author mehul gulati
- * Date: Jan 20, 2009
+ *         Date: Jan 20, 2009
  */
 public class CtcTest extends TestCase {
     private Ctc ctc;
 
-    public void testConstructor(){
+    public void testConstructor() {
         ctc = new Ctc();
         assertNull(ctc.getName());
     }
 
-    public void testGetterAndSetter(){
+    public void testGetterAndSetter() {
         ctc = new Ctc();
         ctc.setName("abc");
 
         assertEquals("abc", ctc.getName());
     }
 
-    public void testEqualsAndHashCode(){
+    public void testEqualsAndHashCode() {
         Ctc anotherCtc = null;
         assertEquals(anotherCtc, ctc);
         ctc = new Ctc();
@@ -37,23 +37,5 @@ public class CtcTest extends TestCase {
         assertEquals(anotherCtc, ctc);
     }
 
-    public void testEqualsAndHashCodeMustNotConsiderId(){
-        Ctc anotherCtc = new Ctc();
-        ctc = new Ctc();
 
-        anotherCtc.setId(1);
-        assertEquals("must not consider id", anotherCtc.hashCode(), ctc.hashCode());
-        assertEquals(anotherCtc, ctc);
-    }
-
-    public void testEqualsAndHashCodeMustNotConsiderCategory() {
-        Ctc anotherCtc = new Ctc();
-        ctc = new Ctc();
-
-        anotherCtc.getCtcCategories().add(new CtcCategory());
-        assertEquals("must not consider category", anotherCtc.hashCode(), ctc.hashCode());
-        assertEquals(anotherCtc, ctc);
-
-
-    }
 }

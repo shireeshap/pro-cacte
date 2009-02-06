@@ -146,7 +146,6 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
 
         StudyParticipantCrfAddedQuestion that = (StudyParticipantCrfAddedQuestion) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (pageNumber != null ? !pageNumber.equals(that.pageNumber) : that.pageNumber != null) return false;
         if (proCtcQuestion != null ? !proCtcQuestion.equals(that.proCtcQuestion) : that.proCtcQuestion != null)
             return false;
@@ -161,8 +160,7 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
      */
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (pageNumber != null ? pageNumber.hashCode() : 0);
+        int result = pageNumber != null ? pageNumber.hashCode() : 0;
         result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
         result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
         return result;

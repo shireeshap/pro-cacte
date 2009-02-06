@@ -52,42 +52,8 @@ public class ProCtcQuestionTest extends TestCase {
 
     }
 
-    public void testEqualsAndHashCodeMustNotConsiderId() {
-        ProCtcQuestion anotherProCtcQuestion = new ProCtcQuestion();
-
-        proCtcQuestion = new ProCtcQuestion();
-
-        proCtcQuestion.setQuestionText("How is the pain?");
-        anotherProCtcQuestion.setQuestionText("How is the pain?");
-        anotherProCtcQuestion.setId(2);
-        assertEquals("must not consider id", anotherProCtcQuestion.hashCode(), proCtcQuestion.hashCode());
-        assertEquals(anotherProCtcQuestion, proCtcQuestion);
-
-    }
 
 
-    public void testEqualsAndHashCodeMustNotConsiderValidValues() {
-        ProCtcQuestion anotherProCtcQuestion = new ProCtcQuestion();
-        proCtcQuestion = new ProCtcQuestion();
 
-        proCtcQuestion.setQuestionText("How is the pain?");
-        anotherProCtcQuestion.setQuestionText("How is the pain?");
-        anotherProCtcQuestion.addValidValue(new ProCtcValidValue());
-        assertEquals("must not consider valid values", anotherProCtcQuestion.hashCode(), proCtcQuestion.hashCode());
-        assertEquals(anotherProCtcQuestion, proCtcQuestion);
-
-    }
-
-//	public void testEqualsAndHashCodeMustNotConsiderCrfItems() {
-//		ProCtcQuestion anotherProCtcQuestion = new ProCtcQuestion();
-//		proCtcQuestion = new ProCtcQuestion();
-//
-//		proCtcQuestion.setQuestionText("How is the pain?");
-//		anotherProCtcQuestion.setQuestionText("How is the pain?");
-//		anotherProCtcQuestion.getCrfItems().add(new CrfPageItem());
-//		assertEquals("must not consider crf items", anotherProCtcQuestion.hashCode(), proCtcQuestion.hashCode());
-//		assertEquals(anotherProCtcQuestion, proCtcQuestion);
-//
-//	}
 
 }

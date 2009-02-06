@@ -174,7 +174,6 @@ public class StudyClinicalStaff extends BasePersistable {
 
         StudyClinicalStaff that = (StudyClinicalStaff) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (roleCode != null ? !roleCode.equals(that.roleCode) : that.roleCode != null) return false;
         if (signatureText != null ? !signatureText.equals(that.signatureText) : that.signatureText != null)
             return false;
@@ -192,8 +191,7 @@ public class StudyClinicalStaff extends BasePersistable {
       */
     public int hashCode() {
         int result;
-        result = (id != null ? id.hashCode() : 0);
-        result = 31 * result + (statusCode != null ? statusCode.hashCode() : 0);
+        result = (statusCode != null ? statusCode.hashCode() : 0);
         result = 31 * result + (roleCode != null ? roleCode.hashCode() : 0);
         result = 31 * result + (signatureText != null ? signatureText.hashCode() : 0);
         result = 31 * result + (siteClinicalStaff != null ? siteClinicalStaff.hashCode() : 0);

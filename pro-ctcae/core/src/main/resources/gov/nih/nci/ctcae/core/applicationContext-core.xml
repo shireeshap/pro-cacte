@@ -1,53 +1,56 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
       http://www.springframework.org/schema/beans/spring-beans.xsd
-      http://www.springframework.org/schema/tx
-      http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
     <!--  for @Repository annotation  -->
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
+    <util:list id="domainClasses">
+        <value>gov.nih.nci.ctcae.core.domain.Organization</value>
+        <value>gov.nih.nci.ctcae.core.domain.ClinicalStaff</value>
+        <value>gov.nih.nci.ctcae.core.domain.CRF</value>
+        <value>gov.nih.nci.ctcae.core.domain.Ctc</value>
+        <value>gov.nih.nci.ctcae.core.domain.CRFPage</value>
+        <value>gov.nih.nci.ctcae.core.domain.CrfPageItem</value>
+        <value>gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule</value>
+        <value>gov.nih.nci.ctcae.core.domain.CtcCategory</value>
+        <value>gov.nih.nci.ctcae.core.domain.Person</value>
+        <value>gov.nih.nci.ctcae.core.domain.Participant</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtc</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestion</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtcTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.CtcTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtcValidValue</value>
+        <value>gov.nih.nci.ctcae.core.domain.SiteClinicalStaff</value>
+        <value>gov.nih.nci.ctcae.core.domain.Study</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyClinicalStaff</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyFundingSponsor</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyOrganization</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrf</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudySite</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudySiteClinicalStaff</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantClinicalStaff</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestionDisplayRule</value>
 
+    </util:list>
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
           autowire="byName">
         <property name="namingStrategy">
             <bean class="gov.nih.nci.ctcae.core.tools.hibernate.WonderfulNamingStrategy"/>
         </property>
-        <property name="annotatedClasses">
-            <list>
-                <value>gov.nih.nci.ctcae.core.domain.Organization</value>
-                <value>gov.nih.nci.ctcae.core.domain.ClinicalStaff</value>
-                <value>gov.nih.nci.ctcae.core.domain.CRF</value>
-                <value>gov.nih.nci.ctcae.core.domain.Ctc</value>
-                <value>gov.nih.nci.ctcae.core.domain.CRFPage</value>
-                <value>gov.nih.nci.ctcae.core.domain.CrfPageItem</value>
-                <value>gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule</value>
-                <value>gov.nih.nci.ctcae.core.domain.CtcCategory</value>
-                <value>gov.nih.nci.ctcae.core.domain.Person</value>
-                <value>gov.nih.nci.ctcae.core.domain.Participant</value>
-                <value>gov.nih.nci.ctcae.core.domain.ProCtc</value>
-                <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestion</value>
-                <value>gov.nih.nci.ctcae.core.domain.ProCtcTerm</value>
-                <value>gov.nih.nci.ctcae.core.domain.CtcTerm</value>
-                <value>gov.nih.nci.ctcae.core.domain.ProCtcValidValue</value>
-                <value>gov.nih.nci.ctcae.core.domain.SiteClinicalStaff</value>
-                <value>gov.nih.nci.ctcae.core.domain.Study</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyClinicalStaff</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyFundingSponsor</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyOrganization</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrf</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudySite</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion</value>
-                <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestionDisplayRule</value>
-            </list>
-        </property>
+        <property name="annotatedClasses" ref="domainClasses"/>
 
         <property name="hibernateProperties" ref="hibernateProperties"/>
 
@@ -85,38 +88,7 @@
 
     <bean id="auditInterceptor" class="gov.nih.nci.cabig.ctms.audit.AuditInterceptorImpl" autowire="byType">
         <property name="dataAuditRepository" ref="dataAuditRepository"></property>
-        <property name="auditableEntities">
-            <list>
-                <value>gov.nih.nci.ctcae.core.domain.Organization</value>
-                <value>gov.nih.nci.ctcae.core.domain.ClinicalStaff</value>
-                <value>gov.nih.nci.ctcae.core.domain.CRF</value>
-                <value>gov.nih.nci.ctcae.core.domain.Ctc</value>                
-                <value>gov.nih.nci.ctcae.core.domain.CRFPage</value>
-                <value>gov.nih.nci.ctcae.core.domain.CrfPageItem</value>
-                <value>gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule</value>
-                <value>gov.nih.nci.ctcae.core.domain.CtcCategory</value>
-                <value>gov.nih.nci.ctcae.core.domain.Person</value>
-                <value>gov.nih.nci.ctcae.core.domain.Participant</value>
-                <value>gov.nih.nci.ctcae.core.domain.ProCtc</value>
-                <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestion</value>
-                <value>gov.nih.nci.ctcae.core.domain.ProCtcTerm</value>
-                <value>gov.nih.nci.ctcae.core.domain.CtcTerm</value>              
-                <value>gov.nih.nci.ctcae.core.domain.ProCtcValidValue</value>
-                <value>gov.nih.nci.ctcae.core.domain.SiteClinicalStaff</value>
-                <value>gov.nih.nci.ctcae.core.domain.Study</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyClinicalStaff</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyFundingSponsor</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyOrganization</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrf</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudySite</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion</value>
-                <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion</value>
-            </list>
-        </property>
+        <property name="auditableEntities" ref="domainClasses"/>
         <property name="auditAll">
             <value>false</value>
         </property>

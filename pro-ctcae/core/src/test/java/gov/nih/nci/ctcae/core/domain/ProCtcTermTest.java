@@ -64,26 +64,7 @@ public class ProCtcTermTest extends TestCase {
 
     }
 
-    public void testEqualsAndHashCodeMustNotConsiderId() {
-        ProCtcTerm anotherProCtcTerm = new ProCtcTerm();
 
-        proCtcTerm = new ProCtcTerm();
-
-        anotherProCtcTerm.setId(1);
-        assertEquals("must not consider id", anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
-        assertEquals(anotherProCtcTerm, proCtcTerm);
-
-    }
-
-    public void testEqualsAndHashCodeMustNotConsiderProCtcQuestions() {
-        ProCtcTerm anotherProCtcTerm = new ProCtcTerm();
-        proCtcTerm = new ProCtcTerm();
-
-        anotherProCtcTerm.getProCtcQuestions().add(new ProCtcQuestion());
-        assertEquals("must not consider pro ctc questions", anotherProCtcTerm.hashCode(), proCtcTerm.hashCode());
-        assertEquals(anotherProCtcTerm, proCtcTerm);
-
-    }
 
 
     protected void setUp() throws Exception {

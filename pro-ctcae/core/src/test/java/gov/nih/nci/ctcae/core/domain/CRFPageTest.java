@@ -106,31 +106,7 @@ public class CRFPageTest extends AbstractTestCase {
 //
 //	}
 
-//	public void testEqualsAndHashCodeMustNotConsiderId() {
-//		CRFPage anotherCrfPage = new CRFPage();
-//		crfPage.setDescription("Case Report Form for Cancer Patients");
-//		anotherCrfPage.setDescription("Case Report Form for Cancer Patients");
-//
-//
-//		anotherCrfPage.setId(1);
-//		assertEquals("must not consider id", anotherCrfPage.hashCode(), crfPage.hashCode());
-//		assertEquals(anotherCrfPage, crfPage);
-//
-//	}
 
-
-//	public void testEqualsAndHashCodeMustNotConsiderCrfItems() {
-//		CRFPage anotherCrfPage = new CRFPage();
-//		crfPage.setDescription("Case Report Form for Cancer Patients");
-//		anotherCrfPage.setDescription("Case Report Form for Cancer Patients");
-//
-//
-//		anotherCrfPage.addOrUpdateCrfPageItem(new ProCtcQuestion(1), null);
-//		assertFalse(anotherCrfPage.getCrfPageItems().isEmpty());
-//		assertEquals("must not consider study crf", anotherCrfPage.hashCode(), crfPage.hashCode());
-//		assertEquals(anotherCrfPage, crfPage);
-//
-//	}
 
     protected void setUp() throws Exception {
         super.setUp();

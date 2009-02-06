@@ -99,4 +99,26 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
     public void setProCtcValidValue(ProCtcValidValue proCtcValidValue) {
         this.proCtcValidValue = proCtcValidValue;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StudyParticipantCrfScheduleAddedQuestion that = (StudyParticipantCrfScheduleAddedQuestion) o;
+
+        if (proCtcValidValue != null ? !proCtcValidValue.equals(that.proCtcValidValue) : that.proCtcValidValue != null)
+            return false;
+        if (studyParticipantCrfSchedule != null ? !studyParticipantCrfSchedule.equals(that.studyParticipantCrfSchedule) : that.studyParticipantCrfSchedule != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = studyParticipantCrfSchedule != null ? studyParticipantCrfSchedule.hashCode() : 0;
+        result = 31 * result + (proCtcValidValue != null ? proCtcValidValue.hashCode() : 0);
+        return result;
+    }
 }

@@ -170,7 +170,6 @@ public class Person extends BasePersistable {
 
         if (address != null ? !address.equals(person.address) : person.address != null) return false;
         if (firstName != null ? !firstName.equals(person.firstName) : person.firstName != null) return false;
-        if (id != null ? !id.equals(person.id) : person.id != null) return false;
         if (lastName != null ? !lastName.equals(person.lastName) : person.lastName != null) return false;
         if (middleName != null ? !middleName.equals(person.middleName) : person.middleName != null) return false;
         if (title != null ? !title.equals(person.title) : person.title != null) return false;
@@ -184,12 +183,11 @@ public class Person extends BasePersistable {
     @Override
     public int hashCode() {
         int result;
-        result = (id != null ? id.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = (title != null ? title.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
-		result = 31 * result + (address != null ? address.hashCode() : 0);
-		return result;
-	}
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        return result;
+    }
 }

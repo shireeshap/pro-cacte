@@ -126,6 +126,9 @@
                        src="src/test/resources/gov/nih/nci/ctcae/selenium/testdata/studies-participants.xml"/>
             <operation type="INSERT"
                        src="src/test/resources/gov/nih/nci/ctcae/selenium/testdata/questions.xml"/>
+            <operation type="INSERT"
+                       src="src/test/resources/gov/nih/nci/ctcae/selenium/testdata/clinical-staffs.xml"/>
+
         </dbunit>
     </target>
 
@@ -145,6 +148,8 @@
                 password="${datasource.password}">
             <operation type="INSERT"
                        src="src/test/resources/gov/nih/nci/ctcae/selenium/testdata/studies-participants.xml"/>
+            <operation type="INSERT"
+                       src="src/test/resources/gov/nih/nci/ctcae/selenium/testdata/clinical-staffs.xml"/>
         </dbunit>
     </target>
 

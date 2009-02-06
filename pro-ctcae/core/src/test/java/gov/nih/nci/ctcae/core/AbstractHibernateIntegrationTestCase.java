@@ -2,19 +2,26 @@ package gov.nih.nci.ctcae.core;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
-import java.util.Collection;
 import java.util.Date;
 
 public abstract class AbstractHibernateIntegrationTestCase extends AbstractTransactionalDataSourceSpringContextTests {
 
     protected FinderRepository finderRepository;
     protected ProCtcTermRepository proCtcTermRepository;
+    protected ClinicalStaffRepository clinicalStaffRepository;
+    protected OrganizationRepository organizationRepository;
+    protected ClinicalStaff defaultClinicalStaff;
+    protected SiteClinicalStaff defaultSiteClinicalStaff;
+    protected Organization defaultOrganization;
+
+    protected Study defaultStudy;
+    protected StudySite defaultStudySite;
+    protected StudyRepository studyRepository;
+
 
     @Override
     protected String[] getConfigLocations() {
@@ -45,36 +52,40 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
 
-        Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.find(new ProCtcTermQuery());
-//        if (proCtcTerms.isEmpty()) {
-//            //create a new pro ctc term
-//
-//            ProCtcTerm proCtcTerm = new ProCtcTerm();
-//            proCtcTerm.setCtcTerm(finderRepository.findById(CtcTerm.class, 3141));
-//            proCtcTerm.setProCtc(finderRepository.findById(ProCtc.class, 1));
-//            proCtcTerm.setTerm("Anxiety");
-//
-//            ProCtcQuestion proCtcQuestion = new ProCtcQuestion();
-//            proCtcQuestion.setProCtcQuestionType(ProCtcQuestionType.SEVERITY);
-//            proCtcQuestion.setQuestionText("test question");
-//            proCtcQuestion.setDisplayOrder(0);
-//            proCtcTerm.addProCtcQuestion(proCtcQuestion);
-//
-//            ProCtcValidValue proCtcValidValue1 = new ProCtcValidValue();
-//            proCtcValidValue1.setValue("value1");
-//            proCtcQuestion.addValidValue(proCtcValidValue1);
-//
-//            ProCtcValidValue proCtcValidValue2 = new ProCtcValidValue();
-//            proCtcValidValue2.setValue("value1");
-//            proCtcQuestion.addValidValue(proCtcValidValue2);
-//
-//
-////            proCtcTermRepository.save(proCtcTerm);
-//            setComplete();
-//            endTransaction();
-//            startNewTransaction();
-//        }
+        defaultOrganization = organizationRepository.findById(105051);
 
+        defaultStudy = studyRepository.findById(-1001);
+        assertNotNull("must find default study. Try running ant migrate-sample-date to migrate sample data", defaultStudy);
+        defaultStudySite = defaultStudy.getStudySites().get(0);
+        assertNotNull("must find default study site. Try running ant migrate-sample-date to migrate sample data", defaultStudySite);
+
+        defaultClinicalStaff = clinicalStaffRepository.findById(-100);
+        assertNotNull("must find default clinical staff. Try running ant migrate-sample-date to migrate sample data", defaultClinicalStaff);
+
+        defaultSiteClinicalStaff = defaultClinicalStaff.getSiteClinicalStaffs().get(0);
+        assertNotNull("must find default site clinical staff. Try running ant migrate-sample-date to migrate sample data", defaultSiteClinicalStaff);
+
+    }
+
+
+    @Override
+    protected void onTearDownInTransaction() throws Exception {
+        DataAuditInfo.setLocal(null);
+        super.onTearDownInTransaction();
+
+
+    }
+
+
+    protected void commitAndStartNewTransaction() {
+        setComplete();
+        endTransaction();
+        startNewTransaction();
+    }
+
+    @Required
+    public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
+        this.clinicalStaffRepository = clinicalStaffRepository;
     }
 
     @Required
@@ -82,13 +93,14 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         this.finderRepository = finderRepository;
     }
 
-    @Override
-    protected void onTearDownInTransaction() throws Exception {
-        DataAuditInfo.setLocal(null);
+    @Required
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
+    }
 
-        super.onTearDownInTransaction();
-
-
+    @Required
+    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
+        this.organizationRepository = organizationRepository;
     }
 
     @Required

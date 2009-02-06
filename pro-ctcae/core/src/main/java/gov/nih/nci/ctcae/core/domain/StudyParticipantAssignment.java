@@ -154,4 +154,27 @@ public class StudyParticipantAssignment extends BaseVersionable {
 		}
 	}
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StudyParticipantAssignment that = (StudyParticipantAssignment) o;
+
+        if (participant != null ? !participant.equals(that.participant) : that.participant != null) return false;
+        if (studyParticipantIdentifier != null ? !studyParticipantIdentifier.equals(that.studyParticipantIdentifier) : that.studyParticipantIdentifier != null)
+            return false;
+        if (studySite != null ? !studySite.equals(that.studySite) : that.studySite != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = studyParticipantIdentifier != null ? studyParticipantIdentifier.hashCode() : 0;
+        result = 31 * result + (participant != null ? participant.hashCode() : 0);
+        result = 31 * result + (studySite != null ? studySite.hashCode() : 0);
+        return result;
+    }
 }

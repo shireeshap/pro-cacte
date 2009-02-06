@@ -74,29 +74,6 @@ public class CtcTermTest extends TestCase {
 
     }
 
-    public void testEqualsAndHashCodeMustNotConsiderId() {
-        CtcTerm anotherCtcTerm = new CtcTerm();
-
-        ctcTerm = new CtcTerm();
-        ctcTerm.setCategory(category);
-        anotherCtcTerm.setCategory(category);
-        anotherCtcTerm.setId(2);
-        assertEquals("must not consider id", anotherCtcTerm.hashCode(), ctcTerm.hashCode());
-        assertEquals(anotherCtcTerm, ctcTerm);
-
-    }
-
-    public void testEqualsAndHashCodeMustNotConsiderProCtcQuestions() {
-        CtcTerm anotherCtcTerm = new CtcTerm();
-        ctcTerm = new CtcTerm();
-
-        ctcTerm.setCategory(category);
-        anotherCtcTerm.setCategory(category);
-        assertEquals("must not consider pro ctc questions", anotherCtcTerm.hashCode(), ctcTerm.hashCode());
-        assertEquals(anotherCtcTerm, ctcTerm);
-
-    }
-
 
     protected void setUp() throws Exception {
         super.setUp();

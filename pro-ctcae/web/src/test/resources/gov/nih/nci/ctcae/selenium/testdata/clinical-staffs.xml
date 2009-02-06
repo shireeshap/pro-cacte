@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<dataset>
+
+
+    <CLINICAL_STAFFS id="-100" first_name="Bruce" last_name="Tanner" nci_identifier="Bruce"/>
+
+    <CLINICAL_STAFFS id="-101" first_name="John" last_name="Miller" nci_identifier="John"/>
+
+
+    <SITE_CLINICAL_STAFFS id="-100" clinical_staff_id="-100" organization_id="105051" status_code="Active"/>
+
+    <SITE_CLINICAL_STAFFS id="-101" clinical_staff_id="-100" organization_id="100001" status_code="Active"/>
+
+    <SITE_CLINICAL_STAFFS id="-102" clinical_staff_id="-101" organization_id="105051" status_code="Active"/>
+    <SITE_CLINICAL_STAFFS id="-103" clinical_staff_id="-101" organization_id="100001" status_code="Active"/>
+
+
+</dataset>

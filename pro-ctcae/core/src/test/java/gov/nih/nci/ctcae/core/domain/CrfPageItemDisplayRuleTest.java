@@ -69,16 +69,6 @@ public class CrfPageItemDisplayRuleTest extends TestCase {
 
     }
 
-    public void testEqualsAndHashCodeMustNotConsiderId() {
-
-        CrfPageItemDisplayRule anotherCrfPageItemDisplayRule = new CrfPageItemDisplayRule();
-        crfPageItemDisplayRule = new CrfPageItemDisplayRule();
-        crfPageItemDisplayRule.setId(2);
-        anotherCrfPageItemDisplayRule.setId(1);
-        assertEquals(anotherCrfPageItemDisplayRule, crfPageItemDisplayRule);
-        assertEquals("must not consider id", crfPageItemDisplayRule.hashCode(), anotherCrfPageItemDisplayRule.hashCode());
-
-    }
 
 
 }
