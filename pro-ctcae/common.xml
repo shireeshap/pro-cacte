@@ -610,7 +610,7 @@
     <!-- ==============================================================
             target: test
         ============================================================== -->
-    <condition property="testPattern" value="**/${test}.class" else="gov/nih/nci/ctcae/**/*Test.class">
+    <condition property="testPattern" value="gov/nih/nci/ctcae/**/*${test}.class" else="gov/nih/nci/ctcae/**/*Test.class">
         <isset property="test"/>
     </condition>
 
