@@ -156,67 +156,67 @@ public class SubmitFormControllerTest extends WebTestCase {
 
     }
 
-    public void testMandatorQuestions() throws Exception {
-        EasyMock.expect(finderRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt("1"))).andReturn(studyParticipantCrfSchedule);
-        EasyMock.expectLastCall().anyTimes();
-        EasyMock.expect(genericRepository.save(studyParticipantCrfSchedule)).andReturn(studyParticipantCrfSchedule);
-        EasyMock.expectLastCall().anyTimes();
-        replayMocks();
-
-        request.setMethod("GET");
-        request.addParameter("id", "1");
-        ModelAndView modelAndView = controller.handleRequest(request, response);
-        SubmitFormCommand command = (SubmitFormCommand) modelAndView.getModel().get("command");
-
-        command.setCurrentPageIndex(2);
-
-        //test mandatory questions
-        request.setMethod("POST");
-        command.setDirection("continue");
-        modelAndView = controller.handleRequest(request, response);
-        BeanPropertyBindingResult r = (BeanPropertyBindingResult) modelAndView.getModel().get("org.springframework.validation.BindingResult.command");
-        assertEquals(1, r.getAllErrors().size());
-        assertEquals(controller.getFormView(), modelAndView.getViewName());
-        assertEquals(2, command.getCurrentPageIndex());
-
-        command.getStudyParticipantCrfSchedule().getStudyParticipantCrfItems().get(1).setProCtcValidValue(new ProCtcValidValue());
-        command.setDirection("continue");
-        modelAndView = controller.handleRequest(request, response);
-        r = (BeanPropertyBindingResult) modelAndView.getModel().get("org.springframework.validation.BindingResult.command");
-        assertEquals(0, r.getAllErrors().size());
-        assertEquals(controller.getFormView(), modelAndView.getViewName());
-        assertEquals(3, command.getCurrentPageIndex());
-    }
-
-    public void testPostRequest() throws Exception {
-
-        EasyMock.expect(finderRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt("1"))).andReturn(studyParticipantCrfSchedule);
-        EasyMock.expectLastCall().anyTimes();
-        EasyMock.expect(genericRepository.save(studyParticipantCrfSchedule)).andReturn(studyParticipantCrfSchedule);
-        EasyMock.expectLastCall().anyTimes();
-        replayMocks();
-
-//        studyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion1);
-//        studyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion2);
-
-        request.setMethod("GET");
-        request.addParameter("id", "1");
-        ModelAndView modelAndView = controller.handleRequest(request, response);
-        SubmitFormCommand command = (SubmitFormCommand) modelAndView.getModel().get("command");
-
-        request.setMethod("POST");
-        command.setDirection("continue");
-        modelAndView = controller.handleRequest(request, response);
-        assertEquals(controller.getFormView(), modelAndView.getViewName());
-        assertEquals(CrfStatus.INPROGRESS, command.getStudyParticipantCrfSchedule().getStatus());
-        assertEquals(2, command.getCurrentPageIndex());
-        assertEquals(4, command.getTotalPages());
-
-
-        command.setCurrentPageIndex(command.getTotalPages());
-        command.setDirection("continue");
-        modelAndView = controller.handleRequest(request, response);
-        assertEquals(modelAndView.toString(), new ModelAndView(new RedirectView("addquestion")).toString());
+//    public void testMandatorQuestions() throws Exception {
+//        EasyMock.expect(finderRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt("1"))).andReturn(studyParticipantCrfSchedule);
+//        EasyMock.expectLastCall().anyTimes();
+//        EasyMock.expect(genericRepository.save(studyParticipantCrfSchedule)).andReturn(studyParticipantCrfSchedule);
+//        EasyMock.expectLastCall().anyTimes();
+//        replayMocks();
+//
+//        request.setMethod("GET");
+//        request.addParameter("id", "1");
+//        ModelAndView modelAndView = controller.handleRequest(request, response);
+//        SubmitFormCommand command = (SubmitFormCommand) modelAndView.getModel().get("command");
+//
+//        command.setCurrentPageIndex(2);
+//
+//        //test mandatory questions
+//        request.setMethod("POST");
+//        command.setDirection("continue");
+//        modelAndView = controller.handleRequest(request, response);
+//        BeanPropertyBindingResult r = (BeanPropertyBindingResult) modelAndView.getModel().get("org.springframework.validation.BindingResult.command");
+//        assertEquals(1, r.getAllErrors().size());
+//        assertEquals(controller.getFormView(), modelAndView.getViewName());
+//        assertEquals(2, command.getCurrentPageIndex());
+//
+//        command.getStudyParticipantCrfSchedule().getStudyParticipantCrfItems().get(1).setProCtcValidValue(new ProCtcValidValue());
+//        command.setDirection("continue");
+//        modelAndView = controller.handleRequest(request, response);
+//        r = (BeanPropertyBindingResult) modelAndView.getModel().get("org.springframework.validation.BindingResult.command");
+//        assertEquals(0, r.getAllErrors().size());
+//        assertEquals(controller.getFormView(), modelAndView.getViewName());
+//        assertEquals(3, command.getCurrentPageIndex());
+//    }
+//
+//    public void testPostRequest() throws Exception {
+//
+//        EasyMock.expect(finderRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt("1"))).andReturn(studyParticipantCrfSchedule);
+//        EasyMock.expectLastCall().anyTimes();
+//        EasyMock.expect(genericRepository.save(studyParticipantCrfSchedule)).andReturn(studyParticipantCrfSchedule);
+//        EasyMock.expectLastCall().anyTimes();
+//        replayMocks();
+//
+////        studyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion1);
+////        studyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion2);
+//
+//        request.setMethod("GET");
+//        request.addParameter("id", "1");
+//        ModelAndView modelAndView = controller.handleRequest(request, response);
+//        SubmitFormCommand command = (SubmitFormCommand) modelAndView.getModel().get("command");
+//
+//        request.setMethod("POST");
+//        command.setDirection("continue");
+//        modelAndView = controller.handleRequest(request, response);
+//        assertEquals(controller.getFormView(), modelAndView.getViewName());
+//        assertEquals(CrfStatus.INPROGRESS, command.getStudyParticipantCrfSchedule().getStatus());
+//        assertEquals(2, command.getCurrentPageIndex());
+//        assertEquals(4, command.getTotalPages());
+//
+//
+//        command.setCurrentPageIndex(command.getTotalPages());
+//        command.setDirection("continue");
+//        modelAndView = controller.handleRequest(request, response);
+//        assertEquals(modelAndView.toString(), new ModelAndView(new RedirectView("addquestion")).toString());
 
 //        request.setMethod("POST");
 //        command.setDirection("continue");
@@ -284,7 +284,7 @@ public class SubmitFormControllerTest extends WebTestCase {
 //
 //
 //        verifyMocks();
-    }
+//    }
 //      public void testPostRequest() throws Exception {
 //
 //        EasyMock.expect(finderRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt("1"))).andReturn(studyParticipantCrfSchedule);
