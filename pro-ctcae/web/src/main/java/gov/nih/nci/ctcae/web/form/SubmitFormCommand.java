@@ -324,7 +324,7 @@ public class SubmitFormCommand implements Serializable {
         for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
             includedQuestionIds.add(studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getId());
         }
-        if (studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size() >0) {
+        if (studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size() > 0) {
             for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
                 includedQuestionIds.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getId());
             }
@@ -380,7 +380,6 @@ public class SubmitFormCommand implements Serializable {
     }
 
 
-
     /**
      * Gets the deleted questions.
      *
@@ -411,31 +410,33 @@ public class SubmitFormCommand implements Serializable {
             for (String id : questionsToBeDeleted) {
                 if (!StringUtils.isBlank(id)) {
                     StudyParticipantCrfAddedQuestion s = finderRepository.findById(StudyParticipantCrfAddedQuestion.class, new Integer(id));
-                    myPageNumber = s.getPageNumber();
-                    if (s.getProCtcQuestion().getDisplayOrder() != 1) {
-                        return;
-                    }
-                    studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(s);
-                    genericRepository.delete(s);
+                    if (s != null) {
+                        myPageNumber = s.getPageNumber();
+                        if (s.getProCtcQuestion().getDisplayOrder() != 1) {
+                            return;
+                        }
+                        studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(s);
+                        genericRepository.delete(s);
 
-                    if (myPageNumber != -1) {
-                        List<StudyParticipantCrfAddedQuestion> l = new ArrayList<StudyParticipantCrfAddedQuestion>();
-                        for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
-                            if (studyParticipantCrfAddedQuestion.getPageNumber() == myPageNumber) {
-                                l.add(studyParticipantCrfAddedQuestion);
+                        if (myPageNumber != -1) {
+                            List<StudyParticipantCrfAddedQuestion> l = new ArrayList<StudyParticipantCrfAddedQuestion>();
+                            for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
+                                if (studyParticipantCrfAddedQuestion.getPageNumber() == myPageNumber) {
+                                    l.add(studyParticipantCrfAddedQuestion);
+                                }
                             }
-                        }
 
-                        for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : l) {
-                            studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
-                            genericRepository.delete(studyParticipantCrfAddedQuestion);
-                        }
+                            for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : l) {
+                                studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+                                genericRepository.delete(studyParticipantCrfAddedQuestion);
+                            }
 
-                        for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
-                            if (studyParticipantCrfAddedQuestion.getPageNumber() > myPageNumber) {
-                                int oldPageNumber = studyParticipantCrfAddedQuestion.getPageNumber();
-                                studyParticipantCrfAddedQuestion.setPageNumber(oldPageNumber - 1);
-                                genericRepository.save(studyParticipantCrfAddedQuestion);
+                            for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
+                                if (studyParticipantCrfAddedQuestion.getPageNumber() > myPageNumber) {
+                                    int oldPageNumber = studyParticipantCrfAddedQuestion.getPageNumber();
+                                    studyParticipantCrfAddedQuestion.setPageNumber(oldPageNumber - 1);
+                                    genericRepository.save(studyParticipantCrfAddedQuestion);
+                                }
                             }
                         }
                     }

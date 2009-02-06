@@ -16,6 +16,13 @@
         tr {
             border-bottom: 1px solid #123121;
         }
+
+        .label {
+            font-weight: bold;
+            font-size: 16px;
+            vertical-align: top;
+        }
+
     </style>
     <tags:includeScriptaculous/>
     <tags:dwrJavascriptLink objects="scheduleCrf"/>
@@ -31,7 +38,10 @@
                 return obj
             }
         }
-        var currentIndex = 1;
+
+        var nextRowIndex = 7;
+        var nextColumnIndex = 21;
+
         function acPostSelect(mode, selectedChoice) {
             var checkboxitems = document.getElementsByName('symptomsByParticipants');
             var itemfound = false;
@@ -47,27 +57,56 @@
             }
         }
 
-        function updateSelectedDisplay(mode) {
-            //            if ($(mode.basename).value) {
-            //                //add option
-            //            }
-        }
 
         function addCheckbox(selectedChoice) {
-            var td = document.getElementById('td_' + currentIndex);
+            if (nextColumnIndex % 3 == 0) {
+                var tbody = document.getElementById('mytable').getElementsByTagName("TBODY")[0];
+
+                var row = document.createElement("TR")
+
+                var td1 = document.createElement("TD")
+                td1.id = 'td_' + nextColumnIndex + '_a';
+                td1.addClassName('label');
+
+                var td2 = document.createElement("TD")
+                td2.id = 'td_' + nextColumnIndex + '_b';
+                td2.addClassName('label');
+
+                var td3 = document.createElement("TD")
+                td3.id = 'td_' + (nextColumnIndex + 1) + '_a';
+                td3.addClassName('label');
+
+                var td4 = document.createElement("TD")
+                td4.id = 'td_' + (nextColumnIndex + 1) + '_b';
+                td4.addClassName('label');
+
+                var td5 = document.createElement("TD")
+                td5.id = 'td_' + (nextColumnIndex + 2) + '_a';
+                td5.addClassName('label');
+
+                var td6 = document.createElement("TD")
+                td6.id = 'td_' + (nextColumnIndex + 2) + '_b';
+                td6.addClassName('label');
+
+                row.appendChild(td1);
+                row.appendChild(td2);
+                row.appendChild(td3);
+                row.appendChild(td4);
+                row.appendChild(td5);
+                row.appendChild(td6);
+                tbody.appendChild(row);
+                nextRowIndex++;
+            }
+            var tda = document.getElementById('td_' + nextColumnIndex + '_a');
+            var tdb = document.getElementById('td_' + nextColumnIndex + '_b');
             var chkbox = document.createElement('input');
             chkbox.type = "checkbox";
             chkbox.name = 'symptomsByParticipants';
             chkbox.value = selectedChoice;
             chkbox.checked = true;
-            var mydiv = document.createElement('div');
-            mydiv.appendChild(chkbox);
-            mydiv.appendChild(document.createTextNode(selectedChoice));
-            td.appendChild(mydiv);
-            currentIndex++;
-            if (currentIndex > 3) {
-                currentIndex = 1;
-            }
+            tda.appendChild(chkbox);
+            tdb.appendChild(document.createTextNode(selectedChoice));
+            nextColumnIndex++;
         }
 
         function acCreate(mode) {
@@ -87,7 +126,6 @@
 
         Event.observe(window, "load", function() {
             acCreate(participantQuestionAutocompleterProps)
-            updateSelectedDisplay(participantQuestionAutocompleterProps)
             initSearchField()
         })
 
@@ -99,42 +137,44 @@
     <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.title}"
                 autopad="true" message="false">
         <p>
-            <b>Please select additional symptoms from below:</b>
+            <b>NEED TEXT HERE</b>
         </p>
 
-        <%--<input type="hidden" id="participantquestion" value=""/>--%>
-        <input type="text" id="participantquestion-input" value="" class="autocomplete  validate-NOTEMPTY" size="40"/>
+        <table id="mytable">
+            <tbody>
+            <c:forEach var="i" begin="0" end="6" varStatus="status">
+                <c:if test="${command.sortedSymptoms[i*3+0] ne null}">
+                    <tr id="tr_"${i}>
+                        <c:forEach var="j" begin="0" end="2" varStatus="status">
+                            <td id="td_${i*3+j}_a" class="label">
+                                <c:if test="${command.sortedSymptoms[i*3+j] ne null}">
+                                    <input type="checkbox" name="symptomsByParticipants"
+                                           value="${command.sortedSymptoms[i*3+j]}"/>
+                                </c:if>
+                            </td>
+                            <td id="td_${i*3+j}_b" class="label">
+                                <c:if test="${command.sortedSymptoms[i*3+0] ne null}">
+                                    ${command.sortedSymptoms[i*3+j]}
+                                </c:if>
+                            </td>
+                        </c:forEach>
+                    </tr>
+                </c:if>
+            </c:forEach>
+            </tbody>
+        </table>
+
+        <p>
+            <b>NEED TEXT HERE : If you are experiencing any other symptoms not listed above, then please type them in
+                the below search box</b>
+        </p>
+
+        <input type="text" id="participantquestion-input" value="" class="autocomplete  validate-NOTEMPTY" size="60"/>
         <input type="button" id="participantquestion-clear" value="Clear"/>
         <tags:indicator id="participantquestion-indicator"/>
         <div id="participantquestion-choices" class="autocomplete"></div>
         </p>
         <br/>&nbsp;<br/>
-        <table>
-            <tr>
-                <td width="33%" id="td_1">
-                    <c:forEach var="i" begin="1" end="7" varStatus="status">
-                        <input type="checkbox" name="symptomsByParticipants"
-                               value="${command.sortedSymptoms[i]}"/> ${command.sortedSymptoms[i]}
-                        <br/>
-                    </c:forEach>
-                </td>
-                <td width="33%" id="td_2">
-                    <c:forEach var="i" begin="8" end="14" varStatus="status">
-                        <input type="checkbox" name="symptomsByParticipants"
-                               value="${command.sortedSymptoms[i]}"/> ${command.sortedSymptoms[i]}
-                        <br/>
-                    </c:forEach>
-                </td>
-                <td width="33%" id="td_3">
-                    <c:forEach var="i" begin="15" end="21" varStatus="status">
-                        <input type="checkbox" name="symptomsByParticipants"
-                               value="${command.sortedSymptoms[i]}"/> ${command.sortedSymptoms[i]}
-                        <br/>
-                    </c:forEach>
-                </td>
-            </tr>
-        </table>
-
     </chrome:box>
     <table width="100%">
         <input type="hidden" name="direction"/>
@@ -149,6 +189,7 @@
             </td>
         </tr>
     </table>
+
 </form:form>
 </body>
 </html>
