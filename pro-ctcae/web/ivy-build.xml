@@ -129,6 +129,25 @@
         </dbunit>
     </target>
 
+    <!-- ========================================================================
+           target: migrate-sample-data
+            Will run the sample data migration for testing purpose..
+       ============================================================================= -->
+
+    <target name="migrate-sample-data" description="add sample data" depends="find-datasource">
+        <taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="main.classpath"/>
+        <property file="${dsFile}"/>
+        <echo>add sample data into ${datasource.url}</echo>
+        <dbunit classpathRef="main.classpath"
+                driver="${datasource.driver}"
+                url="${datasource.url}"
+                userid="${datasource.username}"
+                password="${datasource.password}">
+            <operation type="INSERT"
+                       src="src/test/resources/gov/nih/nci/ctcae/selenium/testdata/studies-participants.xml"/>
+        </dbunit>
+    </target>
+
 
     <target name="selenium-test" if="run.test" depends="clean-test-results, compile-test,resolve-test"
             description="Runs the selenium testcases">
