@@ -349,7 +349,7 @@
         }
 
     }
-   
+
     function updateConditions() {
         var request = new Ajax.Request("<c:url value="/pages/form/allConditions"/>", {
             parameters:"&subview=subview&questionsIds=" + $('questionsIds').value,
@@ -709,11 +709,17 @@
 
                 });
 
+                hideProCtcTermsForCtcCategory(ctcCategoryId);
                 postProcessFormChanges();
             },
             method:'get'
         })
 
+    }
+    function hideProCtcTermsForCtcCategory(ctcCategoryId) {
+        $$('a.ctcCategory_' + ctcCategoryId).each(function (proCtcTerm) {
+            proCtcTerm.hide();
+        })
     }
 
 </script>
@@ -886,7 +892,8 @@
                                             <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
                                                 <li class="closed">${proCtcTerm.term}
                                                     <a href="javascript:addProctcTerm(${proCtcTerm.id})"
-                                                       id="proCtcTerm_${proCtcTerm.id}" class="addallbtn">
+                                                       id="proCtcTerm_${proCtcTerm.id}"
+                                                       class="addallbtn ctcCategory_${ctcCategory.key.id}">
                                                         <img src="/ctcae/images/blue/select_question_btn.png"
                                                              alt="Add" onclick=""/></a>
 
