@@ -54,14 +54,14 @@
         </dependency>
         <dependency org="org.springframework" name="spring-agent" rev="2.5.4" force="true"/>
 
-        <dependency org="org.springframework.security" name="spring-security-taglibs" rev="2.0.4">
+        <dependency org="org.springframework.security" name="spring-security-taglibs" rev="2.0.4" transitive="false">
             <artifact name="spring-security-taglibs" type="jar"/>
 
         </dependency>
-        <dependency org="org.springframework.security" name="spring-security-core" rev="2.0.4">
+        <dependency org="org.springframework.security" name="spring-security-core" rev="2.0.4" transitive="false">
             <artifact name="spring-security-core" type="jar"/>
         </dependency>
-        <dependency org="org.springframework.security" name="spring-security-acl" rev="2.0.4">
+        <dependency org="org.springframework.security" name="spring-security-acl" rev="2.0.4" transitive="false">
             <artifact name="spring-security-acl" type="jar"/>
         </dependency>
 
