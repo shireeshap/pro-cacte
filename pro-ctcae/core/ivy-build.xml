@@ -74,5 +74,20 @@
         </sql>
     </target>
 
+    <target name="recreate-db-old" description="drop the database and create new database"
+            depends="resolve, find-admin-datasource">
+        <property file="${adminDsFile}"/>
+        <echo message="${datasource.driver}"/>
+        <echo message="${datasource.url}"/>
+        <echo message="${datasource.username}"/>
+        <echo message="${datasource.password}"/>
+        <sql driver="${datasource.driver}" userid="${datasource.username}" password="${datasource.password}"
+             url="${datasource.url}"
+             classpathref="main.classpath" onerror="abort" autocommit="true">
+            DROP DATABASE "${database.name}";
+            CREATE DATABASE "${database.name}";
+        </sql>
+    </target>
+
 
 </project>
