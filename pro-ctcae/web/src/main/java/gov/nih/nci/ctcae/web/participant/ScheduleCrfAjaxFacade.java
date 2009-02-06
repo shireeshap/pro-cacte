@@ -7,9 +7,13 @@ import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
+import gov.nih.nci.ctcae.web.form.SubmitFormCommand;
+import gov.nih.nci.ctcae.web.form.SubmitFormController;
 import org.springframework.beans.factory.annotation.Required;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.ArrayList;
 
 //
 /**
@@ -60,6 +64,25 @@ public class ScheduleCrfAjaxFacade {
         participantQuery.filterByStudy(studyId);
         List<Participant> participants = (List<Participant>) participantRepository.find(participantQuery);
         return ObjectTools.reduceAll(participants, "id", "firstName", "lastName");
+    }
+
+    /**
+     * Match Symptoms.
+     *
+     * @param text the text
+     * @return the list< participant>
+     */
+    public List<String> matchSymptoms(HttpServletRequest request, String text, Integer studyParticipantCrfScheduleId) {
+        SubmitFormCommand submitFormCommand = (SubmitFormCommand)
+                request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
+        List<String> symptoms = submitFormCommand.getSortedSymptoms();
+        List<String> results = new ArrayList<String>();
+        for (String symptom : symptoms) {
+            if (symptom.toLowerCase().contains((text.toLowerCase()))) {
+                results.add(symptom);
+            }
+        }
+        return results;
     }
 
     /**

@@ -63,10 +63,6 @@ public class SubmitFormCommand implements Serializable {
      */
     private List<ProCtcQuestion> proCtcQuestions;
 
-    /**
-     * The has participant added questions.
-     */
-    private boolean hasParticipantAddedQuestions = false;
 
     /**
      * The deleted questions.
@@ -82,6 +78,8 @@ public class SubmitFormCommand implements Serializable {
      * The page header.
      */
     private String pageHeader = "";
+
+    private List<String> questionsToBeDeleted = new ArrayList<String>();
 
     /**
      * Initialize.
@@ -102,7 +100,6 @@ public class SubmitFormCommand implements Serializable {
         totalPages = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber().size();
         participantAddedQuestionIndex = totalPages + 1;
         if (studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size() > 0) {
-            hasParticipantAddedQuestions = true;
             HashSet symptoms = new HashSet();
             for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
                 symptoms.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
@@ -221,13 +218,14 @@ public class SubmitFormCommand implements Serializable {
      */
     public int getCurrentPageIndex() {
         if (direction.equals("back")) {
+            direction = "";
             currentPageIndex--;
         }
         if (direction.equals("continue")) {
+            direction = "";
             currentPageIndex++;
         }
 
-        direction = "";
         return currentPageIndex;
     }
 
@@ -326,7 +324,7 @@ public class SubmitFormCommand implements Serializable {
         for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
             includedQuestionIds.add(studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getId());
         }
-        if (hasParticipantAddedQuestions) {
+        if (studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size() >0) {
             for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
                 includedQuestionIds.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getId());
             }
@@ -381,23 +379,7 @@ public class SubmitFormCommand implements Serializable {
         return proCtcQuestions;
     }
 
-    /**
-     * Checks if is checks for participant added questions.
-     *
-     * @return true, if is checks for participant added questions
-     */
-    public boolean isHasParticipantAddedQuestions() {
-        return hasParticipantAddedQuestions;
-    }
 
-    /**
-     * Sets the checks for participant added questions.
-     *
-     * @param hasParticipantAddedQuestions the new checks for participant added questions
-     */
-    public void setHasParticipantAddedQuestions(boolean hasParticipantAddedQuestions) {
-        this.hasParticipantAddedQuestions = hasParticipantAddedQuestions;
-    }
 
     /**
      * Gets the deleted questions.
@@ -419,42 +401,48 @@ public class SubmitFormCommand implements Serializable {
 
     /**
      * Delete questions.
-     *
-     * @param questions the questions
      */
-    public void deleteQuestions(String questions) {
+    public void deleteQuestions() {
 
-        if (!StringUtils.isBlank(questions)) {
+        if (questionsToBeDeleted.size() > 0) {
 
             studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
-            StringTokenizer st = new StringTokenizer(questions, ",");
             int myPageNumber = -1;
-            while (st.hasMoreTokens()) {
-
-                String id = st.nextToken();
-                StudyParticipantCrfAddedQuestion s = finderRepository.findById(StudyParticipantCrfAddedQuestion.class, new Integer(id));
-                myPageNumber = s.getPageNumber();
-                studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(s);
-                genericRepository.delete(s);
-            }
-
-            if (myPageNumber != -1) {
-                for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
-                    if (studyParticipantCrfAddedQuestion.getPageNumber() == myPageNumber) {
+            for (String id : questionsToBeDeleted) {
+                if (!StringUtils.isBlank(id)) {
+                    StudyParticipantCrfAddedQuestion s = finderRepository.findById(StudyParticipantCrfAddedQuestion.class, new Integer(id));
+                    myPageNumber = s.getPageNumber();
+                    if (s.getProCtcQuestion().getDisplayOrder() != 1) {
                         return;
                     }
-                }
-                for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
-                    if (studyParticipantCrfAddedQuestion.getPageNumber() > myPageNumber) {
-                        int oldPageNumber = studyParticipantCrfAddedQuestion.getPageNumber();
-                        studyParticipantCrfAddedQuestion.setPageNumber(oldPageNumber - 1);
-                        genericRepository.save(studyParticipantCrfAddedQuestion);
+                    studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(s);
+                    genericRepository.delete(s);
+
+                    if (myPageNumber != -1) {
+                        List<StudyParticipantCrfAddedQuestion> l = new ArrayList<StudyParticipantCrfAddedQuestion>();
+                        for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
+                            if (studyParticipantCrfAddedQuestion.getPageNumber() == myPageNumber) {
+                                l.add(studyParticipantCrfAddedQuestion);
+                            }
+                        }
+
+                        for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : l) {
+                            studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+                            genericRepository.delete(studyParticipantCrfAddedQuestion);
+                        }
+
+                        for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
+                            if (studyParticipantCrfAddedQuestion.getPageNumber() > myPageNumber) {
+                                int oldPageNumber = studyParticipantCrfAddedQuestion.getPageNumber();
+                                studyParticipantCrfAddedQuestion.setPageNumber(oldPageNumber - 1);
+                                genericRepository.save(studyParticipantCrfAddedQuestion);
+                            }
+                        }
                     }
                 }
-                totalPages = totalPages - 1;
-                currentPageIndex = currentPageIndex - 1;
             }
         }
+        questionsToBeDeleted.clear();
     }
 
     /**
@@ -481,7 +469,6 @@ public class SubmitFormCommand implements Serializable {
      * @return the page header
      */
     public String getPageHeader() {
-        String symptom = "";
 
         if (currentPageIndex <= totalPages) {
             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
@@ -493,5 +480,22 @@ public class SubmitFormCommand implements Serializable {
         return pageHeader;
     }
 
+    public void addQuestionToDeleteList(String questionid) {
+        if (!StringUtils.isBlank(questionid)) {
+            if (questionid.indexOf('-') != -1) {
+                String q = questionid.substring(1);
+                questionsToBeDeleted.remove(q);
+            } else {
+                questionsToBeDeleted.add(questionid);
+            }
+        }
+    }
 
+    public List<String> getQuestionsToBeDeleted() {
+        return questionsToBeDeleted;
+    }
+
+    public void setQuestionsToBeDeleted(List<String> questionsToBeDeleted) {
+        this.questionsToBeDeleted = questionsToBeDeleted;
+    }
 }

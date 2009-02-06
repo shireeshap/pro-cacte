@@ -10,6 +10,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import org.apache.commons.lang.StringUtils;
+
+
 //
 /**
  * User: Harsh
@@ -106,7 +109,7 @@ public class ParticipantSchedule {
      * @throws ParseException the parse exception
      */
     public void createSchedules() throws ParseException {
-        removeSchedules();
+        removeAllSchedules();
         calendar.prepareSchedules();
         int dueAfterPeriodInMill = calendar.getDueAfterPeriodInMill();
         while (calendar.hasMoreSchedules()) {
@@ -122,13 +125,15 @@ public class ParticipantSchedule {
      * @throws ParseException the parse exception
      */
     public void createSchedule(String startDate, String dueDate) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        Calendar cstart = new GregorianCalendar();
-        cstart.setTime(sdf.parse(startDate));
-        Calendar cdue = new GregorianCalendar();
-        cdue.setTime(sdf.parse(dueDate));
+        if (!StringUtils.isBlank(dueDate)) {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            Calendar cstart = new GregorianCalendar();
+            cstart.setTime(sdf.parse(startDate));
+            Calendar cdue = new GregorianCalendar();
+            cdue.setTime(sdf.parse(dueDate));
 
-        createSchedule(cstart, cdue.getTimeInMillis() - cstart.getTimeInMillis());
+            createSchedule(cstart, cdue.getTimeInMillis() - cstart.getTimeInMillis());
+        }
 
     }
 
@@ -177,9 +182,9 @@ public class ParticipantSchedule {
 
 
     /**
-     * Removes the schedules.
+     * Removes all the schedules.
      */
-    public void removeSchedules() {
+    public void removeAllSchedules() {
         List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
@@ -191,6 +196,73 @@ public class ParticipantSchedule {
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove) {
             studyParticipantCrf.removeCrfSchedule(studyParticipantCrfSchedule);
         }
+    }
+
+    public void moveAllSchedules(int offset) {
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+            if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
+                moveSingleSchedule(studyParticipantCrfSchedule, offset);
+            }
+        }
+    }
+
+
+    public void moveFutureSchedules(Calendar c, int offset) {
+        int month = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        int date = c.get(Calendar.DATE);
+        Calendar a = new GregorianCalendar(year, month, date);
+        Calendar b = new GregorianCalendar();
+
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+            if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
+                b.setTime(studyParticipantCrfSchedule.getStartDate());
+                int mon = b.get(Calendar.MONTH);
+                int dt = b.get(Calendar.DATE);
+                int yr = b.get(Calendar.YEAR);
+                b.clear();
+                b.set(yr, mon, dt);
+                if (b.getTimeInMillis() >= a.getTimeInMillis()) {
+                    moveSingleSchedule(studyParticipantCrfSchedule, offset);
+                }
+            }
+        }
+    }
+
+    public void deleteFutureSchedules(Calendar c) {
+        int month = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        int date = c.get(Calendar.DATE);
+        Calendar a = new GregorianCalendar(year, month, date);
+        Calendar b = new GregorianCalendar();
+        List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+            if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
+                b.setTime(studyParticipantCrfSchedule.getStartDate());
+                int mon = b.get(Calendar.MONTH);
+                int dt = b.get(Calendar.DATE);
+                int yr = b.get(Calendar.YEAR);
+                b.clear();
+                b.set(yr, mon, dt);
+                if (b.getTimeInMillis() >= a.getTimeInMillis()) {
+                    schedulesToRemove.add(studyParticipantCrfSchedule);
+                }
+            }
+        }
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove) {
+            studyParticipantCrf.removeCrfSchedule(studyParticipantCrfSchedule);
+        }
+    }
+
+    private void moveSingleSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, int offset) {
+        Calendar c1 = calendar.getCalendarForDate(studyParticipantCrfSchedule.getStartDate());
+        Calendar c2 = calendar.getCalendarForDate(studyParticipantCrfSchedule.getDueDate());
+        c1.add(Calendar.DATE, offset);
+        c2.add(Calendar.DATE, offset);
+
+        studyParticipantCrfSchedule.setStartDate(c1.getTime());
+        studyParticipantCrfSchedule.setDueDate(c2.getTime());
+
     }
 
     /**

@@ -3,6 +3,7 @@ class CreateProCtcValidValue extends edu.northwestern.bioinformatics.bering.Migr
 		createTable("PRO_CTC_VALID_VALUES") {t ->
 			t.addColumn('value', 'string', nullable: false)
 			t.addColumn('pro_ctc_question_id', 'integer', nullable: false)
+			t.addColumn('display_order', 'integer', nullable: true)
 		}
 		execute('ALTER TABLE PRO_CTC_VALID_VALUES ADD CONSTRAINT fk_valid_val_ques FOREIGN KEY (pro_ctc_question_id) REFERENCES PRO_CTC_QUESTIONS')
 	}

@@ -32,6 +32,9 @@ public class ProCtcValidValue extends BasePersistable {
     @Column(name = "value", nullable = false)
     private String value;
 
+    @Column(name = "display_order", nullable = true)
+    private Integer displayOrder;
+
     /**
      * The pro ctc question.
      */
@@ -129,5 +132,13 @@ public class ProCtcValidValue extends BasePersistable {
         result = (value != null ? value.hashCode() : 0);
         result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
         return result;
+    }
+
+    public Integer getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(Integer displayOrder) {
+        this.displayOrder = displayOrder;
     }
 }

@@ -69,7 +69,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
             proCtcQuestion.addValidValue(proCtcValidValue2);
 
 
-            proCtcTermRepository.save(proCtcTerm);
+//            proCtcTermRepository.save(proCtcTerm);
             setComplete();
             endTransaction();
             startNewTransaction();

@@ -57,7 +57,7 @@
         var questionindexes = new Array();
 
 
-        function gonext(crfitemindex, index, column) {
+        function gonext(crfitemindex, index, column, displayOrder, participantCrfItemId, questionDisplayOrder) {
             var x = document.getElementsByName('response' + crfitemindex);
             x[index].checked = true;
             responses[x[index].value] = 'Y';
@@ -68,7 +68,14 @@
                     responses[x[i].value] = 'N';
                 }
             }
-            evaluateAllQuestions();
+            if (questionDisplayOrder == '1') {
+                if (displayOrder == '0') {
+                    document.myForm.deletedQuestions.value = participantCrfItemId;
+                } else {
+                    document.myForm.deletedQuestions.value = '-' + participantCrfItemId;
+                }
+                evaluateAllQuestions();
+            }
         }
 
         function clearResponse(questionindex) {
@@ -80,11 +87,6 @@
             document.myForm.elements[elementName].value = '';
         }
 
-        function deleteQuestion(questionindex, questionid, addedquestionid) {
-            document.myForm.deletedQuestions.value = document.myForm.deletedQuestions.value + ',' + addedquestionid;
-            hideQuestion(questionid);
-            clearResponse(questionindex);
-        }
 
         Event.observe(window, "load", function () {
             evaluateAllQuestions();
@@ -173,9 +175,6 @@
                         <td colspan="${fn:length(participantCrfItem.proCtcQuestion.validValues)}">
                             <div class="label">
                                     ${participantCrfItem.proCtcQuestion.questionText}
-                                (<a href="javascript:deleteQuestion('${crfitemstatus.index}','${participantCrfItem.proCtcQuestion.id}','${participantCrfItem.id}')">remove
-                                this question</a>)
-
                             </div>
                         </td>
                     </tr>
@@ -191,7 +190,10 @@
                                              title="${validValue.value}"
                                              selectedId="${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[crfitemstatus.index].proCtcValidValue.id}"
                                              crfitemindex="${crfitemstatus.index}"
-                                             index="${validvaluestatus.index}"/>
+                                             index="${validvaluestatus.index}"
+                                             displayOrder="${validValue.displayOrder}"
+                                             participantCrfItemId="${participantCrfItem.id}"
+                                             questionDisplayOrder="${participantCrfItem.proCtcQuestion.displayOrder}"/>
                         </c:forEach>
                     </tr>
                     <tr>

@@ -52,8 +52,11 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
         StudyParticipantCrf studyParticipantCrf = finderRepository.findById(StudyParticipantCrf.class, studyParticipantCrfSchedule.getStudyParticipantCrf().getId());
         int pageNumber = ((SubmitFormCommand) command).getTotalPages();
-        request.getSession().setAttribute("gotopage", "" + (pageNumber + 1));
+        request.getSession().setAttribute("questionstobedeletedlist", ((SubmitFormCommand) command).getQuestionsToBeDeleted());
         if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
+            request.getSession().setAttribute("gotopage", "" + (pageNumber + 1));
+            request.getSession().setAttribute("skipaddquestion", "true");
+
             String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
             Hashtable arrangedQuestions = ((SubmitFormCommand) command).getArrangedQuestions();
 
@@ -76,6 +79,8 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
                     pageNumber++;
                 }
             }
+        } else {
+            request.getSession().setAttribute("gotopage", "" + pageNumber);
         }
         return new ModelAndView(new RedirectView("submit?id=" + ((SubmitFormCommand) command).getStudyParticipantCrfSchedule().getId()));
     }

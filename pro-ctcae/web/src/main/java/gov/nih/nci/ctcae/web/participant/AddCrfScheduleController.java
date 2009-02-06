@@ -41,28 +41,45 @@ public class AddCrfScheduleController extends AbstractController {
         Calendar c = new GregorianCalendar();
         int duedate = 24 * 60 * 60 * 1000;
         if ("delall".equals(action)) {
-            participantSchedule.removeSchedules();
+            participantSchedule.removeAllSchedules();
+        }
+
+        if ("moveall".equals(action)) {
+            int newdate = Integer.parseInt(date.substring(0, date.indexOf(",")));
+            int olddate = Integer.parseInt(date.substring(date.indexOf(",") + 1));
+            participantSchedule.moveAllSchedules(newdate-olddate);
+        }
+
+        c.setTime(participantSchedule.getCalendar().getTime());
+        if ("moveallfuture".equals(action)) {
+            int newdate = Integer.parseInt(date.substring(0, date.indexOf(",")));
+            int olddate = Integer.parseInt(date.substring(date.indexOf(",") + 1));
+             c.set(Calendar.DATE, olddate);
+            participantSchedule.moveFutureSchedules(c, newdate-olddate);
+        }
+        if ("delallfuture".equals(action)) {
+             c.set(Calendar.DATE, Integer.parseInt(date));
+            participantSchedule.deleteFutureSchedules(c);
+        }
+
+        if ("add,del".equals(action)) {
+            String newdate = date.substring(0, date.indexOf(","));
+            String olddate = date.substring(date.indexOf(",") + 1);
+
+            c.set(Calendar.DATE, Integer.parseInt(newdate));
             participantSchedule.createSchedule(c, duedate);
-        } else {
-            c.setTime(participantSchedule.getCalendar().getTime());
-            if ("add,del".equals(action)) {
-                String newdate = date.substring(0, date.indexOf(","));
-                String olddate = date.substring(date.indexOf(",") + 1);
 
-                c.set(Calendar.DATE, Integer.parseInt(newdate));
-                participantSchedule.createSchedule(c, duedate);
+            c.set(Calendar.DATE, Integer.parseInt(olddate));
+            participantSchedule.removeSchedule(c);
+        }
 
-                c.set(Calendar.DATE, Integer.parseInt(olddate));
-                participantSchedule.removeSchedule(c);
-            } else {
-                c.set(Calendar.DATE, Integer.parseInt(date));
-                if ("add".equals(action)) {
-                    participantSchedule.createSchedule(c, duedate);
-                }
-                if ("del".equals(action)) {
-                    participantSchedule.removeSchedule(c);
-                }
-            }
+        if ("add".equals(action)) {
+            c.set(Calendar.DATE, Integer.parseInt(date));
+            participantSchedule.createSchedule(c, duedate);
+        }
+        if ("del".equals(action)) {
+            c.set(Calendar.DATE, Integer.parseInt(date));
+            participantSchedule.removeSchedule(c);
         }
 
         return null;

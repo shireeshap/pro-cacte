@@ -10,9 +10,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 //
 /**
@@ -51,11 +53,12 @@ public class SubmitFormController extends CtcAeSimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
         if ("save".equals(submitFormCommand.getDirection())) {
+            submitFormCommand.deleteQuestions();
             submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.COMPLETED);
         } else {
             submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.INPROGRESS);
         }
-        submitFormCommand.deleteQuestions(request.getParameter("deletedQuestions"));
+        submitFormCommand.addQuestionToDeleteList(request.getParameter("deletedQuestions"));
         genericRepository.save(submitFormCommand.getStudyParticipantCrfSchedule());
         submitFormCommand.setStudyParticipantCrfSchedule(finderRepository.findById(StudyParticipantCrfSchedule.class, submitFormCommand.getStudyParticipantCrfSchedule().getId()));
         return showForm(request, response, errors);
@@ -85,21 +88,33 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         }
 
         if (submitFormCommand.getCurrentPageIndex() == submitFormCommand.getTotalPages() + 1) {
-            mv = showForm(request, errors, "form/addquestion");
-            return mv;
+            if (StringUtils.isBlank((String) request.getSession().getAttribute("skipaddquestion"))) {
+                mv = showForm(request, errors, getReviewView());
+                mv.setView(new RedirectView("addquestion"));
+                return mv;
+            } else {
+                submitFormCommand.setCurrentPageIndex(submitFormCommand.getCurrentPageIndex() + 1);
+                request.getSession().removeAttribute("skipaddquestion");
+            }
         }
 
-        if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages() + 1) {
+        if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages() + 1)
+
+        {
             mv = showForm(request, errors, getReviewView());
             return mv;
         }
 
-        if (submitFormCommand.getCurrentPageIndex() >= submitFormCommand.getParticipantAddedQuestionIndex()) {
+        if (submitFormCommand.getCurrentPageIndex() >= submitFormCommand.getParticipantAddedQuestionIndex())
+
+        {
             for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfScheduleAddedQuestions()) {
                 studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
             }
             mv = showForm(request, errors, "form/participantAddedQuestion");
-        } else {
+        } else
+
+        {
             mv = showForm(request, errors, getFormView());
         }
 
@@ -114,6 +129,10 @@ public class SubmitFormController extends CtcAeSimpleFormController {
 
         String crfScheduleId = request.getParameter("id");
         SubmitFormCommand submitFormCommand = new SubmitFormCommand();
+        List<String> questionsToBeDeleted = (List<String>) request.getSession().getAttribute("questionstobedeletedlist");
+        if (questionsToBeDeleted != null) {
+            submitFormCommand.setQuestionsToBeDeleted(questionsToBeDeleted);
+        }
 
         if (!StringUtils.isBlank(crfScheduleId)) {
             StudyParticipantCrfSchedule studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(crfScheduleId));

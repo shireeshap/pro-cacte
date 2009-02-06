@@ -7,6 +7,13 @@
 <c:forEach items="${schedule.currentMonthSchedules}" var="studyParticipantCrfSchedule">
     <div id="${index}_temp_<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />"
          name="${index}_temp_div">
+        <c:if test="${studyParticipantCrfSchedule.status eq 'Scheduled'}">
+            <img height="13" width="12"
+                 alt="remove"
+                 src="/ctcae/images/blank.gif"
+                 class="removebutton" align="right"
+                 onclick="showDeleteWindow('<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />','${index}');"/>
+        </c:if>
             ${studyParticipantCrfSchedule.status}
     </div>
 </c:forEach>
@@ -46,10 +53,9 @@
                                  name="${index}_schedule_div" height="50px">&nbsp;</div>
                         </c:when>
                         <c:otherwise>
-                            <div id="${index}_schedule_${day}"
-                                 name="${index}_schedule_div" class="passive"
-                                 ondblclick="javascript:selectDate(this, '(Scheduled)','${index}');">&nbsp;</div>
-
+                            <div id="${index}_schedule_${day}" name="${index}_schedule_div" class="passive"
+                                 onclick="showAddWindow('${day}','${index}');">
+                            </div>
                         </c:otherwise>
                     </c:choose>
                 </td>

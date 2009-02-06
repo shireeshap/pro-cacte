@@ -95,11 +95,13 @@ public class CsvImporter {
 
 
                 StringTokenizer st1 = new StringTokenizer(hmValue.getProctcValidValues(), "/");
+                int j = 0;
                 while (st1.hasMoreTokens()) {
                     ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
                     proCtcValidValue.setValue(st1.nextToken());
+                    proCtcValidValue.setDisplayOrder(j);
+                    j++;
                     proCtcQuestion.addValidValue(proCtcValidValue);
-
                 }
 
                 if (new Integer(hmValue.getDisplayOrder()) == 1) {

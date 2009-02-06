@@ -185,7 +185,7 @@ public class StudyParticipantCommand {
                 String startDate = request.getParameter("startDate_" + i);
                 String dueDate = request.getParameter("dueDate_" + i);
                 participantSchedules.get(0).setFinderRepository(finderRepository);
-                participantSchedules.get(0).removeSchedules();
+                participantSchedules.get(0).removeAllSchedules();
                 participantSchedules.get(0).createSchedule(startDate, dueDate);
             }
         }
