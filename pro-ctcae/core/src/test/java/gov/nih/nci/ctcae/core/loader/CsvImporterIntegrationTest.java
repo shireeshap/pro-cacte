@@ -43,7 +43,7 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
     }
 
     public void testSaveCsv() throws IOException {
-        //   saveCsv();
+           saveCsv();
         //  assertNotNull(finderRepository.findById(ProCtc.class, 1));
     }
 
