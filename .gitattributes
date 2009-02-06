@@ -586,6 +586,7 @@ pro-ctcae/web/src/main/webapp/images/blue/administration_btn_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/advancedSearch_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/advancedSearch_btn_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/back_btn.png -text
+pro-ctcae/web/src/main/webapp/images/blue/back_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/bg.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/bg_ie.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/body_bg.png -text
@@ -604,6 +605,7 @@ pro-ctcae/web/src/main/webapp/images/blue/clear-left-button.png -text
 pro-ctcae/web/src/main/webapp/images/blue/conditional-icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/conditional-triggering-icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/continue_btn.png -text
+pro-ctcae/web/src/main/webapp/images/blue/continue_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/crumpled-paper.png -text
 pro-ctcae/web/src/main/webapp/images/blue/down.png -text
 pro-ctcae/web/src/main/webapp/images/blue/eXtable_allAE_header_bg.png -text
@@ -706,7 +708,9 @@ pro-ctcae/web/src/main/webapp/images/blue/rules_btn_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/save_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/saveandcontinue_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/saveback_btn.png -text
+pro-ctcae/web/src/main/webapp/images/blue/saveback_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/savecontinue_btn.png -text
+pro-ctcae/web/src/main/webapp/images/blue/savecontinue_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_gt4_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_hover.png -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_hover_gt4.png -text
@@ -727,6 +731,7 @@ pro-ctcae/web/src/main/webapp/images/blue/undo.png -text
 pro-ctcae/web/src/main/webapp/images/blue/up.png -text
 pro-ctcae/web/src/main/webapp/images/blue_btn_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue_btn_bg_active.png -text
+pro-ctcae/web/src/main/webapp/images/blue_btn_bg_hover.png -text
 pro-ctcae/web/src/main/webapp/images/book.gif -text
 pro-ctcae/web/src/main/webapp/images/caaers.ico -text
 pro-ctcae/web/src/main/webapp/images/checkno.gif -text
