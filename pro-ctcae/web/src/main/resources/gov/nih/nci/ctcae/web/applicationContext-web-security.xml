@@ -4,34 +4,34 @@
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
               http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
-    <http auto-config="true">
-        <intercept-url pattern="/public/login" filters="none"/>
-        <intercept-url pattern="/public/logout" filters="none"/>
-        <intercept-url pattern="/pages/*" access="ROLE_USER"/>
+    <!--<http auto-config="true">-->
+        <!--<intercept-url pattern="/public/login" filters="none"/>-->
+        <!--<intercept-url pattern="/public/logout" filters="none"/>-->
+        <!--<intercept-url pattern="/pages/*" access="ROLE_USER"/>-->
 
-        <form-login login-page="/public/login" authentication-failure-url="/public/login?error=true"
-                    default-target-url="/pages/form/manageForm" />
+        <!--<form-login login-page="/public/login" authentication-failure-url="/public/login?error=true"-->
+                    <!--default-target-url="/pages/form/manageForm" />-->
 
 
-        <remember-me user-service-ref="userDetailsService"/>
+        <!--<remember-me user-service-ref="userDetailsService"/>-->
 
-        <logout logout-success-url="/public/login"/>
+        <!--<logout logout-success-url="/public/login"/>-->
 
-        <concurrent-session-control max-sessions="1"/>
+        <!--<concurrent-session-control max-sessions="1"/>-->
 
-    </http>
+    <!--</http>-->
 
     <!--It will create a daoAuthenticationProvider-->
-    <authentication-provider user-service-ref="userDetailsService">
+    <!--<authentication-provider user-service-ref="userDetailsService">-->
 
-    </authentication-provider>
+    <!--</authentication-provider>-->
 
 
     <!--It will create a inMemoryUserDetailsService-->
 
-    <user-service id="userDetailsService">
-        <user name="SYSTEM_ADMIN" password="system_admin" authorities="ROLE_USER"/>
-    </user-service>
+    <!--<user-service id="userDetailsService">-->
+        <!--<user name="SYSTEM_ADMIN" password="system_admin" authorities="ROLE_USER"/>-->
+    <!--</user-service>-->
 
 </beans:beans>
 

@@ -13,23 +13,23 @@
         <a href="/ctcae/pages/form/basicForm" id="logo">ProCtcAE</a>
 
 
-        <div id="login-action">
+        <%--<div id="login-action">--%>
 
-            <ctcae:authorize>
-                <div id="welcome-user">Welcome
-                    <authz:authentication property="name"></authz:authentication>
-                </div>
-            </ctcae:authorize>
+            <%--<ctcae:authorize>--%>
+                <%--<div id="welcome-user">Welcome--%>
+                    <%--<authz:authentication property="name"></authz:authentication>--%>
+                <%--</div>--%>
+            <%--</ctcae:authorize>--%>
 
-            <ctcae:publicAuthorize>
-                <a href="<c:url value="/public/login"/>">Log in</a>
+            <%--<ctcae:publicAuthorize>--%>
+                <%--<a href="<c:url value="/public/login"/>">Log in</a>--%>
 
-            </ctcae:publicAuthorize>
+            <%--</ctcae:publicAuthorize>--%>
 
-            <ctcae:authorize>
-                &nbsp;<div id="logout"><a href="<c:url value="/j_spring_security_logout"/>">Log out</a> </div>
-            </ctcae:authorize>
-        </div>
+            <%--<ctcae:authorize>--%>
+                <%--&nbsp;<div id="logout"><a href="<c:url value="/j_spring_security_logout"/>">Log out</a> </div>--%>
+            <%--</ctcae:authorize>--%>
+        <%--</div>--%>
 
 
         <ul id="sections" class="tabs">
