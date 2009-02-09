@@ -7,9 +7,9 @@ import javax.persistence.*;
 
 //
 /**
- * The Class SiteClinicalStaff.
+ * The Class StudyParticipantClinicalStaff.
  *
- * @author mehul
+ * @author Vinay Kumar
  */
 
 @Entity

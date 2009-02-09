@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
 import java.util.Date;
+import java.util.List;
 
 public abstract class AbstractHibernateIntegrationTestCase extends AbstractTransactionalDataSourceSpringContextTests {
 
@@ -16,6 +17,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     protected OrganizationRepository organizationRepository;
     protected ClinicalStaff defaultClinicalStaff;
     protected SiteClinicalStaff defaultSiteClinicalStaff;
+    protected StudyParticipantAssignment defaultStudyParticipantAssignment;
     protected Organization defaultOrganization;
 
     protected Study defaultStudy;
@@ -59,6 +61,9 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         defaultStudySite = defaultStudy.getStudySites().get(0);
         assertNotNull("must find default study site. Try running ant migrate-sample-data to migrate sample data", defaultStudySite);
 
+        defaultStudyParticipantAssignment = defaultStudySite.getStudyParticipantAssignments().get(0);
+        assertNotNull("must find default study participant assignment. Try running ant migrate-sample-data to migrate sample data", defaultStudyParticipantAssignment);
+
         defaultClinicalStaff = clinicalStaffRepository.findById(-100);
         assertNotNull("must find default clinical staff. Try running ant migrate-sample-data to migrate sample data", defaultClinicalStaff);
 
@@ -67,6 +72,43 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
     }
 
+
+    protected StudySiteClinicalStaff addStudySiteClinicalStaff() {
+
+        StudySiteClinicalStaff studySiteClinicalStaff = new StudySiteClinicalStaff();
+        studySiteClinicalStaff.setSiteClinicalStaff(defaultSiteClinicalStaff);
+        defaultStudySite.addStudySiteClinicalStaff(studySiteClinicalStaff);
+
+        defaultStudy = studyRepository.save(defaultStudy);
+        commitAndStartNewTransaction();
+
+        List<StudySiteClinicalStaff> studySiteClinicalStaffs = defaultStudySite.getStudySiteClinicalStaffs();
+
+
+        assertFalse("must save study site clinical staff", studySiteClinicalStaffs.isEmpty());
+        studySiteClinicalStaff = studySiteClinicalStaffs.get(0);
+        assertNotNull("must save study site clinical staff", studySiteClinicalStaff.getId());
+        assertEquals("study site must be same", studySiteClinicalStaff.getStudySite(), defaultStudySite);
+
+
+        assertEquals("site clinical staff  must be same", defaultSiteClinicalStaff, studySiteClinicalStaff.getSiteClinicalStaff());
+        return studySiteClinicalStaff;
+    }
+
+
+    protected void updateDefaultObjects() {
+
+        defaultStudy = studyRepository.findById(defaultStudy.getId());
+        defaultStudySite = defaultStudy.getStudySites().get(0);
+        defaultStudyParticipantAssignment = defaultStudySite.getStudyParticipantAssignments().get(0);
+
+        defaultStudyParticipantAssignment = defaultStudySite.getStudyParticipantAssignments().get(0);
+
+        defaultClinicalStaff = clinicalStaffRepository.findById(-100);
+
+        defaultSiteClinicalStaff = defaultClinicalStaff.getSiteClinicalStaffs().get(0);
+
+    }
 
     @Override
     protected void onTearDownInTransaction() throws Exception {
@@ -81,6 +123,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         setComplete();
         endTransaction();
         startNewTransaction();
+        updateDefaultObjects();
     }
 
     @Required

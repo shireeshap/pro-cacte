@@ -43,13 +43,17 @@ public class StudySiteTest extends AbstractTestCase {
 
     }
 
+//    public void testToString() {
+//        assertEquals("", studySite.toString());
+//
+//    }
+
     public void testMustNotAddDuplicateStudySiteClinicalStaff() {
 
-        assertEquals(studySiteClinicalStaff, duplicateStudySiteClinicalStaff);
         studySite.addStudySiteClinicalStaff(studySiteClinicalStaff);
         studySite.addStudySiteClinicalStaff(studySiteClinicalStaff);
         studySite.addStudySiteClinicalStaff(duplicateStudySiteClinicalStaff);
 
-        assertEquals("must not add duplicate sutey site clinical staff", 1, studySite.getStudySiteClinicalStaffs().size());
+        assertEquals("must not add duplicate study site clinical staff", 1, studySite.getStudySiteClinicalStaffs().size());
     }
 }

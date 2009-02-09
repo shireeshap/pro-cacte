@@ -53,6 +53,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/012_create_ctc.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/013_create_study_participant_crf_schedules.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/014_alter_crfpage_add_Instructions.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/015_add_ss_clinical_staff.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/016_add_sp_clinical_staff.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLine.java -text
@@ -140,6 +141,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentity
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentityRetrievalStrategy.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentityRetrievalStrategyImpl.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/UserDetails.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/commons/CtcAeToStringStyle.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialect.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategy.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/AbstractValidator.java -text
@@ -206,6 +208,8 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyIntegrationTest.
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantAssignmentIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantAssignmentTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantClinicalStaffIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfItemTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleTest.java -text

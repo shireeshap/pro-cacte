@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -136,5 +137,6 @@ public abstract class StudyOrganization extends BasePersistable {
         result = 31 * result + (study != null ? study.hashCode() : 0);
         return result;
     }
+
 
 }

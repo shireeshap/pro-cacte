@@ -43,7 +43,7 @@ public class StudySite extends StudyOrganization {
                 logger.debug(String.format("added study site clinical staff %s to study site %s", studySiteClinicalStaff.toString(), toString()));
                 return;
             }
-            logger.debug(String.format("Skipping the adding because study site %s already has this study site clinical staff %s", studySiteClinicalStaff.getId(), getId()));
+            logger.debug(String.format("Skipping the adding because study site %s already has this study site clinical staff %s", toString(), studySiteClinicalStaff.toString()));
 
         }
 

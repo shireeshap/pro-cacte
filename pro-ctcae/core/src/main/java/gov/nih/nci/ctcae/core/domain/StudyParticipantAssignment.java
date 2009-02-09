@@ -1,8 +1,10 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -55,8 +57,11 @@ public class StudyParticipantAssignment extends BaseVersionable {
      */
     @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-
     private List<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
+
+    @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyParticipantClinicalStaff> studyParticipantClinicalStaffs = new ArrayList<StudyParticipantClinicalStaff>();
 
     /**
      * Instantiates a new study participant assignment.
@@ -149,10 +154,10 @@ public class StudyParticipantAssignment extends BaseVersionable {
      */
     public void addStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
         if (studyParticipantCrf != null) {
-			studyParticipantCrf.setStudyParticipantAssignment(this);
-			studyParticipantCrfs.add(studyParticipantCrf);
-		}
-	}
+            studyParticipantCrf.setStudyParticipantAssignment(this);
+            studyParticipantCrfs.add(studyParticipantCrf);
+        }
+    }
 
 
     @Override
@@ -176,5 +181,45 @@ public class StudyParticipantAssignment extends BaseVersionable {
         result = 31 * result + (participant != null ? participant.hashCode() : 0);
         result = 31 * result + (studySite != null ? studySite.hashCode() : 0);
         return result;
+    }
+
+    public List<StudyParticipantClinicalStaff> getStudyParticipantClinicalStaffs() {
+        return studyParticipantClinicalStaffs;
+    }
+
+    public void addStudyParticipantClinicalStaff(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
+
+        if (studyParticipantClinicalStaff != null) {
+
+
+            StudySite expectedStudySite = studyParticipantClinicalStaff.getStudySiteClinicalStaff().getStudySite();
+
+            if (!expectedStudySite.equals(this.getStudySite())) {
+                String errorMessage = String.format("study site clinical staff belongs to study site %s. It does not belongs to study site %s of study participant assignment. " +
+                        "So this study site clincal staff can not be added.",
+                        expectedStudySite, this.getStudySite());
+                logger.error(errorMessage);
+                throw new CtcAeSystemException(errorMessage);
+
+            }
+
+            studyParticipantClinicalStaff.setStudyParticipantAssignment(this);
+            if (!getStudyParticipantClinicalStaffs().contains(studyParticipantClinicalStaff)) {
+                getStudyParticipantClinicalStaffs().add(studyParticipantClinicalStaff);
+                logger.debug(String.format("added study participant clinical staff %s to study participant assignment %s", studyParticipantClinicalStaff.toString(), toString()));
+                return;
+            }
+            logger.debug(String.format("Skipping the adding because study participant assignment %s already has this study participant clinical staff %s",
+                    toString(), studyParticipantClinicalStaff));
+
+        }
+
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+
+
     }
 }
