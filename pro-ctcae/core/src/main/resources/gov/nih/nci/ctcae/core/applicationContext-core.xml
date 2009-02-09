@@ -28,6 +28,7 @@
         <value>gov.nih.nci.ctcae.core.domain.CtcTerm</value>
         <value>gov.nih.nci.ctcae.core.domain.ProCtcValidValue</value>
         <value>gov.nih.nci.ctcae.core.domain.SiteClinicalStaff</value>
+        <value>gov.nih.nci.ctcae.core.domain.SiteClinicalStaffRole</value>
         <value>gov.nih.nci.ctcae.core.domain.Study</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyClinicalStaff</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter</value>
@@ -150,6 +151,7 @@
 
     <bean id="genericRepository" class="gov.nih.nci.ctcae.core.repository.HibernateGenericRepository">
         <property name="hibernateTemplate" ref="hibernateTemplate"/>
+        <property name="beanValidator" ref="beanValidator"/>
     </bean>
 
 
@@ -204,6 +206,8 @@
           class="gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository"
           parent="abstractRepository">
     </bean>
-
+    <bean id="beanValidator" class="gov.nih.nci.ctcae.core.validation.BeanValidator">
+        <constructor-arg ref="domainClasses"/>
+    </bean>
 
 </beans>

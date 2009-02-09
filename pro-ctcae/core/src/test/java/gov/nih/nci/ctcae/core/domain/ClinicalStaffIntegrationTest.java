@@ -1,9 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.jpa.JpaSystemException;
 
 import java.util.Collection;
 
@@ -42,24 +41,23 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
 
         try {
             inValidClinicalStaff = clinicalStaffRepository.save(inValidClinicalStaff);
-        } catch (DataIntegrityViolationException e) {
+        } catch (CtcAeSystemException e) {
             logger.info("expecting this");
         }
 
         try {
             inValidClinicalStaff.setFirstName("John");
             clinicalStaffRepository.save(inValidClinicalStaff);
-        } catch (JpaSystemException e) {
             fail();
-            logger.info("expecting this.. last name and NCI code is missing");
+        } catch (CtcAeSystemException e) {
         }
         try {
             inValidClinicalStaff.setFirstName("John");
             inValidClinicalStaff.setLastName("Doe");
-            inValidClinicalStaff = clinicalStaffRepository.save(inValidClinicalStaff);
-        } catch (JpaSystemException e) {
+            clinicalStaffRepository.save(inValidClinicalStaff);
             fail();
-            logger.info("expecting this.. NCI code is missing");
+
+        } catch (CtcAeSystemException e) {
         }
     }
 

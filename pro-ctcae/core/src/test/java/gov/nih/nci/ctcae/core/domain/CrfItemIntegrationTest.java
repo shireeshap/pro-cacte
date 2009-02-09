@@ -2,13 +2,13 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -161,8 +161,8 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
         crf.addCrfPage(crfPage);
         try {
             crfRepository.save(crf);
-            fail("Expected DataIntegrityViolationException because title, status and formVersion are null");
-        } catch (DataIntegrityViolationException e) {
+            fail("Expected CtcAeSystemException because title, status and formVersion are null");
+        } catch (CtcAeSystemException e) {
         }
     }
 
@@ -175,8 +175,8 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
             crfPage.addCrfPageItem(invalidCrfPageItem);
             crf.addCrfPage(crfPage);
             crfRepository.save(crf);
-            fail("Expected DataIntegrityViolationException because ProCtcQuestion is null");
-        } catch (DataIntegrityViolationException e) {
+            fail("Expected CtcAeSystemException because ProCtcQuestion is null");
+        } catch (CtcAeSystemException e) {
         }
     }
 
@@ -190,8 +190,8 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
             crf.addCrfPage(crfPage);
 
             crfRepository.save(crf);
-            fail("Expected DataIntegrityViolationException because DisplayOrder is null");
-        } catch (DataIntegrityViolationException e) {
+            fail("Expected CtcAeSystemException because DisplayOrder is null");
+        } catch (CtcAeSystemException e) {
         }
     }
 

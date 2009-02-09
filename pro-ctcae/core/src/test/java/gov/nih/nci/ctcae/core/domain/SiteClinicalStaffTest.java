@@ -14,18 +14,56 @@ public class SiteClinicalStaffTest extends TestCase {
 
     private SiteClinicalStaff siteClinicalStaff;
 
-    public void testGetterAndSetter() {
+    private SiteClinicalStaffRole siteClinicalStaffRole, duplicateSiteClinicalStaffRole;
+    protected Date statusDate;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+
         siteClinicalStaff = new SiteClinicalStaff();
         siteClinicalStaff.setStatusCode("ab");
-        siteClinicalStaff.setStatusDate(new Date());
+        statusDate = new Date();
+        siteClinicalStaff.setStatusDate(statusDate);
+
+        siteClinicalStaffRole = new SiteClinicalStaffRole();
+        duplicateSiteClinicalStaffRole = new SiteClinicalStaffRole();
+        duplicateSiteClinicalStaffRole.setRoleStatus(RoleStatus.IN_ACTIVE);
+
+
+    }
+
+    public void testGetterAndSetter() {
 
         assertEquals("ab", siteClinicalStaff.getStatusCode());
-        assertEquals(new Date(), siteClinicalStaff.getStatusDate());
+        assertEquals(statusDate, siteClinicalStaff.getStatusDate());
+
+    }
+
+    public void testRemoveSiteClinicalStaffRoleThrowsException() {
+        try {
+            siteClinicalStaff.addSiteClinicalStaffRole(siteClinicalStaffRole);
+            siteClinicalStaff.getSiteClinicalStaffRoles().remove(0);
+            fail(("Remove method is not supported"));
+        } catch (UnsupportedOperationException e) {
+
+        }
+
+    }
+
+
+    public void testMustNotAddDuplicateSiteClinicalStaffRole() {
+
+        siteClinicalStaff.addSiteClinicalStaffRole(siteClinicalStaffRole);
+        siteClinicalStaff.addSiteClinicalStaffRole(duplicateSiteClinicalStaffRole);
+        siteClinicalStaff.addSiteClinicalStaffRole(siteClinicalStaffRole);
+        assertEquals("must not add duplicate  site clinical staff roles", 1, siteClinicalStaff.getSiteClinicalStaffRoles().size());
     }
 
     public void testEqualsAndHashCode() {
 
         SiteClinicalStaff anothersiteClinicalStaff = null;
+        siteClinicalStaff = null;
         assertEquals(anothersiteClinicalStaff, siteClinicalStaff);
 
         siteClinicalStaff = new SiteClinicalStaff();

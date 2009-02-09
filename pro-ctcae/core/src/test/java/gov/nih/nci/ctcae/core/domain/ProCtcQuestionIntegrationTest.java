@@ -1,13 +1,13 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,48 +59,48 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
         assertNotNull(proCtcQuestion.getId());
     }
 
-//    public void testSavingNullProCtcTerm() {
-//        inValidproCtcQuestion = new ProCtcQuestion();
-//
-//        try {
-//            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
-//
-//            fail("Expected DataIntegrityViolationException because all the fields are null");
-//        } catch (DataIntegrityViolationException e) {
-//        }
-//    }
-//
-//    public void testSavingNullQuestionProCtcTerm() {
-//        inValidproCtcQuestion = new ProCtcQuestion();
-//        try {
-//            inValidproCtcQuestion.setProCtcTerm(proProCtcTerm);
-//            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
-//
-//            fail("Expected DataIntegrityViolationException because question is null");
-//        } catch (DataIntegrityViolationException e) {
-//        }
-//    }
-//
-//    public void testSavingNullCtcTermProCtcTerm() {
-//        inValidproCtcQuestion = new ProCtcQuestion();
-//        try {
-//            inValidproCtcQuestion.setQuestionText("How is the pain?");
-//            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
-//
-//            fail("Expected DataIntegrityViolationException because proProCtcTerm is null");
-//        } catch (DataIntegrityViolationException e) {
-//        }
-//    }
+    public void testSavingNullProCtcTerm() {
+        inValidproCtcQuestion = new ProCtcQuestion();
 
-//    public void testSavingNullProCtcProCtcTerm() {
-//        inValidproCtcQuestion = new ProCtcQuestion();
-//        try {
-//            inValidproCtcQuestion.setQuestionText("How is the pain?");
-//            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
-//            fail("Expected DataIntegrityViolationException because proCtc is null");
-//        } catch (DataIntegrityViolationException e) {
-//        }
-//    }
+        try {
+            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
+
+            fail("Expected CtcAeSystemException because all the fields are null");
+        } catch (CtcAeSystemException e) {
+        }
+    }
+
+    public void testSavingNullQuestionProCtcTerm() {
+        inValidproCtcQuestion = new ProCtcQuestion();
+        try {
+            inValidproCtcQuestion.setProCtcTerm(proProCtcTerm);
+            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
+
+            fail("Expected CtcAeSystemException because question is null");
+        } catch (CtcAeSystemException e) {
+        }
+    }
+
+    public void testSavingNullCtcTermProCtcTerm() {
+        inValidproCtcQuestion = new ProCtcQuestion();
+        try {
+            inValidproCtcQuestion.setQuestionText("How is the pain?");
+            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
+
+            fail("Expected CtcAeSystemException because proProCtcTerm is null");
+        } catch (CtcAeSystemException e) {
+        }
+    }
+
+    public void testSavingNullProCtcProCtcTerm() {
+        inValidproCtcQuestion = new ProCtcQuestion();
+        try {
+            inValidproCtcQuestion.setQuestionText("How is the pain?");
+            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
+            fail("Expected CtcAeSystemException because proCtc is null");
+        } catch (CtcAeSystemException e) {
+        }
+    }
 
     public void testFindById() {
         ProCtcQuestionQuery proCtcQuestionQuery = new ProCtcQuestionQuery();

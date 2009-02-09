@@ -4,8 +4,10 @@ import gov.nih.nci.ctcae.core.domain.Persistable;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.AbstractQuery;
 import gov.nih.nci.ctcae.core.query.Query;
+import gov.nih.nci.ctcae.core.validation.BeanValidator;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -26,12 +28,15 @@ import java.util.Map;
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class HibernateGenericRepository<T extends Persistable> extends HibernateDaoSupport implements GenericRepository {
 
+    private BeanValidator beanValidator;
 
     /**
      * {@inheritDoc}
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public <T extends Persistable> T save(T persistable) {
+
+        beanValidator.validate(persistable);
         if (persistable.isPersisted()) {
             persistable = (T) getHibernateTemplate().merge(persistable);
         } else {
@@ -102,4 +107,8 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
 
     }
 
+    @Required
+    public void setBeanValidator(BeanValidator beanValidator) {
+        this.beanValidator = beanValidator;
+    }
 }

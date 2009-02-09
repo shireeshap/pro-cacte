@@ -1,10 +1,10 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Collection;
 import java.util.Date;
@@ -36,8 +36,8 @@ public class ProCtcIntegrationTest extends AbstractHibernateIntegrationTestCase 
 
 		try {
 			inValidProCtc = proCtcRepository.save(inValidProCtc);
-			fail("Expected DataIntegrityViolationException because title, status and formVersion are null");
-		} catch (DataIntegrityViolationException e) {
+			fail("Expected CtcAeSystemException because title, status and formVersion are null");
+		} catch (CtcAeSystemException e) {
 		}
 	}
 
@@ -46,8 +46,8 @@ public class ProCtcIntegrationTest extends AbstractHibernateIntegrationTestCase 
 		try {
 			inValidProCtc.setReleaseDate(new Date());
 			inValidProCtc = proCtcRepository.save(inValidProCtc);
-			fail("Expected DataIntegrityViolationException because title is null");
-		} catch (DataIntegrityViolationException e) {
+			fail("Expected CtcAeSystemException because title is null");
+		} catch (CtcAeSystemException e) {
 		}
 	}
 
@@ -56,8 +56,8 @@ public class ProCtcIntegrationTest extends AbstractHibernateIntegrationTestCase 
 		try {
 			inValidProCtc.setProCtcVersion("2.0");
 			inValidProCtc = proCtcRepository.save(inValidProCtc);
-			fail("Expected DataIntegrityViolationException because status is null");
-		} catch (DataIntegrityViolationException e) {
+			fail("Expected CtcAeSystemException because status is null");
+		} catch (CtcAeSystemException e) {
 		}
 
 	}

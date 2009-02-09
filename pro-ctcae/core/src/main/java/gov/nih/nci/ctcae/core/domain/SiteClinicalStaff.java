@@ -1,10 +1,15 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import gov.nih.nci.ctcae.core.tools.collection.UnRemovableList;
 
 //
 /**
@@ -52,10 +57,14 @@ public class SiteClinicalStaff extends BasePersistable {
     @ManyToOne
     private Organization organization;
 
+    @OneToMany(mappedBy = "siteClinicalStaff", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<SiteClinicalStaffRole> siteClinicalStaffRoles = new UnRemovableList<SiteClinicalStaffRole>();
+
 
     /* (non-Javadoc)
-      * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
-      */
+    * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
+    */
     public Integer getId() {
         return id;
     }
@@ -167,7 +176,27 @@ public class SiteClinicalStaff extends BasePersistable {
         result = (statusCode != null ? statusCode.hashCode() : 0);
         result = 31 * result + (statusDate != null ? statusDate.hashCode() : 0);
         result = 31 * result + (clinicalStaff != null ? clinicalStaff.hashCode() : 0);
-		result = 31 * result + (organization != null ? organization.hashCode() : 0);
-		return result;
-	}
+        result = 31 * result + (organization != null ? organization.hashCode() : 0);
+        return result;
+    }
+
+    public List<SiteClinicalStaffRole> getSiteClinicalStaffRoles() {
+        return siteClinicalStaffRoles;
+    }
+
+    public void addSiteClinicalStaffRole(SiteClinicalStaffRole siteClinicalStaffRole) {
+
+        if (siteClinicalStaffRole != null) {
+            siteClinicalStaffRole.setSiteClinicalStaff(this);
+            if (!getSiteClinicalStaffRoles().contains(siteClinicalStaffRole)) {
+                getSiteClinicalStaffRoles().add(siteClinicalStaffRole);
+                logger.debug(String.format("added   %s to %s", siteClinicalStaffRole.toString(), toString()));
+                return;
+            }
+            logger.debug(String.format("Skipping the adding because  %s already has this  %s", toString(), siteClinicalStaffRole.toString()));
+
+        }
+
+    }
 }
+

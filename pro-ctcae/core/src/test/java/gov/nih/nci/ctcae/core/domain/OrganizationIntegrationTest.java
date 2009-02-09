@@ -3,8 +3,6 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.jpa.JpaSystemException;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -132,15 +130,15 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 
         try {
             inValidOrganization = organizationRepository.save(inValidOrganization);
-        } catch (DataIntegrityViolationException e) {
+        } catch (CtcAeSystemException e) {
             logger.info("expecting this");
         }
 
         try {
             inValidOrganization.setName("NCI");
             inValidOrganization = organizationRepository.save(inValidOrganization);
-        } catch (JpaSystemException e) {
             fail();
+        } catch (CtcAeSystemException e) {
             logger.info("expecting this..contact information and organization date can not be null");
         }
 

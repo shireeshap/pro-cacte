@@ -6,22 +6,14 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
 //
 /**
- * The Enum Role.
+ * The Enum RoleStatus .
  *
  * @author Vinay Kumar
  */
-public enum Role implements CodedEnum<String> {
+public enum RoleStatus implements CodedEnum<String> {
 
-    PI("Prinicple Investigator"),
-    STUDY_CRA("Study CRA"),
-    SITE_PI("Site PI"),
-    SITE_CRA("Site CRA"),
-    SITE_INVESTIGATOR("Site Investigator"),
-    RESEARCH_NURSE("Research Nurse"),
-    PARTICIPANT("Participant"),
-    CRA("CRA"),
-    PHYSICAN("Physican"),
-    ADMINISTRATOR("Administrator");
+    ACTIVE("Active"),
+    IN_ACTIVE("In-Active");
 
 
     /**
@@ -34,7 +26,7 @@ public enum Role implements CodedEnum<String> {
      *
      * @param displayText the display text
      */
-    Role(String displayText) {
+    RoleStatus(String displayText) {
         this.displayText = displayText;
         CodedEnumHelper.register(this);
 
@@ -47,8 +39,8 @@ public enum Role implements CodedEnum<String> {
      * @param code the code
      * @return the by code
      */
-    public static Role getByCode(String code) {
-        return getByClassAndCode(Role.class, code);
+    public static RoleStatus getByCode(String code) {
+        return getByClassAndCode(RoleStatus.class, code);
     }
 
     /* (non-Javadoc)
@@ -80,11 +72,11 @@ public enum Role implements CodedEnum<String> {
      * @param displayName the display name
      * @return the by display name
      */
-    public static Role getByDisplayName(String displayName) {
-        for (Role role : Role.values()) {
+    public static RoleStatus getByDisplayName(String displayName) {
+        for (RoleStatus roleStatus : RoleStatus.values()) {
 
-            if (role.getDisplayName().equals(displayName)) {
-                return role;
+            if (roleStatus.getDisplayName().equals(displayName)) {
+                return roleStatus;
             }
         }
         return null;

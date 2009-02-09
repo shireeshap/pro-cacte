@@ -54,6 +54,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/013_create_study_participan
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/014_alter_crfpage_add_Instructions.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/015_add_ss_clinical_staff.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/016_add_sp_clinical_staff.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/017_add_site_clinical_staff_role.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLine.java -text
@@ -88,7 +89,9 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValue.java
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Race.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RecallPeriod.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Role.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaff.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaffRole.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCoordinatingCenter.java -text
@@ -141,9 +144,11 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentity
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentityRetrievalStrategy.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentityRetrievalStrategyImpl.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/UserDetails.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/collection/UnRemovableList.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/commons/CtcAeToStringStyle.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialect.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategy.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/BeanValidator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/AbstractValidator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/NotEmpty.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/NotEmptyValidator.java -text
@@ -203,6 +208,8 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermTest.java -
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RaceEnumTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaffRoleIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaffRoleTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaffTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationIntegrationTest.java -text
@@ -231,6 +238,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/FinderRepositoryI
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepositoryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialectTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategyTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/ObjectValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/NotEmptyValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/NotNullValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueIdentifierForStudyValidatorTest.java -text

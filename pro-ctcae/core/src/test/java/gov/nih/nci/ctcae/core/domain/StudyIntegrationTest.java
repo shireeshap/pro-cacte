@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 
@@ -195,28 +196,33 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     }
 
-//    public void testValidationExceptionForSavingInValidStudy() {
-//        inValidStudy = new Study();
-//
-//        try {
-//            inValidStudy = studyRepository.save(inValidStudy);
-//        } catch (DataIntegrityViolationException e) {
-//            logger.info("expecting this");
-//        }
-//
-//        try {
-//            inValidStudy.setName("NCI");
-//            inValidStudy = studyRepository.save(inValidStudy);
-//        } catch (JpaSystemException e) {
-//            fail();
-//            logger.info("expecting this..contact information and study date can not be null");
-//        }
-//        inValidStudy.setNciInstituteCode("NCI");
-//        studyRepository.save(inValidStudy);
-//        inValidStudy = studyRepository.save(inValidStudy);
-//        assertNotNull(inValidStudy.getId());
-//
-//    }
+    public void testValidationExceptionForSavingInValidStudy() {
+        inValidStudy = new Study();
+
+        try {
+            studyRepository.save(inValidStudy);
+            fail();
+        } catch (CtcAeSystemException e) {
+        }
+
+        try {
+            inValidStudy.setAssignedIdentifier("NCI");
+            studyRepository.save(inValidStudy);
+            fail();
+        } catch (CtcAeSystemException e) {
+        }
+        try {
+            inValidStudy.setShortTitle("NCI");
+            studyRepository.save(inValidStudy);
+            fail();
+        } catch (CtcAeSystemException e) {
+        }
+        inValidStudy.setLongTitle("NCI");
+        studyRepository.save(inValidStudy);
+        inValidStudy = studyRepository.save(inValidStudy);
+        assertNotNull(inValidStudy.getId());
+
+    }
 
 
     public void testFindById() {

@@ -1,11 +1,10 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -37,7 +36,7 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
         study = studyRepository.save(study);
         crf.setStudy(study);
 
-     
+
         crf = crfRepository.save(crf);
     }
 
@@ -146,8 +145,8 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
         try {
             inValidCRF = crfRepository.save(inValidCRF);
 
-            fail("Expected DataIntegrityViolationException because title is unique");
-        } catch (DataIntegrityViolationException e) {
+            fail("Expected CtcAeSystemException because title is unique");
+        } catch (CtcAeSystemException e) {
         }
     }
 
@@ -156,8 +155,8 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
         try {
             inValidCRF = crfRepository.save(inValidCRF);
-            fail("Expected DataIntegrityViolationException because title, status and formVersion are null");
-        } catch (DataIntegrityViolationException e) {
+            fail("Expected CtcAeSystemException because title, status and formVersion are null");
+        } catch (CtcAeSystemException e) {
 
         }
     }
@@ -168,8 +167,8 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
             inValidCRF.setStatus(CrfStatus.DRAFT);
             inValidCRF.setCrfVersion("1.0");
             inValidCRF = crfRepository.save(inValidCRF);
-            fail("Expected DataIntegrityViolationException because title is null");
-        } catch (DataIntegrityViolationException e) {
+            fail("Expected CtcAeSystemException because title is null");
+        } catch (CtcAeSystemException e) {
         }
     }
 
@@ -181,8 +180,8 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
             inValidCRF.setCrfVersion("1.0");
             crfRepository.save(inValidCRF);
 
-            fail("Expected DataIntegrityViolationException because status is null");
-        } catch (DataIntegrityViolationException e) {
+            fail("Expected CtcAeSystemException because status is null");
+        } catch (CtcAeSystemException e) {
         }
     }
 
@@ -192,11 +191,10 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
             inValidCRF.setTitle(title);
             inValidCRF.setStatus(CrfStatus.DRAFT);
             crfRepository.save(inValidCRF);
-            fail("Expected DataIntegrityViolationException because formVersion is null");
-        } catch (DataIntegrityViolationException e) {
+            fail("Expected CtcAeSystemException because formVersion is null");
+        } catch (CtcAeSystemException e) {
         }
     }
-
 
 
     @Required
