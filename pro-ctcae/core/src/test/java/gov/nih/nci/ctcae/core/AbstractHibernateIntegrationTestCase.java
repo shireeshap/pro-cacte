@@ -24,18 +24,20 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     protected StudySite defaultStudySite;
     protected StudyRepository studyRepository;
 
+    private static final String[] context = new String[]{
+            "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml",
+
+            "classpath*:gov/nih/nci/ctcae/core/applicationContext-core.xml",
+//                "classpath*:gov/nih/nci/ctcae/core/applicationContext-mail.xml",
+            "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml",
+            "classpath*:gov/nih/nci/ctcae/core/resourceContext-job.xml",
+//                "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml",
+            "classpath*:" + "/*-context-test.xml"};
+
 
     @Override
     protected String[] getConfigLocations() {
-        return new String[]{
-                "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml",
-
-                "classpath*:gov/nih/nci/ctcae/core/applicationContext-core.xml",
-//                "classpath*:gov/nih/nci/ctcae/core/applicationContext-mail.xml",
-                "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml",
-                "classpath*:gov/nih/nci/ctcae/core/resourceContext-job.xml",
-//                "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml",
-                "classpath*:" + "/*-context-test.xml"};
+        return context;
     }
 
 

@@ -59,48 +59,48 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
         assertNotNull(proCtcQuestion.getId());
     }
 
-    public void testSavingNullProCtcTerm() {
-        inValidproCtcQuestion = new ProCtcQuestion();
+//    public void testSavingNullProCtcTerm() {
+//        inValidproCtcQuestion = new ProCtcQuestion();
+//
+//        try {
+//            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
+//
+//            fail("Expected DataIntegrityViolationException because all the fields are null");
+//        } catch (DataIntegrityViolationException e) {
+//        }
+//    }
+//
+//    public void testSavingNullQuestionProCtcTerm() {
+//        inValidproCtcQuestion = new ProCtcQuestion();
+//        try {
+//            inValidproCtcQuestion.setProCtcTerm(proProCtcTerm);
+//            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
+//
+//            fail("Expected DataIntegrityViolationException because question is null");
+//        } catch (DataIntegrityViolationException e) {
+//        }
+//    }
+//
+//    public void testSavingNullCtcTermProCtcTerm() {
+//        inValidproCtcQuestion = new ProCtcQuestion();
+//        try {
+//            inValidproCtcQuestion.setQuestionText("How is the pain?");
+//            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
+//
+//            fail("Expected DataIntegrityViolationException because proProCtcTerm is null");
+//        } catch (DataIntegrityViolationException e) {
+//        }
+//    }
 
-        try {
-            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
-
-            fail("Expected DataIntegrityViolationException because all the fields are null");
-        } catch (DataIntegrityViolationException e) {
-        }
-    }
-
-    public void testSavingNullQuestionProCtcTerm() {
-        inValidproCtcQuestion = new ProCtcQuestion();
-        try {
-            inValidproCtcQuestion.setProCtcTerm(proProCtcTerm);
-            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
-
-            fail("Expected DataIntegrityViolationException because question is null");
-        } catch (DataIntegrityViolationException e) {
-        }
-    }
-
-    public void testSavingNullCtcTermProCtcTerm() {
-        inValidproCtcQuestion = new ProCtcQuestion();
-        try {
-            inValidproCtcQuestion.setQuestionText("How is the pain?");
-            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
-
-            fail("Expected DataIntegrityViolationException because proProCtcTerm is null");
-        } catch (DataIntegrityViolationException e) {
-        }
-    }
-
-    public void testSavingNullProCtcProCtcTerm() {
-        inValidproCtcQuestion = new ProCtcQuestion();
-        try {
-            inValidproCtcQuestion.setQuestionText("How is the pain?");
-            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
-            fail("Expected DataIntegrityViolationException because proCtc is null");
-        } catch (DataIntegrityViolationException e) {
-        }
-    }
+//    public void testSavingNullProCtcProCtcTerm() {
+//        inValidproCtcQuestion = new ProCtcQuestion();
+//        try {
+//            inValidproCtcQuestion.setQuestionText("How is the pain?");
+//            inValidproCtcQuestion = proCtcQuestionRepository.save(inValidproCtcQuestion);
+//            fail("Expected DataIntegrityViolationException because proCtc is null");
+//        } catch (DataIntegrityViolationException e) {
+//        }
+//    }
 
     public void testFindById() {
         ProCtcQuestionQuery proCtcQuestionQuery = new ProCtcQuestionQuery();
