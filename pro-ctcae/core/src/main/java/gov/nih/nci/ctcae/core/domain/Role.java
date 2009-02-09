@@ -6,7 +6,7 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
 //
 /**
- * The Enum ProCtcQuestionType.
+ * The Enum Role.
  *
  * @author Vinay Kumar
  */

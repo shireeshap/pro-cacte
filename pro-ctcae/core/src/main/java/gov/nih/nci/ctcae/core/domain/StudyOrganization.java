@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.codec.binary.Base64;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
