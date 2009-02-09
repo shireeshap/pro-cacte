@@ -40,7 +40,7 @@
     <!-- =================================================================== -->
     <!-- Target for automated build  								         -->
     <!-- =================================================================== -->
-    <target name="automatedBuild" depends="recreate-db-hudson,migrate,migrate-sample-data,publish-clover, pmd"
+    <target name="automatedBuild" depends="recreate-db-hudson,migrate,migrate-selenium-data,publish-clover, pmd"
             description="build project including migration of data..use it in CI server.."/>
     <!--<target name="automatedBuild" depends="publish-all, findbugs, coverage, checkstyle, pmd, cpd"/>-->
 

@@ -18,7 +18,6 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
     private Study study;
     private ProCtcQuestionRepository proCtcQuestionRepository;
 
-    private StudyRepository studyRepository;
     private CRFRepository crfRepository;
 
     @Override
@@ -68,10 +67,6 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
         assertFalse(list.isEmpty());
     }
 
-
-    public void setStudyRepository(final StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
 
     public void setCrfRepository(final CRFRepository crfRepository) {
         this.crfRepository = crfRepository;

@@ -8,7 +8,6 @@ import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Collection;
@@ -33,7 +32,6 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
 
 
     private CrfPageItemDisplayRule crfPageItemDisplayRule, anotherCrfPageItemDisplayRule;
-    private StudyRepository studyRepository;
     private Study study;
     protected ProCtcValidValue proCtcValidValue1;
     protected ProCtcValidValue proCtcValidValue2;
@@ -210,8 +208,5 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
         this.proCtcRepository = proCtcRepository;
     }
 
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
 
 }

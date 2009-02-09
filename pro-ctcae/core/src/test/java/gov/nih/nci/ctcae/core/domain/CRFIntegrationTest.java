@@ -19,7 +19,6 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
     private CRFRepository crfRepository;
     private CRF crf, inValidCRF;
     private String title = "Cancer CRF" + UUID.randomUUID().toString();
-    private StudyRepository studyRepository;
     private Study study;
 
     @Override
@@ -159,6 +158,7 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
             inValidCRF = crfRepository.save(inValidCRF);
             fail("Expected DataIntegrityViolationException because title, status and formVersion are null");
         } catch (DataIntegrityViolationException e) {
+
         }
     }
 
@@ -198,9 +198,6 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
     }
 
 
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
 
     @Required
     public void setCRFRepository(CRFRepository crfRepository) {

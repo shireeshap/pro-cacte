@@ -55,15 +55,15 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         defaultOrganization = organizationRepository.findById(105051);
 
         defaultStudy = studyRepository.findById(-1001);
-        assertNotNull("must find default study. Try running ant migrate-sample-date to migrate sample data", defaultStudy);
+        assertNotNull("must find default study. Try running ant migrate-sample-data to migrate sample data", defaultStudy);
         defaultStudySite = defaultStudy.getStudySites().get(0);
-        assertNotNull("must find default study site. Try running ant migrate-sample-date to migrate sample data", defaultStudySite);
+        assertNotNull("must find default study site. Try running ant migrate-sample-data to migrate sample data", defaultStudySite);
 
         defaultClinicalStaff = clinicalStaffRepository.findById(-100);
-        assertNotNull("must find default clinical staff. Try running ant migrate-sample-date to migrate sample data", defaultClinicalStaff);
+        assertNotNull("must find default clinical staff. Try running ant migrate-sample-data to migrate sample data", defaultClinicalStaff);
 
         defaultSiteClinicalStaff = defaultClinicalStaff.getSiteClinicalStaffs().get(0);
-        assertNotNull("must find default site clinical staff. Try running ant migrate-sample-date to migrate sample data", defaultSiteClinicalStaff);
+        assertNotNull("must find default site clinical staff. Try running ant migrate-sample-data to migrate sample data", defaultSiteClinicalStaff);
 
     }
 

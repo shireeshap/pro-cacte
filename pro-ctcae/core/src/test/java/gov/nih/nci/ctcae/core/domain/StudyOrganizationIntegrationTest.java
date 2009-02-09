@@ -3,9 +3,6 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
-import org.springframework.beans.factory.annotation.Required;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +13,6 @@ import java.util.List;
  */
 public class StudyOrganizationIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
-    private OrganizationRepository organizationRepository;
-    private StudyRepository studyRepository;
     private Organization organization, organization1;
     private Study study;
     private StudySite studySite;
@@ -165,16 +160,5 @@ public class StudyOrganizationIntegrationTest extends AbstractHibernateIntegrati
         return organizationRepository.save(organization);
     }
 
-    @Required
-    public void setOrganizationRepository(
-            OrganizationRepository organizationRepository) {
-        this.organizationRepository = organizationRepository;
-    }
-
-
-    @Required
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
 
 }

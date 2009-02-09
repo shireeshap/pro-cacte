@@ -3,8 +3,6 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.jpa.JpaSystemException;
 
@@ -17,215 +15,210 @@ import java.util.UUID;
  */
 public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
-	private OrganizationRepository organizationRepository;
-	private Organization organization, inValidOrganization;
+    private Organization organization, inValidOrganization;
 
-	@Override
-	protected void onSetUpInTransaction() throws Exception {
-		super.onSetUpInTransaction();	//To change body of overridden methods use File | Settings | File Templates.
-		login();
+    @Override
+    protected void onSetUpInTransaction() throws Exception {
+        super.onSetUpInTransaction();    //To change body of overridden methods use File | Settings | File Templates.
+        login();
 
 
-	}
+    }
 
-	private void saveOrganization() {
-		organization = new Organization();
-		organization.setName("National Cancer Institute");
-		organization.setNciInstituteCode("NCI" + UUID.randomUUID());
-		organization = organizationRepository.save(organization);
-	}
+    private void saveOrganization() {
+        organization = new Organization();
+        organization.setName("National Cancer Institute");
+        organization.setNciInstituteCode("NCI" + UUID.randomUUID());
+        organization = organizationRepository.save(organization);
+    }
 
-	public void testFindByName() {
+    public void testFindByName() {
 
-		OrganizationQuery organizationQuery = new OrganizationQuery();
-		organizationQuery.filterByOrganizationName("N");
+        OrganizationQuery organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByOrganizationName("N");
 
-		Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
-		assertFalse(organizations.isEmpty());
-		int size = jdbcTemplate.queryForInt("select distinct(count(*)) from organizations organizations where lower(organizations.name ) like '%n%'");
+        Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
+        assertFalse(organizations.isEmpty());
+        int size = jdbcTemplate.queryForInt("select distinct(count(*)) from organizations organizations where lower(organizations.name ) like '%n%'");
 
-		assertEquals(size, organizations.size());
+        assertEquals(size, organizations.size());
 
 
-		for (Organization organization : organizations)
+        for (Organization organization : organizations)
 
-		{
-			assertTrue(organization.getName().toLowerCase().contains("n"));
-		}
+        {
+            assertTrue(organization.getName().toLowerCase().contains("n"));
+        }
 
-	}
+    }
 
-	public void testSingleThrowsException() {
+    public void testSingleThrowsException() {
 
-		OrganizationQuery organizationQuery = new OrganizationQuery();
-		organizationQuery.filterByOrganizationName("N");
-		try {
-			organization = organizationRepository.findSingle(organizationQuery);
-			fail("multiple results found for query");
-		} catch (CtcAeSystemException e) {
+        OrganizationQuery organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByOrganizationName("N");
+        try {
+            organization = organizationRepository.findSingle(organizationQuery);
+            fail("multiple results found for query");
+        } catch (CtcAeSystemException e) {
 
-		}
+        }
 
-	}
+    }
 
-	public void testFindSingle() {
+    public void testFindSingle() {
 
-		OrganizationQuery organizationQuery = new OrganizationQuery();
+        OrganizationQuery organizationQuery = new OrganizationQuery();
 
-		organizationQuery.filterByOrganizationName("National");
-		Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
-		assertFalse(organizations.isEmpty());
+        organizationQuery.filterByOrganizationName("National");
+        Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
+        assertFalse(organizations.isEmpty());
 
-		organization = organizations.iterator().next();
+        organization = organizations.iterator().next();
 
-		organizationQuery = new OrganizationQuery();
-		organizationQuery.filterByNciCodeExactMatch(organization.getNciInstituteCode());
-		organization = organizationRepository.findSingle(organizationQuery);
+        organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByNciCodeExactMatch(organization.getNciInstituteCode());
+        organization = organizationRepository.findSingle(organizationQuery);
 
-		assertNotNull(organization);
-		assertNotNull(organization.getId());
+        assertNotNull(organization);
+        assertNotNull(organization.getId());
 
 
-	}
+    }
 
-	public void testSingleReturnsNull() {
+    public void testSingleReturnsNull() {
 
-		OrganizationQuery organizationQuery = new OrganizationQuery();
-		organizationQuery.filterByNciInstituteCode("N");
+        OrganizationQuery organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByNciInstituteCode("N");
 
-		Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
-		assertFalse(organizations.isEmpty());
+        Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
+        assertFalse(organizations.isEmpty());
 
-		organization = organizations.iterator().next();
+        organization = organizations.iterator().next();
 
-		organizationQuery = new OrganizationQuery();
-		organizationQuery.filterByNciCodeExactMatch(organization.getNciInstituteCode() + UUID.randomUUID());
-		organization = organizationRepository.findSingle(organizationQuery);
+        organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByNciCodeExactMatch(organization.getNciInstituteCode() + UUID.randomUUID());
+        organization = organizationRepository.findSingle(organizationQuery);
 
-		assertNull(organization);
+        assertNull(organization);
 
 
-	}
+    }
 
-	public void testDelete() {
+    public void testDelete() {
 
-		OrganizationQuery organizationQuery = new OrganizationQuery();
-		organizationQuery.filterByNciInstituteCode("N");
+        OrganizationQuery organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByNciInstituteCode("N");
 
-		Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
-		assertFalse(organizations.isEmpty());
+        Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
+        assertFalse(organizations.isEmpty());
 
-		organization = organizations.iterator().next();
+        organization = organizations.iterator().next();
 
-		organizationRepository.delete(organization);
-		assertNull("must delete organization", organizationRepository.findById(organization.getId()));
+        organizationRepository.delete(organization);
+        assertNull("must delete organization", organizationRepository.findById(organization.getId()));
 
-	}
+    }
 
 
-	public void testSaveOrganization() {
-		saveOrganization();
+    public void testSaveOrganization() {
+        saveOrganization();
 
-		assertNotNull(organization.getId());
+        assertNotNull(organization.getId());
 
-	}
+    }
 
-	public void testValidationExceptionForSavingInValidOrganization() {
-		inValidOrganization = new Organization();
+    public void testValidationExceptionForSavingInValidOrganization() {
+        inValidOrganization = new Organization();
 
-		try {
-			inValidOrganization = organizationRepository.save(inValidOrganization);
-		} catch (DataIntegrityViolationException e) {
-			logger.info("expecting this");
-		}
+        try {
+            inValidOrganization = organizationRepository.save(inValidOrganization);
+        } catch (DataIntegrityViolationException e) {
+            logger.info("expecting this");
+        }
 
-		try {
-			inValidOrganization.setName("NCI");
-			inValidOrganization = organizationRepository.save(inValidOrganization);
-		} catch (JpaSystemException e) {
-			fail();
-			logger.info("expecting this..contact information and organization date can not be null");
-		}
+        try {
+            inValidOrganization.setName("NCI");
+            inValidOrganization = organizationRepository.save(inValidOrganization);
+        } catch (JpaSystemException e) {
+            fail();
+            logger.info("expecting this..contact information and organization date can not be null");
+        }
 
-	}
+    }
 
 
-	public void testFindById() {
-		saveOrganization();
+    public void testFindById() {
+        saveOrganization();
 
-		Organization existingOrganization = organizationRepository.findById(organization.getId());
-		assertEquals(organization.getName(), existingOrganization.getName());
-		assertEquals(organization.getNciInstituteCode(), existingOrganization.getNciInstituteCode());
+        Organization existingOrganization = organizationRepository.findById(organization.getId());
+        assertEquals(organization.getName(), existingOrganization.getName());
+        assertEquals(organization.getNciInstituteCode(), existingOrganization.getNciInstituteCode());
 
-	}
+    }
 
 
-	public void testFindByNCICode() {
+    public void testFindByNCICode() {
 
-		OrganizationQuery organizationQuery = new OrganizationQuery();
-		organizationQuery.filterByNciInstituteCode("N");
+        OrganizationQuery organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByNciInstituteCode("N");
 
-		Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
-		assertFalse(organizations.isEmpty());
-		int size = jdbcTemplate.queryForInt("select count(*) from organizations organizations where lower(organizations.nci_institute_code ) like '%n%'");
+        Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
+        assertFalse(organizations.isEmpty());
+        int size = jdbcTemplate.queryForInt("select count(*) from organizations organizations where lower(organizations.nci_institute_code ) like '%n%'");
 
-		assertEquals(size, organizations.size());
+        assertEquals(size, organizations.size());
 
 
-		for (Organization organization : organizations)
+        for (Organization organization : organizations)
 
-		{
-			assertTrue(organization.getNciInstituteCode().toLowerCase().contains("n"));
-		}
+        {
+            assertTrue(organization.getNciInstituteCode().toLowerCase().contains("n"));
+        }
 
-	}
+    }
 
 
-	public void testFindByOrganizationNameOrNciInstituteCode() {
+    public void testFindByOrganizationNameOrNciInstituteCode() {
 
-		OrganizationQuery organizationQuery = new OrganizationQuery();
-		organizationQuery.filterByOrganizationNameOrNciInstituteCode("NCI");
+        OrganizationQuery organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByOrganizationNameOrNciInstituteCode("NCI");
 
-		Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
-		assertFalse(organizations.isEmpty());
-		int size = jdbcTemplate.queryForInt("select count(*) from organizations organizations where lower(organizations.nci_institute_code ) like '%nci%' or lower(organizations.name ) like '%nci%'");
+        Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
+        assertFalse(organizations.isEmpty());
+        int size = jdbcTemplate.queryForInt("select count(*) from organizations organizations where lower(organizations.nci_institute_code ) like '%nci%' or lower(organizations.name ) like '%nci%'");
 
-		assertEquals(size, organizations.size());
+        assertEquals(size, organizations.size());
 
 
-		for (Organization organization : organizations)
+        for (Organization organization : organizations)
 
-		{
-			assertTrue(organization.getNciInstituteCode().toLowerCase().contains("nci")
-				|| organization.getName().toLowerCase().contains("nci"));
-		}
+        {
+            assertTrue(organization.getNciInstituteCode().toLowerCase().contains("nci")
+                    || organization.getName().toLowerCase().contains("nci"));
+        }
 
-	}
+    }
 
-	public void testFindByNCICodeExactMatch() {
-		saveOrganization();
+    public void testFindByNCICodeExactMatch() {
+        saveOrganization();
 
-		OrganizationQuery organizationQuery = new OrganizationQuery();
-		organizationQuery.filterByNciCodeExactMatch("NCI");
+        OrganizationQuery organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByNciCodeExactMatch("NCI");
 
-		Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
-		assertFalse(organizations.isEmpty());
-		int size = jdbcTemplate.queryForInt("select count(*) from organizations organizations where organizations.nci_institute_code = 'NCI'");
+        Collection<? extends Organization> organizations = organizationRepository.find(organizationQuery);
+        assertFalse(organizations.isEmpty());
+        int size = jdbcTemplate.queryForInt("select count(*) from organizations organizations where organizations.nci_institute_code = 'NCI'");
 
-		assertEquals(size, organizations.size());
+        assertEquals(size, organizations.size());
 
 
-		for (Organization organization : organizations)
+        for (Organization organization : organizations)
 
-		{
-			assertEquals("NCI", organization.getNciInstituteCode());
-		}
+        {
+            assertEquals("NCI", organization.getNciInstituteCode());
+        }
 
-	}
+    }
 
 
-	@Required
-	public void setOrganizationRepository(OrganizationRepository organizationRepository) {
-		this.organizationRepository = organizationRepository;
-	}
 }

@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 //
 /**
@@ -16,6 +17,7 @@ public abstract class BasePersistable implements Persistable {
     /**
      * The Constant logger.
      */
+    @Transient
     protected final Log logger = LogFactory.getLog(getClass());
 
     /**

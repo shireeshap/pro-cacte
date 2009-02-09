@@ -113,7 +113,7 @@
         Will run the sample data migration for selenium..
    ============================================================================= -->
 
-    <target name="migrate-selenium-data" description="add sample data" depends="find-datasource">
+    <target name="migrate-selenium-data" description="add sample data" depends="resolve,find-datasource">
         <taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="main.classpath"/>
         <property file="${dsFile}"/>
         <echo>add sample data into ${datasource.url}</echo>
@@ -137,7 +137,7 @@
             Will run the sample data migration for testing purpose..
        ============================================================================= -->
 
-    <target name="migrate-sample-data" description="add sample data" depends="find-datasource">
+    <target name="migrate-sample-data" description="add sample data" depends="resolve,find-datasource">
         <taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="main.classpath"/>
         <property file="${dsFile}"/>
         <echo>add sample data into ${datasource.url}</echo>
