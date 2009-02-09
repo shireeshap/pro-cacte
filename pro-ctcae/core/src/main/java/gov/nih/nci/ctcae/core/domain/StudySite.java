@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.DiscriminatorValue;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * The Class StudySite.
  *
- * @author
+ * @author Vinay Kumar
  * @crated Oct 7, 2008
  */
 
@@ -26,10 +27,28 @@ public class StudySite extends StudyOrganization {
 
     public void addStudySiteClinicalStaff(StudySiteClinicalStaff studySiteClinicalStaff) {
         if (studySiteClinicalStaff != null) {
+
+            Organization expectedOrganization = studySiteClinicalStaff.getSiteClinicalStaff().getOrganization();
+            if (!expectedOrganization.equals(this.getOrganization())) {
+                String errorMessage = String.format("clinical staff belongs to %s. It does not belongs to study site %s %s. So this clincal staff can not be added",
+                        expectedOrganization.getDisplayName(), this.getStudy().getAssignedIdentifier(), this.getOrganization().getDisplayName());
+                logger.error(errorMessage);
+                throw new CtcAeSystemException(errorMessage);
+
+            }
+
             studySiteClinicalStaff.setStudySite(this);
-            getStudySiteClinicalStaffs().add(studySiteClinicalStaff);
+            if (!getStudySiteClinicalStaffs().contains(studySiteClinicalStaff)) {
+                getStudySiteClinicalStaffs().add(studySiteClinicalStaff);
+                logger.debug(String.format("added study site clinical staff %s to study site %s", studySiteClinicalStaff.toString(), toString()));
+                return;
+            }
+            logger.debug(String.format("Skipping the adding because study site %s already has this study site clinical staff %s", studySiteClinicalStaff.getId(), getId()));
+
         }
+
     }
+
 
     public List<StudySiteClinicalStaff> getStudySiteClinicalStaffs() {
         return studySiteClinicalStaffs;

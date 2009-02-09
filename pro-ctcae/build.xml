@@ -40,7 +40,7 @@
     <!-- =================================================================== -->
     <!-- Target for automated build  								         -->
     <!-- =================================================================== -->
-    <target name="automatedBuild" depends="migrate,publish-clover, pmd"
+    <target name="automatedBuild" depends="recreate-db-hudson,migrate,migrate-sample-data,publish-clover, pmd"
             description="build project including migration of data..use it in CI server.."/>
     <!--<target name="automatedBuild" depends="publish-all, findbugs, coverage, checkstyle, pmd, cpd"/>-->
 
@@ -112,6 +112,9 @@
 
     <target name="migrate-selenium-data" description="this for migrating sample data for selenium">
         <subant target="migrate-selenium-data" buildpath="web/ivy-build.xml"/>
+    </target>
+    <target name="migrate-sample-data" description="this for migrating sample data for integration test cases">
+        <subant target="migrate-sample-data" buildpath="web/ivy-build.xml"/>
     </target>
 
     <!-- ==========================================================

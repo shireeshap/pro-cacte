@@ -14,8 +14,6 @@ import java.util.Set;
  */
 public abstract class AbstractTestCase extends CoreTestCase {
 
-    protected Organization nci, duke;
-
     protected ProCtcQuestion proCtcQuestion1, proCtcQuestion2, proCtcQuestion3, proCtcQuestion4, proCtcQuestion5, proCtcQuestion6, proCtcQuestion7, proCtcQuestion8;
 
     protected Log logger = LogFactory.getLog(getClass());
@@ -27,8 +25,6 @@ public abstract class AbstractTestCase extends CoreTestCase {
         super.setUp();
 
 
-        nci = Fixture.createOrganization("National Cancer Institute", "NCI");
-        duke = Fixture.createOrganization("DUKE", "DUKE");
 
         proCtcTerm1 = new ProCtcTerm();
         proCtcTerm1.setTerm("Fatigue");

@@ -27,11 +27,6 @@ public class CRF extends BaseVersionable {
 
 
     /**
-     * The Constant logger.
-     */
-    private static final Log logger = LogFactory.getLog(CRF.class);
-
-    /**
      * The Constant INITIAL_ORDER.
      */
     private static final Integer INITIAL_ORDER = 0;

@@ -1,5 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import javax.persistence.MappedSuperclass;
 
 //
@@ -10,6 +13,10 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public abstract class BasePersistable implements Persistable {
+    /**
+     * The Constant logger.
+     */
+    protected final Log logger = LogFactory.getLog(getClass());
 
     /**
      * {@inheritDoc}

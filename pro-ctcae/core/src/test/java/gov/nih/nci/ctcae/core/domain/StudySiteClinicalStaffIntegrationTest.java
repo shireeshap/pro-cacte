@@ -25,13 +25,13 @@ public class StudySiteClinicalStaffIntegrationTest extends AbstractHibernateInte
 
     public void testAddStudySiteClinicalStaff() {
 
-        addClinicalStaff();
+        addStudySiteClinicalStaff();
     }
 
 
     public void testDeleteStudySiteClinicalStaff() {
 
-        addClinicalStaff();
+        addStudySiteClinicalStaff();
 
         assertNotNull("must find study clinical staff", finderRepository.findById(StudySiteClinicalStaff.class, studySiteClinicalStaff.getId()));
 
@@ -46,7 +46,7 @@ public class StudySiteClinicalStaffIntegrationTest extends AbstractHibernateInte
 
     }
 
-    private void addClinicalStaff() {
+    private void addStudySiteClinicalStaff() {
 
         defaultStudy = studyRepository.save(defaultStudy);
 
@@ -56,6 +56,7 @@ public class StudySiteClinicalStaffIntegrationTest extends AbstractHibernateInte
         StudySiteClinicalStaff expectedStudySiteClinicalStaff = studySiteClinicalStaffs.get(0);
         assertNotNull("must save study clinical staff", expectedStudySiteClinicalStaff.getId());
         assertSame("study site must be same", expectedStudySiteClinicalStaff.getStudySite(), studySiteClinicalStaff.getStudySite());
+        assertSame("site clinical staff  must be same", defaultSiteClinicalStaff, expectedStudySiteClinicalStaff.getSiteClinicalStaff());
         commitAndStartNewTransaction();
     }
 

@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.validation.annotation;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Study;
@@ -29,23 +30,23 @@ public class UniqueObjectInCollectionValidatorTest extends AbstractTestCase {
 
         study = new Study();
         studySite1 = new StudySite();
-        studySite1.setOrganization(nci);
+        studySite1.setOrganization(Fixture.NCI);
         duplicateStudySite = new StudySite();
-        duplicateStudySite.setOrganization(nci);
+        duplicateStudySite.setOrganization(Fixture.NCI);
 
         studySite2 = new StudySite();
-        studySite2.setOrganization(duke);
+        studySite2.setOrganization(Fixture.DUKE);
         study.addStudySite(studySite1);
         study.addStudySite(studySite2);
 
         clinicalStaff = new ClinicalStaff();
         siteClinicalStaff1 = new SiteClinicalStaff();
-        siteClinicalStaff1.setOrganization(nci);
+        siteClinicalStaff1.setOrganization(Fixture.NCI);
         duplicateSiteClinicalStaff = new SiteClinicalStaff();
-        duplicateSiteClinicalStaff.setOrganization(nci);
+        duplicateSiteClinicalStaff.setOrganization(Fixture.NCI);
 
         siteClinicalStaff2 = new SiteClinicalStaff();
-        siteClinicalStaff2.setOrganization(duke);
+        siteClinicalStaff2.setOrganization(Fixture.DUKE);
         clinicalStaff.addSiteClinicalStaff(siteClinicalStaff1);
         clinicalStaff.addSiteClinicalStaff(siteClinicalStaff2);
 

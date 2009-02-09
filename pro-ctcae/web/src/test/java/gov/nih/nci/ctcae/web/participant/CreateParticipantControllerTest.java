@@ -48,7 +48,7 @@ public class CreateParticipantControllerTest extends WebTestCase {
 		Organization organization = Fixture.createOrganization("TEST", "TEST");
 		Study study = Fixture.createStudyWithStudySite("Test", "Test", "Test", organization);
 		organizations = new ArrayList<Organization>();
-		organizations.add(nci);
+		organizations.add(Fixture.NCI);
 	}
 
 	public void testConstructor() {

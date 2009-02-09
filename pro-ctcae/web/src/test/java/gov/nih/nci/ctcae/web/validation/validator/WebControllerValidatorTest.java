@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.validation.validator;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollectionValidator;
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
 import org.springframework.context.ApplicationContext;
@@ -58,11 +59,11 @@ public class WebControllerValidatorTest extends WebTestCase {
 		request.setParameters(parmameterNameValues);
 
 		StudySite studySite1 = new StudySite();
-		studySite1.setOrganization(nci);
+		studySite1.setOrganization(Fixture.NCI);
 		study.addStudySite(studySite1);
 
 		StudySite studySite2 = new StudySite();
-		studySite2.setOrganization(duke);
+		studySite2.setOrganization(Fixture.DUKE);
 
 		study.addStudySite(studySite2);
 		validators.put("uniqueObjectInCollectionValidator", uniqueObjectInCollectionValidator);
@@ -82,11 +83,11 @@ public class WebControllerValidatorTest extends WebTestCase {
 		request.setParameters(parmameterNameValues);
 
 		StudySite studySite1 = new StudySite();
-		studySite1.setOrganization(nci);
+		studySite1.setOrganization(Fixture.NCI);
 		study.addStudySite(studySite1);
 
 		StudySite studySite2 = new StudySite();
-		studySite2.setOrganization(nci);
+		studySite2.setOrganization(Fixture.NCI);
 
 		study.addStudySite(studySite2);
 		validators.put("uniqueObjectInCollectionValidator", uniqueObjectInCollectionValidator);
