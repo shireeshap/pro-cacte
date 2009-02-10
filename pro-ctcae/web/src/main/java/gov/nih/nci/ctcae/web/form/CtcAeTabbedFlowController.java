@@ -38,7 +38,7 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
     /**
      * The organization repository.
      */
-    private OrganizationRepository organizationRepository;
+    protected OrganizationRepository organizationRepository;
 
     /**
      * The finder repository.

@@ -1,15 +1,13 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.core.tools.collection.UnRemovableList;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import gov.nih.nci.ctcae.core.tools.collection.UnRemovableList;
 
 //
 /**
@@ -188,13 +186,8 @@ public class SiteClinicalStaff extends BasePersistable {
 
         if (siteClinicalStaffRole != null) {
             siteClinicalStaffRole.setSiteClinicalStaff(this);
-            if (!getSiteClinicalStaffRoles().contains(siteClinicalStaffRole)) {
-                getSiteClinicalStaffRoles().add(siteClinicalStaffRole);
-                logger.debug(String.format("added   %s to %s", siteClinicalStaffRole.toString(), toString()));
-                return;
-            }
-            logger.debug(String.format("Skipping the adding because  %s already has this  %s", toString(), siteClinicalStaffRole.toString()));
-
+            getSiteClinicalStaffRoles().add(siteClinicalStaffRole);
+            logger.debug(String.format("added   %s to %s", siteClinicalStaffRole.toString(), toString()));
         }
 
     }

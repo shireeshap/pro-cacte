@@ -21,7 +21,7 @@
 
 
 <%@attribute name="size" %>
-<%@attribute name="cssClass" %>
+<%@attribute name="cssClass" required="true" %>
 <%@attribute name="disabled" type="java.lang.Boolean" %>
 <%@ attribute name="showAllJavascript" %>
 <%@ attribute name="help" type="java.lang.Boolean" %>
@@ -87,8 +87,29 @@
                                                                 onclick="${onclick}" id="${propertyName}"/></c:when>
 
     <c:when test="${categoryName == 'select'}">
-        <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
-                     cssClass="${cssClass}" itemLabel="desc" itemValue="code"/>
+        <c:choose>
+            <c:when test="${noForm}">
+                <select id="${propertyName}" class="${cssClass}" title="${title}" name="${propertyName}">
+
+                    <c:forEach items="${values}" var="item">
+                        <c:choose>
+                            <c:when test="${item.code eq propertyValue}">
+                                <option value="${item.code}" selected="selected">${item.desc}</option>
+                            </c:when><c:otherwise>
+                            <option value="${item.code}">${item.desc}</option>
+                        </c:otherwise>
+                        </c:choose>
+
+                    </c:forEach>
+                </select>
+
+            </c:when>
+            <c:otherwise>
+                <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
+                             cssClass="${cssClass}" itemLabel="desc" itemValue="code"/>
+            </c:otherwise>
+        </c:choose>
+
     </c:when>
 
     <c:when test="${categoryName == 'radio'}">

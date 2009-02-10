@@ -12,7 +12,7 @@
 
     <%--isSiteAutoCompleter="true" --%>
     <tags:renderAutocompleter propertyName="clinicalStaff.siteClinicalStaffs[${index}].organization"
-                              displayName="Site" noForm="true" />
+                              displayName="Site" noForm="true" required="true" />
 
 
     <input type="hidden" value="" id="objectsIdsToRemove" name="objectsIdsToRemove"/>

@@ -44,7 +44,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, org.springframework.validation.BindException errors) throws Exception {
 
-        gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand clinicalStaffCommand = (gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand) oCommand;
+        ClinicalStaffCommand clinicalStaffCommand = (ClinicalStaffCommand) oCommand;
         ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
 
 

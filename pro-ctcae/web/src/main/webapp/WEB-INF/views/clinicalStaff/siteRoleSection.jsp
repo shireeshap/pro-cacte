@@ -11,20 +11,22 @@
 
 <tr id="${propertyName}-row">
     <td style="border-right:none;" width="35%">
-        <display:displaySelect propertyName="${propertyName}.role" items="${roles}"
-                               propertyValue="${siteClinicalStaffRole.role}"/>
+        <tags:renderSelect propertyName="${propertyName}.role" options="${roles}"
+                           propertyValue="${siteClinicalStaffRole.role}" noForm="true" doNotshowLabel="true" required="true"
+                displayName="clinicalStaff.label.role"/>
     </td>
     <td style="border-right:none;" width="30%">
-        <display:displaySelect propertyName="${propertyName}.role" items="${roleStatus}"
-                               propertyValue="${siteClinicalStaffRole.roleStatus}"/>
+        <tags:renderSelect propertyName="${propertyName}.roleStatus" options="${roleStatus}"
+                           propertyValue="${siteClinicalStaffRole.roleStatus}" noForm="true" doNotshowLabel="true" required="true"
+                displayName="clinicalStaff.label.role.status"/>
     </td>
     <td style="border-right:none;" width="30%">
 
-        <tags:renderDate propertyName="${propertyName}.role"
-                         displayName="participant.label.date_of_birth"
+        <tags:renderDate propertyName="${propertyName}.statusDate"
+                         displayName="clinicalStaff.label.role.status.date"
                          required="true" noForm="true"
                          propertyValue="${siteClinicalStaffRole.statusDate}"
-                         doNotShowFormat="true" doNotshowLabel="true" />
+                         doNotShowFormat="true" doNotshowLabel="true"/>
 
     </td>
 

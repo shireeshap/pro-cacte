@@ -13,7 +13,7 @@
 
 <c:choose>
     <c:when test="${noForm}">
-        <input type="text" id="${id}" cssClass="date ${cssClass}" name="${path}"
+        <input type="text" id="${id}" class="date ${cssClass}" name="${path}"
                title="${displayName}"
                value="${propertyValue}"/>
 

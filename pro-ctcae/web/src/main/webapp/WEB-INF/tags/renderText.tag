@@ -10,5 +10,6 @@
 
 <tags:renderRow propertyName="${propertyName}"
                 displayName="${displayName}" categoryName="text"
-                required="${required}" help="${help}" size="${size}"
+                help="${help}" size="${size}"
+                required="${required}"
                 cssClass="${required ? 'validate-NOTEMPTY&&MAXLENGTH2000' : 'validate-MAXLENGTH2000'}"/>

@@ -427,7 +427,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/conditions.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/crfSchedule.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/dateInput.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/debugInfo.tag -text
-pro-ctcae/web/src/main/webapp/WEB-INF/tags/display/displaySelect.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/dwrJavascriptLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/enableRowDeletion.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/errors.tag -text

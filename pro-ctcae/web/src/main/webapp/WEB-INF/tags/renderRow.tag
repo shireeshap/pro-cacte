@@ -2,7 +2,7 @@
 <%@ attribute name="onclick" %>
 <%@ attribute name="showAllJavascript" %>
 <%@ attribute name="help" type="java.lang.Boolean" %>
-
+   
 <%@ attribute name="rows" %>
 <%--
     Can render field or a 'label or value'. The preference is given to label, and value attributes, if they are present the field is kind of ignored.
@@ -40,6 +40,7 @@
                            help="${help}"
                            showAllJavascript="${showAllJavascript}" size="${size}"
                            onclick="${onclick}" values="${values}"
+                           cssClass="${cssClass}"
                            cols="${cols}" noForm="${noForm}"
                            propertyValue="${propertyValue}"
                            doNotShowFormat="${doNotShowFormat}" rows="${rows}"/>
@@ -63,6 +64,7 @@
                 <c:otherwise>
                     <tags:renderInputs displayName="${displayName}" propertyName="${propertyName}"
                                        categoryName="${categoryName}"
+                                       cssClass="${cssClass}"
                                        help="${help}"
                                        showAllJavascript="${showAllJavascript}" size="${size}"
                                        onclick="${onclick}" values="${values}"
