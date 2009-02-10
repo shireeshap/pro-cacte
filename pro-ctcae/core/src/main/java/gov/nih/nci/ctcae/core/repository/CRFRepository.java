@@ -6,8 +6,10 @@ import gov.nih.nci.ctcae.core.query.CRFQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
+import java.text.ParseException;
 
 //
 /**
@@ -23,6 +25,8 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
      * The study repository.
      */
     private StudyRepository studyRepository;
+
+    private FinderRepository finderRepository;
 
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#getPersistableClass()
@@ -66,30 +70,76 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
      * @param crf the crf
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void updateStatusToReleased(CRF crf) {
-
+    public void updateStatusToReleased(CRF crf) throws ParseException {
 
         if (crf != null) {
+            crf = findById(crf.getId());
             crf.setStatus(CrfStatus.RELEASED);
 
             Study study = studyRepository.findById(crf.getStudy().getId());
-
             for (StudySite studySite : study.getStudySites()) {
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
-                    StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
-                    studyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
+                    StudyParticipantCrf  studyParticipantCrf = new StudyParticipantCrf();
                     crf.addStudyParticipantCrf(studyParticipantCrf);
+                    studyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
                 }
             }
+
+            generateSchedulesFromCrfCalendar(crf);
+
         }
         save(crf);
     }
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#save(gov.nih.nci.ctcae.core.domain.Persistable)
-     */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public CRF save(CRF crf) {
+    public void generateSchedulesFromCrfCalendar(CRF crf) throws ParseException {
+        if (crf != null) {
+            crf = findById(crf.getId());
+
+            if (crf.getCrfCalendars() != null) {
+                for (CRFCalendar crfCalendar : crf.getCrfCalendars()) {
+                    if (!StringUtils.isBlank(crfCalendar.getRepeatEveryAmount())) {
+                        ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar(Integer.parseInt(crfCalendar.getRepeatEveryAmount()), crfCalendar.getRepeatEveryUnit(), Integer.parseInt(crfCalendar.getDueDateAmount()), crfCalendar.getDueDateUnit(), crfCalendar.getRepeatUntilUnit(), crfCalendar.getRepeatUntilAmount(), crf.getEffectiveStartDate());
+                        for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
+                            createSchedule(studyParticipantCrf, proCtcAECalendar);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public void generateSchedulesFromCrfCalendar(CRF crf, StudyParticipantCrf studyParticipantCrf) throws ParseException {
+        if (crf != null) {
+            crf = findById(crf.getId());
+
+            if (crf.getCrfCalendars() != null) {
+                for (CRFCalendar crfCalendar : crf.getCrfCalendars()) {
+                    if (!StringUtils.isBlank(crfCalendar.getRepeatEveryAmount())) {
+                        ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar(Integer.parseInt(crfCalendar.getRepeatEveryAmount()), crfCalendar.getRepeatEveryUnit(), Integer.parseInt(crfCalendar.getDueDateAmount()), crfCalendar.getDueDateUnit(), crfCalendar.getRepeatUntilUnit(), crfCalendar.getRepeatUntilAmount(), crf.getEffectiveStartDate());
+                        createSchedule(studyParticipantCrf, proCtcAECalendar);
+                    }
+                }
+            }
+        }
+    }
+
+    private void createSchedule(StudyParticipantCrf studyParticipantCrf, ProCtcAECalendar proCtcAECalendar) throws ParseException {
+        ParticipantSchedule participantSchedule = new ParticipantSchedule();
+        participantSchedule.setStudyParticipantCrf(studyParticipantCrf);
+        participantSchedule.setFinderRepository(finderRepository);
+        participantSchedule.setCalendar(proCtcAECalendar);
+        participantSchedule.createSchedules();
+    }
+
+    /* (non-Javadoc)
+    * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#save(gov.nih.nci.ctcae.core.domain.Persistable)
+    */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public CRF save
+            (CRF
+                    crf) {
         CRF tmp = null;
         if (crf.getParentVersionId() != null) {
             tmp = findById(crf.getParentVersionId());
@@ -119,8 +169,17 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
      * @param studyRepository the new study repository
      */
     @Required
-    public void setStudyRepository(StudyRepository studyRepository) {
+    public void setStudyRepository
+            (StudyRepository
+                    studyRepository) {
         this.studyRepository = studyRepository;
+    }
+
+    @Required
+    public void setFinderRepository
+            (FinderRepository
+                    finderRepository) {
+        this.finderRepository = finderRepository;
     }
 
 }

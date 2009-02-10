@@ -96,6 +96,11 @@ public class CRF extends BaseVersionable {
 
     private List<CRFPage> crfPages = new LinkedList<CRFPage>();
 
+    @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+
+    private List<CRFCalendar> crfCalendars = new LinkedList<CRFCalendar>();
+
     /**
      * The study.
      */
@@ -427,6 +432,16 @@ public class CRF extends BaseVersionable {
         return sortedCrfPages;
     }
 
+    public List<CRFCalendar> getCrfCalendars() {
+        return crfCalendars;
+    }
+
+    public void addCrfCalendar(CRFCalendar crfCalendar) {
+        if (crfCalendar != null) {
+            crfCalendar.setCrf(this);
+            crfCalendars.add(crfCalendar);
+        }
+    }
 
     /**
      * Removes the crf page by page number.
@@ -729,7 +744,7 @@ public class CRF extends BaseVersionable {
     }
 
     /**
-     * This is used when user deletes a pro ctc question.
+     * This is used when user deletes a pro csetCrtc question.
      *
      * @param proCtcQuestion the proCtcQuestion to remove
      */

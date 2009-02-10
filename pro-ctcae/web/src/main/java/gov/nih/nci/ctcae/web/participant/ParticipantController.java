@@ -100,6 +100,7 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
                     StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
                     studyParticipantCrf.setCrf(crf);
                     studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
+                    crfRepository.generateSchedulesFromCrfCalendar(crf, studyParticipantCrf);
                 }
             }
             participant.addStudyParticipantAssignment(studyParticipantAssignment);

@@ -120,7 +120,7 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
     private void layoutTabs(Flow<CreateFormCommand> flow) {
         flow.addTab(new SelectStudyForFormTab());
         flow.addTab(new FormDetailsTab());
-        // flow.addTab(new CalendarTemplateTab());
+        flow.addTab(new CalendarTemplateTab());
 
     }
 

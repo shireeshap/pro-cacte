@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Collection;
 import java.util.UUID;
+import java.text.ParseException;
 
 /**
  * @author Harsh Agarwal
@@ -132,7 +133,7 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
         }
     }
 
-    public void testUpdateStatusOfCRF() {
+    public void testUpdateStatusOfCRF() throws ParseException {
         saveCrf();
         assertNotNull(crf.getId());
         crfRepository.updateStatusToReleased(crf);

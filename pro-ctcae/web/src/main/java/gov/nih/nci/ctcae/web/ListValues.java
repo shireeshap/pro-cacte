@@ -229,4 +229,37 @@ public class ListValues {
 
 
     }
+
+    public static List<ListValues> getCalendarRepetitionUnits() {
+        List<ListValues> col = new ArrayList<ListValues>();
+        ListValues lov1 = new ListValues("Days", "Days");
+        ListValues lov2 = new ListValues("Weeks", "Weeks");
+        ListValues lov3 = new ListValues("Months", "Months");
+        col.add(lov1);
+        col.add(lov2);
+        col.add(lov3);
+        return col;
+    }
+
+    public static List<ListValues> getCalendarRepeatUntilUnits() {
+        List<ListValues> col = new ArrayList<ListValues>();
+        ListValues lov1 = new ListValues("Date", "Date");
+        ListValues lov2 = new ListValues("Number", "Number of repititions");
+        ListValues lov3 = new ListValues("Indefinitely", "Indefinitely");
+        col.add(lov1);
+        col.add(lov2);
+        col.add(lov3);
+        return col;
+    }
+
+    public static List<ListValues> getCalendarDueDateUnits() {
+        List<ListValues> col = new ArrayList<ListValues>();
+        ListValues lov1 = new ListValues("Hours", "Hours");
+        ListValues lov2 = new ListValues("Days", "Days");
+        ListValues lov3 = new ListValues("Weeks", "Weeks");
+        col.add(lov1);
+        col.add(lov2);
+        col.add(lov3);
+        return col;
+    }
 }

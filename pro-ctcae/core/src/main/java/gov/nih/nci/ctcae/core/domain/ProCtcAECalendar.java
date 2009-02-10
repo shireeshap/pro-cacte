@@ -1,4 +1,4 @@
-package gov.nih.nci.ctcae.web.participant;
+package gov.nih.nci.ctcae.core.domain;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -90,6 +90,18 @@ public class ProCtcAECalendar {
         calendar = new GregorianCalendar();
         startDate = new Date();
         calendar.set(Calendar.DATE, 1);
+    }
+
+
+    public ProCtcAECalendar(int repetitionPeriodAmount, String repetitionPeriodUnit, int dueDateAmount, String dueDateUnit, String repeatUntilUnit, String repeatUntilValue, Date startDate) {
+        this.repetitionPeriodAmount = repetitionPeriodAmount;
+        this.repetitionPeriodUnit = repetitionPeriodUnit;
+        this.dueDateAmount = dueDateAmount;
+        this.dueDateUnit = dueDateUnit;
+        this.repeatUntilUnit = repeatUntilUnit;
+        this.repeatUntilValue = repeatUntilValue;
+        this.startDate = startDate;
+        calendar = getCalendarForDate(startDate);
     }
 
     /**

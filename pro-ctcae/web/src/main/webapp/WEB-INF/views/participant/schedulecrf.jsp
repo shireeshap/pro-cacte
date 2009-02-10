@@ -31,7 +31,7 @@
         height: 30px;
     }
 
-    table.widget {
+    table.widget {                                                a
         border-left: 9px solid #C3D9FF;
         border-bottom: 6px solid #C3D9FF;
         width: 60%;
@@ -223,7 +223,8 @@ function initializeCalendar(index) {
     for (var i = 0; i < items.length; i++) {
         var item = items[i];
         var date = item.id.substring(item.id.indexOf('_', 2) + 1);
-        $(index + '_schedule_' + date).onclick = function() {};
+        $(index + '_schedule_' + date).onclick = function() {
+        };
     }
     document.body.style.cursor = 'default';
 }
@@ -231,7 +232,8 @@ function initializeCalendar(index) {
 
 function moveItem(draggable, droparea) {
     try {
-        droparea.onclick = function() {};
+        droparea.onclick = function() {
+        };
         var index = draggable.id.substring(0, draggable.id.indexOf('_'));
         if (checkStatus) {
             if (draggable.innerHTML.indexOf('Scheduled') == -1) {
@@ -280,7 +282,7 @@ function showMoveWindow(olddate, newdate, index) {
     var win = Windows.getFocusedWindow();
     if (win == null) {
         win = new Window({ id: '100' , className: "alphacube", closable : false, minimizable : false, maximizable :
-                false, title: "", height:70, width: 600, left: (screen.width / 2) - 300, top: document.viewport.getScrollOffsets()[1]+(250)});
+                false, title: "", height:70, width: 600, left: (screen.width / 2) - 300, top: document.viewport.getScrollOffsets()[1] + (250)});
         win.setDestroyOnClose();
         win.setHTMLContent(htmlcontent);
         win.show(true)
@@ -303,7 +305,7 @@ function showDeleteWindow(date, index) {
     var win = Windows.getFocusedWindow();
     if (win == null) {
         win = new Window({ id: '100' , className: "alphacube", closable : false, minimizable : false, maximizable :
-                false, title: "", height:70, width: 600, left: (screen.width / 2) - 300, top: document.viewport.getScrollOffsets()[1]+(250)});
+                false, title: "", height:70, width: 600, left: (screen.width / 2) - 300, top: document.viewport.getScrollOffsets()[1] + (250)});
         win.setDestroyOnClose();
         win.setHTMLContent(htmlcontent);
         win.show(true)
@@ -324,7 +326,7 @@ function showAddWindow(date, index) {
     var win = Windows.getFocusedWindow();
     if (win == null) {
         win = new Window({ id: '100' , className: "alphacube", closable : false, minimizable : false, maximizable :
-                false, title: "", height:70, width: 260, left: (screen.width / 2) - 130, top: document.viewport.getScrollOffsets()[1]+(250)});
+                false, title: "", height:70, width: 260, left: (screen.width / 2) - 130, top: document.viewport.getScrollOffsets()[1] + (250)});
         win.setDestroyOnClose();
         win.setHTMLContent(htmlcontent);
         win.show(true)
@@ -513,6 +515,7 @@ Event.observe(window, "load", function () {
                                                                 alt="Calendar"
                                                                 width="17" height="16" border="0"
                                                                 align="absmiddle"/>
+                                                        </a>
                                                         </div>
                                                     </td>
                                                     <td>

@@ -828,7 +828,7 @@
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-    <input type="hidden" name="_finish" value="true"/>
+    <%--<input type="hidden" name="_finish" value="true"/>--%>
         
     <div class="instructions">
 
