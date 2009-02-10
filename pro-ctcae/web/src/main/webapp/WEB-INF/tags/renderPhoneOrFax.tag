@@ -8,5 +8,5 @@
 
 
 <tags:renderRow propertyName="${propertyName}" displayName="${displayName}" categoryName="phone"
-                required="${required}" help="${help}" size="${size}"/> 
+                required="${required}" help="${help}" size="${size}" cssClass="${required ? 'validate-NOTEMPTY&&US_PHONE_NO' : 'validate-US_PHONE_NO'}"/>
 

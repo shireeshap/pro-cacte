@@ -2,7 +2,6 @@
 <%@ attribute name="crfPageNumber" required="true" %>
 
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@taglib prefix="noform" tagdir="/WEB-INF/tags/noform" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:set var="index" value="${crfPageItem.displayOrder}"/>
@@ -10,27 +9,26 @@
     <div id="questionProperties_${crfPageItem.proCtcQuestion.id}" style="display:none;"
          class="questionProperties leftBox">
         <span class="propertiesHeader"><tags:message code="crfItem.label.properties"/> </span>
-        <noform:renderTextArea
+
+        <tags:renderTextArea
                 propertyName="crf.crfPagesSortedByPageNumber[${crfPageNumber}].crfPageItems[${index}].instructions"
                 displayName="crfItem.label.instructions"
-                propertyValue="${crfPageItem.instructions}"></noform:renderTextArea>
+                noForm="true"
+                propertyValue="${crfPageItem.instructions}"/>
 
-        <noform:renderRadio
+        <tags:renderRadio
                 propertyName="crf.crfPagesSortedByPageNumber[${crfPageNumber}].crfPageItems[${index}].responseRequired"
                 displayName="crfItem.label.response_required"
-                propertyValue="${crfPageItem.responseRequired}" items="${responseRequired}"
-                questionId="${crfPageItem.proCtcQuestion.id}">
+                propertyValue="${crfPageItem.responseRequired}"
+                values="${responseRequired}" noForm="true"/>
 
-        </noform:renderRadio>
-
-
-        <noform:renderRadio
+        <tags:renderRadio
                 propertyName="crf.crfPagesSortedByPageNumber[${crfPageNumber}].crfPageItems[${index}].crfItemAllignment"
-                displayName="crfItem.label.allignment"
-                propertyValue="${crfPageItem.crfItemAllignment}" items="${crfItemAllignments}"
-                questionId="${crfPageItem.proCtcQuestion.id}">
+                displayName="crfItem.label.allignment" propertyValue="${crfPageItem.crfItemAllignment}"
+                values="${crfItemAllignments}"
+                noForm="true">
 
-        </noform:renderRadio>
+        </tags:renderRadio>
 
 
         <span class="propertiesHeader"><tags:message code="form.conditional_question"/> </span>

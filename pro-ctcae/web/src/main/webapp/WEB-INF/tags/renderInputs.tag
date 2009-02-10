@@ -1,11 +1,16 @@
 <%@ attribute name="cols" %>
+<%@ attribute name="rows" %>
 <%@ attribute name="onclick" %>
 <%@attribute name="propertyName" type="java.lang.String" %>
 <%@attribute name="displayName" type="java.lang.String" %>
 <%@attribute name="categoryName" type="java.lang.String" %>
 <%@attribute name="defaultValue" type="java.lang.String" %>
+<%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
 
-<%@attribute name="required" type="java.lang.Boolean" %>
+<%@attribute name="noForm" type="java.lang.Boolean" %>
+<%@attribute name="doNotShowFormat" type="java.lang.Boolean" %>
+<%@ attribute name="propertyValue" %>
+
 
 <%@ attribute name="values" type="java.util.List" %>
 
@@ -26,12 +31,12 @@
     <c:when test="${categoryName == 'text'}">
         <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                     title="${title}"
-                    cssClass="${required ? 'validate-NOTEMPTY&&MAXLENGTH2000' : 'validate-MAXLENGTH2000'}"/>
+                    cssClass="${cssClass}"/>
     </c:when>
     <c:when test="${categoryName == 'email'}">
         <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                     title="${title}"
-                    cssClass="${required ? 'validate-NOTEMPTY&&EMAIL' : 'validate-EMAIL'}"/>
+                    cssClass="${cssClass}"/>
     </c:when>
     <c:when test="${categoryName == 'password'}">
         <form:password path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
@@ -41,35 +46,83 @@
     <c:when test="${categoryName == 'number'}">
         <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                     title="${title}"
-                    cssClass="${required ? 'validate-NOTEMPTY&&NUMERIC' : 'validate-NUMERIC'}"/>
+                    cssClass="${cssClass}"/>
     </c:when>
     <c:when test="${categoryName == 'phone'}">
         <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                     title="${title}"
-                    cssClass="${required ? 'validate-NOTEMPTY&&US_PHONE_NO' : 'validate-US_PHONE_NO'}"/>
+                    cssClass="${cssClass}"/>
 
         <span class="phone-number">###-###-####</span>
 
     </c:when>
 
-    <c:when test="${categoryName == 'date'}"><tags:dateInput path="${propertyName}" displayName="${title}"
-                                                             cssClass="${required ? 'validate-NOTEMPTY&&DATE' : 'validate-DATE'}"/></c:when>
-    <c:when test="${categoryName == 'textarea'}"><form:textarea path="${propertyName}" disabled="${disabled}"
-                                                                cols="${not empty cols ? cols : ''}"
-                                                                rows="${not empty rows ? rows : ''}"
-                                                                title="${title}"
-                                                                cssClass="${required ? 'validate-NOTEMPTY&&MAXLENGTH2000' : 'validate-MAXLENGTH2000'}"
-            /></c:when>
+    <c:when test="${categoryName == 'date'}">
+        <tags:dateInput path="${propertyName}" displayName="${title}"
+                        cssClass="${cssClass}" noForm="${noForm}"
+                        propertyValue="${propertyValue}"
+                        doNotShowFormat="${doNotShowFormat}"/>
+    </c:when>
+    <c:when test="${categoryName == 'textarea'}">
+
+        <c:choose>
+            <c:when test="${noForm}">
+                <textarea id="${propertyName}" cols="${cols}" rows="${rows}"
+                          title="${title}" name="${propertyName}">${propertyValue}
+                </textarea>
+
+            </c:when>
+            <c:otherwise>
+                <form:textarea path="${propertyName}" disabled="${disabled}"
+                               cols="${cols}"
+                               rows="${rows}"
+                               title="${title}"
+                               cssClass="${cssClass}"/>
+            </c:otherwise>
+        </c:choose>
+
+
+    </c:when>
     <c:when test="${categoryName == 'checkbox'}"><form:checkbox path="${propertyName}" disabled="${disabled}"
                                                                 onclick="${onclick}" id="${propertyName}"/></c:when>
 
     <c:when test="${categoryName == 'select'}">
         <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
-                     cssClass="${required ? 'validate-NOTEMPTY' : ''}" itemLabel="desc" itemValue="code"/>
+                     cssClass="${cssClass}" itemLabel="desc" itemValue="code"/>
+    </c:when>
+
+    <c:when test="${categoryName == 'radio'}">
+        <c:choose>
+            <c:when test="${noForm}">
+                <c:forEach items="${values}" var="item" varStatus="status">
+                    <c:choose>
+                        <c:when test="${item.code eq propertyValue}">
+                            <input type="radio" class="longselect-radio" name="${propertyName}"
+                                   id="${propertyName}-radio-${status.index}"
+                                   value="${item.code}"
+                                   checked="checked" style="margin:3px"/>${item.desc}
+                        </c:when>
+                        <c:otherwise>
+                            <input type="radio" class="longselect-radio" name="${propertyName}"
+                                   id="${propertyName}-radio-${status.index}"
+                                   value="${item.code}"
+                                   style="margin:3px"/>${item.desc}
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+            </c:when>
+            <c:otherwise>
+                <form:radiobuttons path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
+                                   cssClass="${cssClass}" itemLabel="desc" itemValue="code"/>
+            </c:otherwise>
+        </c:choose>
+
+
     </c:when>
     <c:when test="${categoryName == 'selectdomainobject'}">
         <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
-                     cssClass="${required ? 'validate-NOTEMPTY' : ''}" itemValue="id"/>
+                     cssClass="${cssClass}" itemValue="id"/>
     </c:when>
 
 
@@ -80,22 +133,32 @@
     <c:when test="${categoryName == 'autocompleter'}">
         <input size="${empty size ? empty attributes.size ? '50' : attributes.size : size}" type="text"
                id="${propertyName}-input" title="${title}" ${disabled ? 'disabled' : ''}
-               class="autocomplete ${required ? 'validate-NOTEMPTY' : ''}"/>
+               class="autocomplete ${cssClass}"/>
 
         <%--<a href="${showAllJavascript}">Show All</a> --%>
 
         <input type="image" id="${propertyName}-clear" name="C" value="Clear"
                onClick="javascript:$('${propertyName}-input').clear();$('${propertyName}').clear();"
-			   src="/ctcae/images/blue/clear-left-button.png"
-			   style="vertical-align:middle;" />
-			   
-		<tags:indicator id="${propertyName}-indicator"/>
+               src="/ctcae/images/blue/clear-left-button.png"
+               style="vertical-align:middle;"/>
+
+        <tags:indicator id="${propertyName}-indicator"/>
 
         <div id="${propertyName}-choices" class="autocomplete" style="display: none"></div>
 
-        <form:input path="${propertyName}" id="${propertyName}" cssClass=" ${required ? 'validate-NOTEMPTY' : ''}"
-                    title="${title}"
-                    cssStyle="display:none;"/>
+        <c:choose>
+            <c:when test="${noForm}">
+                <input id="${propertyName}" class="${cssClass}" type="text" value=""
+                       title="${title}" style="display: none;" name="${propertyName}"/>
+
+
+            </c:when>
+            <c:otherwise>
+                <form:input path="${propertyName}" id="${propertyName}" cssClass="${cssClass}"
+                            title="${title}"
+                            cssStyle="display:none;"/>
+            </c:otherwise>
+        </c:choose>
 
 
     </c:when>

@@ -1,11 +1,9 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -14,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class AddSiteControllerTest extends WebTestCase {
 
-    private AddSiteController controller;
+    private AddClinicalStaffCompoentController controller;
     private CreateClinicalStaffController createClinicalStaffController;
     private WebControllerValidator validator;
     private ClinicalStaffRepository clinicalStaffRepository;
@@ -22,7 +20,7 @@ public class AddSiteControllerTest extends WebTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        controller = new AddSiteController();
+        controller = new AddClinicalStaffCompoentController();
         createClinicalStaffController = new CreateClinicalStaffController();
         validator = new WebControllerValidatorImpl();
 

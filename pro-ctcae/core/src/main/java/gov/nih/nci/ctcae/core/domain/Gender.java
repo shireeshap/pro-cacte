@@ -1,12 +1,16 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.cabig.ctms.domain.CodedEnum;
+import gov.nih.nci.cabig.ctms.domain.CodedEnumHelper;
+import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
+
 import java.util.ArrayList;
 
 //
 /**
  * The Enum Gender.
  */
-public enum Gender {
+public enum Gender implements CodedEnum<String> {
 
     /**
      * The MALE.
@@ -29,29 +33,64 @@ public enum Gender {
     private final String displayText;
 
     /**
-     * Instantiates a new gender.
+     * Instantiates a new ROLE.
      *
      * @param displayText the display text
      */
     Gender(String displayText) {
         this.displayText = displayText;
+        CodedEnumHelper.register(this);
+
+    }
+
+
+    /**
+     * Gets the by code.
+     *
+     * @param code the code
+     * @return the by code
+     */
+    public static Gender getByCode(String code) {
+        return getByClassAndCode(Gender.class, code);
     }
 
     /* (non-Javadoc)
-     * @see java.lang.Enum#toString()
-     */
+    * @see gov.nih.nci.cabig.ctms.domain.CodedEnum#getCode()
+    */
+    public String getCode() {
+        return getDisplayName();
+    }
+
+    /* (non-Javadoc)
+    * @see gov.nih.nci.cabig.ctms.domain.CodedEnum#getDisplayName()
+    */
+    public String getDisplayName() {
+        return displayText;
+    }
+
+
+    /* (non-Javadoc)
+    * @see java.lang.Enum#toString()
+    */
     @Override
     public String toString() {
         return displayText;
     }
 
     /**
-     * Gets the display text.
+     * Gets the Role by display name.
      *
-     * @return the display text
+     * @param displayName the display name
+     * @return the by display name
      */
-    public String getDisplayText() {
-        return displayText;
+    public static Gender getByDisplayName(String displayName) {
+        for (Gender gender : Gender.values()) {
+
+            if (gender.getDisplayName().equals(displayName)) {
+                return gender;
+            }
+        }
+        return null;
     }
 
     /**

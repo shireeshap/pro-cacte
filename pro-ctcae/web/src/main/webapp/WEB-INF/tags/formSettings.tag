@@ -1,7 +1,6 @@
 <%@ attribute name="crf" required="true" type="gov.nih.nci.ctcae.core.domain.CRF" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="noform" tagdir="/WEB-INF/tags/noform" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script type="text/javascript">
     function selectRecallPeriod() {

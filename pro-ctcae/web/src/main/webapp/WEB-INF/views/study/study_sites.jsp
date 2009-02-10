@@ -20,7 +20,7 @@
 
         function addStudySiteDiv(transport) {
             $('studySiteTable').show()
-            
+
             var response = transport.responseText;
             new Insertion.Before("hiddenDiv", response);
 
@@ -55,13 +55,13 @@
 
         <c:forEach  items="${command.study.studySites}" var="studySite" varStatus="status">
             var siteBaseName = 'study.studySites[${status.index}].organization'
-            acCreate(new siteAutoComplter(siteBaseName));
+            acCreate(new siteAutoComplter(siteBaseName))
             initializeAutoCompleter(siteBaseName, '${studySite.organization.displayName}', '${studySite.organization.id}');
         </c:forEach>
-      <c:if test="${not empty command.study.studySites}">
+        <c:if test="${not empty command.study.studySites}">
             $('studySiteTable').show()
 
-      </c:if>
+        </c:if>
             initSearchField()
 
 
@@ -109,10 +109,9 @@
         </chrome:division>
     </jsp:attribute>
     <jsp:attribute name="localButtons">
-        <c:set var="addtudySites"><spring:message code='study.button.add_study_site' text=''/></c:set>
 
-        <input type="button" value="${addtudySites}" onClick="addStudySite()"
-               class="button"/>
+        <tags:button type="anchor" onClick="javascript:addStudySite()" value="study.button.add_study_site"/>
+        
     </jsp:attribute>
 </tags:tabForm>
 

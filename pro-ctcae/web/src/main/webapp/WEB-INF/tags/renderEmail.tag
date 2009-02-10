@@ -8,4 +8,5 @@
 
 <tags:renderRow propertyName="${propertyName}"
                 displayName="${displayName}" categoryName="email"
-                required="${required}" help="${help}" size="${size}"/>
+                required="${required}" help="${help}" size="${size}"
+                cssClass="${required ? 'validate-NOTEMPTY&&EMAIL' : 'validate-EMAIL'}"/>

@@ -32,9 +32,20 @@
         }
 
         function addSite() {
-            var request = new Ajax.Request("<c:url value="/pages/clinicalStaff/addSite"/>", {
+            var request = new Ajax.Request("<c:url value="/pages/clinicalStaff/addClinicalStaffCompoent"/>", {
                 onComplete:addSiteDiv,
-                parameters:"subview=subview&",
+                parameters:"subview=subview&componentTyep=site",
+                method:'get'
+            })
+        }
+        function addRole(siteClinicalStaffIndex) {
+            var request = new Ajax.Request("<c:url value="/pages/clinicalStaff/addClinicalStaffCompoent"/>", {
+                onComplete:function(transport) {
+                    var response = transport.responseText;
+                    new Insertion.Before("hiddenDivForRole_"+siteClinicalStaffIndex, response);
+
+                },
+                parameters:"subview=subview&componentTyep=role&siteClinicalStaffIndex=" + siteClinicalStaffIndex,
                 method:'get'
             })
         }
@@ -86,62 +97,52 @@
 
                     <tags:renderText propertyName="clinicalStaff.firstName" displayName="clinicalStaff.label.first_name"
                                      required="true"/>
-                    <tags:renderText propertyName="clinicalStaff.middleName" displayName="clinicalStaff.label.middle_name"/>
+                    <tags:renderText propertyName="clinicalStaff.middleName"
+                                     displayName="clinicalStaff.label.middle_name"/>
                     <tags:renderText propertyName="clinicalStaff.lastName" displayName="clinicalStaff.label.last_name"
                                      required="true"/>
-                    <tags:renderText propertyName="clinicalStaff.nciIdentifier" displayName="clinicalStaff.label.identifier"
+                    <tags:renderText propertyName="clinicalStaff.nciIdentifier"
+                                     displayName="clinicalStaff.label.identifier"
                                      required="true"/>
 
                 </td>
                 <td style="vertical-align:top">
 
-                    <tags:renderEmail propertyName="clinicalStaff.emailAddress" displayName="clinicalStaff.label.email_address"
+                    <tags:renderEmail propertyName="clinicalStaff.emailAddress"
+                                      displayName="clinicalStaff.label.email_address"
                                       required="true"/>
-                    <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber" displayName="clinicalStaff.label.phone"
+                    <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber"
+                                           displayName="clinicalStaff.label.phone"
                                            required="true"/>
-                    <tags:renderPhoneOrFax propertyName="clinicalStaff.faxNumber" displayName="clinicalStaff.label.fax"/>
+                    <tags:renderPhoneOrFax propertyName="clinicalStaff.faxNumber"
+                                           displayName="clinicalStaff.label.fax"/>
 
 
                 </td>
             </tr>
         </table>
 
-        <chrome:division title="clinicalStaff.division.sites">
+        <div>
 
             <input type="hidden" value="" id="objectsIdsToRemove" name="objectsIdsToRemove"/>
 
-            <div align="left" style="margin-left: 50px">
-                <table width="55%" class="tablecontent">
-                    <tr id="ss-table-head" class="amendment-table-head">
-                        <th width="95%" class="tableHeader"><tags:requiredIndicator/><tags:message code="clinicalStaff.label.site"/></th>
-                        <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+            <div id="hiddenDiv">
 
-                    </tr>
-                    <c:forEach items="${clinicalStaffCommand.clinicalStaff.siteClinicalStaffs}" var="siteClinicalStaff"
-                               varStatus="status">
-
-                        <tags:oneOrganization index="${status.index}"
-                                              inputName="clinicalStaff.siteClinicalStaffs[${status.index}].organization"
-                                              title="Clinical Staff Site" displayError="true"></tags:oneOrganization>
-                    </c:forEach>
-
-                    <tr id="hiddenDiv"></tr>
-
-                </table>
 
             </div>
+
+
             <tags:tabControls>
-                   <jsp:attribute name="localButtons">
-                       <c:set var="addSites"><tags:message code="clinicalStaff.button.site"/></c:set>
+                <jsp:attribute name="localButtons">
 
-                       <input type="button" value="${addSites}" onClick="addSite()" class="button"/>
+                    <tags:button type="anchor" icon="add" value="clinicalStaff.button.add.site"
+                                 onClick="javascript:addSite()"></tags:button>
 
-                   </jsp:attribute>
+                </jsp:attribute>
             </tags:tabControls>
 
 
-        </chrome:division>
-
+        </div>
 
     </chrome:box>
     <%--<tags:tabControls willSave="true"/>--%>

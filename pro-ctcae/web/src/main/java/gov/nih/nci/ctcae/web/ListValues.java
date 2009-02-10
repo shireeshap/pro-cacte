@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web;
 
+import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 
 import java.util.ArrayList;
@@ -99,12 +100,36 @@ public class ListValues {
      *
      * @return the gender type
      */
-    public List<ListValues> getGenderType() {
+    public static List<ListValues> getGenderType() {
+        return getEnumTypes(Gender.class);
+    }
+
+    public static List<ListValues> getRolesType() {
+
         List<ListValues> valuesList = new ArrayList<ListValues>();
         valuesList.add(new ListValues("", "Please select"));
 
-        for (Gender gender : Gender.values()) {
-            valuesList.add(new ListValues(gender.getDisplayText(), gender.getDisplayText()));
+        valuesList.add(new ListValues(Role.CRA.getDisplayName(), Role.CRA.getDisplayName()));
+        valuesList.add(new ListValues(Role.PHYSICAN.getDisplayName(), Role.PHYSICAN.getDisplayName()));
+        valuesList.add(new ListValues(Role.RESEARCH_NURSE.getDisplayName(), Role.RESEARCH_NURSE.getDisplayName()));
+        valuesList.add(new ListValues(Role.ADMINISTRATOR.getDisplayName(), Role.ADMINISTRATOR.getDisplayName()));
+
+
+        return valuesList;
+    }
+
+    public static List<ListValues> getRoleStatusType() {
+        return getEnumTypes(RoleStatus.class);
+    }
+
+    private static List<ListValues> getEnumTypes(final Class<? extends CodedEnum> enumClass) {
+        List<ListValues> valuesList = new ArrayList<ListValues>();
+        valuesList.add(new ListValues("", "Please select"));
+
+        CodedEnum[] constants = enumClass.getEnumConstants();
+
+        for (CodedEnum codedEnum : constants) {
+            valuesList.add(new ListValues(codedEnum.getDisplayName(), codedEnum.getDisplayName()));
         }
 
         return valuesList;

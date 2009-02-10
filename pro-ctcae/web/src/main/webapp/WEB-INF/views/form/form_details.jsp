@@ -1,7 +1,6 @@
 <%-- This is the standard decorator for all caAERS pages --%>
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@taglib prefix="crf" tagdir="/WEB-INF/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
@@ -936,7 +935,7 @@
                         </div>
 
                         <div id="formSettings" style="display:none;">
-                            <crf:formSettings crf="${command.crf}"></crf:formSettings>
+                            <tags:formSettings crf="${command.crf}"></tags:formSettings>
                         </div>
                     </td>
                     <td id="right">

@@ -7,7 +7,7 @@
 
 
 <tags:renderRow values="${options}" propertyName="${propertyName}" displayName="${displayName}"
-                categoryName="select" required="${required}"></tags:renderRow>
+                categoryName="select" required="${required}" cssClass="${required ? 'validate-NOTEMPTY' : ''}"></tags:renderRow>
 
 
 <%--<form:select path="${path}"--%>

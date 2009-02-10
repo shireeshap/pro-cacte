@@ -7,8 +7,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <%@taglib uri="http://www.extremecomponents.org" prefix="ec" %>
+
 <link rel="stylesheet" type="text/css"
       href="<c:url value="/css/extremecomponents.css"/>">
 <html>

@@ -7,5 +7,5 @@
 
 
 <tags:renderRow propertyName="${propertyName}" displayName="${displayName}" categoryName="number"
-                required="${required}" help="${help}"/>
+                required="${required}" help="${help}" cssClass="${required ? 'validate-NOTEMPTY&&NUMERIC' : 'validate-NUMERIC'}"/>
 

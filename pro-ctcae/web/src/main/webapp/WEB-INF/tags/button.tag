@@ -9,11 +9,11 @@
 <%@ attribute name="type" required="true" %>
 <c:if test="${type=='anchor'}">
     <a class="ctcae-button ${cssClass}"
-        <c:if test="${href}">
+        <c:if test="${not empty href}">
             href="${href}"
         </c:if>
         id="${id}" 
-        <c:if test="${onClick}">
+        <c:if test="${not empty onClick}">
             href="${onClick}"
         </c:if>>
         <c:if test="${icon=='save'||icon=='Save'}">
@@ -33,7 +33,7 @@
         </c:if>
         <c:if test="${icon=='window'}">
             <img src="<tags:imageUrl name="window_icon.png"/>" alt="" />
-        </c:if>${value}
+        </c:if><tags:message code="${value}"/>
         <c:if test="${icon=='Save & Continue'}">
             <img src="<tags:imageUrl name="blue/savecontinue_icon.png"/>" alt="" />
         </c:if>
@@ -46,11 +46,11 @@
 </c:if>
 <c:if test="${type=='button'}">
     <button class="ctcae-button ${cssClass}" type="submit"
-        <c:if test="${href}">
+        <c:if test="${not empty href}">
             href="${href}"
         </c:if>
         id="${id}" 
-        <c:if test="${onClick}">
+        <c:if test="${not empty onClick}">
             href="${onClick}"
         </c:if>>
         <c:if test="${icon=='save'||icon=='Save'}">
@@ -70,7 +70,7 @@
         </c:if>
         <c:if test="${icon=='window'}">
             <img src="<tags:imageUrl name="window_icon.png"/>" alt="" />
-        </c:if>${value}
+        </c:if><tags:message code="${value}"/>
         <c:if test="${icon=='Save & Continue'}">
             <img src="<tags:imageUrl name="blue/savecontinue_icon.png"/>" alt="" />
         </c:if>

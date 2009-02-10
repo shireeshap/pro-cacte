@@ -17,9 +17,9 @@ public class ClinicalStaffControllerUtils {
      * @param request the request
      * @return the clinical staff command
      */
-    public static gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand getClinicalStaffCommand(HttpServletRequest request) {
-        gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand clinicalStaffCommand = (gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand)
-                request.getSession().getAttribute(gov.nih.nci.ctcae.web.clinicalStaff.CreateClinicalStaffController.class.getName() + ".FORM." + "clinicalStaffCommand");
+    public static ClinicalStaffCommand getClinicalStaffCommand(HttpServletRequest request) {
+        ClinicalStaffCommand clinicalStaffCommand = (ClinicalStaffCommand)
+                request.getSession().getAttribute(CreateClinicalStaffController.class.getName() + ".FORM." + "clinicalStaffCommand");
         return clinicalStaffCommand;
     }
 }

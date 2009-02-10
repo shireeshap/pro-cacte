@@ -43,6 +43,7 @@ public class OrganizationAjaxFacade {
         logger.info("in match organization method. Search string :" + text);
         OrganizationQuery organizationQuery = new OrganizationQuery();
         organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
+        organizationQuery.setMaximumResults(25);
         List<Organization> organizations = (List<Organization>) organizationRepository.find(organizationQuery);
         return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
 

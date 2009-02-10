@@ -8,20 +8,33 @@
 <%@attribute name="required" type="java.lang.Boolean" %>
 <%@attribute name="propertyType" type="java.lang.String" %>
 
-
+<%@attribute name="noForm" type="java.lang.Boolean" %>
 <c:choose>
     <c:when test="${propertyType == 'autocompleter'}">
         <label for="${propertyName}-input">
-            <c:if test="${required}"><tags:requiredIndicator/></c:if>&nbsp;<spring:message code="${displayName}"
-                                                                                           text="${propertyName}"/>
+            <c:if test="${required}"><tags:requiredIndicator/></c:if>&nbsp;
+            <tags:message code="${displayName}"/>
         </label>
     </c:when>
     <c:otherwise>
-        <form:label path="${propertyName}">
-            <c:if test="${required}"><tags:requiredIndicator/></c:if>&nbsp; <spring:message code="${displayName}"
-                                                                                            text="${propertyName}"/>
+        <c:choose>
+            <c:when test="${noForm}">
+                <div class="label">
+                    <c:if test="${required}"><tags:requiredIndicator/></c:if>&nbsp;
+                    <tags:message code='${displayName}'/>&nbsp;
+                </div>
 
-        </form:label>
+            </c:when>
+            <c:otherwise>
+                <form:label path="${propertyName}">
+                    <c:if test="${required}"><tags:requiredIndicator/></c:if>&nbsp;
+                    <tags:message code='${displayName}'/>
+
+                </form:label>
+            </c:otherwise>
+        </c:choose>
+
+
     </c:otherwise>
 </c:choose>
 

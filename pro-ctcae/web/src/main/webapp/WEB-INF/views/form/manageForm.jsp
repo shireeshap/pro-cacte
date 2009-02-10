@@ -21,7 +21,8 @@
     <script type="text/javascript">
         Event.observe(window, "load", function () {
             var studyAutoCompleter = new studyAutoComplter('study');
-            acCreateStudy(studyAutoCompleter, displayForms);
+            acCreateStudy(studyAutoCompleter);
+
         <c:if test="${study ne null}">
             initializeAutoCompleter('study',
                     '${study.displayName}', '${study.id}')
@@ -116,7 +117,13 @@
 <body>
 <chrome:box title="form.box.select_study" id="study-entry" cssClass="small">
     <p><tags:instructions code="instruction_select_study"/></p>
-    <tags:displayAutocompleter inputName="study" required="true" displayName="Study" size="60"/>
+
+    <tags:renderAutocompleter propertyName="study"
+                              displayName="Study"
+                              required="true"
+                              size="60"
+                              noForm="true"/>
+
     <p id="crf.study-selected" style="display: none">
         You have selected the study <span id="crf.study-selected-name"></span>.
     </p>

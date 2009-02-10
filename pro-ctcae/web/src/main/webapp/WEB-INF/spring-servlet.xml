@@ -259,8 +259,8 @@
     <bean name="/study/addStudySite" id="addStudySiteController"
           class="gov.nih.nci.ctcae.web.study.AddStudySiteController">
     </bean>
-    <bean name="/clinicalStaff/addSite" id="addSiteController"
-          class="gov.nih.nci.ctcae.web.clinicalStaff.AddSiteController">
+    <bean name="/clinicalStaff/addClinicalStaffCompoent" id="addClinicalStaffCompoentController"
+          class="gov.nih.nci.ctcae.web.clinicalStaff.AddClinicalStaffCompoentController">
     </bean>
 
     <bean name="/study/searchStudy" id="searchStudyController"

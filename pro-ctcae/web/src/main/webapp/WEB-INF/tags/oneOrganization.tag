@@ -9,27 +9,20 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="display" tagdir="/WEB-INF/tags/display" %>
+
 
 <script type="text/javascript">
     acCreate(new siteAutoComplter('${inputName}'))
     initSearchField()
 </script>
+
 <tr id="${inputName}-row">
     <td style="border-right:none;">
-        <input id="${inputName}-input" class="autocomplete validate-NOTEMPTY"
-               type="text"
-               title="${title}" size="50" autocomplete="off"/>
-
-        <tags:indicator id="${inputName}-indicator"/>
-        <input type="button" id="${inputName}-clear" name="C" value="Clear"
-               onClick="javascript:$('${inputName}-input').clear();$('${inputName}').clear();"/>
-
-        <div id="${inputName}-choices" class="autocomplete"
-             style="display: none"></div>
 
 
-        <input id="${inputName}" class="validate-NOTEMPTY" type="text" value=""
-               title="${title}" style="display: none;" name="${inputName}"/>
+        <tags:renderAutocompleter propertyName="${inputName}" displayName="${title}" required="${required}"
+                                  size="${size}" doNotshowLabel="true"/>
 
     </td>
 
