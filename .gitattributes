@@ -199,6 +199,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/OrganizationTest.java
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ParticipantIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ParticipantTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/PersistableIntegrationTestCase.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/PersistableValidatorIntegrationTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionTest.java -text
@@ -238,7 +239,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/FinderRepositoryI
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepositoryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialectTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategyTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/ObjectValidatorTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/BeanValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/NotEmptyValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/NotNullValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueIdentifierForStudyValidatorTest.java -text

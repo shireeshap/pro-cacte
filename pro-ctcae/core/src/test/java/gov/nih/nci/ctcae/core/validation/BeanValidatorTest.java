@@ -12,7 +12,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Feb 9, 2009
  */
-public class ObjectValidatorTest extends AbstractTestCase {
+public class BeanValidatorTest extends AbstractTestCase {
 
     private BeanValidator beanValidator;
 
