@@ -30,11 +30,11 @@ public abstract class BasePersistable implements Persistable {
         return getId() != null;
     }
 
-    @Override
-    public String toString() {
-        ToStringStyle style = new CtcAeToStringStyle();
-        ToStringBuilder.setDefaultStyle(style);
-        return ToStringBuilder.reflectionToString(this);
-
-    }
+//    @Override
+//    public String toString() {
+//        ToStringStyle style = new CtcAeToStringStyle();
+//        ToStringBuilder.setDefaultStyle(style);
+//        return ToStringBuilder.reflectionToString(this);
+//
+//    }
 }
