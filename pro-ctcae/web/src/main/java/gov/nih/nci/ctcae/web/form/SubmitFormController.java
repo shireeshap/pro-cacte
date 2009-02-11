@@ -15,6 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Set;
 
 //
 /**
@@ -129,7 +130,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
 
         String crfScheduleId = request.getParameter("id");
         SubmitFormCommand submitFormCommand = new SubmitFormCommand();
-        List<String> questionsToBeDeleted = (List<String>) request.getSession().getAttribute("questionstobedeletedlist");
+        Set<String> questionsToBeDeleted = (Set<String>) request.getSession().getAttribute("questionstobedeletedlist");
         if (questionsToBeDeleted != null) {
             submitFormCommand.setQuestionsToBeDeleted(questionsToBeDeleted);
         }
