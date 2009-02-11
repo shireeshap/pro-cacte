@@ -30,16 +30,34 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
     /**
      * The study participant crf schedule.
      */
-    @JoinColumn(name = "sp_crf_schedule_id", referencedColumnName = "id")
+    @JoinColumn(name = "sp_crf_schedule_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
     private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
 
     /**
      * The pro ctc valid value.
      */
-    @JoinColumn(name = "pro_ctc_valid_value_id", referencedColumnName = "id")
+    @JoinColumn(name = "pro_ctc_valid_value_id", referencedColumnName = "id", nullable = true)
     @ManyToOne
     private ProCtcValidValue proCtcValidValue;
+
+
+    /**
+     * The page number.
+     */
+    @Column(name = "page_number", nullable = true)
+    private Integer pageNumber;
+
+    /**
+     * The pro ctc question.
+     */
+    @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    private ProCtcQuestion proCtcQuestion;
+
+    @JoinColumn(name = "sp_crf_add_ques_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    private StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion;
 
 
     /**
@@ -100,14 +118,44 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
         this.proCtcValidValue = proCtcValidValue;
     }
 
+    public Integer getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(Integer pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    public ProCtcQuestion getProCtcQuestion() {
+        return proCtcQuestion;
+    }
+
+    public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {
+        this.proCtcQuestion = proCtcQuestion;
+    }
+
+    public StudyParticipantCrfAddedQuestion getStudyParticipantCrfAddedQuestion() {
+
+        return studyParticipantCrfAddedQuestion;
+    }
+
+    public void setStudyParticipantCrfAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
+        this.studyParticipantCrfAddedQuestion = studyParticipantCrfAddedQuestion;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof StudyParticipantCrfScheduleAddedQuestion)) return false;
 
         StudyParticipantCrfScheduleAddedQuestion that = (StudyParticipantCrfScheduleAddedQuestion) o;
 
+        if (pageNumber != null ? !pageNumber.equals(that.pageNumber) : that.pageNumber != null) return false;
+        if (proCtcQuestion != null ? !proCtcQuestion.equals(that.proCtcQuestion) : that.proCtcQuestion != null)
+            return false;
         if (proCtcValidValue != null ? !proCtcValidValue.equals(that.proCtcValidValue) : that.proCtcValidValue != null)
+            return false;
+        if (studyParticipantCrfAddedQuestion != null ? !studyParticipantCrfAddedQuestion.equals(that.studyParticipantCrfAddedQuestion) : that.studyParticipantCrfAddedQuestion != null)
             return false;
         if (studyParticipantCrfSchedule != null ? !studyParticipantCrfSchedule.equals(that.studyParticipantCrfSchedule) : that.studyParticipantCrfSchedule != null)
             return false;
@@ -119,6 +167,11 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
     public int hashCode() {
         int result = studyParticipantCrfSchedule != null ? studyParticipantCrfSchedule.hashCode() : 0;
         result = 31 * result + (proCtcValidValue != null ? proCtcValidValue.hashCode() : 0);
+        result = 31 * result + (pageNumber != null ? pageNumber.hashCode() : 0);
+        result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
+        result = 31 * result + (studyParticipantCrfAddedQuestion != null ? studyParticipantCrfAddedQuestion.hashCode() : 0);
         return result;
     }
+
+
 }

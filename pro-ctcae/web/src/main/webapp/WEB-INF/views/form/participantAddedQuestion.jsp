@@ -55,17 +55,24 @@
         var i = 0;
         var responses = new Array();
         var questionindexes = new Array();
-
+        var pageindex = new Array();
 
         function gonext(crfitemindex, index, column, displayOrder, participantCrfItemId, questionDisplayOrder) {
             var x = document.getElementsByName('response' + crfitemindex);
+            var c = document.getElementsByName('column_' + crfitemindex);
             x[index].checked = true;
             responses[x[index].value] = 'Y';
+            column.onmouseout = function() {
+            };
             var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[' + crfitemindex + '].proCtcValidValue';
             document.myForm.elements[elementName].value = x[index].value;
             for (var i = 0; i < x.length; i++) {
                 if (i != index) {
                     responses[x[i].value] = 'N';
+                    c[i].className = 'norm';
+                    c[i].onmouseout = function() {
+                        this.className = 'norm'
+                    };
                 }
             }
             if (questionDisplayOrder == '1') {
@@ -80,8 +87,13 @@
 
         function clearResponse(questionindex) {
             var x = document.getElementsByName('response' + questionindex);
+            var c = document.getElementsByName('column_' + questionindex);
             for (var i = 0; i < x.length; i++) {
                 x[i].checked = false;
+                c[i].className = 'norm';
+                c[i].onmouseout = function() {
+                    this.className = 'norm'
+                };
             }
             var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[' + questionindex + '].proCtcValidValue';
             document.myForm.elements[elementName].value = '';
@@ -94,8 +106,8 @@
 
 
         function evaluateAllQuestions() {
-            for (var i = 0; i < questions.length; i++) {
-                showHideQuestion(questions[i]);
+            for (var i =0; i< pageindex.length; i++) {
+                showHideQuestion(questions[pageindex[i]]);
             }
         }
 
@@ -150,17 +162,18 @@
            name="deletedQuestions"
            value=""/>
 
-    <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantCrfAddedQuestions}"
+    <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions}"
                var="participantCrfItem"
                varStatus="crfitemstatus">
 
         <c:if test="${(participantCrfItem.pageNumber + 1)  eq command.currentPageIndex}">
             <script type="text/javascript">
-                questions[i] = ${participantCrfItem.proCtcQuestion.id};
-                questionindexes['${participantCrfItem.proCtcQuestion.id}'] = i;
+                pageindex[i] = '${crfitemstatus.index}';
                 i++;
+                questions['${crfitemstatus.index}'] = '${participantCrfItem.proCtcQuestion.id}';
+                questionindexes['${participantCrfItem.proCtcQuestion.id}'] = '${crfitemstatus.index}';
                 displayRules['${participantCrfItem.proCtcQuestion.id}'] = '';
-                responses['${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[crfitemstatus.index].proCtcValidValue.id}'] = 'Y';
+                responses['${participantCrfItem.proCtcValidValue.id}'] = 'Y';
                 <c:forEach items="${participantCrfItem.proCtcQuestion.proCtcQuestionDisplayRules}" var="rule">
                 displayRules['${participantCrfItem.proCtcQuestion.id}'] = displayRules['${participantCrfItem.proCtcQuestion.id}'] + '~' + ${rule.proCtcValidValue.id};
                 </c:forEach>
@@ -169,7 +182,7 @@
 
                 <input type="hidden"
                        name="studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[${crfitemstatus.index}].proCtcValidValue"
-                       value="${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[crfitemstatus.index].proCtcValidValue.id}"/>
+                       value="${participantCrfItem.proCtcValidValue.id}"/>
                 <table>
                     <tr>
                         <td colspan="${fn:length(participantCrfItem.proCtcQuestion.validValues)}">
@@ -188,7 +201,7 @@
                                    varStatus="validvaluestatus">
                             <tags:validvalue currentId="${validValue.id}"
                                              title="${validValue.value}"
-                                             selectedId="${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[crfitemstatus.index].proCtcValidValue.id}"
+                                             selectedId="${participantCrfItem.proCtcValidValue.id}"
                                              crfitemindex="${crfitemstatus.index}"
                                              index="${validvaluestatus.index}"
                                              displayOrder="${validValue.displayOrder}"

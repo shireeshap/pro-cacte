@@ -70,13 +70,20 @@
 
         function gonext(crfitemindex, index, column) {
             var x = document.getElementsByName('response' + crfitemindex);
+            var c = document.getElementsByName('column_' + crfitemindex);
             x[index].checked = true;
             responses[x[index].value] = 'Y';
+            column.onmouseout = function() {
+            };
             var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfItems[' + crfitemindex + '].proCtcValidValue';
             document.myForm.elements[elementName].value = x[index].value;
             for (var i = 0; i < x.length; i++) {
                 if (i != index) {
                     responses[x[i].value] = 'N';
+                    c[i].className = 'norm';
+                    c[i].onmouseout = function() {
+                        this.className = 'norm'
+                    };
                 }
             }
             evaluateAllQuestions();
@@ -96,8 +103,13 @@
         }
         function clearResponse(questionid) {
             var x = document.getElementsByName('response' + questionIndexes[questionid]);
+            var c = document.getElementsByName('column_' + questionIndexes[questionid]);
             for (var i = 0; i < x.length; i++) {
                 x[i].checked = false;
+                c[i].className = 'norm';
+                c[i].onmouseout = function() {
+                    this.className = 'norm'
+                };
                 responses[x[i].value] = 'N';
             }
             var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfItems[' + questionIndexes[questionid] + '].proCtcValidValue';
@@ -194,7 +206,9 @@
                                                  title="${validValue.value}"
                                                  selectedId="${participantCrfItem.proCtcValidValue.id}"
                                                  crfitemindex="${crfitemstatus.index}"
-                                                 index="${validvaluestatus.index}"/>
+                                                 index="${validvaluestatus.index}"
+                                                 displayOrder="${validValue.displayOrder}"
+                                                 questionDisplayOrder="${crfPageItem.proCtcQuestion.displayOrder}"/>
                             </c:forEach>
                         </tr>
                     </c:when>
@@ -206,7 +220,10 @@
                                                  title="${validValue.value}"
                                                  selectedId="${participantCrfItem.proCtcValidValue.id}"
                                                  crfitemindex="${crfitemstatus.index}"
-                                                 index="${validvaluestatus.index}"/>
+                                                 index="${validvaluestatus.index}"
+                                                 displayOrder="${validValue.displayOrder}"
+                                                 questionDisplayOrder="${crfPageItem.proCtcQuestion.displayOrder}"/>
+
                             </tr>
                         </c:forEach>
                     </c:otherwise>

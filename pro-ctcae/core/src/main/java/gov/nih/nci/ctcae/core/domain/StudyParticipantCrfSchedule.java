@@ -228,6 +228,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
      * @return the study participant crf schedule added questions
      */
     public List<StudyParticipantCrfScheduleAddedQuestion> getStudyParticipantCrfScheduleAddedQuestions() {
+        Collections.sort(studyParticipantCrfScheduleAddedQuestions, new ParticipantAddedQuestionDisplayOrderComparator());
         return studyParticipantCrfScheduleAddedQuestions;
     }
 

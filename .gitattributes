@@ -77,8 +77,10 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcTerm.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DisplayOrderComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Ethnicity.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Gender.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/NegativeAnswers.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Organization.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Participant.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ParticipantAddedQuestionDisplayOrderComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ParticipantCrfDisplayOrderComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ParticipantSchedule.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Persistable.java -text

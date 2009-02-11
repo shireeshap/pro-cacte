@@ -31,15 +31,16 @@
     </style>
     <script type="text/javascript">
         var totalCalendars = 0;
-        function changeinput(obj, index) {
+        var repeatvalues = new Array();
+        function changeinput(obj, index, value) {
             if (obj.value == 'Indefinitely') {
                 $('div_repeatUntilValue_' + index).innerHTML = '';
             }
             if (obj.value == 'Date') {
-                $('div_repeatUntilValue_' + index).innerHTML = '<input id="crf.crfCalendars[' + index + '].repeatUntilAmount" class="date validate-DATE" type="text" value="" name="crf.crfCalendars[' + index + '].repeatUntilAmount"/> <a id="-calbutton" href="javascript:none();"> <img height="16" width="17" border="0" align="absmiddle" alt="Calendar" src="/ctcae/images/chrome/b-calendar.gif"/> </a> <i>(mm/dd/yyyy)</i>';
+                $('div_repeatUntilValue_' + index).innerHTML = '<input id="crf.crfCalendars[' + index + '].repeatUntilAmount" class="date validate-DATE" type="text" value="' + value + '" name="crf.crfCalendars[' + index + '].repeatUntilAmount"/> <a id="-calbutton" href="javascript:none();"> <img height="16" width="17" border="0" align="absmiddle" alt="Calendar" src="/ctcae/images/chrome/b-calendar.gif"/> </a> <i>(mm/dd/yyyy)</i>';
             }
             if (obj.value == 'Number') {
-                $('div_repeatUntilValue_' + index).innerHTML = '<input size="3" value="5" name="crf.crfCalendars[' + index + '].repeatUntilAmount" type="text">';
+                $('div_repeatUntilValue_' + index).innerHTML = '<input size="3" value="' + value + '" name="crf.crfCalendars[' + index + '].repeatUntilAmount" type="text">';
             }
         }
 
@@ -49,7 +50,7 @@
         Event.observe(window, "load", function () {
             for (var i = 0; i < totalCalendars; i++) {
                 var item = document.getElementsByName('crf.crfCalendars[' + i + '].repeatUntilUnit')[0];
-                changeinput(item, i);
+                changeinput(item, i, repeatvalues[i]);
             }
         })
     </script>
@@ -61,6 +62,7 @@
     <div align="left" style="margin-left: 50px">
         <c:forEach items="${command.crf.crfCalendars}" var="crfCalendar" varStatus="status">
             <script>
+                repeatvalues[totalCalendars] = '${crfCalendar.repeatUntilAmount}';
                 totalCalendars = totalCalendars + 1;
             </script>
             <table class="top-widget" width="100%">
@@ -93,7 +95,7 @@
                                     <form:select path="crf.crfCalendars[${status.index}].repeatUntilUnit"
                                                  items="${repeatuntilunits}"
                                                  itemLabel="desc" itemValue="code"
-                                                 onchange="changeinput(this,'${status.index}');"/>
+                                                 onchange="changeinput(this,'${status.index}','');"/>
 
                                     </select>
                                 </td>

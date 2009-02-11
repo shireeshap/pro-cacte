@@ -8,22 +8,35 @@
 <%@ attribute name="displayOrder" type="java.lang.String" required="false" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<td class="norm" onmouseover="javascript:this.className='over';" onmouseout="javascript:this.className='norm';"
-    onclick="gonext('${crfitemindex}','${index}',this,'${displayOrder}','${participantCrfItemId}','${questionDisplayOrder}')" name="column_${crfitemindex}">
-    <div class="label">
-        <c:choose>
-            <c:when test="${currentId eq selectedId}">
+<c:if test="${(questionDisplayOrder gt 1) and (displayOrder eq '0')}">
+    <c:set var="cssstyle" value="display:none"/>
+</c:if>
+<c:choose>
+    <c:when test="${currentId eq selectedId}">
+        <td class="over" onmouseover="javascript:this.className='over';"
+            onclick="gonext('${crfitemindex}','${index}',this,'${displayOrder}','${participantCrfItemId}','${questionDisplayOrder}')"
+            name="column_${crfitemindex}" style="${cssstyle}">
+            <div class="label">
                 <input type="radio"
                        name="response${crfitemindex}"
                        value="${currentId}" checked="true"/> ${title}
-            </c:when>
-            <c:otherwise>
+            </div>
+        </td>
+    </c:when>
+    <c:otherwise>
+        <td class="norm" onmouseover="javascript:this.className='over';"
+            onmouseout="javascript:this.className='norm';"
+            onclick="gonext('${crfitemindex}','${index}',this,'${displayOrder}','${participantCrfItemId}','${questionDisplayOrder}')"
+            name="column_${crfitemindex}"  style="${cssstyle}">
+            <div class="label">
                 <input type="radio"
                        name="response${crfitemindex}"
                        value="${currentId}"/> ${title}
-            </c:otherwise>
-        </c:choose>
-    </div>
-</td>
+            </div>
+        </td>
+    </c:otherwise>
+</c:choose>
+
+
 
 

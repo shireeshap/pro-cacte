@@ -14,6 +14,7 @@
                  class="removebutton" align="right"
                  onclick="showDeleteWindow('<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />','${index}');"/>
         </c:if>
+            <br/>
             ${studyParticipantCrfSchedule.status}
     </div>
 </c:forEach>

@@ -43,13 +43,15 @@
 
     tr.header {
         background-color: #C3D9FF;
-        color: #0e0094;
+        color: #0e065b;
         text-align: center;
         height: 30px;
     }
 
     td.header {
         border-bottom: 1px solid #77a9ff;
+        font-size:small;
+        font-weight:bold;
     }
 
     td.border-td {
@@ -68,7 +70,10 @@
     .grey {
         background-color: #eaf1f4;
         height: 20px;
-        color: #666666;
+        /*color: #666666;*/
+        color: #414141;
+        font-size:small;
+        font-weight:bold;
     }
 
     .blue {
@@ -272,10 +277,10 @@ function showMoveWindow(olddate, newdate, index) {
         diff = newdate - olddate;
         dir = 'forward';
     }
-    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to move only this survey date, all survey dates, or this and all future survey dates by ' + diff + ' day(s)?<br></b></td></tr>' +
+    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to move only this event, all events, or this and all future events by ' + diff + ' day(s)?<br></b></td></tr>' +
                       '<tr><td>&nbsp;</td></tr>' +
                       '<tr><td align="center"><input type="button" value="Only this instance" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'add,del\'' +
-                      ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All survey dates" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'moveall\'' +
+                      ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All events" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'moveall\'' +
                       ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All following" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'moveallfuture\'' +
                       ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="Cancel" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'cancel\'' +
                       ')"/></td></tr></table>';
@@ -295,10 +300,10 @@ function showMoveWindow(olddate, newdate, index) {
 
 function showDeleteWindow(date, index) {
     date = parseInt(date);
-    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to delete only this survey date, all survey dates, or this and all future survey dates?<br></b></td></tr>' +
+    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to delete only this event, all events, or this and all future events?<br></b></td></tr>' +
                       '<tr><td>&nbsp;</td></tr>' +
                       '<tr><td align="center"><input type="button" value="Only this instance" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'del\'' +
-                      ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All survey dates" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'delall\'' +
+                      ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All events" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'delall\'' +
                       ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All following" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'delallfuture\'' +
                       ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="Cancel" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'cancel\'' +
                       ')"/></td></tr></table>';

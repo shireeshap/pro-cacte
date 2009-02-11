@@ -72,6 +72,9 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
                         genericRepository.save(studyParticipantCrfAddedQuestion);
 
                         StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
+                        studyParticipantCrfScheduleAddedQuestion.setProCtcQuestion(question);
+                        studyParticipantCrfScheduleAddedQuestion.setPageNumber(pageNumber);
+                        studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
                         studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfScheduleAddedQuestion);
                         genericRepository.save(studyParticipantCrfScheduleAddedQuestion);
 

@@ -7,6 +7,7 @@ import org.springframework.beans.BeanWrapperImpl;
 
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -72,8 +73,13 @@ public class BeanValidator {
                     }
                 }
                 if (field.isAnnotationPresent(ManyToOne.class)) {
-                    String propertyName = field.getName();
-                    CollectionUtils.putInMappedList(nonNullableProperties, domainClass, propertyName);
+                    if (field.isAnnotationPresent(JoinColumn.class)) {
+                        JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
+                        if (!joinColumn.nullable()) {
+                            String propertyName = field.getName();
+                            CollectionUtils.putInMappedList(nonNullableProperties, domainClass, propertyName);
+                        }
+                    }
                 }
             }
         }
@@ -84,13 +90,15 @@ public class BeanValidator {
     public void validate(final Persistable persistable) {
 
         List<String> propertyNames = nonNullableProperties.get(persistable.getClass());
-        BeanWrapperImpl beanWrapperImpl = new BeanWrapperImpl(persistable);
-        for (String propertyName : propertyNames) {
-            Object propertyValue = beanWrapperImpl.getPropertyValue(propertyName);
-            if (propertyValue == null) {
-                throw new CtcAeSystemException(String.format("non nullable property %s of object %s must not be null", propertyName, persistable.getClass().getName()));
-            }
+        if (propertyNames != null) {
+            BeanWrapperImpl beanWrapperImpl = new BeanWrapperImpl(persistable);
+            for (String propertyName : propertyNames) {
+                Object propertyValue = beanWrapperImpl.getPropertyValue(propertyName);
+                if (propertyValue == null) {
+                    throw new CtcAeSystemException(String.format("non nullable property %s of object %s must not be null", propertyName, persistable.getClass().getName()));
+                }
 
+            }
         }
     }
 
