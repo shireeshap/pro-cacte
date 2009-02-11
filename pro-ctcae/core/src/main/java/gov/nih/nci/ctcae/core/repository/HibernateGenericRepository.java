@@ -82,6 +82,10 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
                     hiberanteQuery.setParameter(key, value);
 
                 }
+                if (query.getMaximumResults() != null) {
+                    hiberanteQuery.setMaxResults(query.getMaximumResults());
+                }
+
                 return hiberanteQuery.list();
             }
 

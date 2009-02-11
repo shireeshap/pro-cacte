@@ -1,11 +1,7 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import org.springframework.util.StringUtils;
 
 //
 /**
@@ -22,10 +18,9 @@ public class ClinicalStaffCommand {
     private ClinicalStaff clinicalStaff;
 
 
-    /**
-     * The objects ids to remove.
-     */
-    private String objectsIdsToRemove;
+    private String siteClinicalStaffIndexToRemove = "";
+    private String siteClinicalStaffRoleIndexToRemove = "";
+
 
     /**
      * Instantiates a new clinical staff command.
@@ -54,38 +49,41 @@ public class ClinicalStaffCommand {
         this.clinicalStaff = clinicalStaff;
     }
 
-    /**
-     * Gets the objects ids to remove.
-     *
-     * @return the objects ids to remove
-     */
-    public String getObjectsIdsToRemove() {
-        return objectsIdsToRemove;
+
+    public String getSiteClinicalStaffIndexToRemove() {
+        return siteClinicalStaffIndexToRemove;
     }
 
-    /**
-     * Sets the objects ids to remove.
-     *
-     * @param objectsIdsToRemove the new objects ids to remove
-     */
-    public void setObjectsIdsToRemove(String objectsIdsToRemove) {
-        this.objectsIdsToRemove = objectsIdsToRemove;
+    public void setSiteClinicalStaffIndexToRemove(String siteClinicalStaffIndexToRemove) {
+        this.siteClinicalStaffIndexToRemove = siteClinicalStaffIndexToRemove;
     }
 
-    /**
-     * Removes the site clinical staff.
-     */
-    public void removeSiteClinicalStaff() {
-        Set<String> indexes = org.springframework.util.StringUtils.commaDelimitedListToSet(objectsIdsToRemove);
-        List<SiteClinicalStaff> siteClinicalStaffToRemove = new ArrayList<SiteClinicalStaff>();
-        for (String index : indexes) {
-            SiteClinicalStaff siteClinicalStaff = clinicalStaff.getSiteClinicalStaffs().get(Integer.parseInt(index));
-            siteClinicalStaffToRemove.add(siteClinicalStaff);
+
+    public void apply() {
+
+        if (!org.apache.commons.lang.StringUtils.isBlank(getSiteClinicalStaffIndexToRemove())) {
+            Integer siteClinicalStaffIndex = Integer.valueOf(siteClinicalStaffIndexToRemove);
+            this.getClinicalStaff().removeSiteClinicalStaff(siteClinicalStaffIndex);
+        } else if (!org.apache.commons.lang.StringUtils.isBlank(getSiteClinicalStaffRoleIndexToRemove())) {
+            String[] siteIndexVsSiteRoleIndex = StringUtils.split(getSiteClinicalStaffRoleIndexToRemove(), "-");
+            Integer siteClinicalStaffIndex = Integer.valueOf(siteIndexVsSiteRoleIndex[0]);
+            Integer siteClinicalStaffRoleIndex = Integer.valueOf(siteIndexVsSiteRoleIndex[1]);
+            this.getClinicalStaff().removeSiteClinicalStaffRole(siteClinicalStaffIndex, siteClinicalStaffRoleIndex);
         }
-        for (SiteClinicalStaff siteClinicalStaff : siteClinicalStaffToRemove) {
-            clinicalStaff.removeSiteClinicalStaff(siteClinicalStaff);
 
-        }
+        setSiteClinicalStaffRoleIndexToRemove("");
+
+
+        setSiteClinicalStaffIndexToRemove("");
+
+
     }
 
+    public void setSiteClinicalStaffRoleIndexToRemove(String siteClinicalStaffRoleIndexToRemove) {
+        this.siteClinicalStaffRoleIndexToRemove = siteClinicalStaffRoleIndexToRemove;
+    }
+
+    public String getSiteClinicalStaffRoleIndexToRemove() {
+        return siteClinicalStaffRoleIndexToRemove;
+    }
 }

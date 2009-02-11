@@ -1,3 +1,5 @@
+<%@ attribute name="dateValue" type="java.util.Date" %>
+
 <%@ attribute name="cols" %>
 <%@ attribute name="rows" %>
 <%@ attribute name="onclick" %>
@@ -60,7 +62,7 @@
     <c:when test="${categoryName == 'date'}">
         <tags:dateInput path="${propertyName}" displayName="${title}"
                         cssClass="${cssClass}" noForm="${noForm}"
-                        propertyValue="${propertyValue}"
+                        dateValue="${dateValue}"
                         doNotShowFormat="${doNotShowFormat}"/>
     </c:when>
     <c:when test="${categoryName == 'textarea'}">

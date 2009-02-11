@@ -3,19 +3,17 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script type="text/javascript">
-    acCreate(new siteAutoComplter('clinicalStaff.siteClinicalStaffs[${index}].organization'))
-    initSearchField()
-</script>
+<%@attribute name="siteClinicalStaff" type="gov.nih.nci.ctcae.core.domain.SiteClinicalStaff" required="true" %>
+<%@attribute name="index" type="java.lang.Integer" required="true" %>
+<%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
 
 <chrome:division title="clinicalStaff.division.sites">
 
     <%--isSiteAutoCompleter="true" --%>
     <tags:renderAutocompleter propertyName="clinicalStaff.siteClinicalStaffs[${index}].organization"
-                              displayName="Site" noForm="true" required="true" />
+                              displayName="Site" noForm="true" required="true"
+                              propertyValue="${siteClinicalStaff.organization.displayName}"/>
 
-
-    <input type="hidden" value="" id="objectsIdsToRemove" name="objectsIdsToRemove"/>
 
     <div align="left" style="margin-left: 145px">
         <table width="50%" class="tablecontent">
@@ -31,6 +29,13 @@
 
             </tr>
 
+            <c:forEach items="${siteClinicalStaff.siteClinicalStaffRoles}" var="siteClinicalStaffRole"
+                       varStatus="status">
+
+                <administration:siteClinicalStaffRole siteClinicalStaffRole="${siteClinicalStaffRole}"
+                                                      siteClinicalStaffIndex="${index}"
+                                                      index="${status.index}"/>
+            </c:forEach>
             <tr id="hiddenDivForRole_${index}"></tr>
 
         </table>
@@ -39,6 +44,11 @@
     <br>
     <tags:button type="anchor" icon="add" value="clinicalStaff.button.add.role"
                  onClick="javascript:addRole(${index})"></tags:button>
+    <br>
+    <br>
+    <tags:button type="anchor" icon="window_icon"
+                 value="clinicalStaff.button.delete.site"
+                 onClick="javascript:deleteSite(${index})"></tags:button>
 
 
 </chrome:division>

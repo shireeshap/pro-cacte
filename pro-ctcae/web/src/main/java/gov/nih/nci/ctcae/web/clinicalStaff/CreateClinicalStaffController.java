@@ -3,11 +3,15 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
+import gov.nih.nci.ctcae.web.ListValues;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 //
 /**
@@ -23,6 +27,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
      * The clinical staff repository.
      */
     private ClinicalStaffRepository clinicalStaffRepository;
+    protected final String CLINICAL_STAFF_ID = "clinicalStaffId";
 
 
     /**
@@ -30,7 +35,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
      */
     public CreateClinicalStaffController() {
         super();
-        setCommandClass(gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand.class);
+        setCommandClass(ClinicalStaffCommand.class);
         setCommandName("clinicalStaffCommand");
         setFormView("clinicalStaff/createClinicalStaff");
         setSuccessView("clinicalStaff/confirmClinicalStaff");
@@ -38,22 +43,50 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         setSessionForm(true);
     }
 
-    /* (non-Javadoc)
+    @Override
+    protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
+        Map map = super.referenceData(request, command, errors);
+        map.put("siteRoles", ListValues.getSiteRolesType());
+        map.put("roleStatus", ListValues.getRoleStatusType());
+
+        return map;
+
+
+    }/* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
      */
+
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, org.springframework.validation.BindException errors) throws Exception {
 
         ClinicalStaffCommand clinicalStaffCommand = (ClinicalStaffCommand) oCommand;
-        ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
 
+        clinicalStaffCommand.apply();
+        ModelAndView defaultModelAndView = showForm(request, response, errors);
+        if (!StringUtils.isBlank(request.getParameter("showForm"))) {
+            if (shouldSave(request, clinicalStaffCommand)) {
+                save(clinicalStaffCommand);
+            }
+            return defaultModelAndView;
+        }
 
-        clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
-        clinicalStaffCommand.setClinicalStaff(clinicalStaff);
+        save(clinicalStaffCommand);
 
         ModelAndView modelAndView = new ModelAndView(getSuccessView());
         modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
         return modelAndView;
+    }
+
+    private boolean shouldSave(HttpServletRequest request, ClinicalStaffCommand clinicalStaffCommand) {
+
+        return StringUtils.isBlank(request.getParameter(CLINICAL_STAFF_ID)) ? false : true;
+
+    }
+
+    private void save(ClinicalStaffCommand clinicalStaffCommand) {
+        ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
+        clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
+        clinicalStaffCommand.setClinicalStaff(clinicalStaff);
     }
 
     /* (non-Javadoc)
@@ -62,7 +95,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Override
     protected Object formBackingObject(HttpServletRequest request)
             throws Exception {
-        String clinicalStaffId = request.getParameter("clinicalStaffId");
+        String clinicalStaffId = request.getParameter(CLINICAL_STAFF_ID);
         ClinicalStaffCommand clinicalStaffCommand = new ClinicalStaffCommand();
 
         if (clinicalStaffId == null) {

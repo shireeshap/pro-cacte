@@ -215,4 +215,15 @@ public class ClinicalStaff extends Person {
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         return result;
     }
+
+    public void removeSiteClinicalStaff(Integer siteClinicalStaffIndex) {
+        SiteClinicalStaff siteClinicalStaff = getSiteClinicalStaffs().get(siteClinicalStaffIndex);
+        removeSiteClinicalStaff(siteClinicalStaff);
+    }
+
+    public void removeSiteClinicalStaffRole(Integer siteClinicalStaffIndex, Integer siteClinicalStaffRoleIndex) {
+        SiteClinicalStaff siteClinicalStaff = getSiteClinicalStaffs().get(siteClinicalStaffIndex);
+        siteClinicalStaff.removeSiteClinicalStaffRole(siteClinicalStaffRoleIndex);
+
+    }
 }

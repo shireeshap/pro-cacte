@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -39,7 +40,7 @@ public class SiteClinicalStaffRole extends BasePersistable {
      * The status date.
      */
     @Column(name = "status_date", nullable = false)
-    private Date statusDate = new Date();
+    private Date statusDate = DateUtils.getCurrentDate();
 
     /**
      * The clinical staff.

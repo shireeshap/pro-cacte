@@ -1,3 +1,4 @@
+<%@ attribute name="dateValue" type="java.util.Date" %>
 <%@ attribute name="propertyName" %>
 <%@ attribute name="displayName" %>
 <%@ attribute name="required" %>
@@ -6,13 +7,12 @@
 
 <%@attribute name="noForm" type="java.lang.Boolean" %>
 <%@attribute name="doNotShowFormat" type="java.lang.Boolean" %>
-<%@ attribute name="propertyValue" type="java.util.Date" %>
 
 <%@attribute name="doNotshowLabel" type="java.lang.Boolean" %>
 
 
 <tags:renderRow propertyName="${propertyName}" displayName="${displayName}" categoryName="date"
                 required="${required}" noForm="${noForm}"
-                propertyValue="${propertyValue}"
+                dateValue="${dateValue}"
                 doNotShowFormat="${doNotShowFormat}" doNotshowLabel="${doNotshowLabel}"
                 cssClass="${required ? 'validate-NOTEMPTY&&DATE' : 'validate-DATE'}"/>

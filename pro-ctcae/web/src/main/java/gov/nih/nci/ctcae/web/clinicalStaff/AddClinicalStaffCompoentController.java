@@ -42,8 +42,9 @@ public class AddClinicalStaffCompoentController extends AbstractController {
 
             int index = clinicalStaff.getSiteClinicalStaffs().size() - 1;
 
-            modelAndView = new ModelAndView("clinicalStaff/siteSection");
+            modelAndView = new ModelAndView("clinicalStaff/siteClinicalStaffSection");
             modelAndView.addObject("index", index);
+            modelAndView.addObject("siteClinicalStaff", siteClinicalStaff);
         } else if (StringUtils.equals(componentTyep, ROLE_COMPONENT_TYPE)) {
 
             Integer siteClinicalStaffIndex = ServletRequestUtils.getRequiredIntParameter(request, SITE_CLINICAL_STAFF_INDEX);
@@ -53,12 +54,12 @@ public class AddClinicalStaffCompoentController extends AbstractController {
             siteClinicalStaff.addSiteClinicalStaffRole(siteClinicalStaffRole);
             int index = siteClinicalStaff.getSiteClinicalStaffRoles().size() - 1;
 
-            modelAndView = new ModelAndView("clinicalStaff/siteRoleSection");
+            modelAndView = new ModelAndView("clinicalStaff/siteClinicalStaffRoleSection");
             modelAndView.addObject("siteClinicalStaffRole", siteClinicalStaffRole);
             modelAndView.addObject("index", index);
             modelAndView.addObject("siteClinicalStaffIndex", siteClinicalStaffIndex);
 
-            modelAndView.addObject("roles", ListValues.getRolesType());
+            modelAndView.addObject("siteRoles", ListValues.getSiteRolesType());
             modelAndView.addObject("roleStatus", ListValues.getRoleStatusType());
         }
 

@@ -1,11 +1,11 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.tools.collection.UnRemovableList;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class SiteClinicalStaff extends BasePersistable {
 
     @OneToMany(mappedBy = "siteClinicalStaff", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<SiteClinicalStaffRole> siteClinicalStaffRoles = new UnRemovableList<SiteClinicalStaffRole>();
+    private List<SiteClinicalStaffRole> siteClinicalStaffRoles = new ArrayList<SiteClinicalStaffRole>();
 
 
     /* (non-Javadoc)
@@ -191,5 +191,12 @@ public class SiteClinicalStaff extends BasePersistable {
         }
 
     }
+
+
+    public void removeSiteClinicalStaffRole(Integer siteClinicalStaffRoleIndex) {
+        SiteClinicalStaffRole siteClinicalStaffRole = getSiteClinicalStaffRoles().get(siteClinicalStaffRoleIndex);
+        getSiteClinicalStaffRoles().remove(siteClinicalStaffRole);
+    }
+
 }
 

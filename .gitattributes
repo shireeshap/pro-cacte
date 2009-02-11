@@ -150,7 +150,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentity
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentityRetrievalStrategy.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentityRetrievalStrategyImpl.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/UserDetails.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/collection/UnRemovableList.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/commons/CtcAeToStringStyle.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialect.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategy.java -text
@@ -403,6 +402,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/public-servlet.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/sitemesh.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/special-views.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/spring-servlet.xml -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/administration/siteClinicalStaff.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/administration/siteClinicalStaffRole.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/attribute.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/autocompleter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/body.tag -text
@@ -495,11 +496,13 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabForm.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabMethod.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/validvalue.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tiles-definitions.xml -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/ajax/deleteSiteClinicalStaffConfirmationCheck.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/ajax/deleteSiteClinicalStaffRoleConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/confirmClinicalStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/createClinicalStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/searchClinicalStaff.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/siteRoleSection.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/siteSection.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/siteClinicalStaffRoleSection.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/siteClinicalStaffSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/dummy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text

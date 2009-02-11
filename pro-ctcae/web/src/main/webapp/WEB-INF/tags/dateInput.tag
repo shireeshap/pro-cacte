@@ -9,13 +9,14 @@
 
 <%@attribute name="noForm" type="java.lang.Boolean" %>
 <%@attribute name="doNotShowFormat" type="java.lang.Boolean" %>
-<%@ attribute name="propertyValue" %>
+<%@ attribute name="dateValue" type="java.util.Date" %>
+
 
 <c:choose>
     <c:when test="${noForm}">
         <input type="text" id="${id}" class="date ${cssClass}" name="${path}"
                title="${displayName}"
-               value="${propertyValue}"/>
+               value="<tags:formatDate value="${dateValue}"/>"/>
 
     </c:when>
     <c:otherwise>

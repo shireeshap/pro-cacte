@@ -66,7 +66,7 @@ public abstract class AbstractQuery implements Query {
     /**
      * The maximum results.
      */
-    private Integer maximumResults = 30;
+    private Integer maximumResults;
 
     /**
      * Instantiates a new abstract query.
@@ -229,8 +229,8 @@ public abstract class AbstractQuery implements Query {
      *
      * @param maximumResults the new maximum results
      */
-	public void setMaximumResults(final Integer maximumResults) {
-		this.maximumResults = maximumResults;
+    public void setMaximumResults(final Integer maximumResults) {
+        this.maximumResults = maximumResults;
 	}
 
 

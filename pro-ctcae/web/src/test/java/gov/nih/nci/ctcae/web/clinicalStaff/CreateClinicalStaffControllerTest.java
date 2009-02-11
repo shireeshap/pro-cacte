@@ -1,14 +1,15 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
-import org.springframework.web.servlet.ModelAndView;
+import gov.nih.nci.ctcae.web.WebTestCase;
+import org.apache.commons.lang.StringUtils;
 import static org.easymock.EasyMock.expect;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Mehul Gulati
- * Date: Nov 24, 2008
+ *         Date: Nov 24, 2008
  */
 public class CreateClinicalStaffControllerTest extends WebTestCase {
     private CreateClinicalStaffController createClinicalStaffController;
@@ -25,8 +26,8 @@ public class CreateClinicalStaffControllerTest extends WebTestCase {
         clinicalStaffRepository = registerMockFor(ClinicalStaffRepository.class);
         clinicalStaffCommand.setClinicalStaff(clinicalStaff);
         createClinicalStaffController.setClinicalStaffRepository(clinicalStaffRepository);
-      //  createClinicalStaffController.onSubmit(null, null, clinicalStaffCommand, null);
-     //   MockHttpServletRequest r = new MockHttpServletRequest();
+        //  createClinicalStaffController.onSubmit(null, null, clinicalStaffCommand, null);
+        //   MockHttpServletRequest r = new MockHttpServletRequest();
     }
 
     public void testConstructor() {
@@ -34,7 +35,7 @@ public class CreateClinicalStaffControllerTest extends WebTestCase {
     }
 
 
-    public void testGetRequest() throws Exception{
+    public void testGetRequest() throws Exception {
         request.setMethod("GET");
         request.addParameter("clinicalStaffId", "1");
         expect(clinicalStaffRepository.findById(new Integer(1))).andReturn(clinicalStaff);
@@ -47,8 +48,8 @@ public class CreateClinicalStaffControllerTest extends WebTestCase {
     public void testFormBackingObject() throws Exception {
         assertNotNull(clinicalStaffCommand);
         assertNull(clinicalStaffCommand.getClinicalStaff());
-        assertNull(clinicalStaffCommand.getObjectsIdsToRemove());
-        
+        assertTrue(StringUtils.isBlank(clinicalStaffCommand.getSiteClinicalStaffIndexToRemove()));
+
     }
 
 }

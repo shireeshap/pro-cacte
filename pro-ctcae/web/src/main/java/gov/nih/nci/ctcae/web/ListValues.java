@@ -104,7 +104,7 @@ public class ListValues {
         return getEnumTypes(Gender.class);
     }
 
-    public static List<ListValues> getRolesType() {
+    public static List<ListValues> getSiteRolesType() {
 
         List<ListValues> valuesList = new ArrayList<ListValues>();
         valuesList.add(new ListValues("", "Please select"));

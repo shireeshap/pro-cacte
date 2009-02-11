@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+
 /**
  * @author
  */
@@ -48,6 +49,19 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
     public static Date parseDashedDate(String dateString) throws ParseException {
 
         return dashedDateFormat.parse(dateString);
+
+    }
+
+    public static Date getCurrentDate() {
+
+        String s = dateFormat.format(new Date());
+        try {
+            return dateFormat.parse(s);
+        } catch (ParseException e) {
+            logger.error(e);
+            throw new RuntimeException(e);
+
+        }
 
     }
 

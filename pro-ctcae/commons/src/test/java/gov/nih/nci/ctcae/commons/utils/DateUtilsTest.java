@@ -1,12 +1,10 @@
 package gov.nih.nci.ctcae.commons.utils;
 
-import junit.framework.TestCase;
+import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-
-import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
 
 /**
  * @author
@@ -31,9 +29,16 @@ public class DateUtilsTest extends CoreTestCase {
 
     }
 
+
     public void testParseDate() throws ParseException {
         assertEquals(Integer.valueOf(0), Integer.valueOf(DateUtils.compareDate(DateUtils.parseDate("07/13/2012"), futureDate)));
         assertEquals(Integer.valueOf(0), Integer.valueOf(DateUtils.compareDate(DateUtils.parseDate("01/21/2008"), pastDate)));
+
+
+    }
+
+    public void testGetCurrentDate() {
+        assertEquals(Integer.valueOf(0), DateUtils.getCurrentDate());
 
 
     }

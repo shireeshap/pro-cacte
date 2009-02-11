@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.SiteClinicalStaffRole;
 import gov.nih.nci.ctcae.web.WebTestCase;
 
 /**
@@ -48,15 +49,49 @@ public class ClinicalStaffCommandTest extends WebTestCase {
         clinicalStaff.addSiteClinicalStaff(siteClinicalStaff4);
         assertEquals("must be 4 clinical staff sites", 4, clinicalStaff.getSiteClinicalStaffs().size());
 
-        clinicalStaffCommand.setObjectsIdsToRemove("1,3");
-        clinicalStaffCommand.removeSiteClinicalStaff();
+        clinicalStaffCommand.setSiteClinicalStaffIndexToRemove(String.valueOf(2));
 
-        assertEquals("must remove 2 clinical staff sites", 2, clinicalStaff.getSiteClinicalStaffs().size());
+        clinicalStaffCommand.apply();
+
+        assertEquals("must remove 3 clinical staff sites", 3, clinicalStaff.getSiteClinicalStaffs().size());
 
         assertTrue("must preserve order of clinical staff sites", clinicalStaff.getSiteClinicalStaffs().contains(siteClinicalStaff1));
-        assertTrue("must preserve order of clinical staff sites", clinicalStaff.getSiteClinicalStaffs().contains(siteClinicalStaff3));
+        assertTrue("must preserve order of clinical staff sites", clinicalStaff.getSiteClinicalStaffs().contains(siteClinicalStaff2));
+        assertTrue("must preserve order of clinical staff sites", clinicalStaff.getSiteClinicalStaffs().contains(siteClinicalStaff4));
 
 
     }
+
+    public void testRemoveSiteClinicalStaffRole() {
+        ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
+        siteClinicalStaff1.addSiteClinicalStaffRole(new SiteClinicalStaffRole());
+        siteClinicalStaff1.addSiteClinicalStaffRole(new SiteClinicalStaffRole());
+        clinicalStaff.addSiteClinicalStaff(siteClinicalStaff1);
+        clinicalStaff.addSiteClinicalStaff(siteClinicalStaff2);
+        clinicalStaff.addSiteClinicalStaff(siteClinicalStaff3);
+        clinicalStaff.addSiteClinicalStaff(siteClinicalStaff4);
+
+        SiteClinicalStaff siteClinicalStaff = clinicalStaff.getSiteClinicalStaffs().get(0);
+        assertEquals("must be 4 clinical staff sites", 4, clinicalStaff.getSiteClinicalStaffs().size());
+        assertEquals("must have 2 clinical staff site roles", 2, siteClinicalStaff.getSiteClinicalStaffRoles().size());
+
+        // clinicalStaffCommand.setObjectsIdsToRemove("1,3");
+
+        clinicalStaffCommand.setSiteClinicalStaffRoleIndexToRemove("0-1");
+        clinicalStaffCommand.apply();
+
+        assertEquals("must not remove any clinical staff sites", 4, clinicalStaff.getSiteClinicalStaffs().size());
+        siteClinicalStaff = clinicalStaff.getSiteClinicalStaffs().get(0);
+
+        assertEquals("must remove 1 clinical staff site roles", 1, siteClinicalStaff.getSiteClinicalStaffRoles().size());
+
+        assertTrue("must preserve order of clinical staff sites", clinicalStaff.getSiteClinicalStaffs().contains(siteClinicalStaff1));
+        assertTrue("must preserve order of clinical staff sites", clinicalStaff.getSiteClinicalStaffs().contains(siteClinicalStaff2));
+        assertTrue("must preserve order of clinical staff sites", clinicalStaff.getSiteClinicalStaffs().contains(siteClinicalStaff3));
+        assertTrue("must preserve order of clinical staff sites", clinicalStaff.getSiteClinicalStaffs().contains(siteClinicalStaff4));
+
+
+    }
+
 
 }

@@ -7,6 +7,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
+<%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
 
 <html>
 <head>
@@ -42,7 +43,7 @@
             var request = new Ajax.Request("<c:url value="/pages/clinicalStaff/addClinicalStaffCompoent"/>", {
                 onComplete:function(transport) {
                     var response = transport.responseText;
-                    new Insertion.Before("hiddenDivForRole_"+siteClinicalStaffIndex, response);
+                    new Insertion.Before("hiddenDivForRole_" + siteClinicalStaffIndex, response);
 
                 },
                 parameters:"subview=subview&componentTyep=role&siteClinicalStaffIndex=" + siteClinicalStaffIndex,
@@ -50,18 +51,47 @@
             })
         }
 
-        function fireDelete(index, divToRemove) {
-            if ($('objectsIdsToRemove').value != '') {
-                $('objectsIdsToRemove').value = $('objectsIdsToRemove').value + "," + index;
-            }
-            else {
-                $('objectsIdsToRemove').value = index;
-            }
 
-            $(divToRemove).remove();
+        function deleteSiteRole(siteClinicalStaffIndex, siteClinicalStaffRoleIndex) {
+
+            var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
+                parameters:"confirmationType=deleteSiteClinicalStaffRole&subview=subview&siteClinicalStaffIndex=" + siteClinicalStaffIndex + "&siteClinicalStaffRoleIndex=" + siteClinicalStaffRoleIndex,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport);
+
+                } ,
+                method:'get'
+            });
+
 
         }
+        function deleteSiteRoleConfirm(siteClinicalStaffIndex, siteClinicalStaffRoleIndex) {
+            closeWindow();
+            $('showForm').value = true;
+            $('siteClinicalStaffRoleIndexToRemove').value = siteClinicalStaffIndex + '-' + siteClinicalStaffRoleIndex;
+            $('clinicalStaffCommand').submit();
 
+        }
+        function deleteSite(siteClinicalStaffIndex) {
+
+            var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
+                parameters:"confirmationType=deleteSiteClinicalStaff&subview=subview&siteClinicalStaffIndex=" + siteClinicalStaffIndex,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport);
+
+                } ,
+                method:'get'
+            });
+
+
+        }
+        function deleteSiteConfirm(siteClinicalStaffIndex) {
+            closeWindow();
+            $('showForm').value = true;
+            $('siteClinicalStaffIndexToRemove').value = siteClinicalStaffIndex;
+            $('clinicalStaffCommand').submit();
+
+        }
 
     </script>
 
@@ -88,6 +118,10 @@
 
     <chrome:box title="clinicalStaff.box.staffDetails">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
+
+        <input type="hidden" id="showForm" name="showForm" value=""/>
+        <form:hidden path="siteClinicalStaffRoleIndexToRemove" id="siteClinicalStaffRoleIndexToRemove"/>
+        <form:hidden path="siteClinicalStaffIndexToRemove" id="siteClinicalStaffIndexToRemove"/>
 
         <p><tags:instructions code="clinicalStaff.clinicalStaff_details.top"/></p>
         <chrome:division title="clinicalStaff.division.details"></chrome:division>
@@ -124,7 +158,12 @@
 
         <div>
 
-            <input type="hidden" value="" id="objectsIdsToRemove" name="objectsIdsToRemove"/>
+
+            <c:forEach items="${clinicalStaffCommand.clinicalStaff.siteClinicalStaffs}" var="siteClinicalStaff"
+                       varStatus="status">
+
+                <administration:siteClinicalStaff siteClinicalStaff="${siteClinicalStaff}" index="${status.index}"/>
+            </c:forEach>
 
             <div id="hiddenDiv">
 

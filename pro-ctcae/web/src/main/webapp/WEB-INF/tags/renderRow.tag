@@ -1,8 +1,10 @@
+<%@ attribute name="dateValue" type="java.util.Date" %>
+
 <%@ attribute name="cols" %>
 <%@ attribute name="onclick" %>
 <%@ attribute name="showAllJavascript" %>
 <%@ attribute name="help" type="java.lang.Boolean" %>
-   
+
 <%@ attribute name="rows" %>
 <%--
     Can render field or a 'label or value'. The preference is given to label, and value attributes, if they are present the field is kind of ignored.
@@ -41,6 +43,7 @@
                            showAllJavascript="${showAllJavascript}" size="${size}"
                            onclick="${onclick}" values="${values}"
                            cssClass="${cssClass}"
+                           dateValue="${dateValue}"
                            cols="${cols}" noForm="${noForm}"
                            propertyValue="${propertyValue}"
                            doNotShowFormat="${doNotShowFormat}" rows="${rows}"/>
@@ -66,6 +69,7 @@
                                        categoryName="${categoryName}"
                                        cssClass="${cssClass}"
                                        help="${help}"
+                                       dateValue="${dateValue}"
                                        showAllJavascript="${showAllJavascript}" size="${size}"
                                        onclick="${onclick}" values="${values}"
                                        cols="${cols}" noForm="${noForm}"

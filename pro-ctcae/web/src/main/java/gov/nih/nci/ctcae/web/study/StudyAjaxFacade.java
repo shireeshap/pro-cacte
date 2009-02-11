@@ -40,6 +40,7 @@ public class StudyAjaxFacade {
     public List<Study> matchStudy(final String text) {
         StudyQuery studyQuery = new StudyQuery();
         studyQuery.filterStudiesWithMatchingText(text);
+        studyQuery.setMaximumResults(30);
         List<Study> studies = new ArrayList<Study>(studyRepository.find(studyQuery));
         return ObjectTools.reduceAll(studies, "id", "shortTitle", "assignedIdentifier");
 

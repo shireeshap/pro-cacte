@@ -10,7 +10,9 @@ public class ClinicalStaffQuery extends AbstractQuery {
     /**
      * The query string.
      */
-    private static String queryString = "SELECT i from ClinicalStaff i order by i.id";
+    private static String queryString = "SELECT cs from ClinicalStaff cs order by cs.id";
+
+    private static String ORGANIZATION_ID = "organizationId";
 
     /**
      * The FIRS t_ name.
@@ -43,7 +45,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
      */
     public void filterByClinicalStaffFirstName(final String firstName) {
         String searchString = "%" + firstName.toLowerCase() + "%";
-        andWhere("lower(i.firstName) LIKE :" + FIRST_NAME);
+        andWhere("lower(cs.firstName) LIKE :" + FIRST_NAME);
         setParameter(FIRST_NAME, searchString);
     }
 
@@ -54,7 +56,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
      */
     public void filterByClinicalStaffLastName(final String lastName) {
         String searchString = "%" + lastName.toLowerCase() + "%";
-        andWhere("lower(i.lastName) LIKE :" + LAST_NAME);
+        andWhere("lower(cs.lastName) LIKE :" + LAST_NAME);
         setParameter(LAST_NAME, searchString);
     }
     /*
@@ -74,7 +76,13 @@ public class ClinicalStaffQuery extends AbstractQuery {
      */
     public void filterByNciIdentifier(final String nciIdentifier) {
         String searchString = "%" + nciIdentifier.toLowerCase() + "%";
-        andWhere("lower(i.nciIdentifier) LIKE :" + NCI_IDENTIFIER);
+        andWhere("lower(cs.nciIdentifier) LIKE :" + NCI_IDENTIFIER);
         setParameter(NCI_IDENTIFIER, searchString);
+    }
+
+    public void filterByOrganization(final Integer organizationId) {
+        leftJoin("cs.siteClinicalStaffs as scs");
+        andWhere("scs.organization.id = :" + ORGANIZATION_ID);
+        setParameter(ORGANIZATION_ID, organizationId);
     }
 }
