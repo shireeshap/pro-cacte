@@ -1,9 +1,12 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 //
 /**
@@ -29,6 +32,10 @@ public class StudySiteClinicalStaff extends BasePersistable {
     @JoinColumn(name = "study_site_id", referencedColumnName = "id")
     @ManyToOne
     private StudySite studySite;
+
+    @OneToMany(mappedBy = "studySiteClinicalStaff", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudySiteClinicalStaffRole> studySiteClinicalStaffRoles = new ArrayList<StudySiteClinicalStaffRole>();
 
     public Integer getId() {
         return id;
@@ -73,5 +80,25 @@ public class StudySiteClinicalStaff extends BasePersistable {
         int result = siteClinicalStaff != null ? siteClinicalStaff.hashCode() : 0;
         result = 31 * result + (studySite != null ? studySite.hashCode() : 0);
         return result;
+    }
+
+    public List<StudySiteClinicalStaffRole> getStudySiteClinicalStaffRoles() {
+        return studySiteClinicalStaffRoles;
+    }
+
+    public void addStudySiteClinicalStaffRole(StudySiteClinicalStaffRole studySiteClinicalStaffRole) {
+
+        if (studySiteClinicalStaffRole != null) {
+            studySiteClinicalStaffRole.setStudySiteClinicalStaff(this);
+            getStudySiteClinicalStaffRoles().add(studySiteClinicalStaffRole);
+            logger.debug(String.format("added   %s to %s", studySiteClinicalStaffRole.toString(), toString()));
+        }
+
+    }
+
+
+    public void removeStudySiteClinicalStaffRole(Integer studySiteClinicalStaffRoleIndex) {
+        StudySiteClinicalStaffRole studySiteClinicalStaffRole = getStudySiteClinicalStaffRoles().get(studySiteClinicalStaffRoleIndex);
+        getStudySiteClinicalStaffRoles().remove(studySiteClinicalStaffRole);
     }
 }
