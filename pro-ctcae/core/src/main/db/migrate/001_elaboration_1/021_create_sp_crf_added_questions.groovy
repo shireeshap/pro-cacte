@@ -4,8 +4,7 @@ class CreateAddedItems extends edu.northwestern.bioinformatics.bering.Migration 
      			t.addVersionColumn()
      			t.addColumn('sp_crf_id', 'integer', nullable: false)
      			t.addColumn('question_id', 'integer', nullable: false)
-			t.addColumn('page_number', 'integer', nullable: true)
-
+    			t.addColumn('page_number', 'integer', nullable: true)
      		}
      		execute('ALTER TABLE SP_CRF_ADDED_QUESTIONS ADD CONSTRAINT fk_spcaq_sp_crfs FOREIGN KEY (sp_crf_id) REFERENCES STUDY_PARTICIPANT_CRFS')
      		execute('ALTER TABLE SP_CRF_ADDED_QUESTIONS ADD CONSTRAINT fk_spcaq_pc_questions FOREIGN KEY (question_id) REFERENCES PRO_CTC_QUESTIONS')
@@ -14,10 +13,13 @@ class CreateAddedItems extends edu.northwestern.bioinformatics.bering.Migration 
      			t.addVersionColumn()
      			t.addColumn('sp_crf_schedule_id', 'integer', nullable: false)
      			t.addColumn('pro_ctc_valid_value_id', 'integer', nullable: true)
-
+ 			    t.addColumn('question_id', 'integer', nullable: false)
+                t.addColumn('page_number', 'integer', nullable: true)
+                t.addColumn('sp_crf_add_ques_id', 'integer', nullable: true)
      		}
      		execute('ALTER TABLE SP_CRF_SCH_ADDED_QUESTIONS ADD CONSTRAINT fk_spcsaq_sp_crf_sch FOREIGN KEY (sp_crf_schedule_id) REFERENCES SP_CRF_SCHEDULES')
      		execute('ALTER TABLE SP_CRF_SCH_ADDED_QUESTIONS ADD CONSTRAINT fk_spcsaq_pcvv FOREIGN KEY (pro_ctc_valid_value_id) REFERENCES PRO_CTC_VALID_VALUES')
+     		execute('ALTER TABLE SP_CRF_SCH_ADDED_QUESTIONS ADD CONSTRAINT fk_spcsaq_pc_questions FOREIGN KEY (question_id) REFERENCES PRO_CTC_QUESTIONS')
 
      	}
 
