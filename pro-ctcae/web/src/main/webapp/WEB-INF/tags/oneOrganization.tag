@@ -22,7 +22,7 @@
 
 
         <tags:renderAutocompleter propertyName="${inputName}" displayName="${title}" required="${required}"
-                                  size="${size}" doNotshowLabel="true"/>
+                                  size="${size}" doNotshowLabel="true" noForm="true"/>
 
     </td>
 
