@@ -27,7 +27,7 @@ public class StudySiteClinicalStaff extends BasePersistable {
 
     @JoinColumn(name = "site_clinical_staff_id", referencedColumnName = "id")
     @ManyToOne
-    private SiteClinicalStaff siteClinicalStaff;
+    private ClinicalStaffAssignment clinicalStaffAssignment;
 
     @JoinColumn(name = "study_site_id", referencedColumnName = "id")
     @ManyToOne
@@ -45,12 +45,12 @@ public class StudySiteClinicalStaff extends BasePersistable {
         this.id = id;
     }
 
-    public SiteClinicalStaff getSiteClinicalStaff() {
-        return siteClinicalStaff;
+    public ClinicalStaffAssignment getSiteClinicalStaff() {
+        return clinicalStaffAssignment;
     }
 
-    public void setSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
-        this.siteClinicalStaff = siteClinicalStaff;
+    public void setSiteClinicalStaff(ClinicalStaffAssignment clinicalStaffAssignment) {
+        this.clinicalStaffAssignment = clinicalStaffAssignment;
     }
 
     public StudySite getStudySite() {
@@ -68,7 +68,7 @@ public class StudySiteClinicalStaff extends BasePersistable {
 
         StudySiteClinicalStaff that = (StudySiteClinicalStaff) o;
 
-        if (siteClinicalStaff != null ? !siteClinicalStaff.equals(that.siteClinicalStaff) : that.siteClinicalStaff != null)
+        if (clinicalStaffAssignment != null ? !clinicalStaffAssignment.equals(that.clinicalStaffAssignment) : that.clinicalStaffAssignment != null)
             return false;
         if (studySite != null ? !studySite.equals(that.studySite) : that.studySite != null) return false;
 
@@ -77,7 +77,7 @@ public class StudySiteClinicalStaff extends BasePersistable {
 
     @Override
     public int hashCode() {
-        int result = siteClinicalStaff != null ? siteClinicalStaff.hashCode() : 0;
+        int result = clinicalStaffAssignment != null ? clinicalStaffAssignment.hashCode() : 0;
         result = 31 * result + (studySite != null ? studySite.hashCode() : 0);
         return result;
     }

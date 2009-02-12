@@ -6,9 +6,8 @@
     <CLINICAL_STAFFS id="-100" first_name="Bruce" last_name="Tanner" nci_identifier="Bruce"/>
 
 
+    <CLINICAL_STAFF_ASSIGNMENTS id="-100" clinical_staff_id="-100" domain_object_id="105051"
+                               domain_object_class="gov.nih.nci.ctcae.core.domain.Organization"/>
 
-    <SITE_CLINICAL_STAFFS id="-100" clinical_staff_id="-100" organization_id="105051" status_code="Active"/>
-
-   
 
 </dataset>

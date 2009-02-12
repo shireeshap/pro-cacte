@@ -21,7 +21,9 @@ public class CreateStudyController extends StudyController<StudyCommand> {
     @Override
     protected void layoutTabs(final Flow<StudyCommand> flow) {
         flow.addTab(new StudyDetailsTab());
+
         flow.addTab(new SitesTab());
+//        flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new EmptyStudyTab("study.tab.overview", "study.tab.overview", "study/study_reviewsummary"));
 
     }

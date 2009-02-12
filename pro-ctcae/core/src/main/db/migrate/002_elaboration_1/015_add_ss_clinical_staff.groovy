@@ -11,7 +11,7 @@ class AddStudySiteClinicalStaff extends edu.northwestern.bioinformatics.bering.M
         }
 
 
-        execute('ALTER TABLE STUDY_SITE_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_site_clinical_staff FOREIGN KEY (site_clinical_staff_id) REFERENCES SITE_CLINICAL_STAFFS')
+        execute('ALTER TABLE STUDY_SITE_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_site_clinical_staff FOREIGN KEY (site_clinical_staff_id) REFERENCES CLINICAL_STAFF_ASSIGNMENTS')
         execute('ALTER TABLE STUDY_SITE_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_study_site FOREIGN KEY (study_site_id) REFERENCES STUDY_ORGANIZATIONS')
 
 

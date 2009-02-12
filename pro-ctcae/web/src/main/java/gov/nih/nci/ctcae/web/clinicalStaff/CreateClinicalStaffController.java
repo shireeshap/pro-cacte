@@ -62,18 +62,21 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         ClinicalStaffCommand clinicalStaffCommand = (ClinicalStaffCommand) oCommand;
 
         clinicalStaffCommand.apply();
-        ModelAndView defaultModelAndView = showForm(request, response, errors);
+        ModelAndView modelAndView = showForm(request, response, errors);
+
         if (!StringUtils.isBlank(request.getParameter("showForm"))) {
             if (shouldSave(request, clinicalStaffCommand)) {
                 save(clinicalStaffCommand);
             }
-            return defaultModelAndView;
+        } else {
+
+            save(clinicalStaffCommand);
+
+            modelAndView = new ModelAndView(getSuccessView());
+            modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
         }
+        clinicalStaffCommand.updateDisplayNameOfClinicalStaff(finderRepository);
 
-        save(clinicalStaffCommand);
-
-        ModelAndView modelAndView = new ModelAndView(getSuccessView());
-        modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
         return modelAndView;
     }
 
@@ -87,6 +90,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
         clinicalStaffCommand.setClinicalStaff(clinicalStaff);
+
     }
 
     /* (non-Javadoc)
@@ -98,13 +102,14 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         String clinicalStaffId = request.getParameter(CLINICAL_STAFF_ID);
         ClinicalStaffCommand clinicalStaffCommand = new ClinicalStaffCommand();
 
-        if (clinicalStaffId == null) {
-            return clinicalStaffCommand;
-        } else {
+        if (clinicalStaffId != null) {
             ClinicalStaff clinicalStaff = clinicalStaffRepository.findById(new Integer(clinicalStaffId));
             clinicalStaffCommand.setClinicalStaff(clinicalStaff);
-            return clinicalStaffCommand;
         }
+
+        clinicalStaffCommand.updateDisplayNameOfClinicalStaff(finderRepository);
+        return clinicalStaffCommand;
+
     }
 
 

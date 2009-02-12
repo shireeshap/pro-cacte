@@ -16,7 +16,7 @@ public class StudyParticipantAssignmentTest extends AbstractTestCase {
     private StudySiteClinicalStaff studySiteClinicalStaff;
 
     private StudyParticipantClinicalStaff studyParticipantClinicalStaff, duplicateStudyParticipantClinicalStaff;
-    private SiteClinicalStaff siteClinicalStaff;
+    private ClinicalStaffAssignment clinicalStaffAssignment;
 
     @Override
     protected void setUp() throws Exception {
@@ -29,12 +29,12 @@ public class StudyParticipantAssignmentTest extends AbstractTestCase {
         anotherStudySite.setOrganization(Fixture.DUKE);
         anotherStudySite.setStudy(new Study());
 
-        siteClinicalStaff = new SiteClinicalStaff();
-        siteClinicalStaff.setOrganization(Fixture.NCI);
+        clinicalStaffAssignment = new ClinicalStaffAssignment();
+        //clinicalStaffAssignment.setOrganization(Fixture.NCI);
 
         studySiteClinicalStaff = new StudySiteClinicalStaff();
-        studySiteClinicalStaff.setSiteClinicalStaff(siteClinicalStaff);
-        studySite.addStudySiteClinicalStaff(studySiteClinicalStaff);
+        studySiteClinicalStaff.setSiteClinicalStaff(clinicalStaffAssignment);
+        //studySite.addStudySiteClinicalStaff(studySiteClinicalStaff);
 
         studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
         studyParticipantClinicalStaff.setStudySiteClinicalStaff(studySiteClinicalStaff);

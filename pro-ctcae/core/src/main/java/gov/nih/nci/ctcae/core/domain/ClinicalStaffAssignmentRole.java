@@ -9,15 +9,14 @@ import java.util.Date;
 
 //
 /**
- * The Class SiteClinicalStaffRole .
  *
  * @author Vinay Kumar
  */
 
 @Entity
-@Table(name = "SITE_CLINICAL_STAFF_ROLES")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_scs_staff_roles_id")})
-public class SiteClinicalStaffRole extends BasePersistable {
+@Table(name = "CS_ASSIGNMENT_ROLES")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_cs_assignment_roles_id")})
+public class ClinicalStaffAssignmentRole extends BasePersistable {
 
     /**
      * The id.
@@ -45,9 +44,9 @@ public class SiteClinicalStaffRole extends BasePersistable {
     /**
      * The clinical staff.
      */
-    @JoinColumn(name = "site_clinical_staff_id", referencedColumnName = "id")
+    @JoinColumn(name = "clinical_staff_assignment_id", referencedColumnName = "id",nullable = false)
     @ManyToOne
-    private SiteClinicalStaff siteClinicalStaff;
+    private ClinicalStaffAssignment clinicalStaffAssignment;
 
 
     /* (non-Javadoc)
@@ -91,13 +90,14 @@ public class SiteClinicalStaffRole extends BasePersistable {
         this.roleStatus = roleStatus;
     }
 
-    public SiteClinicalStaff getSiteClinicalStaff() {
-        return siteClinicalStaff;
+    public ClinicalStaffAssignment getClinicalStaffAssignment() {
+        return clinicalStaffAssignment;
     }
 
-    public void setSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
-        this.siteClinicalStaff = siteClinicalStaff;
+    public void setClinicalStaffAssignment(ClinicalStaffAssignment clinicalStaffAssignment) {
+        this.clinicalStaffAssignment = clinicalStaffAssignment;
     }
+
 
     public Role getRole() {
         return role;
@@ -112,10 +112,10 @@ public class SiteClinicalStaffRole extends BasePersistable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SiteClinicalStaffRole that = (SiteClinicalStaffRole) o;
+        ClinicalStaffAssignmentRole that = (ClinicalStaffAssignmentRole) o;
 
         if (role != that.role) return false;
-        if (siteClinicalStaff != null ? !siteClinicalStaff.equals(that.siteClinicalStaff) : that.siteClinicalStaff != null)
+        if (clinicalStaffAssignment != null ? !clinicalStaffAssignment.equals(that.clinicalStaffAssignment) : that.clinicalStaffAssignment != null)
             return false;
 
         return true;
@@ -124,7 +124,7 @@ public class SiteClinicalStaffRole extends BasePersistable {
     @Override
     public int hashCode() {
         int result = role != null ? role.hashCode() : 0;
-        result = 31 * result + (siteClinicalStaff != null ? siteClinicalStaff.hashCode() : 0);
+        result = 31 * result + (clinicalStaffAssignment != null ? clinicalStaffAssignment.hashCode() : 0);
         return result;
     }
 }

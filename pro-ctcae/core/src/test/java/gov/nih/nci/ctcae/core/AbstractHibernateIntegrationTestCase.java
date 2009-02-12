@@ -16,7 +16,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     protected ClinicalStaffRepository clinicalStaffRepository;
     protected OrganizationRepository organizationRepository;
     protected ClinicalStaff defaultClinicalStaff;
-    protected SiteClinicalStaff defaultSiteClinicalStaff;
+    protected ClinicalStaffAssignment defaultClinicalStaffAssignment;
     protected StudyParticipantAssignment defaultStudyParticipantAssignment;
     protected Organization defaultOrganization;
 
@@ -69,8 +69,8 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         defaultClinicalStaff = clinicalStaffRepository.findById(-100);
         assertNotNull("must find default clinical staff. Try running ant migrate-sample-data to migrate sample data", defaultClinicalStaff);
 
-        defaultSiteClinicalStaff = defaultClinicalStaff.getSiteClinicalStaffs().get(0);
-        assertNotNull("must find default site clinical staff. Try running ant migrate-sample-data to migrate sample data", defaultSiteClinicalStaff);
+        defaultClinicalStaffAssignment = defaultClinicalStaff.getClinicalStaffAssignments().get(0);
+        assertNotNull("must find default site clinical staff. Try running ant migrate-sample-data to migrate sample data", defaultClinicalStaffAssignment);
 
     }
 
@@ -78,7 +78,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     protected StudySiteClinicalStaff addStudySiteClinicalStaff() {
 
         StudySiteClinicalStaff studySiteClinicalStaff = new StudySiteClinicalStaff();
-        studySiteClinicalStaff.setSiteClinicalStaff(defaultSiteClinicalStaff);
+        studySiteClinicalStaff.setSiteClinicalStaff(defaultClinicalStaffAssignment);
         defaultStudySite.addStudySiteClinicalStaff(studySiteClinicalStaff);
 
         defaultStudy = studyRepository.save(defaultStudy);
@@ -93,7 +93,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         assertEquals("study site must be same", studySiteClinicalStaff.getStudySite(), defaultStudySite);
 
 
-        assertEquals("site clinical staff  must be same", defaultSiteClinicalStaff, studySiteClinicalStaff.getSiteClinicalStaff());
+        assertEquals("site clinical staff  must be same", defaultClinicalStaffAssignment, studySiteClinicalStaff.getSiteClinicalStaff());
         return studySiteClinicalStaff;
     }
 
@@ -108,7 +108,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
         defaultClinicalStaff = clinicalStaffRepository.findById(-100);
 
-        defaultSiteClinicalStaff = defaultClinicalStaff.getSiteClinicalStaffs().get(0);
+        defaultClinicalStaffAssignment = defaultClinicalStaff.getClinicalStaffAssignments().get(0);
 
     }
 

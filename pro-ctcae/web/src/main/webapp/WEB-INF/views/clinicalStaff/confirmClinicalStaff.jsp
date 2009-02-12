@@ -93,13 +93,13 @@
             </td>
         </tr>
     </table>
-    <c:forEach items="${clinicalStaffCommand.clinicalStaff.siteClinicalStaffs}" var="siteClinicalStaff"
+    <c:forEach items="${clinicalStaffCommand.clinicalStaff.clinicalStaffAssignments}" var="clinicalStaffAssignment"
                varStatus="status">
         <chrome:division title="clinicalStaff.division.sites">
 
             <div class="row">
                 <div class="label">Site</div>
-                <div class="value">${siteClinicalStaff.organization.displayName} </div>
+                <div class="value">${clinicalStaffAssignment.displayName} </div>
             </div>
 
             <div align="left" style="margin-left: 145px">
@@ -116,19 +116,19 @@
 
                     </tr>
 
-                    <c:forEach items="${siteClinicalStaff.siteClinicalStaffRoles}" var="siteClinicalStaffRole"
+                    <c:forEach items="${clinicalStaffAssignment.clinicalStaffAssignmentRoles}" var="clinicalStaffAssignmentRole"
                                varStatus="status">
 
                         <tr>
                             <td style="border-right:none;" width="35%">
-                                    ${siteClinicalStaffRole.role}
+                                    ${clinicalStaffAssignmentRole.role}
 
                             </td>
                             <td style="border-right:none;" width="30%">
-                                    ${siteClinicalStaffRole.roleStatus}
+                                    ${clinicalStaffAssignmentRole.roleStatus}
                             </td>
                             <td style="border-right:none;" width="30%">
-                                <tags:formatDate value="${siteClinicalStaffRole.statusDate}"/>
+                                <tags:formatDate value="${clinicalStaffAssignmentRole.statusDate}"/>
 
                             </td>
 

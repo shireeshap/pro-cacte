@@ -9,6 +9,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 
 //
 /**
@@ -78,7 +79,7 @@ public class Study extends BasePersistable {
      */
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
+    private List<StudyOrganization> studyOrganizations = new LinkedList<StudyOrganization>();
 
 
     /**
@@ -88,7 +89,7 @@ public class Study extends BasePersistable {
      */
     @UniqueObjectInCollection(message = "Duplicate Site")
     public List<StudySite> getStudySites() {
-        List<StudySite> studySites = new ArrayList<StudySite>();
+        List<StudySite> studySites = new LinkedList<StudySite>();
         for (StudyOrganization studyOrganization : getStudyOrganizations()) {
             if (studyOrganization instanceof StudySite) {
                 studySites.add((StudySite) studyOrganization);
@@ -331,4 +332,5 @@ public class Study extends BasePersistable {
         result = 31 * result + (assignedIdentifier != null ? assignedIdentifier.hashCode() : 0);
         return result;
     }
+
 }

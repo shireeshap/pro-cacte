@@ -81,7 +81,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
     }
 
     public void filterByOrganization(final Integer organizationId) {
-        leftJoin("cs.siteClinicalStaffs as scs");
+        leftJoin("cs.clinicalStaffAssignments as scs");
         andWhere("scs.organization.id = :" + ORGANIZATION_ID);
         setParameter(ORGANIZATION_ID, organizationId);
     }

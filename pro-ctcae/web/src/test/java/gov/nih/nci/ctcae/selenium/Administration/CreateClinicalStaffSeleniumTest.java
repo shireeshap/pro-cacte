@@ -22,7 +22,7 @@ public class CreateClinicalStaffSeleniumTest extends AbstractSeleniumTestCase {
 		selenium.type("clinicalStaff.emailAddress", "johndoe@sb.com");
 		selenium.type("clinicalStaff.phoneNumber", "123 123 1234");
 		selenium.click("//input[@value='Add Site']");
-            typeAutosuggest("clinicalStaff.siteClinicalStaffs[0].organization-input", "n", "clinicalStaff.siteClinicalStaffs[0].organization-choices");
+            typeAutosuggest("clinicalStaff.clinicalStaffAssignments[0].organization-input", "n", "clinicalStaff.clinicalStaffAssignments[0].organization-choices");
 		selenium.click("flow-next");
 		selenium.waitForPageToLoad("30000");
 		assertTrue(selenium.isTextPresent("The Clinical Staff was saved successfully"));

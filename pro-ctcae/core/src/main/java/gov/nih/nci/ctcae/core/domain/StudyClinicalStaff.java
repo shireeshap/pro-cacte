@@ -50,7 +50,7 @@ public class StudyClinicalStaff extends BasePersistable {
      */
     @JoinColumn(name = "site_clinical_staff_id", referencedColumnName = "id")
     @ManyToOne
-    private SiteClinicalStaff siteClinicalStaff;
+    private ClinicalStaffAssignment clinicalStaffAssignment;
 
     /**
      * The study organization.
@@ -133,17 +133,17 @@ public class StudyClinicalStaff extends BasePersistable {
      *
      * @return the site clinical staff
      */
-    public SiteClinicalStaff getSiteClinicalStaff() {
-        return siteClinicalStaff;
+    public ClinicalStaffAssignment getSiteClinicalStaff() {
+        return clinicalStaffAssignment;
     }
 
     /**
      * Sets the site clinical staff.
      *
-     * @param siteClinicalStaff the new site clinical staff
+     * @param clinicalStaffAssignment the new site clinical staff
      */
-    public void setSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
-        this.siteClinicalStaff = siteClinicalStaff;
+    public void setSiteClinicalStaff(ClinicalStaffAssignment clinicalStaffAssignment) {
+        this.clinicalStaffAssignment = clinicalStaffAssignment;
     }
 
     /**
@@ -177,7 +177,7 @@ public class StudyClinicalStaff extends BasePersistable {
         if (roleCode != null ? !roleCode.equals(that.roleCode) : that.roleCode != null) return false;
         if (signatureText != null ? !signatureText.equals(that.signatureText) : that.signatureText != null)
             return false;
-        if (siteClinicalStaff != null ? !siteClinicalStaff.equals(that.siteClinicalStaff) : that.siteClinicalStaff != null)
+        if (clinicalStaffAssignment != null ? !clinicalStaffAssignment.equals(that.clinicalStaffAssignment) : that.clinicalStaffAssignment != null)
             return false;
         if (statusCode != null ? !statusCode.equals(that.statusCode) : that.statusCode != null) return false;
         if (studyOrganization != null ? !studyOrganization.equals(that.studyOrganization) : that.studyOrganization != null)
@@ -194,7 +194,7 @@ public class StudyClinicalStaff extends BasePersistable {
         result = (statusCode != null ? statusCode.hashCode() : 0);
         result = 31 * result + (roleCode != null ? roleCode.hashCode() : 0);
         result = 31 * result + (signatureText != null ? signatureText.hashCode() : 0);
-        result = 31 * result + (siteClinicalStaff != null ? siteClinicalStaff.hashCode() : 0);
+        result = 31 * result + (clinicalStaffAssignment != null ? clinicalStaffAssignment.hashCode() : 0);
 		result = 31 * result + (studyOrganization != null ? studyOrganization.hashCode() : 0);
 		return result;
 	}

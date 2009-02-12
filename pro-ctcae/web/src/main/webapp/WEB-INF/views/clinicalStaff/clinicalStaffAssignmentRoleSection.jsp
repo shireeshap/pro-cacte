@@ -4,5 +4,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
 
-<administration:siteClinicalStaffRole siteClinicalStaffRole="${siteClinicalStaffRole}"
-                                      siteClinicalStaffIndex="${siteClinicalStaffIndex}" index="${index}"/>
+<administration:clinicalStaffAssignmentRole clinicalStaffAssignmentRole="${clinicalStaffAssignmentRole}"
+                                      clinicalStaffAssignmentIndex="${clinicalStaffAssignmentIndex}" index="${index}"/>

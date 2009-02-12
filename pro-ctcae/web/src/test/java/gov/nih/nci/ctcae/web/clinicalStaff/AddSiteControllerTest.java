@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class AddSiteControllerTest extends WebTestCase {
 
-    private AddClinicalStaffCompoentController controller;
+    private AddClinicalStaffComponentController controller;
     private CreateClinicalStaffController createClinicalStaffController;
     private WebControllerValidator validator;
     private ClinicalStaffRepository clinicalStaffRepository;
@@ -20,7 +20,7 @@ public class AddSiteControllerTest extends WebTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        controller = new AddClinicalStaffCompoentController();
+        controller = new AddClinicalStaffComponentController();
         createClinicalStaffController = new CreateClinicalStaffController();
         validator = new WebControllerValidatorImpl();
 

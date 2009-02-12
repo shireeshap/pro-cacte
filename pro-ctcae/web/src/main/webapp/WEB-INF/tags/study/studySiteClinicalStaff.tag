@@ -3,16 +3,17 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@attribute name="siteClinicalStaff" type="gov.nih.nci.ctcae.core.domain.SiteClinicalStaff" required="true" %>
-<%@attribute name="index" type="java.lang.Integer" required="true" %>
-<%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
+<%@attribute name="studySiteClinicalStaff" type="gov.nih.nci.ctcae.core.domain.StudySiteClinicalStaff" required="true" %>
+<%@attribute name="studySiteClinicalStaffIndex" type="java.lang.Integer" required="true" %>
+<%@attribute name="studySiteIndex" type="java.lang.Integer" required="true" %>
+<%@taglib prefix="study" tagdir="/WEB-INF/tags/study" %>
 
 <chrome:division title="clinicalStaff.division.sites">
 
     <%--isSiteAutoCompleter="true" --%>
-    <tags:renderAutocompleter propertyName="clinicalStaff.siteClinicalStaffs[${index}].organization"
+    <tags:renderAutocompleter propertyName="study.studySites[${studySiteIndex}].studySiteClinicalStaffs[${studySiteClinicalStaffIndex}].siteClinicalStaff"
                               displayName="Site" noForm="true" required="true"
-                              propertyValue="${siteClinicalStaff.organization.displayName}"/>
+                              propertyValue="${studySiteClinicalStaff.siteClinicalStaff.clinicalStaff.firstName}"/>
 
 
     <div align="left" style="margin-left: 145px">
@@ -29,26 +30,27 @@
 
             </tr>
 
-            <c:forEach items="${siteClinicalStaff.siteClinicalStaffRoles}" var="siteClinicalStaffRole"
+            <c:forEach items="${studySiteClinicalStaff.clinicalStaffAssignmentRoles}" var="clinicalStaffAssignmentRole"
                        varStatus="status">
 
-                <administration:siteClinicalStaffRole siteClinicalStaffRole="${siteClinicalStaffRole}"
-                                                      siteClinicalStaffIndex="${index}"
+                <administration:clinicalStaffAssignmentRole clinicalStaffAssignmentRole="${clinicalStaffAssignmentRole}"
+                                                      clinicalStaffAssignmentIndex="${studySiteClinicalStaffIndex}"
                                                       index="${status.index}"/>
+
             </c:forEach>
-            <tr id="hiddenDivForRole_${index}"></tr>
+            <tr id="hiddenDivForRole_${studySiteClinicalStaffIndex}"></tr>
 
         </table>
 
     </div>
     <br>
     <tags:button type="anchor" icon="add" value="clinicalStaff.button.add.role"
-                 onClick="javascript:addRole(${index})"></tags:button>
+                 onClick="javascript:addRole(${studySiteClinicalStaffIndex})"></tags:button>
     <br>
     <br>
     <tags:button type="anchor" icon="window_icon"
                  value="clinicalStaff.button.delete.site"
-                 onClick="javascript:deleteSite(${index})"></tags:button>
+                 onClick="javascript:deleteSite(${studySiteClinicalStaffIndex})"></tags:button>
 
 
 </chrome:division>

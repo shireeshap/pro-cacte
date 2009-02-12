@@ -29,8 +29,8 @@ public class ConfirmationCheckController extends AbstractController {
     private static final String DELETE_QUESTION_CONFIRMATION_TYPE = "deleteQuestion";
 
 
-    private static final String DELETE_SITE_CLINICAL_STAFF_ROLE_TYPE = "deleteSiteClinicalStaffRole";
-    private static final String DELETE_SITE_CLINICAL_STAFF_TYPE = "deleteSiteClinicalStaff";
+    private static final String DELETE_CLINICAL_STAFF_ASSIGNMENT_ROLE_TYPE = "deleteClinicalStaffAssignmentRole";
+    private static final String DELETE_CLINICAL_STAFF_ASSIGNMENT_TYPE = "deleteClinicalStaffAssignment";
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -49,16 +49,16 @@ public class ConfirmationCheckController extends AbstractController {
             map.put("questionId", request.getParameter("questionId"));
             map.put("proCtcTermId", request.getParameter("proCtcTermId"));
             modelAndView.addAllObjects(map);
-        } else if (StringUtils.equals(confirmationType, DELETE_SITE_CLINICAL_STAFF_ROLE_TYPE)) {
-            modelAndView = new ModelAndView("clinicalStaff/ajax/deleteSiteClinicalStaffRoleConfirmationCheck");
+        } else if (StringUtils.equals(confirmationType, DELETE_CLINICAL_STAFF_ASSIGNMENT_ROLE_TYPE)) {
+            modelAndView = new ModelAndView("clinicalStaff/ajax/deleteClinicalStaffAssignmentRoleConfirmationCheck");
             Map map = new HashMap();
-            map.put("siteClinicalStaffIndex", request.getParameter("siteClinicalStaffIndex"));
-            map.put("siteClinicalStaffRoleIndex", request.getParameter("siteClinicalStaffRoleIndex"));
+            map.put("clinicalStaffAssignmentIndex", request.getParameter("clinicalStaffAssignmentIndex"));
+            map.put("clinicalStaffAssignmentRoleIndex", request.getParameter("clinicalStaffAssignmentRoleIndex"));
             modelAndView.addAllObjects(map);
-        } else if (StringUtils.equals(confirmationType, DELETE_SITE_CLINICAL_STAFF_TYPE)) {
-            modelAndView = new ModelAndView("clinicalStaff/ajax/deleteSiteClinicalStaffConfirmationCheck");
+        } else if (StringUtils.equals(confirmationType, DELETE_CLINICAL_STAFF_ASSIGNMENT_TYPE)) {
+            modelAndView = new ModelAndView("clinicalStaff/ajax/deleteClinicalStaffAssignmentConfirmationCheck");
             Map map = new HashMap();
-            map.put("siteClinicalStaffIndex", request.getParameter("siteClinicalStaffIndex"));
+            map.put("clinicalStaffAssignmentIndex", request.getParameter("clinicalStaffAssignmentIndex"));
             modelAndView.addAllObjects(map);
         }
 

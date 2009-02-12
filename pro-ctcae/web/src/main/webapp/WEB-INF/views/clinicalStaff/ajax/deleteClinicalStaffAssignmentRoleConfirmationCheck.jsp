@@ -8,10 +8,10 @@
 
 <body>
 
-<chrome:box title="clinicalStaff.button.delete.site">
+<chrome:box title="clinicalStaff.label.delete.site.role">
 <chrome:division>
 <p>
-    <strong><tags:message code="clinicalStaff.button.delete.site.instruction"/></strong>
+    <strong><tags:message code="clinicalStaff.label.delete.site.role.instruction"/></strong>
 
     <br/>
 </p>
@@ -23,7 +23,7 @@
 <div class="flow-buttons">
 
     <input type="button" id="flow-update" class="next" value="<tags:message code="label.delete"/>"
-           alt="Delete" onclick="deleteSiteConfirm('${siteClinicalStaffIndex}')"/>
+           alt="Delete" onclick="deleteSiteRoleConfirm('${clinicalStaffAssignmentIndex}','${clinicalStaffAssignmentRoleIndex}')"/>
 
 
     <input type="button" id="flow-cancel" class="previous ibutton" value="<tags:message code="label.cancel"/>"
