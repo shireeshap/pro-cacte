@@ -156,37 +156,34 @@
             </tr>
         </table>
 
-        <div>
+
+    </chrome:box>
+    <chrome:box title="Sites">
 
 
-            <c:forEach items="${clinicalStaffCommand.clinicalStaff.clinicalStaffAssignments}"
-                       var="clinicalStaffAssignment"
-                       varStatus="status">
+        <c:forEach items="${clinicalStaffCommand.clinicalStaff.clinicalStaffAssignments}"
+                   var="clinicalStaffAssignment"
+                   varStatus="status">
 
-                <administration:clinicalStaffAssignment clinicalStaffAssignment="${clinicalStaffAssignment}"
-                                                        index="${status.index}"/>
-            </c:forEach>
+            <administration:clinicalStaffAssignment clinicalStaffAssignment="${clinicalStaffAssignment}"
+                                                    index="${status.index}"/>
+        </c:forEach>
 
-            <div id="hiddenDiv">
-
-
-            </div>
-
-
-            <tags:tabControls>
-                <jsp:attribute name="localButtons">
-
-                    <tags:button type="anchor" icon="add" value="clinicalStaff.button.add.site"
-                                 onClick="javascript:addSite()"></tags:button>
-
-                </jsp:attribute>
-            </tags:tabControls>
+        <div id="hiddenDiv">
 
 
         </div>
 
+        <chrome:division title=" ">
+            <div class="local-buttons"><tags:button type="anchor" icon="add" value="clinicalStaff.button.add.site"
+                                                    onClick="javascript:addSite()"></tags:button>
+            </div>
+        </chrome:division>
+        <br>
+        <br>
+        <br>
     </chrome:box>
-    <%--<tags:tabControls willSave="true"/>--%>
+    <tags:tabControls willSave="true"/>
 </form:form>
 
 </body>

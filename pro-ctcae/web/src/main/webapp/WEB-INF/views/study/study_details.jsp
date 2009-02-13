@@ -50,7 +50,7 @@
 </head>
 <body>
 
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
    <jsp:attribute name="singleFields">
 
         <p><tags:instructions code="study.study_details.top"/></p>
