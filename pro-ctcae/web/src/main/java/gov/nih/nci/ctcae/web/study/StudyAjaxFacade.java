@@ -65,42 +65,7 @@ public class StudyAjaxFacade {
         return table;
     }
 
-    /**
-     * Search studies for selection.
-     *
-     * @param parameterMap the parameter map
-     * @param type         the type
-     * @param text         the text
-     * @param request      the request
-     * @return the string
-     */
-    public String searchStudiesForSelection(Map parameterMap, String type,
-                                            String text, HttpServletRequest request) {
-        List<Study> studies = getObjects(type, text);
-        StudyTableModel studyTableModel = new StudyTableModel();
 
-        String participantId = (String) parameterMap.get("participant.id");
-        HashMap<String, Object> map = new HashMap<String, Object>(parameterMap);
-
-        if (participantId != null) {
-            HashSet<Integer> studyIdSet = new HashSet<Integer>();
-            HashMap<Integer, String> participantStudyIdentifierMap = new HashMap<Integer, String>();
-            Participant participant = participantRepository
-                    .findById(new Integer(participantId));
-            List<StudyParticipantAssignment> spas = participant
-                    .getStudyParticipantAssignments();
-            for (StudyParticipantAssignment spa : spas) {
-                studyIdSet.add(spa.getStudySite().getStudy().getId());
-                participantStudyIdentifierMap.put(spa.getStudySite().getStudy().getId(), spa.getStudyParticipantIdentifier());
-            }
-            map.put("participant.studies", studyIdSet);
-            map.put("participant.participantstudyidentifier", participantStudyIdentifierMap);
-        }
-
-        String table = studyTableModel.buildStudyTableForSelection(map,
-                studies, request);
-        return table;
-    }
 
     /**
      * Gets the objects.
@@ -118,8 +83,6 @@ public class StudyAjaxFacade {
             studies = (List<Study>) studyRepository.find(studyQuery);
         } else if ("assignedIdentifier".equals(type)) {
             studyQuery.filterStudiesByAssignedIdentifier(text);
-        } else if ("site".equals(type)) {
-            studyQuery.filterStudiesForStudySite(Integer.parseInt(text));
         }
         studies = (List<Study>) studyRepository.find(studyQuery);
 

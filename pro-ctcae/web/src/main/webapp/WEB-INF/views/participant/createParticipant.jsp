@@ -9,49 +9,49 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib uri="http://www.extremecomponents.org" prefix="ec" %>
 
-<link rel="stylesheet" type="text/css"
-      href="<c:url value="/css/extremecomponents.css"/>">
 <html>
 <head>
-    <tags:stylesheetLink name="tabbedflow"/>
-    <tags:includeScriptaculous/>
-    <tags:includePrototypeWindow/>
-    <tags:javascriptLink name="extremecomponents"/>
-    <tags:dwrJavascriptLink objects="study"/>
-
     <script>
 
-        function buildTable(form) {
-
-            var type = 'site';
-            $('bigSearch').show();
-            var parameterMap = getParameterMap(form);
-            var text = parameterMap['siteId'];
-            if (text != '') {
-                study.searchStudiesForSelection(parameterMap, type, text, showTable);
-            }
+        function getStudySites() {
+            var organizationId = document.getElementById('organizationId').value;
+            var request = new Ajax.Request("<c:url value="/pages/participant/displaystudysites"/>", {
+                onComplete:function(transport) {
+                    var response = transport.responseText;
+                    $("studysitestable").innerHTML = response;
+                },
+                parameters:"subview=subview&organizationId=" + organizationId,
+                method:'get'
+            })
         }
 
         Event.observe(window, 'load', function() {
-            buildTable('assembler');
-            Event.observe('siteId', 'change', function() {
-                buildTable('assembler');
+            Event.observe('organizationId', 'change', function() {
+                getStudySites();
             })
         });
+        function showForms(obj, id) {
+            var row = $('forms_' + id);
+            if (obj.checked) {
+                row.show();
+            } else {
+                row.hide();
+            }
+        }
 
     </script>
 </head>
 <body>
 
-<form:form method="post" commandName="participantCommand" id="assembler">
+<form:form method="post" commandName="participantCommand">
     <chrome:box title="participant.participant_details" autopad="true">
-        <tags:hasErrorsMessage hideErrorDetails="false"        />
+        <tags:hasErrorsMessage hideErrorDetails="false"/>
 
         <p><tags:instructions code="participant.participant_details.top"/></p>
 
         <chrome:division title="participant.label.site">
-            <tags:renderSelect propertyName="siteId" displayName="participant.label.site"
-                               required="true" options="${studysites}"/>
+            <tags:renderSelect propertyName="organizationId" displayName="participant.label.site"
+                               required="true" options="${organizationsHavingStudySite}"/>
         </chrome:division>
 
         <chrome:division title="participant.label.demographic_information">
@@ -63,16 +63,20 @@
                                          required="true"/>
                         <tags:renderText propertyName="participant.lastName" displayName="participant.label.last_name"
                                          required="true"/>
-                        <tags:renderText propertyName="participant.middleName" displayName="participant.label.middle_name"/>
-                        <tags:renderText propertyName="participant.assignedIdentifier" displayName="participant.label.participant_identifier"
+                        <tags:renderText propertyName="participant.middleName"
+                                         displayName="participant.label.middle_name"/>
+                        <tags:renderText propertyName="participant.assignedIdentifier"
+                                         displayName="participant.label.participant_identifier"
                                          required="true"/>
                     </td>
                     <td>
-                        <tags:renderDate propertyName="participant.birthDate" displayName="participant.label.date_of_birth"
+                        <tags:renderDate propertyName="participant.birthDate"
+                                         displayName="participant.label.date_of_birth"
                                          required="true"/>
                         <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
                                            required="true" options="${genders}"/>
-                        <tags:renderSelect propertyName="participant.ethnicity" displayName="participant.label.ethnicity"
+                        <tags:renderSelect propertyName="participant.ethnicity"
+                                           displayName="participant.label.ethnicity"
                                            required="true" options="${ethnicities}"/>
                         <tags:renderSelect propertyName="participant.race" displayName="participant.label.race"
                                            required="true" options="${races}"/>
@@ -80,19 +84,11 @@
                 </tr>
             </table>
         </chrome:division>
-        <chrome:division title="participant.label.studies">
-            <tags:indicator id="indicator"/>
-        </chrome:division>
+        <chrome:division title="participant.label.studies"/>
 
-        <div id="bigSearch" style="display:none;">
-            <div class="endpanes"/>
-            <chrome:division id="single-fields">
-                <div id="tableDiv">
-                    <c:out value="${assembler}" escapeXml="false"/>
-                </div>
-            </chrome:division>
-        </div>
-        </div>
+        <chrome:division id="single-fields">
+            <div id="studysitestable"/>
+        </chrome:division>
     </chrome:box>
     <tags:tabControls willSave="true"/>
 </form:form>

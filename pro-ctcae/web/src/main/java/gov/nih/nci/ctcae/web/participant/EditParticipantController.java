@@ -36,7 +36,7 @@ public class EditParticipantController extends ParticipantController {
         if (participant.getStudyParticipantAssignments().size() > 0) {
             Organization studyOrganization = participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization();
             String siteName = studyOrganization.getName();
-            participantCommand.setSiteId(studyOrganization.getId());
+            participantCommand.setOrganizationId(studyOrganization.getId());
             participantCommand.setSiteName(siteName);
         }
 

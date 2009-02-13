@@ -356,6 +356,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxF
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/CreateParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayCalendarController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayStudySitesController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/EditParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantCommand.java -text
@@ -383,7 +384,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyController.java -te
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyDetailsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyInvestigatorsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyTableModel.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/TextBoxCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/NullStringComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImpl.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCell.java -text
@@ -539,7 +539,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/versionForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/displaycalendar.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/oneCrfScheduleSection.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/displaystudysites.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/confirmParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/confirmschedule.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/createParticipant.jsp -text
@@ -976,7 +976,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/SearchStudyControllerTes
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/StudyTableModelTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/TextBoxCellTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/AbstractTableModelTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/NullStringComparatorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImplTest.java -text

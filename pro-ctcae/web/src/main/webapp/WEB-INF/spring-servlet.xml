@@ -274,7 +274,6 @@
     <bean name="/participant/create" id="createParticipantController"
           class="gov.nih.nci.ctcae.web.participant.CreateParticipantController" parent="ctcaeSimpleFormController">
         <property name="participantRepository" ref="participantRepository"/>
-        <property name="finderRepository" ref="finderRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
         <property name="crfRepository" ref="crfRepository"/>
     </bean>
@@ -282,7 +281,6 @@
     <bean name="/participant/edit" id="editParticipantController"
           class="gov.nih.nci.ctcae.web.participant.EditParticipantController" parent="ctcaeSimpleFormController">
         <property name="participantRepository" ref="participantRepository"/>
-        <property name="finderRepository" ref="finderRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
         <property name="crfRepository" ref="crfRepository"/>
     </bean>
@@ -315,6 +313,11 @@
     </bean>
     <bean name="/participant/displaycalendar" id="displayCalendarController"
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
+        <property name="finderRepository" ref="finderRepository"/>
+    </bean>
+
+    <bean name="/participant/displaystudysites" id="displayStudySitesController"
+          class="gov.nih.nci.ctcae.web.participant.DisplayStudySitesController">
         <property name="finderRepository" ref="finderRepository"/>
     </bean>
 

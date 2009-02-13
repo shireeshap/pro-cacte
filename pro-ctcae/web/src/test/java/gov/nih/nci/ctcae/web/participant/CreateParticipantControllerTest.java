@@ -58,9 +58,9 @@ public class CreateParticipantControllerTest extends WebTestCase {
 	public void testFormBackingObject() throws Exception {
 		assertNotNull(participantCommand);
 		assertNotNull(participantCommand.getParticipant());
-		assertEquals(0, participantCommand.getSiteId());
+		assertEquals(0, participantCommand.getOrganizationId());
 		assertNull(participantCommand.getSiteName());
-		assertNull(participantCommand.getStudyId());
+		assertNull(participantCommand.getStudySite());
 	}
 
 	public void testReferenceData() throws Exception {

@@ -1,10 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.Fixture;
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
@@ -78,9 +75,9 @@ public class EditParticipantControllerTest extends WebTestCase {
 
         assertNotNull(participantCommand);
         assertNotNull(participantCommand.getParticipant());
-        assertEquals(1, participantCommand.getSiteId());
+        assertEquals(1, participantCommand.getOrganizationId());
         assertEquals("test", participantCommand.getSiteName());
-        assertNull(participantCommand.getStudyId());
+        assertNull(participantCommand.getStudySite());
     }
 
     public void testOnSumbit() throws Exception {
@@ -88,7 +85,7 @@ public class EditParticipantControllerTest extends WebTestCase {
         request.setParameter("participantId", participant.getId().toString());
         request.setMethod("POST");
 
-        participantCommand.setStudyId(new int[]{3});
+        participantCommand.setStudySite(new StudySite[]{new StudySite()});
         ArrayList l = new ArrayList();
         l.add(study1.getStudySites().get(0));
 

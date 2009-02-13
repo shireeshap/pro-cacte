@@ -81,6 +81,21 @@ public class Study extends BasePersistable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyOrganization> studyOrganizations = new LinkedList<StudyOrganization>();
 
+    public List<CRF> getCrfs() {
+        return crfs;
+    }
+
+    public void setCrfs(List<CRF> crfs) {
+        this.crfs = crfs;
+    }
+
+    /**
+     * The Crfs assigned to study.
+     */
+    @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<CRF> crfs = new LinkedList<CRF>();
+
 
     /**
      * Gets the study sites.

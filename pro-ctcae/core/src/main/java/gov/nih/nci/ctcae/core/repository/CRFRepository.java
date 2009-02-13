@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
+import java.util.Date;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 //
 /**
@@ -110,14 +112,21 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void generateSchedulesFromCrfCalendar(CRF crf, StudyParticipantCrf studyParticipantCrf) throws ParseException {
+    public void generateSchedulesFromCrfCalendar(CRF crf, StudyParticipantCrf studyParticipantCrf, String startDate) throws ParseException {
+        Date calendarStartDate;
+        if(startDate == null){
+            calendarStartDate = crf.getEffectiveStartDate();
+        }else{
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            calendarStartDate = sdf.parse(startDate);
+        }
         if (crf != null) {
             crf = findById(crf.getId());
 
             if (crf.getCrfCalendars() != null) {
                 for (CRFCalendar crfCalendar : crf.getCrfCalendars()) {
                     if (!StringUtils.isBlank(crfCalendar.getRepeatEveryAmount())) {
-                        ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar(Integer.parseInt(crfCalendar.getRepeatEveryAmount()), crfCalendar.getRepeatEveryUnit(), Integer.parseInt(crfCalendar.getDueDateAmount()), crfCalendar.getDueDateUnit(), crfCalendar.getRepeatUntilUnit(), crfCalendar.getRepeatUntilAmount(), crf.getEffectiveStartDate());
+                        ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar(Integer.parseInt(crfCalendar.getRepeatEveryAmount()), crfCalendar.getRepeatEveryUnit(), Integer.parseInt(crfCalendar.getDueDateAmount()), crfCalendar.getDueDateUnit(), crfCalendar.getRepeatUntilUnit(), crfCalendar.getRepeatUntilAmount(), calendarStartDate);
                         createSchedule(studyParticipantCrf, proCtcAECalendar);
                     }
                 }

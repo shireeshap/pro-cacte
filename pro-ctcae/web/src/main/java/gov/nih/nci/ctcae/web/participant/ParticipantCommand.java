@@ -1,6 +1,12 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.CRFQuery;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+import java.text.ParseException;
 
 //
 /**
@@ -13,15 +19,12 @@ public class ParticipantCommand {
      */
     private Participant participant;
 
-    /**
-     * The site id.
-     */
-    private int siteId;
+    private int organizationId;
 
     /**
      * The study id.
      */
-    private int[] studyId;
+    private StudySite[] studySite;
 
     /**
      * The site name.
@@ -59,36 +62,19 @@ public class ParticipantCommand {
      *
      * @return the site id
      */
-    public int getSiteId() {
-        return siteId;
+    public int getOrganizationId() {
+        return organizationId;
     }
 
     /**
      * Sets the site id.
      *
-     * @param siteId the new site id
+     * @param organizationId the new site id
      */
-    public void setSiteId(int siteId) {
-        this.siteId = siteId;
+    public void setOrganizationId(int organizationId) {
+        this.organizationId = organizationId;
     }
 
-    /**
-     * Gets the study id.
-     *
-     * @return the study id
-     */
-    public int[] getStudyId() {
-        return studyId;
-    }
-
-    /**
-     * Sets the study id.
-     *
-     * @param studyId the new study id
-     */
-    public void setStudyId(int[] studyId) {
-        this.studyId = studyId;
-    }
 
     /**
      * Gets the site name.
@@ -106,5 +92,40 @@ public class ParticipantCommand {
      */
     public void setSiteName(String siteName) {
         this.siteName = siteName;
+    }
+
+    public StudySite[] getStudySite() {
+        return studySite;
+    }
+
+    public void setStudySite(StudySite[] studySite) {
+        this.studySite = studySite;
+    }
+
+    public StudyParticipantAssignment createStudyParticipantAssignments(StudySite studySite, String studyParticipantIdentifier) {
+        StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
+        studyParticipantAssignment.setStudySite(studySite);
+        studyParticipantAssignment.setParticipant(getParticipant());
+        studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
+        participant.addStudyParticipantAssignment(studyParticipantAssignment);
+        return studyParticipantAssignment;
+    }
+
+
+    public void assignCrfsToParticipant(StudyParticipantAssignment studyParticipantAssignment, CRFRepository crfRepository, HttpServletRequest request) throws ParseException {
+        Study study = studyParticipantAssignment.getStudySite().getStudy();
+        CRFQuery crfQuery = new CRFQuery();
+        crfQuery.filterByStudyId(study.getId());
+        Collection<CRF> crfCollection = crfRepository.find(crfQuery);
+        for (CRF crf : crfCollection) {
+            if (crf.getStatus().equals(CrfStatus.RELEASED)) {
+                StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
+                studyParticipantCrf.setCrf(crf);
+                studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
+                crfRepository.generateSchedulesFromCrfCalendar(crf, studyParticipantCrf, request.getParameter("form_date_" + crf.getId()));
+            }
+        }
+
+
     }
 }

@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web;
 
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.RoleStatus;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.editor.EnumByNameEditor;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
@@ -70,6 +67,8 @@ public class CtcAeSimpleFormController extends SimpleFormController {
         binder.registerCustomEditor(Role.class, new EnumByNameEditor<Role>(Role.class));
         binder.registerCustomEditor(RoleStatus.class, new EnumByNameEditor<RoleStatus>(RoleStatus.class));
 
+        RepositoryBasedEditor studySiteEditor = new RepositoryBasedEditor(finderRepository, StudySite.class);
+        binder.registerCustomEditor(StudySite.class, studySiteEditor);
 
     }
 

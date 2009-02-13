@@ -47,35 +47,6 @@ public class StudyTableModel extends AbstractTableModel {
         }
     }
 
-    /**
-     * Builds the study table for selection.
-     *
-     * @param parameterMap the parameter map
-     * @param objects      the objects
-     * @param request      the request
-     * @return the string
-     */
-    public String buildStudyTableForSelection(Map parameterMap,
-                                              Collection<Study> objects, HttpServletRequest request) {
-
-        try {
-
-            TableModel model = getModel(parameterMap, request, objects);
-
-            addAssignedIdentifierForSelection(model);
-            addShorTitleColumn(model);
-
-            addSponsorColumn(model);
-
-            addStudyCoordinatingCenter(model);
-            addParticipantStudyIdentifierText(model);
-
-            return model.assemble().toString();
-        } catch (Exception e) {
-
-        }
-        return "";
-    }
 
     /**
      * Adds the study coordinating center.
@@ -136,32 +107,5 @@ public class StudyTableModel extends AbstractTableModel {
         model.addColumn(columnShortTitle);
     }
 
-    /**
-     * Adds the assigned identifier for selection.
-     *
-     * @param model the model
-     */
-    private void addAssignedIdentifierForSelection(TableModel model) {
-        Column columnShortTitle = model.getColumnInstance();
-        columnShortTitle.setTitle("Study identifier");
-        columnShortTitle.setProperty("assignedIdentifier");
-        columnShortTitle.setSortable(Boolean.TRUE);
-        columnShortTitle
-                .setCell("gov.nih.nci.ctcae.web.study.SelectedStudyCell");
-        model.addColumn(columnShortTitle);
-    }
 
-    /**
-     * Adds the participant study identifier text.
-     *
-     * @param model the model
-     */
-    private void addParticipantStudyIdentifierText(TableModel model) {
-        Column columnParticipantStudyIdentifier = model.getColumnInstance();
-        columnParticipantStudyIdentifier.setTitle("Patient study identifier");
-        columnParticipantStudyIdentifier.setSortable(Boolean.FALSE);
-        columnParticipantStudyIdentifier
-                .setCell("gov.nih.nci.ctcae.web.study.TextBoxCell");
-        model.addColumn(columnParticipantStudyIdentifier);
-    }
 }

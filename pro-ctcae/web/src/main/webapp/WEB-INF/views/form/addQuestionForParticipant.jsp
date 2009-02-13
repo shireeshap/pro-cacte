@@ -13,14 +13,22 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
-        tr {
-            border-bottom: 1px solid #123121;
+        body {
+            font-family: Arial;
         }
 
         .label {
             font-weight: bold;
-            font-size: 16px;
+            font-size: 15px;
             vertical-align: top;
+        }
+
+        .blue {
+            background-color: #4545c3;
+        }
+
+        .norm {
+            background-color: white;
         }
 
     </style>
@@ -31,7 +39,7 @@
             basename: "participantquestion",
             populator: function(autocompleter, text) {
                 scheduleCrf.matchSymptoms(text, '${command.studyParticipantCrfSchedule.id}', function(values) {
-                    autocompleter.setChoices(values)
+                    autocompleter.setChoices(values);
                 })
             },
             valueSelector: function(obj) {
@@ -55,6 +63,9 @@
             if (!itemfound) {
                 addCheckbox(selectedChoice);
             }
+            $("participantquestion-input").value = "";
+            initSearchField();
+
         }
 
 
@@ -104,8 +115,16 @@
             chkbox.name = 'symptomsByParticipants';
             chkbox.value = selectedChoice;
             chkbox.checked = true;
+            chkbox.id = nextColumnIndex
+            chkbox.onchange = function() {
+                changeClass(chkbox, chkbox.id);
+            }
             tda.appendChild(chkbox);
-            tdb.appendChild(document.createTextNode(selectedChoice));
+            var div = document.createElement('div');
+            div.setAttribute('id', 'div_' + nextColumnIndex);
+            div.appendChild(document.createTextNode(selectedChoice));
+            tdb.appendChild(div);
+            changeClass(chkbox, nextColumnIndex);
             nextColumnIndex++;
         }
 
@@ -129,6 +148,17 @@
             initSearchField()
         })
 
+
+        function changeClass(obj, index) {
+            var div = $('div_' + index);
+            if (obj.checked) {
+                div.removeClassName("norm");
+                div.addClassName('blue');
+            } else {
+                div.removeClassName("blue");
+                div.addClassName("norm");
+            }
+        }
     </script>
 </head>
 <body>
@@ -142,19 +172,21 @@
 
         <table id="mytable">
             <tbody>
-            <c:forEach var="i" begin="0" end="6" varStatus="status">
+            <c:set var="numrows" value="6"/>
+            <c:forEach var="i" begin="0" end="${numrows}" varStatus="status">
                 <c:if test="${command.sortedSymptoms[i*3+0] ne null}">
                     <tr id="tr_"${i}>
                         <c:forEach var="j" begin="0" end="2" varStatus="status">
-                            <td id="td_${i*3+j}_a" class="label">
-                                <c:if test="${command.sortedSymptoms[i*3+j] ne null}">
+                            <td id="td_${i + (numrows+1)*j}_a" class="label" width="1%">
+                                <c:if test="${command.sortedSymptoms[i + (numrows+1)*j] ne null}">
                                     <input type="checkbox" name="symptomsByParticipants"
-                                           value="${command.sortedSymptoms[i*3+j]}"/>
+                                           value="${command.sortedSymptoms[i + (numrows+1)*j]}"
+                                           onchange="javascript:changeClass(this,'${i + (numrows+1)*j}');"/>
                                 </c:if>
                             </td>
-                            <td id="td_${i*3+j}_b" class="label">
-                                <c:if test="${command.sortedSymptoms[i*3+0] ne null}">
-                                    ${command.sortedSymptoms[i*3+j]}
+                            <td id="td_${i + (numrows+1)*j}_b" class="label" width="32%">
+                                <c:if test="${command.sortedSymptoms[i + (numrows+1)*j] ne null}">
+                                    <div id="div_${i + (numrows+1)*j}">${command.sortedSymptoms[i + (numrows+1)*j]}</div>
                                 </c:if>
                             </td>
                         </c:forEach>

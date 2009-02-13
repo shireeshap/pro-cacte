@@ -22,23 +22,21 @@ public class ParticipantCommandTest extends WebTestCase {
     public void testConstructor() {
 
         assertNotNull(command.getParticipant());
-        assertEquals(0,command.getSiteId());
+        assertEquals(0, command.getOrganizationId());
         assertNull(command.getSiteName());
-        assertNull(command.getStudyId());
+        assertNull(command.getStudySite());
     }
 
-    public void testSetters(){
-        
-        Participant p = Fixture.createParticipant("test","test","id");
+    public void testSetters() {
+
+        Participant p = Fixture.createParticipant("test", "test", "id");
         command.setParticipant(p);
-        command.setSiteId(1);
+        command.setOrganizationId(1);
         command.setSiteName("MySite");
-        command.setStudyId(new int[] {223});
 
         assertEquals(p, command.getParticipant());
-        assertEquals(1, command.getSiteId());
+        assertEquals(1, command.getOrganizationId());
         assertEquals("MySite", command.getSiteName());
-        assertEquals(223, command.getStudyId()[0]);
 
     }
 }

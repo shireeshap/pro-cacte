@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.CRFQuery;
-import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
@@ -31,11 +29,6 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
      * The participant repository.
      */
     protected ParticipantRepository participantRepository;
-
-    /**
-     * The finder repository.
-     */
-    protected FinderRepository finderRepository;
 
     /**
      * The organization repository.
@@ -68,50 +61,14 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
                                     org.springframework.validation.BindException errors)
             throws Exception {
 
-        ParticipantCommand participantCommand = (ParticipantCommand) oCommand;
-        Participant participant = participantCommand.getParticipant();
-        for (int studyId : participantCommand.getStudyId()) {
-
-            StudyOrganizationQuery query = new StudyOrganizationQuery();
-            query.filterByOrganizationId(participantCommand.getSiteId());
-            query.filterByStudyId(studyId);
-            query.filterByStudySiteOnly();
-
-            List<StudySite> persistables = (List<StudySite>) finderRepository.find(query);
-            if (persistables.isEmpty()) {
-                throw new Exception(("can not find study site:siteId- " + participantCommand.getSiteId()) + " study id:" + participantCommand.getStudyId());
-            }
-            StudySite studySite = persistables.get(0);
-
-            participantCommand.setSiteName(studySite.getOrganization()
-                    .getName());
-
-            StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
-            studyParticipantAssignment.setStudySite(studySite);
-            studyParticipantAssignment.setStudyParticipantIdentifier(request
-                    .getParameter("participantStudyIdentifier" + studyId));
-
-            Study study = studyParticipantAssignment.getStudySite().getStudy();
-            CRFQuery crfQuery = new CRFQuery();
-            crfQuery.filterByStudyId(study.getId());
-            Collection<CRF> crfCollection = crfRepository.find(crfQuery);
-            for (CRF crf : crfCollection) {
-                if (crf.getStatus().equals(CrfStatus.RELEASED)) {
-                    StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
-                    studyParticipantCrf.setCrf(crf);
-                    studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
-                    crfRepository.generateSchedulesFromCrfCalendar(crf, studyParticipantCrf);
-                }
-            }
-            participant.addStudyParticipantAssignment(studyParticipantAssignment);
+        ParticipantCommand command = (ParticipantCommand) oCommand;
+        for (StudySite studySite : command.getStudySite()) {
+            command.setSiteName(studySite.getOrganization().getName());
+            StudyParticipantAssignment studyParticipantAssignment = command.createStudyParticipantAssignments(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()));
+            command.assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request);
         }
-
-        participant = participantRepository.save(participant);
-        participantCommand.setParticipant(participant);
-
-        ModelAndView modelAndView = new ModelAndView(getSuccessView());
-        modelAndView.addObject("participantCommand", participantCommand);
-        return modelAndView;
+        participantRepository.save(command.getParticipant());
+        return showForm(request, errors, getSuccessView());
     }
 
 
@@ -126,8 +83,8 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
 
         ParticipantCommand participantCommand = (ParticipantCommand) command;
 
-        if (participantCommand.getStudyId() == null ||
-                participantCommand.getStudyId().length == 0) {
+        if (participantCommand.getStudySite() == null ||
+                participantCommand.getStudySite().length == 0) {
             errors.reject(
                     "studyId", "Please select at least one study.");
         }
@@ -142,7 +99,7 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
                                 Errors errors) throws Exception {
         HashMap<String, Object> referenceData = new HashMap<String, Object>();
 
-        ArrayList<Organization> studySites = organizationRepository
+        ArrayList<Organization> organizationsHavingStudySite = organizationRepository
                 .findOrganizationsForStudySites();
 
         ListValues listValues = new ListValues();
@@ -151,7 +108,7 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
         referenceData.put("genders", listValues.getGenderType());
         referenceData.put("ethnicities", listValues.getEthnicityType());
         referenceData.put("races", listValues.getRaceType());
-        referenceData.put("studysites", ListValues.getStudySites(studySites));
+        referenceData.put("organizationsHavingStudySite", ListValues.getOrganizationsHavingStudySite(organizationsHavingStudySite));
         return referenceData;
     }
 
@@ -185,14 +142,4 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
     public void setOrganizationRepository(OrganizationRepository organizationRepository) {
         this.organizationRepository = organizationRepository;
     }
-
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.web.CtcAeSimpleFormController#setFinderRepository(gov.nih.nci.ctcae.core.repository.FinderRepository)
-     */
-    @Required
-    public void setFinderRepository(
-            FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-    }
-
 }

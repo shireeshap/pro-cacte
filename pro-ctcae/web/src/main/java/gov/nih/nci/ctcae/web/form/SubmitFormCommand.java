@@ -387,7 +387,6 @@ public class SubmitFormCommand implements Serializable {
         Hashtable<String, List<ProCtcQuestion>> arrangedQuestions = getArrangedQuestions();
         ArrayList<String> sortedList = new ArrayList(arrangedQuestions.keySet());
         Collections.sort(sortedList);
-
         return sortedList;
 
     }
