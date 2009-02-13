@@ -6,4 +6,4 @@
 
 <study:clinicalStaffAssignmentRole clinicalStaffAssignmentRole="${clinicalStaffAssignmentRole}"
                                             clinicalStaffAssignmentIndex="${clinicalStaffAssignmentIndex}"
-                                            index="${index}"/>
+                                            index="${clinicalStaffAssignmentRoleIndex}"/>
