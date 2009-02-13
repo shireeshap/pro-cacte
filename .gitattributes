@@ -304,7 +304,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ConfirmationCheckController.ja
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ControllerTools.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ControllersUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/CtcAeSimpleFormController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilter.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/AddClinicalStaffComponentController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffAjaxFacade.java -text
