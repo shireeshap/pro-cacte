@@ -10,56 +10,65 @@
 
 
 <chrome:division title="clinicalStaff.division.sites">
-
+    <div style="text-align:right">
+        <a class="del-${cssClass}" href="javascript:deleteSite(${index});">
+            <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete" style="vertical-align:middle">
+        </a>
+            <%--<tags:button type="anchor" icon="window_icon"--%>
+            <%--value="clinicalStaff.button.delete.site"--%>
+            <%--onClick="javascript:"></tags:button>--%>
+    </div>
     <%--isSiteAutoCompleter="true" --%>
     <tags:renderAutocompleter propertyName="clinicalStaff.clinicalStaffAssignments[${index}].domainObjectId"
                               displayName="Site" noForm="true" required="true"
                               propertyValue="${clinicalStaffAssignment.displayName}" size="80"/>
 
 
-    <div align="left" style="margin-left: 145px">
-        <table width="80%" class="tablecontent">
-            <tr id="ss-table-head" class="amendment-table-head">
-                <th width="35%" class="tableHeader"><tags:requiredIndicator/><tags:message
-                        code="clinicalStaff.label.role"/></th>
+    <table cellspacing="0" width="80%">
+        <tr>
+            <td>
+                <div align="left" style="margin-left: 145px">
+                    <table class="tablecontent" style="table-layout:fixed;">
+                        <tr id="ss-table-head" class="amendment-table-head">
+                            <th width="25%" class="tableHeader"><tags:requiredIndicator/><tags:message
+                                    code="clinicalStaff.label.role"/></th>
 
-                <th width="30%" class="tableHeader"><tags:requiredIndicator/><tags:message
-                        code="clinicalStaff.label.role.status"/></th>
-                <th width="30%" class="tableHeader"><tags:requiredIndicator/><tags:message
-                        code="clinicalStaff.label.role.status.date"/></th>
-                <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+                            <th width="25%" class="tableHeader"><tags:requiredIndicator/><tags:message
+                                    code="clinicalStaff.label.role.status"/></th>
+                            <th width="45%" class="tableHeader"><tags:requiredIndicator/><tags:message
+                                    code="clinicalStaff.label.role.status.date"/></th>
+                            <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 
-            </tr>
+                        </tr>
 
-            <c:forEach items="${clinicalStaffAssignment.clinicalStaffAssignmentRoles}" var="clinicalStaffAssignmentRole"
-                       varStatus="status">
+                        <c:forEach items="${clinicalStaffAssignment.clinicalStaffAssignmentRoles}"
+                                   var="clinicalStaffAssignmentRole"
+                                   varStatus="status">
 
-                <administration:clinicalStaffAssignmentRole clinicalStaffAssignmentRole="${clinicalStaffAssignmentRole}"
-                                                            clinicalStaffAssignmentIndex="${index}"
-                                                            clinicalStaffAssignmentRoleIndex="${status.index}"/>
-            </c:forEach>
-            <tr id="hiddenDivForRole_${index}"></tr>
-
-        </table>
-
-    </div>
+                            <administration:clinicalStaffAssignmentRole
+                                    clinicalStaffAssignmentRole="${clinicalStaffAssignmentRole}"
+                                    clinicalStaffAssignmentIndex="${index}"
+                                    clinicalStaffAssignmentRoleIndex="${status.index}"/>
+                        </c:forEach>
+                        <tr id="hiddenDivForRole_${index}"></tr>
+                    </table>
+                </div>
+            </td>
+            <td valign="top">
+                <tags:button type="anchor" icon="add" value="clinicalStaff.button.add.role"
+                             onClick="javascript:addRole(${index})"></tags:button>
+            </td>
+        </tr>
+    </table>
     <br>
 
-    <div style="text-align:right">
-        <tags:button type="anchor" icon="add" value="clinicalStaff.button.add.role"
-                     onClick="javascript:addRole(${index})"></tags:button>
-        <br/>
-            <%--<a id="del-${empty idSuffix ? clinicalStaffAssignmentRoleIndex : idSuffix}" class="del-${cssClass}"--%>
-            <%--href="javascript:deleteSiteRole('${clinicalStaffAssignmentIndex}','${clinicalStaffAssignmentRoleIndex}');">--%>
-            <%--<img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"--%>
-            <%--style="vertical-align:middle">--%>
-            <%--</a>--%>
 
-        <tags:button type="anchor" icon="window_icon"
-                     value="clinicalStaff.button.delete.site"
-                     onClick="javascript:deleteSite(${index})"></tags:button>
+    <%--<a id="del-${empty idSuffix ? clinicalStaffAssignmentRoleIndex : idSuffix}" class="del-${cssClass}"--%>
+    <%--href="javascript:deleteSiteRole('${clinicalStaffAssignmentIndex}','${clinicalStaffAssignmentRoleIndex}');">--%>
+    <%--<img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"--%>
+    <%--style="vertical-align:middle">--%>
+    <%--</a>--%>
 
-    </div>
 
 </chrome:division>
 
