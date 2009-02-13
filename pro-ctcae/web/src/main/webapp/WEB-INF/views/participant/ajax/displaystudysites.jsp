@@ -83,13 +83,13 @@
                             <c:if test="${crf.status eq 'Released' and crf.nextVersionId eq null}">
                                 <tr>
                                     <td class="data" width="50%" align="left">
-                                        &nbsp;&nbsp;<b>${crf.title}</b>
+                                        &nbsp;&nbsp;<b>Form: </b>${crf.title}
                                     </td>
                                         <%--<td class="data">--%>
                                         <%--<tags:formatDate value="${crf.effectiveStartDate}"/>--%>
                                         <%--</td>--%>
                                     <td class="data" align="center">
-                                        <tags:renderDate propertyName="form_date_${crf.id}" doNotshowLabel="true"
+                                        Start Date <tags:renderDate propertyName="form_date_${crf.id}" doNotshowLabel="true"
                                                          noForm="true"/>
                                     </td>
 

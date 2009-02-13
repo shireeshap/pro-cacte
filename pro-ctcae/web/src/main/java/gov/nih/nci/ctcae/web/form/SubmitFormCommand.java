@@ -369,7 +369,6 @@ public class SubmitFormCommand implements Serializable {
                 } else {
                     l = new ArrayList<ProCtcQuestion>();
                 }
-
                 l.add(proCtcQuestion);
                 arrangedQuestions.put(proCtcQuestion.getProCtcTerm().getTerm(), l);
             }

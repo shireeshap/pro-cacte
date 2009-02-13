@@ -16,8 +16,8 @@
     <style type="text/css">
 
         table.top-widget {
-            border: 1px solid #cccccc;
-            background-color: #E7EAF3;
+            /*border: 1px solid #cccccc;*/
+            /*background-color: #E7EAF3;*/
             text-align: left;
         }
 

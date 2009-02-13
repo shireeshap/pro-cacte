@@ -505,7 +505,7 @@ Event.observe(window, "load", function () {
                                                         <select name="repeatUntilUnit_${status.index}"
                                                                 onchange="changeinput(this,'${status.index}');">
                                                             <option value="Date">Date</option>
-                                                            <option value="Number">Number of repititions</option>
+                                                            <option value="Number">Number of repetitions</option>
                                                             <option value="Indefinitely">Indefinitely</option>
                                                         </select>
                                                     </td>

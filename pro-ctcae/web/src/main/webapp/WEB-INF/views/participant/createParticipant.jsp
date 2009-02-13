@@ -61,10 +61,10 @@
                     <td>
                         <tags:renderText propertyName="participant.firstName" displayName="participant.label.first_name"
                                          required="true"/>
-                        <tags:renderText propertyName="participant.lastName" displayName="participant.label.last_name"
-                                         required="true"/>
                         <tags:renderText propertyName="participant.middleName"
                                          displayName="participant.label.middle_name"/>
+                        <tags:renderText propertyName="participant.lastName" displayName="participant.label.last_name"
+                                         required="true"/>
                         <tags:renderText propertyName="participant.assignedIdentifier"
                                          displayName="participant.label.participant_identifier"
                                          required="true"/>

@@ -23,13 +23,13 @@
             vertical-align: top;
         }
 
-        .blue {
-            background-color: #4545c3;
-        }
+        /*.blue {*/
+            /*background-color: #4545c3;*/
+        /*}*/
 
-        .norm {
-            background-color: white;
-        }
+        /*.norm {*/
+            /*background-color: white;*/
+        /*}*/
 
     </style>
     <tags:includeScriptaculous/>
@@ -153,9 +153,9 @@
             var div = $('div_' + index);
             if (obj.checked) {
                 div.removeClassName("norm");
-                div.addClassName('blue');
+                div.addClassName('over');
             } else {
-                div.removeClassName("blue");
+                div.removeClassName("over");
                 div.addClassName("norm");
             }
         }
@@ -196,6 +196,8 @@
             </tbody>
         </table>
 
+        <br/>
+        <br/>
         <p>
             <b>NEED TEXT HERE : If you are experiencing any other symptoms not listed above, then please type them in
                 the below search box</b>

@@ -52,12 +52,12 @@
                         <div class="value">${participantCommand.participant.firstName}</div>
                     </div>
                     <div class="row">
-                        <div class="label"><spring:message code='participant.label.last_name' text=''/></div>
-                        <div class="value">${participantCommand.participant.lastName}</div>
-                    </div>
-                    <div class="row">
                         <div class="label"><spring:message code='participant.label.middle_name' text=''/></div>
                         <div class="value">${participantCommand.participant.middleName}</div>
+                    </div>
+                    <div class="row">
+                        <div class="label"><spring:message code='participant.label.last_name' text=''/></div>
+                        <div class="value">${participantCommand.participant.lastName}</div>
                     </div>
                     <div class="row">
                         <div class="label"><spring:message code='participant.label.participant_identifier'

@@ -269,7 +269,7 @@ public class ListValues {
     public static List<ListValues> getCalendarRepeatUntilUnits() {
         List<ListValues> col = new ArrayList<ListValues>();
         ListValues lov1 = new ListValues("Date", "Date");
-        ListValues lov2 = new ListValues("Number", "Number of repititions");
+        ListValues lov2 = new ListValues("Number", "Number of repetitions");
         ListValues lov3 = new ListValues("Indefinitely", "Indefinitely");
         col.add(lov1);
         col.add(lov2);
