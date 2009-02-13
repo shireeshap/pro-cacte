@@ -57,6 +57,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/016_add_sp_clinical_staff.g
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/017_add_site_clinical_staff_role.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/018_create_crf_calendars.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/ListValues.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLine.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv -text
