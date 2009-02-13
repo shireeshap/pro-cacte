@@ -14,7 +14,7 @@
 
 <c:choose>
     <c:when test="${noForm}">
-        <input type="text" id="${id}" class="date ${cssClass}" name="${path}"
+        <input type="text" id="${path}" class="date ${cssClass}" name="${path}"
                title="${displayName}"
                value="<tags:formatDate value="${dateValue}"/>"/>
 
