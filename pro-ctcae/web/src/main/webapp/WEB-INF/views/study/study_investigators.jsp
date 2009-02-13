@@ -127,15 +127,15 @@
 
         <%--<tags:renderSelect options="${studySites}" propertyName="selectedStudySiteId" displayName="Site"/>--%>
         <div class="row">
-        <div class="label">
-            <tags:renderLabel displayName="Site" propertyName="selectedStudySiteId"
-                              required="false"/>
-        </div>
+            <div class="label">
+                <tags:renderLabel displayName="Site" propertyName="selectedStudySiteId"
+                                  required="false"/>
+            </div>
             <div class="value">
                 <form:select path="selectedStudySiteId" items="${studySites}" title="Site"
                              itemLabel="desc" itemValue="code" onchange="submitInvestigatorsTabPage()"/>
             </div>
-          </div>
+        </div>
 
 
 
@@ -156,10 +156,11 @@
             <c:forEach items="${command.clinicalStaffAssignments}"
                        var="clinicalStaffAssignment"
                        varStatus="status">
-                <study:clinicalStaffAssignment clinicalStaffAssignment="${clinicalStaffAssignment}"
-                                               clinicalStaffAssignmentIndex="${status.index}"/>
 
-                <c:if test="${clinicalStaffAssignment.domainObjectId eq selectedStudySiteId }">
+                <c:if test="${clinicalStaffAssignment.domainObjectId eq command.selectedStudySiteId }">
+                    <study:clinicalStaffAssignment clinicalStaffAssignment="${clinicalStaffAssignment}"
+                                                   clinicalStaffAssignmentIndex="${status.index}"/>
+
                 </c:if>
             </c:forEach>
 
