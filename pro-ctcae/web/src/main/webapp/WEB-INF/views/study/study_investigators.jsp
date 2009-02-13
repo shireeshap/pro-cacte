@@ -96,6 +96,10 @@
         }
         Event.observe(window, "load", function() {
 
+        });
+
+        Event.observe(window, "load", function() {
+
 
         <c:if test="${not empty command.study.studySites}">
 
@@ -158,13 +162,24 @@
 
         </div>
 
-    </jsp:attribute>
-    <jsp:attribute name="localButtons">
+        <chrome:division title=" ">
+            <div class="local-buttons">
+                <tags:button type="anchor" onClick="javascript:addClinicalStaffAssignmentOnStudySite()"
+                             value="study.button.add_investigator"/>
+            </div>
+        </chrome:division>
 
-        <tags:button type="anchor" onClick="javascript:addClinicalStaffAssignmentOnStudySite()"
-                     value="study.button.add_investigator"/>
 
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
     </jsp:attribute>
+
 </tags:tabForm>
 
 </body>

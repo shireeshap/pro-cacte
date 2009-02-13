@@ -132,7 +132,7 @@ public class ClinicalStaffAssignment extends BasePersistable {
     }
 
 
-    public void removeClinicalStaffAssignmentRoleRole(Integer clinicalStaffAssignmentRoleIndex) {
+    public void removeClinicalStaffAssignmentRole(Integer clinicalStaffAssignmentRoleIndex) {
         ClinicalStaffAssignmentRole clinicalStaffAssignmentRole = getClinicalStaffAssignmentRoles().get(clinicalStaffAssignmentRoleIndex);
         getClinicalStaffAssignmentRoles().remove(clinicalStaffAssignmentRole);
     }

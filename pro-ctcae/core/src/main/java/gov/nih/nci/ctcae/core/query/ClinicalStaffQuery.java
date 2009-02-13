@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Role;
 
 import java.util.List;
+import java.util.ArrayList;
 
 //
 /**
@@ -105,6 +106,9 @@ public class ClinicalStaffQuery extends AbstractQuery {
         setParameter(ORGANIZATION_CLASS, Organization.class.getName());
 
         andWhere("csar.role in (:" + ROLES + ")");
+        final List value= new ArrayList();
+        value.add(Role.CRA.toString());
+        value.add(Role.PHYSICAN.toString());
         setParameterList(ROLES, Role.getStudyLevelRole());
 
     }

@@ -51,9 +51,7 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void removeClinicalStaffAssignment(ClinicalStaffAssignment clinicalStaffAssignment) {
-        ClinicalStaff staff = clinicalStaffAssignment.getClinicalStaff();
-        staff.removeClinicalStaffAssignment(clinicalStaffAssignment);
+        //ClinicalStaff staff = clinicalStaffAssignment.getClinicalStaff();
         genericRepository.delete(clinicalStaffAssignment);
-        //genericRepository.save(staff);
     }
 }

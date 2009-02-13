@@ -1,10 +1,10 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
+import gov.nih.nci.ctcae.core.ListValues;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignment;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignmentRole;
 import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.ListValues;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,9 +37,11 @@ public class AddClinicalStaffComponentController extends AbstractController {
         ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
 
         String componentTyep = request.getParameter(COMPONENT_TYPE);
+
         if (StringUtils.equals(componentTyep, SITE_COMPONENT_TYPE)) {
             ClinicalStaffAssignment clinicalStaffAssignment = new ClinicalStaffAssignment();
             clinicalStaffAssignment.setDomainObjectClass(Organization.class.getName());
+            clinicalStaffAssignment.addClinicalStaffAssignmentRole(new ClinicalStaffAssignmentRole());
             clinicalStaff.addClinicalStaffAssignment(clinicalStaffAssignment);
 
             int index = clinicalStaff.getClinicalStaffAssignments().size() - 1;
@@ -61,9 +63,9 @@ public class AddClinicalStaffComponentController extends AbstractController {
             modelAndView.addObject("index", index);
             modelAndView.addObject("clinicalStaffAssignmentIndex", clinicalStaffAssignmentIndex);
 
-            modelAndView.addObject("siteRoles", ListValues.getSiteRolesType());
-            modelAndView.addObject("roleStatus", ListValues.getRoleStatusType());
         }
+        modelAndView.addObject("siteRoles", ListValues.getSiteRolesType());
+        modelAndView.addObject("roleStatus", ListValues.getRoleStatusType());
 
         return modelAndView;
     }

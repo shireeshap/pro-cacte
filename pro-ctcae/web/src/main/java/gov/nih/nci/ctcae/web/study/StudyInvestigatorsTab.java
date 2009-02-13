@@ -84,6 +84,7 @@ public class StudyInvestigatorsTab extends Tab<StudyCommand> {
             Integer clinicalStaffAssignmentIndex = Integer.valueOf(command.getClinicalStaffAssignmentIndexToRemove());
             ClinicalStaffAssignment clinicalStaffAssignment = command.getClinicalStaffAssignments().get(clinicalStaffAssignmentIndex);
             clinicalStaffRepository.removeClinicalStaffAssignment(clinicalStaffAssignment);
+            command.getClinicalStaffAssignments().remove(clinicalStaffAssignment);
 
         } else if (!org.apache.commons.lang.StringUtils.isBlank(command.getClinicalStaffAssignmentRoleIndexToRemove())) {
 
@@ -93,7 +94,7 @@ public class StudyInvestigatorsTab extends Tab<StudyCommand> {
             Integer clinicalStaffAssignmentRoleIndex = Integer.valueOf(investigatorIndexVsRoleIndex[1]);
             ClinicalStaffAssignment clinicalStaffAssignment = command.getClinicalStaffAssignments().get(clinicalStaffAssignmentIndex);
 
-            clinicalStaffAssignment.removeClinicalStaffAssignmentRoleRole(clinicalStaffAssignmentRoleIndex);
+            clinicalStaffAssignment.removeClinicalStaffAssignmentRole(clinicalStaffAssignmentRoleIndex);
 
         }
         command.apply();

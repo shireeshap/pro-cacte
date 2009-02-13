@@ -184,8 +184,8 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
 
 
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
-        clinicalStaffQuery.filterByOrganizationAndRole(DEFAULT_ORGANIZATION_ID);
-        clinicalStaffQuery.filterByFirstNameOrLastNameOrNciIdentifier("bR");
+        clinicalStaffQuery.filterByOrganizationAndRole(100002);
+        clinicalStaffQuery.filterByFirstNameOrLastNameOrNciIdentifier("s");
 
         Collection<? extends ClinicalStaff> clinicalStaffs = clinicalStaffRepository.find(clinicalStaffQuery);
         assertFalse(clinicalStaffs.isEmpty());

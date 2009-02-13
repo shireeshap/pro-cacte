@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignment;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignmentRole;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import org.springframework.util.StringUtils;
@@ -33,7 +34,10 @@ public class ClinicalStaffCommand {
     public ClinicalStaffCommand() {
         super();
         clinicalStaff = new ClinicalStaff();
-        //clinicalstaff.addClinicalStaffAssignment(new ClinicalStaffAssignment());
+        ClinicalStaffAssignment assignment = new ClinicalStaffAssignment();
+        assignment.setDomainObjectClass(Organization.class.getName());
+        assignment.addClinicalStaffAssignmentRole(new ClinicalStaffAssignmentRole());
+        clinicalStaff.addClinicalStaffAssignment(assignment);
     }
 
     /**
@@ -88,7 +92,8 @@ public class ClinicalStaffCommand {
         //now update the display name of clinical staff assignments
         List<ClinicalStaffAssignment> clinicalStaffAssignments = clinicalStaff.getClinicalStaffAssignments();
         for (ClinicalStaffAssignment clinicalStaffAssignment : clinicalStaffAssignments) {
-            if (org.apache.commons.lang.StringUtils.equals(clinicalStaffAssignment.getDomainObjectClass(), Organization.class.getName())) {
+            if (org.apache.commons.lang.StringUtils.equals(clinicalStaffAssignment.getDomainObjectClass(), Organization.class.getName())
+                    && clinicalStaffAssignment.getDomainObjectId() != null) {
                 Organization organization = finderRepository.findById(Organization.class, clinicalStaffAssignment.getDomainObjectId());
                 clinicalStaffAssignment.setDisplayName(organization.getDisplayName());
             }

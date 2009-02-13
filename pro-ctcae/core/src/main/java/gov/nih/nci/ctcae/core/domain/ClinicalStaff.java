@@ -198,7 +198,7 @@ public class ClinicalStaff extends Person {
 
     public void removeClinicalStaffAssignmentRole(Integer clinicalStaffAssignmentIndex, Integer clinicalStaffAssignmentRoleIndex) {
         ClinicalStaffAssignment clinicalStaffAssignment = getClinicalStaffAssignments().get(clinicalStaffAssignmentIndex);
-        clinicalStaffAssignment.removeClinicalStaffAssignmentRoleRole(clinicalStaffAssignmentRoleIndex);
+        clinicalStaffAssignment.removeClinicalStaffAssignmentRole(clinicalStaffAssignmentRoleIndex);
 
     }
 }

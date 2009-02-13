@@ -42,13 +42,17 @@
 
     </div>
     <br>
-    <tags:button type="anchor" icon="add" value="clinicalStaff.button.add.role"
-                 onClick="javascript:addRole(${clinicalStaffAssignmentIndex})"></tags:button>
+
+    <div class="local-buttons">
+
+        <tags:button type="anchor" icon="add" value="clinicalStaff.button.add.role"
+                     onClick="javascript:addRole(${clinicalStaffAssignmentIndex})"></tags:button>
+        <br>
+        <tags:button type="anchor" icon="window_icon"
+                     value="study.button.delete.investigator"
+                     onClick="javascript:deleteInvestigator(${clinicalStaffAssignmentIndex})"></tags:button>
     <br>
-    <br>
-    <tags:button type="anchor" icon="window_icon"
-                 value="study.button.delete.investigator"
-                 onClick="javascript:deleteInvestigator(${clinicalStaffAssignmentIndex})"></tags:button>
+    </div>
 
 
 </chrome:division>
