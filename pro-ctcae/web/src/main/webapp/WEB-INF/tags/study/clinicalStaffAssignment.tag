@@ -8,51 +8,50 @@
 <%@attribute name="clinicalStaffAssignmentIndex" type="java.lang.Integer" required="true" %>
 <%@taglib prefix="study" tagdir="/WEB-INF/tags/study" %>
 
-<chrome:division title="${clinicalStaffAssignment.clinicalStaff.displayName}">
+<chrome:division title="${clinicalStaffAssignment.clinicalStaff.displayName}" enableDelete="true" deleteParams="deleteInvestigator(${clinicalStaffAssignmentIndex});">
 
     <div class="row">
         <div class="label">Site</div>
         <div class="value">${clinicalStaffAssignment.displayName} </div>
     </div>
 
-    <div align="left" style="margin-left: 145px">
-        <table width="70%" class="tablecontent">
-            <tr id="ss-table-head" class="amendment-table-head">
-                <th width="35%" class="tableHeader"><tags:requiredIndicator/><tags:message
-                        code="clinicalStaff.label.role"/></th>
+    <table cellspacing="0" width="90%">
+        <tr>
+            <td>
+                <div align="left" style="margin-left: 145px;">
+                    <table class="tablecontent" width="80%">
+                        <tr id="ss-table-head" class="amendment-table-head">
+                            <th width="25%" class="tableHeader"><tags:requiredIndicator/><tags:message
+                                    code="clinicalStaff.label.role"/></th>
 
-                <th width="30%" class="tableHeader"><tags:requiredIndicator/><tags:message
-                        code="clinicalStaff.label.role.status"/></th>
-                <th width="30%" class="tableHeader"><tags:requiredIndicator/><tags:message
-                        code="clinicalStaff.label.role.status.date"/></th>
-                <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+                            <th width="25%" class="tableHeader"><tags:requiredIndicator/><tags:message
+                                    code="clinicalStaff.label.role.status"/></th>
+                            <th width="45%" class="tableHeader"><tags:requiredIndicator/><tags:message
+                                    code="clinicalStaff.label.role.status.date"/></th>
+                            <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 
-            </tr>
+                        </tr>
 
-            <c:forEach items="${clinicalStaffAssignment.clinicalStaffAssignmentRoles}" var="clinicalStaffAssignmentRole"
-                       varStatus="status">
+                        <c:forEach items="${clinicalStaffAssignment.clinicalStaffAssignmentRoles}"
+                                   var="clinicalStaffAssignmentRole"
+                                   varStatus="status">
 
-                <study:clinicalStaffAssignmentRole clinicalStaffAssignmentRole="${clinicalStaffAssignmentRole}"
-                                                   clinicalStaffAssignmentIndex="${clinicalStaffAssignmentIndex}"
-                                                   index="${status.index}"/>
-            </c:forEach>
-            <tr id="hiddenDivForRole_${clinicalStaffAssignmentIndex}"></tr>
+                            <study:clinicalStaffAssignmentRole
+                                    clinicalStaffAssignmentRole="${clinicalStaffAssignmentRole}"
+                                    clinicalStaffAssignmentIndex="${clinicalStaffAssignmentIndex}"
+                                    index="${status.index}"/>
+                        </c:forEach>
+                        <tr id="hiddenDivForRole_${clinicalStaffAssignmentIndex}"></tr>
 
-        </table>
-
-    </div>
-    <br>
-
-    <div class="local-buttons">
-
-        <tags:button type="anchor" icon="add" value="clinicalStaff.button.add.role"
-                     onClick="javascript:addRole(${clinicalStaffAssignmentIndex})"></tags:button>
-        <br>
-        <tags:button type="anchor" icon="window_icon"
-                     value="study.button.delete.investigator"
-                     onClick="javascript:deleteInvestigator(${clinicalStaffAssignmentIndex})"></tags:button>
-    <br>
-    </div>
+                    </table>
+                </div>
+            </td>
+            <td valign="top">
+                <tags:button type="anchor" icon="add" value="clinicalStaff.button.add.role"
+                             onClick="javascript:addRole(${clinicalStaffAssignmentIndex})"></tags:button>
+            </td>
+        </tr>
+    </table>
 
 
 </chrome:division>

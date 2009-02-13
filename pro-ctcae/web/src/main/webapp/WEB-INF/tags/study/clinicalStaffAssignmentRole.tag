@@ -12,21 +12,21 @@
 
 
 <tr id="${propertyName}-row">
-    <td style="border-right:none;" width="35%">
+    <td style="border-right:none;" width="25%">
         <tags:renderSelect propertyName="${propertyName}.role"
                            options="${clinicalStaffAssignmentRole.clinicalStaffAssignment.studySpeceficRoles}"
                            propertyValue="${clinicalStaffAssignmentRole.role}" noForm="true" doNotshowLabel="true"
                            required="true"
                            displayName="clinicalStaff.label.role"/>
     </td>
-    <td style="border-right:none;" width="30%">
+    <td style="border-right:none;" width="25%">
         <tags:renderSelect propertyName="${propertyName}.roleStatus"
                            options="${clinicalStaffAssignmentRole.roleStatusOptions}"
                            propertyValue="${clinicalStaffAssignmentRole.roleStatus}" noForm="true" doNotshowLabel="true"
                            required="true"
                            displayName="clinicalStaff.label.role.status"/>
     </td>
-    <td style="border-right:none;" width="30%">
+    <td style="border-right:none;" width="45%">
 
 
         <tags:renderDate propertyName="${propertyName}.statusDate"
