@@ -18,5 +18,6 @@
                 cssClass="${required ? 'validate-NOTEMPTY' : ''}" help="${help}"
                 showAllJavascript="${showAllJavascript}" size="${size}"
                 noForm="${noForm}"
+                required="${required}"
                 propertyValue="${propertyValue}"
                 doNotshowLabel="${doNotshowLabel}"/>
