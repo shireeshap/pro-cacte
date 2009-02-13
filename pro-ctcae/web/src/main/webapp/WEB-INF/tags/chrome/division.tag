@@ -16,7 +16,6 @@
 
     <div class="header">
         <c:if test="${not empty title}">
-
             <c:if test="${enableDelete || collapsable}">
                 <h3>
                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -31,10 +30,10 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <c:if test="${deleteParams}">
+                            <c:if test="${enableDelete}">
                                 <td align="right"><a
-                                        href="javascript:fireAction(<c:out value="${deleteParams},'${id}','${cssClass}'" />);"><img
-                                        src="<chrome:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
+                                        href="javascript:${deleteParams}"><img
+                                        src="<c:url value="/images/checkno.gif"/>" border="0" alt="delete"></a></td>
                             </c:if>
                             <c:if test="${collapsable}">
                                 <td align="right"><a style="cursor:pointer;"

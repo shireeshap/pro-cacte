@@ -9,21 +9,15 @@
 <%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
 
 
-<chrome:division title="clinicalStaff.division.sites">
-    <div style="text-align:right">
-        <a class="del-${cssClass}" href="javascript:deleteSite(${index});">
-            <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete" style="vertical-align:middle">
-        </a>
-            <%--<tags:button type="anchor" icon="window_icon"--%>
-            <%--value="clinicalStaff.button.delete.site"--%>
-            <%--onClick="javascript:"></tags:button>--%>
-    </div>
-    <%--isSiteAutoCompleter="true" --%>
+<chrome:division title="clinicalStaff.division.sites" enableDelete="true" deleteParams="deleteSite(${index});">
+    <%--<div style="text-align:right;vertical-align:100px;" >--%>
+        <%--<a class="del-${cssClass}" href="javascript:;">--%>
+            <%--<img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete" style="vertical-align:middle">--%>
+        <%--</a>--%>
+    <%--</div>--%>
     <tags:renderAutocompleter propertyName="clinicalStaff.clinicalStaffAssignments[${index}].domainObjectId"
                               displayName="Site" noForm="true" required="true"
                               propertyValue="${clinicalStaffAssignment.displayName}" size="80"/>
-
-
     <table cellspacing="0" width="80%">
         <tr>
             <td>
@@ -60,16 +54,6 @@
             </td>
         </tr>
     </table>
-    <br>
-
-
-    <%--<a id="del-${empty idSuffix ? clinicalStaffAssignmentRoleIndex : idSuffix}" class="del-${cssClass}"--%>
-    <%--href="javascript:deleteSiteRole('${clinicalStaffAssignmentIndex}','${clinicalStaffAssignmentRoleIndex}');">--%>
-    <%--<img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"--%>
-    <%--style="vertical-align:middle">--%>
-    <%--</a>--%>
-
-
 </chrome:division>
 
 
