@@ -225,7 +225,7 @@ public class ListValues {
      * @param organizations the organizations
      * @return the study sites
      */
-    public static List<ListValues> getStudySites(ArrayList<Organization> organizations) {
+    public static List<ListValues> getOrganizationsHavingStudySite(ArrayList<Organization> organizations) {
         List<ListValues> valuesList = new ArrayList<ListValues>();
         valuesList.add(new ListValues("", "Please select"));
 
