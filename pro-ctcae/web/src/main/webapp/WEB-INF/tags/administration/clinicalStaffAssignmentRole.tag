@@ -12,7 +12,7 @@
 
 <tr id="${propertyName}-row">
     <td style="border-right:none;" width="35%">
-        <tags:renderSelect propertyName="${propertyName}.role" options="${clinicalStaffAssignmentRole.clinicalStaffAssignment.studySpeceficRoles}"
+        <tags:renderSelect propertyName="${propertyName}.role" options="${siteRoles}"
                            propertyValue="${clinicalStaffAssignmentRole.role}" noForm="true" doNotshowLabel="true"
                            required="true"
                            displayName="clinicalStaff.label.role"/>
