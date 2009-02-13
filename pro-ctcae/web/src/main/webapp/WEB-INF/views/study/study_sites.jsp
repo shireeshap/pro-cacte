@@ -102,17 +102,21 @@
                     <tr id="hiddenDiv" align="center"></tr>
 
                 </table>
+                <div class="local-buttons">
 
+                    <tags:button type="anchor" onClick="javascript:addStudySite()" value="study.button.add_study_site"/>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+               
             </div>
 
 
         </chrome:division>
-    </jsp:attribute>
-    <jsp:attribute name="localButtons">
-
-        <tags:button type="anchor" onClick="javascript:addStudySite()" value="study.button.add_study_site"/>
         
     </jsp:attribute>
+    
 </tags:tabForm>
 
 </body>
