@@ -95,28 +95,31 @@
 
                         <tags:oneOrganization index="${status.index}"
                                               inputName="study.studySites[${status.index}].organization"
-                                              title="Study Site" displayError="true"></tags:oneOrganization>
+                                              title="Study Site" displayError="true"
+                                              required="true"></tags:oneOrganization>
                     </c:forEach>
 
 
                     <tr id="hiddenDiv" align="center"></tr>
 
                 </table>
-                <div class="local-buttons">
 
-                    <tags:button type="anchor" onClick="javascript:addStudySite()" value="study.button.add_study_site"/>
-                    <br>
-                    <br>
-                    <br>
-                </div>
-               
+
             </div>
 
 
         </chrome:division>
-        
+            <div class="local-buttons">
+
+                <tags:button type="anchor" onClick="javascript:addStudySite()" value="study.button.add_study_site"/>
+            </div>
+        <br>
+                  <br>
+        <br>
+                  <br>
+                            
     </jsp:attribute>
-    
+
 </tags:tabForm>
 
 </body>

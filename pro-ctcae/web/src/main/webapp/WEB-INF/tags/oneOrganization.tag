@@ -1,5 +1,6 @@
 <%@ attribute name="displayError" type="java.lang.Boolean" %>
 <%@ attribute name="inputName" required="true" %>
+<%@ attribute name="required"  %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="index" type="java.lang.String" required="false" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
@@ -9,7 +10,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="display" tagdir="/WEB-INF/tags/display" %>
 
 
 <script type="text/javascript">
