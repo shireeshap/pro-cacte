@@ -391,6 +391,30 @@ public class SubmitFormCommand implements Serializable {
     }
 
     /**
+     * Gets the sorted symptoms.
+     *
+     * @return the sorted symptoms
+     */
+    public ArrayList<String> getDisplaySymptoms() {
+
+        ArrayList<String> sortedList = getSortedSymptoms();
+        ArrayList<String> displayList = new ArrayList<String>();
+        int i = 0;
+        for (String symptom : sortedList) {
+            if (symptom.length() < 35) {
+                displayList.add(symptom);
+                i++;
+            }
+            if(i>20){
+                break;
+            }
+        }
+
+        return displayList;
+
+    }
+
+    /**
      * Sets the pro ctc questions.
      *
      * @param proCtcQuestions the new pro ctc questions

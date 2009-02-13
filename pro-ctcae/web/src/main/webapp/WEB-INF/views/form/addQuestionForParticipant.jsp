@@ -57,6 +57,7 @@
                 if (checkboxitems[i].value == selectedChoice) {
                     checkboxitems[i].checked = true;
                     itemfound = true
+                    changeClass(checkboxitems[i], checkboxitems[i].id);
                     break;
                 }
             }
@@ -167,26 +168,26 @@
     <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.title}"
                 autopad="true" message="false">
         <p>
-            <b>NEED TEXT HERE</b>
+            <b><tags:message code="participant.form.selectsymptom"/> </b>
         </p>
 
         <table id="mytable">
             <tbody>
             <c:set var="numrows" value="6"/>
             <c:forEach var="i" begin="0" end="${numrows}" varStatus="status">
-                <c:if test="${command.sortedSymptoms[i*3+0] ne null}">
+                <c:if test="${command.displaySymptoms[i*3+0] ne null}">
                     <tr id="tr_"${i}>
                         <c:forEach var="j" begin="0" end="2" varStatus="status">
                             <td id="td_${i + (numrows+1)*j}_a" class="label" width="1%">
-                                <c:if test="${command.sortedSymptoms[i + (numrows+1)*j] ne null}">
+                                <c:if test="${command.displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <input type="checkbox" name="symptomsByParticipants"
-                                           value="${command.sortedSymptoms[i + (numrows+1)*j]}"
-                                           onchange="javascript:changeClass(this,'${i + (numrows+1)*j}');"/>
+                                           value="${command.displaySymptoms[i + (numrows+1)*j]}"
+                                           onchange="javascript:changeClass(this,'${i + (numrows+1)*j}');" id="${i + (numrows+1)*j}"/>
                                 </c:if>
                             </td>
                             <td id="td_${i + (numrows+1)*j}_b" class="label" width="32%">
-                                <c:if test="${command.sortedSymptoms[i + (numrows+1)*j] ne null}">
-                                    <div id="div_${i + (numrows+1)*j}">${command.sortedSymptoms[i + (numrows+1)*j]}</div>
+                                <c:if test="${command.displaySymptoms[i + (numrows+1)*j] ne null}">
+                                    <div id="div_${i + (numrows+1)*j}">${command.displaySymptoms[i + (numrows+1)*j]}</div>
                                 </c:if>
                             </td>
                         </c:forEach>
@@ -199,8 +200,7 @@
         <br/>
         <br/>
         <p>
-            <b>NEED TEXT HERE : If you are experiencing any other symptoms not listed above, then please type them in
-                the below search box</b>
+            <b><tags:message code="participant.form.typesymptom"/></b>
         </p>
 
         <input type="text" id="participantquestion-input" value="" class="autocomplete  validate-NOTEMPTY" size="60"/>
