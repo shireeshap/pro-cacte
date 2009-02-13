@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 
 import java.util.List;
 
+import gov.nih.nci.ctcae.core.ListValues;
+
 /**
  * @author Vinay Kumar
  * @crated Dec 11, 2008

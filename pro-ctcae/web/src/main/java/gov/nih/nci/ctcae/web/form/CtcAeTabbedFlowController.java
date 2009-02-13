@@ -1,10 +1,8 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
-import gov.nih.nci.ctcae.core.domain.CrfItemAllignment;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
@@ -16,6 +14,7 @@ import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,7 +77,13 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
         RepositoryBasedEditor participantEditor = new RepositoryBasedEditor(finderRepository, Participant.class);
         binder.registerCustomEditor(Participant.class, participantEditor);
 
+        RepositoryBasedEditor clinicalStaffEditor = new RepositoryBasedEditor(finderRepository, ClinicalStaff.class);
+        binder.registerCustomEditor(ClinicalStaff.class, clinicalStaffEditor);
+
         binder.registerCustomEditor(CrfItemAllignment.class, new EnumByNameEditor<CrfItemAllignment>(CrfItemAllignment.class));
+
+        binder.registerCustomEditor(Role.class, new EnumByNameEditor<Role>(Role.class));
+        binder.registerCustomEditor(RoleStatus.class, new EnumByNameEditor<RoleStatus>(RoleStatus.class));
 
 
     }
@@ -92,6 +97,39 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
         if (validate()) {
             webControllerValidator.validate(request, command, errors);
         }
+    }
+
+    protected boolean shouldSave(HttpServletRequest request, C command) {
+        return false;
+    }
+
+
+    @Override
+    @SuppressWarnings({"unchecked"})
+    protected void postProcessPage(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception {
+        C command = (C) oCommand;
+        super.postProcessPage(request, oCommand, errors, page);
+        if (!errors.hasErrors() && shouldSave(request, command, getTab(command, page))) {
+            save(command);
+        }
+    }
+
+    protected void save(C command) {
+
+
+    }
+
+
+    /**
+     * Should save.
+     *
+     * @param request the request
+     * @param command the command
+     * @param tab     the tab
+     * @return true, if successful
+     */
+    protected boolean shouldSave(final HttpServletRequest request, final C command, final Tab tab) {
+        return false;
     }
 
     /**

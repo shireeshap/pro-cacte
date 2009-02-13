@@ -76,7 +76,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
 
         selenium.open("ctcae/pages/study/createStudy");
         selenium.setSpeed("1000");
-        selenium.click("firstlevelnav_createStudyController");
+        selenium.click("firstlevelnav_studyController");
         selenium.waitForPageToLoad("30000");
         selenium.type("study.assignedIdentifier", assignedIdentifier);
         selenium.type("study.shortTitle", shortTitle);

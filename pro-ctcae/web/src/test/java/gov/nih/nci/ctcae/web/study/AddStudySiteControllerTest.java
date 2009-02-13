@@ -12,13 +12,13 @@ public class AddStudySiteControllerTest extends WebTestCase {
 
     private AddStudySiteController controller;
 
-    private CreateStudyController createStudyController;
+    private StudyController studyController;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         controller = new AddStudySiteController();
-        createStudyController = new CreateStudyController();
+        studyController = new StudyController();
 
 
     }
@@ -29,7 +29,7 @@ public class AddStudySiteControllerTest extends WebTestCase {
 
     public void testHandleRequest() throws Exception {
 
-        createStudyController.handleRequest(request, response);
+        studyController.handleRequest(request, response);
         Object command = ControllersUtils.getStudyCommand(request);
         assertNotNull("command must present in session", command);
 

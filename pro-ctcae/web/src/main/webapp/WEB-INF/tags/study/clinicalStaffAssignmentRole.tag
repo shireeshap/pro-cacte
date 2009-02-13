@@ -2,23 +2,26 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@attribute name="clinicalStaffAssignmentRole" type="gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignmentRole" required="true" %>
+<%@attribute name="clinicalStaffAssignmentRole" type="gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignmentRole"
+             required="true" %>
 <%@attribute name="clinicalStaffAssignmentIndex" type="java.lang.Integer" required="true" %>
-<%@attribute name="clinicalStaffAssignmentRoleIndex" type="java.lang.Integer" required="true" %>
+<%@attribute name="index" type="java.lang.Integer" required="true" %>
 
 <c:set var="propertyName"
-       value="clinicalStaff.clinicalStaffAssignments[${clinicalStaffAssignmentIndex}].clinicalStaffAssignmentRoles[${clinicalStaffAssignmentRoleIndex}]"></c:set>
+       value="clinicalStaffAssignments[${clinicalStaffAssignmentIndex}].clinicalStaffAssignmentRoles[${index}]"></c:set>
 
 
 <tr id="${propertyName}-row">
     <td style="border-right:none;" width="35%">
-        <tags:renderSelect propertyName="${propertyName}.role" options="${clinicalStaffAssignmentRole.clinicalStaffAssignment.studySpeceficRoles}"
+        <tags:renderSelect propertyName="${propertyName}.role"
+                           options="${clinicalStaffAssignmentRole.clinicalStaffAssignment.studySpeceficRoles}"
                            propertyValue="${clinicalStaffAssignmentRole.role}" noForm="true" doNotshowLabel="true"
                            required="true"
                            displayName="clinicalStaff.label.role"/>
     </td>
     <td style="border-right:none;" width="30%">
-        <tags:renderSelect propertyName="${propertyName}.roleStatus" options="${roleStatus}"
+        <tags:renderSelect propertyName="${propertyName}.roleStatus"
+                           options="${clinicalStaffAssignmentRole.roleStatusOptions}"
                            propertyValue="${clinicalStaffAssignmentRole.roleStatus}" noForm="true" doNotshowLabel="true"
                            required="true"
                            displayName="clinicalStaff.label.role.status"/>
@@ -36,8 +39,8 @@
 
     <td style="border-left:none;" width="5%">
 
-        <a id="del-${empty idSuffix ? clinicalStaffAssignmentRoleIndex : idSuffix}" class="del-${cssClass}"
-           href="javascript:deleteSiteRole('${clinicalStaffAssignmentIndex}','${clinicalStaffAssignmentRoleIndex}');">
+        <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
+           href="javascript:deleteSiteRole('${clinicalStaffAssignmentIndex}','${index}');">
             <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
                  style="vertical-align:middle">
         </a>

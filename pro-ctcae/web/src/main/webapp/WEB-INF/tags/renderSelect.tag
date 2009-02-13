@@ -1,3 +1,5 @@
+<%@ attribute name="name" %>
+<%@ attribute name="id" %>
 <%@ attribute name="propertyValue" %>
 <%@ attribute name="options" type="java.util.List" %>
 <%@ attribute name="propertyName" %>
@@ -13,7 +15,7 @@
 <tags:renderRow values="${options}" propertyName="${propertyName}" displayName="${displayName}"
                 categoryName="select" required="${required}"
                 cssClass="${required ? 'validate-NOTEMPTY' : ''}"
-                noForm="${noForm}" propertyValue="${propertyValue}" doNotshowLabel="${doNotshowLabel}" />
+                noForm="${noForm}" propertyValue="${propertyValue}" doNotshowLabel="${doNotshowLabel}" id="${id}" name="${name}"/>
 
 
 <%--<form:select path="${path}"--%>

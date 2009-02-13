@@ -4,7 +4,7 @@ import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignment;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignmentRole;
 import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.ctcae.core.ListValues;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;

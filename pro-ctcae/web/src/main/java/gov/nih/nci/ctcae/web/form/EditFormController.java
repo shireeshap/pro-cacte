@@ -57,33 +57,14 @@ public class EditFormController extends FormController {
 
     }
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController#postProcessPage(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.Errors, int)
-     */
-    @Override
-    @SuppressWarnings({"unchecked"})
-    protected void postProcessPage(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception {
-        CreateFormCommand command = (CreateFormCommand) oCommand;
-        super.postProcessPage(request, oCommand, errors, page);
-        if (!errors.hasErrors() && shouldSave(request, command, getTab(command, page))) {
-            save(command);
-        }
-    }
 
-    /**
-     * Should save.
-     *
-     * @param request the request
-     * @param command the command
-     * @param tab     the tab
-     * @return true, if successful
-     */
+    @Override
     protected boolean shouldSave(final HttpServletRequest request, final CreateFormCommand command, final Tab tab) {
         return true;
     }
 
     @Override
-    protected boolean shouldSave(HttpServletRequest request, Object command) {
+    protected boolean shouldSave(HttpServletRequest request, CreateFormCommand command) {
         return true;
 
 

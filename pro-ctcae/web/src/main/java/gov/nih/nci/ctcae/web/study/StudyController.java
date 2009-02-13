@@ -2,14 +2,20 @@ package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignment;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 //
 /**
@@ -18,12 +24,14 @@ import javax.servlet.http.HttpServletResponse;
  * @author Vinay Kumar
  * @crated Oct 17, 2008
  */
-public abstract class StudyController<C extends StudyCommand> extends CtcAeTabbedFlowController<StudyCommand> {
+public class StudyController extends CtcAeTabbedFlowController<StudyCommand> {
 
     /**
      * The study repository.
      */
     private StudyRepository studyRepository;
+    private ClinicalStaffRepository clinicalStaffRepository;
+    private static final String STUDY_ID = "studyId";
 
     /**
      * Instantiates a new study controller.
@@ -39,12 +47,34 @@ public abstract class StudyController<C extends StudyCommand> extends CtcAeTabbe
 
     }
 
-    /**
-     * Layout tabs.
-     *
-     * @param flow the flow
+    protected void layoutTabs(final Flow<StudyCommand> flow) {
+        flow.addTab(new StudyDetailsTab());
+        flow.addTab(new SitesTab());
+        flow.addTab(new StudyInvestigatorsTab());
+
+        flow.addTab(new EmptyStudyTab("study.tab.overview", "study.tab.overview", "study/study_reviewsummary"));
+
+    }
+
+
+    /* (non-Javadoc)
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
      */
-    protected abstract void layoutTabs(final Flow<StudyCommand> flow);
+    @Override
+    protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
+        String studyId = request.getParameter(STUDY_ID);
+
+        StudyCommand studyCommand = new StudyCommand();
+        if (studyId != null) {
+            Study study = studyRepository.findById(Integer.valueOf(studyId));
+            studyCommand.setStudy(study);
+        }
+
+
+
+        return studyCommand;
+    }
+
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
@@ -55,6 +85,7 @@ public abstract class StudyController<C extends StudyCommand> extends CtcAeTabbe
                                          final BindException errors) throws Exception {
 
         StudyCommand studyCommand = (StudyCommand) command;
+
         // saveResearchStaff the study by calling merge, as the study might be assocated
         // to different copy of same object (eg: Organization, with same id)
         // in different screens (hibernate session)
@@ -65,14 +96,43 @@ public abstract class StudyController<C extends StudyCommand> extends CtcAeTabbe
         return mv;
     }
 
+    @Override
+    protected void save(StudyCommand command) {
+
+        // saveResearchStaff the study by calling merge, as the study might be assocated
+        // to different copy of same object (eg: Organization, with same id)
+        // in different screens (hibernate session)
+        command.setStudy(studyRepository.save(command.getStudy()));
+        List<ClinicalStaffAssignment> savedClinicalStaffAssignments = clinicalStaffRepository.save(command.getClinicalStaffAssignments());
+        command.setClinicalStaffAssignments(savedClinicalStaffAssignments);
+        command.updateDisplayNameOfClinicalStaff(finderRepository);
+
+    }
 
     /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController#setStudyRepository(gov.nih.nci.ctcae.core.repository.StudyRepository)
-     */
+    * @see gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController#setStudyRepository(gov.nih.nci.ctcae.core.repository.StudyRepository)
+    */
     @Required
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
     }
 
+    @Required
+    public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
+        this.clinicalStaffRepository = clinicalStaffRepository;
+    }
 
+    @Override
+    protected boolean shouldSave(HttpServletRequest request, StudyCommand command) {
+        return true;
+
+
+    }
+
+    @Override
+    protected boolean shouldSave(HttpServletRequest request, StudyCommand command, Tab tab) {
+        return true;
+
+
+    }
 }

@@ -24,7 +24,6 @@
 
     </c:otherwise>
 </c:choose>
-
 <a href="#" id="${path}-calbutton">
     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0"
          align="absmiddle"/>

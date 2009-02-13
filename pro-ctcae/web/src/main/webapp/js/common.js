@@ -277,6 +277,25 @@ Object.extend(siteAutoComplter.prototype, {
 
 
 });
+var clinicalStaffAutoComplter = Class.create();
+Object.extend(clinicalStaffAutoComplter.prototype, {
+    initialize: function(basename,organizationId) {
+
+        this.basename = basename;
+        this.organizationId=organizationId;
+        this.populator = function(autocompleter, text) {
+            clinicalStaff.matchClinicalStaffByOrganizationId(text,organizationId, function(values) {
+                autocompleter.setChoices(values)
+            })
+        },
+                this.valueSelector = function (obj) {
+                    return obj.displayName;
+                }
+
+    }
+
+
+});
 var studyAutoComplter = Class.create();
 Object.extend(studyAutoComplter.prototype, {
     initialize: function(basename) {

@@ -1,7 +1,13 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignment;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //
 /**
@@ -32,4 +38,22 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
 //
 //
 //    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public List<ClinicalStaffAssignment> save(List<ClinicalStaffAssignment> clinicalStaffAssignments) {
+        List<ClinicalStaffAssignment> savedClinicalStaffAssignments = new ArrayList<ClinicalStaffAssignment>();
+        for (ClinicalStaffAssignment clinicalStaffAssignment : clinicalStaffAssignments) {
+            savedClinicalStaffAssignments.add(genericRepository.save(clinicalStaffAssignment));
+        }
+        return savedClinicalStaffAssignments;
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public void removeClinicalStaffAssignment(ClinicalStaffAssignment clinicalStaffAssignment) {
+//        ClinicalStaff staff = clinicalStaffAssignment.getClinicalStaff();
+//        staff.removeClinicalStaffAssignment(clinicalStaffAssignment);
+        genericRepository.delete(clinicalStaffAssignment);
+        //genericRepository.save(staff);
+    }
 }

@@ -2,8 +2,8 @@ package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.ctcae.web.form.CreateFormCommand;
 import gov.nih.nci.ctcae.web.form.FormController;
-import gov.nih.nci.ctcae.web.study.CreateStudyController;
 import gov.nih.nci.ctcae.web.study.StudyCommand;
+import gov.nih.nci.ctcae.web.study.StudyController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,7 +38,7 @@ public class ControllersUtils {
      */
     public static StudyCommand getStudyCommand(HttpServletRequest request) {
         StudyCommand studyCommand = (StudyCommand)
-                request.getSession().getAttribute(CreateStudyController.class.getName() + ".FORM." + "command");
+                request.getSession().getAttribute(StudyController.class.getName() + ".FORM." + "command");
         return studyCommand;
     }
 }

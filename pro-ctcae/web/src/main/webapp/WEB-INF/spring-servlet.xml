@@ -110,11 +110,11 @@
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Studies"
-                      p:mainController="createStudyController" p:pathMapping="/study/**">
+                      p:mainController="studyController" p:pathMapping="/study/**">
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="study.tab.enter_study" p:linkName="createStudyController"/>
+                                  p:displayName="study.tab.enter_study" p:linkName="studyController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="study.tab.search_study" p:linkName="searchStudyController"/>
 
@@ -251,9 +251,10 @@
     </bean>
 
 
-    <bean name="/study/createStudy" id="createStudyController"
-          class="gov.nih.nci.ctcae.web.study.CreateStudyController" parent="tabbedFlowFormController">
+    <bean name="/study/createStudy" id="studyController"
+          class="gov.nih.nci.ctcae.web.study.StudyController" parent="tabbedFlowFormController">
         <property name="studyRepository" ref="studyRepository"/>
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
     </bean>
 
     <bean name="/study/addStudySite" id="addStudySiteController"
@@ -269,6 +270,7 @@
 
     <bean name="/study/addStudyComponent" id="addStudyComponentController"
           class="gov.nih.nci.ctcae.web.study.AddStudyComponentController">
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
     </bean>
 
     <bean name="/participant/create" id="createParticipantController"

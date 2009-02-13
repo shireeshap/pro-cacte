@@ -103,7 +103,9 @@ public class StudyTableModel extends AbstractTableModel {
         columnShortTitle.setTitle("Study identifier");
         columnShortTitle.setProperty("assignedIdentifier");
         columnShortTitle.setSortable(Boolean.TRUE);
-        // columnShortTitle.setCell("gov.nih.nci.ctcae.web.study.SelectedStudyCell");
+        columnShortTitle.setCell("gov.nih.nci.ctcae.web.study.StudyLinkDisplayDetailsCell");
+
+
         model.addColumn(columnShortTitle);
     }
 

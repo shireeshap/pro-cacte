@@ -1,15 +1,17 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.core.ListValues;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 //
 /**
- *
  * @author Vinay Kumar
  */
 
@@ -44,7 +46,7 @@ public class ClinicalStaffAssignmentRole extends BasePersistable {
     /**
      * The clinical staff.
      */
-    @JoinColumn(name = "clinical_staff_assignment_id", referencedColumnName = "id",nullable = false)
+    @JoinColumn(name = "clinical_staff_assignment_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
     private ClinicalStaffAssignment clinicalStaffAssignment;
 
@@ -126,5 +128,9 @@ public class ClinicalStaffAssignmentRole extends BasePersistable {
         int result = role != null ? role.hashCode() : 0;
         result = 31 * result + (clinicalStaffAssignment != null ? clinicalStaffAssignment.hashCode() : 0);
         return result;
+    }
+
+    public List<ListValues> getRoleStatusOptions() {
+       return ListValues.getRoleStatusType();
     }
 }

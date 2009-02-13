@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 //
 /**
@@ -189,5 +186,20 @@ public class Person extends BasePersistable {
         result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
+    }
+
+    public String getDisplayName() {
+        StringBuilder name = new StringBuilder();
+        boolean hasLastName = getLastName() != null;
+        if (getFirstName() != null) {
+            name.append(getFirstName());
+            if (hasLastName) {
+                name.append(' ');
+            }
+        }
+        if (hasLastName) {
+            name.append(getLastName());
+        }
+        return name.toString();
     }
 }

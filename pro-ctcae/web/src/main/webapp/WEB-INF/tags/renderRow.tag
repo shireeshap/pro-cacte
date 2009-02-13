@@ -25,6 +25,8 @@
 
 <%@attribute name="displayName" type="java.lang.String" %>
 <%@attribute name="required" type="java.lang.Boolean" %>
+<%@ attribute name="name" %>
+<%@ attribute name="id" %>
 
 <%@attribute name="noForm" type="java.lang.Boolean" %>
 <%@attribute name="doNotshowLabel" type="java.lang.Boolean" %>
@@ -46,7 +48,7 @@
                            dateValue="${dateValue}"
                            cols="${cols}" noForm="${noForm}"
                            propertyValue="${propertyValue}"
-                           doNotShowFormat="${doNotShowFormat}" rows="${rows}"/>
+                           doNotShowFormat="${doNotShowFormat}"  id="${id}" name="${name}" rows="${rows}"/>
     </c:when>
     <c:otherwise>
         <div class="row ${cssClass}" id="${propertyName}-row" <c:if test="${not empty style}">style="${style}"</c:if>>
@@ -74,7 +76,7 @@
                                        onclick="${onclick}" values="${values}"
                                        cols="${cols}" noForm="${noForm}"
                                        propertyValue="${propertyValue}"
-                                       doNotShowFormat="${doNotShowFormat}" rows="${rows}"/>
+                                       doNotShowFormat="${doNotShowFormat}"  id="${id}" name="${name}" rows="${rows}"/>
                 </c:otherwise>
             </c:choose>
                     <%--<tags:extraParams extraParam="${field.attributes.extraParams}"/>--%>

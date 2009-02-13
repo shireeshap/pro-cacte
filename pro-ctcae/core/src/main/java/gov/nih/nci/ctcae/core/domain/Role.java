@@ -4,6 +4,9 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.cabig.ctms.domain.CodedEnumHelper;
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //
 /**
  * The Enum Role.
@@ -17,6 +20,7 @@ public enum Role implements CodedEnum<String> {
     SITE_PI("Site PI"),
     SITE_CRA("Site CRA"),
     SITE_INVESTIGATOR("Site Investigator"),
+
     RESEARCH_NURSE("Research Nurse"),
     PARTICIPANT("Participant"),
     CRA("CRA"),
@@ -90,4 +94,27 @@ public enum Role implements CodedEnum<String> {
         return null;
     }
 
+    public static List<Role> getStudySpeceficRoles(Role role) {
+        List<Role> roles = new ArrayList<Role>();
+        if (role.equals(Role.CRA) || role.equals(Role.STUDY_CRA) || role.equals(Role.SITE_CRA)) {
+            roles.add(Role.STUDY_CRA);
+            roles.add(Role.SITE_CRA);
+
+        }
+        if (role.equals(Role.PHYSICAN) || role.equals(Role.SITE_PI) || role.equals(Role.PI) || role.equals(Role.SITE_INVESTIGATOR)) {
+            roles.add(Role.SITE_PI);
+            roles.add(Role.PI);
+            roles.add(Role.SITE_INVESTIGATOR);
+        }
+        return roles;
+    }
+
+
+    public static List<Role> getStudyLevelRole() {
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(Role.CRA);
+        roles.add(Role.PHYSICAN);
+        return roles;
+
+    }
 }

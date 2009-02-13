@@ -3,7 +3,7 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.ctcae.core.ListValues;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.Errors;

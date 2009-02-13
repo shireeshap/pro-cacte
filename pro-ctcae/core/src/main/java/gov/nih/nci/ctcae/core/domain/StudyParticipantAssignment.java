@@ -59,9 +59,6 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
 
-    @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<StudyParticipantClinicalStaff> studyParticipantClinicalStaffs = new ArrayList<StudyParticipantClinicalStaff>();
 
     /**
      * Instantiates a new study participant assignment.
@@ -183,38 +180,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
         return result;
     }
 
-    public List<StudyParticipantClinicalStaff> getStudyParticipantClinicalStaffs() {
-        return studyParticipantClinicalStaffs;
-    }
 
-    public void addStudyParticipantClinicalStaff(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
-
-        if (studyParticipantClinicalStaff != null) {
-
-
-            StudySite expectedStudySite = studyParticipantClinicalStaff.getStudySiteClinicalStaff().getStudySite();
-
-            if (!expectedStudySite.equals(this.getStudySite())) {
-                String errorMessage = String.format("study site clinical staff belongs to study site %s. It does not belongs to study site %s of study participant assignment. " +
-                        "So this study site clincal staff can not be added.",
-                        expectedStudySite, this.getStudySite());
-                logger.error(errorMessage);
-                throw new CtcAeSystemException(errorMessage);
-
-            }
-
-            studyParticipantClinicalStaff.setStudyParticipantAssignment(this);
-            if (!getStudyParticipantClinicalStaffs().contains(studyParticipantClinicalStaff)) {
-                getStudyParticipantClinicalStaffs().add(studyParticipantClinicalStaff);
-                logger.debug(String.format("added study participant clinical staff %s to study participant assignment %s", studyParticipantClinicalStaff.toString(), toString()));
-                return;
-            }
-            logger.debug(String.format("Skipping the adding because study participant assignment %s already has this study participant clinical staff %s",
-                    toString(), studyParticipantClinicalStaff));
-
-        }
-
-    }
 
     @Override
     public String toString() {

@@ -9,7 +9,7 @@ import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.form.BasicFormController;
 import gov.nih.nci.ctcae.web.form.CreateFormCommand;
 import gov.nih.nci.ctcae.web.form.EditFormController;
-import gov.nih.nci.ctcae.web.study.CreateStudyController;
+import gov.nih.nci.ctcae.web.study.StudyController;
 import gov.nih.nci.ctcae.web.study.StudyCommand;
 
 /**
@@ -20,7 +20,7 @@ public class ControllersUtilsTest extends WebTestCase {
 
     private BasicFormController basicFormController;
     private EditFormController editFormController;
-    private CreateStudyController createStudyController;
+    private StudyController studyController;
     private ProCtcQuestionRepository proCtcQuestionRepository;
     private FinderRepository finderRepository;
     private CRFRepository crfRepository;
@@ -40,8 +40,8 @@ public class ControllersUtilsTest extends WebTestCase {
 
         tabConfigurer = new StaticTabConfigurer(proCtcQuestionRepository, proCtcTermRepository);
 
-        createStudyController = new CreateStudyController();
-        createStudyController.setTabConfigurer(tabConfigurer);
+        studyController = new StudyController();
+        studyController.setTabConfigurer(tabConfigurer);
 
         editFormController = new EditFormController();
         editFormController.setTabConfigurer(tabConfigurer);
@@ -84,7 +84,7 @@ public class ControllersUtilsTest extends WebTestCase {
 
     public void testCommandInGetRequestOfCreateStudy() throws Exception {
 
-        createStudyController.handleRequest(request, response);
+        studyController.handleRequest(request, response);
         Object command = ControllersUtils.getStudyCommand(request);
         assertNotNull("command must present in session", command);
         assertTrue(command instanceof StudyCommand);

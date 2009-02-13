@@ -8,7 +8,7 @@
     acCreate(new siteAutoComplter('clinicalStaff.clinicalStaffAssignments[${index}].domainObjectId'))
     initSearchField()
 </script>
-
+  
 
 <administration:clinicalStaffAssignment index="${index}" clinicalStaffAssignment="${clinicalStaffAssignment}"/>
 

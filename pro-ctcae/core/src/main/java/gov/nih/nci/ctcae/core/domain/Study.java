@@ -7,9 +7,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 //
 /**
@@ -248,7 +247,7 @@ public class Study extends BasePersistable {
      *
      * @return the assigned identifier
      */
-    @UniqueIdentifierForStudy(message = "Identifier already exists.")
+//    @UniqueIdentifierForStudy(message = "Identifier already exists.")
     public String getAssignedIdentifier() {
         return assignedIdentifier;
     }
@@ -348,4 +347,14 @@ public class Study extends BasePersistable {
         return result;
     }
 
+    public StudySite getStudySiteById(Integer studySiteId) {
+        for (StudySite studySite : getStudySites()) {
+            if (studySite.getId().equals(studySiteId)) {
+                return studySite;
+            }
+        }
+        return null;
+
+
+    }
 }

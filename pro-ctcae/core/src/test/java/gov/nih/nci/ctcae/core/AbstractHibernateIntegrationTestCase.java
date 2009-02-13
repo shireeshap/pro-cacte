@@ -75,29 +75,6 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     }
 
 
-    protected StudySiteClinicalStaff addStudySiteClinicalStaff() {
-
-        StudySiteClinicalStaff studySiteClinicalStaff = new StudySiteClinicalStaff();
-        studySiteClinicalStaff.setSiteClinicalStaff(defaultClinicalStaffAssignment);
-        defaultStudySite.addStudySiteClinicalStaff(studySiteClinicalStaff);
-
-        defaultStudy = studyRepository.save(defaultStudy);
-        commitAndStartNewTransaction();
-
-        List<StudySiteClinicalStaff> studySiteClinicalStaffs = defaultStudySite.getStudySiteClinicalStaffs();
-
-
-        assertFalse("must save study site clinical staff", studySiteClinicalStaffs.isEmpty());
-        studySiteClinicalStaff = studySiteClinicalStaffs.get(0);
-        assertNotNull("must save study site clinical staff", studySiteClinicalStaff.getId());
-        assertEquals("study site must be same", studySiteClinicalStaff.getStudySite(), defaultStudySite);
-
-
-        assertEquals("site clinical staff  must be same", defaultClinicalStaffAssignment, studySiteClinicalStaff.getSiteClinicalStaff());
-        return studySiteClinicalStaff;
-    }
-
-
     protected void updateDefaultObjects() {
 
         defaultStudy = studyRepository.findById(defaultStudy.getId());
@@ -120,6 +97,42 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
     }
 
+
+    protected ClinicalStaffAssignmentRole saveAndRetrieveClinicalStaffAssignmentRole() {
+
+        defaultClinicalStaffAssignment.getClinicalStaffAssignmentRoles().clear();
+
+        defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
+        commitAndStartNewTransaction();
+
+        defaultClinicalStaff = clinicalStaffRepository.findById(defaultClinicalStaff.getId());
+        assertFalse("must have clinical staff assignment", defaultClinicalStaff.getClinicalStaffAssignments().isEmpty());
+
+        defaultClinicalStaffAssignment = defaultClinicalStaff.getClinicalStaffAssignments().get(0);
+        assertTrue("must remove clinical staff assignment role", defaultClinicalStaffAssignment.getClinicalStaffAssignmentRoles().isEmpty());
+
+        ClinicalStaffAssignmentRole clinicalStaffAssignmentRole = new ClinicalStaffAssignmentRole();
+
+        defaultClinicalStaffAssignment.addClinicalStaffAssignmentRole(clinicalStaffAssignmentRole);
+
+        defaultClinicalStaffAssignment.setDomainObjectClass(Organization.class.getName());
+        defaultClinicalStaffAssignment.setDomainObjectId(defaultOrganization.getId());
+
+        defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
+        commitAndStartNewTransaction();
+        defaultClinicalStaff = clinicalStaffRepository.findById(defaultClinicalStaff.getId());
+
+        List<ClinicalStaffAssignmentRole> clinicalStaffAssignmentRoles = defaultClinicalStaffAssignment.getClinicalStaffAssignmentRoles();
+
+        clinicalStaffAssignmentRole = clinicalStaffAssignmentRoles.get(0);
+        assertFalse("must save site clinical staff role", clinicalStaffAssignmentRoles.isEmpty());
+
+
+        assertNotNull("must save site clinical staff role", clinicalStaffAssignmentRole.getId());
+
+        assertEquals("clinical staff must be same", defaultClinicalStaffAssignment, clinicalStaffAssignmentRole.getClinicalStaffAssignment());
+        return clinicalStaffAssignmentRole;
+    }
 
     protected void commitAndStartNewTransaction() {
         setComplete();

@@ -106,7 +106,7 @@ public class WebControllerValidatorTest extends WebTestCase {
 
 	public static MockHttpServletRequest populateRequestForCreateStudy() {
 		MockHttpServletRequest request = new MockHttpServletRequest();
-		request.setAttribute("gov.nih.nci.cabig.caaers.web.study.CreateStudyController.PAGE.command", Integer
+		request.setAttribute("gov.nih.nci.cabig.caaers.web.study.StudyController.PAGE.command", Integer
 			.valueOf(0));
 
 		HashMap<String, String> parmameterNameValues = new HashMap<String, String>();

@@ -1,12 +1,15 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.core.ListValues;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 //
 /**
@@ -141,5 +144,22 @@ public class ClinicalStaffAssignment extends BasePersistable {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
+
+    public List<ListValues> getStudySpeceficRoles() {
+        Set<ListValues> studySpeceficRolesForAssignment = new HashSet<ListValues>();
+        for (ClinicalStaffAssignmentRole existingClinicalStaffAssignmentRole : clinicalStaffAssignmentRoles) {
+
+            Role role = existingClinicalStaffAssignmentRole.getRole();
+
+            List<Role> studySpeceficRoles = Role.getStudySpeceficRoles(role);
+            for (Role studySpeceficRole : studySpeceficRoles) {
+                ListValues listValues = new ListValues(studySpeceficRole.getDisplayName(), studySpeceficRole.getDisplayName());
+                studySpeceficRolesForAssignment.add(listValues);
+            }
+        }
+        return new ArrayList(studySpeceficRolesForAssignment);
+    }
+
+
 }
 

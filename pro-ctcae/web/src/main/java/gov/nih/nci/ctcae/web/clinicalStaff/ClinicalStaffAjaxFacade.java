@@ -3,6 +3,9 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.web.tools.ObjectTools;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +21,23 @@ import java.util.Map;
  */
 public class ClinicalStaffAjaxFacade {
 
+    protected final Log logger = LogFactory.getLog(getClass());
+
     /**
      * The clinical staff repository.
      */
     private ClinicalStaffRepository clinicalStaffRepository;
+
+    public List<ClinicalStaff> matchClinicalStaffByOrganizationId(final String text, Integer organizationId) {
+
+        logger.info(String.format("in match matchClinicalStaffByOrganizationId method. Search string :%s and organizationId=%s", text, organizationId));
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+        clinicalStaffQuery.filterByOrganizationAndRole(organizationId);
+        clinicalStaffQuery.filterByFirstNameOrLastNameOrNciIdentifier(text);
+        List<ClinicalStaff> clinicalStaffs = (List<ClinicalStaff>) clinicalStaffRepository.find(clinicalStaffQuery);
+        return ObjectTools.reduceAll(clinicalStaffs, "id", "lastName", "firstName");
+
+    }
 
     /**
      * Search clinical staff.
@@ -36,7 +52,7 @@ public class ClinicalStaffAjaxFacade {
     public String searchClinicalStaff(Map parameterMap, String firstName, String lastName, String nciIdentifier, HttpServletRequest request) {
 
         List<ClinicalStaff> clinicalStaffs = getObjects(firstName, lastName, nciIdentifier);
-        gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffTableModel clinicalStaffTableModel = new gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffTableModel();
+        ClinicalStaffTableModel clinicalStaffTableModel = new ClinicalStaffTableModel();
         String table = clinicalStaffTableModel.buildClinicalStaffTable(parameterMap, clinicalStaffs, request);
         return table;
 

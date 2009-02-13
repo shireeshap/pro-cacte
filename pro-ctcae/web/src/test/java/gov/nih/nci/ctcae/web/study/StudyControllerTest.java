@@ -16,8 +16,8 @@ import java.util.Map;
  * @author Vinay Kumar
  * @crated Nov 5, 2008
  */
-public class CreateStudyControllerTest extends WebTestCase {
-	private CreateStudyController controller;
+public class StudyControllerTest extends WebTestCase {
+	private StudyController controller;
 	private WebControllerValidator validator;
 	private StudyRepository studyRepository;
 
@@ -26,7 +26,7 @@ public class CreateStudyControllerTest extends WebTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		controller = new CreateStudyController();
+		controller = new StudyController();
 		validator = new WebControllerValidatorImpl();
 		studyRepository = registerMockFor(StudyRepository.class);
 		controller.setStudyRepository(studyRepository);

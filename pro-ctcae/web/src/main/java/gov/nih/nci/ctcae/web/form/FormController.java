@@ -25,7 +25,7 @@ import java.util.Map;
  * @author Vinay Kumar
  * @crated Dec 8, 2008
  */
-public abstract class FormController<C extends CreateFormCommand> extends CtcAeTabbedFlowController<CreateFormCommand> {
+public abstract class FormController extends CtcAeTabbedFlowController<CreateFormCommand> {
 
     /**
      * The crf repository.
@@ -134,7 +134,7 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
         ModelAndView defaultModelAndView = showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
         if (!StringUtils.isBlank(request.getParameter("showForm"))) {
-            if (shouldSave(request, command)) {
+            if (shouldSave(request, createFormCommand)) {
                 save(createFormCommand);
             }
             return defaultModelAndView;
@@ -159,15 +159,13 @@ public abstract class FormController<C extends CreateFormCommand> extends CtcAeT
 
     }
 
-    protected boolean shouldSave(HttpServletRequest request, Object command) {
-        return false;
-    }
 
     /**
      * Save.
      *
      * @param createFormCommand the create form command
      */
+    @Override
     protected void save(final CreateFormCommand createFormCommand) {
         CRF crf = createFormCommand.getCrf();
         createFormCommand.setCrf(crf);

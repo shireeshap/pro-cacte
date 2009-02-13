@@ -1,3 +1,5 @@
+<%@ attribute name="name" %>
+<%@ attribute name="id" %>
 <%@ attribute name="dateValue" type="java.util.Date" %>
 
 <%@ attribute name="cols" %>
@@ -8,11 +10,11 @@
 <%@attribute name="categoryName" type="java.lang.String" %>
 <%@attribute name="defaultValue" type="java.lang.String" %>
 <%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
-
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@attribute name="noForm" type="java.lang.Boolean" %>
 <%@attribute name="doNotShowFormat" type="java.lang.Boolean" %>
 <%@ attribute name="propertyValue" %>
-
+<%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <%@ attribute name="values" type="java.util.List" %>
 
@@ -91,7 +93,9 @@
     <c:when test="${categoryName == 'select'}">
         <c:choose>
             <c:when test="${noForm}">
-                <select id="${propertyName}" class="${cssClass}" title="${title}" name="${propertyName}">
+
+                <select id="${not empty propertyName?propertyName:id}" class="${cssClass}" title="${title}"
+                        name="${not empty propertyName?propertyName:name}">
 
                     <c:forEach items="${values}" var="item">
                         <c:choose>

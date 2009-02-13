@@ -7,7 +7,7 @@ import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.ctcae.core.ListValues;
 import gov.nih.nci.ctcae.web.form.CreateFormCommand;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.replay;

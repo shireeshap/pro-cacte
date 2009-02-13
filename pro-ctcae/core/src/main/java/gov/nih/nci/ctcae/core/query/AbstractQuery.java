@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.core.query;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 //
 /**
@@ -42,6 +39,7 @@ public abstract class AbstractQuery implements Query {
      * The query parameter map.
      */
     private final Map<String, Object> queryParameterMap;
+    private final Map<String, List> queryParameterListMap;
 
     /**
      * The Constant ID.
@@ -76,6 +74,7 @@ public abstract class AbstractQuery implements Query {
     public AbstractQuery(final String queryString) {
         this.queryString = queryString;
         queryParameterMap = new HashMap<String, Object>(0);
+        queryParameterListMap = new HashMap<String, List>(0);
     }
 
     /* (non-Javadoc)
@@ -146,6 +145,10 @@ public abstract class AbstractQuery implements Query {
         queryParameterMap.put(key, value);
     }
 
+    protected void setParameterList(final String key, final List value) {
+        queryParameterListMap.put(key, value);
+    }
+
     /**
      * add the 'Where' condition to the existing Query String.
      * <p>
@@ -160,6 +163,7 @@ public abstract class AbstractQuery implements Query {
         andConditions.add(condition);
     }
 
+
     /**
      * Gets the parameter map.
      *
@@ -167,6 +171,10 @@ public abstract class AbstractQuery implements Query {
      */
     public Map<String, Object> getParameterMap() {
         return queryParameterMap;
+    }
+
+    public Map<String, List> getQueryParameterListMap() {
+        return queryParameterListMap;
     }
 
     /**
@@ -231,7 +239,7 @@ public abstract class AbstractQuery implements Query {
      */
     public void setMaximumResults(final Integer maximumResults) {
         this.maximumResults = maximumResults;
-	}
+    }
 
 
 }

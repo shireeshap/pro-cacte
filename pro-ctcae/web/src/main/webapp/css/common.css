@@ -11,6 +11,12 @@ body {
 	background-position: top;
 	background-color: #006cd7;
 }
+#login-action {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+}
 
 .workflow-tabs {
 	position: relative;
@@ -221,7 +227,7 @@ a#help:hover {
 /***
 The following are the rules for 1st level navigation tabs:
 firstlevelnav_listAdverseEventsController: Adverse Events
-firstlevelnav_createStudyController: Studies
+firstlevelnav_studyController: Studies
 3. Subjects
 4. Rules
 5. Administration
@@ -255,7 +261,7 @@ a#firstlevelnav_manageFormController:active {
 	background-image: url( ../images/blue/forms_btn_selected.png );
 }
 
-a#firstlevelnav_createStudyController {
+a#firstlevelnav_studyController {
 	background-image: url( ../images/blue/studies_btn.png );
 	height: 0px;
 	padding: 45px 0px 0px 0px;
@@ -266,19 +272,19 @@ a#firstlevelnav_createStudyController {
 	margin-left: 1px;
 }
 
-a#firstlevelnav_createStudyController:link {
+a#firstlevelnav_studyController:link {
 	background-position: 0px 0px;
 }
 
-a#firstlevelnav_createStudyController:hover {
+a#firstlevelnav_studyController:hover {
 	background-position: 0px -45px;
 }
 
-a#firstlevelnav_createStudyController:active {
+a#firstlevelnav_studyController:active {
 	background-position: 0px -90px;
 }
 
-.selected a#firstlevelnav_createStudyController {
+.selected a#firstlevelnav_studyController {
 	background-image: url( ../images/blue/studies_btn_selected.png );
 }
 
@@ -1417,6 +1423,7 @@ a.ctcae-button {
 	font-size:1.4em;
 	color:#2B406E;
 	text-decoration:none;
+    line-height:40px;
 }
 a.ctcae-button:hover {
 	background-image:url(/ctcae/images/blue_btn_bg_hover.png);

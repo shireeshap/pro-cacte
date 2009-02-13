@@ -1,4 +1,5 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="study" tagdir="/WEB-INF/tags/study" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,56 +14,93 @@
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:includeScriptaculous/>
     <tags:includePrototypeWindow/>
+    <tags:dwrJavascriptLink objects="clinicalStaff"/>
 
 
     <script type="text/javascript">
 
 
-        function addStudySiteDiv(transport) {
-            $('studySiteTable').show()
-
-            var response = transport.responseText;
-            new Insertion.Before("hiddenDiv", response);
-
-
-        }
         function addStudySiteClinicalStaffDiv(transport) {
             var response = transport.responseText;
             new Insertion.Before("hiddenDiv", response);
         }
 
-        function addStudySiteClinicalStaff(studySiteIndex) {
+
+        function addRole(clinicalStaffAssignmentIndex) {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyComponent"/>", {
-                onComplete:addStudySiteClinicalStaffDiv,
-                parameters:"subview=subview&componentTyep=studySiteClinicalStaff&studySiteIndex="+studySiteIndex,
+                onComplete:function(transport) {
+                    var response = transport.responseText;
+                    new Insertion.Before("hiddenDivForRole_" + clinicalStaffAssignmentIndex, response);
+
+                },
+                parameters:"subview=subview&componentTyep=role&clinicalStaffAssignmentIndex=" + clinicalStaffAssignmentIndex,
                 method:'get'
             })
         }
 
-
-        function fireDelete(index, divToRemove) {
-            if ($('objectsIdsToRemove').value != '') {
-                $('objectsIdsToRemove').value = $('objectsIdsToRemove').value + "," + index;
+        function addClinicalStaffAssignmentOnStudySite() {
+            if ($('clinicalStaffAssignment.clinicalStaff').value == '') {
+                alert('please select a clinical staff.')
+            } else {
+                var request = new Ajax.Request("<c:url value="/pages/study/addStudyComponent"/>", {
+                    onComplete:addStudySiteClinicalStaffDiv,
+                    parameters:"subview=subview&componentTyep=site&studySiteId=" + $('selectedStudySiteId').value + "&clinicalStaffId=" + $('clinicalStaffAssignment.clinicalStaff').value,
+                    method:'get'
+                })
             }
-            else {
-                $('objectsIdsToRemove').value = index;
-            }
-
-            $(divToRemove).remove();
-
         }
 
 
+        function deleteSiteRole(clinicalStaffAssignmentIndex, clinicalStaffAssignmentRoleIndex) {
+
+            var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
+                parameters:"confirmationType=deleteClinicalStaffAssignmentRole&subview=subview&clinicalStaffAssignmentIndex="
+                        + clinicalStaffAssignmentIndex + "&clinicalStaffAssignmentRoleIndex=" + clinicalStaffAssignmentRoleIndex,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport);
+
+                } ,
+                method:'get'
+            });
+
+
+        }
+        function deleteSiteRoleConfirm(clinicalStaffAssignmentIndex, clinicalStaffAssignmentRoleIndex) {
+            closeWindow();
+            $('clinicalStaffAssignmentRoleIndexToRemove').value = clinicalStaffAssignmentIndex + '-' + clinicalStaffAssignmentRoleIndex;
+            submitInvestigatorsTabPage();
+        }
+
+        function deleteInvestigator(clinicalStaffAssignmentIndex) {
+
+            var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
+                parameters:"confirmationType=deleteClinicalStaffAssignmentForStudy&subview=subview&clinicalStaffAssignmentIndex=" + clinicalStaffAssignmentIndex,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport);
+
+                } ,
+                method:'get'
+            });
+
+
+        }
+        function deleteInvestigatorConfirm(clinicalStaffAssignmentIndex) {
+            closeWindow();
+            $('clinicalStaffAssignmentIndexToRemove').value = clinicalStaffAssignmentIndex;
+            submitInvestigatorsTabPage();
+
+        }
+        function submitInvestigatorsTabPage() {
+            $('_target').name = "_target" + 2;
+            $('command').submit();
+        }
         Event.observe(window, "load", function() {
 
 
-        <c:forEach  items="${command.study.studySites}" var="studySite" varStatus="status">
-            var siteBaseName = 'study.studySites[${status.index}].organization'
-            acCreate(new siteAutoComplter(siteBaseName))
-            initializeAutoCompleter(siteBaseName, '${studySite.organization.displayName}', '${studySite.organization.id}');
-        </c:forEach>
         <c:if test="${not empty command.study.studySites}">
-            $('studySiteTable').show()
+
+            acCreate(new clinicalStaffAutoComplter('clinicalStaffAssignment.clinicalStaff', '${command.clinicalStaffAssignment.domainObjectId}'))
+            initSearchField()
 
         </c:if>
             initSearchField()
@@ -83,43 +121,47 @@
 
             <p><tags:instructions code="study.study_investigators.top"/></p>
 
-    <tags:renderSelect options="${sites}" noForm="${true}"/>
+        <form:hidden path="clinicalStaffAssignmentRoleIndexToRemove" id="clinicalStaffAssignmentRoleIndexToRemove"/>
+        <form:hidden path="clinicalStaffAssignmentIndexToRemove" id="clinicalStaffAssignmentIndexToRemove"/>
+
+    <tags:renderSelect options="${studySites}" propertyName="selectedStudySiteId" displayName="Site"/>
+
+        <c:if test="${not empty command.study.studySites}">
+            <tags:renderAutocompleter propertyName="clinicalStaffAssignment.clinicalStaff"
+                                      displayName="Clinical  staff" noForm="true" required="false"
+                                      propertyValue="${clinicalStaffAssignment.clinicalStaff ne null? clinicalStaffAssignment.clinicalStaff.displayName:''}"/>
+        </c:if>
+
     </jsp:attribute>
 
 
     <jsp:attribute name="repeatingFields">
 
-        <chrome:division>
+
+        <div>
 
 
-            <div align="left" style="margin-left: 50px">
-                <table width="55%" class="tablecontent" style="display:none;" id="studySiteTable">
-                    <tr id="ss-table-head" class="amendment-table-head">
-                        <th width="95%" class="tableHeader"><tags:requiredIndicator/><spring:message
-                                code='study.label.sites' text=''/></th>
-                        <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+            <c:forEach items="${command.clinicalStaffAssignments}"
+                       var="clinicalStaffAssignment"
+                       varStatus="status">
+                <c:if test="${clinicalStaffAssignment.domainObjectId eq 10}">
+                    <study:clinicalStaffAssignment clinicalStaffAssignment="${clinicalStaffAssignment}"
+                                                   clinicalStaffAssignmentIndex="${status.index}"/>
+                </c:if>
+            </c:forEach>
 
-                    </tr>
-                    <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
+            <div id="hiddenDiv">
 
-                        <tags:oneOrganization index="${status.index}"
-                                              inputName="study.studySites[${status.index}].organization"
-                                              title="Study Site" displayError="true"></tags:oneOrganization>
-                    </c:forEach>
-
-
-                    <tr id="hiddenDiv" align="center"></tr>
-
-                </table>
 
             </div>
 
 
-        </chrome:division>
+        </div>
+
     </jsp:attribute>
     <jsp:attribute name="localButtons">
 
-        <tags:button type="anchor" onClick="javascript:addStudySiteClinicalStaff()"
+        <tags:button type="anchor" onClick="javascript:addClinicalStaffAssignmentOnStudySite()"
                      value="study.button.add_investigator"/>
 
     </jsp:attribute>

@@ -4,7 +4,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.domain.CRFCalendar;
 import gov.nih.nci.ctcae.core.domain.CrfPageItem;
-import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.ctcae.core.ListValues;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

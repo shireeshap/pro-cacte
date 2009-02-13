@@ -5,4 +5,5 @@
 <%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
 
 <administration:clinicalStaffAssignmentRole clinicalStaffAssignmentRole="${clinicalStaffAssignmentRole}"
-                                      clinicalStaffAssignmentIndex="${clinicalStaffAssignmentIndex}" index="${index}"/>
+                                      clinicalStaffAssignmentIndex="${clinicalStaffAssignmentIndex}"
+                                      clinicalStaffAssignmentRoleIndex="${clinicalStaffAssignmentRoleIndex}"/>

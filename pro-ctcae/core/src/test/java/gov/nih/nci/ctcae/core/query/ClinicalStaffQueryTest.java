@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.Organization;
 import junit.framework.TestCase;
 
 /**
@@ -28,12 +29,34 @@ public class ClinicalStaffQueryTest extends TestCase {
 
     public void testFilterByOrganizationId() throws Exception {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
-        clinicalStaffQuery.filterByOrganization(1);
-        assertEquals("SELECT cs from ClinicalStaff cs left join cs.clinicalStaffAssignments as scs WHERE scs.organization.id = :organizationId order by cs.id",
+        clinicalStaffQuery.filterByOrganizationAndRole(1);
+        assertEquals("SELECT cs from ClinicalStaff cs left join cs.clinicalStaffAssignments as csa WHERE csa.domainObjectClass = :domainObjectClass AND csa.domainObjectId = :organizationId order by cs.id",
                 clinicalStaffQuery.getQueryString());
-        assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 1);
+        assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 2);
         assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("organizationId"));
+        assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("domainObjectClass"));
         assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("organizationId"), 1);
+        assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("domainObjectClass"), Organization.class.getName());
+    }
+
+    public void testFilterByOrganizationIdAndSearchText() throws Exception {
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+        clinicalStaffQuery.filterByOrganizationAndRole(1);
+        clinicalStaffQuery.filterByFirstNameOrLastNameOrNciIdentifier("AbC");
+        assertEquals("SELECT cs from ClinicalStaff cs left join cs.clinicalStaffAssignments as csa WHERE csa.domainObjectClass = :domainObjectClass " +
+                "AND csa.domainObjectId = :organizationId AND (lower(cs.firstName) LIKE :firstName or lower(cs.lastName) LIKE :lastName or lower(cs.nciIdentifier) LIKE :nciIdentifier) order by cs.id",
+                clinicalStaffQuery.getQueryString());
+        assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 5);
+        assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("organizationId"));
+        assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("domainObjectClass"));
+        assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("nciIdentifier"));
+        assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("lastName"));
+        assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("firstName"));
+        assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("organizationId"), 1);
+        assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("domainObjectClass"), Organization.class.getName());
+        assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("firstName"), "%abc%");
+        assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("lastName"), "%abc%");
+        assertEquals("wrong parameter value", clinicalStaffQuery.getParameterMap().get("nciIdentifier"), "%abc%");
     }
 
     public void testFilterByNciIdentifier() throws Exception {

@@ -12,7 +12,6 @@ public class StudySiteTest extends AbstractTestCase {
 
     private StudySite studySite;
 
-    private StudySiteClinicalStaff studySiteClinicalStaff, duplicateStudySiteClinicalStaff;
     ClinicalStaffAssignment clinicalStaffAssignment;
 
     @Override
@@ -25,12 +24,7 @@ public class StudySiteTest extends AbstractTestCase {
         //clinicalStaffAssignment.setOrganization(Fixture.NCI);
 
 
-        studySiteClinicalStaff = new StudySiteClinicalStaff();
-        studySiteClinicalStaff.setSiteClinicalStaff(clinicalStaffAssignment);
-
-        duplicateStudySiteClinicalStaff = new StudySiteClinicalStaff();
-        duplicateStudySiteClinicalStaff.setSiteClinicalStaff(clinicalStaffAssignment);
-    }
+     }
 
 //    public void testAddStudySiteClinicalStaffThrowsException() {
 //        clinicalStaffAssignment.setOrganization(Fixture.DUKE);
@@ -48,12 +42,4 @@ public class StudySiteTest extends AbstractTestCase {
 //
 //    }
 
-    public void testMustNotAddDuplicateStudySiteClinicalStaff() {
-
-        studySite.addStudySiteClinicalStaff(studySiteClinicalStaff);
-        studySite.addStudySiteClinicalStaff(studySiteClinicalStaff);
-        studySite.addStudySiteClinicalStaff(duplicateStudySiteClinicalStaff);
-
-        assertEquals("must not add duplicate study site clinical staff", 1, studySite.getStudySiteClinicalStaffs().size());
-    }
 }

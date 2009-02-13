@@ -131,7 +131,6 @@
     <tags:indicator id="indicator"/>
 
 </chrome:box>
-</div>
 <div id="crfItem_50"></div>
 <div id="noForm" style="display:none;">
     <tags:button type="anchor" id="newFormUrl" icon="add" value="New Form"/>
