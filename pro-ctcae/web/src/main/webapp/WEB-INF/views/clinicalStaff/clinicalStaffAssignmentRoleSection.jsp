@@ -6,4 +6,4 @@
 
 <administration:clinicalStaffAssignmentRole clinicalStaffAssignmentRole="${clinicalStaffAssignmentRole}"
                                       clinicalStaffAssignmentIndex="${clinicalStaffAssignmentIndex}"
-                                      clinicalStaffAssignmentRoleIndex="${clinicalStaffAssignmentRoleIndex}"/>
+                                      clinicalStaffAssignmentRoleIndex="${index}"/>
