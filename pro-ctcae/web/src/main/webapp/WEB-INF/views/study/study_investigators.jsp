@@ -94,9 +94,6 @@
             $('_target').name = "_target" + 2;
             $('command').submit();
         }
-        Event.observe(window, "load", function() {
-
-        });
 
         Event.observe(window, "load", function() {
 
@@ -128,7 +125,19 @@
         <form:hidden path="clinicalStaffAssignmentRoleIndexToRemove" id="clinicalStaffAssignmentRoleIndexToRemove"/>
         <form:hidden path="clinicalStaffAssignmentIndexToRemove" id="clinicalStaffAssignmentIndexToRemove"/>
 
-    <tags:renderSelect options="${studySites}" propertyName="selectedStudySiteId" displayName="Site"/>
+        <%--<tags:renderSelect options="${studySites}" propertyName="selectedStudySiteId" displayName="Site"/>--%>
+        <div class="row">
+        <div class="label">
+            <tags:renderLabel displayName="Site" propertyName="selectedStudySiteId"
+                              required="false"/>
+        </div>
+            <div class="value">
+                <form:select path="selectedStudySiteId" items="${studySites}" title="Site"
+                             itemLabel="desc" itemValue="code" onchange="submitInvestigatorsTabPage()"/>
+            </div>
+          </div>
+
+
 
         <c:if test="${not empty command.study.studySites}">
             <tags:renderAutocompleter propertyName="clinicalStaffAssignment.clinicalStaff"
@@ -144,13 +153,13 @@
 
         <div>
 
-
             <c:forEach items="${command.clinicalStaffAssignments}"
                        var="clinicalStaffAssignment"
                        varStatus="status">
-                <c:if test="${clinicalStaffAssignment.domainObjectId eq 10}">
-                    <study:clinicalStaffAssignment clinicalStaffAssignment="${clinicalStaffAssignment}"
-                                                   clinicalStaffAssignmentIndex="${status.index}"/>
+                <study:clinicalStaffAssignment clinicalStaffAssignment="${clinicalStaffAssignment}"
+                                               clinicalStaffAssignmentIndex="${status.index}"/>
+
+                <c:if test="${clinicalStaffAssignment.domainObjectId eq selectedStudySiteId }">
                 </c:if>
             </c:forEach>
 
