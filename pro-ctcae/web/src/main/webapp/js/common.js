@@ -225,11 +225,23 @@ function showAjaxLoadingImage() {
 function closeAjaxLoadingImage() {
     Dialog.closeInfo()
 }
-function showConfirmationWindow(transport) {
+function showConfirmationWindow(transport, width, height, top, left) {
+    if(typeof(width) == 'undefined'){
+        width = 600;
+    }
+    if(typeof(height) == 'undefined'){
+        height = 300;
+    }
+    if(typeof(top) == 'undefined'){
+        top = 250;
+    }
+    if(typeof(width) == 'undefined'){
+        left = 200;
+    }
     var win = Windows.getFocusedWindow();
     if (win == null) {
         win = new Window({ id: '100' , className: "alphacube", closable : true, minimizable : false, maximizable :
-                true, title: "", height:300, width: 600,top:250,left:200});
+                true, title: "", height:height, width: width,top:top,left:left});
         win.setDestroyOnClose();
         win.setHTMLContent(transport.responseText);
         win.showCenter(true);

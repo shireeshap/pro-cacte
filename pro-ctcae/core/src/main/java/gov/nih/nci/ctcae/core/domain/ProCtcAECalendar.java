@@ -82,6 +82,10 @@ public class ProCtcAECalendar {
      */
     private Calendar temp;
 
+    private int cycleLength;
+    private String cycleSelectedDays;
+    private int cycleRepetitionNumber;
+
     /**
      * Instantiates a new pro ctc ae calendar.
      */
@@ -92,17 +96,6 @@ public class ProCtcAECalendar {
         calendar.set(Calendar.DATE, 1);
     }
 
-
-    public ProCtcAECalendar(int repetitionPeriodAmount, String repetitionPeriodUnit, int dueDateAmount, String dueDateUnit, String repeatUntilUnit, String repeatUntilValue, Date startDate) {
-        this.repetitionPeriodAmount = repetitionPeriodAmount;
-        this.repetitionPeriodUnit = repetitionPeriodUnit;
-        this.dueDateAmount = dueDateAmount;
-        this.dueDateUnit = dueDateUnit;
-        this.repeatUntilUnit = repeatUntilUnit;
-        this.repeatUntilValue = repeatUntilValue;
-        this.startDate = startDate;
-        calendar = getCalendarForDate(startDate);
-    }
 
     /**
      * Gets the html calendar.
@@ -224,13 +217,21 @@ public class ProCtcAECalendar {
      *
      * @throws ParseException the parse exception
      */
-    public void prepareSchedules() throws ParseException {
-        numberOfRepetitions = getNumberOfRepetitions(repeatUntilUnit, repeatUntilValue, startDate, repetitionPeriodUnit, repetitionPeriodAmount);
+    public void prepareSchedules(ParticipantSchedule.ScheduleType scheduleType) throws ParseException {
+        if (scheduleType.equals(ParticipantSchedule.ScheduleType.GENERAL)) {
+            numberOfRepetitions = getNumberOfRepetitions(repeatUntilUnit, repeatUntilValue, startDate, repetitionPeriodUnit, repetitionPeriodAmount);
+            dueAfterPeriodInMill = getDuePeriodInMillis(dueDateUnit, dueDateAmount);
+        }
+        if (scheduleType.equals(ParticipantSchedule.ScheduleType.CYCLE)) {
+            String[] selectedDays = cycleSelectedDays.split(",");
+            numberOfRepetitions = selectedDays.length * cycleRepetitionNumber;
+            dueAfterPeriodInMill = 24 * 60 * 60 * 1000;
+        }
         temp = getCalendarForDate(startDate);
         calendar.set(Calendar.DATE, 1);
         calendar.set(Calendar.MONTH, temp.get(Calendar.MONTH));
         calendar.set(Calendar.YEAR, temp.get(Calendar.YEAR));
-        dueAfterPeriodInMill = getDuePeriodInMillis(dueDateUnit, dueDateAmount);
+
         currentIndex = 0;
     }
 
@@ -248,7 +249,7 @@ public class ProCtcAECalendar {
      *
      * @return the next scehdule
      */
-    public Calendar getNextScehdule() {
+    public Calendar getNextGeneralScehdule() {
         if (currentIndex > 0) {
             if ("Days".equals(repetitionPeriodUnit)) {
                 temp.add(Calendar.DATE, repetitionPeriodAmount);
@@ -260,6 +261,28 @@ public class ProCtcAECalendar {
                 temp.add(Calendar.MONTH, repetitionPeriodAmount);
             }
         }
+        currentIndex++;
+        return temp;
+    }
+
+    public Calendar getNextCycleScehdule() {
+        String[] selectedDays = cycleSelectedDays.split(",");
+        int index = currentIndex % selectedDays.length;
+        int add = 0;
+        int currentday = Integer.parseInt(selectedDays[index]);
+        if (index == 0) {
+            int lastday = Integer.parseInt(selectedDays[selectedDays.length - 1]);
+            if (currentIndex == 0) {
+                add = currentday-1;
+            } else {
+                add = cycleLength - lastday + currentday;
+            }
+        } else {
+            int previousday = Integer.parseInt(selectedDays[index - 1]);
+            add = currentday - previousday;
+        }
+
+        temp.add(Calendar.DATE, add);
         currentIndex++;
         return temp;
     }
@@ -476,4 +499,28 @@ public class ProCtcAECalendar {
     public int getDueAfterPeriodInMill() {
         return dueAfterPeriodInMill;
     }
+
+    public void setGeneralScheduleParameters(int repetitionPeriodAmount, String repetitionPeriodUnit, int dueDateAmount, String dueDateUnit, String repeatUntilUnit, String repeatUntilValue, Date startDate) {
+        this.repetitionPeriodAmount = repetitionPeriodAmount;
+        this.repetitionPeriodUnit = repetitionPeriodUnit;
+        this.dueDateAmount = dueDateAmount;
+        this.dueDateUnit = dueDateUnit;
+        this.repeatUntilUnit = repeatUntilUnit;
+        this.repeatUntilValue = repeatUntilValue;
+        this.startDate = startDate;
+        calendar = getCalendarForDate(startDate);
+    }
+
+    public void setCycleParameters(int cycleLength, String cycleSelectedDays, int cycleRepetitionNumber, Date startDate) {
+        this.cycleLength = cycleLength;
+        if(cycleSelectedDays.indexOf(",")==0){
+            this.cycleSelectedDays = cycleSelectedDays.substring(1);
+        }else{
+            this.cycleSelectedDays = cycleSelectedDays;    
+        }
+        this.cycleRepetitionNumber = cycleRepetitionNumber;
+        this.startDate = startDate;
+        calendar = getCalendarForDate(startDate);
+    }
+
 }

@@ -55,6 +55,8 @@ public class CreateFormCommand implements Serializable {
     private String questionIdToRemove = "";
 
 
+    private String crfCycleIndexToRemove = "";
+
     /**
      * Gets the title.
      *
@@ -279,5 +281,11 @@ public class CreateFormCommand implements Serializable {
         return selectedProCtcTerms;
     }
 
+    public String getCrfCycleIndexToRemove() {
+        return crfCycleIndexToRemove;
+    }
 
+    public void setCrfCycleIndexToRemove(String crfCycleIndexToRemove) {
+        this.crfCycleIndexToRemove = crfCycleIndexToRemove;
+    }
 }

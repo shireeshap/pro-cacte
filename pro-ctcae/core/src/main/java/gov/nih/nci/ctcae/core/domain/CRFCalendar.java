@@ -13,10 +13,10 @@ import java.util.List;
 
 //
 /**
- * The Class CRFPage.
+ * The Class CRFCalendar.
  *
- * @author Vinay Kumar
- * @created Dec 29, 2008
+ * @author Harsh Agarwal
+ * @created Feb 1, 2008
  */
 
 @Entity

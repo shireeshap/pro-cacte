@@ -85,12 +85,9 @@
                                     <td class="data" width="50%" align="left">
                                         &nbsp;&nbsp;<b>Form: </b>${crf.title}
                                     </td>
-                                        <%--<td class="data">--%>
-                                        <%--<tags:formatDate value="${crf.effectiveStartDate}"/>--%>
-                                        <%--</td>--%>
                                     <td class="data" align="center">
                                         Start Date <tags:renderDate propertyName="form_date_${crf.id}" doNotshowLabel="true"
-                                                         noForm="true"/>
+                                                         noForm="true" />
                                     </td>
 
                                 </tr>

@@ -101,6 +101,11 @@ public class CRF extends BaseVersionable {
 
     private List<CRFCalendar> crfCalendars = new LinkedList<CRFCalendar>();
 
+    @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+
+    private List<CRFCycle> crfCycles = new LinkedList<CRFCycle>();
+
     /**
      * The study.
      */
@@ -789,4 +794,14 @@ public class CRF extends BaseVersionable {
 
     }
 
+    public List<CRFCycle> getCrfCycles() {
+        return crfCycles;
+    }
+
+    public void addCrfCycle(CRFCycle crfCycle) {
+        if (crfCycle != null) {
+            crfCycle.setCrf(this);
+            crfCycles.add(crfCycle);
+        }
+    }
 }

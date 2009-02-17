@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 
 import java.text.ParseException;
@@ -37,6 +36,11 @@ public class ParticipantSchedule {
      * The finder repository.
      */
     private FinderRepository finderRepository;
+
+    public enum ScheduleType {
+        GENERAL,
+        CYCLE;
+    }
 
     /**
      * Instantiates a new participant schedule.
@@ -103,14 +107,20 @@ public class ParticipantSchedule {
     /**
      * Creates the schedules.
      *
+     * @param scheduleType
      * @throws ParseException the parse exception
      */
-    public void createSchedules() throws ParseException {
-        removeAllSchedules();
-        calendar.prepareSchedules();
+    public void createSchedules(ScheduleType scheduleType) throws ParseException {
+        //removeAllSchedules();
+        calendar.prepareSchedules(scheduleType);
         int dueAfterPeriodInMill = calendar.getDueAfterPeriodInMill();
         while (calendar.hasMoreSchedules()) {
-            createSchedule(calendar.getNextScehdule(), dueAfterPeriodInMill);
+            if (scheduleType.equals(ScheduleType.GENERAL)) {
+                createSchedule(calendar.getNextGeneralScehdule(), dueAfterPeriodInMill);
+            }
+            if (scheduleType.equals(ScheduleType.CYCLE)) {
+                createSchedule(calendar.getNextCycleScehdule(), dueAfterPeriodInMill);
+            }
         }
     }
 

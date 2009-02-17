@@ -249,6 +249,9 @@
         <property name="crfRepository" ref="crfRepository"/>
 
     </bean>
+    <bean name="/form/addFormScheduleCycle" id="addFormScheduleCycleController"
+          class="gov.nih.nci.ctcae.web.form.AddFormScheduleCycleController">
+    </bean>
 
 
     <bean name="/study/createStudy" id="studyController"

@@ -81,7 +81,7 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
             Study study = studyRepository.findById(crf.getStudy().getId());
             for (StudySite studySite : study.getStudySites()) {
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
-                    StudyParticipantCrf  studyParticipantCrf = new StudyParticipantCrf();
+                    StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
                     crf.addStudyParticipantCrf(studyParticipantCrf);
                     studyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
                 }
@@ -97,16 +97,8 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     public void generateSchedulesFromCrfCalendar(CRF crf) throws ParseException {
         if (crf != null) {
             crf = findById(crf.getId());
-
-            if (crf.getCrfCalendars() != null) {
-                for (CRFCalendar crfCalendar : crf.getCrfCalendars()) {
-                    if (!StringUtils.isBlank(crfCalendar.getRepeatEveryAmount())) {
-                        ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar(Integer.parseInt(crfCalendar.getRepeatEveryAmount()), crfCalendar.getRepeatEveryUnit(), Integer.parseInt(crfCalendar.getDueDateAmount()), crfCalendar.getDueDateUnit(), crfCalendar.getRepeatUntilUnit(), crfCalendar.getRepeatUntilAmount(), crf.getEffectiveStartDate());
-                        for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
-                            createSchedule(studyParticipantCrf, proCtcAECalendar);
-                        }
-                    }
-                }
+            for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
+                generateSchedulesFromCrfCalendar(crf, studyParticipantCrf, null);
             }
         }
     }
@@ -114,9 +106,10 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void generateSchedulesFromCrfCalendar(CRF crf, StudyParticipantCrf studyParticipantCrf, String startDate) throws ParseException {
         Date calendarStartDate;
-        if(startDate == null){
+        ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar();
+        if (startDate == null) {
             calendarStartDate = crf.getEffectiveStartDate();
-        }else{
+        } else {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             calendarStartDate = sdf.parse(startDate);
         }
@@ -126,29 +119,34 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
             if (crf.getCrfCalendars() != null) {
                 for (CRFCalendar crfCalendar : crf.getCrfCalendars()) {
                     if (!StringUtils.isBlank(crfCalendar.getRepeatEveryAmount())) {
-                        ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar(Integer.parseInt(crfCalendar.getRepeatEveryAmount()), crfCalendar.getRepeatEveryUnit(), Integer.parseInt(crfCalendar.getDueDateAmount()), crfCalendar.getDueDateUnit(), crfCalendar.getRepeatUntilUnit(), crfCalendar.getRepeatUntilAmount(), calendarStartDate);
-                        createSchedule(studyParticipantCrf, proCtcAECalendar);
+                        proCtcAECalendar.setGeneralScheduleParameters(Integer.parseInt(crfCalendar.getRepeatEveryAmount()), crfCalendar.getRepeatEveryUnit(), Integer.parseInt(crfCalendar.getDueDateAmount()), crfCalendar.getDueDateUnit(), crfCalendar.getRepeatUntilUnit(), crfCalendar.getRepeatUntilAmount(), calendarStartDate);
+                        createSchedule(studyParticipantCrf, proCtcAECalendar, ParticipantSchedule.ScheduleType.GENERAL);
                     }
                 }
             }
+            if (crf.getCrfCycles() != null) {
+                for (CRFCycle crfCycle : crf.getCrfCycles()) {
+                    proCtcAECalendar.setCycleParameters(crfCycle.getCycleLength(), crfCycle.getCycleDays(), crfCycle.getRepeatTimes(), calendarStartDate);
+                    createSchedule(studyParticipantCrf, proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
+                }
+            }
+
         }
     }
 
-    private void createSchedule(StudyParticipantCrf studyParticipantCrf, ProCtcAECalendar proCtcAECalendar) throws ParseException {
+    private void createSchedule(StudyParticipantCrf studyParticipantCrf, ProCtcAECalendar proCtcAECalendar, ParticipantSchedule.ScheduleType scheduleType) throws ParseException {
         ParticipantSchedule participantSchedule = new ParticipantSchedule();
         participantSchedule.setStudyParticipantCrf(studyParticipantCrf);
         participantSchedule.setFinderRepository(finderRepository);
         participantSchedule.setCalendar(proCtcAECalendar);
-        participantSchedule.createSchedules();
+        participantSchedule.createSchedules(scheduleType);
     }
 
     /* (non-Javadoc)
     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#save(gov.nih.nci.ctcae.core.domain.Persistable)
     */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public CRF save
-            (CRF
-                    crf) {
+    public CRF save(CRF crf) {
         CRF tmp = null;
         if (crf.getParentVersionId() != null) {
             tmp = findById(crf.getParentVersionId());

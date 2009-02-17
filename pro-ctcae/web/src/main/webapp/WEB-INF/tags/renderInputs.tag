@@ -199,6 +199,7 @@
         <spring:message code="${propertyName}"
                         text="No help available ${propertyName}"/></tags:hoverHelp>
 </c:if>
-
-<tags:errors path="${propertyName}"/>
-<tags:errors path="${propertyName}.*"/>
+<c:if test="${not noForm}">
+    <tags:errors path="${propertyName}"/>
+    <tags:errors path="${propertyName}.*"/>
+</c:if>

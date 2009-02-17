@@ -44,7 +44,7 @@ public class DisplayCalendarController extends AbstractController {
             participantSchedule.getCalendar().setRepetitionPeriodUnit(request.getParameter("reppu"));
             participantSchedule.getCalendar().setStartDate(new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("sdate")));
             participantSchedule.setFinderRepository(finderRepository);
-            participantSchedule.createSchedules();
+            participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.GENERAL);
         } else {
             if (direction.equals("prev")) {
                 participantSchedule.getCalendar().add(-1);

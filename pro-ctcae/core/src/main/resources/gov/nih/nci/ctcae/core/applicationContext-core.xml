@@ -43,6 +43,7 @@
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion</value>
         <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestionDisplayRule</value>
         <value>gov.nih.nci.ctcae.core.domain.CRFCalendar</value>
+        <value>gov.nih.nci.ctcae.core.domain.CRFCycle</value>
 
     </util:list>
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
