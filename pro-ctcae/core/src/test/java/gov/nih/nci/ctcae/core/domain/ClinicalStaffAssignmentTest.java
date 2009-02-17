@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.ListValues;
 import junit.framework.TestCase;
 
 import java.util.Date;
@@ -35,13 +34,6 @@ public class ClinicalStaffAssignmentTest extends TestCase {
 
     }
 
-    public void getStudySpeceficRoles() {
-        ClinicalStaffAssignmentRole role = new ClinicalStaffAssignmentRole();
-        role.setRole(Role.SITE_CRA);
-        clinicalStaffAssignment.addClinicalStaffAssignmentRole(role);
-        List<ListValues> listValueses = clinicalStaffAssignment.getStudySpeceficRoles();
-        assertEquals(2, listValueses.size());
-    }
 
     public void testGetterAndSetter() {
 

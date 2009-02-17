@@ -90,6 +90,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ParticipantCrfDisplay
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ParticipantSchedule.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Persistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Person.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Privilege.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtc.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcAECalendar.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestion.java -text
@@ -100,7 +101,10 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValue.java
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Race.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RecallPeriod.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Role.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RolePrivilege.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleStatus.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleType.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Roles.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCoordinatingCenter.java -text
@@ -220,6 +224,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermTest.java -
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RaceEnumTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RoleTypeTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationTest.java -text
