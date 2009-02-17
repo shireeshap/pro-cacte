@@ -259,7 +259,7 @@
                     <b>Repeat every</b>
                     <input type="text" size="2"
                            name="crf.crfCalendars[${status.index}].repeatEveryAmount"
-                           value="${crfCalendar.repeatEveryAmount}"/>
+                           value="${crfCalendar.repeatEveryAmount}" class="validate-NUMERIC"/>
                     <form:select path="crf.crfCalendars[${status.index}].repeatEveryUnit" items="${repetitionunits}"
                                  itemLabel="desc" itemValue="code"/>
 
@@ -268,7 +268,7 @@
                     <b>Form is due after</b>
                     <input type="text" size="2"
                            name="crf.crfCalendars[${status.index}].dueDateAmount"
-                           value="${crfCalendar.dueDateAmount}"/>
+                           value="${crfCalendar.dueDateAmount}" class="validate-NUMERIC"/>
                     <form:select path="crf.crfCalendars[${status.index}].dueDateUnit" items="${duedateunits}"
                                  itemLabel="desc" itemValue="code"/>
                 </td>

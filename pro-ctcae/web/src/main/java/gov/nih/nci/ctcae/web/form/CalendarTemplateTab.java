@@ -117,6 +117,23 @@ public class CalendarTemplateTab extends Tab<CreateFormCommand> {
                 }
             }
         }
+
+        if (command.getCrf().getCrfCycles() != null) {
+            for (int i = 0; i < command.getCrf().getCrfCycles().size(); i++) {
+                CRFCycle crfCycle = command.getCrf().getCrfCycles().get(i);
+
+                if (crfCycle.getCycleLength() == null || StringUtils.isBlank("" + crfCycle.getCycleLength()) || !StringUtils.isNumeric("" + crfCycle.getCycleLength())) {
+                    errors.reject("cyclelength", "Please provide a valid numeric value for the length of cycle " + (i + 1) + ".");
+                } else {
+                    if (StringUtils.isBlank(crfCycle.getCycleDays())) {
+                        errors.reject("days", "Please select at least one day on cycle " + (i + 1) + ".");
+                    }
+                    if (crfCycle.getRepeatTimes() == null || StringUtils.isBlank("" + crfCycle.getRepeatTimes()) | !StringUtils.isNumeric(crfCycle.getRepeatTimes().toString())) {
+                        errors.reject("repeat", "Please provide a valid numeric value for number of times you want to repeat cycle " + (i + 1) + ".");
+                    }
+                }
+            }
+        }
     }
 
     @Override

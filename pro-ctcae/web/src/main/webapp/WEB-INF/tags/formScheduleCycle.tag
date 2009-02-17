@@ -7,9 +7,9 @@
 
 <br/>
 <chrome:division title="Cycle ${cycleIndex+1}" enableDelete="true" deleteParams="deleteCycle('${cycleIndex}')">
-    <b>1.</b> <tags:message code="form.schedule.cycle_length"/> <input id="cycle_length_${cycleIndex}" type="text"
-                                                                       size="2" value="${crfCycle.cycleLength}"
-                                                                       name="crf.crfCycles[${cycleIndex}].cycleLength"/>
+    <b>1.</b> <tags:message code="form.schedule.cycle_length"/>
+    <input id="cycle_length_${cycleIndex}" type="text" size="2" value="${crfCycle.cycleLength}"
+           name="crf.crfCycles[${cycleIndex}].cycleLength" class="validate-NUMERIC"/>
     <input type="button" value="Apply" onclick="javascript:showCycle(${cycleIndex});"/>
 
     <div id="div_cycle_selectdays_${cycleIndex}" style="display:none;"><br/><b>2.</b> <tags:message
@@ -28,7 +28,7 @@
     <div id="div_cycle_repeat_${cycleIndex}" style="display:none;">
         <br/><b>3.</b> <tags:message code="form.schedule.repeat"/> <input id="cycle_repeat_${cycleIndex}" type="text"
                                                                           size="2" value="${crfCycle.repeatTimes}"
-                                                                          name="crf.crfCycles[${cycleIndex}].repeatTimes"/>
+                                                                          name="crf.crfCycles[${cycleIndex}].repeatTimes" class="validate-NUMERIC"/>
     </div>
 
 </chrome:division>
