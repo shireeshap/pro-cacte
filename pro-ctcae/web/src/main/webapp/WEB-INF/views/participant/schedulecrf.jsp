@@ -525,7 +525,7 @@ function buildTable(index, days, selecteddays) {
                                         </c:choose>
                                     </select>
                                 </td>
-                                <td class="border-td">
+                                <td class="border-td"> 
                                     <div id="duedate_${status.index}">
                                         <input value="<tags:formatDate
                                                 value='${participantSchedule.studyParticipantCrf.studyParticipantCrfSchedules[0].dueDate}'/>"
