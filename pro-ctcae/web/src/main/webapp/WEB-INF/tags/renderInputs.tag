@@ -5,6 +5,7 @@
 <%@ attribute name="cols" %>
 <%@ attribute name="rows" %>
 <%@ attribute name="onclick" %>
+<%@ attribute name="onchange" %>
 <%@attribute name="propertyName" type="java.lang.String" %>
 <%@attribute name="displayName" type="java.lang.String" %>
 <%@attribute name="categoryName" type="java.lang.String" %>
@@ -95,7 +96,7 @@
             <c:when test="${noForm}">
 
                 <select id="${not empty propertyName?propertyName:id}" class="${cssClass}" title="${title}"
-                        name="${not empty propertyName?propertyName:name}">
+                        name="${not empty propertyName?propertyName:name}" onchange="${onchange}">
 
                     <c:forEach items="${values}" var="item">
                         <c:choose>
@@ -112,7 +113,7 @@
             </c:when>
             <c:otherwise>
                 <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
-                             cssClass="${cssClass}" itemLabel="desc" itemValue="code"/>
+                             cssClass="${cssClass}" itemLabel="desc" itemValue="code" onchange="${onchange}"/>
             </c:otherwise>
         </c:choose>
 

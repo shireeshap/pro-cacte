@@ -5,6 +5,7 @@
 <%@ attribute name="propertyName" %>
 <%@ attribute name="displayName" %>
 <%@ attribute name="required" %>
+<%@ attribute name="onchange" %>
 
 
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
@@ -15,7 +16,7 @@
 <tags:renderRow values="${options}" propertyName="${propertyName}" displayName="${displayName}"
                 categoryName="select" required="${required}"
                 cssClass="${required ? 'validate-NOTEMPTY' : ''}"
-                noForm="${noForm}" propertyValue="${propertyValue}" doNotshowLabel="${doNotshowLabel}" id="${id}" name="${name}"/>
+                noForm="${noForm}" propertyValue="${propertyValue}" doNotshowLabel="${doNotshowLabel}" id="${id}" name="${name}"onchange="${onchange}"/>
 
 
 <%--<form:select path="${path}"--%>

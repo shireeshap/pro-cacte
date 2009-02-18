@@ -48,6 +48,8 @@ public class CRFCycle extends BasePersistable {
     @Column(name = "repeat_times")
     private Integer repeatTimes;
 
+    @Column(name = "cycle_length_unit" , nullable = false)
+    private String cycleLengthUnit;
     /**
      * The crf.
      */
@@ -104,6 +106,14 @@ public class CRFCycle extends BasePersistable {
         this.crf = crf;
     }
 
+    public String getCycleLengthUnit() {
+        return cycleLengthUnit;
+    }
+
+    public void setCycleLengthUnit(String cycleLengthUnit) {
+        this.cycleLengthUnit = cycleLengthUnit;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -111,9 +121,12 @@ public class CRFCycle extends BasePersistable {
 
         CRFCycle crfCycle = (CRFCycle) o;
 
-        if (cycleLength != crfCycle.cycleLength) return false;
         if (crf != null ? !crf.equals(crfCycle.crf) : crfCycle.crf != null) return false;
         if (cycleDays != null ? !cycleDays.equals(crfCycle.cycleDays) : crfCycle.cycleDays != null) return false;
+        if (cycleLength != null ? !cycleLength.equals(crfCycle.cycleLength) : crfCycle.cycleLength != null)
+            return false;
+        if (cycleLengthUnit != null ? !cycleLengthUnit.equals(crfCycle.cycleLengthUnit) : crfCycle.cycleLengthUnit != null)
+            return false;
         if (repeatTimes != null ? !repeatTimes.equals(crfCycle.repeatTimes) : crfCycle.repeatTimes != null)
             return false;
 
@@ -122,9 +135,10 @@ public class CRFCycle extends BasePersistable {
 
     @Override
     public int hashCode() {
-        int result = cycleLength;
+        int result = cycleLength != null ? cycleLength.hashCode() : 0;
         result = 31 * result + (cycleDays != null ? cycleDays.hashCode() : 0);
         result = 31 * result + (repeatTimes != null ? repeatTimes.hashCode() : 0);
+        result = 31 * result + (cycleLengthUnit != null ? cycleLengthUnit.hashCode() : 0);
         result = 31 * result + (crf != null ? crf.hashCode() : 0);
         return result;
     }

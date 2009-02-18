@@ -2,6 +2,7 @@
 
 <%@ attribute name="cols" %>
 <%@ attribute name="onclick" %>
+<%@ attribute name="onchange" %>
 <%@ attribute name="showAllJavascript" %>
 <%@ attribute name="help" type="java.lang.Boolean" %>
 
@@ -48,7 +49,7 @@
                            dateValue="${dateValue}"
                            cols="${cols}" noForm="${noForm}"
                            propertyValue="${propertyValue}"
-                           doNotShowFormat="${doNotShowFormat}"  id="${id}" name="${name}" rows="${rows}"/>
+                           doNotShowFormat="${doNotShowFormat}"  id="${id}" name="${name}" rows="${rows}" onchange="${onchange}"/>
     </c:when>
     <c:otherwise>
         <div class="row ${cssClass}" id="${propertyName}-row" <c:if test="${not empty style}">style="${style}"</c:if>>
@@ -76,7 +77,7 @@
                                        onclick="${onclick}" values="${values}"
                                        cols="${cols}" noForm="${noForm}"
                                        propertyValue="${propertyValue}"
-                                       doNotShowFormat="${doNotShowFormat}"  id="${id}" name="${name}" rows="${rows}"/>
+                                       doNotShowFormat="${doNotShowFormat}"  id="${id}" name="${name}" rows="${rows}" onchange="${onchange}"/>
                 </c:otherwise>
             </c:choose>
                     <%--<tags:extraParams extraParam="${field.attributes.extraParams}"/>--%>

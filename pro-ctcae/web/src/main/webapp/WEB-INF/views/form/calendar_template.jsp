@@ -119,8 +119,17 @@
     }
 
     function showCycle(index) {
-        var days = parseInt($('cycle_length_' + index).value);
-        if (days > 0) {
+        var days_amount = parseInt($('cycle_length_' + index).value);
+        var days_unit = $('crf.crfCycles[' + index + '].cycleLengthUnit').value;
+        var multiplier = 1;
+        if (days_unit == 'Weeks') {
+            multiplier = 7;
+        }
+        if (days_unit == 'Months') {
+            multiplier = 30;
+        }
+        var days = days_amount * multiplier;
+        if (days > 0 && days < 1000) {
             $('div_cycle_selectdays_' + index).show();
             $('div_cycle_table_' + index).show();
             $('div_cycle_repeat_' + index).show();
@@ -132,13 +141,14 @@
         }
     }
 
+
     function buildTable(index, days, selecteddays) {
         var tbody = $('cycle_table_' + index).getElementsByTagName("TBODY")[0];
         var children = tbody.childElements();
         for (i = 0; i < children.length; i++) {
             $(children[i]).remove();
         }
-        var daysPerLine = 15;
+        var daysPerLine = 14;
         var numOfRows = parseInt(days / daysPerLine);
         if (days % daysPerLine > 0) {
             numOfRows = numOfRows + 1;
@@ -220,7 +230,7 @@
             parameters:"confirmationType=deleteCrfCycle&subview=subview&crfCycleIndex="
                     + cycleIndex,
             onComplete:function(transport) {
-                showConfirmationWindow(transport,530,150);
+                showConfirmationWindow(transport, 530, 150);
             } ,
             method:'get'
         });
@@ -234,7 +244,7 @@
     }
     function submitScheduleTemplateTabPage() {
         $('_target').name = "_target" + 2;
-        $("_finish").name="_nofinish";
+        $("_finish").name = "_nofinish";
         $('command').submit();
     }
 
@@ -242,93 +252,97 @@
 </script>
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
 <input type="hidden" name="_finish" value="true" id="_finish"/>
 <form:hidden path="crfCycleIndexToRemove" id="crfCycleIndexToRemove"/>
+     <chrome:box title="Generic schedule" autopad="true">
+         <c:forEach items="${command.crf.crfCalendars}" var="crfCalendar" varStatus="status">
+             <script>
+                 repeatvalues[totalCalendars] = '${crfCalendar.repeatUntilAmount}';
+                 totalCalendars = totalCalendars + 1;
+             </script>
+             <%--<chrome:division title="Generic schedule"/>--%>
+             <table class="top-widget" width="100%">
+                 <tr id="repeatprops">
+                     <td>
+                         <b>Repeat every</b>
+                         <input type="text" size="2"
+                                name="crf.crfCalendars[${status.index}].repeatEveryAmount"
+                                value="${crfCalendar.repeatEveryAmount}" class="validate-NUMERIC"/>
+                         <form:select path="crf.crfCalendars[${status.index}].repeatEveryUnit"
+                                      items="${repetitionunits}"
+                                      itemLabel="desc" itemValue="code"/>
 
-    <c:forEach items="${command.crf.crfCalendars}" var="crfCalendar" varStatus="status">
-        <script>
-            repeatvalues[totalCalendars] = '${crfCalendar.repeatUntilAmount}';
-            totalCalendars = totalCalendars + 1;
-        </script>
-        <chrome:division title="General Schedule"/>
-        <table class="top-widget" width="100%">
-            <tr id="repeatprops">
-                <td>
-                    <b>Repeat every</b>
-                    <input type="text" size="2"
-                           name="crf.crfCalendars[${status.index}].repeatEveryAmount"
-                           value="${crfCalendar.repeatEveryAmount}" class="validate-NUMERIC"/>
-                    <form:select path="crf.crfCalendars[${status.index}].repeatEveryUnit" items="${repetitionunits}"
-                                 itemLabel="desc" itemValue="code"/>
+                     </td>
+                     <td>
+                         <b>Form is due after</b>
+                         <input type="text" size="2"
+                                name="crf.crfCalendars[${status.index}].dueDateAmount"
+                                value="${crfCalendar.dueDateAmount}" class="validate-NUMERIC"/>
+                         <form:select path="crf.crfCalendars[${status.index}].dueDateUnit" items="${duedateunits}"
+                                      itemLabel="desc" itemValue="code"/>
+                     </td>
+                     <td>
+                         <table>
+                             <tr>
+                                 <td>
+                                     <b>Repeat until</b>
+                                     <form:select path="crf.crfCalendars[${status.index}].repeatUntilUnit"
+                                                  items="${repeatuntilunits}"
+                                                  itemLabel="desc" itemValue="code"
+                                                  onchange="changeinput(this,'${status.index}','');"/>
 
-                </td>
-                <td>
-                    <b>Form is due after</b>
-                    <input type="text" size="2"
-                           name="crf.crfCalendars[${status.index}].dueDateAmount"
-                           value="${crfCalendar.dueDateAmount}" class="validate-NUMERIC"/>
-                    <form:select path="crf.crfCalendars[${status.index}].dueDateUnit" items="${duedateunits}"
-                                 itemLabel="desc" itemValue="code"/>
-                </td>
-                <td>
-                    <table>
-                        <tr>
-                            <td>
-                                <b>Repeat until</b>
-                                <form:select path="crf.crfCalendars[${status.index}].repeatUntilUnit"
-                                             items="${repeatuntilunits}"
-                                             itemLabel="desc" itemValue="code"
-                                             onchange="changeinput(this,'${status.index}','');"/>
-
-                                </select>
-                            </td>
-                            <td>
-                                <div id="div_date_${status.index}" style="display:none;">
-                                    <tags:renderDate
-                                            propertyName="crfCalendar_date_${status.index}.repeatUntilAmount"
-                                            doNotShowFormat="true" noForm="true" doNotshowLabel="true"/>
-                                </div>
-                                <div id="div_number_${status.index}" style="display:none;">
-                                    <input size="3" id="crfCalendar_number_${status.index}.repeatUntilAmount"
-                                           name="crfCalendar_number_${status.index}.repeatUntilAmount"
-                                           type="text">
-                                </div>
-                                <input type="hidden" id="crf.crfCalendars[${status.index}].repeatUntilAmount"
-                                       name="crf.crfCalendars[${status.index}].repeatUntilAmount"
-                                       value="${crfCalendar.repeatUntilAmount}"/>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </c:forEach>
+                                     </select>
+                                 </td>
+                                 <td>
+                                     <div id="div_date_${status.index}" style="display:none;">
+                                         <tags:renderDate
+                                                 propertyName="crfCalendar_date_${status.index}.repeatUntilAmount"
+                                                 doNotShowFormat="true" noForm="true" doNotshowLabel="true"/>
+                                     </div>
+                                     <div id="div_number_${status.index}" style="display:none;">
+                                         <input size="3" id="crfCalendar_number_${status.index}.repeatUntilAmount"
+                                                name="crfCalendar_number_${status.index}.repeatUntilAmount"
+                                                type="text">
+                                     </div>
+                                     <input type="hidden" id="crf.crfCalendars[${status.index}].repeatUntilAmount"
+                                            name="crf.crfCalendars[${status.index}].repeatUntilAmount"
+                                            value="${crfCalendar.repeatUntilAmount}"/>
+                                 </td>
+                             </tr>
+                         </table>
+                     </td>
+                 </tr>
+             </table>
+         </c:forEach>
+     </chrome:box>
 </jsp:attribute>
-<jsp:attribute name="repeatingFields">
-    <table class="top-widget" width="100%">
-        <tr>
-            <td>
-                <c:forEach items="${command.crf.crfCycles}" var="crfCycle" varStatus="status">
-                    <tags:formScheduleCycle cycleIndex="${status.index}" crfCycle="${crfCycle}"/>
-                    <c:if test="${crfCycle.cycleDays ne ''}">
-                        <script type="text/javascript">
-                            showCycle(${status.index});
-                        </script>
-                    </c:if>
-                </c:forEach>
-                <div id="hiddenDiv"></div>
-                <chrome:division title=" ">
-                    <div class="local-buttons">
-                        <tags:button type="anchor" onClick="javascript:addCycle()"
-                                     value="form.schedule.add_cycle"/>
-                    </div>
-                </chrome:division>
-            </td>
-        </tr>
-    </table>
-</jsp:attribute>
+    <jsp:attribute name="repeatingFields">
+        <chrome:box title="Cycle based schedule" autopad="true">
+            <table class="top-widget" width="100%">
+                <tr>
+                    <td>
+                        <c:forEach items="${command.crf.crfCycles}" var="crfCycle" varStatus="status">
+                            <tags:formScheduleCycle cycleIndex="${status.index}" crfCycle="${crfCycle}" />
+                            <c:if test="${crfCycle.cycleDays ne ''}">
+                                <script type="text/javascript">
+                                    showCycle(${status.index});
+                                </script>
+                            </c:if>
+                        </c:forEach>
+                        <div id="hiddenDiv"></div>
+                            <%--<chrome:division title=" ">--%>
+                        <div class="local-buttons">
+                            <tags:button type="anchor" onClick="javascript:addCycle()"
+                                         value="form.schedule.add_cycle"/>
+                        </div>
+                            <%--</chrome:division>--%>
+                    </td>
+                </tr>
+            </table>
+        </chrome:box>
+    </jsp:attribute>
 </tags:tabForm>
 </body>
 </html>

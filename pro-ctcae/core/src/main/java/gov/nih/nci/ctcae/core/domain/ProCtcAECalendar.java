@@ -85,6 +85,7 @@ public class ProCtcAECalendar {
     private int cycleLength;
     private String cycleSelectedDays;
     private int cycleRepetitionNumber;
+    private String cycleLenghtUnit;
 
     /**
      * Instantiates a new pro ctc ae calendar.
@@ -273,7 +274,7 @@ public class ProCtcAECalendar {
         if (index == 0) {
             int lastday = Integer.parseInt(selectedDays[selectedDays.length - 1]);
             if (currentIndex == 0) {
-                add = currentday-1;
+                add = currentday - 1;
             } else {
                 add = cycleLength - lastday + currentday;
             }
@@ -500,6 +501,7 @@ public class ProCtcAECalendar {
         return dueAfterPeriodInMill;
     }
 
+
     public void setGeneralScheduleParameters(int repetitionPeriodAmount, String repetitionPeriodUnit, int dueDateAmount, String dueDateUnit, String repeatUntilUnit, String repeatUntilValue, Date startDate) {
         this.repetitionPeriodAmount = repetitionPeriodAmount;
         this.repetitionPeriodUnit = repetitionPeriodUnit;
@@ -511,12 +513,19 @@ public class ProCtcAECalendar {
         calendar = getCalendarForDate(startDate);
     }
 
-    public void setCycleParameters(int cycleLength, String cycleSelectedDays, int cycleRepetitionNumber, Date startDate) {
-        this.cycleLength = cycleLength;
-        if(cycleSelectedDays.indexOf(",")==0){
+    public void setCycleParameters(int cycleLength, String cycleSelectedDays, int cycleRepetitionNumber, String cycleLengthUnit, Date startDate) {
+        int multiplier = 1;
+        if (cycleLengthUnit.equals("Weeks")) {
+            multiplier = 7;
+        }
+        if (cycleLengthUnit.equals("Months")) {
+            multiplier = 30;
+        }
+        this.cycleLength = cycleLength * multiplier;
+        if (cycleSelectedDays.indexOf(",") == 0) {
             this.cycleSelectedDays = cycleSelectedDays.substring(1);
-        }else{
-            this.cycleSelectedDays = cycleSelectedDays;    
+        } else {
+            this.cycleSelectedDays = cycleSelectedDays;
         }
         this.cycleRepetitionNumber = cycleRepetitionNumber;
         this.startDate = startDate;

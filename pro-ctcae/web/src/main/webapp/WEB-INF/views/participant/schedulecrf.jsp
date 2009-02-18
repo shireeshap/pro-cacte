@@ -31,8 +31,8 @@
         height: 30px;
     }
 
-    table.widget {                                                a
-        border-left: 9px solid #C3D9FF;
+    table.widget {
+        a border-left: 9px solid #C3D9FF;
         border-bottom: 6px solid #C3D9FF;
         width: 60%;
         table-layout: fixed;
@@ -50,8 +50,8 @@
 
     td.header {
         border-bottom: 1px solid #77a9ff;
-        font-size:small;
-        font-weight:bold;
+        font-size: small;
+        font-weight: bold;
     }
 
     td.border-td {
@@ -69,11 +69,10 @@
 
     .grey {
         background-color: #eaf1f4;
-        height: 20px;
-        /*color: #666666;*/
+        height: 20px; /*color: #666666;*/
         color: #414141;
-        font-size:small;
-        font-weight:bold;
+        font-size: small;
+        font-weight: bold;
     }
 
     .blue {
@@ -146,6 +145,36 @@
 
     #close {
         float: right;
+    }
+    .unselected_day {
+        background-color: #FFFFFF;
+        height: 30px;
+        width: 30px;
+        text-align: center;
+        color: #000000;
+        font-weight: bold;
+        font-size: 10px;
+        border-bottom: #0000cc solid 1px;
+        border-right: #0000cc solid 1px;
+    }
+
+    .selected_day {
+        background-color: #0051fc;
+        height: 30px;
+        width: 30px;
+        text-align: center;
+        color: #FFFFFF;
+        font-weight: bold;
+        font-size: 10px;
+        border-bottom: #0000cc solid 1px;
+        border-right: #0000cc solid 1px;
+    }
+.top-border {
+        border-top: #0000cc solid 1px;
+    }
+
+    .left-border {
+        border-left: #0000cc solid 1px;
     }
 
 </style>
@@ -384,7 +413,67 @@ Event.observe(window, "load", function () {
         changerepeat(items[i], items[i].id, false);
     }
 })
+function showCycle(index, days_amount, days_unit) {
+    var multiplier = 1;
+    if (days_unit == 'Weeks') {
+        multiplier = 7;
+    }
+    if (days_unit == 'Months') {
+        multiplier = 30;
+    }
+    var days = days_amount * multiplier;
+    if (days > 0 && days < 1000) {
+        $('div_cycle_selectdays_' + index).show();
+        $('div_cycle_table_' + index).show();
+        $('div_cycle_repeat_' + index).show();
+        buildTable(index, days, $('selecteddays[' + index + ']').value + ',');
+    } else {
+        $('div_cycle_table_' + index).hide();
+        $('div_cycle_selectdays_' + index).hide();
+        $('div_cycle_repeat_' + index).hide();
+    }
+}
 
+
+function buildTable(index, days, selecteddays) {
+    var tbody = $('cycle_table_' + index).getElementsByTagName("TBODY")[0];
+    var children = tbody.childElements();
+    for (i = 0; i < children.length; i++) {
+        $(children[i]).remove();
+    }
+    var daysPerLine = 21;
+    var numOfRows = parseInt(days / daysPerLine);
+    if (days % daysPerLine > 0) {
+        numOfRows = numOfRows + 1;
+    }
+    for (i = 0; i < numOfRows; i++) {
+        var row = new Element('TR');
+        for (j = 0; j < daysPerLine; j++) {
+            var currentday = i * daysPerLine + j + 1;
+            if (currentday <= days) {
+                var td = new Element('TD');
+                if (i == 0) {
+                    td.addClassName('top-border')
+                }
+                if (j == 0) {
+                    td.addClassName('left-border')
+                }
+                var div = new Element('div', {'id': 'div_' + index + '_' + currentday}).update(currentday);
+                if (selecteddays.indexOf(',' + currentday + ',') == -1) {
+                    div.addClassName('unselected_day');
+                } else {
+                    div.addClassName('selected_day');
+                }
+                div.onclick = function() {
+                    dayOnClick(this, index, this.id.substring(this.id.indexOf('_', 4) + 1));
+                }
+                td.appendChild(div);
+                row.appendChild(td);
+            }
+        }
+        tbody.appendChild(row);
+    }
+}
 
 </script>
 
@@ -457,6 +546,11 @@ Event.observe(window, "load", function () {
                                     </div>
                                 </td>
                             </tr>
+                           <tr>
+                               <td colspan="4">
+                                   <chrome:division title="Generic schedule"/>
+                               </td>
+                           </tr>
                             <tr id="repeatprops_${status.index}">
                                 <td colspan="2">
                                     <div class="row">
@@ -466,7 +560,7 @@ Event.observe(window, "load", function () {
                                         <div class="value">
                                             <input type="text" size="2"
                                                    name="repetitionPeriodAmount_${status.index}"
-                                                   value="2"/>
+                                                   value=""/>
                                             <select name="repetitionPeriodUnit_${status.index}">
                                                 <option value="Days">Days</option>
                                                 <option value="Weeks">Weeks</option>
@@ -486,7 +580,7 @@ Event.observe(window, "load", function () {
                                         <div class="value">
                                             <input type="text" size="2"
                                                    name="dueDateAmount_${status.index}"
-                                                   value="24"/>
+                                                   value=""/>
                                             <select name="dueDateUnit_${status.index}">
                                                 <option value="Hours">Hours</option>
                                                 <option value="Days">Days</option>
@@ -514,7 +608,8 @@ Event.observe(window, "load", function () {
                                                                 size="10"
                                                                 name="repeatUntilValue_${status.index}"
                                                                 type="text"
-                                                                value='<tags:formatDate value="${today}"/>'><a
+                                                            <%--value='<tags:formatDate value="${today}"/>'><a--%>
+                                                                value=''><a
                                                                 href="#" id="${title}-calbutton"> <img
                                                                 src="/ctcae/images/chrome/b-calendar.gif"
                                                                 alt="Calendar"
@@ -533,10 +628,21 @@ Event.observe(window, "load", function () {
                                     </div>
                                 </td>
                             </tr>
+                            <c:forEach items="${participantCrf.crf.crfCycles}" var="crfCycle" varStatus="statuscycle">
+                                <tr>
+                                    <td colspan="4">
+                                        <tags:formScheduleCycle cycleIndex="${statuscycle.index}" crfCycle="${crfCycle}"
+                                                                readonly="true" crfIndex="${status.index}"/>
+                                        <script type="text/javascript">
+                                            showCycle('${status.index}-${statuscycle.index}', ${crfCycle.cycleLength}, '${crfCycle.cycleLengthUnit}');
+                                        </script>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                             <tr>
                                 <td colspan="4">
                                     <br/>
-
+                                    <chrome:division title=" "/>
                                     <div id="calendar_${status.index}">
                                         <tags:participantcalendar schedule="${participantSchedule}"
                                                                   index="${status.index}"/>

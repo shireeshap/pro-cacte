@@ -23,7 +23,8 @@ public class AddFormScheduleCycleController extends AbstractController {
         CRFCycle crfCycle = new CRFCycle();
         command.getCrf().addCrfCycle(crfCycle);
         modelAndView.addObject("cycleIndex", command.getCrf().getCrfCycles().size()-1);
-        modelAndView.addObject("cycle", crfCycle);
+        modelAndView.addObject("cyclelengthunits", ListValues.getCalendarRepetitionUnits());
+
         return modelAndView;
     }
 }
