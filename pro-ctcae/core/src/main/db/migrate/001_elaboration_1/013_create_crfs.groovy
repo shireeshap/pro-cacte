@@ -12,6 +12,8 @@ class CreateCRF extends edu.northwestern.bioinformatics.bering.Migration {
 	t.addColumn('parent_version_id', 'integer', nullable: true);
 	t.addColumn('study_id', 'integer', nullable: false)
 	t.addColumn('recall_period', 'string', nullable: false)
+    t.addColumn("crf_creation_mode", "string", nullable: false)
+
     }
 	execute("ALTER TABLE CRFS ADD CONSTRAINT un_crfs_title UNIQUE (title, crf_version)")
 	execute('ALTER TABLE CRFS ADD CONSTRAINT fk_crfs_crf_id FOREIGN KEY (next_version_id) REFERENCES CRFS')

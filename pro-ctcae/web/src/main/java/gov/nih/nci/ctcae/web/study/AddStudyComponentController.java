@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.ListValues;
+import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;

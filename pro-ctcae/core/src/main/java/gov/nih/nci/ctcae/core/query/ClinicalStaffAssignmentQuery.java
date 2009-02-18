@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 
 import java.util.List;
@@ -20,16 +21,20 @@ public class ClinicalStaffAssignmentQuery extends AbstractQuery {
     private static String DOMAIN_OBJECT_CLASS = "domainObjectClass";
 
 
+    private String ROLES = "roles";
+
+
     /**
      * Instantiates a new clinical staff query.
      */
     public ClinicalStaffAssignmentQuery() {
 
         super(queryString);
+       // filterByRole();
     }
 
     public void filterByStudySiteIds(List<Integer> studySiteIds) {
-        andWhere("csa.domainObjectId  in (:" + STUDY_SITE_IDS+")");
+        andWhere("csa.domainObjectId  in (:" + STUDY_SITE_IDS + ")");
         setParameterList(STUDY_SITE_IDS, studySiteIds);
 
         andWhere("csa.domainObjectClass   =:" + DOMAIN_OBJECT_CLASS);
@@ -37,6 +42,12 @@ public class ClinicalStaffAssignmentQuery extends AbstractQuery {
     }
 
 
+    public void filterByRole() {
+        leftJoin("csa.clinicalStaffAssignmentRoles as csar");
 
+        andWhere("csar.role in (:" + ROLES + ")");
+        setParameterList(ROLES, Role.getStudyLevelRole());
+
+    }
 
 }

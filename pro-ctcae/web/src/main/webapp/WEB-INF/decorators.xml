@@ -23,6 +23,7 @@
         <pattern>/pages/form/advanceForm</pattern>
         <pattern>/pages/participant/schedulecrf</pattern>
         <pattern>/pages/admin/clinicalStaff/createClinicalStaff</pattern>
+        <pattern>/pages/admin/clinicalStaff/searchClinicalStaff</pattern>
     </decorator>
 
     <decorator name="notabbedflow" page="notabbedflow.jsp">

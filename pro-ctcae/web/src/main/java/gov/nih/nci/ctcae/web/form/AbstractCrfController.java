@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
-import gov.nih.nci.ctcae.core.ListValues;
+import gov.nih.nci.ctcae.web.ListValues;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.mvc.AbstractController;
 

@@ -93,58 +93,42 @@
             </td>
         </tr>
     </table>
-    <c:forEach items="${clinicalStaffCommand.clinicalStaff.clinicalStaffAssignments}" var="clinicalStaffAssignment"
-               varStatus="status">
-        <chrome:division title="clinicalStaff.division.sites">
 
-            <div class="row">
-                <div class="label">Site</div>
-                <div class="value">${clinicalStaffAssignment.displayName} </div>
-            </div>
+    <chrome:division title="clinicalStaff.division.sites">
 
-            <div align="left" style="margin-left: 145px">
-                <table width="50%" class="tablecontent">
-                    <tr id="ss-table-head" class="amendment-table-head">
-                        <th width="35%" class="tableHeader"><tags:requiredIndicator/><tags:message
-                                code="clinicalStaff.label.role"/></th>
+        <div align="left" style="margin-left: 50px">
+            <table width="55%" class="tablecontent">
+                <tr id="ss-table-head" class="amendment-table-head">
+                    <th width="95%" class="tableHeader">Sites</th>
+                    <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 
-                        <th width="30%" class="tableHeader"><tags:requiredIndicator/><tags:message
-                                code="clinicalStaff.label.role.status"/></th>
-                        <th width="30%" class="tableHeader"><tags:requiredIndicator/><tags:message
-                                code="clinicalStaff.label.role.status.date"/></th>
-                        <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+                </tr>
 
-                    </tr>
+                <tr>
 
-                    <c:forEach items="${clinicalStaffAssignment.clinicalStaffAssignmentRoles}" var="clinicalStaffAssignmentRole"
-                               varStatus="status">
+                    <td style="border-right:none;">
+                        <c:forEach items="${clinicalStaffCommand.clinicalStaff.siteClinicalStaffs}" var="siteClinicalStaff">
+                            <div class="row">
+                                    ${siteClinicalStaff.organization.displayName}
+                            </div>
+                        </c:forEach>
 
-                        <tr>
-                            <td style="border-right:none;" width="35%">
-                                    ${clinicalStaffAssignmentRole.role}
+                    </td>
 
-                            </td>
-                            <td style="border-right:none;" width="30%">
-                                    ${clinicalStaffAssignmentRole.roleStatus}
-                            </td>
-                            <td style="border-right:none;" width="30%">
-                                <tags:formatDate value="${clinicalStaffAssignmentRole.statusDate}"/>
 
-                            </td>
+                    <td style="border-left:none;">
 
-                            <td style="border-left:none;" width="5%">
-                            </td>
 
-                        </tr>
-                    </c:forEach>
+                    </td>
+                </tr>
 
-                </table>
 
-            </div>
+            </table>
 
-        </chrome:division>
-    </c:forEach>
+        </div>
 
+
+    </chrome:division>
 </chrome:box>
 
 </body>

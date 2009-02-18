@@ -28,15 +28,13 @@ public class ConfirmationCheckController extends AbstractController {
      */
     private static final String DELETE_QUESTION_CONFIRMATION_TYPE = "deleteQuestion";
 
-
-    private static final String DELETE_CLINICAL_STAFF_ASSIGNMENT_ROLE_TYPE = "deleteClinicalStaffAssignmentRole";
-    private static final String DELETE_CLINICAL_STAFF_ASSIGNMENT_TYPE = "deleteClinicalStaffAssignment";
-    private static final String DELETE_CLINICAL_STAFF_ASSIGNMENT_TYPE_FOR_STUDY = "deleteClinicalStaffAssignmentForStudy";
     private static final String DELETE_CRF_CYCLE = "deleteCrfCycle";
 
+    private static final String DELETE_SITE_CLINICAL_STAFF_TYPE = "deleteSiteClinicalStaff";
+
     /* (non-Javadoc)
-     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+    */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = null;
         String confirmationType = request.getParameter("confirmationType");
@@ -51,26 +49,15 @@ public class ConfirmationCheckController extends AbstractController {
             map.put("questionId", request.getParameter("questionId"));
             map.put("proCtcTermId", request.getParameter("proCtcTermId"));
             modelAndView.addAllObjects(map);
-        } else if (StringUtils.equals(confirmationType, DELETE_CLINICAL_STAFF_ASSIGNMENT_ROLE_TYPE)) {
-            modelAndView = new ModelAndView("clinicalStaff/ajax/deleteClinicalStaffAssignmentRoleConfirmationCheck");
-            Map map = new HashMap();
-            map.put("clinicalStaffAssignmentIndex", request.getParameter("clinicalStaffAssignmentIndex"));
-            map.put("clinicalStaffAssignmentRoleIndex", request.getParameter("clinicalStaffAssignmentRoleIndex"));
-            modelAndView.addAllObjects(map);
-        } else if (StringUtils.equals(confirmationType, DELETE_CLINICAL_STAFF_ASSIGNMENT_TYPE)) {
-            modelAndView = new ModelAndView("clinicalStaff/ajax/deleteClinicalStaffAssignmentConfirmationCheck");
-            Map map = new HashMap();
-            map.put("clinicalStaffAssignmentIndex", request.getParameter("clinicalStaffAssignmentIndex"));
-            modelAndView.addAllObjects(map);
-        } else if (StringUtils.equals(confirmationType, DELETE_CLINICAL_STAFF_ASSIGNMENT_TYPE_FOR_STUDY)) {
-            modelAndView = new ModelAndView("study/ajax/deleteClinicalStaffAssignmentConfirmationCheck");
-            Map map = new HashMap();
-            map.put("clinicalStaffAssignmentIndex", request.getParameter("clinicalStaffAssignmentIndex"));
-            modelAndView.addAllObjects(map);
         } else if (StringUtils.equals(confirmationType, DELETE_CRF_CYCLE)) {
             modelAndView = new ModelAndView("form/ajax/deleteCrfCycleConfirmationCheck");
             Map map = new HashMap();
             map.put("crfCycleIndex", request.getParameter("crfCycleIndex"));
+            modelAndView.addAllObjects(map);
+        } else if (StringUtils.equals(confirmationType, DELETE_SITE_CLINICAL_STAFF_TYPE)) {
+            modelAndView = new ModelAndView("clinicalStaff/ajax/deleteSiteClinicalStaffConfirmationCheck");
+            Map map = new HashMap();
+            map.put("siteClinicalStaffIndex", request.getParameter("siteClinicalStaffIndex"));
             modelAndView.addAllObjects(map);
         }
 

@@ -1,4 +1,4 @@
-package gov.nih.nci.ctcae.core;
+package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.ctcae.core.domain.*;

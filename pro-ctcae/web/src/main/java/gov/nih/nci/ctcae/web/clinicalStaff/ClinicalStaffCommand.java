@@ -1,13 +1,7 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignment;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignmentRole;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import org.springframework.util.StringUtils;
-
-import java.util.List;
+import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
 
 //
 /**
@@ -24,8 +18,7 @@ public class ClinicalStaffCommand {
     private ClinicalStaff clinicalStaff;
 
 
-    private String clinicalStaffAssignmentIndexToRemove = "";
-    private String clinicalStaffAssignmentRoleIndexToRemove = "";
+    private String siteClinicalStaffIndexToRemove = "";
 
 
     /**
@@ -34,10 +27,7 @@ public class ClinicalStaffCommand {
     public ClinicalStaffCommand() {
         super();
         clinicalStaff = new ClinicalStaff();
-        ClinicalStaffAssignment assignment = new ClinicalStaffAssignment();
-        assignment.setDomainObjectClass(Organization.class.getName());
-        assignment.addClinicalStaffAssignmentRole(new ClinicalStaffAssignmentRole());
-        clinicalStaff.addClinicalStaffAssignment(assignment);
+        clinicalStaff.addSiteClinicalStaff(new SiteClinicalStaff());
     }
 
     /**
@@ -59,53 +49,25 @@ public class ClinicalStaffCommand {
     }
 
 
-    public String getClinicalStaffAssignmentIndexToRemove() {
-        return clinicalStaffAssignmentIndexToRemove;
+    public String getSiteClinicalStaffIndexToRemove() {
+        return siteClinicalStaffIndexToRemove;
     }
 
-    public void setClinicalStaffAssignmentIndexToRemove(String clinicalStaffAssignmentIndexToRemove) {
-        this.clinicalStaffAssignmentIndexToRemove = clinicalStaffAssignmentIndexToRemove;
+    public void setSiteClinicalStaffIndexToRemove(String siteClinicalStaffIndexToRemove) {
+        this.siteClinicalStaffIndexToRemove = siteClinicalStaffIndexToRemove;
     }
 
 
     public void apply() {
 
-        if (!org.apache.commons.lang.StringUtils.isBlank(getClinicalStaffAssignmentIndexToRemove())) {
-            Integer clinicalStaffAssignmentIndex = Integer.valueOf(clinicalStaffAssignmentIndexToRemove);
-            this.getClinicalStaff().removeClinicalStaffAssignment(clinicalStaffAssignmentIndex);
-        } else if (!org.apache.commons.lang.StringUtils.isBlank(getClinicalStaffAssignmentRoleIndexToRemove())) {
-            String[] siteIndexVsSiteRoleIndex = StringUtils.split(getClinicalStaffAssignmentRoleIndexToRemove(), "-");
-            Integer clinicalStaffAssignmentIndex = Integer.valueOf(siteIndexVsSiteRoleIndex[0]);
-            Integer clinicalStaffAssignmentRoleIndex = Integer.valueOf(siteIndexVsSiteRoleIndex[1]);
-            this.getClinicalStaff().removeClinicalStaffAssignmentRole(clinicalStaffAssignmentIndex, clinicalStaffAssignmentRoleIndex);
+        if (!org.apache.commons.lang.StringUtils.isBlank(getSiteClinicalStaffIndexToRemove())) {
+            Integer siteClinicalStaffIndex = Integer.valueOf(siteClinicalStaffIndexToRemove);
+            this.getClinicalStaff().removeSiteClinicalStaff(siteClinicalStaffIndex);
         }
-
-        setClinicalStaffAssignmentRoleIndexToRemove("");
-
-
-        setClinicalStaffAssignmentIndexToRemove("");
+        setSiteClinicalStaffIndexToRemove("");
 
 
     }
 
-    public void updateDisplayNameOfClinicalStaff(FinderRepository finderRepository) {
-        //now update the display name of clinical staff assignments
-        List<ClinicalStaffAssignment> clinicalStaffAssignments = clinicalStaff.getClinicalStaffAssignments();
-        for (ClinicalStaffAssignment clinicalStaffAssignment : clinicalStaffAssignments) {
-            if (org.apache.commons.lang.StringUtils.equals(clinicalStaffAssignment.getDomainObjectClass(), Organization.class.getName())
-                    && clinicalStaffAssignment.getDomainObjectId() != null) {
-                Organization organization = finderRepository.findById(Organization.class, clinicalStaffAssignment.getDomainObjectId());
-                clinicalStaffAssignment.setDisplayName(organization.getDisplayName());
-            }
-        }
-    }
 
-
-    public String getClinicalStaffAssignmentRoleIndexToRemove() {
-        return clinicalStaffAssignmentRoleIndexToRemove;
-    }
-
-    public void setClinicalStaffAssignmentRoleIndexToRemove(String clinicalStaffAssignmentRoleIndexToRemove) {
-        this.clinicalStaffAssignmentRoleIndexToRemove = clinicalStaffAssignmentRoleIndexToRemove;
-    }
 }

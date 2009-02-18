@@ -29,6 +29,10 @@
         <value>gov.nih.nci.ctcae.core.domain.ProCtcValidValue</value>
         <value>gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignment</value>
         <value>gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignmentRole</value>
+        <value>gov.nih.nci.ctcae.core.domain.Privilege</value>
+        <value>gov.nih.nci.ctcae.core.domain.Roles</value>
+        <value>gov.nih.nci.ctcae.core.domain.RolePrivilege</value>
+        <value>gov.nih.nci.ctcae.core.domain.SiteClinicalStaff</value>
         <value>gov.nih.nci.ctcae.core.domain.Study</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyClinicalStaff</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter</value>

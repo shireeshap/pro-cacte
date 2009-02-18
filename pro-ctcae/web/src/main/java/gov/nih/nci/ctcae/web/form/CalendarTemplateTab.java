@@ -3,9 +3,8 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.domain.CRFCalendar;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignment;
 import gov.nih.nci.ctcae.core.domain.CRFCycle;
-import gov.nih.nci.ctcae.core.ListValues;
+import gov.nih.nci.ctcae.web.ListValues;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

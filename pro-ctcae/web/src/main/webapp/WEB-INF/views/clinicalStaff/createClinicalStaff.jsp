@@ -18,10 +18,10 @@
     <script type="text/javascript">
 
         Event.observe(window, "load", function() {
-        <c:forEach  items="${clinicalStaffCommand.clinicalStaff.clinicalStaffAssignments}" var="clinicalStaffAssignment" varStatus="status">
-            var siteBaseName = 'clinicalStaff.clinicalStaffAssignments[${status.index}].domainObjectId'
+        <c:forEach  items="${clinicalStaffCommand.clinicalStaff.siteClinicalStaffs}" var="siteClinicalStaff" varStatus="status">
+            var siteBaseName = 'clinicalStaff.siteClinicalStaffs[${status.index}].organization'
             acCreate(new siteAutoComplter(siteBaseName));
-            initializeAutoCompleter(siteBaseName, '${clinicalStaffAssignment.displayName}', '${clinicalStaffAssignment.domainObjectId}');
+            initializeAutoCompleter(siteBaseName, '${siteClinicalStaff.organization.displayName}', '${siteClinicalStaff.organization.id}');
         </c:forEach>
             initSearchField()
         })
@@ -39,23 +39,12 @@
                 method:'get'
             })
         }
-        function addRole(clinicalStaffAssignmentIndex) {
-            var request = new Ajax.Request("<c:url value="/pages/clinicalStaff/addClinicalStaffCompoent"/>", {
-                onComplete:function(transport) {
-                    var response = transport.responseText;
-                    new Insertion.Before("hiddenDivForRole_" + clinicalStaffAssignmentIndex, response);
-
-                },
-                parameters:"subview=subview&componentTyep=role&clinicalStaffAssignmentIndex=" + clinicalStaffAssignmentIndex,
-                method:'get'
-            })
-        }
 
 
-        function deleteSiteRole(clinicalStaffAssignmentIndex, clinicalStaffAssignmentRoleIndex) {
+        function deleteSite(siteClinicalStaffIndex) {
 
             var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-                parameters:"confirmationType=deleteClinicalStaffAssignmentRole&subview=subview&clinicalStaffAssignmentIndex=" + clinicalStaffAssignmentIndex + "&clinicalStaffAssignmentRoleIndex=" + clinicalStaffAssignmentRoleIndex,
+                parameters:"confirmationType=deleteSiteClinicalStaff&subview=subview&siteClinicalStaffIndex=" + siteClinicalStaffIndex,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport);
 
@@ -65,30 +54,10 @@
 
 
         }
-        function deleteSiteRoleConfirm(clinicalStaffAssignmentIndex, clinicalStaffAssignmentRoleIndex) {
+        function deleteSiteConfirm(siteClinicalStaffIndex) {
             closeWindow();
             $('showForm').value = true;
-            $('clinicalStaffAssignmentRoleIndexToRemove').value = clinicalStaffAssignmentIndex + '-' + clinicalStaffAssignmentRoleIndex;
-            $('clinicalStaffCommand').submit();
-
-        }
-        function deleteSite(clinicalStaffAssignmentIndex) {
-
-            var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-                parameters:"confirmationType=deleteClinicalStaffAssignment&subview=subview&clinicalStaffAssignmentIndex=" + clinicalStaffAssignmentIndex,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport);
-
-                } ,
-                method:'get'
-            });
-
-
-        }
-        function deleteSiteConfirm(clinicalStaffAssignmentIndex) {
-            closeWindow();
-            $('showForm').value = true;
-            $('clinicalStaffAssignmentIndexToRemove').value = clinicalStaffAssignmentIndex;
+            $('siteClinicalStaffIndexToRemove').value = siteClinicalStaffIndex;
             $('clinicalStaffCommand').submit();
 
         }
@@ -116,72 +85,86 @@
 
 <form:form method="post" commandName="clinicalStaffCommand">
 
-    <chrome:box title="clinicalStaff.box.staffDetails">
+    <chrome:box title="">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
 
         <input type="hidden" id="showForm" name="showForm" value=""/>
-        <form:hidden path="clinicalStaffAssignmentRoleIndexToRemove" id="clinicalStaffAssignmentRoleIndexToRemove"/>
-        <form:hidden path="clinicalStaffAssignmentIndexToRemove" id="clinicalStaffAssignmentIndexToRemove"/>
+        <form:hidden path="siteClinicalStaffIndexToRemove" id="siteClinicalStaffIndexToRemove"/>
 
         <p><tags:instructions code="clinicalStaff.clinicalStaff_details.top"/></p>
-        <chrome:division title="clinicalStaff.division.details"></chrome:division>
-        <table>
-            <tr>
-                <td>
+        <chrome:division title="clinicalStaff.division.details">
+            <table>
+                <tr>
+                    <td>
 
-                    <tags:renderText propertyName="clinicalStaff.firstName" displayName="clinicalStaff.label.first_name"
-                                     required="true"/>
-                    <tags:renderText propertyName="clinicalStaff.middleName"
-                                     displayName="clinicalStaff.label.middle_name"/>
-                    <tags:renderText propertyName="clinicalStaff.lastName" displayName="clinicalStaff.label.last_name"
-                                     required="true"/>
-                    <tags:renderText propertyName="clinicalStaff.nciIdentifier"
-                                     displayName="clinicalStaff.label.identifier"
-                                     required="true"/>
+                        <tags:renderText propertyName="clinicalStaff.firstName"
+                                         displayName="clinicalStaff.label.first_name"
+                                         required="true"/>
+                        <tags:renderText propertyName="clinicalStaff.middleName"
+                                         displayName="clinicalStaff.label.middle_name"/>
+                        <tags:renderText propertyName="clinicalStaff.lastName"
+                                         displayName="clinicalStaff.label.last_name"
+                                         required="true"/>
+                        <tags:renderText propertyName="clinicalStaff.nciIdentifier"
+                                         displayName="clinicalStaff.label.identifier"
+                                         required="true"/>
 
-                </td>
-                <td style="vertical-align:top">
+                    </td>
+                    <td style="vertical-align:top">
 
-                    <tags:renderEmail propertyName="clinicalStaff.emailAddress"
-                                      displayName="clinicalStaff.label.email_address"
-                                      required="true"/>
-                    <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber"
-                                           displayName="clinicalStaff.label.phone"
-                                           required="true"/>
-                    <tags:renderPhoneOrFax propertyName="clinicalStaff.faxNumber"
-                                           displayName="clinicalStaff.label.fax"/>
-
-
-                </td>
-            </tr>
-        </table>
+                        <tags:renderEmail propertyName="clinicalStaff.emailAddress"
+                                          displayName="clinicalStaff.label.email_address"
+                                          required="true"/>
+                        <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber"
+                                               displayName="clinicalStaff.label.phone"
+                                               required="true"/>
+                        <tags:renderPhoneOrFax propertyName="clinicalStaff.faxNumber"
+                                               displayName="clinicalStaff.label.fax"/>
 
 
-    </chrome:box>
-    <chrome:box title="Sites">
-
-
-        <c:forEach items="${clinicalStaffCommand.clinicalStaff.clinicalStaffAssignments}"
-                   var="clinicalStaffAssignment"
-                   varStatus="status">
-
-            <administration:clinicalStaffAssignment clinicalStaffAssignment="${clinicalStaffAssignment}"
-                                                    index="${status.index}"/>
-        </c:forEach>
-
-        <div id="hiddenDiv">
-
-
-        </div>
-
-        <chrome:division title=" ">
-            <div class="local-buttons"><tags:button type="anchor" icon="add" value="clinicalStaff.button.add.site"
-                                                    onClick="javascript:addSite()"></tags:button>
-            </div>
+                    </td>
+                </tr>
+            </table>
         </chrome:division>
-        <br>
-        <br>
-        <br>
+        <chrome:division title="clinicalStaff.division.sites">
+
+            <table cellspacing="0" width="80%">
+                <tr>
+                    <td>
+                        <div align="left" style="margin-left: 145px">
+                            <table width="50%" class="tablecontent">
+                                <tr id="ss-table-head" class="amendment-table-head">
+                                    <th width="95%" class="tableHeader">
+                                        <tags:requiredIndicator/><tags:message
+                                            code='clinicalStaff.division.sites'/></th>
+                                    <th width="5%" class="tableHeader" style=" background-color: none">
+                                        &nbsp;</th>
+
+                                </tr>
+
+
+                                <c:forEach items="${clinicalStaffCommand.clinicalStaff.siteClinicalStaffs}"
+                                           var="siteClinicalStaff"
+                                           varStatus="status">
+
+                                    <administration:siteClinicalStaff
+                                            siteClinicalStaff="${siteClinicalStaff}"
+                                            siteClinicalStaffIndex="${status.index}"/>
+                                </c:forEach>
+
+                                <tr id="hiddenDiv" align="center"></tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td valign="top">
+                        <tags:button type="anchor" icon="add" value="clinicalStaff.button.add.site"
+                                     onClick="javascript:addSite()"></tags:button>
+                    </td>
+                </tr>
+            </table>
+
+
+        </chrome:division>
     </chrome:box>
     <tags:tabControls willSave="true"/>
 </form:form>

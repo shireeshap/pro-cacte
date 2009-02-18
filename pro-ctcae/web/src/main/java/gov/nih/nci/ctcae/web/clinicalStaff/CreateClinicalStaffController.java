@@ -3,7 +3,7 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import gov.nih.nci.ctcae.core.ListValues;
+import gov.nih.nci.ctcae.web.ListValues;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.Errors;
@@ -75,7 +75,6 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             modelAndView = new ModelAndView(getSuccessView());
             modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
         }
-        clinicalStaffCommand.updateDisplayNameOfClinicalStaff(finderRepository);
 
         return modelAndView;
     }
@@ -107,7 +106,6 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             clinicalStaffCommand.setClinicalStaff(clinicalStaff);
         }
 
-        clinicalStaffCommand.updateDisplayNameOfClinicalStaff(finderRepository);
         return clinicalStaffCommand;
 
     }

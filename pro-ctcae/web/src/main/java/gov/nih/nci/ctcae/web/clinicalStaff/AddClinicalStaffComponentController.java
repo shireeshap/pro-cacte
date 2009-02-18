@@ -1,12 +1,8 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import gov.nih.nci.ctcae.core.ListValues;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignment;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignmentRole;
-import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -23,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 public class AddClinicalStaffComponentController extends AbstractController {
 
     public static final String SITE_COMPONENT_TYPE = "site";
-    public static final String ROLE_COMPONENT_TYPE = "role";
     public static final String COMPONENT_TYPE = "componentTyep";
     protected final String CLINICAL_STAFF_ASSIGNMENT_INDEX = "clinicalStaffAssignmentIndex";
 
@@ -39,33 +34,15 @@ public class AddClinicalStaffComponentController extends AbstractController {
         String componentTyep = request.getParameter(COMPONENT_TYPE);
 
         if (StringUtils.equals(componentTyep, SITE_COMPONENT_TYPE)) {
-            ClinicalStaffAssignment clinicalStaffAssignment = new ClinicalStaffAssignment();
-            clinicalStaffAssignment.setDomainObjectClass(Organization.class.getName());
-            clinicalStaffAssignment.addClinicalStaffAssignmentRole(new ClinicalStaffAssignmentRole());
-            clinicalStaff.addClinicalStaffAssignment(clinicalStaffAssignment);
+            SiteClinicalStaff siteClinicalStaff = new SiteClinicalStaff();
+            clinicalStaff.addSiteClinicalStaff(siteClinicalStaff);
 
-            int index = clinicalStaff.getClinicalStaffAssignments().size() - 1;
+            int siteClinicalStaffIndex = clinicalStaff.getSiteClinicalStaffs().size() - 1;
 
-            modelAndView = new ModelAndView("clinicalStaff/clinicalStaffAssignmentSection");
-            modelAndView.addObject("index", index);
-            modelAndView.addObject("clinicalStaffAssignment", clinicalStaffAssignment);
-        } else if (StringUtils.equals(componentTyep, ROLE_COMPONENT_TYPE)) {
-
-            Integer clinicalStaffAssignmentIndex = ServletRequestUtils.getRequiredIntParameter(request, CLINICAL_STAFF_ASSIGNMENT_INDEX);
-            ClinicalStaffAssignment clinicalStaffAssignment = clinicalStaff.getClinicalStaffAssignments().get(clinicalStaffAssignmentIndex);
-
-            ClinicalStaffAssignmentRole clinicalStaffAssignmentRole = new ClinicalStaffAssignmentRole();
-            clinicalStaffAssignment.addClinicalStaffAssignmentRole(clinicalStaffAssignmentRole);
-            int index = clinicalStaffAssignment.getClinicalStaffAssignmentRoles().size() - 1;
-
-            modelAndView = new ModelAndView("clinicalStaff/clinicalStaffAssignmentRoleSection");
-            modelAndView.addObject("clinicalStaffAssignmentRole", clinicalStaffAssignmentRole);
-            modelAndView.addObject("index", index);
-            modelAndView.addObject("clinicalStaffAssignmentIndex", clinicalStaffAssignmentIndex);
-
+            modelAndView = new ModelAndView("clinicalStaff/siteClinicalStaffSection");
+            modelAndView.addObject("siteClinicalStaffIndex", siteClinicalStaffIndex);
+            modelAndView.addObject("siteClinicalStaff", siteClinicalStaff);
         }
-        modelAndView.addObject("siteRoles", ListValues.getSiteRolesType());
-        modelAndView.addObject("roleStatus", ListValues.getRoleStatusType());
 
         return modelAndView;
     }

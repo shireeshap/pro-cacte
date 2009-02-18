@@ -1,12 +1,10 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.ListValues;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -130,7 +128,5 @@ public class ClinicalStaffAssignmentRole extends BasePersistable {
         return result;
     }
 
-    public List<ListValues> getRoleStatusOptions() {
-       return ListValues.getRoleStatusType();
-    }
+    
 }

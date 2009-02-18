@@ -52,13 +52,10 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/011_drop_duplicate_organiza
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/012_create_ctc.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/013_create_study_participant_crf_schedules.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/014_alter_crfpage_add_Instructions.groovy -text
-pro-ctcae/core/src/main/db/migrate/002_elaboration_1/015_add_ss_clinical_staff.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/016_add_sp_clinical_staff.groovy -text
-pro-ctcae/core/src/main/db/migrate/002_elaboration_1/017_add_site_clinical_staff_role.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/018_create_crf_calendars.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/019_create_crf_cycles.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/ListValues.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLine.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv -text
@@ -105,6 +102,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RolePrivilege.java -t
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleType.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Roles.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCoordinatingCenter.java -text
@@ -191,10 +189,6 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/TestBean.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFPageTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffAssignemntRoleTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffAssignmentIntegrationTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffAssignmentRoleIntegrationTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffAssignmentTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CrfCreationModeTest.java -text
@@ -312,6 +306,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ConfirmationCheckController.ja
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ControllerTools.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ControllersUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/CtcAeSimpleFormController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilter.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/AddClinicalStaffComponentController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffAjaxFacade.java -text
@@ -412,6 +407,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/special-views.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/spring-servlet.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/administration/clinicalStaffAssignment.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/administration/clinicalStaffAssignmentRole.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/administration/siteClinicalStaff.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/attribute.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/autocompleter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/body.tag -text
@@ -507,13 +503,11 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabForm.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabMethod.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/validvalue.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tiles-definitions.xml -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/ajax/deleteClinicalStaffAssignmentConfirmationCheck.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/ajax/deleteClinicalStaffAssignmentRoleConfirmationCheck.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/clinicalStaffAssignmentRoleSection.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/clinicalStaffAssignmentSection.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/ajax/deleteSiteClinicalStaffConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/confirmClinicalStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/createClinicalStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/searchClinicalStaff.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/siteClinicalStaffSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/dummy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text

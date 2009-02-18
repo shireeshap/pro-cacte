@@ -19,7 +19,8 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     protected ClinicalStaffAssignment defaultClinicalStaffAssignment;
     protected StudyParticipantAssignment defaultStudyParticipantAssignment;
     protected Organization defaultOrganization;
-
+    protected Participant defaultParticipant;
+    protected ParticipantRepository participantRepository;
     protected Study defaultStudy;
     protected StudySite defaultStudySite;
     protected StudyRepository studyRepository;
@@ -33,6 +34,8 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
             "classpath*:gov/nih/nci/ctcae/core/resourceContext-job.xml",
 //                "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml",
             "classpath*:" + "/*-context-test.xml"};
+    protected SiteClinicalStaff defaultSiteClinicalStaff;
+    private Roles roles;
 
 
     @Override
@@ -58,34 +61,66 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
         defaultOrganization = organizationRepository.findById(105051);
 
-        defaultStudy = studyRepository.findById(-1001);
-        assertNotNull("must find default study. Try running ant migrate-sample-data to migrate sample data", defaultStudy);
+        defaultStudy = new Study();
+        defaultStudy.setShortTitle("A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)");
+        defaultStudy.setLongTitle("A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)");
+        defaultStudy.setAssignedIdentifier("-10001");
+
+        defaultStudySite = new StudySite();
+        defaultStudySite.setOrganization(defaultOrganization);
+
+        defaultStudy.addStudySite(defaultStudySite);
+        defaultStudy = studyRepository.save(defaultStudy);
+        assertNotNull("must find default study. ", defaultStudy);
         defaultStudySite = defaultStudy.getStudySites().get(0);
-        assertNotNull("must find default study site. Try running ant migrate-sample-data to migrate sample data", defaultStudySite);
+        assertNotNull("must find default study site. ", defaultStudySite);
 
-        defaultStudyParticipantAssignment = defaultStudySite.getStudyParticipantAssignments().get(0);
-        assertNotNull("must find default study participant assignment. Try running ant migrate-sample-data to migrate sample data", defaultStudyParticipantAssignment);
+        commitAndStartNewTransaction();
 
-        defaultClinicalStaff = clinicalStaffRepository.findById(-100);
-        assertNotNull("must find default clinical staff. Try running ant migrate-sample-data to migrate sample data", defaultClinicalStaff);
 
-        defaultClinicalStaffAssignment = defaultClinicalStaff.getClinicalStaffAssignments().get(0);
-        assertNotNull("must find default site clinical staff. Try running ant migrate-sample-data to migrate sample data", defaultClinicalStaffAssignment);
+        defaultParticipant = Fixture.createParticipant("Bruce", "Tanner", "P002");
+        defaultStudyParticipantAssignment = new StudyParticipantAssignment();
+        defaultStudyParticipantAssignment.setStudyParticipantIdentifier("1234");
+        defaultStudyParticipantAssignment.setStudySite(defaultStudySite);
+        defaultParticipant.addStudyParticipantAssignment(defaultStudyParticipantAssignment);
+        defaultParticipant = participantRepository.save(defaultParticipant);
+
+        commitAndStartNewTransaction();
+
+
+        defaultStudyParticipantAssignment = defaultParticipant.getStudyParticipantAssignments().get(0);
+        assertNotNull("must find default study participant assignment. ", defaultStudyParticipantAssignment);
+
+        defaultClinicalStaff = new ClinicalStaff();
+        defaultClinicalStaff.setFirstName("Bruce");
+        defaultClinicalStaff.setLastName("Tanner");
+        defaultClinicalStaff.setNciIdentifier("-1234");
+        defaultSiteClinicalStaff = new SiteClinicalStaff();
+        defaultSiteClinicalStaff.setOrganization(defaultOrganization);
+        defaultClinicalStaff.addSiteClinicalStaff(defaultSiteClinicalStaff);
+
+        defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
+
+        commitAndStartNewTransaction();
+        assertNotNull("must find default clinical staff. ", defaultClinicalStaff);
+
+        defaultSiteClinicalStaff = defaultClinicalStaff.getSiteClinicalStaffs().get(0);
+        assertNotNull("must find default clinical staff. ", defaultSiteClinicalStaff);
+
 
     }
 
 
     protected void updateDefaultObjects() {
 
-        defaultStudy = studyRepository.findById(defaultStudy.getId());
-        defaultStudySite = defaultStudy.getStudySites().get(0);
-        defaultStudyParticipantAssignment = defaultStudySite.getStudyParticipantAssignments().get(0);
+//        defaultStudy = studyRepository.findById(defaultStudy.getId());
+//        defaultStudySite = defaultStudy.getStudySites().get(0);
+//        defaultStudyParticipantAssignment = defaultStudySite.getStudyParticipantAssignments().get(0);
+//
+//        defaultStudyParticipantAssignment = defaultStudySite.getStudyParticipantAssignments().get(0);
+//
+//        defaultClinicalStaff = clinicalStaffRepository.findById(-100);
 
-        defaultStudyParticipantAssignment = defaultStudySite.getStudyParticipantAssignments().get(0);
-
-        defaultClinicalStaff = clinicalStaffRepository.findById(-100);
-
-        defaultClinicalStaffAssignment = defaultClinicalStaff.getClinicalStaffAssignments().get(0);
 
     }
 
@@ -94,7 +129,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         DataAuditInfo.setLocal(null);
         super.onTearDownInTransaction();
 
-
+        deleteFromTables(new String[]{"study_participant_assignments", "study_organizations", "studies", "SITE_CLINICAL_STAFFS", "CLINICAL_STAFFS"});
     }
 
 
@@ -106,9 +141,9 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         commitAndStartNewTransaction();
 
         defaultClinicalStaff = clinicalStaffRepository.findById(defaultClinicalStaff.getId());
-        assertFalse("must have clinical staff assignment", defaultClinicalStaff.getClinicalStaffAssignments().isEmpty());
-
-        defaultClinicalStaffAssignment = defaultClinicalStaff.getClinicalStaffAssignments().get(0);
+//        assertFalse("must have clinical staff assignment", defaultClinicalStaff.getClinicalStaffAssignments().isEmpty());
+//
+//        defaultClinicalStaffAssignment = defaultClinicalStaff.getClinicalStaffAssignments().get(0);
         assertTrue("must remove clinical staff assignment role", defaultClinicalStaffAssignment.getClinicalStaffAssignmentRoles().isEmpty());
 
         ClinicalStaffAssignmentRole clinicalStaffAssignmentRole = new ClinicalStaffAssignmentRole();
@@ -138,7 +173,6 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         setComplete();
         endTransaction();
         startNewTransaction();
-        updateDefaultObjects();
     }
 
     @Required
@@ -149,6 +183,11 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     @Required
     public void setFinderRepository(final FinderRepository finderRepository) {
         this.finderRepository = finderRepository;
+    }
+
+    @Required
+    public void setParticipantRepository(ParticipantRepository participantRepository) {
+        this.participantRepository = participantRepository;
     }
 
     @Required

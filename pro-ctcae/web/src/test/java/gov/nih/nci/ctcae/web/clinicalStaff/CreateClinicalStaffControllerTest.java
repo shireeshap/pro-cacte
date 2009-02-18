@@ -48,7 +48,7 @@ public class CreateClinicalStaffControllerTest extends WebTestCase {
     public void testFormBackingObject() throws Exception {
         assertNotNull(clinicalStaffCommand);
         assertNull(clinicalStaffCommand.getClinicalStaff());
-        assertTrue(StringUtils.isBlank(clinicalStaffCommand.getClinicalStaffAssignmentIndexToRemove()));
+        assertTrue(StringUtils.isBlank(clinicalStaffCommand.getSiteClinicalStaffIndexToRemove()));
 
     }
 

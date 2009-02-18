@@ -82,7 +82,6 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
 
         binder.registerCustomEditor(CrfItemAllignment.class, new EnumByNameEditor<CrfItemAllignment>(CrfItemAllignment.class));
 
-        binder.registerCustomEditor(Role.class, new EnumByNameEditor<Role>(Role.class));
         binder.registerCustomEditor(RoleStatus.class, new EnumByNameEditor<RoleStatus>(RoleStatus.class));
 
 

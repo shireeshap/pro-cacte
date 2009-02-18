@@ -1,8 +1,6 @@
 //Note:- caAERS has tweaked the validation.js
 
-// ===================================================================
-// Author: Kruttik Aggarwal <kruttikagarwal@@gmail.com>
-// 
+// ========================================================
 //
 // NOTICE: You may use this code for any purpose, commercial or
 // private, without any further permission from the author. You may

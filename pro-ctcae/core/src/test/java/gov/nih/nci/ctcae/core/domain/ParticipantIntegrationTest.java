@@ -14,7 +14,6 @@ import java.util.Collection;
 
 public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
-    private ParticipantRepository participantRepository;
     private Participant participant, inValidParticipant;
 
     @Override
@@ -112,8 +111,4 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
 
     }
 
-    public void setParticipantRepository(
-            ParticipantRepository participantRepository) {
-        this.participantRepository = participantRepository;
-    }
 }

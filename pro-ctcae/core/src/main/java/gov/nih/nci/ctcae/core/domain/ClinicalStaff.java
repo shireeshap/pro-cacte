@@ -7,6 +7,7 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 //
@@ -53,7 +54,7 @@ public class ClinicalStaff extends Person {
      */
     @OneToMany(mappedBy = "clinicalStaff", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<ClinicalStaffAssignment> clinicalStaffAssignments = new ArrayList<ClinicalStaffAssignment>();
+    private List<SiteClinicalStaff> siteClinicalStaffs = new ArrayList<SiteClinicalStaff>();
 
     /**
      * Gets the email address.
@@ -127,36 +128,6 @@ public class ClinicalStaff extends Person {
         this.phoneNumber = phoneNumber;
     }
 
-    @UniqueObjectInCollection(message = "Duplicate Site")
-    public List<ClinicalStaffAssignment> getClinicalStaffAssignments() {
-        return clinicalStaffAssignments;
-    }
-
-
-    /**
-     * Adds the site clinical staff.
-     *
-     * @param clinicalStaffAssignment the site clinical staff
-     */
-    public void addClinicalStaffAssignment(ClinicalStaffAssignment clinicalStaffAssignment) {
-        if (clinicalStaffAssignment != null) {
-            clinicalStaffAssignment.setClinicalStaff(this);
-            this.getClinicalStaffAssignments().add(clinicalStaffAssignment);
-        }
-    }
-
-
-    /**
-     * Removes the site clinical staff.
-     *
-     * @param clinicalStaffAssignment the site clinical staff
-     */
-    public void removeClinicalStaffAssignment(ClinicalStaffAssignment clinicalStaffAssignment) {
-        if (clinicalStaffAssignment != null) {
-            this.getClinicalStaffAssignments().remove(clinicalStaffAssignment);
-        }
-    }
-
 
     /* (non-Javadoc)
     * @see gov.nih.nci.ctcae.core.domain.Person#equals(java.lang.Object)
@@ -191,14 +162,66 @@ public class ClinicalStaff extends Person {
         return result;
     }
 
-    public void removeClinicalStaffAssignment(Integer clinicalStaffAssignmentIndex) {
-        ClinicalStaffAssignment clinicalStaffAssignment = getClinicalStaffAssignments().get(clinicalStaffAssignmentIndex);
-        removeClinicalStaffAssignment(clinicalStaffAssignment);
+
+    /**
+     * Gets the site clinical staffs.
+     *
+     * @return the site clinical staffs
+     */
+    @UniqueObjectInCollection(message = "Duplicate Site")
+    public List<SiteClinicalStaff> getSiteClinicalStaffs() {
+        return siteClinicalStaffs;
     }
 
-    public void removeClinicalStaffAssignmentRole(Integer clinicalStaffAssignmentIndex, Integer clinicalStaffAssignmentRoleIndex) {
-        ClinicalStaffAssignment clinicalStaffAssignment = getClinicalStaffAssignments().get(clinicalStaffAssignmentIndex);
-        clinicalStaffAssignment.removeClinicalStaffAssignmentRole(clinicalStaffAssignmentRoleIndex);
-
+    public void removeSiteClinicalStaff(Integer siteClinicalStaffIndex) {
+        SiteClinicalStaff siteClinicalStaff = getSiteClinicalStaffs().get(siteClinicalStaffIndex);
+        removeSiteClinicalStaff(siteClinicalStaff);
     }
+
+
+    /**
+     * Adds the site clinical staff.
+     *
+     * @param siteClinicalStaff the site clinical staff
+     */
+    public void addSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
+        if (siteClinicalStaff != null) {
+            siteClinicalStaff.setClinicalStaff(this);
+            this.getSiteClinicalStaffs().add(siteClinicalStaff);
+        }
+    }
+
+    /**
+     * Adds the site clinical staffs.
+     *
+     * @param siteClinicalStaffs the site clinical staffs
+     */
+    public void addSiteClinicalStaffs(Collection<SiteClinicalStaff> siteClinicalStaffs) {
+        for (SiteClinicalStaff siteClinicalStaff : siteClinicalStaffs) {
+            addSiteClinicalStaff(siteClinicalStaff);
+        }
+    }
+
+    /**
+     * Removes the site clinical staff.
+     *
+     * @param siteClinicalStaff the site clinical staff
+     */
+    public void removeSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
+        if (siteClinicalStaff != null) {
+            this.getSiteClinicalStaffs().remove(siteClinicalStaff);
+        }
+    }
+
+    /**
+     * Removes the site clinical staffs.
+     *
+     * @param siteClinicalStaffs the site clinical staffs
+     */
+    public void removeSiteClinicalStaffs(List<SiteClinicalStaff> siteClinicalStaffs) {
+        for (SiteClinicalStaff siteClinicalStaff : siteClinicalStaffs) {
+            removeSiteClinicalStaff(siteClinicalStaff);
+        }
+    }
+
 }

@@ -1,11 +1,5 @@
 package gov.nih.nci.ctcae.core.query;
 
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Role;
-
-import java.util.List;
-import java.util.ArrayList;
-
 //
 /**
  * User: Mehul Gulati
@@ -98,18 +92,11 @@ public class ClinicalStaffQuery extends AbstractQuery {
     }
 
 
-    public void filterByOrganizationAndRole(final Integer organizationId) {
-        leftJoin("cs.clinicalStaffAssignments as csa left join csa.clinicalStaffAssignmentRoles as csar");
-        andWhere("csa.domainObjectId = :" + ORGANIZATION_ID);
-        andWhere("csa.domainObjectClass = :" + ORGANIZATION_CLASS);
+    public void filterByOrganization(final Integer organizationId) {
+        leftJoin("cs.siteClinicalStaffs as scs");
+        andWhere("scs.organization.id = :" + ORGANIZATION_ID);
         setParameter(ORGANIZATION_ID, organizationId);
-        setParameter(ORGANIZATION_CLASS, Organization.class.getName());
-
-        andWhere("csar.role in (:" + ROLES + ")");
-        final List value= new ArrayList();
-        value.add(Role.CRA.toString());
-        value.add(Role.PHYSICAN.toString());
-        setParameterList(ROLES, Role.getStudyLevelRole());
-
     }
+
+
 }
