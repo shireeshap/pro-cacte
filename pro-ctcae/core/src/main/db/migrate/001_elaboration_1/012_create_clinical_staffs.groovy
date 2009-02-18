@@ -29,28 +29,47 @@ class CreateClinicalStaffs extends edu.northwestern.bioinformatics.bering.Migrat
     execute('ALTER TABLE SITE_CLINICAL_STAFFS ADD CONSTRAINT fk_si_cli FOREIGN KEY (clinical_staff_id) REFERENCES CLINICAL_STAFFS')
     execute('ALTER TABLE SITE_CLINICAL_STAFFS ADD CONSTRAINT fk_si_org FOREIGN KEY (organization_id) REFERENCES ORGANIZATIONS')
 
-//    createTable("STUDY_CLINICAL_STAFFS") {t ->
-//      t.addVersionColumn()
-//
-//      t.addColumn('status_code', 'string', nullable: true)
-//      t.addColumn('role_code', 'string', nullable: true)
-//      t.addColumn('signature_text', 'string', nullable: true)
-//      t.addColumn('site_clinical_staff_id', 'integer', nullable: false)
-//      t.addColumn('study_organization_id', 'integer', nullable: false)
-//    }
-//
-//    execute('ALTER TABLE STUDY_CLINICAL_STAFFS ADD CONSTRAINT FK_study_cli_site_cli FOREIGN KEY (site_clinical_staff_id) REFERENCES SITE_CLINICAL_STAFFS')
-    //execute('ALTER TABLE STUDY_CLINICAL_STAFFS ADD CONSTRAINT FK_study_cli_study_org FOREIGN KEY (study_organization_id) REFERENCES STUDY_ORGANIZATIONS')
+    createTable("STUDY_ORGANIZATION_CLINICAL_STAFFS") {t ->
+
+      t.addVersionColumn()
+
+      t.addColumn('site_clinical_staff_id', 'integer', nullable: false)
+      t.addColumn('study_organization_id', 'integer', nullable: false)
+      t.addColumn('role_status', 'string', nullable: false)
+      t.addColumn('role_id', 'integer', nullable: false)
+      t.addColumn('status_date', 'date', nullable: false)
+
+    }
+
+
+    execute('ALTER TABLE STUDY_ORGANIZATION_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_site_clinical_staff FOREIGN KEY (site_clinical_staff_id) REFERENCES SITE_CLINICAL_STAFFS')
+    execute('ALTER TABLE STUDY_ORGANIZATION_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_study_site FOREIGN KEY (study_organization_id) REFERENCES STUDY_ORGANIZATIONS')
+    execute('ALTER TABLE STUDY_ORGANIZATION_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_role FOREIGN KEY (role_id) REFERENCES ROLES')
+
+    createTable("STUDY_PARTICIPANT_CLINICAL_STAFFS") {t ->
+
+      t.addVersionColumn()
+
+      t.addColumn('study_organization_clinical_staff_id', 'integer', nullable: false)
+      t.addColumn('sp_assignment_id', 'integer', nullable: false)
+      t.addColumn('role_status', 'string', nullable: false)
+      t.addColumn('role_id', 'integer', nullable: false)
+      t.addColumn('status_date', 'date', nullable: false)
+
+    }
+
+
+    execute('ALTER TABLE STUDY_PARTICIPANT_CLINICAL_STAFFS ADD CONSTRAINT fk_sp_cls_study_org  FOREIGN KEY (study_organization_clinical_staff_id) REFERENCES STUDY_ORGANIZATION_CLINICAL_STAFFS')
+    execute('ALTER TABLE STUDY_PARTICIPANT_CLINICAL_STAFFS ADD CONSTRAINT  fk_sp_cls_site_clinical_staff FOREIGN KEY (sp_assignment_id) REFERENCES STUDY_PARTICIPANT_ASSIGNMENTS')
+    execute('ALTER TABLE STUDY_PARTICIPANT_CLINICAL_STAFFS ADD CONSTRAINT fk_sp_cls_role FOREIGN KEY (role_id) REFERENCES ROLES')
+
   }
 
 
   void down() {
-    execute("alter table STUDY_CLINICAL_STAFFS drop constraint FK_study_cli_study_org")
-    execute("alter table STUDY_CLINICAL_STAFFS drop constraint FK_study_cli__site_cli")
-    dropTable("STUDY_CLINICAL_STAFFS")
+    dropTable("STUDY_PARTICIPANT_CLINICAL_STAFFS")
+    dropTable("STUDY_ORGANIZATION_CLINICAL_STAFFS")
 
-    execute("alter table SITE_CLINICAL_STAFFS drop constraint FK_si_org")
-    execute("alter table SITE_CLINICAL_STAFFS drop constraint FK_si_cli")
     dropTable("SITE_CLINICAL_STAFFS")
 
 

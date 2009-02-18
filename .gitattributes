@@ -31,7 +31,6 @@ pro-ctcae/core/src/main/db/migrate/001_elaboration_1/013_create_crfs.groovy -tex
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/014_create_crf_pages.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/015_create_crf_page_items.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/016_create_crf_page_items_display_rules.groovy -text
-pro-ctcae/core/src/main/db/migrate/001_elaboration_1/017_create_study_participant_assignments.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/018_create_study_participant_crfs.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/019_create_study_participant_crf_items.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/020_create_sp_crf_schedules.groovy -text
