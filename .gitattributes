@@ -26,7 +26,6 @@ pro-ctcae/core/src/main/db/migrate/001_elaboration_1/007_create_ctc_categories_a
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/008_create_pro_ctc_terms.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/009_create_pro_ctc_questions.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/010_create_pro_ctc_valid_values.groovy -text
-pro-ctcae/core/src/main/db/migrate/001_elaboration_1/011_create_study_organizations.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/012_create_clinical_staffs.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/013_create_crfs.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/014_create_crf_pages.groovy -text
