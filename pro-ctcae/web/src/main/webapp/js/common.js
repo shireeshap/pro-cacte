@@ -226,16 +226,16 @@ function closeAjaxLoadingImage() {
     Dialog.closeInfo()
 }
 function showConfirmationWindow(transport, width, height, top, left) {
-    if(typeof(width) == 'undefined'){
+    if (typeof(width) == 'undefined') {
         width = 600;
     }
-    if(typeof(height) == 'undefined'){
+    if (typeof(height) == 'undefined') {
         height = 300;
     }
-    if(typeof(top) == 'undefined'){
+    if (typeof(top) == 'undefined') {
         top = 250;
     }
-    if(typeof(width) == 'undefined'){
+    if (typeof(width) == 'undefined') {
         left = 200;
     }
     var win = Windows.getFocusedWindow();
@@ -289,19 +289,20 @@ Object.extend(siteAutoComplter.prototype, {
 
 
 });
-var clinicalStaffAutoComplter = Class.create();
-Object.extend(clinicalStaffAutoComplter.prototype, {
-    initialize: function(basename,organizationId) {
+
+var siteClinicalStaffAutoComplter = Class.create();
+Object.extend(siteClinicalStaffAutoComplter.prototype, {
+    initialize: function(basename, studyOrganizationId) {
 
         this.basename = basename;
-        this.organizationId=organizationId;
+        this.organizationId = studyOrganizationId;
         this.populator = function(autocompleter, text) {
-            clinicalStaff.matchClinicalStaffByOrganizationId(text,organizationId, function(values) {
+            clinicalStaff.matchSiteClinicalStaffByStudyOrganizationId(text, studyOrganizationId, function(values) {
                 autocompleter.setChoices(values)
             })
         },
                 this.valueSelector = function (obj) {
-                    return obj.displayName;
+                    return obj.clinicalStaff.displayName;
                 }
 
     }
@@ -335,6 +336,13 @@ function initializeAutoCompleter(basename, name, id) {
         $(basename + '-input').addClassName('autocomplete');
 
     }
+}
+function clearAutoCompleter(basename) {
+    $(basename + '-input').value = '';
+    $(basename).value = '';
+    $(basename + '-input').addClassName('autocomplete');
+
+
 }
 
 // COLLAPSABLE DIV ELEMENT

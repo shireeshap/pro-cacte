@@ -27,7 +27,6 @@ public class SitesTab extends Tab<StudyCommand> {
     @Override
     public void postProcess(HttpServletRequest request, StudyCommand command, Errors errors) {
         super.postProcess(request, command, errors);
-        command.removeStudySites();
 
     }
 }

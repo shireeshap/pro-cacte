@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.validation.annotation.UniqueIdentifierForStudy;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollection;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
@@ -356,5 +355,17 @@ public class Study extends BasePersistable {
         return null;
 
 
+    }
+
+    public StudyOrganization getStudyOrganization(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+        StudyOrganization expectedStudyOrganization = studyOrganizationClinicalStaff.getStudyOrganization();
+        for (StudyOrganization studyOrganization : studyOrganizations) {
+            if (studyOrganization.getId().equals(expectedStudyOrganization.getId())) {
+                return studyOrganization;
+            }
+        }
+
+
+        return null;
     }
 }

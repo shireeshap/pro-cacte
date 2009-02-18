@@ -128,11 +128,11 @@
         </chrome:division>
         <chrome:division title="clinicalStaff.division.sites">
 
-            <table cellspacing="0" width="80%">
+            <table cellspacing="0" width="90%">
                 <tr>
                     <td>
                         <div align="left" style="margin-left: 145px">
-                            <table width="50%" class="tablecontent">
+                            <table width="90%" class="tablecontent">
                                 <tr id="ss-table-head" class="amendment-table-head">
                                     <th width="95%" class="tableHeader">
                                         <tags:requiredIndicator/><tags:message

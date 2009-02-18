@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.study;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignment;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
@@ -15,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 //
 /**
@@ -50,7 +48,7 @@ public class StudyController extends CtcAeTabbedFlowController<StudyCommand> {
     protected void layoutTabs(final Flow<StudyCommand> flow) {
         flow.addTab(new StudyDetailsTab());
         flow.addTab(new SitesTab());
-        flow.addTab(new StudyInvestigatorsTab());
+        flow.addTab(new StudyClinicalStaffTab());
 
         flow.addTab(new EmptyStudyTab("study.tab.overview", "study.tab.overview", "study/study_reviewsummary"));
 
@@ -68,8 +66,8 @@ public class StudyController extends CtcAeTabbedFlowController<StudyCommand> {
         if (studyId != null) {
             Study study = studyRepository.findById(Integer.valueOf(studyId));
             studyCommand.setStudy(study);
+            //studyCommand.set
         }
-
 
 
         return studyCommand;
@@ -99,13 +97,7 @@ public class StudyController extends CtcAeTabbedFlowController<StudyCommand> {
     @Override
     protected void save(StudyCommand command) {
 
-        // saveResearchStaff the study by calling merge, as the study might be assocated
-        // to different copy of same object (eg: Organization, with same id)
-        // in different screens (hibernate session)
         command.setStudy(studyRepository.save(command.getStudy()));
-        List<ClinicalStaffAssignment> savedClinicalStaffAssignments = clinicalStaffRepository.save(command.getClinicalStaffAssignments());
-        command.setClinicalStaffAssignments(savedClinicalStaffAssignments);
-        command.updateDisplayNameOfClinicalStaff(finderRepository);
 
     }
 

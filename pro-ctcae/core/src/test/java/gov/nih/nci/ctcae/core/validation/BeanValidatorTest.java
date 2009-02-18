@@ -1,10 +1,7 @@
 package gov.nih.nci.ctcae.core.validation;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 
 import java.util.ArrayList;
@@ -75,11 +72,19 @@ public class BeanValidatorTest extends AbstractTestCase {
             logger.debug(e.getMessage());
         }
         studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
-        try{
-        beanValidator.validate(studyParticipantCrfScheduleAddedQuestion);
+        try {
+            beanValidator.validate(studyParticipantCrfScheduleAddedQuestion);
+            fail("object gov.nih.nci.ctcae.core.domain.studyParticipantCrfScheduleAddedQuestion should not give this error");
         } catch (CtcAeSystemException e) {
-               fail("object gov.nih.nci.ctcae.core.domain.studyParticipantCrfScheduleAddedQuestion should not give this error");
         }
+        studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestion(new StudyParticipantCrfAddedQuestion());
+        try {
+            beanValidator.validate(studyParticipantCrfScheduleAddedQuestion);
+            fail("object gov.nih.nci.ctcae.core.domain.studyParticipantCrfScheduleAddedQuestion should not give this error");
+        } catch (CtcAeSystemException e) {
+        }
+        studyParticipantCrfScheduleAddedQuestion.setProCtcQuestion(new ProCtcQuestion());
+        beanValidator.validate(studyParticipantCrfScheduleAddedQuestion);
 
     }
 }

@@ -1,9 +1,13 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 //
 /**
@@ -22,6 +26,22 @@ public class StudyRepository extends AbstractRepository<Study, StudyQuery> {
     @Override
     protected Class<Study> getPersistableClass() {
         return Study.class;
+
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public Study save(Study study) {
+        Study savedStudy = super.save(study);
+        List<StudyOrganization> studyOrganizations = savedStudy.getStudyOrganizations();
+        for (StudyOrganization studyOrganization : studyOrganizations) {
+            List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffList = studyOrganization.getStudyOrganizationClinicalStaffs();
+            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganizationClinicalStaffList) {
+                studyOrganizationClinicalStaff.getStudyOrganization();
+            }
+        }
+        return savedStudy;
+
 
     }
 }

@@ -273,7 +273,6 @@
 
     <bean name="/study/addStudyComponent" id="addStudyComponentController"
           class="gov.nih.nci.ctcae.web.study.AddStudyComponentController">
-        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
     </bean>
 
     <bean name="/participant/create" id="createParticipantController"

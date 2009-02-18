@@ -1,3 +1,4 @@
+<%@ attribute name="uneditable" type="java.lang.Boolean" %>
 <%@ attribute name="name" %>
 <%@ attribute name="id" %>
 <%@ attribute name="dateValue" type="java.util.Date" %>

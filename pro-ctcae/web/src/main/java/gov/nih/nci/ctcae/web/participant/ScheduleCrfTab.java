@@ -1,11 +1,10 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.ListValues;
-import gov.nih.nci.ctcae.web.form.CreateFormCommand;
+import gov.nih.nci.ctcae.web.ListValues;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -41,12 +40,12 @@ public class ScheduleCrfTab extends Tab<StudyParticipantCommand> {
 
     @Override
     public Map<String, Object> referenceData(StudyParticipantCommand command) {
-            Map<String, Object> map = super.referenceData(command);
-            map.put("repetitionunits", ListValues.getCalendarRepetitionUnits());
-            map.put("duedateunits", ListValues.getCalendarDueDateUnits());
-            map.put("repeatuntilunits", ListValues.getCalendarRepeatUntilUnits());
-            map.put("cyclelengthunits", ListValues.getCalendarRepetitionUnits());
-            return map;
+        Map<String, Object> map = super.referenceData(command);
+        map.put("repetitionunits", ListValues.getCalendarRepetitionUnits());
+        map.put("duedateunits", ListValues.getCalendarDueDateUnits());
+        map.put("repeatuntilunits", ListValues.getCalendarRepeatUntilUnits());
+        map.put("cyclelengthunits", ListValues.getCalendarRepetitionUnits());
+        return map;
     }
 
     /**

@@ -63,8 +63,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFCalendar.java -tex
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFCycle.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFPage.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ClinicalStaff.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffAssignment.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ClinicalStaffAssignmentRole.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfCreationMode.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItemAllignment.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfPageItem.java -text
@@ -101,11 +99,12 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleType.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Roles.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCoordinatingCenter.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyFundingSponsor.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganization.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantAssignment.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrf.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfAddedQuestion.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfItem.java -text
@@ -125,6 +124,8 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuestionQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcTermQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/Query.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/RoleQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SiteClinicalStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
@@ -140,6 +141,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcQuestionRep
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/RoleRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantAssignmentRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/AbstractAuthorizationProvider.java -text
@@ -217,6 +219,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueTest.
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RaceEnumTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RoleTypeTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationClinicalStaffIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantAssignmentIntegrationTest.java -text
@@ -225,7 +228,6 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfIn
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfItemTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudySiteTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemExceptionTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/loader/CsvImporterIntegrationTest.java -text
@@ -373,10 +375,10 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SearchStudyController.ja
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SelectedStudyCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SitesTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacade.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyClinicalStaffTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyDetailsTab.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyInvestigatorsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyLinkDisplayDetailsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/NullStringComparator.java -text
@@ -402,8 +404,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/public-servlet.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/sitemesh.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/special-views.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/spring-servlet.xml -text
-pro-ctcae/web/src/main/webapp/WEB-INF/tags/administration/clinicalStaffAssignment.tag -text
-pro-ctcae/web/src/main/webapp/WEB-INF/tags/administration/clinicalStaffAssignmentRole.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/administration/siteClinicalStaff.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/attribute.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/autocompleter.tag -text
@@ -490,8 +490,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/footer.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/head.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/header.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/noheader.tag -text
-pro-ctcae/web/src/main/webapp/WEB-INF/tags/study/clinicalStaffAssignment.tag -text
-pro-ctcae/web/src/main/webapp/WEB-INF/tags/study/clinicalStaffAssignmentRole.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/stylesheetLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabContent.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabControls.tag -text
@@ -550,12 +548,10 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/deleteClinicalStaffAssignmentConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudySiteSection.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/study/clinicalStaffAssignmentRoleSection.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/study/clinicalStaffAssignmentSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/confirmStudy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/searchStudy.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_clinical_staff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_details.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_investigators.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_reviewsummary.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_sites.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/web.xml -text

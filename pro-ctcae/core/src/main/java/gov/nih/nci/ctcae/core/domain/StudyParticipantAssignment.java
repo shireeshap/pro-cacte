@@ -4,7 +4,6 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -59,6 +58,9 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
 
+    @OneToMany(mappedBy = "studyParticipantAssignment", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyParticipantClinicalStaff> studyParticipantClinicalStaffs = new ArrayList<StudyParticipantClinicalStaff>();
 
     /**
      * Instantiates a new study participant assignment.
@@ -180,12 +182,38 @@ public class StudyParticipantAssignment extends BaseVersionable {
         return result;
     }
 
+    public List<StudyParticipantClinicalStaff> getStudyParticipantClinicalStaffs() {
+        return studyParticipantClinicalStaffs;
+    }
+
+    public void addStudyParticipantClinicalStaff(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
+
+        if (studyParticipantClinicalStaff != null) {
 
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+            StudyOrganization expectedStudyOrganization = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getStudyOrganization();
 
+            if (!(expectedStudyOrganization instanceof StudySite)) {
+                String errorMessage = String.format("study organization clinical staff deos not belong to a study site %s. it belongs to study coordinating center",
+                        expectedStudyOrganization);
+                logger.error(errorMessage);
+                throw new CtcAeSystemException(errorMessage);
+
+            } else if (!expectedStudyOrganization.equals(this.getStudySite())) {
+                String errorMessage = String.format("study site clinical staff belongs to study site %s. It does not belongs to study site %s of study participant assignment. " +
+                        "So this study site clincal staff can not be added.",
+                        expectedStudyOrganization, this.getStudySite());
+                logger.error(errorMessage);
+                throw new CtcAeSystemException(errorMessage);
+
+            }
+
+            studyParticipantClinicalStaff.setStudyParticipantAssignment(this);
+            getStudyParticipantClinicalStaffs().add(studyParticipantClinicalStaff);
+            logger.debug(String.format("added study participant clinical staff %s to study participant assignment %s", studyParticipantClinicalStaff.toString(), toString()));
+
+        }
 
     }
 }
+

@@ -1,12 +1,6 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 //
 /**
@@ -22,19 +16,8 @@ public class StudyCommand {
      */
     private Study study;
 
-    private ClinicalStaffAssignment clinicalStaffAssignment;
+    private StudyOrganizationClinicalStaff overallDataCoordinator, leadCRA, principalInvestigator;
 
-    private List<ClinicalStaffAssignment> clinicalStaffAssignments = new ArrayList<ClinicalStaffAssignment>();
-
-    private String clinicalStaffAssignmentIndexToRemove = "";
-    private String clinicalStaffAssignmentRoleIndexToRemove = "";
-
-    /**
-     * The objects ids to remove.
-     */
-    private String objectsIdsToRemove;
-
-    private Integer selectedStudySiteId;
 
     /**
      * Instantiates a new study command.
@@ -44,8 +27,10 @@ public class StudyCommand {
         this.study = new Study();
         study.setStudyFundingSponsor(new StudyFundingSponsor());
         study.setStudyCoordinatingCenter(new StudyCoordinatingCenter());
-        clinicalStaffAssignment = new ClinicalStaffAssignment();
+        overallDataCoordinator = new StudyOrganizationClinicalStaff();
 
+        leadCRA = new StudyOrganizationClinicalStaff();
+        principalInvestigator = new StudyOrganizationClinicalStaff();
     }
 
 
@@ -58,23 +43,6 @@ public class StudyCommand {
         this.study = study;
     }
 
-    /**
-     * Gets the objects ids to remove.
-     *
-     * @return the objects ids to remove
-     */
-    public String getObjectsIdsToRemove() {
-        return objectsIdsToRemove;
-    }
-
-    /**
-     * Sets the objects ids to remove.
-     *
-     * @param objectsIdsToRemove the new objects ids to remove
-     */
-    public void setObjectsIdsToRemove(String objectsIdsToRemove) {
-        this.objectsIdsToRemove = objectsIdsToRemove;
-    }
 
     /**
      * Gets the study.
@@ -85,87 +53,57 @@ public class StudyCommand {
         return study;
     }
 
-    /**
-     * Removes the study sites.
-     */
-    public void removeStudySites() {
-        Set<String> indexes = org.springframework.util.StringUtils.commaDelimitedListToSet(objectsIdsToRemove);
-        List<StudySite> studySitesToRemove = new ArrayList<StudySite>();
-        for (String index : indexes) {
-            StudySite studySite = study.getStudySites().get(Integer.parseInt(index));
-            studySitesToRemove.add(studySite);
-        }
-
-        for (StudySite studySite : studySitesToRemove) {
-            study.removeStudySite(studySite);
-        }
-    }
-
-    public ClinicalStaffAssignment getClinicalStaffAssignment() {
-        return clinicalStaffAssignment;
-    }
-
-    public void setClinicalStaffAssignment(ClinicalStaffAssignment clinicalStaffAssignment) {
-        this.clinicalStaffAssignment = clinicalStaffAssignment;
-    }
-
-    public void addClinicalStaffAssignment(ClinicalStaffAssignment clinicalStaffAssignment) {
-        getClinicalStaffAssignments().add(clinicalStaffAssignment);
-    }
-
-    public List<ClinicalStaffAssignment> getClinicalStaffAssignments() {
-        return clinicalStaffAssignments;
-    }
-
-    public void setClinicalStaffAssignments(List<ClinicalStaffAssignment> clinicalStaffAssignments) {
-        this.clinicalStaffAssignments = clinicalStaffAssignments;
-    }
-
-    public void updateDisplayNameOfClinicalStaff(FinderRepository finderRepository) {
-        //now update the display name of clinical staff assignments
-
-        List<ClinicalStaffAssignment> clinicalStaffAssignments = getClinicalStaffAssignments();
-        for (ClinicalStaffAssignment clinicalStaffAssignment : clinicalStaffAssignments) {
-            if (org.apache.commons.lang.StringUtils.equals(clinicalStaffAssignment.getDomainObjectClass(), StudySite.class.getName())) {
-                StudySite studySite = finderRepository.findById(StudySite.class, clinicalStaffAssignment.getDomainObjectId());
-                clinicalStaffAssignment.setDisplayName(studySite.getOrganization().getDisplayName());
-            }
-        }
-    }
+//    /**
+//     * Removes the study sites.
+//     */
+//    public void removeStudySites() {
+//        Set<String> indexes = org.springframework.util.StringUtils.commaDelimitedListToSet(objectsIdsToRemove);
+//        List<StudySite> studySitesToRemove = new ArrayList<StudySite>();
+//        for (String index : indexes) {
+//            StudySite studySite = study.getStudySites().get(Integer.parseInt(index));
+//            studySitesToRemove.add(studySite);
+//        }
+//
+//        for (StudySite studySite : studySitesToRemove) {
+//            study.removeStudySite(studySite);
+//        }
+//    }
 
     public void apply() {
 
-        
-
-        setClinicalStaffAssignmentRoleIndexToRemove("");
+        getStudy().getStudyCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(getOverallDataCoordinator());
 
 
-        setClinicalStaffAssignmentIndexToRemove("");
+        StudyOrganization studyOrganization = study.getStudyOrganization(getLeadCRA());
+        studyOrganization.addOrUpdateStudyOrganizationClinicalStaff(getLeadCRA());
 
+        StudyOrganization anotherStudyOrganization = study.getStudyOrganization(getPrincipalInvestigator());
+        anotherStudyOrganization.addOrUpdateStudyOrganizationClinicalStaff(getPrincipalInvestigator());
 
     }
 
-    public String getClinicalStaffAssignmentIndexToRemove() {
-        return clinicalStaffAssignmentIndexToRemove;
+    public void setOverallDataCoordinator(StudyOrganizationClinicalStaff overallDataCoordinator) {
+        this.overallDataCoordinator = overallDataCoordinator;
     }
 
-    public void setClinicalStaffAssignmentIndexToRemove(String clinicalStaffAssignmentIndexToRemove) {
-        this.clinicalStaffAssignmentIndexToRemove = clinicalStaffAssignmentIndexToRemove;
+    public void setLeadCRA(StudyOrganizationClinicalStaff leadCRA) {
+        this.leadCRA = leadCRA;
     }
 
-    public String getClinicalStaffAssignmentRoleIndexToRemove() {
-        return clinicalStaffAssignmentRoleIndexToRemove;
+    public void setPrincipalInvestigator(StudyOrganizationClinicalStaff principalInvestigator) {
+        this.principalInvestigator = principalInvestigator;
     }
 
-    public void setClinicalStaffAssignmentRoleIndexToRemove(String clinicalStaffAssignmentRoleIndexToRemove) {
-        this.clinicalStaffAssignmentRoleIndexToRemove = clinicalStaffAssignmentRoleIndexToRemove;
+    public StudyOrganizationClinicalStaff getOverallDataCoordinator() {
+        return overallDataCoordinator;
     }
 
-    public Integer getSelectedStudySiteId() {
-        return selectedStudySiteId;
+    public StudyOrganizationClinicalStaff getLeadCRA() {
+        return leadCRA;
     }
 
-    public void setSelectedStudySiteId(Integer selectedStudySiteId) {
-        this.selectedStudySiteId = selectedStudySiteId;
+    public StudyOrganizationClinicalStaff getPrincipalInvestigator() {
+        return principalInvestigator;
     }
+
 }

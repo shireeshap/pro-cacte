@@ -27,21 +27,20 @@
         <value>gov.nih.nci.ctcae.core.domain.ProCtcTerm</value>
         <value>gov.nih.nci.ctcae.core.domain.CtcTerm</value>
         <value>gov.nih.nci.ctcae.core.domain.ProCtcValidValue</value>
-        <value>gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignment</value>
-        <value>gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignmentRole</value>
         <value>gov.nih.nci.ctcae.core.domain.Privilege</value>
         <value>gov.nih.nci.ctcae.core.domain.Roles</value>
         <value>gov.nih.nci.ctcae.core.domain.RolePrivilege</value>
         <value>gov.nih.nci.ctcae.core.domain.SiteClinicalStaff</value>
         <value>gov.nih.nci.ctcae.core.domain.Study</value>
-        <value>gov.nih.nci.ctcae.core.domain.StudyClinicalStaff</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyFundingSponsor</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyOrganization</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrf</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantClinicalStaff</value>
         <value>gov.nih.nci.ctcae.core.domain.StudySite</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion</value>
@@ -195,6 +194,9 @@
     </bean>
 
     <bean id="proCtcTermRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcTermRepository"
+          parent="abstractRepository">
+    </bean>
+    <bean id="roleRepository" class="gov.nih.nci.ctcae.core.repository.RoleRepository"
           parent="abstractRepository">
     </bean>
 

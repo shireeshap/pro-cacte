@@ -16,13 +16,13 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     protected ClinicalStaffRepository clinicalStaffRepository;
     protected OrganizationRepository organizationRepository;
     protected ClinicalStaff defaultClinicalStaff;
-    protected ClinicalStaffAssignment defaultClinicalStaffAssignment;
     protected StudyParticipantAssignment defaultStudyParticipantAssignment;
     protected Organization defaultOrganization;
     protected Participant defaultParticipant;
     protected ParticipantRepository participantRepository;
     protected Study defaultStudy;
     protected StudySite defaultStudySite;
+    protected RoleRepository roleRepository;
     protected StudyRepository studyRepository;
 
     private static final String[] context = new String[]{
@@ -35,7 +35,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 //                "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml",
             "classpath*:" + "/*-context-test.xml"};
     protected SiteClinicalStaff defaultSiteClinicalStaff;
-    private Roles roles;
+    protected Roles PI, ODC, LEAD_CRA;
 
 
     @Override
@@ -56,8 +56,18 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
+
+        deleteData();
+
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
+
+        PI = roleRepository.getPI();
+        ODC = roleRepository.getOverallDataCoordinator();
+        LEAD_CRA = roleRepository.getLeadCRARole();
+        assertNotNull(PI);
+        assertNotNull(ODC);
+        assertNotNull(LEAD_CRA);
 
         defaultOrganization = organizationRepository.findById(105051);
 
@@ -66,10 +76,18 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         defaultStudy.setLongTitle("A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)");
         defaultStudy.setAssignedIdentifier("-10001");
 
+        StudyCoordinatingCenter studyCoordinatingCenter = new StudyCoordinatingCenter();
+        studyCoordinatingCenter.setOrganization(defaultOrganization);
+        StudyFundingSponsor studyFundingSponsor = new StudyFundingSponsor();
+
+        studyFundingSponsor.setOrganization(defaultOrganization);
         defaultStudySite = new StudySite();
         defaultStudySite.setOrganization(defaultOrganization);
 
+
         defaultStudy.addStudySite(defaultStudySite);
+        defaultStudy.setStudyCoordinatingCenter(studyCoordinatingCenter);
+        defaultStudy.setStudyFundingSponsor(studyFundingSponsor);
         defaultStudy = studyRepository.save(defaultStudy);
         assertNotNull("must find default study. ", defaultStudy);
         defaultStudySite = defaultStudy.getStudySites().get(0);
@@ -110,63 +128,50 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
     }
 
-
-    protected void updateDefaultObjects() {
-
-//        defaultStudy = studyRepository.findById(defaultStudy.getId());
-//        defaultStudySite = defaultStudy.getStudySites().get(0);
-//        defaultStudyParticipantAssignment = defaultStudySite.getStudyParticipantAssignments().get(0);
-//
-//        defaultStudyParticipantAssignment = defaultStudySite.getStudyParticipantAssignments().get(0);
-//
-//        defaultClinicalStaff = clinicalStaffRepository.findById(-100);
-
-
+    private void deleteData() {
+        jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
+        jdbcTemplate.execute("delete from CRF_PAGE_ITEMS");
+        jdbcTemplate.execute("delete from CRF_PAGES");
+        jdbcTemplate.execute("delete from crfs");
+        jdbcTemplate.execute("delete from study_organization_clinical_staffs");
+        jdbcTemplate.execute("delete from study_participant_assignments");
+        jdbcTemplate.execute("delete from study_participant_assignments");
+        jdbcTemplate.execute("delete from study_organizations");
+        jdbcTemplate.execute("delete from studies");
+        jdbcTemplate.execute("delete from SITE_CLINICAL_STAFFS");
+        jdbcTemplate.execute("delete from CLINICAL_STAFFS");
+        commitAndStartNewTransaction();
     }
+
 
     @Override
     protected void onTearDownInTransaction() throws Exception {
+
         DataAuditInfo.setLocal(null);
         super.onTearDownInTransaction();
 
-        deleteFromTables(new String[]{"study_participant_assignments", "study_organizations", "studies", "SITE_CLINICAL_STAFFS", "CLINICAL_STAFFS"});
+
     }
 
 
-    protected ClinicalStaffAssignmentRole saveAndRetrieveClinicalStaffAssignmentRole() {
+    protected StudyOrganizationClinicalStaff addStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+        defaultStudySite.addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
 
-        defaultClinicalStaffAssignment.getClinicalStaffAssignmentRoles().clear();
-
-        defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
+        defaultStudy = studyRepository.save(defaultStudy);
         commitAndStartNewTransaction();
 
-        defaultClinicalStaff = clinicalStaffRepository.findById(defaultClinicalStaff.getId());
-//        assertFalse("must have clinical staff assignment", defaultClinicalStaff.getClinicalStaffAssignments().isEmpty());
-//
-//        defaultClinicalStaffAssignment = defaultClinicalStaff.getClinicalStaffAssignments().get(0);
-        assertTrue("must remove clinical staff assignment role", defaultClinicalStaffAssignment.getClinicalStaffAssignmentRoles().isEmpty());
-
-        ClinicalStaffAssignmentRole clinicalStaffAssignmentRole = new ClinicalStaffAssignmentRole();
-
-        defaultClinicalStaffAssignment.addClinicalStaffAssignmentRole(clinicalStaffAssignmentRole);
-
-        defaultClinicalStaffAssignment.setDomainObjectClass(Organization.class.getName());
-        defaultClinicalStaffAssignment.setDomainObjectId(defaultOrganization.getId());
-
-        defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
-        commitAndStartNewTransaction();
-        defaultClinicalStaff = clinicalStaffRepository.findById(defaultClinicalStaff.getId());
-
-        List<ClinicalStaffAssignmentRole> clinicalStaffAssignmentRoles = defaultClinicalStaffAssignment.getClinicalStaffAssignmentRoles();
-
-        clinicalStaffAssignmentRole = clinicalStaffAssignmentRoles.get(0);
-        assertFalse("must save site clinical staff role", clinicalStaffAssignmentRoles.isEmpty());
+        defaultStudySite = defaultStudy.getStudySites().get(0);
+        List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = defaultStudySite.getStudyOrganizationClinicalStaffs();
 
 
-        assertNotNull("must save site clinical staff role", clinicalStaffAssignmentRole.getId());
+        assertFalse("must save study clinical staff", studyOrganizationClinicalStaffs.isEmpty());
+        studyOrganizationClinicalStaff = studyOrganizationClinicalStaffs.get(0);
+        assertNotNull("must save study clinical staff", studyOrganizationClinicalStaff.getId());
+        assertEquals("study site must be same", studyOrganizationClinicalStaff.getStudyOrganization(), defaultStudySite);
 
-        assertEquals("clinical staff must be same", defaultClinicalStaffAssignment, clinicalStaffAssignmentRole.getClinicalStaffAssignment());
-        return clinicalStaffAssignmentRole;
+
+        assertEquals("site clinical staff  must be same", defaultSiteClinicalStaff, studyOrganizationClinicalStaff.getSiteClinicalStaff());
+        return studyOrganizationClinicalStaff;
     }
 
     protected void commitAndStartNewTransaction() {
@@ -198,6 +203,11 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     @Required
     public void setOrganizationRepository(OrganizationRepository organizationRepository) {
         this.organizationRepository = organizationRepository;
+    }
+
+    @Required
+    public void setRoleRepository(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
     @Required

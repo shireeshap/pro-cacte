@@ -2,8 +2,6 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -109,7 +107,7 @@ public class CRF extends BaseVersionable {
     /**
      * The study.
      */
-    @JoinColumn(name = "study_id", referencedColumnName = "id")
+    @JoinColumn(name = "study_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
     private Study study;
 

@@ -65,20 +65,20 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
     @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
+
         binder.registerCustomEditor(Date.class, controllerTools.getDateEditor(true));
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 
-        RepositoryBasedEditor studyEditor = new RepositoryBasedEditor(finderRepository, Study.class);
-        binder.registerCustomEditor(Study.class, studyEditor);
+        binder.registerCustomEditor(Study.class, new RepositoryBasedEditor(finderRepository, Study.class));
 
-        RepositoryBasedEditor organizationEditor = new RepositoryBasedEditor(finderRepository, Organization.class);
-        binder.registerCustomEditor(Organization.class, organizationEditor);
+        binder.registerCustomEditor(Organization.class, new RepositoryBasedEditor(finderRepository, Organization.class));
 
-        RepositoryBasedEditor participantEditor = new RepositoryBasedEditor(finderRepository, Participant.class);
-        binder.registerCustomEditor(Participant.class, participantEditor);
+        binder.registerCustomEditor(StudyOrganization.class, new RepositoryBasedEditor(finderRepository, StudyOrganization.class));
+        binder.registerCustomEditor(SiteClinicalStaff.class, new RepositoryBasedEditor(finderRepository, SiteClinicalStaff.class));
 
-        RepositoryBasedEditor clinicalStaffEditor = new RepositoryBasedEditor(finderRepository, ClinicalStaff.class);
-        binder.registerCustomEditor(ClinicalStaff.class, clinicalStaffEditor);
+        binder.registerCustomEditor(Participant.class, new RepositoryBasedEditor(finderRepository, Participant.class));
+
+        binder.registerCustomEditor(ClinicalStaff.class, new RepositoryBasedEditor(finderRepository, ClinicalStaff.class));
 
         binder.registerCustomEditor(CrfItemAllignment.class, new EnumByNameEditor<CrfItemAllignment>(CrfItemAllignment.class));
 

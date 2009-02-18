@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.codec.binary.Base64;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -53,6 +52,11 @@ public abstract class StudyOrganization extends BasePersistable {
     @OneToMany(mappedBy = "studySite", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
+
+
+    @OneToMany(mappedBy = "studyOrganization", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = new ArrayList<StudyOrganizationClinicalStaff>();
 
     /**
      * The organization.
@@ -139,5 +143,27 @@ public abstract class StudyOrganization extends BasePersistable {
         return result;
     }
 
+    public void addOrUpdateStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+        if (studyOrganizationClinicalStaff != null) {
 
+            Organization expectedOrganization = studyOrganizationClinicalStaff.getSiteClinicalStaff().getOrganization();
+            if (!expectedOrganization.equals(this.getOrganization())) {
+                String errorMessage = String.format("clinical staff belongs to %s. It does not belongs to study orgaization %s %s. So this clincal staff can not be added",
+                        expectedOrganization.getDisplayName(), this.getStudy().getAssignedIdentifier(), this.getOrganization().getDisplayName());
+                logger.error(errorMessage);
+                throw new CtcAeSystemException(errorMessage);
+
+            }
+
+            studyOrganizationClinicalStaff.setStudyOrganization(this);
+            getStudyOrganizationClinicalStaffs().add(studyOrganizationClinicalStaff);
+            logger.debug(String.format("added study organization clinical staff %s to study organization %s", studyOrganizationClinicalStaff.toString(), toString()));
+
+        }
+
+    }
+
+    public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
+        return studyOrganizationClinicalStaffs;
+    }
 }

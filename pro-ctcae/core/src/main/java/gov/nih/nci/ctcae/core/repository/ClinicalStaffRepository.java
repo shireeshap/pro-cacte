@@ -1,12 +1,13 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaffAssignment;
+import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import gov.nih.nci.ctcae.core.query.SiteClinicalStaffQuery;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 //
@@ -26,32 +27,32 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
         return ClinicalStaff.class;
     }
 
-//    @Override
-//    public ClinicalStaff findById(Integer id) {
-//        ClinicalStaff clinicalstaff = super.findById(id);
-//
-//        Collection<ClinicalStaffAssignment> clinicalStaffCollection = clinicalstaff.getClinicalStaffAssignments();
-//        for (ClinicalStaffAssignment siteClinicalStaff : clinicalStaffCollection) {
-//            siteClinicalStaff.getOrganization().getDisplayName();
-//        }
-//        return clinicalstaff;
-//
-//
-//    }
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public List<ClinicalStaffAssignment> save(List<ClinicalStaffAssignment> clinicalStaffAssignments) {
-        List<ClinicalStaffAssignment> savedClinicalStaffAssignments = new ArrayList<ClinicalStaffAssignment>();
-        for (ClinicalStaffAssignment clinicalStaffAssignment : clinicalStaffAssignments) {
-            savedClinicalStaffAssignments.add(genericRepository.save(clinicalStaffAssignment));
+    @Override
+    public ClinicalStaff findById(Integer id) {
+        ClinicalStaff clinicalstaff = super.findById(id);
+
+        Collection<SiteClinicalStaff> siteClinicalStaffCollection = clinicalstaff.getSiteClinicalStaffs();
+        for (SiteClinicalStaff siteClinicalStaff : siteClinicalStaffCollection) {
+            siteClinicalStaff.getOrganization().getDisplayName();
         }
-        return savedClinicalStaffAssignments;
+        return clinicalstaff;
+
+
     }
 
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void removeClinicalStaffAssignment(ClinicalStaffAssignment clinicalStaffAssignment) {
-        //ClinicalStaff staff = clinicalStaffAssignment.getClinicalStaff();
-        genericRepository.delete(clinicalStaffAssignment);
+    public List<SiteClinicalStaff> findByStudyOrganizationId(String text, Integer studyOrganizationId) {
+        SiteClinicalStaffQuery query = new SiteClinicalStaffQuery();
+        query.filterByFirstNameOrLastNameOrNciIdentifier(text);
+        StudyOrganization studyOrganization = genericRepository.findById(StudyOrganization.class, studyOrganizationId);
+        if (studyOrganization != null) {
+            Integer organizationId = studyOrganization.getOrganization().getId();
+            query.filterByOrganization(organizationId);
+
+            return (List<SiteClinicalStaff>) genericRepository.find(query);
+        }
+
+        throw new CtcAeSystemException(String.format("no study organization found for given id %s", studyOrganizationId));
     }
 }

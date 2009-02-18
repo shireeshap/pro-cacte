@@ -154,6 +154,26 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
 
     }
 
+    public void testfindBySiteClinicalStaffByOrganizationId() {
+
+        List<SiteClinicalStaff> siteClinicalStaffs = clinicalStaffRepository.findByStudyOrganizationId("b", defaultStudySite.getId());
+
+        assertFalse(siteClinicalStaffs.isEmpty());
+
+        String searchString = "%b%";
+        int size = jdbcTemplate.queryForInt("select count(*) from site_clinical_staffs scs,clinical_Staffs cs where cs.id=scs.clinical_staff_id " +
+                "and scs.organization_id =? and (lower(cs.first_name) like ? or lower(cs.last_name) like ? or lower(cs.nci_identifier) like ?)",
+                new Object[]{DEFAULT_ORGANIZATION_ID, searchString, searchString, searchString});
+
+        assertEquals(size, siteClinicalStaffs.size());
+
+        for (SiteClinicalStaff siteClinicalStaff : siteClinicalStaffs) {
+            assertEquals(DEFAULT_ORGANIZATION_ID, siteClinicalStaff.getOrganization().getId());
+        }
+
+
+    }
+
     @Override
     protected void onTearDownInTransaction() throws Exception {
 
