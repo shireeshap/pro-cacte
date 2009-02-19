@@ -10,13 +10,12 @@
 <br/>
 <c:choose>
     <c:when test="${readonly}">
-        <chrome:division title="Cycle ${cycleIndex+1}">
+        <chrome:division title="Cycle">
             <c:set var="cycleIndex" value="${crfIndex}-${cycleIndex}"/>
-            <b>1.</b> <tags:message code="form.schedule.cycle_length"/>
-            <b>${crfCycle.cycleLength} ${crfCycle.cycleLengthUnit}</b>
+            <b>1. <tags:message code="form.schedule.cycle_length"/> ${crfCycle.cycleLength} ${crfCycle.cycleLengthUnit}</b>
 
-            <div id="div_cycle_selectdays_${cycleIndex}" style="display:none;"><b>2.</b> <tags:message
-                    code="form.schedule.select_cycle_days_participant"/>
+            <div id="div_cycle_selectdays_${cycleIndex}" style="display:none;">
+                <br/><b>2. <tags:message code="form.schedule.select_cycle_days_participant"/></b>
                 <div id="div_selecteddays_${cycleIndex}"/>
             </div>
             <input type="hidden" name="crf.crfCycles[${cycleIndex}].cycleDays" id="selecteddays[${cycleIndex}]"
@@ -26,14 +25,15 @@
                     <tbody></tbody>
                 </table>
             </div>
+            <br/>
             <div id="div_cycle_repeat_${cycleIndex}" style="display:none;">
-                <br/><b>3.</b> <tags:message code="form.schedule.repeat_participant"/> <b>${crfCycle.repeatTimes}</b>
+                <b>3. <tags:message code="form.schedule.repeat"/> ${crfCycle.repeatTimes}</b>
             </div>
         </chrome:division>
     </c:when>
     <c:otherwise>
         <chrome:division title="Cycle ${cycleIndex+1}" enableDelete="true" deleteParams="deleteCycle('${cycleIndex}')">
-            <b>1.</b> <tags:message code="form.schedule.cycle_length"/>
+            <b>1. <tags:message code="form.schedule.cycle_length"/></b>
             <input id="cycle_length_${cycleIndex}" type="text" size="2" value="${crfCycle.cycleLength}"
                    name="crf.crfCycles[${cycleIndex}].cycleLength" class="validate-NUMERIC"
                    onblur="javascript:showCycle(${cycleIndex});" onkeyup="javascript:showCycle(${cycleIndex});"/>
@@ -43,8 +43,8 @@
                                propertyValue="${crfCycle.cycleLengthUnit}"/>
             <%--<input type="button" value="Apply" onclick="javascript:showCycle(${cycleIndex});"/>--%>
 
-            <div id="div_cycle_selectdays_${cycleIndex}" style="display:none;"><br/><b>2.</b> <tags:message
-                    code="form.schedule.select_cycle_days"/>
+            <div id="div_cycle_selectdays_${cycleIndex}" style="display:none;"><br/><b>2. <tags:message
+                    code="form.schedule.select_cycle_days"/></b>
                 <div id="div_selecteddays_${cycleIndex}"/>
             </div>
             <input type="hidden" name="crf.crfCycles[${cycleIndex}].cycleDays" id="selecteddays[${cycleIndex}]"
@@ -57,7 +57,7 @@
                 </table>
             </div>
             <div id="div_cycle_repeat_${cycleIndex}" style="display:none;">
-                <br/><b>3.</b> <tags:message code="form.schedule.repeat"/> <input id="cycle_repeat_${cycleIndex}"
+                <br/><b>3. <tags:message code="form.schedule.repeat"/></b> <input id="cycle_repeat_${cycleIndex}"
                                                                                   type="text"
                                                                                   size="2"
                                                                                   value="${crfCycle.repeatTimes}"

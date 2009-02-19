@@ -19,9 +19,9 @@
 <style type="text/css">
 
     table.top-widget {
-        border-bottom: 1px solid #cccccc;
-        border-right: 1px solid #cccccc;
-        border-left: 1px solid #cccccc;
+        /*border-bottom: 1px solid #cccccc;*/
+        /*border-right: 1px solid #cccccc;*/
+        border: 1px solid #cccccc;
         background-color: #E7EAF3;
         width: 90%;
     }
@@ -146,6 +146,7 @@
     #close {
         float: right;
     }
+
     .unselected_day {
         background-color: #FFFFFF;
         height: 30px;
@@ -169,7 +170,8 @@
         border-bottom: #0000cc solid 1px;
         border-right: #0000cc solid 1px;
     }
-.top-border {
+
+    .top-border {
         border-top: #0000cc solid 1px;
     }
 
@@ -183,16 +185,7 @@
 
 function applyCalendar(index, direction) {
     document.body.style.cursor = 'wait';
-
-    var duea = document.getElementsByName('dueDateAmount_' + index)[0].value;
-    var dueu = document.getElementsByName('dueDateUnit_' + index)[0].value;
-    var reppu = document.getElementsByName('repetitionPeriodUnit_' + index)[0].value;
-    var reppa = document.getElementsByName('repetitionPeriodAmount_' + index)[0].value;
-    var repuu = document.getElementsByName('repeatUntilUnit_' + index)[0].value;
-    var repuv = document.getElementsByName('repeatUntilValue_' + index)[0].value;
-    var sdate = document.getElementsByName('startDate_' + index)[0].value;
-
-    getCalendar(index, "duea=" + duea + "&dueu=" + dueu + "&reppu=" + reppu + "&reppa=" + reppa + "&repuu=" + repuu + "&repuv=" + repuv + "&sdate=" + sdate + "&dir=" + direction);
+    getCalendar(index, "dir=" + direction);
 }
 
 function addRemoveSchedule(index, date, action) {
@@ -377,36 +370,6 @@ function selectDate(obj, text, index) {
     addRemoveSchedule(index, date, 'add');
 }
 
-function changeinput(obj, index) {
-    if (obj.value == 'Indefinitely') {
-        $('div_repeatUntilValue_' + index).innerHTML = '';
-    }
-    if (obj.value == 'Date') {
-        $('div_repeatUntilValue_' + index).innerHTML = '<input size="10" name="repeatUntilValue_' + index + '" type="text" ><a href="#" id="${title}-calbutton"> <img src="/ctcae/images/chrome/b-calendar.gif" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>';
-    }
-    if (obj.value == 'Number') {
-        $('div_repeatUntilValue_' + index).innerHTML = '<input size="3" value="5" name="repeatUntilValue_' + index + '" type="text">';
-    }
-}
-
-function changerepeat(obj, index, delall) {
-    if (obj.value == 'Yes') {
-        $('repeatprops_' + index).show();
-        $('calendar_' + index).show();
-        $('duedate_' + index).hide();
-        $('status_' + index).hide();
-    }
-    if (obj.value == 'No') {
-        $('repeatprops_' + index).hide();
-        $('calendar_' + index).hide();
-        $('duedate_' + index).show();
-        $('status_' + index).show();
-        if (delall) {
-            addRemoveSchedule(index, '', 'delall')
-        }
-    }
-}
-
 Event.observe(window, "load", function () {
     var items = document.getElementsByName("repeatdropdown");
     for (var i = 0; i < items.length; i++) {
@@ -491,143 +454,6 @@ function buildTable(index, days, selecteddays) {
 
                     <div align="left" style="margin-left: 50px">
                         <table class="top-widget" cellspacing="0">
-                            <tr class="top-header">
-                                <th><tags:requiredIndicator/><spring:message code="schedulecrf.label.start_date"/></th>
-                                <th>Repeat</th>
-                                <th><tags:requiredIndicator/><spring:message code="schedulecrf.label.due_date"/></th>
-                                <th><spring:message code="schedulecrf.label.status"/></th>
-                            </tr>
-                            <tr>
-                                <td class="border-td">
-                                    <input value="<tags:formatDate value='${participantSchedule.calendar.startDate}'/>"
-                                           title="start date" type="text"
-                                           name="startDate_${status.index}"><a href="#"
-                                                                               id="${title}-calbutton">
-                                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17"
-                                         height="16" border="0"
-                                         align="absmiddle"/>
-                                </a>
-
-                                </td>
-                                <td class="border-td">
-                                    <select class="" onchange="changerepeat(this, '${status.index}',true)"
-                                            name="repeatdropdown" id="${status.index}">
-                                        <c:choose>
-                                            <c:when test="${participantSchedule.repeat eq 'true'}">
-                                                <option value="No">No</option>
-                                                <option value="Yes" selected="selected">Yes</option>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <option value="No" selected="selected">No</option>
-                                                <option value="Yes">Yes</option>
-                                            </c:otherwise>
-
-                                        </c:choose>
-                                    </select>
-                                </td>
-                                <td class="border-td"> 
-                                    <div id="duedate_${status.index}">
-                                        <input value="<tags:formatDate
-                                                value='${participantSchedule.studyParticipantCrf.studyParticipantCrfSchedules[0].dueDate}'/>"
-                                               title="due date" type="text"
-                                               name="dueDate_${status.index}"><a href="#"
-                                                                                 id="${title}-calbutton">
-                                        <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17"
-                                             height="16" border="0"
-                                             align="absmiddle"/>
-                                    </a>
-                                    </div>
-                                </td>
-                                <td class="border-td">
-                                    <div id="status_${status.index}">
-                                        <c:if test="${participantSchedule.repeat eq 'false'}">
-                                            ${participantSchedule.studyParticipantCrf.studyParticipantCrfSchedules[0].status}
-                                        </c:if>
-                                    </div>
-                                </td>
-                            </tr>
-                           <tr>
-                               <td colspan="4">
-                                   <chrome:division title="Generic schedule"/>
-                               </td>
-                           </tr>
-                            <tr id="repeatprops_${status.index}">
-                                <td colspan="2">
-                                    <div class="row">
-                                        <div class="label">
-                                            Repeat every
-                                        </div>
-                                        <div class="value">
-                                            <input type="text" size="2"
-                                                   name="repetitionPeriodAmount_${status.index}"
-                                                   value=""/>
-                                            <select name="repetitionPeriodUnit_${status.index}">
-                                                <option value="Days">Days</option>
-                                                <option value="Weeks">Weeks</option>
-                                                <option value="Months">Months</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <br/><br/>
-                                    </div>
-                                </td>
-                                <td colspan="2">
-                                    <div class="row">
-                                        <div class="label">
-                                            Form is due after
-                                        </div>
-                                        <div class="value">
-                                            <input type="text" size="2"
-                                                   name="dueDateAmount_${status.index}"
-                                                   value=""/>
-                                            <select name="dueDateUnit_${status.index}">
-                                                <option value="Hours">Hours</option>
-                                                <option value="Days">Days</option>
-                                                <option value="Weeks">Weeks</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="label">
-                                            Repeat until
-                                        </div>
-                                        <div class="value">
-                                            <table>
-                                                <tr>
-                                                    <td>
-                                                        <select name="repeatUntilUnit_${status.index}"
-                                                                onchange="changeinput(this,'${status.index}');">
-                                                            <option value="Date">Date</option>
-                                                            <option value="Number">Number of repetitions</option>
-                                                            <option value="Indefinitely">Indefinitely</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <div id="div_repeatUntilValue_${status.index}"><input
-                                                                size="10"
-                                                                name="repeatUntilValue_${status.index}"
-                                                                type="text"
-                                                            <%--value='<tags:formatDate value="${today}"/>'><a--%>
-                                                                value=''><a
-                                                                href="#" id="${title}-calbutton"> <img
-                                                                src="/ctcae/images/chrome/b-calendar.gif"
-                                                                alt="Calendar"
-                                                                width="17" height="16" border="0"
-                                                                align="absmiddle"/>
-                                                        </a>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="button" value="Apply"
-                                                               onclick="applyCalendar('${status.index}','');"/>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
                             <c:forEach items="${participantCrf.crf.crfCycles}" var="crfCycle" varStatus="statuscycle">
                                 <tr>
                                     <td colspan="4">

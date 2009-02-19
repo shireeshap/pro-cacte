@@ -119,6 +119,7 @@
     }
 
     function showCycle(index) {
+        $('selecteddays[' + index + ']').value = '';
         var days_amount = parseInt($('cycle_length_' + index).value);
         var days_unit = $('crf.crfCycles[' + index + '].cycleLengthUnit').value;
         var multiplier = 1;
@@ -332,12 +333,10 @@
                             </c:if>
                         </c:forEach>
                         <div id="hiddenDiv"></div>
-                            <%--<chrome:division title=" ">--%>
                         <div class="local-buttons">
                             <tags:button type="anchor" onClick="javascript:addCycle()"
                                          value="form.schedule.add_cycle"/>
                         </div>
-                            <%--</chrome:division>--%>
                     </td>
                 </tr>
             </table>
