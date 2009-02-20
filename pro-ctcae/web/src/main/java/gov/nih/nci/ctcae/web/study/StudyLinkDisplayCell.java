@@ -9,7 +9,7 @@ import org.extremecomponents.table.core.TableModel;
 /**
  * @author Vinay Kumar
  */
-public class StudyLinkDisplayDetailsCell extends AbstractCell {
+public class StudyLinkDisplayCell extends AbstractCell {
 
     public String getExportDisplay(TableModel model, Column column) {
         return column.getValueAsString();
@@ -24,9 +24,12 @@ public class StudyLinkDisplayDetailsCell extends AbstractCell {
         Integer id = bean.getId();
 
         String cellValue = "";
-        String editLink = String.format("<a href=\"createStudy?studyId=%s\">", id.toString());
+        String editLink = String.format("createStudy?studyId=%s", id.toString());
+        String manageStudySitePersonalLink = String.format("manageStudySitePersonal?studyId=%s", id.toString());
 
         cellValue = String.format(editLink + bean.getAssignedIdentifier() + "</a>");
+        cellValue = "<a href=\"" + editLink + "\">" + "Edit" + "</a>";
+        cellValue = cellValue + " | <a href=\"" + manageStudySitePersonalLink + "\">" + "Manage Study Site Personal" + "</a>";
 
         return cellValue;
     }

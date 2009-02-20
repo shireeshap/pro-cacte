@@ -1,5 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
       http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -166,8 +167,8 @@
     <!--</bean>-->
 
 
-    <bean id="finderRepository" class="gov.nih.nci.ctcae.core.repository.FinderRepository">
-        <property name="genericRepository" ref="genericRepository"></property>
+    <bean id="finderRepository" class="gov.nih.nci.ctcae.core.repository.FinderRepository"
+          p:genericRepository-ref="genericRepository">
     </bean>
     <bean id="organizationRepository" class="gov.nih.nci.ctcae.core.repository.OrganizationRepository"
           parent="abstractRepository">

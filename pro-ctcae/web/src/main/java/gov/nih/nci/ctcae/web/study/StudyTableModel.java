@@ -39,6 +39,7 @@ public class StudyTableModel extends AbstractTableModel {
             addSponsorColumn(model);
 
             addStudyCoordinatingCenter(model);
+            addActions(model);
             return model.assemble().toString();
         } catch (Exception e) {
             logger.error("error while generating table for study. " + e.getMessage(), e);
@@ -89,7 +90,6 @@ public class StudyTableModel extends AbstractTableModel {
         columnShortTitle.setTitle("Short title");
         columnShortTitle.setProperty("shortTitle");
         columnShortTitle.setSortable(Boolean.TRUE);
-        // columnShortTitle.setCell("gov.nih.nci.cabig.ctcae.web.study.StudyLinkDisplayCell");
         model.addColumn(columnShortTitle);
     }
 
@@ -103,10 +103,17 @@ public class StudyTableModel extends AbstractTableModel {
         columnShortTitle.setTitle("Study identifier");
         columnShortTitle.setProperty("assignedIdentifier");
         columnShortTitle.setSortable(Boolean.TRUE);
-        columnShortTitle.setCell("gov.nih.nci.ctcae.web.study.StudyLinkDisplayDetailsCell");
-
-
         model.addColumn(columnShortTitle);
+    }
+
+    private void addActions(TableModel model) {
+        Column columnAction = model.getColumnInstance();
+        columnAction.setTitle("Actions");
+        columnAction.setSortable(Boolean.FALSE);
+        columnAction.setCell("gov.nih.nci.ctcae.web.study.StudyLinkDisplayCell");
+
+
+        model.addColumn(columnAction);
     }
 
 

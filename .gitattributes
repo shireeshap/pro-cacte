@@ -379,7 +379,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyClinicalStaffTab.ja
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyDetailsTab.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyLinkDisplayDetailsCell.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyLinkDisplayCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/NullStringComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImpl.java -text
