@@ -4,19 +4,16 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 //
 /**
- * The Class SiteClinicalStaff.
- *
  * @author mehul
  */
 
 @Entity
-@Table(name = "SITE_CLINICAL_STAFFS")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "site_clinical_staffs_id_seq")})
-public class SiteClinicalStaff extends BasePersistable {
+@Table(name = "ORGANIZATION_CLINICAL_STAFFS")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "organization_clinical_staffs_id_seq")})
+public class OrganizationClinicalStaff extends BasePersistable {
 
     /**
      * The id.
@@ -58,9 +55,7 @@ public class SiteClinicalStaff extends BasePersistable {
 
 
     /**
-
-
-    /**
+     * /**
      * Gets the clinical staff.
      *
      * @return the clinical staff
@@ -101,7 +96,7 @@ public class SiteClinicalStaff extends BasePersistable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SiteClinicalStaff that = (SiteClinicalStaff) o;
+        OrganizationClinicalStaff that = (OrganizationClinicalStaff) o;
 
         if (clinicalStaff != null ? !clinicalStaff.equals(that.clinicalStaff) : that.clinicalStaff != null)
             return false;

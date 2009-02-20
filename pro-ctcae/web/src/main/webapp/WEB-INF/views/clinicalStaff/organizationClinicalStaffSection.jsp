@@ -5,12 +5,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript">
-    acCreate(new siteAutoComplter('clinicalStaff.siteClinicalStaffs[${siteClinicalStaffIndex}].organization'))
+    acCreate(new siteAutoComplter('clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization'))
     initSearchField()
 </script>
 
 
-<administration:siteClinicalStaff siteClinicalStaff="${siteClinicalStaff}"
-                                  siteClinicalStaffIndex="${siteClinicalStaffIndex}"/>
+<administration:organizationClinicalStaff organizationClinicalStaff="${organizationClinicalStaff}"
+                                          organizationClinicalStaffIndex="${organizationClinicalStaffIndex}"/>
 
 

@@ -2,11 +2,12 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@attribute name="siteClinicalStaff" type="gov.nih.nci.ctcae.core.domain.SiteClinicalStaff" required="true" %>
-<%@attribute name="siteClinicalStaffIndex" type="java.lang.Integer" required="true" %>
+<%@attribute name="organizationClinicalStaff" type="gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff"
+             required="true" %>
+<%@attribute name="organizationClinicalStaffIndex" type="java.lang.Integer" required="true" %>
 
 <c:set var="propertyName"
-       value="clinicalStaff.siteClinicalStaffs[${siteClinicalStaffIndex}].organization"></c:set>
+       value="clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization"></c:set>
 
 <tr id="${propertyName}-row">
     <td style="border-right:none;">
@@ -21,7 +22,7 @@
     <td style="border-left:none;">
 
         <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-           href="javascript:deleteSite('${siteClinicalStaffIndex}');">
+           href="javascript:deleteSite('${organizationClinicalStaffIndex}');">
             <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
                  style="vertical-align:middle">
         </a>

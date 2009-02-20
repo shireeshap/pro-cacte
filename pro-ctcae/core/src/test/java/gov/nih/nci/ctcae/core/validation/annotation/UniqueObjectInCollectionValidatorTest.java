@@ -3,7 +3,7 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 import gov.nih.nci.ctcae.core.AbstractTestCase;
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 
@@ -16,7 +16,7 @@ public class UniqueObjectInCollectionValidatorTest extends AbstractTestCase {
     private UniqueObjectInCollectionValidator validator;
 
     private StudySite studySite1, studySite2, duplicateStudySite;
-    private SiteClinicalStaff siteClinicalStaff1, siteClinicalStaff2, duplicateSiteClinicalStaff;
+    private OrganizationClinicalStaff organizationClinicalStaff1, organizationClinicalStaff2, duplicateOrganizationClinicalStaff;
 
     private Study study;
 
@@ -40,15 +40,15 @@ public class UniqueObjectInCollectionValidatorTest extends AbstractTestCase {
         study.addStudySite(studySite2);
 
         clinicalStaff = new ClinicalStaff();
-        siteClinicalStaff1 = new SiteClinicalStaff();
-        siteClinicalStaff1.setOrganization(Fixture.NCI);
-        duplicateSiteClinicalStaff = new SiteClinicalStaff();
-        duplicateSiteClinicalStaff.setOrganization(Fixture.NCI);
+        organizationClinicalStaff1 = new OrganizationClinicalStaff();
+        organizationClinicalStaff1.setOrganization(Fixture.NCI);
+        duplicateOrganizationClinicalStaff = new OrganizationClinicalStaff();
+        duplicateOrganizationClinicalStaff.setOrganization(Fixture.NCI);
 
-        siteClinicalStaff2 = new SiteClinicalStaff();
-        siteClinicalStaff2.setOrganization(Fixture.DUKE);
-        clinicalStaff.addSiteClinicalStaff(siteClinicalStaff1);
-        clinicalStaff.addSiteClinicalStaff(siteClinicalStaff2);
+        organizationClinicalStaff2 = new OrganizationClinicalStaff();
+        organizationClinicalStaff2.setOrganization(Fixture.DUKE);
+        clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff1);
+        clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff2);
 
 
     }
@@ -59,8 +59,8 @@ public class UniqueObjectInCollectionValidatorTest extends AbstractTestCase {
 
     }
 
-    public void testValidationForNoDuplicateSiteClinicalStaff() {
-        assertTrue("no duplicate  sites", validator.validate(clinicalStaff.getSiteClinicalStaffs()));
+    public void testValidationForNoDuplicateOrganizationClinicalStaff() {
+        assertTrue("no duplicate  sites", validator.validate(clinicalStaff.getOrganizationClinicalStaffs()));
 
     }
 
@@ -70,9 +70,9 @@ public class UniqueObjectInCollectionValidatorTest extends AbstractTestCase {
 
     }
 
-    public void testValidationForDuplicateSiteClinicalStaff() {
-        clinicalStaff.addSiteClinicalStaff(duplicateSiteClinicalStaff);
-        assertFalse("duplicate  sites found", validator.validate(clinicalStaff.getSiteClinicalStaffs()));
+    public void testValidationForDuplicateOrganizationClinicalStaff() {
+        clinicalStaff.addOrganizationClinicalStaff(duplicateOrganizationClinicalStaff);
+        assertFalse("duplicate  sites found", validator.validate(clinicalStaff.getOrganizationClinicalStaffs()));
 
     }
 }

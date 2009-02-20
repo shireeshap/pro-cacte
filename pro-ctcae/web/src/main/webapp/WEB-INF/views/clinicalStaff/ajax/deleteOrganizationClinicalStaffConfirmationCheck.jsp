@@ -23,7 +23,7 @@
 <div class="flow-buttons">
 
     <input type="button" id="flow-update" class="next" value="<tags:message code="label.delete"/>"
-           alt="Delete" onclick="deleteSiteConfirm('${siteClinicalStaffIndex}')"/>
+           alt="Delete" onclick="deleteSiteConfirm('${organizationClinicalStaffIndex}')"/>
 
 
     <input type="button" id="flow-cancel" class="previous ibutton" value="<tags:message code="label.cancel"/>"

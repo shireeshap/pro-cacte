@@ -107,9 +107,10 @@
                 <tr>
 
                     <td style="border-right:none;">
-                        <c:forEach items="${clinicalStaffCommand.clinicalStaff.siteClinicalStaffs}" var="siteClinicalStaff">
+                        <c:forEach items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}"
+                                   var="organizationClinicalStaff">
                             <div class="row">
-                                    ${siteClinicalStaff.organization.displayName}
+                                    ${organizationClinicalStaff.organization.displayName}
                             </div>
                         </c:forEach>
 

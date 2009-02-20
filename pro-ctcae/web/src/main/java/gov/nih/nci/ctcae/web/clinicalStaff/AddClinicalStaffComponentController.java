@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -34,14 +34,14 @@ public class AddClinicalStaffComponentController extends AbstractController {
         String componentTyep = request.getParameter(COMPONENT_TYPE);
 
         if (StringUtils.equals(componentTyep, SITE_COMPONENT_TYPE)) {
-            SiteClinicalStaff siteClinicalStaff = new SiteClinicalStaff();
-            clinicalStaff.addSiteClinicalStaff(siteClinicalStaff);
+            OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
+            clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
 
-            int siteClinicalStaffIndex = clinicalStaff.getSiteClinicalStaffs().size() - 1;
+            int organizationClinicalStaffIndex = clinicalStaff.getOrganizationClinicalStaffs().size() - 1;
 
-            modelAndView = new ModelAndView("clinicalStaff/siteClinicalStaffSection");
-            modelAndView.addObject("siteClinicalStaffIndex", siteClinicalStaffIndex);
-            modelAndView.addObject("siteClinicalStaff", siteClinicalStaff);
+            modelAndView = new ModelAndView("clinicalStaff/organizationClinicalStaffSection");
+            modelAndView.addObject("organizationClinicalStaffIndex", organizationClinicalStaffIndex);
+            modelAndView.addObject("organizationClinicalStaff", organizationClinicalStaff);
         }
 
         return modelAndView;

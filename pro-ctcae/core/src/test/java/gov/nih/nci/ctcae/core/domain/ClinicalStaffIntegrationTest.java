@@ -106,21 +106,21 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
     }
 
 
-    public void testDeleteSiteClinicalStaff() {
+    public void testDeleteOrganizationClinicalStaff() {
 
 
-        List<SiteClinicalStaff> siteClinicalStaffs = defaultClinicalStaff.getSiteClinicalStaffs();
-        assertFalse("must have site clinical staffs", siteClinicalStaffs.isEmpty());
-        defaultClinicalStaff.removeSiteClinicalStaff(defaultSiteClinicalStaff);
-        assertTrue("must remove site clinical staffs", siteClinicalStaffs.isEmpty());
+        List<OrganizationClinicalStaff> organizationClinicalStaffs = defaultClinicalStaff.getOrganizationClinicalStaffs();
+        assertFalse("must have site clinical staffs", organizationClinicalStaffs.isEmpty());
+        defaultClinicalStaff.removeOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
+        assertTrue("must remove site clinical staffs", organizationClinicalStaffs.isEmpty());
 
         defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
 
         commitAndStartNewTransaction();
 
-        SiteClinicalStaff siteClinicalStaff = finderRepository.findById(SiteClinicalStaff.class, defaultSiteClinicalStaff.getId());
+        OrganizationClinicalStaff organizationClinicalStaff = finderRepository.findById(OrganizationClinicalStaff.class, defaultOrganizationClinicalStaff.getId());
 
-        assertNull("must remove site clinical staff ", siteClinicalStaff);
+        assertNull("must remove site clinical staff ", organizationClinicalStaff);
     }
 
     public void testfindByOrganizationId() {
@@ -132,7 +132,7 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
         assertFalse(clinicalStaffs.isEmpty());
 
 
-        int size = jdbcTemplate.queryForInt("select count(*) from clinical_Staffs cs  left outer join site_clinical_staffs scs on cs.id=scs.clinical_staff_id " +
+        int size = jdbcTemplate.queryForInt("select count(*) from clinical_Staffs cs  left outer join ORGANIZATION_CLINICAL_STAFFS scs on cs.id=scs.clinical_staff_id " +
                 "where scs.organization_id =" + DEFAULT_ORGANIZATION_ID);
         assertEquals(size, clinicalStaffs.size());
 
@@ -140,9 +140,9 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
         for (ClinicalStaff clinicalStaff : clinicalStaffs) {
 
 
-            List<SiteClinicalStaff> siteClinicalStaffs = clinicalStaff.getSiteClinicalStaffs();
-            for (SiteClinicalStaff siteClinicalStaff : siteClinicalStaffs) {
-                if (siteClinicalStaff.getOrganization().getId().equals(DEFAULT_ORGANIZATION_ID)) {
+            List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaff.getOrganizationClinicalStaffs();
+            for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
+                if (organizationClinicalStaff.getOrganization().getId().equals(DEFAULT_ORGANIZATION_ID)) {
                     organizationFound = true;
                 }
             }
@@ -154,21 +154,21 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
 
     }
 
-    public void testfindBySiteClinicalStaffByOrganizationId() {
+    public void testfindByOrganizationClinicalStaffByOrganizationId() {
 
-        List<SiteClinicalStaff> siteClinicalStaffs = clinicalStaffRepository.findByStudyOrganizationId("b", defaultStudySite.getId());
+        List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaffRepository.findByStudyOrganizationId("b", defaultStudySite.getId());
 
-        assertFalse(siteClinicalStaffs.isEmpty());
+        assertFalse(organizationClinicalStaffs.isEmpty());
 
         String searchString = "%b%";
-        int size = jdbcTemplate.queryForInt("select count(*) from site_clinical_staffs scs,clinical_Staffs cs where cs.id=scs.clinical_staff_id " +
+        int size = jdbcTemplate.queryForInt("select count(*) from ORGANIZATION_CLINICAL_STAFFS scs,clinical_Staffs cs where cs.id=scs.clinical_staff_id " +
                 "and scs.organization_id =? and (lower(cs.first_name) like ? or lower(cs.last_name) like ? or lower(cs.nci_identifier) like ?)",
                 new Object[]{DEFAULT_ORGANIZATION_ID, searchString, searchString, searchString});
 
-        assertEquals(size, siteClinicalStaffs.size());
+        assertEquals(size, organizationClinicalStaffs.size());
 
-        for (SiteClinicalStaff siteClinicalStaff : siteClinicalStaffs) {
-            assertEquals(DEFAULT_ORGANIZATION_ID, siteClinicalStaff.getOrganization().getId());
+        for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
+            assertEquals(DEFAULT_ORGANIZATION_ID, organizationClinicalStaff.getOrganization().getId());
         }
 
 

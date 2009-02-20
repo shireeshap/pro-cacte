@@ -5,12 +5,12 @@ package gov.nih.nci.ctcae.core.query;
  * User: Vinay Kumar
  * Date: Oct 15, 2008.
  */
-public class SiteClinicalStaffQuery extends AbstractQuery {
+public class OrganizationClinicalStaffQuery extends AbstractQuery {
 
     /**
      * The query string.
      */
-    private static String queryString = "SELECT scs from SiteClinicalStaff scs order by scs.clinicalStaff.firstName";
+    private static String queryString = "SELECT scs from OrganizationClinicalStaff scs order by scs.clinicalStaff.firstName";
 
     private static String ORGANIZATION_ID = "organizationId";
 
@@ -21,7 +21,7 @@ public class SiteClinicalStaffQuery extends AbstractQuery {
     private static String NCI_IDENTIFIER = "nciIdentifier";
 
 
-    public SiteClinicalStaffQuery() {
+    public OrganizationClinicalStaffQuery() {
 
         super(queryString);
     }

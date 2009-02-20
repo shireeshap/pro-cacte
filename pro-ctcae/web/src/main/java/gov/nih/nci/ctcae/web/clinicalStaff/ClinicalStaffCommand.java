@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 
 //
 /**
@@ -18,7 +18,7 @@ public class ClinicalStaffCommand {
     private ClinicalStaff clinicalStaff;
 
 
-    private String siteClinicalStaffIndexToRemove = "";
+    private String organizationClinicalStaffIndexToRemove = "";
 
 
     /**
@@ -27,7 +27,7 @@ public class ClinicalStaffCommand {
     public ClinicalStaffCommand() {
         super();
         clinicalStaff = new ClinicalStaff();
-        clinicalStaff.addSiteClinicalStaff(new SiteClinicalStaff());
+        clinicalStaff.addOrganizationClinicalStaff(new OrganizationClinicalStaff());
     }
 
     /**
@@ -49,22 +49,22 @@ public class ClinicalStaffCommand {
     }
 
 
-    public String getSiteClinicalStaffIndexToRemove() {
-        return siteClinicalStaffIndexToRemove;
+    public String getOrganizationClinicalStaffIndexToRemove() {
+        return organizationClinicalStaffIndexToRemove;
     }
 
-    public void setSiteClinicalStaffIndexToRemove(String siteClinicalStaffIndexToRemove) {
-        this.siteClinicalStaffIndexToRemove = siteClinicalStaffIndexToRemove;
+    public void setOrganizationClinicalStaffIndexToRemove(String organizationClinicalStaffIndexToRemove) {
+        this.organizationClinicalStaffIndexToRemove = organizationClinicalStaffIndexToRemove;
     }
 
 
     public void apply() {
 
-        if (!org.apache.commons.lang.StringUtils.isBlank(getSiteClinicalStaffIndexToRemove())) {
-            Integer siteClinicalStaffIndex = Integer.valueOf(siteClinicalStaffIndexToRemove);
-            this.getClinicalStaff().removeSiteClinicalStaff(siteClinicalStaffIndex);
+        if (!org.apache.commons.lang.StringUtils.isBlank(getOrganizationClinicalStaffIndexToRemove())) {
+            Integer organizationClinicalStaffIndex = Integer.valueOf(organizationClinicalStaffIndexToRemove);
+            this.getClinicalStaff().removeOrganizationClinicalStaff(organizationClinicalStaffIndex);
         }
-        setSiteClinicalStaffIndexToRemove("");
+        setOrganizationClinicalStaffIndexToRemove("");
 
 
     }

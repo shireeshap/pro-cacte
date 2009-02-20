@@ -54,7 +54,7 @@ public class ClinicalStaff extends Person {
      */
     @OneToMany(mappedBy = "clinicalStaff", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<SiteClinicalStaff> siteClinicalStaffs = new ArrayList<SiteClinicalStaff>();
+    private List<OrganizationClinicalStaff> organizationClinicalStaffs = new ArrayList<OrganizationClinicalStaff>();
 
     /**
      * Gets the email address.
@@ -169,58 +169,58 @@ public class ClinicalStaff extends Person {
      * @return the site clinical staffs
      */
     @UniqueObjectInCollection(message = "Duplicate Site")
-    public List<SiteClinicalStaff> getSiteClinicalStaffs() {
-        return siteClinicalStaffs;
+    public List<OrganizationClinicalStaff> getOrganizationClinicalStaffs() {
+        return organizationClinicalStaffs;
     }
 
-    public void removeSiteClinicalStaff(Integer siteClinicalStaffIndex) {
-        SiteClinicalStaff siteClinicalStaff = getSiteClinicalStaffs().get(siteClinicalStaffIndex);
-        removeSiteClinicalStaff(siteClinicalStaff);
+    public void removeOrganizationClinicalStaff(Integer organizationClinicalStaffIndex) {
+        OrganizationClinicalStaff organizationClinicalStaff = getOrganizationClinicalStaffs().get(organizationClinicalStaffIndex);
+        removeOrganizationClinicalStaff(organizationClinicalStaff);
     }
 
 
     /**
      * Adds the site clinical staff.
      *
-     * @param siteClinicalStaff the site clinical staff
+     * @param organizationClinicalStaff the site clinical staff
      */
-    public void addSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
-        if (siteClinicalStaff != null) {
-            siteClinicalStaff.setClinicalStaff(this);
-            this.getSiteClinicalStaffs().add(siteClinicalStaff);
+    public void addOrganizationClinicalStaff(OrganizationClinicalStaff organizationClinicalStaff) {
+        if (organizationClinicalStaff != null) {
+            organizationClinicalStaff.setClinicalStaff(this);
+            this.getOrganizationClinicalStaffs().add(organizationClinicalStaff);
         }
     }
 
     /**
      * Adds the site clinical staffs.
      *
-     * @param siteClinicalStaffs the site clinical staffs
+     * @param organizationClinicalStaffs the site clinical staffs
      */
-    public void addSiteClinicalStaffs(Collection<SiteClinicalStaff> siteClinicalStaffs) {
-        for (SiteClinicalStaff siteClinicalStaff : siteClinicalStaffs) {
-            addSiteClinicalStaff(siteClinicalStaff);
+    public void addOrganizationClinicalStaff(Collection<OrganizationClinicalStaff> organizationClinicalStaffs) {
+        for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
+            addOrganizationClinicalStaff(organizationClinicalStaff);
         }
     }
 
     /**
      * Removes the site clinical staff.
      *
-     * @param siteClinicalStaff the site clinical staff
+     * @param organizationClinicalStaff the site clinical staff
      */
-    public void removeSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
-        if (siteClinicalStaff != null) {
-            this.getSiteClinicalStaffs().remove(siteClinicalStaff);
+    public void removeOrganizationClinicalStaff(OrganizationClinicalStaff organizationClinicalStaff) {
+        if (organizationClinicalStaff != null) {
+            this.getOrganizationClinicalStaffs().remove(organizationClinicalStaff);
         }
     }
 
     /**
      * Removes the site clinical staffs.
      *
-     * @param siteClinicalStaffs the site clinical staffs
+     * @param organizationClinicalStaffs the site clinical staffs
      */
-    public void removeSiteClinicalStaffs(List<SiteClinicalStaff> siteClinicalStaffs) {
-        for (SiteClinicalStaff siteClinicalStaff : siteClinicalStaffs) {
-            removeSiteClinicalStaff(siteClinicalStaff);
+    public void removeOrganizationClinicalStaff(List<OrganizationClinicalStaff> organizationClinicalStaffs) {
+        for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
+            removeOrganizationClinicalStaff(organizationClinicalStaff);
         }
     }
 

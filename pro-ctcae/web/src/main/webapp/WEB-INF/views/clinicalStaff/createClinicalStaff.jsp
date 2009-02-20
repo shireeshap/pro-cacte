@@ -18,10 +18,10 @@
     <script type="text/javascript">
 
         Event.observe(window, "load", function() {
-        <c:forEach  items="${clinicalStaffCommand.clinicalStaff.siteClinicalStaffs}" var="siteClinicalStaff" varStatus="status">
-            var siteBaseName = 'clinicalStaff.siteClinicalStaffs[${status.index}].organization'
+        <c:forEach  items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}" var="organizationClinicalStaff" varStatus="status">
+            var siteBaseName = 'clinicalStaff.organizationClinicalStaffs[${status.index}].organization'
             acCreate(new siteAutoComplter(siteBaseName));
-            initializeAutoCompleter(siteBaseName, '${siteClinicalStaff.organization.displayName}', '${siteClinicalStaff.organization.id}');
+            initializeAutoCompleter(siteBaseName, '${organizationClinicalStaff.organization.displayName}', '${organizationClinicalStaff.organization.id}');
         </c:forEach>
             initSearchField()
         })
@@ -41,10 +41,10 @@
         }
 
 
-        function deleteSite(siteClinicalStaffIndex) {
+        function deleteSite(organizationClinicalStaffIndex) {
 
             var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-                parameters:"confirmationType=deleteSiteClinicalStaff&subview=subview&siteClinicalStaffIndex=" + siteClinicalStaffIndex,
+                parameters:"confirmationType=deleteOrganizationClinicalStaff&subview=subview&organizationClinicalStaffIndex=" + organizationClinicalStaffIndex,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport);
 
@@ -54,10 +54,10 @@
 
 
         }
-        function deleteSiteConfirm(siteClinicalStaffIndex) {
+        function deleteSiteConfirm(organizationClinicalStaffIndex) {
             closeWindow();
             $('showForm').value = true;
-            $('siteClinicalStaffIndexToRemove').value = siteClinicalStaffIndex;
+            $('organizationClinicalStaffIndexToRemove').value = organizationClinicalStaffIndex;
             $('clinicalStaffCommand').submit();
 
         }
@@ -89,7 +89,7 @@
         <tags:hasErrorsMessage hideErrorDetails="false"/>
 
         <input type="hidden" id="showForm" name="showForm" value=""/>
-        <form:hidden path="siteClinicalStaffIndexToRemove" id="siteClinicalStaffIndexToRemove"/>
+        <form:hidden path="organizationClinicalStaffIndexToRemove" id="organizationClinicalStaffIndexToRemove"/>
 
         <p><tags:instructions code="clinicalStaff.clinicalStaff_details.top"/></p>
         <chrome:division title="clinicalStaff.division.details">
@@ -143,13 +143,13 @@
                                 </tr>
 
 
-                                <c:forEach items="${clinicalStaffCommand.clinicalStaff.siteClinicalStaffs}"
-                                           var="siteClinicalStaff"
+                                <c:forEach items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}"
+                                           var="organizationClinicalStaff"
                                            varStatus="status">
 
-                                    <administration:siteClinicalStaff
-                                            siteClinicalStaff="${siteClinicalStaff}"
-                                            siteClinicalStaffIndex="${status.index}"/>
+                                    <administration:organizationClinicalStaff
+                                            organizationClinicalStaff="${organizationClinicalStaff}"
+                                            organizationClinicalStaffIndex="${status.index}"/>
                                 </c:forEach>
 
                                 <tr id="hiddenDiv" align="center"></tr>

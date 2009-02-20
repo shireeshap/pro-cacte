@@ -23,7 +23,7 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
 
     @JoinColumn(name = "site_clinical_staff_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
-    private SiteClinicalStaff siteClinicalStaff;
+    private OrganizationClinicalStaff organizationClinicalStaff;
 
     @JoinColumn(name = "study_organization_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
@@ -49,13 +49,14 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
         this.id = id;
     }
 
-    public SiteClinicalStaff getSiteClinicalStaff() {
-        return siteClinicalStaff;
+    public OrganizationClinicalStaff getOrganizationClinicalStaff() {
+        return organizationClinicalStaff;
     }
 
-    public void setSiteClinicalStaff(SiteClinicalStaff siteClinicalStaff) {
-        this.siteClinicalStaff = siteClinicalStaff;
+    public void setOrganizationClinicalStaff(OrganizationClinicalStaff organizationClinicalStaff) {
+        this.organizationClinicalStaff = organizationClinicalStaff;
     }
+
 
     public StudyOrganization getStudyOrganization() {
         return studyOrganization;
@@ -74,7 +75,7 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
 
         if (roleStatus != that.roleStatus) return false;
         if (roles != null ? !roles.equals(that.roles) : that.roles != null) return false;
-        if (siteClinicalStaff != null ? !siteClinicalStaff.equals(that.siteClinicalStaff) : that.siteClinicalStaff != null)
+        if (organizationClinicalStaff != null ? !organizationClinicalStaff.equals(that.organizationClinicalStaff) : that.organizationClinicalStaff != null)
             return false;
         if (studyOrganization != null ? !studyOrganization.equals(that.studyOrganization) : that.studyOrganization != null)
             return false;
@@ -84,7 +85,7 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
 
     @Override
     public int hashCode() {
-        int result = siteClinicalStaff != null ? siteClinicalStaff.hashCode() : 0;
+        int result = organizationClinicalStaff != null ? organizationClinicalStaff.hashCode() : 0;
         result = 31 * result + (studyOrganization != null ? studyOrganization.hashCode() : 0);
         result = 31 * result + (roleStatus != null ? roleStatus.hashCode() : 0);
         result = 31 * result + (roles != null ? roles.hashCode() : 0);

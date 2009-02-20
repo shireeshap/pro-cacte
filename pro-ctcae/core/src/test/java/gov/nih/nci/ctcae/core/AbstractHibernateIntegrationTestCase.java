@@ -34,7 +34,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
             "classpath*:gov/nih/nci/ctcae/core/resourceContext-job.xml",
 //                "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml",
             "classpath*:" + "/*-context-test.xml"};
-    protected SiteClinicalStaff defaultSiteClinicalStaff;
+    protected OrganizationClinicalStaff defaultOrganizationClinicalStaff;
     protected Roles PI, ODC, LEAD_CRA;
 
 
@@ -113,17 +113,17 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         defaultClinicalStaff.setFirstName("Bruce");
         defaultClinicalStaff.setLastName("Tanner");
         defaultClinicalStaff.setNciIdentifier("-1234");
-        defaultSiteClinicalStaff = new SiteClinicalStaff();
-        defaultSiteClinicalStaff.setOrganization(defaultOrganization);
-        defaultClinicalStaff.addSiteClinicalStaff(defaultSiteClinicalStaff);
+        defaultOrganizationClinicalStaff = new OrganizationClinicalStaff();
+        defaultOrganizationClinicalStaff.setOrganization(defaultOrganization);
+        defaultClinicalStaff.addOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
 
         defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
 
         commitAndStartNewTransaction();
         assertNotNull("must find default clinical staff. ", defaultClinicalStaff);
 
-        defaultSiteClinicalStaff = defaultClinicalStaff.getSiteClinicalStaffs().get(0);
-        assertNotNull("must find default clinical staff. ", defaultSiteClinicalStaff);
+        defaultOrganizationClinicalStaff = defaultClinicalStaff.getOrganizationClinicalStaffs().get(0);
+        assertNotNull("must find default clinical staff. ", defaultOrganizationClinicalStaff);
 
 
     }
@@ -138,7 +138,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         jdbcTemplate.execute("delete from study_participant_assignments");
         jdbcTemplate.execute("delete from study_organizations");
         jdbcTemplate.execute("delete from studies");
-        jdbcTemplate.execute("delete from SITE_CLINICAL_STAFFS");
+        jdbcTemplate.execute("delete from ORGANIZATION_CLINICAL_STAFFS");
         jdbcTemplate.execute("delete from CLINICAL_STAFFS");
         commitAndStartNewTransaction();
     }
@@ -170,7 +170,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         assertEquals("study site must be same", studyOrganizationClinicalStaff.getStudyOrganization(), defaultStudySite);
 
 
-        assertEquals("site clinical staff  must be same", defaultSiteClinicalStaff, studyOrganizationClinicalStaff.getSiteClinicalStaff());
+        assertEquals("site clinical staff  must be same", defaultOrganizationClinicalStaff, studyOrganizationClinicalStaff.getOrganizationClinicalStaff());
         return studyOrganizationClinicalStaff;
     }
 

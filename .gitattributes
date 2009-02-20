@@ -76,6 +76,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Ethnicity.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Gender.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/NegativeAnswers.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Organization.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/OrganizationClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Participant.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ParticipantAddedQuestionDisplayOrderComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ParticipantCrfDisplayOrderComparator.java -text
@@ -97,7 +98,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RolePrivilege.java -t
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleType.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Roles.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/SiteClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCoordinatingCenter.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyFundingSponsor.java -text
@@ -117,6 +117,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CRFQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ClinicalStaffAssignmentQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ClinicalStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CtcQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationClinicalStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationHavingStudySiteQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ParticipantQuery.java -text
@@ -125,7 +126,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuestionQuery.ja
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcTermQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/Query.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/RoleQuery.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SiteClinicalStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
@@ -404,7 +404,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/public-servlet.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/sitemesh.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/special-views.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/spring-servlet.xml -text
-pro-ctcae/web/src/main/webapp/WEB-INF/tags/administration/siteClinicalStaff.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/administration/organizationClinicalStaff.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/attribute.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/autocompleter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/body.tag -text
@@ -498,11 +498,11 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabForm.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabMethod.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/validvalue.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tiles-definitions.xml -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/ajax/deleteSiteClinicalStaffConfirmationCheck.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/ajax/deleteOrganizationClinicalStaffConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/confirmClinicalStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/createClinicalStaff.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/organizationClinicalStaffSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/searchClinicalStaff.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/siteClinicalStaffSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/dummy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text

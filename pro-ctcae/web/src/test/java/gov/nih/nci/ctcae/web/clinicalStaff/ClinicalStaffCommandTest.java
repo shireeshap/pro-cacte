@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.web.WebTestCase;
 
 /**
@@ -11,10 +11,10 @@ import gov.nih.nci.ctcae.web.WebTestCase;
  */
 public class ClinicalStaffCommandTest extends WebTestCase {
     private ClinicalStaffCommand clinicalStaffCommand;
-    private SiteClinicalStaff siteClinicalStaff1;
-    private SiteClinicalStaff siteClinicalStaff2;
-    private SiteClinicalStaff siteClinicalStaff3;
-    private SiteClinicalStaff siteClinicalStaff4;
+    private OrganizationClinicalStaff organizationClinicalStaff1;
+    private OrganizationClinicalStaff organizationClinicalStaff2;
+    private OrganizationClinicalStaff organizationClinicalStaff3;
+    private OrganizationClinicalStaff organizationClinicalStaff4;
 
 
     @Override
@@ -22,17 +22,17 @@ public class ClinicalStaffCommandTest extends WebTestCase {
         super.setUp();
 
         clinicalStaffCommand = new ClinicalStaffCommand();
-        siteClinicalStaff1 = new SiteClinicalStaff();
-        siteClinicalStaff1.setOrganization(Fixture.createOrganization("org1", "nci1"));
+        organizationClinicalStaff1 = new OrganizationClinicalStaff();
+        organizationClinicalStaff1.setOrganization(Fixture.createOrganization("org1", "nci1"));
 
-        siteClinicalStaff2 = new SiteClinicalStaff();
-        siteClinicalStaff2.setOrganization(Fixture.createOrganization("org2", "nci2"));
+        organizationClinicalStaff2 = new OrganizationClinicalStaff();
+        organizationClinicalStaff2.setOrganization(Fixture.createOrganization("org2", "nci2"));
 
-        siteClinicalStaff3 = new SiteClinicalStaff();
-        siteClinicalStaff3.setOrganization(Fixture.createOrganization("org3", "nci3"));
+        organizationClinicalStaff3 = new OrganizationClinicalStaff();
+        organizationClinicalStaff3.setOrganization(Fixture.createOrganization("org3", "nci3"));
 
-        siteClinicalStaff4 = new SiteClinicalStaff();
-        siteClinicalStaff4.setOrganization(Fixture.createOrganization("org4", "nci4"));
+        organizationClinicalStaff4 = new OrganizationClinicalStaff();
+        organizationClinicalStaff4.setOrganization(Fixture.createOrganization("org4", "nci4"));
 
     }
 
@@ -40,21 +40,21 @@ public class ClinicalStaffCommandTest extends WebTestCase {
         assertNotNull("must instantiate site", clinicalStaffCommand.getClinicalStaff());
     }
 
-    public void testRemoveSiteClinicalStaffs() {
+    public void testRemoveOrganizationClinicalStaffs() {
         ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
-        clinicalStaff.addSiteClinicalStaff(siteClinicalStaff1);
-        clinicalStaff.addSiteClinicalStaff(siteClinicalStaff2);
-        clinicalStaff.addSiteClinicalStaff(siteClinicalStaff3);
-        assertEquals("must be 4 clinical staff sites", 4, clinicalStaff.getSiteClinicalStaffs().size());
+        clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff1);
+        clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff2);
+        clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff3);
+        assertEquals("must be 4 clinical staff sites", 4, clinicalStaff.getOrganizationClinicalStaffs().size());
 
-        clinicalStaffCommand.setSiteClinicalStaffIndexToRemove(String.valueOf(2));
+        clinicalStaffCommand.setOrganizationClinicalStaffIndexToRemove(String.valueOf(2));
 
         clinicalStaffCommand.apply();
 
-        assertEquals("must remove 3 clinical staff sites", 3, clinicalStaff.getSiteClinicalStaffs().size());
+        assertEquals("must remove 3 clinical staff sites", 3, clinicalStaff.getOrganizationClinicalStaffs().size());
 
-        assertTrue("must preserve order of clinical staff sites", clinicalStaff.getSiteClinicalStaffs().contains(siteClinicalStaff1));
-        assertTrue("must preserve order of clinical staff sites", clinicalStaff.getSiteClinicalStaffs().contains(siteClinicalStaff3));
+        assertTrue("must preserve order of clinical staff sites", clinicalStaff.getOrganizationClinicalStaffs().contains(organizationClinicalStaff1));
+        assertTrue("must preserve order of clinical staff sites", clinicalStaff.getOrganizationClinicalStaffs().contains(organizationClinicalStaff3));
 
 
     }

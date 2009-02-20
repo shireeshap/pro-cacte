@@ -31,7 +31,7 @@
         <value>gov.nih.nci.ctcae.core.domain.Privilege</value>
         <value>gov.nih.nci.ctcae.core.domain.Roles</value>
         <value>gov.nih.nci.ctcae.core.domain.RolePrivilege</value>
-        <value>gov.nih.nci.ctcae.core.domain.SiteClinicalStaff</value>
+        <value>gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff</value>
         <value>gov.nih.nci.ctcae.core.domain.Study</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff</value>

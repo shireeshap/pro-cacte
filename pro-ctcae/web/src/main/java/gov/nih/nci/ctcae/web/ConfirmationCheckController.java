@@ -30,7 +30,7 @@ public class ConfirmationCheckController extends AbstractController {
 
     private static final String DELETE_CRF_CYCLE = "deleteCrfCycle";
 
-    private static final String DELETE_SITE_CLINICAL_STAFF_TYPE = "deleteSiteClinicalStaff";
+    private static final String DELETE_SITE_CLINICAL_STAFF_TYPE = "deleteOrganizationClinicalStaff";
 
     /* (non-Javadoc)
     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -55,9 +55,9 @@ public class ConfirmationCheckController extends AbstractController {
             map.put("crfCycleIndex", request.getParameter("crfCycleIndex"));
             modelAndView.addAllObjects(map);
         } else if (StringUtils.equals(confirmationType, DELETE_SITE_CLINICAL_STAFF_TYPE)) {
-            modelAndView = new ModelAndView("clinicalStaff/ajax/deleteSiteClinicalStaffConfirmationCheck");
+            modelAndView = new ModelAndView("clinicalStaff/ajax/deleteOrganizationClinicalStaffConfirmationCheck");
             Map map = new HashMap();
-            map.put("siteClinicalStaffIndex", request.getParameter("siteClinicalStaffIndex"));
+            map.put("organizationClinicalStaffIndex", request.getParameter("organizationClinicalStaffIndex"));
             modelAndView.addAllObjects(map);
         }
 

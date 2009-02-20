@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
@@ -31,12 +31,12 @@ public class ClinicalStaffAjaxFacade {
     private ClinicalStaffRepository clinicalStaffRepository;
     private FinderRepository finderRepository;
 
-    public List<SiteClinicalStaff> matchSiteClinicalStaffByStudyOrganizationId(final String text, Integer studyOrganizationId) {
+    public List<OrganizationClinicalStaff> matchOrganizationClinicalStaffByStudyOrganizationId(final String text, Integer studyOrganizationId) {
 
-        logger.info(String.format("in match matchSiteClinicalStaffByOrganizationId method. Search string :%s and studyOrganizationId=%s", text, studyOrganizationId));
-        List<SiteClinicalStaff> siteClinicalStaffs = clinicalStaffRepository.findByStudyOrganizationId(text, studyOrganizationId);
+        logger.info(String.format("in match matchOrganizationClinicalStaffByOrganizationId method. Search string :%s and studyOrganizationId=%s", text, studyOrganizationId));
+        List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaffRepository.findByStudyOrganizationId(text, studyOrganizationId);
 
-        return ObjectTools.reduceAll(siteClinicalStaffs, "id", "clinicalStaff", "clinicalStaff");
+        return ObjectTools.reduceAll(organizationClinicalStaffs, "id", "clinicalStaff", "clinicalStaff");
 
     }
 

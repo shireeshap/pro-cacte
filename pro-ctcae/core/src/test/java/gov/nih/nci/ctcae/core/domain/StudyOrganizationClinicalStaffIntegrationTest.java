@@ -15,7 +15,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
         super.onSetUpInTransaction();
         studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
         studyOrganizationClinicalStaff.setRoles(PI);
-        studyOrganizationClinicalStaff.setSiteClinicalStaff(defaultSiteClinicalStaff);
+        studyOrganizationClinicalStaff.setOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
 
 
     }

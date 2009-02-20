@@ -19,15 +19,15 @@ class CreateClinicalStaffs extends edu.northwestern.bioinformatics.bering.Migrat
 
     }
 
-    createTable("SITE_CLINICAL_STAFFS") {t ->
+    createTable("ORGANIZATION_CLINICAL_STAFFS") {t ->
       t.addVersionColumn()
 
       t.addColumn('clinical_staff_id', 'integer', nullable: false)
       t.addColumn('organization_id', 'integer', nullable: false)
     }
 
-    execute('ALTER TABLE SITE_CLINICAL_STAFFS ADD CONSTRAINT fk_si_cli FOREIGN KEY (clinical_staff_id) REFERENCES CLINICAL_STAFFS')
-    execute('ALTER TABLE SITE_CLINICAL_STAFFS ADD CONSTRAINT fk_si_org FOREIGN KEY (organization_id) REFERENCES ORGANIZATIONS')
+    execute('ALTER TABLE ORGANIZATION_CLINICAL_STAFFS ADD CONSTRAINT fk_si_cli FOREIGN KEY (clinical_staff_id) REFERENCES CLINICAL_STAFFS')
+    execute('ALTER TABLE ORGANIZATION_CLINICAL_STAFFS ADD CONSTRAINT fk_si_org FOREIGN KEY (organization_id) REFERENCES ORGANIZATIONS')
 
     createTable("STUDY_ORGANIZATION_CLINICAL_STAFFS") {t ->
 
@@ -42,7 +42,7 @@ class CreateClinicalStaffs extends edu.northwestern.bioinformatics.bering.Migrat
     }
 
 
-    execute('ALTER TABLE STUDY_ORGANIZATION_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_site_clinical_staff FOREIGN KEY (site_clinical_staff_id) REFERENCES SITE_CLINICAL_STAFFS')
+    execute('ALTER TABLE STUDY_ORGANIZATION_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_site_clinical_staff FOREIGN KEY (site_clinical_staff_id) REFERENCES ORGANIZATION_CLINICAL_STAFFS')
     execute('ALTER TABLE STUDY_ORGANIZATION_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_study_site FOREIGN KEY (study_organization_id) REFERENCES STUDY_ORGANIZATIONS')
     execute('ALTER TABLE STUDY_ORGANIZATION_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_role FOREIGN KEY (role_id) REFERENCES ROLES')
 
@@ -70,7 +70,7 @@ class CreateClinicalStaffs extends edu.northwestern.bioinformatics.bering.Migrat
     dropTable("STUDY_PARTICIPANT_CLINICAL_STAFFS")
     dropTable("STUDY_ORGANIZATION_CLINICAL_STAFFS")
 
-    dropTable("SITE_CLINICAL_STAFFS")
+    dropTable("ORGANIZATION_CLINICAL_STAFFS")
 
 
   }

@@ -290,14 +290,14 @@ Object.extend(siteAutoComplter.prototype, {
 
 });
 
-var siteClinicalStaffAutoComplter = Class.create();
-Object.extend(siteClinicalStaffAutoComplter.prototype, {
+var organizationClinicalStaffAutoComplter = Class.create();
+Object.extend(organizationClinicalStaffAutoComplter.prototype, {
     initialize: function(basename, studyOrganizationId) {
 
         this.basename = basename;
         this.organizationId = studyOrganizationId;
         this.populator = function(autocompleter, text) {
-            clinicalStaff.matchSiteClinicalStaffByStudyOrganizationId(text, studyOrganizationId, function(values) {
+            clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(text, studyOrganizationId, function(values) {
                 autocompleter.setChoices(values)
             })
         },

@@ -29,7 +29,7 @@ public class ClinicalStaffQueryTest extends TestCase {
     public void testFilterByOrganizationId() throws Exception {
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByOrganization(1);
-        assertEquals("SELECT cs from ClinicalStaff cs left join cs.siteClinicalStaffs as scs WHERE scs.organization.id = :organizationId order by cs.id",
+        assertEquals("SELECT cs from ClinicalStaff cs left join cs.organizationClinicalStaffs as scs WHERE scs.organization.id = :organizationId order by cs.id",
                 clinicalStaffQuery.getQueryString());
         assertEquals("wrong number of parameters", clinicalStaffQuery.getParameterMap().size(), 1);
         assertTrue("missing parameter name", clinicalStaffQuery.getParameterMap().containsKey("organizationId"));

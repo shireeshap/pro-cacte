@@ -1,5 +1,7 @@
+import edu.northwestern.bioinformatics.bering.Migration
+
 class AddStudyParticipantClinicalStaff extends edu.northwestern.bioinformatics.bering.Migration {
-    void up() {
+  void up() {
 
 //        createTable("STUDY_PARTICIPANT_CLINICAL_STAFFS") {t ->
 //
@@ -11,19 +13,18 @@ class AddStudyParticipantClinicalStaff extends edu.northwestern.bioinformatics.b
 //        }
 //
 //
-//        execute('ALTER TABLE STUDY_PARTICIPANT_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_site_clinical_staff FOREIGN KEY (study_site_clinical_staff_id) REFERENCES STUDY_SITE_CLINICAL_STAFFS')
+//        execute('ALTER TABLE STUDY_PARTICIPANT_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_site_clinical_staff FOREIGN KEY (study_site_clinical_staff_id) REFERENCES STUDY_ORGANIZATION_CLINICAL_STAFFS')
 //        execute('ALTER TABLE STUDY_PARTICIPANT_CLINICAL_STAFFS ADD CONSTRAINT fk_ss_cls_study_site FOREIGN KEY (sp_assignment_id) REFERENCES STUDY_PARTICIPANT_ASSIGNMENTS')
 
 
-    }
+  }
 
 
-    void down() {
-        dropTable("STUDY_PARTICIPANT_CLINICAL_STAFFS")
+  void down() {
+    dropTable("STUDY_PARTICIPANT_CLINICAL_STAFFS")
 
 
-
-    }
+  }
 
 
 }

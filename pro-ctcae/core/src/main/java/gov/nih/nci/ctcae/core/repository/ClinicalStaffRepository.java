@@ -1,11 +1,11 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.SiteClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
-import gov.nih.nci.ctcae.core.query.SiteClinicalStaffQuery;
+import gov.nih.nci.ctcae.core.query.OrganizationClinicalStaffQuery;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,9 +32,9 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
     public ClinicalStaff findById(Integer id) {
         ClinicalStaff clinicalstaff = super.findById(id);
 
-        Collection<SiteClinicalStaff> siteClinicalStaffCollection = clinicalstaff.getSiteClinicalStaffs();
-        for (SiteClinicalStaff siteClinicalStaff : siteClinicalStaffCollection) {
-            siteClinicalStaff.getOrganization().getDisplayName();
+        Collection<OrganizationClinicalStaff> organizationClinicalStaffCollection = clinicalstaff.getOrganizationClinicalStaffs();
+        for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffCollection) {
+            organizationClinicalStaff.getOrganization().getDisplayName();
         }
         return clinicalstaff;
 
@@ -42,15 +42,15 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
     }
 
 
-    public List<SiteClinicalStaff> findByStudyOrganizationId(String text, Integer studyOrganizationId) {
-        SiteClinicalStaffQuery query = new SiteClinicalStaffQuery();
+    public List<OrganizationClinicalStaff> findByStudyOrganizationId(String text, Integer studyOrganizationId) {
+        OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery();
         query.filterByFirstNameOrLastNameOrNciIdentifier(text);
         StudyOrganization studyOrganization = genericRepository.findById(StudyOrganization.class, studyOrganizationId);
         if (studyOrganization != null) {
             Integer organizationId = studyOrganization.getOrganization().getId();
             query.filterByOrganization(organizationId);
 
-            return (List<SiteClinicalStaff>) genericRepository.find(query);
+            return (List<OrganizationClinicalStaff>) genericRepository.find(query);
         }
 
         throw new CtcAeSystemException(String.format("no study organization found for given id %s", studyOrganizationId));

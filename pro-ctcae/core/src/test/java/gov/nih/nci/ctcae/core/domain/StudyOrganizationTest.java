@@ -61,7 +61,4 @@ public class StudyOrganizationTest extends TestCase {
 
     }
 
-    public void testAddStudySiteClinicalStaffThrowsException() {
-    }
-
 }

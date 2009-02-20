@@ -146,7 +146,7 @@ public abstract class StudyOrganization extends BasePersistable {
     public void addOrUpdateStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
         if (studyOrganizationClinicalStaff != null) {
 
-            Organization expectedOrganization = studyOrganizationClinicalStaff.getSiteClinicalStaff().getOrganization();
+            Organization expectedOrganization = studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getOrganization();
             if (!expectedOrganization.equals(this.getOrganization())) {
                 String errorMessage = String.format("clinical staff belongs to %s. It does not belongs to study orgaization %s %s. So this clincal staff can not be added",
                         expectedOrganization.getDisplayName(), this.getStudy().getAssignedIdentifier(), this.getOrganization().getDisplayName());
