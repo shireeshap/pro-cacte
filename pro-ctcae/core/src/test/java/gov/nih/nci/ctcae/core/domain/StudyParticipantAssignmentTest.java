@@ -36,11 +36,11 @@ public class StudyParticipantAssignmentTest extends AbstractTestCase {
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(organizationClinicalStaff);
         studySite.addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
 
-        studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
-        studyParticipantClinicalStaff.setStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
-
-        duplicateStudyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
-        duplicateStudyParticipantClinicalStaff.setStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+//        studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
+//        studyParticipantClinicalStaff.setOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+//
+//        duplicateStudyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
+//        duplicateStudyParticipantClinicalStaff.setOrganizationClinicalStaff(studyOrganizationClinicalStaff);
 
         studyParticipantAssignment = new StudyParticipantAssignment();
         studyParticipantAssignment.setStudySite(studySite);
