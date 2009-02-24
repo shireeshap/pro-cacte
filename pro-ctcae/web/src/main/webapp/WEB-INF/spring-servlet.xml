@@ -67,6 +67,8 @@
             </list>
         </property>
     </bean>
+
+
     <bean id="urlResolver" class="gov.nih.nci.cabig.ctms.tools.spring.BeanNameControllerUrlResolver"
           p:servletName="pages"/>
 

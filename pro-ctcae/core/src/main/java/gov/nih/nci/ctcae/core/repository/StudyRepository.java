@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
@@ -33,6 +34,22 @@ public class StudyRepository extends AbstractRepository<Study, StudyQuery> {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Study save(Study study) {
         Study savedStudy = super.save(study);
+        initialzeStudy(savedStudy);
+        return savedStudy;
+
+
+    }
+
+    @Override
+    public Study findById(Integer id) {
+        Study study = super.findById(id);
+        initialzeStudy(study);
+        return study;
+
+
+    }
+
+    private void initialzeStudy(Study savedStudy) {
         List<StudyOrganization> studyOrganizations = savedStudy.getStudyOrganizations();
         for (StudyOrganization studyOrganization : studyOrganizations) {
             List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffList = studyOrganization.getStudyOrganizationClinicalStaffs();
@@ -40,8 +57,9 @@ public class StudyRepository extends AbstractRepository<Study, StudyQuery> {
                 studyOrganizationClinicalStaff.getStudyOrganization();
             }
         }
-        return savedStudy;
 
-
+        for (StudyClinicalStaff studyClinicalStaff : savedStudy.getStudyClinicalStaffs()) {
+            studyClinicalStaff.getOrganizationClinicalStaff();
+        }
     }
 }

@@ -32,8 +32,8 @@
         function updateOrganizationClinicalStaffAutoCompleters() {
             clearAutoCompleter('leadCRA.organizationClinicalStaff');
             clearAutoCompleter('principalInvestigator.organizationClinicalStaff');
-            acCreate(new organizationClinicalStaffAutoComplter('leadCRA.organizationClinicalStaff', $('leadCRA.studyOrganization').value))
-            acCreate(new organizationClinicalStaffAutoComplter('principalInvestigator.organizationClinicalStaff', $('principalInvestigator.studyOrganization').value))
+            acCreate(new organizationClinicalStaffAutoComplter('leadCRA.organizationClinicalStaff', $('leadCRA.study').value))
+            acCreate(new organizationClinicalStaffAutoComplter('principalInvestigator.organizationClinicalStaff', $('principalInvestigator.study').value))
 
         }
 
@@ -63,20 +63,10 @@
 
         <chrome:division title="study.label.clinical.staff.lead.cra">
 
+            <tags:renderSelect options="${studySitesAndCoordinatingCenter}" noForm="true"
+                               onchange="updateOrganizationClinicalStaffAutoCompleters()" required="false"
+                               displayName="study.label.site"/>
 
-            <div class="row">
-                <div class="label">
-                    <tags:renderLabel displayName="study.label.site"
-                                      propertyName="leadCRA.studyOrganization"
-                                      required="true"/>
-                </div>
-                <div class="value">
-                    <form:select path="leadCRA.studyOrganization"
-                                 items="${studySitesAndCoordinatingCenter}" title="Site"
-                                 itemLabel="desc" itemValue="code"
-                                 onchange="updateOrganizationClinicalStaffAutoCompleters()"/>
-                </div>
-            </div>
 
             <tags:renderAutocompleter propertyName="leadCRA.organizationClinicalStaff"
                                       displayName="study.label.clinical.staff" noForm="true" required="true"
@@ -89,11 +79,11 @@
             <div class="row">
                 <div class="label">
                     <tags:renderLabel displayName="study.label.site"
-                                      propertyName="principalInvestigator.studyOrganization"
+                                      propertyName="principalInvestigator.study"
                                       required="true"/>
                 </div>
                 <div class="value">
-                    <form:select path="principalInvestigator.studyOrganization"
+                    <form:select path="principalInvestigator.study"
                                  items="${studySitesAndCoordinatingCenter}" title="Site"
                                  itemLabel="desc" itemValue="code"
                                  onchange="updateOrganizationClinicalStaffAutoCompleters()"/>

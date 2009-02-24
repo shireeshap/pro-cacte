@@ -1,10 +1,9 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.core.domain.Roles;
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
-import gov.nih.nci.ctcae.core.repository.RoleRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import org.springframework.validation.Errors;
 
@@ -21,8 +20,6 @@ public class StudyClinicalStaffTab extends Tab<StudyCommand> {
     public StudyClinicalStaffTab() {
         super("study.tab.clinical_staff", "study.tab.clinical_staff", "study/study_clinical_staff");
     }
-
-    private RoleRepository roleRepository;
 
 
     @Override
@@ -43,20 +40,16 @@ public class StudyClinicalStaffTab extends Tab<StudyCommand> {
         referenceData.put("studySitesAndCoordinatingCenter", studySiteListValues);
 
 
-        command.getOverallDataCoordinator().setStudyOrganization(study.getStudyCoordinatingCenter());
-        if (command.getPrincipalInvestigator().getRoles() == null) {
-            Roles PI = roleRepository.getPI();
-            command.getPrincipalInvestigator().setRoles(PI);
+        if (command.getPrincipalInvestigator().getRole() == null) {
+            command.getPrincipalInvestigator().setRole(Role.PI);
 
         }
-        if (command.getOverallDataCoordinator().getRoles() == null) {
-            Roles ODC = roleRepository.getOverallDataCoordinator();
-            command.getOverallDataCoordinator().setRoles(ODC);
+        if (command.getOverallDataCoordinator().getRole() == null) {
+            command.getOverallDataCoordinator().setRole(Role.ODC);
 
         }
-        if (command.getLeadCRA().getRoles() == null) {
-            Roles LEAD_CRA = roleRepository.getLeadCRARole();
-            command.getLeadCRA().setRoles(LEAD_CRA);
+        if (command.getLeadCRA().getRole() == null) {
+            command.getLeadCRA().setRole(Role.LEAD_CRA);
 
         }
         return referenceData;
@@ -72,7 +65,4 @@ public class StudyClinicalStaffTab extends Tab<StudyCommand> {
 
     }
 
-    public void setRoleRepository(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
 }

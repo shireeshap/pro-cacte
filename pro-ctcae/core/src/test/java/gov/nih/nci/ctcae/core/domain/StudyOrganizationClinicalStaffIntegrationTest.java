@@ -14,7 +14,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
         studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
-        studyOrganizationClinicalStaff.setRoles(PI);
+        studyOrganizationClinicalStaff.setRole(PI);
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
 
 

@@ -12,9 +12,9 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "STUDY_ORGANIZATION_CLINICAL_STAFFS")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "so_clinical_staffs_id_seq")})
-public class StudyOrganizationClinicalStaff extends BasePersistable {
+@Table(name = "STUDY_CLINICAL_STAFFS")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "study_clinical_staffs_id_seq")})
+public class StudyClinicalStaff extends BasePersistable {
 
     @Id
     @GeneratedValue(generator = "id-generator")
@@ -25,9 +25,9 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
     @ManyToOne
     private OrganizationClinicalStaff organizationClinicalStaff;
 
-    @JoinColumn(name = "study_organization_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "study_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
-    private StudyOrganization studyOrganization;
+    private Study study;
 
     @Column(name = "role_status", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -35,9 +35,7 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
 
     @Column(name = "role_name", nullable = false)
     @Enumerated(value = EnumType.STRING)
-
     private Role role;
-
 
     @Column(name = "status_date", nullable = false)
     private Date statusDate = new Date();
@@ -60,12 +58,12 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
     }
 
 
-    public StudyOrganization getStudyOrganization() {
-        return studyOrganization;
+    public Study getStudy() {
+        return study;
     }
 
-    public void setStudyOrganization(StudyOrganization studyOrganization) {
-        this.studyOrganization = studyOrganization;
+    public void setStudy(Study study) {
+        this.study = study;
     }
 
     @Override
@@ -73,13 +71,13 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        StudyOrganizationClinicalStaff that = (StudyOrganizationClinicalStaff) o;
+        StudyClinicalStaff that = (StudyClinicalStaff) o;
 
         if (roleStatus != that.roleStatus) return false;
         if (role != null ? !role.equals(that.role) : that.role != null) return false;
         if (organizationClinicalStaff != null ? !organizationClinicalStaff.equals(that.organizationClinicalStaff) : that.organizationClinicalStaff != null)
             return false;
-        if (studyOrganization != null ? !studyOrganization.equals(that.studyOrganization) : that.studyOrganization != null)
+        if (study != null ? !study.equals(that.study) : that.study != null)
             return false;
 
         return true;
@@ -88,7 +86,7 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
     @Override
     public int hashCode() {
         int result = organizationClinicalStaff != null ? organizationClinicalStaff.hashCode() : 0;
-        result = 31 * result + (studyOrganization != null ? studyOrganization.hashCode() : 0);
+        result = 31 * result + (study != null ? study.hashCode() : 0);
         result = 31 * result + (roleStatus != null ? roleStatus.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
