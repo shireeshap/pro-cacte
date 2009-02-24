@@ -50,18 +50,17 @@ class CreateClinicalStaffs extends edu.northwestern.bioinformatics.bering.Migrat
 
       t.addVersionColumn()
 
-      t.addColumn('study_organization_clinical_staff_id', 'integer', nullable: false)
+      t.addColumn('organization_clinical_staff_id', 'integer', nullable: false)
       t.addColumn('sp_assignment_id', 'integer', nullable: false)
       t.addColumn('role_status', 'string', nullable: false)
-      t.addColumn('role_id', 'integer', nullable: false)
+      t.addColumn('role', 'string', nullable: false)
       t.addColumn('status_date', 'date', nullable: false)
 
     }
 
 
-    execute('ALTER TABLE STUDY_PARTICIPANT_CLINICAL_STAFFS ADD CONSTRAINT fk_sp_cls_study_org  FOREIGN KEY (study_organization_clinical_staff_id) REFERENCES STUDY_ORGANIZATION_CLINICAL_STAFFS')
+    execute('ALTER TABLE STUDY_PARTICIPANT_CLINICAL_STAFFS ADD CONSTRAINT fk_sp_cls_org_clinical_staff  FOREIGN KEY (organization_clinical_staff_id) REFERENCES ORGANIZATION_CLINICAL_STAFFS')
     execute('ALTER TABLE STUDY_PARTICIPANT_CLINICAL_STAFFS ADD CONSTRAINT  fk_sp_cls_site_clinical_staff FOREIGN KEY (sp_assignment_id) REFERENCES STUDY_PARTICIPANT_ASSIGNMENTS')
-    execute('ALTER TABLE STUDY_PARTICIPANT_CLINICAL_STAFFS ADD CONSTRAINT fk_sp_cls_role FOREIGN KEY (role_id) REFERENCES ROLES')
 
   }
 
