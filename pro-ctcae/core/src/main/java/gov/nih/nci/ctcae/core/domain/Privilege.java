@@ -68,9 +68,9 @@ public class Privilege extends BasePersistable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Privilege roles = (Privilege) o;
+        Privilege privilege = (Privilege) o;
 
-        if (privilegeName != null ? !privilegeName.equals(roles.privilegeName) : roles.privilegeName != null)
+        if (privilegeName != null ? !privilegeName.equals(privilege.privilegeName) : privilege.privilegeName != null)
             return false;
 
         return true;

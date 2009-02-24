@@ -42,12 +42,12 @@ public class ClinicalStaffAssignmentQuery extends AbstractQuery {
     }
 
 
-    public void filterByRole() {
-        leftJoin("csa.clinicalStaffAssignmentRoles as csar");
-
-        andWhere("csar.role in (:" + ROLES + ")");
-        setParameterList(ROLES, Role.getStudyLevelRole());
-
-    }
+//    public void filterByRole() {
+//        leftJoin("csa.clinicalStaffAssignmentRoles as csar");
+//
+//        andWhere("csar.role in (:" + ROLES + ")");
+//        setParameterList(ROLES, Role.getStudyLevelRole());
+//
+//    }
 
 }

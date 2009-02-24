@@ -22,7 +22,6 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     protected ParticipantRepository participantRepository;
     protected Study defaultStudy;
     protected StudySite defaultStudySite;
-    protected RoleRepository roleRepository;
     protected StudyRepository studyRepository;
 
     private static final String[] context = new String[]{
@@ -35,7 +34,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 //                "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml",
             "classpath*:" + "/*-context-test.xml"};
     protected OrganizationClinicalStaff defaultOrganizationClinicalStaff;
-    protected Roles PI, ODC, LEAD_CRA;
+    protected Role PI, ODC, LEAD_CRA;
 
 
     @Override
@@ -62,13 +61,9 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
 
-        PI = roleRepository.getPI();
-        ODC = roleRepository.getOverallDataCoordinator();
-        LEAD_CRA = roleRepository.getLeadCRARole();
-        assertNotNull(PI);
-        assertNotNull(ODC);
-        assertNotNull(LEAD_CRA);
-
+        PI = Role.PI;
+        ODC = Role.ODC;
+        LEAD_CRA = Role.LEAD_CRA;
         defaultOrganization = organizationRepository.findById(105051);
 
         defaultStudy = new Study();
@@ -134,6 +129,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         jdbcTemplate.execute("delete from CRF_PAGES");
         jdbcTemplate.execute("delete from crfs");
         jdbcTemplate.execute("delete from study_organization_clinical_staffs");
+        jdbcTemplate.execute("delete from study_clinical_staffs");
         jdbcTemplate.execute("delete from study_participant_assignments");
         jdbcTemplate.execute("delete from study_participant_assignments");
         jdbcTemplate.execute("delete from study_organizations");
@@ -174,6 +170,24 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         return studyOrganizationClinicalStaff;
     }
 
+    protected StudyClinicalStaff addStudyClinicalStaff(StudyClinicalStaff studyClinicalStaff) {
+        defaultStudy.addStudyClinicalStaff(studyClinicalStaff);
+
+        defaultStudy = studyRepository.save(defaultStudy);
+        commitAndStartNewTransaction();
+
+        List<StudyClinicalStaff> studyClinicalStaffs = defaultStudy.getStudyClinicalStaffs();
+
+        assertFalse("must save study clinical staff", studyClinicalStaffs.isEmpty());
+        studyClinicalStaff = studyClinicalStaffs.get(0);
+        assertNotNull("must save study clinical staff", studyClinicalStaff.getId());
+        assertEquals("study site must be same", studyClinicalStaff.getStudy(), defaultStudy);
+
+
+        assertEquals("site clinical staff  must be same", defaultOrganizationClinicalStaff, studyClinicalStaff.getOrganizationClinicalStaff());
+        return studyClinicalStaff;
+    }
+
     protected void commitAndStartNewTransaction() {
         setComplete();
         endTransaction();
@@ -203,11 +217,6 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     @Required
     public void setOrganizationRepository(OrganizationRepository organizationRepository) {
         this.organizationRepository = organizationRepository;
-    }
-
-    @Required
-    public void setRoleRepository(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
     }
 
     @Required

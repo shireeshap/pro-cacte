@@ -41,20 +41,20 @@ public class RolePrivilege extends BasePersistable {
         this.id = id;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
-    private Roles roles;
+    @Column(name ="role_name",nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
 
     @ManyToOne
     @JoinColumn(name = "privilege_id", nullable = false)
     private Privilege privilege;
 
-    public Roles getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Roles roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Privilege getPrivilege() {
@@ -73,14 +73,14 @@ public class RolePrivilege extends BasePersistable {
         RolePrivilege that = (RolePrivilege) o;
 
         if (privilege != null ? !privilege.equals(that.privilege) : that.privilege != null) return false;
-        if (roles != null ? !roles.equals(that.roles) : that.roles != null) return false;
+        if (role != that.role) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = roles != null ? roles.hashCode() : 0;
+        int result = role != null ? role.hashCode() : 0;
         result = 31 * result + (privilege != null ? privilege.hashCode() : 0);
         return result;
     }

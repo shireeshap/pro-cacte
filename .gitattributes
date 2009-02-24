@@ -141,7 +141,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcQuestionRep
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/RoleRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantAssignmentRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/AbstractAuthorizationProvider.java -text

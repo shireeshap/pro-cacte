@@ -109,7 +109,7 @@ public class ListValues {
         List<ListValues> valuesList = new ArrayList<ListValues>();
         valuesList.add(new ListValues("", "Please select"));
 
-        valuesList.add(new ListValues(Role.CRA.getDisplayName(), Role.CRA.getDisplayName()));
+        valuesList.add(new ListValues(Role.ODC.getDisplayName(), Role.ODC.getDisplayName()));
         valuesList.add(new ListValues(Role.PHYSICAN.getDisplayName(), Role.PHYSICAN.getDisplayName()));
         valuesList.add(new ListValues(Role.RESEARCH_NURSE.getDisplayName(), Role.RESEARCH_NURSE.getDisplayName()));
         valuesList.add(new ListValues(Role.ADMINISTRATOR.getDisplayName(), Role.ADMINISTRATOR.getDisplayName()));
