@@ -4,9 +4,6 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.cabig.ctms.domain.CodedEnumHelper;
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //
 /**
  * The Enum Role.
@@ -15,32 +12,39 @@ import java.util.List;
  */
 public enum Role implements CodedEnum<String> {
 
-    PI("Prinicple Investigator"),
-    STUDY_CRA("Study CRA"),
-    SITE_PI("Site PI"),
-    SITE_CRA("Site CRA"),
-    SITE_INVESTIGATOR("Site Investigator"),
+    PI("Prinicple Investigator", RoleType.STUDY_LEVEL),
+    LEAD_CRA("Lead CRA", RoleType.STUDY_LEVEL),
+    ODC("Overall Data Coordinator", RoleType.STUDY_LEVEL),
+    CCA("Coordinating Center Administrator", RoleType.STUDY_LEVEL),
 
-    RESEARCH_NURSE("Research Nurse"),
-    PARTICIPANT("Participant"),
-    CRA("CRA"),
-    PHYSICAN("Physican"),
-    ADMINISTRATOR("Administrator");
+
+    SITE_PI("Site PI", RoleType.STUDY_SITE_LEVEL),
+    SITE_CRA("Site CRA", RoleType.STUDY_SITE_LEVEL),
+
+    TREATING_PHYSICIAN("Site Investigator/Treating Physician", RoleType.STUDY_SITE_LEVEL),
+
+    RESEARCH_NURSE("Research Nurse", RoleType.STUDY_SITE_LEVEL),
+    PARTICIPANT("Participant", RoleType.SITE_LEVEL);
 
 
     /**
      * The display text.
      */
     private final String displayText;
+    private final RoleType roleType;
 
     /**
      * Instantiates a new ROLE.
      *
      * @param displayText the display text
      */
-    Role(String displayText) {
+
+    Role(String displayText, RoleType roleType) {
         this.displayText = displayText;
+        this.roleType = roleType;
+
         CodedEnumHelper.register(this);
+
 
     }
 
@@ -94,27 +98,12 @@ public enum Role implements CodedEnum<String> {
         return null;
     }
 
-    public static List<Role> getStudySpeceficRoles(Role role) {
-        List<Role> roles = new ArrayList<Role>();
-        if (role.equals(Role.CRA) || role.equals(Role.STUDY_CRA) || role.equals(Role.SITE_CRA)) {
-            roles.add(Role.STUDY_CRA);
-            roles.add(Role.SITE_CRA);
 
-        }
-        if (role.equals(Role.PHYSICAN) || role.equals(Role.SITE_PI) || role.equals(Role.PI) || role.equals(Role.SITE_INVESTIGATOR)) {
-            roles.add(Role.SITE_PI);
-            roles.add(Role.PI);
-            roles.add(Role.SITE_INVESTIGATOR);
-        }
-        return roles;
+    public String getDisplayText() {
+        return displayText;
     }
 
-
-    public static List<Role> getStudyLevelRole() {
-        List<Role> roles = new ArrayList<Role>();
-        roles.add(Role.CRA);
-        roles.add(Role.PHYSICAN);
-        return roles;
-
+    public RoleType getRoleType() {
+        return roleType;
     }
 }
