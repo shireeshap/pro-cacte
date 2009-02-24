@@ -22,9 +22,9 @@ public class StudyParticipantClinicalStaff extends BasePersistable {
     @Column(name = "id")
     private Integer id;
 
-    @JoinColumn(name = "study_organization_clinical_staff_id", referencedColumnName = "id")
+    @JoinColumn(name = "organization_clinical_staff_id", referencedColumnName = "id")
     @ManyToOne
-    private StudyOrganizationClinicalStaff studyOrganizationClinicalStaff;
+    private OrganizationClinicalStaff organizationClinicalStaff;
 
     @JoinColumn(name = "sp_assignment_id", referencedColumnName = "id")
     @ManyToOne
@@ -34,9 +34,9 @@ public class StudyParticipantClinicalStaff extends BasePersistable {
     @Enumerated(EnumType.STRING)
     private RoleStatus roleStatus = RoleStatus.ACTIVE;
 
-    @JoinColumn(name = "role_id", nullable = false, referencedColumnName = "id")
-    @ManyToOne
-    private Roles roles;
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public boolean equals(Object o) {
@@ -46,8 +46,8 @@ public class StudyParticipantClinicalStaff extends BasePersistable {
         StudyParticipantClinicalStaff that = (StudyParticipantClinicalStaff) o;
 
         if (roleStatus != that.roleStatus) return false;
-        if (roles != null ? !roles.equals(that.roles) : that.roles != null) return false;
-        if (studyOrganizationClinicalStaff != null ? !studyOrganizationClinicalStaff.equals(that.studyOrganizationClinicalStaff) : that.studyOrganizationClinicalStaff != null)
+        if (role != null ? !role.equals(that.role) : that.role != null) return false;
+        if (organizationClinicalStaff != null ? !organizationClinicalStaff.equals(that.organizationClinicalStaff) : that.organizationClinicalStaff != null)
             return false;
         if (studyParticipantAssignment != null ? !studyParticipantAssignment.equals(that.studyParticipantAssignment) : that.studyParticipantAssignment != null)
             return false;
@@ -57,10 +57,10 @@ public class StudyParticipantClinicalStaff extends BasePersistable {
 
     @Override
     public int hashCode() {
-        int result = studyOrganizationClinicalStaff != null ? studyOrganizationClinicalStaff.hashCode() : 0;
+        int result = organizationClinicalStaff != null ? organizationClinicalStaff.hashCode() : 0;
         result = 31 * result + (studyParticipantAssignment != null ? studyParticipantAssignment.hashCode() : 0);
         result = 31 * result + (roleStatus != null ? roleStatus.hashCode() : 0);
-        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 
@@ -73,12 +73,12 @@ public class StudyParticipantClinicalStaff extends BasePersistable {
         this.roleStatus = roleStatus;
     }
 
-    public Roles getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Roles roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Integer getId() {
@@ -98,12 +98,12 @@ public class StudyParticipantClinicalStaff extends BasePersistable {
         this.studyParticipantAssignment = studyParticipantAssignment;
     }
 
-    public StudyOrganizationClinicalStaff getStudyOrganizationClinicalStaff() {
-        return studyOrganizationClinicalStaff;
+    public OrganizationClinicalStaff getOrganizationClinicalStaff() {
+        return organizationClinicalStaff;
     }
 
-    public void setStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
-        this.studyOrganizationClinicalStaff = studyOrganizationClinicalStaff;
+    public void setOrganizationClinicalStaff(OrganizationClinicalStaff organizationClinicalStaff) {
+        this.organizationClinicalStaff = organizationClinicalStaff;
     }
 
 }
