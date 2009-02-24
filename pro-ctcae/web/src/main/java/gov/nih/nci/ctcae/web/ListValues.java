@@ -104,19 +104,6 @@ public class ListValues {
         return getEnumTypes(Gender.class);
     }
 
-    public static List<ListValues> getSiteRolesType() {
-
-        List<ListValues> valuesList = new ArrayList<ListValues>();
-        valuesList.add(new ListValues("", "Please select"));
-
-        valuesList.add(new ListValues(Role.ODC.getDisplayName(), Role.ODC.getDisplayName()));
-        valuesList.add(new ListValues(Role.PHYSICAN.getDisplayName(), Role.PHYSICAN.getDisplayName()));
-        valuesList.add(new ListValues(Role.RESEARCH_NURSE.getDisplayName(), Role.RESEARCH_NURSE.getDisplayName()));
-        valuesList.add(new ListValues(Role.ADMINISTRATOR.getDisplayName(), Role.ADMINISTRATOR.getDisplayName()));
-
-
-        return valuesList;
-    }
 
     public static List<ListValues> getRoleStatusType() {
         return getEnumTypes(RoleStatus.class);

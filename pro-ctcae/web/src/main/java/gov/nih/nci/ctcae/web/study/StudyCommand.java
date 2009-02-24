@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter;
-import gov.nih.nci.ctcae.core.domain.StudyFundingSponsor;
+import gov.nih.nci.ctcae.core.domain.*;
 
 //
 /**
@@ -19,8 +16,6 @@ public class StudyCommand {
      */
     private Study study;
 
-    private StudyClinicalStaff overallDataCoordinator, leadCRA, principalInvestigator;
-
 
     /**
      * Instantiates a new study command.
@@ -30,10 +25,20 @@ public class StudyCommand {
         this.study = new Study();
         study.setStudyFundingSponsor(new StudyFundingSponsor());
         study.setStudyCoordinatingCenter(new StudyCoordinatingCenter());
-        overallDataCoordinator = new StudyClinicalStaff();
 
-        leadCRA = new StudyClinicalStaff();
-        principalInvestigator = new StudyClinicalStaff();
+        StudyClinicalStaff overallDataCoordinator = new StudyClinicalStaff();
+        overallDataCoordinator.setRole(Role.ODC);
+        study.setOverallDataCoordinator(overallDataCoordinator);
+
+        StudyClinicalStaff principalInvestigator = new StudyClinicalStaff();
+        principalInvestigator.setRole(Role.PI);
+        study.setPrincipalInvestigator(principalInvestigator);
+
+
+        StudyClinicalStaff leadCRA = new StudyClinicalStaff();
+        leadCRA.setRole(Role.LEAD_CRA);
+        study.setLeadCRA(leadCRA);
+
     }
 
 
@@ -74,35 +79,8 @@ public class StudyCommand {
 
     public void apply() {
 
-        getStudy().addStudyClinicalStaff(getOverallDataCoordinator());
-        getStudy().addStudyClinicalStaff(getLeadCRA());
-        getStudy().addStudyClinicalStaff(getPrincipalInvestigator());
-
 
     }
 
-    public void setOverallDataCoordinator(StudyClinicalStaff overallDataCoordinator) {
-        this.overallDataCoordinator = overallDataCoordinator;
-    }
-
-    public void setLeadCRA(StudyClinicalStaff leadCRA) {
-        this.leadCRA = leadCRA;
-    }
-
-    public void setPrincipalInvestigator(StudyClinicalStaff principalInvestigator) {
-        this.principalInvestigator = principalInvestigator;
-    }
-
-    public StudyClinicalStaff getOverallDataCoordinator() {
-        return overallDataCoordinator;
-    }
-
-    public StudyClinicalStaff getLeadCRA() {
-        return leadCRA;
-    }
-
-    public StudyClinicalStaff getPrincipalInvestigator() {
-        return principalInvestigator;
-    }
 
 }

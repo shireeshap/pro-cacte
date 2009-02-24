@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.web.ListValues;
@@ -40,18 +39,6 @@ public class StudyClinicalStaffTab extends Tab<StudyCommand> {
         referenceData.put("studySitesAndCoordinatingCenter", studySiteListValues);
 
 
-        if (command.getPrincipalInvestigator().getRole() == null) {
-            command.getPrincipalInvestigator().setRole(Role.PI);
-
-        }
-        if (command.getOverallDataCoordinator().getRole() == null) {
-            command.getOverallDataCoordinator().setRole(Role.ODC);
-
-        }
-        if (command.getLeadCRA().getRole() == null) {
-            command.getLeadCRA().setRole(Role.LEAD_CRA);
-
-        }
         return referenceData;
     }
 

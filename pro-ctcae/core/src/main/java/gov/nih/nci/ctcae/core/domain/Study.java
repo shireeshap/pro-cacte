@@ -72,6 +72,16 @@ public class Study extends BasePersistable {
     @Transient
     private StudyCoordinatingCenter studyCoordinatingCenter;
 
+    @Transient
+    private StudyClinicalStaff leadCRA;
+
+    @Transient
+    private StudyClinicalStaff overallDataCoordinator;
+
+    @Transient
+    private StudyClinicalStaff principalInvestigator;
+
+
     /**
      * The study organizations.
      */
@@ -386,5 +396,54 @@ public class Study extends BasePersistable {
 
     public List<StudyClinicalStaff> getStudyClinicalStaffs() {
         return studyClinicalStaffs;
+    }
+
+    public StudyClinicalStaff getLeadCRA() {
+
+        for (StudyClinicalStaff studyClinicalStaff : studyClinicalStaffs) {
+            if (studyClinicalStaff.getRole().equals(Role.LEAD_CRA)) {
+                leadCRA = studyClinicalStaff;
+            }
+        }
+        return leadCRA;
+    }
+
+    public void setLeadCRA(StudyClinicalStaff leadCRA) {
+        this.leadCRA = leadCRA;
+        if (!leadCRA.isPersisted()) {
+            this.addStudyClinicalStaff(leadCRA);
+        }
+    }
+
+    public StudyClinicalStaff getOverallDataCoordinator() {
+        for (StudyClinicalStaff studyClinicalStaff : studyClinicalStaffs) {
+            if (studyClinicalStaff.getRole().equals(Role.ODC)) {
+                overallDataCoordinator = studyClinicalStaff;
+            }
+        }
+        return overallDataCoordinator;
+    }
+
+    public void setOverallDataCoordinator(StudyClinicalStaff overallDataCoordinator) {
+        this.overallDataCoordinator = overallDataCoordinator;
+        if (!overallDataCoordinator.isPersisted()) {
+            this.addStudyClinicalStaff(overallDataCoordinator);
+        }
+    }
+
+    public StudyClinicalStaff getPrincipalInvestigator() {
+        for (StudyClinicalStaff studyClinicalStaff : studyClinicalStaffs) {
+            if (studyClinicalStaff.getRole().equals(Role.PI)) {
+                principalInvestigator = studyClinicalStaff;
+            }
+        }
+        return principalInvestigator;
+    }
+
+    public void setPrincipalInvestigator(StudyClinicalStaff principalInvestigator) {
+        this.principalInvestigator = principalInvestigator;
+        if (!principalInvestigator.isPersisted()) {
+            this.addStudyClinicalStaff(principalInvestigator);
+        }
     }
 }

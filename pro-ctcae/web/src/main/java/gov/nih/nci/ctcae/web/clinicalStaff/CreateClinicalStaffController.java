@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import gov.nih.nci.ctcae.web.ListValues;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.Errors;
@@ -46,8 +45,6 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Override
     protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
         Map map = super.referenceData(request, command, errors);
-        map.put("siteRoles", ListValues.getSiteRolesType());
-        map.put("roleStatus", ListValues.getRoleStatusType());
 
         return map;
 
