@@ -72,15 +72,6 @@ public class Study extends BasePersistable {
     @Transient
     private StudyCoordinatingCenter studyCoordinatingCenter;
 
-    @Transient
-    private StudyOrganizationClinicalStaff leadCRA;
-
-    @Transient
-    private StudyOrganizationClinicalStaff overallDataCoordinator;
-
-    @Transient
-    private StudyOrganizationClinicalStaff principalInvestigator;
-
 
     /**
      * The study organizations.
@@ -380,45 +371,8 @@ public class Study extends BasePersistable {
         return null;
     }
 
-    public StudyOrganizationClinicalStaff getLeadCRA() {
-        if (leadCRA == null) {
-            leadCRA = getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA);
-        }
-        return leadCRA;
-    }
 
-
-    public void setLeadCRA(StudyOrganizationClinicalStaff leadCRA) {
-        this.leadCRA = leadCRA;
-
-    }
-
-    public StudyOrganizationClinicalStaff getOverallDataCoordinator() {
-
-        if (overallDataCoordinator == null) {
-            overallDataCoordinator = getStudyOrganizationClinicalStaffByRole(Role.ODC);
-        }
-        return overallDataCoordinator;
-    }
-
-    public void setOverallDataCoordinator(StudyOrganizationClinicalStaff overallDataCoordinator) {
-        this.overallDataCoordinator = overallDataCoordinator;
-
-    }
-
-    public StudyOrganizationClinicalStaff getPrincipalInvestigator() {
-        if (principalInvestigator == null) {
-            principalInvestigator = getStudyOrganizationClinicalStaffByRole(Role.PI);
-        }
-        return principalInvestigator;
-    }
-
-    public void setPrincipalInvestigator(StudyOrganizationClinicalStaff principalInvestigator) {
-        this.principalInvestigator = principalInvestigator;
-
-    }
-
-    private StudyOrganizationClinicalStaff getStudyOrganizationClinicalStaffByRole(Role role) {
+    public StudyOrganizationClinicalStaff getStudyOrganizationClinicalStaffByRole(Role role) {
         for (StudyOrganization studyOrganization : studyOrganizations) {
             List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffList = studyOrganization.getStudyOrganizationClinicalStaffs();
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganizationClinicalStaffList) {

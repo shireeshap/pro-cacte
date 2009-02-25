@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter;
-import gov.nih.nci.ctcae.core.domain.StudyFundingSponsor;
+import gov.nih.nci.ctcae.core.domain.*;
 
 //
 /**
@@ -18,6 +16,12 @@ public class StudyCommand {
      */
     private Study study;
 
+
+    private StudyOrganizationClinicalStaff leadCRA;
+
+    private StudyOrganizationClinicalStaff overallDataCoordinator;
+
+    private StudyOrganizationClinicalStaff principalInvestigator;
 
     /**
      * Instantiates a new study command.
@@ -39,6 +43,44 @@ public class StudyCommand {
      */
     public void setStudy(Study study) {
         this.study = study;
+    }
+
+    public StudyOrganizationClinicalStaff getOverallDataCoordinator() {
+
+        if (overallDataCoordinator == null) {
+            overallDataCoordinator = study.getStudyOrganizationClinicalStaffByRole(Role.ODC);
+        }
+        return overallDataCoordinator;
+    }
+
+    public void setOverallDataCoordinator(StudyOrganizationClinicalStaff overallDataCoordinator) {
+        this.overallDataCoordinator = overallDataCoordinator;
+
+    }
+
+    public StudyOrganizationClinicalStaff getPrincipalInvestigator() {
+        if (principalInvestigator == null) {
+            principalInvestigator = study.getStudyOrganizationClinicalStaffByRole(Role.PI);
+        }
+        return principalInvestigator;
+    }
+
+    public void setPrincipalInvestigator(StudyOrganizationClinicalStaff principalInvestigator) {
+        this.principalInvestigator = principalInvestigator;
+
+    }
+
+    public StudyOrganizationClinicalStaff getLeadCRA() {
+        if (leadCRA == null) {
+            leadCRA = study.getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA);
+        }
+        return leadCRA;
+    }
+
+
+    public void setLeadCRA(StudyOrganizationClinicalStaff leadCRA) {
+        this.leadCRA = leadCRA;
+
     }
 
 
@@ -66,7 +108,6 @@ public class StudyCommand {
 //            study.removeStudySite(studySite);
 //        }
 //    }
-
 
 
 }

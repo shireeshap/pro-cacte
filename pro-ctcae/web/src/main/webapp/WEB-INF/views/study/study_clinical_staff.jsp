@@ -23,23 +23,20 @@
 
 
             initSearchField()
-            acCreate(new organizationClinicalStaffAutoComplter('study.overallDataCoordinator.organizationClinicalStaff', '${command.study.studyCoordinatingCenter.id}'))
-            var leadCRAAutocompleter = acCreate(new organizationClinicalStaffAutoComplter('study.leadCRA.organizationClinicalStaff', $('studySiteForLeadCRA').value))
+            acCreate(new organizationClinicalStaffAutoComplter('overallDataCoordinator.organizationClinicalStaff', '${command.study.studyCoordinatingCenter.id}'))
+            var leadCRAAutocompleter = acCreate(new organizationClinicalStaffAutoComplter('leadCRA.organizationClinicalStaff', $('leadCRA.studyOrganization').value))
+            acCreate(new organizationClinicalStaffAutoComplter('principalInvestigator.organizationClinicalStaff', $('principalInvestigator.studyOrganization').value))
 
-            updateOrganizationClinicalStaffAutoCompleters(leadCRAAutocompleter);
+            updateOrganizationClinicalStaffAutoCompleters();
         })
 
-        function updateOrganizationClinicalStaffAutoCompleters(leadCRAAutocompleter) {
+        function updateOrganizationClinicalStaffAutoCompleters() {
 
-            Autocompleter.keys().each(function(element) {
-                alert(element.id)
-            })
-            AE.resetAutocompleter('study.leadCRA.organizationClinicalStaff')
-            AE.resetAutocompleter('study.principalInvestigator.organizationClinicalStaff')
+            AE.resetAutocompleter('leadCRA.organizationClinicalStaff')
+            AE.resetAutocompleter('principalInvestigator.organizationClinicalStaff')
             // clearAutoCompleter('study.leadCRA.organizationClinicalStaff');
             // clearAutoCompleter();
-            leadCRAAutocompleter.studyOrganizationId = $('studySiteForLeadCRA').value
-            //acCreate(new organizationClinicalStaffAutoComplter('study.principalInvestigator.organizationClinicalStaff', ))
+            //leadCRAAutocompleter.studyOrganizationId = $('study.leadCRA.studyOrganization').value
 
         }
 
@@ -62,21 +59,21 @@
            </div>
 
 
-           <tags:renderAutocompleter propertyName="study.overallDataCoordinator.organizationClinicalStaff"
+           <tags:renderAutocompleter propertyName="overallDataCoordinator.organizationClinicalStaff"
                                      displayName="study.label.clinical.staff" noForm="true" required="true"
-                                     propertyValue="${study.overallDataCoordinator.organizationClinicalStaff ne null? study.overallDataCoordinator.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
+                                     />
        </chrome:division>
 
         <chrome:division title="study.label.clinical.staff.lead.cra">
 
             <tags:renderSelect options="${studySitesAndCoordinatingCenter}"
                                onchange="updateOrganizationClinicalStaffAutoCompleters()" required="true"
-                               displayName="study.label.site" propertyName="study.leadCRA.studyOrganization"/>
+                               displayName="study.label.site" propertyName="leadCRA.studyOrganization"/>
 
 
-            <tags:renderAutocompleter propertyName="study.leadCRA.organizationClinicalStaff"
+            <tags:renderAutocompleter propertyName="leadCRA.organizationClinicalStaff"
                                       displayName="study.label.clinical.staff" noForm="true" required="true"
-                                      propertyValue="${study.leadCRA.organizationClinicalStaff ne null? study.leadCRA.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
+                                      />
 
 
         </chrome:division>
@@ -85,11 +82,11 @@
             <tags:renderSelect options="${studySitesAndCoordinatingCenter}"
                                onchange="updateOrganizationClinicalStaffAutoCompleters()" required="true"
                                displayName="study.label.site"
-                               propertyName="study.principalInvestigator.studyOrganization"/>
+                               propertyName="principalInvestigator.studyOrganization"/>
 
-            <tags:renderAutocompleter propertyName="study.principalInvestigator.organizationClinicalStaff"
+            <tags:renderAutocompleter propertyName="principalInvestigator.organizationClinicalStaff"
                                       displayName="study.label.clinical.staff" noForm="true" required="true"
-                                      propertyValue="${study.principalInvestigator.organizationClinicalStaff ne null? study.principalInvestigator.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
+                                      />
 
 
         </chrome:division>

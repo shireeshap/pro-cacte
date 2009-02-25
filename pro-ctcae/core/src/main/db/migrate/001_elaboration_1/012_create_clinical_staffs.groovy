@@ -30,21 +30,8 @@ class CreateClinicalStaffs extends edu.northwestern.bioinformatics.bering.Migrat
     execute('ALTER TABLE ORGANIZATION_CLINICAL_STAFFS ADD CONSTRAINT fk_si_org FOREIGN KEY (organization_id) REFERENCES ORGANIZATIONS')
 
 
-    createTable("STUDY_CLINICAL_STAFFS") {t ->
-
-      t.addVersionColumn()
-
-      t.addColumn('organization_clinical_staff_id', 'integer', nullable: false)
-      t.addColumn('study_id', 'integer', nullable: false)
-      t.addColumn('role_status', 'string', nullable: false)
-      t.addColumn('role_name', 'string', nullable: false)
-      t.addColumn('status_date', 'date', nullable: false)
-
-    }
 
 
-    execute('ALTER TABLE STUDY_CLINICAL_STAFFS ADD CONSTRAINT fk_study_site_clinical_staff FOREIGN KEY (organization_clinical_staff_id) REFERENCES ORGANIZATION_CLINICAL_STAFFS')
-    execute('ALTER TABLE STUDY_CLINICAL_STAFFS ADD CONSTRAINT fk_study_study_id FOREIGN KEY (study_id) REFERENCES STUDIES')
 
     createTable("STUDY_ORGANIZATION_CLINICAL_STAFFS") {t ->
 

@@ -42,8 +42,6 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
     @Column(name = "status_date", nullable = false)
     private Date statusDate = new Date();
 
-    @Transient
-    private String displayName;
 
     public Integer getId() {
         return id;
@@ -125,7 +123,4 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
        return organizationClinicalStaff.getClinicalStaff().getDisplayName();
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
 }

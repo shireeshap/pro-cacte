@@ -161,8 +161,6 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         jdbcTemplate.execute("delete from CRF_PAGES");
         jdbcTemplate.execute("delete from crfs");
         jdbcTemplate.execute("delete from study_organization_clinical_staffs");
-        jdbcTemplate.execute("delete from study_clinical_staffs");
-        jdbcTemplate.execute("delete from study_participant_assignments");
         jdbcTemplate.execute("delete from study_participant_assignments");
         jdbcTemplate.execute("delete from study_organizations");
         jdbcTemplate.execute("delete from studies");

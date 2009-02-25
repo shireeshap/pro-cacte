@@ -27,20 +27,25 @@ public class StudyClinicalStaffTab extends Tab<StudyCommand> {
     public void onDisplay(HttpServletRequest request, StudyCommand command) {
         super.onDisplay(request, command);
 
-        Study study = command.getStudy();
-        StudyOrganizationClinicalStaff overallDataCoordinator = new StudyOrganizationClinicalStaff();
-        overallDataCoordinator.setRole(Role.ODC);
 
-        study.setOverallDataCoordinator(overallDataCoordinator);
+        if (command.getOverallDataCoordinator() == null) {
+            StudyOrganizationClinicalStaff overallDataCoordinator = new StudyOrganizationClinicalStaff();
+            overallDataCoordinator.setRole(Role.ODC);
 
-        StudyOrganizationClinicalStaff principalInvestigator = new StudyOrganizationClinicalStaff();
-        principalInvestigator.setRole(Role.PI);
-        study.setPrincipalInvestigator(principalInvestigator);
+            command.setOverallDataCoordinator(overallDataCoordinator);
+        }
+        if (command.getPrincipalInvestigator() == null) {
+            StudyOrganizationClinicalStaff principalInvestigator = new StudyOrganizationClinicalStaff();
+            principalInvestigator.setRole(Role.PI);
+            command.setPrincipalInvestigator(principalInvestigator);
+        }
+        if (command.getLeadCRA() == null) {
 
+            StudyOrganizationClinicalStaff leadCRA = new StudyOrganizationClinicalStaff();
+            leadCRA.setRole(Role.LEAD_CRA);
+            command.setLeadCRA(leadCRA);
 
-        StudyOrganizationClinicalStaff leadCRA = new StudyOrganizationClinicalStaff();
-        leadCRA.setRole(Role.LEAD_CRA);
-        study.setLeadCRA(leadCRA);
+        }
 
 
     }
@@ -72,15 +77,13 @@ public class StudyClinicalStaffTab extends Tab<StudyCommand> {
         super.postProcess(request, command, errors);
 
 
-        Study study = command.getStudy();
-
-        StudyOrganizationClinicalStaff principalInvestigator = study.getPrincipalInvestigator();
+        StudyOrganizationClinicalStaff principalInvestigator = command.getPrincipalInvestigator();
 
         principalInvestigator.getStudyOrganization().addOrUpdateStudyOrganizationClinicalStaff(principalInvestigator);
 
-        study.getStudyCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(study.getOverallDataCoordinator());
+        command.getStudy().getStudyCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(command.getOverallDataCoordinator());
 
-        StudyOrganizationClinicalStaff leadCRA = study.getLeadCRA();
+        StudyOrganizationClinicalStaff leadCRA = command.getLeadCRA();
         leadCRA.getStudyOrganization().addOrUpdateStudyOrganizationClinicalStaff(leadCRA);
 
     }
