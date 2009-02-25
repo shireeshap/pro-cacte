@@ -15,6 +15,10 @@
 
         function getStudySites() {
             var organizationId = document.getElementById('organizationId').value;
+            if(organizationId == ''){
+                $("studysitestable").innerHTML = '';
+                return;
+            }
             var request = new Ajax.Request("<c:url value="/pages/participant/displaystudysites"/>", {
                 onComplete:function(transport) {
                     var response = transport.responseText;
@@ -26,16 +30,20 @@
         }
 
         Event.observe(window, 'load', function() {
+            getStudySites();
             Event.observe('organizationId', 'change', function() {
                 getStudySites();
             })
         });
         function showForms(obj, id) {
             var row = $('forms_' + id);
-            if (obj.checked) {
-                row.show();
-            } else {
-                row.hide();
+            try {
+                if (obj.checked) {
+                    row.show();
+                } else {
+                    row.hide();
+                }
+            } catch(e) {
             }
         }
 
@@ -43,54 +51,53 @@
 </head>
 <body>
 
-<form:form method="post" commandName="participantCommand">
-    <chrome:box title="participant.participant_details" autopad="true">
-        <tags:hasErrorsMessage hideErrorDetails="false"/>
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
+   <jsp:attribute name="singleFields">
+           <p><tags:instructions code="participant.participant_details.top"/></p>
 
-        <p><tags:instructions code="participant.participant_details.top"/></p>
+           <chrome:division title="participant.label.site">
+               <tags:renderSelect propertyName="organizationId" displayName="participant.label.site"
+                                  required="true" options="${organizationsHavingStudySite}"/>
+           </chrome:division>
 
-        <chrome:division title="participant.label.site">
-            <tags:renderSelect propertyName="organizationId" displayName="participant.label.site"
-                               required="true" options="${organizationsHavingStudySite}"/>
-        </chrome:division>
+           <chrome:division title="participant.label.demographic_information">
 
-        <chrome:division title="participant.label.demographic_information">
+               <table border="0" style="width:100%">
+                   <tr>
+                       <td>
+                           <tags:renderText propertyName="participant.firstName"
+                                            displayName="participant.label.first_name"
+                                            required="true"/>
+                           <tags:renderText propertyName="participant.middleName"
+                                            displayName="participant.label.middle_name"/>
+                           <tags:renderText propertyName="participant.lastName"
+                                            displayName="participant.label.last_name"
+                                            required="true"/>
+                           <tags:renderText propertyName="participant.assignedIdentifier"
+                                            displayName="participant.label.participant_identifier"
+                                            required="true"/>
+                       </td>
+                       <td>
+                           <tags:renderDate propertyName="participant.birthDate"
+                                            displayName="participant.label.date_of_birth"
+                                            required="true"/>
+                           <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
+                                              required="true" options="${genders}"/>
+                           <tags:renderSelect propertyName="participant.ethnicity"
+                                              displayName="participant.label.ethnicity"
+                                              required="true" options="${ethnicities}"/>
+                           <tags:renderSelect propertyName="participant.race" displayName="participant.label.race"
+                                              required="true" options="${races}"/>
+                       </td>
+                   </tr>
+               </table>
+           </chrome:division>
+           <chrome:division title="participant.label.studies"/>
 
-            <table border="0" style="width:100%">
-                <tr>
-                    <td>
-                        <tags:renderText propertyName="participant.firstName" displayName="participant.label.first_name"
-                                         required="true"/>
-                        <tags:renderText propertyName="participant.middleName"
-                                         displayName="participant.label.middle_name"/>
-                        <tags:renderText propertyName="participant.lastName" displayName="participant.label.last_name"
-                                         required="true"/>
-                        <tags:renderText propertyName="participant.assignedIdentifier"
-                                         displayName="participant.label.participant_identifier"
-                                         required="true"/>
-                    </td>
-                    <td>
-                        <tags:renderDate propertyName="participant.birthDate"
-                                         displayName="participant.label.date_of_birth"
-                                         required="true"/>
-                        <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
-                                           required="true" options="${genders}"/>
-                        <tags:renderSelect propertyName="participant.ethnicity"
-                                           displayName="participant.label.ethnicity"
-                                           required="true" options="${ethnicities}"/>
-                        <tags:renderSelect propertyName="participant.race" displayName="participant.label.race"
-                                           required="true" options="${races}"/>
-                    </td>
-                </tr>
-            </table>
-        </chrome:division>
-        <chrome:division title="participant.label.studies"/>
-
-        <chrome:division id="single-fields">
-            <div id="studysitestable"/>
-        </chrome:division>
-    </chrome:box>
-    <tags:tabControls willSave="true"/>
-</form:form>
+           <chrome:division id="single-fields">
+               <div id="studysitestable"/>
+           </chrome:division>
+   </jsp:attribute>
+</tags:tabForm>
 </body>
 </html>

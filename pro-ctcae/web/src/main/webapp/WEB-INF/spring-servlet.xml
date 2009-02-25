@@ -125,12 +125,12 @@
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Participants"
-                      p:mainController="createParticipantController" p:pathMapping="/participant/**">
+                      p:mainController="participantController" p:pathMapping="/participant/**">
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="participant.tab.enter_participant"
-                                  p:linkName="createParticipantController"/>
+                                  p:linkName="participantController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="participant.tab.search_participant"
                                   p:linkName="searchParticipantController"/>
@@ -277,18 +277,10 @@
           class="gov.nih.nci.ctcae.web.study.AddStudyComponentController">
     </bean>
 
-    <bean name="/participant/create" id="createParticipantController"
-          class="gov.nih.nci.ctcae.web.participant.CreateParticipantController" parent="ctcaeSimpleFormController">
+    <bean name="/participant/create" id="participantController"
+          class="gov.nih.nci.ctcae.web.participant.ParticipantController" parent="tabbedFlowFormController">
         <property name="participantRepository" ref="participantRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
-        <property name="crfRepository" ref="crfRepository"/>
-    </bean>
-
-    <bean name="/participant/edit" id="editParticipantController"
-          class="gov.nih.nci.ctcae.web.participant.EditParticipantController" parent="ctcaeSimpleFormController">
-        <property name="participantRepository" ref="participantRepository"/>
-        <property name="organizationRepository" ref="organizationRepository"/>
-        <property name="crfRepository" ref="crfRepository"/>
     </bean>
 
     <bean name="/participant/search" id="searchParticipantController"
@@ -307,6 +299,11 @@
 
     <bean name="/participant/addCrfSchedule" id="addCrfScheduleController"
           class="gov.nih.nci.ctcae.web.participant.AddCrfScheduleController">
+        <property name="finderRepository" ref="finderRepository"/>
+    </bean>
+
+    <bean name="/participant/addNotificationClinicalStaff" id="addNotificationClinicalStaff"
+          class="gov.nih.nci.ctcae.web.participant.AddNotificationClinicalStaffController">
         <property name="finderRepository" ref="finderRepository"/>
     </bean>
 

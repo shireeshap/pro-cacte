@@ -24,6 +24,7 @@ public enum Role implements CodedEnum<String> {
     TREATING_PHYSICIAN("Site Investigator/Treating Physician", RoleType.STUDY_SITE_LEVEL),
 
     RESEARCH_NURSE("Research Nurse", RoleType.STUDY_SITE_LEVEL),
+    NOTIFICATION("Notification", RoleType.STUDY_SITE_LEVEL),
     PARTICIPANT("Participant", RoleType.SITE_LEVEL);
 
 

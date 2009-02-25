@@ -2,6 +2,8 @@ package gov.nih.nci.ctcae.core;
 
 import gov.nih.nci.ctcae.core.domain.*;
 
+import java.util.Date;
+
 /**
  * @author Vinay Kumar
  */
@@ -91,5 +93,21 @@ public class Fixture {
         return crf;
     }
 
+    public static ClinicalStaff createClinicalStaffWithOrganization(final String firstName, final String lastName, final String nciIdentifier, final Organization organization) {
+        ClinicalStaff clinicalStaff = createClinicalStaff(firstName, lastName, nciIdentifier);
+        OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
+        organizationClinicalStaff.setOrganization(organization);
+        clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
+        return clinicalStaff;
+    }
+
+    public static StudyOrganizationClinicalStaff createStudyOrganizationClinicalStaff(ClinicalStaff clinicalStaff, Role role, RoleStatus roleStatus, Date date, StudyOrganization studyOrganization){
+        StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
+        studyOrganizationClinicalStaff.setOrganizationClinicalStaff(clinicalStaff.getOrganizationClinicalStaffs().get(0));
+        studyOrganizationClinicalStaff.setRole(role);
+        studyOrganizationClinicalStaff.setRoleStatus(roleStatus);
+        studyOrganizationClinicalStaff.setStatusDate(date);
+        return studyOrganizationClinicalStaff;
+    }
 
 }

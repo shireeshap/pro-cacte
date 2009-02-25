@@ -23,4 +23,10 @@ public class ParticipantControllerUtils {
                 request.getSession().getAttribute(ScheduleCrfController.class.getName() + ".FORM." + "command");
         return studyParticipantCommand;
     }
+
+    public static ParticipantCommand getParticipantCommand(HttpServletRequest request) {
+        ParticipantCommand participantCommand = (ParticipantCommand)
+                request.getSession().getAttribute(ParticipantCommand.class.getName() + ".FORM." + "command");
+        return participantCommand;
+    }
 }

@@ -35,9 +35,9 @@
 
 </head>
 <body>
-<chrome:flashMessage flashMessage="participant.flash.save"></chrome:flashMessage>
-
-<chrome:box title="participant.label.confirmation">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
+    <jsp:attribute name="singleFields">
+    <input type="hidden" name="_finish" value="true"/>
 
     <chrome:division title="participant.label.site">
         <b>${command.siteName}</b>
@@ -97,8 +97,7 @@
                     <th scope="col"><spring:message code='participant.label.study_identifier' text=''/></th>
                     <th scope="col"><spring:message code='participant.label.study_short_title' text=''/></th>
                     <th scope="col"><spring:message code='participant.label.participant_study_identifier' text=''/></th>
-                    <th scope="col"><spring:message code='participant.label.clinical.staff.treatingphysician'
-                                                    text=''/></th>
+                    <th scope="col"><spring:message code='participant.label.clinical.staff.treatingphysician' text=''/></th>
                     <th scope="col"><spring:message code='participant.label.clinical.staff.researchnurse' text=''/></th>
                 </tr>
                 <c:forEach items="${command.participant.studyParticipantAssignments}" var="assignment">
@@ -114,6 +113,7 @@
             <br>
         </chrome:division>
     </c:if>
-</chrome:box>
+</jsp:attribute>
+</tags:tabForm>
 </body>
 </html>

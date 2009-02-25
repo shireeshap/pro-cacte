@@ -54,7 +54,6 @@
         </c:forEach>
         <tr>
             <td>
-
                 <input type="checkbox" name="studySite" value="${studysite.id}"
                        onchange="javascript:showForms(this, '${studysite.id}')"> ${studysite.study.assignedIdentifier}
             </td>

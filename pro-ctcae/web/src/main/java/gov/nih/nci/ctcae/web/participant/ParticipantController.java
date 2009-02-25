@@ -1,11 +1,14 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
-import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
+import gov.nih.nci.ctcae.core.repository.*;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.ctcae.web.study.*;
+import gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
@@ -13,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
 import java.util.*;
 
 //
@@ -22,22 +26,15 @@ import java.util.*;
  * @author Harsh Agarwal
  * @created Oct 21, 2008
  */
-public abstract class ParticipantController extends CtcAeSimpleFormController {
+public class ParticipantController extends CtcAeTabbedFlowController<ParticipantCommand> {
 
     /**
      * The participant repository.
      */
     protected ParticipantRepository participantRepository;
 
-    /**
-     * The organization repository.
-     */
-    protected OrganizationRepository organizationRepository;
 
-    /**
-     * The crf repository.
-     */
-    private CRFRepository crfRepository;
+    private static final String PARTICIPANT_ID = "id";
 
     /**
      * Instantiates a new participant controller.
@@ -45,81 +42,53 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
     protected ParticipantController() {
         super();
         setCommandClass(ParticipantCommand.class);
-        setCommandName("participantCommand");
-        setSuccessView("participant/confirmParticipant");
-        setBindOnNewForm(true);
-        setSessionForm(true);
+        Flow<ParticipantCommand> flow = new Flow<ParticipantCommand>("Enter Participant");
+        layoutTabs(flow);
+        setFlowFactory(new StaticFlowFactory<ParticipantCommand>(flow));
+        setAllowDirtyBack(false);
+        setAllowDirtyForward(false);
+
+    }
+
+    protected void layoutTabs(final Flow<ParticipantCommand> flow) {
+        flow.addTab(new ParticipantDetailsTab());
+        flow.addTab(new ParticipantClinicalStaffTab());
+        flow.addTab(new ParticipantReviewTab());
+
     }
 
     /* (non-Javadoc)
-     * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
-     */
-    @Override
-    protected ModelAndView onSubmit(HttpServletRequest request,
-                                    HttpServletResponse response, Object oCommand,
-                                    org.springframework.validation.BindException errors)
-            throws Exception {
+    * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+    */
 
-        ParticipantCommand command = (ParticipantCommand) oCommand;
-        for (StudySite studySite : command.getStudySite()) {
-            command.setSiteName(studySite.getOrganization().getName());
-            StudyParticipantAssignment studyParticipantAssignment = command.createStudyParticipantAssignments(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()));
-            command.assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request);
-        }
-        participantRepository.save(command.getParticipant());
-        return showForm(request, errors, getSuccessView());
-    }
-
-
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.web.CtcAeSimpleFormController#onBindAndValidate(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.BindException)
-     */
-    @Override
-    protected void onBindAndValidate(HttpServletRequest request,
-                                     Object command, BindException errors) throws Exception {
-        super.onBindAndValidate(request, command, errors);
-
-
+    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         ParticipantCommand participantCommand = (ParticipantCommand) command;
-
-        if (participantCommand.getStudySite() == null ||
-                participantCommand.getStudySite().length == 0) {
-            errors.reject(
-                    "studyId", "Please select at least one study.");
-        }
-
+        participantCommand.setParticipant(participantRepository.save(participantCommand.getParticipant()));
+        return showForm(request, errors, "participant/confirmParticipant");
     }
 
+    //
     /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.web.CtcAeSimpleFormController#referenceData(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.Errors)
-     */
+    * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+    */
     @Override
-    protected Map referenceData(HttpServletRequest request, Object command,
-                                Errors errors) throws Exception {
-        HashMap<String, Object> referenceData = new HashMap<String, Object>();
+    protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
+        String id = request.getParameter(PARTICIPANT_ID);
 
-        ArrayList<Organization> organizationsHavingStudySite = organizationRepository
-                .findOrganizationsForStudySites();
-
-        ListValues listValues = new ListValues();
-
-
-        referenceData.put("genders", listValues.getGenderType());
-        referenceData.put("ethnicities", listValues.getEthnicityType());
-        referenceData.put("races", listValues.getRaceType());
-        referenceData.put("organizationsHavingStudySite", ListValues.getOrganizationsHavingStudySite(organizationsHavingStudySite));
-        return referenceData;
+        ParticipantCommand command = new ParticipantCommand();
+        if (id != null) {
+            Participant participant = participantRepository.findById(Integer.valueOf(id));
+            command.setParticipant(participant);
+            if (participant.getStudyParticipantAssignments().size() > 0) {
+                Organization studyOrganization = participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization();
+                String siteName = studyOrganization.getName();
+                command.setOrganizationId(studyOrganization.getId());
+                command.setSiteName(siteName);
+            }
+        }
+        return command;
     }
 
-    /**
-     * Sets the crf repository.
-     *
-     * @param crfRepository the new crf repository
-     */
-    @Required
-    public void setCrfRepository(CRFRepository crfRepository) {
-        this.crfRepository = crfRepository;
-    }
 
     /**
      * Sets the participant repository.
@@ -132,13 +101,18 @@ public abstract class ParticipantController extends CtcAeSimpleFormController {
         this.participantRepository = participantRepository;
     }
 
-    /**
-     * Sets the organization repository.
-     *
-     * @param organizationRepository the new organization repository
-     */
-    @Required
-    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
-        this.organizationRepository = organizationRepository;
+    @Override
+    protected void save(ParticipantCommand command) {
+        command.setParticipant(participantRepository.save(command.getParticipant()));
+    }
+
+    @Override
+    protected boolean shouldSave(HttpServletRequest request, ParticipantCommand command) {
+        return true;
+    }
+
+    @Override
+    protected boolean shouldSave(HttpServletRequest request, ParticipantCommand command, Tab tab) {
+        return true;
     }
 }

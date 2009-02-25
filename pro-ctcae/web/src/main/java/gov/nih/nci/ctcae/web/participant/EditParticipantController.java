@@ -20,7 +20,7 @@ public class EditParticipantController extends ParticipantController {
      */
     public EditParticipantController() {
         super();
-        setFormView("participant/editParticipant");
+//        setFormView("participant/editParticipant");
     }
 
     /* (non-Javadoc)
@@ -28,7 +28,7 @@ public class EditParticipantController extends ParticipantController {
      */
     @Override
     protected Object formBackingObject(HttpServletRequest request)
-            throws Exception {
+             {
         String participantId = request.getParameter("participantId");
         Participant participant = participantRepository.findById(new Integer(participantId));
         ParticipantCommand participantCommand = new ParticipantCommand();

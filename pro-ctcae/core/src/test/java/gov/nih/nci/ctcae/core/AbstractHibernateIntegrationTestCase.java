@@ -17,11 +17,11 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     protected OrganizationRepository organizationRepository;
     protected ClinicalStaff defaultClinicalStaff;
     protected StudyParticipantAssignment defaultStudyParticipantAssignment;
-    protected Organization defaultOrganization;
+    protected Organization defaultOrganization, organization1;
     protected Participant defaultParticipant;
     protected ParticipantRepository participantRepository;
     protected Study defaultStudy;
-    protected StudySite defaultStudySite;
+    protected StudySite defaultStudySite, studySite1;
     protected StudyRepository studyRepository;
 
     private static final String[] context = new String[]{
@@ -65,6 +65,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         ODC = Role.ODC;
         LEAD_CRA = Role.LEAD_CRA;
         defaultOrganization = organizationRepository.findById(105051);
+        organization1 = organizationRepository.findById(100010);
 
         defaultStudy = new Study();
         defaultStudy.setShortTitle("A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)");
@@ -79,8 +80,12 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         defaultStudySite = new StudySite();
         defaultStudySite.setOrganization(defaultOrganization);
 
+        studySite1 = new StudySite();
+        studySite1.setOrganization(organization1);
 
         defaultStudy.addStudySite(defaultStudySite);
+        defaultStudy.addStudySite(studySite1);
+
         defaultStudy.setStudyCoordinatingCenter(studyCoordinatingCenter);
         defaultStudy.setStudyFundingSponsor(studyFundingSponsor);
         defaultStudy = studyRepository.save(defaultStudy);
@@ -104,14 +109,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         defaultStudyParticipantAssignment = defaultParticipant.getStudyParticipantAssignments().get(0);
         assertNotNull("must find default study participant assignment. ", defaultStudyParticipantAssignment);
 
-        defaultClinicalStaff = new ClinicalStaff();
-        defaultClinicalStaff.setFirstName("Bruce");
-        defaultClinicalStaff.setLastName("Tanner");
-        defaultClinicalStaff.setNciIdentifier("-1234");
-        defaultOrganizationClinicalStaff = new OrganizationClinicalStaff();
-        defaultOrganizationClinicalStaff.setOrganization(defaultOrganization);
-        defaultClinicalStaff.addOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
-
+        defaultClinicalStaff = Fixture.createClinicalStaffWithOrganization("Angello", "Williams", "-1234", defaultOrganization);
         defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
 
         commitAndStartNewTransaction();
@@ -120,6 +118,40 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         defaultOrganizationClinicalStaff = defaultClinicalStaff.getOrganizationClinicalStaffs().get(0);
         assertNotNull("must find default clinical staff. ", defaultOrganizationClinicalStaff);
 
+        addResearchNurseAndTreatingPhysician();
+
+    }
+
+    private void addResearchNurseAndTreatingPhysician() {
+        ClinicalStaff c = Fixture.createClinicalStaffWithOrganization("Brian", "Kirchner", "-1235", defaultOrganization);
+        c = clinicalStaffRepository.save(c);
+        defaultStudy.getStudySites().get(0).addOrUpdateStudyOrganizationClinicalStaff(Fixture.createStudyOrganizationClinicalStaff(c, Role.RESEARCH_NURSE, RoleStatus.ACTIVE, new Date(), defaultStudySite));
+        commitAndStartNewTransaction();
+
+        c = Fixture.createClinicalStaffWithOrganization("Joshua", "Hennagir", "-1236", defaultOrganization);
+        c = clinicalStaffRepository.save(c);
+        defaultStudy.getStudySites().get(0).addOrUpdateStudyOrganizationClinicalStaff(Fixture.createStudyOrganizationClinicalStaff(c, Role.TREATING_PHYSICIAN, RoleStatus.ACTIVE, new Date(), defaultStudySite));
+        commitAndStartNewTransaction();
+
+        c = Fixture.createClinicalStaffWithOrganization("Paul", "Kewitch", "-1237", defaultOrganization);
+        clinicalStaffRepository.save(c);
+        commitAndStartNewTransaction();
+
+        c = Fixture.createClinicalStaffWithOrganization("Laura", "Jones", "-1238", defaultOrganization);
+        c = clinicalStaffRepository.save(c);
+        defaultStudy.getStudySites().get(0).addOrUpdateStudyOrganizationClinicalStaff(Fixture.createStudyOrganizationClinicalStaff(c, Role.NOTIFICATION, RoleStatus.ACTIVE, new Date(), defaultStudySite));
+        commitAndStartNewTransaction();
+
+        c = Fixture.createClinicalStaffWithOrganization("Kerry", "Bueckers", "-1239", organization1);
+        c = clinicalStaffRepository.save(c);
+        defaultStudy.getStudySites().get(1).addOrUpdateStudyOrganizationClinicalStaff(Fixture.createStudyOrganizationClinicalStaff(c, Role.TREATING_PHYSICIAN, RoleStatus.ACTIVE, new Date(), studySite1));
+        commitAndStartNewTransaction();
+
+        c = Fixture.createClinicalStaffWithOrganization("Diane", "Opland", "-1240", organization1);
+        clinicalStaffRepository.save(c);
+
+        studyRepository.save(defaultStudy);
+        commitAndStartNewTransaction();
 
     }
 

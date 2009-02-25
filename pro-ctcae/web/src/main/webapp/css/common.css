@@ -288,7 +288,7 @@ a#firstlevelnav_studyController:active {
 	background-image: url( ../images/blue/studies_btn_selected.png );
 }
 
-a#firstlevelnav_createParticipantController {
+a#firstlevelnav_participantController {
 	background-image: url( ../images/blue/subjects_btn.png );
 	height: 0px;
 	padding: 45px 0px 0px 0px;
@@ -299,19 +299,19 @@ a#firstlevelnav_createParticipantController {
 	margin-left: 1px;
 }
 
-a#firstlevelnav_createParticipantController:link {
+a#firstlevelnav_participantController:link {
 	background-position: 0px 0px;
 }
 
-a#firstlevelnav_createParticipantController:hover {
+a#firstlevelnav_participantController:hover {
 	background-position: 0px -45px;
 }
 
-a#firstlevelnav_createParticipantController:active {
+a#firstlevelnav_participantController:active {
 	background-position: 0px -90px;
 }
 
-.selected a#firstlevelnav_createParticipantController {
+.selected a#firstlevelnav_participantController {
 	background-image: url( ../images/blue/subjects_btn_selected.png );
 }
 

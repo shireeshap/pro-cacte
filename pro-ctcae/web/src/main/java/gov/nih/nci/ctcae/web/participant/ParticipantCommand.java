@@ -6,6 +6,9 @@ import gov.nih.nci.ctcae.core.repository.CRFRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
 import java.text.ParseException;
 
 //
@@ -31,6 +34,7 @@ public class ParticipantCommand {
      */
     private String siteName;
 
+    private Map<Integer, List<StudyParticipantClinicalStaff>> mapClinicalStaff = new HashMap<Integer, List<StudyParticipantClinicalStaff>>();
     /**
      * Instantiates a new participant command.
      */
@@ -107,7 +111,9 @@ public class ParticipantCommand {
         studyParticipantAssignment.setStudySite(studySite);
         studyParticipantAssignment.setParticipant(getParticipant());
         studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
-        participant.addStudyParticipantAssignment(studyParticipantAssignment);
+        if (!participant.getStudyParticipantAssignments().contains(studyParticipantAssignment)) {
+            participant.addStudyParticipantAssignment(studyParticipantAssignment);
+        }
         return studyParticipantAssignment;
     }
 
@@ -127,5 +133,29 @@ public class ParticipantCommand {
         }
 
 
+    }
+
+    public void apply(CRFRepository crfRepository, HttpServletRequest request) {
+        if (getStudySite() != null) {
+            for (StudySite studySite : getStudySite()) {
+                setSiteName(studySite.getOrganization().getName());
+                StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignments(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()));
+                try {
+                    assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    public Map<Integer, List<StudyParticipantClinicalStaff>> getMapClinicalStaff() {
+        
+        return mapClinicalStaff;
+    }
+
+    public void setMapClinicalStaff(Map<Integer, List<StudyParticipantClinicalStaff>> mapClinicalStaff) {
+        this.mapClinicalStaff = mapClinicalStaff;
     }
 }

@@ -17,7 +17,7 @@ public class CreateParticipantController extends ParticipantController {
      */
     public CreateParticipantController() {
         super();
-        setFormView("participant/createParticipant");
+        //setFormView("participant/createParticipant");
     }
 
     /* (non-Javadoc)
@@ -25,7 +25,7 @@ public class CreateParticipantController extends ParticipantController {
      */
     @Override
     protected Object formBackingObject(HttpServletRequest request)
-            throws Exception {
+             {
         ParticipantCommand participantCommand = new ParticipantCommand();
         return participantCommand;
     }

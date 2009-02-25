@@ -306,9 +306,28 @@ Object.extend(organizationClinicalStaffAutoComplter.prototype, {
                 }
 
     }
-
-
 });
+
+//pass empty string for role if you don't want to search for role.
+var studyOrganizationClinicalStaffForRoleAutoCompleter = Class.create();
+Object.extend(studyOrganizationClinicalStaffForRoleAutoCompleter.prototype, {
+    initialize: function(basename, studyOrganizationId, role) {
+
+        this.basename = basename;
+        this.organizationId = studyOrganizationId;
+        this.role = role;
+        this.populator = function(autocompleter, text) {
+            clinicalStaff.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(text, studyOrganizationId,role, function(values) {
+                autocompleter.setChoices(values)
+            })
+        },
+                this.valueSelector = function (obj) {
+                    return obj.displayName;
+                }
+
+    }
+});
+
 var studyAutoComplter = Class.create();
 Object.extend(studyAutoComplter.prototype, {
     initialize: function(basename) {

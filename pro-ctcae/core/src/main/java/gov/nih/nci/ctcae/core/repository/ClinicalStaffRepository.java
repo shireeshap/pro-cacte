@@ -1,11 +1,10 @@
 package gov.nih.nci.ctcae.core.repository;
 
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.OrganizationClinicalStaffQuery;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 
 import java.util.Collection;
 import java.util.List;
@@ -51,6 +50,23 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
             query.filterByOrganization(organizationId);
 
             return (List<OrganizationClinicalStaff>) genericRepository.find(query);
+        }
+
+        throw new CtcAeSystemException(String.format("no study organization found for given id %s", studyOrganizationId));
+    }
+
+    public List<StudyOrganizationClinicalStaff> findByStudyOrganizationIdAndRole(String text, Integer studyOrganizationId, Role role) {
+        StudyOrganizationClinicalStaffQuery query = new StudyOrganizationClinicalStaffQuery();
+        query.filterByFirstNameOrLastNameOrNciIdentifier(text);
+        if (role != null) {
+            query.filterByRole(role);
+        }
+        StudyOrganization studyOrganization = genericRepository.findById(StudyOrganization.class, studyOrganizationId);
+        if (studyOrganization != null) {
+            Integer organizationId = studyOrganization.getOrganization().getId();
+            query.filterByOrganization(organizationId);
+
+            return (List<StudyOrganizationClinicalStaff>) genericRepository.find(query);
         }
 
         throw new CtcAeSystemException(String.format("no study organization found for given id %s", studyOrganizationId));
