@@ -156,9 +156,12 @@ public abstract class StudyOrganization extends BasePersistable {
             }
 
             studyOrganizationClinicalStaff.setStudyOrganization(this);
-            getStudyOrganizationClinicalStaffs().add(studyOrganizationClinicalStaff);
-            logger.debug(String.format("added study organization clinical staff %s to study organization %s", studyOrganizationClinicalStaff.toString(), toString()));
-
+            if (!studyOrganizationClinicalStaff.isPersisted()) {
+                getStudyOrganizationClinicalStaffs().add(studyOrganizationClinicalStaff);
+                logger.debug(String.format("added study organization clinical staff %s to study organization %s", studyOrganizationClinicalStaff.toString(), toString()));
+            } else {
+                logger.debug(String.format("skipping adding of % because it is already persisted", studyOrganizationClinicalStaff.toString()));
+            }
         }
 
     }

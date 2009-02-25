@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter;
+import gov.nih.nci.ctcae.core.domain.StudyFundingSponsor;
 
 //
 /**
@@ -26,18 +28,6 @@ public class StudyCommand {
         study.setStudyFundingSponsor(new StudyFundingSponsor());
         study.setStudyCoordinatingCenter(new StudyCoordinatingCenter());
 
-        StudyClinicalStaff overallDataCoordinator = new StudyClinicalStaff();
-        overallDataCoordinator.setRole(Role.ODC);
-        study.setOverallDataCoordinator(overallDataCoordinator);
-
-        StudyClinicalStaff principalInvestigator = new StudyClinicalStaff();
-        principalInvestigator.setRole(Role.PI);
-        study.setPrincipalInvestigator(principalInvestigator);
-
-
-        StudyClinicalStaff leadCRA = new StudyClinicalStaff();
-        leadCRA.setRole(Role.LEAD_CRA);
-        study.setLeadCRA(leadCRA);
 
     }
 
@@ -77,10 +67,6 @@ public class StudyCommand {
 //        }
 //    }
 
-    public void apply() {
-
-
-    }
 
 
 }

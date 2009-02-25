@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
@@ -55,11 +54,10 @@ public class StudyRepository extends AbstractRepository<Study, StudyQuery> {
             List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffList = studyOrganization.getStudyOrganizationClinicalStaffs();
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganizationClinicalStaffList) {
                 studyOrganizationClinicalStaff.getStudyOrganization();
+                studyOrganizationClinicalStaff.getOrganizationClinicalStaff();
             }
         }
 
-        for (StudyClinicalStaff studyClinicalStaff : savedStudy.getStudyClinicalStaffs()) {
-            studyClinicalStaff.getOrganizationClinicalStaff();
-        }
+
     }
 }

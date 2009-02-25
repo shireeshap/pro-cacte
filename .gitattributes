@@ -98,7 +98,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleType.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Roles.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCoordinatingCenter.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyFundingSponsor.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganization.java -text
@@ -218,7 +217,6 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RaceEnumTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RoleTypeTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyClinicalStaffIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationClinicalStaffIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationIntegrationTest.java -text

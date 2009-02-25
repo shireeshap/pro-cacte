@@ -202,23 +202,6 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         return studyOrganizationClinicalStaff;
     }
 
-    protected StudyClinicalStaff addStudyClinicalStaff(StudyClinicalStaff studyClinicalStaff) {
-        defaultStudy.addStudyClinicalStaff(studyClinicalStaff);
-
-        defaultStudy = studyRepository.save(defaultStudy);
-        commitAndStartNewTransaction();
-
-        List<StudyClinicalStaff> studyClinicalStaffs = defaultStudy.getStudyClinicalStaffs();
-
-        assertFalse("must save study clinical staff", studyClinicalStaffs.isEmpty());
-        studyClinicalStaff = studyClinicalStaffs.get(0);
-        assertNotNull("must save study clinical staff", studyClinicalStaff.getId());
-        assertEquals("study site must be same", studyClinicalStaff.getStudy(), defaultStudy);
-
-
-        assertEquals("site clinical staff  must be same", defaultOrganizationClinicalStaff, studyClinicalStaff.getOrganizationClinicalStaff());
-        return studyClinicalStaff;
-    }
 
     protected void commitAndStartNewTransaction() {
         setComplete();

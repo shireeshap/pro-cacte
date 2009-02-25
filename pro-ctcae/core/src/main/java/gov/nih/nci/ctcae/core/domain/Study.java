@@ -73,13 +73,13 @@ public class Study extends BasePersistable {
     private StudyCoordinatingCenter studyCoordinatingCenter;
 
     @Transient
-    private StudyClinicalStaff leadCRA;
+    private StudyOrganizationClinicalStaff leadCRA;
 
     @Transient
-    private StudyClinicalStaff overallDataCoordinator;
+    private StudyOrganizationClinicalStaff overallDataCoordinator;
 
     @Transient
-    private StudyClinicalStaff principalInvestigator;
+    private StudyOrganizationClinicalStaff principalInvestigator;
 
 
     /**
@@ -89,9 +89,6 @@ public class Study extends BasePersistable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyOrganization> studyOrganizations = new LinkedList<StudyOrganization>();
 
-    @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<StudyClinicalStaff> studyClinicalStaffs = new LinkedList<StudyClinicalStaff>();
 
     public List<CRF> getCrfs() {
         return crfs;
@@ -383,67 +380,54 @@ public class Study extends BasePersistable {
         return null;
     }
 
-    public void addStudyClinicalStaff(StudyClinicalStaff studyClinicalStaff) {
-        if (studyClinicalStaff != null) {
-            studyClinicalStaff.setStudy(this);
-            getStudyClinicalStaffs().add(studyClinicalStaff);
-            logger.debug(String.format("added  %s to  %s", studyClinicalStaff.toString(), toString()));
-
-        }
-
-    }
-
-
-    public List<StudyClinicalStaff> getStudyClinicalStaffs() {
-        return studyClinicalStaffs;
-    }
-
-    public StudyClinicalStaff getLeadCRA() {
-
-        for (StudyClinicalStaff studyClinicalStaff : studyClinicalStaffs) {
-            if (studyClinicalStaff.getRole().equals(Role.LEAD_CRA)) {
-                leadCRA = studyClinicalStaff;
-            }
+    public StudyOrganizationClinicalStaff getLeadCRA() {
+        if (leadCRA == null) {
+            leadCRA = getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA);
         }
         return leadCRA;
     }
 
-    public void setLeadCRA(StudyClinicalStaff leadCRA) {
+
+    public void setLeadCRA(StudyOrganizationClinicalStaff leadCRA) {
         this.leadCRA = leadCRA;
-        if (!leadCRA.isPersisted()) {
-            this.addStudyClinicalStaff(leadCRA);
-        }
+
     }
 
-    public StudyClinicalStaff getOverallDataCoordinator() {
-        for (StudyClinicalStaff studyClinicalStaff : studyClinicalStaffs) {
-            if (studyClinicalStaff.getRole().equals(Role.ODC)) {
-                overallDataCoordinator = studyClinicalStaff;
-            }
+    public StudyOrganizationClinicalStaff getOverallDataCoordinator() {
+
+        if (overallDataCoordinator == null) {
+            overallDataCoordinator = getStudyOrganizationClinicalStaffByRole(Role.ODC);
         }
         return overallDataCoordinator;
     }
 
-    public void setOverallDataCoordinator(StudyClinicalStaff overallDataCoordinator) {
+    public void setOverallDataCoordinator(StudyOrganizationClinicalStaff overallDataCoordinator) {
         this.overallDataCoordinator = overallDataCoordinator;
-        if (!overallDataCoordinator.isPersisted()) {
-            this.addStudyClinicalStaff(overallDataCoordinator);
-        }
+
     }
 
-    public StudyClinicalStaff getPrincipalInvestigator() {
-        for (StudyClinicalStaff studyClinicalStaff : studyClinicalStaffs) {
-            if (studyClinicalStaff.getRole().equals(Role.PI)) {
-                principalInvestigator = studyClinicalStaff;
-            }
+    public StudyOrganizationClinicalStaff getPrincipalInvestigator() {
+        if (principalInvestigator == null) {
+            principalInvestigator = getStudyOrganizationClinicalStaffByRole(Role.PI);
         }
         return principalInvestigator;
     }
 
-    public void setPrincipalInvestigator(StudyClinicalStaff principalInvestigator) {
+    public void setPrincipalInvestigator(StudyOrganizationClinicalStaff principalInvestigator) {
         this.principalInvestigator = principalInvestigator;
-        if (!principalInvestigator.isPersisted()) {
-            this.addStudyClinicalStaff(principalInvestigator);
-        }
+
     }
+
+    private StudyOrganizationClinicalStaff getStudyOrganizationClinicalStaffByRole(Role role) {
+        for (StudyOrganization studyOrganization : studyOrganizations) {
+            List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffList = studyOrganization.getStudyOrganizationClinicalStaffs();
+            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganizationClinicalStaffList) {
+                if (studyOrganizationClinicalStaff.getRole().equals(role)) {
+                    return studyOrganizationClinicalStaff;
+                }
+            }
+        }
+        return null;
+    }
+
 }

@@ -261,7 +261,7 @@ function acPostSelect(mode, selectedChoice) {
     $(mode.basename).value = selectedChoice.id;
 }
 function acCreate(mode) {
-    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
+    return new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
             mode.populator, {
         valueSelector: mode.valueSelector,
         afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
@@ -295,7 +295,7 @@ Object.extend(organizationClinicalStaffAutoComplter.prototype, {
     initialize: function(basename, studyOrganizationId) {
 
         this.basename = basename;
-        this.organizationId = studyOrganizationId;
+        this.studyOrganizationId = studyOrganizationId;
         this.populator = function(autocompleter, text) {
             clinicalStaff.matchOrganizationClinicalStaffByStudyOrganizationId(text, studyOrganizationId, function(values) {
                 autocompleter.setChoices(values)
