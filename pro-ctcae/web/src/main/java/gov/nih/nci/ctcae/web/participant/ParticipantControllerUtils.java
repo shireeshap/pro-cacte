@@ -26,7 +26,7 @@ public class ParticipantControllerUtils {
 
     public static ParticipantCommand getParticipantCommand(HttpServletRequest request) {
         ParticipantCommand participantCommand = (ParticipantCommand)
-                request.getSession().getAttribute(ParticipantCommand.class.getName() + ".FORM." + "command");
+                request.getSession().getAttribute(ParticipantController.class.getName() + ".FORM." + "command");
         return participantCommand;
     }
 }

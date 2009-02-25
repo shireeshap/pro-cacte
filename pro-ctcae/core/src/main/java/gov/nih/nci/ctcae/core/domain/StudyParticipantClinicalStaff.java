@@ -31,6 +31,9 @@ public class StudyParticipantClinicalStaff extends BasePersistable {
     @ManyToOne
     private StudyParticipantAssignment studyParticipantAssignment;
 
+    @Column(name = "is_primary")
+    private boolean isPrimary = false;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,5 +78,13 @@ public class StudyParticipantClinicalStaff extends BasePersistable {
 
     public void setStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
         this.studyOrganizationClinicalStaff = studyOrganizationClinicalStaff;
+    }
+
+    public boolean isPrimary() {
+        return isPrimary;
+    }
+
+    public void setPrimary(boolean primary) {
+        isPrimary = primary;
     }
 }

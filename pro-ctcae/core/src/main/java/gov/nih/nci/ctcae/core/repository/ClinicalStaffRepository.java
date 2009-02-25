@@ -55,11 +55,11 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
         throw new CtcAeSystemException(String.format("no study organization found for given id %s", studyOrganizationId));
     }
 
-    public List<StudyOrganizationClinicalStaff> findByStudyOrganizationIdAndRole(String text, Integer studyOrganizationId, Role role) {
+    public List<StudyOrganizationClinicalStaff> findByStudyOrganizationIdAndRole(String text, Integer studyOrganizationId, List<Role> roles) {
         StudyOrganizationClinicalStaffQuery query = new StudyOrganizationClinicalStaffQuery();
         query.filterByFirstNameOrLastNameOrNciIdentifier(text);
-        if (role != null) {
-            query.filterByRole(role);
+        if (roles != null) {
+            query.filterByRole(roles);
         }
         StudyOrganization studyOrganization = genericRepository.findById(StudyOrganization.class, studyOrganizationId);
         if (studyOrganization != null) {

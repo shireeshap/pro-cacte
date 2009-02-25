@@ -3,6 +3,8 @@ package gov.nih.nci.ctcae.core.query;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Role;
 
+import java.util.List;
+
 //
 /**
  * User: Harsh Agarwal
@@ -46,9 +48,9 @@ public class StudyOrganizationClinicalStaffQuery extends AbstractQuery {
         setParameter(ORGANIZATION_ID, organizationId);
     }
 
-    public void filterByRole(final Role role) {
-        andWhere("socs.role = :" + ROLE);
-        setParameter(ROLE, role);
+    public void filterByRole(final List<Role> roles) {
+        andWhere("socs.role in ( :" + ROLE + ")");
+        setParameterList(ROLE, roles);
     }
 
 

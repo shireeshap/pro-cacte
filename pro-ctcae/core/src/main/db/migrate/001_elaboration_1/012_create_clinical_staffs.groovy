@@ -68,6 +68,7 @@ class CreateClinicalStaffs extends edu.northwestern.bioinformatics.bering.Migrat
 
       t.addColumn('so_clinical_staff_id', 'integer', nullable: false)
       t.addColumn('sp_assignment_id', 'integer', nullable: false)
+      t.addColumn('is_primary', 'boolean', nullable: true)
 
     }
 

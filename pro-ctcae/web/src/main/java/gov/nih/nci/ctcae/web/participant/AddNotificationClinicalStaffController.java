@@ -36,16 +36,13 @@ public class AddNotificationClinicalStaffController extends AbstractController {
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("participant/ajax/notificationClinicalStaff");
-        Integer studyParticipantAssignmentIndex = Integer.parseInt(request.getParameter("spa_index"));
+        Integer studyParticipantAssignmentIndex = Integer.parseInt(request.getParameter("index"));
         ParticipantCommand command = ParticipantControllerUtils.getParticipantCommand(request);
-        StudyParticipantAssignment studyParticipantAssignment = command.getParticipant().getStudyParticipantAssignments().get(studyParticipantAssignmentIndex);
-
-        List<StudyParticipantClinicalStaff> clinicalStaffList = command.getMapClinicalStaff().get(studyParticipantAssignment.getId());
-        if (clinicalStaffList == null) {
-            clinicalStaffList = new ArrayList<StudyParticipantClinicalStaff>();
-            //command.getMapClinicalStaff()
-        }
-
+        StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
+        studyParticipantClinicalStaff.setPrimary(false);
+        command.getParticipant().getStudyParticipantAssignments().get(studyParticipantAssignmentIndex).addNotificationClinicalStaff(studyParticipantClinicalStaff);
+        modelAndView.addObject("index", studyParticipantAssignmentIndex);
+        modelAndView.addObject("notificationindex",command.getParticipant().getStudyParticipantAssignments().get(studyParticipantAssignmentIndex).getNotificationClinicalStaff().size()-1);
         return modelAndView;
     }
 

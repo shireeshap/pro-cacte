@@ -34,7 +34,6 @@ public class ParticipantCommand {
      */
     private String siteName;
 
-    private Map<Integer, List<StudyParticipantClinicalStaff>> mapClinicalStaff = new HashMap<Integer, List<StudyParticipantClinicalStaff>>();
     /**
      * Instantiates a new participant command.
      */
@@ -148,14 +147,5 @@ public class ParticipantCommand {
                 }
             }
         }
-    }
-
-    public Map<Integer, List<StudyParticipantClinicalStaff>> getMapClinicalStaff() {
-        
-        return mapClinicalStaff;
-    }
-
-    public void setMapClinicalStaff(Map<Integer, List<StudyParticipantClinicalStaff>> mapClinicalStaff) {
-        this.mapClinicalStaff = mapClinicalStaff;
     }
 }
