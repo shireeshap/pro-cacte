@@ -176,15 +176,15 @@ public class StudyParticipantCommand {
      * @throws ParseException the parse exception
      */
     public void checkRepetition(HttpServletRequest request) throws ParseException {
-        int i = 0;
-        for (String repeat : repeatdropdown) {
-            if (repeat.equals("No")) {
-                String startDate = request.getParameter("startDate_" + i);
-                String dueDate = request.getParameter("dueDate_" + i);
-                participantSchedules.get(0).setFinderRepository(finderRepository);
-                participantSchedules.get(0).removeAllSchedules();
-                participantSchedules.get(0).createSchedule(startDate, dueDate);
-            }
-        }
+//        int i = 0;
+//        for (String repeat : repeatdropdown) {
+//            if (repeat.equals("No")) {
+//                String startDate = request.getParameter("startDate_" + i);
+//                String dueDate = request.getParameter("dueDate_" + i);
+//                participantSchedules.get(0).setFinderRepository(finderRepository);
+//                participantSchedules.get(0).removeAllSchedules();
+//                participantSchedules.get(0).createSchedule(startDate, dueDate);
+//            }
+//        }
     }
 }
