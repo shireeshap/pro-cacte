@@ -22,12 +22,28 @@
         Event.observe(window, "load", function() {
 
 
-            initSearchField()
-            acCreate(new organizationClinicalStaffAutoComplter('overallDataCoordinator.organizationClinicalStaff', '${command.study.studyCoordinatingCenter.id}'))
-            var leadCRAAutocompleter = acCreate(new organizationClinicalStaffAutoComplter('leadCRA.organizationClinicalStaff', $('leadCRA.studyOrganization').value))
-            acCreate(new organizationClinicalStaffAutoComplter('principalInvestigator.organizationClinicalStaff', $('principalInvestigator.studyOrganization').value))
+            var odcAutoComplterBaseName = 'overallDataCoordinator.organizationClinicalStaff';
+            acCreate(new organizationClinicalStaffAutoComplter(odcAutoComplterBaseName, '${command.study.studyCoordinatingCenter.id}'))
 
-            updateOrganizationClinicalStaffAutoCompleters();
+            var leadCRAAutoComplterBaseName = 'leadCRA.organizationClinicalStaff';
+            var leadCRAAutocompleter = acCreate(new organizationClinicalStaffAutoComplter(leadCRAAutoComplterBaseName, $('leadCRA.studyOrganization').value))
+
+
+            var piAutoCompleterBaseName = 'principalInvestigator.organizationClinicalStaff';
+            acCreate(new organizationClinicalStaffAutoComplter(piAutoCompleterBaseName, $('principalInvestigator.studyOrganization').value))
+
+            initializeAutoCompleter(odcAutoComplterBaseName, '${command.overallDataCoordinator.displayName}',
+                    '${command.overallDataCoordinator.organizationClinicalStaff.id}')
+
+
+            initializeAutoCompleter(piAutoCompleterBaseName, '${command.principalInvestigator.displayName}',
+                    '${command.principalInvestigator.organizationClinicalStaff.id}')
+
+            initializeAutoCompleter(leadCRAAutoComplterBaseName, '${command.leadCRA.displayName}',
+                    '${command.leadCRA.organizationClinicalStaff.id}');
+
+            initSearchField()
+
         })
 
         function updateOrganizationClinicalStaffAutoCompleters() {
@@ -61,7 +77,7 @@
 
            <tags:renderAutocompleter propertyName="overallDataCoordinator.organizationClinicalStaff"
                                      displayName="study.label.clinical.staff" noForm="true" required="true"
-                                     />
+                   />
        </chrome:division>
 
         <chrome:division title="study.label.clinical.staff.lead.cra">
@@ -73,7 +89,7 @@
 
             <tags:renderAutocompleter propertyName="leadCRA.organizationClinicalStaff"
                                       displayName="study.label.clinical.staff" noForm="true" required="true"
-                                      />
+                    />
 
 
         </chrome:division>
@@ -86,7 +102,7 @@
 
             <tags:renderAutocompleter propertyName="principalInvestigator.organizationClinicalStaff"
                                       displayName="study.label.clinical.staff" noForm="true" required="true"
-                                      />
+                    />
 
 
         </chrome:division>

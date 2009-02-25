@@ -1,6 +1,9 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter;
+import gov.nih.nci.ctcae.core.domain.StudyFundingSponsor;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 
 //
 /**
@@ -46,10 +49,11 @@ public class StudyCommand {
     }
 
     public StudyOrganizationClinicalStaff getOverallDataCoordinator() {
-
         if (overallDataCoordinator == null) {
-            overallDataCoordinator = study.getStudyOrganizationClinicalStaffByRole(Role.ODC);
+            overallDataCoordinator = study.getOverallDataCoordinator();
+
         }
+
         return overallDataCoordinator;
     }
 
@@ -59,8 +63,10 @@ public class StudyCommand {
     }
 
     public StudyOrganizationClinicalStaff getPrincipalInvestigator() {
+
         if (principalInvestigator == null) {
-            principalInvestigator = study.getStudyOrganizationClinicalStaffByRole(Role.PI);
+            principalInvestigator = study.getPrincipalInvestigator();
+
         }
         return principalInvestigator;
     }
@@ -71,8 +77,10 @@ public class StudyCommand {
     }
 
     public StudyOrganizationClinicalStaff getLeadCRA() {
+
         if (leadCRA == null) {
-            leadCRA = study.getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA);
+            leadCRA = study.getLeadCRA();
+
         }
         return leadCRA;
     }
@@ -110,4 +118,10 @@ public class StudyCommand {
 //    }
 
 
+    public void updateClinicalStaffs() {
+
+        setLeadCRA(study.getLeadCRA());
+        setPrincipalInvestigator(study.getPrincipalInvestigator());
+        setOverallDataCoordinator(study.getOverallDataCoordinator());
+    }
 }

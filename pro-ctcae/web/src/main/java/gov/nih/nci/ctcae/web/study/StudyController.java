@@ -99,6 +99,8 @@ public class StudyController extends CtcAeTabbedFlowController<StudyCommand> {
 
         command.setStudy(studyRepository.save(command.getStudy()));
 
+        command.updateClinicalStaffs();
+
     }
 
     /* (non-Javadoc)

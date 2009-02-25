@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
@@ -26,26 +25,6 @@ public class StudyClinicalStaffTab extends Tab<StudyCommand> {
     @Override
     public void onDisplay(HttpServletRequest request, StudyCommand command) {
         super.onDisplay(request, command);
-
-
-        if (command.getOverallDataCoordinator() == null) {
-            StudyOrganizationClinicalStaff overallDataCoordinator = new StudyOrganizationClinicalStaff();
-            overallDataCoordinator.setRole(Role.ODC);
-
-            command.setOverallDataCoordinator(overallDataCoordinator);
-        }
-        if (command.getPrincipalInvestigator() == null) {
-            StudyOrganizationClinicalStaff principalInvestigator = new StudyOrganizationClinicalStaff();
-            principalInvestigator.setRole(Role.PI);
-            command.setPrincipalInvestigator(principalInvestigator);
-        }
-        if (command.getLeadCRA() == null) {
-
-            StudyOrganizationClinicalStaff leadCRA = new StudyOrganizationClinicalStaff();
-            leadCRA.setRole(Role.LEAD_CRA);
-            command.setLeadCRA(leadCRA);
-
-        }
 
 
     }
@@ -79,12 +58,14 @@ public class StudyClinicalStaffTab extends Tab<StudyCommand> {
 
         StudyOrganizationClinicalStaff principalInvestigator = command.getPrincipalInvestigator();
 
-        principalInvestigator.getStudyOrganization().addOrUpdateStudyOrganizationClinicalStaff(principalInvestigator);
+        command.getStudy().getStudySiteById(principalInvestigator.getStudyOrganization().getId()).addOrUpdateStudyOrganizationClinicalStaff(principalInvestigator);
+
 
         command.getStudy().getStudyCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(command.getOverallDataCoordinator());
 
         StudyOrganizationClinicalStaff leadCRA = command.getLeadCRA();
-        leadCRA.getStudyOrganization().addOrUpdateStudyOrganizationClinicalStaff(leadCRA);
+        command.getStudy().getStudySiteById(leadCRA.getStudyOrganization().getId()).addOrUpdateStudyOrganizationClinicalStaff(leadCRA);
+
 
     }
 

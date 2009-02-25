@@ -29,8 +29,7 @@ public class StudyLinkDisplayCell extends AbstractCell {
 
         cellValue = String.format(editLink + bean.getAssignedIdentifier() + "</a>");
         cellValue = "<a href=\"" + editLink + "\">" + "Edit" + "</a>";
-        cellValue = cellValue + " | <a href=\"" + manageStudySitePersonalLink + "\">" + "Manage Study Site Personal" + "</a>";
-
+      
         return cellValue;
     }
 

@@ -372,7 +372,7 @@ public class Study extends BasePersistable {
     }
 
 
-    public StudyOrganizationClinicalStaff getStudyOrganizationClinicalStaffByRole(Role role) {
+    private StudyOrganizationClinicalStaff getStudyOrganizationClinicalStaffByRole(Role role) {
         for (StudyOrganization studyOrganization : studyOrganizations) {
             List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffList = studyOrganization.getStudyOrganizationClinicalStaffs();
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganizationClinicalStaffList) {
@@ -382,6 +382,40 @@ public class Study extends BasePersistable {
             }
         }
         return null;
+    }
+
+
+    public StudyOrganizationClinicalStaff getOverallDataCoordinator() {
+        StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = getStudyOrganizationClinicalStaffByRole(Role.ODC);
+        if (studyOrganizationClinicalStaff == null) {
+            studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
+            studyOrganizationClinicalStaff.setRole(Role.ODC);
+
+        }
+
+        return studyOrganizationClinicalStaff;
+    }
+
+    public StudyOrganizationClinicalStaff getPrincipalInvestigator() {
+        StudyOrganizationClinicalStaff principalInvestigator = getStudyOrganizationClinicalStaffByRole(Role.PI);
+
+        if (principalInvestigator == null) {
+            principalInvestigator = new StudyOrganizationClinicalStaff();
+            principalInvestigator.setRole(Role.PI);
+
+        }
+        return principalInvestigator;
+    }
+
+    public StudyOrganizationClinicalStaff getLeadCRA() {
+        StudyOrganizationClinicalStaff leadCRA = getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA);
+
+        if (leadCRA == null) {
+            leadCRA = new StudyOrganizationClinicalStaff();
+            leadCRA.setRole(Role.LEAD_CRA);
+
+        }
+        return leadCRA;
     }
 
 }
