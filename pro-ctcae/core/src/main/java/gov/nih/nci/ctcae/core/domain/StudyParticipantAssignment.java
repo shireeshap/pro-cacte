@@ -197,11 +197,11 @@ public class StudyParticipantAssignment extends BaseVersionable {
 
     public void addStudyParticipantClinicalStaff(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
         if (studyParticipantClinicalStaff != null) {
-            Organization expectedOrganization = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getOrganization();
-            if (!expectedOrganization.equals(this.getStudySite().getOrganization())) {
+            StudyOrganization expectedStudyOrganization = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getStudyOrganization();
+            if (!expectedStudyOrganization.equals(this.getStudySite())) {
                 String errorMessage = String.format("study site clinical staff belongs to study site %s. It does not belongs to study site %s of study participant assignment. " +
                         "So this study site clincal staff can not be added.",
-                        expectedOrganization, this.getStudySite());
+                        expectedStudyOrganization, this.getStudySite());
                 logger.error(errorMessage);
                 throw new CtcAeSystemException(errorMessage);
             }
