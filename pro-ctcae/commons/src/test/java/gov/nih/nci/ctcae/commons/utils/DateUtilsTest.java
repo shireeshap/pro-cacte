@@ -37,11 +37,7 @@ public class DateUtilsTest extends CoreTestCase {
 
     }
 
-    public void testGetCurrentDate() {
-        assertEquals(Integer.valueOf(0), DateUtils.getCurrentDate());
 
-
-    }
 
     public void testParseDashedDate() throws ParseException {
         assertEquals(Integer.valueOf(0), Integer.valueOf(DateUtils.compareDate(DateUtils.parseDashedDate("2012-07-13"), futureDate)));
