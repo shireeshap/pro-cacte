@@ -122,7 +122,7 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
     }
 
     public String getDisplayName(){
-       return organizationClinicalStaff.getClinicalStaff().getDisplayName();
+       return organizationClinicalStaff!=null?organizationClinicalStaff.getClinicalStaff().getDisplayName():"";
     }
 
     public void setDisplayName(String displayName) {

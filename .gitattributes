@@ -384,6 +384,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyDetailsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyLinkDisplayCell.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudySiteClinicalStaffTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/NullStringComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImpl.java -text
@@ -495,6 +496,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/footer.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/head.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/header.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/noheader.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/study/studySiteClinicalStaff.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/study/studySiteClinicalStaffTable.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/stylesheetLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabContent.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabControls.tag -text
@@ -557,11 +560,13 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/deleteClinicalStaffAssignmentConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudySiteSection.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/studyOrganizationClinicalStaffSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/confirmStudy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/searchStudy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_clinical_staff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_details.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_reviewsummary.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_site_clinical_staff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_sites.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/web.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/webflow-mvc-config.xml -text

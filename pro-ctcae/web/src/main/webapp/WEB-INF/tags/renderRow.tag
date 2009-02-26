@@ -31,6 +31,7 @@
 
 <%@attribute name="noForm" type="java.lang.Boolean" %>
 <%@attribute name="doNotshowLabel" type="java.lang.Boolean" %>
+<%@attribute name="doNotshowClear" type="java.lang.Boolean" %>
 <%@attribute name="doNotShowFormat" type="java.lang.Boolean" %>
 <%@ attribute name="propertyValue" %>
 <%@ attribute name="values" type="java.util.List" %>
@@ -49,7 +50,7 @@
                            dateValue="${dateValue}"
                            cols="${cols}" noForm="${noForm}"
                            propertyValue="${propertyValue}"
-                           doNotShowFormat="${doNotShowFormat}"  id="${id}" name="${name}" rows="${rows}" onchange="${onchange}"/>
+                           doNotShowFormat="${doNotShowFormat}"  id="${id}" name="${name}" rows="${rows}" onchange="${onchange}" doNotshowClear="${doNotshowClear}"/>
     </c:when>
     <c:otherwise>
         <div class="row ${cssClass}" id="${propertyName}-row" <c:if test="${not empty style}">style="${style}"</c:if>>
@@ -77,7 +78,7 @@
                                        onclick="${onclick}" values="${values}"
                                        cols="${cols}" noForm="${noForm}"
                                        propertyValue="${propertyValue}"
-                                       doNotShowFormat="${doNotShowFormat}"  id="${id}" name="${name}" rows="${rows}" onchange="${onchange}"/>
+                                       doNotShowFormat="${doNotShowFormat}"  id="${id}" name="${name}" rows="${rows}" onchange="${onchange}" doNotshowClear="${doNotshowClear}"/>
                 </c:otherwise>
             </c:choose>
                     <%--<tags:extraParams extraParam="${field.attributes.extraParams}"/>--%>

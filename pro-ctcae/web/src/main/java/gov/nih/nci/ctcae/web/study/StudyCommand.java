@@ -5,6 +5,9 @@ import gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter;
 import gov.nih.nci.ctcae.core.domain.StudyFundingSponsor;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //
 /**
  * The Class StudyCommand.
@@ -25,6 +28,8 @@ public class StudyCommand {
     private StudyOrganizationClinicalStaff overallDataCoordinator;
 
     private StudyOrganizationClinicalStaff principalInvestigator;
+
+    private List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = new ArrayList<StudyOrganizationClinicalStaff>();
 
     /**
      * Instantiates a new study command.
@@ -123,5 +128,22 @@ public class StudyCommand {
         setLeadCRA(study.getLeadCRA());
         setPrincipalInvestigator(study.getPrincipalInvestigator());
         setOverallDataCoordinator(study.getOverallDataCoordinator());
+        setStudyOrganizationClinicalStaffs(study.getStudyOrganizationClinicalStaffs());
+
+    }
+
+    public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
+        if (studyOrganizationClinicalStaffs.isEmpty()) {
+            studyOrganizationClinicalStaffs = study.getStudyOrganizationClinicalStaffs();
+        }
+        return studyOrganizationClinicalStaffs;
+    }
+
+    public void addStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+        getStudyOrganizationClinicalStaffs().add(studyOrganizationClinicalStaff);
+    }
+
+    public void setStudyOrganizationClinicalStaffs(List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs) {
+        this.studyOrganizationClinicalStaffs = studyOrganizationClinicalStaffs;
     }
 }

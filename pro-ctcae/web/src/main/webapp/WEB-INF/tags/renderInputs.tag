@@ -15,6 +15,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@attribute name="noForm" type="java.lang.Boolean" %>
 <%@attribute name="doNotShowFormat" type="java.lang.Boolean" %>
+<%@attribute name="doNotshowClear" type="java.lang.Boolean" %>
 <%@ attribute name="propertyValue" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
@@ -67,7 +68,7 @@
         <tags:dateInput path="${propertyName}" displayName="${title}"
                         cssClass="${cssClass}" noForm="${noForm}"
                         dateValue="${dateValue}"
-                        doNotShowFormat="${doNotShowFormat}"/>
+                        doNotShowFormat="${doNotShowFormat}" size="${size}" />
     </c:when>
     <c:when test="${categoryName == 'textarea'}">
 
@@ -165,11 +166,13 @@
                class="autocomplete ${cssClass}"/>
 
         <%--<a href="${showAllJavascript}">Show All</a> --%>
+        <c:if test="${!doNotshowClear}">
+            <input type="image" id="${propertyName}-clear" name="C" value="Clear"
+                                               onClick="javascript:$('${propertyName}-input').clear();$('${propertyName}').clear();"
+                                               src="/ctcae/images/blue/clear-left-button.png"
+                                               style="vertical-align:middle;"/>
+        </c:if>
 
-        <input type="image" id="${propertyName}-clear" name="C" value="Clear"
-               onClick="javascript:$('${propertyName}-input').clear();$('${propertyName}').clear();"
-               src="/ctcae/images/blue/clear-left-button.png"
-               style="vertical-align:middle;"/>
 
         <tags:indicator id="${propertyName}-indicator"/>
 

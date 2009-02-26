@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -417,5 +418,22 @@ public class Study extends BasePersistable {
         }
         return leadCRA;
     }
+
+    public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
+        List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffList = new ArrayList<StudyOrganizationClinicalStaff>();
+        for (StudyOrganization studyOrganization : studyOrganizations) {
+            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganization.getStudyOrganizationClinicalStaffs()) {
+                if (studyOrganizationClinicalStaff.getRole().equals(Role.SITE_CRA)
+                        || studyOrganizationClinicalStaff.getRole().equals(Role.SITE_PI)
+                        || studyOrganizationClinicalStaff.getRole().equals(Role.TREATING_PHYSICIAN)
+                        || studyOrganizationClinicalStaff.getRole().equals(Role.RESEARCH_NURSE)) {
+                    studyOrganizationClinicalStaffList.add(studyOrganizationClinicalStaff);
+                }
+            }
+        }
+
+        return studyOrganizationClinicalStaffList;
+    }
+
 
 }

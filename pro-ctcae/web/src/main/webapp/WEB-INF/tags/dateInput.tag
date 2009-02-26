@@ -10,17 +10,20 @@
 <%@attribute name="noForm" type="java.lang.Boolean" %>
 <%@attribute name="doNotShowFormat" type="java.lang.Boolean" %>
 <%@ attribute name="dateValue" type="java.util.Date" %>
+<%@attribute name="size" %>
 
 
 <c:choose>
     <c:when test="${noForm}">
         <input type="text" id="${path}" class="date ${cssClass}" name="${path}"
                title="${displayName}"
-               value="<tags:formatDate value="${dateValue}"/>"/>
+               value="<tags:formatDate value="${dateValue}"/>"
+               size="${empty size ? empty attributes.size ? '20' : attributes.size : size}"/>
 
     </c:when>
     <c:otherwise>
-        <form:input path="${path}" cssClass='date ${cssClass}' title="${displayName}"/>
+        <form:input path="${path}" cssClass='date ${cssClass}' title="${displayName}"
+                    size="${empty size ? empty attributes.size ? '20' : attributes.size : size}"/>
 
     </c:otherwise>
 </c:choose>
