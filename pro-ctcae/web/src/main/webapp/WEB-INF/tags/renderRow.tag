@@ -5,7 +5,7 @@
 <%@ attribute name="onchange" %>
 <%@ attribute name="showAllJavascript" %>
 <%@ attribute name="help" type="java.lang.Boolean" %>
-
+<%@attribute name="showIndicator" type="java.lang.Boolean" %>
 <%@ attribute name="rows" %>
 <%--
     Can render field or a 'label or value'. The preference is given to label, and value attributes, if they are present the field is kind of ignored.
@@ -50,7 +50,8 @@
                            dateValue="${dateValue}"
                            cols="${cols}" noForm="${noForm}"
                            propertyValue="${propertyValue}"
-                           doNotShowFormat="${doNotShowFormat}"  id="${id}" name="${name}" rows="${rows}" onchange="${onchange}" doNotshowClear="${doNotshowClear}"/>
+                           doNotShowFormat="${doNotShowFormat}" id="${id}" name="${name}" rows="${rows}"
+                           onchange="${onchange}" doNotshowClear="${doNotshowClear}" showIndicator="${showIndicator}"/>
     </c:when>
     <c:otherwise>
         <div class="row ${cssClass}" id="${propertyName}-row" <c:if test="${not empty style}">style="${style}"</c:if>>
@@ -78,7 +79,9 @@
                                        onclick="${onclick}" values="${values}"
                                        cols="${cols}" noForm="${noForm}"
                                        propertyValue="${propertyValue}"
-                                       doNotShowFormat="${doNotShowFormat}"  id="${id}" name="${name}" rows="${rows}" onchange="${onchange}" doNotshowClear="${doNotshowClear}"/>
+                                       doNotShowFormat="${doNotShowFormat}" id="${id}" name="${name}" rows="${rows}"
+                                       onchange="${onchange}" doNotshowClear="${doNotshowClear}"
+                                       showIndicator="${showIndicator}"/>
                 </c:otherwise>
             </c:choose>
                     <%--<tags:extraParams extraParam="${field.attributes.extraParams}"/>--%>

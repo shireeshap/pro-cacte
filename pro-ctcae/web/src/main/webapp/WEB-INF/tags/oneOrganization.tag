@@ -28,11 +28,11 @@
 
     <td style="border-left:none;">
 
-        <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-           href="javascript:fireDelete('${index}','${inputName}-row');">
-            <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
-                 style="vertical-align:middle">
-        </a>
+        <%--<a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"--%>
+        <%--href="javascript:fireDelete('${index}','${inputName}-row');">--%>
+        <%--<img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"--%>
+        <%--style="vertical-align:middle">--%>
+        <%--</a>--%>
     </td>
 
 

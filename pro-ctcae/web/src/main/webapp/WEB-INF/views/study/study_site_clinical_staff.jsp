@@ -25,7 +25,6 @@
 
             if ($(studyOrganizationClinicalStafBaseName + "-input") != null) {
 
-                alert('saurabh123' + ' ${studyOrganizationClinicalStaff.organizationClinicalStaff.id}')
                 initializeAutoCompleter(studyOrganizationClinicalStafBaseName, '${studyOrganizationClinicalStaff.displayName}',
                         '${studyOrganizationClinicalStaff.organizationClinicalStaff.id}');
             }
@@ -51,12 +50,10 @@
         }
 
 
-        function deleteSiteConfirm(organizationClinicalStaffIndex) {
-            closeWindow();
-            $('showForm').value = true;
-            $('organizationClinicalStaffIndexToRemove').value = organizationClinicalStaffIndex;
-            $('clinicalStaffCommand').submit();
-
+        function selectStudySite(selectedStudySiteId) {
+            $('_target').name = '_target3';
+            $('selectedStudySiteId').value = selectedStudySiteId;
+            $('command').submit();
         }
 
 
@@ -72,18 +69,31 @@
     <jsp:attribute name="singleFields">
 
 
-        <chrome:box title="study.label.sites" autopad="true" id="studySites">
+        <form:hidden path="selectedStudySiteId" id="selectedStudySiteId"/>
+
+        <chrome:box title="study.label.sites" id="studySites" cssClass="paired" style="width:30%">
             <ul>
 
                 <c:forEach items="${studySites}" var="studySite">
-                    <li>${studySite.organization.displayName}</li>
+                    <li><a href="javascript:selectStudySite(${studySite.id})">${studySite.organization.displayName}</a>
+                    </li>
                 </c:forEach></ul>
         </chrome:box>
-        <chrome:box title="study.tab.study_site_clinical_staff" autopad="true" id="studySiteClinicalStaff">
+
+        <chrome:box title="study.tab.study_site_clinical_staff" id="studySiteClinicalStaff"
+                    cssClass="paired" style="width:60%">
 
             <c:forEach items="${studySites}" var="studySite">
 
-                <div id="studySiteClinicalStaff">
+                <c:if test="${studySite.id eq command.selectedStudySiteId}">
+
+
+                    <div class="instructions">
+
+                        <div class="summarylabel"><tags:message code="study.label.site"/></div>
+                        <div class="summaryvalue">${studySite.organization.displayName}</div>
+                    </div>
+
 
                     <chrome:division title="study.label.clinical.staff.lead.site_pi">
 
@@ -112,9 +122,8 @@
                                                            roleStatusOptions="${roleStatusOptions}"
                                                            studyCommand="${command}"/>
                     </chrome:division>
+                </c:if>
 
-
-                </div>
 
             </c:forEach>
 

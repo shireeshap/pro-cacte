@@ -18,10 +18,12 @@ AE.hideIndicator = function(id) {
 }
 
 AE.updateIndicatorVisibility = function(id) {
-    if (AE.INDICATOR_REF_COUNTS[id] > 0) {
-        $(id).reveal();
-    } else {
-        $(id).conceal();
+    if ($(id) != null) {
+        if (AE.INDICATOR_REF_COUNTS[id] > 0) {
+            $(id).reveal();
+        } else {
+            $(id).conceal();
+        }
     }
 }
 
@@ -317,7 +319,7 @@ Object.extend(studyOrganizationClinicalStaffForRoleAutoCompleter.prototype, {
         this.organizationId = studyOrganizationId;
         this.role = role;
         this.populator = function(autocompleter, text) {
-            clinicalStaff.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(text, studyOrganizationId,role, function(values) {
+            clinicalStaff.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(text, studyOrganizationId, role, function(values) {
                 autocompleter.setChoices(values)
             })
         },

@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter;
-import gov.nih.nci.ctcae.core.domain.StudyFundingSponsor;
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +19,7 @@ public class StudyCommand {
      */
     private Study study;
 
+    private Integer selectedStudySiteId;
 
     private StudyOrganizationClinicalStaff leadCRA;
 
@@ -145,5 +143,17 @@ public class StudyCommand {
 
     public void setStudyOrganizationClinicalStaffs(List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs) {
         this.studyOrganizationClinicalStaffs = studyOrganizationClinicalStaffs;
+    }
+
+    public Integer getSelectedStudySiteId() {
+        List<StudySite> studySites = study.getStudySites();
+        if (!studySites.isEmpty() && selectedStudySiteId == null) {
+            selectedStudySiteId = studySites.get(0).getId();
+        }
+        return selectedStudySiteId;
+    }
+
+    public void setSelectedStudySiteId(Integer selectedStudySiteId) {
+        this.selectedStudySiteId = selectedStudySiteId;
     }
 }

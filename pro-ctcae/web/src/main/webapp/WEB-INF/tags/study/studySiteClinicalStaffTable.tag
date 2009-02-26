@@ -15,19 +15,21 @@
 <%@attribute name="roleStatusOptions" required="true" type="java.util.List" %>
 
 
-<table cellspacing="0" width="90%">
+<table cellspacing="0" width="100%" >
     <tr>
-        <td width="70%">
+        <td width="80%">
             <div align="left" style="margin-left: 15px">
-                <table class="tablecontent" width="90%">
+                <table class="tablecontent" width="100%">
                     <tr id="ss-table-head" class="amendment-table-head">
-                        <th width="45%" class="tableHeader"><tags:requiredIndicator/><tags:message
+                        <th width="40%" class="tableHeader"><tags:requiredIndicator/><tags:message
                                 code="study.label.clinical.staff"/></th>
 
-                        <th width="20%" class="tableHeader"><tags:requiredIndicator/><tags:message
+                        <th width="15%" class="tableHeader"><tags:requiredIndicator/><tags:message
                                 code="clinicalStaff.label.role.status"/></th>
-                        <th width="30%" class="tableHeader"><tags:requiredIndicator/><tags:message
+
+                        <th width="40%" class="tableHeader"><tags:requiredIndicator/><tags:message
                                 code="clinicalStaff.label.role.status.date"/></th>
+
                         <th width="5%" class="tableHeader" style=" background-color: none">
                             &nbsp;</th>
 
@@ -50,9 +52,9 @@
                 </table>
             </div>
         </td>
-        <td valign="top" width="30%">
-            <tags:button type="anchor" icon="add" value="study.button.add.clinical.staff"
-                         onClick="javascript:addClinicalStaff(${studySiteId},'${role}')"></tags:button>
+        <td valign="top" width="10%">
+            <input type="button" value="<tags:message code="study.button.add.clinical.staff"/>" onclick="javascript:addClinicalStaff(${studySiteId},'${role}')">
+            
         </td>
     </tr>
 </table>

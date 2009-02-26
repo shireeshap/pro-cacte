@@ -14,12 +14,13 @@
 
 
 <tr id="${propertyName}-row">
-    <td style="border-right:none;" width="55%">
+    <td style="border-right:none;" width="40%">
         <tags:renderAutocompleter propertyName="${propertyName}.organizationClinicalStaff"
-                                  displayName="study.label.clinical.staff" noForm="true" required="true" doNotshowLabel="true" size="20" doNotshowClear="true"/>
+                                  displayName="study.label.clinical.staff" noForm="true" required="true"
+                                  doNotshowLabel="true" size="20" doNotshowClear="true"/>
     </td>
 
-    <td style="border-right:none;" width="20%">
+    <td style="border-right:none;" width="15%">
         <tags:renderSelect propertyName="${propertyName}.roleStatus"
                            options="${roleStatusOptions}"
                            propertyValue="${studyOrganizationClinicalStaff.roleStatus}" noForm="true"
@@ -27,7 +28,7 @@
                            required="true"
                            displayName="clinicalStaff.label.role.status"/>
     </td>
-    <td style="border-right:none;" width="20%">
+    <td style="border-right:none;" width="40%">
 
 
         <tags:renderDate propertyName="${propertyName}.statusDate"
@@ -40,11 +41,11 @@
 
     <td style="border-left:none;" width="5%">
 
-        <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-           href="javascript:deleteSiteRole('${studyOrganizationClinicalStaffIndex}','${index}');">
-            <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
-                 style="vertical-align:middle">
-        </a>
+        <%--<a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"--%>
+        <%--href="javascript:deleteSiteRole('${studyOrganizationClinicalStaffIndex}','${index}');">--%>
+        <%--<img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"--%>
+        <%--style="vertical-align:middle">--%>
+        <%--</a>--%>
     </td>
 
 </tr>
