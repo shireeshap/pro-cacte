@@ -196,7 +196,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
     }
 
     public void addStudyParticipantClinicalStaff(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
-        if (studyParticipantClinicalStaff != null) {
+        if (studyParticipantClinicalStaff != null && studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff() != null) {
             StudyOrganization expectedStudyOrganization = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getStudyOrganization();
             if (!expectedStudyOrganization.equals(this.getStudySite())) {
                 String errorMessage = String.format("study site clinical staff belongs to study site %s. It does not belongs to study site %s of study participant assignment. " +
@@ -214,18 +214,16 @@ public class StudyParticipantAssignment extends BaseVersionable {
     }
 
     public StudyParticipantClinicalStaff getTreatingPhysician() {
-        for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantClinicalStaffs) {
-            if (studyParticipantClinicalStaff.isPrimary()) {
-                if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(Role.TREATING_PHYSICIAN)) {
-                    if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRoleStatus().equals(RoleStatus.ACTIVE)) {
-                        return studyParticipantClinicalStaff;
-                    }
-                }
-            }
+
+        if (treatingPhysician == null) {
+            treatingPhysician = getByRole(Role.TREATING_PHYSICIAN);
         }
-        StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
-        studyParticipantClinicalStaff.setPrimary(true);
-        return studyParticipantClinicalStaff;
+        if (treatingPhysician == null) {
+            StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
+            studyParticipantClinicalStaff.setPrimary(true);
+            treatingPhysician = studyParticipantClinicalStaff;
+        }
+        return treatingPhysician;
     }
 
     public void setTreatingPhysician(StudyParticipantClinicalStaff treatingPhysician) {
@@ -233,18 +231,15 @@ public class StudyParticipantAssignment extends BaseVersionable {
     }
 
     public StudyParticipantClinicalStaff getResearchNurse() {
-        for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantClinicalStaffs) {
-            if (studyParticipantClinicalStaff.isPrimary()) {
-                if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(Role.RESEARCH_NURSE)) {
-                    if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRoleStatus().equals(RoleStatus.ACTIVE)) {
-                        return studyParticipantClinicalStaff;
-                    }
-                }
-            }
+        if (researchNurse == null) {
+            researchNurse = getByRole(Role.RESEARCH_NURSE);
         }
-        StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
-        studyParticipantClinicalStaff.setPrimary(true);
-        return studyParticipantClinicalStaff;
+        if (researchNurse == null) {
+            StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
+            studyParticipantClinicalStaff.setPrimary(true);
+            researchNurse = studyParticipantClinicalStaff;
+        }
+        return researchNurse;
     }
 
     public void setResearchNurse(StudyParticipantClinicalStaff researchNurse) {
@@ -252,11 +247,13 @@ public class StudyParticipantAssignment extends BaseVersionable {
     }
 
     public List<StudyParticipantClinicalStaff> getNotificationClinicalStaff() {
-        notificationClinicalStaff = new ArrayList<StudyParticipantClinicalStaff>();
-        for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantClinicalStaffs) {
-            if (!studyParticipantClinicalStaff.isPrimary()) {
-                if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(Role.RESEARCH_NURSE) || studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(Role.TREATING_PHYSICIAN)) {
-                    notificationClinicalStaff.add(studyParticipantClinicalStaff);
+        if (notificationClinicalStaff == null) {
+            notificationClinicalStaff = new ArrayList<StudyParticipantClinicalStaff>();
+            for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantClinicalStaffs) {
+                if (!studyParticipantClinicalStaff.isPrimary()) {
+                    if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(Role.RESEARCH_NURSE) || studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(Role.TREATING_PHYSICIAN)) {
+                        notificationClinicalStaff.add(studyParticipantClinicalStaff);
+                    }
                 }
             }
         }
@@ -267,6 +264,19 @@ public class StudyParticipantAssignment extends BaseVersionable {
         if (notificationClinicalStaff != null) {
             this.notificationClinicalStaff.add(notificationClinicalStaff);
         }
+    }
+
+    private StudyParticipantClinicalStaff getByRole(Role role) {
+        for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantClinicalStaffs) {
+            if (studyParticipantClinicalStaff.isPrimary()) {
+                if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(role)) {
+                    if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRoleStatus().equals(RoleStatus.ACTIVE)) {
+                        return studyParticipantClinicalStaff;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }
 

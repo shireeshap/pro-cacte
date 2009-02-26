@@ -12,20 +12,17 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
  */
 public enum Role implements CodedEnum<String> {
 
-    PI("Prinicple Investigator", RoleType.STUDY_LEVEL),
-    LEAD_CRA("Lead CRA", RoleType.STUDY_LEVEL),
-    ODC("Overall Data Coordinator", RoleType.STUDY_LEVEL),
-    CCA("Coordinating Center Administrator", RoleType.STUDY_LEVEL),
+    PI("PI", RoleType.STUDY_LEVEL),
+    LEAD_CRA("LEAD_CRA", RoleType.STUDY_LEVEL),
+    ODC("ODC", RoleType.STUDY_LEVEL),
+    CCA("CCA", RoleType.STUDY_LEVEL),
 
 
-    SITE_PI("Site PI", RoleType.STUDY_SITE_LEVEL),
-    SITE_CRA("Site CRA", RoleType.STUDY_SITE_LEVEL),
+    SITE_PI("SITE_PI", RoleType.STUDY_SITE_LEVEL),
+    SITE_CRA("SITE_CRA", RoleType.STUDY_SITE_LEVEL),
 
-    TREATING_PHYSICIAN("Site Investigator/Treating Physician", RoleType.STUDY_SITE_LEVEL),
-
-    RESEARCH_NURSE("Research Nurse", RoleType.STUDY_SITE_LEVEL),
-    NOTIFICATION("Notification", RoleType.STUDY_SITE_LEVEL),
-    PARTICIPANT("Participant", RoleType.SITE_LEVEL);
+    TREATING_PHYSICIAN("TREATING_PHYSICIAN", RoleType.STUDY_SITE_LEVEL),
+    RESEARCH_NURSE("RESEARCH_NURSE", RoleType.STUDY_SITE_LEVEL);
 
 
     /**

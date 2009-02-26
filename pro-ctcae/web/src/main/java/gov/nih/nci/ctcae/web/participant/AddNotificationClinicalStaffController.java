@@ -43,6 +43,7 @@ public class AddNotificationClinicalStaffController extends AbstractController {
         command.getParticipant().getStudyParticipantAssignments().get(studyParticipantAssignmentIndex).addNotificationClinicalStaff(studyParticipantClinicalStaff);
         modelAndView.addObject("index", studyParticipantAssignmentIndex);
         modelAndView.addObject("notificationindex",command.getParticipant().getStudyParticipantAssignments().get(studyParticipantAssignmentIndex).getNotificationClinicalStaff().size()-1);
+        modelAndView.addObject("studySiteId",command.getParticipant().getStudyParticipantAssignments().get(0).getStudySite().getId());
         return modelAndView;
     }
 

@@ -34,6 +34,7 @@ public class ParticipantCommand {
      */
     private String siteName;
 
+    private String notificationIndexToRemove;
     /**
      * Instantiates a new participant command.
      */
@@ -147,5 +148,13 @@ public class ParticipantCommand {
                 }
             }
         }
+    }
+
+    public String getNotificationIndexToRemove() {
+        return notificationIndexToRemove;
+    }
+
+    public void setNotificationIndexToRemove(String notificationIndexToRemove) {
+        this.notificationIndexToRemove = notificationIndexToRemove;
     }
 }

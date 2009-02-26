@@ -47,13 +47,14 @@ public class ClinicalStaffAjaxFacade {
     public List<StudyOrganizationClinicalStaff> matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(final String text, Integer studyOrganizationId, final String roles) {
 
         List<Role> rolesList = new ArrayList<Role>();
-        StringTokenizer st = new StringTokenizer("|");
+        StringTokenizer st = new StringTokenizer(roles,"|");
         while(st.hasMoreTokens()){
-            rolesList.add(Role.getByCode(st.nextToken()));
+            String roleCode = st.nextToken();
+            rolesList.add(Role.getByCode(roleCode));
         }
         logger.info(String.format("in match matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole method. Search string :%s and studyOrganizationId=%s and role=%s", text, studyOrganizationId, roles));
         List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = clinicalStaffRepository.findByStudyOrganizationIdAndRole(text, studyOrganizationId, rolesList);
-        return ObjectTools.reduceAll(studyOrganizationClinicalStaffs, "id", "displayName");
+        return ObjectTools.reduceAll(studyOrganizationClinicalStaffs, "id", "organizationClinicalStaff");
 
     }
 

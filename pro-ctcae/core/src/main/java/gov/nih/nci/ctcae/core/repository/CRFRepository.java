@@ -107,7 +107,7 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     public void generateSchedulesFromCrfCalendar(CRF crf, StudyParticipantCrf studyParticipantCrf, String startDate) throws ParseException {
         Date calendarStartDate;
         ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar();
-        if (startDate == null) {
+        if (StringUtils.isBlank(startDate)) {
             calendarStartDate = crf.getEffectiveStartDate();
         } else {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");

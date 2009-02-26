@@ -12,10 +12,10 @@
     <c:when test="${readonly}">
         <chrome:division title="Cycle">
             <c:set var="cycleIndex" value="${crfIndex}-${cycleIndex}"/>
-            <b>1. <tags:message code="form.schedule.cycle_length"/> ${crfCycle.cycleLength} ${crfCycle.cycleLengthUnit}</b>
+            <b>1. <tags:message code="form.schedule.cycle_length"/>: ${crfCycle.cycleLength} ${crfCycle.cycleLengthUnit}</b>
 
             <div id="div_cycle_selectdays_${cycleIndex}" style="display:none;">
-                <br/><b>2. <tags:message code="form.schedule.select_cycle_days_participant"/></b>
+                <br/><b>2. <tags:message code="form.schedule.select_cycle_days_participant"/>:</b>
                 <div id="div_selecteddays_${cycleIndex}"/>
             </div>
             <input type="hidden" name="crf.crfCycles[${cycleIndex}].cycleDays" id="selecteddays[${cycleIndex}]"
@@ -27,7 +27,7 @@
             </div>
             <br/>
             <div id="div_cycle_repeat_${cycleIndex}" style="display:none;">
-                <b>3. <tags:message code="form.schedule.repeat"/> ${crfCycle.repeatTimes}</b>
+                <b>3. <tags:message code="form.schedule.repeat"/>: ${crfCycle.repeatTimes}</b>
             </div>
         </chrome:division>
     </c:when>

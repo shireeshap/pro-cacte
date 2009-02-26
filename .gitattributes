@@ -216,6 +216,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTermTest.java -
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValueTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RaceEnumTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RoleTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/RoleTypeTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationClinicalStaffIntegrationTest.java -text
@@ -538,6 +539,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/showVersionForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/versionForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/deleteNotificationClinicalStaffConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/displaycalendar.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/displaystudysites.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/notificationClinicalStaff.jsp -text
