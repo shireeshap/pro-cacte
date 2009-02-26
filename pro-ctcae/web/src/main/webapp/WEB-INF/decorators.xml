@@ -8,6 +8,7 @@
         <pattern>/pages/*</pattern>
         <pattern>/public/*</pattern>
         <pattern>/public/login</pattern>
+        <pattern>/public/accessDenied</pattern>
     </decorator>
 
     <decorator name="tabbedflow" page="tabbedflow.jsp">

@@ -56,6 +56,20 @@ public class ClinicalStaff extends Person {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<OrganizationClinicalStaff> organizationClinicalStaffs = new ArrayList<OrganizationClinicalStaff>();
 
+
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id", name = "user_id", nullable = false)
+    private User user;
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     /**
      * Gets the email address.
      *

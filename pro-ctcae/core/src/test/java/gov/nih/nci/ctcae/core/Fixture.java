@@ -12,6 +12,7 @@ public class Fixture {
 
     public static final Organization NCI = createOrganization("National Cancer Institute", "NCI");
     public static final Organization DUKE = createOrganization("DUKE", "DUKE");
+    public static final String DEFAULT_PASSWORD = "system_admin";
 
     public static Organization createOrganization(String name, String nciCode) {
 
@@ -98,10 +99,15 @@ public class Fixture {
         OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
         organizationClinicalStaff.setOrganization(organization);
         clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
+
+        clinicalStaff.setEmailAddress(firstName);
+        clinicalStaff.setUser(new User());
+        clinicalStaff.getUser().setPassword(DEFAULT_PASSWORD);
+
         return clinicalStaff;
     }
 
-    public static StudyOrganizationClinicalStaff createStudyOrganizationClinicalStaff(ClinicalStaff clinicalStaff, Role role, RoleStatus roleStatus, Date date, StudyOrganization studyOrganization){
+    public static StudyOrganizationClinicalStaff createStudyOrganizationClinicalStaff(ClinicalStaff clinicalStaff, Role role, RoleStatus roleStatus, Date date, StudyOrganization studyOrganization) {
         StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(clinicalStaff.getOrganizationClinicalStaffs().get(0));
         studyOrganizationClinicalStaff.setRole(role);

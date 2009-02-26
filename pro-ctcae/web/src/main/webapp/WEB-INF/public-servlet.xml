@@ -38,6 +38,12 @@
             <value>login</value>
         </property>
     </bean>
+    <bean name="/accessDenied" id="accessDeniedController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>accessDenied</value>
+        </property>
+    </bean>
 
 
     <bean name="/css/*"

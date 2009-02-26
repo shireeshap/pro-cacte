@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.User;
 
 //
 /**
@@ -28,6 +29,7 @@ public class ClinicalStaffCommand {
         super();
         clinicalStaff = new ClinicalStaff();
         clinicalStaff.addOrganizationClinicalStaff(new OrganizationClinicalStaff());
+        clinicalStaff.setUser(new User());
     }
 
     /**

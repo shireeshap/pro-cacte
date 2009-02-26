@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 
 @MappedSuperclass
-public class Person extends BasePersistable {
+public class Person extends BaseVersionable {
 
     /**
      * The id.

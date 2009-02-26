@@ -110,6 +110,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfIt
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfSchedule.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleAddedQuestion.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySite.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/User.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemException.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/AbstractQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CRFQuery.java -text
@@ -129,6 +130,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationClini
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/UserQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/AbstractRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CRFRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ClinicalStaffRepository.java -text
@@ -143,6 +145,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermReposit
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantAssignmentRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/UserRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/AbstractAuthorizationProvider.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/AclEntry.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
@@ -229,6 +232,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfIt
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/StudyTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/UserIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemExceptionTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/loader/CsvImporterIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/AbstractQueryTest.java -text
@@ -506,6 +510,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabForm.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabMethod.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/validvalue.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tiles-definitions.xml -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/accessDenied.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/ajax/deleteOrganizationClinicalStaffConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/confirmClinicalStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/createClinicalStaff.jsp -text

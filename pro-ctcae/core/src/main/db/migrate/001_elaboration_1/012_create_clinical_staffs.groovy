@@ -3,6 +3,23 @@ import edu.northwestern.bioinformatics.bering.Migration
 class CreateClinicalStaffs extends edu.northwestern.bioinformatics.bering.Migration {
   void up() {
 
+    createTable("USERS") {t ->
+
+      t.addVersionColumn()
+
+      t.addColumn('password', 'string', nullable: true)
+      t.addColumn('user_name', 'string', nullable: true)
+      t.addColumn('account_non_expired', 'boolean', nullable: false)
+      t.addColumn('account_non_locked', 'boolean', nullable: true)
+      t.addColumn('credentials_non_expired', 'boolean', nullable: false)
+      t.addColumn('enabled', 'boolean', nullable: false)
+
+    }
+
+
+
+    execute("ALTER TABLE USERS ADD CONSTRAINT un_user_name UNIQUE (user_name)")
+
     createTable("CLINICAL_STAFFS") {t ->
 
       t.addVersionColumn()
@@ -16,8 +33,11 @@ class CreateClinicalStaffs extends edu.northwestern.bioinformatics.bering.Migrat
       t.addColumn('middle_name', 'string', nullable: true)
       t.addColumn('title', 'string', nullable: true)
       t.addColumn('address', 'string', nullable: true)
+      t.addColumn('user_id', 'integer', nullable: false)
 
     }
+    execute('ALTER TABLE CLINICAL_STAFFS ADD CONSTRAINT fk_user_uid FOREIGN KEY (user_id) REFERENCES USERS')
+
 
     createTable("ORGANIZATION_CLINICAL_STAFFS") {t ->
       t.addVersionColumn()

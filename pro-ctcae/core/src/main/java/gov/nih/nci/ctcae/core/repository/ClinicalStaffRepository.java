@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.OrganizationClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
+import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,6 +27,20 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
         return ClinicalStaff.class;
     }
 
+    private UserRepository userRepository;
+
+    @Override
+    public ClinicalStaff save(ClinicalStaff clinicalStaff) {
+        User user = clinicalStaff.getUser();
+        user.setUsername(clinicalStaff.getEmailAddress());
+
+        user = userRepository.save(user);
+        clinicalStaff = super.save(clinicalStaff);
+
+        return clinicalStaff;
+
+
+    }
 
     @Override
     public ClinicalStaff findById(Integer id) {
@@ -70,5 +85,10 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
         }
 
         throw new CtcAeSystemException(String.format("no study organization found for given id %s", studyOrganizationId));
+    }
+
+    @Required
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }

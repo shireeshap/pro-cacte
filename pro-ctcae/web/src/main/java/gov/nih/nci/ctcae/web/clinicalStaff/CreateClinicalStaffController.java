@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.apache.commons.lang.StringUtils;
@@ -84,6 +85,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
 
     private void save(ClinicalStaffCommand clinicalStaffCommand) {
         ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
+
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
         clinicalStaffCommand.setClinicalStaff(clinicalStaff);
 

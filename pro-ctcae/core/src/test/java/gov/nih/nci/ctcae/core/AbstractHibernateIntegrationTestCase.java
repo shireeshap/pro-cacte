@@ -4,6 +4,8 @@ import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.*;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.providers.dao.DaoAuthenticationProvider;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
 import java.util.Date;
@@ -23,6 +25,11 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     protected Study defaultStudy;
     protected StudySite defaultStudySite, studySite1;
     protected StudyRepository studyRepository;
+    protected UserRepository userRepository;
+    public DaoAuthenticationProvider daoAuthenticationProvider;
+
+
+    protected User defaultUser;
 
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml",
@@ -31,7 +38,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 //                "classpath*:gov/nih/nci/ctcae/core/applicationContext-mail.xml",
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml",
             "classpath*:gov/nih/nci/ctcae/core/resourceContext-job.xml",
-//                "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml",
+            "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml",
             "classpath*:" + "/*-context-test.xml"};
     protected OrganizationClinicalStaff defaultOrganizationClinicalStaff;
     protected Role PI, ODC, LEAD_CRA;
@@ -115,6 +122,9 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         commitAndStartNewTransaction();
         assertNotNull("must find default clinical staff. ", defaultClinicalStaff);
 
+        defaultUser = defaultClinicalStaff.getUser();
+        assertNotNull("must find user. ", defaultUser);
+
         defaultOrganizationClinicalStaff = defaultClinicalStaff.getOrganizationClinicalStaffs().get(0);
         assertNotNull("must find default clinical staff. ", defaultOrganizationClinicalStaff);
 
@@ -166,6 +176,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         jdbcTemplate.execute("delete from studies");
         jdbcTemplate.execute("delete from ORGANIZATION_CLINICAL_STAFFS");
         jdbcTemplate.execute("delete from CLINICAL_STAFFS");
+        jdbcTemplate.execute("delete from USERS");
         commitAndStartNewTransaction();
     }
 
@@ -179,6 +190,20 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
     }
 
+
+    protected User createUser(final String userName, final String password, final boolean enabled,
+                              final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked,
+                              final GrantedAuthority[] authorities) {
+
+
+        User userDetails = new User(userName, password, enabled, accountNonExpired,
+                credentialsNonExpired, accountNonLocked);
+        userDetails = userRepository.save(userDetails);
+
+        commitAndStartNewTransaction();
+        return userDetails;
+
+    }
 
     protected StudyOrganizationClinicalStaff addStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
         defaultStudySite.addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
@@ -235,5 +260,15 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     @Required
     public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
         this.proCtcTermRepository = proCtcTermRepository;
+    }
+
+    @Required
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Required
+    public void setDaoAuthenticationProvider(final DaoAuthenticationProvider daoAuthenticationProvider) {
+        this.daoAuthenticationProvider = daoAuthenticationProvider;
     }
 }

@@ -1,18 +1,69 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:security="http://www.springframework.org/schema/security"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.1.xsd">
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+
+
+    <beans:bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository"
+                parent="abstractRepository">
+        <beans:property name="passwordEncoder" ref="passwordEncoder"/>
+        <beans:property name="saltSource" ref="reflectionSaltSource"/>
+    </beans:bean>
+
+
+    <beans:bean id="passwordEncoder" class="org.springframework.security.providers.encoding.Md5PasswordEncoder">
+        <beans:property name="encodeHashAsBase64" value="true"/>
+    </beans:bean>
+
+    <!--do not change this salt source. because it must be same as <salt-source/> tag -->
+
+    <beans:bean id="reflectionSaltSource" class="org.springframework.security.providers.dao.salt.ReflectionSaltSource">
+        <beans:property name="userPropertyToUse" value="getUsername"/>
+    </beans:bean>
+
+    <!--It will create a daoAuthenticationProvider-->
+    <authentication-provider user-service-ref="userRepository">
+        <password-encoder ref="passwordEncoder">
+            <salt-source user-property="username"/>
+        </password-encoder>
+
+    </authentication-provider>
+
+
+    <!-- Automatically receives AuthenticationEvent messages from DaoAuthenticationProvider -->
+    <beans:bean id="authorizationLoggerListener"
+                class="org.springframework.security.event.authorization.LoggerListener"/>
+    <beans:bean id="authenticationLoggerListener"
+                class="org.springframework.security.event.authorization.LoggerListener"/>
+
+
+    <beans:bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
+        <beans:property name="decisionVoters">
+            <beans:list>
+                <beans:ref local="roleVoter"/>
+            </beans:list>
+        </beans:property>
+
+    </beans:bean>
+
+    <beans:bean id="roleVoter" class="org.springframework.security.vote.RoleVoter"/>
+
+    <!--It will create a inMemoryUserDetailsService-->
+
+    <!--<user-service id="userDetailsService">-->
+    <!--<user name="SYSTEM_ADMIN" password="system_admin" authorities="ROLE_USER"/>-->
+    <!--</user-service>-->
 
     <!--<bean id="afterAclRead" class="gov.nih.nci.ctcae.core.security.AbstractAuthorizationProvider">-->
-        <!--<constructor-arg ref="aclService"/>-->
-        <!--<constructor-arg>-->
-            <!--<list>-->
-                <!--<ref local="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION"/>-->
-                <!--<ref local="org.springframework.security.acls.domain.BasePermission.READ"/>-->
-            <!--</list>-->
-        <!--</constructor-arg>-->
+    <!--<constructor-arg ref="aclService"/>-->
+    <!--<constructor-arg>-->
+    <!--<list>-->
+    <!--<ref local="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION"/>-->
+    <!--<ref local="org.springframework.security.acls.domain.BasePermission.READ"/>-->
+    <!--</list>-->
+    <!--</constructor-arg>-->
 
     <!--</bean>-->
 
-</beans>
+</beans:beans>

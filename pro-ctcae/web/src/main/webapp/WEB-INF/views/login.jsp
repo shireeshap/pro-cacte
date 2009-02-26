@@ -62,14 +62,14 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="label">
-                Remember me:
-            </div>
-            <div class="value">
-                <input type="checkbox" name="_spring_security_remember_me"/>
-            </div>
-        </div>
+        <%--<div class="row">--%>
+            <%--<div class="label">--%>
+                <%--Remember me:--%>
+            <%--</div>--%>
+            <%--<div class="value">--%>
+                <%--<input type="checkbox" name="_spring_security_remember_me"/>--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
         <div class="row">
             <div class="submit">

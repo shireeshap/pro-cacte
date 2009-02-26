@@ -4,34 +4,30 @@
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
               http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
-    <http auto-config="true">
+    <http auto-config="true" access-decision-manager-ref="accessDecisionManager" access-denied-page="/accessDenied.jsp" >
         <intercept-url pattern="/public/login" filters="none"/>
         <intercept-url pattern="/public/logout" filters="none"/>
-        <intercept-url pattern="/pages/*" access="ROLE_USER"/>
+        <intercept-url pattern="/pages/**" access="ROLE_USER"/>
 
         <form-login login-page="/public/login" authentication-failure-url="/public/login?error=true"
-                    default-target-url="/pages/form/manageForm" />
+                    default-target-url="/pages/form/manageForm"/>
 
-
-        <remember-me user-service-ref="userDetailsService"/>
+       
+        <remember-me user-service-ref="userRepository"/>
 
         <logout logout-success-url="/public/login"/>
 
         <concurrent-session-control max-sessions="1"/>
 
+
     </http>
 
-    <!--It will create a daoAuthenticationProvider-->
-    <authentication-provider user-service-ref="userDetailsService">
-
-    </authentication-provider>
-
-
-    <!--It will create a inMemoryUserDetailsService-->
-
-    <user-service id="userDetailsService">
-        <user name="SYSTEM_ADMIN" password="system_admin" authorities="ROLE_USER"/>
-    </user-service>
+    <!--<beans:bean id="filterInvocationInterceptor"-->
+    <!--class="org.springframework.security.intercept.web.FilterSecurityInterceptor">-->
+    <!--<beans:property name="authenticationManager" ref="authenticationManager"/>-->
+    <!--<beans:property name="accessDecisionManager" ref="accessDecisionManager"/>-->
+    <!--<beans:property name="objectDefinitionSource" ref="secureResourceFilter"/>-->
+    <!--</beans:bean>-->
 
 </beans:beans>
 

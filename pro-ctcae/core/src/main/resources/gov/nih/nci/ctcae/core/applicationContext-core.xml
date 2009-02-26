@@ -47,6 +47,7 @@
         <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestionDisplayRule</value>
         <value>gov.nih.nci.ctcae.core.domain.CRFCalendar</value>
         <value>gov.nih.nci.ctcae.core.domain.CRFCycle</value>
+        <value>gov.nih.nci.ctcae.core.domain.User</value>
 
     </util:list>
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
@@ -180,7 +181,7 @@
           parent="abstractRepository">
     </bean>
     <bean id="clinicalStaffRepository" class="gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository"
-          parent="abstractRepository">
+          parent="abstractRepository" p:userRepository-ref="userRepository">
     </bean>
 
     <bean id="abstractRepository" class="gov.nih.nci.ctcae.core.repository.AbstractRepository" abstract="true">
