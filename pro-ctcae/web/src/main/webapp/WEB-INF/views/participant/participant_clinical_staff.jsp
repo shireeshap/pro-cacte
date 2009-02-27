@@ -22,7 +22,6 @@
         <c:forEach items="${command.participant.studyParticipantAssignments}" var="studyParticipantAssignment" varStatus="status">
             var baseNamePhysician = 'participant.studyParticipantAssignments[${status.index}].treatingPhysician.studyOrganizationClinicalStaff';
 
-            alert(baseNamePhysician)
             acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNamePhysician, '${command.studySite[0].id}', 'TREATING_PHYSICIAN'))
 
             initializeAutoCompleter(baseNamePhysician,
