@@ -50,7 +50,7 @@
     </script>
 </head>
 <body>
-
+  <%--<chrome:flashMessage flashMessage="participant.flash.save"></chrome:flashMessage>--%>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
    <jsp:attribute name="singleFields">
            <p><tags:instructions code="participant.participant_details.top"/></p>

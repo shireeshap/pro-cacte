@@ -105,8 +105,8 @@
                         <td>${assignment.studySite.study.assignedIdentifier}</td>
                         <td>${assignment.studySite.study.shortTitle}</td>
                         <td>${assignment.studyParticipantIdentifier}</td>
-                        <td>${assignment.treatingPhysician.organizationClinicalStaff.clinicalStaff.displayName}</td>
-                        <td>${assignment.researchNurse.organizationClinicalStaff.clinicalStaff.displayName}</td>
+                        <td>${assignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}</td>
+                        <td>${assignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}</td>
                     </tr>
                 </c:forEach>
             </table>
