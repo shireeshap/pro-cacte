@@ -54,7 +54,7 @@ public class ClinicalStaffAjaxFacade {
         }
         logger.info(String.format("in match matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole method. Search string :%s and studyOrganizationId=%s and role=%s", text, studyOrganizationId, roles));
         List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = clinicalStaffRepository.findByStudyOrganizationIdAndRole(text, studyOrganizationId, rolesList);
-        return ObjectTools.reduceAll(studyOrganizationClinicalStaffs, "id", "organizationClinicalStaff");
+        return ObjectTools.reduceAll(studyOrganizationClinicalStaffs, "id", "displayName");
 
     }
 

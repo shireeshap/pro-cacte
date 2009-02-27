@@ -2,9 +2,10 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,7 +16,6 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
 
     private ClinicalStaffAjaxFacade clinicalStaffAjaxFacade;
     protected Map parameterMap;
-    private ClinicalStaffRepository clinicalStaffRepository;
     private ClinicalStaff clinicalStaff;
 
     @Override
@@ -25,6 +25,14 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
 
         clinicalStaff = Fixture.createClinicalStaff("Mehul", "Gulati", "1234");
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
+    }
+
+    public void testFind() {
+
+        List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffAjaxFacade.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole
+                ("%", defaultStudySite.getId(), "RESEARCH_NURSE");
+
+        assertFalse(organizationClinicalStaffList.isEmpty());
     }
 
     public void testSearchClinicalStaffByFirstName() {
@@ -47,8 +55,5 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
         this.clinicalStaffAjaxFacade = clinicalStaffAjaxFacade;
     }
 
-    public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
-        this.clinicalStaffRepository = clinicalStaffRepository;
-    }
 }
 

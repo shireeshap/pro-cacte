@@ -2,6 +2,9 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Vinay Kumar
  * @created Feb 06, 2009
@@ -18,6 +21,14 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
 
 
+    }
+
+    public void testFind() {
+        List<Role> rolesList = new ArrayList<Role>();
+        rolesList.add(Role.RESEARCH_NURSE);
+        List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffRepository.findByStudyOrganizationIdAndRole("%", defaultStudySite.getId(), rolesList);
+
+        assertFalse(organizationClinicalStaffList.isEmpty());
     }
 
     public void testAddStudyOrganizationClinicalStaff() {

@@ -63,6 +63,10 @@ public class Fixture {
         clinicalStaff.setFirstName(firstName);
         clinicalStaff.setLastName(lastName);
         clinicalStaff.setNciIdentifier(nciIdentifier);
+        clinicalStaff.setEmailAddress(clinicalStaff.getFirstName());
+
+        addUserToClinicalStaff(clinicalStaff);
+
         return clinicalStaff;
     }
 
@@ -100,11 +104,13 @@ public class Fixture {
         organizationClinicalStaff.setOrganization(organization);
         clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
 
-        clinicalStaff.setEmailAddress(firstName);
-        clinicalStaff.setUser(new User());
-        clinicalStaff.getUser().setPassword(DEFAULT_PASSWORD);
 
         return clinicalStaff;
+    }
+
+    private static void addUserToClinicalStaff(ClinicalStaff clinicalStaff) {
+        clinicalStaff.setUser(new User());
+        clinicalStaff.getUser().setPassword(DEFAULT_PASSWORD);
     }
 
     public static StudyOrganizationClinicalStaff createStudyOrganizationClinicalStaff(ClinicalStaff clinicalStaff, Role role, RoleStatus roleStatus, Date date, StudyOrganization studyOrganization) {

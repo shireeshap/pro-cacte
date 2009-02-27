@@ -121,8 +121,11 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
         this.statusDate = statusDate;
     }
 
-    public String getDisplayName(){
-       return organizationClinicalStaff!=null?organizationClinicalStaff.getClinicalStaff().getDisplayName():"";
+    public String getDisplayName() {
+        if (displayName == null) {
+            displayName = organizationClinicalStaff != null ? organizationClinicalStaff.getClinicalStaff().getDisplayName() : ""   ;
+        }
+        return displayName;
     }
 
     public void setDisplayName(String displayName) {

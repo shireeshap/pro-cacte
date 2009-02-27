@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Role;
 
 import java.util.List;
+import java.util.Collection;
 
 //
 /**
@@ -48,7 +49,7 @@ public class StudyOrganizationClinicalStaffQuery extends AbstractQuery {
         setParameter(ORGANIZATION_ID, organizationId);
     }
 
-    public void filterByRole(final List<Role> roles) {
+    public void filterByRole(final Collection<Role> roles) {
         andWhere("socs.role in ( :" + ROLE + ")");
         setParameterList(ROLE, roles);
     }

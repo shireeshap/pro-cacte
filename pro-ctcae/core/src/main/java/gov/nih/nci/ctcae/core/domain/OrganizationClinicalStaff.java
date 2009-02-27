@@ -34,6 +34,9 @@ public class OrganizationClinicalStaff extends BasePersistable {
     @ManyToOne
     private ClinicalStaff clinicalStaff;
 
+    @Transient
+    private String displayName;
+
     /**
      * The organization.
      */
@@ -125,6 +128,17 @@ public class OrganizationClinicalStaff extends BasePersistable {
         int result = clinicalStaff != null ? clinicalStaff.hashCode() : 0;
         result = 31 * result + (organization != null ? organization.hashCode() : 0);
         return result;
+    }
+
+    public String getDisplayName() {
+        if (displayName == null) {
+            displayName = clinicalStaff != null ? getClinicalStaff().getDisplayName() : "";
+        }
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }
 
