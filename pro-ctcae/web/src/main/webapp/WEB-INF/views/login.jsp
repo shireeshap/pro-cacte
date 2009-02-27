@@ -96,6 +96,11 @@
                 <td>system_admin</td>
                 <td>Lead CRA</td>
             </tr>
+            <tr>
+                <td>Brian</td>
+                <td>system_admin</td>
+                <td>Research Nurse</td>
+            </tr>
         </table>
     </chrome:division>
 </chrome:box>
