@@ -721,6 +721,62 @@
         })
     }
 
+    function showHideCtcTerm(action) {
+        setVisible('preferencevalues');
+        showHideCtcTermA('only', 'hide');
+        showHideCtcTermA('middle', 'show');
+        if (action == 'append') {
+            showHideCtcTermA('left', 'hide');
+            showHideCtcTermA('right', 'show');
+        }
+        if (action == 'prepend') {
+            showHideCtcTermA('right', 'hide');
+            showHideCtcTermA('left', 'show');
+        }
+        if (action == 'noctcterm') {
+            showHideCtcTermA('right', 'hide');
+            showHideCtcTermA('left', 'hide');
+        }
+        if (action == 'onlyctcterm') {
+            showHideCtcTermA('right', 'hide');
+            showHideCtcTermA('middle', 'hide');
+            showHideCtcTermA('left', 'hide');
+            showHideCtcTermA('only', 'show');
+        }
+    }
+
+    function showHideCtcTermA(side, action) {
+        $$('span.ctcterm' + side).each(function (ctcTerm) {
+            if (action == 'hide') {
+                ctcTerm.hide();
+            } else {
+                ctcTerm.show();
+            }
+        })
+    }
+    function setVisible(obj) {
+        obj = $(obj);
+        obj.style.visibility = (obj.style.visibility == 'visible') ? 'hidden' : 'visible';
+        placeIt(obj);
+    }
+    function placeIt(obj) {
+        x = 20;
+        y = 0;
+
+        if (document.documentElement) {
+            theLeft = document.documentElement.scrollLeft;
+            theTop = document.documentElement.scrollTop;
+        }
+        else if (document.body) {
+            theLeft = document.body.scrollLeft;
+            theTop = document.body.scrollTop;
+        }
+        theLeft += x;
+        theTop += y;
+        obj.style.left = theLeft + 'px';
+        obj.style.top = theTop + 'px';
+    }
+
 </script>
 <style type="text/css">
 
@@ -745,7 +801,7 @@
     #firstlevelnav_1 {
         position: absolute;
         left: 0;
-        top: 0;
+        top: 3px;
         display: block;
         height: 0px;
         padding-top: 41px;
@@ -757,7 +813,7 @@
     #firstlevelnav_2 {
         position: absolute;
         left: 145px;
-        top: 0;
+        top: 3px;
         display: block;
         height: 0px;
         padding-top: 41px;
@@ -770,7 +826,7 @@
     #firstlevelnav_3 {
         position: absolute;
         left: 283px;
-        top: 0;
+        top: 3px;
         display: block;
         height: 0px;
         padding-top: 41px;
@@ -820,17 +876,26 @@
         padding: 0;
     }
 
-
+    #preferencevalues {
+        position: absolute;
+        visibility: hidden;
+        width: 150px;
+        height: 80px;
+        left: 20px;
+        top: 300px;
+        background-color: #cccccc;
+        border: 1px solid #000;
+        padding: 10px;
+    }
 </style>
 
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-    <%--<input type="hidden" name="_finish" value="true"/>--%>
-        
-    <div class="instructions">
+    <input type="hidden" name="_finish" value="true"/>
 
+    <div class="instructions">
         <div class="summarylabel"><tags:message code='form.label.study'/></div>
         <div class="summaryvalue">${command.crf.study.displayName}</div>
     </div>
@@ -840,14 +905,12 @@
             src="<tags:imageUrl name="blue/maximize-right.png" />" style="float:left" alt="Maximize"/></a>
 	<a id="expandFormUrl" href="javascript:expandForm()" style="display:none;" style="float:right;"><img
             src="<tags:imageUrl name="blue/maximize-left.png" />" alt="Maximize"/></a>
-
             <table id="formbuilderTable">
                 <tr>
                     <td id="left">
                         <a id="shrinkQuestionBankUrl" href="javascript:shrinkQuestionBank()"><img
                                 src="<tags:imageUrl name="blue/minimize-left.png" />" style="float:right"
                                 alt="Minimize"/></a>
-
                         <ul id="form-tabs" class="tabs">
                             <li>
                                 <a id="firstlevelnav_1" href="javascript:showForm()" class="selected_4thlvl">
@@ -859,16 +922,19 @@
                                     <tags:message code="form.question_settings"/> |</a>
                             </li>
 
-                                <%--<li class="">--%>
-                                <%--<a id="firstlevelnav_3" href="javascript:showFormSettings()">--%>
-                                <%--<tags:message code='form.form_settings'/> </a>--%>
-                                <%--</li>--%>
-
                             <li class="">
                                 <a id="firstlevelnav_3" href="javascript:showFormSettings()">
                                     <tags:message code='form.form_settings'/> </a>
                             </li>
                         </ul>
+                        <a href="#" onclick="setVisible('preferencevalues');return false"
+                           target="_self">Display Preferences</a></p>
+                        <div id="preferencevalues">
+                            <a href="javascript:showHideCtcTerm('noctcterm')">Do not show CTCAE term</a><br/>
+                            <a href="javascript:showHideCtcTerm('onlyctcterm')">Show only CTCAE term</a><br/>
+                            <a href="javascript:showHideCtcTerm('append')">Append CTCAE term</a><br/>
+                            <a href="javascript:showHideCtcTerm('prepend')">Prepend CTCAE term</a><br/>
+                        </div>
                         <br>
                         <br>
                         <br>
@@ -889,7 +955,15 @@
                                              alt="Add" onclick=""/></a>
                                         <ul>
                                             <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
-                                                <li class="closed">${proCtcTerm.term}
+                                                <li class="closed">
+                                                    <span class="ctctermleft"
+                                                          style="display:none"> [${proCtcTerm.ctcTerm.term}] - </span>
+                                                    <span class="ctctermmiddle">${proCtcTerm.term}</span>
+                                                    <span class="ctctermright"
+                                                          style="display:none"> - [${proCtcTerm.ctcTerm.term}]</span>
+                                                    <span class="ctctermonly"
+                                                          style="display:none">${proCtcTerm.ctcTerm.term}</span>
+
                                                     <a href="javascript:addProctcTerm(${proCtcTerm.id})"
                                                        id="proCtcTerm_${proCtcTerm.id}"
                                                        class="addallbtn ctcCategory_${ctcCategory.key.id}">
@@ -1010,7 +1084,6 @@
                 </tr>
 
             </table>
-
 </jsp:attribute>
 </tags:tabForm>
 </body>
