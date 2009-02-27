@@ -6,6 +6,8 @@ import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.OrganizationClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,10 +32,11 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
     private UserRepository userRepository;
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public ClinicalStaff save(ClinicalStaff clinicalStaff) {
         User user = clinicalStaff.getUser();
         user.setUsername(clinicalStaff.getEmailAddress());
-
+             user.setPassword("system_admin");
         user = userRepository.save(user);
         clinicalStaff = super.save(clinicalStaff);
 
