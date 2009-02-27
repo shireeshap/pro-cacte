@@ -43,7 +43,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 			<decorator:title/>
 		</c:set>
 		<blue:body title="${__decorator_title}">
-			<blue:flashMessage/>
+			<chrome:flashMessage/>
 			<decorator:body/>
 		</blue:body>
 

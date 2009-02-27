@@ -24,10 +24,10 @@
 <%@attribute name="hideErrorDetails" type="java.lang.Boolean" %>
 <c:if test="${empty willSave}"><c:set var="willSave" value="${true}"/></c:if>
 <form:form name="${formName}" enctype="${enctype}" id="command">
+    <chrome:flashMessage/>
 
     <tags:tabContent notDisplayInBox="${notDisplayInBox}" tab="${tab}" title="${title}" boxClass="${boxClass}">
         <jsp:attribute name="tabContent">
-        <chrome:flashMessage/>
 
         <tags:tabFields tab="${tab}"/>
         <chrome:division id="single-fields">

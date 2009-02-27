@@ -420,7 +420,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/body.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/box.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/collapsableElement.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/division.tag -text
-pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/flashMessage.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/imageUrl.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/minimizableBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/workflowTabs.tag -text

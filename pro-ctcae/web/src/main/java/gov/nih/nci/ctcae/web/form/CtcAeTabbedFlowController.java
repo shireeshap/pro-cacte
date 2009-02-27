@@ -109,6 +109,7 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
         super.postProcessPage(request, oCommand, errors, page);
         if (!errors.hasErrors() && shouldSave(request, command, getTab(command, page))) {
             save(command);
+            request.setAttribute("flashMessage", "save.confirmation");
         }
     }
 

@@ -74,7 +74,7 @@
 </head>
 <body>
 
-<tags:tabForm tab="${tab}" flow="${flow}">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
 
     <jsp:attribute name="repeatingFields">
 
