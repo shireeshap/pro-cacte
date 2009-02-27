@@ -18,22 +18,27 @@
     <script type="text/javascript">
         Event.observe(window, "load", function() {
             initSearchField()
+
         <c:forEach items="${command.participant.studyParticipantAssignments}" var="studyParticipantAssignment" varStatus="status">
-            var baseNamePhysician_${status.index} = 'participant.studyParticipantAssignments[${status.index}].treatingPhysician.studyOrganizationClinicalStaff';
-            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNamePhysician_${status.index}, '${command.studySite[0].id}', 'TREATING_PHYSICIAN'))
-            initializeAutoCompleter(baseNamePhysician_${status.index},
+            var baseNamePhysician = 'participant.studyParticipantAssignments[${status.index}].treatingPhysician.studyOrganizationClinicalStaff';
+
+            alert(baseNamePhysician)
+            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNamePhysician, '${command.studySite[0].id}', 'TREATING_PHYSICIAN'))
+
+            initializeAutoCompleter(baseNamePhysician,
                     '${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:""}',
                     '${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.id:""}');
 
-            var baseNameNurse_${status.index} = 'participant.studyParticipantAssignments[${status.index}].researchNurse.studyOrganizationClinicalStaff';
-            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNurse_${status.index}, '${command.studySite[0].id}', 'RESEARCH_NURSE'))
-            initializeAutoCompleter(baseNameNurse_${status.index},
+            var baseNameNurse = 'participant.studyParticipantAssignments[${status.index}].researchNurse.studyOrganizationClinicalStaff';
+            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNurse, '${command.studySite[0].id}', 'RESEARCH_NURSE'))
+            initializeAutoCompleter(baseNameNurse,
                     '${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:""}',
                     '${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.id:""}');
+
         <c:forEach items="${studyParticipantAssignment.notificationClinicalStaff}" var="clinicalStaff" varStatus="notificationstatus">
-            var baseNameNotification_${status.index}_${notificationstatus.index} = 'participant.studyParticipantAssignments[${status.index}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaff';
-            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNotification_${status.index}_${notificationstatus.index}, '${command.studySite[0].id}', 'TREATING_PHYSICIAN|RESEARCH_NURSE'))
-            initializeAutoCompleter(baseNameNotification_${status.index}_${notificationstatus.index},
+            var baseNameNotification = 'participant.studyParticipantAssignments[${status.index}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaff';
+            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNotification, '${command.studySite[0].id}', 'TREATING_PHYSICIAN|RESEARCH_NURSE'))
+            initializeAutoCompleter(baseNameNotification,
                     '${studyParticipantAssignment.notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}',
                     '${studyParticipantAssignment.notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.id}');
 
