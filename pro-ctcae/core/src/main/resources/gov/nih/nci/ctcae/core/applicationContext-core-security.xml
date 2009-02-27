@@ -42,12 +42,18 @@
         <beans:property name="decisionVoters">
             <beans:list>
                 <beans:ref local="roleVoter"/>
+                <beans:ref local="authenticatedVoter"/>
             </beans:list>
         </beans:property>
 
     </beans:bean>
 
-    <beans:bean id="roleVoter" class="org.springframework.security.vote.RoleVoter"/>
+    <beans:bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
+        <beans:property name="rolePrefix" value="PRIVILEGE_"/>
+    </beans:bean>
+
+    <beans:bean id="authenticatedVoter" class="org.springframework.security.vote.AuthenticatedVoter"/>
+
 
     <!--It will create a inMemoryUserDetailsService-->
 

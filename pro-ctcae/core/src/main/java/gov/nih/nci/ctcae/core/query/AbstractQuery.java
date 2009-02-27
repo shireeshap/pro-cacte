@@ -39,7 +39,7 @@ public abstract class AbstractQuery implements Query {
      * The query parameter map.
      */
     private final Map<String, Object> queryParameterMap;
-    private final Map<String, List> queryParameterListMap;
+    private final Map<String, Collection> queryParameterListMap;
 
     /**
      * The Constant ID.
@@ -74,7 +74,7 @@ public abstract class AbstractQuery implements Query {
     public AbstractQuery(final String queryString) {
         this.queryString = queryString;
         queryParameterMap = new HashMap<String, Object>(0);
-        queryParameterListMap = new HashMap<String, List>(0);
+        queryParameterListMap = new HashMap<String, Collection>(0);
     }
 
     /* (non-Javadoc)
@@ -145,7 +145,7 @@ public abstract class AbstractQuery implements Query {
         queryParameterMap.put(key, value);
     }
 
-    protected void setParameterList(final String key, final List value) {
+    protected void setParameterList(final String key, final Collection value) {
         queryParameterListMap.put(key, value);
     }
 
@@ -173,7 +173,7 @@ public abstract class AbstractQuery implements Query {
         return queryParameterMap;
     }
 
-    public Map<String, List> getQueryParameterListMap() {
+    public Map<String, Collection> getQueryParameterListMap() {
         return queryParameterListMap;
     }
 

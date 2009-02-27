@@ -5,6 +5,8 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.GrantedAuthority;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.providers.dao.DaoAuthenticationProvider;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
@@ -51,10 +53,9 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
 
     protected void login() {
-//        user = userRepository.loadUserByUsername("saurabh1@abc.com");
-//        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, "password");
-//
-//        SecurityContextHolder.getContext().setAuthentication(token);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(defaultUser, Fixture.DEFAULT_PASSWORD);
+
+        SecurityContextHolder.getContext().setAuthentication(token);
 
 
     }
@@ -129,6 +130,13 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         assertNotNull("must find default clinical staff. ", defaultOrganizationClinicalStaff);
 
         addResearchNurseAndTreatingPhysician();
+
+        StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
+        studyOrganizationClinicalStaff.setRole(LEAD_CRA);
+        studyOrganizationClinicalStaff.setOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
+
+        addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+        login();
 
     }
 

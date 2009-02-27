@@ -5,6 +5,7 @@
 <%@ taglib prefix="authz" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
+<%@ taglib prefix="security" uri='http://www.springframework.org/security/tags' %>
 
 <div id="header">
 
@@ -34,6 +35,9 @@
 
         <ul id="sections" class="tabs">
             <c:forEach items="${sections}" var="section">
+                <%--<csmauthz:accesscontrol authorizationCheckName="sectionAuthorizationCheck"--%>
+                <%--domainObject="${section}">--%>
+
                 <li class="${section == currentSection ? 'selected' : ''}">
 
                     <a id="firstlevelnav_${section.mainController}"

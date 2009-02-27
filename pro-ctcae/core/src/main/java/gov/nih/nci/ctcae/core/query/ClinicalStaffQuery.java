@@ -24,6 +24,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
      * The LAS t_ name.
      */
     private static String LAST_NAME = "lastName";
+    private static String USER_ID = "userId";
 
     /**
      * The NC i_ identifier.
@@ -69,6 +70,11 @@ public class ClinicalStaffQuery extends AbstractQuery {
         String searchString = "%" + lastName.toLowerCase() + "%";
         andWhere("lower(cs.lastName) LIKE :" + LAST_NAME);
         setParameter(LAST_NAME, searchString);
+    }
+
+    public void filterByUserId(final Integer userId) {
+        andWhere("cs.user.id =:" + USER_ID);
+        setParameter(USER_ID, userId);
     }
     /*
     public void filterByNciIdentifier(final String text) {

@@ -1,9 +1,6 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@ page import="org.springframework.security.ui.AbstractProcessingFilter" %>
-<%@ page import="org.springframework.security.ui.webapp.AuthenticationProcessingFilter" %>
-<%@ page import="org.springframework.security.AuthenticationException" %>
 
 <html>
 <head>
@@ -62,14 +59,14 @@
             </div>
         </div>
 
-        <%--<div class="row">--%>
+            <%--<div class="row">--%>
             <%--<div class="label">--%>
-                <%--Remember me:--%>
+            <%--Remember me:--%>
             <%--</div>--%>
             <%--<div class="value">--%>
-                <%--<input type="checkbox" name="_spring_security_remember_me"/>--%>
+            <%--<input type="checkbox" name="_spring_security_remember_me"/>--%>
             <%--</div>--%>
-        <%--</div>--%>
+            <%--</div>--%>
 
         <div class="row">
             <div class="submit">
@@ -86,8 +83,24 @@
 
 
     </form>
-</chrome:box>
+    <chrome:division title="Test user accounts">
+        <table tablecontent>
+            <tr id="ss-table-head" class="amendment-table-head">
+                <th class="tableHeader">User-name</th>
+                <th class="tableHeader">Password</th>
+                <th class="tableHeader">Role</th>
 
+            </tr>
+            <tr>
+                <td>Angello</td>
+                <td>system_admin</td>
+                <td>Lead CRA</td>
+            </tr>
+            <thead></thead>
+            <thead>password</thead>
+        </table>
+    </chrome:division>
+</chrome:box>
 </body>
 </html>
 

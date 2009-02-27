@@ -1,10 +1,14 @@
 package gov.nih.nci.ctcae.core.repository;
 
-import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
+import gov.nih.nci.ctcae.core.query.RolePrivilegeQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.providers.dao.SaltSource;
 import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.security.userdetails.UserDetailsService;
@@ -13,7 +17,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 //
 /**
@@ -45,7 +51,35 @@ public class UserRepository extends AbstractRepository<User, UserQuery> implemen
             logger.error(errorMessage);
             throw new UsernameNotFoundException(errorMessage);
         }
-        return users.get(0);
+        User user = users.get(0);
+
+        Set<Role> roles = new HashSet<Role>();
+
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+        clinicalStaffQuery.filterByUserId(user.getId());
+        ClinicalStaff clinicalStaff = (ClinicalStaff) genericRepository.findSingle(clinicalStaffQuery);
+        for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
+
+            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaff.getStudyOrganizationClinicalStaffs()) {
+                Role role = studyOrganizationClinicalStaff.getRole();
+                roles.add(role);
+            }
+
+        }
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+
+        if (!roles.isEmpty()) {
+            RolePrivilegeQuery rolePrivilegeQuery = new RolePrivilegeQuery();
+            rolePrivilegeQuery.filterByRoles(roles);
+            List<Privilege> privileges = (List<Privilege>) genericRepository.find(rolePrivilegeQuery);
+
+            for (Privilege privilege : privileges) {
+                GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(privilege.getPrivilegeName());
+                grantedAuthorities.add(grantedAuthority);
+            }
+        }
+        user.setGrantedAuthorities(grantedAuthorities.toArray(new GrantedAuthority[]{}));
+        return user;
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)

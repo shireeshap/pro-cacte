@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Collection;
 
 //
 /**
@@ -77,14 +78,14 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
                     SQLException {
                 org.hibernate.Query hiberanteQuery = session.createQuery(query.getQueryString());
                 Map<String, Object> queryParameterMap = ((AbstractQuery) query).getParameterMap();
-                Map<String, List> parameterListMap = ((AbstractQuery) query).getQueryParameterListMap();
+                Map<String, Collection> parameterListMap = ((AbstractQuery) query).getQueryParameterListMap();
                 for (String key : queryParameterMap.keySet()) {
                     Object value = queryParameterMap.get(key);
                     hiberanteQuery.setParameter(key, value);
 
                 }
                 for (String key : parameterListMap.keySet()) {
-                    List value = parameterListMap.get(key);
+                    Collection value = parameterListMap.get(key);
                     hiberanteQuery.setParameterList(key, value);
 
                 }

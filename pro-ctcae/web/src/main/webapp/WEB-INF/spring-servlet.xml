@@ -324,10 +324,13 @@
         <property name="finderRepository" ref="finderRepository"/>
     </bean>
 
-    <!--<bean name="/researchStaff/createResearchStaff" id="createResearchStaffController"-->
-    <!--class="gov.nih.nci.ctcae.web.researchStaff.CreateResearchStaffController" parent="ctcaeSimpleFormController">-->
-    <!--<property name="researchStaffRepository" ref="researchStaffRepository"/>-->
-    <!--</bean>-->
+
+    <bean name="/home" id="homeController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>home</value>
+        </property>
+    </bean>
 
 
     <bean id="noCacheTemplate" abstract="true">

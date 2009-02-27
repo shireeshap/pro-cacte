@@ -49,6 +49,10 @@ public class User extends BaseVersionable implements UserDetails {
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
 
+    @Transient
+    private GrantedAuthority[] grantedAuthorities;
+
+
     public User(final String username, final String password, final boolean enabled,
                 final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked) {
 
@@ -73,7 +77,7 @@ public class User extends BaseVersionable implements UserDetails {
     }
 
     public GrantedAuthority[] getAuthorities() {
-        return new GrantedAuthority[0];
+        return grantedAuthorities;
 
 
     }
@@ -127,6 +131,10 @@ public class User extends BaseVersionable implements UserDetails {
         this.enabled = enabled;
     }
 
+    public void setGrantedAuthorities(GrantedAuthority[] grantedAuthorities) {
+        this.grantedAuthorities = grantedAuthorities;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -138,6 +146,7 @@ public class User extends BaseVersionable implements UserDetails {
 
         return true;
     }
+
 
     @Override
     public int hashCode() {
