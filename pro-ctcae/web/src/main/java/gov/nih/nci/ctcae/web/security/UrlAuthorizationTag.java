@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.web.security;
 
-import gov.nih.nci.cabig.ctms.web.chrome.Section;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.AccessDecisionManager;
 import org.springframework.security.AccessDeniedException;
@@ -23,19 +23,19 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @author Vinay Kumar
  * @crated Feb 26, 2009
  */
-public class SectionAuthorizationTag extends TagSupport {
+public class UrlAuthorizationTag extends TagSupport {
 
-    protected static final Log logger = LogFactory.getLog(SectionAuthorizationTag.class);
+    protected static final Log logger = LogFactory.getLog(UrlAuthorizationTag.class);
 
     //~ Instance fields ================================================================================================
 
-    private Section section;
+    private String url;
 
     //~ Methods ========================================================================================================
 
     public int doStartTag() throws JspException {
 
-        if ((null == section)) {
+        if (StringUtils.isBlank(url)) {
             return Tag.SKIP_BODY;
         }
 
@@ -50,12 +50,11 @@ public class SectionAuthorizationTag extends TagSupport {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        String url = section.getMainUrl();
 
 
         ApplicationContext applicationContext = getContext(pageContext);
 
-        FilterSecurityInterceptor filterSecurityInterceptor = (FilterSecurityInterceptor) applicationContext.getBeansOfType(FilterSecurityInterceptor.class).values().iterator().next();
+        FilterSecurityInterceptor filterSecurityInterceptor = (FilterSecurityInterceptor) applicationContext.getBean("_filterSecurityInterceptor");
 
         DefaultFilterInvocationDefinitionSource objectDefinitionSource = (DefaultFilterInvocationDefinitionSource) filterSecurityInterceptor.getObjectDefinitionSource();
 
@@ -114,14 +113,12 @@ public class SectionAuthorizationTag extends TagSupport {
         return WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
     }
 
-    public Section getSection() {
-        return section;
+    public String getUrl() {
+        return url;
     }
 
-    public void setSection(Section section) {
-        this.section = section;
+    public void setUrl(String url) {
+        this.url = url;
     }
-
-
 }
 

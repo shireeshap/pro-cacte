@@ -53,11 +53,6 @@
 
     <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
 
-    <bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver" p:order="1">
-        <property name="location">
-            <value>/WEB-INF/special-views.xml</value>
-        </property>
-    </bean>
 
     <bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
         <property name="definitions">

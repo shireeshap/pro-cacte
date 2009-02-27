@@ -53,7 +53,8 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
 
     protected void login() {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(defaultUser, Fixture.DEFAULT_PASSWORD);
+        User user = userRepository.loadUserByUsername(defaultUser.getUsername());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, Fixture.DEFAULT_PASSWORD,user.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(token);
 
@@ -177,6 +178,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
         jdbcTemplate.execute("delete from CRF_PAGE_ITEMS");
         jdbcTemplate.execute("delete from CRF_PAGES");
+        jdbcTemplate.execute("delete from study_participant_crfs");
         jdbcTemplate.execute("delete from crfs");
         jdbcTemplate.execute("delete from study_organization_clinical_staffs");
         jdbcTemplate.execute("delete from study_participant_assignments");

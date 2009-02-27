@@ -375,7 +375,8 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfTab.jav
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/SectionAuthorizationTag.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationCheck.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationTag.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyComponentController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudySiteController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/EmptyStudyTab.java -text
@@ -985,7 +986,8 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SearchParticipantC
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendarTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/SectionAuthorizationTagIntegrationTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationIntegrationTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationTagIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/UrlSecurityIntegrationTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/AddStudySiteControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/ManageFormControllerControllerTest.java -text

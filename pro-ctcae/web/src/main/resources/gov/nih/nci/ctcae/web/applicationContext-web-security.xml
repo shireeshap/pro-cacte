@@ -11,12 +11,20 @@
         <intercept-url pattern="/public/logout" filters="none"/>
 
         <!--following line disables the security-->
-        <intercept-url pattern="/pages/**" access="IS_AUTHENTICATED_FULLY"/>
+        <!--<intercept-url pattern="/pages/**" access="IS_AUTHENTICATED_FULLY"/>-->
 
         <intercept-url pattern="/pages/form/basicForm" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/allConditions" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/addCrfComponent" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/addquestion" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/addConditionalQuestion" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/removeConditions" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/setName" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/submit" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/advanceForm" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/manageForm" access="PRIVILEGE_MANAGE_FORM"/>
         <intercept-url pattern="/pages/form/editForm" access="PRIVILEGE_EDIT_FORM"/>
+
         <intercept-url pattern="/pages/form/copyForm" access="PRIVILEGE_COPY_FORM"/>
         <intercept-url pattern="/pages/form/deleteForm" access="PRIVILEGE_DELETE_FORM"/>
         <intercept-url pattern="/pages/form/versionForm" access="PRIVILEGE_VERSION_FORM"/>
@@ -48,6 +56,7 @@
         <intercept-url pattern="/pages/admin/*" access="PRIVILEGE_EDIT_CLINICAL_STAFF"/>
 
         <intercept-url pattern="/pages/home" access="IS_AUTHENTICATED_FULLY"/>
+        <intercept-url pattern="/pages/confirmationCheck" access="IS_AUTHENTICATED_FULLY"/>
 
 
         <!--<intercept-url pattern="/pages/**" access="IS_AUTHENTICATED_ANONYMOUSLY" filters="" />-->
@@ -65,6 +74,9 @@
 
     </http>
 
+    <beans:bean id="urlAuthorizationCheck" class="gov.nih.nci.ctcae.web.security.UrlAuthorizationCheck">
+        <beans:property name="accessDecisionManager" ref="accessDecisionManager"/>
+    </beans:bean>
     <!--<beans:bean id="filterInvocationInterceptor"-->
     <!--class="org.springframework.security.intercept.web.FilterSecurityInterceptor">-->
     <!--<beans:property name="authenticationManager" ref="authenticationManager"/>-->

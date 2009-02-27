@@ -22,6 +22,7 @@ public abstract class AbstractWebIntegrationTestCase extends AbstractHibernateIn
     protected MockHttpSession session;
 
     protected MockPageContext pageContext;
+    protected XmlWebApplicationContext webApplicationContext;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
@@ -37,7 +38,8 @@ public abstract class AbstractWebIntegrationTestCase extends AbstractHibernateIn
         request.setSession(session);
         response = new MockHttpServletResponse();
 
-        servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, createWebApplicationContextForServlet("spring"));
+        webApplicationContext = createWebApplicationContextForServlet("spring");
+        servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, webApplicationContext);
         pageContext = new MockPageContext(servletContext);
 
 
@@ -48,9 +50,9 @@ public abstract class AbstractWebIntegrationTestCase extends AbstractHibernateIn
         XmlWebApplicationContext context = new XmlWebApplicationContext();
         context.setParent(parent);
         context.setServletContext(servletContext);
-        //context.setConfigLocations(new String[]{"web/WEB-INF/" + servletName + "-servlet.xml"});
+        context.setConfigLocations(new String[]{"file:/Users/saurabhagrawal/projects/pro-ctcae/web/src/main/webapp/WEB-INF/" + servletName + "-servlet.xml"});
 
-        //context.refresh();
+        context.refresh();
         return context;
     }
 

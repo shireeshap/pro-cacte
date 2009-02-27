@@ -79,6 +79,9 @@ public class User extends BaseVersionable implements UserDetails {
     }
 
     public GrantedAuthority[] getAuthorities() {
+        if (grantedAuthorities == null) {
+            grantedAuthorities = new GrantedAuthority[]{};
+        }
         return grantedAuthorities;
 
 
