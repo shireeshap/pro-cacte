@@ -63,7 +63,7 @@
         }
 
     </script>
-
+    
 </head>
 <body>
 <div class="tabpane">
@@ -92,6 +92,20 @@
         <form:hidden path="organizationClinicalStaffIndexToRemove" id="organizationClinicalStaffIndexToRemove"/>
 
         <p><tags:instructions code="clinicalStaff.clinicalStaff_details.top"/></p>
+        <chrome:division title="clinicalStaff.division.user_account">
+            <tags:renderEmail propertyName="clinicalStaff.emailAddress"
+                              displayName="clinicalStaff.label.email_address"
+                              required="true" help="true"/>
+
+            <tags:renderPassword propertyName="clinicalStaff.user.password"
+                                 displayName="clinicalStaff.label.password"
+                                 required="true"/>
+
+            <tags:renderPassword propertyName="clinicalStaff.user.confirmPassword"
+                                 displayName="Confirm Password"
+                                 required="true"/>
+
+        </chrome:division>
         <chrome:division title="clinicalStaff.division.details">
             <table>
                 <tr>
@@ -105,16 +119,14 @@
                         <tags:renderText propertyName="clinicalStaff.lastName"
                                          displayName="clinicalStaff.label.last_name"
                                          required="true"/>
-                        <tags:renderText propertyName="clinicalStaff.nciIdentifier"
-                                         displayName="clinicalStaff.label.identifier"
-                                         required="true"/>
 
                     </td>
                     <td style="vertical-align:top">
 
-                        <tags:renderEmail propertyName="clinicalStaff.emailAddress"
-                                          displayName="clinicalStaff.label.email_address"
-                                          required="true"/>
+                        <tags:renderText propertyName="clinicalStaff.nciIdentifier"
+                                         displayName="clinicalStaff.label.identifier"
+                                         required="true"/>
+
                         <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber"
                                                displayName="clinicalStaff.label.phone"
                                                required="true"/>

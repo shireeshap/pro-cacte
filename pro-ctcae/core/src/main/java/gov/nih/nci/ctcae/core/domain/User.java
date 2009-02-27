@@ -29,7 +29,7 @@ public class User extends BaseVersionable implements UserDetails {
     private Integer id;
 
     @Column(name = "password", nullable = false)
-    private String password = "system_admin";
+    private String password;
 
 
     @Column(name = "user_name", nullable = false)
@@ -52,6 +52,8 @@ public class User extends BaseVersionable implements UserDetails {
     @Transient
     private GrantedAuthority[] grantedAuthorities;
 
+    @Transient
+    private String confirmPassword;
 
     public User(final String username, final String password, final boolean enabled,
                 final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked) {
@@ -147,6 +149,13 @@ public class User extends BaseVersionable implements UserDetails {
         return true;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
 
     @Override
     public int hashCode() {
