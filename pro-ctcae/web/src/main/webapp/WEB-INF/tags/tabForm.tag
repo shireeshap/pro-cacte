@@ -22,7 +22,7 @@
 <%@attribute name="saveButtonLabel" %>
 <%@attribute name="noBackground" required="false" %>
 <%@attribute name="hideErrorDetails" type="java.lang.Boolean" %>
-<c:if test="${empty willSave}"><c:set var="willSave" value="${true}"/></c:if>
+<c:if test="${empty willSave}"><c:set var="willSave" value="true"/></c:if>
 <form:form name="${formName}" enctype="${enctype}" id="command">
     <chrome:flashMessage/>
 
