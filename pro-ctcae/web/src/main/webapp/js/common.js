@@ -304,7 +304,7 @@ Object.extend(organizationClinicalStaffAutoComplter.prototype, {
             })
         },
                 this.valueSelector = function (obj) {
-                    return obj.clinicalStaff.displayName;
+                    return obj.displayName;
                 }
 
     }

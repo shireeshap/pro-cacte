@@ -43,6 +43,21 @@ public class ObjectToolsTest extends TestCase {
         assertBean(src.getString(), null, src.getPrimitiveLong(), (byte) 0, reduced);
     }
 
+    public void testReduceAllForOrganizationClinicalStaff() throws Exception {
+        List<OrganizationClinicalStaff> organizationClinicalStaffList = new ArrayList<OrganizationClinicalStaff>();
+        organizationClinicalStaffList.add(organizationClinicalStaff);
+
+        List<OrganizationClinicalStaff> reduced = ObjectTools.reduceAll(organizationClinicalStaffList, "id", "displayName");
+
+        assertEquals("Wrong number of beans copied", 1, reduced.size());
+
+        for (OrganizationClinicalStaff reducedOrganizationClinicalStaff : reduced) {
+            assertEquals(clinicalStaff.getDisplayName(), reducedOrganizationClinicalStaff.getDisplayName());
+            assertNull("must not find any clinical staff", reducedOrganizationClinicalStaff.getClinicalStaff());
+        }
+
+    }
+
     public void testReduceAllForNestedBean() throws Exception {
         List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = new ArrayList<StudyOrganizationClinicalStaff>();
         studyOrganizationClinicalStaffs.add(studyOrganizationClinicalStaff);

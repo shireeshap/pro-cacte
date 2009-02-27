@@ -25,6 +25,9 @@
 
             if ($(studyOrganizationClinicalStafBaseName + "-input") != null) {
 
+                acCreate(new organizationClinicalStaffAutoComplter(studyOrganizationClinicalStafBaseName,
+                        '${studyOrganizationClinicalStaff.studyOrganization.id}'))
+
                 initializeAutoCompleter(studyOrganizationClinicalStafBaseName, '${studyOrganizationClinicalStaff.displayName}',
                         '${studyOrganizationClinicalStaff.organizationClinicalStaff.id}');
             }
