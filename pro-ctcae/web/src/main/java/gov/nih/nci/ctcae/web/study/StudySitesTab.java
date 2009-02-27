@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletRequest;
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */
-public class SitesTab extends Tab<StudyCommand> {
+public class StudySitesTab extends Tab<StudyCommand> {
 
     /**
      * Instantiates a new sites tab.
      */
-    public SitesTab() {
+    public StudySitesTab() {
         super("study.tab.sites", "study.tab.sites", "study/study_sites");
     }
 

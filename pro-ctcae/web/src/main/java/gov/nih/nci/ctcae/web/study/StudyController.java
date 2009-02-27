@@ -47,7 +47,7 @@ public class StudyController extends CtcAeTabbedFlowController<StudyCommand> {
 
     protected void layoutTabs(final Flow<StudyCommand> flow) {
         flow.addTab(new StudyDetailsTab());
-        flow.addTab(new SitesTab());
+        flow.addTab(new StudySitesTab());
         flow.addTab(new StudyClinicalStaffTab());
         flow.addTab(new StudySiteClinicalStaffTab());
 

@@ -54,28 +54,30 @@ public class UserRepository extends AbstractRepository<User, UserQuery> implemen
         User user = users.get(0);
 
         Set<Role> roles = new HashSet<Role>();
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByUserId(user.getId());
         ClinicalStaff clinicalStaff = (ClinicalStaff) genericRepository.findSingle(clinicalStaffQuery);
-        for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
+        if (clinicalStaff != null) {
+            for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
 
-            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaff.getStudyOrganizationClinicalStaffs()) {
-                Role role = studyOrganizationClinicalStaff.getRole();
-                roles.add(role);
+                for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaff.getStudyOrganizationClinicalStaffs()) {
+                    Role role = studyOrganizationClinicalStaff.getRole();
+                    roles.add(role);
+                }
+
             }
 
-        }
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+            if (!roles.isEmpty()) {
+                RolePrivilegeQuery rolePrivilegeQuery = new RolePrivilegeQuery();
+                rolePrivilegeQuery.filterByRoles(roles);
+                List<Privilege> privileges = (List<Privilege>) genericRepository.find(rolePrivilegeQuery);
 
-        if (!roles.isEmpty()) {
-            RolePrivilegeQuery rolePrivilegeQuery = new RolePrivilegeQuery();
-            rolePrivilegeQuery.filterByRoles(roles);
-            List<Privilege> privileges = (List<Privilege>) genericRepository.find(rolePrivilegeQuery);
-
-            for (Privilege privilege : privileges) {
-                GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(privilege.getPrivilegeName());
-                grantedAuthorities.add(grantedAuthority);
+                for (Privilege privilege : privileges) {
+                    GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(privilege.getPrivilegeName());
+                    grantedAuthorities.add(grantedAuthority);
+                }
             }
         }
         user.setGrantedAuthorities(grantedAuthorities.toArray(new GrantedAuthority[]{}));

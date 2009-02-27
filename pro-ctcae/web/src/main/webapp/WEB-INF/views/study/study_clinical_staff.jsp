@@ -70,7 +70,7 @@
        <chrome:division title="study.label.clinical.staff.odc">
 
            <div class="row">
-               <div class="label"><tags:requiredIndicator/><tags:message code="study.label.site"/></div>
+               <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
                <div class="value">${command.study.studyCoordinatingCenter.organization.displayName} </div>
            </div>
 
@@ -84,7 +84,7 @@
 
             <tags:renderSelect options="${studySitesAndCoordinatingCenter}"
                                onchange="updateOrganizationClinicalStaffAutoCompleters()" required="true"
-                               displayName="study.label.site" propertyName="leadCRA.studyOrganization"/>
+                               displayName="study.label.organization" propertyName="leadCRA.studyOrganization" />
 
 
             <tags:renderAutocompleter propertyName="leadCRA.organizationClinicalStaff"
@@ -97,7 +97,7 @@
 
             <tags:renderSelect options="${studySitesAndCoordinatingCenter}"
                                onchange="updateOrganizationClinicalStaffAutoCompleters()" required="true"
-                               displayName="study.label.site"
+                               displayName="study.label.organization"
                                propertyName="principalInvestigator.studyOrganization"/>
 
             <tags:renderAutocompleter propertyName="principalInvestigator.organizationClinicalStaff"

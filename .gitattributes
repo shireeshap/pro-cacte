@@ -381,7 +381,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudySiteController.j
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/EmptyStudyTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SearchStudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SelectedStudyCell.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SitesTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyClinicalStaffTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyCommand.java -text
@@ -389,6 +388,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyController.java -te
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyDetailsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyLinkDisplayCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudySiteClinicalStaffTab.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudySitesTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/NullStringComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImpl.java -text

@@ -23,7 +23,7 @@
 <%@attribute name="propertyName" type="java.lang.String" %>
 <%@attribute name="categoryName" type="java.lang.String" %>
 <%@attribute name="size" %>
-
+<%@attribute name="itemLabel" type="java.lang.String" %>
 <%@attribute name="displayName" type="java.lang.String" %>
 <%@attribute name="required" type="java.lang.Boolean" %>
 <%@ attribute name="name" %>
@@ -51,7 +51,8 @@
                            cols="${cols}" noForm="${noForm}"
                            propertyValue="${propertyValue}"
                            doNotShowFormat="${doNotShowFormat}" id="${id}" name="${name}" rows="${rows}"
-                           onchange="${onchange}" doNotshowClear="${doNotshowClear}" showIndicator="${showIndicator}"/>
+                           onchange="${onchange}" doNotshowClear="${doNotshowClear}" showIndicator="${showIndicator}"
+                           itemLabel="${itemLabel}"/>
     </c:when>
     <c:otherwise>
         <div class="row ${cssClass}" id="${propertyName}-row" <c:if test="${not empty style}">style="${style}"</c:if>>
@@ -81,7 +82,7 @@
                                        propertyValue="${propertyValue}"
                                        doNotShowFormat="${doNotShowFormat}" id="${id}" name="${name}" rows="${rows}"
                                        onchange="${onchange}" doNotshowClear="${doNotshowClear}"
-                                       showIndicator="${showIndicator}"/>
+                                       showIndicator="${showIndicator}" itemLabel="${itemLabel}"/>
                 </c:otherwise>
             </c:choose>
                     <%--<tags:extraParams extraParam="${field.attributes.extraParams}"/>--%>

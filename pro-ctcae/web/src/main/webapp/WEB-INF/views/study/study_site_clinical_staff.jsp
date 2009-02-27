@@ -50,9 +50,8 @@
         }
 
 
-        function selectStudySite(selectedStudySiteId) {
+        function changeStudySite() {
             $('_target').name = '_target3';
-            $('selectedStudySiteId').value = selectedStudySiteId;
             $('command').submit();
         }
 
@@ -68,31 +67,15 @@
 
     <jsp:attribute name="singleFields">
 
+        <chrome:box title="study.tab.study_site_clinical_staff" id="studySiteClinicalStaff">
+            <tags:renderSelectForDomainObject displayName="study.label.site" options="${studySites}"
+                                              propertyName="selectedStudySite" required="true"
+                                              onchange="changeStudySite()" itemLabel="organization.displayName"/>
 
-        <form:hidden path="selectedStudySiteId" id="selectedStudySiteId"/>
-
-        <chrome:box title="study.label.sites" id="studySites" cssClass="paired" style="width:30%">
-            <ul>
-
-                <c:forEach items="${studySites}" var="studySite">
-                    <li><a href="javascript:selectStudySite(${studySite.id})">${studySite.organization.displayName}</a>
-                    </li>
-                </c:forEach></ul>
-        </chrome:box>
-
-        <chrome:box title="study.tab.study_site_clinical_staff" id="studySiteClinicalStaff"
-                    cssClass="paired" style="width:60%">
 
             <c:forEach items="${studySites}" var="studySite">
 
-                <c:if test="${studySite.id eq command.selectedStudySiteId}">
-
-
-                    <div class="instructions">
-
-                        <div class="summarylabel"><tags:message code="study.label.site"/></div>
-                        <div class="summaryvalue">${studySite.organization.displayName}</div>
-                    </div>
+                <c:if test="${studySite.id eq command.selectedStudySite.id}">
 
 
                     <chrome:division title="study.label.clinical.staff.lead.site_pi">
@@ -128,30 +111,6 @@
             </c:forEach>
 
         </chrome:box>
-
-
-        <%--<div>--%>
-
-        <%--<c:forEach items="${command.clinicalStaffAssignments}"--%>
-        <%--var="clinicalStaffAssignment"--%>
-        <%--varStatus="status">--%>
-
-        <%--<c:if test="${clinicalStaffAssignment.domainObjectId eq command.selectedStudySiteId }">--%>
-        <%--<study:clinicalStaffAssignment clinicalStaffAssignment="${clinicalStaffAssignment}"--%>
-        <%--clinicalStaffAssignmentIndex="${status.index}"/>--%>
-
-        <%--</c:if>--%>
-        <%--</c:forEach>--%>
-
-        <%--<div id="hiddenDiv">--%>
-
-
-        <%--</div>--%>
-
-
-        <%--</div>--%>
-
-
 
 
         </jsp:attribute>

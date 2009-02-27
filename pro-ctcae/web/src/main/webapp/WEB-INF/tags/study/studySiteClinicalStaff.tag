@@ -14,10 +14,10 @@
 
 
 <tr id="${propertyName}-row">
-    <td style="border-right:none;" width="40%">
+    <td style="border-right:none;" width="50%">
         <tags:renderAutocompleter propertyName="${propertyName}.organizationClinicalStaff"
                                   displayName="study.label.clinical.staff" noForm="true" required="true"
-                                  doNotshowLabel="true" size="20" doNotshowClear="true"/>
+                                  doNotshowLabel="true" size="40" doNotshowClear="true"/>
     </td>
 
     <td style="border-right:none;" width="15%">
@@ -28,7 +28,7 @@
                            required="true"
                            displayName="clinicalStaff.label.role.status"/>
     </td>
-    <td style="border-right:none;" width="40%">
+    <td style="border-right:none;" width="30%">
 
 
         <tags:renderDate propertyName="${propertyName}.statusDate"

@@ -19,7 +19,7 @@ public class StudyCommand {
      */
     private Study study;
 
-    private Integer selectedStudySiteId;
+    private StudySite selectedStudySite;
 
     private StudyOrganizationClinicalStaff leadCRA;
 
@@ -145,15 +145,18 @@ public class StudyCommand {
         this.studyOrganizationClinicalStaffs = studyOrganizationClinicalStaffs;
     }
 
-    public Integer getSelectedStudySiteId() {
+
+    public StudySite getSelectedStudySite() {
         List<StudySite> studySites = study.getStudySites();
-        if (!studySites.isEmpty() && selectedStudySiteId == null) {
-            selectedStudySiteId = studySites.get(0).getId();
+        if (!studySites.isEmpty() && selectedStudySite == null) {
+            selectedStudySite = studySites.get(0);
         }
-        return selectedStudySiteId;
+        return selectedStudySite;
     }
 
-    public void setSelectedStudySiteId(Integer selectedStudySiteId) {
-        this.selectedStudySiteId = selectedStudySiteId;
+    public void setSelectedStudySite(StudySite selectedStudySite) {
+        this.selectedStudySite = selectedStudySite;
     }
 }
+
+

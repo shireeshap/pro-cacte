@@ -8,6 +8,7 @@
 <%@ attribute name="onclick" %>
 <%@ attribute name="onchange" %>
 <%@attribute name="propertyName" type="java.lang.String" %>
+<%@attribute name="itemLabel" type="java.lang.String" %>
 <%@attribute name="displayName" type="java.lang.String" %>
 <%@attribute name="categoryName" type="java.lang.String" %>
 <%@attribute name="defaultValue" type="java.lang.String" %>
@@ -153,7 +154,7 @@
     </c:when>
     <c:when test="${categoryName == 'selectdomainobject'}">
         <form:select path="${propertyName}" items="${values}" disabled="${disabled}" title="${title}"
-                     cssClass="${cssClass}" itemValue="id"/>
+                     cssClass="${cssClass}" itemValue="id" onchange="${onchange}" itemLabel="${itemLabel}"/>
     </c:when>
 
 

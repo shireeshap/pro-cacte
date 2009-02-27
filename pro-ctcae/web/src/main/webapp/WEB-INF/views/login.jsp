@@ -96,8 +96,6 @@
                 <td>system_admin</td>
                 <td>Lead CRA</td>
             </tr>
-            <thead></thead>
-            <thead>password</thead>
         </table>
     </chrome:division>
 </chrome:box>
