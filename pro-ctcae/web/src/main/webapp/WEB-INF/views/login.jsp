@@ -84,7 +84,7 @@
 
     </form>
     <chrome:division title="Test user accounts">
-        <table tablecontent>
+        <table class="tablecontent" >
             <tr id="ss-table-head" class="amendment-table-head">
                 <th class="tableHeader">User-name</th>
                 <th class="tableHeader">Password</th>
