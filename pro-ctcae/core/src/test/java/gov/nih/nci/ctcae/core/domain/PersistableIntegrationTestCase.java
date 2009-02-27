@@ -26,7 +26,7 @@ public class PersistableIntegrationTestCase extends AbstractHibernateIntegration
     protected List<String> classesToIgnore = new ArrayList<String>();
 
     /**
-     * Classes to ignore typically because either they are abstract or interface. For ex :StudyOrganization. 
+     * Classes to ignore typically because either they are abstract or interface. For ex :StudyOrganization.
      */
     protected List<String> collectionObjectClassesToIgnore = new ArrayList<String>();
 
@@ -118,8 +118,7 @@ public class PersistableIntegrationTestCase extends AbstractHibernateIntegration
 
 
                 } catch (Exception e) {
-
-                    fail("failed for the class:" + className + ". Exceptiopn is: " + e.getMessage());
+                    fail("failed for the class:" + className + ".Either getter or setter has not been specified. Exceptiopn is: " + e.getMessage());
                 }
             } else {
                 logger.debug("skipping equals and hash code method implementation for class:" + className);

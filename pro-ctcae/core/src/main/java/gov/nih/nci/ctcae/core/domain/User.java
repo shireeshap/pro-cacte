@@ -87,6 +87,9 @@ public class User extends BaseVersionable implements UserDetails {
 
     }
 
+    public GrantedAuthority[] getGrantedAuthorities() {
+        return getAuthorities();
+    }
 
     public String getPassword() {
         return password;

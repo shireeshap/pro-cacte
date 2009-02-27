@@ -35,11 +35,15 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public ClinicalStaff save(ClinicalStaff clinicalStaff) {
         User user = clinicalStaff.getUser();
-        user.setUsername(clinicalStaff.getEmailAddress());
-        user = userRepository.save(user);
-        clinicalStaff = super.save(clinicalStaff);
+        if (user != null) {
+            user.setUsername(clinicalStaff.getEmailAddress());
+            user = userRepository.save(user);
+            clinicalStaff = super.save(clinicalStaff);
+            return clinicalStaff;
 
-        return clinicalStaff;
+        } else {
+            throw new CtcAeSystemException("can not save clinical staff without user");
+        }
 
 
     }

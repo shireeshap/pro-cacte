@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 
@@ -24,10 +25,7 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
     }
 
     private void saveClinicalStaff() {
-        clinicalStaff = new ClinicalStaff();
-        clinicalStaff.setFirstName("John");
-        clinicalStaff.setLastName("Dow");
-        clinicalStaff.setNciIdentifier("NCI 01");
+        clinicalStaff = Fixture.createClinicalStaff("John", "Dow", "NCI 01");
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
     }
 
