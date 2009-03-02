@@ -44,6 +44,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
             "classpath*:" + "/*-context-test.xml"};
     protected OrganizationClinicalStaff defaultOrganizationClinicalStaff;
     protected Role PI, ODC, LEAD_CRA;
+    protected final StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
 
 
     @Override
@@ -53,9 +54,14 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
 
     protected void login() {
-        User user = userRepository.loadUserByUsername(defaultUser.getUsername());
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, Fixture.DEFAULT_PASSWORD,user.getAuthorities());
+        login(defaultUser);
 
+    }
+
+    protected void login(User user) {
+        User loadedUser = userRepository.loadUserByUsername(user.getUsername());
+        assertNotNull("must find user", loadedUser);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, Fixture.DEFAULT_PASSWORD, loadedUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
 
 
@@ -132,7 +138,6 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
         addResearchNurseAndTreatingPhysician();
 
-        StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
         studyOrganizationClinicalStaff.setRole(LEAD_CRA);
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
 
@@ -216,6 +221,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     }
 
     protected StudyOrganizationClinicalStaff addStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+
         defaultStudySite.addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
 
         defaultStudy = studyRepository.save(defaultStudy);
@@ -226,12 +232,14 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
 
         assertFalse("must save study clinical staff", studyOrganizationClinicalStaffs.isEmpty());
-        studyOrganizationClinicalStaff = studyOrganizationClinicalStaffs.get(0);
+
+        studyOrganizationClinicalStaff = defaultStudy.getStudyOrganizationClinicalStaffByRole(studyOrganizationClinicalStaff.getRole());
+
         assertNotNull("must save study clinical staff", studyOrganizationClinicalStaff.getId());
         assertEquals("study site must be same", studyOrganizationClinicalStaff.getStudyOrganization(), defaultStudySite);
 
 
-       // assertEquals("site clinical staff  must be same", defaultOrganizationClinicalStaff, studyOrganizationClinicalStaff.getOrganizationClinicalStaff());
+        // assertEquals("site clinical staff  must be same", defaultOrganizationClinicalStaff, studyOrganizationClinicalStaff.getOrganizationClinicalStaff());
         return studyOrganizationClinicalStaff;
     }
 

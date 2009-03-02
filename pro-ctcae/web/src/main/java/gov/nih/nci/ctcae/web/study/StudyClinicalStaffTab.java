@@ -1,10 +1,11 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,7 @@ import java.util.Map;
  * @author Vinay Kumar
  * @crated Feb 11, 2009
  */
-public class StudyClinicalStaffTab extends Tab<StudyCommand> {
+public class StudyClinicalStaffTab extends SecuredTab<StudyCommand> {
     public StudyClinicalStaffTab() {
         super("study.tab.clinical_staff", "study.tab.clinical_staff", "study/study_clinical_staff");
     }
@@ -69,4 +70,9 @@ public class StudyClinicalStaffTab extends Tab<StudyCommand> {
 
     }
 
+    public String getRequiredPrivilege() {
+        return Privilege.PRIVILEGE_ADD_STUDY_CLINICAL_STAFF;
+
+
+    }
 }

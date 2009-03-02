@@ -9,8 +9,9 @@ import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.form.BasicFormController;
 import gov.nih.nci.ctcae.web.form.CreateFormCommand;
 import gov.nih.nci.ctcae.web.form.EditFormController;
-import gov.nih.nci.ctcae.web.study.StudyController;
+import gov.nih.nci.ctcae.web.study.CreateStudyController;
 import gov.nih.nci.ctcae.web.study.StudyCommand;
+import gov.nih.nci.ctcae.web.study.StudyController;
 
 /**
  * @author Vinay Kumar
@@ -40,7 +41,7 @@ public class ControllersUtilsTest extends WebTestCase {
 
         tabConfigurer = new StaticTabConfigurer(proCtcQuestionRepository, proCtcTermRepository);
 
-        studyController = new StudyController();
+        studyController = new CreateStudyController();
         studyController.setTabConfigurer(tabConfigurer);
 
         editFormController = new EditFormController();

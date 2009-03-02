@@ -1,15 +1,18 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
 import gov.nih.nci.ctcae.web.ControllerTools;
 import gov.nih.nci.ctcae.web.editor.EnumByNameEditor;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
+import gov.nih.nci.ctcae.web.security.SecuredTab;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -27,13 +30,15 @@ import java.util.Date;
  * @author Saurabh Agrawal
  * @crated Nov 5, 2008
  */
-public abstract class CtcAeTabbedFlowController<C extends Object> extends AbstractTabbedFlowFormController<C> {
+public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends AbstractTabbedFlowFormController<C> {
 
     /**
      * The study repository.
      */
     protected StudyRepository studyRepository;
 
+
+    private PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
     /**
      * The organization repository.
      */
@@ -140,6 +145,45 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
         return true;
     }
 
+    @Override
+    public Flow<C> getFlow(C command) {
+        Flow<C> cFlow = super.getFlow(command);
+
+
+        return getSecuredFlow(cFlow);
+
+
+    }
+
+    private Flow<C> getSecuredFlow(Flow<C> flow) {
+
+        Flow securedFlow = new Flow(flow.getName());
+
+        for (Tab<C> tab : flow.getTabs()) {
+            if (tab instanceof SecuredTab) {
+                boolean authorize = privilegeAuthorizationCheck.authorize(((SecuredTab) tab).getRequiredPrivilege());
+                if (authorize) {
+                    securedFlow.addTab(tab);
+                } else {
+                    logger.debug(String.format("user can not access this secured tab %s", tab.getShortTitle()));
+                }
+            } else {
+                logger.debug(String.format("tab %s is not secured  so returning the tab", tab.getShortTitle()));
+                securedFlow.addTab(tab);
+            }
+        }
+
+        return securedFlow;
+
+    }
+
+    @Override
+    public Flow<C> getFlow() {
+        Flow<C> cFlow = super.getFlow();
+        return getSecuredFlow(cFlow);
+
+    }
+
     /**
      * Sets the organization repository.
      *
@@ -198,5 +242,10 @@ public abstract class CtcAeTabbedFlowController<C extends Object> extends Abstra
     @Required
     public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
         this.proCtcQuestionRepository = proCtcQuestionRepository;
+    }
+
+    @Required
+    public void setPrivilegeAuthorizationCheck(PrivilegeAuthorizationCheck privilegeAuthorizationCheck) {
+        this.privilegeAuthorizationCheck = privilegeAuthorizationCheck;
     }
 }

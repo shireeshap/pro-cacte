@@ -34,6 +34,7 @@
     <!-- Automatically receives AuthenticationEvent messages from DaoAuthenticationProvider -->
     <beans:bean id="authorizationLoggerListener"
                 class="org.springframework.security.event.authorization.LoggerListener"/>
+
     <beans:bean id="authenticationLoggerListener"
                 class="org.springframework.security.event.authorization.LoggerListener"/>
 
@@ -53,6 +54,10 @@
     </beans:bean>
 
     <beans:bean id="authenticatedVoter" class="org.springframework.security.vote.AuthenticatedVoter"/>
+
+    <beans:bean id="privilegeAuthorizationCheck" class="gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck">
+        <beans:property name="accessDecisionManager" ref="accessDecisionManager"/>
+    </beans:bean>
 
 
     <!--It will create a inMemoryUserDetailsService-->

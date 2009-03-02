@@ -25,7 +25,7 @@ import java.util.Map;
  * @author Vinay Kumar
  * @crated Dec 8, 2008
  */
-public abstract class FormController extends CtcAeTabbedFlowController<CreateFormCommand> {
+public abstract class FormController extends CtcAeSecuredTabbedFlowController<CreateFormCommand> {
 
     /**
      * The crf repository.

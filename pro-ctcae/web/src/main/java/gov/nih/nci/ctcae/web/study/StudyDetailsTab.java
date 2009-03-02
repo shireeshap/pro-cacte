@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.web.security.SecuredTab;
 
 //
 /**
@@ -9,7 +10,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */
-public class StudyDetailsTab extends Tab<StudyCommand> {
+public class StudyDetailsTab extends SecuredTab<StudyCommand> {
 
     /**
      * Instantiates a new study details tab.
@@ -19,4 +20,8 @@ public class StudyDetailsTab extends Tab<StudyCommand> {
     }
 
 
+    public String getRequiredPrivilege() {
+        return Privilege.PRIVILEGE_EDIT_STUDY;
+
+    }
 }

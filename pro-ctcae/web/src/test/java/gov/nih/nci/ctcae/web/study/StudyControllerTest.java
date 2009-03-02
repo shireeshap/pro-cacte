@@ -26,7 +26,7 @@ public class StudyControllerTest extends WebTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		controller = new StudyController();
+		controller = new CreateStudyController();
 		validator = new WebControllerValidatorImpl();
 		studyRepository = registerMockFor(StudyRepository.class);
 		controller.setStudyRepository(studyRepository);

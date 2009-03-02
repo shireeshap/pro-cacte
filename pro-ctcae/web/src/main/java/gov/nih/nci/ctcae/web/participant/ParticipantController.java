@@ -2,22 +2,17 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.*;
-import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import gov.nih.nci.ctcae.web.ListValues;
-import gov.nih.nci.ctcae.web.study.*;
-import gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController;
+import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
-import java.util.*;
 
 //
 /**
@@ -26,7 +21,7 @@ import java.util.*;
  * @author Harsh Agarwal
  * @created Oct 21, 2008
  */
-public class ParticipantController extends CtcAeTabbedFlowController<ParticipantCommand> {
+public class ParticipantController extends CtcAeSecuredTabbedFlowController<ParticipantCommand> {
 
     /**
      * The participant repository.

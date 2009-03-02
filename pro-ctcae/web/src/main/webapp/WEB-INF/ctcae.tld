@@ -11,7 +11,6 @@
     <description>ProCtcAe JSP Form Tag Library. Author: Vinay Kumar</description>
 
 
-
     <tag>
         <name>authorize</name>
         <tag-class>gov.nih.nci.ctcae.web.tag.AuthorizeTag</tag-class>
@@ -27,6 +26,21 @@
             it will be used to display or hide certain portions of a JSP
             based on user’s access level for the application code with which the JSP is being invoked
         </description>
+    </tag>
+    <tag>
+        <name>urlAuthorize</name>
+        <tag-class>gov.nih.nci.ctcae.web.security.UrlAuthorizationTag</tag-class>
+        <description>
+            it will be used to display or hide certain portions of a JSP
+            based on user’s access level for the application code with which the JSP is being invoked
+        </description>
+        <attribute>
+            <name>url</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>Url to protect ex :/pages/form/createForm</description>
+        </attribute>
+
     </tag>
 
 </taglib>

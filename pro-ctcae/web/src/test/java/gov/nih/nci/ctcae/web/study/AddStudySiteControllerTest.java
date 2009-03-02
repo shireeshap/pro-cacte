@@ -18,7 +18,7 @@ public class AddStudySiteControllerTest extends WebTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         controller = new AddStudySiteController();
-        studyController = new StudyController();
+        studyController = new CreateStudyController();
 
 
     }

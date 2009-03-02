@@ -373,7 +373,7 @@ public class Study extends BasePersistable {
     }
 
 
-    private StudyOrganizationClinicalStaff getStudyOrganizationClinicalStaffByRole(Role role) {
+    public StudyOrganizationClinicalStaff getStudyOrganizationClinicalStaffByRole(Role role) {
         for (StudyOrganization studyOrganization : studyOrganizations) {
             List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffList = studyOrganization.getStudyOrganizationClinicalStaffs();
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganizationClinicalStaffList) {

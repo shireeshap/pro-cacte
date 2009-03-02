@@ -16,6 +16,21 @@ import javax.persistence.*;
         @Parameter(name = "sequence", value = "seq_privileges_id")})
 public class Privilege extends BasePersistable {
 
+    public static final String PRIVILEGE_CREATE_FORM = "PRIVILEGE_CREATE_FORM";
+    public static final String PRIVILEGE_EDIT_FORM = "PRIVILEGE_EDIT_FORM";
+    public static final String PRIVILEGE_MANAGE_FORM = "PRIVILEGE_MANAGE_FORM";
+    public static final String PRIVILEGE_COPY_FORM = "PRIVILEGE_COPY_FORM";
+    public static final String PRIVILEGE_DELETE_FORM = "PRIVILEGE_DELETE_FORM";
+    public static final String PRIVILEGE_VERSION_FORM = "PRIVILEGE_VERSION_FORM";
+    public static final String PRIVILEGE_RELEASE_FORM = "PRIVILEGE_RELEASE_FORM";
+
+    public static final String PRIVILEGE_CREATE_STUDY = "PRIVILEGE_CREATE_STUDY";
+    public static final String PRIVILEGE_VIEW_STUDY = "PRIVILEGE_VIEW_STUDY";
+    public static final String PRIVILEGE_ADD_STUDY_SITE = "PRIVILEGE_ADD_STUDY_SITE";
+    public static final String PRIVILEGE_ADD_STUDY_CLINICAL_STAFF = "PRIVILEGE_ADD_STUDY_CLINICAL_STAFF";
+    public static final String PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF = "PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF";
+    public static final String PRIVILEGE_SEARCH_STUDY = "PRIVILEGE_SEARCH_STUDY";
+    public static final String PRIVILEGE_EDIT_STUDY = "PRIVILEGE_EDIT_STUDY";
 
     /**
      * The id.

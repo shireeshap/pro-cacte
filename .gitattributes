@@ -153,6 +153,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentity
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentityImpl.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentityRetrievalStrategy.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ObjectGroupIdentityRetrievalStrategyImpl.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/PrivilegeAuthorizationCheck.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/UserDetails.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/commons/CtcAeToStringStyle.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialect.java -text
@@ -335,7 +336,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -t
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfDisplayVersionsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfTableModel.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcAeTabbedFlowController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcAeSecuredTabbedFlowController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcCAtegoryComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/DeleteFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/EditFormController.java -text
@@ -375,10 +376,13 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfTab.jav
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/SecuredTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationCheck.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationTag.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyComponentController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudySiteController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/CreateStudyController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/EditStudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/EmptyStudyTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SearchStudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/SelectedStudyCell.java -text
@@ -986,6 +990,8 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SearchParticipantC
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendarTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/CommonUrlAuthorizationIntegrationTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/LeadCRAAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationTagIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/UrlSecurityIntegrationTestCase.java -text

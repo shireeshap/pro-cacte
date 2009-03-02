@@ -24,8 +24,7 @@ public class StudyLinkDisplayCell extends AbstractCell {
         Integer id = bean.getId();
 
         String cellValue = "";
-        String editLink = String.format("createStudy?studyId=%s", id.toString());
-        String manageStudySitePersonalLink = String.format("manageStudySitePersonal?studyId=%s", id.toString());
+        String editLink = String.format("editStudy?studyId=%s", id.toString());
 
         cellValue = String.format(editLink + bean.getAssignedIdentifier() + "</a>");
         cellValue = "<a href=\"" + editLink + "\">" + "Edit" + "</a>";

@@ -5,7 +5,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
-import gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController;
+import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Harsh Agarwal
  * @crated Nov 5, 2008
  */
-public class ScheduleCrfController<C extends StudyParticipantCommand> extends CtcAeTabbedFlowController<StudyParticipantCommand> {
+public class ScheduleCrfController<C extends StudyParticipantCommand> extends CtcAeSecuredTabbedFlowController<StudyParticipantCommand> {
 
     /**
      * The study participant assignment repository.

@@ -41,7 +41,7 @@ public class StudyLinkDisplayCellTest extends AbstractCellTestCase {
 
 
         String cellValue = cell.getCellValue(model, editLinkColumn);
-        assertEquals(String.format("<a href=\"createStudy?studyId=2\">%s</a>", "Edit"), cellValue);
+        assertEquals(String.format("<a href=\"editStudy?studyId=2\">%s</a>", "Edit"), cellValue);
 
 
     }

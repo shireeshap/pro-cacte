@@ -107,11 +107,11 @@
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Studies"
-                      p:mainController="studyController" p:pathMapping="/study/**">
+                      p:mainController="searchStudyController" p:pathMapping="/study/**">
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="study.tab.enter_study" p:linkName="studyController"/>
+                                  p:displayName="study.tab.enter_study" p:linkName="createStudyController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="study.tab.search_study" p:linkName="searchStudyController"/>
 
@@ -155,8 +155,6 @@
         <property name="finderRepository" ref="finderRepository"/>
     </bean>
 
-    <bean name="/form/advanceForm" id="advanceFormController" class="gov.nih.nci.ctcae.web.form.AdvanceFormController"
-          parent="formController"/>
 
     <bean name="/form/basicForm" id="basicFormController" class="gov.nih.nci.ctcae.web.form.BasicFormController"
           parent="formController"/>
@@ -166,7 +164,7 @@
     </bean>
 
     <bean id="formController" class="gov.nih.nci.ctcae.web.form.FormController" abstract="true"
-          parent="tabbedFlowFormController">
+          parent="securedTabbedFlowFormController">
         <property name="crfRepository" ref="crfRepository"/>
         <property name="uniqueTitleForCrfValidator" ref="uniqueTitleForCrfValidator"/>
         <property name="notEmptyValidator" ref="notEmptyValidator"/>
@@ -251,10 +249,18 @@
     </bean>
 
 
-    <bean name="/study/createStudy" id="studyController"
-          class="gov.nih.nci.ctcae.web.study.StudyController" parent="tabbedFlowFormController">
+    <bean name="studyController" id="studyController"
+          class="gov.nih.nci.ctcae.web.study.StudyController" parent="securedTabbedFlowFormController" abstract="true">
         <property name="studyRepository" ref="studyRepository"/>
-        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
+    </bean>
+
+    <bean name="/study/createStudy" id="createStudyController"
+          class="gov.nih.nci.ctcae.web.study.CreateStudyController" parent="securedTabbedFlowFormController">
+        <property name="studyRepository" ref="studyRepository"/>
+    </bean>
+
+    <bean name="/study/editStudy" id="editStudyController"
+          class="gov.nih.nci.ctcae.web.study.EditStudyController" parent="studyController">
     </bean>
 
     <bean name="/study/addStudySite" id="addStudySiteController"
@@ -273,7 +279,7 @@
     </bean>
 
     <bean name="/participant/create" id="participantController"
-          class="gov.nih.nci.ctcae.web.participant.ParticipantController" parent="tabbedFlowFormController">
+          class="gov.nih.nci.ctcae.web.participant.ParticipantController" parent="securedTabbedFlowFormController">
         <property name="participantRepository" ref="participantRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
     </bean>
@@ -283,7 +289,7 @@
     </bean>
 
     <bean name="/participant/schedulecrf" id="scheduleCrfController"
-          class="gov.nih.nci.ctcae.web.participant.ScheduleCrfController" parent="tabbedFlowFormController">
+          class="gov.nih.nci.ctcae.web.participant.ScheduleCrfController" parent="securedTabbedFlowFormController">
         <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
     </bean>
 
@@ -346,7 +352,7 @@
 
     <bean id="tabConfigurer" class="gov.nih.nci.cabig.ctms.web.tabs.DefaultTabConfigurer"/>
 
-    <bean name="tabbedFlowFormController" class="gov.nih.nci.ctcae.web.form.CtcAeTabbedFlowController" abstract="true">
+    <bean name="securedTabbedFlowFormController" class="gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController" abstract="true">
         <property name="tabConfigurer" ref="tabConfigurer"/>
         <property name="studyRepository" ref="studyRepository"/>
         <property name="controllerTools" ref="controllerTools"/>
@@ -354,6 +360,7 @@
         <property name="organizationRepository" ref="organizationRepository"/>
         <property name="webControllerValidator" ref="webControllerValidator"/>
         <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
+        <property name="privilegeAuthorizationCheck" ref="privilegeAuthorizationCheck"/>
     </bean>
 
 

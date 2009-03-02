@@ -227,7 +227,7 @@ a#help:hover {
 /***
 The following are the rules for 1st level navigation tabs:
 firstlevelnav_listAdverseEventsController: Adverse Events
-firstlevelnav_studyController: Studies
+firstlevelnav_searchStudyController: Studies
 3. Subjects
 4. Rules
 5. Administration
@@ -261,7 +261,7 @@ a#firstlevelnav_manageFormController:active {
 	background-image: url( ../images/blue/forms_btn_selected.png );
 }
 
-a#firstlevelnav_studyController {
+a#firstlevelnav_searchStudyController {
 	background-image: url( ../images/blue/studies_btn.png );
 	height: 0px;
 	padding: 45px 0px 0px 0px;
@@ -272,19 +272,19 @@ a#firstlevelnav_studyController {
 	margin-left: 1px;
 }
 
-a#firstlevelnav_studyController:link {
+a#firstlevelnav_searchStudyController:link {
 	background-position: 0px 0px;
 }
 
-a#firstlevelnav_studyController:hover {
+a#firstlevelnav_searchStudyController:hover {
 	background-position: 0px -45px;
 }
 
-a#firstlevelnav_studyController:active {
+a#firstlevelnav_searchStudyController:active {
 	background-position: 0px -90px;
 }
 
-.selected a#firstlevelnav_studyController {
+.selected a#firstlevelnav_searchStudyController {
 	background-image: url( ../images/blue/studies_btn_selected.png );
 }
 
