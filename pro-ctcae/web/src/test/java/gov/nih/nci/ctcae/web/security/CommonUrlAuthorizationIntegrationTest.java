@@ -14,7 +14,7 @@ import java.util.Map;
  * @author Vinay Kumar
  * @crated Feb 26, 2009
  */
-public class CommonUrlAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTest {
+public class CommonUrlAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
 
 
     public void testAuthorizeUserForAllUrl() {

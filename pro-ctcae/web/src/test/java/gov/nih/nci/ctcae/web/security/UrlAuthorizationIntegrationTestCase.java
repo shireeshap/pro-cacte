@@ -2,9 +2,13 @@ package gov.nih.nci.ctcae.web.security;
 
 import gov.nih.nci.cabig.ctms.CommonsSystemException;
 import gov.nih.nci.cabig.ctms.tools.spring.ControllerUrlResolver;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
+import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
@@ -18,7 +22,7 @@ import java.util.Map;
  * @author Vinay Kumar
  * @crated Feb 26, 2009
  */
-public class UrlAuthorizationIntegrationTest extends AbstractWebIntegrationTestCase {
+public class UrlAuthorizationIntegrationTestCase extends AbstractWebIntegrationTestCase {
 
     protected final String EDIT_STUDY_URL = "/pages/study/editStudy";
     protected final String VIEW_STUDY_URL = "/pages/study/viewStudy";
@@ -53,12 +57,13 @@ public class UrlAuthorizationIntegrationTest extends AbstractWebIntegrationTestC
     protected ControllerUrlResolver urlResolver;
     protected List<String> allUrls = new ArrayList();
     protected List<String> commonAllowedUrls = new ArrayList();
+    private List<Tab> allTabs = new ArrayList<Tab>();
 
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
-        allUrls = getAllUrls();
+        populateAllUrlsAndTabs();
         commonAllowedUrls.add("/pages/home");
         commonAllowedUrls.add("/j_spring_security_logout");
         commonAllowedUrls.add("/pages/confirmationCheck");
@@ -90,26 +95,45 @@ public class UrlAuthorizationIntegrationTest extends AbstractWebIntegrationTestC
     }
 
     public void authorizeUserForTab(User user, List<SecuredTab> allowedTabs) {
+        login(user);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         assertFalse("user must have authorities", authentication.getAuthorities().length == 0);
 
         for (SecuredTab securedTab : allowedTabs) {
 
-            assertTrue(String.format("user %s does not have permission:%s ", authentication.getName(), securedTab.getRequiredPrivilege()),
+            assertTrue(String.format("user %s does not have permission:%s to acess %s tab", authentication.getName(), securedTab.getRequiredPrivilege(), securedTab.getShortTitle()),
                     privilegeAuthorizationCheck.authorize(securedTab.getRequiredPrivilege()));
+
+            removeTab(securedTab);
+
         }
 
 
-//        //user must not see other urls;
-//        for (String url : allUrls) {
-//            assertFalse(String.format("user %s must not access url:%s ", authentication.getName(), url), urlAuthorizationCheck.authorize(url));
-//        }
+        // //user must not see other urls;
+        for (Tab tab : allTabs) {
+            if (tab instanceof SecuredTab) {
+                SecuredTab securedTab = (SecuredTab) tab;
+                assertFalse(String.format("user %s  must not have permission:%s to access %s tab", authentication.getName(), securedTab.getRequiredPrivilege(), securedTab.getShortTitle()),
+                        privilegeAuthorizationCheck.authorize(securedTab.getRequiredPrivilege()));
+            }
+        }
+    }
+
+    private void removeTab(SecuredTab securedTab) {
+
+        List<Tab> tabsToRemove = new ArrayList<Tab>();
+        for (Tab tab : allTabs) {
+            if (StringUtils.equals(tab.getClass().getName(), securedTab.getClass().getName())) {
+                tabsToRemove.add(tab);
+            }
+
+        }
+        allTabs.removeAll(tabsToRemove);
 
     }
 
 
-    public List<String> getAllUrls() {
+    public void populateAllUrlsAndTabs() {
 
         urlResolver = (ControllerUrlResolver) webApplicationContext.getBean("urlResolver");
 
@@ -125,12 +149,22 @@ public class UrlAuthorizationIntegrationTest extends AbstractWebIntegrationTestC
                 String url = urlResolver.resolve(String.valueOf(controllerBean)).getUrl(true);
 
                 allUrls.add(url);
+
             } catch (CommonsSystemException e) {
 
             }
         }
 
-        return allUrls;
+        Map<String, CtcAeSecuredTabbedFlowController> securedTabbedFlowControllers = webApplicationContext.getBeansOfType(CtcAeSecuredTabbedFlowController.class);
+        for (CtcAeSecuredTabbedFlowController securedTabbedFlowController : securedTabbedFlowControllers.values()) {
+
+            Flow flow = securedTabbedFlowController.getFlow();
+            allTabs.addAll(flow.getTabs());
+
+        }
+        assertFalse("must find secured tab", allTabs.isEmpty());
+
+
     }
 
 

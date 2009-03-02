@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.security;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.web.study.EmptyStudyTab;
 import gov.nih.nci.ctcae.web.study.StudyDetailsTab;
-import gov.nih.nci.ctcae.web.study.StudySiteClinicalStaffTab;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Feb 26, 2009
  */
-public class LeadCRAAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
+public class PIAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
 
     List<String> allowedUrls = new ArrayList();
 
@@ -25,7 +24,6 @@ public class LeadCRAAuthorizationIntegrationTest extends UrlAuthorizationIntegra
         super.onSetUpInTransaction();
 
         allowedUrls.add(MANAGE_FORM_URL);
-
         allowedUrls.add(ADD_QUESTION_TO_FORM_URL);
         allowedUrls.add(ADD_CRF_COMPONENT_URL);
         allowedUrls.add(ALL_CONDITIONS_URL);
@@ -42,17 +40,13 @@ public class LeadCRAAuthorizationIntegrationTest extends UrlAuthorizationIntegra
         allowedUrls.add(EDIT_STUDY_URL);
         allowedUrls.add(SEARCH_STUDY_URL);
         allowedUrls.add(VIEW_STUDY_URL);
-        allowedUrls.add(ADD_STUDY_SITE_CLINICAL_STAFF_URL);
 
         allowedUrls.add(SEARCH_CLINICAL_STAFF_URL);
-        allowedUrls.add(CREATE_CLINICAL_STAFF_URL);
-        allowedUrls.add(ADD_ORGANIZATION_CLINICAL_STAFF_URL);
 
 
-        user = defaultStudy.getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getUser();
+        user = defaultStudy.getPrincipalInvestigator().getOrganizationClinicalStaff().getClinicalStaff().getUser();
 
         allowedTabs.add(new EmptyStudyTab());
-        allowedTabs.add(new StudySiteClinicalStaffTab());
         allowedTabs.add(new StudyDetailsTab());
         allowedTabs.add(new EmptyStudyTab());
 

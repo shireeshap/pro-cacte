@@ -127,6 +127,9 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         defaultClinicalStaff = Fixture.createClinicalStaffWithOrganization("Angello", "Williams", "-1234", defaultOrganization);
         defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
 
+        ClinicalStaff clinicalStaff = Fixture.createClinicalStaffWithOrganization("Bob", "Williams", "-12345", defaultOrganization);
+        clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
+
         commitAndStartNewTransaction();
         assertNotNull("must find default clinical staff. ", defaultClinicalStaff);
 
@@ -142,6 +145,12 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
 
         addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+
+        StudyOrganizationClinicalStaff pi = new StudyOrganizationClinicalStaff();
+        pi.setRole(PI);
+        pi.setOrganizationClinicalStaff(clinicalStaff.getOrganizationClinicalStaffs().get(0));
+
+        addStudyOrganizationClinicalStaff(pi);
         login();
 
     }

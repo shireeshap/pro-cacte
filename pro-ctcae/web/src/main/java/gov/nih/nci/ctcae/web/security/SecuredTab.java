@@ -16,4 +16,6 @@ public abstract class SecuredTab<T> extends Tab<T> {
 
     public abstract String getRequiredPrivilege();
 
+    
+
 }
