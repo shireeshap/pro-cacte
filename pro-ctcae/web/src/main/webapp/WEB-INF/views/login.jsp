@@ -97,6 +97,16 @@
                 <td>Lead CRA</td>
             </tr>
             <tr>
+                <td>John</td>
+                <td>system_admin</td>
+                <td>Overall Data Coordinator (ODC)</td>
+            </tr>
+            <tr>
+                <td>Bob</td>
+                <td>system_admin</td>
+                <td>PI</td>
+            </tr>
+            <tr>
                 <td>Brian</td>
                 <td>system_admin</td>
                 <td>Research Nurse</td>
@@ -112,6 +122,9 @@
                 <td>Primary Treating Physician</td>
             </tr>
         </table>
+        <br>
+        <br>
+        <a href="https://wiki.nci.nih.gov/display/CTMS/Roles">Click here </a> for security document.
     </chrome:division>
 </chrome:box>
 </body>

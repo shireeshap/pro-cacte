@@ -25,7 +25,7 @@ import java.util.Map;
 public class UrlAuthorizationIntegrationTestCase extends AbstractWebIntegrationTestCase {
 
     protected final String EDIT_STUDY_URL = "/pages/study/editStudy";
-    protected final String VIEW_STUDY_URL = "/pages/study/viewStudy";
+    protected final String STUDY_URL = "/pages/study/*";
     protected final String SEARCH_STUDY_URL = "/pages/study/searchStudy";
     protected final String ADD_STUDY_SITE_CLINICAL_STAFF_URL = "/pages/study/addStudyComponent";
 

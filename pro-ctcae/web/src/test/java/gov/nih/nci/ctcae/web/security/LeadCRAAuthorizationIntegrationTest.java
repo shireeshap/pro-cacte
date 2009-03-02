@@ -41,7 +41,7 @@ public class LeadCRAAuthorizationIntegrationTest extends UrlAuthorizationIntegra
 
         allowedUrls.add(EDIT_STUDY_URL);
         allowedUrls.add(SEARCH_STUDY_URL);
-        allowedUrls.add(VIEW_STUDY_URL);
+        allowedUrls.add(STUDY_URL);
         allowedUrls.add(ADD_STUDY_SITE_CLINICAL_STAFF_URL);
 
         allowedUrls.add(SEARCH_CLINICAL_STAFF_URL);

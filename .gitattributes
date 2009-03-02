@@ -712,7 +712,6 @@ pro-ctcae/web/src/main/webapp/images/blue/icons/createInvestigatorController_ico
 pro-ctcae/web/src/main/webapp/images/blue/icons/createNotificationController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createOrganizationController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createParticipantController_icon.png -text
-pro-ctcae/web/src/main/webapp/images/blue/icons/createResearchStaffController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createRuleController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createStudyController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/flag.png -text
@@ -728,6 +727,7 @@ pro-ctcae/web/src/main/webapp/images/blue/icons/passwordPolicyConfigurationContr
 pro-ctcae/web/src/main/webapp/images/blue/icons/reportController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/routineReportController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/scheduleCrfController_icon.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/searchClinicalStaffController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/searchParticipantController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/searchStudyController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/studyController_icon.png -text
@@ -992,6 +992,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCo
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendarTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/CommonUrlAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/LeadCRAAuthorizationIntegrationTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/ODCAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/PIAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationIntegrationTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationTagIntegrationTest.java -text

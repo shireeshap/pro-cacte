@@ -342,7 +342,7 @@ a#firstlevelnav_createRuleController:active {
 	background-image: url( ../images/blue/rules_btn_selected.png );
 }
 
-a#firstlevelnav_createClinicalStaffController {
+a#firstlevelnav_searchClinicalStaffController {
 	background-image: url( ../images/blue/administration_btn.png );
 	width: 148px;
 	height: 0px;
@@ -353,19 +353,19 @@ a#firstlevelnav_createClinicalStaffController {
 	margin-left: 1px;
 }
 
-a#firstlevelnav_createClinicalStaffController:link {
+a#firstlevelnav_searchClinicalStaffController:link {
 	background-position: 0px 0px;
 }
 
-a#firstlevelnav_createClinicalStaffController:hover {
+a#firstlevelnav_searchClinicalStaffController:hover {
 	background-position: 0px -45px;
 }
 
-a#firstlevelnav_createClinicalStaffController:active {
+a#firstlevelnav_searchClinicalStaffController:active {
 	background-position: 0px -90px;
 }
 
-.selected a#firstlevelnav_createClinicalStaffController {
+.selected a#firstlevelnav_searchClinicalStaffController {
 	background-image: url( ../images/blue/administration_btn_selected.png );
 }
 

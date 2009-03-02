@@ -39,7 +39,7 @@ public class PIAuthorizationIntegrationTest extends UrlAuthorizationIntegrationT
 
         allowedUrls.add(EDIT_STUDY_URL);
         allowedUrls.add(SEARCH_STUDY_URL);
-        allowedUrls.add(VIEW_STUDY_URL);
+        allowedUrls.add(STUDY_URL);
 
         allowedUrls.add(SEARCH_CLINICAL_STAFF_URL);
 
