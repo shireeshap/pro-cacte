@@ -46,10 +46,15 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
 
     execute('ALTER TABLE ROLE_PRIVILEGES ADD CONSTRAINT fk_privilege_id FOREIGN KEY (privilege_id) REFERENCES PRIVILEGES')
 
-//    insert('ROLE_PRIVILEGES', [id: -1, role_name: "CCA", privilege_id: "-11"], primaryKey: false)
-//    insert('ROLE_PRIVILEGES', [id: -2, role_name: "CCA", privilege_id: "-12"], primaryKey: false)
-//    insert('ROLE_PRIVILEGES', [id: -3, role_name: "CCA", privilege_id: "-13"], primaryKey: false)
-//    insert('ROLE_PRIVILEGES', [id: -4, role_name: "CCA", privilege_id: "-14"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -1, role_name: "CCA", privilege_id: "-21"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -2, role_name: "CCA", privilege_id: "-22"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -3, role_name: "CCA", privilege_id: "-23"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -4, role_name: "CCA", privilege_id: "-24"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -5, role_name: "CCA", privilege_id: "-25"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -6, role_name: "CCA", privilege_id: "-27"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -7, role_name: "CCA", privilege_id: "-41"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -8, role_name: "CCA", privilege_id: "-42"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -9, role_name: "CCA", privilege_id: "-43"], primaryKey: false)
 
     insert('ROLE_PRIVILEGES', [id: -21, role_name: "LEAD_CRA", privilege_id: "-1"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -22, role_name: "LEAD_CRA", privilege_id: "-2"], primaryKey: false)

@@ -7,6 +7,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib uri="http://www.extremecomponents.org" prefix="ec" %>
+<%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
+
 <link rel="stylesheet" type="text/css"
       href="<c:url value="/css/extremecomponents.css"/>">
 
@@ -50,16 +52,26 @@
   <div class="tabpane">
    <div class="workflow-tabs2">
        <ul id="" class="tabs autoclear">
+
+
+
+
+           <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff" >
+               <li id="thirdlevelnav" class="tab ">
+               <div>
+                   <a href="<c:url value="/pages/admin/clinicalStaff/createClinicalStaff"/>"><tags:message code="clinicalStaff.tab.createStaff"/></a>
+               </div>
+           </li>
+           </ctcae:urlAuthorize>
+           <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/searchClinicalStaff" >
+
            <li id="thirdlevelnav" class="tab selected">
                <div>
-                   <a href="createClinicalStaff"><tags:message code="clinicalStaff.tab.createStaff"/></a>
+                   <a href="<c:url value="pages/admin/clinicalStaff/searchClinicalStaff"/>"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
                </div>
            </li>
-           <li id="thirdlevelnav" class="tab">
-               <div>
-                   <a href="searchClinicalStaff"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
-               </div>
-           </li>
+           </ctcae:urlAuthorize>
+                     
        </ul>
    </div>
 </div>
