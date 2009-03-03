@@ -39,12 +39,15 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
 
     insert('PRIVILEGES', [id: -61, privilege_name: "PRIVILEGE_CREATE_PARTICIPANT", display_name: "PRIVILEGE_CREATE_PARTICIPANT"], primaryKey: false)
     insert('PRIVILEGES', [id: -62, privilege_name: "PRIVILEGE_SEARCH_PARTICIPANT", display_name: "PRIVILEGE_SEARCH_PARTICIPANT"], primaryKey: false)
-    insert('PRIVILEGES', [id: -63, privilege_name: "PRIVILEGE_PARTICIPANT_SCHEDULE_CRF", display_name: "PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"], primaryKey: false)
-    insert('PRIVILEGES', [id: -64, privilege_name: "PRIVILEGE_PARTICIPANT_INBOX", display_name: "PRIVILEGE_PARTICIPANT_INBOX"], primaryKey: false)
-    insert('PRIVILEGES', [id: -65, privilege_name: "PRIVILEGE_PARTICIPANT_ADD_CRF_SCHEDULE", display_name: "PRIVILEGE_PARTICIPANT_ADD_CRF_SCHEDULE"], primaryKey: false)
-    insert('PRIVILEGES', [id: -66, privilege_name: "PRIVILEGE_PARTICIPANT_ADD_NOTIFICATION_CLINICAL_STAFF", display_name: "PRIVILEGE_PARTICIPANT_ADD_NOTIFICATION_CLINICAL_STAFF"], primaryKey: false)
-    insert('PRIVILEGES', [id: -67, privilege_name: "PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR", display_name: "PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"], primaryKey: false)
     insert('PRIVILEGES', [id: -68, privilege_name: "PRIVILEGE_PARTICIPANT_DISPLAY_STUDY_SITES", display_name: "PRIVILEGE_PARTICIPANT_DISPLAY_STUDY_SITES"], primaryKey: false)
+    insert('PRIVILEGES', [id: -66, privilege_name: "PRIVILEGE_PARTICIPANT_ADD_NOTIFICATION_CLINICAL_STAFF", display_name: "PRIVILEGE_PARTICIPANT_ADD_NOTIFICATION_CLINICAL_STAFF"], primaryKey: false)
+
+    insert('PRIVILEGES', [id: -63, privilege_name: "PRIVILEGE_PARTICIPANT_SCHEDULE_CRF", display_name: "PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"], primaryKey: false)
+    insert('PRIVILEGES', [id: -65, privilege_name: "PRIVILEGE_PARTICIPANT_ADD_CRF_SCHEDULE", display_name: "PRIVILEGE_PARTICIPANT_ADD_CRF_SCHEDULE"], primaryKey: false)
+    insert('PRIVILEGES', [id: -67, privilege_name: "PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR", display_name: "PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"], primaryKey: false)
+
+    insert('PRIVILEGES', [id: -64, privilege_name: "PRIVILEGE_PARTICIPANT_INBOX", display_name: "PRIVILEGE_PARTICIPANT_INBOX"], primaryKey: false)
+
     insert('PRIVILEGES', [id: -69, privilege_name: "PRIVILEGE_EDIT_PARTICIPANT", display_name: "PRIVILEGE_EDIT_PARTICIPANT"], primaryKey: false)
     insert('PRIVILEGES', [id: -70, privilege_name: "PRIVILEGE_VIEW_PARTICIPANT", display_name: "PRIVILEGE_VIEW_PARTICIPANT"], primaryKey: false)
 
@@ -59,6 +62,19 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     }
 
     execute('ALTER TABLE ROLE_PRIVILEGES ADD CONSTRAINT fk_privilege_id FOREIGN KEY (privilege_id) REFERENCES PRIVILEGES')
+
+    insert('ROLE_PRIVILEGES', [id: -101, role_name: "TREATING_PHYSICIAN", privilege_id: "-62"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -102, role_name: "TREATING_PHYSICIAN", privilege_id: "-63"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -103, role_name: "TREATING_PHYSICIAN", privilege_id: "-65"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -104, role_name: "TREATING_PHYSICIAN", privilege_id: "-67"], primaryKey: false)
+
+    insert('ROLE_PRIVILEGES', [id: -121, role_name: "RESEARCH_NURSE", privilege_id: "-62"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -122, role_name: "RESEARCH_NURSE", privilege_id: "-63"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -123, role_name: "RESEARCH_NURSE", privilege_id: "-65"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -124, role_name: "RESEARCH_NURSE", privilege_id: "-67"], primaryKey: false)
+
+
+
 
     insert('ROLE_PRIVILEGES', [id: -71, role_name: "SITE_PI", privilege_id: "-61"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -72, role_name: "SITE_PI", privilege_id: "-62"], primaryKey: false)
