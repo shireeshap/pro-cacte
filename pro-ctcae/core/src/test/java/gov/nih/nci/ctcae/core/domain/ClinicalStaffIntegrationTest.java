@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author mehul
@@ -25,7 +26,7 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
     }
 
     private void saveClinicalStaff() {
-        clinicalStaff = Fixture.createClinicalStaff("John", "Dow", "NCI 01");
+        clinicalStaff = Fixture.createClinicalStaff("John"+ UUID.randomUUID(), "Dow", "NCI 01");
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
     }
 
