@@ -9,6 +9,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
 
 <head>
     <tags:formBuilder/>
@@ -133,7 +134,9 @@
 </chrome:box>
 <div id="crfItem_50"></div>
 <div id="noForm" style="display:none;">
-    <tags:button type="anchor" id="newFormUrl" icon="add" value="New Form"/>
+    <ctcae:urlAuthorize url="/pages/form/basicForm">
+        <tags:button type="anchor" id="newFormUrl" icon="add" value="New Form"/>
+    </ctcae:urlAuthorize>
 </div>
 <div id="bigSearch" style="display:none;">
     <div class="endpanes"/>

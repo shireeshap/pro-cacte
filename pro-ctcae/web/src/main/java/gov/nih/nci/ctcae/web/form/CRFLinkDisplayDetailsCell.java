@@ -33,25 +33,43 @@ public class CRFLinkDisplayDetailsCell extends AbstractCell implements Cell {
 
         String cellValue = "";
         String link1 = model.getContext().getContextPath() + "/pages/participant/schedulecrf?crfId=";
-        String link2 = model.getContext().getContextPath() + "/pages/form/copyForm?crfId=";
-        String editLink = model.getContext().getContextPath() + "/pages/form/editForm?crfId=" + id.toString();
+
 
         if (bean.getStatus().equals(CrfStatus.RELEASED)) {
             cellValue = "<a href=\"" + link1 + id.toString() + "\">" + "Schedule" + "</a>";
-            cellValue = cellValue + " | <a href=\"" + link2 + id.toString() + "\">" + "Copy" + "</a>";
+
+            appendCopyFormValue(model, id, cellValue);
+
+
             if (bean.getNextVersionId() == null) {
                 cellValue = cellValue + " | <a href=\"javascript:versionForm('" + id.toString() + "')\">" + "Version" + "</a>";
             }
         } else {
             cellValue = "<a href=\"javascript:releaseForm('" + id.toString() + "')\">" + "Release" + "</a>&nbsp;&nbsp;";
-            cellValue = cellValue + " | <a href=\"" + link2 + id.toString() + "\">" + "Copy" + "</a>";
+            appendCopyFormValue(model, id, cellValue);
             cellValue = cellValue + " | <a href=\"javascript:deleteForm('" + id.toString() + "')\">" + "Delete" + "</a>";
 
         }
         if (bean.getStatus().equals(CrfStatus.DRAFT)) {
-            cellValue = cellValue + " | <a href=\"" + editLink + "\">" + "Edit" + "</a>";
+            appendEditFormValue(model, id, cellValue);
 
         }
         return cellValue;
+    }
+
+    private void appendCopyFormValue(TableModel model, Integer id, String cellValue) {
+        String link2 = model.getContext().getContextPath() + "/pages/form/copyForm?crfId=";
+
+        cellValue = cellValue + "<ctcae:urlAuthorize url=\"/pages/form/copyForm\">\n" +
+                " | <a href=\"" + link2 + id.toString() + "\">" + "Copy" + "</a>" +
+                "    </ctcae:urlAuthorize>";
+    }
+
+    private void appendEditFormValue(TableModel model, Integer id, String cellValue) {
+        String editLink = model.getContext().getContextPath() + "/pages/form/editForm?crfId=" + id.toString();
+
+        cellValue = cellValue + "<ctcae:urlAuthorize url=\"/pages/form/editForm\">\n" +
+                " | <a href=\"" + editLink + "\">" + "Edit" + "</a>" +
+                "    </ctcae:urlAuthorize>";
     }
 }

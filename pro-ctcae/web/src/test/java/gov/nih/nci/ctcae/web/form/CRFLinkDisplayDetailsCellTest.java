@@ -10,7 +10,7 @@ import org.extremecomponents.table.bean.Row;
  * @author Mehul Gulati
  *         Date: Nov 5, 2008
  */
-public class CRFLinkDisplayCellTest extends AbstractCellTestCase {
+public class CRFLinkDisplayDetailsCellTest extends AbstractCellTestCase {
 
     private CRFLinkDisplayDetailsCell crfLinkDisplayDetailsCell;
     private Column testOptionsColumn;
