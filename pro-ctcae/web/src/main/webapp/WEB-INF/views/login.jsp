@@ -112,6 +112,16 @@
                 <td>PI</td>
             </tr>
             <tr>
+                <td>George</td>
+                <td>system_admin</td>
+                <td>Site CRA</td>
+            </tr>
+            <tr>
+                <td>Donna</td>
+                <td>system_admin</td>
+                <td>Site PI</td>
+            </tr>
+            <tr>
                 <td>Brian</td>
                 <td>system_admin</td>
                 <td>Research Nurse</td>

@@ -1,10 +1,11 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.ctcae.web.security.SecuredTab;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -16,7 +17,7 @@ import java.util.Map;
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */
-public class ScheduleCrfTab extends Tab<StudyParticipantCommand> {
+public class ScheduleCrfTab extends SecuredTab<StudyParticipantCommand> {
     /**
      * The finder repository.
      */
@@ -27,6 +28,12 @@ public class ScheduleCrfTab extends Tab<StudyParticipantCommand> {
      */
     public ScheduleCrfTab() {
         super("schedulecrf.label.schedule_form", "schedulecrf.label.schedule_form", "participant/schedulecrf");
+
+    }
+
+    public String getRequiredPrivilege() {
+        return Privilege.PRIVILEGE_PARTICIPANT_SCHEDULE_CRF;
+
 
     }
 

@@ -136,11 +136,19 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         ClinicalStaff ccaClinicalStaff = Fixture.createClinicalStaffWithOrganization("Steve", "Williams", "-12345", defaultOrganization);
         ccaClinicalStaff = clinicalStaffRepository.save(ccaClinicalStaff);
 
+        ClinicalStaff sitePIClinicalStaff = Fixture.createClinicalStaffWithOrganization("Donna", "Williams", "-12345", defaultOrganization);
+        sitePIClinicalStaff = clinicalStaffRepository.save(sitePIClinicalStaff);
+
+        ClinicalStaff siteCRAClinicalStaff = Fixture.createClinicalStaffWithOrganization("George", "Williams", "-12345", defaultOrganization);
+        siteCRAClinicalStaff = clinicalStaffRepository.save(siteCRAClinicalStaff);
+
         commitAndStartNewTransaction();
         assertNotNull("must find default clinical staff. ", defaultClinicalStaff);
         assertNotNull("must find default clinical staff. ", clinicalStaff);
         assertNotNull("must find default clinical staff. ", ccaClinicalStaff);
+        assertNotNull("must find default clinical staff. ", sitePIClinicalStaff);
         assertNotNull("must find default clinical staff. ", odcClinicalStaff);
+        assertNotNull("must find default clinical staff. ", siteCRAClinicalStaff);
 
         defaultUser = defaultClinicalStaff.getUser();
         assertNotNull("must find user. ", defaultUser);
@@ -170,6 +178,16 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         cca.setRole(Role.CCA);
         cca.setOrganizationClinicalStaff(ccaClinicalStaff.getOrganizationClinicalStaffs().get(0));
         addStudyOrganizationClinicalStaff(cca);
+
+        StudyOrganizationClinicalStaff sitePI = new StudyOrganizationClinicalStaff();
+        sitePI.setRole(Role.SITE_PI);
+        sitePI.setOrganizationClinicalStaff(sitePIClinicalStaff.getOrganizationClinicalStaffs().get(0));
+        addStudyOrganizationClinicalStaff(sitePI);
+
+        StudyOrganizationClinicalStaff siteCRA = new StudyOrganizationClinicalStaff();
+        siteCRA.setRole(Role.SITE_CRA);
+        siteCRA.setOrganizationClinicalStaff(siteCRAClinicalStaff.getOrganizationClinicalStaffs().get(0));
+        addStudyOrganizationClinicalStaff(siteCRA);
 
         login();
 

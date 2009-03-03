@@ -52,6 +52,17 @@ public class UrlAuthorizationIntegrationTestCase extends AbstractWebIntegrationT
     protected final String CREATE_CLINICAL_STAFF_URL = "/pages/admin/clinicalStaff/createClinicalStaff";
 
 
+    protected final String CREATE_PARTICIPANT_URL = "/pages/participant/create";
+    protected final String SEARCH_PARTICIPANT_URL = "/pages/participant/search";
+    protected final String SCHEDULE_CRF_URL = "/pages/participant/schedulecrf";
+    protected final String PARTICIPANT_INBOX_URL = "/pages/participant/participantInbox";
+    protected final String ADD_CRF_SCHEDULE_URL = "/pages/participant/addCrfSchedule";
+    protected final String ADD_NOTIFICATION_CLINICAL_STAFF_URL = "/pages/participant/addNotificationClinicalStaff";
+    protected final String DISPLAY_CALENDAR_URL = "/pages/participant/displaycalendar";
+    protected final String PARTICIPANT_DISPLAY_STUDY_SITES_URL = "/pages/participant/displaystudysites";
+    protected final String EDIT_PARTICIPANT_URL = "/pages/participant/*";
+
+
     protected UrlAuthorizationCheck urlAuthorizationCheck;
 
     protected PrivilegeAuthorizationCheck privilegeAuthorizationCheck;

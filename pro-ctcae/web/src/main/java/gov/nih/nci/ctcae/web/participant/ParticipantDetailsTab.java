@@ -1,24 +1,24 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
+import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
+import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.ctcae.web.security.SecuredTab;
+import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.springframework.validation.Errors;
+import java.util.Map;
 
 //
 /**
  * @author Harsh Agarwal
  * @crated Feb 19, 2009
  */
-public class ParticipantDetailsTab extends Tab<ParticipantCommand> {
+public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     /**
      * The organization repository.
      */
@@ -33,6 +33,12 @@ public class ParticipantDetailsTab extends Tab<ParticipantCommand> {
      */
     public ParticipantDetailsTab() {
         super("participant.tab.participant_details", "participant.tab.participant_details", "participant/createParticipant");
+    }
+
+    public String getRequiredPrivilege() {
+        return Privilege.PRIVILEGE_CREATE_PARTICIPANT;
+
+
     }
 
     @Override

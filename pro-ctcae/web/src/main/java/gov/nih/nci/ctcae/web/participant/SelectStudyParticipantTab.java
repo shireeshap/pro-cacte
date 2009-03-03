@@ -4,8 +4,10 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.Errors;
@@ -20,7 +22,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */
-public class SelectStudyParticipantTab extends Tab<StudyParticipantCommand> {
+public class SelectStudyParticipantTab extends SecuredTab<StudyParticipantCommand> {
 
     /**
      * The finder repository.
@@ -32,6 +34,12 @@ public class SelectStudyParticipantTab extends Tab<StudyParticipantCommand> {
      */
     public SelectStudyParticipantTab() {
         super("schedulecrf.label.schedule_form", "schedulecrf.label.select_study_participant", "participant/selectstudyparticipant");
+
+    }
+
+    public String getRequiredPrivilege() {
+        return Privilege.PRIVILEGE_PARTICIPANT_SCHEDULE_CRF;
+
 
     }
 

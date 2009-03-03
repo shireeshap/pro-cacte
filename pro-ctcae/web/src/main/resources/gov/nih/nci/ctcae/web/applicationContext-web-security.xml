@@ -42,14 +42,14 @@
         <intercept-url pattern="/pages/study/*" access="PRIVILEGE_EDIT_STUDY"/>
 
 
-        <intercept-url pattern="/pages/participant/create" access="PRIVILEGE_EDIT_PARTICIPANT"/>
-        <intercept-url pattern="/pages/participant/search" access="PRIVILEGE_EDIT_PARTICIPANT"/>
-        <intercept-url pattern="/pages/participant/schedulecrf" access="PRIVILEGE_EDIT_PARTICIPANT"/>
-        <intercept-url pattern="/pages/participant/participantInbox" access="PRIVILEGE_EDIT_PARTICIPANT"/>
-        <intercept-url pattern="/pages/participant/addCrfSchedule" access="PRIVILEGE_EDIT_PARTICIPANT"/>
-        <intercept-url pattern="/pages/participant/addNotificationClinicalStaff" access="PRIVILEGE_EDIT_PARTICIPANT"/>
-        <intercept-url pattern="/pages/participant/displaycalendar" access="PRIVILEGE_EDIT_PARTICIPANT"/>
-        <intercept-url pattern="/pages/participant/displaystudysites" access="PRIVILEGE_EDIT_PARTICIPANT"/>
+        <intercept-url pattern="/pages/participant/create" access="PRIVILEGE_CREATE_PARTICIPANT"/>
+        <intercept-url pattern="/pages/participant/search" access="PRIVILEGE_SEARCH_PARTICIPANT"/>
+        <intercept-url pattern="/pages/participant/schedulecrf" access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
+        <intercept-url pattern="/pages/participant/participantInbox" access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <intercept-url pattern="/pages/participant/addCrfSchedule" access="PRIVILEGE_PARTICIPANT_ADD_CRF_SCHEDULE"/>
+        <intercept-url pattern="/pages/participant/addNotificationClinicalStaff" access="PRIVILEGE_PARTICIPANT_ADD_NOTIFICATION_CLINICAL_STAFF"/>
+        <intercept-url pattern="/pages/participant/displaycalendar" access="PRIVILEGE_PARTICIPANT_DISPLAY_CALENDAR"/>
+        <intercept-url pattern="/pages/participant/displaystudysites" access="PRIVILEGE_PARTICIPANT_DISPLAY_STUDY_SITES"/>
         <intercept-url pattern="/pages/participant/*" access="PRIVILEGE_EDIT_PARTICIPANT"/>
 
         <intercept-url pattern="/pages/admin/clinicalStaff/createClinicalStaff"

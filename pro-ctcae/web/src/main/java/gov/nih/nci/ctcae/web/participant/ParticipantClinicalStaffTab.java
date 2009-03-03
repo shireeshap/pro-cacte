@@ -1,22 +1,27 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.CRFCycle;
+import gov.nih.nci.ctcae.web.security.SecuredTab;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.validation.Errors;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Vinay Kumar
  * @crated Feb 11, 2009
  */
-public class ParticipantClinicalStaffTab extends Tab<ParticipantCommand> {
+public class ParticipantClinicalStaffTab extends SecuredTab<ParticipantCommand> {
     public ParticipantClinicalStaffTab() {
         super("participant.tab.clinical_staff", "participant.tab.clinical_staff", "participant/participant_clinical_staff");
+    }
+
+    public String getRequiredPrivilege() {
+        return Privilege.PRIVILEGE_PARTICIPANT_ADD_NOTIFICATION_CLINICAL_STAFF;
+
+
     }
 
     @Override
