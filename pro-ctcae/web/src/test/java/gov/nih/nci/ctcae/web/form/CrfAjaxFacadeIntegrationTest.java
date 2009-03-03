@@ -4,7 +4,6 @@ import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 
@@ -18,7 +17,6 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
 
     private CrfAjaxFacade crfAjaxFacade;
     protected Map parameterMap;
-    private CRFRepository crfRepository;
     private Study study;
     private CRF crf;
     private StudyRepository studyRepository;
@@ -55,7 +53,4 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
         this.crfAjaxFacade = crfAjaxFacade;
     }
 
-    public void setCrfRepository(CRFRepository crfRepository) {
-        this.crfRepository = crfRepository;
-    }
 }

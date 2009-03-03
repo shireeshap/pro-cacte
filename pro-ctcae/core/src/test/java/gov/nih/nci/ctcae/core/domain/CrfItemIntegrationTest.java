@@ -6,7 +6,6 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 
@@ -20,7 +19,6 @@ import java.util.Iterator;
 public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
 
-    private CRFRepository crfRepository;
     private ProCtcRepository proCtcRepository;
     private ProCtcQuestionRepository proCtcQuestionRepository;
     private CRF crf;
@@ -195,10 +193,6 @@ public class CrfItemIntegrationTest extends AbstractHibernateIntegrationTestCase
         }
     }
 
-
-    public void setCRFRepository(CRFRepository crfRepository) {
-        this.crfRepository = crfRepository;
-    }
 
     public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
         this.proCtcQuestionRepository = proCtcQuestionRepository;

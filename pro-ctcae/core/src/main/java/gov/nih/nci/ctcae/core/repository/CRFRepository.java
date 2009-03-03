@@ -3,15 +3,15 @@ package gov.nih.nci.ctcae.core.repository;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.lang.StringUtils;
 
-import java.util.List;
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 //
 /**
@@ -34,7 +34,7 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
      * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#getPersistableClass()
      */
     @Override
-    protected Class<CRF> getPersistableClass() {
+    public Class<CRF> getPersistableClass() {
         return CRF.class;
 
     }
@@ -126,7 +126,7 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
             }
             if (crf.getCrfCycles() != null) {
                 for (CRFCycle crfCycle : crf.getCrfCycles()) {
-                    proCtcAECalendar.setCycleParameters(crfCycle.getCycleLength(), crfCycle.getCycleDays(), crfCycle.getRepeatTimes(), crfCycle.getCycleLengthUnit(),calendarStartDate);
+                    proCtcAECalendar.setCycleParameters(crfCycle.getCycleLength(), crfCycle.getCycleDays(), crfCycle.getRepeatTimes(), crfCycle.getCycleLengthUnit(), calendarStartDate);
                     createSchedule(studyParticipantCrf, proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
                 }
             }
@@ -146,6 +146,7 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#save(gov.nih.nci.ctcae.core.domain.Persistable)
     */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+
     public CRF save(CRF crf) {
         CRF tmp = null;
         if (crf.getParentVersionId() != null) {

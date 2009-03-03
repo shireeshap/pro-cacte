@@ -10,7 +10,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Feb 26, 2009
  */
-public class ODCAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
+public class ODCUrlAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
 
     List<String> allowedUrls = new ArrayList();
 

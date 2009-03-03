@@ -29,7 +29,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     protected StudyRepository studyRepository;
     protected UserRepository userRepository;
     public DaoAuthenticationProvider daoAuthenticationProvider;
-
+    protected CRFRepository crfRepository;
 
     protected User defaultUser;
 
@@ -335,5 +335,10 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     @Required
     public void setDaoAuthenticationProvider(final DaoAuthenticationProvider daoAuthenticationProvider) {
         this.daoAuthenticationProvider = daoAuthenticationProvider;
+    }
+
+    @Required
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
     }
 }

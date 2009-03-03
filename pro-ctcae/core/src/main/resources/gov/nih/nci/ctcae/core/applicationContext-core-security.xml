@@ -1,63 +1,73 @@
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-             xmlns:beans="http://www.springframework.org/schema/beans"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
 
-    <beans:bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository"
-                parent="abstractRepository">
-        <beans:property name="passwordEncoder" ref="passwordEncoder"/>
-        <beans:property name="saltSource" ref="reflectionSaltSource"/>
-    </beans:bean>
+    <bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository" parent="abstractRepository">
+        <property name="passwordEncoder" ref="passwordEncoder"/>
+        <property name="saltSource" ref="reflectionSaltSource"/>
+    </bean>
 
 
-    <beans:bean id="passwordEncoder" class="org.springframework.security.providers.encoding.Md5PasswordEncoder">
-        <beans:property name="encodeHashAsBase64" value="true"/>
-    </beans:bean>
+    <!--<security:global-method-security access-decision-manager-ref="accessDecisionManager" >-->
+    <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.*(..))"-->
+    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+    <!--</security:global-method-security>-->
+
+    <bean id="passwordEncoder" class="org.springframework.security.providers.encoding.Md5PasswordEncoder">
+        <property name="encodeHashAsBase64" value="true"/>
+    </bean>
 
     <!--do not change this salt source. because it must be same as <salt-source/> tag -->
 
-    <beans:bean id="reflectionSaltSource" class="org.springframework.security.providers.dao.salt.ReflectionSaltSource">
-        <beans:property name="userPropertyToUse" value="getUsername"/>
-    </beans:bean>
+    <bean id="reflectionSaltSource" class="org.springframework.security.providers.dao.salt.ReflectionSaltSource">
+        <property name="userPropertyToUse" value="getUsername"/>
+    </bean>
 
     <!--It will create a daoAuthenticationProvider-->
-    <authentication-provider user-service-ref="userRepository">
-        <password-encoder ref="passwordEncoder">
-            <salt-source user-property="username"/>
-        </password-encoder>
+    <security:authentication-provider user-service-ref="userRepository">
+        <security:password-encoder ref="passwordEncoder">
+            <security:salt-source user-property="username"/>
+        </security:password-encoder>
 
-    </authentication-provider>
+    </security:authentication-provider>
 
 
     <!-- Automatically receives AuthenticationEvent messages from DaoAuthenticationProvider -->
-    <beans:bean id="authorizationLoggerListener"
-                class="org.springframework.security.event.authorization.LoggerListener"/>
+    <bean id="authorizationLoggerListener"
+          class="org.springframework.security.event.authorization.LoggerListener"/>
 
-    <beans:bean id="authenticationLoggerListener"
-                class="org.springframework.security.event.authorization.LoggerListener"/>
+    <bean id="authenticationLoggerListener"
+          class="org.springframework.security.event.authorization.LoggerListener"/>
 
 
-    <beans:bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
-        <beans:property name="decisionVoters">
-            <beans:list>
-                <beans:ref local="roleVoter"/>
-                <beans:ref local="authenticatedVoter"/>
-            </beans:list>
-        </beans:property>
+    <bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
+        <property name="decisionVoters">
+            <list>
+                <ref local="roleVoter"/>
+                <ref local="authenticatedVoter"/>
+            </list>
+        </property>
 
-    </beans:bean>
+    </bean>
 
-    <beans:bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
-        <beans:property name="rolePrefix" value="PRIVILEGE_"/>
-    </beans:bean>
+    <bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
+        <property name="rolePrefix" value="PRIVILEGE_"/>
+    </bean>
 
-    <beans:bean id="authenticatedVoter" class="org.springframework.security.vote.AuthenticatedVoter"/>
+    <bean id="authenticatedVoter" class="org.springframework.security.vote.AuthenticatedVoter"/>
 
-    <beans:bean id="privilegeAuthorizationCheck" class="gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck">
-        <beans:property name="accessDecisionManager" ref="accessDecisionManager"/>
-    </beans:bean>
+    <bean id="privilegeAuthorizationCheck" class="gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck">
+        <property name="accessDecisionManager" ref="accessDecisionManager"/>
+    </bean>
 
 
     <!--It will create a inMemoryUserDetailsService-->
@@ -77,4 +87,4 @@
 
     <!--</bean>-->
 
-</beans:beans>
+</beans>

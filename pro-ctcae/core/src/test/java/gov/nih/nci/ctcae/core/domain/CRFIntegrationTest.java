@@ -3,12 +3,10 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import org.springframework.beans.factory.annotation.Required;
 
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.UUID;
-import java.text.ParseException;
 
 /**
  * @author Harsh Agarwal
@@ -16,7 +14,6 @@ import java.text.ParseException;
  */
 public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
-    private CRFRepository crfRepository;
     private CRF crf, inValidCRF;
     private String title = "Cancer CRF" + UUID.randomUUID().toString();
     private Study study;
@@ -197,10 +194,5 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
         }
     }
 
-
-    @Required
-    public void setCRFRepository(CRFRepository crfRepository) {
-        this.crfRepository = crfRepository;
-    }
 
 }

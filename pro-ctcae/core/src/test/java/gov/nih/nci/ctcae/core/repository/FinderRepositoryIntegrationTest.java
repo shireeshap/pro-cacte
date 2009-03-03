@@ -18,7 +18,6 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
     private Study study;
     private ProCtcQuestionRepository proCtcQuestionRepository;
 
-    private CRFRepository crfRepository;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
@@ -67,10 +66,6 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
         assertFalse(list.isEmpty());
     }
 
-
-    public void setCrfRepository(final CRFRepository crfRepository) {
-        this.crfRepository = crfRepository;
-    }
 
     public void setFinderRepository(final FinderRepository finderRepository) {
         this.finderRepository = finderRepository;
