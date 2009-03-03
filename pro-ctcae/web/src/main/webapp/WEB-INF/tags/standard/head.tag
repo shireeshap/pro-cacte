@@ -1,5 +1,17 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<script type="text/javascript">
+
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-7737631-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
 <tags:stylesheetLink name="tree"/>
 <tags:stylesheetLink name="debug"/>
 <tags:stylesheetLink name="common"/>
