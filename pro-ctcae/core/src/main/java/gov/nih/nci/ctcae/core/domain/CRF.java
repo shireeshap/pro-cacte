@@ -102,7 +102,7 @@ public class CRF extends BaseVersionable {
     @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
 
-    private List<CRFCycle> crfCycles = new LinkedList<CRFCycle>();
+    private List<CRFCycleDefinition> crfCycleDefinitions = new ArrayList<CRFCycleDefinition>();
 
     /**
      * The study.
@@ -792,14 +792,15 @@ public class CRF extends BaseVersionable {
 
     }
 
-    public List<CRFCycle> getCrfCycles() {
-        return crfCycles;
+    public List<CRFCycleDefinition> getCrfCycleDefinitions() {
+        Collections.sort(crfCycleDefinitions, new CrfCycleDefinitionOrderComparator());
+        return crfCycleDefinitions;
     }
 
-    public void addCrfCycle(CRFCycle crfCycle) {
-        if (crfCycle != null) {
-            crfCycle.setCrf(this);
-            crfCycles.add(crfCycle);
+    public void addCrfCycleDefinition(CRFCycleDefinition crfCycleDefinition) {
+        if (crfCycleDefinition != null) {
+            crfCycleDefinition.setCrf(this);
+            crfCycleDefinitions.add(crfCycleDefinition);
         }
     }
 }

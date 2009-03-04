@@ -60,7 +60,7 @@ public class CreateParticipantControllerTest extends WebTestCase {
 		assertNotNull(participantCommand.getParticipant());
 		assertEquals(0, participantCommand.getOrganizationId());
 		assertNull(participantCommand.getSiteName());
-		assertNull(participantCommand.getStudySite());
+		assertNull(participantCommand.getStudySites());
 	}
 
 	public void testReferenceData() throws Exception {

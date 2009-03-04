@@ -46,7 +46,8 @@
         </td>
     </tr>
 
-    <c:forEach items="${studysites}" var="studysite">
+    <c:forEach items="${studyparticipantassignments}" var="studyParticipantAssignment">
+        <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
         <c:forEach items="${studysite.study.crfs}" var="crf">
             <c:if test="${crf.status eq 'Released' and crf.nextVersionId eq null}">
                 <c:set var="hasforms" value="true"/>
@@ -54,8 +55,8 @@
         </c:forEach>
         <tr>
             <td>
-                <input type="checkbox" name="studySite" value="${studysite.id}"
-                       onchange="javascript:showForms(this, '${studysite.id}')"> ${studysite.study.assignedIdentifier}
+                <input type="checkbox" name="studySites" value="${studysite.id}"
+                       disabled="true" checked="true"> ${studysite.study.assignedIdentifier}
             </td>
             <td>
                     ${studysite.study.shortTitle}
@@ -67,12 +68,12 @@
                     ${studysite.study.studyCoordinatingCenter.organization.nciInstituteCode}
             </td>
             <td>
-                <input type="text" name="participantStudyIdentifier_${studysite.id}" value="">
+                <input disabled="true" type="text" name="participantStudyIdentifier_${studysite.id}" value="${studyParticipantAssignment.studyParticipantIdentifier}">
             </td>
         </tr>
         <c:if test="${hasforms eq 'true'}">
             <c:set var="hasforms" value="false"/>
-            <tr id="forms_${studysite.id}" style="display:none">
+            <tr id="forms_${studysite.id}">
                 <td>
                     &nbsp;
                 </td>
@@ -85,8 +86,9 @@
                                         &nbsp;&nbsp;<b>Form </b>${crf.title}
                                     </td>
                                     <td class="data" align="center">
-                                        <b>Start Date</b> <tags:renderDate propertyName="form_date_${crf.id}" doNotshowLabel="true"
-                                                         noForm="true" />
+                                        <b>Start Date</b> <tags:renderDate propertyName="form_date_${crf.id}"
+                                                                           doNotshowLabel="true"
+                                                                           noForm="true"/>
                                     </td>
 
                                 </tr>
@@ -97,4 +99,57 @@
             </tr>
         </c:if>
     </c:forEach>
+        <c:forEach items="${unselectedstudysites}" var="studysite">
+            <c:forEach items="${studysite.study.crfs}" var="crf">
+                <c:if test="${crf.status eq 'Released' and crf.nextVersionId eq null}">
+                    <c:set var="hasforms" value="true"/>
+                </c:if>
+            </c:forEach>
+            <tr>
+                <td>
+                    <input type="checkbox" name="studySites" value="${studysite.id}"
+                           onchange="javascript:showForms(this, '${studysite.id}')"
+                        ${studysite.study.assignedIdentifier}
+                </td>
+                <td>
+                        ${studysite.study.shortTitle}
+                </td>
+                <td>
+                        ${studysite.study.studyFundingSponsor.organization.nciInstituteCode}
+                </td>
+                <td>
+                        ${studysite.study.studyCoordinatingCenter.organization.nciInstituteCode}
+                </td>
+                <td>
+                    <input type="text" name="participantStudyIdentifier_${studysite.id}" value="">
+                </td>
+            </tr>
+            <c:if test="${hasforms eq 'true'}">
+                <c:set var="hasforms" value="false"/>
+                <tr id="forms_${studysite.id}" style="display:none">
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td colspan="4">
+                        <table class="widget" cellspacing="0">
+                            <c:forEach items="${studysite.study.crfs}" var="crf">
+                                <c:if test="${crf.status eq 'Released' and crf.nextVersionId eq null}">
+                                    <tr>
+                                        <td class="data" width="50%" align="left">
+                                            &nbsp;&nbsp;<b>Form </b>${crf.title}
+                                        </td>
+                                        <td class="data" align="center">
+                                            <b>Start Date</b> <tags:renderDate propertyName="form_date_${crf.id}"
+                                                                               doNotshowLabel="true"
+                                                                               noForm="true"/>
+                                        </td>
+
+                                    </tr>
+                                </c:if>
+                            </c:forEach>
+                        </table>
+                    </td>
+                </tr>
+            </c:if>
+        </c:forEach>
 </table>

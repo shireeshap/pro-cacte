@@ -2,11 +2,13 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
+import gov.nih.nci.ctcae.web.participant.ParticipantCommand;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -132,11 +134,11 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
         createFormCommand.updateCrfItems(proCtcQuestionRepository);
         CRF crf = createFormCommand.getCrf();
 
-        ModelAndView defaultModelAndView = showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
         if (!StringUtils.isBlank(request.getParameter("showForm"))) {
             if (shouldSave(request, createFormCommand)) {
                 save(createFormCommand);
             }
+            ModelAndView defaultModelAndView = showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
             return defaultModelAndView;
         } else {
             if (!notEmptyValidator.validate(crf.getTitle())) {
@@ -146,6 +148,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
             }
 
             if (errors.hasErrors()) {
+                ModelAndView defaultModelAndView = showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
                 return defaultModelAndView;
             }
 
@@ -168,9 +171,11 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     @Override
     protected void save(final CreateFormCommand createFormCommand) {
         CRF crf = createFormCommand.getCrf();
-        createFormCommand.setCrf(crf);
-        CRF savedCrf = crfRepository.save(crf);
-        createFormCommand.setCrf(savedCrf);
+        if (crf != null) {
+            createFormCommand.setCrf(crf);
+            CRF savedCrf = crfRepository.save(crf);
+            createFormCommand.setCrf(savedCrf);
+        }
     }
 
     /* (non-Javadoc)
@@ -211,5 +216,22 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     @Required
     public void setCrfRepository(CRFRepository crfRepository) {
         this.crfRepository = crfRepository;
+    }
+
+    @Override
+    protected boolean shouldSave(HttpServletRequest request, CreateFormCommand command) {
+        return true;
+    }
+
+    @Override
+    protected boolean shouldSave(HttpServletRequest request, CreateFormCommand command, Tab tab) {
+
+        if (tab instanceof FormDetailsTab) {
+            return true;
+        }
+        if (tab instanceof CalendarTemplateTab) {
+            return true;
+        }
+        return false;
     }
 }

@@ -19,8 +19,8 @@
 <style type="text/css">
 
     table.top-widget {
-        /*border-bottom: 1px solid #cccccc;*/
-        /*border-right: 1px solid #cccccc;*/
+    /*border-bottom: 1px solid #cccccc;*/
+    /*border-right: 1px solid #cccccc;*/
         border: 1px solid #cccccc;
         background-color: #E7EAF3;
         width: 90%;
@@ -177,6 +177,17 @@
 
     .left-border {
         border-left: #0000cc solid 1px;
+    }
+
+    .empty {
+        height: 5px;
+    }
+
+    .first-column {
+        text-align: left;
+        vertical-align: top;
+        font-weight: bold;
+        width: 60px;
     }
 
 </style>
@@ -376,7 +387,7 @@ Event.observe(window, "load", function () {
         changerepeat(items[i], items[i].id, false);
     }
 })
-function showCycle(index, days_amount, days_unit) {
+function calculateDays(days_unit, days_amount) {
     var multiplier = 1;
     if (days_unit == 'Weeks') {
         multiplier = 7;
@@ -385,59 +396,86 @@ function showCycle(index, days_amount, days_unit) {
         multiplier = 30;
     }
     var days = days_amount * multiplier;
-    if (days > 0 && days < 1000) {
-        $('div_cycle_selectdays_' + index).show();
-        $('div_cycle_table_' + index).show();
-        $('div_cycle_repeat_' + index).show();
-        buildTable(index, days, $('selecteddays[' + index + ']').value + ',');
+    return days;
+}
+function showCyclesForDefinition(cycleDefinitionIndex, cycleLength, cycleLengthUnit, repeat) {
+    var days_amount = cycleLength;
+    var days_unit = cycleLengthUnit;
+    var days = calculateDays(days_unit, days_amount);
+    var repeat = repeat;
+    if (days > 0 && days < 1000 && repeat > 0) {
+        $('div_cycle_table_' + cycleDefinitionIndex).show();
+        buildTable(cycleDefinitionIndex, days, repeat);
     } else {
-        $('div_cycle_table_' + index).hide();
-        $('div_cycle_selectdays_' + index).hide();
-        $('div_cycle_repeat_' + index).hide();
+        $('div_cycle_table_' + cycleDefinitionIndex).hide();
     }
 }
 
-
-function buildTable(index, days, selecteddays) {
+function emptyTable(index) {
     var tbody = $('cycle_table_' + index).getElementsByTagName("TBODY")[0];
     var children = tbody.childElements();
     for (i = 0; i < children.length; i++) {
         $(children[i]).remove();
     }
+    return tbody;
+}
+function addFirstColumn(row, rownumber, cycleNumber) {
+    var td = new Element('TD');
+    if (rownumber == 0) {
+        td.update('Cycle ' + (cycleNumber + 1));
+        td.addClassName('first-column')
+    }
+    row.appendChild(td);
+}
+
+function addEmptyRow(tbody) {
+    var row = new Element('TR');
+    var td = new Element('TD');
+    td.addClassName('empty');
+    row.appendChild(td);
+    tbody.appendChild(row);
+}
+function addCycleDayColumn(currentday, tbody, row, cycleDefinitionIndex, cycleIndex) {
+    var selecteddays = $('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value + ',';
+    var td = new Element('TD');
+    if (i == 0) {
+        td.addClassName('top-border')
+    }
+    if (j == 0) {
+        td.addClassName('left-border')
+    }
+    var div = new Element('div', {'id': 'div_' + cycleDefinitionIndex + '_' + cycleIndex + '_' + currentday}).update(currentday);
+    if (selecteddays.indexOf(',' + currentday + ',') == -1) {
+        div.addClassName('unselected_day');
+    } else {
+
+        div.addClassName('selected_day');
+    }
+    td.appendChild(div);
+    row.appendChild(td);
+    tbody.appendChild(row);
+}
+function buildTable(index, days, repeat) {
+    var tbody = emptyTable(index);
     var daysPerLine = 21;
     var numOfRows = parseInt(days / daysPerLine);
     if (days % daysPerLine > 0) {
         numOfRows = numOfRows + 1;
     }
-    for (i = 0; i < numOfRows; i++) {
-        var row = new Element('TR');
-        for (j = 0; j < daysPerLine; j++) {
-            var currentday = i * daysPerLine + j + 1;
-            if (currentday <= days) {
-                var td = new Element('TD');
-                if (i == 0) {
-                    td.addClassName('top-border')
+    for (var k = 0; k < repeat; k++) {
+        for (i = 0; i < numOfRows; i++) {
+            var row = new Element('TR');
+            addFirstColumn(row, i, k);
+            for (j = 0; j < daysPerLine; j++) {
+                var currentday = i * daysPerLine + j + 1;
+                if (currentday <= days) {
+                    addCycleDayColumn(currentday, tbody, row, index, k);
                 }
-                if (j == 0) {
-                    td.addClassName('left-border')
-                }
-                var div = new Element('div', {'id': 'div_' + index + '_' + currentday}).update(currentday);
-                if (selecteddays.indexOf(',' + currentday + ',') == -1) {
-                    div.addClassName('unselected_day');
-                } else {
-                    div.addClassName('selected_day');
-                }
-                div.onclick = function() {
-                    dayOnClick(this, index, this.id.substring(this.id.indexOf('_', 4) + 1));
-                }
-                td.appendChild(div);
-                row.appendChild(td);
             }
         }
-        tbody.appendChild(row);
+        addEmptyRow(tbody);
     }
 }
-
 </script>
 
 </head>
@@ -454,13 +492,16 @@ function buildTable(index, days, selecteddays) {
 
                     <div align="left" style="margin-left: 50px">
                         <table class="top-widget" cellspacing="0">
-                            <c:forEach items="${participantCrf.crf.crfCycles}" var="crfCycle" varStatus="statuscycle">
+                            <c:forEach items="${participantCrf.crf.crfCycleDefinitions}" var="crfCycleDefinition"
+                                       varStatus="statuscycledefinition">
                                 <tr>
                                     <td colspan="4">
-                                        <tags:formScheduleCycle cycleIndex="${statuscycle.index}" crfCycle="${crfCycle}"
-                                                                readonly="true" crfIndex="${status.index}"/>
+                                        <tags:formScheduleCycleDefinition
+                                                cycleDefinitionIndex="${statuscycledefinition.index}"
+                                                crfCycleDefinition="${crfCycleDefinition}"
+                                                readonly="true"/>
                                         <script type="text/javascript">
-                                            showCycle('${status.index}-${statuscycle.index}', ${crfCycle.cycleLength}, '${crfCycle.cycleLengthUnit}');
+                                            showCyclesForDefinition(${statuscycledefinition.index}, ${crfCycleDefinition.cycleLength}, '${crfCycleDefinition.cycleLengthUnit}', '${crfCycleDefinition.repeatTimes}');
                                         </script>
                                     </td>
                                 </tr>

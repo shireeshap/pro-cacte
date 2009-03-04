@@ -723,24 +723,23 @@
 
     function showHideCtcTerm(action) {
         setVisible('preferencevalues');
+        showHideCtcTermA('right', 'hide');
+        showHideCtcTermA('middle', 'hide');
+        showHideCtcTermA('left', 'hide');
+        showHideCtcTermA('rightpro', 'hide');
         showHideCtcTermA('only', 'hide');
-        showHideCtcTermA('middle', 'show');
         if (action == 'append') {
-            showHideCtcTermA('left', 'hide');
+            showHideCtcTermA('middle', 'show');
             showHideCtcTermA('right', 'show');
         }
         if (action == 'prepend') {
-            showHideCtcTermA('right', 'hide');
             showHideCtcTermA('left', 'show');
+            showHideCtcTermA('rightpro', 'show');
         }
         if (action == 'noctcterm') {
-            showHideCtcTermA('right', 'hide');
-            showHideCtcTermA('left', 'hide');
+            showHideCtcTermA('middle', 'show');
         }
         if (action == 'onlyctcterm') {
-            showHideCtcTermA('right', 'hide');
-            showHideCtcTermA('middle', 'hide');
-            showHideCtcTermA('left', 'hide');
             showHideCtcTermA('only', 'show');
         }
     }
@@ -879,7 +878,7 @@
     #preferencevalues {
         position: absolute;
         visibility: hidden;
-        width: 150px;
+        width: 230px;
         height: 80px;
         left: 20px;
         top: 300px;
@@ -930,10 +929,10 @@
                         <a href="#" onclick="setVisible('preferencevalues');return false"
                            target="_self">Display Preferences</a></p>
                         <div id="preferencevalues">
-                            <a href="javascript:showHideCtcTerm('noctcterm')">Do not show CTCAE term</a><br/>
+                            <a href="javascript:showHideCtcTerm('noctcterm')">Show only PRO-CTCAE term</a><br/>
                             <a href="javascript:showHideCtcTerm('onlyctcterm')">Show only CTCAE term</a><br/>
-                            <a href="javascript:showHideCtcTerm('append')">Append CTCAE term</a><br/>
-                            <a href="javascript:showHideCtcTerm('prepend')">Prepend CTCAE term</a><br/>
+                            <a href="javascript:showHideCtcTerm('append')">Show both with PRO-CTCAE term first</a><br/>
+                            <a href="javascript:showHideCtcTerm('prepend')">Show both with CTCAE term first</a><br/>
                         </div>
                         <br>
                         <br>
@@ -957,12 +956,14 @@
                                             <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
                                                 <li class="closed">
                                                     <span class="ctctermleft"
-                                                          style="display:none"> [${proCtcTerm.ctcTerm.term}] - </span>
+                                                          style="display:none"> ${proCtcTerm.ctcTerm.term} - </span>
                                                     <span class="ctctermmiddle">${proCtcTerm.term}</span>
                                                     <span class="ctctermright"
                                                           style="display:none"> - [${proCtcTerm.ctcTerm.term}]</span>
                                                     <span class="ctctermonly"
                                                           style="display:none">${proCtcTerm.ctcTerm.term}</span>
+                                                    <span class="ctctermrightpro"
+                                                          style="display:none">[${proCtcTerm.term}]</span>
 
                                                     <a href="javascript:addProctcTerm(${proCtcTerm.id})"
                                                        id="proCtcTerm_${proCtcTerm.id}"

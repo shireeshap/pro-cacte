@@ -77,7 +77,7 @@ public class EditParticipantControllerTest extends WebTestCase {
         assertNotNull(participantCommand.getParticipant());
         assertEquals(1, participantCommand.getOrganizationId());
         assertEquals("test", participantCommand.getSiteName());
-        assertNull(participantCommand.getStudySite());
+        assertNull(participantCommand.getStudySites());
     }
 
     public void testOnSumbit() throws Exception {
@@ -85,7 +85,7 @@ public class EditParticipantControllerTest extends WebTestCase {
         request.setParameter("participantId", participant.getId().toString());
         request.setMethod("POST");
 
-        participantCommand.setStudySite(new StudySite[]{new StudySite()});
+//        participantCommand.setStudySites(new StudySite[]{new StudySite()});
         ArrayList l = new ArrayList();
         l.add(study1.getStudySites().get(0));
 

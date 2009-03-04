@@ -2,14 +2,10 @@ package gov.nih.nci.ctcae.core.domain;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 //
 /**
@@ -21,7 +17,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "CRF_CYCLES")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_pages_id")})
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_cycles_id")})
 
 public class CRFCycle extends BasePersistable {
 
@@ -39,23 +35,17 @@ public class CRFCycle extends BasePersistable {
     private Integer id;
 
 
-    @Column(name = "cycle_length", nullable = false)
-    private Integer cycleLength;
-
     @Column(name = "cycle_days")
     private String cycleDays;
 
-    @Column(name = "repeat_times")
-    private Integer repeatTimes;
-
-    @Column(name = "cycle_length_unit" , nullable = false)
-    private String cycleLengthUnit;
+    @Column(name="cycle_order", nullable = false)
+    private Integer order;
     /**
-     * The crf.
+     * The crf definition.
      */
-    @JoinColumn(name = "crf_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "cycle_definition_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
-    private CRF crf;
+    private CRFCycleDefinition crfCycleDefinition;
 
 
     /**
@@ -74,13 +64,6 @@ public class CRFCycle extends BasePersistable {
         this.id = id;
     }
 
-    public Integer getCycleLength() {
-        return cycleLength;
-    }
-
-    public void setCycleLength(Integer cycleLength) {
-        this.cycleLength = cycleLength;
-    }
 
     public String getCycleDays() {
         return cycleDays;
@@ -90,28 +73,12 @@ public class CRFCycle extends BasePersistable {
         this.cycleDays = cycleDays;
     }
 
-    public Integer getRepeatTimes() {
-        return repeatTimes;
+    public CRFCycleDefinition getCrfDefinition() {
+        return crfCycleDefinition;
     }
 
-    public void setRepeatTimes(Integer repeatTimes) {
-        this.repeatTimes = repeatTimes;
-    }
-
-    public CRF getCrf() {
-        return crf;
-    }
-
-    public void setCrf(CRF crf) {
-        this.crf = crf;
-    }
-
-    public String getCycleLengthUnit() {
-        return cycleLengthUnit;
-    }
-
-    public void setCycleLengthUnit(String cycleLengthUnit) {
-        this.cycleLengthUnit = cycleLengthUnit;
+    public void setCrfDefinition(CRFCycleDefinition crfCycleDefinition) {
+        this.crfCycleDefinition = crfCycleDefinition;
     }
 
     @Override
@@ -121,25 +88,25 @@ public class CRFCycle extends BasePersistable {
 
         CRFCycle crfCycle = (CRFCycle) o;
 
-        if (crf != null ? !crf.equals(crfCycle.crf) : crfCycle.crf != null) return false;
+        if (crfCycleDefinition != null ? !crfCycleDefinition.equals(crfCycle.crfCycleDefinition) : crfCycle.crfCycleDefinition != null)
+            return false;
         if (cycleDays != null ? !cycleDays.equals(crfCycle.cycleDays) : crfCycle.cycleDays != null) return false;
-        if (cycleLength != null ? !cycleLength.equals(crfCycle.cycleLength) : crfCycle.cycleLength != null)
-            return false;
-        if (cycleLengthUnit != null ? !cycleLengthUnit.equals(crfCycle.cycleLengthUnit) : crfCycle.cycleLengthUnit != null)
-            return false;
-        if (repeatTimes != null ? !repeatTimes.equals(crfCycle.repeatTimes) : crfCycle.repeatTimes != null)
-            return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = cycleLength != null ? cycleLength.hashCode() : 0;
-        result = 31 * result + (cycleDays != null ? cycleDays.hashCode() : 0);
-        result = 31 * result + (repeatTimes != null ? repeatTimes.hashCode() : 0);
-        result = 31 * result + (cycleLengthUnit != null ? cycleLengthUnit.hashCode() : 0);
-        result = 31 * result + (crf != null ? crf.hashCode() : 0);
+        int result = cycleDays != null ? cycleDays.hashCode() : 0;
+        result = 31 * result + (crfCycleDefinition != null ? crfCycleDefinition.hashCode() : 0);
         return result;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 }

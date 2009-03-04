@@ -93,7 +93,7 @@
 
     </c:when>
     <c:when test="${categoryName == 'checkbox'}"><form:checkbox path="${propertyName}" disabled="${disabled}"
-                                                                onclick="${onclick}" id="${propertyName}"/></c:when>
+                                                                onclick="${onclick}" id="${propertyName}" onchange="${onchange}"/></c:when>
 
     <c:when test="${categoryName == 'select'}">
         <c:choose>

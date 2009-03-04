@@ -24,7 +24,7 @@ public class ParticipantCommandTest extends WebTestCase {
         assertNotNull(command.getParticipant());
         assertEquals(0, command.getOrganizationId());
         assertNull(command.getSiteName());
-        assertNull(command.getStudySite());
+        assertNull(command.getStudySites());
     }
 
     public void testSetters() {

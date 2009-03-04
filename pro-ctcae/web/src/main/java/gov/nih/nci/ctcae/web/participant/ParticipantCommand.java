@@ -24,10 +24,11 @@ public class ParticipantCommand {
 
     private int organizationId;
 
+    private StudyParticipantAssignment selectedStudyParticipantAssignment;
     /**
      * The study id.
      */
-    private StudySite[] studySite;
+    private List<StudySite> studySites;
 
     /**
      * The site name.
@@ -35,6 +36,7 @@ public class ParticipantCommand {
     private String siteName;
 
     private String notificationIndexToRemove;
+
     /**
      * Instantiates a new participant command.
      */
@@ -98,12 +100,12 @@ public class ParticipantCommand {
         this.siteName = siteName;
     }
 
-    public StudySite[] getStudySite() {
-        return studySite;
+    public List<StudySite> getStudySites() {
+        return studySites;
     }
 
-    public void setStudySite(StudySite[] studySite) {
-        this.studySite = studySite;
+    public void setStudySites(List<StudySite> studySites) {
+        this.studySites = studySites;
     }
 
     public StudyParticipantAssignment createStudyParticipantAssignments(StudySite studySite, String studyParticipantIdentifier) {
@@ -136,8 +138,8 @@ public class ParticipantCommand {
     }
 
     public void apply(CRFRepository crfRepository, HttpServletRequest request) {
-        if (getStudySite() != null) {
-            for (StudySite studySite : getStudySite()) {
+        if (getStudySites() != null) {
+            for (StudySite studySite : getStudySites()) {
                 setSiteName(studySite.getOrganization().getName());
                 StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignments(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()));
                 try {
@@ -156,5 +158,17 @@ public class ParticipantCommand {
 
     public void setNotificationIndexToRemove(String notificationIndexToRemove) {
         this.notificationIndexToRemove = notificationIndexToRemove;
+    }
+
+    public StudyParticipantAssignment getSelectedStudyParticipantAssignment() {
+        List<StudyParticipantAssignment> studyParticipantAssignments = participant.getStudyParticipantAssignments();
+        if (!studyParticipantAssignments.isEmpty() && selectedStudyParticipantAssignment == null) {
+            selectedStudyParticipantAssignment = studyParticipantAssignments.get(0);
+        }
+        return selectedStudyParticipantAssignment;
+    }
+
+    public void setSelectedStudyParticipantAssignment(StudyParticipantAssignment selectedStudyParticipantAssignment) {
+        this.selectedStudyParticipantAssignment = selectedStudyParticipantAssignment;
     }
 }

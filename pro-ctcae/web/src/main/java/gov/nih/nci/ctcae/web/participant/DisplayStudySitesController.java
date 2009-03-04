@@ -1,8 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
-import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.ArrayList;
 
 //
 /**
@@ -37,8 +37,18 @@ public class DisplayStudySitesController extends AbstractController {
         query.filterByOrganizationId(organizationId);
         query.filterByStudySiteOnly();
         List<StudySite> studySites = (List<StudySite>) finderRepository.find(query);
-
-        modelAndView.addObject("studysites", studySites);
+        List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
+        ParticipantCommand command = ParticipantControllerUtils.getParticipantCommand(request);
+        for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
+            studyParticipantAssignment = finderRepository.findById(StudyParticipantAssignment.class, studyParticipantAssignment.getId());
+            StudyOrganization studySite = studyParticipantAssignment.getStudySite();
+            studySites.remove(studySite);
+            studySite.getStudy().getCrfs();
+            studySite.getStudy().getStudyFundingSponsor();
+            studyParticipantAssignments.add(studyParticipantAssignment);
+        }
+        modelAndView.addObject("unselectedstudysites", studySites);
+        modelAndView.addObject("studyparticipantassignments", studyParticipantAssignments);
 
         return modelAndView;
     }

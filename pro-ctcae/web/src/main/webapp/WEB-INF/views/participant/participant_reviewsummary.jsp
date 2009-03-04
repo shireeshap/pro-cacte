@@ -35,9 +35,8 @@
 
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false">
     <jsp:attribute name="singleFields">
-    <input type="hidden" name="_finish" value="true"/>
 
     <chrome:division title="participant.label.site">
         <b>${command.siteName}</b>

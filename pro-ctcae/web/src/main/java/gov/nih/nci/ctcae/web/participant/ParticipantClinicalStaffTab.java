@@ -1,13 +1,14 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
+import gov.nih.nci.ctcae.web.ListValues;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -45,5 +46,16 @@ public class ParticipantClinicalStaffTab extends SecuredTab<ParticipantCommand> 
                 }
             }
         }
+    }
+
+
+    @Override
+    public Map<String, Object> referenceData(ParticipantCommand command) {
+        Map<String, Object> referenceData = super.referenceData(command);
+
+        List<StudyParticipantAssignment> studyParticipantAssignments = command.getParticipant().getStudyParticipantAssignments();
+        referenceData.put("studyParticipantAssignments", studyParticipantAssignments);
+
+        return referenceData;
     }
 }

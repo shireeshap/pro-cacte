@@ -29,12 +29,12 @@
 
     .unselected_day {
         background-color: #FFFFFF;
-        height: 50px;
-        width: 50px;
+        height: 40px;
+        width: 40px;
         text-align: center;
         color: #000000;
         font-weight: bold;
-        font-size: 15px;
+        font-size: 13px;
         cursor: pointer;
         border-bottom: #0000cc solid 1px;
         border-right: #0000cc solid 1px;
@@ -42,12 +42,12 @@
 
     .selected_day {
         background-color: #0051fc;
-        height: 50px;
-        width: 50px;
+        height: 40px;
+        width: 40px;
         text-align: center;
         color: #FFFFFF;
         font-weight: bold;
-        font-size: 15px;
+        font-size: 13px;
         cursor: pointer;
         border-bottom: #0000cc solid 1px;
         border-right: #0000cc solid 1px;
@@ -71,183 +71,304 @@
         border-left: #0000cc solid 1px;
     }
 
+    .empty {
+        height: 5px;
+    }
+
+    .first-column {
+        text-align: left;
+        vertical-align: top;
+        font-weight: bold;
+        width: 60px;
+    }
 </style>
 <script type="text/javascript">
-    var totalCalendars = 0;
-    var repeatvalues = new Array();
-    function changeinput(obj, index, value) {
-        if (obj.value == 'Indefinitely') {
-            $('div_date_' + index).hide();
-            $('div_number_' + index).hide();
-            $('crf.crfCalendars[' + index + '].repeatUntilAmount').value = '';
-        }
-        if (obj.value == 'Date') {
-            $('div_number_' + index).hide();
-            $('div_date_' + index).show();
-            $('crfCalendar_date_' + index + '.repeatUntilAmount').value = value;
-            $('crf.crfCalendars[' + index + '].repeatUntilAmount').value = value;
-        }
-        if (obj.value == 'Number') {
-            $('div_date_' + index).hide();
-            $('div_number_' + index).show();
-            $('crfCalendar_number_' + index + '.repeatUntilAmount').value = value;
-            $('crf.crfCalendars[' + index + '].repeatUntilAmount').value = value;
-        }
+var totalCalendars = 0;
+var repeatvalues = new Array();
+function changeinput(obj, index, value) {
+    if (obj.value == 'Indefinitely') {
+        $('div_date_' + index).hide();
+        $('div_number_' + index).hide();
+        $('crf.crfCalendars[' + index + '].repeatUntilAmount').value = '';
     }
+    if (obj.value == 'Date') {
+        $('div_number_' + index).hide();
+        $('div_date_' + index).show();
+        $('crfCalendar_date_' + index + '.repeatUntilAmount').value = value;
+        $('crf.crfCalendars[' + index + '].repeatUntilAmount').value = value;
+    }
+    if (obj.value == 'Number') {
+        $('div_date_' + index).hide();
+        $('div_number_' + index).show();
+        $('crfCalendar_number_' + index + '.repeatUntilAmount').value = value;
+        $('crf.crfCalendars[' + index + '].repeatUntilAmount').value = value;
+    }
+}
 
 
-    function none() {
+function none() {
+}
+Event.observe(window, "load", function () {
+    for (var i = 0; i < totalCalendars; i++) {
+        var item = document.getElementsByName('crf.crfCalendars[' + i + '].repeatUntilUnit')[0];
+        changeinput(item, i, repeatvalues[i]);
     }
-    Event.observe(window, "load", function () {
-        for (var i = 0; i < totalCalendars; i++) {
-            var item = document.getElementsByName('crf.crfCalendars[' + i + '].repeatUntilUnit')[0];
-            changeinput(item, i, repeatvalues[i]);
-        }
+})
+
+function addCycle() {
+    var request = new Ajax.Request("<c:url value="/pages/form/addFormScheduleCycle"/>", {
+        onComplete:addCycleDiv,
+        parameters:"subview=subview",
+        method:'get'
     })
+}
 
-    function addCycle() {
-        var request = new Ajax.Request("<c:url value="/pages/form/addFormScheduleCycle"/>", {
-            onComplete:addCycleDiv,
-            parameters:"subview=subview",
-            method:'get'
-        })
+function addCycleDiv(transport) {
+    var response = transport.responseText;
+    new Insertion.Before("hiddenDiv", response);
+}
+
+function calculateDays(days_unit, days_amount) {
+    var multiplier = 1;
+    if (days_unit == 'Weeks') {
+        multiplier = 7;
     }
-
-    function addCycleDiv(transport) {
-        var response = transport.responseText;
-        new Insertion.Before("hiddenDiv", response);
+    if (days_unit == 'Months') {
+        multiplier = 30;
     }
-
-    function showCycle(index) {
-        $('selecteddays[' + index + ']').value = '';
-        var days_amount = parseInt($('cycle_length_' + index).value);
-        var days_unit = $('crf.crfCycles[' + index + '].cycleLengthUnit').value;
-        var multiplier = 1;
-        if (days_unit == 'Weeks') {
-            multiplier = 7;
-        }
-        if (days_unit == 'Months') {
-            multiplier = 30;
-        }
-        var days = days_amount * multiplier;
-        if (days > 0 && days < 1000) {
-            $('div_cycle_selectdays_' + index).show();
-            $('div_cycle_table_' + index).show();
-            $('div_cycle_repeat_' + index).show();
-            buildTable(index, days, $('selecteddays[' + index + ']').value + ',');
-        } else {
-            $('div_cycle_table_' + index).hide();
-            $('div_cycle_selectdays_' + index).hide();
-            $('div_cycle_repeat_' + index).hide();
-        }
+    var days = days_amount * multiplier;
+    return days;
+}
+function showCyclesForDefinition(index, pageload) {
+    var days_amount = parseInt($('cycle_length_' + index).value);
+    var days_unit = $('crf.crfCycleDefinitions[' + index + '].cycleLengthUnit').value;
+    var days = calculateDays(days_unit, days_amount);
+    var repeat = parseInt($('cycle_repeat_' + index).value);
+    if (days > 0 && days < 1000 && repeat > 0) {
+        $('div_cycle_selectdays_' + index).show();
+        $('div_cycle_table_' + index).show();
+        buildTable(index, days, repeat, pageload);
+    } else {
+        $('div_cycle_table_' + index).hide();
+        $('div_cycle_selectdays_' + index).hide();
     }
+}
 
+function createHiddenDivs(index) {
+    var hidden_div = $('hidden_inputs_div_' + index);
 
-    function buildTable(index, days, selecteddays) {
-        var tbody = $('cycle_table_' + index).getElementsByTagName("TBODY")[0];
-        var children = tbody.childElements();
+    if (hidden_div == null) {
+        hidden_div = new Element('div', {'id': 'hidden_inputs_div_' + index});
+        $('hidden_inputs_div').appendChild(hidden_div);
+    } else {
+        var children = hidden_div.childElements();
         for (i = 0; i < children.length; i++) {
             $(children[i]).remove();
         }
-        var daysPerLine = 14;
-        var numOfRows = parseInt(days / daysPerLine);
-        if (days % daysPerLine > 0) {
-            numOfRows = numOfRows + 1;
+    }
+}
+
+function emptyTable(index) {
+    var tbody = $('cycle_table_' + index).getElementsByTagName("TBODY")[0];
+    var children = tbody.childElements();
+    for (i = 0; i < children.length; i++) {
+        $(children[i]).remove();
+    }
+    return tbody;
+}
+
+function addHiddenInput(cycleDefinitionIndex, cycleIndex) {
+    var hiddenInput = new Element('input', {'type':'hidden','name': 'selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex,'id': 'selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex});
+    $('hidden_inputs_div_' + cycleDefinitionIndex).appendChild(hiddenInput);
+}
+
+function addFirstColumn(row, rownumber, cycleNumber) {
+    var td = new Element('TD');
+    if (rownumber == 0) {
+        td.update('Cycle ' + (cycleNumber + 1));
+        td.addClassName('first-column')
+    }
+    row.appendChild(td);
+}
+
+function addEmptyRow(tbody) {
+    var row = new Element('TR');
+    var td = new Element('TD');
+    td.addClassName('empty');
+    row.appendChild(td);
+    tbody.appendChild(row);
+}
+function addCycleDayColumn(currentday, tbody, row, cycleDefinitionIndex, cycleIndex) {
+    var selecteddays = $('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value + ',';
+    var td = new Element('TD');
+    if (i == 0) {
+        td.addClassName('top-border')
+    }
+    if (j == 0) {
+        td.addClassName('left-border')
+    }
+    var div = new Element('div', {'id': 'div_' + cycleDefinitionIndex + '_' + cycleIndex + '_' + currentday}).update(currentday);
+    if (selecteddays.indexOf(',' + currentday + ',') == -1) {
+        div.addClassName('unselected_day');
+    } else {
+
+        div.addClassName('selected_day');
+    }
+    div.onclick = function() {
+        dayOnClick(this, cycleDefinitionIndex, cycleIndex, this.id.substring(this.id.lastIndexOf('_') + 1));
+    }
+    td.appendChild(div);
+    row.appendChild(td);
+    tbody.appendChild(row);
+}
+function buildTable(index, days, repeat, pageload) {
+    if (!pageload) {
+        createHiddenDivs(index);
+    }
+    var tbody = emptyTable(index);
+    var daysPerLine = 21;
+    var numOfRows = parseInt(days / daysPerLine);
+    if (days % daysPerLine > 0) {
+        numOfRows = numOfRows + 1;
+    }
+    for (var k = 0; k < repeat; k++) {
+        if (!pageload) {
+            addHiddenInput(index, k);
         }
         for (i = 0; i < numOfRows; i++) {
             var row = new Element('TR');
+            addFirstColumn(row, i, k);
             for (j = 0; j < daysPerLine; j++) {
                 var currentday = i * daysPerLine + j + 1;
                 if (currentday <= days) {
-                    var td = new Element('TD');
-                    if (i == 0) {
-                        td.addClassName('top-border')
-                    }
-                    if (j == 0) {
-                        td.addClassName('left-border')
-                    }
-                    var div = new Element('div', {'id': 'div_' + index + '_' + currentday}).update(currentday);
-                    if (selecteddays.indexOf(',' + currentday + ',') == -1) {
-                        div.addClassName('unselected_day');
-                    } else {
-                        div.addClassName('selected_day');
-                    }
-                    div.onclick = function() {
-                        dayOnClick(this, index, this.id.substring(this.id.indexOf('_', 4) + 1));
-                    }
-                    td.appendChild(div);
-                    row.appendChild(td);
+                    addCycleDayColumn(currentday, tbody, row, index, k);
                 }
             }
-            tbody.appendChild(row);
         }
+        addMultiSelect(tbody, index, k);
+        addEmptyRow(tbody);
     }
+}
 
-    function dayOnClick(obj, index, currentday) {
-        if ($(obj).hasClassName('selected_day')) {
-            unselectday(obj, index, currentday);
-        } else {
-            selectday(obj, index, currentday);
+function applyDaysToCycle(days, cycleDefinitionIndex, cycleIndex) {
+    resetCycle(cycleDefinitionIndex, cycleIndex);
+    var temp = new Array();
+    temp = days.split(",");
+
+    for (var i = 1; i < temp.length; i++) {
+        var currentday = temp[i];
+        var obj = $('div_' + cycleDefinitionIndex + '_' + cycleIndex + '_' + currentday);
+        dayOnClick(obj, cycleDefinitionIndex, cycleIndex, currentday);
+    }
+}
+
+function resetCycle(cycleDefinitionIndex, cycleIndex) {
+    var days_amount = parseInt($('cycle_length_' + cycleDefinitionIndex).value);
+    for (var i = 0; i < days_amount; i++) {
+        var obj = $('div_' + cycleDefinitionIndex + '_' + cycleIndex + '_' + (i + 1));
+        unselectday(obj, cycleDefinitionIndex, cycleIndex, i);
+    }
+}
+function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
+    var repeat = parseInt($('cycle_repeat_' + cycleDefinitionIndex).value);
+
+    if (cycleIndex < repeat - 1) {
+        var multiselectsize = repeat - cycleIndex - 1;
+        if (multiselectsize > 4) {
+            multiselectsize = 4;
         }
-    }
-
-    function unselectday(obj, index, currentday) {
-        $(obj).removeClassName('selected_day');
-        $(obj).addClassName('unselected_day');
-        updateDisplayedDays(index, currentday, 'del');
-    }
-
-    function selectday(obj, index, currentday) {
-        $(obj).removeClassName('unselected_day');
-        $(obj).addClassName('selected_day');
-        updateDisplayedDays(index, currentday, 'add');
-    }
-
-    function updateDisplayedDays(index, currentday, action) {
-        var objinput = $('selecteddays[' + index + ']');
-        var objdiv = $('div_selecteddays_' + index);
-        if (action == 'del') {
-            var temp = new Array();
-            temp = objinput.value.split(",");
-            temp = temp.without(currentday);
-            objinput.value = temp.toString();
+        var multiselect = new Element('SELECT', {'id':'multiselect_' + cycleDefinitionIndex + '_' + cycleIndex, 'multiple':true, 'size':multiselectsize})
+        for (var i = 0; i < repeat; i++) {
+            if (i > cycleIndex) {
+                var option = new Element('OPTION', {});
+                option.text = 'Cycle ' + (i + 1);
+                option.value = i;
+                option.onclick = function() {
+                    if (this.selected) {
+                        applyDaysToCycle($('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value, cycleDefinitionIndex, this.value);
+                    } else {
+                        resetCycle(cycleDefinitionIndex, this.value);
+                    }
+                };
+                multiselect.appendChild(option);
+            }
         }
-        if (action == 'add') {
-            objinput.value = objinput.value + ',' + parseInt(currentday);
-        }
-
-        var arr = new Array();
-        arr = objinput.value.split(",");
-        arr.sort(sortfunction);
-        //        objdiv.update(arr.toString().substr(1));
+        var row = new Element('TR');
+        var td = new Element('TD');
+        td.update('Apply to ');
+        td.addClassName('first-column');
+        row.appendChild(td);
+        td = new Element('TD');
+        td.colSpan = 3;
+        td.appendChild(multiselect);
+        row.appendChild(td);
+        tbody.appendChild(row);
     }
+}
 
-    function sortfunction(val1, val2) {
-        return(parseInt(val1) - parseInt(val2));
+function dayOnClick(obj, cycleDefinitionIndex, cycleIndex, currentday) {
+    if ($(obj).hasClassName('selected_day')) {
+        unselectday(obj, cycleDefinitionIndex, cycleIndex, currentday);
+    } else {
+        selectday(obj, cycleDefinitionIndex, cycleIndex, currentday);
     }
+}
 
-    function deleteCycle(cycleIndex) {
-        var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-            parameters:"confirmationType=deleteCrfCycle&subview=subview&crfCycleIndex="
-                    + cycleIndex,
-            onComplete:function(transport) {
-                showConfirmationWindow(transport, 530, 150);
-            } ,
-            method:'get'
-        });
-    }
+function unselectday(obj, cycleDefinitionIndex, cycleIndex, currentday) {
+    $(obj).removeClassName('selected_day');
+    $(obj).addClassName('unselected_day');
+    updateDisplayedDays(cycleDefinitionIndex, cycleIndex, currentday, 'del');
+}
 
-    function deleteCycleConfirm(crfCycleIndex) {
-        closeWindow();
-        $('crfCycleIndexToRemove').value = crfCycleIndex;
-        submitScheduleTemplateTabPage();
+function selectday(obj, cycleDefinitionIndex, cycleIndex, currentday) {
+    $(obj).removeClassName('unselected_day');
+    $(obj).addClassName('selected_day');
+    updateDisplayedDays(cycleDefinitionIndex, cycleIndex, currentday, 'add');
+}
 
+function updateDisplayedDays(cycleDefinitionIndex, cycleIndex, currentday, action) {
+
+    var objinput = $('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex);
+    if (action == 'del') {
+        var temp = new Array();
+        temp = objinput.value.split(",");
+        temp = temp.without(currentday);
+        objinput.value = temp.toString();
     }
-    function submitScheduleTemplateTabPage() {
-        $('_target').name = "_target" + 2;
-        $("_finish").name = "_nofinish";
-        $('command').submit();
+    if (action == 'add') {
+        objinput.value = objinput.value + ',' + parseInt(currentday);
     }
+    var arr = new Array();
+    arr = objinput.value.split(",");
+    arr.sort(sortfunction);
+}
+
+function sortfunction(val1, val2) {
+    return(parseInt(val1) - parseInt(val2));
+}
+
+function deleteCycleDefinition(cycleIndex) {
+    var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
+        parameters:"confirmationType=deleteCrfCycle&subview=subview&crfCycleIndex="
+                + cycleIndex,
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 530, 150);
+        } ,
+        method:'get'
+    });
+}
+
+function deleteCycleConfirm(crfCycleIndex) {
+    closeWindow();
+    $('crfCycleIndexToRemove').value = crfCycleIndex;
+    submitScheduleTemplateTabPage();
+
+}
+function submitScheduleTemplateTabPage() {
+    $('_target').name = "_target" + 2;
+    $("_finish").name = "_nofinish";
+    $('command').submit();
+}
 
 
 </script>
@@ -255,15 +376,14 @@
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-<input type="hidden" name="_finish" value="true" id="_finish"/>
-<form:hidden path="crfCycleIndexToRemove" id="crfCycleIndexToRemove"/>
+    <input type="hidden" name="_finish" value="true"/>
+<form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
      <chrome:box title="Generic schedule" autopad="true">
          <c:forEach items="${command.crf.crfCalendars}" var="crfCalendar" varStatus="status">
              <script>
                  repeatvalues[totalCalendars] = '${crfCalendar.repeatUntilAmount}';
                  totalCalendars = totalCalendars + 1;
              </script>
-             <%--<chrome:division title="Generic schedule"/>--%>
              <table class="top-widget" width="100%">
                  <tr id="repeatprops">
                      <td>
@@ -324,13 +444,10 @@
             <table class="top-widget" width="100%">
                 <tr>
                     <td>
-                        <c:forEach items="${command.crf.crfCycles}" var="crfCycle" varStatus="status">
-                            <tags:formScheduleCycle cycleIndex="${status.index}" crfCycle="${crfCycle}" />
-                            <c:if test="${crfCycle.cycleDays ne ''}">
-                                <script type="text/javascript">
-                                    showCycle(${status.index});
-                                </script>
-                            </c:if>
+                        <c:forEach items="${command.crf.crfCycleDefinitions}" var="crfCycleDefinition"
+                                   varStatus="status">
+                            <tags:formScheduleCycleDefinition cycleDefinitionIndex="${status.index}"
+                                                              crfCycleDefinition="${crfCycleDefinition}"/>
                         </c:forEach>
                         <div id="hiddenDiv"></div>
                         <div class="local-buttons">
@@ -341,6 +458,22 @@
                 </tr>
             </table>
         </chrome:box>
+        <div id="hidden_inputs_div">
+            <c:forEach items="${command.crf.crfCycleDefinitions}" var="crfCycleDefinition" varStatus="status">
+                <c:if test="${not empty crfCycleDefinition}">
+                    <div id="hidden_inputs_div_${status.index}">
+                        <c:forEach items="${crfCycleDefinition.crfCycles}" var="crfCycle" varStatus="cyclestatus">
+                            <input type="hidden" name='selecteddays_${status.index}_${cyclestatus.index}'
+                                   id='selecteddays_${status.index}_${cyclestatus.index}'
+                                   value="${crfCycle.cycleDays}"/>
+                        </c:forEach>
+                    </div>
+                    <script type="text/javascript">
+                        showCyclesForDefinition(${status.index}, true);
+                    </script>
+                </c:if>
+            </c:forEach>
+        </div>
     </jsp:attribute>
 </tags:tabForm>
 </body>

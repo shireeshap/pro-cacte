@@ -59,9 +59,12 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java 
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRF.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFCalendar.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFCycle.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFCycleDefinition.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFPage.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfCreationMode.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfCycleDefinitionOrderComparator.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfCycleOrderComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfItemAllignment.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfPageItem.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfPageItemDisplayRule.java -text
@@ -453,7 +456,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowControls.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowSaveButton.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/form.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formBuilder.tag -text
-pro-ctcae/web/src/main/webapp/WEB-INF/tags/formScheduleCycle.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/formScheduleCycleDefinition.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formSettings.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formatDate.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formbuilderBox.tag -text
@@ -531,7 +534,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/conditions.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/deleteCrfConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/deleteCrfCycleConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/deleteQuestionConfirmationCheck.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/formScheduleCycle.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/formScheduleCycleDefinition.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/name.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageItemSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageSection.jsp -text

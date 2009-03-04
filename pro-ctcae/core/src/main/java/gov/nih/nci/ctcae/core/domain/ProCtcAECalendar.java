@@ -294,7 +294,7 @@ public class ProCtcAECalendar {
      * @param date the date
      * @return the calendar for date
      */
-    public Calendar getCalendarForDate(Date date) {
+    public static Calendar getCalendarForDate(Date date) {
         SimpleDateFormat sdfMonth = new SimpleDateFormat("MM");
         SimpleDateFormat sdfDay = new SimpleDateFormat("dd");
         SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");

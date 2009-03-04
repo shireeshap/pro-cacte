@@ -3,15 +3,17 @@ package gov.nih.nci.ctcae.core.repository;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.Collection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 //
 /**
@@ -34,7 +36,7 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
      * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#getPersistableClass()
      */
     @Override
-    public Class<CRF> getPersistableClass() {
+    protected Class<CRF> getPersistableClass() {
         return CRF.class;
 
     }
@@ -124,10 +126,17 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
                     }
                 }
             }
-            if (crf.getCrfCycles() != null) {
-                for (CRFCycle crfCycle : crf.getCrfCycles()) {
-                    proCtcAECalendar.setCycleParameters(crfCycle.getCycleLength(), crfCycle.getCycleDays(), crfCycle.getRepeatTimes(), crfCycle.getCycleLengthUnit(), calendarStartDate);
-                    createSchedule(studyParticipantCrf, proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
+            if (crf.getCrfCycleDefinitions() != null) {
+                for (CRFCycleDefinition crfCycleDefinition : crf.getCrfCycleDefinitions()) {
+                    if (crfCycleDefinition.getCrfCycles() != null) {
+                        for (CRFCycle crfCycle : crfCycleDefinition.getCrfCycles()) {
+                            proCtcAECalendar.setCycleParameters(crfCycleDefinition.getCycleLength(), crfCycle.getCycleDays(), 1, crfCycleDefinition.getCycleLengthUnit(), calendarStartDate);
+                            createSchedule(studyParticipantCrf, proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
+                            Calendar c = ProCtcAECalendar.getCalendarForDate(calendarStartDate);
+                            c.add(Calendar.DATE, crfCycleDefinition.getCycleLength());
+                            calendarStartDate = c.getTime();
+                        }
+                    }
                 }
             }
 
@@ -146,7 +155,6 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#save(gov.nih.nci.ctcae.core.domain.Persistable)
     */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-
     public CRF save(CRF crf) {
         CRF tmp = null;
         if (crf.getParentVersionId() != null) {
@@ -162,13 +170,21 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
             }
         }
 
+
 //        if (crf.getOldTitle() != null) {
 //            if ((crf.getParentVersionId() != null || crf.getNextVersionId() != null) && !crf.getOldTitle().equals(crf.getTitle())) {
 //                throw (new CtcAeSystemException("You can not update the title if crf is versioned"));
 //            }
 //
 //        }
-        return super.save(crf);    //To change body of overridden methods use File | Settings | File Templates.
+
+        crf = super.save(crf);
+        List<CrfPageItem> allCrfPageItems = crf.getAllCrfPageItems();
+        for (CrfPageItem crfPageItem : allCrfPageItems) {
+            Collection<ProCtcQuestion> proCtcQuestions = crfPageItem.getProCtcQuestion().getProCtcTerm().getProCtcQuestions();
+        }
+        return crf;
+
     }
 
     /**

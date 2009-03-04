@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,7 +56,7 @@ public class CreateFormCommand implements Serializable {
     private String questionIdToRemove = "";
 
 
-    private String crfCycleIndexToRemove = "";
+    private String crfCycleDefinitionIndexToRemove = "";
 
     /**
      * Gets the title.
@@ -263,29 +264,48 @@ public class CreateFormCommand implements Serializable {
      * @return
      */
     public List<Integer> getSelectedProCtcTerms() {
-        List<CrfPageItem> crfPageItems = getCrf().getAllCrfPageItems();
-        Map<ProCtcTerm, List<CrfPageItem>> proCtcTermAndCrfPageItemMap = new HashMap<ProCtcTerm, List<CrfPageItem>>();
-
-        for (CrfPageItem crfPageItem : crfPageItems) {
-            CollectionUtils.putInMappedList(proCtcTermAndCrfPageItemMap, crfPageItem.getProCtcQuestion().getProCtcTerm(), crfPageItem);
-
-        }
+//        List<CrfPageItem> crfPageItems = getCrf().getAllCrfPageItems();
+//        Map<ProCtcTerm, List<CrfPageItem>> proCtcTermAndCrfPageItemMap = new HashMap<ProCtcTerm, List<CrfPageItem>>();
+//
+//        for (CrfPageItem crfPageItem : crfPageItems) {
+//            CollectionUtils.putInMappedList(proCtcTermAndCrfPageItemMap, crfPageItem.getProCtcQuestion().getProCtcTerm(), crfPageItem);
+//
+//        }
 
         List<Integer> selectedProCtcTerms = new ArrayList<Integer>();
-
-        for (ProCtcTerm proCtcTerm : proCtcTermAndCrfPageItemMap.keySet()) {
-            if (Integer.valueOf(proCtcTermAndCrfPageItemMap.get(proCtcTerm).size()).equals(proCtcTerm.getProCtcQuestions().size())) {
-                selectedProCtcTerms.add(proCtcTerm.getId());
-            }
-        }
+//
+//
+//        for (ProCtcTerm proCtcTerm : proCtcTermAndCrfPageItemMap.keySet()) {
+//            if (Integer.valueOf(proCtcTermAndCrfPageItemMap.get(proCtcTerm).size()).equals(proCtcTerm.getProCtcQuestions().size())) {
+//                selectedProCtcTerms.add(proCtcTerm.getId());
+//            }
+//        }
         return selectedProCtcTerms;
     }
 
-    public String getCrfCycleIndexToRemove() {
-        return crfCycleIndexToRemove;
+    public String getCrfCycleDefinitionIndexToRemove() {
+        return crfCycleDefinitionIndexToRemove;
     }
 
-    public void setCrfCycleIndexToRemove(String crfCycleIndexToRemove) {
-        this.crfCycleIndexToRemove = crfCycleIndexToRemove;
+    public void setCrfCycleDefinitionIndexToRemove(String crfCycleDefinitionIndexToRemove) {
+        this.crfCycleDefinitionIndexToRemove = crfCycleDefinitionIndexToRemove;
+    }
+
+    public void createCycles(HttpServletRequest request) {
+        int cycleDefinitionIndex = -1;
+        for (CRFCycleDefinition crfCycleDefinition : crf.getCrfCycleDefinitions()) {
+            cycleDefinitionIndex++;
+            crfCycleDefinition.getCrfCycles().clear();
+            String repeat = crfCycleDefinition.getRepeatTimes();
+            if (org.apache.commons.lang.StringUtils.isNumeric(repeat)) {
+                int repeattimes = Integer.parseInt(repeat);
+                for (int i = 0; i < repeattimes; i++) {
+                    CRFCycle crfCycle = new CRFCycle();
+                    crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + i));
+                    crfCycle.setOrder(i);
+                    crfCycleDefinition.addCrfCycle(crfCycle);
+                }
+            }
+        }
     }
 }

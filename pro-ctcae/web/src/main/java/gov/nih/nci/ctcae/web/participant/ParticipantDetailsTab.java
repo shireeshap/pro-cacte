@@ -44,10 +44,13 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     @Override
     public void validate(ParticipantCommand command, Errors errors) {
         super.validate(command, errors);
-        if (command.getStudySite() == null ||
-                command.getStudySite().length == 0) {
-            errors.reject(
-                    "studyId", "Please select at least one study.");
+        if (command.getStudySites() == null ||
+                command.getStudySites().size() == 0) {
+            if (command.getParticipant().getStudyParticipantAssignments() == null ||
+                    command.getParticipant().getStudyParticipantAssignments().size() == 0) {
+                errors.reject(
+                        "studyId", "Please select at least one study.");
+            }
         }
     }
 

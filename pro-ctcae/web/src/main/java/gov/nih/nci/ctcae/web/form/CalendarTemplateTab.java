@@ -4,7 +4,9 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.domain.CRFCalendar;
 import gov.nih.nci.ctcae.core.domain.CRFCycle;
+import gov.nih.nci.ctcae.core.domain.CRFCycleDefinition;
 import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.ctcae.web.participant.ParticipantCommand;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -118,19 +120,19 @@ public class CalendarTemplateTab extends Tab<CreateFormCommand> {
             }
         }
 
-        if (StringUtils.isBlank(command.getCrfCycleIndexToRemove())) {
-            if (command.getCrf().getCrfCycles() != null) {
-                for (int i = 0; i < command.getCrf().getCrfCycles().size(); i++) {
-                    CRFCycle crfCycle = command.getCrf().getCrfCycles().get(i);
+        if (StringUtils.isBlank(command.getCrfCycleDefinitionIndexToRemove())) {
+            if (command.getCrf().getCrfCycleDefinitions() != null) {
+                for (int i = 0; i < command.getCrf().getCrfCycleDefinitions().size(); i++) {
+                    CRFCycleDefinition crfCycleDefinition = command.getCrf().getCrfCycleDefinitions().get(i);
 
-                    if (crfCycle.getCycleLength() == null || StringUtils.isBlank("" + crfCycle.getCycleLength()) || !StringUtils.isNumeric("" + crfCycle.getCycleLength())) {
-                        errors.reject("cyclelength", "Please provide a valid numeric value for the length of cycle " + (i + 1) + ".");
+                    if (crfCycleDefinition.getCycleLength() == null || StringUtils.isBlank("" + crfCycleDefinition.getCycleLength()) || !StringUtils.isNumeric("" + crfCycleDefinition.getCycleLength())) {
+                        errors.reject("cyclelength", "Please provide a valid numeric value for the length of cycle definition " + (i + 1) + ".");
                     } else {
-                        if (StringUtils.isBlank(crfCycle.getCycleDays())) {
-                            errors.reject("days", "Please select at least one day on cycle " + (i + 1) + ".");
-                        }
-                        if (crfCycle.getRepeatTimes() == null || StringUtils.isBlank("" + crfCycle.getRepeatTimes()) | !StringUtils.isNumeric(crfCycle.getRepeatTimes().toString())) {
-                            errors.reject("repeat", "Please provide a valid numeric value for number of times you want to repeat cycle " + (i + 1) + ".");
+//                        if (StringUtils.isBlank(crfCycle.getCycleDays())) {
+//                            errors.reject("days", "Please select at least one day on cycle " + (i + 1) + ".");
+//                        }
+                        if (crfCycleDefinition.getRepeatTimes() == null || StringUtils.isBlank("" + crfCycleDefinition.getRepeatTimes()) | !StringUtils.isNumeric(crfCycleDefinition.getRepeatTimes().toString())) {
+                            errors.reject("repeat", "Please provide a valid numeric value for number of times you want to repeat cycle definition " + (i + 1) + ".");
                         }
                     }
                 }
@@ -140,11 +142,13 @@ public class CalendarTemplateTab extends Tab<CreateFormCommand> {
 
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
-        if (!StringUtils.isBlank(command.getCrfCycleIndexToRemove())) {
-            Integer crfCycleIndex = Integer.valueOf(command.getCrfCycleIndexToRemove());
-            CRFCycle crfCycle = command.getCrf().getCrfCycles().get(crfCycleIndex);
-            command.getCrf().getCrfCycles().remove(crfCycle);
-            command.setCrfCycleIndexToRemove("");
+        if (!StringUtils.isBlank(command.getCrfCycleDefinitionIndexToRemove())) {
+            Integer crfCycleDefinitionIndex = Integer.valueOf(command.getCrfCycleDefinitionIndexToRemove());
+            CRFCycleDefinition crfCycleDefinition = command.getCrf().getCrfCycleDefinitions().get(crfCycleDefinitionIndex);
+            command.getCrf().getCrfCycleDefinitions().remove(crfCycleDefinition);
+            command.setCrfCycleDefinitionIndexToRemove("");
+        } else {
+            command.createCycles(request);
         }
         super.postProcess(request, command, errors);
     }

@@ -8,7 +8,6 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 
 //
 /**
@@ -35,7 +34,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
     /**
      * The study participant identifier.
      */
-    @Column(name = "study_participant_identifier", nullable = false)
+    @Column(name = "study_participant_identifier", nullable = true)
     private String studyParticipantIdentifier;
 
     /**
@@ -216,7 +215,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
     public StudyParticipantClinicalStaff getTreatingPhysician() {
 
         if (treatingPhysician == null) {
-            treatingPhysician = getByRole(Role.TREATING_PHYSICIAN);
+            treatingPhysician = getPrimaryByRole(Role.TREATING_PHYSICIAN);
         }
         if (treatingPhysician == null) {
             StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
@@ -232,7 +231,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
 
     public StudyParticipantClinicalStaff getResearchNurse() {
         if (researchNurse == null) {
-            researchNurse = getByRole(Role.RESEARCH_NURSE);
+            researchNurse = getPrimaryByRole(Role.RESEARCH_NURSE);
         }
         if (researchNurse == null) {
             StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
@@ -266,7 +265,15 @@ public class StudyParticipantAssignment extends BaseVersionable {
         }
     }
 
-    private StudyParticipantClinicalStaff getByRole(Role role) {
+    public List<StudyParticipantClinicalStaff> getSitePIs() {
+        return getListByRole(Role.SITE_PI);
+    }
+
+    public List<StudyParticipantClinicalStaff> getSiteCRAs() {
+        return getListByRole(Role.SITE_CRA);
+    }
+
+    private StudyParticipantClinicalStaff getPrimaryByRole(Role role) {
         for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantClinicalStaffs) {
             if (studyParticipantClinicalStaff.isPrimary()) {
                 if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(role)) {
@@ -277,6 +284,18 @@ public class StudyParticipantAssignment extends BaseVersionable {
             }
         }
         return null;
+    }
+
+    private List<StudyParticipantClinicalStaff> getListByRole(Role role) {
+        List<StudyParticipantClinicalStaff> staff = new ArrayList<StudyParticipantClinicalStaff>();
+        for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantClinicalStaffs) {
+            if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(role)) {
+                if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRoleStatus().equals(RoleStatus.ACTIVE)) {
+                    staff.add(studyParticipantClinicalStaff);
+                }
+            }
+        }
+        return staff;
     }
 }
 
