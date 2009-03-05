@@ -42,7 +42,7 @@ public class ParticipantClinicalStaffTab extends SecuredTab<ParticipantCommand> 
             command.getParticipant().getStudyParticipantAssignments().get(spaIndexInt).getNotificationClinicalStaff().remove(studyParticipantClinicalStaff);
             command.setNotificationIndexToRemove("");
         }else{
-            command.assignStaff();;
+            command.assignStaff();
         }
     }
 

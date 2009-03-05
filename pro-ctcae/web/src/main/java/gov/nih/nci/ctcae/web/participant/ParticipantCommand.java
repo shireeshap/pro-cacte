@@ -195,6 +195,12 @@ public class ParticipantCommand {
     }
 
     public void assignStaff() {
-
+        for (StudyParticipantAssignment studyParticipantAssignment : getParticipant().getStudyParticipantAssignments()) {
+            studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantAssignment.getTreatingPhysician());
+            studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantAssignment.getResearchNurse());
+            for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getNotificationClinicalStaff()) {
+                studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantClinicalStaff);
+            }
+        }
     }
 }
