@@ -45,6 +45,7 @@
                 }
             } catch(e) {
             }
+            AE.registerCalendarPopups();
         }
 
     </script>
@@ -56,7 +57,8 @@
            <chrome:division title="participant.label.site">
                <c:choose>
                    <c:when test="${not empty command.participant.studyParticipantAssignments}">
-                       <input type="hidden" name="organizationId" id="organizationId" value="${command.organizationId}"/>
+                       <input type="hidden" name="organizationId" id="organizationId"
+                              value="${command.organizationId}"/>
 
                        <div class="row">
                            <div class="label"><spring:message code="participant.label.site"/>:</div>

@@ -50,8 +50,6 @@
         <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
         <tr>
             <td>
-                <%--<input type="checkbox" name="studySites" value="${studysite.id}"--%>
-                       <%--disabled="true" checked="true"> --%>
                        ${studysite.study.assignedIdentifier}
             </td>
             <td>
