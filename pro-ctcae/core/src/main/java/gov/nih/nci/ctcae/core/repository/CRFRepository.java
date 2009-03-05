@@ -67,6 +67,7 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
             for (StudySite studySite : study.getStudySites()) {
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
                     StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
+                    studyParticipantCrf.setStartDate(crf.getEffectiveStartDate());
                     crf.addStudyParticipantCrf(studyParticipantCrf);
                     studyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
                 }
@@ -82,20 +83,17 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     public void generateSchedulesFromCrfCalendar(CRF crf) throws ParseException {
         if (crf != null) {
             for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
-                generateSchedulesFromCrfCalendar(crf, studyParticipantCrf, null);
+                generateSchedulesFromCrfCalendar(crf, studyParticipantCrf);
             }
         }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void generateSchedulesFromCrfCalendar(CRF crf, StudyParticipantCrf studyParticipantCrf, String startDate) throws ParseException {
-        Date calendarStartDate;
+    public void generateSchedulesFromCrfCalendar(CRF crf, StudyParticipantCrf studyParticipantCrf) throws ParseException {
+        Date calendarStartDate = studyParticipantCrf.getStartDate();
         ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar();
-        if (StringUtils.isBlank(startDate)) {
+        if (calendarStartDate == null) {
             calendarStartDate = crf.getEffectiveStartDate();
-        } else {
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-            calendarStartDate = sdf.parse(startDate);
         }
         if (crf != null) {
 
@@ -204,8 +202,8 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
                 studySite.getStudyParticipantAssignments();
             }
 
-            for(CRFCalendar crfCalendar :crf.getCrfCalendars()){
-                crfCalendar.getDueDateAmount();                
+            for (CRFCalendar crfCalendar : crf.getCrfCalendars()) {
+                crfCalendar.getDueDateAmount();
             }
             for (CRFCycleDefinition crfCycleDefinition : crf.getCrfCycleDefinitions()) {
                 crfCycleDefinition.getCrfCycles();

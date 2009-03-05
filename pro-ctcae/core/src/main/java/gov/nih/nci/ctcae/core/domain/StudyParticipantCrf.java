@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import java.util.Date;
 
 //
 /**
@@ -59,6 +60,8 @@ public class StudyParticipantCrf extends BaseVersionable {
     @ManyToOne
     private StudyParticipantAssignment studyParticipantAssignment;
 
+    @Column(name = "start_date", nullable = true)
+    private Date startDate;
 
     /**
      * Instantiates a new study participant crf.
@@ -211,5 +214,13 @@ public class StudyParticipantCrf extends BaseVersionable {
         int result = crf != null ? crf.hashCode() : 0;
         result = 31 * result + (studyParticipantAssignment != null ? studyParticipantAssignment.hashCode() : 0);
         return result;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 }

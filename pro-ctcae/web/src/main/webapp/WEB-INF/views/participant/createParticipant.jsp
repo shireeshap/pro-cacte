@@ -14,8 +14,8 @@
     <script>
 
         function getStudySites() {
-            var organizationId = document.getElementById('organizationId').value;
-            if(organizationId == ''){
+            var organizationId = $('organizationId').value;
+            if (organizationId == '') {
                 $("studysitestable").innerHTML = '';
                 return;
             }
@@ -50,14 +50,24 @@
     </script>
 </head>
 <body>
-  <%--<chrome:flashMessage flashMessage="participant.flash.save"></chrome:flashMessage>--%>
+<%--<chrome:flashMessage flashMessage="participant.flash.save"></chrome:flashMessage>--%>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
    <jsp:attribute name="singleFields">
-           <p><tags:instructions code="participant.participant_details.top"/></p>
-
            <chrome:division title="participant.label.site">
-               <tags:renderSelect propertyName="organizationId" displayName="participant.label.site"
-                                  required="true" options="${organizationsHavingStudySite}"/>
+               <c:choose>
+                   <c:when test="${not empty command.participant.studyParticipantAssignments}">
+                       <input type="hidden" name="organizationId" id="organizationId" value="${command.organizationId}"/>
+
+                       <div class="row">
+                           <div class="label"><spring:message code="participant.label.site"/>:</div>
+                           <div class="value">${command.siteName}</div>
+                       </div>
+                   </c:when>
+                   <c:otherwise>
+                       <tags:renderSelect propertyName="organizationId" displayName="participant.label.site"
+                                          required="true" options="${organizationsHavingStudySite}"/>
+                   </c:otherwise>
+               </c:choose>
            </chrome:division>
 
            <chrome:division title="participant.label.demographic_information">

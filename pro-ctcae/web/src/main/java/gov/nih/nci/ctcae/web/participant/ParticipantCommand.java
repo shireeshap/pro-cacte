@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 //
 /**
@@ -134,9 +135,12 @@ public class ParticipantCommand {
         for (CRF crf : crfCollection) {
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
+                String sDate = request.getParameter("form_date_" + crf.getId());
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                studyParticipantCrf.setStartDate(simpleDateFormat.parse(sDate));
                 studyParticipantCrf.setCrf(crf);
                 studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
-                crfRepository.generateSchedulesFromCrfCalendar(crf, studyParticipantCrf, request.getParameter("form_date_" + crf.getId()));
+                crfRepository.generateSchedulesFromCrfCalendar(crf, studyParticipantCrf);
             }
         }
 
@@ -190,14 +194,7 @@ public class ParticipantCommand {
         return staff;
     }
 
-    public void assignStaff(){
-        for (StudyParticipantAssignment studyParticipantAssignment : getParticipant().getStudyParticipantAssignments()) {
-            studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantAssignment.getTreatingPhysician());
-            studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantAssignment.getResearchNurse());
-            for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getNotificationClinicalStaff()) {
-                studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantClinicalStaff);
-            }
-        }
+    public void assignStaff() {
 
     }
 }

@@ -489,8 +489,8 @@ function buildTable(index, days, repeat) {
             <c:forEach items="${command.participantSchedules}" var="participantSchedule" varStatus="status">
                 <c:set var="participantCrf" value="${participantSchedule.studyParticipantCrf}"/>
                 <chrome:division title="${participantCrf.crf.title} (${participantCrf.crf.crfVersion})" message="false">
-
                     <div align="left" style="margin-left: 50px">
+                        <b>Start date:  <tags:formatDate value="${participantCrf.startDate}"/> </b>
                         <table class="top-widget" cellspacing="0">
                             <c:forEach items="${participantCrf.crf.crfCycleDefinitions}" var="crfCycleDefinition"
                                        varStatus="statuscycledefinition">
