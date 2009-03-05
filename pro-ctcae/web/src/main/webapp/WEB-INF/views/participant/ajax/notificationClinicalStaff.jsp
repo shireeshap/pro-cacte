@@ -1,2 +1,2 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<tags:notificationClinicalStaff clinicalStaff="${clinicalStaff}" index="${index}" notificationindex="${notificationindex}" studySiteId="${studySiteId}"/>
+<tags:notificationClinicalStaff notifyOptions="${notifyOptions}" clinicalStaff="${clinicalStaff}" index="${index}" notificationindex="${notificationindex}" studySiteId="${studySiteId}"/>

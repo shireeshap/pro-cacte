@@ -20,28 +20,30 @@
             initSearchField()
 
         <c:forEach items="${command.participant.studyParticipantAssignments}" var="studyParticipantAssignment" varStatus="status">
+        <c:if test="${studyParticipantAssignment.id eq command.selectedStudyParticipantAssignment.id}">
             var baseNamePhysician = 'participant.studyParticipantAssignments[${status.index}].treatingPhysician.studyOrganizationClinicalStaff';
 
-            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNamePhysician, '${command.studySites[0].id}', 'TREATING_PHYSICIAN'))
+            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNamePhysician, '${studyParticipantAssignment.studySite.id}', 'TREATING_PHYSICIAN'))
 
             initializeAutoCompleter(baseNamePhysician,
                     '${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:""}',
                     '${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.id:""}');
 
             var baseNameNurse = 'participant.studyParticipantAssignments[${status.index}].researchNurse.studyOrganizationClinicalStaff';
-            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNurse, '${command.studySites[0].id}', 'RESEARCH_NURSE'))
+            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNurse, '${studyParticipantAssignment.studySite.id}', 'RESEARCH_NURSE'))
             initializeAutoCompleter(baseNameNurse,
                     '${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:""}',
                     '${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.id:""}');
 
         <c:forEach items="${studyParticipantAssignment.notificationClinicalStaff}" var="clinicalStaff" varStatus="notificationstatus">
             var baseNameNotification = 'participant.studyParticipantAssignments[${status.index}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaff';
-            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNotification, '${command.studySites[0].id}', 'TREATING_PHYSICIAN|RESEARCH_NURSE'))
+            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNotification, '${studyParticipantAssignment.studySite.id}', 'TREATING_PHYSICIAN|RESEARCH_NURSE'))
             initializeAutoCompleter(baseNameNotification,
                     '${studyParticipantAssignment.notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}',
                     '${studyParticipantAssignment.notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.id}');
 
         </c:forEach>
+        </c:if>
         </c:forEach>
 
         })
@@ -80,6 +82,7 @@
         }
         function submitClinicalStaffTabPage() {
             $('_target').name = "_target" + 1;
+            $('_finish').name = "_nofinish";
             $('command').submit();
         }
 
@@ -100,7 +103,7 @@
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="repeatingFields">
 
-<input type="hidden" name="_finish" value="true"/>
+<input type="hidden" name="_finish" value="true" id="_finish"/>
 <form:hidden path="notificationIndexToRemove" id="notificationIndexToRemove"/>
 <tags:renderSelectForDomainObject displayName="participant.label.study" options="${studyParticipantAssignments}"
                                   propertyName="selectedStudyParticipantAssignment" required="true"
@@ -112,55 +115,110 @@
 
 <div class="row">
     <chrome:box title="participant.label.researchstaff">
-    <c:if test="${studyParticipantAssignment.sitePIs ne null}">
         <chrome:division title="participant.label.sitepi"/>
-    <c:forEach items="${studyParticipantAssignment.sitePIs }" var="sitePI">
-    <div class="row">
-        <div class="label" style="width:8em;"><tags:message code="participant.label.name"/>:</div>
-        <div class="value" style="margin-left:9em;">
-                ${studyParticipantAssignment.sitePIs.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
-        </div>
-    </div>
-    <div class="row">
-        <div class="label" style="width:8em;"><tags:message code="participant.label.notification"/>:</div>
-    </div>
-    </c:forEach>
-    </c:if>
+    <div align="left" style="margin-left: 50px">
+        <table class="tablecontent" width="40%">
+            <tr>
+                <th class="tableHeader" width="70%">
+                    <tags:message code="participant.label.name"/>
+                </th class="tableHeader">
+                <th width=30%>
+                    <tags:message code="participant.label.notification"/>
+                </th>
+            </tr>
+            <c:forEach items="${studyParticipantAssignment.sitePIs}" var="sitePI" varStatus="pistatus">
+                <tr>
+                    <td>
+                            ${sitePI.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
+                    </td>
+                    <td>
+                        <tags:renderSelect
+                                propertyName="participant.studyParticipantAssignments[${status.index}].sitePIs[${pistatus.index}].notify"
+                                required="true" options="${notifyOptions}" doNotshowLabel="true"/>
 
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+    <br>
         <chrome:division title="participant.label.sitecra"/>
-    <div class="row">
-        <div class="label" style="width:8em;"><tags:message code="participant.label.name"/>:</div>
-        <div class="value" style="margin-left:9em;">
-                <%--${studyParticipantAssignment.siteCRAs ne null ? studyParticipantAssignment.siteCRA.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}</div>--%>
-                ${studyParticipantAssignment.siteCRAs}
-        </div>
+    <div align="left" style="margin-left: 50px">
+        <table class="tablecontent" width="40%">
+            <tr>
+                <th class="tableHeader" width="70%">
+                    <tags:message code="participant.label.name"/>
+                </th class="tableHeader">
+                <th width=30%>
+                    <tags:message code="participant.label.notification"/>
+                </th>
+            </tr>
+            <c:forEach items="${studyParticipantAssignment.siteCRAs}" var="siteCRA" varStatus="crastatus">
+                <tr>
+                    <td>
+                            ${siteCRA.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
+                    </td>
+                    <td>
+                        <tags:renderSelect
+                                propertyName="participant.studyParticipantAssignments[${status.index}].siteCRAs[${crastatus.index}].notify"
+                                required="true" options="${notifyOptions}" doNotshowLabel="true" />
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
     </div>
-    <div class="row">
-        <div class="label" style="width:8em;"><tags:message code="participant.label.notification"/>:</div>
-            <%--<div class="value">${studyParticipantAssignment.sitePI ne null ? studyParticipantAssignment.sitePI.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}</div>--%>
-    </div>
+    <br>
     </chrome:box>
     <chrome:box title="participant.label.clinicalstaff">
         <chrome:division title="participant.primaryclinicalstaff"/>
-        <tags:renderAutocompleter
-                propertyName="participant.studyParticipantAssignments[${status.index}].treatingPhysician.studyOrganizationClinicalStaff"
-                displayName="participant.label.clinical.staff.treatingphysician" noForm="true"
-                required="true"
-                propertyValue="${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
-        <tags:renderAutocompleter
-                propertyName="participant.studyParticipantAssignments[${status.index}].researchNurse.studyOrganizationClinicalStaff"
-                displayName="participant.label.clinical.staff.researchnurse" noForm="true"
-                required="true"
-                propertyValue="${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
+    <table>
+        <tr>
+            <td>
+                <tags:renderAutocompleter
+                        propertyName="participant.studyParticipantAssignments[${status.index}].treatingPhysician.studyOrganizationClinicalStaff"
+                        displayName="participant.label.clinical.staff.treatingphysician" noForm="true"
+                        required="true"
+                        propertyValue="${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
+            </td>
+            <td>
+                <b>&nbsp;&nbsp;&nbsp;<spring:message code="participant.label.notification" />  </b><tags:renderSelect
+                        propertyName="participant.studyParticipantAssignments[${status.index}].treatingPhysician.notify"
+                        displayName="participant.label.notification"
+                        required="true" options="${notifyOptions}" doNotshowLabel="true"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <tags:renderAutocompleter
+                        propertyName="participant.studyParticipantAssignments[${status.index}].researchNurse.studyOrganizationClinicalStaff"
+                        displayName="participant.label.clinical.staff.researchnurse" noForm="true"
+                        required="true"
+                        propertyValue="${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
+            </td>
+            <td>
+                <b>&nbsp;&nbsp;&nbsp;<spring:message code="participant.label.notification" />  </b><tags:renderSelect
+                        propertyName="participant.studyParticipantAssignments[${status.index}].researchNurse.notify"
+                        displayName="participant.label.notification"
+                        required="true" options="${notifyOptions}" doNotshowLabel="true"/>
+            </td>
+        </tr>
+    </table>
+    <br>
     </chrome:box>
     <chrome:box title="participant.label.otherstaff">
     <div align="left" style="margin-left: 50px">
-        <table width="55%" class="tablecontent"
+        <table width="90%" class="tablecontent"
                id="notificationtable_${status.index}">
             <tr id="ss-table-head" class="amendment-table-head">
-                <th width="95%" class="tableHeader"><spring:message
-                        code='participant.label.clinicalstaff'
-                        text=''/></th>
+                <th width="55%" class="tableHeader">
+                    <spring:message code='participant.label.name' text=''/>
+                </th>
+                <th width="20%" class="tableHeader">
+                    <spring:message code='participant.label.role' text=''/>
+                </th>
+                <th width="20%%" class="tableHeader">
+                    <spring:message code='participant.label.notification' text=''/>
+                </th>
                 <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
                 <td style="border:none;">
                     <div align="right" style="margin-left: 50px">
@@ -176,11 +234,15 @@
                 <tags:notificationClinicalStaff index="${status.index}"
                                                 notificationindex="${notificationstatus.index}"
                                                 clinicalStaff="${clinicalStaff}"
-                                                studySiteId="${command.studySite[0].id}"></tags:notificationClinicalStaff>
+                                                studySiteId="${studyParticipantAssignment.studySite.id}"
+                                                notify="${clinicalStaff.notify}"
+                                                notifyOptions="${notifyOptions}"
+                                                role="${clinicalStaff.studyOrganizationClinicalStaff.role}"></tags:notificationClinicalStaff>
             </c:forEach>
             <tr id="hiddenDiv" align="center"></tr>
         </table>
     </div>
+    <br>
     </chrome:box>
     </c:if>
     </c:forEach>

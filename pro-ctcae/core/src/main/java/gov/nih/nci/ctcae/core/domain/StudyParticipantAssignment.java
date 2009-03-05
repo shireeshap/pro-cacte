@@ -68,6 +68,10 @@ public class StudyParticipantAssignment extends BaseVersionable {
     private StudyParticipantClinicalStaff researchNurse;
     @Transient
     private List<StudyParticipantClinicalStaff> notificationClinicalStaff;
+    @Transient
+    private List<StudyParticipantClinicalStaff> sitePIs;
+    @Transient
+    private List<StudyParticipantClinicalStaff> siteCRAs;
 
 
     /**
@@ -265,14 +269,6 @@ public class StudyParticipantAssignment extends BaseVersionable {
         }
     }
 
-    public List<StudyParticipantClinicalStaff> getSitePIs() {
-        return getListByRole(Role.SITE_PI);
-    }
-
-    public List<StudyParticipantClinicalStaff> getSiteCRAs() {
-        return getListByRole(Role.SITE_CRA);
-    }
-
     private StudyParticipantClinicalStaff getPrimaryByRole(Role role) {
         for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantClinicalStaffs) {
             if (studyParticipantClinicalStaff.isPrimary()) {
@@ -297,5 +293,21 @@ public class StudyParticipantAssignment extends BaseVersionable {
         }
         return staff;
     }
+
+    public List<StudyParticipantClinicalStaff> getSitePIs() {
+        if (sitePIs == null) {
+            sitePIs = getListByRole(Role.SITE_PI);
+        }
+        return sitePIs;
+    }
+
+
+    public List<StudyParticipantClinicalStaff> getSiteCRAs() {
+        if (siteCRAs == null) {
+            siteCRAs = getListByRole(Role.SITE_CRA);
+        }
+        return siteCRAs;
+    }
+
 }
 

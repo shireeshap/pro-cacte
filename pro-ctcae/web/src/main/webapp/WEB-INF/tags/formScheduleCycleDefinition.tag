@@ -46,7 +46,7 @@
                    name="crf.crfCycleDefinitions[${cycleDefinitionIndex}].repeatTimes" class="validate-NUMERIC"
                    onchange="javascript:showCyclesForDefinition(${cycleDefinitionIndex}, false);"/>
 
-            <div id="div_cycle_selectdays_${cycleDefinitionIndex}" style="display:none;"><br/><b>3. <tags:message
+            <div id="div_cycle_selectdays_${cycleDefinitionIndex}" style="display:none;"><b>3. <tags:message
                     code="form.schedule.select_cycle_days"/></b>
             </div>
 

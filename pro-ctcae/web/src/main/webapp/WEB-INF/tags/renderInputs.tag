@@ -165,12 +165,12 @@
     <c:when test="${categoryName == 'autocompleter'}">
         <input size="${empty size ? empty attributes.size ? '50' : attributes.size : size}" type="text"
                id="${propertyName}-input" title="${title}" ${disabled ? 'disabled' : ''}
-               class="autocomplete ${cssClass}"/>
+               class=" ${cssClass}"/>
 
         <%--<a href="${showAllJavascript}">Show All</a> --%>
         <c:if test="${!doNotshowClear}">
             <input type="image" id="${propertyName}-clear" name="C" value="Clear"
-                   onClick="javascript:$('${propertyName}-input').clear();$('${propertyName}').clear();"
+                   onClick="javascript:$('${propertyName}-input').clear();$('${propertyName}').clear();return false;"
                    src="/ctcae/images/blue/clear-left-button.png"
                    style="vertical-align:middle;"/>
         </c:if>

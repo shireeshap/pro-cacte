@@ -8,10 +8,12 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
 //
 /**
@@ -59,6 +61,9 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
         CRF crf = (CRF) command;
+        Date effectiveStarDate = crf.getEffectiveStartDate();
+        crf = crfRepository.findById(crf.getId());
+        crf.setEffectiveStartDate(effectiveStarDate);
         crfRepository.updateStatusToReleased(crf);
 
         RedirectView redirectView = new RedirectView("manageForm?studyId=" + crf.getStudy().getId());

@@ -89,6 +89,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
         binder.registerCustomEditor(CrfItemAllignment.class, new EnumByNameEditor<CrfItemAllignment>(CrfItemAllignment.class));
 
         binder.registerCustomEditor(RoleStatus.class, new EnumByNameEditor<RoleStatus>(RoleStatus.class));
+        binder.registerCustomEditor(StudyParticipantAssignment.class, new RepositoryBasedEditor(finderRepository, StudyParticipantAssignment.class));
     }
 
     /* (non-Javadoc)

@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.Collections;
 
 //
 /**
@@ -82,15 +84,8 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
         if (roles != null) {
             query.filterByRole(roles);
         }
-        StudyOrganization studyOrganization = genericRepository.findById(StudyOrganization.class, studyOrganizationId);
-        if (studyOrganization != null) {
-            Integer organizationId = studyOrganization.getOrganization().getId();
-            query.filterByOrganization(organizationId);
-
-            return (List<StudyOrganizationClinicalStaff>) genericRepository.find(query);
-        }
-
-        throw new CtcAeSystemException(String.format("no study organization found for given id %s", studyOrganizationId));
+        query.filterByStudyOrganization(studyOrganizationId);
+        return (List<StudyOrganizationClinicalStaff>) genericRepository.find(query);
     }
 
     @Required

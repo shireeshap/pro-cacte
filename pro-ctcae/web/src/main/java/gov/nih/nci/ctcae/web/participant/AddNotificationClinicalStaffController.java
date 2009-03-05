@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantClinicalStaff;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
+import gov.nih.nci.ctcae.web.ListValues;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -43,7 +44,8 @@ public class AddNotificationClinicalStaffController extends AbstractController {
         command.getParticipant().getStudyParticipantAssignments().get(studyParticipantAssignmentIndex).addNotificationClinicalStaff(studyParticipantClinicalStaff);
         modelAndView.addObject("index", studyParticipantAssignmentIndex);
         modelAndView.addObject("notificationindex",command.getParticipant().getStudyParticipantAssignments().get(studyParticipantAssignmentIndex).getNotificationClinicalStaff().size()-1);
-        modelAndView.addObject("studySiteId",command.getParticipant().getStudyParticipantAssignments().get(0).getStudySite().getId());
+        modelAndView.addObject("studySiteId",command.getParticipant().getStudyParticipantAssignments().get(studyParticipantAssignmentIndex).getStudySite().getId());
+        modelAndView.addObject("notifyOptions", ListValues.getNotificationRequired());
         return modelAndView;
     }
 

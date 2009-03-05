@@ -72,7 +72,7 @@
     }
 
     .empty {
-        height: 5px;
+        height: 15px;
     }
 
     .first-column {
@@ -80,6 +80,9 @@
         vertical-align: top;
         font-weight: bold;
         width: 60px;
+    }
+    .empty-column{
+        height: 3px;
     }
 </style>
 <script type="text/javascript">
@@ -295,11 +298,17 @@ function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
         }
         var row = new Element('TR');
         var td = new Element('TD');
+        td.colSpan = 2;
+        td.addClassName('empty-column');
+        row.appendChild(td);
+        tbody.appendChild(row);
+        row = new Element('TR');
+        td = new Element('TD');
         td.update('Apply to ');
         td.addClassName('first-column');
         row.appendChild(td);
         td = new Element('TD');
-        td.colSpan = 3;
+        td.colSpan = 2;
         td.appendChild(multiselect);
         row.appendChild(td);
         tbody.appendChild(row);
@@ -376,7 +385,7 @@ function submitScheduleTemplateTabPage() {
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-    <input type="hidden" name="_finish" value="true"/>
+    <input type="hidden" name="_finish" value="true" id="_finish">
 <form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
      <chrome:box title="Generic schedule" autopad="true">
          <c:forEach items="${command.crf.crfCalendars}" var="crfCalendar" varStatus="status">

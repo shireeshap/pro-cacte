@@ -151,17 +151,19 @@ public class ParticipantSchedule {
      * @param dueAfterPeriodInMill the due after period in mill
      */
     public void createSchedule(Calendar c, long dueAfterPeriodInMill) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-            if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
-                return;
+        if (c != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
+                    return;
+                }
             }
+            StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
+            studyParticipantCrfSchedule.setStartDate(c.getTime());
+            studyParticipantCrfSchedule.setDueDate(new Date(c.getTime().getTime() + dueAfterPeriodInMill));
+            CRF crf = finderRepository.findById(CRF.class, studyParticipantCrf.getCrf().getId());
+            studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule, crf);
         }
-        StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
-        studyParticipantCrfSchedule.setStartDate(c.getTime());
-        studyParticipantCrfSchedule.setDueDate(new Date(c.getTime().getTime() + dueAfterPeriodInMill));
-        CRF crf = finderRepository.findById(CRF.class, studyParticipantCrf.getCrf().getId());
-        studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule, crf);
     }
 
     /**

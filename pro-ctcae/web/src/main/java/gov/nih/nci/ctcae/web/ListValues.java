@@ -189,6 +189,16 @@ public class ListValues {
         return valuesList;
     }
 
+    public static List<ListValues> getNotificationRequired() {
+        List<ListValues> valuesList = new ArrayList<ListValues>();
+
+        valuesList.add(new ListValues("", "Please select"));
+        valuesList.add(new ListValues("true", "Yes"));
+        valuesList.add(new ListValues("false", "No"));
+
+        return valuesList;
+    }
+
     /**
      * Gets the recall periods.
      *

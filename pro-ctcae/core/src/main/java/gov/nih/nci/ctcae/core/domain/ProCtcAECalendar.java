@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -267,25 +269,28 @@ public class ProCtcAECalendar {
     }
 
     public Calendar getNextCycleScehdule() {
-        String[] selectedDays = cycleSelectedDays.split(",");
-        int index = currentIndex % selectedDays.length;
-        int add = 0;
-        int currentday = Integer.parseInt(selectedDays[index]);
-        if (index == 0) {
-            int lastday = Integer.parseInt(selectedDays[selectedDays.length - 1]);
-            if (currentIndex == 0) {
-                add = currentday - 1;
+        if (!StringUtils.isBlank(cycleSelectedDays)) {
+            String[] selectedDays = cycleSelectedDays.split(",");
+            int index = currentIndex % selectedDays.length;
+            int add = 0;
+            int currentday = Integer.parseInt(selectedDays[index]);
+            if (index == 0) {
+                int lastday = Integer.parseInt(selectedDays[selectedDays.length - 1]);
+                if (currentIndex == 0) {
+                    add = currentday - 1;
+                } else {
+                    add = cycleLength - lastday + currentday;
+                }
             } else {
-                add = cycleLength - lastday + currentday;
+                int previousday = Integer.parseInt(selectedDays[index - 1]);
+                add = currentday - previousday;
             }
-        } else {
-            int previousday = Integer.parseInt(selectedDays[index - 1]);
-            add = currentday - previousday;
-        }
 
-        temp.add(Calendar.DATE, add);
-        currentIndex++;
-        return temp;
+            temp.add(Calendar.DATE, add);
+            currentIndex++;
+            return temp;
+        }
+        return null;
     }
 
     /**

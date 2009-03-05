@@ -57,6 +57,8 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
 
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         ParticipantCommand participantCommand = (ParticipantCommand) command;
+        participantCommand.assignStaff();
+
         participantCommand.setParticipant(participantRepository.save(participantCommand.getParticipant()));
         return showForm(request, errors, "participant/confirmParticipant");
     }

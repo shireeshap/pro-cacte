@@ -18,7 +18,7 @@ public class StudyOrganizationClinicalStaffQuery extends AbstractQuery {
      */
     private static String queryString = "SELECT socs from StudyOrganizationClinicalStaff socs order by socs.organizationClinicalStaff.clinicalStaff.firstName";
 
-    private static String ORGANIZATION_ID = "organizationId";
+    private static String STUDY_ORGANIZATION_ID = "studyOrganizationId";
 
     private static String FIRST_NAME = "firstName";
 
@@ -44,9 +44,9 @@ public class StudyOrganizationClinicalStaffQuery extends AbstractQuery {
     }
 
 
-    public void filterByOrganization(final Integer organizationId) {
-        andWhere("socs.organizationClinicalStaff.organization.id = :" + ORGANIZATION_ID);
-        setParameter(ORGANIZATION_ID, organizationId);
+    public void filterByStudyOrganization(final Integer studyOrganizationId) {
+        andWhere("socs.studyOrganization.id = :" + STUDY_ORGANIZATION_ID);
+        setParameter(STUDY_ORGANIZATION_ID, studyOrganizationId);
     }
 
     public void filterByRole(final Collection<Role> roles) {

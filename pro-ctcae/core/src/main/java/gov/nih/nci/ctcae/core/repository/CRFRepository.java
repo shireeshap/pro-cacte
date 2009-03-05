@@ -44,28 +44,12 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#findById(java.lang.Integer)
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     @Override
     public CRF findById(Integer crfId) {
         CRF crf = genericRepository.findById(CRF.class, crfId);
-        if (crf != null) {
-            for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
-                studyParticipantCrf.getCrf();
-            }
-        }
-
-        List<CRFPage> crfPageList = crf.getCrfPagesSortedByPageNumber();
-        for (CRFPage crfPage : crfPageList) {
-            crfPage.getDescription();
-            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-                crfPageItem.getDisplayOrder();
-                for (CrfPageItemDisplayRule crfPageItemDisplayRule : crfPageItem.getCrfPageItemDisplayRules()) {
-                    crfPageItemDisplayRule.getProCtcValidValue();
-                }
-            }
-        }
+        initializeCollections(crf);
         return crf;
-
-
     }
 
     /**
@@ -77,7 +61,6 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     public void updateStatusToReleased(CRF crf) throws ParseException {
 
         if (crf != null) {
-            crf = findById(crf.getId());
             crf.setStatus(CrfStatus.RELEASED);
 
             Study study = studyRepository.findById(crf.getStudy().getId());
@@ -98,7 +81,6 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void generateSchedulesFromCrfCalendar(CRF crf) throws ParseException {
         if (crf != null) {
-            crf = findById(crf.getId());
             for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
                 generateSchedulesFromCrfCalendar(crf, studyParticipantCrf, null);
             }
@@ -116,7 +98,6 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
             calendarStartDate = sdf.parse(startDate);
         }
         if (crf != null) {
-            crf = findById(crf.getId());
 
             if (crf.getCrfCalendars() != null) {
                 for (CRFCalendar crfCalendar : crf.getCrfCalendars()) {
@@ -170,19 +151,8 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
             }
         }
 
-
-//        if (crf.getOldTitle() != null) {
-//            if ((crf.getParentVersionId() != null || crf.getNextVersionId() != null) && !crf.getOldTitle().equals(crf.getTitle())) {
-//                throw (new CtcAeSystemException("You can not update the title if crf is versioned"));
-//            }
-//
-//        }
-
         crf = super.save(crf);
-        List<CrfPageItem> allCrfPageItems = crf.getAllCrfPageItems();
-        for (CrfPageItem crfPageItem : allCrfPageItems) {
-            Collection<ProCtcQuestion> proCtcQuestions = crfPageItem.getProCtcQuestion().getProCtcTerm().getProCtcQuestions();
-        }
+        initializeCollections(crf);
         return crf;
 
     }
@@ -204,6 +174,43 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
             (FinderRepository
                     finderRepository) {
         this.finderRepository = finderRepository;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    private void initializeCollections(CRF crf) {
+        if (crf != null) {
+            for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
+                studyParticipantCrf.getCrf();
+            }
+
+            List<CRFPage> crfPageList = crf.getCrfPagesSortedByPageNumber();
+            for (CRFPage crfPage : crfPageList) {
+                crfPage.getDescription();
+                for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                    crfPageItem.getDisplayOrder();
+                    for (CrfPageItemDisplayRule crfPageItemDisplayRule : crfPageItem.getCrfPageItemDisplayRules()) {
+                        crfPageItemDisplayRule.getProCtcValidValue();
+                    }
+                }
+            }
+
+            List<CrfPageItem> allCrfPageItems = crf.getAllCrfPageItems();
+            for (CrfPageItem crfPageItem : allCrfPageItems) {
+                crfPageItem.getProCtcQuestion().getProCtcTerm().getProCtcQuestions();
+            }
+
+            Study study = studyRepository.findById(crf.getStudy().getId());
+            for (StudySite studySite : study.getStudySites()) {
+                studySite.getStudyParticipantAssignments();
+            }
+
+            for(CRFCalendar crfCalendar :crf.getCrfCalendars()){
+                crfCalendar.getDueDateAmount();                
+            }
+            for (CRFCycleDefinition crfCycleDefinition : crf.getCrfCycleDefinitions()) {
+                crfCycleDefinition.getCrfCycles();
+            }
+        }
     }
 
 }

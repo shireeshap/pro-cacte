@@ -34,13 +34,18 @@ public class StudyParticipantClinicalStaff extends BasePersistable {
     @Column(name = "is_primary")
     private boolean isPrimary = false;
 
+    @Column(name = "notify")
+    private boolean notify = false;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof StudyParticipantClinicalStaff)) return false;
 
         StudyParticipantClinicalStaff that = (StudyParticipantClinicalStaff) o;
 
+        if (isPrimary != that.isPrimary) return false;
+        if (notify != that.notify) return false;
         if (studyOrganizationClinicalStaff != null ? !studyOrganizationClinicalStaff.equals(that.studyOrganizationClinicalStaff) : that.studyOrganizationClinicalStaff != null)
             return false;
         if (studyParticipantAssignment != null ? !studyParticipantAssignment.equals(that.studyParticipantAssignment) : that.studyParticipantAssignment != null)
@@ -53,6 +58,8 @@ public class StudyParticipantClinicalStaff extends BasePersistable {
     public int hashCode() {
         int result = studyOrganizationClinicalStaff != null ? studyOrganizationClinicalStaff.hashCode() : 0;
         result = 31 * result + (studyParticipantAssignment != null ? studyParticipantAssignment.hashCode() : 0);
+        result = 31 * result + (isPrimary ? 1 : 0);
+        result = 31 * result + (notify ? 1 : 0);
         return result;
     }
 
@@ -86,5 +93,13 @@ public class StudyParticipantClinicalStaff extends BasePersistable {
 
     public void setPrimary(boolean primary) {
         isPrimary = primary;
+    }
+
+    public boolean isNotify() {
+        return notify;
+    }
+
+    public void setNotify(boolean notify) {
+        this.notify = notify;
     }
 }

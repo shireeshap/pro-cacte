@@ -82,11 +82,7 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
 
         List<Integer> selectedProCtcTerms = command.getSelectedProCtcTerms();
         map.put("selectedProCtcTerms", selectedProCtcTerms);
-
-
         return map;
-
-
     }
 
 

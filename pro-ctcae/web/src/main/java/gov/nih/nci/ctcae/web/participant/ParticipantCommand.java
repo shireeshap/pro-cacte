@@ -5,10 +5,7 @@ import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
+import java.util.*;
 import java.text.ParseException;
 
 //
@@ -113,6 +110,15 @@ public class ParticipantCommand {
         studyParticipantAssignment.setStudySite(studySite);
         studyParticipantAssignment.setParticipant(getParticipant());
         studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
+        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyParticipantAssignment.getStudySite().getStudyOrganizationClinicalStaffs()) {
+            if (studyOrganizationClinicalStaff.getRole().equals(Role.SITE_PI) || studyOrganizationClinicalStaff.getRole().equals(Role.SITE_CRA)) {
+                StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
+                studyParticipantClinicalStaff.setPrimary(false);
+                studyParticipantClinicalStaff.setNotify(true);
+                studyParticipantClinicalStaff.setStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+                studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantClinicalStaff);
+            }
+        }
         if (!participant.getStudyParticipantAssignments().contains(studyParticipantAssignment)) {
             participant.addStudyParticipantAssignment(studyParticipantAssignment);
         }
@@ -170,5 +176,28 @@ public class ParticipantCommand {
 
     public void setSelectedStudyParticipantAssignment(StudyParticipantAssignment selectedStudyParticipantAssignment) {
         this.selectedStudyParticipantAssignment = selectedStudyParticipantAssignment;
+    }
+
+    private List<StudyOrganizationClinicalStaff> getListByRole(Role role) {
+        List<StudyOrganizationClinicalStaff> staff = new ArrayList<StudyOrganizationClinicalStaff>();
+        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : getSelectedStudyParticipantAssignment().getStudySite().getStudy().getStudyOrganizationClinicalStaffs()) {
+            if (studyOrganizationClinicalStaff.getRole().equals(role)) {
+                if (studyOrganizationClinicalStaff.getRoleStatus().equals(RoleStatus.ACTIVE)) {
+                    staff.add(studyOrganizationClinicalStaff);
+                }
+            }
+        }
+        return staff;
+    }
+
+    public void assignStaff(){
+        for (StudyParticipantAssignment studyParticipantAssignment : getParticipant().getStudyParticipantAssignments()) {
+            studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantAssignment.getTreatingPhysician());
+            studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantAssignment.getResearchNurse());
+            for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getNotificationClinicalStaff()) {
+                studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantClinicalStaff);
+            }
+        }
+
     }
 }
