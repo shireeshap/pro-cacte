@@ -499,9 +499,10 @@ function buildTable(index, days, repeat) {
                                         <tags:formScheduleCycleDefinition
                                                 cycleDefinitionIndex="${statuscycledefinition.index}"
                                                 crfCycleDefinition="${crfCycleDefinition}"
-                                                readonly="true"/>
+                                                readonly="true"
+                                                crfIndex="${status.index}"/>
                                         <script type="text/javascript">
-                                            showCyclesForDefinition(${statuscycledefinition.index}, ${crfCycleDefinition.cycleLength}, '${crfCycleDefinition.cycleLengthUnit}', '${crfCycleDefinition.repeatTimes}');
+                                            showCyclesForDefinition('${status.index}_${statuscycledefinition.index}', ${crfCycleDefinition.cycleLength}, '${crfCycleDefinition.cycleLengthUnit}', '${crfCycleDefinition.repeatTimes}');
                                         </script>
                                     </td>
                                 </tr>

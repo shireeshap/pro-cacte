@@ -5,11 +5,13 @@
 <%@attribute name="cycleDefinitionIndex" type="java.lang.Integer" required="true" %>
 <%@attribute name="crfCycleDefinition" type="gov.nih.nci.ctcae.core.domain.CRFCycleDefinition" required="true" %>
 <%@attribute name="readonly" type="java.lang.Boolean" required="false" %>
+<%@attribute name="crfIndex" required="false" %>
 
 <br/>
 <c:choose>
     <c:when test="${readonly}">
         <chrome:division title="Cycle Definition ${cycleDefinitionIndex+1}">
+            <c:set var="cycleDefinitionIndex" value="${crfIndex}_${cycleDefinitionIndex}"/>
             <b>1. <tags:message
                     code="form.schedule.cycle_length"/>: ${crfCycleDefinition.cycleLength} ${crfCycleDefinition.cycleLengthUnit}</b>
 
