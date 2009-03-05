@@ -132,6 +132,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CreateFormCommand createFormCommand = (CreateFormCommand) command;
         createFormCommand.updateCrfItems(proCtcQuestionRepository);
+        createFormCommand.createCycles(request);
         CRF crf = createFormCommand.getCrf();
 
         if (!StringUtils.isBlank(request.getParameter("showForm"))) {
