@@ -12,8 +12,6 @@
 
     <div class="background-R">
 
-        <a href="/ctcae/pages/form/basicForm" id="logo">ProCtcAE</a>
-
 
         <div id="login-action">
 
