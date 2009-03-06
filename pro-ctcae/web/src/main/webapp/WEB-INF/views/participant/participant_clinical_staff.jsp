@@ -30,14 +30,14 @@
                     '${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.id:""}');
 
             var baseNameNurse = 'participant.studyParticipantAssignments[${status.index}].researchNurse.studyOrganizationClinicalStaff';
-            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNurse, '${studyParticipantAssignment.studySite.id}', 'RESEARCH_NURSE'))
+            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNurse, '${studyParticipantAssignment.studySite.id}', 'NURSE'))
             initializeAutoCompleter(baseNameNurse,
                     '${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:""}',
                     '${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.id:""}');
 
         <c:forEach items="${studyParticipantAssignment.notificationClinicalStaff}" var="clinicalStaff" varStatus="notificationstatus">
             var baseNameNotification = 'participant.studyParticipantAssignments[${status.index}].notificationClinicalStaff[${notificationstatus.index}].studyOrganizationClinicalStaff';
-            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNotification, '${studyParticipantAssignment.studySite.id}', 'TREATING_PHYSICIAN|RESEARCH_NURSE'))
+            acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNotification, '${studyParticipantAssignment.studySite.id}', 'TREATING_PHYSICIAN|NURSE'))
             initializeAutoCompleter(baseNameNotification,
                     '${studyParticipantAssignment.notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}',
                     '${studyParticipantAssignment.notificationClinicalStaff[notificationstatus.index].studyOrganizationClinicalStaff.id}');
@@ -161,7 +161,7 @@
                     <td>
                         <tags:renderSelect
                                 propertyName="participant.studyParticipantAssignments[${status.index}].siteCRAs[${crastatus.index}].notify"
-                                required="true" options="${notifyOptions}" doNotshowLabel="true" />
+                                required="true" options="${notifyOptions}" doNotshowLabel="true"/>
                     </td>
                 </tr>
             </c:forEach>
@@ -181,10 +181,10 @@
                         propertyValue="${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
             </td>
             <td>
-                <b>&nbsp;&nbsp;&nbsp;<spring:message code="participant.label.notification" />  </b><tags:renderSelect
-                        propertyName="participant.studyParticipantAssignments[${status.index}].treatingPhysician.notify"
-                        displayName="participant.label.notification"
-                        required="true" options="${notifyOptions}" doNotshowLabel="true"/>
+                <b>&nbsp;&nbsp;&nbsp;<spring:message code="participant.label.notification"/> </b><tags:renderSelect
+                    propertyName="participant.studyParticipantAssignments[${status.index}].treatingPhysician.notify"
+                    displayName="participant.label.notification"
+                    required="true" options="${notifyOptions}" doNotshowLabel="true"/>
             </td>
         </tr>
         <tr>
@@ -196,10 +196,10 @@
                         propertyValue="${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
             </td>
             <td>
-                <b>&nbsp;&nbsp;&nbsp;<spring:message code="participant.label.notification" />  </b><tags:renderSelect
-                        propertyName="participant.studyParticipantAssignments[${status.index}].researchNurse.notify"
-                        displayName="participant.label.notification"
-                        required="true" options="${notifyOptions}" doNotshowLabel="true"/>
+                <b>&nbsp;&nbsp;&nbsp;<spring:message code="participant.label.notification"/> </b><tags:renderSelect
+                    propertyName="participant.studyParticipantAssignments[${status.index}].researchNurse.notify"
+                    displayName="participant.label.notification"
+                    required="true" options="${notifyOptions}" doNotshowLabel="true"/>
             </td>
         </tr>
     </table>

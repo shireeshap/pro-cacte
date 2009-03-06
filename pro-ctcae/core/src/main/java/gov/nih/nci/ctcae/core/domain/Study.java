@@ -426,7 +426,7 @@ public class Study extends BasePersistable {
                 if (studyOrganizationClinicalStaff.getRole().equals(Role.SITE_CRA)
                         || studyOrganizationClinicalStaff.getRole().equals(Role.SITE_PI)
                         || studyOrganizationClinicalStaff.getRole().equals(Role.TREATING_PHYSICIAN)
-                        || studyOrganizationClinicalStaff.getRole().equals(Role.RESEARCH_NURSE)) {
+                        || studyOrganizationClinicalStaff.getRole().equals(Role.NURSE)) {
                     studyOrganizationClinicalStaffList.add(studyOrganizationClinicalStaff);
                 }
             }

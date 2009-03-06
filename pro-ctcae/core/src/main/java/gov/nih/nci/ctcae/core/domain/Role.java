@@ -22,7 +22,7 @@ public enum Role implements CodedEnum<String> {
     SITE_CRA("SITE_CRA", RoleType.STUDY_SITE_LEVEL),
 
     TREATING_PHYSICIAN("TREATING_PHYSICIAN", RoleType.STUDY_SITE_LEVEL),
-    RESEARCH_NURSE("RESEARCH_NURSE", RoleType.STUDY_SITE_LEVEL);
+    NURSE("NURSE", RoleType.STUDY_SITE_LEVEL);
 
 
     /**

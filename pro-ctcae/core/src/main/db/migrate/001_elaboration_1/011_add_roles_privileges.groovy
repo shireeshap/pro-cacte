@@ -68,10 +68,10 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -103, role_name: "TREATING_PHYSICIAN", privilege_id: "-65"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -104, role_name: "TREATING_PHYSICIAN", privilege_id: "-67"], primaryKey: false)
 
-    insert('ROLE_PRIVILEGES', [id: -121, role_name: "RESEARCH_NURSE", privilege_id: "-62"], primaryKey: false)
-    insert('ROLE_PRIVILEGES', [id: -122, role_name: "RESEARCH_NURSE", privilege_id: "-63"], primaryKey: false)
-    insert('ROLE_PRIVILEGES', [id: -123, role_name: "RESEARCH_NURSE", privilege_id: "-65"], primaryKey: false)
-    insert('ROLE_PRIVILEGES', [id: -124, role_name: "RESEARCH_NURSE", privilege_id: "-67"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -121, role_name: "NURSE", privilege_id: "-62"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -122, role_name: "NURSE", privilege_id: "-63"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -123, role_name: "NURSE", privilege_id: "-65"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -124, role_name: "NURSE", privilege_id: "-67"], primaryKey: false)
 
 
 

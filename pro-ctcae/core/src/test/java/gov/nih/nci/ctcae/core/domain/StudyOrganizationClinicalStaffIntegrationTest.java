@@ -25,7 +25,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
 
     public void testFind() {
         List<Role> rolesList = new ArrayList<Role>();
-        rolesList.add(Role.RESEARCH_NURSE);
+        rolesList.add(Role.NURSE);
         List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffRepository.findByStudyOrganizationIdAndRole("%", defaultStudySite.getId(), rolesList);
 
         assertFalse(organizationClinicalStaffList.isEmpty());

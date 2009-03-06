@@ -196,7 +196,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     private void addResearchNurseAndTreatingPhysician() {
         ClinicalStaff c = Fixture.createClinicalStaffWithOrganization("Brian", "Kirchner", "-1235", defaultOrganization);
         c = clinicalStaffRepository.save(c);
-        defaultStudy.getStudySites().get(0).addOrUpdateStudyOrganizationClinicalStaff(Fixture.createStudyOrganizationClinicalStaff(c, Role.RESEARCH_NURSE, RoleStatus.ACTIVE, new Date(), defaultStudySite));
+        defaultStudy.getStudySites().get(0).addOrUpdateStudyOrganizationClinicalStaff(Fixture.createStudyOrganizationClinicalStaff(c, Role.NURSE, RoleStatus.ACTIVE, new Date(), defaultStudySite));
         commitAndStartNewTransaction();
 
         c = Fixture.createClinicalStaffWithOrganization("Joshua", "Hennagir", "-1236", defaultOrganization);
@@ -210,7 +210,7 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
         c = Fixture.createClinicalStaffWithOrganization("Laura", "Jones", "-1238", defaultOrganization);
         c = clinicalStaffRepository.save(c);
-        defaultStudy.getStudySites().get(0).addOrUpdateStudyOrganizationClinicalStaff(Fixture.createStudyOrganizationClinicalStaff(c, Role.RESEARCH_NURSE, RoleStatus.ACTIVE, new Date(), defaultStudySite));
+        defaultStudy.getStudySites().get(0).addOrUpdateStudyOrganizationClinicalStaff(Fixture.createStudyOrganizationClinicalStaff(c, Role.NURSE, RoleStatus.ACTIVE, new Date(), defaultStudySite));
         commitAndStartNewTransaction();
 
         c = Fixture.createClinicalStaffWithOrganization("Kerry", "Bueckers", "-1239", organization1);

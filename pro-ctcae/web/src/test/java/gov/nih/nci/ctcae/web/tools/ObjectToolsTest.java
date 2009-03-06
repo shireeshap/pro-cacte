@@ -25,7 +25,7 @@ public class ObjectToolsTest extends TestCase {
         super.setUp();
         studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
         studyOrganizationClinicalStaff.setStudyOrganization(new StudySite());
-        studyOrganizationClinicalStaff.setRole(Role.RESEARCH_NURSE);
+        studyOrganizationClinicalStaff.setRole(Role.NURSE);
 
         organizationClinicalStaff = new OrganizationClinicalStaff();
         clinicalStaff = Fixture.createClinicalStaff("Brian", "Brian", "123");

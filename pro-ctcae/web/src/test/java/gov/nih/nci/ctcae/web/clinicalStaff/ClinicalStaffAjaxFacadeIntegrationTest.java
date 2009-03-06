@@ -30,7 +30,7 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
     public void testFind() {
 
         List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffAjaxFacade.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole
-                ("%", defaultStudySite.getId(), "RESEARCH_NURSE");
+                ("%", defaultStudySite.getId(), "NURSE");
 
         assertFalse(organizationClinicalStaffList.isEmpty());
     }

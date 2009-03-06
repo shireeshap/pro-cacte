@@ -15,7 +15,7 @@
 <%@attribute name="roleStatusOptions" required="true" type="java.util.List" %>
 
 
-<table cellspacing="0" width="100%" >
+<table cellspacing="0" width="100%">
     <tr>
         <td width="80%">
             <div align="left" style="margin-left: 15px">
@@ -52,9 +52,14 @@
                 </table>
             </div>
         </td>
+
+    </tr>
+    <tr>
         <td valign="top" width="10%">
-            <input type="button" value="<tags:message code="study.button.add.clinical.staff"/>" onclick="javascript:addClinicalStaff(${studySiteId},'${role}')">
-            
+            <input type="button" value="<tags:message code="study.button.add.clinical.staff"/>"
+                   onclick="javascript:addClinicalStaff(${studySiteId},'${role}')">
+
         </td>
     </tr>
+
 </table>

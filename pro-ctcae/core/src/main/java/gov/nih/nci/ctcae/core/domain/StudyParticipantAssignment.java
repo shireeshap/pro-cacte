@@ -235,7 +235,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
 
     public StudyParticipantClinicalStaff getResearchNurse() {
         if (researchNurse == null) {
-            researchNurse = getPrimaryByRole(Role.RESEARCH_NURSE);
+            researchNurse = getPrimaryByRole(Role.NURSE);
         }
         if (researchNurse == null) {
             StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
@@ -254,7 +254,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
             notificationClinicalStaff = new ArrayList<StudyParticipantClinicalStaff>();
             for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantClinicalStaffs) {
                 if (!studyParticipantClinicalStaff.isPrimary()) {
-                    if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(Role.RESEARCH_NURSE) || studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(Role.TREATING_PHYSICIAN)) {
+                    if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(Role.NURSE) || studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(Role.TREATING_PHYSICIAN)) {
                         notificationClinicalStaff.add(studyParticipantClinicalStaff);
                     }
                 }

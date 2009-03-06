@@ -10,7 +10,7 @@
 <%@attribute name="role" required="false" %>
 <script type="text/javascript">
     var baseNameNotification_${index}_${notificationindex} = 'participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff';
-    acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNotification_${index}_${notificationindex}, '${studySiteId}', 'TREATING_PHYSICIAN|RESEARCH_NURSE'));
+    acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNotification_${index}_${notificationindex}, '${studySiteId}', 'TREATING_PHYSICIAN|NURSE'));
     initSearchField()
 </script>
 <tr id="${inputName}-row">
@@ -23,12 +23,14 @@
 
     </td>
     <td style="border-right:none;">
-      ${role}  
+        ${role}
     </td>
     <td style="border-right:none;">
-        <tags:renderSelect propertyName="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].notify"
-                           displayName="participant.label.notification"
-                           required="true" options="${notifyOptions}" noForm="true" propertyValue="${notify}" doNotshowLabel="true"/>
+        <tags:renderSelect
+                propertyName="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].notify"
+                displayName="participant.label.notification"
+                required="true" options="${notifyOptions}" noForm="true" propertyValue="${notify}"
+                doNotshowLabel="true"/>
 
     </td>
     <td style="border-left:none;">
