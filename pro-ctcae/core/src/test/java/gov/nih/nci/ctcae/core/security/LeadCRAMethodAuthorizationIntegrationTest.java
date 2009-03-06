@@ -10,21 +10,25 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Mar 3, 2009
  */
-public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIntegrationTestCase {
+public class LeadCRAMethodAuthorizationIntegrationTest extends MethodAuthorizationIntegrationTestCase {
+
     private User user;
 
     List<String> allowedMethods = new ArrayList<String>();
 
+
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
-        user = defaultStudy.getOverallDataCoordinator().getOrganizationClinicalStaff().getClinicalStaff().getUser();
+        user = defaultStudy.getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getUser();
         login(user);
 
     }
 
 
-    public void testODCMustNotAccessAnyMethodsOfCRF() throws Exception {
+    public void testAuthorizeUserForCRF() throws Exception {
+
+        allowedMethods.add("save");
 
         unauthorizeMethods(crfRepository, CRFRepository.class, allowedMethods);
 

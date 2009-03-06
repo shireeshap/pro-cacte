@@ -11,14 +11,44 @@
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
 
+    <tx:annotation-driven proxy-target-class="true"/>
+
     <bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository" parent="abstractRepository">
         <property name="passwordEncoder" ref="passwordEncoder"/>
         <property name="saltSource" ref="reflectionSaltSource"/>
     </bean>
 
 
-    <!--<security:global-method-security access-decision-manager-ref="accessDecisionManager" >-->
+    <!--<security:global-method-security access-decision-manager-ref="accessDecisionManager">-->
+    <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.save(..))"-->
+    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+
+    <!--<security:protect-pointcut-->
+    <!--expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.findById(..))"-->
+    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+
+    <!--<security:protect-pointcut-->
+    <!--expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.updateStatusToReleased(..))"-->
+    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+
+    <!--<security:protect-pointcut-->
+    <!--expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.generateSchedulesFromCrfCalendar(..))"-->
+    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+
+    <!--<security:protect-pointcut-->
+    <!--expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.generateSchedulesFromCrfCalendar(..))"-->
+    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+
+    <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.delete(..))"-->
+    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+
+    <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.find(..))"-->
+    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+
     <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.*(..))"-->
+    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+
+    <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.GenericRepository.save(..))"-->
     <!--access="PRIVILEGE_CREATE_FORM"/>-->
     <!--</security:global-method-security>-->
 

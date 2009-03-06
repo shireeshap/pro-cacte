@@ -50,7 +50,9 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         return map;
 
 
-    }/* (non-Javadoc)
+    }
+
+    /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
      */
 
@@ -58,23 +60,33 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, org.springframework.validation.BindException errors) throws Exception {
 
         ClinicalStaffCommand clinicalStaffCommand = (ClinicalStaffCommand) oCommand;
+        User user = clinicalStaffCommand.getClinicalStaff().getUser();
 
         clinicalStaffCommand.apply();
-        ModelAndView modelAndView = showForm(request, response, errors);
 
         if (!StringUtils.isBlank(request.getParameter("showForm"))) {
             if (shouldSave(request, clinicalStaffCommand)) {
                 save(clinicalStaffCommand);
             }
+            ModelAndView modelAndView = super.showForm(request, response, errors);
+            return modelAndView;
+
+        } else if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword())) {
+            errors.rejectValue("clinicalStaff.user.confirmPassword", "clinicalStaff.user.confirm_password", "clinicalStaff.user.confirm_password");
+
+            ModelAndView modelAndView = super.showForm(request, response, errors);
+            return modelAndView;
+
         } else {
 
             save(clinicalStaffCommand);
 
-            modelAndView = new ModelAndView(getSuccessView());
+            ModelAndView modelAndView = new ModelAndView(getSuccessView());
             modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
+            return modelAndView;
         }
 
-        return modelAndView;
+
     }
 
     private boolean shouldSave(HttpServletRequest request, ClinicalStaffCommand clinicalStaffCommand) {
