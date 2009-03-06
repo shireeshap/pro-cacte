@@ -117,6 +117,10 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -24, role_name: "LEAD_CRA", privilege_id: "-6"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -25, role_name: "LEAD_CRA", privilege_id: "-7"], primaryKey: false)
 
+    insert('ROLE_PRIVILEGES', [id: -28, role_name: "LEAD_CRA", privilege_id: "-63"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -29, role_name: "LEAD_CRA", privilege_id: "-65"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -30, role_name: "LEAD_CRA", privilege_id: "-67"], primaryKey: false)
+
     insert('ROLE_PRIVILEGES', [id: -35, role_name: "LEAD_CRA", privilege_id: "-23"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -36, role_name: "LEAD_CRA", privilege_id: "-24"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -37, role_name: "LEAD_CRA", privilege_id: "-26"], primaryKey: false)
@@ -137,9 +141,13 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
 
     insert('ROLE_PRIVILEGES', [id: -58, role_name: "PI", privilege_id: "-43"], primaryKey: false)
 
-    insert('ROLE_PRIVILEGES', [id: -61, role_name: "ODC", privilege_id: "-23"], primaryKey: false)
-    insert('ROLE_PRIVILEGES', [id: -62, role_name: "ODC", privilege_id: "-27"], primaryKey: false)
-    insert('ROLE_PRIVILEGES', [id: -63, role_name: "ODC", privilege_id: "-43"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -59, role_name: "PI", privilege_id: "-63"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -60, role_name: "PI", privilege_id: "-65"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -61, role_name: "PI", privilege_id: "-67"], primaryKey: false)
+
+    insert('ROLE_PRIVILEGES', [id: -131, role_name: "ODC", privilege_id: "-23"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -132, role_name: "ODC", privilege_id: "-27"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -133, role_name: "ODC", privilege_id: "-43"], primaryKey: false)
 
 
   }

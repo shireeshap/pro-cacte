@@ -19,6 +19,7 @@
         <intercept-url pattern="/pages/form/addquestion" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/addConditionalQuestion" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/removeConditions" access="PRIVILEGE_CREATE_FORM"/>
+        <intercept-url pattern="/pages/form/addFormScheduleCycle" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/setName" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/submit" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/manageForm" access="PRIVILEGE_MANAGE_FORM"/>
@@ -30,6 +31,7 @@
         <intercept-url pattern="/pages/form/versionForm" access="PRIVILEGE_VERSION_FORM"/>
         <intercept-url pattern="/pages/form/releaseForm" access="PRIVILEGE_RELEASE_FORM"/>
         <intercept-url pattern="/pages/form/manageForm" access="PRIVILEGE_MANAGE_FORM"/>
+        <intercept-url pattern="/pages/form/*" access="PRIVILEGE_EDIT_FORM"/>
 
 
         <intercept-url pattern="/pages/study/createStudy" access="PRIVILEGE_CREATE_STUDY"/>

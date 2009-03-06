@@ -120,7 +120,7 @@
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Participants"
-                      p:mainController="participantController" p:pathMapping="/participant/**">
+                      p:mainController="scheduleCrfController" p:pathMapping="/participant/**">
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
@@ -352,7 +352,8 @@
 
     <bean id="tabConfigurer" class="gov.nih.nci.cabig.ctms.web.tabs.DefaultTabConfigurer"/>
 
-    <bean name="securedTabbedFlowFormController" class="gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController" abstract="true">
+    <bean name="securedTabbedFlowFormController" class="gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController"
+          abstract="true">
         <property name="tabConfigurer" ref="tabConfigurer"/>
         <property name="studyRepository" ref="studyRepository"/>
         <property name="controllerTools" ref="controllerTools"/>

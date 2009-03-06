@@ -1,14 +1,15 @@
 package gov.nih.nci.ctcae.web.form;
 
 import edu.nwu.bioinformatics.commons.CollectionUtils;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.CtcCategory;
+import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.ctcae.web.security.SecuredTab;
 
 import java.util.*;
 
@@ -19,7 +20,7 @@ import java.util.*;
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */
-public class FormDetailsTab extends Tab<CreateFormCommand> {
+public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
 
     /**
      * The pro ctc term repository.
@@ -36,6 +37,12 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
      */
     public FormDetailsTab() {
         super("form.tab.form", "form.tab.form_details", "form/form_details");
+    }
+
+    public String getRequiredPrivilege() {
+        return Privilege.PRIVILEGE_CREATE_FORM;
+
+
     }
 
     /* (non-Javadoc)
@@ -84,7 +91,6 @@ public class FormDetailsTab extends Tab<CreateFormCommand> {
         map.put("selectedProCtcTerms", selectedProCtcTerms);
         return map;
     }
-
 
 
     /**

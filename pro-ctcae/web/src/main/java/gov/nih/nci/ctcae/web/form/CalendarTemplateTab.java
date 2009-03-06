@@ -1,21 +1,19 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.domain.CRFCalendar;
-import gov.nih.nci.ctcae.core.domain.CRFCycle;
 import gov.nih.nci.ctcae.core.domain.CRFCycleDefinition;
+import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.ListValues;
-import gov.nih.nci.ctcae.web.participant.ParticipantCommand;
+import gov.nih.nci.ctcae.web.security.SecuredTab;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-
-import org.springframework.validation.Errors;
-import org.apache.commons.lang.StringUtils;
 
 //
 /**
@@ -24,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */
-public class CalendarTemplateTab extends Tab<CreateFormCommand> {
+public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
 
     /**
      * The finder repository.
@@ -36,6 +34,12 @@ public class CalendarTemplateTab extends Tab<CreateFormCommand> {
      */
     public CalendarTemplateTab() {
         super("form.tab.form", "form.tab.calendar_template", "form/calendar_template");
+    }
+
+    public String getRequiredPrivilege() {
+        return Privilege.PRIVILEGE_CREATE_FORM;
+
+
     }
 
     /* (non-Javadoc)

@@ -37,7 +37,7 @@
 
 </head>
 <body>
-<p><tags:instructions code="study.study_overview.top"/></p>
+
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
     <jsp:attribute name="singleFields">
         <c:if test="${(empty command.study.id) or ( command.study.id le 0) }">

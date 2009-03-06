@@ -24,16 +24,16 @@ public class SitePIAuthorizationIntegrationTest extends UrlAuthorizationIntegrat
         super.onSetUpInTransaction();
 
 
+        allowedUrls.add(ADD_NOTIFICATION_CLINICAL_STAFF_URL);
         allowedUrls.add(CREATE_PARTICIPANT_URL);
 
         allowedUrls.add(SEARCH_PARTICIPANT_URL);
+        allowedUrls.add(DISPLAY_CALENDAR_URL);
+        allowedUrls.add(PARTICIPANT_DISPLAY_STUDY_SITES_URL);
 
 
         allowedUrls.add(SCHEDULE_CRF_URL);
         allowedUrls.add(ADD_CRF_SCHEDULE_URL);
-        allowedUrls.add(ADD_NOTIFICATION_CLINICAL_STAFF_URL);
-        allowedUrls.add(DISPLAY_CALENDAR_URL);
-        allowedUrls.add(PARTICIPANT_DISPLAY_STUDY_SITES_URL);
 
         allowedUrls.add(EDIT_PARTICIPANT_URL);
 

@@ -1,6 +1,11 @@
 package gov.nih.nci.ctcae.web.security;
 
 import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.web.form.CalendarTemplateTab;
+import gov.nih.nci.ctcae.web.form.FormDetailsTab;
+import gov.nih.nci.ctcae.web.form.SelectStudyForFormTab;
+import gov.nih.nci.ctcae.web.participant.ScheduleCrfTab;
+import gov.nih.nci.ctcae.web.participant.SelectStudyParticipantTab;
 import gov.nih.nci.ctcae.web.study.EmptyStudyTab;
 import gov.nih.nci.ctcae.web.study.StudyDetailsTab;
 
@@ -36,11 +41,19 @@ public class PIAuthorizationIntegrationTest extends UrlAuthorizationIntegrationT
         allowedUrls.add(EDIT_FORM_URL);
         allowedUrls.add(RELEASE_FORM_URL);
         allowedUrls.add(VERSION_FORM_URL);
+        allowedUrls.add(SHOW_VERSION_FORM_URL);
+        allowedUrls.add(ADD_FORM_SCHEDULE_CYFLE_URL);
 
 
         allowedUrls.add(EDIT_STUDY_URL);
         allowedUrls.add(SEARCH_STUDY_URL);
         allowedUrls.add(STUDY_URL);
+
+
+        allowedUrls.add(SCHEDULE_CRF_URL);
+        allowedUrls.add(ADD_CRF_SCHEDULE_URL);
+        allowedUrls.add(DISPLAY_CALENDAR_URL);
+
 
         allowedUrls.add(SEARCH_CLINICAL_STAFF_URL);
 
@@ -49,7 +62,11 @@ public class PIAuthorizationIntegrationTest extends UrlAuthorizationIntegrationT
 
         allowedTabs.add(new EmptyStudyTab());
         allowedTabs.add(new StudyDetailsTab());
-        allowedTabs.add(new EmptyStudyTab());
+        allowedTabs.add(new CalendarTemplateTab());
+        allowedTabs.add(new FormDetailsTab());
+        allowedTabs.add(new SelectStudyForFormTab());
+        allowedTabs.add(new SelectStudyParticipantTab());
+        allowedTabs.add(new ScheduleCrfTab());
 
 
     }

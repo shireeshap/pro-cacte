@@ -22,7 +22,7 @@ import java.util.Map;
  * @author Vinay Kumar
  * @crated Feb 26, 2009
  */
-public class UrlAuthorizationIntegrationTestCase extends AbstractWebIntegrationTestCase {
+public abstract class UrlAuthorizationIntegrationTestCase extends AbstractWebIntegrationTestCase {
 
     protected final String EDIT_STUDY_URL = "/pages/study/editStudy";
     protected final String CREATE_STUDY_URL = "/pages/study/createStudy";
@@ -44,8 +44,10 @@ public class UrlAuthorizationIntegrationTestCase extends AbstractWebIntegrationT
     protected final String RELEASE_FORM_URL = "/pages/form/releaseForm";
     protected final String MANAGE_FORM_URL = "/pages/form/manageForm";
     protected final String VERSION_FORM_URL = "/pages/form/versionForm";
+    protected final String SHOW_VERSION_FORM_URL = "/pages/form/showVersionForm";
     protected final String COPY_FORM_URL = "/pages/form/copyForm";
     protected final String DELETE_FORM_URL = "/pages/form/deleteForm";
+    protected final String ADD_FORM_SCHEDULE_CYFLE_URL = "/pages/form/addFormScheduleCycle";
 
     protected final String ADD_ORGANIZATION_CLINICAL_STAFF_URL = "/pages/clinicalStaff/addClinicalStaffCompoent";
     protected final String SEARCH_CLINICAL_STAFF_URL = "/pages/admin/clinicalStaff/searchClinicalStaff";
@@ -53,15 +55,18 @@ public class UrlAuthorizationIntegrationTestCase extends AbstractWebIntegrationT
 
 
     protected final String CREATE_PARTICIPANT_URL = "/pages/participant/create";
-    protected final String SEARCH_PARTICIPANT_URL = "/pages/participant/search";
-    protected final String SCHEDULE_CRF_URL = "/pages/participant/schedulecrf";
-    protected final String PARTICIPANT_INBOX_URL = "/pages/participant/participantInbox";
-    protected final String ADD_CRF_SCHEDULE_URL = "/pages/participant/addCrfSchedule";
     protected final String ADD_NOTIFICATION_CLINICAL_STAFF_URL = "/pages/participant/addNotificationClinicalStaff";
-    protected final String DISPLAY_CALENDAR_URL = "/pages/participant/displaycalendar";
     protected final String PARTICIPANT_DISPLAY_STUDY_SITES_URL = "/pages/participant/displaystudysites";
+
+    protected final String SEARCH_PARTICIPANT_URL = "/pages/participant/search";
+
+    protected final String SCHEDULE_CRF_URL = "/pages/participant/schedulecrf";
+    protected final String ADD_CRF_SCHEDULE_URL = "/pages/participant/addCrfSchedule";
+    protected final String DISPLAY_CALENDAR_URL = "/pages/participant/displaycalendar";
+
     protected final String EDIT_PARTICIPANT_URL = "/pages/participant/*";
 
+    protected final String PARTICIPANT_INBOX_URL = "/pages/participant/participantInbox";
 
     protected UrlAuthorizationCheck urlAuthorizationCheck;
 
@@ -114,7 +119,7 @@ public class UrlAuthorizationIntegrationTestCase extends AbstractWebIntegrationT
 
         for (SecuredTab securedTab : allowedTabs) {
 
-            assertTrue(String.format("user %s does not have permission:%s to acess %s tab", authentication.getName(), securedTab.getRequiredPrivilege(), securedTab.getShortTitle()),
+            assertTrue(String.format("user %s does not have permission:%s to acess %s tab", authentication.getName(), securedTab.getRequiredPrivilege(), securedTab.getClass()),
                     privilegeAuthorizationCheck.authorize(securedTab.getRequiredPrivilege()));
 
             removeTab(securedTab);
@@ -126,7 +131,7 @@ public class UrlAuthorizationIntegrationTestCase extends AbstractWebIntegrationT
         for (Tab tab : allTabs) {
             if (tab instanceof SecuredTab) {
                 SecuredTab securedTab = (SecuredTab) tab;
-                assertFalse(String.format("user %s  must not have permission:%s to access %s tab", authentication.getName(), securedTab.getRequiredPrivilege(), securedTab.getShortTitle()),
+                assertFalse(String.format("user %s  must not have permission:%s to access %s tab", authentication.getName(), securedTab.getRequiredPrivilege(), securedTab.getClass()),
                         privilegeAuthorizationCheck.authorize(securedTab.getRequiredPrivilege()));
             }
         }

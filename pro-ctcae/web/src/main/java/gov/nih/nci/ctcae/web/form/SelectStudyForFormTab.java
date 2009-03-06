@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.web.security.SecuredTab;
 
 //
 /**
@@ -9,7 +10,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * @author Vinay Kumar
  * @crated Nov 3, 2008
  */
-public class SelectStudyForFormTab extends Tab<CreateFormCommand> {
+public class SelectStudyForFormTab extends SecuredTab<CreateFormCommand> {
 
     /**
      * Instantiates a new select study for form tab.
@@ -18,4 +19,11 @@ public class SelectStudyForFormTab extends Tab<CreateFormCommand> {
         super("form.tab.form", "form.tab.select_study", "form/select_study");
 
     }
+
+    public String getRequiredPrivilege() {
+        return Privilege.PRIVILEGE_CREATE_FORM;
+
+
+    }
+
 }
