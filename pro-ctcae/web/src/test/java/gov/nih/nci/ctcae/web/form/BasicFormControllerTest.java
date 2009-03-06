@@ -46,8 +46,6 @@ public class BasicFormControllerTest extends WebTestCase {
         notEmptyValidator = registerMockFor(NotEmptyValidator.class);
         uniqueTitleForCrfValidator = registerMockFor(UniqueTitleForCrfValidator.class);
         studyRepository = registerMockFor(StudyRepository.class);
-        controller.setNotEmptyValidator(notEmptyValidator);
-        controller.setUniqueTitleForCrfValidator(uniqueTitleForCrfValidator);
         finderRepository = registerMockFor(FinderRepository.class);
         proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
         crfRepository = registerMockFor(CRFRepository.class);

@@ -1,16 +1,18 @@
 package gov.nih.nci.ctcae.web.form;
 
 import edu.nwu.bioinformatics.commons.CollectionUtils;
-import gov.nih.nci.ctcae.core.domain.CrfPageItem;
-import gov.nih.nci.ctcae.core.domain.CtcCategory;
-import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.validation.Errors;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 //
@@ -27,10 +29,16 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
      */
     private ProCtcTermRepository proCtcTermRepository;
 
+    /* The unique title for crf validator.
+        */
+    private UniqueTitleForCrfValidator uniqueTitleForCrfValidator;
+
     /**
-     * The finder repository.
+     * The not empty validator.
      */
-    private FinderRepository finderRepository;
+    private NotEmptyValidator notEmptyValidator;
+
+    private ProCtcQuestionRepository proCtcQuestionRepository;
 
     /**
      * Instantiates a new form details tab.
@@ -102,12 +110,49 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
         this.proCtcTermRepository = proCtcTermRepository;
     }
 
+
+    @Override
+    public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
+        super.postProcess(request, command, errors);
+        command.updateCrfItems(proCtcQuestionRepository);
+
+
+    }
+
+    @Override
+    public void validate(CreateFormCommand command, Errors errors) {
+        super.validate(command, errors);
+        CRF crf = command.getCrf();
+        if (!notEmptyValidator.validate(crf.getTitle())) {
+            errors.rejectValue("crf.title", "form.missing_title", "form.missing_title");
+        } else if (!uniqueTitleForCrfValidator.validate(crf, crf.getTitle())) {
+            errors.rejectValue("crf.title", "form.unique_title", "form.unique_title");
+        }
+
+
+    }
+
     /**
-     * Sets the finder repository.
+     * Sets the not empty validator.
      *
-     * @param finderRepository the new finder repository
+     * @param notEmptyValidator the new not empty validator
      */
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
+    @Required
+    public void setNotEmptyValidator(final NotEmptyValidator notEmptyValidator) {
+        this.notEmptyValidator = notEmptyValidator;
+    }
+
+    /**
+     * Sets the unique title for crf validator.
+     *
+     * @param uniqueTitleForCrfValidator the new unique title for crf validator
+     */
+    @Required
+    public void setUniqueTitleForCrfValidator(final UniqueTitleForCrfValidator uniqueTitleForCrfValidator) {
+        this.uniqueTitleForCrfValidator = uniqueTitleForCrfValidator;
+    }
+
+    public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
+        this.proCtcQuestionRepository = proCtcQuestionRepository;
     }
 }

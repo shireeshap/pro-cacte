@@ -6,9 +6,6 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
-import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
-import gov.nih.nci.ctcae.web.participant.ParticipantCommand;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -35,16 +32,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     private CRFRepository crfRepository;
 
     /**
-     * The unique title for crf validator.
-     */
-    private UniqueTitleForCrfValidator uniqueTitleForCrfValidator;
-
-    /**
-     * The not empty validator.
-     */
-    private NotEmptyValidator notEmptyValidator;
-
-    /**
+     * /**
      * The Constant FORM_DETAILS_PAGE_NUMBER.
      */
     protected static final Integer FORM_DETAILS_PAGE_NUMBER = 1;
@@ -131,35 +119,15 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
      */
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CreateFormCommand createFormCommand = (CreateFormCommand) command;
-        createFormCommand.updateCrfItems(proCtcQuestionRepository);
         createFormCommand.createCycles(request);
-        CRF crf = createFormCommand.getCrf();
 
-        if (!StringUtils.isBlank(request.getParameter("showForm"))) {
-            if (shouldSave(request, createFormCommand)) {
-                save(createFormCommand);
-            }
-            ModelAndView defaultModelAndView = showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
-            return defaultModelAndView;
-        } else {
-            if (!notEmptyValidator.validate(crf.getTitle())) {
-                errors.rejectValue("crf.title", "form.missing_title", "form.missing_title");
-            } else if (!uniqueTitleForCrfValidator.validate(crf, crf.getTitle())) {
-                errors.rejectValue("crf.title", "form.unique_title", "form.unique_title");
-            }
+        save(createFormCommand);
 
-            if (errors.hasErrors()) {
-                ModelAndView defaultModelAndView = showPage(request, errors, FORM_DETAILS_PAGE_NUMBER);
-                return defaultModelAndView;
-            }
+        Map model = new HashMap();
+        model.put("crf", createFormCommand.getCrf());
+        ModelAndView modelAndView = new ModelAndView("form/confirmForm", model);
+        return modelAndView;
 
-            save(createFormCommand);
-
-            Map model = new HashMap();
-            model.put("crf", createFormCommand.getCrf());
-            ModelAndView modelAndView = new ModelAndView("form/confirmForm", model);
-            return modelAndView;
-        }
 
     }
 
@@ -187,26 +155,6 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
         return false;
 
 
-    }
-
-    /**
-     * Sets the not empty validator.
-     *
-     * @param notEmptyValidator the new not empty validator
-     */
-    @Required
-    public void setNotEmptyValidator(final NotEmptyValidator notEmptyValidator) {
-        this.notEmptyValidator = notEmptyValidator;
-    }
-
-    /**
-     * Sets the unique title for crf validator.
-     *
-     * @param uniqueTitleForCrfValidator the new unique title for crf validator
-     */
-    @Required
-    public void setUniqueTitleForCrfValidator(final UniqueTitleForCrfValidator uniqueTitleForCrfValidator) {
-        this.uniqueTitleForCrfValidator = uniqueTitleForCrfValidator;
     }
 
     /**

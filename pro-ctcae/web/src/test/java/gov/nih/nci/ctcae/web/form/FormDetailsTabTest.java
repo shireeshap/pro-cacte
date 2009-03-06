@@ -36,7 +36,6 @@ public class FormDetailsTabTest extends WebTestCase {
         finderRepository = registerMockFor(FinderRepository.class);
         tab = new FormDetailsTab();
 
-        tab.setFinderRepository(finderRepository);
         tab.setProCtcTermRepository(proCtcTermRepository);
 
         proCtcTerms = new ArrayList<ProCtcTerm>();

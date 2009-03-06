@@ -587,8 +587,9 @@
     }
     function deleteQuestionConfirm(questionId, proCtcTermId) {
         closeWindow();
-        $('showForm').value = true;
         $('questionIdToRemove').value = questionId;
+        $('_target').name = '_target1';
+
         $('command').submit();
 
     }
@@ -628,11 +629,12 @@
     }
     function deleteCrfPageConfirm(selectedCrfPageNumber) {
         closeWindow();
-        $('showForm').value = true;
         $('crfPageNumberToRemove').value = selectedCrfPageNumber;
+        $('_target').name = '_target1';
         $('command').submit();
 
     }
+
 </script>
 <script type="text/javascript">
     function addCrfPageDiv(transport) {
@@ -805,7 +807,7 @@
         height: 0px;
         padding-top: 41px;
         width: 145px;
-        background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
+        background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
         overflow: hidden;
     }
 
@@ -817,7 +819,7 @@
         height: 0px;
         padding-top: 41px;
         width: 138px;
-        background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
+        background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
         overflow: hidden;
         background-position: -145px 0;
     }
@@ -830,7 +832,7 @@
         height: 0px;
         padding-top: 41px;
         width: 160px;
-        background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
+        background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
         overflow: hidden;
         background-position: -283px 0;
     }
@@ -885,7 +887,7 @@
         background-color: #cccccc;
         border: 1px solid #000;
         padding: 10px;
-        z-index:100;
+        z-index: 100;
     }
 </style>
 
@@ -1048,9 +1050,6 @@
                                         </c:choose>
 										</span> question<span id="plural2">s</span> in this form.</span>
 
-
-                                        <input type="hidden" id="switchToAdvance" name="switchToAdvance" value=""/>
-                                        <input type="hidden" id="showForm" name="showForm" value=""/>
 
                                         <form:hidden path="questionsIds" id="questionsIds"/>
                                         <form:hidden path="questionIdToRemove" id="questionIdToRemove"/>
