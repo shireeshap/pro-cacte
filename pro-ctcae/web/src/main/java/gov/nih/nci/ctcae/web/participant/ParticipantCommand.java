@@ -9,6 +9,8 @@ import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import org.apache.commons.lang.StringUtils;
+
 //
 /**
  * The Class ParticipantCommand.
@@ -136,8 +138,12 @@ public class ParticipantCommand {
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
                 String sDate = request.getParameter("form_date_" + crf.getId());
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                studyParticipantCrf.setStartDate(simpleDateFormat.parse(sDate));
+                if (!StringUtils.isBlank(sDate)) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                    studyParticipantCrf.setStartDate(simpleDateFormat.parse(sDate));
+                } else {
+                    studyParticipantCrf.setStartDate(crf.getEffectiveStartDate());
+                }
                 studyParticipantCrf.setCrf(crf);
                 studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
                 crfRepository.generateSchedulesFromCrfCalendar(crf, studyParticipantCrf);

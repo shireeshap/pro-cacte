@@ -112,7 +112,7 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
                             proCtcAECalendar.setCycleParameters(crfCycleDefinition.getCycleLength(), crfCycle.getCycleDays(), 1, crfCycleDefinition.getCycleLengthUnit(), calendarStartDate);
                             createSchedule(studyParticipantCrf, proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
                             Calendar c = ProCtcAECalendar.getCalendarForDate(calendarStartDate);
-                            c.add(Calendar.DATE, crfCycleDefinition.getCycleLength());
+                            ProCtcAECalendar.incrementCalendar(c, crfCycleDefinition.getCycleLength(), crfCycleDefinition.getCycleLengthUnit());
                             calendarStartDate = c.getTime();
                         }
                     }

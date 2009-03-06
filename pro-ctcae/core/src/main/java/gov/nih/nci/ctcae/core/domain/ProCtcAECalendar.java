@@ -519,14 +519,7 @@ public class ProCtcAECalendar {
     }
 
     public void setCycleParameters(int cycleLength, String cycleSelectedDays, int cycleRepetitionNumber, String cycleLengthUnit, Date startDate) {
-        int multiplier = 1;
-        if (cycleLengthUnit.equals("Weeks")) {
-            multiplier = 7;
-        }
-        if (cycleLengthUnit.equals("Months")) {
-            multiplier = 30;
-        }
-        this.cycleLength = cycleLength * multiplier;
+        this.cycleLength = getDaysForUnit(cycleLength, cycleLengthUnit);
         if (cycleSelectedDays.indexOf(",") == 0) {
             this.cycleSelectedDays = cycleSelectedDays.substring(1);
         } else {
@@ -535,6 +528,23 @@ public class ProCtcAECalendar {
         this.cycleRepetitionNumber = cycleRepetitionNumber;
         this.startDate = startDate;
         calendar = getCalendarForDate(startDate);
+    }
+
+    public static void incrementCalendar(Calendar c, int cycleLength, String cycleLengthUnit) {
+        int days = getDaysForUnit(cycleLength, cycleLengthUnit);
+        c.add(Calendar.DATE, days);
+    }
+
+    private static int getDaysForUnit(int cycleLength, String cycleLengthUnit) {
+        int multiplier = 1;
+        if (cycleLengthUnit.equals("Weeks")) {
+            multiplier = 7;
+        }
+        if (cycleLengthUnit.equals("Months")) {
+            multiplier = 30;
+        }
+        return cycleLength * multiplier;
+
     }
 
 }
