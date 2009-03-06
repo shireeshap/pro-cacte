@@ -16,7 +16,7 @@ import java.util.UUID;
 public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     private ClinicalStaff clinicalStaff, inValidClinicalStaff;
-    protected final Integer DEFAULT_ORGANIZATION_ID = 105051;
+    protected final Integer DEFAULT_ORGANIZATION_ID = 105555;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {

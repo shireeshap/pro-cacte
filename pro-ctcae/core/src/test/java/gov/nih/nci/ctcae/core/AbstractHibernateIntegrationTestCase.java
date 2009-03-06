@@ -79,8 +79,8 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         PI = Role.PI;
         ODC = Role.ODC;
         LEAD_CRA = Role.LEAD_CRA;
-        defaultOrganization = organizationRepository.findById(105051);
-        organization1 = organizationRepository.findById(100010);
+        defaultOrganization = organizationRepository.findById(105555);
+        organization1 = organizationRepository.findById(104880);
 
         defaultStudy = new Study();
         defaultStudy.setShortTitle("A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)");
