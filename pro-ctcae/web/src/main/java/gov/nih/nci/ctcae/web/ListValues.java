@@ -262,6 +262,16 @@ public class ListValues {
         col.add(lov3);
         return col;
     }
+    public static List<ListValues> getCyclePlannedRepetitions() {
+        List<ListValues> col = new ArrayList<ListValues>();
+        ListValues lov1 = new ListValues("", "Please select");
+        ListValues lov2 = new ListValues("-2", "Number of times");
+        ListValues lov3 = new ListValues("-1", "Indefinite");
+        col.add(lov1);
+        col.add(lov2);
+        col.add(lov3);
+        return col;
+    }
 
     public static List<ListValues> getCalendarRepeatUntilUnits() {
         List<ListValues> col = new ArrayList<ListValues>();

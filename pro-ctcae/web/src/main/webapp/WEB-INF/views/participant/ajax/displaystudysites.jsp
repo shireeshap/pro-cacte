@@ -1,5 +1,6 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <style type="text/css">
     .tableHeader {
         background-color: #2B4186;
@@ -50,7 +51,7 @@
         <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
         <tr>
             <td>
-                       ${studysite.study.assignedIdentifier}
+                    ${studysite.study.assignedIdentifier}
             </td>
             <td>
                     ${studysite.study.shortTitle}
@@ -62,7 +63,7 @@
                     ${studysite.study.studyCoordinatingCenter.organization.nciInstituteCode}
             </td>
             <td>
-                ${studyParticipantAssignment.studyParticipantIdentifier}
+                    ${studyParticipantAssignment.studyParticipantIdentifier}
             </td>
         </tr>
         <tr id="forms_${studysite.id}">
@@ -78,7 +79,8 @@
                                 &nbsp;&nbsp;<b>Form: </b>${spacrf.crf.title}
                             </td>
                             <td class="data" align="center">
-                                <b>Start Date:</b><tags:formatDate value="${spacrf.startDate}"/>
+                                <b><spring:message code="participant.label.startdate"/></b><tags:formatDate
+                                    value="${spacrf.startDate}"/>
                             </td>
 
                         </tr>
@@ -123,13 +125,14 @@
                         <c:forEach items="${studysite.study.crfs}" var="crf">
                             <c:if test="${crf.status eq 'Released' and crf.nextVersionId eq null}">
                                 <tr>
-                                    <td class="data" width="50%" align="left">
-                                        &nbsp;&nbsp;<b>Form </b>${crf.title}
+                                    <td class="data" width="40%" align="left">
+                                        &nbsp;&nbsp;<b>Form: </b>${crf.title}
                                     </td>
                                     <td class="data" align="center">
-                                        <b>Start Date</b> <tags:renderDate propertyName="form_date_${crf.id}"
-                                                                           doNotshowLabel="true"
-                                                                           noForm="true"/>
+                                        <b><spring:message code="participant.label.startdate"/></b> <tags:renderDate
+                                            propertyName="form_date_${crf.id}"
+                                            doNotshowLabel="true"
+                                            noForm="true"/>
                                     </td>
 
                                 </tr>

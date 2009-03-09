@@ -60,13 +60,13 @@
                     <div class="label"><spring:message code='participant.label.last_name' text=''/></div>
                     <div class="value">${command.participant.lastName}</div>
                 </div>
+            </td>
+            <td>
                 <div class="row">
                     <div class="label"><spring:message code='participant.label.participant_identifier'
                                                        text=''/></div>
                     <div class="value">${command.participant.assignedIdentifier}</div>
                 </div>
-            </td>
-            <td>
                 <div class="row">
                     <div class="label"><spring:message code='participant.label.date_of_birth' text=''/></div>
                     <div class="value"><tags:formatDate value="${command.participant.birthDate}"/></div>
@@ -74,14 +74,6 @@
                 <div class="row">
                     <div class="label"><spring:message code='participant.label.gender' text=''/></div>
                     <div class="value">${command.participant.gender}</div>
-                </div>
-                <div class="row">
-                    <div class="label"><spring:message code='participant.label.ethnicity' text=''/></div>
-                    <div class="value">${command.participant.ethnicity}</div>
-                </div>
-                <div class="row">
-                    <div class="label"><spring:message code='participant.label.race' text=''/></div>
-                    <div class="value">${command.participant.race}</div>
                 </div>
                 <div class="row">
                     <div class="label">&nbsp;</div>

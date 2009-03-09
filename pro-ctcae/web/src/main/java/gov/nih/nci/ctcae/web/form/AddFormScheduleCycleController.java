@@ -25,7 +25,8 @@ public class AddFormScheduleCycleController extends AbstractController {
         command.getCrf().addCrfCycleDefinition(crfCycleDefinition);
         modelAndView.addObject("cycleDefinitionIndex", command.getCrf().getCrfCycleDefinitions().size() - 1);
         modelAndView.addObject("cyclelengthunits", ListValues.getCalendarRepetitionUnits());
-
+        modelAndView.addObject("cyclelengthunits", ListValues.getCalendarRepetitionUnits());
+        modelAndView.addObject("cycleplannedrepetitions", ListValues.getCyclePlannedRepetitions());
         return modelAndView;
     }
 }

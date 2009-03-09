@@ -85,21 +85,16 @@
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
                                             required="true"/>
+                       </td>
+                       <td>
                            <tags:renderText propertyName="participant.assignedIdentifier"
                                             displayName="participant.label.participant_identifier"
                                             required="true"/>
-                       </td>
-                       <td>
                            <tags:renderDate propertyName="participant.birthDate"
                                             displayName="participant.label.date_of_birth"
                                             required="true"/>
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
                                               required="true" options="${genders}"/>
-                           <tags:renderSelect propertyName="participant.ethnicity"
-                                              displayName="participant.label.ethnicity"
-                                              required="true" options="${ethnicities}"/>
-                           <tags:renderSelect propertyName="participant.race" displayName="participant.label.race"
-                                              required="true" options="${races}"/>
                        </td>
                    </tr>
                </table>

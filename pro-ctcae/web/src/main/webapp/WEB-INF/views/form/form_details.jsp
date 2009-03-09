@@ -725,6 +725,7 @@
 
     function showHideCtcTerm(action) {
         setVisible('preferencevalues');
+        removeClassFromHyperlink();
         showHideCtcTermA('right', 'hide');
         showHideCtcTermA('middle', 'hide');
         showHideCtcTermA('left', 'hide');
@@ -744,6 +745,13 @@
         if (action == 'onlyctcterm') {
             showHideCtcTermA('only', 'show');
         }
+        $('a_' + action).addClassName('nolink_hyperlink');
+    }
+    function removeClassFromHyperlink() {
+        $('a_append').removeClassName('nolink_hyperlink');
+        $('a_prepend').removeClassName('nolink_hyperlink');
+        $('a_noctcterm').removeClassName('nolink_hyperlink');
+        $('a_onlyctcterm').removeClassName('nolink_hyperlink');
     }
 
     function showHideCtcTermA(side, action) {
@@ -807,7 +815,7 @@
         height: 0px;
         padding-top: 41px;
         width: 145px;
-        background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
+        background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
         overflow: hidden;
     }
 
@@ -819,7 +827,7 @@
         height: 0px;
         padding-top: 41px;
         width: 138px;
-        background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
+        background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
         overflow: hidden;
         background-position: -145px 0;
     }
@@ -832,7 +840,7 @@
         height: 0px;
         padding-top: 41px;
         width: 160px;
-        background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
+        background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
         overflow: hidden;
         background-position: -283px 0;
     }
@@ -880,7 +888,7 @@
     #preferencevalues {
         position: absolute;
         visibility: hidden;
-        width: 230px;
+        width: 260px;
         height: 80px;
         left: 20px;
         top: 300px;
@@ -888,6 +896,12 @@
         border: 1px solid #000;
         padding: 10px;
         z-index: 100;
+    }
+
+    .nolink_hyperlink {
+        font-weight: bold;
+        text-decoration: none;
+        cursor: default;
     }
 </style>
 
@@ -931,10 +945,15 @@
                         <a href="#" onclick="setVisible('preferencevalues');return false"
                            target="_self">Display Preferences</a></p>
                         <div id="preferencevalues">
-                            <a href="javascript:showHideCtcTerm('noctcterm')">Show only PRO-CTCAE term</a><br/>
-                            <a href="javascript:showHideCtcTerm('onlyctcterm')">Show only CTCAE term</a><br/>
-                            <a href="javascript:showHideCtcTerm('append')">Show both with PRO-CTCAE term first</a><br/>
-                            <a href="javascript:showHideCtcTerm('prepend')">Show both with CTCAE term first</a><br/>
+                            <a href="javascript:showHideCtcTerm('noctcterm')" id="a_noctcterm">Show only patient
+                                term</a><br/>
+                            <a href="javascript:showHideCtcTerm('onlyctcterm')" id="a_onlyctcterm">Show only CTCAE
+                                term</a><br/>
+                            <a href="javascript:showHideCtcTerm('append')" id="a_append">Show both (with patient term
+                                first)</a><br/>
+                            <a href="javascript:showHideCtcTerm('prepend')" id="a_prepend" class="nolink_hyperlink">Show
+                                both (with CTCAE term
+                                first)</a><br/>
                         </div>
                         <br>
                         <br>
@@ -957,15 +976,14 @@
                                         <ul>
                                             <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
                                                 <li class="closed">
-                                                    <span class="ctctermleft"
-                                                          style="display:none"> ${proCtcTerm.ctcTerm.term} - </span>
-                                                    <span class="ctctermmiddle">${proCtcTerm.term}</span>
+                                                    <span class="ctctermleft"> ${proCtcTerm.ctcTerm.term} - </span>
+                                                    <span class="ctctermmiddle"
+                                                          style="display:none">${proCtcTerm.term}</span>
                                                     <span class="ctctermright"
                                                           style="display:none"> - [${proCtcTerm.ctcTerm.term}]</span>
                                                     <span class="ctctermonly"
                                                           style="display:none">${proCtcTerm.ctcTerm.term}</span>
-                                                    <span class="ctctermrightpro"
-                                                          style="display:none">[${proCtcTerm.term}]</span>
+                                                    <span class="ctctermrightpro">[${proCtcTerm.term}]</span>
 
                                                     <a href="javascript:addProctcTerm(${proCtcTerm.id})"
                                                        id="proCtcTerm_${proCtcTerm.id}"

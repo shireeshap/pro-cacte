@@ -183,7 +183,13 @@
         height: 5px;
     }
 
-    .first-column {
+    .first-column-A {
+        text-align: left;
+        vertical-align: top;
+        font-weight: bold;
+        width: 170px;
+    }
+    .first-column-B {
         text-align: left;
         vertical-align: top;
         font-weight: bold;
@@ -398,14 +404,20 @@ function calculateDays(days_unit, days_amount) {
     var days = days_amount * multiplier;
     return days;
 }
+var isIndefinite = false;
 function showCyclesForDefinition(cycleDefinitionIndex, cycleLength, cycleLengthUnit, repeat) {
     var days_amount = cycleLength;
     var days_unit = cycleLengthUnit;
     var days = calculateDays(days_unit, days_amount);
     var repeat = repeat;
+    if (repeat == -1) {
+        repeat = 1;
+        isIndefinite = true;
+    }
     if (days > 0 && days < 1000 && repeat > 0) {
         $('div_cycle_table_' + cycleDefinitionIndex).show();
         buildTable(cycleDefinitionIndex, days, repeat);
+        isIndefinite = false;
     } else {
         $('div_cycle_table_' + cycleDefinitionIndex).hide();
     }
@@ -422,8 +434,13 @@ function emptyTable(index) {
 function addFirstColumn(row, rownumber, cycleNumber) {
     var td = new Element('TD');
     if (rownumber == 0) {
-        td.update('Cycle ' + (cycleNumber + 1));
-        td.addClassName('first-column')
+        if (isIndefinite) {
+            td.update('Cycle applied indefinitely');
+            td.addClassName('first-column-A')
+        } else {
+            td.update('Cycle ' + (cycleNumber + 1));
+            td.addClassName('first-column-B')
+        }
     }
     row.appendChild(td);
 }
@@ -490,7 +507,7 @@ function buildTable(index, days, repeat) {
                 <c:set var="participantCrf" value="${participantSchedule.studyParticipantCrf}"/>
                 <chrome:division title="${participantCrf.crf.title} (${participantCrf.crf.crfVersion})" message="false">
                     <div align="left" style="margin-left: 50px">
-                        <b>Start date:  <tags:formatDate value="${participantCrf.startDate}"/> </b>
+                        <b>Start date: <tags:formatDate value="${participantCrf.startDate}"/> </b>
                         <table class="top-widget" cellspacing="0">
                             <c:forEach items="${participantCrf.crf.crfCycleDefinitions}" var="crfCycleDefinition"
                                        varStatus="statuscycledefinition">

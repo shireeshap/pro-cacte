@@ -81,7 +81,8 @@
         font-weight: bold;
         width: 60px;
     }
-    .empty-column{
+
+    .empty-column {
         height: 3px;
     }
 </style>
@@ -143,10 +144,13 @@ function calculateDays(days_unit, days_amount) {
     return days;
 }
 function showCyclesForDefinition(index, pageload) {
+    var repeat = parseInt($('cycle_repeat_' + index).value);
+    if ($('select_repeat_' + index).value == -1) {
+        repeat = 1;
+    }
     var days_amount = parseInt($('cycle_length_' + index).value);
     var days_unit = $('crf.crfCycleDefinitions[' + index + '].cycleLengthUnit').value;
     var days = calculateDays(days_unit, days_amount);
-    var repeat = parseInt($('cycle_repeat_' + index).value);
     if (days > 0 && days < 1000 && repeat > 0) {
         $('div_cycle_selectdays_' + index).show();
         $('div_cycle_table_' + index).show();
@@ -248,20 +252,29 @@ function buildTable(index, days, repeat, pageload) {
                 }
             }
         }
-        addMultiSelect(tbody, index, k);
-        addEmptyRow(tbody);
+        if ($('select_repeat_' + index).value != -1) {
+            addMultiSelect(tbody, index, k);
+            addEmptyRow(tbody);
+        }
     }
 }
 
-function applyDaysToCycle(days, cycleDefinitionIndex, cycleIndex) {
-    resetCycle(cycleDefinitionIndex, cycleIndex);
-    var temp = new Array();
-    temp = days.split(",");
+function applyDaysToCycle(days, cycleDefinitionIndex, cycleIndexes) {
 
-    for (var i = 1; i < temp.length; i++) {
-        var currentday = temp[i];
-        var obj = $('div_' + cycleDefinitionIndex + '_' + cycleIndex + '_' + currentday);
-        dayOnClick(obj, cycleDefinitionIndex, cycleIndex, currentday);
+    var cycles = cycleIndexes.split(',');
+    for (var j = 0; j < cycles.length; j++) {
+        var cycleIndex = cycles[j];
+        if (cycleIndex != '') {
+            resetCycle(cycleDefinitionIndex, cycleIndex);
+            var temp = new Array();
+            temp = days.split(",");
+
+            for (var i = 1; i < temp.length; i++) {
+                var currentday = temp[i];
+                var obj = $('div_' + cycleDefinitionIndex + '_' + cycleIndex + '_' + currentday);
+                dayOnClick(obj, cycleDefinitionIndex, cycleIndex, currentday);
+            }
+        }
     }
 }
 
@@ -272,29 +285,45 @@ function resetCycle(cycleDefinitionIndex, cycleIndex) {
         unselectday(obj, cycleDefinitionIndex, cycleIndex, i);
     }
 }
+
 function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
     var repeat = parseInt($('cycle_repeat_' + cycleDefinitionIndex).value);
 
     if (cycleIndex < repeat - 1) {
-        var multiselectsize = repeat - cycleIndex - 1;
-        if (multiselectsize > 4) {
-            multiselectsize = 4;
+        var multiselectsize = repeat - cycleIndex;
+        if (multiselectsize > 5) {
+            multiselectsize = 5;
         }
+        if (multiselectsize == 2) {
+            multiselectsize = 1;
+        }
+        var followingCycles = '';
+        var allOption = new Element('OPTION', {});
+
         var multiselect = new Element('SELECT', {'id':'multiselect_' + cycleDefinitionIndex + '_' + cycleIndex, 'multiple':true, 'size':multiselectsize})
+
+        if (cycleIndex < repeat - 2) {
+            allOption.text = 'All';
+            multiselect.appendChild(allOption);
+        }
+
         for (var i = 0; i < repeat; i++) {
             if (i > cycleIndex) {
                 var option = new Element('OPTION', {});
                 option.text = 'Cycle ' + (i + 1);
                 option.value = i;
                 option.onclick = function() {
-                    if (this.selected) {
-                        applyDaysToCycle($('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value, cycleDefinitionIndex, this.value);
-                    } else {
-                        resetCycle(cycleDefinitionIndex, this.value);
-                    }
+                    applyDaysToCycle($('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value, cycleDefinitionIndex, this.value);
                 };
                 multiselect.appendChild(option);
+                followingCycles = followingCycles + ',' + i;
             }
+        }
+
+        if (followingCycles != '') {
+            allOption.onclick = function() {
+                applyDaysToCycle($('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value, cycleDefinitionIndex, followingCycles);
+            };
         }
         var row = new Element('TR');
         var td = new Element('TD');
@@ -379,6 +408,18 @@ function submitScheduleTemplateTabPage() {
     $('command').submit();
 }
 
+function changePlannedRep(cycleDefinitionIndex, value) {
+    if (value == '-1') {
+        $('cycle_repeat_' + cycleDefinitionIndex).value = -1;
+        $('cycle_repeat_' + cycleDefinitionIndex).hide();
+    } else {
+        $('cycle_repeat_' + cycleDefinitionIndex).value = 0;
+        $('cycle_repeat_' + cycleDefinitionIndex).show();
+    }
+
+    showCyclesForDefinition(cycleDefinitionIndex, false);
+}
+
 
 </script>
 </head>
@@ -456,7 +497,8 @@ function submitScheduleTemplateTabPage() {
                         <c:forEach items="${command.crf.crfCycleDefinitions}" var="crfCycleDefinition"
                                    varStatus="status">
                             <tags:formScheduleCycleDefinition cycleDefinitionIndex="${status.index}"
-                                                              crfCycleDefinition="${crfCycleDefinition}"/>
+                                                              crfCycleDefinition="${crfCycleDefinition}"
+                                                              repeatOptions="${cycleplannedrepetitions}"/>
                         </c:forEach>
                         <div id="hiddenDiv"></div>
                         <div class="local-buttons">

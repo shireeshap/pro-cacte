@@ -64,6 +64,7 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
         map.put("duedateunits", ListValues.getCalendarDueDateUnits());
         map.put("repeatuntilunits", ListValues.getCalendarRepeatUntilUnits());
         map.put("cyclelengthunits", ListValues.getCalendarRepetitionUnits());
+        map.put("cycleplannedrepetitions", ListValues.getCyclePlannedRepetitions());
 
         return map;
     }
@@ -135,8 +136,8 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
 //                        if (StringUtils.isBlank(crfCycle.getCycleDays())) {
 //                            errors.reject("days", "Please select at least one day on cycle " + (i + 1) + ".");
 //                        }
-                        if (crfCycleDefinition.getRepeatTimes() == null || StringUtils.isBlank("" + crfCycleDefinition.getRepeatTimes()) | !StringUtils.isNumeric(crfCycleDefinition.getRepeatTimes().toString())) {
-                            errors.reject("repeat", "Please provide a valid numeric value for number of times you want to repeat cycle definition " + (i + 1) + ".");
+                        if (crfCycleDefinition.getRepeatTimes() == null || StringUtils.isBlank("" + crfCycleDefinition.getRepeatTimes()) || (!StringUtils.isNumeric(crfCycleDefinition.getRepeatTimes().toString()) && !crfCycleDefinition.getRepeatTimes().toString().equals("-1"))) {
+                            errors.reject("repeat", "Please provide a valid numeric value for number of planned repetitions for cycle definition " + (i + 1) + ".");
                         }
                     }
                 }
@@ -151,9 +152,11 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
             CRFCycleDefinition crfCycleDefinition = command.getCrf().getCrfCycleDefinitions().get(crfCycleDefinitionIndex);
             command.getCrf().getCrfCycleDefinitions().remove(crfCycleDefinition);
             command.setCrfCycleDefinitionIndexToRemove("");
-        } else {
-            command.createCycles(request);
         }
+//This is being called from processFinish in FormController. Need to uncomment when the issue with post process is fixed.
+//        else {
+//            command.createCycles(request);
+//        }
         super.postProcess(request, command, errors);
     }
 

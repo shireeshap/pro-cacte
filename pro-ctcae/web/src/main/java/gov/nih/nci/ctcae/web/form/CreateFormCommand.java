@@ -297,11 +297,20 @@ public class CreateFormCommand implements Serializable {
             cycleDefinitionIndex++;
             crfCycleDefinition.getCrfCycles().clear();
             String repeat = crfCycleDefinition.getRepeatTimes();
-            if (org.apache.commons.lang.StringUtils.isNumeric(repeat)) {
+            if (org.apache.commons.lang.StringUtils.isNumeric(repeat) || ("-1").equals(repeat)) {
                 int repeattimes = Integer.parseInt(repeat);
+                boolean isIndefinite = false;
+                if (repeattimes == -1) {
+                    repeattimes = 100;
+                    isIndefinite = true;
+                }
                 for (int i = 0; i < repeattimes; i++) {
                     CRFCycle crfCycle = new CRFCycle();
-                    crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + i));
+                    if (isIndefinite) {
+                        crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + 0));
+                    } else {
+                        crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + i));
+                    }
                     crfCycle.setOrder(i);
                     crfCycleDefinition.addCrfCycle(crfCycle);
                 }
