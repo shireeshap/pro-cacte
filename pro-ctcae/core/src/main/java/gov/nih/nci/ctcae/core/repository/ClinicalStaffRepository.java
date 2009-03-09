@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.Collections;
 
 //
 /**
@@ -21,26 +19,18 @@ import java.util.Collections;
  * @author Mehul Gulati
  *         Date: Oct 15, 2008
  */
-public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, ClinicalStaffQuery> {
+public class ClinicalStaffRepository implements Repository<ClinicalStaff, ClinicalStaffQuery> {
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#getPersistableClass()
-     */
-    @Override
-    protected Class<ClinicalStaff> getPersistableClass() {
-        return ClinicalStaff.class;
-    }
-
+    private GenericRepository genericRepository;
     private UserRepository userRepository;
 
-    @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public ClinicalStaff save(ClinicalStaff clinicalStaff) {
         User user = clinicalStaff.getUser();
         if (user != null) {
             user.setUsername(clinicalStaff.getEmailAddress());
             user = userRepository.save(user);
-            clinicalStaff = super.save(clinicalStaff);
+            clinicalStaff = genericRepository.save(clinicalStaff);
             return clinicalStaff;
 
         } else {
@@ -50,9 +40,25 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
 
     }
 
-    @Override
+    public void delete(ClinicalStaff clinicalStaff) {
+
+
+    }
+
+    public Collection<ClinicalStaff> find(ClinicalStaffQuery query) {
+        return genericRepository.find(query);
+
+
+    }
+
+    public ClinicalStaff findSingle(ClinicalStaffQuery query) {
+        return genericRepository.findSingle(query);
+
+
+    }
+
     public ClinicalStaff findById(Integer id) {
-        ClinicalStaff clinicalstaff = super.findById(id);
+        ClinicalStaff clinicalstaff = genericRepository.findById(ClinicalStaff.class, id);
 
         Collection<OrganizationClinicalStaff> organizationClinicalStaffCollection = clinicalstaff.getOrganizationClinicalStaffs();
         for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffCollection) {
@@ -72,7 +78,7 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
             Integer organizationId = studyOrganization.getOrganization().getId();
             query.filterByOrganization(organizationId);
 
-            return (List<OrganizationClinicalStaff>) genericRepository.find(query);
+            return genericRepository.find(query);
         }
 
         throw new CtcAeSystemException(String.format("no study organization found for given id %s", studyOrganizationId));
@@ -85,11 +91,16 @@ public class ClinicalStaffRepository extends AbstractRepository<ClinicalStaff, C
             query.filterByRole(roles);
         }
         query.filterByStudyOrganization(studyOrganizationId);
-        return (List<StudyOrganizationClinicalStaff>) genericRepository.find(query);
+        return genericRepository.find(query);
     }
 
     @Required
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }

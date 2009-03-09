@@ -1,7 +1,13 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
 
 //
 /**
@@ -9,17 +15,46 @@ import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
  *
  * @author mehul
  */
+@org.springframework.stereotype.Repository
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 
-public class StudyParticipantAssignmentRepository extends AbstractRepository<StudyParticipantAssignment, StudyParticipantAssignmentQuery> {
+public class StudyParticipantAssignmentRepository implements Repository<StudyParticipantAssignment, StudyParticipantAssignmentQuery> {
 
-    /* (non-Javadoc)
-    * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#getPersistableClass()
-    */
-    @Override
-    protected Class<StudyParticipantAssignment> getPersistableClass() {
-        return StudyParticipantAssignment.class;
+    private GenericRepository genericRepository;
+
+    public StudyParticipantAssignment findById(Integer id) {
+        return genericRepository.findById(StudyParticipantAssignment.class, id);
+
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public StudyParticipantAssignment save(StudyParticipantAssignment studyParticipantAssignment) {
+        return genericRepository.save(studyParticipantAssignment);
 
+
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public void delete(StudyParticipantAssignment studyParticipantAssignment) {
+        throw new CtcAeSystemException("delete method not supported");
+
+    }
+
+    public Collection<StudyParticipantAssignment> find(StudyParticipantAssignmentQuery query) {
+        return genericRepository.find(query);
+
+
+    }
+
+    public StudyParticipantAssignment findSingle(StudyParticipantAssignmentQuery query) {
+        return genericRepository.findSingle(query);
+
+
+    }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
+    }
 }

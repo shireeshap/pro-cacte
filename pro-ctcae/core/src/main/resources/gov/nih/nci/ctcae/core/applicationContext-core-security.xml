@@ -13,54 +13,102 @@
 
     <tx:annotation-driven proxy-target-class="true"/>
 
-    <bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository" parent="abstractRepository">
-        <property name="passwordEncoder" ref="passwordEncoder"/>
-        <property name="saltSource" ref="reflectionSaltSource"/>
-    </bean>
+
+    <security:global-method-security access-decision-manager-ref="accessDecisionManager">
+        <security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.save(..))"
+                                   access="PRIVILEGE_CREATE_FORM"/>
+
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.updateStatusToReleased(..))"
+                access="PRIVILEGE_RELEASE_FORM"/>
+
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.generateSchedulesFromCrfCalendar(..))"
+                access="PRIVILEGE_CREATE_FORM"/>
 
 
-    <!--<security:global-method-security access-decision-manager-ref="accessDecisionManager">-->
-    <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.save(..))"-->
-    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+        <security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.delete(..))"
+                                   access="PRIVILEGE_DELETE_FORM"/>
 
-    <!--<security:protect-pointcut-->
-    <!--expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.findById(..))"-->
-    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+        <security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.find*(..))"
+                                   access="PRIVILEGE_MANAGE_FORM"/>
 
-    <!--<security:protect-pointcut-->
-    <!--expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.updateStatusToReleased(..))"-->
-    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.versionCrf(..))"
+                access="PRIVILEGE_VERSION_FORM"/>
+        <security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.copy(..))"
+                                   access="PRIVILEGE_COPY_FORM"/>
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.*(..))"
+                access="PRIVILEGE_ADMIN"/>
 
-    <!--<security:protect-pointcut-->
-    <!--expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.generateSchedulesFromCrfCalendar(..))"-->
-    <!--access="PRIVILEGE_CREATE_FORM"/>-->
 
-    <!--<security:protect-pointcut-->
-    <!--expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.generateSchedulesFromCrfCalendar(..))"-->
-    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.save(..))"
+                access="PRIVILEGE_CREATE_STUDY,PRIVILEGE_EDIT_STUDY"/>
 
-    <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.delete(..))"-->
-    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.find*(..))"
+                access="PRIVILEGE_SEARCH_STUDY"/>
 
-    <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.find(..))"-->
-    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.addStudyOrganizationClinicalStaff(..))"
+                access="PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>
 
-    <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.*(..))"-->
-    <!--access="PRIVILEGE_CREATE_FORM"/>-->
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.addStudySite(..))"
+                access="PRIVILEGE_ADD_STUDY_SITE"/>
 
-    <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.GenericRepository.save(..))"-->
-    <!--access="PRIVILEGE_CREATE_FORM"/>-->
-    <!--</security:global-method-security>-->
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.*(..))"
+                access="PRIVILEGE_ADMIN"/>
 
-    <bean id="passwordEncoder" class="org.springframework.security.providers.encoding.Md5PasswordEncoder">
-        <property name="encodeHashAsBase64" value="true"/>
-    </bean>
+        <!--<security:protect-pointcut-->
+        <!--expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.save(..))"-->
+        <!--access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF"/>-->
+
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.find*(..))"
+                access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
+
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.delete(..))"
+                access="PRIVILEGE_ADMIN"/>
+
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.ParticipantRepository.save(..))"
+                access="PRIVILEGE_CREATE_PARTICIPANT,PRIVILEGE_PARTICIPANT_DISPLAY_STUDY_SITES,PRIVILEGE_PARTICIPANT_ADD_NOTIFICATION_CLINICAL_STAFF,PRIVILEGE_EDIT_PARTICIPANT"/>
+
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.ParticipantRepository.find*(..))"
+                access="PRIVILEGE_SEARCH_PARTICIPANT,PRIVILEGE_VIEW_PARTICIPANT"/>
+
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.ParticipantRepository.*(..))"
+                access="PRIVILEGE_ADMIN"/>
+
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository.save(..))"
+                access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
+
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository.find*(..))"
+                access="PRIVILEGE_ADMIN"/>
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository.delete(..))"
+                access="PRIVILEGE_ADMIN"/>
+
+
+        <!--must not remove this line. no one should be able to access generic methods..developer must configure security for each method->-->
+        <!---->
+        <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationRepository.*(..))"-->
+        <!--access="PRIVILEGE_ADMIN"/>-->
+
+    </security:global-method-security>
+
 
     <!--do not change this salt source. because it must be same as <salt-source/> tag -->
 
-    <bean id="reflectionSaltSource" class="org.springframework.security.providers.dao.salt.ReflectionSaltSource">
-        <property name="userPropertyToUse" value="getUsername"/>
-    </bean>
 
     <!--It will create a daoAuthenticationProvider-->
     <security:authentication-provider user-service-ref="userRepository">
@@ -99,22 +147,5 @@
         <property name="accessDecisionManager" ref="accessDecisionManager"/>
     </bean>
 
-
-    <!--It will create a inMemoryUserDetailsService-->
-
-    <!--<user-service id="userDetailsService">-->
-    <!--<user name="SYSTEM_ADMIN" password="system_admin" authorities="ROLE_USER"/>-->
-    <!--</user-service>-->
-
-    <!--<bean id="afterAclRead" class="gov.nih.nci.ctcae.core.security.AbstractAuthorizationProvider">-->
-    <!--<constructor-arg ref="aclService"/>-->
-    <!--<constructor-arg>-->
-    <!--<list>-->
-    <!--<ref local="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION"/>-->
-    <!--<ref local="org.springframework.security.acls.domain.BasePermission.READ"/>-->
-    <!--</list>-->
-    <!--</constructor-arg>-->
-
-    <!--</bean>-->
 
 </beans>

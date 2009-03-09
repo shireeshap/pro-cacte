@@ -4,7 +4,6 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
-import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 
 import java.util.Collection;
 
@@ -16,14 +15,6 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
 
     private Participant participant, inValidParticipant;
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction(); // To change body of overridden methods
-        // use File | Settings | File Templates.
-        login();
-
-
-    }
 
     private void saveParticipant() {
         participant = new Participant();

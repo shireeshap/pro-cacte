@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.security;
 
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.*;
 
@@ -9,14 +10,15 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Mar 3, 2009
  */
-public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIntegrationTestCase {
+public class SitePIMethodAuthorizationIntegrationTest extends MethodAuthorizationIntegrationTestCase {
+
     private User user;
 
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
-        user = defaultStudy.getOverallDataCoordinator().getOrganizationClinicalStaff().getClinicalStaff().getUser();
+        user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.SITE_PI).getOrganizationClinicalStaff().getClinicalStaff().getUser();
         login(user);
 
     }
@@ -27,7 +29,10 @@ public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIn
         allowedMethods.add(SEARCH_PARTICIPANT_METHOD);
         allowedMethods.add(SEARCH_PARTICIPANT_BY_ID_METHOD);
         allowedMethods.add(SEARCH_SINGLE_PARTICIPANT_METHOD);
-
+        allowedMethods.add(CREATE_PARTICIPANT_METHOD);
+        allowedMethods.add(ADD_NOTIFICATION_CLINICAL_STAFF_METHOD);
+        allowedMethods.add(PARTICIPANT_DISPLAY_STUDY_SITES_METHOD);
+        allowedMethods.add(EDIT_PARTICIPANT_METHOD);
 
         authorizeAndUnAuthorizeMethods(participantRepository, ParticipantRepository.class, allowedMethods);
 
@@ -44,8 +49,10 @@ public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIn
         allowedMethods.add(SEARCH_CLINICAL_STAFF_BY_SS_ROLE_METHOD);
         allowedMethods.add(SEARCH_CLINICAL_STAFF_METHOD_BY_ID);
         allowedMethods.add(SEARCH_SINGLE_CLINICAL_STAFF_METHOD);
-        allowedMethods.add(CREATE_CLINICAL_STAFF_METHOD);
 
+        allowedMethods.add(ADD_ORGANIZATION_CLINICAL_STAFF_METHOD);
+        allowedMethods.add(CREATE_CLINICAL_STAFF_METHOD);
+        allowedMethods.add(EDIT_CLINICAL_STAFF_METHOD);
 
         authorizeAndUnAuthorizeMethods(clinicalStaffRepository, ClinicalStaffRepository.class, allowedMethods);
 
@@ -56,7 +63,6 @@ public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIn
     public void testAuthorizeUserForCRF() throws Exception {
 
         List<String> allowedMethods = allowedMethodsMap.get(CRFRepository.class);
-
 
         authorizeAndUnAuthorizeMethods(crfRepository, CRFRepository.class, allowedMethods);
 
@@ -71,6 +77,7 @@ public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIn
         allowedMethods.add(SEARCH_STUDY_METHOD);
         allowedMethods.add(SEARCH_SINGLE_STUDY_METHOD);
         allowedMethods.add(SEARCH_STUDY_BY_ID_METHOD);
+        allowedMethods.add(ADD_STUDY_SITE_CLINICAL_STAFF_METHOD);
 
 
         authorizeAndUnAuthorizeMethods(studyRepository, StudyRepository.class, allowedMethods);
@@ -81,8 +88,8 @@ public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIn
     public void testAuthorizeUserForStudyParticipantAssignment() throws Exception {
 
         List<String> allowedMethods = allowedMethodsMap.get(StudyParticipantAssignmentRepository.class);
+        allowedMethods.add(SCHEDULE_CRF_METHOD);
         authorizeAndUnAuthorizeMethods(studyParticipantAssignmentRepository, StudyParticipantAssignmentRepository.class, allowedMethods);
-        commitAndStartNewTransaction();
 
 
     }

@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 
 import java.util.Collection;
@@ -18,7 +19,7 @@ public class ProCtcTermIntegrationTest extends AbstractHibernateIntegrationTestC
         try {
             proCtcTermRepository.delete(new ProCtcTerm());
             fail("Expecting UnsupportedOperationException: delete is not supported for ProCtcTerm.");
-        } catch (UnsupportedOperationException e) {
+        } catch (CtcAeSystemException e) {
         }
     }
 

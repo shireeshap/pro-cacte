@@ -21,12 +21,11 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
-        login();
         /*  clinicalStaffRepository.setGenericRepository(new JpaGenericRepository<ClinicalStaff>());   */
     }
 
     private void saveClinicalStaff() {
-        clinicalStaff = Fixture.createClinicalStaff("John"+ UUID.randomUUID(), "Dow", "NCI 01");
+        clinicalStaff = Fixture.createClinicalStaff("John" + UUID.randomUUID(), "Dow", "NCI 01");
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
     }
 

@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
       http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
     <tx:annotation-driven proxy-target-class="true"/>
@@ -174,46 +174,59 @@
           p:genericRepository-ref="genericRepository">
     </bean>
     <bean id="organizationRepository" class="gov.nih.nci.ctcae.core.repository.OrganizationRepository"
-          parent="abstractRepository">
+          p:genericRepository-ref="genericRepository">
+
     </bean>
     <bean id="participantRepository" class="gov.nih.nci.ctcae.core.repository.ParticipantRepository"
-          parent="abstractRepository">
+          p:genericRepository-ref="genericRepository">
     </bean>
 
     <bean id="studyRepository" class="gov.nih.nci.ctcae.core.repository.StudyRepository"
-          parent="abstractRepository">
+          p:genericRepository-ref="genericRepository">
     </bean>
     <bean id="clinicalStaffRepository" class="gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository"
-          parent="abstractRepository" p:userRepository-ref="userRepository">
-    </bean>
-
-    <bean id="abstractRepository" class="gov.nih.nci.ctcae.core.repository.AbstractRepository" abstract="true">
-        <property name="genericRepository" ref="genericRepository"></property>
+          p:genericRepository-ref="genericRepository" p:userRepository-ref="userRepository">
     </bean>
 
     <bean id="crfRepository" class="gov.nih.nci.ctcae.core.repository.CRFRepository"
-          parent="abstractRepository">
+          p:genericRepository-ref="genericRepository">
         <property name="studyRepository" ref="studyRepository"/>
         <property name="finderRepository" ref="finderRepository"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
     <bean id="proCtcTermRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcTermRepository"
-          parent="abstractRepository">
+          p:genericRepository-ref="genericRepository">
     </bean>
 
     <bean id="proCtcQuestionRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository"
-          parent="abstractRepository">
+          p:genericRepository-ref="genericRepository">
     </bean>
 
     <bean id="proCtcRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcRepository"
-          parent="abstractRepository">
+          p:genericRepository-ref="genericRepository">
     </bean>
 
 
     <bean id="studyParticipantAssignmentRepository"
           class="gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository"
-          parent="abstractRepository">
+          p:genericRepository-ref="genericRepository">
     </bean>
+
+    <bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository"
+          p:genericRepository-ref="genericRepository">
+        <property name="passwordEncoder" ref="passwordEncoder"/>
+        <property name="saltSource" ref="reflectionSaltSource"/>
+    </bean>
+
+    <bean id="passwordEncoder" class="org.springframework.security.providers.encoding.Md5PasswordEncoder">
+        <property name="encodeHashAsBase64" value="true"/>
+    </bean>
+    <bean id="reflectionSaltSource" class="org.springframework.security.providers.dao.salt.ReflectionSaltSource">
+        <property name="userPropertyToUse" value="getUsername"/>
+    </bean>
+
+
     <bean id="beanValidator" class="gov.nih.nci.ctcae.core.validation.BeanValidator">
         <constructor-arg ref="domainClasses"/>
     </bean>

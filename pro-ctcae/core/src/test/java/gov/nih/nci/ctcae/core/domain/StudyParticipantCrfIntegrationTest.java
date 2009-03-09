@@ -11,8 +11,7 @@ import java.util.List;
  * @author Harsh Agarwal
  * @created Oct 22, 2008
  */
-public class StudyParticipantCrfIntegrationTest extends
-        AbstractHibernateIntegrationTestCase {
+public class StudyParticipantCrfIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     private Study inValidStudy, studyWithStudyOrganizations;
 

@@ -38,7 +38,7 @@
         <intercept-url pattern="/pages/study/addStudySite" access="PRIVILEGE_ADD_STUDY_SITE"/>
         <intercept-url pattern="/pages/study/searchStudy" access="PRIVILEGE_SEARCH_STUDY"/>
         <intercept-url pattern="/pages/study/addStudyComponent"
-                       access="PRIVILEGE_ADD_STUDY_CLINICAL_STAFF,PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>
+                       access="PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>
 
         <intercept-url pattern="/pages/study/editStudy" access="PRIVILEGE_VIEW_STUDY"/>
         <intercept-url pattern="/pages/study/*" access="PRIVILEGE_EDIT_STUDY"/>

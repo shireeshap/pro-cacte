@@ -19,27 +19,22 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
         studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
         studyOrganizationClinicalStaff.setRole(PI);
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
+        studyOrganizationClinicalStaff = addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
 
 
     }
 
     public void testFind() {
         List<Role> rolesList = new ArrayList<Role>();
-        rolesList.add(Role.NURSE);
+        rolesList.add(Role.PI);
         List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffRepository.findByStudyOrganizationIdAndRole("%", defaultStudySite.getId(), rolesList);
 
         assertFalse(organizationClinicalStaffList.isEmpty());
     }
 
-    public void testAddStudyOrganizationClinicalStaff() {
-
-        studyOrganizationClinicalStaff = addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
-    }
-
 
     public void testDeleteStudyOrganizationClinicalStaff() {
 
-        studyOrganizationClinicalStaff = addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
 
         assertNotNull("must find study clinical staff", finderRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId()));
 

@@ -6,7 +6,7 @@ import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.Persistable;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.query.Query;
-import gov.nih.nci.ctcae.core.repository.AbstractRepository;
+import gov.nih.nci.ctcae.core.repository.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.AccessDeniedException;
@@ -17,26 +17,81 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vinay Kumar
  * @crated Mar 3, 2009
  */
-public class MethodAuthorizationIntegrationTestCase extends AbstractHibernateIntegrationTestCase {
+public abstract class MethodAuthorizationIntegrationTestCase extends AbstractHibernateIntegrationTestCase {
 
     protected PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
+
+    Map<Class<? extends Repository>, List<String>> allowedMethodsMap = new HashMap<Class<? extends Repository>, List<String>>();
+
+    protected final String EDIT_STUDY_METHOD = "save";
+    protected final String CREATE_STUDY_METHOD = "save";
+    protected final String SEARCH_STUDY_METHOD = "find";
+    protected final String SEARCH_SINGLE_STUDY_METHOD = "findSingle";
+    protected final String SEARCH_STUDY_BY_ID_METHOD = "findById";
+    protected final String ADD_STUDY_SITE_CLINICAL_STAFF_METHOD = "addStudyOrganizationClinicalStaff";
+    protected final String ADD_STUDY_SITE_METHOD = "addStudySite";
+
+    protected final String SUBMIT_FORM_METHOD = "/pages/form/submit";
+
+    protected final String CREATE_FORM_METHOD = "save";
+    protected final String EDIT_FORM_METHOD = "save";
+    protected final String RELEASE_FORM_METHOD = "updateStatusToReleased";
+    protected final String MANAGE_FORM_METHOD = "findById";
+    protected final String SEARCH_FORM_METHOD = "find";
+    protected final String SEARCH_SINGLE_FORM_METHOD = "findSingle";
+    protected final String VERSION_FORM_METHOD = "versionCrf";
+
+
+    protected final String COPY_FORM_METHOD = "copy";
+    protected final String DELETE_FORM_METHOD = "delete";
+    protected final String ADD_FORM_SCHEDULE_CYFLE_METHOD = "generateSchedulesFromCrfCalendar";
+
+    protected final String ADD_ORGANIZATION_CLINICAL_STAFF_METHOD = "save";
+    protected final String SEARCH_CLINICAL_STAFF_METHOD = "find";
+    protected final String SEARCH_CLINICAL_STAFF_BY_SS_METHOD = "findByStudyOrganizationId";
+    protected final String SEARCH_CLINICAL_STAFF_BY_SS_ROLE_METHOD = "findByStudyOrganizationIdAndRole";
+    protected final String SEARCH_SINGLE_CLINICAL_STAFF_METHOD = "findById";
+    protected final String SEARCH_CLINICAL_STAFF_METHOD_BY_ID = "findSingle";
+    protected final String CREATE_CLINICAL_STAFF_METHOD = "save";
+    protected final String EDIT_CLINICAL_STAFF_METHOD = "save";
+
+
+    protected final String CREATE_PARTICIPANT_METHOD = "save";
+    protected final String EDIT_PARTICIPANT_METHOD = "save";
+    protected final String ADD_NOTIFICATION_CLINICAL_STAFF_METHOD = "save";
+    protected final String PARTICIPANT_DISPLAY_STUDY_SITES_METHOD = "save";
+
+    protected final String SEARCH_PARTICIPANT_METHOD = "find";
+    protected final String SEARCH_PARTICIPANT_BY_ID_METHOD = "findById";
+    protected final String SEARCH_SINGLE_PARTICIPANT_METHOD = "findSingle";
+
+    protected final String SCHEDULE_CRF_METHOD = "save";
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
+        insertDefaultUsers();
+
+        allowedMethodsMap.put(StudyParticipantAssignmentRepository.class, new ArrayList());
+        allowedMethodsMap.put(ParticipantRepository.class, new ArrayList());
+        allowedMethodsMap.put(ClinicalStaffRepository.class, new ArrayList());
+        allowedMethodsMap.put(CRFRepository.class, new ArrayList());
+        allowedMethodsMap.put(StudyRepository.class, new ArrayList());
 
     }
 
 
-    protected void unauthorizeMethods(final AbstractRepository repository,
-                                      final Class<? extends AbstractRepository> serviceClass, List<String> allowedMethods) throws Exception {
+    protected void authorizeAndUnAuthorizeMethods(final Repository repository,
+                                                  final Class<? extends Repository> serviceClass, List<String> allowedMethods) throws Exception {
 
 
         Method[] methods = serviceClass.getDeclaredMethods();
@@ -53,6 +108,11 @@ public class MethodAuthorizationIntegrationTestCase extends AbstractHibernateInt
             if (writeMethod != null) {
                 System.out.println(String.format("found setter method %s", writeMethod.getName()));
                 ignoreMethods.add(writeMethod.getName());
+            }
+            Method readMethod = propertyDescriptor.getReadMethod();
+            if (readMethod != null) {
+                System.out.println(String.format("found gettter method %s", readMethod.getName()));
+                ignoreMethods.add(readMethod.getName());
             }
         }
 
@@ -74,38 +134,38 @@ public class MethodAuthorizationIntegrationTestCase extends AbstractHibernateInt
                         parameters[i] = new CRFQuery();
                     } else if (ClassUtils.isAssignable(classType, ParticipantSchedule.ScheduleType.class)) {
                         parameters[i] = ParticipantSchedule.ScheduleType.CYCLE;
+                    } else if (ClassUtils.isAssignable(classType, List.class)) {
+                        parameters[i] = new ArrayList();
                     } else {
                         parameters[i] = classType.newInstance();
                     }
                 }
-                System.out.println(String.format("invoking method %s of class %s with parameter %s", method.getName(), serviceClass.getName(), parameters));
                 if (Integer.valueOf(Method.DECLARED).equals(method.getModifiers())) {
                     try {
+                        System.out.println(String.format("invoking method %s of class %s with parameter %s", method.getName(), serviceClass.getName(), parameters));
                         method.invoke(repository, parameters);
                         if (!allowedMethods.contains(method.getName())) {
-                            fail("must throw access denied exception.");
-                        } else {
-                            System.out.println(String.format("user %s can access method %s of class %s ", SecurityContextHolder.getContext().getAuthentication().getCredentials(),
-                                    method.getName(), serviceClass.getName()));
-
+                            fail(String.format("user %s must not allowed to access %s of class %s. Please make sure to configure security (or fix ur test cases) for this method.",
+                                    SecurityContextHolder.getContext().getAuthentication().getName(), method.getName(), serviceClass.getName()));
                         }
                     } catch (InvocationTargetException e) {
                         if (!allowedMethods.contains(method.getName())) {
-
                             assertEquals("must fail becaue of access denied." + e.getCause(), e.getTargetException().getClass(), AccessDeniedException.class);
                             assertTrue("must fail becaue of access denied" + e.getMessage(), e.getTargetException() instanceof AccessDeniedException);
                         } else {
-                            assertFalse("must  not fail becaue of access denied. because user can access that method" + e.getMessage(), e.getTargetException() instanceof AccessDeniedException);
+                            assertFalse("must  not fail becaue of access denied. Because  user must be able to access that method. " +
+                                    "Please check if you have configured security and given privilege to user for that method? " +
+                                    "exception is:" + e.getTargetException(), e.getTargetException() instanceof AccessDeniedException);
 
                         }
                     }
-                } else {
-                    System.out.println(String.format("method  %s of class %s is either private or volatile method. so dont invoke it", serviceClass.getName(), method.getName()));
+
 
                 }
             }
 
         }
+
     }
 
     @Required

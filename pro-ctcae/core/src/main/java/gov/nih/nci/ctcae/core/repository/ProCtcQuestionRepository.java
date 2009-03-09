@@ -2,7 +2,11 @@ package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
+import org.springframework.beans.factory.annotation.Required;
+
+import java.util.Collection;
 
 //
 /**
@@ -11,25 +15,12 @@ import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
-public class ProCtcQuestionRepository extends
-        AbstractRepository<ProCtcQuestion, ProCtcQuestionQuery> {
+public class ProCtcQuestionRepository implements Repository<ProCtcQuestion, ProCtcQuestionQuery> {
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#getPersistableClass()
-     */
-    @Override
-    protected Class<ProCtcQuestion> getPersistableClass() {
-        return ProCtcQuestion.class;
+    private GenericRepository genericRepository;
 
-    }
-
-
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#findById(java.lang.Integer)
-     */
-    @Override
     public ProCtcQuestion findById(Integer questionId) {
-        ProCtcQuestion proCtcQuestion = super.findById(questionId);
+        ProCtcQuestion proCtcQuestion = genericRepository.findById(ProCtcQuestion.class, questionId);
         if (proCtcQuestion != null) {
             for (ProCtcValidValue validValue : proCtcQuestion.getValidValues()) {
                 validValue.getValue();
@@ -38,5 +29,33 @@ public class ProCtcQuestionRepository extends
         return proCtcQuestion;
 
 
+    }
+
+    public ProCtcQuestion save(ProCtcQuestion proCtcQuestion) {
+        return genericRepository.save(proCtcQuestion);
+
+
+    }
+
+    public void delete(ProCtcQuestion proCtcQuestion) {
+
+        throw new CtcAeSystemException("method not supported");
+    }
+
+    public Collection<ProCtcQuestion> find(ProCtcQuestionQuery query) {
+        return genericRepository.find(query);
+
+
+    }
+
+    public ProCtcQuestion findSingle(ProCtcQuestionQuery query) {
+        return genericRepository.findSingle(query);
+
+
+    }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }

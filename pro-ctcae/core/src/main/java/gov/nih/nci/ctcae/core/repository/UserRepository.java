@@ -5,6 +5,8 @@ import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.RolePrivilegeQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.GrantedAuthority;
@@ -16,10 +18,7 @@ import org.springframework.security.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 //
 /**
@@ -29,17 +28,13 @@ import java.util.Set;
  * @created Oct 14, 2008
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-public class UserRepository extends AbstractRepository<User, UserQuery> implements UserDetailsService {
+public class UserRepository implements UserDetailsService, Repository<User, UserQuery> {
 
     private SaltSource saltSource;
     private PasswordEncoder passwordEncoder;
+    protected Log logger = LogFactory.getLog(getClass());
 
-    protected Class<User> getPersistableClass() {
-        return User.class;
-
-
-    }
-
+    private GenericRepository genericRepository;
 
     public User loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
         UserQuery userQuery = new UserQuery();
@@ -72,7 +67,7 @@ public class UserRepository extends AbstractRepository<User, UserQuery> implemen
             if (!roles.isEmpty()) {
                 RolePrivilegeQuery rolePrivilegeQuery = new RolePrivilegeQuery();
                 rolePrivilegeQuery.filterByRoles(roles);
-                List<Privilege> privileges = (List<Privilege>) genericRepository.find(rolePrivilegeQuery);
+                List<Privilege> privileges = genericRepository.find(rolePrivilegeQuery);
 
                 for (Privilege privilege : privileges) {
                     GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(privilege.getPrivilegeName());
@@ -84,16 +79,38 @@ public class UserRepository extends AbstractRepository<User, UserQuery> implemen
         return user;
     }
 
+    public User findById(Integer id) {
+        return genericRepository.findById(User.class, id);
+
+
+    }
+
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    @Override
     public User save(User user) {
         if (user.getId() == null) {
             String encoded = getEncodedPassword(user);
             user.setPassword(encoded);
         }
 
-        user = super.save(user);
+        user = genericRepository.save(user);
         return user;
+
+    }
+
+    public void delete(User user) {
+
+
+    }
+
+    public Collection<User> find(UserQuery query) {
+        return genericRepository.find(query);
+
+
+    }
+
+    public User findSingle(UserQuery query) {
+        return genericRepository.findSingle(query);
+
 
     }
 
@@ -113,5 +130,10 @@ public class UserRepository extends AbstractRepository<User, UserQuery> implemen
     @Required
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }

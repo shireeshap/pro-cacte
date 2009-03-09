@@ -49,7 +49,7 @@ public interface GenericRepository {
      * @return the collection of persistable objects
      */
 
-    List<? extends Persistable> find(Query query);
+    <T extends Persistable> List<T> find(Query query);
 
     /**
      * Find single persistable object for a query.
@@ -58,6 +58,6 @@ public interface GenericRepository {
      * @return the single persistable object
      */
 
-	Persistable findSingle(Query query);
+    <T extends Persistable> T findSingle(Query query);
 
 }

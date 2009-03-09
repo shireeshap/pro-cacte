@@ -15,13 +15,6 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 
     private Organization organization, inValidOrganization;
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();    //To change body of overridden methods use File | Settings | File Templates.
-        login();
-
-
-    }
 
     private void saveOrganization() {
         organization = new Organization();
@@ -112,8 +105,12 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 
         organization = organizations.iterator().next();
 
-        organizationRepository.delete(organization);
-        assertNull("must delete organization", organizationRepository.findById(organization.getId()));
+        try {
+            organizationRepository.delete(organization);
+            fail("delete not supported");
+        } catch (CtcAeSystemException e) {
+
+        }
 
     }
 

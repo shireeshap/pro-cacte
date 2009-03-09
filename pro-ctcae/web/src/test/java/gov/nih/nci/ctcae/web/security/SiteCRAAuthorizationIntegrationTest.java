@@ -40,7 +40,7 @@ public class SiteCRAAuthorizationIntegrationTest extends UrlAuthorizationIntegra
 
         allowedUrls.add(SEARCH_CLINICAL_STAFF_URL);
 
-        user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.SITE_PI).getOrganizationClinicalStaff().getClinicalStaff().getUser();
+        user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA).getOrganizationClinicalStaff().getClinicalStaff().getUser();
 
         allowedTabs.add(new ParticipantClinicalStaffTab());
         allowedTabs.add(new ParticipantDetailsTab());

@@ -20,7 +20,6 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
     protected void onSetUpInTransaction() throws Exception {
 
         super.onSetUpInTransaction();
-        login();
     }
 
     private void saveCsv() throws IOException {
@@ -43,7 +42,7 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
     }
 
     public void testSaveCsv() throws IOException {
-           saveCsv();
+        saveCsv();
         //  assertNotNull(finderRepository.findById(ProCtc.class, 1));
     }
 

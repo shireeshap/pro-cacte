@@ -51,22 +51,9 @@ public class VersionFormController extends CtcAeSimpleFormController {
 
         CRF crf = (CRF) command;
 
-        //FIXME: Mehul- remove it later
-        crf = crfRepository.findById(crf.getId());
-        Integer parentVersionId = crf.getId();
-        String newVersion = "" + (new Float(crf.getCrfVersion()) + 1);
-        CRF copiedCRF = crf.getCopy();
-        copiedCRF.setTitle(crf.getTitle());
-        copiedCRF.setCrfVersion(newVersion);
-        copiedCRF.setParentVersionId(parentVersionId);
+        crf = crfRepository.versionCrf(crf);
 
-        crfRepository.save(copiedCRF);
-
-        Integer nextVersionId = copiedCRF.getId();
-        crf.setNextVersionId(nextVersionId);
-        crfRepository.save(crf);
-
-        RedirectView redirectView = new RedirectView("editForm?crfId=" + copiedCRF.getId() + "&showFormDetails=true");
+        RedirectView redirectView = new RedirectView("editForm?crfId=" + crf.getNextVersionId() + "&showFormDetails=true");
 
         ModelAndView modelAndView = new ModelAndView(redirectView);
         return modelAndView;

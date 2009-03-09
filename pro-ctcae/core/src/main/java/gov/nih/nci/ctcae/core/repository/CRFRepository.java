@@ -3,17 +3,16 @@ package gov.nih.nci.ctcae.core.repository;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.lang.StringUtils;
 
-import java.util.List;
-import java.util.Date;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Collection;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 //
 /**
@@ -23,7 +22,7 @@ import java.text.SimpleDateFormat;
  * @created Oct 14, 2008
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
+public class CRFRepository implements Repository<CRF, CRFQuery> {
 
     /**
      * The study repository.
@@ -31,21 +30,10 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
     private StudyRepository studyRepository;
 
     private FinderRepository finderRepository;
+    private GenericRepository genericRepository;
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#getPersistableClass()
-     */
-    @Override
-    protected Class<CRF> getPersistableClass() {
-        return CRF.class;
 
-    }
-
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#findById(java.lang.Integer)
-     */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    @Override
     public CRF findById(Integer crfId) {
         CRF crf = genericRepository.findById(CRF.class, crfId);
         initializeCollections(crf);
@@ -149,29 +137,55 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
             }
         }
 
-        crf = super.save(crf);
+        crf = genericRepository.save(crf);
         initializeCollections(crf);
         return crf;
 
     }
 
-    /**
-     * Sets the study repository.
-     *
-     * @param studyRepository the new study repository
-     */
-    @Required
-    public void setStudyRepository
-            (StudyRepository
-                    studyRepository) {
-        this.studyRepository = studyRepository;
+    public void delete(CRF crf) {
+
+
     }
 
-    @Required
-    public void setFinderRepository
-            (FinderRepository
-                    finderRepository) {
-        this.finderRepository = finderRepository;
+    public Collection<CRF> find(CRFQuery query) {
+        return genericRepository.find(query);
+
+
+    }
+
+    public CRF findSingle(CRFQuery query) {
+        return genericRepository.findSingle(query);
+
+
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public CRF versionCrf(CRF crf) {
+
+        //FIXME: Mehul- remove it later
+        crf = findById(crf.getId());
+        Integer parentVersionId = crf.getId();
+        String newVersion = "" + (new Float(crf.getCrfVersion()) + 1);
+        CRF copiedCRF = crf.getCopy();
+        copiedCRF.setTitle(crf.getTitle());
+        copiedCRF.setCrfVersion(newVersion);
+        copiedCRF.setParentVersionId(parentVersionId);
+
+        genericRepository.save(copiedCRF);
+
+        Integer nextVersionId = copiedCRF.getId();
+        crf.setNextVersionId(nextVersionId);
+        crf = genericRepository.save(crf);
+        return crf;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public CRF copy(CRF crf) {
+        CRF copiedCrf = crf.getCopy();
+        copiedCrf.setCrfVersion("1.0");
+        return genericRepository.save(copiedCrf);
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
@@ -210,5 +224,26 @@ public class CRFRepository extends AbstractRepository<CRF, CRFQuery> {
             }
         }
     }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
+    }
+
+    /**
+     * Sets the study repository.
+     *
+     * @param studyRepository the new study repository
+     */
+    @Required
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
+    }
+
+    @Required
+    public void setFinderRepository(FinderRepository finderRepository) {
+        this.finderRepository = finderRepository;
+    }
+
 
 }

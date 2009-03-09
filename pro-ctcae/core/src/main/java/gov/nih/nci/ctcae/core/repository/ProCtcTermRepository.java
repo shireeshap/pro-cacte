@@ -3,7 +3,9 @@ package gov.nih.nci.ctcae.core.repository;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,24 +16,33 @@ import java.util.Collection;
  * @created Oct 14, 2008
  */
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-public class ProCtcTermRepository extends AbstractRepository<ProCtcTerm, ProCtcTermQuery> {
+public class ProCtcTermRepository implements Repository<ProCtcTerm, ProCtcTermQuery> {
 
-    @Override
-    protected Class<ProCtcTerm> getPersistableClass() {
-        return ProCtcTerm.class;
+    private GenericRepository genericRepository;
+
+    public ProCtcTerm findById(Integer id) {
+        ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, id);
+        intializeTerm(proCtcTerm);
+
+        return proCtcTerm;
+
 
     }
 
-    @Override
+    public ProCtcTerm save(ProCtcTerm proCtcTerm) {
+        return genericRepository.save(proCtcTerm);
+
+
+    }
+
     public void delete(ProCtcTerm t) {
-        throw new UnsupportedOperationException(
+        throw new CtcAeSystemException(
                 "Delete is not supported for ProCtcQuestion");
     }
 
 
-    @Override
     public Collection<ProCtcTerm> find(final ProCtcTermQuery query) {
-        Collection<ProCtcTerm> proCtcTerms = super.find(query);
+        Collection<ProCtcTerm> proCtcTerms = genericRepository.find(query);
         for (ProCtcTerm proCtcTerm : proCtcTerms) {
             intializeTerm(proCtcTerm);
         }
@@ -41,14 +52,12 @@ public class ProCtcTermRepository extends AbstractRepository<ProCtcTerm, ProCtcT
 
     }
 
-    public ProCtcTerm findAndInitializeTerm(Integer proCtcTermId) {
-
-        ProCtcTerm proCtcTerm = super.findById(proCtcTermId);
-        intializeTerm(proCtcTerm);
+    public ProCtcTerm findSingle(ProCtcTermQuery query) {
+        return genericRepository.findSingle(query);
 
 
-        return proCtcTerm;
     }
+
 
     private void intializeTerm(final ProCtcTerm proCtcTerm) {
         if (proCtcTerm != null) {
@@ -58,8 +67,11 @@ public class ProCtcTermRepository extends AbstractRepository<ProCtcTerm, ProCtcT
                     validValue.getValue();
                 }
             }
-        } else {
-            logger.error("pro ctc term is null");
         }
+    }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }

@@ -24,7 +24,6 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
         super.onSetUpInTransaction();
         super.onSetUpInTransaction(); // To change body of overridden methods
         // use File | Settings | File Templates.
-        login();
 
         study = createStudy();
 

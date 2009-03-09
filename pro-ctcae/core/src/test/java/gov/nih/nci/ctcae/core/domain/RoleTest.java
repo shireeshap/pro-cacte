@@ -2,8 +2,6 @@ package gov.nih.nci.ctcae.core.domain;
 
 import junit.framework.TestCase;
 
-import java.util.ArrayList;
-
 public class RoleTest extends TestCase {
 
     public void testRole() {
@@ -11,7 +9,7 @@ public class RoleTest extends TestCase {
         assertEquals("TREATING_PHYSICIAN", role.toString());
     }
 
-    public void testGetByCode(){
+    public void testGetByCode() {
 
         Role role = Role.getByCode("TREATING_PHYSICIAN");
         assertNotNull(role);

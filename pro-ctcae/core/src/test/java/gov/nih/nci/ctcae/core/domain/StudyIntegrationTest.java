@@ -28,7 +28,6 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();    //To change body of overridden methods use File | Settings | File Templates.
-        login();
 
 
         saveStudy();

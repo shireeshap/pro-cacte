@@ -24,6 +24,7 @@ public class StudyParticipantAssignmentIntegrationTest extends AbstractHibernate
     private Organization nci;
 
     private Participant participant;
+    private User user;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
@@ -66,6 +67,10 @@ public class StudyParticipantAssignmentIntegrationTest extends AbstractHibernate
     }
 
     public void testSaveAssignment() {
+
+        user = defaultStudy.getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getUser();
+        login(user);
+
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.save(assignment);
         assertNotNull(studyParticipantAssignment.getId());
         assertNotNull(studyParticipantAssignment.getId());

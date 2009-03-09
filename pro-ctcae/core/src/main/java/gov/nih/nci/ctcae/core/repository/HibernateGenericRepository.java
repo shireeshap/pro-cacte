@@ -15,9 +15,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
 
 //
 /**
@@ -70,9 +70,9 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public List<? extends Persistable> find(final Query query) {
+    public List<T> find(final Query query) {
 
-        return (List<? extends Persistable>) getHibernateTemplate().execute(new HibernateCallback() {
+        return (List<T>) getHibernateTemplate().execute(new HibernateCallback() {
 
             public Object doInHibernate(final Session session) throws HibernateException,
                     SQLException {
@@ -106,8 +106,8 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public Persistable findSingle(Query query) {
-        List<? extends Persistable> persistables = find(query);
+    public T findSingle(Query query) {
+        List<T> persistables = find(query);
         if (persistables.size() > 1) {
             String message = "multiple results found for query:" + query + "parameters " + ((AbstractQuery) query).getParameterMap().values();
             logger.error(message + " " + query.getQueryString());

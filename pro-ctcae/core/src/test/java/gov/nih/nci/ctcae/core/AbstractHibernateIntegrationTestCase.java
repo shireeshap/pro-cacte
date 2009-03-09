@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.GrantedAuthority;
+import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.providers.dao.DaoAuthenticationProvider;
@@ -13,26 +14,30 @@ import org.springframework.test.AbstractTransactionalDataSourceSpringContextTest
 import java.util.Date;
 import java.util.List;
 
-public abstract class AbstractHibernateIntegrationTestCase extends AbstractTransactionalDataSourceSpringContextTests {
-
+/**
+ * @author Vinay Kumar
+ * @crated Mar 9, 2009
+ */
+public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalDataSourceSpringContextTests {
     protected FinderRepository finderRepository;
     protected ProCtcTermRepository proCtcTermRepository;
     protected ClinicalStaffRepository clinicalStaffRepository;
     protected OrganizationRepository organizationRepository;
     protected ClinicalStaff defaultClinicalStaff;
     protected StudyParticipantAssignment defaultStudyParticipantAssignment;
-    protected Organization defaultOrganization, organization1;
+    protected Organization defaultOrganization;
+    protected Organization organization1;
     protected Participant defaultParticipant;
     protected ParticipantRepository participantRepository;
+    protected StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
     protected Study defaultStudy;
-    protected StudySite defaultStudySite, studySite1;
+    protected StudySite defaultStudySite;
+    protected StudySite studySite1;
     protected StudyRepository studyRepository;
     protected UserRepository userRepository;
     public DaoAuthenticationProvider daoAuthenticationProvider;
     protected CRFRepository crfRepository;
-
     protected User defaultUser;
-
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml",
 
@@ -43,20 +48,16 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml",
             "classpath*:" + "/*-context-test.xml"};
     protected OrganizationClinicalStaff defaultOrganizationClinicalStaff;
-    protected Role PI, ODC, LEAD_CRA;
+    protected Role PI;
+    protected Role ODC;
+    protected Role LEAD_CRA;
     protected final StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
-
 
     @Override
     protected String[] getConfigLocations() {
         return context;
     }
 
-
-    protected void login() {
-        login(defaultUser);
-
-    }
 
     protected void login(User user) {
         User loadedUser = userRepository.loadUserByUsername(user.getUsername());
@@ -81,6 +82,32 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         LEAD_CRA = Role.LEAD_CRA;
         defaultOrganization = organizationRepository.findById(105555);
         organization1 = organizationRepository.findById(104880);
+
+
+        defaultClinicalStaff = Fixture.createClinicalStaffWithOrganization("Angello", "Williams", "-1234", defaultOrganization);
+        defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
+        commitAndStartNewTransaction();
+        assertNotNull("must find default clinical staff. ", defaultClinicalStaff);
+
+        defaultUser = defaultClinicalStaff.getUser();
+        assertNotNull("must find user. ", defaultUser);
+
+        defaultOrganizationClinicalStaff = defaultClinicalStaff.getOrganizationClinicalStaffs().get(0);
+        assertNotNull("must find default clinical staff. ", defaultOrganizationClinicalStaff);
+
+
+        //this is just the hack  for creating CCA (or first system user)
+        User loadedUser = userRepository.loadUserByUsername(defaultUser.getUsername());
+        assertNotNull("must find user", loadedUser);
+        GrantedAuthority[] authorities = new GrantedAuthority[]{
+                new GrantedAuthorityImpl("PRIVILEGE_CREATE_STUDY"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_STUDY"),
+                new GrantedAuthorityImpl("PRIVILEGE_CREATE_PARTICIPANT"),
+                new GrantedAuthorityImpl("PRIVILEGE_CREATE_FORM"), new GrantedAuthorityImpl("PRIVILEGE_MANAGE_FORM"), new GrantedAuthorityImpl("PRIVILEGE_RELEASE_FORM"),
+                new GrantedAuthorityImpl("PRIVILEGE_CREATE_CLINICAL_STAFF"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_CLINICAL_STAFF")
+        };
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, Fixture.DEFAULT_PASSWORD, authorities);
+        SecurityContextHolder.getContext().setAuthentication(token);
+
 
         defaultStudy = new Study();
         defaultStudy.setShortTitle("A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)");
@@ -111,21 +138,51 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         commitAndStartNewTransaction();
 
 
-        defaultParticipant = Fixture.createParticipant("Bruce", "Tanner", "P002");
-        defaultStudyParticipantAssignment = new StudyParticipantAssignment();
-        defaultStudyParticipantAssignment.setStudyParticipantIdentifier("1234");
-        defaultStudyParticipantAssignment.setStudySite(defaultStudySite);
-        defaultParticipant.addStudyParticipantAssignment(defaultStudyParticipantAssignment);
-        defaultParticipant = participantRepository.save(defaultParticipant);
+    }
+
+
+    private void deleteData() {
+        jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
+        jdbcTemplate.execute("delete from CRF_PAGE_ITEMS");
+        jdbcTemplate.execute("delete from CRF_PAGES");
+        jdbcTemplate.execute("delete from study_participant_crfs");
+        jdbcTemplate.execute("delete from crfs");
+        jdbcTemplate.execute("delete from study_organization_clinical_staffs");
+        jdbcTemplate.execute("delete from study_participant_assignments");
+        jdbcTemplate.execute("delete from study_organizations");
+        jdbcTemplate.execute("delete from studies");
+        jdbcTemplate.execute("delete from ORGANIZATION_CLINICAL_STAFFS");
+        jdbcTemplate.execute("delete from CLINICAL_STAFFS");
+        jdbcTemplate.execute("delete from USERS");
+        commitAndStartNewTransaction();
+    }
+
+    @Override
+    protected void onTearDownInTransaction() throws Exception {
+
+        DataAuditInfo.setLocal(null);
+//        commitAndStartNewTransaction();
+        super.onTearDownInTransaction();
+
+
+    }
+
+    protected User createUser(final String userName, final String password, final boolean enabled,
+                              final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked,
+                              final GrantedAuthority[] authorities) {
+
+
+        User userDetails = new User(userName, password, enabled, accountNonExpired,
+                credentialsNonExpired, accountNonLocked);
+        userDetails = userRepository.save(userDetails);
 
         commitAndStartNewTransaction();
+        return userDetails;
 
+    }
 
-        defaultStudyParticipantAssignment = defaultParticipant.getStudyParticipantAssignments().get(0);
-        assertNotNull("must find default study participant assignment. ", defaultStudyParticipantAssignment);
-
-        defaultClinicalStaff = Fixture.createClinicalStaffWithOrganization("Angello", "Williams", "-1234", defaultOrganization);
-        defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
+    protected void insertDefaultUsers() throws Exception {
+        super.onSetUpInTransaction();
 
         ClinicalStaff clinicalStaff = Fixture.createClinicalStaffWithOrganization("Bob", "Williams", "-12345", defaultOrganization);
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
@@ -149,14 +206,6 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         assertNotNull("must find default clinical staff. ", sitePIClinicalStaff);
         assertNotNull("must find default clinical staff. ", odcClinicalStaff);
         assertNotNull("must find default clinical staff. ", siteCRAClinicalStaff);
-
-        defaultUser = defaultClinicalStaff.getUser();
-        assertNotNull("must find user. ", defaultUser);
-
-        defaultOrganizationClinicalStaff = defaultClinicalStaff.getOrganizationClinicalStaffs().get(0);
-        assertNotNull("must find default clinical staff. ", defaultOrganizationClinicalStaff);
-
-        addResearchNurseAndTreatingPhysician();
 
         studyOrganizationClinicalStaff.setRole(LEAD_CRA);
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
@@ -189,8 +238,22 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         siteCRA.setOrganizationClinicalStaff(siteCRAClinicalStaff.getOrganizationClinicalStaffs().get(0));
         addStudyOrganizationClinicalStaff(siteCRA);
 
-        login();
 
+        defaultParticipant = Fixture.createParticipant("Bruce", "Tanner", "P002");
+        defaultStudyParticipantAssignment = new StudyParticipantAssignment();
+        defaultStudyParticipantAssignment.setStudyParticipantIdentifier("1234");
+        defaultStudyParticipantAssignment.setStudySite(defaultStudySite);
+        defaultParticipant.addStudyParticipantAssignment(defaultStudyParticipantAssignment);
+        defaultParticipant = participantRepository.save(defaultParticipant);
+
+        commitAndStartNewTransaction();
+
+
+        defaultStudyParticipantAssignment = defaultParticipant.getStudyParticipantAssignments().get(0);
+        assertNotNull("must find default study participant assignment. ", defaultStudyParticipantAssignment);
+
+
+        addResearchNurseAndTreatingPhysician();
     }
 
     private void addResearchNurseAndTreatingPhysician() {
@@ -226,47 +289,6 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
 
     }
 
-    private void deleteData() {
-        jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
-        jdbcTemplate.execute("delete from CRF_PAGE_ITEMS");
-        jdbcTemplate.execute("delete from CRF_PAGES");
-        jdbcTemplate.execute("delete from study_participant_crfs");
-        jdbcTemplate.execute("delete from crfs");
-        jdbcTemplate.execute("delete from study_organization_clinical_staffs");
-        jdbcTemplate.execute("delete from study_participant_assignments");
-        jdbcTemplate.execute("delete from study_organizations");
-        jdbcTemplate.execute("delete from studies");
-        jdbcTemplate.execute("delete from ORGANIZATION_CLINICAL_STAFFS");
-        jdbcTemplate.execute("delete from CLINICAL_STAFFS");
-        jdbcTemplate.execute("delete from USERS");
-        commitAndStartNewTransaction();
-    }
-
-
-    @Override
-    protected void onTearDownInTransaction() throws Exception {
-
-        DataAuditInfo.setLocal(null);
-        super.onTearDownInTransaction();
-
-
-    }
-
-
-    protected User createUser(final String userName, final String password, final boolean enabled,
-                              final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked,
-                              final GrantedAuthority[] authorities) {
-
-
-        User userDetails = new User(userName, password, enabled, accountNonExpired,
-                credentialsNonExpired, accountNonLocked);
-        userDetails = userRepository.save(userDetails);
-
-        commitAndStartNewTransaction();
-        return userDetails;
-
-    }
-
     protected StudyOrganizationClinicalStaff addStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
 
         defaultStudySite.addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
@@ -289,7 +311,6 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
         // assertEquals("site clinical staff  must be same", defaultOrganizationClinicalStaff, studyOrganizationClinicalStaff.getOrganizationClinicalStaff());
         return studyOrganizationClinicalStaff;
     }
-
 
     protected void commitAndStartNewTransaction() {
         setComplete();
@@ -340,5 +361,10 @@ public abstract class AbstractHibernateIntegrationTestCase extends AbstractTrans
     @Required
     public void setCrfRepository(CRFRepository crfRepository) {
         this.crfRepository = crfRepository;
+    }
+
+    @Required
+    public void setStudyParticipantAssignmentRepository(StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {
+        this.studyParticipantAssignmentRepository = studyParticipantAssignmentRepository;
     }
 }

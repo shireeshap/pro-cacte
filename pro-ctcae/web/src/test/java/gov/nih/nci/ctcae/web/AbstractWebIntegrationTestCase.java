@@ -28,6 +28,8 @@ public abstract class AbstractWebIntegrationTestCase extends AbstractHibernateIn
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
+        insertDefaultUsers();
+
         servletContext = new MockServletContext();
         servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, "");
 

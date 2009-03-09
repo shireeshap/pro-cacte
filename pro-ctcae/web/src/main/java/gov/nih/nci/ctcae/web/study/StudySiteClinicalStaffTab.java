@@ -2,8 +2,8 @@ package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
@@ -17,6 +17,9 @@ import java.util.Map;
  * @crated Feb 11, 2009
  */
 public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
+
+    private StudyRepository studyRepository;
+
     public StudySiteClinicalStaffTab() {
         super("study.tab.study_site_clinical_staff", "study.tab.study_site_clinical_staff", "study/study_site_clinical_staff");
     }
@@ -48,15 +51,16 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
 
     @Override
     public void postProcess(HttpServletRequest request, StudyCommand command, Errors errors) {
-
-        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : command.getStudyOrganizationClinicalStaffs()) {
-            studyOrganizationClinicalStaff.getStudyOrganization().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
-        }
+        studyRepository.addStudyOrganizationClinicalStaff(command.getStudyOrganizationClinicalStaffs());
 
     }
 
     public String getRequiredPrivilege() {
         return Privilege.PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF;
 
+    }
+
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
     }
 }
