@@ -27,7 +27,7 @@
                     code="form.schedule.cycle_length"/>: ${crfCycleDefinition.cycleLength} ${crfCycleDefinition.cycleLengthUnit}</b>
 
             <div id="div_cycle_table_${cycleDefinitionIndex}" style="display:none;">
-                <table id="cycle_table_${cycleDefinitionIndex}" cellpadding="0" cellspacing="0" align="center">
+                <table id="cycle_table_${cycleDefinitionIndex}" cellpadding="0" cellspacing="0" align="center"> 
                     <tbody></tbody>
                 </table>
                 <c:forEach items="${crfCycleDefinition.crfCycles}" var="crfCycle" varStatus="status">
