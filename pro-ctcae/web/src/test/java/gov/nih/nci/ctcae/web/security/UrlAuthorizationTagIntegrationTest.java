@@ -1,14 +1,12 @@
 package gov.nih.nci.ctcae.web.security;
 
-import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
-
 import javax.servlet.jsp.tagext.Tag;
 
 /**
  * @author Vinay Kumar
  * @crated Feb 26, 2009
  */
-public class UrlAuthorizationTagIntegrationTest extends AbstractWebIntegrationTestCase {
+public class UrlAuthorizationTagIntegrationTest extends UrlAuthorizationIntegrationTestCase {
 
     private UrlAuthorizationTag urlAuthorizationTag;
 

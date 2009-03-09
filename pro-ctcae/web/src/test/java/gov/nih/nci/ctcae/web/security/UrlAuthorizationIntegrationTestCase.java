@@ -81,6 +81,8 @@ public abstract class UrlAuthorizationIntegrationTestCase extends AbstractWebInt
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
+        insertDefaultUsers();
+
         populateAllUrlsAndTabs();
         commonAllowedUrls.add("/pages/home");
         commonAllowedUrls.add("/j_spring_security_logout");

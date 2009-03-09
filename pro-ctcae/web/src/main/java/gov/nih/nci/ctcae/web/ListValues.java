@@ -222,7 +222,7 @@ public class ListValues {
      * @param organizations the organizations
      * @return the study sites
      */
-    public static List<ListValues> getOrganizationsHavingStudySite(ArrayList<Organization> organizations) {
+    public static List<ListValues> getOrganizationsHavingStudySite(List<Organization> organizations) {
         List<ListValues> valuesList = new ArrayList<ListValues>();
         valuesList.add(new ListValues("", "Please select"));
 
@@ -262,6 +262,7 @@ public class ListValues {
         col.add(lov3);
         return col;
     }
+
     public static List<ListValues> getCyclePlannedRepetitions() {
         List<ListValues> col = new ArrayList<ListValues>();
         ListValues lov1 = new ListValues("", "Please select");
