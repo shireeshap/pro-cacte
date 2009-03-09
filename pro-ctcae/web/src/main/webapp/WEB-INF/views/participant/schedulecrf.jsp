@@ -19,8 +19,6 @@
 <style type="text/css">
 
     table.top-widget {
-    /*border-bottom: 1px solid #cccccc;*/
-    /*border-right: 1px solid #cccccc;*/
         border: 1px solid #cccccc;
         background-color: #E7EAF3;
         width: 90%;
@@ -32,7 +30,7 @@
     }
 
     table.widget {
-        a border-left: 9px solid #C3D9FF;
+        border-left: 9px solid #C3D9FF;
         border-bottom: 6px solid #C3D9FF;
         width: 60%;
         table-layout: fixed;
@@ -189,6 +187,7 @@
         font-weight: bold;
         width: 170px;
     }
+
     .first-column-B {
         text-align: left;
         vertical-align: top;
@@ -512,7 +511,7 @@ function buildTable(index, days, repeat) {
                             <c:forEach items="${participantCrf.crf.crfCycleDefinitions}" var="crfCycleDefinition"
                                        varStatus="statuscycledefinition">
                                 <tr>
-                                    <td colspan="4">
+                                    <td>
                                         <tags:formScheduleCycleDefinition
                                                 cycleDefinitionIndex="${statuscycledefinition.index}"
                                                 crfCycleDefinition="${crfCycleDefinition}"
@@ -525,7 +524,7 @@ function buildTable(index, days, repeat) {
                                 </tr>
                             </c:forEach>
                             <tr>
-                                <td colspan="4">
+                                <td>
                                     <br/>
                                     <chrome:division title=" "/>
                                     <div id="calendar_${status.index}">
@@ -540,7 +539,7 @@ function buildTable(index, days, repeat) {
                             </tr>
 
                             <tr>
-                                <td colspan="4">
+                                <td>
                                     <br/><br/>
                                 </td>
                             </tr>

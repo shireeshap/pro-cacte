@@ -18,7 +18,7 @@
             ${studyParticipantCrfSchedule.status}
     </div>
 </c:forEach>
-<table class="widget" cellspacing="0" cellpadding="0" border="0" align="center">
+<table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
     <tr class="header">
         <td colspan="7" align="left" style="border-bottom:1px solid #77a9ff; font-size:small; color:#000000; ">
             <img height="17" width="29"
