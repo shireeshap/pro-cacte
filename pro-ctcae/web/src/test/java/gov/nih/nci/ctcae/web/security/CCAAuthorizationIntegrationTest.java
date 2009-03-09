@@ -3,8 +3,8 @@ package gov.nih.nci.ctcae.web.security;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.web.study.EmptyStudyTab;
-import gov.nih.nci.ctcae.web.study.StudyDetailsTab;
 import gov.nih.nci.ctcae.web.study.StudyClinicalStaffTab;
+import gov.nih.nci.ctcae.web.study.StudyDetailsTab;
 import gov.nih.nci.ctcae.web.study.StudySitesTab;
 
 import java.util.ArrayList;
@@ -32,7 +32,6 @@ public class CCAAuthorizationIntegrationTest extends UrlAuthorizationIntegration
         allowedUrls.add(STUDY_URL);
         allowedUrls.add(CREATE_STUDY_URL);
         allowedUrls.add(ADD_STUDY_SITE_URL);
-        allowedUrls.add(ADD_STUDY_SITE_CLINICAL_STAFF_URL);
 
         allowedUrls.add(SEARCH_CLINICAL_STAFF_URL);
         allowedUrls.add(ADD_ORGANIZATION_CLINICAL_STAFF_URL);

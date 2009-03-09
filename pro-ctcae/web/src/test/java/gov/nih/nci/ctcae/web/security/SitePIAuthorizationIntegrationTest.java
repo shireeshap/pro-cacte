@@ -3,6 +3,8 @@ package gov.nih.nci.ctcae.web.security;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.web.participant.*;
+import gov.nih.nci.ctcae.web.study.EmptyStudyTab;
+import gov.nih.nci.ctcae.web.study.StudySiteClinicalStaffTab;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +25,19 @@ public class SitePIAuthorizationIntegrationTest extends UrlAuthorizationIntegrat
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
+        allowedUrls.add(SEARCH_STUDY_URL);
+        allowedUrls.add(EDIT_STUDY_URL);
+        allowedUrls.add(ADD_STUDY_SITE_CLINICAL_STAFF_URL);
 
-        allowedUrls.add(ADD_NOTIFICATION_CLINICAL_STAFF_URL);
         allowedUrls.add(CREATE_PARTICIPANT_URL);
-
         allowedUrls.add(SEARCH_PARTICIPANT_URL);
-        allowedUrls.add(DISPLAY_CALENDAR_URL);
-        allowedUrls.add(PARTICIPANT_DISPLAY_STUDY_SITES_URL);
 
 
         allowedUrls.add(SCHEDULE_CRF_URL);
         allowedUrls.add(ADD_CRF_SCHEDULE_URL);
+        allowedUrls.add(ADD_NOTIFICATION_CLINICAL_STAFF_URL);
+        allowedUrls.add(DISPLAY_CALENDAR_URL);
+        allowedUrls.add(PARTICIPANT_DISPLAY_STUDY_SITES_URL);
 
         allowedUrls.add(EDIT_PARTICIPANT_URL);
 
@@ -47,6 +51,9 @@ public class SitePIAuthorizationIntegrationTest extends UrlAuthorizationIntegrat
         allowedTabs.add(new ParticipantReviewTab());
         allowedTabs.add(new ScheduleCrfTab());
         allowedTabs.add(new SelectStudyParticipantTab());
+
+        allowedTabs.add(new EmptyStudyTab());
+        allowedTabs.add(new StudySiteClinicalStaffTab());
 
 
     }
