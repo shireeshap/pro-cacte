@@ -20,6 +20,7 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
     protected void onSetUpInTransaction() throws Exception {
 
         super.onSetUpInTransaction();
+        insertDefaultUsers();
     }
 
     private void saveCsv() throws IOException {

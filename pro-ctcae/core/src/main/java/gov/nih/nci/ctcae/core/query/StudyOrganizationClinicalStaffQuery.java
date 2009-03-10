@@ -1,9 +1,7 @@
 package gov.nih.nci.ctcae.core.query;
 
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Role;
 
-import java.util.List;
 import java.util.Collection;
 
 //
@@ -19,6 +17,7 @@ public class StudyOrganizationClinicalStaffQuery extends AbstractQuery {
     private static String queryString = "SELECT socs from StudyOrganizationClinicalStaff socs order by socs.organizationClinicalStaff.clinicalStaff.firstName";
 
     private static String STUDY_ORGANIZATION_ID = "studyOrganizationId";
+    private static String CLINICAL_STAFF_ID = "clinicalStaffId";
 
     private static String FIRST_NAME = "firstName";
 
@@ -47,6 +46,11 @@ public class StudyOrganizationClinicalStaffQuery extends AbstractQuery {
     public void filterByStudyOrganization(final Integer studyOrganizationId) {
         andWhere("socs.studyOrganization.id = :" + STUDY_ORGANIZATION_ID);
         setParameter(STUDY_ORGANIZATION_ID, studyOrganizationId);
+    }
+
+    public void filterByClinicalStaffId(final Integer clinicalStaffId) {
+        andWhere("socs.organizationClinicalStaff.clinicalStaff.id = :" + CLINICAL_STAFF_ID);
+        setParameter(CLINICAL_STAFF_ID, clinicalStaffId);
     }
 
     public void filterByRole(final Collection<Role> roles) {

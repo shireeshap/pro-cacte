@@ -58,8 +58,8 @@ public class StudyTableModel extends AbstractTableModel {
         Column columnSponsorCode = model.getColumnInstance();
         columnSponsorCode.setTitle("Coordinating center");
         columnSponsorCode
-                .setProperty("studyCoordinatingCenter.organization.nciInstituteCode");
-        columnSponsorCode.setAlias("studyCoordinatingCenter");
+                .setProperty("dataCoordinatingCenter.organization.nciInstituteCode");
+        columnSponsorCode.setAlias("dataCoordinatingCenter");
 
         columnSponsorCode.setSortable(Boolean.TRUE);
         model.addColumn(columnSponsorCode);
@@ -74,8 +74,8 @@ public class StudyTableModel extends AbstractTableModel {
         Column columnSponsorCode = model.getColumnInstance();
         columnSponsorCode.setTitle("Funding sponsor");
         columnSponsorCode
-                .setProperty("studyFundingSponsor.organization.nciInstituteCode");
-        columnSponsorCode.setAlias("studyFundingSponsor");
+                .setProperty("studySponsor.organization.nciInstituteCode");
+        columnSponsorCode.setAlias("studySponsor");
         columnSponsorCode.setSortable(Boolean.TRUE);
         model.addColumn(columnSponsorCode);
     }

@@ -28,8 +28,8 @@ public class StudyCommandTest extends WebTestCase {
     public void testEmptyConstructor() {
 
         assertNotNull("must intantiate study", studyCommand.getStudy());
-        assertNotNull(" study must have atleast one coordinating center", studyCommand.getStudy().getStudyCoordinatingCenter());
-        assertNotNull("  study must have atleast one funding sponsor", studyCommand.getStudy().getStudyFundingSponsor());
+        assertNotNull(" study must have atleast one coordinating center", studyCommand.getStudy().getDataCoordinatingCenter());
+        assertNotNull("  study must have atleast one funding sponsor", studyCommand.getStudy().getStudySponsor());
     }
 
 

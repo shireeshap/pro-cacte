@@ -36,14 +36,14 @@
     <STUDY_ORGANIZATIONS
             ORGANIZATION_ID="104880"
             STUDY_ID="-1001"
-            TYPE="SCC"
+            TYPE="DCC"
             ID="-1002"
             VERSION="0"/>
 
     <STUDY_ORGANIZATIONS
             ORGANIZATION_ID="104880"
             STUDY_ID="-1002"
-            TYPE="SFS"
+            TYPE="FSP"
             ID="-1003"
             VERSION="0"/>
 

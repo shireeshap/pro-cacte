@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.web.table;
 
+import gov.nih.nci.ctcae.core.domain.DataCoordinatingCenter;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter;
 import org.extremecomponents.table.bean.Table;
 import org.extremecomponents.table.context.HttpServletRequestContext;
 import org.extremecomponents.table.core.TableModel;
@@ -65,11 +65,11 @@ public class SortRowsCallbackImplTest extends AbstractTableModelTestCase {
     private Study createStudy(String string) {
         Study study = new Study();
         study.setShortTitle(string);
-        StudyCoordinatingCenter studyCoordinatingCenter1 = new StudyCoordinatingCenter();
+        DataCoordinatingCenter dataCoordinatingCenter1 = new DataCoordinatingCenter();
         Organization organization1 = new Organization();
         organization1.setName(string);
-        studyCoordinatingCenter1.setOrganization(organization1);
-        study.setStudyCoordinatingCenter(studyCoordinatingCenter1);
+        dataCoordinatingCenter1.setOrganization(organization1);
+        study.setDataCoordinatingCenter(dataCoordinatingCenter1);
 
         return study;
     }
@@ -86,7 +86,7 @@ public class SortRowsCallbackImplTest extends AbstractTableModelTestCase {
     }
 
     public void testSortInASCOrderForCollection() throws Exception {
-        parameterMap.put("ec_s_studyCoordinatingCenter.organization.name", "asc");
+        parameterMap.put("ec_s_dataCoordinatingCenter.organization.name", "asc");
 
         context = new HttpServletRequestContext(request, parameterMap);
         model = new TableModelImpl(context);
@@ -96,15 +96,15 @@ public class SortRowsCallbackImplTest extends AbstractTableModelTestCase {
         model.setLimit(limit);
 
         callback.sortRows(model, rows);
-        assertEquals("must  sort rows in asc order", string2, rows.get(0).getStudyCoordinatingCenter().getOrganization().getName());
-        assertEquals("must  sort rows in asc order", string1, rows.get(1).getStudyCoordinatingCenter().getOrganization().getName());
-        assertEquals("must  sort rows in asc order", string3, rows.get(2).getStudyCoordinatingCenter().getOrganization().getName());
+        assertEquals("must  sort rows in asc order", string2, rows.get(0).getDataCoordinatingCenter().getOrganization().getName());
+        assertEquals("must  sort rows in asc order", string1, rows.get(1).getDataCoordinatingCenter().getOrganization().getName());
+        assertEquals("must  sort rows in asc order", string3, rows.get(2).getDataCoordinatingCenter().getOrganization().getName());
 
 
     }
 
     public void testSortInDescOrderForCollection() throws Exception {
-        parameterMap.put("ec_s_studyCoordinatingCenter.organization.name", "desc");
+        parameterMap.put("ec_s_dataCoordinatingCenter.organization.name", "desc");
 
         context = new HttpServletRequestContext(request, parameterMap);
         model = new TableModelImpl(context);
@@ -114,9 +114,9 @@ public class SortRowsCallbackImplTest extends AbstractTableModelTestCase {
         model.setLimit(limit);
 
         callback.sortRows(model, rows);
-        assertEquals("must  sort rows in asc order", string3, rows.get(0).getStudyCoordinatingCenter().getOrganization().getName());
-        assertEquals("must  sort rows in asc order", string1, rows.get(1).getStudyCoordinatingCenter().getOrganization().getName());
-        assertEquals("must  sort rows in asc order", string2, rows.get(2).getStudyCoordinatingCenter().getOrganization().getName());
+        assertEquals("must  sort rows in asc order", string3, rows.get(0).getDataCoordinatingCenter().getOrganization().getName());
+        assertEquals("must  sort rows in asc order", string1, rows.get(1).getDataCoordinatingCenter().getOrganization().getName());
+        assertEquals("must  sort rows in asc order", string2, rows.get(2).getDataCoordinatingCenter().getOrganization().getName());
 
 
     }

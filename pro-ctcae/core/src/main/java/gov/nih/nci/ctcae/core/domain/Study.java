@@ -65,13 +65,17 @@ public class Study extends BasePersistable {
      * The study funding sponsor.
      */
     @Transient
-    private StudyFundingSponsor studyFundingSponsor;
+    private StudySponsor studySponsor;
 
     /**
      * The study coordinating center.
      */
     @Transient
-    private StudyCoordinatingCenter studyCoordinatingCenter;
+    private DataCoordinatingCenter dataCoordinatingCenter;
+    @Transient
+    private LeadStudySite leadStudySite;
+    @Transient
+    private FundingSponsor fundingSponsor;
 
 
     /**
@@ -107,7 +111,7 @@ public class Study extends BasePersistable {
     public List<StudySite> getStudySites() {
         List<StudySite> studySites = new LinkedList<StudySite>();
         for (StudyOrganization studyOrganization : getStudyOrganizations()) {
-            if (studyOrganization instanceof StudySite) {
+            if ((studyOrganization instanceof StudySite) && !(studyOrganization instanceof LeadStudySite)) {
                 studySites.add((StudySite) studyOrganization);
             }
         }
@@ -119,27 +123,61 @@ public class Study extends BasePersistable {
      *
      * @return the study funding sponsor
      */
-    public StudyFundingSponsor getStudyFundingSponsor() {
+    public StudySponsor getStudySponsor() {
 
         for (StudyOrganization studyOrganization : studyOrganizations) {
-            if (studyOrganization instanceof StudyFundingSponsor) {
-                studyFundingSponsor = (StudyFundingSponsor) studyOrganization;
+            if (studyOrganization instanceof StudySponsor) {
+                studySponsor = (StudySponsor) studyOrganization;
             }
         }
 
-        return studyFundingSponsor;
+        return studySponsor;
 
     }
 
     /**
      * Sets the study funding sponsor.
      *
-     * @param studyFundingSponsor the new study funding sponsor
+     * @param studySponsor the new study funding sponsor
      */
-    public void setStudyFundingSponsor(StudyFundingSponsor studyFundingSponsor) {
-        this.studyFundingSponsor = studyFundingSponsor;
-        if (!studyFundingSponsor.isPersisted()) {
-            addStudyOrganization(studyFundingSponsor);
+    public void setStudySponsor(StudySponsor studySponsor) {
+        this.studySponsor = studySponsor;
+        if (!studySponsor.isPersisted()) {
+            addStudyOrganization(studySponsor);
+        }
+    }
+
+
+    public LeadStudySite getLeadStudySite() {
+        for (StudyOrganization studyOrganization : studyOrganizations) {
+            if (studyOrganization instanceof LeadStudySite) {
+                leadStudySite = (LeadStudySite) studyOrganization;
+            }
+        }
+        return leadStudySite;
+    }
+
+    public void setLeadStudySite(LeadStudySite leadStudySite) {
+        this.leadStudySite = leadStudySite;
+        if (!leadStudySite.isPersisted()) {
+            addStudyOrganization(leadStudySite);
+        }
+    }
+
+
+    public FundingSponsor getFundingSponsor() {
+        for (StudyOrganization studyOrganization : studyOrganizations) {
+            if (studyOrganization instanceof FundingSponsor) {
+                fundingSponsor = (FundingSponsor) studyOrganization;
+            }
+        }
+        return fundingSponsor;
+    }
+
+    public void setFundingSponsor(FundingSponsor fundingSponsor) {
+        this.fundingSponsor = fundingSponsor;
+        if (!fundingSponsor.isPersisted()) {
+            addStudyOrganization(fundingSponsor);
         }
     }
 
@@ -148,27 +186,28 @@ public class Study extends BasePersistable {
      *
      * @return the study coordinating center
      */
-    public StudyCoordinatingCenter getStudyCoordinatingCenter() {
+    public DataCoordinatingCenter getDataCoordinatingCenter() {
         for (StudyOrganization studyOrganization : studyOrganizations) {
-            if (studyOrganization instanceof StudyCoordinatingCenter) {
-                studyCoordinatingCenter = (StudyCoordinatingCenter) studyOrganization;
+            if (studyOrganization instanceof DataCoordinatingCenter) {
+                dataCoordinatingCenter = (DataCoordinatingCenter) studyOrganization;
             }
         }
-        return studyCoordinatingCenter;
+        return dataCoordinatingCenter;
     }
 
     /**
      * Sets the study coordinating center.
      *
-     * @param studyCoordinatingCenter the new study coordinating center
+     * @param dataCoordinatingCenter the new study coordinating center
      */
-    public void setStudyCoordinatingCenter(
-            StudyCoordinatingCenter studyCoordinatingCenter) {
-        this.studyCoordinatingCenter = studyCoordinatingCenter;
-        if (!studyCoordinatingCenter.isPersisted()) {
-            addStudyOrganization(studyCoordinatingCenter);
+    public void setDataCoordinatingCenter(
+            DataCoordinatingCenter dataCoordinatingCenter) {
+        this.dataCoordinatingCenter = dataCoordinatingCenter;
+        if (!dataCoordinatingCenter.isPersisted()) {
+            addStudyOrganization(dataCoordinatingCenter);
         }
     }
+
 
     /**
      * Gets the study organizations.
@@ -419,7 +458,7 @@ public class Study extends BasePersistable {
         return leadCRA;
     }
 
-    public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
+    public List<StudyOrganizationClinicalStaff> getStudySiteLevelStudyOrganizationClinicalStaffs() {
         List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffList = new ArrayList<StudyOrganizationClinicalStaff>();
         for (StudyOrganization studyOrganization : studyOrganizations) {
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganization.getStudyOrganizationClinicalStaffs()) {
@@ -429,6 +468,17 @@ public class Study extends BasePersistable {
                         || studyOrganizationClinicalStaff.getRole().equals(Role.NURSE)) {
                     studyOrganizationClinicalStaffList.add(studyOrganizationClinicalStaff);
                 }
+            }
+        }
+
+        return studyOrganizationClinicalStaffList;
+    }
+
+    public List<StudyOrganizationClinicalStaff> getAllStudyOrganizationClinicalStaffs() {
+        List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffList = new ArrayList<StudyOrganizationClinicalStaff>();
+        for (StudyOrganization studyOrganization : studyOrganizations) {
+            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganization.getStudyOrganizationClinicalStaffs()) {
+                studyOrganizationClinicalStaffList.add(studyOrganizationClinicalStaff);
             }
         }
 

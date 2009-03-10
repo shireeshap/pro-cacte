@@ -35,10 +35,17 @@ public class StudyCommand {
     public StudyCommand() {
         super();
         this.study = new Study();
-        study.setStudyFundingSponsor(new StudyFundingSponsor());
-        study.setStudyCoordinatingCenter(new StudyCoordinatingCenter());
+        study.setStudySponsor(new StudySponsor());
+        study.setDataCoordinatingCenter(new DataCoordinatingCenter());
+        study.setFundingSponsor(new FundingSponsor());
+        LeadStudySite leadStudySite = new LeadStudySite();
+        study.setLeadStudySite(leadStudySite);
 
 
+    }
+
+    public StudyCommand(Study study) {
+        this.study = study;
     }
 
 
@@ -126,13 +133,13 @@ public class StudyCommand {
         setLeadCRA(study.getLeadCRA());
         setPrincipalInvestigator(study.getPrincipalInvestigator());
         setOverallDataCoordinator(study.getOverallDataCoordinator());
-        setStudyOrganizationClinicalStaffs(study.getStudyOrganizationClinicalStaffs());
+        setStudyOrganizationClinicalStaffs(study.getStudySiteLevelStudyOrganizationClinicalStaffs());
 
     }
 
     public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
         if (studyOrganizationClinicalStaffs.isEmpty()) {
-            studyOrganizationClinicalStaffs = study.getStudyOrganizationClinicalStaffs();
+            studyOrganizationClinicalStaffs = study.getStudySiteLevelStudyOrganizationClinicalStaffs();
         }
         return studyOrganizationClinicalStaffs;
     }

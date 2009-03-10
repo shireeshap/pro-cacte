@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.repository;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.RolePrivilegeQuery;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -54,15 +55,19 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByUserId(user.getId());
         ClinicalStaff clinicalStaff = (ClinicalStaff) genericRepository.findSingle(clinicalStaffQuery);
+
+
         if (clinicalStaff != null) {
-            for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
 
-                for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaff.getStudyOrganizationClinicalStaffs()) {
-                    Role role = studyOrganizationClinicalStaff.getRole();
-                    roles.add(role);
-                }
+            StudyOrganizationClinicalStaffQuery studyOrganizationClinicalStaffQuery = new StudyOrganizationClinicalStaffQuery();
+            studyOrganizationClinicalStaffQuery.filterByClinicalStaffId(clinicalStaff.getId());
+            List<StudyOrganizationClinicalStaff> StudyOrganizationClinicalStaffs = genericRepository.find(studyOrganizationClinicalStaffQuery);
 
+            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : StudyOrganizationClinicalStaffs) {
+                Role role = studyOrganizationClinicalStaff.getRole();
+                roles.add(role);
             }
+
 
             if (!roles.isEmpty()) {
                 RolePrivilegeQuery rolePrivilegeQuery = new RolePrivilegeQuery();

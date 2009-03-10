@@ -19,20 +19,34 @@
 
 
         Event.observe(window, "load", function() {
-            acCreate(new siteAutoComplter('study.studyCoordinatingCenter.organization'))
-            acCreate(new siteAutoComplter('study.studyFundingSponsor.organization'))
+            acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
+            acCreate(new siteAutoComplter('study.fundingSponsor.organization'))
+            acCreate(new siteAutoComplter('study.studySponsor.organization'))
+            acCreate(new siteAutoComplter('study.leadStudySite.organization'))
 
 
-        <c:if test="${command.study.studyFundingSponsor ne null}">
-            initializeAutoCompleter('study.studyFundingSponsor.organization',
-                    '${command.study.studyFundingSponsor.organization.displayName}', '${command.study.studyFundingSponsor.organization.id}')
+        <c:if test="${command.study.studySponsor ne null}">
+            initializeAutoCompleter('study.studySponsor.organization',
+                    '${command.study.studySponsor.organization.displayName}', '${command.study.studySponsor.organization.id}')
 
 
         </c:if>
 
-        <c:if test="${command.study.studyCoordinatingCenter ne null}">
-            initializeAutoCompleter('study.studyCoordinatingCenter.organization',
-                    '${command.study.studyCoordinatingCenter.organization.displayName}', '${command.study.studyCoordinatingCenter.organization.id}')
+        <c:if test="${command.study.dataCoordinatingCenter ne null}">
+            initializeAutoCompleter('study.dataCoordinatingCenter.organization',
+                    '${command.study.dataCoordinatingCenter.organization.displayName}', '${command.study.dataCoordinatingCenter.organization.id}')
+
+
+        </c:if>
+        <c:if test="${command.study.fundingSponsor ne null}">
+            initializeAutoCompleter('study.fundingSponsor.organization',
+                    '${command.study.fundingSponsor.organization.displayName}', '${command.study.fundingSponsor.organization.id}')
+
+
+        </c:if>
+        <c:if test="${command.study.leadStudySite ne null}">
+            initializeAutoCompleter('study.leadStudySite.organization',
+                    '${command.study.leadStudySite.organization.displayName}', '${command.study.leadStudySite.organization.id}')
 
 
         </c:if>
@@ -68,12 +82,19 @@
         <tags:renderTextArea propertyName="study.description" displayName="study.label.description"
                              required="false" help="true" cols="47"/>
 
-        <tags:renderAutocompleter propertyName="study.studyCoordinatingCenter.organization"
+        <tags:renderAutocompleter propertyName="study.dataCoordinatingCenter.organization"
                                   displayName="study.label.study_coordinating_center"
                                   required="true" help="true" size="50"/>
 
-        <tags:renderAutocompleter propertyName="study.studyFundingSponsor.organization"
+        <tags:renderAutocompleter propertyName="study.studySponsor.organization"
+                                  displayName="study.label.study_sponsor"
+                                  required="true" help="true" size="50"/>
+        <tags:renderAutocompleter propertyName="study.fundingSponsor.organization"
                                   displayName="study.label.study_funding_sponsor"
+                                  required="true" help="true" size="50"/>
+
+        <tags:renderAutocompleter propertyName="study.leadStudySite.organization"
+                                  displayName="study.label.study_lead_site"
                                   required="true" help="true" size="50"/>
 
 

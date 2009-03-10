@@ -152,13 +152,15 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
 
     }
 
-    public void testfindByOrganizationClinicalStaffByOrganizationId() {
+    public void testfindByOrganizationClinicalStaffByOrganizationId() throws Exception {
 
-        List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaffRepository.findByStudyOrganizationId("b", defaultStudySite.getId());
+        insertDefaultUsers();
+
+        List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaffRepository.findByStudyOrganizationId("a", defaultStudySite.getId());
 
         assertFalse(organizationClinicalStaffs.isEmpty());
 
-        String searchString = "%b%";
+        String searchString = "%a%";
         int size = jdbcTemplate.queryForInt("select count(*) from ORGANIZATION_CLINICAL_STAFFS scs,clinical_Staffs cs where cs.id=scs.clinical_staff_id " +
                 "and scs.organization_id =? and (lower(cs.first_name) like ? or lower(cs.last_name) like ? or lower(cs.nci_identifier) like ?)",
                 new Object[]{DEFAULT_ORGANIZATION_ID, searchString, searchString, searchString});

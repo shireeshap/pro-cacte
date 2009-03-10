@@ -34,16 +34,18 @@
         <value>gov.nih.nci.ctcae.core.domain.RolePrivilege</value>
         <value>gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff</value>
         <value>gov.nih.nci.ctcae.core.domain.Study</value>
-        <value>gov.nih.nci.ctcae.core.domain.StudyCoordinatingCenter</value>
+        <value>gov.nih.nci.ctcae.core.domain.DataCoordinatingCenter</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff</value>
-        <value>gov.nih.nci.ctcae.core.domain.StudyFundingSponsor</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudySponsor</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyOrganization</value>
+        <value>gov.nih.nci.ctcae.core.domain.FundingSponsor</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrf</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantClinicalStaff</value>
         <value>gov.nih.nci.ctcae.core.domain.StudySite</value>
+        <value>gov.nih.nci.ctcae.core.domain.LeadStudySite</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion</value>
         <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion</value>
         <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestionDisplayRule</value>

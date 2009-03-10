@@ -1,12 +1,9 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 //
 /**
@@ -44,18 +41,6 @@ public class OrganizationClinicalStaff extends BasePersistable {
     @ManyToOne
     private Organization organization;
 
-    @OneToMany(mappedBy = "organizationClinicalStaff", fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = new ArrayList<StudyOrganizationClinicalStaff>();
-
-
-    public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
-        return studyOrganizationClinicalStaffs;
-    }
-
-    public void setStudyOrganizationClinicalStaffs(List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs) {
-        this.studyOrganizationClinicalStaffs = studyOrganizationClinicalStaffs;
-    }
 
     /* (non-Javadoc)
     * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()

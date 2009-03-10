@@ -62,11 +62,11 @@
             </div>
             <div class="row">
                 <div class="label"><spring:message code='study.label.study_funding_sponsor' text=''/></div>
-                <div class="value">${command.study.studyFundingSponsor.organization.displayName} </div>
+                <div class="value">${command.study.studySponsor.organization.displayName} </div>
             </div>
             <div class="row">
                 <div class="label"><spring:message code='study.label.study_coordinating_center' text=''/></div>
-                <div class="value">${command.study.studyCoordinatingCenter.organization.displayName} </div>
+                <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
             </div>
         </div>
     </chrome:division>

@@ -32,7 +32,6 @@ public class ObjectToolsTest extends TestCase {
         organizationClinicalStaff.setClinicalStaff(clinicalStaff);
 
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(organizationClinicalStaff);
-        organizationClinicalStaff.getStudyOrganizationClinicalStaffs().add(studyOrganizationClinicalStaff);
 
     }
 

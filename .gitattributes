@@ -72,9 +72,12 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Ctc.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcCategory.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcTerm.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DataCoordinatingCenter.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DisplayOrderComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Ethnicity.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/FundingSponsor.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Gender.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/LeadStudySite.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/NegativeAnswers.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Organization.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/OrganizationClinicalStaff.java -text
@@ -100,8 +103,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleType.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Roles.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyCoordinatingCenter.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyFundingSponsor.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganization.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationClinicalStaff.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantAssignment.java -text
@@ -112,6 +113,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfIt
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfSchedule.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleAddedQuestion.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySite.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySponsor.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/User.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemException.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/AbstractQuery.java -text

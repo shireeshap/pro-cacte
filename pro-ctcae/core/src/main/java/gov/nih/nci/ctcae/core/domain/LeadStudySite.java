@@ -4,15 +4,15 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 /**
- * The Class StudyFundingSponsor.
- * 
- * @author
+ * The Class StudySite.
+ *
+ * @author Vinay Kumar
  * @crated Oct 7, 2008
  */
 
 @Entity
-@DiscriminatorValue(value = "SFS")
-public class StudyFundingSponsor extends StudyOrganization {
+@DiscriminatorValue(value = "LSS")
+public class LeadStudySite extends StudySite {
 
 
 }

@@ -21,9 +21,9 @@ public class EditStudyController extends StudyController {
     protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
         Integer studyId = ServletRequestUtils.getRequiredIntParameter(request, STUDY_ID);
 
-        StudyCommand studyCommand = new StudyCommand();
         Study study = studyRepository.findById(Integer.valueOf(studyId));
-        studyCommand.setStudy(study);
+        StudyCommand studyCommand = new StudyCommand(study);
+
 
         return studyCommand;
     }

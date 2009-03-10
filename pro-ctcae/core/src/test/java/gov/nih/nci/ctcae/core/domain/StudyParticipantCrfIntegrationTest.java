@@ -18,8 +18,8 @@ public class StudyParticipantCrfIntegrationTest extends AbstractHibernateIntegra
     private StudySite nciStudySite;
     private Organization nci, duke;
 
-    private StudyFundingSponsor studyFundingSponsor;
-    private StudyCoordinatingCenter studyCoordinatingCenter;
+    private StudySponsor studySponsor;
+    private DataCoordinatingCenter dataCoordinatingCenter;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
@@ -35,15 +35,15 @@ public class StudyParticipantCrfIntegrationTest extends AbstractHibernateIntegra
         nciStudySite = new StudySite();
         nciStudySite.setOrganization(nci);
 
-        studyFundingSponsor = new StudyFundingSponsor();
-        studyFundingSponsor.setOrganization(nci);
+        studySponsor = new StudySponsor();
+        studySponsor.setOrganization(nci);
 
-        studyCoordinatingCenter = new StudyCoordinatingCenter();
-        studyCoordinatingCenter.setOrganization(nci);
+        dataCoordinatingCenter = new DataCoordinatingCenter();
+        dataCoordinatingCenter.setOrganization(nci);
 
         studyWithStudyOrganizations = Fixture.createStudy("study short title", "study long title", "assigned identifier");
-        studyWithStudyOrganizations.setStudyFundingSponsor(studyFundingSponsor);
-        studyWithStudyOrganizations.setStudyCoordinatingCenter(studyCoordinatingCenter);
+        studyWithStudyOrganizations.setStudySponsor(studySponsor);
+        studyWithStudyOrganizations.setDataCoordinatingCenter(dataCoordinatingCenter);
         studyWithStudyOrganizations.addStudySite(nciStudySite);
 
         studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);

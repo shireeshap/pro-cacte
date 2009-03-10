@@ -4,7 +4,7 @@
 <style type="text/css">
     .tableHeader {
         background-color: #2B4186;
-        background-image: url( /ctcae/images/blue/eXtableheader_bg.png );
+        background-image: url(/ctcae/images/blue/eXtableheader_bg.png);
         background-position: center top;
         background-repeat: repeat-x;
         color: white;
@@ -57,10 +57,10 @@
                     ${studysite.study.shortTitle}
             </td>
             <td>
-                    ${studysite.study.studyFundingSponsor.organization.nciInstituteCode}
+                    ${studysite.study.studySponsor.organization.nciInstituteCode}
             </td>
             <td>
-                    ${studysite.study.studyCoordinatingCenter.organization.nciInstituteCode}
+                    ${studysite.study.dataCoordinatingCenter.organization.nciInstituteCode}
             </td>
             <td>
                     ${studyParticipantAssignment.studyParticipantIdentifier}
@@ -105,10 +105,10 @@
                     ${studysite.study.shortTitle}
             </td>
             <td>
-                    ${studysite.study.studyFundingSponsor.organization.nciInstituteCode}
+                    ${studysite.study.studySponsor.organization.nciInstituteCode}
             </td>
             <td>
-                    ${studysite.study.studyCoordinatingCenter.organization.nciInstituteCode}
+                    ${studysite.study.dataCoordinatingCenter.organization.nciInstituteCode}
             </td>
             <td>
                 <input type="text" name="participantStudyIdentifier_${studysite.id}" value="">

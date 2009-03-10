@@ -22,8 +22,11 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
     private StudySite nciStudySite;
     private Organization nci, duke;
 
-    private StudyFundingSponsor studyFundingSponsor;
-    private StudyCoordinatingCenter studyCoordinatingCenter;
+    private StudySponsor studySponsor;
+    private DataCoordinatingCenter dataCoordinatingCenter;
+    private LeadStudySite leadStudySite;
+
+    private FundingSponsor fundingSponsor;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
@@ -33,8 +36,8 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
         saveStudy();
 
         assertNotNull(studyWithStudyOrganizations.getId());
-        assertEquals("must not create multiple study coordinating center", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
-        assertEquals("must not create multiple funding sponsor", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+        assertEquals("must not create multiple study coordinating center", Integer.valueOf(5), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+        assertEquals("must not create multiple funding sponsor", Integer.valueOf(5), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
 
     }
@@ -51,16 +54,24 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
         nciStudySite = new StudySite();
         nciStudySite.setOrganization(nci);
 
-        studyFundingSponsor = new StudyFundingSponsor();
-        studyFundingSponsor.setOrganization(nci);
+        studySponsor = new StudySponsor();
+        studySponsor.setOrganization(nci);
 
-        studyCoordinatingCenter = new StudyCoordinatingCenter();
-        studyCoordinatingCenter.setOrganization(nci);
+        leadStudySite = new LeadStudySite();
+        leadStudySite.setOrganization(nci);
+
+        fundingSponsor = new FundingSponsor();
+        fundingSponsor.setOrganization(nci);
+
+        dataCoordinatingCenter = new DataCoordinatingCenter();
+        dataCoordinatingCenter.setOrganization(nci);
 
         studyWithStudyOrganizations = Fixture.createStudy("study short title", "study long title", "assigned identifier" + UUID.randomUUID());
-        studyWithStudyOrganizations.setStudyFundingSponsor(studyFundingSponsor);
-        studyWithStudyOrganizations.setStudyCoordinatingCenter(studyCoordinatingCenter);
+        studyWithStudyOrganizations.setStudySponsor(studySponsor);
+        studyWithStudyOrganizations.setDataCoordinatingCenter(dataCoordinatingCenter);
         studyWithStudyOrganizations.addStudySite(nciStudySite);
+        studyWithStudyOrganizations.setFundingSponsor(fundingSponsor);
+        studyWithStudyOrganizations.setLeadStudySite(leadStudySite);
 
         studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
     }
@@ -99,53 +110,53 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
         startNewTransaction();
 
         Collection<? extends Organization> organizations = organizationRepository.findOrganizationsForStudySites();
-        //	assertFalse(organizations.isEmpty());
+        assertFalse(organizations.isEmpty());
 
 
     }
 
     public void testAddStudyFundingSponsorInCreateStudy() {
-        assertNotNull("must save funding sponsor", studyWithStudyOrganizations.getStudyFundingSponsor());
-        assertNotNull(studyWithStudyOrganizations.getStudyFundingSponsor().getId());
-        assertEquals(nci, studyWithStudyOrganizations.getStudyFundingSponsor().getOrganization());
-        assertEquals("must not create multiple funding sponsor", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+        assertNotNull("must save funding sponsor", studyWithStudyOrganizations.getStudySponsor());
+        assertNotNull(studyWithStudyOrganizations.getStudySponsor().getId());
+        assertEquals(nci, studyWithStudyOrganizations.getStudySponsor().getOrganization());
+        assertEquals("must not create multiple funding sponsor", Integer.valueOf(5), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
     }
 
 
     public void testAddStudyCoordinatingCenterInCreateStudy() {
 
-        assertNotNull("must save coordinating center", studyWithStudyOrganizations.getStudyCoordinatingCenter());
+        assertNotNull("must save coordinating center", studyWithStudyOrganizations.getDataCoordinatingCenter());
 
-        assertNotNull(studyWithStudyOrganizations.getStudyCoordinatingCenter().getId());
-        assertEquals(nci, studyWithStudyOrganizations.getStudyCoordinatingCenter().getOrganization());
-        assertEquals("must not create multiple study coordinating center", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+        assertNotNull(studyWithStudyOrganizations.getDataCoordinatingCenter().getId());
+        assertEquals(nci, studyWithStudyOrganizations.getDataCoordinatingCenter().getOrganization());
+        assertEquals("must not create multiple study coordinating center", Integer.valueOf(5), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
     }
 
     public void testUpdateStudyCoordinatingCenter() {
-        assertNotNull(studyWithStudyOrganizations.getStudyCoordinatingCenter().getId());
-        assertEquals(nci, studyWithStudyOrganizations.getStudyCoordinatingCenter().getOrganization());
+        assertNotNull(studyWithStudyOrganizations.getDataCoordinatingCenter().getId());
+        assertEquals(nci, studyWithStudyOrganizations.getDataCoordinatingCenter().getOrganization());
 
-        studyWithStudyOrganizations.getStudyCoordinatingCenter().setOrganization(duke);
+        studyWithStudyOrganizations.getDataCoordinatingCenter().setOrganization(duke);
         studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
-        assertNotNull(studyWithStudyOrganizations.getStudyCoordinatingCenter().getId());
-        assertEquals(duke, studyWithStudyOrganizations.getStudyCoordinatingCenter().getOrganization());
-        assertEquals("must not create multiple study coordinating center", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+        assertNotNull(studyWithStudyOrganizations.getDataCoordinatingCenter().getId());
+        assertEquals(duke, studyWithStudyOrganizations.getDataCoordinatingCenter().getOrganization());
+        assertEquals("must not create multiple study coordinating center", Integer.valueOf(5), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
 
     }
 
     public void testUpdateStudyFundingSponsor() {
-        assertNotNull(studyWithStudyOrganizations.getStudyFundingSponsor().getId());
-        assertEquals(nci, studyWithStudyOrganizations.getStudyFundingSponsor().getOrganization());
+        assertNotNull(studyWithStudyOrganizations.getStudySponsor().getId());
+        assertEquals(nci, studyWithStudyOrganizations.getStudySponsor().getOrganization());
 
 
-        studyWithStudyOrganizations.getStudyFundingSponsor().setOrganization(duke);
+        studyWithStudyOrganizations.getStudySponsor().setOrganization(duke);
         studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
-        assertNotNull(studyWithStudyOrganizations.getStudyFundingSponsor().getId());
-        assertEquals(duke, studyWithStudyOrganizations.getStudyFundingSponsor().getOrganization());
-        assertEquals("must not create multiple study funding sponsor", Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+        assertNotNull(studyWithStudyOrganizations.getStudySponsor().getId());
+        assertEquals(duke, studyWithStudyOrganizations.getStudySponsor().getOrganization());
+        assertEquals("must not create multiple study funding sponsor", Integer.valueOf(5), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
 
     }

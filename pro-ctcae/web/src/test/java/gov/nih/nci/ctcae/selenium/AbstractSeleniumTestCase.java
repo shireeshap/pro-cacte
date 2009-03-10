@@ -81,8 +81,8 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         selenium.type("study.assignedIdentifier", assignedIdentifier);
         selenium.type("study.shortTitle", shortTitle);
         selenium.type("study.longTitle", longTitle);
-        typeAutosuggest("study.studyCoordinatingCenter.organization-input", "h", "study.studyCoordinatingCenter.organization-choices");
-        typeAutosuggest("study.studyFundingSponsor.organization-input", "c", "study.studyFundingSponsor.organization-choices");
+        typeAutosuggest("study.dataCoordinatingCenter.organization-input", "h", "study.dataCoordinatingCenter.organization-choices");
+        typeAutosuggest("study.studySponsor.organization-input", "c", "study.studySponsor.organization-choices");
         selenium.click("flow-next");
         selenium.waitForPageToLoad("30000");
         selenium.click("//input[@value='Add Study Site']");

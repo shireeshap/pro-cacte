@@ -3,13 +3,14 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-import org.apache.commons.lang.StringUtils;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 //
 /**
@@ -190,7 +191,7 @@ public class ParticipantCommand {
 
     private List<StudyOrganizationClinicalStaff> getListByRole(Role role) {
         List<StudyOrganizationClinicalStaff> staff = new ArrayList<StudyOrganizationClinicalStaff>();
-        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : getSelectedStudyParticipantAssignment().getStudySite().getStudy().getStudyOrganizationClinicalStaffs()) {
+        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : getSelectedStudyParticipantAssignment().getStudySite().getStudy().getStudySiteLevelStudyOrganizationClinicalStaffs()) {
             if (studyOrganizationClinicalStaff.getRole().equals(role)) {
                 if (studyOrganizationClinicalStaff.getRoleStatus().equals(RoleStatus.ACTIVE)) {
                     staff.add(studyOrganizationClinicalStaff);

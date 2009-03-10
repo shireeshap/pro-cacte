@@ -23,14 +23,14 @@
 
 
             var odcAutoComplterBaseName = 'overallDataCoordinator.organizationClinicalStaff';
-            acCreate(new organizationClinicalStaffAutoComplter(odcAutoComplterBaseName, '${command.study.studyCoordinatingCenter.id}'))
+            acCreate(new organizationClinicalStaffAutoComplter(odcAutoComplterBaseName, '${command.study.dataCoordinatingCenter.id}'))
 
             var leadCRAAutoComplterBaseName = 'leadCRA.organizationClinicalStaff';
-            var leadCRAAutocompleter = acCreate(new organizationClinicalStaffAutoComplter(leadCRAAutoComplterBaseName, $('leadCRA.studyOrganization').value))
+            var leadCRAAutocompleter = acCreate(new organizationClinicalStaffAutoComplter(leadCRAAutoComplterBaseName, '${command.study.leadStudySite.id}'))
 
 
             var piAutoCompleterBaseName = 'principalInvestigator.organizationClinicalStaff';
-            acCreate(new organizationClinicalStaffAutoComplter(piAutoCompleterBaseName, $('principalInvestigator.studyOrganization').value))
+            acCreate(new organizationClinicalStaffAutoComplter(piAutoCompleterBaseName, '${command.study.leadStudySite.id}'))
 
             initializeAutoCompleter(odcAutoComplterBaseName, '${command.overallDataCoordinator.displayName}',
                     '${command.overallDataCoordinator.organizationClinicalStaff.id}')
@@ -45,16 +45,6 @@
             initSearchField()
 
         })
-
-        function updateOrganizationClinicalStaffAutoCompleters() {
-
-            AE.resetAutocompleter('leadCRA.organizationClinicalStaff')
-            AE.resetAutocompleter('principalInvestigator.organizationClinicalStaff')
-            // clearAutoCompleter('study.leadCRA.organizationClinicalStaff');
-            // clearAutoCompleter();
-            //leadCRAAutocompleter.studyOrganizationId = $('study.leadCRA.studyOrganization').value
-
-        }
 
 
     </script>
@@ -71,7 +61,7 @@
 
            <div class="row">
                <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
-               <div class="value">${command.study.studyCoordinatingCenter.organization.displayName} </div>
+               <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
            </div>
 
 
@@ -82,9 +72,10 @@
 
         <chrome:division title="study.label.clinical.staff.lead.cra">
 
-            <tags:renderSelect options="${studySitesAndCoordinatingCenter}"
-                               onchange="updateOrganizationClinicalStaffAutoCompleters()" required="true"
-                               displayName="study.label.organization" propertyName="leadCRA.studyOrganization" />
+            <div class="row">
+                <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
+                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
+            </div>
 
 
             <tags:renderAutocompleter propertyName="leadCRA.organizationClinicalStaff"
@@ -95,10 +86,11 @@
         </chrome:division>
         <chrome:division title="study.label.clinical.staff.pi">
 
-            <tags:renderSelect options="${studySitesAndCoordinatingCenter}"
-                               onchange="updateOrganizationClinicalStaffAutoCompleters()" required="true"
-                               displayName="study.label.organization"
-                               propertyName="principalInvestigator.studyOrganization"/>
+            <div class="row">
+                <div class="label"><tags:requiredIndicator/><tags:message code="study.label.organization"/></div>
+                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
+            </div>
+
 
             <tags:renderAutocompleter propertyName="principalInvestigator.organizationClinicalStaff"
                                       displayName="study.label.clinical.staff" noForm="true" required="true"
@@ -106,30 +98,6 @@
 
 
         </chrome:division>
-
-        <%--<div>--%>
-
-        <%--<c:forEach items="${command.clinicalStaffAssignments}"--%>
-        <%--var="clinicalStaffAssignment"--%>
-        <%--varStatus="status">--%>
-
-        <%--<c:if test="${clinicalStaffAssignment.domainObjectId eq command.selectedStudySiteId }">--%>
-        <%--<study:clinicalStaffAssignment clinicalStaffAssignment="${clinicalStaffAssignment}"--%>
-        <%--clinicalStaffAssignmentIndex="${status.index}"/>--%>
-
-        <%--</c:if>--%>
-        <%--</c:forEach>--%>
-
-        <%--<div id="hiddenDiv">--%>
-
-
-        <%--</div>--%>
-
-
-        <%--</div>--%>
-
-
-
 
         </jsp:attribute>
 

@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,10 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
         studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
         studyOrganizationClinicalStaff.setRole(PI);
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
-        studyOrganizationClinicalStaff = addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+        defaultStudy.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
 
+        studyOrganizationClinicalStaff = addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+        insertDefaultUsers();
 
     }
 
@@ -30,6 +33,18 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
         List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffRepository.findByStudyOrganizationIdAndRole("%", defaultStudySite.getId(), rolesList);
 
         assertFalse(organizationClinicalStaffList.isEmpty());
+    }
+
+    public void testFindByClinicalStaff() {
+        StudyOrganizationClinicalStaffQuery query = new StudyOrganizationClinicalStaffQuery();
+
+        query.filterByClinicalStaffId(defaultClinicalStaff.getId());
+        List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffRepository.findStudyOrganizationClinicalStaff(query);
+
+        assertFalse(organizationClinicalStaffList.isEmpty());
+        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaffList) {
+            assertEquals(defaultClinicalStaff.getId(), studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff().getId());
+        }
     }
 
 
@@ -46,6 +61,25 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
 
         StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = finderRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId());
         assertNull("must remove study clinical staff", expectedStudyOrganizationClinicalStaff);
+
+    }
+
+    public void testUpdateStudyOrganizationClinicalStaff() {
+
+
+        assertNotNull("must find study clinical staff", finderRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId()));
+
+        //now update it
+        StudyOrganizationClinicalStaff staff = defaultStudySite.getStudyOrganizationClinicalStaffs().get(0);
+        OrganizationClinicalStaff organizationClinicalStaff = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.NURSE).getOrganizationClinicalStaff();
+        staff.setOrganizationClinicalStaff(organizationClinicalStaff);
+        defaultStudy = studyRepository.save(defaultStudy);
+
+        commitAndStartNewTransaction();
+
+        StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = finderRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId());
+        assertNotNull("must not study clinical staff", expectedStudyOrganizationClinicalStaff);
+        assertEquals("must not study clinical staff", organizationClinicalStaff, expectedStudyOrganizationClinicalStaff.getOrganizationClinicalStaff());
 
     }
 

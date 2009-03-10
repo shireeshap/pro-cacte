@@ -2,14 +2,14 @@ package gov.nih.nci.ctcae.core.domain;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 //
 /**
@@ -128,7 +128,6 @@ public class CRFCycleDefinition extends BasePersistable {
         CRFCycleDefinition that = (CRFCycleDefinition) o;
 
         if (crf != null ? !crf.equals(that.crf) : that.crf != null) return false;
-        if (crfCycles != null ? !crfCycles.equals(that.crfCycles) : that.crfCycles != null) return false;
         if (cycleLength != null ? !cycleLength.equals(that.cycleLength) : that.cycleLength != null) return false;
         if (cycleLengthUnit != null ? !cycleLengthUnit.equals(that.cycleLengthUnit) : that.cycleLengthUnit != null)
             return false;
@@ -145,7 +144,6 @@ public class CRFCycleDefinition extends BasePersistable {
         result = 31 * result + (cycleLengthUnit != null ? cycleLengthUnit.hashCode() : 0);
         result = 31 * result + (repeatTimes != null ? repeatTimes.hashCode() : 0);
         result = 31 * result + (crf != null ? crf.hashCode() : 0);
-        result = 31 * result + (crfCycles != null ? crfCycles.hashCode() : 0);
         return result;
     }
 

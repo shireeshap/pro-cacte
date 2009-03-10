@@ -17,8 +17,8 @@ public class StudyTableModelTest extends AbstractTableModelTestCase {
     private Collection studies;
     private Organization nci;
     private StudySite nciStudySite;
-    private StudyFundingSponsor studyFundingSponsor;
-    private StudyCoordinatingCenter studyCoordinatingCenter;
+    private StudySponsor studySponsor;
+    private DataCoordinatingCenter dataCoordinatingCenter;
     private Study studyWithStudyOrganizations;
 
     @Override
@@ -34,15 +34,15 @@ public class StudyTableModelTest extends AbstractTableModelTestCase {
         nciStudySite = new StudySite();
         nciStudySite.setOrganization(nci);
 
-        studyFundingSponsor = new StudyFundingSponsor();
-        studyFundingSponsor.setOrganization(nci);
+        studySponsor = new StudySponsor();
+        studySponsor.setOrganization(nci);
 
-        studyCoordinatingCenter = new StudyCoordinatingCenter();
-        studyCoordinatingCenter.setOrganization(nci);
+        dataCoordinatingCenter = new DataCoordinatingCenter();
+        dataCoordinatingCenter.setOrganization(nci);
 
         studyWithStudyOrganizations = Fixture.createStudy("study short title", "study long title", "assigned identifier");
-        studyWithStudyOrganizations.setStudyFundingSponsor(studyFundingSponsor);
-        studyWithStudyOrganizations.setStudyCoordinatingCenter(studyCoordinatingCenter);
+        studyWithStudyOrganizations.setStudySponsor(studySponsor);
+        studyWithStudyOrganizations.setDataCoordinatingCenter(dataCoordinatingCenter);
         studyWithStudyOrganizations.addStudySite(nciStudySite);
         studyWithStudyOrganizations.setId(1);
 
@@ -56,18 +56,17 @@ public class StudyTableModelTest extends AbstractTableModelTestCase {
         String table = model.buildStudyTable(parameterMap, studies, request);
         validateTable(table);
         assertTrue("table must contains short title", table.contains("shortTitle"));
-        assertTrue("table must contains studyFundingSponsor", table.contains("studyFundingSponsor."));
-        assertTrue("table must contains studyCoordinatingCenter", table.contains("studyCoordinatingCenter"));
+        assertTrue("table must contains studySponsor", table.contains("studySponsor."));
+        assertTrue("table must contains dataCoordinatingCenter", table.contains("dataCoordinatingCenter"));
         assertTrue("table must contains assignedIdentifier", table.contains("assignedIdentifier"));
 
         assertTrue("table must contains correct value of short title", table.contains(studyWithStudyOrganizations.getShortTitle()));
         assertTrue("table must contains correct value of assignedIdentifier", table.contains(studyWithStudyOrganizations.getAssignedIdentifier()));
-        assertTrue("table must contains correct value of studyCoordinatingCenter", table.contains(studyWithStudyOrganizations.getStudyCoordinatingCenter().getOrganization().getNciInstituteCode()));
-        assertTrue("table must contains correct value of studyFundingSponsor.", table.contains(studyWithStudyOrganizations.getStudyFundingSponsor().getOrganization().getNciInstituteCode()));
+        assertTrue("table must contains correct value of dataCoordinatingCenter", table.contains(studyWithStudyOrganizations.getDataCoordinatingCenter().getOrganization().getNciInstituteCode()));
+        assertTrue("table must contains correct value of studySponsor.", table.contains(studyWithStudyOrganizations.getStudySponsor().getOrganization().getNciInstituteCode()));
 
 
     }
 
-  
 
 }

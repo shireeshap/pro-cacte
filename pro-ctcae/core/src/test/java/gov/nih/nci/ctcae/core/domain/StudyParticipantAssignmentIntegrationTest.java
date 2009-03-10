@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.List;
  */
 public class StudyParticipantAssignmentIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
-    private StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
 
     private StudyParticipantAssignment assignment;
 
@@ -85,7 +83,4 @@ public class StudyParticipantAssignmentIntegrationTest extends AbstractHibernate
     }
 
 
-    public void setStudyParticipantAssignmentRepository(final StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {
-        this.studyParticipantAssignmentRepository = studyParticipantAssignmentRepository;
-    }
 }
