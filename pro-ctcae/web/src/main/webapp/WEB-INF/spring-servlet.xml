@@ -321,7 +321,7 @@
 
     <bean name="/participant/displaystudysites" id="displayStudySitesController"
           class="gov.nih.nci.ctcae.web.participant.DisplayStudySitesController">
-        <property name="finderRepository" ref="finderRepository"/>
+        <property name="studyRepository" ref="studyRepository"/>
     </bean>
 
 

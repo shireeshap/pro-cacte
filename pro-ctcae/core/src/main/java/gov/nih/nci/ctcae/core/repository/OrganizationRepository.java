@@ -2,14 +2,12 @@ package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.query.OrganizationHavingStudySiteQuery;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.List;
 
 //
 /**
@@ -23,15 +21,6 @@ public class OrganizationRepository implements Repository<Organization, Organiza
 
     private GenericRepository genericRepository;
 
-    /**
-     * Find organizations for study sites.
-     *
-     * @return the array list< organization>
-     */
-    public List<Organization> findOrganizationsForStudySites() {
-        OrganizationHavingStudySiteQuery query = new OrganizationHavingStudySiteQuery();
-        return genericRepository.find(query);
-    }
 
     public Organization findById(Integer id) {
         Organization organization = genericRepository.findById(Organization.class, id);

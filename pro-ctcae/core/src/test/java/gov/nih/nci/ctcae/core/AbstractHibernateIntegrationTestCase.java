@@ -26,7 +26,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected ClinicalStaff defaultClinicalStaff;
     protected StudyParticipantAssignment defaultStudyParticipantAssignment;
     protected Organization defaultOrganization;
-    protected Organization organization1;
+    protected Organization organization1, wake;
     protected Participant defaultParticipant;
     protected ParticipantRepository participantRepository;
     protected StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
@@ -84,8 +84,11 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         LEAD_CRA = Role.LEAD_CRA;
         defaultOrganization = organizationRepository.findById(105555);
         organization1 = organizationRepository.findById(104880);
+        wake = organizationRepository.findById(104878);
+        assertNotNull("must find organization", wake);
 
 
+        defaultClinicalStaff = Fixture.createClinicalStaffWithOrganization("Angello", "Williams", "-1234", defaultOrganization);
         defaultClinicalStaff = Fixture.createClinicalStaffWithOrganization("Angello", "Williams", "-1234", defaultOrganization);
         defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
         commitAndStartNewTransaction();
@@ -119,7 +122,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
     protected Study createStudy(final String assignedIdentifier) {
         Study defaultStudy = new Study();
-        defaultStudy.setShortTitle("A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)");
+        defaultStudy.setShortTitle(assignedIdentifier + "A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)");
         defaultStudy.setLongTitle("A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)");
         defaultStudy.setAssignedIdentifier(assignedIdentifier);
 
@@ -170,6 +173,8 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         jdbcTemplate.execute("delete from ORGANIZATION_CLINICAL_STAFFS");
         jdbcTemplate.execute("delete from CLINICAL_STAFFS");
         jdbcTemplate.execute("delete from USERS");
+        jdbcTemplate.execute("delete from study_participant_assignments");
+        jdbcTemplate.execute("delete from participants");
         commitAndStartNewTransaction();
     }
 
@@ -177,7 +182,6 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected void onTearDownInTransaction() throws Exception {
 
         DataAuditInfo.setLocal(null);
-//        commitAndStartNewTransaction();
         super.onTearDownInTransaction();
 
 

@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.core.security;
 
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.Persistable;
-import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.*;
 
 /**
  * @author Vinay Kumar
@@ -19,6 +17,16 @@ public class DomainObjectPrivilegeGenerator {
         } else if (Study.class.isAssignableFrom(persistable.getClass())) {
 
             return generatePrivilegeForPersistable(persistable);
+        } else if (StudyOrganization.class.isAssignableFrom(persistable.getClass())) {
+            StudyOrganization studyOrganization = (StudyOrganization) persistable;
+            return generatePrivilegeForPersistable(studyOrganization.getStudy());
+        } else if (Participant.class.isAssignableFrom(persistable.getClass())) {
+            Participant participant = (Participant) persistable;
+            String privilege = "no assignment found for this participant";
+            for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
+                privilege = generatePrivilegeForPersistable(studyParticipantAssignment.getStudySite().getStudy());
+            }
+            return privilege;
         }
         return generatePrivilegeForPersistable(persistable);
     }

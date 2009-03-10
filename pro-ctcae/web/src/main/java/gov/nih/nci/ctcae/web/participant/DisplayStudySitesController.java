@@ -4,7 +4,7 @@ import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -21,10 +21,7 @@ import java.util.List;
  */
 public class DisplayStudySitesController extends AbstractController {
 
-    /**
-     * The finder repository.
-     */
-    FinderRepository finderRepository;
+    private StudyRepository studyRepository;
 
 
     /* (non-Javadoc)
@@ -33,14 +30,18 @@ public class DisplayStudySitesController extends AbstractController {
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = new ModelAndView("participant/ajax/displaystudysites");
         Integer organizationId = Integer.parseInt(request.getParameter("organizationId"));
+
         StudyOrganizationQuery query = new StudyOrganizationQuery();
         query.filterByOrganizationId(organizationId);
         query.filterByStudySiteOnly();
-        List<StudySite> studySites = (List<StudySite>) finderRepository.find(query);
+
+
+        List<StudySite> studySites = (List<StudySite>) studyRepository.findStudyOrganizations(query);
+
         List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
         ParticipantCommand command = ParticipantControllerUtils.getParticipantCommand(request);
+
         for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
-            studyParticipantAssignment = finderRepository.findById(StudyParticipantAssignment.class, studyParticipantAssignment.getId());
             StudyOrganization studySite = studyParticipantAssignment.getStudySite();
             studySites.remove(studySite);
             studySite.getStudy().getCrfs();
@@ -60,13 +61,9 @@ public class DisplayStudySitesController extends AbstractController {
 
     }
 
-    /**
-     * Sets the finder repository.
-     *
-     * @param finderRepository the new finder repository
-     */
     @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
     }
+
 }

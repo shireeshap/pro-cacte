@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,6 +26,7 @@ import java.util.List;
 public class StudyRepository implements Repository<Study, StudyQuery> {
     private GenericRepository genericRepository;
 
+
     public void delete(Study study) {
         throw new CtcAeSystemException("delete method not supported");
 
@@ -42,6 +44,9 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
 
     }
 
+    public List<? extends StudyOrganization> findStudyOrganizations(StudyOrganizationQuery query) {
+        return genericRepository.find(query);
+    }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Study save(Study study) {

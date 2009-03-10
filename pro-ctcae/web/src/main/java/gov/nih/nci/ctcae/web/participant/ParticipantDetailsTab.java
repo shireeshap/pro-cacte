@@ -2,13 +2,16 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +25,12 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     /**
      * The organization repository.
      */
-    protected OrganizationRepository organizationRepository;
     /**
      * The crf repository.
      */
     protected CRFRepository crfRepository;
+
+    private StudyRepository studyRepository;
 
     /**
      * Instantiates a new participant details tab.
@@ -57,8 +61,19 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     public Map<String, Object> referenceData(ParticipantCommand command) {
         HashMap<String, Object> referenceData = new HashMap<String, Object>();
 
-        List<Organization> organizationsHavingStudySite = organizationRepository
-                .findOrganizationsForStudySites();
+
+        StudyOrganizationQuery query = new StudyOrganizationQuery();
+        query.filterByStudySiteOnly();
+
+
+        List<StudySite> studySites = (List<StudySite>) studyRepository.findStudyOrganizations(query);
+
+        List<Organization> organizationsHavingStudySite = new ArrayList();
+        for (StudySite studySite : studySites) {
+            if (!organizationsHavingStudySite.contains(studySite.getOrganization())) {
+                organizationsHavingStudySite.add(studySite.getOrganization());
+            }
+        }
 
         ListValues listValues = new ListValues();
         referenceData.put("genders", listValues.getGenderType());
@@ -68,14 +83,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         return referenceData;
     }
 
-    /**
-     * Sets the organization repository.
-     *
-     * @param organizationRepository the new organization repository
-     */
-    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
-        this.organizationRepository = organizationRepository;
-    }
 
     @Override
     public void postProcess(HttpServletRequest request, ParticipantCommand command, Errors errors) {
@@ -92,4 +99,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         this.crfRepository = crfRepository;
     }
 
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
+    }
 }

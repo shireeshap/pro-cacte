@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
@@ -22,11 +23,27 @@ public class ParticipantRepository implements Repository<Participant, Participan
     private GenericRepository genericRepository;
 
     public Participant findById(Integer id) {
-        return genericRepository.findById(Participant.class, id);
+        Participant participant = genericRepository.findById(Participant.class, id);
+
+        initialzeParticipant(participant);
+        return participant;
+
+    }
+
+    private void initialzeParticipant(Participant participant) {
+        for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
+            StudyOrganization studyOrganization = studyParticipantAssignment.getStudySite();
+            studyOrganization.getStudy();
+            studyOrganization.getOrganization();
+            studyParticipantAssignment.getParticipant();
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public Participant save(Participant participant) {
+        if (participant.getStudyParticipantAssignments().isEmpty()) {
+            throw new CtcAeSystemException("can not save participants without assignments");
+        }
         Participant savedParticipant = genericRepository.save(participant);
         for (StudyParticipantAssignment studyParticipantAssignment : savedParticipant.getStudyParticipantAssignments()) {
             studyParticipantAssignment.getStudyParticipantCrfs();

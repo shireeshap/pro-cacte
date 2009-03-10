@@ -105,15 +105,6 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     }
 
-    public void testFindOrganizationsForStudySites() {
-        endTransaction();
-        startNewTransaction();
-
-        Collection<? extends Organization> organizations = organizationRepository.findOrganizationsForStudySites();
-        assertFalse(organizations.isEmpty());
-
-
-    }
 
     public void testAddStudyFundingSponsorInCreateStudy() {
         assertNotNull("must save funding sponsor", studyWithStudyOrganizations.getStudySponsor());
