@@ -69,7 +69,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         return defaultSelenium;
     }
 
-    protected void createStudy(String study) throws InterruptedException {
+    protected void createStudyOnUI(String study) throws InterruptedException {
         String shortTitle = study;
         String longTitle = study;
         String assignedIdentifier = study;

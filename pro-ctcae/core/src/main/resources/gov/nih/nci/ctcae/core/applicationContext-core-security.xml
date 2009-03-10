@@ -14,6 +14,28 @@
     <tx:annotation-driven proxy-target-class="true"/>
 
 
+    <!-- since we use global-security...we use the custom-after-invocation-provider to register the instances -->
+    <!---->
+    <bean id="afterInvocationManager"
+          class="org.springframework.security.afterinvocation.AfterInvocationProviderManager">
+        <property name="providers">
+            <list>
+                <ref local="domainObjectAfterInvocationProvider"/>
+                <ref local="domainObjectCollectionAfterInvocationProvider"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="domainObjectAfterInvocationProvider"
+          class="gov.nih.nci.ctcae.core.security.afterinvocation.DomainObjectAfterInvocationProvider">
+        <security:custom-after-invocation-provider/>
+    </bean>
+    <bean id="domainObjectCollectionAfterInvocationProvider"
+          class="gov.nih.nci.ctcae.core.security.afterinvocation.DomainObjectCollectionAfterInvocationProvider">
+        <security:custom-after-invocation-provider/>
+    </bean>
+
+
     <security:global-method-security access-decision-manager-ref="accessDecisionManager">
         <security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.save(..))"
                                    access="PRIVILEGE_CREATE_FORM"/>

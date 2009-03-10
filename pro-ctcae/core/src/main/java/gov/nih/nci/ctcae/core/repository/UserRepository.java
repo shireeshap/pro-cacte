@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.RolePrivilegeQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
+import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,6 +39,8 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     private GenericRepository genericRepository;
 
     public User loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
+
+        DomainObjectPrivilegeGenerator privilegeGenerator = new DomainObjectPrivilegeGenerator();
         UserQuery userQuery = new UserQuery();
         userQuery.filterByUserName(userName);
         List<User> users = new ArrayList<User>(find(userQuery));
@@ -51,6 +54,8 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
         Set<Role> roles = new HashSet<Role>();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+
+        List<GrantedAuthority> instanceGrantedAuthorities = new ArrayList<GrantedAuthority>();
 
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByUserId(user.getId());
@@ -66,6 +71,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : StudyOrganizationClinicalStaffs) {
                 Role role = studyOrganizationClinicalStaff.getRole();
                 roles.add(role);
+                instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilegeGenerator.generatePrivilege(studyOrganizationClinicalStaff.getStudyOrganization().getStudy())));
             }
 
 
@@ -80,6 +86,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                 }
             }
         }
+        grantedAuthorities.addAll(instanceGrantedAuthorities);
         user.setGrantedAuthorities(grantedAuthorities.toArray(new GrantedAuthority[]{}));
         return user;
     }

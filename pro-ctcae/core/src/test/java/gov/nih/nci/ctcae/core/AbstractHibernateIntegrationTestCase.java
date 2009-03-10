@@ -51,7 +51,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected Role PI;
     protected Role ODC;
     protected Role LEAD_CRA;
-    protected final StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
+    protected StudyOrganizationClinicalStaff studyOrganizationClinicalStaff;
     protected FundingSponsor fundingSponsor;
     protected LeadStudySite leadStudySite;
 
@@ -105,16 +105,23 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_STUDY"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_STUDY"),
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_PARTICIPANT"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_PARTICIPANT"),
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_FORM"), new GrantedAuthorityImpl("PRIVILEGE_MANAGE_FORM"), new GrantedAuthorityImpl("PRIVILEGE_RELEASE_FORM"),
-                new GrantedAuthorityImpl("PRIVILEGE_CREATE_CLINICAL_STAFF"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_CLINICAL_STAFF")
+                new GrantedAuthorityImpl("PRIVILEGE_CREATE_CLINICAL_STAFF"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_CLINICAL_STAFF"),
+                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Study.GROUP")
         };
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, Fixture.DEFAULT_PASSWORD, authorities);
         SecurityContextHolder.getContext().setAuthentication(token);
 
 
-        defaultStudy = new Study();
+        defaultStudy = createStudy("-10001");
+
+
+    }
+
+    protected Study createStudy(final String assignedIdentifier) {
+        Study defaultStudy = new Study();
         defaultStudy.setShortTitle("A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)");
         defaultStudy.setLongTitle("A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)");
-        defaultStudy.setAssignedIdentifier("-10001");
+        defaultStudy.setAssignedIdentifier(assignedIdentifier);
 
         DataCoordinatingCenter dataCoordinatingCenter = new DataCoordinatingCenter();
         dataCoordinatingCenter.setOrganization(defaultOrganization);
@@ -146,7 +153,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
         commitAndStartNewTransaction();
 
-
+        return defaultStudy;
     }
 
 
@@ -216,18 +223,10 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         assertNotNull("must find default clinical staff. ", odcClinicalStaff);
         assertNotNull("must find default clinical staff. ", siteCRAClinicalStaff);
 
-        studyOrganizationClinicalStaff.setRole(LEAD_CRA);
-        studyOrganizationClinicalStaff.setOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
+        studyOrganizationClinicalStaff = addLeadCRA(defaultOrganizationClinicalStaff, defaultStudy);
 
-        defaultStudy.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
-        addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+        StudyOrganizationClinicalStaff pi = addPI(clinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy);
 
-        StudyOrganizationClinicalStaff pi = new StudyOrganizationClinicalStaff();
-        pi.setRole(PI);
-        pi.setOrganizationClinicalStaff(clinicalStaff.getOrganizationClinicalStaffs().get(0));
-        defaultStudy.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(pi);
-
-        addStudyOrganizationClinicalStaff(pi);
 
         StudyOrganizationClinicalStaff odc = new StudyOrganizationClinicalStaff();
         odc.setRole(ODC);
@@ -275,6 +274,25 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         addResearchNurseAndTreatingPhysician();
     }
 
+    protected StudyOrganizationClinicalStaff addPI(OrganizationClinicalStaff organizationClinicalStaff, Study study) {
+        StudyOrganizationClinicalStaff pi = new StudyOrganizationClinicalStaff();
+        pi.setRole(PI);
+        pi.setOrganizationClinicalStaff(organizationClinicalStaff);
+        study.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(pi);
+        addStudyOrganizationClinicalStaff(pi);
+        return pi;
+    }
+
+    protected StudyOrganizationClinicalStaff addLeadCRA(OrganizationClinicalStaff organizationClinicalStaff, Study study) {
+        StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
+        studyOrganizationClinicalStaff.setRole(LEAD_CRA);
+        studyOrganizationClinicalStaff.setOrganizationClinicalStaff(organizationClinicalStaff);
+
+        study.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+        addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+        return studyOrganizationClinicalStaff;
+    }
+
     private void addResearchNurseAndTreatingPhysician() {
         ClinicalStaff c = Fixture.createClinicalStaffWithOrganization("Brian", "Kirchner", "-1235", defaultOrganization);
         c = clinicalStaffRepository.save(c);
@@ -317,10 +335,12 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = defaultStudy.getAllStudyOrganizationClinicalStaffs();
 
 
+        defaultStudySite = defaultStudy.getStudySites().get(0);
         assertFalse("must save study clinical staff", studyOrganizationClinicalStaffs.isEmpty());
 
         studyOrganizationClinicalStaff = defaultStudy.getStudyOrganizationClinicalStaffByRole(studyOrganizationClinicalStaff.getRole());
 
+        assertNotNull("must save study clinical staff", studyOrganizationClinicalStaff);
         assertNotNull("must save study clinical staff", studyOrganizationClinicalStaff.getId());
 
 

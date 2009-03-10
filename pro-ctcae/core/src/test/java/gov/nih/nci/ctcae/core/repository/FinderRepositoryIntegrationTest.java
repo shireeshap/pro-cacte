@@ -41,7 +41,7 @@ public class FinderRepositoryIntegrationTest extends AbstractHibernateIntegratio
 
     }
 
-    private Study createStudy() {
+    protected Study createStudy() {
         Study study = new Study();
         study.setShortTitle("study short title");
         study.setLongTitle("study long title");
