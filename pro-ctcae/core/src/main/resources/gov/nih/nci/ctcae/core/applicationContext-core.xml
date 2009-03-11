@@ -183,6 +183,9 @@
     <bean id="studyRepository" class="gov.nih.nci.ctcae.core.repository.StudyRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
+    <bean id="studyOrganizationRepository" class="gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
     <bean id="clinicalStaffRepository" class="gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository"
           p:genericRepository-ref="genericRepository" p:userRepository-ref="userRepository">
     </bean>

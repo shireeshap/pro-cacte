@@ -20,6 +20,9 @@
     <logger name="gov.nih.nci.ctcae">
         <level value="debug"/>
     </logger>
+    <logger name="org.springframework.security">
+        <level value="debug"/>
+    </logger>
     <logger name="org">
         <level value="error"/>
     </logger>

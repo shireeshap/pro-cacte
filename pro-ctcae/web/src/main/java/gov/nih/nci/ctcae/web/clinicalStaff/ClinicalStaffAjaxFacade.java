@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,11 +33,12 @@ public class ClinicalStaffAjaxFacade {
      * The clinical staff repository.
      */
     private ClinicalStaffRepository clinicalStaffRepository;
+    private OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
 
     public List<OrganizationClinicalStaff> matchOrganizationClinicalStaffByStudyOrganizationId(final String text, Integer studyOrganizationId) {
 
         logger.info(String.format("in match matchOrganizationClinicalStaffByOrganizationId method. Search string :%s and studyOrganizationId=%s", text, studyOrganizationId));
-        List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaffRepository.findByStudyOrganizationId(text, studyOrganizationId);
+        List<OrganizationClinicalStaff> organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId(text, studyOrganizationId);
 
         return ObjectTools.reduceAll(organizationClinicalStaffs, "id", "displayName");
 
@@ -110,4 +112,8 @@ public class ClinicalStaffAjaxFacade {
         this.clinicalStaffRepository = clinicalStaffRepository;
     }
 
+    @Required
+    public void setOrganizationClinicalStaffRepository(OrganizationClinicalStaffRepository organizationClinicalStaffRepository) {
+        this.organizationClinicalStaffRepository = organizationClinicalStaffRepository;
+    }
 }

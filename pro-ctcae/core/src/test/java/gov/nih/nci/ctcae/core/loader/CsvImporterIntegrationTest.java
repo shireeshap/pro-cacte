@@ -3,7 +3,9 @@ package gov.nih.nci.ctcae.core.loader;
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.csv.loader.CsvImporter;
 import gov.nih.nci.ctcae.core.domain.ProCtc;
+import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import org.springframework.beans.factory.annotation.Required;
 
 import java.io.IOException;
 
@@ -15,6 +17,7 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
 
     private CsvImporter csvImporter;
     private GenericRepository genericRepository;
+    protected CtcTermRepository ctcTermRepository;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
@@ -51,5 +54,11 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
+
+    @Required
+    public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
+        this.ctcTermRepository = ctcTermRepository;
+    }
+
 
 }

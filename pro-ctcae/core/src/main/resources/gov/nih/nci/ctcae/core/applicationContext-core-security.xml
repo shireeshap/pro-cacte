@@ -64,6 +64,10 @@
                 expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.*(..))"
                 access="PRIVILEGE_ADMIN"/>
 
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationRepository.find*(..))"
+                access="IS_AUTHENTICATED_FULLY"/>
+
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.save(..))"
@@ -85,6 +89,10 @@
                 expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.*(..))"
                 access="PRIVILEGE_ADMIN"/>
 
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository.find*(..))"
+                access="PRIVILEGE_SEARCH_STUDY"/>
+
         <!--<security:protect-pointcut-->
         <!--expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.save(..))"-->
         <!--access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF"/>-->
@@ -96,6 +104,18 @@
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.delete(..))"
                 access="PRIVILEGE_ADMIN"/>
+
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.findByStudyOrganizationId(..))"
+                access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.findById(..))"
+                access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
+
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.*(..))"
+                access="PRIVILEGE_ADMIN"/>
+
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.ParticipantRepository.save(..))"

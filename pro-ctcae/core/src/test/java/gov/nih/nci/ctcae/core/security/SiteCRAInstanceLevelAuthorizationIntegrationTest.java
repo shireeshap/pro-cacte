@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.core.security;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
@@ -15,36 +14,32 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Mar 3, 2009
  */
-public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractInstanceLevelAuthorizationIntegrationTest {
+public class SiteCRAInstanceLevelAuthorizationIntegrationTest extends AbstractInstanceLevelAuthorizationIntegrationTest {
 
-    private User user, anotherUser;
     protected CRF defaultCRF;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
-        addLeadCRA(defaultOrganizationClinicalStaff, defaultStudy);
-        user = defaultStudy.getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getUser();
-
-        study1.getLeadStudySite().setOrganization(wake);
-        study2.getLeadStudySite().setOrganization(wake);
-
-        addLeadCRA(anotherClinicalStaff.getOrganizationClinicalStaffs().get(0), study1);
-        addLeadCRA(anotherClinicalStaff.getOrganizationClinicalStaffs().get(0), study2);
 
 
+        addStudyOrganizationClinicalStaff(addSiteCRA(defaultOrganizationClinicalStaff, defaultStudy));
+        user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA).getOrganizationClinicalStaff().getClinicalStaff().getUser();
+
+        addSiteCRA(anotherClinicalStaff.getOrganizationClinicalStaffs().get(0), study1);
+        addSiteCRA(anotherClinicalStaff.getOrganizationClinicalStaffs().get(0), study2);
         study2 = studyRepository.save(study2);
         study1 = studyRepository.save(study1);
         commitAndStartNewTransaction();
 
-        anotherUser = study1.getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getUser();
-        assertNotNull("must save another lead cra also", anotherUser);
+        anotherUser = study1.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA).getOrganizationClinicalStaff().getClinicalStaff().getUser();
+        assertNotNull("must save another user also", anotherUser);
 
 
     }
 
 
-    public void testOrganizationInstanceSecurityForCreateClinicalStaff() throws Exception {
+//    public void testOrganizationInstanceSecurityForCreateClinicalStaff() throws Exception {
 //        login(user);
 //
 //        List<Organization> organizations = (List<Organization>) organizationRepository.find(new OrganizationQuery());
@@ -58,9 +53,8 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
 //        } catch (AccessDeniedException e) {
 //
 //        }
-
-        fail("fix this test case");
-    }
+//
+//    }
 
     public void testOrganizationClinicalStaffSecurityOnFind() throws Exception {
 
@@ -95,7 +89,7 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
 
         assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from PARTICIPANTS") >= 2);
         Collection<Participant> participants = participantRepository.find(new ParticipantQuery());
-        assertFalse("must find crfs", participants.isEmpty());
+        assertFalse("must find participants", participants.isEmpty());
         assertEquals("must see two participants only because these participants has assignments  on user's study", 2, participants.size());
         assertTrue("must see his own participants only", participants.contains(participant1));
         assertTrue("must see his own participants only ", participants.contains(participant2));
@@ -164,13 +158,12 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
 
     }
 
-    public void testCreateScheduleSecurity() throws Exception {
-
-
+    public void testCreateCRFScheduleInstanceSecurity() throws Exception {
+        CRF crf = createCRF(defaultStudy);
+        crfRepository.updateStatusToReleased(crf);
         login(user);
         Participant participant = createParticipant("John", defaultStudy.getStudySites().get(0));
 
-        CRF crf = createCRF(defaultStudy);
 
         assertEquals("must save participant", participant, participant);
 
@@ -194,179 +187,6 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
     }
 
 
-    public void testStudyInstanceSecurity() throws Exception {
-        login(user);
-
-        Collection<Study> studies = studyRepository.find(new StudyQuery());
-        assertFalse("must find studies", studies.isEmpty());
-        assertEquals("must see one study only because this user is lead CRA on that study only", 1, studies.size());
-        assertEquals("must see his own study only", defaultStudy, studies.iterator().next());
-
-
-    }
-
-    public void testCRFSecurityOnFind() throws Exception {
-        login(anotherUser);
-        createCRF(study1);
-        createCRF(study1);
-
-        login(user);
-        defaultCRF = createCRF(defaultStudy);
-
-        login(user);
-
-        assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from crfs") >= 2);
-        Collection<CRF> crfs = crfRepository.find(new CRFQuery());
-        assertFalse("must find crfs", crfs.isEmpty());
-        assertEquals("must see one crf only because this crf is created on user's study", 1, crfs.size());
-        assertEquals("must see one crf only because this crf is created on user's study", defaultCRF, crfs.iterator().next());
-
-
-    }
-
-    public void testCRFSecurityOnFindMultiple() throws Exception {
-        login(user);
-        defaultCRF = createCRF(defaultStudy);
-
-        login(anotherUser);
-        CRF crf1 = createCRF(study1);
-        CRF crf2 = createCRF(study1);
-
-
-        assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from crfs") >= 2);
-        Collection<CRF> crfs = crfRepository.find(new CRFQuery());
-        assertFalse("must find crfs", crfs.isEmpty());
-        assertEquals("must see two crfs only because these crfs are created on user's study", 2, crfs.size());
-        assertTrue("must see his own crf only", crfs.contains(crf1));
-        assertTrue("must see his own crf only ", crfs.contains(crf2));
-
-
-    }
-
-    public void testCRFSecurityOnFindById() throws Exception {
-        login(anotherUser);
-        defaultCRF = createCRF(study1);
-
-        CRF crf = crfRepository.findById(defaultCRF.getId());
-        assertEquals("must see this crf  because this crf is created on user's study", defaultCRF, crf);
-
-        login(user);
-        try {
-            crfRepository.findById(defaultCRF.getId());
-            fail("must not see crfs for other studies");
-        } catch (AccessDeniedException e) {
-        }
-    }
-
-    public void testCRFSecurityOnFindSingle() throws Exception {
-        login(anotherUser);
-        defaultCRF = createCRF(study1);
-
-        CRFQuery query = new CRFQuery();
-        query.filterByTitleExactMatch(defaultCRF.getTitle());
-        CRF crf = crfRepository.findSingle(query);
-        assertEquals("must see this crf  because this crf is created on user's study", defaultCRF, crf);
-
-        login(user);
-        try {
-            query = new CRFQuery();
-            query.filterByTitleExactMatch(defaultCRF.getTitle());
-
-            crfRepository.findSingle(query);
-            fail("must not see crfs for other studies");
-        } catch (AccessDeniedException e) {
-        }
-    }
-
-
-    public void testCRFSecurityOnCreateAndEdit() throws Exception {
-
-        login(user);
-        CRF crf = createCRF(defaultStudy);
-
-
-        crf.setStudy(study1);
-        try {
-            crf = crfRepository.save(crf);
-            fail("must edit CRF for his own studies only");
-        } catch (AccessDeniedException e) {
-
-        }
-
-        try {
-            createCRF(study1);
-            fail("must save CRF for his own studies only");
-        } catch (AccessDeniedException e) {
-
-        }
-
-
-    }
-
-    public void testCRFSecurityOnVersion() throws Exception {
-
-        login(user);
-        CRF crf = createCRF(defaultStudy);
-        crf = crfRepository.versionCrf(crf);
-        crf.setStudy(study1);
-        try {
-            crfRepository.versionCrf(crf);
-            fail("must not version CRF on other studies");
-        } catch (AccessDeniedException e) {
-
-        }
-
-
-    }
-
-//    public void testCRFSecurityOnCopy() throws Exception {
-//
-//        login(user);
-//        CRF crf = createCRF(defaultStudy);
-//        crf = crfRepository.copy(crf);
-//        crf.setStudy(study1);
-//        try {
-//            crfRepository.copy(crf);
-//            fail("must not copy CRF on other studies");
-//        } catch (AccessDeniedException e) {
-//
-//        }
-//
-//
-//    }
-
-    public void testCRFSecurityOnRelease() throws Exception {
-
-        login(user);
-        CRF crf = createCRF(defaultStudy);
-        crfRepository.updateStatusToReleased(crf);
-        crf = crfRepository.findById(crf.getId());
-        crf.setStudy(study1);
-        try {
-            crfRepository.updateStatusToReleased(crf);
-            fail("must not update CRF on other studies");
-        } catch (AccessDeniedException e) {
-
-        }
-
-
-    }
-
-
-    public void testStudyInstanceSecurityForCreateStudy() throws Exception {
-
-        //this user can see two studies
-        login(anotherUser);
-        try {
-            defaultStudy.setAssignedIdentifier("test");
-            studyRepository.save(defaultStudy);
-            fail("user must not edit other studies");
-        } catch (AccessDeniedException e) {
-
-        }
-
-    }
-
     public void testStudyInstanceSecurityForMultipleStudies() throws Exception {
 
         //this user can see two studies
@@ -380,19 +200,6 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
 
     }
 
-    public void testStudyInstanceSecurityForStudyOrganizations() throws Exception {
-
-        login(user);
-        List<? extends StudyOrganization> studyOrganizations = (List<? extends StudyOrganization>) studyOrganizationRepository.find(new StudyOrganizationQuery());
-
-        assertFalse("must find study organizations", studyOrganizations.isEmpty());
-        assertEquals("must see all study organizations for his own study only (4 +2 study site)", 6, studyOrganizations.size());
-        for (StudyOrganization studyOrganization : studyOrganizations) {
-            assertEquals("must see study organizations of his own study only", studyOrganization.getStudy(), defaultStudy);
-        }
-
-
-    }
 
     public void testStudyInstanceSecurityByUsingFindById() throws Exception {
 
@@ -429,6 +236,19 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
 
         }
 
+
+    }
+
+    public void testStudyOrganizationsInstanceSecurity() throws Exception {
+
+        login(anotherUser);
+        Collection<StudyOrganization> studyOrganizations = studyOrganizationRepository.find(new StudyOrganizationQuery());
+
+        assertFalse("must find study organizations", studyOrganizations.isEmpty());
+        assertEquals("must see how own study organizations only (or only 1 study site for each study)", 2, studyOrganizations.size());
+        for (StudyOrganization studyOrganization : studyOrganizations) {
+            assertEquals("must see how own study organizations only (or only 1 study site for each study)", wake, studyOrganization.getOrganization());
+        }
 
     }
 

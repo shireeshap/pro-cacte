@@ -19,9 +19,10 @@ import java.util.List;
  * @crated Mar 9, 2009
  */
 public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalDataSourceSpringContextTests {
-    protected CtcTermRepository ctcTermRepository;
     protected ProCtcTermRepository proCtcTermRepository;
     protected ClinicalStaffRepository clinicalStaffRepository;
+    protected OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
+
     protected OrganizationRepository organizationRepository;
     protected ClinicalStaff defaultClinicalStaff;
     protected StudyParticipantAssignment defaultStudyParticipantAssignment;
@@ -35,6 +36,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected StudySite studySite1;
     protected StudyRepository studyRepository;
     protected UserRepository userRepository;
+    protected StudyOrganizationRepository studyOrganizationRepository;
     public DaoAuthenticationProvider daoAuthenticationProvider;
     protected CRFRepository crfRepository;
     protected User defaultUser;
@@ -48,9 +50,6 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml",
             "classpath*:" + "/*-context-test.xml"};
     protected OrganizationClinicalStaff defaultOrganizationClinicalStaff;
-    protected Role PI;
-    protected Role ODC;
-    protected Role LEAD_CRA;
     protected StudyOrganizationClinicalStaff studyOrganizationClinicalStaff;
     protected FundingSponsor fundingSponsor;
     protected LeadStudySite leadStudySite;
@@ -79,27 +78,14 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
 
-        PI = Role.PI;
-        ODC = Role.ODC;
-        LEAD_CRA = Role.LEAD_CRA;
-        defaultOrganization = organizationRepository.findById(105555);
-        organization1 = organizationRepository.findById(104880);
-        wake = organizationRepository.findById(104878);
-        assertNotNull("must find organization", wake);
 
-
-        defaultClinicalStaff = Fixture.createClinicalStaffWithOrganization("Angello", "Williams", "-1234", defaultOrganization);
-        defaultClinicalStaff = Fixture.createClinicalStaffWithOrganization("Angello", "Williams", "-1234", defaultOrganization);
+        defaultClinicalStaff = Fixture.createClinicalStaff("Angello", "Williams", "-1234");
         defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
         commitAndStartNewTransaction();
         assertNotNull("must find default clinical staff. ", defaultClinicalStaff);
 
         defaultUser = defaultClinicalStaff.getUser();
         assertNotNull("must find user. ", defaultUser);
-
-        defaultOrganizationClinicalStaff = defaultClinicalStaff.getOrganizationClinicalStaffs().get(0);
-        assertNotNull("must find default clinical staff. ", defaultOrganizationClinicalStaff);
-
 
         //this is just the hack  for creating CCA (or first system user)
         User loadedUser = userRepository.loadUserByUsername(defaultUser.getUsername());
@@ -109,10 +95,28 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_PARTICIPANT"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_PARTICIPANT"),
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_FORM"), new GrantedAuthorityImpl("PRIVILEGE_MANAGE_FORM"), new GrantedAuthorityImpl("PRIVILEGE_RELEASE_FORM"),
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_CLINICAL_STAFF"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_CLINICAL_STAFF"),
-                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Study.GROUP")
+                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Study.GROUP"),
+                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Organization.GROUP"),
+                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.CRF.GROUP")
         };
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, Fixture.DEFAULT_PASSWORD, authorities);
         SecurityContextHolder.getContext().setAuthentication(token);
+
+
+        defaultOrganization = organizationRepository.findById(105555);
+        organization1 = organizationRepository.findById(104880);
+        wake = organizationRepository.findById(104878);
+        assertNotNull("must find organization", wake);
+
+
+        defaultOrganizationClinicalStaff = new OrganizationClinicalStaff();
+        defaultOrganizationClinicalStaff.setOrganization(defaultOrganization);
+        defaultClinicalStaff.addOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
+        defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
+        commitAndStartNewTransaction();
+
+        defaultOrganizationClinicalStaff = defaultClinicalStaff.getOrganizationClinicalStaffs().get(0);
+        assertNotNull("must find default clinical staff. ", defaultOrganizationClinicalStaff);
 
 
         defaultStudy = createStudy("-10001");
@@ -203,7 +207,6 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
     protected void insertDefaultUsers() throws Exception {
         super.onSetUpInTransaction();
-
         ClinicalStaff clinicalStaff = Fixture.createClinicalStaffWithOrganization("Bob", "Williams", "-12345", defaultOrganization);
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
 
@@ -229,11 +232,11 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
         studyOrganizationClinicalStaff = addLeadCRA(defaultOrganizationClinicalStaff, defaultStudy);
 
-        StudyOrganizationClinicalStaff pi = addPI(clinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy);
+        addPI(clinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy);
 
 
         StudyOrganizationClinicalStaff odc = new StudyOrganizationClinicalStaff();
-        odc.setRole(ODC);
+        odc.setRole(Role.ODC);
         odc.setOrganizationClinicalStaff(odcClinicalStaff.getOrganizationClinicalStaffs().get(0));
         defaultStudy.getDataCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(odc);
 
@@ -253,13 +256,11 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
         addStudyOrganizationClinicalStaff(sitePI);
 
-        StudyOrganizationClinicalStaff siteCRA = new StudyOrganizationClinicalStaff();
-        siteCRA.setRole(Role.SITE_CRA);
-        siteCRA.setOrganizationClinicalStaff(siteCRAClinicalStaff.getOrganizationClinicalStaffs().get(0));
-        defaultStudySite.addOrUpdateStudyOrganizationClinicalStaff(siteCRA);
-
+        StudyOrganizationClinicalStaff siteCRA = addSiteCRA(siteCRAClinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy);
         addStudyOrganizationClinicalStaff(siteCRA);
 
+
+        login(defaultUser);
 
         defaultParticipant = Fixture.createParticipant("Bruce", "Tanner", "P002");
         defaultStudyParticipantAssignment = new StudyParticipantAssignment();
@@ -278,9 +279,17 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         addResearchNurseAndTreatingPhysician();
     }
 
+    protected StudyOrganizationClinicalStaff addSiteCRA(OrganizationClinicalStaff organizationClinicalStaff, Study study) {
+        StudyOrganizationClinicalStaff siteCRA = new StudyOrganizationClinicalStaff();
+        siteCRA.setRole(Role.SITE_CRA);
+        siteCRA.setOrganizationClinicalStaff(organizationClinicalStaff);
+        study.getStudySites().get(0).addOrUpdateStudyOrganizationClinicalStaff(siteCRA);
+        return siteCRA;
+    }
+
     protected StudyOrganizationClinicalStaff addPI(OrganizationClinicalStaff organizationClinicalStaff, Study study) {
         StudyOrganizationClinicalStaff pi = new StudyOrganizationClinicalStaff();
-        pi.setRole(PI);
+        pi.setRole(Role.PI);
         pi.setOrganizationClinicalStaff(organizationClinicalStaff);
         study.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(pi);
         addStudyOrganizationClinicalStaff(pi);
@@ -289,7 +298,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
     protected StudyOrganizationClinicalStaff addLeadCRA(OrganizationClinicalStaff organizationClinicalStaff, Study study) {
         StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
-        studyOrganizationClinicalStaff.setRole(LEAD_CRA);
+        studyOrganizationClinicalStaff.setRole(Role.LEAD_CRA);
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(organizationClinicalStaff);
 
         study.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
@@ -403,8 +412,15 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         this.studyParticipantAssignmentRepository = studyParticipantAssignmentRepository;
     }
 
+
     @Required
-    public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
-        this.ctcTermRepository = ctcTermRepository;
+    public void setOrganizationClinicalStaffRepository(OrganizationClinicalStaffRepository organizationClinicalStaffRepository) {
+
+        this.organizationClinicalStaffRepository = organizationClinicalStaffRepository;
+    }
+
+    @Required
+    public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
+        this.studyOrganizationRepository = studyOrganizationRepository;
     }
 }

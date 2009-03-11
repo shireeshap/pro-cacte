@@ -44,7 +44,6 @@ public class PIMethodAuthorizationIntegrationTest extends MethodAuthorizationInt
         List<String> allowedMethods = allowedMethodsMap.get(ClinicalStaffRepository.class);
         allowedMethods.add(SEARCH_CLINICAL_STAFF_METHOD);
 
-        allowedMethods.add(SEARCH_CLINICAL_STAFF_BY_SS_METHOD);
         allowedMethods.add(SEARCH_CLINICAL_STAFF_BY_SS_ROLE_METHOD);
         allowedMethods.add(SEARCH_CLINICAL_STAFF_METHOD_BY_ID);
         allowedMethods.add(SEARCH_SINGLE_CLINICAL_STAFF_METHOD);
@@ -57,6 +56,16 @@ public class PIMethodAuthorizationIntegrationTest extends MethodAuthorizationInt
 
     }
 
+    public void testAuthorizeUserForOrganizationClinicalStaff() throws Exception {
+
+        List<String> allowedMethods = allowedMethodsMap.get(ClinicalStaffRepository.class);
+
+        allowedMethods.add(SEARCH_CLINICAL_STAFF_BY_SS_METHOD);
+
+        authorizeAndUnAuthorizeMethods(organizationClinicalStaffRepository, OrganizationClinicalStaffRepository.class, allowedMethods);
+
+
+    }
 
     public void testAuthorizeUserForCRF() throws Exception {
 
@@ -64,8 +73,8 @@ public class PIMethodAuthorizationIntegrationTest extends MethodAuthorizationInt
 
         allowedMethods.add(CREATE_FORM_METHOD);
         allowedMethods.add(SEARCH_SINGLE_FORM_METHOD);
-        allowedMethods.add(MANAGE_FORM_METHOD);
-        allowedMethods.add(SEARCH_FORM_METHOD);
+        allowedMethods.add(FIND_BY_ID_METHOD);
+        allowedMethods.add(FIND_METHOD);
         allowedMethods.add(RELEASE_FORM_METHOD);
         allowedMethods.add(VERSION_FORM_METHOD);
         allowedMethods.add(ADD_FORM_SCHEDULE_CYFLE_METHOD);

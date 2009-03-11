@@ -32,7 +32,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
     protected ClinicalStaffRepository clinicalStaffRepository;
     protected StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
     protected OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
-
+    protected StudyOrganizationRepository studyOrganizationRepository;
     protected ParticipantRepository participantRepository;
     private PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
     /**
@@ -84,6 +84,9 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
 
         binder.registerCustomEditor(RoleStatus.class, new EnumByNameEditor<RoleStatus>(RoleStatus.class));
         binder.registerCustomEditor(StudyParticipantAssignment.class, new RepositoryBasedEditor(studyParticipantAssignmentRepository, StudyParticipantAssignment.class));
+
+        binder.registerCustomEditor(StudyOrganization.class, new RepositoryBasedEditor(studyOrganizationRepository, StudyOrganization.class));
+
     }
 
     /* (non-Javadoc)
@@ -249,5 +252,10 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
     @Required
     public void setPrivilegeAuthorizationCheck(PrivilegeAuthorizationCheck privilegeAuthorizationCheck) {
         this.privilegeAuthorizationCheck = privilegeAuthorizationCheck;
+    }
+
+    @Required
+    public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
+        this.studyOrganizationRepository = studyOrganizationRepository;
     }
 }

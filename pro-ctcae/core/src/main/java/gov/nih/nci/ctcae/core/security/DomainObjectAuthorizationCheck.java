@@ -8,6 +8,8 @@ import org.springframework.security.AccessDeniedException;
 import org.springframework.security.Authentication;
 import org.springframework.security.GrantedAuthority;
 
+import java.util.List;
+
 /**
  * @author Vinay Kumar
  * @crated Mar 10, 2009
@@ -15,10 +17,9 @@ import org.springframework.security.GrantedAuthority;
 public class DomainObjectAuthorizationCheck {
 
     private DomainObjectPrivilegeGenerator privilegeGenerator;
-
+    private DomainObjectGroupPrivilegeGenerator groupPrivilegeGenerator;
     private static final Log logger = LogFactory.getLog(DomainObjectAuthorizationCheck.class);
 
-    private DomainObjectGroupPrivilegeGenerator groupPrivilegeGenerator;
 
     public DomainObjectAuthorizationCheck() {
         privilegeGenerator = new DomainObjectPrivilegeGenerator();
@@ -29,19 +30,19 @@ public class DomainObjectAuthorizationCheck {
     public boolean authorize(Authentication authentication, Persistable persistable) throws AccessDeniedException {
 
 
-        String groupPrivilege = groupPrivilegeGenerator.generatePrivilege(persistable);
+        List<String> privileges = privilegeGenerator.generatePrivilege(persistable);
+        for (String privilege : privileges) {
+            if (hasPermission(authentication, persistable, privilege)) {
+                return true;
+            }
+        }
 
+        String groupPrivilege = groupPrivilegeGenerator.generatePrivilege(persistable);
         if (hasPermission(authentication, persistable, groupPrivilege)) {
             return true;
         }
-
-        String privilege = privilegeGenerator.generatePrivilege(persistable);
-        if (hasPermission(authentication, persistable, privilege)) {
-            return true;
-        }
-
-        logger.debug(String.format("User %s is not having privilege %s or %s on %s object to access it. So do not return this object.",
-                authentication.getName(), groupPrivilege, privilege, persistable.getClass().getName()));
+        logger.debug(String.format("User %s is not having any of privileges %s or %s  on %s object to access it. So do not return this object.",
+                authentication.getName(), privileges, groupPrivilege, persistable.getClass().getName()));
         return false;
 
     }

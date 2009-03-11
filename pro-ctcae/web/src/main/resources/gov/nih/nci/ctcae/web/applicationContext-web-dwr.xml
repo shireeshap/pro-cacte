@@ -21,6 +21,7 @@
     <bean id="clinicalStaffAjaxFacade"
           class="gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffAjaxFacade">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
+        <property name="organizationClinicalStaffRepository" ref="organizationClinicalStaffRepository"/>
     </bean>
 
     <bean id="participantAjaxFacade"
@@ -35,9 +36,8 @@
     </bean>
     <bean id="crfAjaxFacade"
           class="gov.nih.nci.ctcae.web.form.CrfAjaxFacade">
-          <property name="crfRepository" ref="crfRepository"/>
-      </bean>
-
+        <property name="crfRepository" ref="crfRepository"/>
+    </bean>
 
 
 </beans>

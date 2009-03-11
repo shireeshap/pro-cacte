@@ -147,6 +147,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcRepository.
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcValidValueRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyOrganizationRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantAssignmentRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfAddedQuestionRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfRepository.java -text
@@ -254,6 +255,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.j
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepositoryTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/AbstractInstanceLevelAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/CCAMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/LeadCRAInstanceLevelAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/LeadCRAMethodAuthorizationIntegrationTest.java -text
@@ -261,6 +263,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/MethodAuthorization
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/ODCMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/PIMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/ResearchNurseMethodAuthorizationIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/SiteCRAInstanceLevelAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/SiteCRAMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/SitePIMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/TreatingPhysicanMethodAuthorizationIntegrationTest.java -text
@@ -1010,6 +1013,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCo
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendarTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/CCAAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/CommonUrlAuthorizationIntegrationTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/DomainObjectPrivilegeGeneratorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/LeadCRAAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/ODCUrlAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/PIAuthorizationIntegrationTest.java -text

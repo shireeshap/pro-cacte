@@ -1,11 +1,9 @@
 package gov.nih.nci.ctcae.web;
 
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.RoleStatus;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
+import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.web.editor.EnumByNameEditor;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
@@ -31,6 +29,8 @@ public class CtcAeSimpleFormController extends SimpleFormController {
 
     protected OrganizationRepository organizationRepository;
     protected ProCtcValidValueRepository proCtcValidValueRepository;
+    protected StudyOrganizationRepository studyOrganizationRepository;
+
     /**
      * The controller tools.
      */
@@ -63,6 +63,8 @@ public class CtcAeSimpleFormController extends SimpleFormController {
 
         RepositoryBasedEditor proCtcValidValueEditor = new RepositoryBasedEditor(proCtcValidValueRepository, ProCtcValidValue.class);
         binder.registerCustomEditor(ProCtcValidValue.class, proCtcValidValueEditor);
+
+        binder.registerCustomEditor(StudyOrganizationRepository.class, new RepositoryBasedEditor(studyOrganizationRepository, StudyOrganization.class));
 
         binder.registerCustomEditor(Role.class, new EnumByNameEditor<Role>(Role.class));
         binder.registerCustomEditor(RoleStatus.class, new EnumByNameEditor<RoleStatus>(RoleStatus.class));
@@ -119,5 +121,11 @@ public class CtcAeSimpleFormController extends SimpleFormController {
 
     public void setProCtcValidValueRepository(ProCtcValidValueRepository proCtcValidValueRepository) {
         this.proCtcValidValueRepository = proCtcValidValueRepository;
+    }
+
+    @Required
+
+    public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
+        this.studyOrganizationRepository = studyOrganizationRepository;
     }
 }

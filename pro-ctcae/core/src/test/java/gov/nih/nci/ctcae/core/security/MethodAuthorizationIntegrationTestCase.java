@@ -44,8 +44,8 @@ public abstract class MethodAuthorizationIntegrationTestCase extends AbstractHib
     protected final String CREATE_FORM_METHOD = "save";
     protected final String EDIT_FORM_METHOD = "save";
     protected final String RELEASE_FORM_METHOD = "updateStatusToReleased";
-    protected final String MANAGE_FORM_METHOD = "findById";
-    protected final String SEARCH_FORM_METHOD = "find";
+    protected final String FIND_BY_ID_METHOD = "findById";
+    protected final String FIND_METHOD = "find";
     protected final String SEARCH_SINGLE_FORM_METHOD = "findSingle";
     protected final String VERSION_FORM_METHOD = "versionCrf";
 

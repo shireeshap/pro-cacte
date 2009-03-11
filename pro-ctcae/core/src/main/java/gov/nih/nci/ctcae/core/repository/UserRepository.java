@@ -61,6 +61,13 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         clinicalStaffQuery.filterByUserId(user.getId());
         ClinicalStaff clinicalStaff = (ClinicalStaff) genericRepository.findSingle(clinicalStaffQuery);
 
+        List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaff.getOrganizationClinicalStaffs();
+        for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
+            List<String> privileges = privilegeGenerator.generatePrivilege(organizationClinicalStaff);
+            for (String privilege : privileges) {
+                instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
+            }
+        }
 
         if (clinicalStaff != null) {
 
@@ -71,7 +78,10 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : StudyOrganizationClinicalStaffs) {
                 Role role = studyOrganizationClinicalStaff.getRole();
                 roles.add(role);
-                instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilegeGenerator.generatePrivilege(studyOrganizationClinicalStaff.getStudyOrganization().getStudy())));
+                List<String> privileges = privilegeGenerator.generatePrivilege(studyOrganizationClinicalStaff);
+                for (String privilege : privileges) {
+                    instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
+                }
             }
 
 

@@ -2,19 +2,16 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 //
 /**
@@ -30,7 +27,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
      */
     protected CRFRepository crfRepository;
 
-    private StudyRepository studyRepository;
+    private StudyOrganizationRepository studyOrganizationRepository;
 
     /**
      * Instantiates a new participant details tab.
@@ -66,10 +63,10 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         query.filterByStudySiteOnly();
 
 
-        List<StudySite> studySites = (List<StudySite>) studyRepository.findStudyOrganizations(query);
+        Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
 
         List<Organization> organizationsHavingStudySite = new ArrayList();
-        for (StudySite studySite : studySites) {
+        for (StudyOrganization studySite : studySites) {
             if (!organizationsHavingStudySite.contains(studySite.getOrganization())) {
                 organizationsHavingStudySite.add(studySite.getOrganization());
             }
@@ -99,7 +96,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         this.crfRepository = crfRepository;
     }
 
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
+    public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
+        this.studyOrganizationRepository = studyOrganizationRepository;
     }
 }

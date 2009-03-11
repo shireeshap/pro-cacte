@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.core.repository;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
-import gov.nih.nci.ctcae.core.query.OrganizationClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
@@ -69,20 +68,6 @@ public class ClinicalStaffRepository implements Repository<ClinicalStaff, Clinic
 
     }
 
-
-    public List<OrganizationClinicalStaff> findByStudyOrganizationId(String text, Integer studyOrganizationId) {
-        OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery();
-        query.filterByFirstNameOrLastNameOrNciIdentifier(text);
-        StudyOrganization studyOrganization = genericRepository.findById(StudyOrganization.class, studyOrganizationId);
-        if (studyOrganization != null) {
-            Integer organizationId = studyOrganization.getOrganization().getId();
-            query.filterByOrganization(organizationId);
-
-            return genericRepository.find(query);
-        }
-
-        throw new CtcAeSystemException(String.format("no study organization found for given id %s", studyOrganizationId));
-    }
 
     public List<StudyOrganizationClinicalStaff> findByStudyOrganizationIdAndRole(String text, Integer studyOrganizationId, List<Role> roles) {
         StudyOrganizationClinicalStaffQuery query = new StudyOrganizationClinicalStaffQuery();

@@ -5,7 +5,6 @@ import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
@@ -42,10 +41,6 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
         return genericRepository.findSingle(query);
 
 
-    }
-
-    public List<? extends StudyOrganization> findStudyOrganizations(StudyOrganizationQuery query) {
-        return genericRepository.find(query);
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)

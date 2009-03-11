@@ -156,7 +156,7 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
 
         insertDefaultUsers();
 
-        List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaffRepository.findByStudyOrganizationId("a", defaultStudySite.getId());
+        List<OrganizationClinicalStaff> organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId("a", defaultStudySite.getId());
 
         assertFalse(organizationClinicalStaffs.isEmpty());
 

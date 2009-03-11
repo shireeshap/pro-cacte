@@ -40,7 +40,6 @@ public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIn
         List<String> allowedMethods = allowedMethodsMap.get(ClinicalStaffRepository.class);
         allowedMethods.add(SEARCH_CLINICAL_STAFF_METHOD);
 
-        allowedMethods.add(SEARCH_CLINICAL_STAFF_BY_SS_METHOD);
         allowedMethods.add(SEARCH_CLINICAL_STAFF_BY_SS_ROLE_METHOD);
         allowedMethods.add(SEARCH_CLINICAL_STAFF_METHOD_BY_ID);
         allowedMethods.add(SEARCH_SINGLE_CLINICAL_STAFF_METHOD);
@@ -52,6 +51,16 @@ public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIn
 
     }
 
+    public void testAuthorizeUserForOrganizationClinicalStaff() throws Exception {
+
+        List<String> allowedMethods = allowedMethodsMap.get(ClinicalStaffRepository.class);
+
+        allowedMethods.add(SEARCH_CLINICAL_STAFF_BY_SS_METHOD);
+
+        authorizeAndUnAuthorizeMethods(organizationClinicalStaffRepository, OrganizationClinicalStaffRepository.class, allowedMethods);
+
+
+    }
 
     public void testAuthorizeUserForCRF() throws Exception {
 

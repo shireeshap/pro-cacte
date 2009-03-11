@@ -327,7 +327,7 @@
 
     <bean name="/participant/displaystudysites" id="displayStudySitesController"
           class="gov.nih.nci.ctcae.web.participant.DisplayStudySitesController">
-        <property name="studyRepository" ref="studyRepository"/>
+        <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
 
 
@@ -353,7 +353,7 @@
     <bean id="ctcaeSimpleFormController" class="gov.nih.nci.ctcae.web.CtcAeSimpleFormController"
           p:proCtcValidValueRepository-ref="proCtcValidValueRepository"
           p:organizationRepository-ref="organizationRepository"
-          p:controllerTools-ref="controllerTools">
+          p:controllerTools-ref="controllerTools" p:studyOrganizationRepository-ref="studyOrganizationRepository">
         <property name="webControllerValidator" ref="webControllerValidator"/>
     </bean>
 
@@ -372,6 +372,7 @@
         <property name="webControllerValidator" ref="webControllerValidator"/>
         <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
         <property name="privilegeAuthorizationCheck" ref="privilegeAuthorizationCheck"/>
+        <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
 
 

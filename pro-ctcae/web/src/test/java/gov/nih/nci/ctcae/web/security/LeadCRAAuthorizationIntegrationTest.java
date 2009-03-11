@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.web.form.SelectStudyForFormTab;
 import gov.nih.nci.ctcae.web.participant.*;
 import gov.nih.nci.ctcae.web.study.EmptyStudyTab;
 import gov.nih.nci.ctcae.web.study.StudyDetailsTab;
+import gov.nih.nci.ctcae.web.study.StudySiteClinicalStaffTab;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,7 @@ public class LeadCRAAuthorizationIntegrationTest extends UrlAuthorizationIntegra
         allowedTabs.add(new CalendarTemplateTab());
         allowedTabs.add(new FormDetailsTab());
         allowedTabs.add(new SelectStudyForFormTab());
+        allowedTabs.add(new StudySiteClinicalStaffTab());
 
         allowedTabs.add(new ParticipantClinicalStaffTab());
         allowedTabs.add(new ParticipantDetailsTab());
