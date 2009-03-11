@@ -58,7 +58,7 @@ public class StudyParticipantAssignmentTest extends AbstractTestCase {
     }
 
     public void testAddStudyParticipantClinicalStaffThrowsExceptionIfStudySiteIsCoordinatingCenter() {
-        studyOrganizationClinicalStaff.setStudyOrganization(new StudyCoordinatingCenter());
+        studyOrganizationClinicalStaff.setStudyOrganization(new DataCoordinatingCenter());
         try {
             studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantClinicalStaff);
             fail(("study organization clinical staff deos not belong to a study site %s. it belongs to study coordinating center"));
