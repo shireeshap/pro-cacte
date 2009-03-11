@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
@@ -20,7 +19,6 @@ import java.util.Map;
 public class ReleaseFormControllerTest extends WebTestCase {
     private ReleaseFormController controller;
     private WebControllerValidator validator;
-    private FinderRepository finderRepository;
     private CRFRepository crfRepository;
 
     private CRF crf;
@@ -29,10 +27,8 @@ public class ReleaseFormControllerTest extends WebTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         controller = new ReleaseFormController();
-        finderRepository = registerMockFor(FinderRepository.class);
         crfRepository = registerMockFor(CRFRepository.class);
         validator = new WebControllerValidatorImpl();
-        controller.setFinderRepository(finderRepository);
         controller.setCrfRepository(crfRepository);
         controller.setWebControllerValidator(validator);
 

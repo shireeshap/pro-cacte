@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,10 +19,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class DeleteFormController extends CtcAeSimpleFormController {
 
-    /**
-     * The finder repository.
-     */
-    private FinderRepository finderRepository;
 
     /**
      * The crf repository.
@@ -46,7 +41,7 @@ public class DeleteFormController extends CtcAeSimpleFormController {
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         String crfId = request.getParameter("crfId");
-        CRF crf = finderRepository.findById(CRF.class, Integer.parseInt(crfId));
+        CRF crf = crfRepository.findById(Integer.parseInt(crfId));
         return crf;
     }
 
@@ -61,7 +56,7 @@ public class DeleteFormController extends CtcAeSimpleFormController {
 
         if (crf.getParentVersionId() != null) {
             Integer parentId = crf.getParentVersionId();
-            CRF parentCrf = finderRepository.findById(CRF.class, parentId);
+            CRF parentCrf = crfRepository.findById(parentId);
             if (crf.getNextVersionId() != null) {
                 parentCrf.setNextVersionId(crf.getNextVersionId());
             } else {
@@ -72,7 +67,7 @@ public class DeleteFormController extends CtcAeSimpleFormController {
 
         if (crf.getNextVersionId() != null) {
             Integer nextVersionId = crf.getNextVersionId();
-            CRF childCrf = finderRepository.findById(CRF.class, nextVersionId);
+            CRF childCrf = crfRepository.findById(nextVersionId);
             if (crf.getParentVersionId() != null) {
                 childCrf.setParentVersionId(crf.getParentVersionId());
             } else {
@@ -84,13 +79,6 @@ public class DeleteFormController extends CtcAeSimpleFormController {
         RedirectView redirectView = new RedirectView("manageForm?studyId=" + studyId);
 
         return new ModelAndView(redirectView);
-    }
-
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.web.CtcAeSimpleFormController#setFinderRepository(gov.nih.nci.ctcae.core.repository.FinderRepository)
-     */
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
     }
 
     /**

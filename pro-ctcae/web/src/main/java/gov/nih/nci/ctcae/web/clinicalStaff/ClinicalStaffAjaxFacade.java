@@ -2,21 +2,20 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.ArrayList;
 
 //
 /**
@@ -33,7 +32,6 @@ public class ClinicalStaffAjaxFacade {
      * The clinical staff repository.
      */
     private ClinicalStaffRepository clinicalStaffRepository;
-    private FinderRepository finderRepository;
 
     public List<OrganizationClinicalStaff> matchOrganizationClinicalStaffByStudyOrganizationId(final String text, Integer studyOrganizationId) {
 
@@ -47,8 +45,8 @@ public class ClinicalStaffAjaxFacade {
     public List<StudyOrganizationClinicalStaff> matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole(final String text, Integer studyOrganizationId, final String roles) {
 
         List<Role> rolesList = new ArrayList<Role>();
-        StringTokenizer st = new StringTokenizer(roles,"|");
-        while(st.hasMoreTokens()){
+        StringTokenizer st = new StringTokenizer(roles, "|");
+        while (st.hasMoreTokens()) {
             String roleCode = st.nextToken();
             rolesList.add(Role.getByCode(roleCode));
         }

@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.editor;
 
 import gov.nih.nci.ctcae.core.domain.Persistable;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.Repository;
 import org.apache.commons.lang.StringUtils;
 
 import java.beans.PropertyEditorSupport;
@@ -20,9 +20,9 @@ public class RepositoryBasedEditor extends PropertyEditorSupport {
     private boolean strictIdChecking, nullForBlanks;
 
     /**
-     * The finder repository.
+     * The  repository.
      */
-    private FinderRepository finderRepository;
+    private Repository repository;
 
     /**
      * The class arg.
@@ -30,28 +30,28 @@ public class RepositoryBasedEditor extends PropertyEditorSupport {
     private Class<? extends Persistable> classArg;
 
     /**
-     * Same as <code>{@link #RepositoryBasedEditor(gov.nih.nci.ctcae.core.repository.FinderRepository , boolean, boolean,Class<? extends Persistable> )}(dao, false, true)</code>
+     * Same as <code>{@link #RepositoryBasedEditor(gov.nih.nci.ctcae.core.repository.Repository , boolean, boolean,Class<? extends Persistable> )}(dao, false, true)</code>
      *
-     * @param finderRepository the finder repository
-     * @param classArg         the class arg
+     * @param repository the finder repository
+     * @param classArg   the class arg
      */
-    public RepositoryBasedEditor(FinderRepository finderRepository, Class<? extends Persistable> classArg) {
-        this(finderRepository, false, true, classArg);
+    public RepositoryBasedEditor(Repository repository, Class<? extends Persistable> classArg) {
+        this(repository, false, true, classArg);
     }
 
     /**
      * The Constructor.
      *
-     * @param finderRepository The dao against which to resolve provided IDs
+     * @param repository       The dao against which to resolve provided IDs
      * @param strictIdChecking Whether or not to allow {@link #setValue} where the value has no ID.
      *                         Due to the sometimes-odd way spring uses PEs, you probably want this to be false.
      * @param nullForBlanks    Whether to treat a blank string as "no object".  If false, you'll get a
      *                         NumberFormatException for blank strings.
      * @param classArg         the class arg
      */
-    public RepositoryBasedEditor(FinderRepository finderRepository, boolean strictIdChecking, boolean nullForBlanks,
+    public RepositoryBasedEditor(Repository repository, boolean strictIdChecking, boolean nullForBlanks,
                                  Class<? extends Persistable> classArg) {
-        this.finderRepository = finderRepository;
+        this.repository = repository;
         this.strictIdChecking = strictIdChecking;
         this.nullForBlanks = nullForBlanks;
         this.classArg = classArg;
@@ -124,7 +124,7 @@ public class RepositoryBasedEditor extends PropertyEditorSupport {
             newValue = null;
         } else {
             Integer id = new Integer(text);
-            newValue = finderRepository.findById(classArg, id);
+            newValue = repository.findById(id);
             if (newValue == null) {
                 throw new IllegalArgumentException("There is no " + classArg.getSimpleName() + " with id=" + id);
             }

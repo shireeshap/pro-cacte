@@ -136,16 +136,22 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/UserQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CRFRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ClinicalStaffRepository.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/FinderRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CtcTermRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/GenericRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/OrganizationClinicalStaffRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/OrganizationRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ParticipantRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcQuestionRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcValidValueRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantAssignmentRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfAddedQuestionRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfScheduleAddedQuestionRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfScheduleRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/UserRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
@@ -247,7 +253,6 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/OrganizationQueryTest.
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/FinderRepositoryIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepositoryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/CCAMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/LeadCRAInstanceLevelAuthorizationIntegrationTest.java -text
@@ -317,7 +322,6 @@ pro-ctcae/web/ivy-build.xml -text
 pro-ctcae/web/ivy.xml -text
 pro-ctcae/web/pom.xml -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/AbstractTableModel.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ApplicationConversionService.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/AuditInfoFilter.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ConfirmationCheckController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ControllerTools.java -text
@@ -955,7 +959,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/study/CreateStudySelenium
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/study/SearchStudySeleniumTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/study/StudySeleniumTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AbstractWebIntegrationTestCase.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ApplicationConversionServiceTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AuditInfoFilterTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ConfirmationCheckControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ControllersUtilsTest.java -text

@@ -152,12 +152,13 @@
     </bean>
 
     <bean name="/form/manageForm" id="manageFormController" class="gov.nih.nci.ctcae.web.form.ManageFormController">
-        <property name="finderRepository" ref="finderRepository"/>
+        <property name="studyRepository" ref="studyRepository"/>
     </bean>
 
 
     <bean name="/form/basicForm" id="basicFormController" class="gov.nih.nci.ctcae.web.form.BasicFormController"
-          parent="formController"/>
+          parent="formController">
+    </bean>
 
     <bean name="/form/editForm" id="editFormController" class="gov.nih.nci.ctcae.web.form.EditFormController"
           parent="formController">
@@ -202,17 +203,26 @@
     </bean>
     <bean name="/form/submit" id="submitFormController"
           class="gov.nih.nci.ctcae.web.form.SubmitFormController" parent="ctcaeSimpleFormController">
-        <property name="genericRepository" ref="genericRepository"/>
+        <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
+        <property name="studyParticipantCrfScheduleAddedQuestionRepository"
+                  ref="studyParticipantCrfScheduleAddedQuestionRepository"/>
+        <property name="studyParticipantCrfRepository" ref="studyParticipantCrfRepository"/>
+        <property name="studyParticipantCrfAddedQuestionRepository" ref="studyParticipantCrfAddedQuestionRepository"/>
     </bean>
 
     <bean name="/form/addquestion" id="addQuestionByParticipantController"
           class="gov.nih.nci.ctcae.web.form.AddQuestionByParticipantController" parent="ctcaeSimpleFormController">
-        <property name="genericRepository" ref="genericRepository"/>
+        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
+        <property name="studyParticipantCrfRepository" ref="studyParticipantCrfRepository"/>
+        <property name="studyParticipantCrfAddedQuestionRepository" ref="studyParticipantCrfAddedQuestionRepository"/>
+        <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
+        <property name="studyParticipantCrfScheduleAddedQuestionRepository"
+                  ref="studyParticipantCrfScheduleAddedQuestionRepository"/>
     </bean>
     <bean name="/form/addConditionalQuestion" id="addConditionalQuestionController"
           class="gov.nih.nci.ctcae.web.form.AddConditionalQuestionController">
-        <property name="finderRepository" ref="finderRepository"/>
         <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
+        <property name="proCtcValidValueRepository" ref="proCtcValidValueRepository"/>
     </bean>
 
     <bean name="/form/removeConditions" id="removeConditionsController"
@@ -222,13 +232,11 @@
 
     <bean name="/form/copyForm" id="copyFormController"
           class="gov.nih.nci.ctcae.web.form.CopyFormController">
-        <property name="finderRepository" ref="finderRepository"/>
         <property name="crfRepository" ref="crfRepository"/>
 
     </bean>
     <bean name="/form/deleteForm" id="deleteFormController"
           class="gov.nih.nci.ctcae.web.form.DeleteFormController" parent="ctcaeSimpleFormController">
-        <property name="finderRepository" ref="finderRepository"/>
         <property name="crfRepository" ref="crfRepository"/>
 
     </bean>
@@ -289,7 +297,6 @@
 
     <bean name="/participant/schedulecrf" id="scheduleCrfController"
           class="gov.nih.nci.ctcae.web.participant.ScheduleCrfController" parent="securedTabbedFlowFormController">
-        <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
     </bean>
 
     <bean name="/participant/participantInbox" id="participantInboxController"
@@ -299,12 +306,11 @@
 
     <bean name="/participant/addCrfSchedule" id="addCrfScheduleController"
           class="gov.nih.nci.ctcae.web.participant.AddCrfScheduleController">
-        <property name="finderRepository" ref="finderRepository"/>
+        <property name="crfRepository" ref="crfRepository"/>
     </bean>
 
     <bean name="/participant/addNotificationClinicalStaff" id="addNotificationClinicalStaff"
           class="gov.nih.nci.ctcae.web.participant.AddNotificationClinicalStaffController">
-        <property name="finderRepository" ref="finderRepository"/>
     </bean>
 
     <bean name="/admin/clinicalStaff/createClinicalStaff" id="createClinicalStaffController"
@@ -316,7 +322,7 @@
     </bean>
     <bean name="/participant/displaycalendar" id="displayCalendarController"
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
-        <property name="finderRepository" ref="finderRepository"/>
+        <property name="crfRepository" ref="crfRepository"/>
     </bean>
 
     <bean name="/participant/displaystudysites" id="displayStudySitesController"
@@ -345,7 +351,9 @@
 
 
     <bean id="ctcaeSimpleFormController" class="gov.nih.nci.ctcae.web.CtcAeSimpleFormController"
-          p:finderRepository-ref="finderRepository" p:controllerTools-ref="controllerTools">
+          p:proCtcValidValueRepository-ref="proCtcValidValueRepository"
+          p:organizationRepository-ref="organizationRepository"
+          p:controllerTools-ref="controllerTools">
         <property name="webControllerValidator" ref="webControllerValidator"/>
     </bean>
 
@@ -354,9 +362,12 @@
     <bean name="securedTabbedFlowFormController" class="gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController"
           abstract="true">
         <property name="tabConfigurer" ref="tabConfigurer"/>
-        <property name="studyRepository" ref="studyRepository"/>
+        <property name="organizationClinicalStaffRepository" ref="organizationClinicalStaffRepository"/>
         <property name="controllerTools" ref="controllerTools"/>
-        <property name="finderRepository" ref="finderRepository"/>
+        <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
+        <property name="participantRepository" ref="participantRepository"/>
+        <property name="studyRepository" ref="studyRepository"/>
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
         <property name="webControllerValidator" ref="webControllerValidator"/>
         <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>

@@ -4,8 +4,8 @@ import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.StringUtils;
@@ -32,11 +32,7 @@ public class AddConditionalQuestionController extends AbstractController {
      * The pro ctc question repository.
      */
     private ProCtcQuestionRepository proCtcQuestionRepository;
-
-    /**
-     * The finder repository.
-     */
-    private FinderRepository finderRepository;
+    private ProCtcValidValueRepository proCtcValidValueRepository;
 
     /**
      * Instantiates a new adds the conditional question controller.
@@ -66,7 +62,7 @@ public class AddConditionalQuestionController extends AbstractController {
 
         List<ProCtcValidValue> proCtcValidValues = new ArrayList<ProCtcValidValue>();
         for (String id : selectedValidValuesIds) {
-            ProCtcValidValue proCtcValidValue = finderRepository.findById(ProCtcValidValue.class, Integer.valueOf(id));
+            ProCtcValidValue proCtcValidValue = proCtcValidValueRepository.findById(Integer.valueOf(id));
             CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();
             crfPageItemDisplayRule.setProCtcValidValue(proCtcValidValue);
             proCtcValidValues.add(proCtcValidValue);
@@ -83,16 +79,6 @@ public class AddConditionalQuestionController extends AbstractController {
 
 
     /**
-     * Sets the finder repository.
-     *
-     * @param finderRepository the new finder repository
-     */
-    @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-    }
-
-    /**
      * Sets the pro ctc question repository.
      *
      * @param proCtcQuestionRepository the new pro ctc question repository
@@ -100,5 +86,10 @@ public class AddConditionalQuestionController extends AbstractController {
     @Required
     public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
         this.proCtcQuestionRepository = proCtcQuestionRepository;
+    }
+
+    @Required
+    public void setProCtcValidValueRepository(ProCtcValidValueRepository proCtcValidValueRepository) {
+        this.proCtcValidValueRepository = proCtcValidValueRepository;
     }
 }

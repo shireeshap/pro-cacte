@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.CRFCalendar;
 import gov.nih.nci.ctcae.core.domain.CRFCycleDefinition;
 import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.apache.commons.lang.StringUtils;
@@ -24,10 +23,6 @@ import java.util.Map;
  */
 public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
 
-    /**
-     * The finder repository.
-     */
-    private FinderRepository finderRepository;
 
     /**
      * Instantiates a new calendar template tab.
@@ -160,12 +155,4 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
         super.postProcess(request, command, errors);
     }
 
-    /**
-     * Sets the finder repository.
-     *
-     * @param finderRepository the new finder repository
-     */
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-    }
 }

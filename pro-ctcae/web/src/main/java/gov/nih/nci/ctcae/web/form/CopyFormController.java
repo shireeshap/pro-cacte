@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.view.RedirectView;
@@ -19,10 +18,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CopyFormController extends AbstractController {
 
-    /**
-     * The finder repository.
-     */
-    private FinderRepository finderRepository;
 
     /**
      * The crf repository.
@@ -38,7 +33,7 @@ public class CopyFormController extends AbstractController {
 
 
         String crfId = request.getParameter("crfId");
-        CRF crf = finderRepository.findById(CRF.class, Integer.parseInt(crfId));
+        CRF crf = crfRepository.findById(Integer.parseInt(crfId));
 
         CRF copiedCrf = crfRepository.copy(crf);
         RedirectView redirectView = new RedirectView("editForm?crfId=" + copiedCrf.getId() + "&copyForm=true");
@@ -47,14 +42,6 @@ public class CopyFormController extends AbstractController {
 
     }
 
-    /**
-     * Sets the finder repository.
-     *
-     * @param finderRepository the new finder repository
-     */
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-    }
 
     /**
      * Sets the crf repository.

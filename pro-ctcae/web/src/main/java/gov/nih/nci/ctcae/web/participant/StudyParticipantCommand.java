@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -35,10 +34,6 @@ public class StudyParticipantCommand {
      */
     private List<ParticipantSchedule> participantSchedules;
 
-    /**
-     * The finder repository.
-     */
-    private FinderRepository finderRepository;
 
     /**
      * The repeatdropdown.
@@ -61,23 +56,6 @@ public class StudyParticipantCommand {
         return participant;
     }
 
-    /**
-     * Gets the finder repository.
-     *
-     * @return the finder repository
-     */
-    public FinderRepository getFinderRepository() {
-        return finderRepository;
-    }
-
-    /**
-     * Sets the finder repository.
-     *
-     * @param finderRepository the new finder repository
-     */
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-    }
 
     /**
      * Sets the participant.

@@ -4,7 +4,10 @@ import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfAddedQuestionRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleAddedQuestionRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -14,7 +17,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Set;
 
 //
@@ -25,15 +27,16 @@ import java.util.Set;
  */
 public class SubmitFormController extends CtcAeSimpleFormController {
 
-    /**
-     * The generic repository.
-     */
-    GenericRepository genericRepository;
-
+    private StudyParticipantCrfRepository studyParticipantCrfRepository;
+    private StudyParticipantCrfAddedQuestionRepository studyParticipantCrfAddedQuestionRepository;
     /**
      * The review view.
      */
     private String reviewView;
+    private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
+
+    private StudyParticipantCrfScheduleAddedQuestionRepository studyParticipantCrfScheduleAddedQuestionRepository;
+
 
     /**
      * Instantiates a new submit form controller.
@@ -60,8 +63,8 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.INPROGRESS);
         }
         submitFormCommand.addQuestionToDeleteList(request.getParameter("deletedQuestions"));
-        genericRepository.save(submitFormCommand.getStudyParticipantCrfSchedule());
-        submitFormCommand.setStudyParticipantCrfSchedule(finderRepository.findById(StudyParticipantCrfSchedule.class, submitFormCommand.getStudyParticipantCrfSchedule().getId()));
+        studyParticipantCrfScheduleRepository.save(submitFormCommand.getStudyParticipantCrfSchedule());
+        submitFormCommand.setStudyParticipantCrfSchedule(studyParticipantCrfScheduleRepository.findById(submitFormCommand.getStudyParticipantCrfSchedule().getId()));
         return showForm(request, response, errors);
     }
 
@@ -136,10 +139,12 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         }
 
         if (!StringUtils.isBlank(crfScheduleId)) {
-            StudyParticipantCrfSchedule studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(crfScheduleId));
-            submitFormCommand.setFinderRepository(finderRepository);
-            submitFormCommand.setGenericRepository(genericRepository);
+            StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(Integer.parseInt(crfScheduleId));
+            submitFormCommand.setStudyParticipantCrfScheduleAddedQuestionRepository(studyParticipantCrfScheduleAddedQuestionRepository);
+            submitFormCommand.setStudyParticipantCrfScheduleRepository(studyParticipantCrfScheduleRepository);
+            submitFormCommand.setStudyParticipantCrfRepository(studyParticipantCrfRepository);
             submitFormCommand.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+            submitFormCommand.setStudyParticipantCrfAddedQuestionRepository(studyParticipantCrfAddedQuestionRepository);
             submitFormCommand.initialize();
         }
         return submitFormCommand;
@@ -154,7 +159,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         super.onBindAndValidate(request, command, errors);
 
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
-        StudyParticipantCrfSchedule studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, submitFormCommand.getStudyParticipantCrfSchedule().getId());
+        StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(submitFormCommand.getStudyParticipantCrfSchedule().getId());
         if ("continue".equals(submitFormCommand.getDirection())) {
             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
                 if (studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber() == submitFormCommand.getCurrentPageIndex() - 2) {
@@ -171,15 +176,6 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         }
     }
 
-    /**
-     * Sets the generic repository.
-     *
-     * @param genericRepository the new generic repository
-     */
-    @Required
-    public void setGenericRepository(GenericRepository genericRepository) {
-        this.genericRepository = genericRepository;
-    }
 
     /**
      * Gets the review view.
@@ -190,5 +186,26 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         return reviewView;
     }
 
+    @Required
 
+    public void setStudyParticipantCrfScheduleRepository(StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {
+        this.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
+    }
+
+    @Required
+    public void setStudyParticipantCrfRepository(StudyParticipantCrfRepository studyParticipantCrfRepository) {
+        this.studyParticipantCrfRepository = studyParticipantCrfRepository;
+    }
+
+    @Required
+
+    public void setStudyParticipantCrfScheduleAddedQuestionRepository(StudyParticipantCrfScheduleAddedQuestionRepository studyParticipantCrfScheduleAddedQuestionRepository) {
+        this.studyParticipantCrfScheduleAddedQuestionRepository = studyParticipantCrfScheduleAddedQuestionRepository;
+    }
+
+    @Required
+    public void setStudyParticipantCrfAddedQuestionRepository(StudyParticipantCrfAddedQuestionRepository studyParticipantCrfAddedQuestionRepository) {
+        this.studyParticipantCrfAddedQuestionRepository = studyParticipantCrfAddedQuestionRepository;
+    }
 }
+

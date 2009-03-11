@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
@@ -21,7 +20,6 @@ public class CreateParticipantControllerTest extends WebTestCase {
     private ParticipantCommand participantCommand;
     private BindException errors;
     private ParticipantRepository participantRepository;
-    private FinderRepository finderRepository;
     private OrganizationRepository organizationRepository;
     private StudyRepository studyRepository;
     private ArrayList<Organization> organizations;
@@ -34,12 +32,10 @@ public class CreateParticipantControllerTest extends WebTestCase {
         participantCommand = (ParticipantCommand) createParticipantController.formBackingObject(request);
         errors = registerMockFor(BindException.class);
         participantRepository = registerMockFor(ParticipantRepository.class);
-        finderRepository = registerMockFor(FinderRepository.class);
         organizationRepository = registerMockFor(OrganizationRepository.class);
         studyRepository = registerMockFor(StudyRepository.class);
 
 
-        createParticipantController.setFinderRepository(finderRepository);
         createParticipantController.setParticipantRepository(participantRepository);
         createParticipantController.setOrganizationRepository(organizationRepository);
 

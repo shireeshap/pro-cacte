@@ -29,7 +29,6 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
      */
     private StudyRepository studyRepository;
 
-    private FinderRepository finderRepository;
     private GenericRepository genericRepository;
 
 
@@ -113,7 +112,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
     private void createSchedule(StudyParticipantCrf studyParticipantCrf, ProCtcAECalendar proCtcAECalendar, ParticipantSchedule.ScheduleType scheduleType) throws ParseException {
         ParticipantSchedule participantSchedule = new ParticipantSchedule();
         participantSchedule.setStudyParticipantCrf(studyParticipantCrf);
-        participantSchedule.setFinderRepository(finderRepository);
+        participantSchedule.setCrfRepository(this);
         participantSchedule.setCalendar(proCtcAECalendar);
         participantSchedule.createSchedules(scheduleType);
     }
@@ -238,11 +237,6 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
     @Required
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
-    }
-
-    @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
     }
 
 

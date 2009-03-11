@@ -2,11 +2,7 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 
 import java.util.ArrayList;
 
@@ -16,7 +12,6 @@ import java.util.ArrayList;
  */
 public class SelectStudyParticipantTabTest extends WebTestCase {
     private SelectStudyParticipantTab tab;
-    private FinderRepository finderRepository;
     private StudyParticipantCommand command;
     private CRF crf;
     Study study;
@@ -25,10 +20,9 @@ public class SelectStudyParticipantTabTest extends WebTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        finderRepository = registerMockFor(FinderRepository.class);
         tab = new SelectStudyParticipantTab();
 
-        tab.setFinderRepository(finderRepository);
+        //tab.setFinderRepository(finderRepository);
 
         study = Fixture.createStudy("short", "long", "id");
         crf = Fixture.createCrf("test", CrfStatus.DRAFT, "1.0");
@@ -41,7 +35,6 @@ public class SelectStudyParticipantTabTest extends WebTestCase {
 
     public void testOnDisplay() {
         assertNull(command.getStudy());
-        expect(finderRepository.findById(CRF.class, Integer.valueOf(request.getParameter("crfId")))).andReturn(crf);
         replayMocks();
         tab.onDisplay(request, command);
         verifyMocks();
@@ -61,7 +54,7 @@ public class SelectStudyParticipantTabTest extends WebTestCase {
         ArrayList list = new ArrayList();
         list.add(new StudyParticipantAssignment());
 
-        expect(finderRepository.find(isA(StudyParticipantAssignmentQuery.class))).andReturn(list);
+        // expect(finderRepository.find(isA(StudyParticipantAssignmentQuery.class))).andReturn(list);
         replayMocks();
         tab.postProcess(request, command, null);
         verifyMocks();

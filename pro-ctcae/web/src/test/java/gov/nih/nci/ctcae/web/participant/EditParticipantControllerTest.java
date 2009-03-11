@@ -1,18 +1,18 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.Fixture;
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
-import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,6 @@ public class EditParticipantControllerTest extends WebTestCase {
     private ParticipantRepository participantRepository;
     private Participant participant;
     private BindException errors;
-    private FinderRepository finderRepository;
     private Study study, study1;
     private CRFRepository crfRepository;
     WebControllerValidator webControllerValidator;
@@ -37,12 +36,10 @@ public class EditParticipantControllerTest extends WebTestCase {
         controller = new EditParticipantController();
         participantRepository = registerMockFor(ParticipantRepository.class);
         errors = registerMockFor(BindException.class);
-        finderRepository = registerMockFor(FinderRepository.class);
         crfRepository = registerMockFor(CRFRepository.class);
         webControllerValidator = registerMockFor(WebControllerValidator.class);
-       // controller.setCrfRepository(crfRepository);
+        // controller.setCrfRepository(crfRepository);
         controller.setParticipantRepository(participantRepository);
-        controller.setFinderRepository(finderRepository);
         controller.setWebControllerValidator(webControllerValidator);
 
         participant = Fixture.createParticipant("test", "test", "id");
@@ -62,7 +59,7 @@ public class EditParticipantControllerTest extends WebTestCase {
     }
 
     public void testConstructor() {
-      //  assertEquals("participant/editParticipant", controller.getFormView());
+        //  assertEquals("participant/editParticipant", controller.getFormView());
     }
 
     public void testFormBackingObject() throws Exception {
@@ -89,14 +86,14 @@ public class EditParticipantControllerTest extends WebTestCase {
         ArrayList l = new ArrayList();
         l.add(study1.getStudySites().get(0));
 
-        expect(finderRepository.find(isA(StudyOrganizationQuery.class))).andReturn(l);
+        // expect(finderRepository.find(isA(StudyOrganizationQuery.class))).andReturn(l);
         expect(participantRepository.save(isA(Participant.class))).andReturn(participantCommand.getParticipant());
         expect(crfRepository.find(isA(CRFQuery.class))).andReturn(new ArrayList<CRF>());
         replayMocks();
-    //    ModelAndView modelAndView = controller.onSubmit(request, response, participantCommand, errors);
+        //    ModelAndView modelAndView = controller.onSubmit(request, response, participantCommand, errors);
         verifyMocks();
 
-       // assertEquals(controller.getSuccessView(), modelAndView.getViewName());
+        // assertEquals(controller.getSuccessView(), modelAndView.getViewName());
     }
 
 
@@ -106,7 +103,7 @@ public class EditParticipantControllerTest extends WebTestCase {
         errors.reject("studyId", "Please select at least one study.");
 
         replayMocks();
-     //   controller.onBindAndValidate(request, participantCommand, errors);
+        //   controller.onBindAndValidate(request, participantCommand, errors);
         verifyMocks();
 
     }

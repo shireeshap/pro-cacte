@@ -20,7 +20,7 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
     protected void onSetUpInTransaction() throws Exception {
 
         super.onSetUpInTransaction();
-        insertDefaultUsers();
+        // insertDefaultUsers();
     }
 
     private void saveCsv() throws IOException {
@@ -33,7 +33,7 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
         startNewTransaction();
 
         csvImporter = new CsvImporter();
-        csvImporter.setFinderRepository(finderRepository);
+        csvImporter.setCtcTermRepository(ctcTermRepository);
         ProCtc proctc = csvImporter.readCsv();
         //assertEquals(65,proctc.getProCtcTerms().size());
         genericRepository.save(proctc);

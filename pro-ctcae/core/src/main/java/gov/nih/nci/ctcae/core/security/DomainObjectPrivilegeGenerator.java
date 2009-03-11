@@ -1,6 +1,9 @@
 package gov.nih.nci.ctcae.core.security;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -14,18 +17,31 @@ public class DomainObjectPrivilegeGenerator {
             return generatePrivilege(crf.getStudy());
 
 
-        } else if (Study.class.isAssignableFrom(persistable.getClass())) {
+        }
+        if (Study.class.isAssignableFrom(persistable.getClass())) {
 
             return generatePrivilegeForPersistable(persistable);
-        } else if (StudyOrganization.class.isAssignableFrom(persistable.getClass())) {
+        }
+        if (StudyOrganization.class.isAssignableFrom(persistable.getClass())) {
             StudyOrganization studyOrganization = (StudyOrganization) persistable;
             return generatePrivilegeForPersistable(studyOrganization.getStudy());
-        } else if (Participant.class.isAssignableFrom(persistable.getClass())) {
+        }
+        if (Participant.class.isAssignableFrom(persistable.getClass())) {
             Participant participant = (Participant) persistable;
-            String privilege = "no assignment found for this participant";
-            for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
-                privilege = generatePrivilegeForPersistable(studyParticipantAssignment.getStudySite().getStudy());
+            List<StudyParticipantAssignment> studyParticipantAssignments = participant.getStudyParticipantAssignments();
+            String privilege = generatePrivilegeForPersistable(studyParticipantAssignments.get(0).getStudySite().getStudy());
+
+            for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAssignments) {
+                String privilegeString = generatePrivilegeForPersistable(studyParticipantAssignment.getStudySite().getStudy());
+                if (!StringUtils.equals(privilege, privilegeString)) {
+                    privilege = privilege + "-" + privilegeString;
+                }
             }
+            return privilege;
+        }
+        if (StudyParticipantAssignment.class.isAssignableFrom(persistable.getClass())) {
+            StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) persistable;
+            String privilege = generatePrivilegeForPersistable(studyParticipantAssignment.getStudySite().getStudy());
             return privilege;
         }
         return generatePrivilegeForPersistable(persistable);

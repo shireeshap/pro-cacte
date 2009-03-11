@@ -1,12 +1,11 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import org.apache.commons.lang.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import org.apache.commons.lang.StringUtils;
 
 
 //
@@ -35,7 +34,7 @@ public class ParticipantSchedule {
     /**
      * The finder repository.
      */
-    private FinderRepository finderRepository;
+    private CRFRepository crfRepository;
 
     public enum ScheduleType {
         GENERAL,
@@ -161,7 +160,7 @@ public class ParticipantSchedule {
             StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
             studyParticipantCrfSchedule.setStartDate(c.getTime());
             studyParticipantCrfSchedule.setDueDate(new Date(c.getTime().getTime() + dueAfterPeriodInMill));
-            CRF crf = finderRepository.findById(CRF.class, studyParticipantCrf.getCrf().getId());
+            CRF crf = crfRepository.findById(studyParticipantCrf.getCrf().getId());
             studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule, crf);
         }
     }
@@ -274,13 +273,8 @@ public class ParticipantSchedule {
 
     }
 
-    /**
-     * Sets the finder repository.
-     *
-     * @param finderRepository the new finder repository
-     */
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
     }
 
     /**

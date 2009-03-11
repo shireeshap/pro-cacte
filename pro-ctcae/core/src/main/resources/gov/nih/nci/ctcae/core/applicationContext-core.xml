@@ -172,9 +172,6 @@
     <!--</bean>-->
 
 
-    <bean id="finderRepository" class="gov.nih.nci.ctcae.core.repository.FinderRepository"
-          p:genericRepository-ref="genericRepository">
-    </bean>
     <bean id="organizationRepository" class="gov.nih.nci.ctcae.core.repository.OrganizationRepository"
           p:genericRepository-ref="genericRepository">
 
@@ -193,15 +190,29 @@
     <bean id="crfRepository" class="gov.nih.nci.ctcae.core.repository.CRFRepository"
           p:genericRepository-ref="genericRepository">
         <property name="studyRepository" ref="studyRepository"/>
-        <property name="finderRepository" ref="finderRepository"/>
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
     <bean id="proCtcTermRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcTermRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
+    <bean id="ctcTermRepository" class="gov.nih.nci.ctcae.core.repository.CtcTermRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
 
     <bean id="proCtcQuestionRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="organizationClinicalStaffRepository"
+          class="gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="studyParticipantCrfRepository"
+          class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+
+    <bean id="proCtcValidValueRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
 
@@ -212,6 +223,18 @@
 
     <bean id="studyParticipantAssignmentRepository"
           class="gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="studyParticipantCrfScheduleAddedQuestionRepository"
+          class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleAddedQuestionRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="studyParticipantCrfAddedQuestionRepository"
+          class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfAddedQuestionRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="studyParticipantCrfScheduleRepository"
+          class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
 

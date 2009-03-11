@@ -98,4 +98,9 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
     }
 
 
+    public StudyOrganizationClinicalStaff findById(Class<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffClass, Integer id) {
+        return genericRepository.findById(studyOrganizationClinicalStaffClass, id);
+
+
+    }
 }

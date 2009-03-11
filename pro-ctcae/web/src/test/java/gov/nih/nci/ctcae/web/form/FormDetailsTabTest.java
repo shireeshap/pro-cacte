@@ -4,7 +4,6 @@ import gov.nih.nci.ctcae.core.domain.CtcCategory;
 import gov.nih.nci.ctcae.core.domain.CtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
@@ -19,7 +18,6 @@ import java.util.*;
 public class FormDetailsTabTest extends WebTestCase {
     private FormDetailsTab tab;
     private ProCtcTermRepository proCtcTermRepository;
-    private FinderRepository finderRepository;
     private CreateFormCommand command;
     private Collection<ProCtcTerm> proCtcTerms;
 
@@ -33,7 +31,6 @@ public class FormDetailsTabTest extends WebTestCase {
         super.setUp();
 
         proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
-        finderRepository = registerMockFor(FinderRepository.class);
         tab = new FormDetailsTab();
 
         tab.setProCtcTermRepository(proCtcTermRepository);

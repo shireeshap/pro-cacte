@@ -1,9 +1,8 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 
@@ -21,7 +20,7 @@ public class ScheduleCrfTab extends SecuredTab<StudyParticipantCommand> {
     /**
      * The finder repository.
      */
-    private FinderRepository finderRepository;
+    private CRFRepository crfRepository;
 
     /**
      * Instantiates a new schedule crf tab.
@@ -40,7 +39,7 @@ public class ScheduleCrfTab extends SecuredTab<StudyParticipantCommand> {
     @Override
     public void onDisplay(HttpServletRequest request, StudyParticipantCommand command) {
         for (StudyParticipantCrf studyParticipantCrf : command.getStudyParticipantAssignment().getStudyParticipantCrfs()) {
-            finderRepository.findById(CRF.class, studyParticipantCrf.getCrf().getId());
+            crfRepository.findById(studyParticipantCrf.getCrf().getId());
         }
 
     }
@@ -55,12 +54,7 @@ public class ScheduleCrfTab extends SecuredTab<StudyParticipantCommand> {
         return map;
     }
 
-    /**
-     * Sets the finder repository.
-     *
-     * @param finderRepository the new finder repository
-     */
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
     }
 }

@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
@@ -21,7 +20,6 @@ import java.util.Map;
 public class DeleteFormControllerTest extends WebTestCase {
     private DeleteFormController controller;
     private WebControllerValidator validator;
-    private FinderRepository finderRepository;
     private CRFRepository crfRepository;
     private CRF crf;
 
@@ -29,11 +27,9 @@ public class DeleteFormControllerTest extends WebTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         controller = new DeleteFormController();
-        finderRepository = registerMockFor(FinderRepository.class);
         crfRepository = registerMockFor(CRFRepository.class);
         validator = new WebControllerValidatorImpl();
 
-        controller.setFinderRepository(finderRepository);
         controller.setCrfRepository(crfRepository);
         controller.setWebControllerValidator(validator);
 
@@ -45,7 +41,7 @@ public class DeleteFormControllerTest extends WebTestCase {
     public void testGetRequest() throws Exception {
         request.setMethod("GET");
         request.addParameter("crfId", "1");
-        expect(finderRepository.findById(CRF.class, 1)).andReturn(crf);
+        expect(crfRepository.findById(1)).andReturn(crf);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
         verifyMocks();
@@ -59,7 +55,7 @@ public class DeleteFormControllerTest extends WebTestCase {
 
         request.setMethod("POST");
         request.addParameter("crfId", "1");
-        expect(finderRepository.findById(CRF.class, 1)).andReturn(crf);
+        expect(crfRepository.findById(1)).andReturn(crf);
         crfRepository.delete(isA(CRF.class));
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);

@@ -2,8 +2,6 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.Query;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
@@ -24,7 +22,6 @@ import java.util.Map;
 public class AddQuestionByParticipantControllerTest extends WebTestCase {
     private AddQuestionByParticipantController controller;
     private WebControllerValidator validator;
-    private FinderRepository finderRepository;
     private GenericRepository genericRepository;
 
     private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
@@ -38,18 +35,13 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         controller = new AddQuestionByParticipantController();
-        finderRepository = registerMockFor(FinderRepository.class);
         genericRepository = registerMockFor(GenericRepository.class);
         validator = new WebControllerValidatorImpl();
 
-        controller.setFinderRepository(finderRepository);
-        controller.setGenericRepository(genericRepository);
         controller.setWebControllerValidator(validator);
 
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         studyParticipantCrfSchedule.setId(1);
-
-
 
 
         crf = Fixture.createCrf();
@@ -99,7 +91,7 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
         request.setMethod("GET");
         request.getSession().setAttribute(SubmitFormController.class.getName() + ".FORM." + "command", new SubmitFormCommand());
 
-        expect((List<ProCtcQuestion>) finderRepository.find(isA(Query.class))).andReturn(questions);
+        //expect((List<ProCtcQuestion>) finderRepository.find(isA(Query.class))).andReturn(questions);
         replayMocks();
 
         ModelAndView modelAndView = controller.handleRequest(request, response);
@@ -114,15 +106,15 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
     }
 
     public void testPostRequest() throws Exception {
-        expect((List<ProCtcQuestion>) finderRepository.find(isA(Query.class))).andReturn(questions);
+        //expect((List<ProCtcQuestion>) finderRepository.find(isA(Query.class))).andReturn(questions);
         EasyMock.expectLastCall().anyTimes();
         expect(genericRepository.save(isA(StudyParticipantCrfAddedQuestion.class))).andReturn(null);
         EasyMock.expectLastCall().anyTimes();
         expect(genericRepository.save(isA(StudyParticipantCrfScheduleAddedQuestion.class))).andReturn(null);
         EasyMock.expectLastCall().anyTimes();
-        expect(finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId())).andReturn(studyParticipantCrfSchedule);
+        // expect(finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId())).andReturn(studyParticipantCrfSchedule);
         EasyMock.expectLastCall().anyTimes();
-        expect(finderRepository.findById(StudyParticipantCrf.class, studyParticipantCrfSchedule.getStudyParticipantCrf().getId())).andReturn(studyParticipantCrfSchedule.getStudyParticipantCrf());
+        //expect(finderRepository.findById(StudyParticipantCrf.class, studyParticipantCrfSchedule.getStudyParticipantCrf().getId())).andReturn(studyParticipantCrfSchedule.getStudyParticipantCrf());
         EasyMock.expectLastCall().anyTimes();
 
         replayMocks();
@@ -136,8 +128,6 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
         command = (SubmitFormCommand) modelAndView.getModel().get("command");
 
         request.setMethod("POST");
-        command.setFinderRepository(finderRepository);
-        command.setGenericRepository(genericRepository);
         command.setDirection("continue");
         request.setParameter("symptomsByParticipants", new String[]{"Pain"});
 

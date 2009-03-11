@@ -10,6 +10,7 @@ import gov.nih.nci.ctcae.core.query.StudyQuery;
 import org.springframework.security.AccessDeniedException;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -126,6 +127,35 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractHi
         try {
             participantRepository.save(participant);
             fail("must not save participant for un-authorized study site");
+        } catch (AccessDeniedException e) {
+
+        }
+
+    }
+
+    public void testCreateScheduleSecurity() throws Exception {
+
+
+        login(user);
+        Participant participant = createParticipant("John", defaultStudy.getStudySites().get(0));
+
+        CRF crf = createCRF(defaultStudy);
+
+        assertEquals("must save participant", participant, participant);
+
+        StudyParticipantAssignment studyParticipantAssignment = participant.getStudyParticipantAssignments().get(0);
+        StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
+        studyParticipantCrf.setCrf(crf);
+        studyParticipantCrf.setStartDate(new Date());
+
+        studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
+        studyParticipantAssignment = studyParticipantAssignmentRepository.save(studyParticipantAssignment);
+
+        login(anotherUser);
+
+        try {
+            studyParticipantAssignmentRepository.save(studyParticipantAssignment);
+            fail("must not save participant for un-authorized user");
         } catch (AccessDeniedException e) {
 
         }

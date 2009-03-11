@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -21,11 +21,7 @@ import java.util.GregorianCalendar;
  */
 public class AddCrfScheduleController extends AbstractController {
 
-    /**
-     * The finder repository.
-     */
-    FinderRepository finderRepository;
-
+    private CRFRepository crfRepository;
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -38,7 +34,7 @@ public class AddCrfScheduleController extends AbstractController {
         String date = request.getParameter("date");
 
         ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(index);
-        participantSchedule.setFinderRepository(finderRepository);
+        participantSchedule.setCrfRepository(crfRepository);
         Calendar c = new GregorianCalendar();
         int duedate = 24 * 60 * 60 * 1000;
         if ("delall".equals(action)) {
@@ -48,18 +44,18 @@ public class AddCrfScheduleController extends AbstractController {
         if ("moveall".equals(action)) {
             int newdate = Integer.parseInt(date.substring(0, date.indexOf(",")));
             int olddate = Integer.parseInt(date.substring(date.indexOf(",") + 1));
-            participantSchedule.moveAllSchedules(newdate-olddate);
+            participantSchedule.moveAllSchedules(newdate - olddate);
         }
 
         c.setTime(participantSchedule.getCalendar().getTime());
         if ("moveallfuture".equals(action)) {
             int newdate = Integer.parseInt(date.substring(0, date.indexOf(",")));
             int olddate = Integer.parseInt(date.substring(date.indexOf(",") + 1));
-             c.set(Calendar.DATE, olddate);
-            participantSchedule.moveFutureSchedules(c, newdate-olddate);
+            c.set(Calendar.DATE, olddate);
+            participantSchedule.moveFutureSchedules(c, newdate - olddate);
         }
         if ("delallfuture".equals(action)) {
-             c.set(Calendar.DATE, Integer.parseInt(date));
+            c.set(Calendar.DATE, Integer.parseInt(date));
             participantSchedule.deleteFutureSchedules(c);
         }
 
@@ -102,7 +98,8 @@ public class AddCrfScheduleController extends AbstractController {
      * @param finderRepository the new finder repository
      */
     @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
+
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
     }
 }

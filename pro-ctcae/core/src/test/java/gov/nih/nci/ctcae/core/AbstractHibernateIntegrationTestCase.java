@@ -19,7 +19,7 @@ import java.util.List;
  * @crated Mar 9, 2009
  */
 public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalDataSourceSpringContextTests {
-    protected FinderRepository finderRepository;
+    protected CtcTermRepository ctcTermRepository;
     protected ProCtcTermRepository proCtcTermRepository;
     protected ClinicalStaffRepository clinicalStaffRepository;
     protected OrganizationRepository organizationRepository;
@@ -362,10 +362,6 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         this.clinicalStaffRepository = clinicalStaffRepository;
     }
 
-    @Required
-    public void setFinderRepository(final FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-    }
 
     @Required
     public void setParticipantRepository(ParticipantRepository participantRepository) {
@@ -405,5 +401,10 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     @Required
     public void setStudyParticipantAssignmentRepository(StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {
         this.studyParticipantAssignmentRepository = studyParticipantAssignmentRepository;
+    }
+
+    @Required
+    public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
+        this.ctcTermRepository = ctcTermRepository;
     }
 }

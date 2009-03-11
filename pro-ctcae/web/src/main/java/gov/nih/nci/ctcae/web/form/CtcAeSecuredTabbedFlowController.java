@@ -4,10 +4,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.*;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
 import gov.nih.nci.ctcae.web.ControllerTools;
 import gov.nih.nci.ctcae.web.editor.EnumByNameEditor;
@@ -32,12 +29,11 @@ import java.util.Date;
  */
 public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends AbstractTabbedFlowFormController<C> {
 
-    /**
-     * The study repository.
-     */
-    protected StudyRepository studyRepository;
+    protected ClinicalStaffRepository clinicalStaffRepository;
+    protected StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
+    protected OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
 
-
+    protected ParticipantRepository participantRepository;
     private PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
     /**
      * The organization repository.
@@ -47,7 +43,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
     /**
      * The finder repository.
      */
-    protected FinderRepository finderRepository;
+    protected StudyRepository studyRepository;
 
     /**
      * The pro ctc question repository.
@@ -74,22 +70,20 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
         binder.registerCustomEditor(Date.class, controllerTools.getDateEditor(true));
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 
-        binder.registerCustomEditor(Study.class, new RepositoryBasedEditor(finderRepository, Study.class));
+        binder.registerCustomEditor(Study.class, new RepositoryBasedEditor(studyRepository, Study.class));
 
-        binder.registerCustomEditor(Organization.class, new RepositoryBasedEditor(finderRepository, Organization.class));
+        binder.registerCustomEditor(Organization.class, new RepositoryBasedEditor(organizationRepository, Organization.class));
 
-        binder.registerCustomEditor(StudyOrganization.class, new RepositoryBasedEditor(finderRepository, StudyOrganization.class));
-        binder.registerCustomEditor(OrganizationClinicalStaff.class, new RepositoryBasedEditor(finderRepository, OrganizationClinicalStaff.class));
-        binder.registerCustomEditor(StudyOrganizationClinicalStaff.class, new RepositoryBasedEditor(finderRepository, StudyOrganizationClinicalStaff.class));
+        binder.registerCustomEditor(OrganizationClinicalStaff.class, new RepositoryBasedEditor(organizationClinicalStaffRepository, OrganizationClinicalStaff.class));
 
-        binder.registerCustomEditor(Participant.class, new RepositoryBasedEditor(finderRepository, Participant.class));
+        binder.registerCustomEditor(Participant.class, new RepositoryBasedEditor(participantRepository, Participant.class));
 
-        binder.registerCustomEditor(ClinicalStaff.class, new RepositoryBasedEditor(finderRepository, ClinicalStaff.class));
+        binder.registerCustomEditor(ClinicalStaff.class, new RepositoryBasedEditor(clinicalStaffRepository, ClinicalStaff.class));
 
         binder.registerCustomEditor(CrfItemAllignment.class, new EnumByNameEditor<CrfItemAllignment>(CrfItemAllignment.class));
 
         binder.registerCustomEditor(RoleStatus.class, new EnumByNameEditor<RoleStatus>(RoleStatus.class));
-        binder.registerCustomEditor(StudyParticipantAssignment.class, new RepositoryBasedEditor(finderRepository, StudyParticipantAssignment.class));
+        binder.registerCustomEditor(StudyParticipantAssignment.class, new RepositoryBasedEditor(studyParticipantAssignmentRepository, StudyParticipantAssignment.class));
     }
 
     /* (non-Javadoc)
@@ -195,14 +189,16 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
         this.organizationRepository = organizationRepository;
     }
 
-    /**
-     * Sets the finder repository.
-     *
-     * @param finderRepository the new finder repository
-     */
-    @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
+    public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
+        this.clinicalStaffRepository = clinicalStaffRepository;
+    }
+
+    public void setStudyParticipantAssignmentRepository(StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {
+        this.studyParticipantAssignmentRepository = studyParticipantAssignmentRepository;
+    }
+
+    public void setParticipantRepository(ParticipantRepository participantRepository) {
+        this.participantRepository = participantRepository;
     }
 
     /**
@@ -223,6 +219,11 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
     @Required
     public void setWebControllerValidator(WebControllerValidator webControllerValidator) {
         this.webControllerValidator = webControllerValidator;
+    }
+
+    @Required
+    public void setOrganizationClinicalStaffRepository(OrganizationClinicalStaffRepository organizationClinicalStaffRepository) {
+        this.organizationClinicalStaffRepository = organizationClinicalStaffRepository;
     }
 
     /**

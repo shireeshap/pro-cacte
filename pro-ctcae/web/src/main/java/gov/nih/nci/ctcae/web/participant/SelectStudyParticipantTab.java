@@ -1,12 +1,12 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -24,10 +24,9 @@ import java.util.List;
  */
 public class SelectStudyParticipantTab extends SecuredTab<StudyParticipantCommand> {
 
-    /**
-     * The finder repository.
-     */
-    private FinderRepository finderRepository;
+    private StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
+
+    private CRFRepository crfRepository;
 
     /**
      * Instantiates a new select study participant tab.
@@ -52,7 +51,7 @@ public class SelectStudyParticipantTab extends SecuredTab<StudyParticipantComman
         super.onDisplay(request, command);
 
         if (!StringUtils.isBlank(request.getParameter("crfId")) && command.getStudy() == null) {
-            CRF crf = finderRepository.findById(CRF.class, Integer.valueOf(request.getParameter("crfId")));
+            CRF crf = crfRepository.findById(Integer.valueOf(request.getParameter("crfId")));
             command.setStudy(crf.getStudy());
         }
 
@@ -66,7 +65,7 @@ public class SelectStudyParticipantTab extends SecuredTab<StudyParticipantComman
         StudyParticipantAssignmentQuery query = new StudyParticipantAssignmentQuery();
         query.filterByParticipantId(studyParticipantCommand.getParticipant().getId());
         query.filterByStudyId(studyParticipantCommand.getStudy().getId());
-        List<StudyParticipantAssignment> persistables = (List<StudyParticipantAssignment>) finderRepository.find(query);
+        List<StudyParticipantAssignment> persistables = (List<StudyParticipantAssignment>) studyParticipantAssignmentRepository.find(query);
         StudyParticipantAssignment studyParticipantAssignment = persistables.get(0);
         List<StudyParticipantCrf> studyParticipantCrfs = studyParticipantAssignment.getStudyParticipantCrfs();
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
@@ -77,13 +76,13 @@ public class SelectStudyParticipantTab extends SecuredTab<StudyParticipantComman
     }
 
 
-    /**
-     * Sets the finder repository.
-     *
-     * @param finderRepository the new finder repository
-     */
     @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
+
+    public void setStudyParticipantAssignmentRepository(StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {
+        this.studyParticipantAssignmentRepository = studyParticipantAssignmentRepository;
+    }
+
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
     }
 }

@@ -44,9 +44,9 @@
                                    conversion-service="applicationConversionService"/>
 
 
-    <bean id="applicationConversionService" class="gov.nih.nci.ctcae.web.ApplicationConversionService">
-        <constructor-arg ref="finderRepository"></constructor-arg>
-    </bean>
+    <!--<bean id="applicationConversionService" class="gov.nih.nci.ctcae.web.ApplicationConversionService">-->
+    <!--<constructor-arg ref="finderRepository"></constructor-arg>-->
+    <!--</bean>-->
 
 
     <bean id="expressionParser" class="org.springframework.webflow.expression.WebFlowOgnlExpressionParser">

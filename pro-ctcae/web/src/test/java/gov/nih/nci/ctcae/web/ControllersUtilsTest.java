@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 import gov.nih.nci.cabig.ctms.web.tabs.TabConfigurer;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.web.form.BasicFormController;
@@ -23,7 +22,6 @@ public class ControllersUtilsTest extends WebTestCase {
     private EditFormController editFormController;
     private StudyController studyController;
     private ProCtcQuestionRepository proCtcQuestionRepository;
-    private FinderRepository finderRepository;
     private CRFRepository crfRepository;
     private ProCtcTermRepository proCtcTermRepository;
 
@@ -33,7 +31,6 @@ public class ControllersUtilsTest extends WebTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         basicFormController = new BasicFormController();
-        finderRepository = registerMockFor(FinderRepository.class);
         crfRepository = registerMockFor(CRFRepository.class);
         proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
         proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
@@ -46,7 +43,6 @@ public class ControllersUtilsTest extends WebTestCase {
 
         editFormController = new EditFormController();
         editFormController.setTabConfigurer(tabConfigurer);
-        editFormController.setFinderRepository(finderRepository);
         editFormController.setCrfRepository(crfRepository);
     }
 

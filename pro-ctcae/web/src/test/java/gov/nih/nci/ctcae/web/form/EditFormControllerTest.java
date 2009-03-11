@@ -8,7 +8,6 @@ import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
@@ -29,7 +28,6 @@ import java.util.Map;
 public class EditFormControllerTest extends WebTestCase {
     private EditFormController controller;
     private WebControllerValidator validator;
-    private FinderRepository finderRepository;
     private CRFRepository crfRepository;
     private ProCtcTermRepository proCtcTermRepository;
     private CRF crf;
@@ -45,12 +43,10 @@ public class EditFormControllerTest extends WebTestCase {
         notEmptyValidator = registerMockFor(NotEmptyValidator.class);
         uniqueTitleForCrfValidator = registerMockFor(UniqueTitleForCrfValidator.class);
 
-        finderRepository = registerMockFor(FinderRepository.class);
         proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
         crfRepository = registerMockFor(CRFRepository.class);
         tabConfigurer = new StaticTabConfigurer(proCtcTermRepository);
         validator = new WebControllerValidatorImpl();
-        controller.setFinderRepository(finderRepository);
         controller.setCrfRepository(crfRepository);
         controller.setWebControllerValidator(validator);
         controller.setTabConfigurer(tabConfigurer);

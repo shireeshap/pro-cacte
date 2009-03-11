@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,10 +20,7 @@ import java.text.SimpleDateFormat;
  */
 public class DisplayCalendarController extends AbstractController {
 
-    /**
-     * The finder repository.
-     */
-    FinderRepository finderRepository;
+    private CRFRepository crfRepository;
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -43,7 +40,7 @@ public class DisplayCalendarController extends AbstractController {
             participantSchedule.getCalendar().setRepetitionPeriodAmount(Integer.parseInt(request.getParameter("reppa")));
             participantSchedule.getCalendar().setRepetitionPeriodUnit(request.getParameter("reppu"));
             participantSchedule.getCalendar().setStartDate(new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("sdate")));
-            participantSchedule.setFinderRepository(finderRepository);
+            participantSchedule.setCrfRepository(crfRepository);
             participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.GENERAL);
         } else {
             if (direction.equals("prev")) {
@@ -73,13 +70,8 @@ public class DisplayCalendarController extends AbstractController {
 
     }
 
-    /**
-     * Sets the finder repository.
-     *
-     * @param finderRepository the new finder repository
-     */
     @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
     }
 }

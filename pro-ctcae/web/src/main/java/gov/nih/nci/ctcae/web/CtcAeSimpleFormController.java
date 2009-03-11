@@ -1,7 +1,11 @@
 package gov.nih.nci.ctcae.web;
 
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.RoleStatus;
+import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
 import gov.nih.nci.ctcae.web.editor.EnumByNameEditor;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
@@ -25,12 +29,8 @@ import java.util.Map;
  */
 public class CtcAeSimpleFormController extends SimpleFormController {
 
-
-    /**
-     * The finder repository.
-     */
-    protected FinderRepository finderRepository;
-
+    protected OrganizationRepository organizationRepository;
+    protected ProCtcValidValueRepository proCtcValidValueRepository;
     /**
      * The controller tools.
      */
@@ -58,17 +58,15 @@ public class CtcAeSimpleFormController extends SimpleFormController {
         binder.registerCustomEditor(Date.class, controllerTools.getDateEditor(true));
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 
-        RepositoryBasedEditor organizationEditor = new RepositoryBasedEditor(finderRepository, Organization.class);
+        RepositoryBasedEditor organizationEditor = new RepositoryBasedEditor(organizationRepository, Organization.class);
         binder.registerCustomEditor(Organization.class, organizationEditor);
 
-        RepositoryBasedEditor proCtcValidValueEditor = new RepositoryBasedEditor(finderRepository, ProCtcValidValue.class);
+        RepositoryBasedEditor proCtcValidValueEditor = new RepositoryBasedEditor(proCtcValidValueRepository, ProCtcValidValue.class);
         binder.registerCustomEditor(ProCtcValidValue.class, proCtcValidValueEditor);
 
         binder.registerCustomEditor(Role.class, new EnumByNameEditor<Role>(Role.class));
         binder.registerCustomEditor(RoleStatus.class, new EnumByNameEditor<RoleStatus>(RoleStatus.class));
 
-        RepositoryBasedEditor studySiteEditor = new RepositoryBasedEditor(finderRepository, StudySite.class);
-        binder.registerCustomEditor(StudySite.class, studySiteEditor);
 
     }
 
@@ -111,14 +109,15 @@ public class CtcAeSimpleFormController extends SimpleFormController {
         this.controllerTools = controllerTools;
     }
 
-
-    /**
-     * Sets the finder repository.
-     *
-     * @param finderRepository the new finder repository
-     */
     @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
+
+    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
+        this.organizationRepository = organizationRepository;
+    }
+
+    @Required
+
+    public void setProCtcValidValueRepository(ProCtcValidValueRepository proCtcValidValueRepository) {
+        this.proCtcValidValueRepository = proCtcValidValueRepository;
     }
 }

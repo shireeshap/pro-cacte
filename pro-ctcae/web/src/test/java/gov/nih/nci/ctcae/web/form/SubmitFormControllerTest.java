@@ -2,15 +2,12 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 import org.easymock.EasyMock;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +20,6 @@ import java.util.Map;
 public class SubmitFormControllerTest extends WebTestCase {
     private SubmitFormController controller;
     private WebControllerValidator validator;
-    private FinderRepository finderRepository;
     private GenericRepository genericRepository;
     private SubmitFormCommand command;
 
@@ -38,12 +34,9 @@ public class SubmitFormControllerTest extends WebTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         controller = new SubmitFormController();
-        finderRepository = registerMockFor(FinderRepository.class);
         genericRepository = registerMockFor(GenericRepository.class);
         validator = new WebControllerValidatorImpl();
 
-        controller.setFinderRepository(finderRepository);
-        controller.setGenericRepository(genericRepository);
         controller.setWebControllerValidator(validator);
 
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
@@ -133,7 +126,6 @@ public class SubmitFormControllerTest extends WebTestCase {
     public void testGetRequest() throws Exception {
         request.setMethod("GET");
         request.addParameter("id", "1");
-        EasyMock.expect(finderRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt("1"))).andReturn(studyParticipantCrfSchedule);
         EasyMock.expectLastCall().anyTimes();
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);

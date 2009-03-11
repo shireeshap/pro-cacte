@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -21,7 +20,6 @@ public class RemoveConditionsControllerTest extends WebTestCase {
     private RemoveConditionsController controller;
 
     private CreateFormCommand command;
-    protected FinderRepository finderRepository;
     private ProCtcValidValue proCtcValidValue1;
     private ProCtcValidValue proCtcValidValue2;
     private ProCtcValidValue proCtcValidValue;
@@ -32,7 +30,6 @@ public class RemoveConditionsControllerTest extends WebTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         controller = new RemoveConditionsController();
-        finderRepository = registerMockFor(FinderRepository.class);
         command = new CreateFormCommand();
         proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
         controller.setProCtcQuestionRepository(proCtcQuestionRepository);

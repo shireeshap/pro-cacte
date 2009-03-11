@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,11 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ManageFormController extends AbstractController {
 
-    /**
-     * The finder repository.
-     */
-    private FinderRepository finderRepository;
-
+    private StudyRepository studyRepository;
 
     /**
      * Instantiates a new manage form controller.
@@ -42,7 +38,7 @@ public class ManageFormController extends AbstractController {
         ModelAndView modelAndView = new ModelAndView("form/manageForm");
         String studyId = request.getParameter("studyId");
         if (!StringUtils.isBlank(studyId)) {
-            Study study = finderRepository.findById(Study.class, Integer.parseInt(studyId));
+            Study study = studyRepository.findById(Integer.parseInt(studyId));
             if (study != null) {
                 modelAndView.getModel().put("study", study);
             }
@@ -56,8 +52,8 @@ public class ManageFormController extends AbstractController {
      * @param finderRepository the new finder repository
      */
     @Required
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-	}
 
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
+    }
 }

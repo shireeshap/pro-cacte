@@ -2,16 +2,11 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import org.easymock.EasyMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -22,7 +17,6 @@ public class SubmitFormCommandTest extends WebTestCase {
 
     private SubmitFormCommand command;
     private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
-    FinderRepository finderRepository;
     GenericRepository genericRepository;
     List<ProCtcQuestion> questions = new ArrayList<ProCtcQuestion>();
     private CRF crf, newCrf;
@@ -34,10 +28,7 @@ public class SubmitFormCommandTest extends WebTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         command = new SubmitFormCommand();
-        finderRepository = registerMockFor(FinderRepository.class);
         genericRepository = registerMockFor(GenericRepository.class);
-        command.setFinderRepository(finderRepository);
-        command.setGenericRepository(genericRepository);
 
 
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
@@ -91,7 +82,6 @@ public class SubmitFormCommandTest extends WebTestCase {
         studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem4);
 
 
-
         questions.add(proCtcQuestion1);
         questions.add(proCtcQuestion2);
         questions.add(proCtcQuestion3);
@@ -101,7 +91,6 @@ public class SubmitFormCommandTest extends WebTestCase {
         questions.add(proCtcQuestion7);
         questions.add(proCtcQuestion8);
         command.setProCtcQuestions(questions);
-
 
 
         crf = Fixture.createCrf();

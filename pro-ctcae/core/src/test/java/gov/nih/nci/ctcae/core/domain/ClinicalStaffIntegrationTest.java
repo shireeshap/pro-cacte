@@ -116,9 +116,9 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
 
         commitAndStartNewTransaction();
 
-        OrganizationClinicalStaff organizationClinicalStaff = finderRepository.findById(OrganizationClinicalStaff.class, defaultOrganizationClinicalStaff.getId());
 
-        assertNull("must remove site clinical staff ", organizationClinicalStaff);
+        assertNull("must remove site clinical staff ",
+                jdbcTemplate.queryForInt("select count(*) from ORGANIZATION_CLINICAL_STAFFS where id=?", new Object[]{defaultOrganizationClinicalStaff.getId()}));
     }
 
     public void testfindByOrganizationId() {

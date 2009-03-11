@@ -1,8 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.*;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
@@ -23,20 +22,14 @@ public class SubmitFormCommand implements Serializable {
      */
     private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
 
+    private CRFRepository crfRepository;
+
+    private StudyParticipantCrfAddedQuestionRepository studyParticipantCrfAddedQuestionRepository;
+
     /**
      * The display rules.
      */
     private Hashtable<Integer, String> displayRules = new Hashtable<Integer, String>();
-
-    /**
-     * The finder repository.
-     */
-    private FinderRepository finderRepository;
-
-    /**
-     * The generic repository.
-     */
-    private GenericRepository genericRepository;
 
     /**
      * The current page index.
@@ -48,6 +41,11 @@ public class SubmitFormCommand implements Serializable {
      */
     private int totalPages;
 
+    private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
+
+    private StudyParticipantCrfScheduleAddedQuestionRepository studyParticipantCrfScheduleAddedQuestionRepository;
+
+    private StudyParticipantCrfRepository studyParticipantCrfRepository;
     /**
      * The direction.
      */
@@ -122,14 +120,14 @@ public class SubmitFormCommand implements Serializable {
                 StudyParticipantCrfSchedule newSchedule = createScheduleForNewStudyParticipantCrf(latestEffectiveCrf);
                 addParticipantAddedQuestionsToNewSchedule(latestEffectiveCrf, newSchedule.getStudyParticipantCrf());
                 if (newSchedule != null) {
-                    genericRepository.save(newSchedule.getStudyParticipantCrf());
-                    genericRepository.delete(studyParticipantCrfSchedule);
+                    studyParticipantCrfRepository.save(newSchedule.getStudyParticipantCrf());
+                    studyParticipantCrfScheduleRepository.delete(studyParticipantCrfSchedule);
                     studyParticipantCrfSchedule = newSchedule;
                 }
             }
 
             createInstanceOfAddedQuestions();
-            genericRepository.save(studyParticipantCrfSchedule);
+            studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
         }
         return studyParticipantCrfSchedule;
     }
@@ -156,7 +154,7 @@ public class SubmitFormCommand implements Serializable {
         CRF latestEffectiveCrf = originalCrf;
         Integer nextVersionId = latestEffectiveCrf.getNextVersionId();
         while (nextVersionId != null) {
-            CRF nextCrf = finderRepository.findById(CRF.class, nextVersionId);
+            CRF nextCrf = crfRepository.findById(nextVersionId);
             if (nextCrf.getStatus().equals(CrfStatus.RELEASED) && today.after(nextCrf.getEffectiveStartDate())) {
                 latestEffectiveCrf = nextCrf;
             }
@@ -305,23 +303,6 @@ public class SubmitFormCommand implements Serializable {
         this.direction = direction;
     }
 
-    /**
-     * Sets the finder repository.
-     *
-     * @param finderRepository the new finder repository
-     */
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
-    }
-
-    /**
-     * Sets the generic repository.
-     *
-     * @param genericRepository the new generic repository
-     */
-    public void setGenericRepository(GenericRepository genericRepository) {
-        this.genericRepository = genericRepository;
-    }
 
     /**
      * Gets the flash message.
@@ -350,7 +331,7 @@ public class SubmitFormCommand implements Serializable {
         Hashtable<String, List<ProCtcQuestion>> arrangedQuestions = new Hashtable<String, List<ProCtcQuestion>>();
         List<ProCtcQuestion> l;
         ArrayList<Integer> includedQuestionIds = new ArrayList<Integer>();
-        studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
+        studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(studyParticipantCrfSchedule.getId());
 
         for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
             includedQuestionIds.add(studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getId());
@@ -405,7 +386,7 @@ public class SubmitFormCommand implements Serializable {
                 displayList.add(symptom);
                 i++;
             }
-            if(i>20){
+            if (i > 20) {
                 break;
             }
         }
@@ -458,11 +439,11 @@ public class SubmitFormCommand implements Serializable {
 
         if (questionsToBeDeleted != null && questionsToBeDeleted.size() > 0) {
 
-            studyParticipantCrfSchedule = finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
+            studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(studyParticipantCrfSchedule.getId());
             int myPageNumber = -1;
             for (String id : questionsToBeDeleted) {
                 if (!StringUtils.isBlank(id)) {
-                    StudyParticipantCrfScheduleAddedQuestion spcsaq = finderRepository.findById(StudyParticipantCrfScheduleAddedQuestion.class, new Integer(id));
+                    StudyParticipantCrfScheduleAddedQuestion spcsaq = studyParticipantCrfScheduleAddedQuestionRepository.findById(new Integer(id));
                     if (spcsaq != null) {
                         StudyParticipantCrfAddedQuestion s = spcsaq.getStudyParticipantCrfAddedQuestion();
                         if (s != null) {
@@ -471,7 +452,7 @@ public class SubmitFormCommand implements Serializable {
                                 return;
                             }
                             studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(s);
-                            genericRepository.delete(s);
+                            studyParticipantCrfAddedQuestionRepository.delete(s);
 
                             if (myPageNumber != -1) {
                                 List<StudyParticipantCrfAddedQuestion> l = new ArrayList<StudyParticipantCrfAddedQuestion>();
@@ -483,14 +464,14 @@ public class SubmitFormCommand implements Serializable {
 
                                 for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : l) {
                                     studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
-                                    genericRepository.delete(studyParticipantCrfAddedQuestion);
+                                    studyParticipantCrfAddedQuestionRepository.delete(studyParticipantCrfAddedQuestion);
                                 }
 
                                 for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
                                     if (studyParticipantCrfAddedQuestion.getPageNumber() > myPageNumber) {
                                         int oldPageNumber = studyParticipantCrfAddedQuestion.getPageNumber();
                                         studyParticipantCrfAddedQuestion.setPageNumber(oldPageNumber - 1);
-                                        genericRepository.save(studyParticipantCrfAddedQuestion);
+                                        studyParticipantCrfAddedQuestionRepository.save(studyParticipantCrfAddedQuestion);
                                     }
                                 }
                             }
@@ -554,5 +535,25 @@ public class SubmitFormCommand implements Serializable {
 
     public void setQuestionsToBeDeleted(Set<String> questionsToBeDeleted) {
         this.questionsToBeDeleted = questionsToBeDeleted;
+    }
+
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
+    }
+
+    public void setStudyParticipantCrfScheduleRepository(StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {
+        this.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
+    }
+
+    public void setStudyParticipantCrfScheduleAddedQuestionRepository(StudyParticipantCrfScheduleAddedQuestionRepository studyParticipantCrfScheduleAddedQuestionRepository) {
+        this.studyParticipantCrfScheduleAddedQuestionRepository = studyParticipantCrfScheduleAddedQuestionRepository;
+    }
+
+    public void setStudyParticipantCrfRepository(StudyParticipantCrfRepository studyParticipantCrfRepository) {
+        this.studyParticipantCrfRepository = studyParticipantCrfRepository;
+    }
+
+    public void setStudyParticipantCrfAddedQuestionRepository(StudyParticipantCrfAddedQuestionRepository studyParticipantCrfAddedQuestionRepository) {
+        this.studyParticipantCrfAddedQuestionRepository = studyParticipantCrfAddedQuestionRepository;
     }
 }
