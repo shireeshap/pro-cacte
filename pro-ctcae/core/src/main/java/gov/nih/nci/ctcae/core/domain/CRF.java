@@ -488,7 +488,7 @@ public class CRF extends BaseVersionable {
      *
      * @return the copy
      */
-    public CRF getCopy() {
+    public CRF copy() {
         CRF copiedCrf = new CRF();
         copiedCrf.setTitle("Copy of " + title + "_" + System.currentTimeMillis());
         copiedCrf.setDescription(description);
@@ -496,7 +496,7 @@ public class CRF extends BaseVersionable {
         copiedCrf.setCrfVersion(crfVersion);
         copiedCrf.setStudy(getStudy());
         for (CRFPage crfPage : crfPages) {
-            copiedCrf.addCrfPage(crfPage.getCopy());
+            copiedCrf.addCrfPage(crfPage.copy());
         }
 
         return copiedCrf;
@@ -803,4 +803,5 @@ public class CRF extends BaseVersionable {
             crfCycleDefinitions.add(crfCycleDefinition);
         }
     }
+
 }

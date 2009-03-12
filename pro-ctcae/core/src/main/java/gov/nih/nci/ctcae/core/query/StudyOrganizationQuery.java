@@ -28,6 +28,7 @@ public class StudyOrganizationQuery extends AbstractQuery {
      * The Constant STUDY_SITE.
      */
     private static final String STUDY_SITE = "studySite";
+    private static final String ORGANIZATION_NAME = "name";
 
     /**
      * Instantiates a new study organization query.
@@ -55,6 +56,12 @@ public class StudyOrganizationQuery extends AbstractQuery {
         andWhere("o.class = :" + STUDY_SITE);
         setParameter(STUDY_SITE, "SST");
 
+    }
+
+       public void filterByOrganizationName(final String name) {
+        String searchString = "%" + name.toLowerCase() + "%";
+        andWhere("lower(o.organization.name) LIKE :" + ORGANIZATION_NAME);
+        setParameter(ORGANIZATION_NAME, searchString);
     }
 
     /**

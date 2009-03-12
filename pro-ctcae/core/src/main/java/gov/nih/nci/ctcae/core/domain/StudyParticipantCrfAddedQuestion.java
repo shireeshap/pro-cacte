@@ -128,7 +128,7 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
      *
      * @return the copy
      */
-    public StudyParticipantCrfAddedQuestion getCopy() {
+    public StudyParticipantCrfAddedQuestion copy() {
         StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = new StudyParticipantCrfAddedQuestion();
         studyParticipantCrfAddedQuestion.setPageNumber(pageNumber);
         studyParticipantCrfAddedQuestion.setStudyParticipantCrf(studyParticipantCrf);

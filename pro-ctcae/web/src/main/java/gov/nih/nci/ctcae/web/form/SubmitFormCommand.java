@@ -196,7 +196,7 @@ public class SubmitFormCommand implements Serializable {
                 }
             }
             if (!isAlreadyPresent) {
-                StudyParticipantCrfAddedQuestion newStudyParticipantCrfAddedQuestion = studyParticipantCrfAddedQuestion.getCopy();
+                StudyParticipantCrfAddedQuestion newStudyParticipantCrfAddedQuestion = studyParticipantCrfAddedQuestion.copy();
                 int myPageNumber;
                 if (symptomPage.containsKey(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm())) {
                     myPageNumber = symptomPage.get(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());

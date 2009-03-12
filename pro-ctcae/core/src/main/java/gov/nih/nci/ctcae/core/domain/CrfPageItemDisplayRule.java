@@ -161,7 +161,7 @@ public class CrfPageItemDisplayRule extends BasePersistable {
      *
      * @return the copy
      */
-    public CrfPageItemDisplayRule getCopy() {
+    public CrfPageItemDisplayRule copy() {
         CrfPageItemDisplayRule copiedCrfPageItemDisplayRule = new CrfPageItemDisplayRule();
         copiedCrfPageItemDisplayRule.setProCtcValidValue(getProCtcValidValue());
         return copiedCrfPageItemDisplayRule;

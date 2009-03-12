@@ -257,12 +257,12 @@ public class CRFPage extends BaseVersionable {
      *
      * @return the copy
      */
-    public CRFPage getCopy() {
+    public CRFPage copy() {
 
         CRFPage copiedCrfPage = new CRFPage();
         copiedCrfPage.setDescription(description);
         for (CrfPageItem crfPageItem : crfPageItems) {
-            copiedCrfPage.addCrfPageItem(crfPageItem.getCopy());
+            copiedCrfPage.addCrfPageItem(crfPageItem.copy());
         }
 
         return copiedCrfPage;

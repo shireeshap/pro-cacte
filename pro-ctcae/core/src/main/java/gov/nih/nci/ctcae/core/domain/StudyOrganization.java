@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.apache.commons.lang.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -71,6 +72,9 @@ public abstract class StudyOrganization extends BasePersistable {
     @ManyToOne
     @JoinColumn(name = "study_id", nullable = false)
     private Study study;
+
+    @Transient
+    private String displayName;
 
     /**
      * Gets the study participant assignments.
@@ -168,5 +172,16 @@ public abstract class StudyOrganization extends BasePersistable {
 
     public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffs() {
         return studyOrganizationClinicalStaffs;
+    }
+
+    public String getDisplayName() {
+        if(StringUtils.isBlank(displayName)){
+            displayName = organization.getName();
+        }
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

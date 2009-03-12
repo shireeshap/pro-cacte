@@ -19,6 +19,8 @@ public class ObjectToolsTest extends TestCase {
     private StudyOrganizationClinicalStaff studyOrganizationClinicalStaff;
     protected OrganizationClinicalStaff organizationClinicalStaff;
     protected ClinicalStaff clinicalStaff;
+    protected CRF crf1, crf2, crf3;
+    protected List<CRF> crfs = new ArrayList<CRF>();
 
     @Override
     protected void setUp() throws Exception {
@@ -32,6 +34,14 @@ public class ObjectToolsTest extends TestCase {
         organizationClinicalStaff.setClinicalStaff(clinicalStaff);
 
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(organizationClinicalStaff);
+
+        crf1 = Fixture.createCrf("a", CrfStatus.DRAFT,"1.0");
+        crf2= Fixture.createCrf("b", CrfStatus.DRAFT,"1.0");
+        crf3 = Fixture.createCrf("c", CrfStatus.DRAFT,"1.0");
+
+        crfs.add(crf1);
+        crfs.add(crf2);
+        crfs.add(crf3);
 
     }
 
@@ -71,6 +81,13 @@ public class ObjectToolsTest extends TestCase {
         }
 
     }
+    public void testReduceAllForCRF() throws Exception {
+        List<CRF> newcrfs = ObjectTools.reduceAll(crfs, "id", "title");
+        assertEquals(3, newcrfs.size());
+        assertEquals("a", newcrfs.get(0).getTitle());
+
+
+    }
 
     public void testReduceAll() throws Exception {
         List<Bean> src = Arrays
@@ -99,6 +116,8 @@ public class ObjectToolsTest extends TestCase {
         assertEquals("Wrong long", expectedLong, actual.getPrimitiveLong());
         assertEquals("Wrong byte", expectedByte, actual.getPrimitiveByte());
     }
+
+
 
     private static class Bean {
         private String string;

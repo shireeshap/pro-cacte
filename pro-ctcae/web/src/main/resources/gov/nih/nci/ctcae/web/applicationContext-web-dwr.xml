@@ -11,6 +11,7 @@
     <bean id="organizationAjaxFacade"
           class="gov.nih.nci.ctcae.web.organization.OrganizationAjaxFacade">
         <property name="organizationRepository" ref="organizationRepository"/>
+        <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
     <bean id="studyAjaxFacade"
           class="gov.nih.nci.ctcae.web.study.StudyAjaxFacade">

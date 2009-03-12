@@ -1,12 +1,15 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 //
 /**
@@ -55,4 +58,14 @@ public class StudyOrganizationRepository implements Repository<StudyOrganization
 
 
     }
+
+    public List<StudyOrganization> findByStudyId(String text, Integer studyId) {
+        StudyOrganizationQuery query = new StudyOrganizationQuery();
+        query.filterByOrganizationName(text);
+        query.filterByStudyId(studyId);
+        query.filterByStudySiteOnly();
+        return (List<StudyOrganization>) find(query);
+
+    }
+
 }

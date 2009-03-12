@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.web.tools.ObjectTools;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -39,13 +40,14 @@ public class CrfAjaxFacade {
         return table;
     }
 
+
     /**
      * Gets the objects.
      *
      * @param id the id
      * @return the objects
      */
-    private List<CRF> getObjects(Integer id) {
+    public List<CRF> getObjects(Integer id) {
         CRFQuery crfQuery = new CRFQuery();
 
         if (id != null) {
@@ -54,6 +56,17 @@ public class CrfAjaxFacade {
         }
         List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
         return crfs;
+    }
+
+    /**
+     * Gets the objects.
+     *
+     * @param id the id
+     * @return the objects
+     */
+    public List<CRF> getReducedCrfs(Integer id) {
+        List<CRF> crfs = getObjects(id);
+        return ObjectTools.reduceAll(crfs, "id", "title");
     }
 
 

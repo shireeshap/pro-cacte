@@ -310,6 +310,11 @@ public class ProCtcAECalendar {
 
         Calendar c1 = Calendar.getInstance();
         c1.set(year, month - 1, day);
+        c1.set(Calendar.AM_PM,0);
+        c1.set(Calendar.HOUR,0);
+        c1.set(Calendar.MINUTE,0);
+        c1.set(Calendar.SECOND,0);
+        c1.set(Calendar.MILLISECOND,0);
         return c1;
     }
 

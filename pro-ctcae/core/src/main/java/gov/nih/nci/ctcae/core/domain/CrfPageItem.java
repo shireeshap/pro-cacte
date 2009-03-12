@@ -241,7 +241,7 @@ public class CrfPageItem extends BasePersistable {
      *
      * @return the copy
      */
-    public CrfPageItem getCopy() {
+    public CrfPageItem copy() {
         CrfPageItem copiedCrfPageItem = new CrfPageItem();
         copiedCrfPageItem.setInstructions(instructions);
         copiedCrfPageItem.setDisplayOrder(displayOrder);
@@ -249,7 +249,7 @@ public class CrfPageItem extends BasePersistable {
         copiedCrfPageItem.setCrfItemAllignment(crfItemAllignment);
         copiedCrfPageItem.setProCtcQuestion(proCtcQuestion);
         for (CrfPageItemDisplayRule crfPageItemDisplayRule : crfPageItemDisplayRules) {
-            copiedCrfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule.getCopy());
+            copiedCrfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule.copy());
         }
         return copiedCrfPageItem;
     }

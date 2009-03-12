@@ -167,7 +167,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
         crf = findById(crf.getId());
         Integer parentVersionId = crf.getId();
         String newVersion = "" + (new Float(crf.getCrfVersion()) + 1);
-        CRF copiedCRF = crf.getCopy();
+        CRF copiedCRF = crf.copy();
         copiedCRF.setTitle(crf.getTitle());
         copiedCRF.setCrfVersion(newVersion);
         copiedCRF.setParentVersionId(parentVersionId);
@@ -175,14 +175,14 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
         genericRepository.save(copiedCRF);
 
         Integer nextVersionId = copiedCRF.getId();
-        crf.setNextVersionId(nextVersionId);
+        crf.setNextVersionId(nextVersionId);                                   
         crf = genericRepository.save(crf);
         return crf;
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public CRF copy(CRF crf) {
-        CRF copiedCrf = crf.getCopy();
+        CRF copiedCrf = crf.copy();
         copiedCrf.setCrfVersion("1.0");
         return genericRepository.save(copiedCrf);
     }

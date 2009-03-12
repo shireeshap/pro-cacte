@@ -51,10 +51,10 @@ public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
         assertNotNull(crf.getId());
     }
 
-    public void testGetCopy() {
+    public void testCopy() {
         saveCrf();
 
-        CRF copiedCrf = crf.getCopy();
+        CRF copiedCrf = crf.copy();
         crfRepository.save(copiedCrf);
         assertNotNull(copiedCrf.getId());
     }

@@ -3,11 +3,13 @@ package gov.nih.nci.ctcae.core.repository;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 //
 /**
@@ -56,4 +58,7 @@ public class OrganizationRepository implements Repository<Organization, Organiza
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
+
+
+
 }

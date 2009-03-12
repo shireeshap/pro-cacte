@@ -1,8 +1,12 @@
 package gov.nih.nci.ctcae.web.organization;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,6 +30,7 @@ public class OrganizationAjaxFacade {
      * The organization repository.
      */
     private OrganizationRepository organizationRepository;
+    private StudyOrganizationRepository studyOrganizationRepository;
 
     /**
      * The log.
@@ -49,6 +54,12 @@ public class OrganizationAjaxFacade {
 
     }
 
+    public List<StudyOrganization> matchOrganizationByStudyId(final String text, Integer studyId) {
+        List<StudyOrganization> organizations = studyOrganizationRepository.findByStudyId(text, studyId);
+        return ObjectTools.reduceAll(organizations, "id", "displayName");
+
+    }
+
 
     /**
      * Sets the organization repository.
@@ -58,6 +69,11 @@ public class OrganizationAjaxFacade {
     @Required
     public void setOrganizationRepository(final OrganizationRepository organizationRepository) {
         this.organizationRepository = organizationRepository;
+    }
+
+    @Required
+    public void setStudyOrganizationRepository(final StudyOrganizationRepository studyOrganizationRepository) {
+        this.studyOrganizationRepository= studyOrganizationRepository;
     }
 
 }
