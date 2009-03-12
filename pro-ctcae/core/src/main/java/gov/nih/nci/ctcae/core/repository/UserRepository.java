@@ -64,6 +64,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaff.getOrganizationClinicalStaffs();
         for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
             List<String> privileges = privilegeGenerator.generatePrivilege(organizationClinicalStaff);
+            privileges.addAll(privilegeGenerator.generatePrivilege(organizationClinicalStaff.getOrganization()));
             for (String privilege : privileges) {
                 instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
             }

@@ -1,10 +1,7 @@
 package gov.nih.nci.ctcae.core.security;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.CRFQuery;
-import gov.nih.nci.ctcae.core.query.ParticipantQuery;
-import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
-import gov.nih.nci.ctcae.core.query.StudyQuery;
+import gov.nih.nci.ctcae.core.query.*;
 import org.springframework.security.AccessDeniedException;
 
 import java.util.Collection;
@@ -44,22 +41,30 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
     }
 
 
-    public void testOrganizationInstanceSecurityForCreateClinicalStaff() throws Exception {
-//        login(user);
-//
-//        List<Organization> organizations = (List<Organization>) organizationRepository.find(new OrganizationQuery());
-//
-//        assertFalse("must find organizations", organizations.isEmpty());
-//        assertEquals("user should see his organization only.", 1, organizations.size());
-//        login(anotherUser);
-//        try {
-//            organizationRepository.findById(wake.getId());
-//            fail("user must not see other organizations.");
-//        } catch (AccessDeniedException e) {
-//
-//        }
+    public void testOrganizationInstanceSecurity() throws Exception {
+        login(user);
 
-        fail("fix this test case");
+        OrganizationQuery organizationQuery = new OrganizationQuery();
+
+        List<Organization> organizations = (List<Organization>) organizationRepository.find(organizationQuery);
+
+        assertFalse("must find organizations", organizations.isEmpty());
+        assertEquals("user should see his organization only.", 1, organizations.size());
+        assertEquals("user should see his organization only.", defaultOrganization, organizationRepository.findById(defaultOrganization.getId()));
+
+
+        organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByNciCodeExactMatch(defaultOrganization.getNciInstituteCode());
+        assertEquals("user should see his organization only.", defaultOrganization, organizationRepository.findSingle(organizationQuery));
+
+        login(anotherUser);
+        try {
+            organizationRepository.findById(defaultOrganization.getId());
+            fail("user must not see other organizations.");
+        } catch (AccessDeniedException e) {
+
+        }
+
     }
 
     public void testOrganizationClinicalStaffSecurityOnFind() throws Exception {

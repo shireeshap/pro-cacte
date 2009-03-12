@@ -30,7 +30,7 @@ public class DomainObjectPrivilegeGenerator {
     }
 
     private String generatePrivilege(OrganizationClinicalStaff organizationClinicalStaff) {
-        return generatePrivilege(organizationClinicalStaff.getOrganization());
+        return OrganizationClinicalStaff.class.getName() + ".ORGANIZATION_ID." + organizationClinicalStaff.getOrganization().getId();
 
 
     }
@@ -66,6 +66,7 @@ public class DomainObjectPrivilegeGenerator {
             privileges.add(generatePrivilegeForPersistable(studyOrganization));
         }
         privileges.add(generatePrivilegeForPersistable(studyOrganization.getStudy()));
+        privileges.add(generatePrivilege(studyOrganizationClinicalStaff.getOrganizationClinicalStaff()));
 
         return privileges;
     }

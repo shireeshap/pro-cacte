@@ -6,6 +6,8 @@ import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 //
 /**
@@ -141,6 +143,19 @@ public class User extends BaseVersionable implements UserDetails {
 
     public void setGrantedAuthorities(GrantedAuthority[] grantedAuthorities) {
         this.grantedAuthorities = grantedAuthorities;
+    }
+
+    public List<Integer> getAccessableOrganizationIds() {
+        List<Integer> accessableOrganizationIds = new ArrayList<Integer>();
+        for (GrantedAuthority grantedAuthority : grantedAuthorities) {
+            String requiredPrivilege = Organization.class.getName() + ".";
+            if (grantedAuthority.getAuthority().contains(requiredPrivilege)) {
+                String authority = grantedAuthority.getAuthority();
+                accessableOrganizationIds.add(Integer.valueOf(authority.substring(requiredPrivilege.length(), authority.length())));
+            }
+        }
+
+        return accessableOrganizationIds;
     }
 
     @Override

@@ -1,5 +1,10 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.security.ApplicationSecurityManager;
+
+import java.util.List;
+
 //
 /**
  * The Class OrganizationQuery.
@@ -18,6 +23,7 @@ public class OrganizationQuery extends AbstractQuery {
      * The ORGANIZATIO n_ name.
      */
     private static String ORGANIZATION_NAME = "name";
+    private static String ORGANIZATION_IDS = "ids";
 
     /**
      * The NC i_ code.
@@ -30,6 +36,18 @@ public class OrganizationQuery extends AbstractQuery {
     public OrganizationQuery() {
 
         super(queryString);
+
+        User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
+        List<Integer> organizationIds = currentLoggedInUser.getAccessableOrganizationIds();
+        filterByOrganizationIds(organizationIds);
+
+    }
+
+    private void filterByOrganizationIds(List<Integer> organizationIds) {
+
+        andWhere("o.id in (:" + ORGANIZATION_IDS + ")");
+        setParameterList(ORGANIZATION_IDS, organizationIds);
+
     }
 
     /**
