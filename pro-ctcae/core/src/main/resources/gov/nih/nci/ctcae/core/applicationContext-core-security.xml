@@ -71,7 +71,7 @@
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.save(..))"
-                access="PRIVILEGE_CREATE_STUDY,PRIVILEGE_EDIT_STUDY"/>
+                access="PRIVILEGE_CREATE_STUDY,PRIVILEGE_EDIT_STUDY,PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.find*(..))"

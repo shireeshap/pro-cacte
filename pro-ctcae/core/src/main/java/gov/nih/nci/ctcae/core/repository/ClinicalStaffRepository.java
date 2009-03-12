@@ -79,9 +79,6 @@ public class ClinicalStaffRepository implements Repository<ClinicalStaff, Clinic
         return genericRepository.find(query);
     }
 
-    public List<StudyOrganizationClinicalStaff> findStudyOrganizationClinicalStaff(StudyOrganizationClinicalStaffQuery query) {
-        return genericRepository.find(query);
-    }
 
     @Required
     public void setUserRepository(UserRepository userRepository) {

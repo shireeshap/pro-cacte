@@ -35,6 +35,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected StudySite defaultStudySite;
     protected StudySite studySite1;
     protected StudyRepository studyRepository;
+    protected GenericRepository genericRepository;
     protected UserRepository userRepository;
     protected StudyOrganizationRepository studyOrganizationRepository;
     public DaoAuthenticationProvider daoAuthenticationProvider;
@@ -422,5 +423,10 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     @Required
     public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
         this.studyOrganizationRepository = studyOrganizationRepository;
+    }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }

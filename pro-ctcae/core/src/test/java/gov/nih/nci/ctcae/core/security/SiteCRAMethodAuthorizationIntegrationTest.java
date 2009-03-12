@@ -63,6 +63,7 @@ public class SiteCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
         List<String> allowedMethods = allowedMethodsMap.get(ClinicalStaffRepository.class);
 
         allowedMethods.add(SEARCH_CLINICAL_STAFF_BY_SS_METHOD);
+        allowedMethods.add(FIND_BY_ID_METHOD);
 
         authorizeAndUnAuthorizeMethods(organizationClinicalStaffRepository, OrganizationClinicalStaffRepository.class, allowedMethods);
 
@@ -87,6 +88,8 @@ public class SiteCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
         allowedMethods.add(SEARCH_SINGLE_STUDY_METHOD);
         allowedMethods.add(SEARCH_STUDY_BY_ID_METHOD);
         allowedMethods.add(ADD_STUDY_SITE_CLINICAL_STAFF_METHOD);
+        allowedMethods.add(CREATE_STUDY_METHOD);
+        allowedMethods.add(EDIT_STUDY_METHOD);
 
 
         authorizeAndUnAuthorizeMethods(studyRepository, StudyRepository.class, allowedMethods);
@@ -100,7 +103,6 @@ public class SiteCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
         allowedMethods.add(SCHEDULE_CRF_METHOD);
         authorizeAndUnAuthorizeMethods(studyParticipantAssignmentRepository, StudyParticipantAssignmentRepository.class, allowedMethods);
 
-        commitAndStartNewTransaction();
 
     }
 

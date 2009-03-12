@@ -1,15 +1,16 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
+import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -19,6 +20,8 @@ import java.util.Map;
 public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
 
     private StudyRepository studyRepository;
+
+    private StudyOrganizationRepository studyOrganizationRepository;
 
     public StudySiteClinicalStaffTab() {
         super("study.tab.study_site_clinical_staff", "study.tab.study_site_clinical_staff", "study/study_site_clinical_staff");
@@ -37,8 +40,11 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
     public Map<String, Object> referenceData(StudyCommand command) {
         Map<String, Object> referenceData = super.referenceData(command);
 
-        Study study = command.getStudy();
-        List<StudySite> studySites = study.getStudySites();
+        StudyOrganizationQuery query = new StudyOrganizationQuery();
+        query.filterByStudyId(command.getStudy().getId());
+        query.filterByStudySiteOnly();
+
+        Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
 
 
         referenceData.put("studySites", studySites);
@@ -62,5 +68,9 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
 
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
+    }
+
+    public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
+        this.studyOrganizationRepository = studyOrganizationRepository;
     }
 }

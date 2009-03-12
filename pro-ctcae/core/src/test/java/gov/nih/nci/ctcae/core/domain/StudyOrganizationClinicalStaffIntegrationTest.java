@@ -39,7 +39,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
         StudyOrganizationClinicalStaffQuery query = new StudyOrganizationClinicalStaffQuery();
 
         query.filterByClinicalStaffId(defaultClinicalStaff.getId());
-        List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffRepository.findStudyOrganizationClinicalStaff(query);
+        List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = genericRepository.find(query);
 
         assertFalse(organizationClinicalStaffList.isEmpty());
         for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaffList) {
@@ -51,7 +51,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
     public void testDeleteStudyOrganizationClinicalStaff() {
 
 
-        assertNotNull("must find study clinical staff", studyRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId()));
+        assertNotNull("must find study clinical staff", genericRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId()));
 
         //now remove it
         defaultStudySite.getStudyOrganizationClinicalStaffs().clear();
@@ -59,7 +59,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
 
         commitAndStartNewTransaction();
 
-        StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = studyRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId());
+        StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = genericRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId());
         assertNull("must remove study clinical staff", expectedStudyOrganizationClinicalStaff);
 
     }
@@ -67,7 +67,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
     public void testUpdateStudyOrganizationClinicalStaff() {
 
 
-        assertNotNull("must find study clinical staff", studyRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId()));
+        assertNotNull("must find study clinical staff", genericRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId()));
 
         //now update it
         StudyOrganizationClinicalStaff staff = defaultStudySite.getStudyOrganizationClinicalStaffs().get(0);
@@ -77,7 +77,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
 
         commitAndStartNewTransaction();
 
-        StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = studyRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId());
+        StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = genericRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId());
         assertNotNull("must not study clinical staff", expectedStudyOrganizationClinicalStaff);
         assertEquals("must not study clinical staff", organizationClinicalStaff, expectedStudyOrganizationClinicalStaff.getOrganizationClinicalStaff());
 
