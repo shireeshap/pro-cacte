@@ -44,6 +44,9 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Column(name = "due_date")
     private Date dueDate;
 
+    @Column(name = "is_holiday")
+    private boolean holiday;
+
     /**
      * The status.
      */
@@ -244,5 +247,13 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             studyParticipantCrfScheduleAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
 
         }
+    }
+
+    public boolean isHoliday() {
+        return holiday;
+    }
+
+    public void setHoliday(boolean holiday) {
+        this.holiday = holiday;
     }
 }
