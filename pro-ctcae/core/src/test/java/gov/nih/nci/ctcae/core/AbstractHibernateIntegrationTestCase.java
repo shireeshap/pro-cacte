@@ -98,7 +98,8 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_CLINICAL_STAFF"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_CLINICAL_STAFF"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Study.GROUP"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Organization.GROUP"),
-                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.CRF.GROUP")
+                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.CRF.GROUP"),
+                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP")
         };
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, Fixture.DEFAULT_PASSWORD, authorities);
         SecurityContextHolder.getContext().setAuthentication(token);
@@ -300,6 +301,15 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
         study.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
         addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+        return studyOrganizationClinicalStaff;
+    }
+
+    protected StudyOrganizationClinicalStaff addTreatingPhysicanOrResearchNurse(OrganizationClinicalStaff organizationClinicalStaff, StudySite studySite, final Role role) {
+        StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
+        studyOrganizationClinicalStaff.setRole(role);
+        studyOrganizationClinicalStaff.setOrganizationClinicalStaff(organizationClinicalStaff);
+
+        studySite.addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
         return studyOrganizationClinicalStaff;
     }
 

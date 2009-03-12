@@ -80,17 +80,9 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
         this.studyRepository = studyRepository;
     }
 
-
-    @Override
-    protected boolean shouldSave(HttpServletRequest request, StudyCommand command) {
-        return true;
-
-
-    }
-
     @Override
     protected boolean shouldSave(HttpServletRequest request, StudyCommand command, Tab tab) {
-        return true;
+        return !(tab instanceof EmptyStudyTab) ? true : false;
 
 
     }

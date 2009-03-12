@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.study;
 
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.ctcae.core.domain.Study;
 import org.springframework.web.bind.ServletRequestUtils;
 
@@ -26,6 +27,17 @@ public class EditStudyController extends StudyController {
 
 
         return studyCommand;
+    }
+
+    @Override
+    protected void layoutTabs(final Flow<StudyCommand> flow) {
+        flow.addTab(new EmptyStudyTab("study.tab.overview", "study.tab.overview", "study/study_reviewsummary"));
+        flow.addTab(new StudyDetailsTab());
+        flow.addTab(new StudySitesTab());
+        flow.addTab(new StudyClinicalStaffTab());
+        flow.addTab(new StudySiteClinicalStaffTab());
+
+
     }
 
 

@@ -100,10 +100,6 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
         }
     }
 
-    protected boolean shouldSave(HttpServletRequest request, C command) {
-        return false;
-    }
-
 
     @Override
     @SuppressWarnings({"unchecked"})

@@ -87,10 +87,15 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
     public void testParticipantSecurityOnFindMultiple() throws Exception {
         login(user);
         Participant participant = createParticipant("John", defaultStudy.getStudySites().get(0));
+        defaultCRF = createCRF(defaultStudy);
 
         login(anotherUser);
         Participant participant1 = createParticipant("Bruce", study1.getStudySites().get(0));
         Participant participant2 = createParticipant("Laura", study2.getStudySites().get(0));
+
+
+        CRF crf1 = createCRF(study1);
+        CRF crf2 = createCRF(study1);
 
 
         assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from PARTICIPANTS") >= 2);

@@ -21,7 +21,7 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
 
 
     public String getRequiredPrivilege() {
-        return Privilege.PRIVILEGE_EDIT_STUDY;
+        return Privilege.PRIVILEGE_CREATE_STUDY;
 
     }
 }

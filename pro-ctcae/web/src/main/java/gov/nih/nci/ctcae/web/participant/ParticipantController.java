@@ -1,18 +1,19 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.*;
-import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
+import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
 
 //
 /**
@@ -101,10 +102,6 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         command.setParticipant(participantRepository.save(command.getParticipant()));
     }
 
-    @Override
-    protected boolean shouldSave(HttpServletRequest request, ParticipantCommand command) {
-        return true;
-    }
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, ParticipantCommand command, Tab tab) {

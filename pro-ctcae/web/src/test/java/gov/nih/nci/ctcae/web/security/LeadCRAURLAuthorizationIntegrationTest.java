@@ -6,7 +6,6 @@ import gov.nih.nci.ctcae.web.form.FormDetailsTab;
 import gov.nih.nci.ctcae.web.form.SelectStudyForFormTab;
 import gov.nih.nci.ctcae.web.participant.*;
 import gov.nih.nci.ctcae.web.study.EmptyStudyTab;
-import gov.nih.nci.ctcae.web.study.StudyDetailsTab;
 import gov.nih.nci.ctcae.web.study.StudySiteClinicalStaffTab;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Feb 26, 2009
  */
-public class LeadCRAAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
+public class LeadCRAURLAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
 
     List<String> allowedUrls = new ArrayList();
 
@@ -68,7 +67,6 @@ public class LeadCRAAuthorizationIntegrationTest extends UrlAuthorizationIntegra
         user = defaultStudy.getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getUser();
 
         allowedTabs.add(new EmptyStudyTab());
-        allowedTabs.add(new StudyDetailsTab());
         allowedTabs.add(new CalendarTemplateTab());
         allowedTabs.add(new FormDetailsTab());
         allowedTabs.add(new SelectStudyForFormTab());

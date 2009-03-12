@@ -267,6 +267,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/ResearchNurseMethod
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/SiteCRAInstanceLevelAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/SiteCRAMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/SitePIMethodAuthorizationIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/TreatingPhysicanInstanceLevelAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/TreatingPhysicanMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialectTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategyTest.java -text
@@ -1015,7 +1016,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCr
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/CCAAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/CommonUrlAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/DomainObjectPrivilegeGeneratorTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/LeadCRAAuthorizationIntegrationTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/LeadCRAURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/ODCUrlAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/PIAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/ResearchNurseAuthorizationIntegrationTest.java -text

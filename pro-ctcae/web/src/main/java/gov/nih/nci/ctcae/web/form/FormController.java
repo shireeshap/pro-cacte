@@ -167,10 +167,6 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
         this.crfRepository = crfRepository;
     }
 
-    @Override
-    protected boolean shouldSave(HttpServletRequest request, CreateFormCommand command) {
-        return true;
-    }
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, CreateFormCommand command, Tab tab) {
