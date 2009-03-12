@@ -236,11 +236,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         addPI(clinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy);
 
 
-        StudyOrganizationClinicalStaff odc = new StudyOrganizationClinicalStaff();
-        odc.setRole(Role.ODC);
-        odc.setOrganizationClinicalStaff(odcClinicalStaff.getOrganizationClinicalStaffs().get(0));
-        defaultStudy.getDataCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(odc);
-
+        StudyOrganizationClinicalStaff odc = addODC(defaultOrganizationClinicalStaff, defaultStudy);
         addStudyOrganizationClinicalStaff(odc);
 
         StudyOrganizationClinicalStaff cca = new StudyOrganizationClinicalStaff();
@@ -304,6 +300,15 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
         study.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
         addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+        return studyOrganizationClinicalStaff;
+    }
+
+    protected StudyOrganizationClinicalStaff addODC(OrganizationClinicalStaff organizationClinicalStaff, Study study) {
+        StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
+        studyOrganizationClinicalStaff.setRole(Role.ODC);
+        studyOrganizationClinicalStaff.setOrganizationClinicalStaff(organizationClinicalStaff);
+
+        study.getDataCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
         return studyOrganizationClinicalStaff;
     }
 
