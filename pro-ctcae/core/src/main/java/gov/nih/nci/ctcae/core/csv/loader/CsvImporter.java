@@ -3,7 +3,7 @@ package gov.nih.nci.ctcae.core.csv.loader;
 import com.csvreader.CsvReader;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CtcQuery;
-import gov.nih.nci.ctcae.core.repository.FinderRepository;
+import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
@@ -23,7 +23,8 @@ public class CsvImporter {
     private static final String QUESTION_TYPE = "Question Type";
     private static final String QUESTION_TEXT = "Question Text";
     private static final String PRO_CTC_VALID_VALUES = "ProCtc Valid Values";
-    private FinderRepository finderRepository;
+
+    private CtcTermRepository ctcTermRepository;
 
     public ProCtc readCsv() throws IOException {
 
@@ -31,7 +32,7 @@ public class CsvImporter {
         HashMap<String, ProCtcQuestion> firstQuestions = new HashMap<String, ProCtcQuestion>();
 
 //        CsvReader reader = new CsvReader("C:\\Users\\Harsh\\workspace\\pro-ctcae\\trunk\\pro-ctcae\\core\\src\\main\\java\\gov\\nih\\nci\\ctcae\\core\\csv\\loader\\ctcae_display_rules.csv");
-        CsvReader reader = new CsvReader("/usr/local/ctcae/source-code/pro-ctcae/trunk/pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv");
+        CsvReader reader = new CsvReader("/Users/saurabhagrawal/projects/pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv");
         reader.readHeaders();
         while (reader.readRecord()) {
             CsvLine csvLine = new CsvLine();
@@ -71,7 +72,7 @@ public class CsvImporter {
             List<CsvLine> list = hm.get(hmKey);
             CtcQuery ctcQuery = new CtcQuery();
             ctcQuery.filterByName(list.get(0).getCtcTerm());
-            List<CtcTerm> ctcTerm = (List<CtcTerm>) finderRepository.find(ctcQuery);
+            List<CtcTerm> ctcTerm = (List<CtcTerm>) ctcTermRepository.find(ctcQuery);
             if (ctcTerm.size() == 0) {
                 System.out.println(list.get(0).getCtcTerm());
                 continue;
@@ -129,8 +130,7 @@ public class CsvImporter {
 
     }
 
-    public void setFinderRepository(FinderRepository finderRepository) {
-        this.finderRepository = finderRepository;
+    public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
+        this.ctcTermRepository = ctcTermRepository;
     }
-
 }
