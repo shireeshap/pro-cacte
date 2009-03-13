@@ -78,6 +78,7 @@ public class PIMethodAuthorizationIntegrationTest extends MethodAuthorizationInt
         allowedMethods.add(RELEASE_FORM_METHOD);
         allowedMethods.add(VERSION_FORM_METHOD);
         allowedMethods.add(ADD_FORM_SCHEDULE_CYFLE_METHOD);
+        allowedMethods.add(COPY_FORM_METHOD);
 
         authorizeAndUnAuthorizeMethods(crfRepository, CRFRepository.class, allowedMethods);
 

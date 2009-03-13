@@ -1022,7 +1022,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/CommonUrlAuthorizatio
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/DomainObjectPrivilegeGeneratorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/LeadCRAURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/ODCUrlAuthorizationIntegrationTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/PIAuthorizationIntegrationTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/PIURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/ResearchNurseAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/SiteCRAAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/SitePIAuthorizationIntegrationTest.java -text

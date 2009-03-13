@@ -143,8 +143,10 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
     }
 
     public void delete(CRF crf) {
-
-
+        if (!crf.isReleased()) {
+            genericRepository.delete(crf);
+        }
+        throw new CtcAeSystemException("Released CRF can not be deleted");
     }
 
     public Collection<CRF> find(CRFQuery query) {
@@ -175,7 +177,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
         genericRepository.save(copiedCRF);
 
         Integer nextVersionId = copiedCRF.getId();
-        crf.setNextVersionId(nextVersionId);                                   
+        crf.setNextVersionId(nextVersionId);
         crf = genericRepository.save(crf);
         return crf;
     }

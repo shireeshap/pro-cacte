@@ -6,7 +6,6 @@ import gov.nih.nci.ctcae.web.form.FormDetailsTab;
 import gov.nih.nci.ctcae.web.form.SelectStudyForFormTab;
 import gov.nih.nci.ctcae.web.participant.*;
 import gov.nih.nci.ctcae.web.study.EmptyStudyTab;
-import gov.nih.nci.ctcae.web.study.StudyDetailsTab;
 import gov.nih.nci.ctcae.web.study.StudySiteClinicalStaffTab;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Feb 26, 2009
  */
-public class PIAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
+public class PIURLAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
 
     List<String> allowedUrls = new ArrayList();
 
@@ -30,6 +29,10 @@ public class PIAuthorizationIntegrationTest extends UrlAuthorizationIntegrationT
 
         allowedUrls.add(MANAGE_FORM_URL);
         allowedUrls.add(ADD_QUESTION_TO_FORM_URL);
+        allowedUrls.add(MONITOR_FORM_URL);
+        allowedUrls.add(MONITOR_FORM_STATUS_URL);
+        allowedUrls.add(COPY_FORM_URL);
+
         allowedUrls.add(ADD_CRF_COMPONENT_URL);
         allowedUrls.add(ALL_CONDITIONS_URL);
         allowedUrls.add(ADD_CONDITIONAL_QUESTION_URL);
@@ -68,7 +71,6 @@ public class PIAuthorizationIntegrationTest extends UrlAuthorizationIntegrationT
         user = defaultStudy.getPrincipalInvestigator().getOrganizationClinicalStaff().getClinicalStaff().getUser();
 
         allowedTabs.add(new EmptyStudyTab());
-        allowedTabs.add(new StudyDetailsTab());
         allowedTabs.add(new CalendarTemplateTab());
         allowedTabs.add(new FormDetailsTab());
         allowedTabs.add(new SelectStudyForFormTab());
@@ -79,7 +81,6 @@ public class PIAuthorizationIntegrationTest extends UrlAuthorizationIntegrationT
         allowedTabs.add(new ParticipantReviewTab());
         allowedTabs.add(new ScheduleCrfTab());
         allowedTabs.add(new SelectStudyParticipantTab());
-
 
     }
 

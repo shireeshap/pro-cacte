@@ -43,6 +43,8 @@ public abstract class UrlAuthorizationIntegrationTestCase extends AbstractWebInt
     protected final String EDIT_FORM_URL = "/pages/form/editForm";
     protected final String RELEASE_FORM_URL = "/pages/form/releaseForm";
     protected final String MANAGE_FORM_URL = "/pages/form/manageForm";
+    protected final String MONITOR_FORM_URL = "/pages/participant/monitorForm";
+    protected final String MONITOR_FORM_STATUS_URL = "/pages/participant/monitorFormStatus";
     protected final String VERSION_FORM_URL = "/pages/form/versionForm";
     protected final String SHOW_VERSION_FORM_URL = "/pages/form/showVersionForm";
     protected final String COPY_FORM_URL = "/pages/form/copyForm";
