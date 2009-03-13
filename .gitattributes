@@ -750,6 +750,7 @@ pro-ctcae/web/src/main/webapp/images/blue/icons/listAdverseEventsController_icon
 pro-ctcae/web/src/main/webapp/images/blue/icons/listNotificationController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/listRuleController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/manageFormController_icon.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/monitorFormController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/participantController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/passwordPolicyConfigurationController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/reportController_icon.png -text
