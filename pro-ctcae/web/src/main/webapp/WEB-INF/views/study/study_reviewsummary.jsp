@@ -14,14 +14,20 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
         .label {
-            width: 25em;
+            width: 15em;
             padding: 1px;
-            margin-right: 0.5em;
+            margin-right: 0.8em;
+        }
+
+        div.row div.label {
+            width: 15em;
+            padding: 1px;
+            margin-left: 0.5em;
         }
 
         div.row div.value {
             white-space: normal;
-            width: 25em;
+            width: 100em;
 
         }
 
@@ -33,6 +39,7 @@
             width: 12em;
             padding: 1px;
         }
+
     </style>
 
 </head>
@@ -47,29 +54,37 @@
     <chrome:division>
         <div class="leftpanel">
             <div class="row">
-                <div class="label"><spring:message code='study.label.assigned_identifier' text=''/></div>
+                <div class="label"><tags:message code='study.label.assigned_identifier'/></div>
                 <div class="value">${command.study.assignedIdentifier} </div>
             </div>
             <div class="row">
-                <div class="label"><spring:message code='study.label.short_title' text=''/></div>
+                <div class="label"><tags:message code='study.label.short_title'/></div>
                 <div class="value">${command.study.shortTitle} </div>
             </div>
             <div class="row">
-                <div class="label"><spring:message code='study.label.long_title' text=''/></div>
+                <div class="label"><tags:message code='study.label.long_title'/></div>
                 <div class="value">${command.study.longTitle} </div>
             </div>
 
             <div class="row">
-                <div class="label"><spring:message code='study.label.description' text=''/></div>
+                <div class="label"><tags:message code='study.label.description'/></div>
                 <div class="value">${command.study.description} </div>
             </div>
             <div class="row">
-                <div class="label"><spring:message code='study.label.study_funding_sponsor' text=''/></div>
+                <div class="label"><tags:message code='study.label.study_coordinating_center'/></div>
+                <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
+            </div>
+            <div class="row">
+                <div class="label"><tags:message code='study.label.study_sponsor'/></div>
                 <div class="value">${command.study.studySponsor.organization.displayName} </div>
             </div>
             <div class="row">
-                <div class="label"><spring:message code='study.label.study_coordinating_center' text=''/></div>
-                <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
+                <div class="label"><tags:message code='study.label.study_funding_sponsor'/></div>
+                <div class="value">${command.study.fundingSponsor.organization.displayName} </div>
+            </div>
+            <div class="row">
+                <div class="label"><tags:message code='study.label.study_lead_site'/></div>
+                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
             </div>
         </div>
     </chrome:division>
