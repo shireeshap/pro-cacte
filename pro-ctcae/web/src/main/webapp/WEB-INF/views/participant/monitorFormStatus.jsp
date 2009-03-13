@@ -40,14 +40,17 @@
 
         td.Scheduled {
             background-color: #0051fc;
+            color:white;
         }
 
         td.In-progress {
             background-color: #ff9900;
+            color:white;
         }
 
         td.Completed {
             background-color: #00cc00;
+            color:white;
         }
         td.Past due{
             background-color: red;
