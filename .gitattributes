@@ -258,6 +258,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -t
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepositoryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/AbstractInstanceLevelAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/CCAMethodAuthorizationIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/ClassUtilsTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/LeadCRAInstanceLevelAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/LeadCRAMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/MethodAuthorizationIntegrationTestCase.java -text
