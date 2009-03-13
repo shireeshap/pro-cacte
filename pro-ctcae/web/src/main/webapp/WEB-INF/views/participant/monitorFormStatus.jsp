@@ -35,10 +35,15 @@
             font-size: x-small;
             font-weight: bold;
         }
+        #formStatusTable {
+            overflow:scroll;
+            margin:0 20px;
+        }
 
     </style>
 </head>
 <body>
+<div id="formStatusTable">
 <table class="widget" cellpadding="0" cellspacing="0">
     <tr>
         <td class="header-top">&nbsp;
@@ -63,7 +68,7 @@
     </c:forEach>
 
 </table>
-
+</div>
 
 </body>
 </html>

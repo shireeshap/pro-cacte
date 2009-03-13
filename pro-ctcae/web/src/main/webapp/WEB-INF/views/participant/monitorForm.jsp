@@ -179,7 +179,7 @@
         <tr>
             <td>
                 <div id="searchForm" style="display:none">
-                     <input type="button" value="search" onclick="formStatus()"/>
+                     <input type="button" value="search" onclick="formStatus()" style="margin:10px 0 0 149px;"/>
                 </div>                
             </td>
         </tr>
