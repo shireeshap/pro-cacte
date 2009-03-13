@@ -79,6 +79,9 @@ public class SecurityTestDataIntegrationTest extends AbstractHibernateIntegratio
 
         login(leadCRA1);
         Participant participant = createParticipant("John", defaultStudy.getStudySites().get(0));
+        Participant participant3 = createParticipant("Tom", defaultStudy.getStudySites().get(0));
+        Participant participant4 = createParticipant("Jake", defaultStudy.getStudySites().get(0));
+
         CRF defaultCRF = createCRF(defaultStudy);
 
         login(leadCRA2);

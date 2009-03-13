@@ -116,6 +116,8 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
     public void testParticipantSecurityOnFindById() throws Exception {
         login(user);
         Participant participant = createParticipant("John", defaultStudy.getStudySites().get(0));
+        Participant participant1 = createParticipant("Tom", defaultStudy.getStudySites().get(0));
+        Participant participant2 = createParticipant("Jake", defaultStudy.getStudySites().get(0));
 
 
         Participant savedParticipant = participantRepository.findById(participant.getId());
