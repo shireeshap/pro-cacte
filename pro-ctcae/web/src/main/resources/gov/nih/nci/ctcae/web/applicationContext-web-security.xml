@@ -24,7 +24,6 @@
         <intercept-url pattern="/pages/form/submit" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/manageForm" access="PRIVILEGE_MANAGE_FORM"/>
         <intercept-url pattern="/pages/form/editForm" access="PRIVILEGE_EDIT_FORM"/>
-        <intercept-url pattern="/pages/participant/monitorForm" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/copyForm" access="PRIVILEGE_COPY_FORM"/>
 
         <intercept-url pattern="/pages/form/deleteForm" access="PRIVILEGE_DELETE_FORM"/>
@@ -46,9 +45,9 @@
 
         <intercept-url pattern="/pages/participant/create" access="PRIVILEGE_CREATE_PARTICIPANT"/>
         <intercept-url pattern="/pages/participant/search" access="PRIVILEGE_SEARCH_PARTICIPANT"/>
-        <intercept-url pattern="/pages/participant/monitorForm" access="PRIVILEGE_SEARCH_PARTICIPANT"/>
+        <intercept-url pattern="/pages/participant/monitorForm"
+                       access="PRIVILEGE_SEARCH_PARTICIPANT,PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
         <intercept-url pattern="/pages/participant/schedulecrf" access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
-        <intercept-url pattern="/pages/participant/monitorForm" access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
         <intercept-url pattern="/pages/participant/monitorFormStatus" access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
         <intercept-url pattern="/pages/participant/participantInbox" access="PRIVILEGE_PARTICIPANT_INBOX"/>
         <intercept-url pattern="/pages/participant/addCrfSchedule" access="PRIVILEGE_PARTICIPANT_ADD_CRF_SCHEDULE"/>

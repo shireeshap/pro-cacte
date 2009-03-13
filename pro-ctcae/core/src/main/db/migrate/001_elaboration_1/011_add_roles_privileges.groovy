@@ -86,10 +86,11 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -789, role_name: "SITE_PI", privilege_id: "-70"], primaryKey: false)
 
     insert('ROLE_PRIVILEGES', [id: -790, role_name: "SITE_PI", privilege_id: "-43"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -791, role_name: "SITE_PI", privilege_id: "-41"], primaryKey: false)
 
-    insert('ROLE_PRIVILEGES', [id: -791, role_name: "SITE_PI", privilege_id: "-23"], primaryKey: false)
-    insert('ROLE_PRIVILEGES', [id: -792, role_name: "SITE_PI", privilege_id: "-26"], primaryKey: false)
-    insert('ROLE_PRIVILEGES', [id: -793, role_name: "SITE_PI", privilege_id: "-27"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -796, role_name: "SITE_PI", privilege_id: "-23"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -797, role_name: "SITE_PI", privilege_id: "-26"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -798, role_name: "SITE_PI", privilege_id: "-27"], primaryKey: false)
 
     insert('ROLE_PRIVILEGES', [id: -681, role_name: "SITE_CRA", privilege_id: "-61"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -682, role_name: "SITE_CRA", privilege_id: "-62"], primaryKey: false)
@@ -102,10 +103,11 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -689, role_name: "SITE_CRA", privilege_id: "-70"], primaryKey: false)
 
     insert('ROLE_PRIVILEGES', [id: -690, role_name: "SITE_CRA", privilege_id: "-43"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -691, role_name: "SITE_CRA", privilege_id: "-41"], primaryKey: false)
 
-    insert('ROLE_PRIVILEGES', [id: -691, role_name: "SITE_CRA", privilege_id: "-23"], primaryKey: false)
-    insert('ROLE_PRIVILEGES', [id: -692, role_name: "SITE_CRA", privilege_id: "-26"], primaryKey: false)
-    insert('ROLE_PRIVILEGES', [id: -693, role_name: "SITE_CRA", privilege_id: "-27"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -696, role_name: "SITE_CRA", privilege_id: "-23"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -697, role_name: "SITE_CRA", privilege_id: "-26"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -698, role_name: "SITE_CRA", privilege_id: "-27"], primaryKey: false)
 
 
     insert('ROLE_PRIVILEGES', [id: -1, role_name: "CCA", privilege_id: "-21"], primaryKey: false)

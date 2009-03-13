@@ -13,7 +13,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Feb 26, 2009
  */
-public class SiteCRAAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
+public class SiteCRAURLAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
 
     List<String> allowedUrls = new ArrayList();
 
@@ -31,6 +31,8 @@ public class SiteCRAAuthorizationIntegrationTest extends UrlAuthorizationIntegra
 
         allowedUrls.add(CREATE_PARTICIPANT_URL);
         allowedUrls.add(SEARCH_PARTICIPANT_URL);
+        allowedUrls.add(MONITOR_FORM_STATUS_URL);
+        allowedUrls.add(MONITOR_FORM_URL);
 
 
         allowedUrls.add(SCHEDULE_CRF_URL);
@@ -43,6 +45,9 @@ public class SiteCRAAuthorizationIntegrationTest extends UrlAuthorizationIntegra
 
 
         allowedUrls.add(SEARCH_CLINICAL_STAFF_URL);
+        allowedUrls.add(CREATE_CLINICAL_STAFF_URL);
+        allowedUrls.add(ADD_ORGANIZATION_CLINICAL_STAFF_URL);
+
 
         user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA).getOrganizationClinicalStaff().getClinicalStaff().getUser();
 
