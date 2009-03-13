@@ -101,6 +101,10 @@ public class SiteCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
 
         List<String> allowedMethods = allowedMethodsMap.get(StudyParticipantAssignmentRepository.class);
         allowedMethods.add(SCHEDULE_CRF_METHOD);
+        allowedMethods.add(FIND_METHOD);
+        allowedMethods.add(FIND_BY_ID_METHOD);
+        allowedMethods.add(FIND_SINGLE);
+
         authorizeAndUnAuthorizeMethods(studyParticipantAssignmentRepository, StudyParticipantAssignmentRepository.class, allowedMethods);
 
 
