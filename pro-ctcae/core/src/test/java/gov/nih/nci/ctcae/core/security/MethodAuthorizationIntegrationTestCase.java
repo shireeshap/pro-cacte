@@ -34,7 +34,7 @@ public abstract class MethodAuthorizationIntegrationTestCase extends AbstractHib
     protected final String EDIT_STUDY_METHOD = "save";
     protected final String CREATE_STUDY_METHOD = "save";
     protected final String SEARCH_STUDY_METHOD = "find";
-    protected final String SEARCH_SINGLE_STUDY_METHOD = "findSingle";
+    protected final String FIND_SINGLE = "findSingle";
     protected final String SEARCH_STUDY_BY_ID_METHOD = "findById";
     protected final String ADD_STUDY_SITE_CLINICAL_STAFF_METHOD = "addStudyOrganizationClinicalStaff";
     protected final String ADD_STUDY_SITE_METHOD = "addStudySite";

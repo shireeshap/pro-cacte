@@ -93,7 +93,7 @@ public class LeadCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
 
         allowedMethods.add(SEARCH_STUDY_METHOD);
         allowedMethods.add(EDIT_STUDY_METHOD);
-        allowedMethods.add(SEARCH_SINGLE_STUDY_METHOD);
+        allowedMethods.add(FIND_SINGLE);
         allowedMethods.add(SEARCH_STUDY_BY_ID_METHOD);
         allowedMethods.add(CREATE_STUDY_METHOD);
         allowedMethods.add(ADD_STUDY_SITE_CLINICAL_STAFF_METHOD);
@@ -108,6 +108,9 @@ public class LeadCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
 
         List<String> allowedMethods = allowedMethodsMap.get(StudyParticipantAssignmentRepository.class);
         allowedMethods.add(SCHEDULE_CRF_METHOD);
+        allowedMethods.add(FIND_METHOD);
+        allowedMethods.add(FIND_BY_ID_METHOD);
+        allowedMethods.add(FIND_SINGLE);
         authorizeAndUnAuthorizeMethods(studyParticipantAssignmentRepository, StudyParticipantAssignmentRepository.class, allowedMethods);
 
 

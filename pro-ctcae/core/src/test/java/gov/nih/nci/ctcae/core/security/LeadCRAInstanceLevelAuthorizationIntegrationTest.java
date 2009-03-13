@@ -203,6 +203,37 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
 
     }
 
+    public void testInstanceSecurityForFindingStudyParticipantAssignment() throws Exception {
+
+
+        login(user);
+        Participant participant = createParticipant("John", defaultStudy.getStudySites().get(0));
+        defaultCRF = createCRF(defaultStudy);
+
+        login(anotherUser);
+        Participant participant1 = createParticipant("Bruce", study1.getStudySites().get(0));
+        Participant participant2 = createParticipant("Laura", study2.getStudySites().get(0));
+
+        assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from STUDY_PARTICIPANT_ASSIGNMENTS") >= 2);
+
+        StudyParticipantAssignmentQuery query = new StudyParticipantAssignmentQuery();
+
+
+        Collection<StudyParticipantAssignment> studyParticipantAssignments = studyParticipantAssignmentRepository.find(query);
+
+        assertFalse("must find assigment", studyParticipantAssignments.isEmpty());
+        assertEquals("must see two assignments only because these participants has assignments  on user's study", 2, studyParticipantAssignments.size());
+        assertTrue("must see his own assignment only", studyParticipantAssignments.contains(participant1.getStudyParticipantAssignments().get(0)));
+        assertTrue("must see his own assignment only", studyParticipantAssignments.contains(participant2.getStudyParticipantAssignments().get(0)));
+
+        login(user);
+
+        studyParticipantAssignments = studyParticipantAssignmentRepository.find(query);
+        assertEquals("must not find only 1 assignment because only one of  them are created on user'study", 1, studyParticipantAssignments.size());
+        assertTrue("must see his own assignment only", studyParticipantAssignments.contains(participant.getStudyParticipantAssignments().get(0)));
+
+    }
+
 
     public void testStudyInstanceSecurity() throws Exception {
         login(user);

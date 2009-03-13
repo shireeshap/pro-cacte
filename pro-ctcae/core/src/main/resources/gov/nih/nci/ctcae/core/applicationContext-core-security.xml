@@ -135,9 +135,10 @@
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository.find*(..))"
-                access="PRIVILEGE_ADMIN"/>
+                access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
+
         <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository.delete(..))"
+                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository.*(..))"
                 access="PRIVILEGE_ADMIN"/>
 
 

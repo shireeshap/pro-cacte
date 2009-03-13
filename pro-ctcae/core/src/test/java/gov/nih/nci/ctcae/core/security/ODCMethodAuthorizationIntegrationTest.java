@@ -78,7 +78,7 @@ public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIn
         List<String> allowedMethods = allowedMethodsMap.get(StudyRepository.class);
 
         allowedMethods.add(SEARCH_STUDY_METHOD);
-        allowedMethods.add(SEARCH_SINGLE_STUDY_METHOD);
+        allowedMethods.add(FIND_SINGLE);
         allowedMethods.add(SEARCH_STUDY_BY_ID_METHOD);
 
 
