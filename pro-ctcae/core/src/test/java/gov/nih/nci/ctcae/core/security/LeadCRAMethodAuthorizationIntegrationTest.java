@@ -77,6 +77,7 @@ public class LeadCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
         allowedMethods.add(SEARCH_SINGLE_FORM_METHOD);
         allowedMethods.add(FIND_BY_ID_METHOD);
         allowedMethods.add(FIND_METHOD);
+        allowedMethods.add(DELETE_METHOD);
         allowedMethods.add(RELEASE_FORM_METHOD);
         allowedMethods.add(VERSION_FORM_METHOD);
         allowedMethods.add(ADD_FORM_SCHEDULE_CYFLE_METHOD);

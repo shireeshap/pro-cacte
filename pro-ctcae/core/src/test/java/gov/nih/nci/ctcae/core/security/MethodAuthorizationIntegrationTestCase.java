@@ -51,7 +51,7 @@ public abstract class MethodAuthorizationIntegrationTestCase extends AbstractHib
 
 
     protected final String COPY_FORM_METHOD = "copy";
-    protected final String DELETE_FORM_METHOD = "delete";
+    protected final String DELETE_METHOD = "delete";
     protected final String ADD_FORM_SCHEDULE_CYFLE_METHOD = "generateSchedulesFromCrfCalendar";
 
     protected final String ADD_ORGANIZATION_CLINICAL_STAFF_METHOD = "save";
