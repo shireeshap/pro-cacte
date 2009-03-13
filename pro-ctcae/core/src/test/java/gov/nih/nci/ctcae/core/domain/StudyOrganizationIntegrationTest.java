@@ -46,8 +46,8 @@ public class StudyOrganizationIntegrationTest extends AbstractHibernateIntegrati
 //        List<Study> studyList = new ArrayList<Study>();
 //
 //        for (int i = 0; i < 10; i++) {
-//            Study study1 = createStudy(i);
-//            studyList.add(study1);
+//            Study study2 = createStudy(i);
+//            studyList.add(study2);
 //        }
 //
 //        for (int i = 0; i < 5; i++) {
@@ -120,8 +120,8 @@ public class StudyOrganizationIntegrationTest extends AbstractHibernateIntegrati
 //        oQuery.filterByNciCodeExactMatch("OrganizationNCI6");
 //        assertEquals(false, organizations.contains(organizationRepository.findSingle(oQuery)));
 //
-//        for (Study study1 : studyList) {
-//            studyRepository.delete(study1);
+//        for (Study study2 : studyList) {
+//            studyRepository.delete(study2);
 //        }
     }
 

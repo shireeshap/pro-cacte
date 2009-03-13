@@ -8,6 +8,7 @@
             border-left: 1px solid #C3D9FF;
             border-bottom: 1px solid #C3D9FF;
             width: 90%;
+            font-size:small;
         }
 
         td.data {

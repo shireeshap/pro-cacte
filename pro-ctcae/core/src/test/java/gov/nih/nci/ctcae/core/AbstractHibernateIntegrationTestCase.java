@@ -14,6 +14,7 @@ import org.springframework.test.AbstractTransactionalDataSourceSpringContextTest
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.text.ParseException;
 
 /**
  * @author Vinay Kumar
@@ -388,7 +389,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         return participant;
     }
 
-    protected CRF createCRF(Study study) {
+    protected CRF createCRF(Study study) throws ParseException {
 
         Study savedStudy = studyRepository.findById(study.getId());
         assertEquals("must see his own study only", savedStudy, study);
@@ -396,7 +397,30 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         CRF crf = Fixture.createCrf();
         crf.setTitle("title" + UUID.randomUUID());
         crf.setStudy(savedStudy);
+        crf.setEffectiveStartDate(new Date());
+
+        CRFCycleDefinition crfCycleDefinition = new CRFCycleDefinition();
+        crfCycleDefinition.setCycleLength(21);
+        crfCycleDefinition.setCycleLengthUnit("Days");
+        crfCycleDefinition.setOrder(1);
+        crfCycleDefinition.setRepeatTimes("2");
+
+        CRFCycle crfCycle1 = new CRFCycle();
+        crfCycle1.setCycleDays(",1,5,8,11");
+        crfCycle1.setOrder(1);
+
+        crfCycleDefinition.addCrfCycle(crfCycle1);
+
+        CRFCycle crfCycle2 = new CRFCycle();
+        crfCycle2.setCycleDays(",4,7,11,18");
+        crfCycle2.setOrder(2);
+
+        crfCycleDefinition.addCrfCycle(crfCycle2);
+
+        crf.addCrfCycleDefinition(crfCycleDefinition);
+
         crf = crfRepository.save(crf);
+        crfRepository.updateStatusToReleased(crf);
 
         assertNotNull("must save crf on his own study", crf);
         commitAndStartNewTransaction();

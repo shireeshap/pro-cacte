@@ -367,7 +367,7 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
 //        login(user);
 //        CRF crf = createCRF(defaultStudy);
 //        crf = crfRepository.copy(crf);
-//        crf.setStudy(study1);
+//        crf.setStudy(study2);
 //        try {
 //            crfRepository.copy(crf);
 //            fail("must not copy CRF on other studies");
