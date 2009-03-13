@@ -131,6 +131,7 @@ public class SecurityTestDataIntegrationTest extends AbstractHibernateIntegratio
 
         crf2 = createCRF(study2);
         crf2.setTitle("Demo Form 3");
+        commitAndStartNewTransaction();
 
         List<StudyParticipantCrfSchedule> pSchedules = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules();
         pSchedules.get(0).setStatus(CrfStatus.PASTDUE);
