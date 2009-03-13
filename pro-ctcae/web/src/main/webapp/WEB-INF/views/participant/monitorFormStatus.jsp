@@ -12,62 +12,70 @@
             font-family: verdana, arial;
         }
 
-        td.header {
+        td.data {
             border-bottom: 1px solid #77a9ff;
-            border-left: 1px solid #77a9ff;
+            border-right: 1px solid #77a9ff;
             font-weight: normal;
-            font-size: x-small;
+            font-size: small;
         }
 
-        td.header-left {
+        td.data-left {
             border-bottom: 1px solid #77a9ff;
             border-left: 1px solid #77a9ff;
+            border-right: 1px solid #77a9ff;
             font-weight: normal;
-            font-size: x-small;
+            font-size: small;
             font-weight: bold;;
+            white-space: nowrap;
         }
 
         td.header-top {
             border-top: 1px solid #77a9ff;
             border-bottom: 1px solid #77a9ff;
-            border-left: 1px solid #77a9ff;
+            border-right: 1px solid #77a9ff;
             font-weight: normal;
-            font-size: x-small;
+            font-size: small;
             font-weight: bold;
+            text-align: center;
         }
+
         #formStatusTable {
-            overflow:scroll;
-            margin:0 20px;
+            overflow: scroll;
+            margin: 0 20px;
+        }
+
+        td.Scheduled {
+        /*background-color:blue;*/
         }
 
     </style>
 </head>
 <body>
 <div id="formStatusTable">
-<table class="widget" cellpadding="0" cellspacing="0">
-    <tr>
-        <td class="header-top">&nbsp;
-        </td>
-        <c:forEach items="${calendar}" var="date">
-            <td class="header-top">
-                    ${date}
-            </td>
-        </c:forEach>
-    </tr>
-    <c:forEach items="${crfStatusMap}" var="crfStatus">
+    <table class="widget" cellspacing="0">
         <tr>
-            <td class="header-left">
-                    ${crfStatus.key.displayName}
+            <td class="header-top">&nbsp;
             </td>
-            <c:forEach items="${crfStatus.value}" var="crfStatusName">
-                <td class="header">
-                        ${crfStatusName}&nbsp;
+            <c:forEach items="${calendar}" var="date">
+                <td class="header-top">
+                        ${date}
                 </td>
             </c:forEach>
         </tr>
-    </c:forEach>
+        <c:forEach items="${crfStatusMap}" var="crfStatus">
+            <tr>
+                <td class="data-left">
+                        ${crfStatus.key.displayName}
+                </td>
+                <c:forEach items="${crfStatus.value}" var="crfStatusName">
+                    <td class="data ${crfStatusName}">
+                            ${crfStatusName}&nbsp;
+                    </td>
+                </c:forEach>
+            </tr>
+        </c:forEach>
 
-</table>
+    </table>
 </div>
 
 </body>

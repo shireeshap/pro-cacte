@@ -46,8 +46,16 @@
             var id = $('study').value
             crf.getReducedCrfs(id, updateFormDropDown)
         }
+        function clearDiv(divid) {
+            var children = $(divid).childElements();
+            for (i = 0; i < children.length; i++) {
+                $(children[i]).remove();
+            }
+        }
 
         function updateFormDropDown(crfs) {
+            //clearDiv('formDropDown');
+
             var formDropDown = new Element('SELECT', {'id':'formSelect'})
 
             for (var i = 0; i < crfs.length; i++) {
@@ -57,6 +65,7 @@
                 option.value = crf.id;
                 formDropDown.appendChild(option);
             }
+
             $('formDropDown').appendChild(formDropDown);
             $('formDropDownDiv').show();
             $('dateMenuDiv').show();
@@ -95,7 +104,7 @@
         }
 
         function showStatusTable(transport) {
-            $('displayFormStatus').innerHTML= transport.responseText;
+            $('displayFormStatus').innerHTML = transport.responseText;
         }
 
     </script>
@@ -179,8 +188,8 @@
         <tr>
             <td>
                 <div id="searchForm" style="display:none">
-                     <input type="button" value="search" onclick="formStatus()" style="margin:10px 0 0 149px;"/>
-                </div>                
+                    <input type="button" value="search" onclick="formStatus()" style="margin:10px 0 0 149px;"/>
+                </div>
             </td>
         </tr>
     </table>
