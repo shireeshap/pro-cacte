@@ -256,6 +256,10 @@ function initializeCalendar(index) {
         if (item.innerHTML.indexOf('Completed') != -1) {
             item.style.background = '#00cc00';
         }
+        if (item.title == 'true') {
+//            item.style.background = '#006666';
+            item.style.background = 'red';
+        }
         new Draggable(item, {revert:true});
         checkStatus = false;
         moveItem(item, $(index + '_schedule_' + date));

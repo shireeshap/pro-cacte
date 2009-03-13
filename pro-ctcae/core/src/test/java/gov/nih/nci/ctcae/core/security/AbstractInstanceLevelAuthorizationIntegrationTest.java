@@ -30,6 +30,7 @@ public class AbstractInstanceLevelAuthorizationIntegrationTest extends AbstractH
         study2 = studyRepository.save(study2);
         study1 = studyRepository.save(study1);
 
+        
 
         anotherClinicalStaff = Fixture.createClinicalStaffWithOrganization("Paul", "Williams", "-123456", wake);
         anotherClinicalStaff = clinicalStaffRepository.save(anotherClinicalStaff);

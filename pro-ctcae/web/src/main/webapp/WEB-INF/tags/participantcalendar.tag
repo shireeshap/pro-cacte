@@ -6,7 +6,7 @@
 
 <c:forEach items="${schedule.currentMonthSchedules}" var="studyParticipantCrfSchedule">
     <div id="${index}_temp_<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />"
-         name="${index}_temp_div">
+         name="${index}_temp_div" title="${studyParticipantCrfSchedule.holiday}">
         <c:if test="${studyParticipantCrfSchedule.status eq 'Scheduled'}">
             <img height="13" width="12"
                  alt="remove"
@@ -15,7 +15,7 @@
                  onclick="showDeleteWindow('<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />','${index}');"/>
         </c:if>
             <br/>
-            ${studyParticipantCrfSchedule.status}
+            &nbsp;${studyParticipantCrfSchedule.status}
     </div>
 </c:forEach>
 <table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
