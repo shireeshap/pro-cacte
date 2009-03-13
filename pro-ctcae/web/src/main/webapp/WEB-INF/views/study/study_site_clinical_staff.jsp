@@ -54,7 +54,7 @@
 
 
         function changeStudySite() {
-            $('_target').name = '_target3';
+            $('_target').name = '_target1';
             $('command').submit();
         }
 
