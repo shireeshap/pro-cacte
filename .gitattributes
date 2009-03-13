@@ -265,6 +265,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/ODCInstanceLevelAut
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/ODCMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/PIMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/ResearchNurseMethodAuthorizationIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/SecurityTestDataIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/SiteCRAInstanceLevelAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/SiteCRAMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/SitePIMethodAuthorizationIntegrationTest.java -text

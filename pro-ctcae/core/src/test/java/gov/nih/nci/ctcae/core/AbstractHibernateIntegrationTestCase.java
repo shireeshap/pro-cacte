@@ -208,7 +208,6 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     }
 
     protected void insertDefaultUsers() throws Exception {
-        super.onSetUpInTransaction();
         ClinicalStaff clinicalStaff = Fixture.createClinicalStaffWithOrganization("Bob", "Williams", "-12345", defaultOrganization);
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
 
