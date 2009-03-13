@@ -31,6 +31,9 @@ public class SiteCRAURLAuthorizationIntegrationTest extends UrlAuthorizationInte
 
         allowedUrls.add(CREATE_PARTICIPANT_URL);
         allowedUrls.add(SEARCH_PARTICIPANT_URL);
+
+
+        allowedUrls.add(MANAGE_FORM_URL);
         allowedUrls.add(MONITOR_FORM_STATUS_URL);
         allowedUrls.add(MONITOR_FORM_URL);
 

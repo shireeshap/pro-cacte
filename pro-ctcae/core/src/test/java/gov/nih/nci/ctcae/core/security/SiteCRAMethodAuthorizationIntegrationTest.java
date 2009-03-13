@@ -73,7 +73,9 @@ public class SiteCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
     public void testAuthorizeUserForCRF() throws Exception {
 
         List<String> allowedMethods = allowedMethodsMap.get(CRFRepository.class);
-
+        allowedMethods.add(FIND_BY_ID_METHOD);
+        allowedMethods.add(FIND_SINGLE);
+        allowedMethods.add(FIND_METHOD);
         authorizeAndUnAuthorizeMethods(crfRepository, CRFRepository.class, allowedMethods);
 
 

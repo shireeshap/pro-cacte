@@ -2,6 +2,8 @@ package gov.nih.nci.ctcae.core.query;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 //
 /**
  * The Class CRFQuery.
@@ -31,6 +33,8 @@ public class CRFQuery extends AbstractQuery {
      */
     private static final String STUDYID = "studyId";
 
+    private static String CRF_IDS = "ids";
+
     /**
      * The Constant CRF_VERSION.
      */
@@ -44,6 +48,14 @@ public class CRFQuery extends AbstractQuery {
 
         super(queryString);
     }
+
+    public void filterByCRFIds(List<Integer> crfIds) {
+
+        andWhere("o.id in (:" + CRF_IDS + ")");
+        setParameterList(CRF_IDS, crfIds);
+
+    }
+
 
     /**
      * Instantiates a new cRF query.

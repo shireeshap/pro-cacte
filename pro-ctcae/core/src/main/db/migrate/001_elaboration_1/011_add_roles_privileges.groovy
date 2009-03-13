@@ -108,6 +108,7 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -696, role_name: "SITE_CRA", privilege_id: "-23"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -697, role_name: "SITE_CRA", privilege_id: "-26"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -698, role_name: "SITE_CRA", privilege_id: "-27"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -699, role_name: "SITE_CRA", privilege_id: "-3"], primaryKey: false)
 
 
     insert('ROLE_PRIVILEGES', [id: -1, role_name: "CCA", privilege_id: "-21"], primaryKey: false)
