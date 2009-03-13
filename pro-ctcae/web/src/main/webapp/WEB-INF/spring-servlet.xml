@@ -131,6 +131,9 @@
                                   p:linkName="searchParticipantController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="participant.tab.schedule_form" p:linkName="scheduleCrfController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="participant.tab.monitor_form" p:linkName="monitorFormController"/>
+
                         </list>
                     </property>
                 </bean>
@@ -324,10 +327,10 @@
           class="gov.nih.nci.ctcae.web.participant.MonitorFormController">
     </bean>
     <bean name="/participant/monitorFormStatus" id="monitorFormStatusController"
-           class="gov.nih.nci.ctcae.web.participant.MonitorFormStatusController">
+          class="gov.nih.nci.ctcae.web.participant.MonitorFormStatusController">
         <property name="studyRepository" ref="studyRepository"/>
 
-     </bean>
+    </bean>
 
 
     <bean name="/participant/displaycalendar" id="displayCalendarController"
@@ -335,7 +338,7 @@
         <property name="crfRepository" ref="crfRepository"/>
     </bean>
     <!--<bean name="/csvLoader/fileLoader" id="fileUploadController"-->
-        <!--class="gov.nih.nci.ctcae.web.csvLoader.FileUploadController"/>-->
+    <!--class="gov.nih.nci.ctcae.web.csvLoader.FileUploadController"/>-->
 
     <bean name="/participant/displaystudysites" id="displayStudySitesController"
           class="gov.nih.nci.ctcae.web.participant.DisplayStudySitesController">
