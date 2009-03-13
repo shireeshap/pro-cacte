@@ -116,84 +116,87 @@
 
 </head>
 <body>
-<div align="left" style="margin-left: 50px">
-    <table class="content" cellpadding="0" cellspacing="0">
-        <tr>
-            <td>
-                <tags:renderAutocompleter propertyName="study"
-                                          displayName="Study"
-                                          required="true"
-                                          size="60"
-                                          noForm="true"/>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div id="formDropDownDiv" style="display:none;" class="label">
-                    <div class="row">
-                        <div class="label">Forms</div>
-                        <div class="value" id="formDropDown"></div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div id="studySiteAutoCompleterDiv" style="display:none">
-                    <tags:renderAutocompleter propertyName="studySite"
-                                              displayName="Study Site"
+<chrome:box title="participant.label.search_criteria" >
+    <div align="left" style="margin-left: 50px">
+        <table class="content" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>
+                    <tags:renderAutocompleter propertyName="study"
+                                              displayName="Study"
                                               required="true"
                                               size="60"
                                               noForm="true"/>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div id="dateMenuDiv" style="display:none">
-                    <div class="row">
-                        <div class="label">Date Range</div>
-                        <div class="value">
-                            <select id="dateOptions" name="dateOptions" onChange="customDate(this)">
-                                <option value="thisWeek">This Week</option>
-                                <option value="lastWeek">Last Week</option>
-                                <option value="thisMonth">This Month</option>
-                                <option value="lastMonth">Last Month</option>
-                                <option value="custom">Custom</option>
-                            </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="formDropDownDiv" style="display:none;" class="label">
+                        <div class="row">
+                            <div class="label">Forms</div>
+                            <div class="value" id="formDropDown"></div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div id="dateRange" style="display:none">
-                    <table class="content" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td>
-                                <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
-                                                 doNotShowFormat="true"/>
-                            </td>
-                            <td>
-                                <tags:renderDate noForm="true" displayName="End Date" propertyName="endDate"
-                                                 doNotShowFormat="true"/>
-                            </td>
-                        </tr>
-                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="studySiteAutoCompleterDiv" style="display:none">
+                        <tags:renderAutocompleter propertyName="studySite"
+                                                  displayName="Study Site"
+                                                  required="true"
+                                                  size="60"
+                                                  noForm="true"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="dateMenuDiv" style="display:none">
+                        <div class="row">
+                            <div class="label">Date Range</div>
+                            <div class="value">
+                                <select id="dateOptions" name="dateOptions" onChange="customDate(this)">
+                                    <option value="thisWeek">This Week</option>
+                                    <option value="lastWeek">Last Week</option>
+                                    <option value="thisMonth">This Month</option>
+                                    <option value="lastMonth">Last Month</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="dateRange" style="display:none">
+                        <table class="content" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
+                                                     doNotShowFormat="true"/>
+                                </td>
+                                <td>
+                                    <tags:renderDate noForm="true" displayName="End Date" propertyName="endDate"
+                                                     doNotShowFormat="true"/>
+                                </td>
+                            </tr>
+                        </table>
 
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div id="searchForm" style="display:none">
-                    <input type="button" value="search" onclick="formStatus()" style="margin:10px 0 0 149px;"/>
-                </div>
-            </td>
-        </tr>
-    </table>
-</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="searchForm" style="display:none">
+                        <input type="button" value="search" onclick="formStatus()" style="margin:10px 0 0 149px;"/>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</chrome:box>
+
 <br/><br/>
 
 <div id="displayFormStatus"></div>
