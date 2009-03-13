@@ -32,46 +32,73 @@ public class CRFLinkDisplayDetailsCell extends AbstractCell implements Cell {
         Integer id = bean.getId();
 
         String cellValue = "";
-        String link1 = model.getContext().getContextPath() + "/pages/participant/schedulecrf?crfId=";
 
 
         if (bean.getStatus().equals(CrfStatus.RELEASED)) {
-            cellValue = "<a href=\"" + link1 + id.toString() + "\">" + "Schedule" + "</a>";
-
-            appendCopyFormValue(model, id, cellValue);
+            cellValue = cellValue + appendScheduleFormValue(model, id);
+            cellValue = cellValue + appendCopyFormValue(model, id);
 
 
             if (bean.getNextVersionId() == null) {
-                cellValue = cellValue + " | <a href=\"javascript:versionForm('" + id.toString() + "')\">" + "Version" + "</a>";
+                cellValue = cellValue + appendVersionFormValue(id);
             }
         } else {
-            cellValue = "<a href=\"javascript:releaseForm('" + id.toString() + "')\">" + "Release" + "</a>&nbsp;&nbsp;";
-            cellValue = appendCopyFormValue(model, id, cellValue);
-            cellValue = cellValue + " | <a href=\"javascript:deleteForm('" + id.toString() + "')\">" + "Delete" + "</a>";
+            cellValue = cellValue + appendReleaseFormValue(id);
+            cellValue = cellValue + appendCopyFormValue(model, id);
+            cellValue = cellValue + appendDeleteFormValue(id);
 
         }
         if (bean.getStatus().equals(CrfStatus.DRAFT)) {
-            cellValue = appendEditFormValue(model, id, cellValue);
+            cellValue = cellValue + appendEditFormValue(model, id);
 
         }
         return cellValue;
     }
 
-    private String appendCopyFormValue(TableModel model, Integer id, String cellValue) {
-        String link2 = model.getContext().getContextPath() + "/pages/form/copyForm?crfId=";
+    private String appendVersionFormValue(Integer id) {
 
-        cellValue = cellValue + "<ctcae:urlAuthorize url=\"/pages/form/copyForm\">\n" +
-                " | <a href=\"" + link2 + id.toString() + "\">" + "Copy" + "</a>" +
+        return "<ctcae:urlAuthorize url=\"/pages/form/versionForm\">\n" +
+                " | <a href=\"javascript:versionForm('" + id.toString() + "')\">" + "Version" + "</a>" +
                 "    </ctcae:urlAuthorize>";
-        return cellValue;
     }
 
-    private String appendEditFormValue(TableModel model, Integer id, String cellValue) {
+    private String appendScheduleFormValue(TableModel model, Integer id) {
+        String link1 = model.getContext().getContextPath() + "/pages/participant/schedulecrf?crfId=";
+
+        return "<ctcae:urlAuthorize url=\"/pages/participant/schedulecrf\">\n" +
+                "<a href=\"" + link1 + id.toString() + "\">" + "Schedule" + "</a>" +
+                "    </ctcae:urlAuthorize>";
+    }
+
+    private String appendCopyFormValue(TableModel model, Integer id) {
+        String link2 = model.getContext().getContextPath() + "/pages/form/copyForm?crfId=";
+
+        return "<ctcae:urlAuthorize url=\"/pages/form/copyForm\">\n" +
+                " | <a href=\"" + link2 + id.toString() + "\">" + "Copy" + "</a>" +
+                "    </ctcae:urlAuthorize>";
+    }
+
+    private String appendReleaseFormValue(Integer id) {
+
+        return "<ctcae:urlAuthorize url=\"/pages/form/releaseForm\">\n" +
+                "<a href=\"javascript:releaseForm('" + id.toString() + "')\">" + "Release" + "</a>&nbsp;&nbsp;" +
+                "    </ctcae:urlAuthorize>";
+    }
+
+    private String appendDeleteFormValue(Integer id) {
+
+        return "<ctcae:urlAuthorize url=\"/pages/form/deleteForm\">\n" +
+                " | <a href=\"javascript:deleteForm('" + id.toString() + "')\">" + "Delete" + "</a>" +
+                "    </ctcae:urlAuthorize>";
+
+
+    }
+
+    private String appendEditFormValue(TableModel model, Integer id) {
         String editLink = model.getContext().getContextPath() + "/pages/form/editForm?crfId=" + id.toString();
 
-        cellValue = cellValue + "<ctcae:urlAuthorize url=\"/pages/form/editForm\">\n" +
+        return "<ctcae:urlAuthorize url=\"/pages/form/editForm\">\n" +
                 " | <a href=\"" + editLink + "\">" + "Edit" + "</a>" +
                 "    </ctcae:urlAuthorize>";
-        return cellValue;
     }
 }

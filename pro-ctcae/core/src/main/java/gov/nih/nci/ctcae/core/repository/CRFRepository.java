@@ -142,11 +142,13 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void delete(CRF crf) {
         if (!crf.isReleased()) {
             genericRepository.delete(crf);
+        } else {
+            throw new CtcAeSystemException("Released CRF can not be deleted");
         }
-        throw new CtcAeSystemException("Released CRF can not be deleted");
     }
 
     public Collection<CRF> find(CRFQuery query) {
