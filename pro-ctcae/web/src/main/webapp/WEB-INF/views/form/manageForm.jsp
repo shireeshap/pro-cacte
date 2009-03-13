@@ -38,9 +38,11 @@
         function displayForms() {
             $('noForm').show();
             var url = 'basicForm?studyId=' + $('study').value
-            $('newFormUrl').href = url;
 
             buildTable('assembler')
+            if ($('newFormUrl') != null) {
+                $('newFormUrl').href = url;
+            }
 
         }
         function buildTable(form) {
