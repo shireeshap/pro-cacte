@@ -154,10 +154,6 @@ public class StudyCommand {
 
 
     public StudySite getSelectedStudySite() {
-        List<StudySite> studySites = study.getStudySites();
-        if (!studySites.isEmpty() && selectedStudySite == null) {
-            selectedStudySite = studySites.get(0);
-        }
         return selectedStudySite;
     }
 

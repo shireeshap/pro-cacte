@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
@@ -45,7 +46,9 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
         query.filterByStudySiteOnly();
 
         Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
-
+        if (!studySites.isEmpty() && command.getSelectedStudySite() == null) {
+            command.setSelectedStudySite((StudySite) studySites.iterator().next());
+        }
 
         referenceData.put("studySites", studySites);
         referenceData.put("roleStatusOptions", ListValues.getRoleStatusType());
