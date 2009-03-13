@@ -133,29 +133,29 @@ public class SecurityTestDataIntegrationTest extends AbstractHibernateIntegratio
         crf2.setTitle("Demo Form 3");
         commitAndStartNewTransaction();
 
-        List<StudyParticipantCrfSchedule> pSchedules = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules();
-        pSchedules.get(0).setStatus(CrfStatus.PASTDUE);
-        pSchedules.get(1).setStatus(CrfStatus.COMPLETED);
-        pSchedules.get(2).setStatus(CrfStatus.INPROGRESS);
-        pSchedules.get(3).setStatus(CrfStatus.SCHEDULED);
-
-        List<StudyParticipantCrfSchedule> pSchedules1 = participant3.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules();
-        pSchedules1.get(1).setStatus(CrfStatus.PASTDUE);
-        pSchedules1.get(3).setStatus(CrfStatus.COMPLETED);
-        pSchedules1.get(4).setStatus(CrfStatus.INPROGRESS);
-        pSchedules1.get(5).setStatus(CrfStatus.SCHEDULED);
-
-        List<StudyParticipantCrfSchedule> pSchedules2 = participant4.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules();
-        pSchedules2.get(0).setStatus(CrfStatus.PASTDUE);
-        pSchedules2.get(2).setStatus(CrfStatus.COMPLETED);
-        pSchedules2.get(4).setStatus(CrfStatus.INPROGRESS);
-        pSchedules2.get(6).setStatus(CrfStatus.SCHEDULED);
-
-        participantRepository.save(participant);
-        participantRepository.save(participant3);
-        participantRepository.save(participant4);
-
-        commitAndStartNewTransaction();
+//        List<StudyParticipantCrfSchedule> pSchedules = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules();
+//        pSchedules.get(0).setStatus(CrfStatus.PASTDUE);
+//        pSchedules.get(1).setStatus(CrfStatus.COMPLETED);
+//        pSchedules.get(2).setStatus(CrfStatus.INPROGRESS);
+//        pSchedules.get(3).setStatus(CrfStatus.SCHEDULED);
+//
+//        List<StudyParticipantCrfSchedule> pSchedules1 = participant3.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules();
+//        pSchedules1.get(1).setStatus(CrfStatus.PASTDUE);
+//        pSchedules1.get(3).setStatus(CrfStatus.COMPLETED);
+//        pSchedules1.get(4).setStatus(CrfStatus.INPROGRESS);
+//        pSchedules1.get(5).setStatus(CrfStatus.SCHEDULED);
+//
+//        List<StudyParticipantCrfSchedule> pSchedules2 = participant4.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules();
+//        pSchedules2.get(0).setStatus(CrfStatus.PASTDUE);
+//        pSchedules2.get(2).setStatus(CrfStatus.COMPLETED);
+//        pSchedules2.get(4).setStatus(CrfStatus.INPROGRESS);
+//        pSchedules2.get(6).setStatus(CrfStatus.SCHEDULED);
+//
+//        participantRepository.save(participant);
+//        participantRepository.save(participant3);
+//        participantRepository.save(participant4);
+//
+//        commitAndStartNewTransaction();
 
     }
 
