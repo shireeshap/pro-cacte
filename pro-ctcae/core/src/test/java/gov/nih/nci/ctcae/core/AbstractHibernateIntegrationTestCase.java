@@ -175,6 +175,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         jdbcTemplate.execute("delete from sp_crf_schedules");
         jdbcTemplate.execute("delete from study_participant_crfs");
         jdbcTemplate.execute("delete from crf_cycle_definitions");
+        jdbcTemplate.execute("delete from crf_cycles");
         jdbcTemplate.execute("delete from crfs");
         jdbcTemplate.execute("delete from study_organization_clinical_staffs");
         jdbcTemplate.execute("delete from study_participant_assignments");
