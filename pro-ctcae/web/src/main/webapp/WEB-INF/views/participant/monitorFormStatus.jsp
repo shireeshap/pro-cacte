@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head><title>Simple jsp page</title>
     <style type="text/css">
@@ -7,15 +8,11 @@
             border-left: 1px solid #C3D9FF;
             border-bottom: 1px solid #C3D9FF;
             width: 90%;
-            background-color: #FFFFFF;
-            font-size: x-small;
-            font-family: verdana, arial;
         }
 
         td.data {
             border-bottom: 1px solid #77a9ff;
             border-right: 1px solid #77a9ff;
-            font-weight: normal;
             font-size: small;
         }
 
@@ -23,9 +20,7 @@
             border-bottom: 1px solid #77a9ff;
             border-left: 1px solid #77a9ff;
             border-right: 1px solid #77a9ff;
-            font-weight: normal;
-            font-size: small;
-            font-weight: bold;;
+            font-weight: bold;
             white-space: nowrap;
         }
 
@@ -33,8 +28,6 @@
             border-top: 1px solid #77a9ff;
             border-bottom: 1px solid #77a9ff;
             border-right: 1px solid #77a9ff;
-            font-weight: normal;
-            font-size: small;
             font-weight: bold;
             text-align: center;
         }
@@ -45,7 +38,18 @@
         }
 
         td.Scheduled {
-        /*background-color:blue;*/
+            background-color: #0051fc;
+        }
+
+        td.In-progress {
+            background-color: #ff9900;
+        }
+
+        td.Completed {
+            background-color: #00cc00;
+        }
+        td.Past due{
+            background-color: red;
         }
 
     </style>
@@ -54,7 +58,7 @@
 <div id="formStatusTable">
     <table class="widget" cellspacing="0">
         <tr>
-            <td class="header-top">&nbsp;
+            <td class="header-top"><spring:message code="schedulecrf.label.participant"/>
             </td>
             <c:forEach items="${calendar}" var="date">
                 <td class="header-top">
@@ -74,11 +78,12 @@
                 </c:forEach>
             </tr>
         </c:forEach>
-         <tr>
-             <td>&nbsp;</td>
-         </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
     </table>
 </div>
+<br>
 
 </body>
 </html>

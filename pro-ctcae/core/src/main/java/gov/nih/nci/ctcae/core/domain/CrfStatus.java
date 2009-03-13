@@ -35,7 +35,9 @@ public enum CrfStatus implements CodedEnum<String> {
     /**
      * The COMPLETED.
      */
-    COMPLETED("Completed");
+    COMPLETED("Completed"),
+
+    PASTDUE("Past due");
 
     /**
      * The display text.

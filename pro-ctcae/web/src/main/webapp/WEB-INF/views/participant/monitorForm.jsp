@@ -55,7 +55,7 @@
 
         function updateFormDropDown(crfs) {
             //clearDiv('formDropDown');
-
+            $('displayFormStatusDiv').hide();
             var formDropDown = new Element('SELECT', {'id':'formSelect'})
 
             for (var i = 0; i < crfs.length; i++) {
@@ -104,6 +104,7 @@
         }
 
         function showStatusTable(transport) {
+            $('displayFormStatusDiv').show();
             $('displayFormStatus').innerHTML = transport.responseText;
         }
 
@@ -116,7 +117,7 @@
 
 </head>
 <body>
-<chrome:box title="participant.label.search_criteria" >
+<chrome:box title="participant.label.search_criteria">
     <div align="left" style="margin-left: 50px">
         <table class="content" cellpadding="0" cellspacing="0">
             <tr>
@@ -132,7 +133,7 @@
                 <td colspan="2">
                     <div id="formDropDownDiv" style="display:none;" class="label">
                         <div class="row">
-                            <div class="label">Forms</div>
+                            <div class="label">Form</div>
                             <div class="value" id="formDropDown"></div>
                         </div>
                     </div>
@@ -199,6 +200,11 @@
 
 <br/><br/>
 
-<div id="displayFormStatus"></div>
+<div id="displayFormStatusDiv" style="display:none;">
+    <chrome:box title="Results">
+        <br>
+        <div id="displayFormStatus"/>
+    </chrome:box>
+</div>
 </body>
 </html>
