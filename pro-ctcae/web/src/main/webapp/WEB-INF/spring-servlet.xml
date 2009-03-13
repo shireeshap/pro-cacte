@@ -334,8 +334,8 @@
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
         <property name="crfRepository" ref="crfRepository"/>
     </bean>
-    <bean name="/csvLoader/fileLoader" id="fileUploadController"
-        class="gov.nih.nci.ctcae.web.csvLoader.FileUploadController"/>
+    <!--<bean name="/csvLoader/fileLoader" id="fileUploadController"-->
+        <!--class="gov.nih.nci.ctcae.web.csvLoader.FileUploadController"/>-->
 
     <bean name="/participant/displaystudysites" id="displayStudySitesController"
           class="gov.nih.nci.ctcae.web.participant.DisplayStudySitesController">
