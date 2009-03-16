@@ -35,7 +35,6 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
 
     @Column(name = "role_name", nullable = false)
     @Enumerated(value = EnumType.STRING)
-
     private Role role;
 
 
@@ -123,7 +122,7 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
 
     public String getDisplayName() {
         if (displayName == null) {
-            displayName = organizationClinicalStaff != null ? organizationClinicalStaff.getClinicalStaff().getDisplayName() : ""   ;
+            displayName = organizationClinicalStaff != null ? organizationClinicalStaff.getClinicalStaff().getDisplayName() : "";
         }
         return displayName;
     }

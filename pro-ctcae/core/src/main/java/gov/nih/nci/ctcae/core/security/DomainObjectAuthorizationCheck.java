@@ -11,6 +11,7 @@ import org.springframework.security.GrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Vinay Kumar
@@ -37,7 +38,7 @@ public class DomainObjectAuthorizationCheck {
 
             return true;
         }
-        List<String> privileges = privilegeGenerator.generatePrivilege(persistable);
+        Set<String> privileges = privilegeGenerator.generatePrivilege(persistable);
         for (String privilege : privileges) {
             if (hasPermission(authentication, persistable, privilege)) {
                 return true;

@@ -18,7 +18,7 @@ public class Privilege extends BasePersistable {
 
     public static final String PRIVILEGE_CREATE_FORM = "PRIVILEGE_CREATE_FORM";
     public static final String PRIVILEGE_EDIT_FORM = "PRIVILEGE_EDIT_FORM";
-    public static final String PRIVILEGE_MANAGE_FORM = "PRIVILEGE_MANAGE_FORM";
+    public static final String PRIVILEGE_SEARCH_FORM = "PRIVILEGE_SEARCH_FORM";
     public static final String PRIVILEGE_COPY_FORM = "PRIVILEGE_COPY_FORM";
     public static final String PRIVILEGE_DELETE_FORM = "PRIVILEGE_DELETE_FORM";
     public static final String PRIVILEGE_VERSION_FORM = "PRIVILEGE_VERSION_FORM";

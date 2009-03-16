@@ -13,6 +13,7 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 public enum Role implements CodedEnum<String> {
 
     PI("PI", RoleType.STUDY_LEVEL),
+    ADMIN("ADMIN", RoleType.ADMIN),
     LEAD_CRA("LEAD_CRA", RoleType.STUDY_LEVEL),
     ODC("ODC", RoleType.STUDY_LEVEL),
     CCA("CCA", RoleType.STUDY_LEVEL),

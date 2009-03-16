@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.security;
 
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.*;
 import org.springframework.security.AccessDeniedException;
@@ -93,6 +94,129 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
 
 
     }
+
+    public void testClinicalStaffSecurityOnCreateAndEdit() throws Exception {
+
+        login(user);
+
+        ClinicalStaff clinicalStaff2 = Fixture.createClinicalStaffWithOrganization("Bruce", "Williams", "-123456", defaultOrganization);
+        clinicalStaff2 = clinicalStaffRepository.save(clinicalStaff2);
+
+        commitAndStartNewTransaction();
+
+        //now edit this clinical staff ;
+        login(anotherUser);
+        try {
+            clinicalStaffRepository.save(clinicalStaff2);
+            fail("must not save clinical staff for un-authorized user");
+        } catch (AccessDeniedException e) {
+
+        }
+
+    }
+
+
+    public void testClinicalStaffSecurityOnFindMultiple() throws Exception {
+
+        login(anotherUser);
+        ClinicalStaff clinicalStaff1 = Fixture.createClinicalStaffWithOrganization("David", "Williams", "-123456", wake);
+        clinicalStaff1 = clinicalStaffRepository.save(clinicalStaff1);
+
+        login(user);
+
+        ClinicalStaff clinicalStaff2 = Fixture.createClinicalStaffWithOrganization("Bruce", "Williams", "-123456", defaultOrganization);
+        clinicalStaff2 = clinicalStaffRepository.save(clinicalStaff2);
+
+        commitAndStartNewTransaction();
+        assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from CLINICAL_STAFFS") >= 2);
+
+
+        Collection<ClinicalStaff> clinicalStaffs = clinicalStaffRepository.find(new ClinicalStaffQuery());
+        assertFalse("must find clinical staff", clinicalStaffs.isEmpty());
+        assertEquals("must see two clinical staff only because these clinicalstaff are on on user's organization", 2, clinicalStaffs.size());
+        assertTrue("must see his own clinical staff only ", clinicalStaffs.contains(clinicalStaff2));
+
+        login(anotherUser);
+
+        clinicalStaffs = clinicalStaffRepository.find(new ClinicalStaffQuery());
+        assertFalse("must find clinical staff", clinicalStaffs.isEmpty());
+        assertEquals("must see two clinical staff only because these clinicalstaff are on on user's organization", 2, clinicalStaffs.size());
+        assertTrue("must see his own clinical staff only ", clinicalStaffs.contains(clinicalStaff1));
+        assertTrue("must see his own clinical staff only ", clinicalStaffs.contains(anotherClinicalStaff));
+
+
+    }
+
+    public void testClinicalStaffSecurityOnFindById() throws Exception {
+        login(user);
+
+        ClinicalStaff clinicalStaff2 = Fixture.createClinicalStaffWithOrganization("Bruce", "Williams", "-123456", defaultOrganization);
+        clinicalStaff2 = clinicalStaffRepository.save(clinicalStaff2);
+
+        commitAndStartNewTransaction();
+        assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from CLINICAL_STAFFS") >= 2);
+
+
+        ClinicalStaff savedClinicalStaff = clinicalStaffRepository.findById(clinicalStaff2.getId());
+        assertEquals("must see this clinical staff because this participant has organization clinical staff  on user's organization", savedClinicalStaff, clinicalStaff2);
+
+        login(anotherUser);
+        try {
+            clinicalStaffRepository.findById(clinicalStaff2.getId());
+            fail("must not find  participant for un-authorized studies");
+        } catch (AccessDeniedException e) {
+
+        }
+
+
+    }
+
+    public void testClinicalStafffSecurityOnFindSingle() throws Exception {
+        login(user);
+
+        ClinicalStaff clinicalStaff2 = Fixture.createClinicalStaffWithOrganization("Bruce", "Williams", "-123456", defaultOrganization);
+        clinicalStaff2 = clinicalStaffRepository.save(clinicalStaff2);
+
+        commitAndStartNewTransaction();
+        assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from CLINICAL_STAFFS") >= 2);
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+        clinicalStaffQuery.filterByUserId(user.getId());
+        ClinicalStaff savedClinicalStaff = clinicalStaffRepository.findSingle(clinicalStaffQuery);
+        assertNotNull("must see this clinial staff because this clinical staff is on user's organization", savedClinicalStaff);
+
+        login(anotherUser);
+        try {
+            clinicalStaffRepository.findSingle(clinicalStaffQuery);
+            fail("must not find  participant for un-authorized studies");
+        } catch (AccessDeniedException e) {
+
+        }
+
+
+    }
+
+    public void testClinicalStaffHavingMultipleOrganizationClinicalStaffSecurityOnFindById() throws Exception {
+        login(user);
+
+        ClinicalStaff clinicalStaff2 = Fixture.createClinicalStaffWithOrganization("Bruce", "Williams", "-123456", defaultOrganization);
+        OrganizationClinicalStaff staff = new OrganizationClinicalStaff();
+        staff.setOrganization(wake);
+        clinicalStaff2.addOrganizationClinicalStaff(staff);
+        clinicalStaff2 = clinicalStaffRepository.save(clinicalStaff2);
+
+        commitAndStartNewTransaction();
+
+
+        ClinicalStaff savedClinicalStaff = clinicalStaffRepository.findById(clinicalStaff2.getId());
+        assertEquals("must see this clinical staff because this participant has organization clinical staff  on user's organization", savedClinicalStaff, clinicalStaff2);
+
+        login(anotherUser);
+        assertNotNull("this user can also seet his clinical staff because one of the organization clinical staff belongs to user's organizations",
+                clinicalStaffRepository.findById(clinicalStaff2.getId()));
+
+
+    }
+
 
     public void testParticipantSecurityOnFindMultiple() throws Exception {
         login(user);

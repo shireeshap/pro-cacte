@@ -20,6 +20,9 @@ public class OrganizationClinicalStaffQuery extends AbstractQuery {
 
     private static String NCI_IDENTIFIER = "nciIdentifier";
 
+    public OrganizationClinicalStaffQuery() {
+        super(queryString);
+    }
 
     public OrganizationClinicalStaffQuery(final Integer organizationId) {
 

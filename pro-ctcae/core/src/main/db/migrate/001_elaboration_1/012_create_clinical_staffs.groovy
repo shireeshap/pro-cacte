@@ -20,6 +20,16 @@ class CreateClinicalStaffs extends edu.northwestern.bioinformatics.bering.Migrat
 
     execute("ALTER TABLE USERS ADD CONSTRAINT un_user_name UNIQUE (user_name)")
 
+
+    createTable("USER_ROLES") {t ->
+      t.addVersionColumn()
+      t.addColumn('role_name', 'string', nullable: false)
+      t.addColumn('user_id', 'integer', nullable: false)
+
+    }
+
+    execute('ALTER TABLE USER_ROLES ADD CONSTRAINT fk_user_uid FOREIGN KEY (user_id) REFERENCES USERS')
+
     createTable("CLINICAL_STAFFS") {t ->
 
       t.addVersionColumn()

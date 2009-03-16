@@ -2,8 +2,9 @@ package gov.nih.nci.ctcae.core.security;
 
 import gov.nih.nci.ctcae.core.domain.*;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Vinay Kumar
@@ -30,8 +31,8 @@ public class DomainObjectPrivilegeGenerator {
     }
 
 
-    private List<String> generatePrivilege(StudyParticipantAssignment studyParticipantAssignment) {
-        List<String> privileges = new ArrayList<String>();
+    private Set<String> generatePrivilege(StudyParticipantAssignment studyParticipantAssignment) {
+        Set<String> privileges = new HashSet<String>();
 
         privileges.add(generatePrivilege(studyParticipantAssignment.getStudySite().getStudy()));
         privileges.addAll(generatePrivilege(studyParticipantAssignment.getStudySite()));
@@ -40,17 +41,38 @@ public class DomainObjectPrivilegeGenerator {
 
     }
 
-    private List<String> generatePrivilege(Participant participant) {
+    private Set<String> generatePrivilege(OrganizationClinicalStaff organizationClinicalStaff) {
+        Set<String> privileges = new HashSet<String>();
 
-        List<String> privileges = new ArrayList<String>();
+        privileges.add(generatePrivilege(organizationClinicalStaff.getOrganization()));
+
+        return privileges;
+
+    }
+
+
+    private Set<String> generatePrivilege(Participant participant) {
+
+        Set<String> privileges = new HashSet<String>();
 
         List<StudyParticipantAssignment> studyParticipantAssignments = participant.getStudyParticipantAssignments();
         privileges.addAll(generatePrivilege(studyParticipantAssignments.get(0)));
         return privileges;
     }
 
-    private List<String> generatePrivilege(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
-        List<String> privileges = new ArrayList<String>();
+    private Set<String> generatePrivilege(ClinicalStaff clinicalStaff) {
+
+        Set<String> privileges = new HashSet<String>();
+
+        List<OrganizationClinicalStaff> organizationClinicalStaffSet = clinicalStaff.getOrganizationClinicalStaffs();
+        for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffSet) {
+            privileges.addAll(generatePrivilege(organizationClinicalStaff));
+        }
+        return privileges;
+    }
+
+    private Set<String> generatePrivilege(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
+        Set<String> privileges = new HashSet<String>();
 
         StudyOrganization studyOrganization = studyOrganizationClinicalStaff.getStudyOrganization();
         if (studyOrganization instanceof LeadStudySite) {
@@ -63,17 +85,17 @@ public class DomainObjectPrivilegeGenerator {
         return privileges;
     }
 
-    private List<String> generatePrivilege(StudyOrganization studyOrganization) {
-        List<String> privileges = new ArrayList<String>();
+    private Set<String> generatePrivilege(StudyOrganization studyOrganization) {
+        Set<String> privileges = new HashSet<String>();
         privileges.add(generatePrivilegeForPersistable(studyOrganization));
         privileges.add(generateGroupPrivilegeForStudyOrganization(studyOrganization));
         return privileges;
 
     }
 
-    public List<String> generatePrivilege(Persistable persistable) {
+    public Set<String> generatePrivilege(Persistable persistable) {
 
-        List<String> privileges = new ArrayList<String>();
+        Set<String> privileges = new HashSet<String>();
 
         if (persistable.getClass().isAssignableFrom(Study.class)) {
             privileges.add(generatePrivilege((Study) persistable));
@@ -95,6 +117,9 @@ public class DomainObjectPrivilegeGenerator {
         }
         if (persistable.getClass().isAssignableFrom(CRF.class)) {
             privileges.add(generatePrivilege((CRF) persistable));
+        }
+        if (persistable.getClass().isAssignableFrom(ClinicalStaff.class)) {
+            privileges.addAll(generatePrivilege((ClinicalStaff) persistable));
         }
         return privileges;
     }

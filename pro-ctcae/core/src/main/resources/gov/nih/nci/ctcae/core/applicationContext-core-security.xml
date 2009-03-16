@@ -55,7 +55,7 @@
                                    access="PRIVILEGE_DELETE_FORM"/>
 
         <security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.find*(..))"
-                                   access="PRIVILEGE_MANAGE_FORM"/>
+                                   access="PRIVILEGE_SEARCH_FORM"/>
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.versionCrf(..))"
@@ -102,6 +102,9 @@
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.find*(..))"
                 access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
+        <security:protect-pointcut
+                expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.save(..))"
+                access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF"/>
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.delete(..))"
@@ -112,7 +115,7 @@
                 access="AUTH_CHECK"/>
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.findById(..))"
-                access="AUTH_CHECK"/>
+                access="PRIVILEGE_ADMIN"/>
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.*(..))"

@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.GrantedAuthority;
@@ -12,6 +13,7 @@ import org.springframework.security.providers.dao.DaoAuthenticationProvider;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -29,7 +31,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected ClinicalStaff defaultClinicalStaff;
     protected StudyParticipantAssignment defaultStudyParticipantAssignment;
     protected Organization defaultOrganization;
-    protected Organization organization1, wake;
+    protected Organization duke, wake;
     protected Participant defaultParticipant;
     protected ParticipantRepository participantRepository;
     protected StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
@@ -56,6 +58,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected StudyOrganizationClinicalStaff studyOrganizationClinicalStaff;
     protected FundingSponsor fundingSponsor;
     protected LeadStudySite leadStudySite;
+    protected final String SYSTEM_ADMIN = "SYSTEM_ADMIN";
 
     @Override
     protected String[] getConfigLocations() {
@@ -78,9 +81,11 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
         deleteData();
 
+
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
-
+        insertAdminUser();
+        login(userRepository.loadUserByUsername(SYSTEM_ADMIN));
 
         defaultClinicalStaff = Fixture.createClinicalStaff("Angello", "Williams", "-1234");
         defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
@@ -90,16 +95,17 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         defaultUser = defaultClinicalStaff.getUser();
         assertNotNull("must find user. ", defaultUser);
 
-        //this is just the hack  for creating CCA (or first system user)
+//this is just the hack  for creating all these users ()
         User loadedUser = userRepository.loadUserByUsername(defaultUser.getUsername());
         assertNotNull("must find user", loadedUser);
         GrantedAuthority[] authorities = new GrantedAuthority[]{
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_STUDY"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_STUDY"),
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_PARTICIPANT"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_PARTICIPANT"),
-                new GrantedAuthorityImpl("PRIVILEGE_CREATE_FORM"), new GrantedAuthorityImpl("PRIVILEGE_MANAGE_FORM"), new GrantedAuthorityImpl("PRIVILEGE_RELEASE_FORM"),
+                new GrantedAuthorityImpl("PRIVILEGE_CREATE_FORM"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_FORM"), new GrantedAuthorityImpl("PRIVILEGE_RELEASE_FORM"),
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_CLINICAL_STAFF"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_CLINICAL_STAFF"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Study.GROUP"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Organization.GROUP"),
+                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.ClinicalStaff.GROUP"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.CRF.GROUP"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP")
         };
@@ -108,7 +114,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
 
         defaultOrganization = organizationRepository.findById(105555);
-        organization1 = organizationRepository.findById(104880);
+        duke = organizationRepository.findById(104880);
         wake = organizationRepository.findById(104878);
         assertNotNull("must find organization", wake);
 
@@ -128,6 +134,22 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
     }
 
+    private void insertAdminUser() {
+        UserQuery userQuery = new UserQuery();
+        userQuery.filterByUserName(SYSTEM_ADMIN);
+        List<User> users = new ArrayList<User>(userRepository.find(userQuery));
+        if (users.isEmpty()) {
+            User admin = new User(SYSTEM_ADMIN, Fixture.DEFAULT_PASSWORD, true, true, true, true);
+            UserRole userRole = new UserRole();
+            userRole.setRole(Role.ADMIN);
+
+            admin.addUserRole(userRole);
+            admin = userRepository.save(admin);
+
+            commitAndStartNewTransaction();
+        }
+    }
+
     protected Study createStudy(final String assignedIdentifier) {
         Study defaultStudy = new Study();
         defaultStudy.setShortTitle(assignedIdentifier + "A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)");
@@ -143,7 +165,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         defaultStudySite.setOrganization(defaultOrganization);
 
         studySite1 = new StudySite();
-        studySite1.setOrganization(organization1);
+        studySite1.setOrganization(duke);
 
         defaultStudy.addStudySite(defaultStudySite);
         defaultStudy.addStudySite(studySite1);
@@ -183,6 +205,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         jdbcTemplate.execute("delete from studies");
         jdbcTemplate.execute("delete from ORGANIZATION_CLINICAL_STAFFS");
         jdbcTemplate.execute("delete from CLINICAL_STAFFS");
+        jdbcTemplate.execute("delete from user_roles");
         jdbcTemplate.execute("delete from USERS");
         jdbcTemplate.execute("delete from study_participant_assignments");
         jdbcTemplate.execute("delete from participants");
@@ -199,8 +222,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     }
 
     protected User createUser(final String userName, final String password, final boolean enabled,
-                              final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked,
-                              final GrantedAuthority[] authorities) {
+                              final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked) {
 
 
         User userDetails = new User(userName, password, enabled, accountNonExpired,
@@ -213,6 +235,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     }
 
     protected void insertDefaultUsers() throws Exception {
+
         ClinicalStaff clinicalStaff = Fixture.createClinicalStaffWithOrganization("Bob", "Williams", "-12345", defaultOrganization);
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
 
@@ -346,12 +369,12 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         defaultStudy.getStudySites().get(0).addOrUpdateStudyOrganizationClinicalStaff(Fixture.createStudyOrganizationClinicalStaff(c, Role.NURSE, RoleStatus.ACTIVE, new Date(), defaultStudySite));
         commitAndStartNewTransaction();
 
-        c = Fixture.createClinicalStaffWithOrganization("Kerry", "Bueckers", "-1239", organization1);
+        c = Fixture.createClinicalStaffWithOrganization("Kerry", "Bueckers", "-1239", duke);
         c = clinicalStaffRepository.save(c);
         defaultStudy.getStudySites().get(1).addOrUpdateStudyOrganizationClinicalStaff(Fixture.createStudyOrganizationClinicalStaff(c, Role.TREATING_PHYSICIAN, RoleStatus.ACTIVE, new Date(), studySite1));
         commitAndStartNewTransaction();
 
-        c = Fixture.createClinicalStaffWithOrganization("Diane", "Opland", "-1240", organization1);
+        c = Fixture.createClinicalStaffWithOrganization("Diane", "Opland", "-1240", duke);
         clinicalStaffRepository.save(c);
 
         studyRepository.save(defaultStudy);

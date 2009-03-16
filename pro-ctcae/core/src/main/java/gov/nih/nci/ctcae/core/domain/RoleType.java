@@ -12,8 +12,8 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
  */
 public enum RoleType implements CodedEnum {
 
-    STUDY_LEVEL,
-    SITE_LEVEL, STUDY_SITE_LEVEL,STUDY_COORDINATING_CENTER_LEVEL;
+    ADMIN, STUDY_LEVEL,
+    SITE_LEVEL, STUDY_SITE_LEVEL, STUDY_COORDINATING_CENTER_LEVEL;
 
 
     /**

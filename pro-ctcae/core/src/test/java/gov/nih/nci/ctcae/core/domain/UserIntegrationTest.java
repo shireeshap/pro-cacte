@@ -144,7 +144,7 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     public void testAuthenticateFailsIfAccountExpired() {
 
-        userHavingExpiredAccount = createUser(USER, Fixture.DEFAULT_PASSWORD, true, false, true, true, null);
+        userHavingExpiredAccount = createUser(USER, Fixture.DEFAULT_PASSWORD, true, false, true, true);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userHavingExpiredAccount
                 .getUsername(), Fixture.DEFAULT_PASSWORD);
 
@@ -159,7 +159,7 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     public void testAuthenticateFailsIfAccountLocked() {
 
-        userHavingLockedAccount = createUser(USER, Fixture.DEFAULT_PASSWORD, true, true, true, false, null);
+        userHavingLockedAccount = createUser(USER, Fixture.DEFAULT_PASSWORD, true, true, true, false);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userHavingLockedAccount
                 .getUsername(), Fixture.DEFAULT_PASSWORD);
 
@@ -175,7 +175,7 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     public void testAuthenticateFailsIfCredentialsExpired() {
 
-        userHavingExpiredCredentials = createUser(USER, Fixture.DEFAULT_PASSWORD, true, true, false, true, null);
+        userHavingExpiredCredentials = createUser(USER, Fixture.DEFAULT_PASSWORD, true, true, false, true);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 userHavingExpiredCredentials, Fixture.DEFAULT_PASSWORD);
 
@@ -201,7 +201,7 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     public void testAuthenticateFailsIfUserDisabled() {
 
-        userHavingDisabledAccount = createUser(USER, Fixture.DEFAULT_PASSWORD, false, true, true, true, null);
+        userHavingDisabledAccount = createUser(USER, Fixture.DEFAULT_PASSWORD, false, true, true, true);
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userHavingDisabledAccount,
                 Fixture.DEFAULT_PASSWORD);

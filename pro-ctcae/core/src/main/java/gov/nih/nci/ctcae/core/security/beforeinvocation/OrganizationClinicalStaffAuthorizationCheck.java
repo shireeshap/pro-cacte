@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.security.beforeinvocation;
 
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.security.DomainObjectAuthorizationCheck;
@@ -30,7 +31,8 @@ public class OrganizationClinicalStaffAuthorizationCheck implements MethodAuthor
             logger.debug(String.format("found method findByStudyOrganizationId of %s . Checking if user can see the StudyOrganization or not.",
                     OrganizationClinicalStaffRepository.class));
             Integer studyOrganizationId = (Integer) methodInvocation.getArguments()[1];
-            return domainObjectAuthorizationCheck.authorize(authentication, studyOrganizationRepository.findById(studyOrganizationId));
+            StudyOrganization studyOrganization = studyOrganizationRepository.findById(studyOrganizationId);
+            return domainObjectAuthorizationCheck.authorize(authentication, studyOrganization);
         }
         return false;
 

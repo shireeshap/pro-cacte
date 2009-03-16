@@ -72,7 +72,7 @@ public class ClinicalStaffRepository implements Repository<ClinicalStaff, Clinic
     public List<StudyOrganizationClinicalStaff> findByStudyOrganizationIdAndRole(String text, Integer studyOrganizationId, List<Role> roles) {
         StudyOrganizationClinicalStaffQuery query = new StudyOrganizationClinicalStaffQuery();
         query.filterByFirstNameOrLastNameOrNciIdentifier(text);
-        if (roles != null) {
+        if (roles != null && !roles.isEmpty()) {
             query.filterByRole(roles);
         }
         query.filterByStudyOrganization(studyOrganizationId);

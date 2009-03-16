@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.security;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.CRFQuery;
+import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import org.springframework.security.AccessDeniedException;
 
@@ -53,45 +55,32 @@ public class TreatingPhysicanInstanceLevelAuthorizationIntegrationTest extends A
     }
 
 
-    public void testOrganizationInstanceSecurityForCreateClinicalStaff() throws Exception {
-//        login(user);
-//
-//        List<Organization> organizations = (List<Organization>) organizationRepository.find(new OrganizationQuery());
-//
-//        assertFalse("must find organizations", organizations.isEmpty());
-//        assertEquals("user should see his organization only.", 1, organizations.size());
-//        login(anotherUser);
-//        try {
-//            organizationRepository.findById(wake.getId());
-//            fail("user must not see other organizations.");
-//        } catch (AccessDeniedException e) {
-//
-//        }
-
-        fail("fix this test case");
-    }
-
-    public void testOrganizationClinicalStaffSecurityOnFind() throws Exception {
-
+    public void testOrganizationInstanceSecurity() throws Exception {
         login(user);
 
-        assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from ORGANIZATION_CLINICAL_STAFFS") >= 2);
-        List<OrganizationClinicalStaff> organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId("%", defaultStudySite.getId());
+        OrganizationQuery organizationQuery = new OrganizationQuery();
 
-        assertFalse("must find organizationClinicalStaffs", organizationClinicalStaffs.isEmpty());
-        assertEquals("must see this because this organizationClinicalStaff is created on user's study", 2, organizationClinicalStaffs.size());
-        for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
-            assertEquals(defaultStudySite.getOrganization(), organizationClinicalStaff.getOrganization());
-        }
+        List<Organization> organizations = (List<Organization>) organizationRepository.find(organizationQuery);
+
+        assertFalse("must find organizations", organizations.isEmpty());
+        assertEquals("user should see his organization only.", 1, organizations.size());
+        assertEquals("user should see his organization only.", defaultOrganization, organizationRepository.findById(defaultOrganization.getId()));
+
+
+        organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByNciCodeExactMatch(defaultOrganization.getNciInstituteCode());
+        assertEquals("user should see his organization only.", defaultOrganization, organizationRepository.findSingle(organizationQuery));
 
         login(anotherUser);
+        try {
+            organizationRepository.findById(defaultOrganization.getId());
+            fail("user must not see other organizations.");
+        } catch (AccessDeniedException e) {
 
-        assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from ORGANIZATION_CLINICAL_STAFFS") >= 2);
-        organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId("%", defaultStudySite.getId());
-        assertTrue("must not find any organizationClinicalStaffs because user can not access this study site", organizationClinicalStaffs.isEmpty());
-
+        }
 
     }
+
 
     public void testParticipantSecurityOnFindSingle() throws Exception {
 
@@ -149,13 +138,83 @@ public class TreatingPhysicanInstanceLevelAuthorizationIntegrationTest extends A
     }
 
 
-    public void testCreateScheduleSecurity() throws Exception {
+    public void testCRFSecurityOnFind() throws Exception {
+        createCRF(study1);
+        createCRF(study1);
+
+        defaultCRF = createCRF(defaultStudy);
+
+        login(user);
+
+        assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from crfs") >= 2);
+        Collection<CRF> crfs = crfRepository.find(new CRFQuery());
+        assertFalse("must find crfs", crfs.isEmpty());
+        assertEquals("must see one crf only because this crf is created on user's study", 1, crfs.size());
+        assertEquals("must see one crf only because this crf is created on user's study", defaultCRF, crfs.iterator().next());
 
 
+    }
+
+    public void testCRFSecurityOnFindMultiple() throws Exception {
+        defaultCRF = createCRF(defaultStudy);
+
+        CRF crf1 = createCRF(study1);
+        CRF crf2 = createCRF(study1);
+
+        login(anotherUser);
+
+        assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from crfs") >= 2);
+        Collection<CRF> crfs = crfRepository.find(new CRFQuery());
+        assertFalse("must find crfs", crfs.isEmpty());
+        assertEquals("must see two crfs only because these crfs are created on user's study", 2, crfs.size());
+        assertTrue("must see his own crf only", crfs.contains(crf1));
+        assertTrue("must see his own crf only ", crfs.contains(crf2));
+
+
+    }
+
+    public void testCRFSecurityOnFindById() throws Exception {
+        defaultCRF = createCRF(study1);
+        login(anotherUser);
+
+        CRF crf = crfRepository.findById(defaultCRF.getId());
+        assertEquals("must see this crf  because this crf is created on user's study", defaultCRF, crf);
+
+        login(user);
+        try {
+            crfRepository.findById(defaultCRF.getId());
+            fail("must not see crfs for other studies");
+        } catch (AccessDeniedException e) {
+        }
+    }
+
+    public void testCRFSecurityOnFindSingle() throws Exception {
+        defaultCRF = createCRF(study1);
+        login(anotherUser);
+
+        CRFQuery query = new CRFQuery();
+        query.filterByTitleExactMatch(defaultCRF.getTitle());
+        CRF crf = crfRepository.findSingle(query);
+        assertEquals("must see this crf  because this crf is created on user's study", defaultCRF, crf);
+
+        login(user);
+        try {
+            query = new CRFQuery();
+            query.filterByTitleExactMatch(defaultCRF.getTitle());
+
+            crfRepository.findSingle(query);
+            fail("must not see crfs for other studies");
+        } catch (AccessDeniedException e) {
+        }
+    }
+
+
+    public void testCreateCRFScheduleInstanceSecurity() throws Exception {
+        CRF crf = createCRF(defaultStudy);
+        crfRepository.updateStatusToReleased(crf);
         login(user);
         Participant participant = createParticipant("John", defaultStudy.getStudySites().get(0));
 
-        CRF crf = createCRF(defaultStudy);
 
         assertEquals("must save participant", participant, participant);
 

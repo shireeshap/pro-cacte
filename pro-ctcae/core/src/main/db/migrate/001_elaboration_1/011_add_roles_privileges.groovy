@@ -18,7 +18,7 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
 
     insert('PRIVILEGES', [id: -1, privilege_name: "PRIVILEGE_CREATE_FORM", display_name: "PRIVILEGE_CREATE_FORM"], primaryKey: false)
     insert('PRIVILEGES', [id: -2, privilege_name: "PRIVILEGE_EDIT_FORM", display_name: "PRIVILEGE_EDIT_FORM"], primaryKey: false)
-    insert('PRIVILEGES', [id: -3, privilege_name: "PRIVILEGE_MANAGE_FORM", display_name: "PRIVILEGE_MANAGE_FORM"], primaryKey: false)
+    insert('PRIVILEGES', [id: -3, privilege_name: "PRIVILEGE_SEARCH_FORM", display_name: "PRIVILEGE_SEARCH_FORM"], primaryKey: false)
     insert('PRIVILEGES', [id: -4, privilege_name: "PRIVILEGE_COPY_FORM", display_name: "PRIVILEGE_COPY_FORM"], primaryKey: false)
     insert('PRIVILEGES', [id: -5, privilege_name: "PRIVILEGE_DELETE_FORM", display_name: "PRIVILEGE_DELETE_FORM"], primaryKey: false)
     insert('PRIVILEGES', [id: -6, privilege_name: "PRIVILEGE_VERSION_FORM", display_name: "PRIVILEGE_VERSION_FORM"], primaryKey: false)
@@ -51,6 +51,11 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('PRIVILEGES', [id: -69, privilege_name: "PRIVILEGE_EDIT_PARTICIPANT", display_name: "PRIVILEGE_EDIT_PARTICIPANT"], primaryKey: false)
     insert('PRIVILEGES', [id: -70, privilege_name: "PRIVILEGE_VIEW_PARTICIPANT", display_name: "PRIVILEGE_VIEW_PARTICIPANT"], primaryKey: false)
 
+    insert('PRIVILEGES', [id: -301, privilege_name: "PRIVILEGE_CREATE_CCA", display_name: "PRIVILEGE_CREATE_CCA"], primaryKey: false)
+
+    insert('PRIVILEGES', [id: -401, privilege_name: "gov.nih.nci.ctcae.core.domain.Organization.GROUP", display_name: "gov.nih.nci.ctcae.core.domain.Organization.GROUP"], primaryKey: false)
+    insert('PRIVILEGES', [id: -402, privilege_name: "gov.nih.nci.ctcae.core.domain.ClinicalStaff.GROUP", display_name: "gov.nih.nci.ctcae.core.domain.ClinicalStaff.GROUP"], primaryKey: false)
+
 
 
     createTable("ROLE_PRIVILEGES") {t ->
@@ -63,15 +68,26 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
 
     execute('ALTER TABLE ROLE_PRIVILEGES ADD CONSTRAINT fk_privilege_id FOREIGN KEY (privilege_id) REFERENCES PRIVILEGES')
 
+    insert('ROLE_PRIVILEGES', [id: -901, role_name: "ADMIN", privilege_id: "-301"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -902, role_name: "ADMIN", privilege_id: "-41"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -903, role_name: "ADMIN", privilege_id: "-42"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -904, role_name: "ADMIN", privilege_id: "-43"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -905, role_name: "ADMIN", privilege_id: "-401"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -906, role_name: "ADMIN", privilege_id: "-402"], primaryKey: false)
+
+
+
     insert('ROLE_PRIVILEGES', [id: -801, role_name: "TREATING_PHYSICIAN", privilege_id: "-62"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -802, role_name: "TREATING_PHYSICIAN", privilege_id: "-63"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -803, role_name: "TREATING_PHYSICIAN", privilege_id: "-65"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -804, role_name: "TREATING_PHYSICIAN", privilege_id: "-67"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -805, role_name: "TREATING_PHYSICIAN", privilege_id: "-3"], primaryKey: false)
 
     insert('ROLE_PRIVILEGES', [id: -921, role_name: "NURSE", privilege_id: "-62"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -922, role_name: "NURSE", privilege_id: "-63"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -923, role_name: "NURSE", privilege_id: "-65"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -924, role_name: "NURSE", privilege_id: "-67"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -925, role_name: "NURSE", privilege_id: "-3"], primaryKey: false)
 
 
 

@@ -55,6 +55,9 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
         List<GrantedAuthority> instanceGrantedAuthorities = new ArrayList<GrantedAuthority>();
 
+        for (UserRole userRole : user.getUserRoles()) {
+            roles.add(userRole.getRole());
+        }
         if (ClinicalStaffQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
             throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
         }
@@ -63,16 +66,17 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         clinicalStaffQuery.filterByUserId(user.getId());
         ClinicalStaff clinicalStaff = (ClinicalStaff) genericRepository.findSingle(clinicalStaffQuery);
 
-        List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaff.getOrganizationClinicalStaffs();
-        for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
-            List<String> privileges = privilegeGenerator.generatePrivilege(organizationClinicalStaff);
-            privileges.addAll(privilegeGenerator.generatePrivilege(organizationClinicalStaff.getOrganization()));
-            for (String privilege : privileges) {
-                instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
-            }
-        }
 
         if (clinicalStaff != null) {
+
+            List<OrganizationClinicalStaff> organizationClinicalStaffs = clinicalStaff.getOrganizationClinicalStaffs();
+            for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
+                Set<String> privileges = privilegeGenerator.generatePrivilege(organizationClinicalStaff);
+                privileges.addAll(privilegeGenerator.generatePrivilege(organizationClinicalStaff.getOrganization()));
+                for (String privilege : privileges) {
+                    instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
+                }
+            }
 
 
             StudyOrganizationClinicalStaffQuery studyOrganizationClinicalStaffQuery = new StudyOrganizationClinicalStaffQuery();
@@ -86,27 +90,28 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : StudyOrganizationClinicalStaffs) {
                 Role role = studyOrganizationClinicalStaff.getRole();
                 roles.add(role);
-                List<String> privileges = privilegeGenerator.generatePrivilege(studyOrganizationClinicalStaff);
+                Set<String> privileges = privilegeGenerator.generatePrivilege(studyOrganizationClinicalStaff);
                 for (String privilege : privileges) {
                     instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
                 }
             }
 
 
-            if (!roles.isEmpty()) {
-                RolePrivilegeQuery rolePrivilegeQuery = new RolePrivilegeQuery();
-                if (RolePrivilegeQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
-                    throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
-                }
-                rolePrivilegeQuery.filterByRoles(roles);
-                List<Privilege> privileges = genericRepository.find(rolePrivilegeQuery);
+        }
+        if (!roles.isEmpty()) {
+            RolePrivilegeQuery rolePrivilegeQuery = new RolePrivilegeQuery();
+            if (RolePrivilegeQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
+                throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
+            }
+            rolePrivilegeQuery.filterByRoles(roles);
+            List<Privilege> privileges = genericRepository.find(rolePrivilegeQuery);
 
-                for (Privilege privilege : privileges) {
-                    GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(privilege.getPrivilegeName());
-                    grantedAuthorities.add(grantedAuthority);
-                }
+            for (Privilege privilege : privileges) {
+                GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(privilege.getPrivilegeName());
+                grantedAuthorities.add(grantedAuthority);
             }
         }
+
         grantedAuthorities.addAll(instanceGrantedAuthorities);
         user.setGrantedAuthorities(grantedAuthorities.toArray(new GrantedAuthority[]{}));
         return user;

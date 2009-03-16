@@ -123,22 +123,28 @@ public abstract class MethodAuthorizationIntegrationTestCase extends AbstractHib
                 System.out.println(String.format("found %s method %s of class %s with parameter %s", method.getModifiers(), serviceClass.getName(), method.getName(), classes));
 
                 Object[] parameters = new Object[classes.length];
-                for (int i = 0; i < classes.length; i++) {
-                    Class parameterTypeClass = classes[i];
-                    Class<?> classType = Class.forName(parameterTypeClass.getName());
-                    if (ClassUtils.isAssignable(classType, Integer.class)) {
-                        parameters[i] = Integer.valueOf(1);
-                    } else if (ClassUtils.isAssignable(classType, Persistable.class)) {
-                        parameters[i] = new CRF();
-                    } else if (ClassUtils.isAssignable(classType, Query.class)) {
-                        parameters[i] = new CRFQuery();
-                    } else if (ClassUtils.isAssignable(classType, ParticipantSchedule.ScheduleType.class)) {
-                        parameters[i] = ParticipantSchedule.ScheduleType.CYCLE;
-                    } else if (ClassUtils.isAssignable(classType, List.class)) {
-                        parameters[i] = new ArrayList();
-                    } else {
-                        parameters[i] = classType.newInstance();
+                try {
+                    for (int i = 0; i < classes.length; i++) {
+                        Class parameterTypeClass = classes[i];
+                        Class<?> classType = Class.forName(parameterTypeClass.getName());
+                        if (ClassUtils.isAssignable(classType, Integer.class)) {
+                            parameters[i] = Integer.valueOf(1);
+                        } else if (ClassUtils.isAssignable(classType, Persistable.class)) {
+                            parameters[i] = new CRF();
+                        } else if (ClassUtils.isAssignable(classType, Query.class)) {
+                            parameters[i] = new CRFQuery();
+                        } else if (ClassUtils.isAssignable(classType, ParticipantSchedule.ScheduleType.class)) {
+                            parameters[i] = ParticipantSchedule.ScheduleType.CYCLE;
+                        } else if (ClassUtils.isAssignable(classType, List.class)) {
+                            parameters[i] = new ArrayList();
+                        } else {
+                            parameters[i] = classType.newInstance();
+                        }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    fail("must  not fail." + e.getMessage());
+
                 }
                 if (Integer.valueOf(Method.DECLARED).equals(method.getModifiers())) {
                     try {
@@ -153,8 +159,8 @@ public abstract class MethodAuthorizationIntegrationTestCase extends AbstractHib
                             assertEquals("must fail becaue of access denied." + e.getCause(), e.getTargetException().getClass(), AccessDeniedException.class);
                             assertTrue("must fail becaue of access denied" + e.getMessage(), e.getTargetException() instanceof AccessDeniedException);
                         } else {
-                            assertFalse("must  not fail becaue of access denied. Because  user must be able to access that method. " +
-                                    "Please check if you have configured security and given privilege to user for that method? " +
+                            assertFalse("must  not fail becaue of access denied. Because  user must be able to access that method: " + method.getName() +
+                                    ". Please check if you have configured security and given privilege to user for that method? " +
                                     "exception is:" + e.getTargetException(), e.getTargetException() instanceof AccessDeniedException);
 
                         }

@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.springframework.security.GrantedAuthority;
@@ -68,6 +69,11 @@ public class User extends BaseVersionable implements UserDetails {
         this.enabled = enabled;
 
     }
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<UserRole> userRoles = new ArrayList<UserRole>();
+
 
     public User() {
     }
@@ -173,14 +179,40 @@ public class User extends BaseVersionable implements UserDetails {
 
     public List<Integer> findAccessableObjectIds(Class<? extends Persistable> persistableClass) {
         List<Integer> accessableObjectIds = new ArrayList<Integer>();
-
-        for (GrantedAuthority grantedAuthority : grantedAuthorities) {
+        for (String grantedAuthority : findAllAuthorities()) {
             String requiredPrivilege = persistableClass.getName() + ".";
-            if (grantedAuthority.getAuthority().contains(requiredPrivilege)) {
-                String authority = grantedAuthority.getAuthority();
-                accessableObjectIds.add(Integer.valueOf(authority.substring(requiredPrivilege.length(), authority.length())));
+            String requiredGrouPrivilege = persistableClass.getName() + ".GROUP";
+            if (grantedAuthority.contains(requiredGrouPrivilege)) {
+                return new ArrayList<Integer>();
+            } else if (grantedAuthority.contains(requiredPrivilege)) {
+                accessableObjectIds.add(Integer.valueOf(grantedAuthority.substring(requiredPrivilege.length(), grantedAuthority.length())));
             }
         }
         return accessableObjectIds;
+    }
+
+    public List<String> findAllAuthorities() {
+        List<String> allAuthorites = new ArrayList<String>();
+
+        for (GrantedAuthority grantedAuthority : grantedAuthorities) {
+            allAuthorites.add(grantedAuthority.getAuthority());
+
+        }
+        return allAuthorites;
+    }
+
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public void addUserRole(UserRole userRole) {
+        if (!userRole.isPersisted() && !getUserRoles().contains(userRole)) {
+            userRole.setUser(this);
+            getUserRoles().add(userRole);
+        }
     }
 }
