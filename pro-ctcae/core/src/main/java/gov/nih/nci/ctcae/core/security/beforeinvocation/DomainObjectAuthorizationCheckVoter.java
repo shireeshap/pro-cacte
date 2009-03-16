@@ -54,13 +54,11 @@ public class DomainObjectAuthorizationCheckVoter implements AccessDecisionVoter 
     }
 
     /**
-     * This implementation supports only MethodInvocation type of class
-     *
      * @param clazz the secure object
      * @return always <code>true</code>
      */
     public boolean supports(Class clazz) {
-        return MethodInvocation.class.isAssignableFrom(clazz);
+        return true;
     }
 
     public int vote(Authentication authentication, Object object, ConfigAttributeDefinition config) {
