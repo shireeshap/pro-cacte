@@ -8,7 +8,6 @@ import org.springframework.security.Authentication;
 import org.springframework.security.ConfigAttribute;
 import org.springframework.security.ConfigAttributeDefinition;
 import org.springframework.security.vote.AccessDecisionVoter;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,20 +61,22 @@ public class DomainObjectAuthorizationCheckVoter implements AccessDecisionVoter 
     }
 
     public int vote(Authentication authentication, Object object, ConfigAttributeDefinition config) {
-        Assert.notNull(object, "Object was null");
+        if (object != null && MethodInvocation.class.isAssignableFrom(object.getClass())) {
+            logger.debug("Security invocation attempted for object " + object.getClass().getName());
 
-        logger.debug("Security invocation attempted for object " + object.getClass().getName());
+            for (MethodAuthorizationCheck methodAuthorizationCheck : methodAuthorizationChecks) {
+                boolean authorize = methodAuthorizationCheck.authorize(authentication, (MethodInvocation) object);
+                if (authorize) {
+                    return ACCESS_GRANTED;
+                }
 
-        for (MethodAuthorizationCheck methodAuthorizationCheck : methodAuthorizationChecks) {
-            boolean authorize = methodAuthorizationCheck.authorize(authentication, (MethodInvocation) object);
-            if (authorize) {
-                return ACCESS_GRANTED;
             }
 
+
+            return ACCESS_DENIED;
+
         }
-
-
-        return ACCESS_DENIED;
+        return ACCESS_ABSTAIN;
     }
 
     @Required
