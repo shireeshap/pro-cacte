@@ -1,10 +1,7 @@
 package gov.nih.nci.ctcae.core.security;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.ParticipantQuery;
-import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
-import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
-import gov.nih.nci.ctcae.core.query.StudyQuery;
+import gov.nih.nci.ctcae.core.query.*;
 import org.springframework.security.AccessDeniedException;
 
 import java.util.Collection;
@@ -15,7 +12,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Mar 3, 2009
  */
-public class SiteCRAInstanceLevelAuthorizationIntegrationTest extends AbstractInstanceLevelAuthorizationIntegrationTest {
+public class SiteCRAInstanceLevelAuthorizationIntegrationTest extends AbstractInstanceLevelAuthorizationIntegrationTestCase {
 
     protected CRF defaultCRF;
 
@@ -40,22 +37,31 @@ public class SiteCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
     }
 
 
-//    public void testOrganizationInstanceSecurityForCreateClinicalStaff() throws Exception {
-//        login(user);
-//
-//        List<Organization> organizations = (List<Organization>) organizationRepository.find(new OrganizationQuery());
-//
-//        assertFalse("must find organizations", organizations.isEmpty());
-//        assertEquals("user should see his organization only.", 1, organizations.size());
-//        login(anotherUser);
-//        try {
-//            organizationRepository.findById(wake.getId());
-//            fail("user must not see other organizations.");
-//        } catch (AccessDeniedException e) {
-//
-//        }
-//
-//    }
+    public void testOrganizationInstanceSecurity() throws Exception {
+        login(user);
+
+        OrganizationQuery organizationQuery = new OrganizationQuery();
+
+        List<Organization> organizations = (List<Organization>) organizationRepository.find(organizationQuery);
+
+        assertFalse("must find organizations", organizations.isEmpty());
+        assertEquals("user should see his organization only.", 1, organizations.size());
+        assertEquals("user should see his organization only.", defaultOrganization, organizationRepository.findById(defaultOrganization.getId()));
+
+
+        organizationQuery = new OrganizationQuery();
+        organizationQuery.filterByNciCodeExactMatch(defaultOrganization.getNciInstituteCode());
+        assertEquals("user should see his organization only.", defaultOrganization, organizationRepository.findSingle(organizationQuery));
+
+        login(anotherUser);
+        try {
+            organizationRepository.findById(defaultOrganization.getId());
+            fail("user must not see other organizations.");
+        } catch (AccessDeniedException e) {
+
+        }
+
+    }
 
     public void testOrganizationClinicalStaffSecurityOnFind() throws Exception {
 
@@ -65,7 +71,7 @@ public class SiteCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
         List<OrganizationClinicalStaff> organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId("%", defaultStudySite.getId());
 
         assertFalse("must find organizationClinicalStaffs", organizationClinicalStaffs.isEmpty());
-        assertEquals("must see this because this organizationClinicalStaff is created on user's study", 2, organizationClinicalStaffs.size());
+        assertEquals("must see this because this organizationClinicalStaff is created on user's study", 1, organizationClinicalStaffs.size());
         for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
             assertEquals(defaultStudySite.getOrganization(), organizationClinicalStaff.getOrganization());
         }
@@ -73,8 +79,13 @@ public class SiteCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
         login(anotherUser);
 
         assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from ORGANIZATION_CLINICAL_STAFFS") >= 2);
-        organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId("%", defaultStudySite.getId());
-        assertTrue("must not find any organizationClinicalStaffs because user can not access this study site", organizationClinicalStaffs.isEmpty());
+        try {
+            organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId("%", defaultStudySite.getId());
+            fail("must not find any organizationClinicalStaffs because user can not access this study site");
+
+        } catch (AccessDeniedException e) {
+
+        }
 
 
     }
@@ -261,12 +272,8 @@ public class SiteCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
         studyQuery = new StudyQuery();
         studyQuery.filterByAssignedIdentifierExactMatch(defaultStudy.getAssignedIdentifier());
 
-        try {
-            study = studyRepository.findSingle(studyQuery);
-            fail("must see his own study only");
-        } catch (AccessDeniedException e) {
-
-        }
+        study = studyRepository.findSingle(studyQuery);
+        assertNull("must see his own study only", study);
 
 
     }

@@ -12,7 +12,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Mar 3, 2009
  */
-public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractInstanceLevelAuthorizationIntegrationTest {
+public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractInstanceLevelAuthorizationIntegrationTestCase {
 
     private User user, anotherUser;
     protected CRF defaultCRF;
@@ -75,7 +75,7 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
         List<OrganizationClinicalStaff> organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId("%", defaultStudySite.getId());
 
         assertFalse("must find organizationClinicalStaffs", organizationClinicalStaffs.isEmpty());
-        assertEquals("must see this because this organizationClinicalStaff is created on user's study", 2, organizationClinicalStaffs.size());
+        assertEquals("must see this because this organizationClinicalStaff is created on user's study", 1, organizationClinicalStaffs.size());
         for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
             assertEquals(defaultStudySite.getOrganization(), organizationClinicalStaff.getOrganization());
         }
@@ -83,8 +83,13 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
         login(anotherUser);
 
         assertTrue("must have atleast 2 results", jdbcTemplate.queryForInt("select count(*) from ORGANIZATION_CLINICAL_STAFFS") >= 2);
-        organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId("%", defaultStudySite.getId());
-        assertTrue("must not find any organizationClinicalStaffs because user can not access this study site", organizationClinicalStaffs.isEmpty());
+        try {
+            organizationClinicalStaffs = organizationClinicalStaffRepository.findByStudyOrganizationId("%", defaultStudySite.getId());
+            fail("must not find any organizationClinicalStaffs because user can not access this study site");
+
+        } catch (AccessDeniedException e) {
+
+        }
 
 
     }
@@ -465,12 +470,8 @@ public class LeadCRAInstanceLevelAuthorizationIntegrationTest extends AbstractIn
         studyQuery = new StudyQuery();
         studyQuery.filterByAssignedIdentifierExactMatch(defaultStudy.getAssignedIdentifier());
 
-        try {
-            study = studyRepository.findSingle(studyQuery);
-            fail("must see his own study only");
-        } catch (AccessDeniedException e) {
-
-        }
+        study = studyRepository.findSingle(studyQuery);
+        assertNull("must see his own study only", study);
 
 
     }

@@ -12,7 +12,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Mar 3, 2009
  */
-public class ODCInstanceLevelAuthorizationIntegrationTest extends AbstractInstanceLevelAuthorizationIntegrationTest {
+public class ODCInstanceLevelAuthorizationIntegrationTest extends AbstractInstanceLevelAuthorizationIntegrationTestCase {
 
     private User user, anotherUser;
     protected CRF defaultCRF;

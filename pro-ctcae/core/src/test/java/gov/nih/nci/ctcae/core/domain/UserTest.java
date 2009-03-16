@@ -19,7 +19,7 @@ public class UserTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         GrantedAuthority[] grantedAuthorities = new GrantedAuthority[]{new GrantedAuthorityImpl(Organization.class.getName() + "." + 1),
-                new GrantedAuthorityImpl(Organization.class.getName() + "." + 2)};
+                new GrantedAuthorityImpl(Organization.class.getName() + "." + 2), new GrantedAuthorityImpl(Study.class.getName() + "." + 3)};
         user = new User();
         user.setGrantedAuthorities(grantedAuthorities);
 
@@ -27,8 +27,14 @@ public class UserTest extends TestCase {
 
     public void testGetAllowedOrganizationId() {
 
-        List<Integer> organizationIds = user.getAccessableOrganizationIds();
+        List<Integer> organizationIds = user.findAccessableObjectIds(Organization.class);
         assertTrue(organizationIds.contains(1));
         assertTrue(organizationIds.contains(2));
+    }
+
+    public void testGetAllowedStudyId() {
+
+        List<Integer> organizationIds = user.findAccessableObjectIds(Study.class);
+        assertTrue(organizationIds.contains(3));
     }
 }

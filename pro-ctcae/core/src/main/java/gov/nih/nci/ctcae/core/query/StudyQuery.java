@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.Study;
 import org.apache.commons.lang.StringUtils;
 
 //
@@ -9,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Vinay Kumar
  * @crated Oct 14, 2008
  */
-public class StudyQuery extends AbstractQuery {
+public class StudyQuery extends SecuredQuery<Study> {
 
     /**
      * The query string.
@@ -150,4 +151,15 @@ public class StudyQuery extends AbstractQuery {
         setParameter(PARTICIPANT_ID, participantId);
     }
 
+    public Class<Study> getPersistableClass() {
+        return Study.class;
+
+
+    }
+
+    protected String getObjectIdQueryString() {
+        return "study.id";
+
+
+    }
 }

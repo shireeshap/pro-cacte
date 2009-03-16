@@ -77,7 +77,6 @@ public class TreatingPhysicanMethodAuthorizationIntegrationTest extends MethodAu
         allowedMethods.add(FIND_SINGLE);
 
         authorizeAndUnAuthorizeMethods(studyParticipantAssignmentRepository, StudyParticipantAssignmentRepository.class, allowedMethods);
-        commitAndStartNewTransaction();
 
 
     }

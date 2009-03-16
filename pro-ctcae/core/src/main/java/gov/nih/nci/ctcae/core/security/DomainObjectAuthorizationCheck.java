@@ -4,10 +4,12 @@ import gov.nih.nci.ctcae.core.domain.Persistable;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.AccessDeniedException;
 import org.springframework.security.Authentication;
 import org.springframework.security.GrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ public class DomainObjectAuthorizationCheck {
     private DomainObjectPrivilegeGenerator privilegeGenerator;
     private DomainObjectGroupPrivilegeGenerator groupPrivilegeGenerator;
     private static final Log logger = LogFactory.getLog(DomainObjectAuthorizationCheck.class);
-
+    private List<? extends Persistable> ignoredClasses = new ArrayList<Persistable>();
 
     public DomainObjectAuthorizationCheck() {
         privilegeGenerator = new DomainObjectPrivilegeGenerator();
@@ -29,7 +31,12 @@ public class DomainObjectAuthorizationCheck {
 
     public boolean authorize(Authentication authentication, Persistable persistable) throws AccessDeniedException {
 
+        if (ignoredClasses.contains(persistable.getClass().getName())) {
+            logger.debug(String.format("AfterInvocationProvider will not decide for instance level security of %s. " +
+                    "Use MethodAuthorizationCheckVoter for instance level security.", persistable.getClass()));
 
+            return true;
+        }
         List<String> privileges = privilegeGenerator.generatePrivilege(persistable);
         for (String privilege : privileges) {
             if (hasPermission(authentication, persistable, privilege)) {
@@ -47,6 +54,7 @@ public class DomainObjectAuthorizationCheck {
 
     }
 
+
     private boolean hasPermission(Authentication authentication, Persistable persistable, String privilege) {
         for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
             if (StringUtils.equals(grantedAuthority.getAuthority(), privilege)) {
@@ -58,5 +66,8 @@ public class DomainObjectAuthorizationCheck {
         return false;
     }
 
-
+    @Required
+    public void setIgnoredClasses(List<? extends Persistable> ignoredClasses) {
+        this.ignoredClasses = ignoredClasses;
+    }
 }

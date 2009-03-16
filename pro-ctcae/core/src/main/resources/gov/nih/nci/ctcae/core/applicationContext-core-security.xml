@@ -27,11 +27,13 @@
     </bean>
 
     <bean id="domainObjectAfterInvocationProvider"
-          class="gov.nih.nci.ctcae.core.security.afterinvocation.DomainObjectAfterInvocationProvider">
+          class="gov.nih.nci.ctcae.core.security.afterinvocation.DomainObjectAfterInvocationProvider"
+          p:domainObjectAuthorizationCheck-ref="domainObjectAuthorizationCheck">
         <security:custom-after-invocation-provider/>
     </bean>
     <bean id="domainObjectCollectionAfterInvocationProvider"
-          class="gov.nih.nci.ctcae.core.security.afterinvocation.DomainObjectCollectionAfterInvocationProvider">
+          class="gov.nih.nci.ctcae.core.security.afterinvocation.DomainObjectCollectionAfterInvocationProvider"
+          p:domainObjectAuthorizationCheck-ref="domainObjectAuthorizationCheck">
         <security:custom-after-invocation-provider/>
     </bean>
 
@@ -107,10 +109,10 @@
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.findByStudyOrganizationId(..))"
-                access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
+                access="AUTH_CHECK"/>
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.findById(..))"
-                access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
+                access="AUTH_CHECK"/>
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.*(..))"
@@ -175,6 +177,7 @@
             <list>
                 <ref local="roleVoter"/>
                 <ref local="authenticatedVoter"/>
+                <ref local="domainObjectAuthorizationCheckVoter"/>
             </list>
         </property>
 
@@ -183,7 +186,24 @@
     <bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
         <property name="rolePrefix" value="PRIVILEGE_"/>
     </bean>
+    <bean id="domainObjectAuthorizationCheckVoter"
+          class="gov.nih.nci.ctcae.core.security.beforeinvocation.DomainObjectAuthorizationCheckVoter">
+        <property name="methodAuthorizationChecks">
+            <list>
+                <bean class="gov.nih.nci.ctcae.core.security.beforeinvocation.OrganizationClinicalStaffAuthorizationCheck"
+                      p:domainObjectAuthorizationCheck-ref="domainObjectAuthorizationCheck"
+                      p:studyOrganizationRepository-ref="studyOrganizationRepository"/>
+            </list>
+        </property>
+    </bean>
 
+    <bean id="domainObjectAuthorizationCheck" class="gov.nih.nci.ctcae.core.security.DomainObjectAuthorizationCheck">
+        <property name="ignoredClasses">
+            <list>
+                <value>gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff</value>
+            </list>
+        </property>
+    </bean>
     <bean id="authenticatedVoter" class="org.springframework.security.vote.AuthenticatedVoter"/>
 
     <bean id="privilegeAuthorizationCheck" class="gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck">

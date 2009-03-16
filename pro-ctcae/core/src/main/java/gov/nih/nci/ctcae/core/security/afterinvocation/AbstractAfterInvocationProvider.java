@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.Persistable;
 import gov.nih.nci.ctcae.core.security.DomainObjectAuthorizationCheck;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.ConfigAttribute;
 import org.springframework.security.afterinvocation.AfterInvocationProvider;
 
@@ -16,10 +17,6 @@ public abstract class AbstractAfterInvocationProvider implements AfterInvocation
     protected DomainObjectAuthorizationCheck domainObjectAuthorizationCheck;
     protected final Log logger = LogFactory.getLog(getClass());
     private Class processDomainObjectClass = Persistable.class;
-
-    protected AbstractAfterInvocationProvider() {
-        domainObjectAuthorizationCheck = new DomainObjectAuthorizationCheck();
-    }
 
     public boolean supports(ConfigAttribute attribute) {
         return true;
@@ -37,5 +34,10 @@ public abstract class AbstractAfterInvocationProvider implements AfterInvocation
 
     public Class getProcessDomainObjectClass() {
         return processDomainObjectClass;
+    }
+
+    @Required
+    public void setDomainObjectAuthorizationCheck(DomainObjectAuthorizationCheck domainObjectAuthorizationCheck) {
+        this.domainObjectAuthorizationCheck = domainObjectAuthorizationCheck;
     }
 }

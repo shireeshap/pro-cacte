@@ -145,18 +145,6 @@ public class User extends BaseVersionable implements UserDetails {
         this.grantedAuthorities = grantedAuthorities;
     }
 
-    public List<Integer> getAccessableOrganizationIds() {
-        List<Integer> accessableOrganizationIds = new ArrayList<Integer>();
-        for (GrantedAuthority grantedAuthority : grantedAuthorities) {
-            String requiredPrivilege = Organization.class.getName() + ".";
-            if (grantedAuthority.getAuthority().contains(requiredPrivilege)) {
-                String authority = grantedAuthority.getAuthority();
-                accessableOrganizationIds.add(Integer.valueOf(authority.substring(requiredPrivilege.length(), authority.length())));
-            }
-        }
-
-        return accessableOrganizationIds;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -181,5 +169,18 @@ public class User extends BaseVersionable implements UserDetails {
     @Override
     public int hashCode() {
         return username != null ? username.hashCode() : 0;
+    }
+
+    public List<Integer> findAccessableObjectIds(Class<? extends Persistable> persistableClass) {
+        List<Integer> accessableObjectIds = new ArrayList<Integer>();
+
+        for (GrantedAuthority grantedAuthority : grantedAuthorities) {
+            String requiredPrivilege = persistableClass.getName() + ".";
+            if (grantedAuthority.getAuthority().contains(requiredPrivilege)) {
+                String authority = grantedAuthority.getAuthority();
+                accessableObjectIds.add(Integer.valueOf(authority.substring(requiredPrivilege.length(), authority.length())));
+            }
+        }
+        return accessableObjectIds;
     }
 }

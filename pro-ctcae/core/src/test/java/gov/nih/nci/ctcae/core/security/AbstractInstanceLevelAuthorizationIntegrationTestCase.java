@@ -10,7 +10,7 @@ import java.util.UUID;
  * @author Vinay Kumar
  * @crated Mar 11, 2009
  */
-public class AbstractInstanceLevelAuthorizationIntegrationTest extends AbstractHibernateIntegrationTestCase {
+public abstract class AbstractInstanceLevelAuthorizationIntegrationTestCase extends AbstractHibernateIntegrationTestCase {
 
     protected Study study1, study2;
 
@@ -29,7 +29,6 @@ public class AbstractInstanceLevelAuthorizationIntegrationTest extends AbstractH
 
         study2 = studyRepository.save(study2);
         study1 = studyRepository.save(study1);
-
 
 
         anotherClinicalStaff = Fixture.createClinicalStaffWithOrganization("Paul", "Williams", "-123456", wake);

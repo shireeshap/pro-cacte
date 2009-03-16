@@ -1,10 +1,8 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
-import gov.nih.nci.ctcae.core.query.RolePrivilegeQuery;
-import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
-import gov.nih.nci.ctcae.core.query.UserQuery;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.query.*;
 import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -57,6 +55,10 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
         List<GrantedAuthority> instanceGrantedAuthorities = new ArrayList<GrantedAuthority>();
 
+        if (ClinicalStaffQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
+            throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
+        }
+
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByUserId(user.getId());
         ClinicalStaff clinicalStaff = (ClinicalStaff) genericRepository.findSingle(clinicalStaffQuery);
@@ -72,7 +74,12 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
         if (clinicalStaff != null) {
 
+
             StudyOrganizationClinicalStaffQuery studyOrganizationClinicalStaffQuery = new StudyOrganizationClinicalStaffQuery();
+
+            if (SecuredQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
+                throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
+            }
             studyOrganizationClinicalStaffQuery.filterByClinicalStaffId(clinicalStaff.getId());
             List<StudyOrganizationClinicalStaff> StudyOrganizationClinicalStaffs = genericRepository.find(studyOrganizationClinicalStaffQuery);
 
@@ -88,6 +95,9 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
             if (!roles.isEmpty()) {
                 RolePrivilegeQuery rolePrivilegeQuery = new RolePrivilegeQuery();
+                if (RolePrivilegeQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
+                    throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
+                }
                 rolePrivilegeQuery.filterByRoles(roles);
                 List<Privilege> privileges = genericRepository.find(rolePrivilegeQuery);
 

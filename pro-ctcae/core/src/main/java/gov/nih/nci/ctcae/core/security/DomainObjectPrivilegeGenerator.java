@@ -29,12 +29,6 @@ public class DomainObjectPrivilegeGenerator {
 
     }
 
-    private String generatePrivilege(OrganizationClinicalStaff organizationClinicalStaff) {
-        return OrganizationClinicalStaff.class.getName() + ".ORGANIZATION_ID." + organizationClinicalStaff.getOrganization().getId();
-
-
-    }
-
 
     private List<String> generatePrivilege(StudyParticipantAssignment studyParticipantAssignment) {
         List<String> privileges = new ArrayList<String>();
@@ -60,13 +54,11 @@ public class DomainObjectPrivilegeGenerator {
 
         StudyOrganization studyOrganization = studyOrganizationClinicalStaff.getStudyOrganization();
         if (studyOrganization instanceof LeadStudySite) {
-            privileges.add(generateGroupPrivilegeForStudyOrganization(studyOrganization.getStudy()));
+            privileges.add(generateGroupPrivilegeForStudyOrganization(studyOrganization));
 
-        } else {
-            privileges.add(generatePrivilegeForPersistable(studyOrganization));
         }
-        privileges.add(generatePrivilegeForPersistable(studyOrganization.getStudy()));
-        privileges.add(generatePrivilege(studyOrganizationClinicalStaff.getOrganizationClinicalStaff()));
+        privileges.add(generatePrivilege(studyOrganization.getStudy()));
+        privileges.add(generatePrivilegeForPersistable(studyOrganization));
 
         return privileges;
     }
@@ -74,7 +66,7 @@ public class DomainObjectPrivilegeGenerator {
     private List<String> generatePrivilege(StudyOrganization studyOrganization) {
         List<String> privileges = new ArrayList<String>();
         privileges.add(generatePrivilegeForPersistable(studyOrganization));
-        privileges.add(generateGroupPrivilegeForStudyOrganization(studyOrganization.getStudy()));
+        privileges.add(generateGroupPrivilegeForStudyOrganization(studyOrganization));
         return privileges;
 
     }
@@ -104,9 +96,6 @@ public class DomainObjectPrivilegeGenerator {
         if (persistable.getClass().isAssignableFrom(CRF.class)) {
             privileges.add(generatePrivilege((CRF) persistable));
         }
-        if (persistable.getClass().isAssignableFrom(OrganizationClinicalStaff.class)) {
-            privileges.add(generatePrivilege((OrganizationClinicalStaff) persistable));
-        }
         return privileges;
     }
 
@@ -115,10 +104,8 @@ public class DomainObjectPrivilegeGenerator {
         return persistable.getClass().getName() + "." + persistable.getId();
     }
 
-    protected final String GROUP = "GROUP";
 
-
-    private String generateGroupPrivilegeForStudyOrganization(Study study) {
-        return study.getClass().getName() + "." + study.getId() + ".STUDY_ORGANIZATION_" + GROUP;
+    private String generateGroupPrivilegeForStudyOrganization(StudyOrganization studyOrganization) {
+        return StudyOrganization.class.getName() + ".Study." + studyOrganization.getStudy().getId();
     }
 }

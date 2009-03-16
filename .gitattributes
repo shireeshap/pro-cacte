@@ -129,6 +129,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuestionQuery.ja
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcTermQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/Query.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/RolePrivilegeQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SecuredQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationClinicalStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQuery.java -text
@@ -166,6 +167,9 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/afterinvocation/Col
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/afterinvocation/DomainObjectAfterInvocationProvider.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/afterinvocation/DomainObjectCollectionAfterInvocationProvider.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/afterinvocation/Filterer.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/beforeinvocation/DomainObjectAuthorizationCheckVoter.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/beforeinvocation/MethodAuthorizationCheck.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/beforeinvocation/OrganizationClinicalStaffAuthorizationCheck.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/commons/CtcAeToStringStyle.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialect.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategy.java -text
@@ -256,7 +260,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.j
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepositoryTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/AbstractInstanceLevelAuthorizationIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/AbstractInstanceLevelAuthorizationIntegrationTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/CCAMethodAuthorizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/ClassUtilsTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/LeadCRAInstanceLevelAuthorizationIntegrationTest.java -text

@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.core.repository;
 import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.OrganizationClinicalStaffQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,7 +21,7 @@ import java.util.List;
 
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 
-public class OrganizationClinicalStaffRepository implements Repository<OrganizationClinicalStaff, ClinicalStaffQuery> {
+public class OrganizationClinicalStaffRepository implements Repository<OrganizationClinicalStaff, OrganizationClinicalStaffQuery> {
 
     private GenericRepository genericRepository;
 
@@ -34,7 +33,7 @@ public class OrganizationClinicalStaffRepository implements Repository<Organizat
     }
 
     public OrganizationClinicalStaff save(OrganizationClinicalStaff organizationClinicalStaff) {
-        return null;
+        throw new CtcAeSystemException("must not use this method..use ClinicalstaffRepo#save method ");
 
 
     }
@@ -44,25 +43,25 @@ public class OrganizationClinicalStaffRepository implements Repository<Organizat
 
     }
 
-    public Collection<OrganizationClinicalStaff> find(ClinicalStaffQuery query) {
-        return null;
+    public Collection<OrganizationClinicalStaff> find(OrganizationClinicalStaffQuery query) {
+        throw new CtcAeSystemException("must not use this method..use findByStudyOrganizationId ");
 
 
     }
 
-    public OrganizationClinicalStaff findSingle(ClinicalStaffQuery query) {
-        return null;
-
+    public OrganizationClinicalStaff findSingle(OrganizationClinicalStaffQuery query) {
+        throw new CtcAeSystemException("must not use this method..use findByStudyOrganizationId ");
 
     }
 
     public List<OrganizationClinicalStaff> findByStudyOrganizationId(String text, Integer studyOrganizationId) {
-        OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery();
-        query.filterByFirstNameOrLastNameOrNciIdentifier(text);
         StudyOrganization studyOrganization = genericRepository.findById(StudyOrganization.class, studyOrganizationId);
         if (studyOrganization != null) {
             Integer organizationId = studyOrganization.getOrganization().getId();
-            query.filterByOrganization(organizationId);
+
+            OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery(organizationId);
+            query.filterByFirstNameOrLastNameOrNciIdentifier(text);
+
 
             return genericRepository.find(query);
         }
