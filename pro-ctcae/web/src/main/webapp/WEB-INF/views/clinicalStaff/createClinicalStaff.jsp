@@ -169,7 +169,7 @@
                         </div>
                     </td>
                     <td valign="top">
-                        <tags:button type="anchor" icon="add" value="clinicalStaff.button.add.site"
+                        <tags:button color="blue" markupWithTag="a" icon="add" value="clinicalStaff.button.add.site"
                                      onClick="javascript:addSite()"></tags:button>
                     </td>
                 </tr>

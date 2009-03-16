@@ -502,7 +502,7 @@ function changePlannedRep(cycleDefinitionIndex, value) {
                         </c:forEach>
                         <div id="hiddenDiv"></div>
                         <div class="local-buttons">
-                            <tags:button type="anchor" onClick="javascript:addCycle()"
+                            <tags:button color="blue" markupWithTag="a" onClick="javascript:addCycle()"
                                          value="form.schedule.add_cycle"/>
                         </div>
                     </td>

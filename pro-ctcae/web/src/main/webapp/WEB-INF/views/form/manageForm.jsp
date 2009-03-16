@@ -137,7 +137,13 @@
 <div id="crfItem_50"></div>
 <div id="noForm" style="display:none;">
     <ctcae:urlAuthorize url="/pages/form/basicForm">
-        <tags:button type="anchor" id="newFormUrl" icon="add" value="New Form"/>
+    	<table>
+    		<tr>
+    			<td>
+        <tags:button color="blue" markupWithTag="a" id="newFormUrl" icon="add" value="New Form"/>
+		</td>
+		</tr>
+		</table>
     </ctcae:urlAuthorize>
 </div>
 <div id="bigSearch" style="display:none;">
