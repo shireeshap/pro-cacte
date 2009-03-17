@@ -265,7 +265,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         addPI(clinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy);
 
 
-        StudyOrganizationClinicalStaff odc = addODC(defaultOrganizationClinicalStaff, defaultStudy);
+        StudyOrganizationClinicalStaff odc = addODC(odcClinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy);
         addStudyOrganizationClinicalStaff(odc);
 
         StudyOrganizationClinicalStaff cca = new StudyOrganizationClinicalStaff();

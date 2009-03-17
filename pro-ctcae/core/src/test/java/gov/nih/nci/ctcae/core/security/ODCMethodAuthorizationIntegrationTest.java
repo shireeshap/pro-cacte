@@ -18,7 +18,6 @@ public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIn
         super.onSetUpInTransaction();
         user = defaultStudy.getOverallDataCoordinator().getOrganizationClinicalStaff().getClinicalStaff().getUser();
         login(user);
-
     }
 
     public void testAuthorizeUserForParticipant() throws Exception {
@@ -43,7 +42,6 @@ public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIn
         allowedMethods.add(SEARCH_CLINICAL_STAFF_BY_SS_ROLE_METHOD);
         allowedMethods.add(SEARCH_CLINICAL_STAFF_METHOD_BY_ID);
         allowedMethods.add(SEARCH_SINGLE_CLINICAL_STAFF_METHOD);
-        allowedMethods.add(CREATE_CLINICAL_STAFF_METHOD);
 
 
         authorizeAndUnAuthorizeMethods(clinicalStaffRepository, ClinicalStaffRepository.class, allowedMethods);
@@ -91,7 +89,6 @@ public class ODCMethodAuthorizationIntegrationTest extends MethodAuthorizationIn
 
         List<String> allowedMethods = allowedMethodsMap.get(StudyParticipantAssignmentRepository.class);
         authorizeAndUnAuthorizeMethods(studyParticipantAssignmentRepository, StudyParticipantAssignmentRepository.class, allowedMethods);
-        commitAndStartNewTransaction();
 
 
     }

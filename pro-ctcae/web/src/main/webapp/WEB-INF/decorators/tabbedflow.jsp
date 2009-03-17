@@ -13,45 +13,45 @@
 <html>
 <head>
 
-	<title>ProCtcAE || ${flow.name} || ${tab.longTitle}</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<standard:head/>
+    <title>ProCtcAE ||<tags:message code="${flow.name}"/> ||<tags:message code="${tab.longTitle}"/></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <standard:head/>
 
-	<tags:stylesheetLink name="tabbedflow"/>
-	<tags:javascriptLink name="tabbedflow"/>
+    <tags:stylesheetLink name="tabbedflow"/>
+    <tags:javascriptLink name="tabbedflow"/>
 
-	<%--<link type="text/css" rel="stylesheet" href="<c:url value="/resources/dijit/themes/tundra/tundra.css" />"/>--%>
+    <%--<link type="text/css" rel="stylesheet" href="<c:url value="/resources/dijit/themes/tundra/tundra.css" />"/>--%>
 
-	<%--<script type="text/javascript" src="<c:url value="/resources/dojo/dojo.js" />"></script>--%>
-	<%--<script type="text/javascript" src="<c:url value="/resources/spring/Spring.js" />"></script>--%>
-	<%--<script type="text/javascript" src="<c:url value="/resources/spring/Spring-Dojo.js" />"></script>--%>
+    <%--<script type="text/javascript" src="<c:url value="/resources/dojo/dojo.js" />"></script>--%>
+    <%--<script type="text/javascript" src="<c:url value="/resources/spring/Spring.js" />"></script>--%>
+    <%--<script type="text/javascript" src="<c:url value="/resources/spring/Spring-Dojo.js" />"></script>--%>
 
-	<decorator:head/>
+    <decorator:head/>
 </head>
 
 <body>
 <div id="all">
-	<standard:header/>
-	<div class="tabpane">
+    <standard:header/>
+    <div class="tabpane">
 
-		<chrome:workflowTabs tab="${tab}" flow="${flow}"/>
+        <chrome:workflowTabs tab="${tab}" flow="${flow}"/>
 
-		<c:set var="__decorator_title">
-			<decorator:title/>
-		</c:set>
-		<blue:body title="${__decorator_title}">
-			<decorator:body/>
-		</blue:body>
+        <c:set var="__decorator_title">
+            <decorator:title/>
+        </c:set>
+        <blue:body title="${__decorator_title}">
+            <decorator:body/>
+        </blue:body>
 
-		<standard:footer/>
+        <standard:footer/>
 
 
-		<c:set var="__decorator_title">
-			<decorator:title/>
-		</c:set>
-		<!--THE FOLLOWING LINE CLEARS THE .tabpane DIV SO IT WILL STRETCH TO FIT IT'S CONTENT-->
-		<hr style="margin: -0.66em 0pt 160px; display: block; clear: left; visibility:hidden;"/>
-	</div>
+        <c:set var="__decorator_title">
+            <decorator:title/>
+        </c:set>
+        <!--THE FOLLOWING LINE CLEARS THE .tabpane DIV SO IT WILL STRETCH TO FIT IT'S CONTENT-->
+        <hr style="margin: -0.66em 0pt 160px; display: block; clear: left; visibility:hidden;"/>
+    </div>
 </div>
 </body>
 </html>
