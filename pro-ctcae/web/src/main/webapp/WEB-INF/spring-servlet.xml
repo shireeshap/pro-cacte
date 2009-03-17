@@ -276,7 +276,7 @@
           class="gov.nih.nci.ctcae.web.study.AddStudySiteController">
         <property name="studyRepository" ref="studyRepository"/>
     </bean>
-    <bean name="/clinicalStaff/addClinicalStaffCompoent" id="addClinicalStaffCompoentController"
+    <bean name="/admin/clinicalStaff/addClinicalStaffComponent" id="addClinicalStaffComponentController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.AddClinicalStaffComponentController">
     </bean>
 

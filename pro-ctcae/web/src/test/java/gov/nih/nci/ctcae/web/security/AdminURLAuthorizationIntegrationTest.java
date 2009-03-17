@@ -24,6 +24,7 @@ public class AdminURLAuthorizationIntegrationTest extends UrlAuthorizationIntegr
         allowedUrls.add(SEARCH_CLINICAL_STAFF_URL);
         allowedUrls.add(CREATE_CLINICAL_STAFF_URL);
         allowedUrls.add(ADD_ORGANIZATION_CLINICAL_STAFF_URL);
+        allowedUrls.add(CREATE_CCA_URL);
 
 
         user = userRepository.loadUserByUsername(SYSTEM_ADMIN);

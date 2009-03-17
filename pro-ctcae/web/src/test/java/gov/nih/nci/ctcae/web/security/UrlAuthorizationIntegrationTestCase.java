@@ -51,9 +51,10 @@ public abstract class UrlAuthorizationIntegrationTestCase extends AbstractWebInt
     protected final String DELETE_FORM_URL = "/pages/form/deleteForm";
     protected final String ADD_FORM_SCHEDULE_CYFLE_URL = "/pages/form/addFormScheduleCycle";
 
-    protected final String ADD_ORGANIZATION_CLINICAL_STAFF_URL = "/pages/clinicalStaff/addClinicalStaffCompoent";
+    protected final String ADD_ORGANIZATION_CLINICAL_STAFF_URL = "/pages/admin/clinicalStaff/addClinicalStaffComponent";
     protected final String SEARCH_CLINICAL_STAFF_URL = "/pages/admin/clinicalStaff/searchClinicalStaff";
     protected final String CREATE_CLINICAL_STAFF_URL = "/pages/admin/clinicalStaff/createClinicalStaff";
+    protected final String CREATE_CCA_URL = "/pages/admin/clinicalStaff/createCCA";
 
 
     protected final String CREATE_PARTICIPANT_URL = "/pages/participant/create";

@@ -1,7 +1,10 @@
 package gov.nih.nci.ctcae.web.security;
 
+import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.web.study.EmptyStudyTab;
 import gov.nih.nci.ctcae.web.study.StudyClinicalStaffTab;
 import gov.nih.nci.ctcae.web.study.StudyDetailsTab;
@@ -14,7 +17,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Feb 26, 2009
  */
-public class CCAAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
+public class CCAURLAuthorizationIntegrationTest extends UrlAuthorizationIntegrationTestCase {
 
     List<String> allowedUrls = new ArrayList();
 
@@ -37,8 +40,17 @@ public class CCAAuthorizationIntegrationTest extends UrlAuthorizationIntegration
         allowedUrls.add(ADD_ORGANIZATION_CLINICAL_STAFF_URL);
         allowedUrls.add(CREATE_CLINICAL_STAFF_URL);
 
+        ClinicalStaff anotherClinicalStaff = Fixture.createClinicalStaffWithOrganization("Adam", "Williams", "-123456", wake);
 
-        user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.CCA).getOrganizationClinicalStaff().getClinicalStaff().getUser();
+
+        UserRole userRole = new UserRole();
+        userRole.setRole(Role.CCA);
+        anotherClinicalStaff.getUser().addUserRole(userRole);
+        anotherClinicalStaff = clinicalStaffRepository.save(anotherClinicalStaff);
+        commitAndStartNewTransaction();
+
+        user = anotherClinicalStaff.getUser();
+        login(user);
 
         allowedTabs.add(new EmptyStudyTab());
         allowedTabs.add(new StudyDetailsTab());

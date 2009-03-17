@@ -104,7 +104,7 @@ public class Fixture {
         organizationClinicalStaff.setOrganization(organization);
         clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
 
-
+        addUserToClinicalStaff(clinicalStaff);
         return clinicalStaff;
     }
 

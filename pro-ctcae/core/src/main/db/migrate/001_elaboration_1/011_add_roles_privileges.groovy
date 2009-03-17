@@ -55,6 +55,8 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
 
     insert('PRIVILEGES', [id: -401, privilege_name: "gov.nih.nci.ctcae.core.domain.Organization.GROUP", display_name: "gov.nih.nci.ctcae.core.domain.Organization.GROUP"], primaryKey: false)
     insert('PRIVILEGES', [id: -402, privilege_name: "gov.nih.nci.ctcae.core.domain.ClinicalStaff.GROUP", display_name: "gov.nih.nci.ctcae.core.domain.ClinicalStaff.GROUP"], primaryKey: false)
+    insert('PRIVILEGES', [id: -403, privilege_name: "gov.nih.nci.ctcae.core.domain.Study.GROUP", display_name: "gov.nih.nci.ctcae.core.domain.Study.GROUP"], primaryKey: false)
+    insert('PRIVILEGES', [id: -404, privilege_name: "gov.nih.nci.ctcae.core.domain.StudyOrganization.GROUP", display_name: "gov.nih.nci.ctcae.core.domain.StudyOrganization.GROUP"], primaryKey: false)
 
 
 
@@ -136,6 +138,11 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -7, role_name: "CCA", privilege_id: "-41"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -8, role_name: "CCA", privilege_id: "-42"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -9, role_name: "CCA", privilege_id: "-43"], primaryKey: false)
+
+    insert('ROLE_PRIVILEGES', [id: -10, role_name: "CCA", privilege_id: "-401"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -11, role_name: "CCA", privilege_id: "-402"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -12, role_name: "CCA", privilege_id: "-403"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -13, role_name: "CCA", privilege_id: "-404"], primaryKey: false)
 
     insert('ROLE_PRIVILEGES', [id: -121, role_name: "LEAD_CRA", privilege_id: "-1"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -122, role_name: "LEAD_CRA", privilege_id: "-2"], primaryKey: false)

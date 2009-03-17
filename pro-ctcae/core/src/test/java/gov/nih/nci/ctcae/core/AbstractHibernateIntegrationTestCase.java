@@ -110,6 +110,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP")
         };
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, Fixture.DEFAULT_PASSWORD, authorities);
+        SecurityContextHolder.clearContext();
         SecurityContextHolder.getContext().setAuthentication(token);
 
 
@@ -284,8 +285,6 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         StudyOrganizationClinicalStaff siteCRA = addSiteCRA(siteCRAClinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy);
         addStudyOrganizationClinicalStaff(siteCRA);
 
-
-        login(defaultUser);
 
         defaultParticipant = Fixture.createParticipant("Bruce", "Tanner", "P002");
         defaultStudyParticipantAssignment = new StudyParticipantAssignment();

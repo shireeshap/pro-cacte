@@ -8,6 +8,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
+<%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
 
 <html>
 <head>
@@ -33,7 +34,7 @@
         }
 
         function addSite() {
-            var request = new Ajax.Request("<c:url value="/pages/clinicalStaff/addClinicalStaffCompoent"/>", {
+            var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/addClinicalStaffComponent"/>", {
                 onComplete:addSiteDiv,
                 parameters:"subview=subview&componentTyep=site",
                 method:'get'
@@ -63,22 +64,28 @@
         }
 
     </script>
-    
+
 </head>
 <body>
 <div class="tabpane">
     <div class="workflow-tabs2">
         <ul id="" class="tabs autoclear">
-            <li id="thirdlevelnav" class="tab selected">
-                <div>
-                    <a href="createClinicalStaff"><tags:message code="clinicalStaff.tab.createStaff"/></a>
-                </div>
-            </li>
-            <li id="thirdlevelnav" class="tab">
-                <div>
-                    <a href="searchClinicalStaff"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
-                </div>
-            </li>
+            <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
+
+                <li id="thirdlevelnav 1" class="tab selected">
+                    <div>
+                        <a href="createClinicalStaff"><tags:message code="clinicalStaff.tab.createStaff"/></a>
+                    </div>
+                </li>
+            </ctcae:urlAuthorize>
+            <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/searchClinicalStaff">
+
+                <li id="thirdlevelnav 2" class="tab">
+                    <div>
+                        <a href="searchClinicalStaff"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
+                    </div>
+                </li>
+            </ctcae:urlAuthorize>
         </ul>
     </div>
 </div>
@@ -87,6 +94,9 @@
 
     <chrome:box title="">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
+        <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
+            <input type="hidden" name="cca" value="true" id="cca"/>
+        </ctcae:urlAuthorize>
 
         <input type="hidden" id="showForm" name="showForm" value=""/>
         <form:hidden path="organizationClinicalStaffIndexToRemove" id="organizationClinicalStaffIndexToRemove"/>
@@ -169,8 +179,11 @@
                         </div>
                     </td>
                     <td valign="top">
-                        <tags:button color="blue" markupWithTag="a" icon="add" value="clinicalStaff.button.add.site"
-                                     onClick="javascript:addSite()"></tags:button>
+                        <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/addClinicalStaffComponent">
+
+                            <tags:button color="blue" markupWithTag="a" icon="add" value="clinicalStaff.button.add.site"
+                                         onclick="javascript:addSite()"></tags:button>
+                        </ctcae:urlAuthorize>
                     </td>
                 </tr>
             </table>

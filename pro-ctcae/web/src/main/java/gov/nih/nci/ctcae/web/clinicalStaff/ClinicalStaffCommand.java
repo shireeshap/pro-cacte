@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.*;
 
 //
 /**
@@ -17,6 +15,8 @@ public class ClinicalStaffCommand {
      * The clinical staff.
      */
     private ClinicalStaff clinicalStaff;
+
+    private Boolean cca = false;
 
 
     private String organizationClinicalStaffIndexToRemove = "";
@@ -67,9 +67,19 @@ public class ClinicalStaffCommand {
             this.getClinicalStaff().removeOrganizationClinicalStaff(organizationClinicalStaffIndex);
         }
         setOrganizationClinicalStaffIndexToRemove("");
-
+        if (getCca()) {
+            UserRole userRole = new UserRole();
+            userRole.setRole(Role.CCA);
+            getClinicalStaff().getUser().addUserRole(userRole);
+        }
 
     }
 
+    public Boolean getCca() {
+        return cca;
+    }
 
+    public void setCca(Boolean cca) {
+        this.cca = cca;
+    }
 }

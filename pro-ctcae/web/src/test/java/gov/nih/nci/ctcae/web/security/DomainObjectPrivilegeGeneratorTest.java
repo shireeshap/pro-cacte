@@ -6,7 +6,7 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author Vinay Kumar
@@ -31,7 +31,7 @@ public class DomainObjectPrivilegeGeneratorTest extends AbstractTestCase {
         studySite1 = new StudySite();
         studySite1.setId(2);
         ((StudySite) studySite1).setStudy(study);
-        List<String> strings = privilegeGenerator.generatePrivilege(studySite1);
+        Set<String> strings = privilegeGenerator.generatePrivilege(studySite1);
         assertTrue(strings.toString(), strings.contains("gov.nih.nci.ctcae.core.domain.StudySite.2"));
         assertTrue(strings.toString(), strings.contains("gov.nih.nci.ctcae.core.domain.StudySite.Study.1"));
 

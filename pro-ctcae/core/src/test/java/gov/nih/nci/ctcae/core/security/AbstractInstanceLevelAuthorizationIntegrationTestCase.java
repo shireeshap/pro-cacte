@@ -31,7 +31,7 @@ public abstract class AbstractInstanceLevelAuthorizationIntegrationTestCase exte
         study1 = studyRepository.save(study1);
 
 
-        anotherClinicalStaff = Fixture.createClinicalStaffWithOrganization("Paul", "Williams", "-123456", wake);
+        anotherClinicalStaff = Fixture.createClinicalStaffWithOrganization("Adam", "Williams", "-123456", wake);
         anotherClinicalStaff = clinicalStaffRepository.save(anotherClinicalStaff);
         commitAndStartNewTransaction();
 

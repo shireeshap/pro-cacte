@@ -32,6 +32,10 @@ public class DomainObjectAuthorizationCheck {
 
     public boolean authorize(Authentication authentication, Persistable persistable) throws AccessDeniedException {
 
+        if (persistable == null) {
+            logger.debug(String.format("AfterInvocationProvider will return true for null objects.", persistable));
+            return true;
+        }
         if (ignoredClasses.contains(persistable.getClass().getName())) {
             logger.debug(String.format("AfterInvocationProvider will not decide for instance level security of %s. " +
                     "Use MethodAuthorizationCheckVoter for instance level security.", persistable.getClass()));
