@@ -260,9 +260,9 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         assertNotNull("must find default clinical staff. ", odcClinicalStaff);
         assertNotNull("must find default clinical staff. ", siteCRAClinicalStaff);
 
-        studyOrganizationClinicalStaff = addLeadCRA(defaultOrganizationClinicalStaff, defaultStudy);
+        studyOrganizationClinicalStaff = addPIOrLeadCRA(defaultOrganizationClinicalStaff, defaultStudy, Role.LEAD_CRA);
 
-        addPI(clinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy);
+        addPIOrLeadCRA(clinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy, Role.PI);
 
 
         StudyOrganizationClinicalStaff odc = addODC(odcClinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy);
@@ -282,7 +282,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
         addStudyOrganizationClinicalStaff(sitePI);
 
-        StudyOrganizationClinicalStaff siteCRA = addSiteCRA(siteCRAClinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy);
+        StudyOrganizationClinicalStaff siteCRA = addSiteCRAOrSitePI(siteCRAClinicalStaff.getOrganizationClinicalStaffs().get(0), defaultStudy, Role.SITE_CRA);
         addStudyOrganizationClinicalStaff(siteCRA);
 
 
@@ -303,32 +303,23 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         addResearchNurseAndTreatingPhysician();
     }
 
-    protected StudyOrganizationClinicalStaff addSiteCRA(OrganizationClinicalStaff organizationClinicalStaff, Study study) {
+    protected StudyOrganizationClinicalStaff addSiteCRAOrSitePI(OrganizationClinicalStaff organizationClinicalStaff, Study study, final Role role) {
         StudyOrganizationClinicalStaff siteCRA = new StudyOrganizationClinicalStaff();
-        siteCRA.setRole(Role.SITE_CRA);
+        siteCRA.setRole(role);
         siteCRA.setOrganizationClinicalStaff(organizationClinicalStaff);
         study.getStudySites().get(0).addOrUpdateStudyOrganizationClinicalStaff(siteCRA);
         return siteCRA;
     }
 
-    protected StudyOrganizationClinicalStaff addPI(OrganizationClinicalStaff organizationClinicalStaff, Study study) {
+    protected StudyOrganizationClinicalStaff addPIOrLeadCRA(OrganizationClinicalStaff organizationClinicalStaff, Study study, final Role role) {
         StudyOrganizationClinicalStaff pi = new StudyOrganizationClinicalStaff();
-        pi.setRole(Role.PI);
+        pi.setRole(role);
         pi.setOrganizationClinicalStaff(organizationClinicalStaff);
         study.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(pi);
         addStudyOrganizationClinicalStaff(pi);
         return pi;
     }
 
-    protected StudyOrganizationClinicalStaff addLeadCRA(OrganizationClinicalStaff organizationClinicalStaff, Study study) {
-        StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
-        studyOrganizationClinicalStaff.setRole(Role.LEAD_CRA);
-        studyOrganizationClinicalStaff.setOrganizationClinicalStaff(organizationClinicalStaff);
-
-        study.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
-        addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
-        return studyOrganizationClinicalStaff;
-    }
 
     protected StudyOrganizationClinicalStaff addTreatingPhysicanOrResearchNurse(OrganizationClinicalStaff organizationClinicalStaff, StudySite studySite, final Role role) {
         StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();

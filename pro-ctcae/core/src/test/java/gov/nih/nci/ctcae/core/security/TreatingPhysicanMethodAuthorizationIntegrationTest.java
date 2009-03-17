@@ -14,11 +14,17 @@ public class TreatingPhysicanMethodAuthorizationIntegrationTest extends MethodAu
 
     private User user;
 
+    @Override
+    protected Role getRole() {
+        return Role.TREATING_PHYSICIAN;
+
+
+    }
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
-        user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.TREATING_PHYSICIAN).getOrganizationClinicalStaff().getClinicalStaff().getUser();
+        user = defaultStudy.getStudyOrganizationClinicalStaffByRole(getRole()).getOrganizationClinicalStaff().getClinicalStaff().getUser();
         login(user);
 
     }
@@ -41,8 +47,6 @@ public class TreatingPhysicanMethodAuthorizationIntegrationTest extends MethodAu
 
         List<String> allowedMethods = allowedMethodsMap.get(ClinicalStaffRepository.class);
 
-        ///must remove it as soon as method security for save method get implemented
-        allowedMethods.add(CREATE_CLINICAL_STAFF_METHOD);
         authorizeAndUnAuthorizeMethods(clinicalStaffRepository, ClinicalStaffRepository.class, allowedMethods);
 
 
@@ -52,7 +56,9 @@ public class TreatingPhysicanMethodAuthorizationIntegrationTest extends MethodAu
     public void testAuthorizeUserForCRF() throws Exception {
 
         List<String> allowedMethods = allowedMethodsMap.get(CRFRepository.class);
-
+        allowedMethods.add(SEARCH_SINGLE_FORM_METHOD);
+        allowedMethods.add(FIND_BY_ID_METHOD);
+        allowedMethods.add(FIND_METHOD);
         authorizeAndUnAuthorizeMethods(crfRepository, CRFRepository.class, allowedMethods);
 
 

@@ -16,33 +16,33 @@ import java.util.List;
  */
 public class TreatingPhysicanInstanceLevelAuthorizationIntegrationTest extends AbstractInstanceLevelAuthorizationIntegrationTestCase {
 
-    private User user, anotherUser;
-    protected CRF defaultCRF;
     protected Participant participant;
     protected Participant participant1;
     protected Participant participant2;
+    protected CRF defaultCRF;
+
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
 
-        addTreatingPhysicanOrResearchNurse(defaultOrganizationClinicalStaff, defaultStudy.getStudySites().get(0), Role.TREATING_PHYSICIAN);
+        addTreatingPhysicanOrResearchNurse(defaultOrganizationClinicalStaff, defaultStudy.getStudySites().get(0), getRole());
         defaultStudy = studyRepository.save(defaultStudy);
         commitAndStartNewTransaction();
 
-        user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.TREATING_PHYSICIAN).getOrganizationClinicalStaff().getClinicalStaff().getUser();
+        user = defaultStudy.getStudyOrganizationClinicalStaffByRole(getRole()).getOrganizationClinicalStaff().getClinicalStaff().getUser();
 
 
-        addTreatingPhysicanOrResearchNurse(anotherClinicalStaff.getOrganizationClinicalStaffs().get(0), study1.getStudySites().get(0), Role.TREATING_PHYSICIAN);
-        addTreatingPhysicanOrResearchNurse(anotherClinicalStaff.getOrganizationClinicalStaffs().get(0), study2.getStudySites().get(0), Role.TREATING_PHYSICIAN);
+        addTreatingPhysicanOrResearchNurse(anotherClinicalStaff.getOrganizationClinicalStaffs().get(0), study1.getStudySites().get(0), getRole());
+        addTreatingPhysicanOrResearchNurse(anotherClinicalStaff.getOrganizationClinicalStaffs().get(0), study2.getStudySites().get(0), getRole());
 
 
         study2 = studyRepository.save(study2);
         study1 = studyRepository.save(study1);
         commitAndStartNewTransaction();
 
-        anotherUser = study1.getStudyOrganizationClinicalStaffByRole(Role.TREATING_PHYSICIAN).getOrganizationClinicalStaff().getClinicalStaff().getUser();
+        anotherUser = study1.getStudyOrganizationClinicalStaffByRole(getRole()).getOrganizationClinicalStaff().getClinicalStaff().getUser();
         assertNotNull("must save another user also", anotherUser);
 
 
@@ -52,6 +52,10 @@ public class TreatingPhysicanInstanceLevelAuthorizationIntegrationTest extends A
         participant2 = createParticipant("Laura", study2.getStudySites().get(0));
 
 
+    }
+
+    protected Role getRole() {
+        return Role.TREATING_PHYSICIAN;
     }
 
 
@@ -212,9 +216,9 @@ public class TreatingPhysicanInstanceLevelAuthorizationIntegrationTest extends A
     public void testCreateCRFScheduleInstanceSecurity() throws Exception {
         CRF crf = createCRF(defaultStudy);
         crfRepository.updateStatusToReleased(crf);
-        login(user);
         Participant participant = createParticipant("John", defaultStudy.getStudySites().get(0));
 
+        login(user);
 
         assertEquals("must save participant", participant, participant);
 

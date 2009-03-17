@@ -18,9 +18,13 @@ public class SiteCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
-        user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA).getOrganizationClinicalStaff().getClinicalStaff().getUser();
+        user = defaultStudy.getStudyOrganizationClinicalStaffByRole(getRole()).getOrganizationClinicalStaff().getClinicalStaff().getUser();
         login(user);
 
+    }
+
+    protected Role getRole() {
+        return Role.SITE_CRA;
     }
 
     public void testAuthorizeUserForParticipant() throws Exception {
@@ -63,6 +67,7 @@ public class SiteCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
         List<String> allowedMethods = allowedMethodsMap.get(ClinicalStaffRepository.class);
 
         allowedMethods.add(SEARCH_CLINICAL_STAFF_BY_SS_METHOD);
+        allowedMethods.add(FIND_BY_ID_METHOD);
 
         authorizeAndUnAuthorizeMethods(organizationClinicalStaffRepository, OrganizationClinicalStaffRepository.class, allowedMethods);
 

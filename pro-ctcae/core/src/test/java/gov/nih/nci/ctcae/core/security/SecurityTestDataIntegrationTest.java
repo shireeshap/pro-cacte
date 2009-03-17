@@ -5,9 +5,8 @@ import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 
-import java.util.Collection;
-import java.util.List;
 import java.text.ParseException;
+import java.util.Collection;
 
 /**
  * @author Vinay Kumar
@@ -47,12 +46,12 @@ public class SecurityTestDataIntegrationTest extends AbstractHibernateIntegratio
         clinicalStaffForLeadCRA2 = clinicalStaffRepository.save(clinicalStaffForLeadCRA2);
         commitAndStartNewTransaction();
 
-        addLeadCRA(defaultOrganizationClinicalStaff, defaultStudy);
+        addPIOrLeadCRA(defaultOrganizationClinicalStaff, defaultStudy, Role.LEAD_CRA);
         leadCRA1 = defaultStudy.getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getUser();
 
 
-        addLeadCRA(clinicalStaffForLeadCRA2.getOrganizationClinicalStaffs().get(0), study2);
-        addLeadCRA(clinicalStaffForLeadCRA2.getOrganizationClinicalStaffs().get(0), study3);
+        addPIOrLeadCRA(clinicalStaffForLeadCRA2.getOrganizationClinicalStaffs().get(0), study2, Role.LEAD_CRA);
+        addPIOrLeadCRA(clinicalStaffForLeadCRA2.getOrganizationClinicalStaffs().get(0), study3, Role.LEAD_CRA);
 
 
         study3 = studyRepository.save(study3);
@@ -70,14 +69,14 @@ public class SecurityTestDataIntegrationTest extends AbstractHibernateIntegratio
         clinicalStaffForSiteCRA5 = clinicalStaffRepository.save(clinicalStaffForSiteCRA5);
         commitAndStartNewTransaction();
 
-        addStudyOrganizationClinicalStaff(addSiteCRA(clinicalStaffForSiteCRA1.getOrganizationClinicalStaffs().get(0), defaultStudy));
+        addStudyOrganizationClinicalStaff(addSiteCRAOrSitePI(clinicalStaffForSiteCRA1.getOrganizationClinicalStaffs().get(0), defaultStudy, Role.SITE_CRA));
         siteCRA1 = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA).getOrganizationClinicalStaff().getClinicalStaff().getUser();
 
 
         ClinicalStaff clinicalStaffForSiteCRA2 = Fixture.createClinicalStaffWithOrganization("John", "Williams", "-12345", wake);
         clinicalStaffForSiteCRA2 = clinicalStaffRepository.save(clinicalStaffForSiteCRA2);
-        addSiteCRA(clinicalStaffForSiteCRA2.getOrganizationClinicalStaffs().get(0), study2);
-        addSiteCRA(clinicalStaffForSiteCRA2.getOrganizationClinicalStaffs().get(0), study3);
+        addSiteCRAOrSitePI(clinicalStaffForSiteCRA2.getOrganizationClinicalStaffs().get(0), study2, Role.SITE_CRA);
+        addSiteCRAOrSitePI(clinicalStaffForSiteCRA2.getOrganizationClinicalStaffs().get(0), study3, Role.SITE_CRA);
         study3 = studyRepository.save(study3);
         study2 = studyRepository.save(study2);
         commitAndStartNewTransaction();

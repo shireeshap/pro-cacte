@@ -214,10 +214,6 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
                 crfPageItem.getProCtcQuestion().getProCtcTerm().getProCtcQuestions();
             }
 
-            Study study = studyRepository.findById(crf.getStudy().getId());
-            for (StudySite studySite : study.getStudySites()) {
-                studySite.getStudyParticipantAssignments();
-            }
 
             for (CRFCalendar crfCalendar : crf.getCrfCalendars()) {
                 crfCalendar.getDueDateAmount();

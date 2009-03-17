@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.Persistable;
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.query.Query;
 import gov.nih.nci.ctcae.core.repository.*;
@@ -172,6 +173,10 @@ public abstract class MethodAuthorizationIntegrationTestCase extends AbstractHib
 
         }
 
+    }
+
+    protected Role getRole() {
+        return null;
     }
 
     @Required

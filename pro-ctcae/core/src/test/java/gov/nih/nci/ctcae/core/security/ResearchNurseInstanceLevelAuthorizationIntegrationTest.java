@@ -6,7 +6,8 @@ import gov.nih.nci.ctcae.core.domain.Role;
  * @author Vinay Kumar
  * @crated Mar 3, 2009
  */
-public class ResearchNurseMethodAuthorizationIntegrationTest extends TreatingPhysicanMethodAuthorizationIntegrationTest {
+public class ResearchNurseInstanceLevelAuthorizationIntegrationTest extends TreatingPhysicanInstanceLevelAuthorizationIntegrationTest {
+
 
     @Override
     protected Role getRole() {
@@ -14,4 +15,5 @@ public class ResearchNurseMethodAuthorizationIntegrationTest extends TreatingPhy
 
 
     }
+
 }

@@ -63,4 +63,8 @@ public abstract class AbstractInstanceLevelAuthorizationIntegrationTestCase exte
         commitAndStartNewTransaction();
         return crf;
     }
+
+    protected Role getRole() {
+        return null;
+    }
 }
