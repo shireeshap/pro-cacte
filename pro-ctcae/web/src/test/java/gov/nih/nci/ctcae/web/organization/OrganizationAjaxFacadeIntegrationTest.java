@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.web.organization;
 
-import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -15,24 +13,7 @@ import java.util.List;
 public class OrganizationAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase {
 
     private OrganizationAjaxFacade organizationAjaxFacade;
-    private Organization nci;
-    private OrganizationRepository organizationRepository;
-    private Organization duke;
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();
-        nci = Fixture.createOrganization("National Cancer Institute", "NCI");
-
-
-        nci = organizationRepository.save(nci);
-
-        duke = Fixture.createOrganization("DUKE", "DUKE");
-
-        duke = organizationRepository.save(duke);
-
-
-    }
 
     public void testMatchOrganizationsByGivingNciCode() {
 
@@ -56,10 +37,6 @@ public class OrganizationAjaxFacadeIntegrationTest extends AbstractWebIntegratio
 
     }
 
-    @Required
-    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
-        this.organizationRepository = organizationRepository;
-    }
 
     @Required
     public void setOrganizationAjaxFacade(OrganizationAjaxFacade organizationAjaxFacade) {

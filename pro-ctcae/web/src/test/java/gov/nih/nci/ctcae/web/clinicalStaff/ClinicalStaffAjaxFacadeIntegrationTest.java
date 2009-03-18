@@ -1,7 +1,5 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import gov.nih.nci.ctcae.core.Fixture;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 
@@ -16,16 +14,7 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
 
     private ClinicalStaffAjaxFacade clinicalStaffAjaxFacade;
     protected Map parameterMap;
-    private ClinicalStaff clinicalStaff;
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();
-
-
-        clinicalStaff = Fixture.createClinicalStaff("Mehul", "Gulati", "1234");
-        clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
-    }
 
     public void testFind() {
 
@@ -39,13 +28,13 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
 
         String table = clinicalStaffAjaxFacade.searchClinicalStaff(parameterMap, "Meh", "G", "", request);
         assertNotNull(table);
-        assertTrue("must find atleast clinical staff matching with first name", table.contains(clinicalStaff.getFirstName()));
-        assertTrue("must find atleast clinical staff matching with first name", table.contains(clinicalStaff.getLastName()));
+        assertTrue("must find atleast clinical staff matching with first name", table.contains(defaultClinicalStaff.getFirstName()));
+        assertTrue("must find atleast clinical staff matching with first name", table.contains(defaultClinicalStaff.getLastName()));
 
 
         table = clinicalStaffAjaxFacade.searchClinicalStaff(parameterMap, "ehum", "lat", "", request);
         assertNotNull(table);
-        assertFalse("must find atleast clinical staff matching with first name", table.contains(clinicalStaff.getFirstName()));
+        assertFalse("must find atleast clinical staff matching with first name", table.contains(defaultClinicalStaff.getFirstName()));
 
 
     }

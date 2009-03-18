@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.study;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.form.ManageFormController;
+import static org.easymock.EasyMock.expect;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -14,10 +15,12 @@ public class ManageFormControllerControllerTest extends WebTestCase {
     private ManageFormController controller;
     private Study study;
 
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         controller = new ManageFormController();
+        controller.setStudyRepository(studyRepository);
 
         study = new Study();
         request.setMethod("GET");
@@ -41,7 +44,7 @@ public class ManageFormControllerControllerTest extends WebTestCase {
     public void testHandleRequestForSelectedNullCRF() throws Exception {
 
         request.addParameter("studyId", "1");
-        // expect(finderRepository.findById(Study.class, 1)).andReturn(null);
+        expect(studyRepository.findById(1)).andReturn(null);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
         verifyMocks();
@@ -53,7 +56,7 @@ public class ManageFormControllerControllerTest extends WebTestCase {
     public void testHandleRequestForSelectedNotNullCRF() throws Exception {
 
         request.addParameter("studyId", "1");
-        //expect(finderRepository.findById(Study.class, 1)).andReturn(study);
+        expect(studyRepository.findById(1)).andReturn(study);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
         verifyMocks();

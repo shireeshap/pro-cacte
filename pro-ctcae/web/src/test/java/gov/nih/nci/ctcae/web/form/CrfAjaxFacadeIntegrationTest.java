@@ -3,8 +3,6 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 
 import java.util.Map;
@@ -17,33 +15,24 @@ public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase
 
     private CrfAjaxFacade crfAjaxFacade;
     protected Map parameterMap;
-    private Study study;
     private CRF crf;
-    private StudyRepository studyRepository;
 
-
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
 
-        study = Fixture.createStudy("Short Title", "Long Title", "1");
-        study = studyRepository.save(study);
-
         crf = Fixture.createCrf("Form1", CrfStatus.DRAFT, "1.1");
 
-        crf.setStudy(study);
+        crf.setStudy(defaultStudy);
 
         crf = crfRepository.save(crf);
 
     }
 
     public void testSearchCRF() {
-        String table = crfAjaxFacade.searchCrf(parameterMap, study.getId(), request);
+        String table = crfAjaxFacade.searchCrf(parameterMap, defaultStudy.getId(), request);
         assertNotNull(table);
         assertTrue("must find a crf with title", table.contains(crf.getTitle()));
         assertTrue("must find a crf with status", table.contains(crf.getStatus().toString()));

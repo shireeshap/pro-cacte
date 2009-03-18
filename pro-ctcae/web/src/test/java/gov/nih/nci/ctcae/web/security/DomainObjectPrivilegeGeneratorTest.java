@@ -33,7 +33,7 @@ public class DomainObjectPrivilegeGeneratorTest extends AbstractTestCase {
         ((StudySite) studySite1).setStudy(study);
         Set<String> strings = privilegeGenerator.generatePrivilege(studySite1);
         assertTrue(strings.toString(), strings.contains("gov.nih.nci.ctcae.core.domain.StudySite.2"));
-        assertTrue(strings.toString(), strings.contains("gov.nih.nci.ctcae.core.domain.StudySite.Study.1"));
+        assertTrue(strings.toString(), strings.contains("gov.nih.nci.ctcae.core.domain.StudyOrganization.Study.1"));
 
     }
 }

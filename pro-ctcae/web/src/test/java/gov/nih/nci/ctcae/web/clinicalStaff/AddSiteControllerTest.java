@@ -1,14 +1,14 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
+import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
-import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Mehul Gulati
- * Date: Nov 24, 2008
+ *         Date: Nov 24, 2008
  */
 public class AddSiteControllerTest extends WebTestCase {
 
@@ -30,12 +30,14 @@ public class AddSiteControllerTest extends WebTestCase {
         createClinicalStaffController.setWebControllerValidator(validator);
 
     }
+
     public void testSupportedMethod() {
         assertEqualArrays("only get is supported", new String[]{"GET"}, controller.getSupportedMethods());
     }
 
     public void testHandleRequest() throws Exception {
         request.setMethod("GET");
+        request.addParameter("componentTyep", "site");
 
         createClinicalStaffController.handleRequest(request, response);
         Object command = ClinicalStaffControllerUtils.getClinicalStaffCommand(request);

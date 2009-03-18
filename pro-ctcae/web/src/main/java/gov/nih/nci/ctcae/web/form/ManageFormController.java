@@ -49,7 +49,7 @@ public class ManageFormController extends AbstractController {
     /**
      * Sets the finder repository.
      *
-     * @param finderRepository the new finder repository
+     * @param StudyRepository the new finder repository
      */
     @Required
 

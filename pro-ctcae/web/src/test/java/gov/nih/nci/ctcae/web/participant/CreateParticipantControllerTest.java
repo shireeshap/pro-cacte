@@ -5,7 +5,6 @@ import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import org.springframework.validation.BindException;
 
@@ -21,7 +20,6 @@ public class CreateParticipantControllerTest extends WebTestCase {
     private BindException errors;
     private ParticipantRepository participantRepository;
     private OrganizationRepository organizationRepository;
-    private StudyRepository studyRepository;
     private ArrayList<Organization> organizations;
 
 
@@ -33,11 +31,11 @@ public class CreateParticipantControllerTest extends WebTestCase {
         errors = registerMockFor(BindException.class);
         participantRepository = registerMockFor(ParticipantRepository.class);
         organizationRepository = registerMockFor(OrganizationRepository.class);
-        studyRepository = registerMockFor(StudyRepository.class);
 
 
         createParticipantController.setParticipantRepository(participantRepository);
         createParticipantController.setOrganizationRepository(organizationRepository);
+        createParticipantController.setStudyRepository(studyRepository);
 
         Organization organization = Fixture.createOrganization("TEST", "TEST");
         Study study = Fixture.createStudyWithStudySite("Test", "Test", "Test", organization);

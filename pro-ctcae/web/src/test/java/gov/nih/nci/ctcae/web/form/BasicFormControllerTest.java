@@ -8,7 +8,6 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
 import gov.nih.nci.ctcae.web.WebTestCase;
@@ -35,7 +34,6 @@ public class BasicFormControllerTest extends WebTestCase {
     private TabConfigurer tabConfigurer;
     private UniqueTitleForCrfValidator uniqueTitleForCrfValidator;
     private NotEmptyValidator notEmptyValidator;
-    protected StudyRepository studyRepository;
 
     @Override
     protected void setUp() throws Exception {
@@ -43,7 +41,6 @@ public class BasicFormControllerTest extends WebTestCase {
         controller = new BasicFormController();
         notEmptyValidator = registerMockFor(NotEmptyValidator.class);
         uniqueTitleForCrfValidator = registerMockFor(UniqueTitleForCrfValidator.class);
-        studyRepository = registerMockFor(StudyRepository.class);
         proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
         crfRepository = registerMockFor(CRFRepository.class);
         tabConfigurer = new StaticTabConfigurer(proCtcTermRepository);

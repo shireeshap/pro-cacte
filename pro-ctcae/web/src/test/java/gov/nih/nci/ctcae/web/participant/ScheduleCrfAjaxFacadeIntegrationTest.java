@@ -1,13 +1,8 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.Fixture;
-import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudySite;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
-import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 
 import java.util.ArrayList;
@@ -20,34 +15,23 @@ import java.util.ArrayList;
 public class ScheduleCrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase {
 
     private ScheduleCrfAjaxFacade scheduleCrfAjaxFacade;
-    private ParticipantRepository participantRepository;
-    private OrganizationRepository organizationRepository;
-    private StudyRepository studyRepository;
     private Participant participant;
-    private Study study;
-    private Organization organization;
-    private StudySite studySite;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
-        organization = Fixture.createOrganization("Test", "TEST");
-        organizationRepository.save(organization);
 
-        study = Fixture.createStudyWithStudySite("my study", "abc", "addd", organization);
-        studyRepository.save(study);
-
-        participant = Fixture.createParticipantWithStudyAssignment("Mehul", "Gulati", "1234", study.getStudySites().get(0));
+        participant = Fixture.createParticipantWithStudyAssignment("Mehul", "Gulati", "1234", defaultStudySite);
         participant = participantRepository.save(participant);
     }
 
     public void testSearchParticipantForStudy() {
 
-        ArrayList<Participant> participants = (ArrayList<Participant>) scheduleCrfAjaxFacade.matchParticipants("gu", study.getId());
+        ArrayList<Participant> participants = (ArrayList<Participant>) scheduleCrfAjaxFacade.matchParticipants("gu", defaultStudy.getId());
         assertEquals(1, participants.size());
 
-        participants = (ArrayList<Participant>) scheduleCrfAjaxFacade.matchParticipants("abc", study.getId());
+        participants = (ArrayList<Participant>) scheduleCrfAjaxFacade.matchParticipants("abc", defaultStudy.getId());
         assertEquals(0, participants.size());
 
     }
@@ -69,27 +53,4 @@ public class ScheduleCrfAjaxFacadeIntegrationTest extends AbstractWebIntegration
         this.scheduleCrfAjaxFacade = scheduleCrfAjaxFacade;
     }
 
-    public ParticipantRepository getParticipantRepository() {
-        return participantRepository;
-    }
-
-    public void setParticipantRepository(ParticipantRepository participantRepository) {
-        this.participantRepository = participantRepository;
-    }
-
-    public OrganizationRepository getOrganizationRepository() {
-        return organizationRepository;
-    }
-
-    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
-        this.organizationRepository = organizationRepository;
-    }
-
-    public StudyRepository getStudyRepository() {
-        return studyRepository;
-    }
-
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
 }

@@ -16,14 +16,13 @@ public class ParticipantAjaxFacadeIntegrationTest extends AbstractWebIntegration
 
     private ParticipantAjaxFacade participantAjaxFacade;
     protected Map parameterMap;
-    private ParticipantRepository participantRepository;
     private Participant participant;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
-        participant = Fixture.createParticipant("Mehul", "Gulati", "1234");
+        participant = Fixture.createParticipantWithStudyAssignment("Mehul", "Gulati", "1234", defaultStudySite);
 
         participant = participantRepository.save(participant);
     }
@@ -51,7 +50,6 @@ public class ParticipantAjaxFacadeIntegrationTest extends AbstractWebIntegration
         assertNotNull(table);
         assertTrue("must find atleast participant matching with first name", table.contains(participant.getFirstName()));
         assertTrue("must find atleast participant matching with first name", table.contains(participant.getLastName()));
-
 
 
         table = participantAjaxFacade.searchParticipant(parameterMap, "ehum", "lat", "", request);

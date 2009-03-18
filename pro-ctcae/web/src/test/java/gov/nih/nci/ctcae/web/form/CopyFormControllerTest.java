@@ -35,7 +35,7 @@ public class CopyFormControllerTest extends WebTestCase {
         request.setMethod("GET");
         request.addParameter("crfId", "1");
         expect(crfRepository.findById(1)).andReturn(crf);
-        expect(crfRepository.save(isA(CRF.class))).andReturn(null);
+        expect(crfRepository.copy(isA(CRF.class))).andReturn(new CRF());
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
         verifyMocks();

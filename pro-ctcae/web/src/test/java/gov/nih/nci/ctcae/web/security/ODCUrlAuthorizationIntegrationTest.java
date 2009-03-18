@@ -29,6 +29,7 @@ public class ODCUrlAuthorizationIntegrationTest extends UrlAuthorizationIntegrat
         allowedUrls.add(SEARCH_CLINICAL_STAFF_URL);
 
         allowedUrls.add(SEARCH_PARTICIPANT_URL);
+        allowedUrls.add(MONITOR_FORM_URL);
 
 
         user = defaultStudy.getOverallDataCoordinator().getOrganizationClinicalStaff().getClinicalStaff().getUser();

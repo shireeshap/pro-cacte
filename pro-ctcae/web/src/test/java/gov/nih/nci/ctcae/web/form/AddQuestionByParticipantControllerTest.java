@@ -2,11 +2,11 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
-import org.easymock.EasyMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,6 +39,8 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
         validator = new WebControllerValidatorImpl();
 
         controller.setWebControllerValidator(validator);
+        controller.setProCtcQuestionRepository(proCtcQuestionRepository);
+        controller.setStudyParticipantCrfScheduleRepository(studyParticipantCrfScheduleRepository);
 
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         studyParticipantCrfSchedule.setId(1);
@@ -80,11 +82,17 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
         questions.add(proCtcQuestion6);
         questions.add(proCtcQuestion7);
         questions.add(proCtcQuestion8);
+
+        expect(proCtcQuestionRepository.find(isA(ProCtcQuestionQuery.class))).andReturn(questions).anyTimes();
+
     }
 
     public void testConstructor() {
+        replayMocks();
+
         assertEquals("form/addQuestionForParticipant", controller.getFormView());
         assertEquals("form/confirmFormSubmission", controller.getSuccessView());
+        verifyMocks();
     }
 
     public void testGetRequest() throws Exception {
@@ -107,19 +115,16 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
 
     public void testPostRequest() throws Exception {
         //expect((List<ProCtcQuestion>) finderRepository.find(isA(Query.class))).andReturn(questions);
-        EasyMock.expectLastCall().anyTimes();
-        expect(genericRepository.save(isA(StudyParticipantCrfAddedQuestion.class))).andReturn(null);
-        EasyMock.expectLastCall().anyTimes();
-        expect(genericRepository.save(isA(StudyParticipantCrfScheduleAddedQuestion.class))).andReturn(null);
-        EasyMock.expectLastCall().anyTimes();
+        expect(genericRepository.save(isA(StudyParticipantCrfAddedQuestion.class))).andReturn(null).anyTimes();
+        expect(genericRepository.save(isA(StudyParticipantCrfScheduleAddedQuestion.class))).andReturn(null).anyTimes();
         // expect(finderRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId())).andReturn(studyParticipantCrfSchedule);
-        EasyMock.expectLastCall().anyTimes();
-        //expect(finderRepository.findById(StudyParticipantCrf.class, studyParticipantCrfSchedule.getStudyParticipantCrf().getId())).andReturn(studyParticipantCrfSchedule.getStudyParticipantCrf());
-        EasyMock.expectLastCall().anyTimes();
+        expect(studyParticipantCrfScheduleRepository.findById(1)).andReturn(new StudyParticipantCrfSchedule());
 
+        expect(studyParticipantCrfScheduleRepository.save(isA(StudyParticipantCrfSchedule.class))).andReturn(new StudyParticipantCrfSchedule());
         replayMocks();
 
         SubmitFormCommand command = new SubmitFormCommand();
+        command.setStudyParticipantCrfScheduleRepository(studyParticipantCrfScheduleRepository);
         command.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
         command.initialize();
         request.setMethod("GET");

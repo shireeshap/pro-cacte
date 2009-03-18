@@ -19,6 +19,7 @@ public class AddStudySiteControllerTest extends WebTestCase {
         super.setUp();
         controller = new AddStudySiteController();
         studyController = new CreateStudyController();
+        studyController.setStudyRepository(studyRepository);
 
 
     }
