@@ -6,7 +6,7 @@ import gov.nih.nci.ctcae.core.domain.Persistable;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.query.Query;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
-import gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 import junit.framework.TestCase;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.ClassUtils;
@@ -32,7 +32,7 @@ public class ClassUtilsTest extends TestCase {
     }
 
     public void testMethods() throws IllegalAccessException, ClassNotFoundException, InstantiationException {
-        Class<OrganizationClinicalStaffRepository> serviceClass = OrganizationClinicalStaffRepository.class;
+        Class<StudyParticipantAssignmentRepository> serviceClass = StudyParticipantAssignmentRepository.class;
         Method[] methods = serviceClass.getDeclaredMethods();
         List<String> ignoreMethods = new ArrayList<String>();
 

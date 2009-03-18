@@ -25,11 +25,6 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
         organization = organizationRepository.save(organization);
     }
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-
-
-    }
 
     public void testFindQueryPerformance() {
 

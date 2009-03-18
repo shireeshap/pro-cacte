@@ -18,6 +18,8 @@ import java.util.Collection;
  * @author mehul
  */
 
+@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+
 public class ParticipantRepository implements Repository<Participant, ParticipantQuery> {
 
     private GenericRepository genericRepository;

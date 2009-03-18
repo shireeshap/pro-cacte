@@ -26,6 +26,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected ProCtcTermRepository proCtcTermRepository;
     protected ClinicalStaffRepository clinicalStaffRepository;
     protected OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
+    protected final Integer DEFAULT_ORGANIZATION_ID = 105555;
 
     protected OrganizationRepository organizationRepository;
     protected ClinicalStaff defaultClinicalStaff;
@@ -52,8 +53,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 //                "classpath*:gov/nih/nci/ctcae/core/applicationContext-mail.xml",
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml",
             "classpath*:gov/nih/nci/ctcae/core/resourceContext-job.xml",
-            "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml",
-            "classpath*:" + "/*-context-test.xml"};
+            "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"};
     protected OrganizationClinicalStaff defaultOrganizationClinicalStaff;
     protected StudyOrganizationClinicalStaff studyOrganizationClinicalStaff;
     protected FundingSponsor fundingSponsor;
@@ -100,13 +100,16 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         assertNotNull("must find user", loadedUser);
         GrantedAuthority[] authorities = new GrantedAuthority[]{
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_STUDY"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_STUDY"),
-                new GrantedAuthorityImpl("PRIVILEGE_CREATE_PARTICIPANT"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_PARTICIPANT"),
+                new GrantedAuthorityImpl("PRIVILEGE_CREATE_PARTICIPANT"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_PARTICIPANT"), new GrantedAuthorityImpl("PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"),
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_FORM"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_FORM"), new GrantedAuthorityImpl("PRIVILEGE_RELEASE_FORM"),
                 new GrantedAuthorityImpl("PRIVILEGE_CREATE_CLINICAL_STAFF"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_CLINICAL_STAFF"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Study.GROUP"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Organization.GROUP"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.ClinicalStaff.GROUP"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.CRF.GROUP"),
+                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP"),
+                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyOrganization.GROUP"),
+                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment.GROUP"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP")
         };
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, Fixture.DEFAULT_PASSWORD, authorities);
@@ -114,7 +117,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         SecurityContextHolder.getContext().setAuthentication(token);
 
 
-        defaultOrganization = organizationRepository.findById(105555);
+        defaultOrganization = organizationRepository.findById(DEFAULT_ORGANIZATION_ID);
         duke = organizationRepository.findById(104880);
         wake = organizationRepository.findById(104878);
         assertNotNull("must find organization", wake);

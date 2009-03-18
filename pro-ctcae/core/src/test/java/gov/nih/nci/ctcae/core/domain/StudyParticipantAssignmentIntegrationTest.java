@@ -22,7 +22,6 @@ public class StudyParticipantAssignmentIntegrationTest extends AbstractHibernate
     private Organization nci;
 
     private Participant participant;
-    private User user;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
@@ -51,9 +50,6 @@ public class StudyParticipantAssignmentIntegrationTest extends AbstractHibernate
         participant.setFirstName("John");
         participant.setLastName("Dow");
         participant.setAssignedIdentifier("1234");
-        participant = participantRepository.save(participant);
-        assertNotNull(participant.getId());
-        assertNotNull(participant.getId());
 
 
         assignment = new StudyParticipantAssignment();
@@ -61,14 +57,17 @@ public class StudyParticipantAssignmentIntegrationTest extends AbstractHibernate
         assignment.setParticipant(participant);
         assignment.setStudySite(nciStudySite);
 
+        participant.addStudyParticipantAssignment(assignment);
+        participant = participantRepository.save(participant);
+        assertNotNull(participant.getId());
+        assertNotNull(participant.getId());
 
     }
 
     public void testSaveAssignment() {
 
-        user = defaultStudy.getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getUser();
-        login(user);
-
+        assignment = participant.getStudyParticipantAssignments().get(0);
+        assignment.setStudyParticipantIdentifier("abc");
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.save(assignment);
         assertNotNull(studyParticipantAssignment.getId());
         assertNotNull(studyParticipantAssignment.getId());

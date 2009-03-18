@@ -21,6 +21,10 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
         participant.setFirstName("John");
         participant.setLastName("Dow");
         participant.setAssignedIdentifier("1234");
+        StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
+        studyParticipantAssignment.setStudySite(defaultStudySite);
+        studyParticipantAssignment.setStudyParticipantIdentifier("abc");
+        participant.addStudyParticipantAssignment(studyParticipantAssignment);
         participant = participantRepository.save(participant);
     }
 

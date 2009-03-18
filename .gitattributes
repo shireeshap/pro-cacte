@@ -1099,4 +1099,5 @@ pro-ctcae/web/src/test/resources/gov/nih/nci/ctcae/selenium/applicationContext-s
 pro-ctcae/web/src/test/resources/gov/nih/nci/ctcae/selenium/testdata/clinical-staffs.xml -text
 pro-ctcae/web/src/test/resources/gov/nih/nci/ctcae/selenium/testdata/questions.xml -text
 pro-ctcae/web/src/test/resources/gov/nih/nci/ctcae/selenium/testdata/studies-participants.xml -text
+pro-ctcae/web/src/test/resources/gov/nih/nci/ctcae/web/applicationContext-test.xml -text
 pro-ctcae/web/web.iml -text

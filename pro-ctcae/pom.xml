@@ -17,7 +17,7 @@
         <pluginRepository>
             <id>northwestern</id>
             <name>psc Repository</name>
-            <url>http://download.bioinformatics.northwestern.edu/maven2</url>
+            <url>http://download.bioinformatics.northwestern.edu/download/maven2/</url>
         </pluginRepository>
         <pluginRepository>
             <id>codehause1</id>
@@ -77,7 +77,7 @@
         <repository>
             <id>psc</id>
             <name>psc Repository</name>
-            <url>http://download.bioinformatics.northwestern.edu/maven2</url>
+            <url>http://download.bioinformatics.northwestern.edu/download/maven2/</url>
         </repository>
         <repository>
             <id>nexus-repo</id>

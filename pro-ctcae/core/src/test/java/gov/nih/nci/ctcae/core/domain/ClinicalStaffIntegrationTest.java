@@ -16,13 +16,7 @@ import java.util.UUID;
 public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     private ClinicalStaff clinicalStaff, inValidClinicalStaff;
-    protected final Integer DEFAULT_ORGANIZATION_ID = 105555;
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();
-        /*  clinicalStaffRepository.setGenericRepository(new JpaGenericRepository<ClinicalStaff>());   */
-    }
 
     private void saveClinicalStaff() {
         clinicalStaff = Fixture.createClinicalStaff("John" + UUID.randomUUID(), "Dow", "NCI 01");
@@ -117,7 +111,7 @@ public class ClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTe
         commitAndStartNewTransaction();
 
 
-        assertNull("must remove site clinical staff ",
+        assertEquals("must remove site clinical staff ", 0,
                 jdbcTemplate.queryForInt("select count(*) from ORGANIZATION_CLINICAL_STAFFS where id=?", new Object[]{defaultOrganizationClinicalStaff.getId()}));
     }
 

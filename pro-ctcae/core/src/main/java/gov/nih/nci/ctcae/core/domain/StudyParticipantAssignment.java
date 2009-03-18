@@ -34,20 +34,20 @@ public class StudyParticipantAssignment extends BaseVersionable {
     /**
      * The study participant identifier.
      */
-    @Column(name = "study_participant_identifier", nullable = true)
+    @Column(name = "study_participant_identifier", nullable = false)
     private String studyParticipantIdentifier;
 
     /**
      * The participant.
      */
-    @JoinColumn(name = "participant_id", referencedColumnName = "id")
+    @JoinColumn(name = "participant_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
     private Participant participant;
 
     /**
      * The study site.
      */
-    @JoinColumn(name = "study_site_id", referencedColumnName = "id")
+    @JoinColumn(name = "study_site_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
     private StudyOrganization studySite;
 

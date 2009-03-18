@@ -20,7 +20,6 @@ public abstract class AbstractWebIntegrationTestCase extends AbstractHibernateIn
     protected MockHttpServletResponse response;
     protected MockServletContext servletContext;
     protected MockHttpSession session;
-
     protected MockPageContext pageContext;
     protected XmlWebApplicationContext webApplicationContext;
 
@@ -51,7 +50,11 @@ public abstract class AbstractWebIntegrationTestCase extends AbstractHibernateIn
         XmlWebApplicationContext context = new XmlWebApplicationContext();
         context.setParent(parent);
         context.setServletContext(servletContext);
-        context.setConfigLocations(new String[]{"file:/Users/saurabhagrawal/projects/pro-ctcae/web/src/main/webapp/WEB-INF/" + servletName + "-servlet.xml"});
+        Object codeBase = parent.getBean("codebaseDirectory");
+        assertNotNull("please define codebase.directory property in datasource.properties file. " +
+                "This should property should point to directory where you have checked-out the code-base  of ctcae. " +
+                "For ex:codebase.directory=/Users/saurabhagrawal/projects/pro-ctcae", codeBase);
+        context.setConfigLocations(new String[]{String.format("file:%s/web/src/main/webapp/WEB-INF/%s-servlet.xml", codeBase, servletName)});
 
         context.refresh();
         return context;
@@ -63,8 +66,10 @@ public abstract class AbstractWebIntegrationTestCase extends AbstractHibernateIn
         List<String> list = new ArrayList<String>(Arrays.asList(configLocations));
         list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml");
         list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-web-security.xml");
+        list.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-test.xml");
         return list.toArray(new String[]{});
 
 
     }
+
 }
