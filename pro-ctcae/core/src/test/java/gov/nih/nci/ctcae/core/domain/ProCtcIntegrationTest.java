@@ -3,8 +3,6 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
-import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
-import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Collection;
 import java.util.Date;
@@ -15,7 +13,6 @@ import java.util.Date;
  */
 public class ProCtcIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
-    private ProCtcRepository proCtcRepository;
     private ProCtc proCtc, inValidProCtc;
 
 
@@ -114,8 +111,5 @@ public class ProCtcIntegrationTest extends AbstractHibernateIntegrationTestCase 
 
     }
 
-    @Required
-    public void setProCtcRepository(ProCtcRepository proCtcRepository) {
-        this.proCtcRepository = proCtcRepository;
-    }
+
 }

@@ -6,7 +6,6 @@ import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
 
     private ProCtcQuestionRepository proCtcQuestionRepository;
 
-    private ProCtcRepository proCtcRepository;
     private ProCtcQuestion proCtcQuestion, inValidproCtcQuestion;
     private ProCtcTerm proProCtcTerm;
     private ProCtc proCtc;
@@ -133,11 +131,6 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
     @Required
     public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
         this.proCtcQuestionRepository = proCtcQuestionRepository;
-    }
-
-    @Required
-    public void setProCtcRepository(ProCtcRepository proCtcRepository) {
-        this.proCtcRepository = proCtcRepository;
     }
 
 
