@@ -30,9 +30,13 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
     public void testFind() {
         List<Role> rolesList = new ArrayList<Role>();
         rolesList.add(Role.PI);
-        List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffRepository.findByStudyOrganizationIdAndRole("%", defaultStudySite.getId(), rolesList);
+        List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffRepository.findByStudyOrganizationIdAndRole("%",
+                defaultStudy.getLeadStudySite().getId(), rolesList);
 
         assertFalse(organizationClinicalStaffList.isEmpty());
+        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaffList) {
+            assertEquals(Role.PI, studyOrganizationClinicalStaff.getRole());
+        }
     }
 
     public void testFindByClinicalStaff() {
@@ -54,7 +58,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
         assertNotNull("must find study clinical staff", genericRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId()));
 
         //now remove it
-        defaultStudySite.getStudyOrganizationClinicalStaffs().clear();
+        defaultStudy.getLeadStudySite().getStudyOrganizationClinicalStaffs().clear();
         defaultStudy = studyRepository.save(defaultStudy);
 
         commitAndStartNewTransaction();
@@ -67,10 +71,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
     public void testUpdateStudyOrganizationClinicalStaff() {
 
 
-        assertNotNull("must find study clinical staff", genericRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId()));
-
-        //now update it
-        StudyOrganizationClinicalStaff staff = defaultStudySite.getStudyOrganizationClinicalStaffs().get(0);
+        StudyOrganizationClinicalStaff staff = defaultStudy.getLeadStudySite().getStudyOrganizationClinicalStaffs().get(0);
         OrganizationClinicalStaff organizationClinicalStaff = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.NURSE).getOrganizationClinicalStaff();
         staff.setOrganizationClinicalStaff(organizationClinicalStaff);
         defaultStudy = studyRepository.save(defaultStudy);

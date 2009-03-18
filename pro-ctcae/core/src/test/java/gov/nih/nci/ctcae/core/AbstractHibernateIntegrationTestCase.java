@@ -109,6 +109,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.CRF.GROUP"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyOrganization.GROUP"),
+                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff.GROUP"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment.GROUP"),
                 new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP")
         };
@@ -370,8 +371,12 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         c = Fixture.createClinicalStaffWithOrganization("Diane", "Opland", "-1240", duke);
         clinicalStaffRepository.save(c);
 
-        studyRepository.save(defaultStudy);
+        defaultStudy = studyRepository.save(defaultStudy);
+
+
         commitAndStartNewTransaction();
+
+        defaultStudySite = defaultStudy.getStudySites().get(0);
 
     }
 
