@@ -51,6 +51,7 @@ public class AdminMethodAuthorizationIntegrationTest extends MethodAuthorization
     public void testAuthorizeUserForOrganizationClinicalStaff() throws Exception {
 
         List<String> allowedMethods = allowedMethodsMap.get(ClinicalStaffRepository.class);
+        allowedMethods.add(FIND_BY_ID_METHOD);
 
         authorizeAndUnAuthorizeMethods(organizationClinicalStaffRepository, OrganizationClinicalStaffRepository.class, allowedMethods);
 

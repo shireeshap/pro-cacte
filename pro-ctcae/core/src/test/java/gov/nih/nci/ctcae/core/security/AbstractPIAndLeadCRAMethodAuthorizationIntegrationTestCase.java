@@ -51,6 +51,7 @@ public abstract class AbstractPIAndLeadCRAMethodAuthorizationIntegrationTestCase
         List<String> allowedMethods = allowedMethodsMap.get(ClinicalStaffRepository.class);
 
         allowedMethods.add(SEARCH_CLINICAL_STAFF_BY_SS_METHOD);
+        allowedMethods.add(FIND_BY_ID_METHOD);
 
         authorizeAndUnAuthorizeMethods(organizationClinicalStaffRepository, OrganizationClinicalStaffRepository.class, allowedMethods);
 
