@@ -36,7 +36,7 @@
 
     <target name="test.run" depends="test.compile" description="Runs the tests">
         <mkdir dir="${test.result}"/>
-        <junit fork="yes" printsummary="true">
+        <junit fork="yes" maxmemory="1024m" printsummary="true">
             <classpath refid="testbuild.classpath"/>
             <formatter type="xml"/>
             <batchtest fork="yes" todir="${test.result}">

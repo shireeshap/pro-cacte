@@ -95,13 +95,13 @@
     <target name="deploy-ctcae" depends="undeploy-ctcae, compile, copy-ctcae-context"/>
 
     <target name="TomStart">
-        <java jar="${env.CATALINA_HOME}/bin/bootstrap.jar" fork="true">
+        <java jar="${env.CATALINA_HOME}/bin/bootstrap.jar" maxmemory="1024m" fork="true">
             <jvmarg value="-Dcatalina.home=${env.CATALINA_HOME}"/>
         </java>
     </target>
 
     <target name="TomStop">
-        <java jar="${env.CATALINA_HOME}/bin/bootstrap.jar" fork="true">
+        <java jar="${env.CATALINA_HOME}/bin/bootstrap.jar" fork="true" maxmemory="1024m">
             <jvmarg value="-Dcatalina.home=${env.CATALINA_HOME}"/>
             <arg line="stop"/>
         </java>
@@ -165,7 +165,7 @@
         <echo message="clover path is ${clover.jar}"></echo>
 
         <junit printsummary="yes" errorproperty="test.failed" failureproperty="test.failed"
-               showoutput="true" fork="true" forkmode="once" timeout="600000">
+               showoutput="true" fork="true" forkmode="once" maxmemory="1024m" timeout="600000">
 
             <classpath refid="test.run.classpath"/>
             <classpath>
@@ -190,7 +190,7 @@
    ============================================================================= -->
 
     <target name="start-server" depends="stop-server">
-        <java jar="../tools/selenium/selenium-server.jar" fork="true" failonerror="true"/>
+        <java jar="../tools/selenium/selenium-server.jar" fork="true" maxmemory="1024m" failonerror="true"/>
     </target>
 
 

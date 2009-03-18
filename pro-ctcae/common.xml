@@ -610,7 +610,8 @@
     <!-- ==============================================================
             target: test
         ============================================================== -->
-    <condition property="testPattern" value="gov/nih/nci/ctcae/**/*${test}.class" else="gov/nih/nci/ctcae/**/*Test.class">
+    <condition property="testPattern" value="gov/nih/nci/ctcae/**/*${test}.class"
+               else="gov/nih/nci/ctcae/**/*Test.class">
         <isset property="test"/>
     </condition>
 
@@ -631,7 +632,7 @@
         <echo message="clover path is ${clover.jar}"></echo>
 
         <junit printsummary="yes" errorproperty="test.failed" failureproperty="test.failed"
-               showoutput="true" fork="true" forkmode="once" timeout="600000">
+               showoutput="true" maxmemory="1024m" fork="true" forkmode="once" timeout="600000">
 
             <classpath refid="test.run.classpath"/>
             <classpath>
