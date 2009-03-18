@@ -26,13 +26,12 @@ public class CsvImporter {
 
     private CtcTermRepository ctcTermRepository;
 
-    public ProCtc readCsv() throws IOException {
+    public ProCtc readCsv(final String fileLocation) throws IOException {
 
         HashMap<String, List<CsvLine>> hm = new HashMap<String, List<CsvLine>>();
         HashMap<String, ProCtcQuestion> firstQuestions = new HashMap<String, ProCtcQuestion>();
 
-//        CsvReader reader = new CsvReader("C:\\Users\\Harsh\\workspace\\pro-ctcae\\trunk\\pro-ctcae\\core\\src\\main\\java\\gov\\nih\\nci\\ctcae\\core\\csv\\loader\\ctcae_display_rules.csv");
-        CsvReader reader = new CsvReader("/Users/saurabhagrawal/projects/pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv");
+        CsvReader reader = new CsvReader(fileLocation);
         reader.readHeaders();
         while (reader.readRecord()) {
             CsvLine csvLine = new CsvLine();

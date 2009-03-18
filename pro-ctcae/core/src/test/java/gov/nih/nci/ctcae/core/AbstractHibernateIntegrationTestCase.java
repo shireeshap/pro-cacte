@@ -46,6 +46,8 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     public DaoAuthenticationProvider daoAuthenticationProvider;
     protected CRFRepository crfRepository;
     protected User defaultUser;
+    protected String codeBase;
+
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml",
 
@@ -53,6 +55,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 //                "classpath*:gov/nih/nci/ctcae/core/applicationContext-mail.xml",
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml",
             "classpath*:gov/nih/nci/ctcae/core/resourceContext-job.xml",
+            "classpath*:gov/nih/nci/ctcae/core/applicationContext-test.xml",
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"};
     protected OrganizationClinicalStaff defaultOrganizationClinicalStaff;
     protected StudyOrganizationClinicalStaff studyOrganizationClinicalStaff;
@@ -81,6 +84,11 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
         deleteData();
 
+
+        codeBase = (String) getApplicationContext().getBean("codebaseDirectory");
+        assertNotNull("please define codebase.directory property in datasource.properties file. " +
+                "This should property should point to directory where you have checked-out the code-base  of ctcae. " +
+                "For ex:codebase.directory=/Users/saurabhagrawal/projects/pro-ctcae", codeBase);
 
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);

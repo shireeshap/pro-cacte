@@ -19,12 +19,6 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
     private GenericRepository genericRepository;
     protected CtcTermRepository ctcTermRepository;
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-
-        super.onSetUpInTransaction();
-        // insertDefaultUsers();
-    }
 
     private void saveCsv() throws IOException {
 
@@ -39,7 +33,8 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
 
         csvImporter = new CsvImporter();
         csvImporter.setCtcTermRepository(ctcTermRepository);
-        ProCtc proctc = csvImporter.readCsv();
+        String fileLocation = codeBase + "/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv";
+        ProCtc proctc = csvImporter.readCsv(fileLocation);
         //assertEquals(65,proctc.getProCtcTerms().size());
         genericRepository.save(proctc);
         setComplete();
@@ -48,7 +43,7 @@ public class CsvImporterIntegrationTest extends AbstractHibernateIntegrationTest
     }
 
     public void testSaveCsv() throws IOException {
-        //  saveCsv();
+        saveCsv();
         //  assertNotNull(finderRepository.findById(ProCtc.class, 1));
     }
 
