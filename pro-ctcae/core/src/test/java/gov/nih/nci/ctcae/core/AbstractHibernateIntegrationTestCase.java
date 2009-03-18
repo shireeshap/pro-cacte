@@ -1,7 +1,9 @@
 package gov.nih.nci.ctcae.core;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
+import gov.nih.nci.ctcae.core.csv.loader.CsvImporter;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.*;
 import org.springframework.beans.factory.annotation.Required;
@@ -12,11 +14,9 @@ import org.springframework.security.providers.UsernamePasswordAuthenticationToke
 import org.springframework.security.providers.dao.DaoAuthenticationProvider;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
+import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Vinay Kumar
@@ -45,6 +45,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected StudyOrganizationRepository studyOrganizationRepository;
     public DaoAuthenticationProvider daoAuthenticationProvider;
     protected CRFRepository crfRepository;
+    protected ProCtcRepository proCtcRepository;
     protected User defaultUser;
     protected String codeBase;
 
@@ -62,6 +63,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected FundingSponsor fundingSponsor;
     protected LeadStudySite leadStudySite;
     protected final String SYSTEM_ADMIN = "SYSTEM_ADMIN";
+    private CtcTermRepository ctcTermRepository;
 
     @Override
     protected String[] getConfigLocations() {
@@ -92,6 +94,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
+
         insertAdminUser();
         login(userRepository.loadUserByUsername(SYSTEM_ADMIN));
 
@@ -202,6 +205,23 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         return defaultStudy;
     }
 
+    protected void saveCsv() throws IOException {
+
+        ProCtcQuery proCtcQuery = new ProCtcQuery();
+        Collection<ProCtc> ctcCollection = proCtcRepository.find(proCtcQuery);
+        if (ctcCollection == null || ctcCollection.isEmpty()) {
+            return;
+        }
+
+
+        CsvImporter csvImporter = new CsvImporter();
+        csvImporter.setCtcTermRepository(ctcTermRepository);
+        String fileLocation = codeBase + "/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv";
+        ProCtc proctc = csvImporter.readCsv(fileLocation);
+        //assertEquals(65,proctc.getProCtcTerms().size());
+        proCtcRepository.save(proctc);
+        commitAndStartNewTransaction();
+    }
 
     private void deleteData() {
         jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
@@ -525,5 +545,15 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
+    }
+
+    @Required
+    public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
+        this.ctcTermRepository = ctcTermRepository;
+    }
+
+    @Required
+    public void setProCtcRepository(ProCtcRepository proCtcRepository) {
+        this.proCtcRepository = proCtcRepository;
     }
 }

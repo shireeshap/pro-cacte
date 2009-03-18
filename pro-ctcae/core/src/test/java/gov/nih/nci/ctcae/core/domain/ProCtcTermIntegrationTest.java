@@ -14,6 +14,12 @@ public class ProCtcTermIntegrationTest extends AbstractHibernateIntegrationTestC
 
     private ProCtcTerm proProCtcTerm;
 
+    @Override
+    protected void onSetUpInTransaction() throws Exception {
+        super.onSetUpInTransaction();
+        saveCsv();
+
+    }
 
     public void testDeleteNotSupported() {
         try {

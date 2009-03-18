@@ -4,6 +4,8 @@ import gov.nih.nci.ctcae.core.domain.ProCtc;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -14,6 +16,7 @@ import java.util.Collection;
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
+@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 public class ProCtcRepository implements Repository<ProCtc, ProCtcQuery> {
 
     private GenericRepository genericRepository;
@@ -23,6 +26,8 @@ public class ProCtcRepository implements Repository<ProCtc, ProCtcQuery> {
 
 
     }
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 
     public ProCtc save(ProCtc proCtc) {
         return genericRepository.save(proCtc);
