@@ -30,53 +30,27 @@ public class MonitorFormStatusController extends AbstractController {
         String studySiteId = request.getParameter("studySiteId");
         String crfId = request.getParameter("crfId");
         String dateRange = request.getParameter("dateRange");
-        String startDate = request.getParameter("stDate");
-        String endDate = request.getParameter("endDate");
+        String strStartDate = request.getParameter("stDate");
+        String strEndDate = request.getParameter("endDate");
+        Date startDate, endDate;
 
-        modelAndView.addObject("crfStatusMap", getFormStatus(Integer.valueOf(studyId), DateUtils.parseDate(startDate), DateUtils.parseDate(endDate), crfId, studySiteId, dateRange));
-        modelAndView.addObject("calendar", getCalendar(DateUtils.parseDate(startDate), DateUtils.parseDate(endDate)));
+        if (dateRange.equals("custom")) {
+            startDate = DateUtils.parseDate(strStartDate);
+            endDate = DateUtils.parseDate(strEndDate);
+        } else {
+            Date[] date = MonitorFormUtils.getStartEndDate(dateRange);
+            startDate = date[0];
+            endDate = date[1];
+        }
+
+
+        modelAndView.addObject("crfStatusMap", getFormStatus(Integer.valueOf(studyId), startDate, endDate, crfId, studySiteId));
+        modelAndView.addObject("calendar", getCalendar(startDate, endDate));
 
         return modelAndView;
     }
 
-    private Date getStartDate(String dateRange, Date startDate, Date endDate) {
-        Date today = new Date();
-        Calendar c = ProCtcAECalendar.getCalendarForDate(today);
-
-        if ("thisWeek".equals(dateRange)) {
-            c.set(Calendar.DAY_OF_WEEK, 2);
-        }
-        if ("lastWeek".equals(dateRange)) {
-        }
-        if ("thisMonth".equals(dateRange)) {
-        }
-        if ("lastMonth".equals(dateRange)) {
-        }
-        if ("custom".equals(dateRange)) {
-            return startDate;
-        }
-        return startDate;
-    }
-
-    private Date getEndDate(String dateRange, Date startDate, Date endDate) {
-
-        if ("thisWeek".equals(dateRange)) {
-            return new Date();
-        }
-        if ("lastWeek".equals(dateRange)) {
-        }
-        if ("thisMonth".equals(dateRange)) {
-            return new Date();
-        }
-        if ("lastMonth".equals(dateRange)) {
-        }
-        if ("custom".equals(dateRange)) {
-            return endDate;
-        }
-        return endDate;
-    }
-
-    private HashMap getFormStatus(Integer studyId, Date startDate, Date endDate, String crfId, String studySiteId, String dateRange) {
+    private HashMap getFormStatus(Integer studyId, Date startDate, Date endDate, String crfId, String studySiteId) {
 
         int diffInDays = getDifferenceOfDates(startDate, endDate) + 1;
         HashMap<Participant, String[]> crfStatus = new HashMap();
