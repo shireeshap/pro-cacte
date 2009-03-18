@@ -209,7 +209,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
         ProCtcQuery proCtcQuery = new ProCtcQuery();
         Collection<ProCtc> ctcCollection = proCtcRepository.find(proCtcQuery);
-        if (ctcCollection == null || ctcCollection.isEmpty()) {
+        if (ctcCollection != null && !ctcCollection.isEmpty()) {
             return;
         }
 
