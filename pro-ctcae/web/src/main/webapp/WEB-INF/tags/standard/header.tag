@@ -15,20 +15,20 @@
 
         <div id="login-action">
 
-            <ctcae:authorize>
+            <ctcae:urlAuthorize url="/pages/home">
                 <div id="welcome-user">Welcome
                     <authz:authentication property="name"></authz:authentication>
                 </div>
-            </ctcae:authorize>
+            </ctcae:urlAuthorize>
 
             <ctcae:publicAuthorize>
                 <a href="<c:url value="/public/login"/>">Log in</a>
 
             </ctcae:publicAuthorize>
 
-            <ctcae:authorize>
-                &nbsp;<div id="logout"><a href="<c:url value="/j_spring_security_logout"/>">Log out</a> </div>
-            </ctcae:authorize>
+            <ctcae:urlAuthorize url="/pages/j_spring_security_logout">
+                &nbsp;<div id="logout"><a href="<c:url value="/pages/j_spring_security_logout"/>">Log out</a> </div>
+            </ctcae:urlAuthorize>
         </div>
 
 

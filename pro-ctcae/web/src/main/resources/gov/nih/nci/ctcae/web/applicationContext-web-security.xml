@@ -7,8 +7,10 @@
 
     <http auto-config="true" access-decision-manager-ref="accessDecisionManager" access-denied-page="/accessDenied.jsp">
 
+
         <intercept-url pattern="/public/login" filters="none"/>
         <intercept-url pattern="/public/logout" filters="none"/>
+
 
         <!--following line disables the security-->
         <!--<intercept-url pattern="/pages/**" access="IS_AUTHENTICATED_FULLY"/>-->
@@ -72,19 +74,19 @@
         <intercept-url pattern="/pages/admin/*" access="PRIVILEGE_EDIT_CLINICAL_STAFF"/>
 
         <intercept-url pattern="/pages/home" access="IS_AUTHENTICATED_FULLY"/>
-        <intercept-url pattern="/j_spring_security_logout" access="IS_AUTHENTICATED_FULLY"/>
+        <intercept-url pattern="/pages/j_spring_security_logout" access="IS_AUTHENTICATED_FULLY"/>
         <intercept-url pattern="/pages/confirmationCheck" access="IS_AUTHENTICATED_FULLY"/>
 
 
         <!--<intercept-url pattern="/pages/**" access="IS_AUTHENTICATED_ANONYMOUSLY" filters="" />-->
 
         <form-login login-page="/public/login" authentication-failure-url="/public/login?error=true"
-                    default-target-url="/pages/home"/>
+                    default-target-url="/pages/home" login-processing-url="/pages/j_spring_security_check"/>
 
 
         <remember-me user-service-ref="userRepository"/>
 
-        <logout logout-success-url="/public/login"/>
+        <logout logout-success-url="/public/login" logout-url="/pages/j_spring_security_logout"/>
 
         <concurrent-session-control max-sessions="1"/>
 
@@ -94,12 +96,6 @@
     <beans:bean id="urlAuthorizationCheck" class="gov.nih.nci.ctcae.web.security.UrlAuthorizationCheck">
         <beans:property name="privilegeAuthorizationCheck" ref="privilegeAuthorizationCheck"/>
     </beans:bean>
-    <!--<beans:bean id="filterInvocationInterceptor"-->
-    <!--class="org.springframework.security.intercept.web.FilterSecurityInterceptor">-->
-    <!--<beans:property name="authenticationManager" ref="authenticationManager"/>-->
-    <!--<beans:property name="accessDecisionManager" ref="accessDecisionManager"/>-->
-    <!--<beans:property name="objectDefinitionSource" ref="secureResourceFilter"/>-->
-    <!--</beans:bean>-->
 
 </beans:beans>
 

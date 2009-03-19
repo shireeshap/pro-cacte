@@ -88,7 +88,7 @@ public abstract class UrlAuthorizationIntegrationTestCase extends AbstractWebInt
 
         populateAllUrlsAndTabs();
         commonAllowedUrls.add("/pages/home");
-        commonAllowedUrls.add("/j_spring_security_logout");
+        commonAllowedUrls.add("/pages/j_spring_security_logout");
         commonAllowedUrls.add("/pages/confirmationCheck");
         allUrls.removeAll(commonAllowedUrls);
 

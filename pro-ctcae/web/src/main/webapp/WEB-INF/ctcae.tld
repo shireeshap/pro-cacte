@@ -12,14 +12,6 @@
 
 
     <tag>
-        <name>authorize</name>
-        <tag-class>gov.nih.nci.ctcae.web.tag.AuthorizeTag</tag-class>
-        <description>
-            it will be used to display or hide certain portions of a JSP
-            based on user’s access level for the application code with which the JSP is being invoked
-        </description>
-    </tag>
-    <tag>
         <name>publicAuthorize</name>
         <tag-class>gov.nih.nci.ctcae.web.tag.PublicAuthorizeTag</tag-class>
         <description>

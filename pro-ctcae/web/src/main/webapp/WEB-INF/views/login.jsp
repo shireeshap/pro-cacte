@@ -34,7 +34,7 @@
     </c:if>
 
 
-    <form method="POST" id="loginForm" action="<c:url value="/j_spring_security_check"/>">
+    <form method="POST" id="loginForm" action="<c:url value="/pages/j_spring_security_check"/>">
 
         <c:if test="${not empty param.login_error}">
             <p class="errors">Incorrect username and/or password. Please try again.</p>

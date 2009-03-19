@@ -14,7 +14,7 @@ public class CommonUrlAuthorizationIntegrationTest extends UrlAuthorizationInteg
 
     public void testAuthorizeForLogoutLink() throws Exception {
 
-        assertTrue("all authenticated user must see logout link", urlAuthorizationCheck.authorize("/j_spring_security_logout"));
+        assertTrue("all authenticated user must see logout link", urlAuthorizationCheck.authorize("/pages/j_spring_security_logout"));
     }
 
 

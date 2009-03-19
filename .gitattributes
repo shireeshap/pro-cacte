@@ -50,8 +50,8 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/010_drop_duplicate_organiza
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/011_create_ctc.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/016_create_crf_calendars.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/017_create_crf_cycles.groovy -text
-pro-ctcae/core/src/main/db/migrate/002_elaboration_1/018_add_system_admin.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLine.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv -text
@@ -197,6 +197,7 @@ pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-datasource.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-jms.xml -text
+pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-setup.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-util.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/email/template/exception.ftl -text
 pro-ctcae/core/src/main/resources/log4j.properties -text
@@ -204,6 +205,7 @@ pro-ctcae/core/src/main/resources/log4j.xml -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractHibernateIntegrationTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/Fixture.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/SetupStatusIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/TestBean.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFPageTest.java -text
@@ -422,6 +424,9 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCo
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/SecuredTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationCheck.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationTag.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupCommand.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilter.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyComponentController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudySiteController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/CreateStudyController.java -text
@@ -441,7 +446,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/StudyTableModel.java -te
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/NullStringComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImpl.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCell.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tag/AuthorizeTag.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTag.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tools/ObjectTools.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidator.java -text
@@ -458,6 +462,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/layouts/defaultLayout.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/log4j.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/message.properties -text
 pro-ctcae/web/src/main/webapp/WEB-INF/public-servlet.xml -text
+pro-ctcae/web/src/main/webapp/WEB-INF/setup-servlet.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/sitemesh.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/special-views.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/spring-servlet.xml -text
@@ -613,6 +618,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/searchParticipant.jsp -t
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/selectstudyparticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/setup/confirmSetup.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/setup/setup.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/deleteClinicalStaffAssignmentConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudySiteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/studyOrganizationClinicalStaffSection.jsp -text
@@ -1079,6 +1086,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/TreatingPhysicanAutho
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationIntegrationTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationTagIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/UrlSecurityIntegrationTestCase.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilterTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/AddStudySiteControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/ManageFormControllerControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/SearchStudyControllerTest.java -text
@@ -1092,7 +1100,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/NullStringComparatorTest
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/SortRowsCallbackImplTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/cell/AbstractCellTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/table/cell/DateFormatterCellTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tag/AuthorizeTagTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTagTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/tools/ObjectToolsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorTest.java -text

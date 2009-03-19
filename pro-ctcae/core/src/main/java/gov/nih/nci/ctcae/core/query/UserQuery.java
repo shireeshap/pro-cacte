@@ -1,5 +1,7 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.Role;
+
 //
 /**
  * User: Mehul Gulati
@@ -13,6 +15,7 @@ public class UserQuery extends AbstractQuery {
     private static String queryString = "SELECT user from User user order by user.id";
 
     private static String USER_NAME = "username";
+    private static String ROLE = "role";
 
     public UserQuery() {
 
@@ -27,6 +30,12 @@ public class UserQuery extends AbstractQuery {
     public void filterByUserName(final String username) {
         andWhere("user.username = :" + USER_NAME);
         setParameter(USER_NAME, username);
+    }
+
+    public void filterByUserRole(final Role role) {
+        leftJoin("user.userRoles as userRole");
+        andWhere("userRole.role = :" + ROLE);
+        setParameter(ROLE, role);
     }
 
 

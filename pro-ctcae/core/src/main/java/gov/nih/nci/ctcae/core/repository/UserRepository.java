@@ -140,8 +140,17 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
     }
 
+
     public Collection<User> find(UserQuery query) {
         return genericRepository.find(query);
+
+
+    }
+
+    public Collection<User> getByRole(Role role) {
+        UserQuery userQuery = new UserQuery();
+        userQuery.filterByUserRole(role);
+        return find(userQuery);
 
 
     }
@@ -174,4 +183,6 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
+
+
 }

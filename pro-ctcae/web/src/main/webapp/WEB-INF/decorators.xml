@@ -9,6 +9,7 @@
         <pattern>/public/*</pattern>
         <pattern>/public/login</pattern>
         <pattern>/public/accessDenied</pattern>
+        <pattern>/setup/*</pattern>
     </decorator>
 
     <decorator name="tabbedflow" page="tabbedflow.jsp">

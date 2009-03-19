@@ -57,6 +57,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml",
             "classpath*:gov/nih/nci/ctcae/core/resourceContext-job.xml",
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-test.xml",
+            "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml",
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"};
     protected OrganizationClinicalStaff defaultOrganizationClinicalStaff;
     protected StudyOrganizationClinicalStaff studyOrganizationClinicalStaff;
@@ -150,7 +151,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
     }
 
-    private void insertAdminUser() {
+    protected void insertAdminUser() {
         UserQuery userQuery = new UserQuery();
         userQuery.filterByUserName(SYSTEM_ADMIN);
         List<User> users = new ArrayList<User>(userRepository.find(userQuery));
@@ -223,7 +224,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         commitAndStartNewTransaction();
     }
 
-    private void deleteData() {
+    protected void deleteData() {
         jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
         jdbcTemplate.execute("delete from CRF_PAGE_ITEMS");
         jdbcTemplate.execute("delete from CRF_PAGES");
