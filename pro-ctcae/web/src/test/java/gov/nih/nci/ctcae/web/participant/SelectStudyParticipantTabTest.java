@@ -2,7 +2,12 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 
 import java.util.ArrayList;
 
@@ -15,15 +20,18 @@ public class SelectStudyParticipantTabTest extends WebTestCase {
     private StudyParticipantCommand command;
     private CRF crf;
     Study study;
+    protected StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
+    protected CRFRepository crfRepository;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
         tab = new SelectStudyParticipantTab();
-
-        //tab.setFinderRepository(finderRepository);
-
+        studyParticipantAssignmentRepository = registerMockFor(StudyParticipantAssignmentRepository.class);
+        tab.setStudyParticipantAssignmentRepository(studyParticipantAssignmentRepository);
+        crfRepository = registerMockFor(CRFRepository.class);
+        tab.setCrfRepository(crfRepository);
         study = Fixture.createStudy("short", "long", "id");
         crf = Fixture.createCrf("test", CrfStatus.DRAFT, "1.0");
         crf.setId(1);
@@ -35,6 +43,7 @@ public class SelectStudyParticipantTabTest extends WebTestCase {
 
     public void testOnDisplay() {
         assertNull(command.getStudy());
+        expect(crfRepository.findById(crf.getId())).andReturn(crf);
         replayMocks();
         tab.onDisplay(request, command);
         verifyMocks();
@@ -54,7 +63,7 @@ public class SelectStudyParticipantTabTest extends WebTestCase {
         ArrayList list = new ArrayList();
         list.add(new StudyParticipantAssignment());
 
-        // expect(finderRepository.find(isA(StudyParticipantAssignmentQuery.class))).andReturn(list);
+        expect(studyParticipantAssignmentRepository.find(isA(StudyParticipantAssignmentQuery.class))).andReturn(list);
         replayMocks();
         tab.postProcess(request, command, null);
         verifyMocks();

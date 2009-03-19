@@ -49,12 +49,16 @@ public class BasicFormControllerTest extends WebTestCase {
         controller.setWebControllerValidator(validator);
         controller.setTabConfigurer(tabConfigurer);
         controller.setStudyRepository(studyRepository);
+        controller.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
         crf = new CRF();
+
         crf.setTitle("title");
     }
 
     public void testFormBackingObject() throws Exception {
+        replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
+        verifyMocks();
         Map model = modelAndView.getModel();
         Object command = model.get("command");
         assertNotNull("must find command object", command);
@@ -66,8 +70,10 @@ public class BasicFormControllerTest extends WebTestCase {
 
     public void testFirstPage() throws Exception {
         SelectStudyForFormTab selectStudyForFormTab = new SelectStudyForFormTab();
+        replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map model = modelAndView.getModel();
+        verifyMocks();
         assertEquals("first page should be study details", modelAndView.getViewName(), selectStudyForFormTab.getViewName());
         Object command = model.get("command");
         assertNotNull("must find command object", command);

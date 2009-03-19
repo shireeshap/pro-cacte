@@ -43,7 +43,7 @@ public class AddSiteControllerTest extends WebTestCase {
         Object command = ClinicalStaffControllerUtils.getClinicalStaffCommand(request);
         assertNotNull("command must be present in session", command);
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
-        assertNotNull("index must be present", modelAndView.getModelMap().get("index"));
+        assertNotNull("organizationClinicalStaffIndex must be present", modelAndView.getModelMap().get("organizationClinicalStaffIndex"));
 
     }
 

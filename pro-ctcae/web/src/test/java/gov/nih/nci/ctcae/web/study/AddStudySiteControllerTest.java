@@ -20,6 +20,8 @@ public class AddStudySiteControllerTest extends WebTestCase {
         controller = new AddStudySiteController();
         studyController = new CreateStudyController();
         studyController.setStudyRepository(studyRepository);
+        studyController.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
+        controller.setStudyRepository(studyRepository);
 
 
     }
@@ -29,14 +31,17 @@ public class AddStudySiteControllerTest extends WebTestCase {
     }
 
     public void testHandleRequest() throws Exception {
-
+        replayMocks();
         studyController.handleRequest(request, response);
-        Object command = ControllersUtils.getStudyCommand(request);
+        verifyMocks();
+        resetMocks();
+        StudyCommand command = ControllersUtils.getStudyCommand(request);
         assertNotNull("command must present in session", command);
-
+        studyRepository.addStudySite(command.getStudy());
+        replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         assertNotNull("index must be present", modelAndView.getModelMap().get("index"));
 
-
+        verifyMocks();
     }
 }

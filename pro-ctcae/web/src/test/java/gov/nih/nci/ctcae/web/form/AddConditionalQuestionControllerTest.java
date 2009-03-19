@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
@@ -21,6 +22,7 @@ public class AddConditionalQuestionControllerTest extends WebTestCase {
     private ProCtcValidValue proCtcValidValue1;
     private ProCtcValidValue proCtcValidValue2;
     private ProCtcQuestionRepository proCtcQuestionRepository;
+    protected ProCtcValidValueRepository proCtcValidValueRepository;
 
     @Override
     protected void setUp() throws Exception {
@@ -29,6 +31,8 @@ public class AddConditionalQuestionControllerTest extends WebTestCase {
         proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
         command = new CreateFormCommand();
         controller.setProCtcQuestionRepository(proCtcQuestionRepository);
+        proCtcValidValueRepository = registerMockFor(ProCtcValidValueRepository.class);
+        controller.setProCtcValidValueRepository(proCtcValidValueRepository);
 
         proCtcValidValue1 = new ProCtcValidValue();
         proCtcValidValue1.setValue("value1");
@@ -52,8 +56,8 @@ public class AddConditionalQuestionControllerTest extends WebTestCase {
         request.addParameter("questionId", new String[]{"1"});
         request.addParameter("selectedValidValues", new String[]{"3,4"});
         expect(proCtcQuestionRepository.findById(1)).andReturn(proCtcQuestion1);
-        //  expect(finderRepository.findById(ProCtcValidValue.class, 3)).andReturn(proCtcValidValue1);
-        // expect(finderRepository.findById(ProCtcValidValue.class, 4)).andReturn(proCtcValidValue2);
+        expect(proCtcValidValueRepository.findById(3)).andReturn(proCtcValidValue1);
+        expect(proCtcValidValueRepository.findById(4)).andReturn(proCtcValidValue2);
         replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         verifyMocks();

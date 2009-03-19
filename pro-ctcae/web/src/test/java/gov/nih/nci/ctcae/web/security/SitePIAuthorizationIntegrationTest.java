@@ -32,6 +32,7 @@ public class SitePIAuthorizationIntegrationTest extends UrlAuthorizationIntegrat
         allowedUrls.add(CREATE_PARTICIPANT_URL);
         allowedUrls.add(SEARCH_PARTICIPANT_URL);
 
+        allowedUrls.add(MANAGE_FORM_URL);
 
         allowedUrls.add(SCHEDULE_CRF_URL);
         allowedUrls.add(ADD_CRF_SCHEDULE_URL);
@@ -41,8 +42,13 @@ public class SitePIAuthorizationIntegrationTest extends UrlAuthorizationIntegrat
 
         allowedUrls.add(EDIT_PARTICIPANT_URL);
 
+        allowedUrls.add(MONITOR_FORM_URL);
+        allowedUrls.add(MONITOR_FORM_STATUS_URL);
+
 
         allowedUrls.add(SEARCH_CLINICAL_STAFF_URL);
+        allowedUrls.add(CREATE_CLINICAL_STAFF_URL);
+        allowedUrls.add(ADD_ORGANIZATION_CLINICAL_STAFF_URL);
 
         user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.SITE_PI).getOrganizationClinicalStaff().getClinicalStaff().getUser();
 

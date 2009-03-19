@@ -16,6 +16,13 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
     protected Map parameterMap;
 
 
+    @Override
+    protected void onSetUpInTransaction() throws Exception {
+        super.onSetUpInTransaction();
+        insertDefaultUsers();
+
+    }
+
     public void testFind() {
 
         List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffAjaxFacade.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole
@@ -26,15 +33,10 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
 
     public void testSearchClinicalStaffByFirstName() {
 
-        String table = clinicalStaffAjaxFacade.searchClinicalStaff(parameterMap, "Meh", "G", "", request);
+        String table = clinicalStaffAjaxFacade.searchClinicalStaff(parameterMap, "an", "w", "", request);
         assertNotNull(table);
         assertTrue("must find atleast clinical staff matching with first name", table.contains(defaultClinicalStaff.getFirstName()));
-        assertTrue("must find atleast clinical staff matching with first name", table.contains(defaultClinicalStaff.getLastName()));
-
-
-        table = clinicalStaffAjaxFacade.searchClinicalStaff(parameterMap, "ehum", "lat", "", request);
-        assertNotNull(table);
-        assertFalse("must find atleast clinical staff matching with first name", table.contains(defaultClinicalStaff.getFirstName()));
+        assertTrue("must find atleast clinical staff matching with last name", table.contains(defaultClinicalStaff.getLastName()));
 
 
     }

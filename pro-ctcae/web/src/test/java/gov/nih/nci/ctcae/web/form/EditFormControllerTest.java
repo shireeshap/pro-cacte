@@ -16,6 +16,7 @@ import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import org.springframework.security.ConfigAttributeDefinition;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -45,11 +46,12 @@ public class EditFormControllerTest extends WebTestCase {
 
         proCtcTermRepository = registerMockFor(ProCtcTermRepository.class);
         crfRepository = registerMockFor(CRFRepository.class);
-        tabConfigurer = new StaticTabConfigurer(proCtcTermRepository);
+        tabConfigurer = new StaticTabConfigurer(proCtcTermRepository, notEmptyValidator, uniqueTitleForCrfValidator);
         validator = new WebControllerValidatorImpl();
         controller.setCrfRepository(crfRepository);
         controller.setWebControllerValidator(validator);
         controller.setTabConfigurer(tabConfigurer);
+        controller.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
         crf = new CRF();
         crf.setTitle("title");
     }
@@ -108,7 +110,9 @@ public class EditFormControllerTest extends WebTestCase {
         expect(crfRepository.save(crf)).andReturn(crf);
         expect(notEmptyValidator.validate("title")).andReturn(true);
         expect(uniqueTitleForCrfValidator.validate(crf, crf.getTitle())).andReturn(true);
-        expect(proCtcTermRepository.find(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
+        // expect(proCtcTermRepository.find(isA(ProCtcTermQuery.class))).andReturn(new ArrayList<ProCtcTerm>());
+        expect(privilegeAuthorizationCheck.authorize(isA(String.class))).andReturn(true).anyTimes();
+        expect(privilegeAuthorizationCheck.authorize(isA(ConfigAttributeDefinition.class))).andReturn(true).anyTimes();
 
         replayMocks();
 

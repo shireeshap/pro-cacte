@@ -3,10 +3,13 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfAddedQuestionRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
-import org.easymock.EasyMock;
+import static org.easymock.EasyMock.expect;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -29,6 +32,9 @@ public class SubmitFormControllerTest extends WebTestCase {
     private StudyParticipantAssignment studyParticipantAssignment;
     private StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion1, studyParticipantCrfAddedQuestion2, studyParticipantCrfAddedQuestion3;
     List<ProCtcQuestion> questions = new ArrayList<ProCtcQuestion>();
+    protected ProCtcValidValueRepository proCtcValidValueRepository;
+    protected StudyParticipantCrfAddedQuestionRepository studyParticipantCrfAddedQuestionRepository;
+    protected StudyParticipantCrfRepository studyParticipantCrfRepository;
 
     @Override
     protected void setUp() throws Exception {
@@ -38,7 +44,13 @@ public class SubmitFormControllerTest extends WebTestCase {
         validator = new WebControllerValidatorImpl();
 
         controller.setWebControllerValidator(validator);
-
+        proCtcValidValueRepository = registerMockFor(ProCtcValidValueRepository.class);
+        controller.setProCtcValidValueRepository(proCtcValidValueRepository);
+        studyParticipantCrfAddedQuestionRepository = registerMockFor(StudyParticipantCrfAddedQuestionRepository.class);
+        controller.setStudyParticipantCrfAddedQuestionRepository(studyParticipantCrfAddedQuestionRepository);
+        studyParticipantCrfRepository = registerMockFor(StudyParticipantCrfRepository.class);
+        controller.setStudyParticipantCrfRepository(studyParticipantCrfRepository);
+        controller.setStudyParticipantCrfScheduleRepository(studyParticipantCrfScheduleRepository);
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         studyParticipantCrfSchedule.setId(1);
 
@@ -126,7 +138,8 @@ public class SubmitFormControllerTest extends WebTestCase {
     public void testGetRequest() throws Exception {
         request.setMethod("GET");
         request.addParameter("id", "1");
-        EasyMock.expectLastCall().anyTimes();
+        expect(studyParticipantCrfScheduleRepository.findById(1)).andReturn(studyParticipantCrfSchedule).anyTimes();
+        expect(studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule)).andReturn(studyParticipantCrfSchedule).anyTimes();
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map model = modelAndView.getModel();
