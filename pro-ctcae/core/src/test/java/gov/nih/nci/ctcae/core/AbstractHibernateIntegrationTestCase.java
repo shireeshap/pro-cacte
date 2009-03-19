@@ -65,6 +65,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected LeadStudySite leadStudySite;
     protected final String SYSTEM_ADMIN = "SYSTEM_ADMIN";
     private CtcTermRepository ctcTermRepository;
+    protected Organization nci, queens, orange, cerim;
 
     @Override
     protected String[] getConfigLocations() {
@@ -133,6 +134,11 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         defaultOrganization = organizationRepository.findById(DEFAULT_ORGANIZATION_ID);
         duke = organizationRepository.findById(104880);
         wake = organizationRepository.findById(104878);
+        orange = organizationRepository.findById(100085);
+        nci = organizationRepository.findById(105051);
+        queens = organizationRepository.findById(100233);
+        cerim = organizationRepository.findById(100022);
+
         assertNotNull("must find organization", wake);
 
 
