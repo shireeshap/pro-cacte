@@ -72,6 +72,52 @@ public class SecurityTestDataIntegrationTest extends AbstractHibernateIntegratio
         clinicalStaffForSiteCRA5 = clinicalStaffRepository.save(clinicalStaffForSiteCRA5);
         ClinicalStaff clinicalStaffForODC = Fixture.createClinicalStaffWithOrganization("Hurley", "Dyer", "-12345", defaultOrganization);
         clinicalStaffForODC = clinicalStaffRepository.save(clinicalStaffForODC);
+        ClinicalStaff clinicalStaff1 = Fixture.createClinicalStaffWithOrganization("cs1mskcc", "cs1mskcc", "-12345", defaultOrganization);
+                clinicalStaff1 = clinicalStaffRepository.save(clinicalStaff1);
+
+                ClinicalStaff clinicalStaff2 = Fixture.createClinicalStaffWithOrganization("cs1wake", "cs1wake", "-12345", wake);
+                clinicalStaff2 = clinicalStaffRepository.save(clinicalStaff2);
+
+                ClinicalStaff clinicalStaff3 = Fixture.createClinicalStaffWithOrganization("cs2wake", "cs2wake", "-12345", wake);
+                clinicalStaff3 = clinicalStaffRepository.save(clinicalStaff3);
+
+                ClinicalStaff clinicalStaff4 = Fixture.createClinicalStaffWithOrganization("cs1duke", "cs1duke", "-12345", duke);
+                clinicalStaff4 = clinicalStaffRepository.save(clinicalStaff4);
+
+                ClinicalStaff clinicalStaff5 = Fixture.createClinicalStaffWithOrganization("cs2duke", "cs2duke", "-12345", duke);
+                clinicalStaff5 = clinicalStaffRepository.save(clinicalStaff5);
+
+                ClinicalStaff clinicalStaff6 = Fixture.createClinicalStaffWithOrganization("cs3duke", "cs3duke", "-12345", duke);
+                clinicalStaff6 = clinicalStaffRepository.save(clinicalStaff6);
+
+                ClinicalStaff clinicalStaff7 = Fixture.createClinicalStaffWithOrganization("cs4duke", "cs4duke", "-12345", duke);
+                clinicalStaff7 = clinicalStaffRepository.save(clinicalStaff7);
+
+                ClinicalStaff clinicalStaff8 = Fixture.createClinicalStaffWithOrganization("cs1nci", "cs1nci", "-12345", nci);
+                clinicalStaff8 = clinicalStaffRepository.save(clinicalStaff8);
+
+                ClinicalStaff clinicalStaff9 = Fixture.createClinicalStaffWithOrganization("cs2nci", "cs2nci", "-12345", nci);
+                clinicalStaff9 = clinicalStaffRepository.save(clinicalStaff9);
+                ClinicalStaff clinicalStaff10 = Fixture.createClinicalStaffWithOrganization("cs3nci", "cs3nci", "-12345", nci);
+                clinicalStaff10 = clinicalStaffRepository.save(clinicalStaff10);
+                ClinicalStaff clinicalStaff11 = Fixture.createClinicalStaffWithOrganization("cs4nci", "cs4nci", "-12345", nci);
+                clinicalStaff11 = clinicalStaffRepository.save(clinicalStaff11);
+                ClinicalStaff clinicalStaff12 = Fixture.createClinicalStaffWithOrganization("cs1queens", "cs1queens", "-12345", queens);
+                clinicalStaff12 = clinicalStaffRepository.save(clinicalStaff12);
+                ClinicalStaff clinicalStaff13 = Fixture.createClinicalStaffWithOrganization("cs1orange", "cs1orange", "-12345", orange);
+                clinicalStaff13 = clinicalStaffRepository.save(clinicalStaff13);
+                ClinicalStaff clinicalStaff14 = Fixture.createClinicalStaffWithOrganization("cs2orange", "cs2orange", "-12345", orange);
+                clinicalStaff14 = clinicalStaffRepository.save(clinicalStaff14);
+                ClinicalStaff clinicalStaff15 = Fixture.createClinicalStaffWithOrganization("cs1cerim", "cs1cerim", "-12345", cerim);
+                clinicalStaff15 = clinicalStaffRepository.save(clinicalStaff15);
+                ClinicalStaff clinicalStaff16 = Fixture.createClinicalStaffWithOrganization("cs2cerim", "cs2cerim", "-12345", cerim);
+                clinicalStaff16 = clinicalStaffRepository.save(clinicalStaff16);
+                ClinicalStaff clinicalStaff17 = Fixture.createClinicalStaffWithOrganization("cs3cerim", "cs3cerim", "-12345", cerim);
+                clinicalStaff17 = clinicalStaffRepository.save(clinicalStaff17);
+                ClinicalStaff clinicalStaff18 = Fixture.createClinicalStaffWithOrganization("cs4cerim", "cs4cerim", "-12345", cerim);
+                clinicalStaff18 = clinicalStaffRepository.save(clinicalStaff18);
+
+
         addODC(clinicalStaffForODC.getOrganizationClinicalStaffs().get(0), defaultStudy);
         commitAndStartNewTransaction();
 
@@ -140,71 +186,6 @@ public class SecurityTestDataIntegrationTest extends AbstractHibernateIntegratio
         crf2.setTitle("Demo Form 3");
         crfRepository.save(crf2);
         commitAndStartNewTransaction();
-
-        ClinicalStaff clinicalStaff1 = Fixture.createClinicalStaffWithOrganization("cs1mskcc", "cs1mskcc", "-12345", defaultOrganization);
-        clinicalStaff1 = clinicalStaffRepository.save(clinicalStaff1);
-
-        ClinicalStaff clinicalStaff2 = Fixture.createClinicalStaffWithOrganization("cs1wake", "cs1wake", "-12345", wake);
-        clinicalStaff2 = clinicalStaffRepository.save(clinicalStaff2);
-
-        ClinicalStaff clinicalStaff3 = Fixture.createClinicalStaffWithOrganization("cs2wake", "cs2wake", "-12345", wake);
-        clinicalStaff3 = clinicalStaffRepository.save(clinicalStaff3);
-
-        ClinicalStaff clinicalStaff4 = Fixture.createClinicalStaffWithOrganization("cs1duke", "cs1duke", "-12345", duke);
-        clinicalStaff4 = clinicalStaffRepository.save(clinicalStaff4);
-
-        ClinicalStaff clinicalStaff5 = Fixture.createClinicalStaffWithOrganization("cs2duke", "cs2duke", "-12345", duke);
-        clinicalStaff5 = clinicalStaffRepository.save(clinicalStaff5);
-
-        ClinicalStaff clinicalStaff6 = Fixture.createClinicalStaffWithOrganization("cs3duke", "cs3duke", "-12345", duke);
-        clinicalStaff6 = clinicalStaffRepository.save(clinicalStaff6);
-
-        ClinicalStaff clinicalStaff7 = Fixture.createClinicalStaffWithOrganization("cs4duke", "cs4duke", "-12345", duke);
-        clinicalStaff7 = clinicalStaffRepository.save(clinicalStaff7);
-
-        ClinicalStaff clinicalStaff8 = Fixture.createClinicalStaffWithOrganization("cs1nci", "cs1nci", "-12345", nci);
-        clinicalStaff8 = clinicalStaffRepository.save(clinicalStaff8);
-
-        ClinicalStaff clinicalStaff9 = Fixture.createClinicalStaffWithOrganization("cs2nci", "cs2nci", "-12345", nci);
-        clinicalStaff9 = clinicalStaffRepository.save(clinicalStaff9);
-
-        ClinicalStaff clinicalStaff10 = Fixture.createClinicalStaffWithOrganization("cs3nci", "cs3nci", "-12345", nci);
-        clinicalStaff10 = clinicalStaffRepository.save(clinicalStaff10);
-
-        ClinicalStaff clinicalStaff11 = Fixture.createClinicalStaffWithOrganization("cs4nci", "cs4nci", "-12345", nci);
-        clinicalStaff11 = clinicalStaffRepository.save(clinicalStaff11);
-
-        ClinicalStaff clinicalStaff12 = Fixture.createClinicalStaffWithOrganization("cs1queens", "cs1queens", "-12345", queens);
-        clinicalStaff12 = clinicalStaffRepository.save(clinicalStaff12);
-
-        ClinicalStaff clinicalStaff13 = Fixture.createClinicalStaffWithOrganization("cs1orange", "cs1orange", "-12345", orange);
-        clinicalStaff13 = clinicalStaffRepository.save(clinicalStaff13);
-
-        ClinicalStaff clinicalStaff14 = Fixture.createClinicalStaffWithOrganization("cs2orange", "cs2orange", "-12345", orange);
-        clinicalStaff14 = clinicalStaffRepository.save(clinicalStaff14);
-
-        ClinicalStaff clinicalStaff15 = Fixture.createClinicalStaffWithOrganization("cs1cerim", "cs1cerim", "-12345", cerim);
-        clinicalStaff15 = clinicalStaffRepository.save(clinicalStaff15);
-
-        ClinicalStaff clinicalStaff16 = Fixture.createClinicalStaffWithOrganization("cs2cerim", "cs2cerim", "-12345", cerim);
-        clinicalStaff16 = clinicalStaffRepository.save(clinicalStaff16);
-
-        ClinicalStaff clinicalStaff17 = Fixture.createClinicalStaffWithOrganization("cs3cerim", "cs3cerim", "-12345", cerim);
-        clinicalStaff17 = clinicalStaffRepository.save(clinicalStaff17);
-
-        ClinicalStaff clinicalStaff18 = Fixture.createClinicalStaffWithOrganization("cs4cerim", "cs4cerim", "-12345", cerim);
-        clinicalStaff18 = clinicalStaffRepository.save(clinicalStaff18);
-
-
-
-
-
-
-
-
-
-
-
 
 
 
