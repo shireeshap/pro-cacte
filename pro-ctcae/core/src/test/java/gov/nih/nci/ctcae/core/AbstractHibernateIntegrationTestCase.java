@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.csv.loader.CsvImporter;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.GrantedAuthority;
@@ -214,8 +215,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
     protected void saveCsv() throws IOException {
 
-        ProCtcQuery proCtcQuery = new ProCtcQuery();
-        Collection<ProCtc> ctcCollection = proCtcRepository.find(proCtcQuery);
+        Collection<ProCtcTerm> ctcCollection = proCtcTermRepository.find(new ProCtcTermQuery());
         if (ctcCollection != null && !ctcCollection.isEmpty()) {
             return;
         }
