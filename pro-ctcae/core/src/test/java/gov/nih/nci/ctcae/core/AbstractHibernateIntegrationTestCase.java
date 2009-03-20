@@ -39,7 +39,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
     protected Study defaultStudy;
     protected StudySite defaultStudySite;
-    protected StudySite studySite1;
+    protected StudySite studySite1, studySite2, studySite3, studySite4, studySite5;
     protected StudyRepository studyRepository;
     protected GenericRepository genericRepository;
     protected UserRepository userRepository;
@@ -62,11 +62,13 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"};
     protected OrganizationClinicalStaff defaultOrganizationClinicalStaff;
     protected StudyOrganizationClinicalStaff studyOrganizationClinicalStaff;
-    protected FundingSponsor fundingSponsor;
-    protected LeadStudySite leadStudySite;
+    protected FundingSponsor fundingSponsor, fundingSponsor1, fundingSponsor2;
+    protected LeadStudySite leadStudySite, leadStudySite1, leadStudySite2;
     protected final String SYSTEM_ADMIN = "SYSTEM_ADMIN";
     private CtcTermRepository ctcTermRepository;
-    protected Organization nci, queens, orange, cerim;
+    protected Organization nci, queens, orange, cerim, sydney, barkers, rawson;
+    protected DataCoordinatingCenter dataCoordinatingCenter1, dataCoordinatingCenter2;
+    protected StudySponsor studySponsor1, studySponsor2;
 
     @Override
     protected String[] getConfigLocations() {
@@ -139,6 +141,9 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         nci = organizationRepository.findById(105051);
         queens = organizationRepository.findById(100233);
         cerim = organizationRepository.findById(100022);
+        sydney = organizationRepository.findById(100044);
+        barkers = organizationRepository.findById(100104);
+        rawson = organizationRepository.findById(100004);
 
         assertNotNull("must find organization", wake);
 
