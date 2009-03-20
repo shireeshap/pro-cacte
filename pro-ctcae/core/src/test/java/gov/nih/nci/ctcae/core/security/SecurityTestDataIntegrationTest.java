@@ -117,6 +117,12 @@ public class SecurityTestDataIntegrationTest extends AbstractHibernateIntegratio
         ClinicalStaff clinicalStaff18 = Fixture.createClinicalStaffWithOrganization("cs4cerim", "cs4cerim", "-12345", cerim);
         clinicalStaff18 = clinicalStaffRepository.save(clinicalStaff18);
 
+        ClinicalStaff clinicalStaff19 = Fixture.createClinicalStaffWithOrganization("cca", "cca", "-12345", defaultOrganization);
+        UserRole userRole = new UserRole();
+        userRole.setRole(Role.CCA);
+        clinicalStaff19.getUser().addUserRole(userRole);
+        clinicalStaff19 = clinicalStaffRepository.save(clinicalStaff19);
+
         commitAndStartNewTransaction();
 
 
