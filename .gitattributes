@@ -561,7 +561,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabFields.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabForm.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabMethod.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/validvalue.tag -text
-pro-ctcae/web/src/main/webapp/WEB-INF/tiles-definitions.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/accessDenied.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/ajax/deleteOrganizationClinicalStaffConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/confirmClinicalStaff.jsp -text
@@ -631,7 +630,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_reviewsummary.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_site_clinical_staff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_sites.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/web.xml -text
-pro-ctcae/web/src/main/webapp/WEB-INF/webflow-mvc-config.xml -text
 pro-ctcae/web/src/main/webapp/accessDenied.jsp -text
 pro-ctcae/web/src/main/webapp/css/ae.css -text
 pro-ctcae/web/src/main/webapp/css/aeTermQuery_box.css -text

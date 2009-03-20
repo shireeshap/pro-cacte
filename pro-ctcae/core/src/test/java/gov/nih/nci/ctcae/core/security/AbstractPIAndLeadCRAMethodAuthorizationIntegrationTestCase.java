@@ -46,6 +46,23 @@ public abstract class AbstractPIAndLeadCRAMethodAuthorizationIntegrationTestCase
 
     }
 
+    public void testAuthorizeUserForStudy() throws Exception {
+
+        List<String> allowedMethods = allowedMethodsMap.get(StudyRepository.class);
+
+        allowedMethods.add(SEARCH_STUDY_METHOD);
+        allowedMethods.add(EDIT_STUDY_METHOD);
+        allowedMethods.add(FIND_SINGLE);
+        allowedMethods.add(SEARCH_STUDY_BY_ID_METHOD);
+        allowedMethods.add(CREATE_STUDY_METHOD);
+        allowedMethods.add(ADD_STUDY_SITE_CLINICAL_STAFF_METHOD);
+
+
+        authorizeAndUnAuthorizeMethods(studyRepository, StudyRepository.class, allowedMethods);
+
+
+    }
+
     public void testAuthorizeUserForOrganizationClinicalStaff() throws Exception {
 
         List<String> allowedMethods = allowedMethodsMap.get(ClinicalStaffRepository.class);

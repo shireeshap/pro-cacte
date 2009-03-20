@@ -20,7 +20,7 @@ public class LeadCRAURLAuthorizationIntegrationTest extends UrlAuthorizationInte
     List<String> allowedUrls = new ArrayList();
 
     List<SecuredTab> allowedTabs = new ArrayList();
-    private User user;
+    protected User user;
 
 
     @Override

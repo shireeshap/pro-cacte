@@ -2,6 +2,8 @@ package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.cabig.ctms.web.filters.ContextRetainingFilterAdapter;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContextHolder;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -27,23 +29,23 @@ public class AuditInfoFilter extends ContextRetainingFilterAdapter {
     public void doFilter(final ServletRequest request, final ServletResponse response,
                          final FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpReq = (HttpServletRequest) request;
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		if (authentication != null)
-//
-//		{
-//			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//			// String username = ApplicationSecurityManager.getUser(httpReq);
-//			if (username != null) {
-//				DataAuditInfo
-//					.setLocal(new DataAuditInfo(
-//						username, request.getRemoteAddr(), new Date(),
-//						httpReq.getRequestURI()));
-//			}
-//		}
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null)
 
-        DataAuditInfo.setLocal(new DataAuditInfo("admin", request.getRemoteAddr(), new Date(),
-                httpReq.getRequestURI()));
+        {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            // String username = ApplicationSecurityManager.getUser(httpReq);
+            if (username != null) {
+                DataAuditInfo
+                        .setLocal(new DataAuditInfo(
+                                username, request.getRemoteAddr(), new Date(),
+                                httpReq.getRequestURI()));
+            }
+        } else {
 
+            DataAuditInfo.setLocal(new DataAuditInfo("admin", request.getRemoteAddr(), new Date(),
+                    httpReq.getRequestURI()));
+        }
         chain.doFilter(request, response);
         DataAuditInfo.setLocal(null);
     }
