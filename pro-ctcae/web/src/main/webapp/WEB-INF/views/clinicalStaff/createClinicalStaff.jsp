@@ -72,7 +72,7 @@
         <ul id="" class="tabs autoclear">
             <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
 
-                <li id="thirdlevelnav 1" class="tab selected">
+                <li id="thirdlevelnav" class="tab selected">
                     <div>
                         <a href="createClinicalStaff"><tags:message code="clinicalStaff.tab.createStaff"/></a>
                     </div>
@@ -80,7 +80,7 @@
             </ctcae:urlAuthorize>
             <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/searchClinicalStaff">
 
-                <li id="thirdlevelnav 2" class="tab">
+                <li id="thirdlevelnav" class="tab">
                     <div>
                         <a href="searchClinicalStaff"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
                     </div>

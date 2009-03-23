@@ -46,8 +46,8 @@ body {
     background-image: url(../images/blue/thirdlevelnav_grey_gradient.png);
     background-repeat: repeat-x;
     background-position: bottom;
-    top: -27px;
-    left: -4px;
+    top: -10px;
+    left: -10px;
 }
 
 #thirdlevelnav {
@@ -157,7 +157,7 @@ p {
 */
 
 a#logo {
-/* 	background-image: url(/ctcae/images/blue/agadoo-logo.png); */
+	background-image: url(/ctcae/images/blue/agadoo-logo.png);
     height: 98px;
     width: 220px;
     position: absolute;
@@ -177,6 +177,11 @@ a#logo:active {
 background-position: 0px -200px;
 }
 */
+#welcome-user {
+	margin-left:243px;
+	margin-top:5px;
+	color:white;
+}
 #logout {
     background-image: url(../images/blue/logout_tab.png);
     position: absolute;
@@ -543,10 +548,9 @@ ul.tabs li {
 /**** PAGE CONTENT BOXES */
 
 #main {
-    padding-top: 12px;
-    padding-bottom: 20px;
+    padding:5px 10px;
     position: relative;
-    top: 140px; /* margin-bottom:140px; */
+    top: 140px;
 }
 
 #flash-message {

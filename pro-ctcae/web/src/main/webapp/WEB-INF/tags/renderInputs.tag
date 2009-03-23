@@ -172,7 +172,7 @@
             <input type="image" id="${propertyName}-clear" name="C" value="Clear"
                    onClick="javascript:$('${propertyName}-input').clear();$('${propertyName}').clear();return false;"
                    src="/ctcae/images/blue/clear-left-button.png"
-                   style="vertical-align:middle;"/>
+                   style="vertical-align:top;"/>
         </c:if>
 
         <c:if test="${showIndicator}">

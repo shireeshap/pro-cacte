@@ -757,7 +757,6 @@ pro-ctcae/web/src/main/webapp/images/blue/icons/assignParticipantController_icon
 pro-ctcae/web/src/main/webapp/images/blue/icons/basicFormController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/captureAdverseEventController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/configurationController_icon.png -text
-pro-ctcae/web/src/main/webapp/images/blue/icons/createClinicalStaffController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createINDController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createInvestigatorController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/createNotificationController_icon.png -text

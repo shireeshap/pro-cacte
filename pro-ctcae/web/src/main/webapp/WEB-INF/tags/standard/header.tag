@@ -16,8 +16,9 @@
         <div id="login-action">
 
             <ctcae:urlAuthorize url="/pages/home">
+            	<a id="logo">Agadoo</a>
                 <div id="welcome-user">Welcome
-                    <authz:authentication property="name"></authz:authentication>
+                    <b><authz:authentication property="name"></authz:authentication></b>
                 </div>
             </ctcae:urlAuthorize>
 
@@ -27,7 +28,7 @@
             </ctcae:publicAuthorize>
 
             <ctcae:urlAuthorize url="/pages/j_spring_security_logout">
-                &nbsp;<div id="logout"><a href="<c:url value="/pages/j_spring_security_logout"/>">Log out</a> </div>
+                <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>">Log out</a>
             </ctcae:urlAuthorize>
         </div>
 
