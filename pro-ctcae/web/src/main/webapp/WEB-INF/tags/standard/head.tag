@@ -5,9 +5,8 @@
 <tags:stylesheetLink name="debug"/>
 <tags:stylesheetLink name="common"/>
 <tags:stylesheetLink name="fields"/>
-<!--[if !IE]><!-->
 <tags:stylesheetLink name="buttons"/>
-<!-- <![endif]-->
+
 
 <!--[if IE]>
 <tags:stylesheetLink name="ie"/>

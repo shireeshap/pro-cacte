@@ -849,6 +849,7 @@
         padding: 10px;
         background-color: #e7eaf3;
         margin-right: 3px;
+		margin-top:3px;
         position: relative;
     }
 
@@ -1029,7 +1030,7 @@
                             <div id="questionProperties0" style="display:none;"></div>
                         </div>
 
-                        <div id="formSettings" style="display:none;">
+                        <div id="formSettings" class="leftBox" style="display:none;">
                             <tags:formSettings crf="${command.crf}"></tags:formSettings>
                         </div>
                     </td>

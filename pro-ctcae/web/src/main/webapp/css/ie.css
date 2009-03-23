@@ -27,3 +27,9 @@ div.row {
 .formbuildersubHeader {
 	position:relative;
 }
+button.omnipotent-button {
+	margin:0 -25px;
+} 
+button.omnipotent-button.small {
+	margin:0;
+}
