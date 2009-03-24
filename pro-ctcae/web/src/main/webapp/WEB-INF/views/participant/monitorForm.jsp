@@ -85,6 +85,7 @@ function updateFormDropDown(crfs) {
     $('formDropDownDiv').show();
     $('dateMenuDiv').show();
     $('searchForm').show();
+    $('statusDiv').show();
 }
 function customDate(showDate) {
     var myindex = showDate.selectedIndex
@@ -110,8 +111,11 @@ function formStatus() {
     var studySiteId = $('studySite').value;
     var participantId = $('participant').value;
 
+    var statusSelect = $('formStatus');
+    var status = statusSelect.options[statusSelect.selectedIndex].value;
+
     var request = new Ajax.Request("<c:url value="/pages/participant/monitorFormStatus"/>", {
-        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&subview=subview",
+        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&subview=subview",
         onComplete:function(transport) {
             showStatusTable(transport);
         },
@@ -155,12 +159,32 @@ function showStatusTable(transport) {
                     </div>
                 </td>
             </tr>
+
+            <tr>
+                 <td>
+                     <div id="statusDiv" style="display:none">
+                         <div class="row">
+                             <div class="label">Status</div>
+                             <div class="value">
+                                 <select id="formStatus" name="statusOptions">
+                                     <option value="all">All</option>
+                                     <option value="INPROGRESS">In-progress</option>
+                                     <option value="SCHEDULED">Scheduled</option>
+                                     <option value="COMPLETED">Completed</option>
+                                     <option value="PASTDUE">Past due</option>
+                                 </select>
+                             </div>
+                         </div>
+                     </div>
+                 </td>
+             </tr>
+
+
             <tr>
                 <td>
                     <div id="studySiteAutoCompleterDiv" style="display:none">
                         <tags:renderAutocompleter propertyName="studySite"
-                                                  displayName="Study Site"
-                                                  required="true"
+                                                  displayName="Study site"
                                                   size="60"
                                                   noForm="true"/>
                     </div>
@@ -171,7 +195,6 @@ function showStatusTable(transport) {
                     <div id="participantAutoCompleterDiv" style="display:none">
                         <tags:renderAutocompleter propertyName="participant"
                                                   displayName="Participant"
-                                                  required="true"
                                                   size="60"
                                                   noForm="true"/>
                     </div>
@@ -182,7 +205,7 @@ function showStatusTable(transport) {
                 <td>
                     <div id="dateMenuDiv" style="display:none">
                         <div class="row">
-                            <div class="label">Date Range</div>
+                            <div class="label">Date range</div>
                             <div class="value">
                                 <select id="dateOptions" name="dateOptions" onChange="customDate(this)">
                                     <option value="thisWeek">This Week</option>

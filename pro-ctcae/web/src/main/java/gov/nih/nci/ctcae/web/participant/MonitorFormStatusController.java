@@ -33,6 +33,7 @@ public class MonitorFormStatusController extends AbstractController {
         String strStartDate = request.getParameter("stDate");
         String strEndDate = request.getParameter("endDate");
         String participantId = request.getParameter("participantId");
+        String status = request.getParameter("status");
         Date startDate, endDate;
 
         if (dateRange.equals("custom")) {
@@ -45,13 +46,13 @@ public class MonitorFormStatusController extends AbstractController {
         }
 
 
-        modelAndView.addObject("crfStatusMap", getFormStatus(Integer.valueOf(studyId), startDate, endDate, crfId, studySiteId, participantId));
+        modelAndView.addObject("crfStatusMap", getFormStatus(Integer.valueOf(studyId), startDate, endDate, crfId, studySiteId, participantId, status));
         modelAndView.addObject("calendar", getCalendar(startDate, endDate));
 
         return modelAndView;
     }
 
-    private HashMap getFormStatus(Integer studyId, Date startDate, Date endDate, String crfId, String studySiteId, String participantId) {
+    private HashMap getFormStatus(Integer studyId, Date startDate, Date endDate, String crfId, String studySiteId, String participantId, String status) {
 
         int diffInDays = getDifferenceOfDates(startDate, endDate) + 1;
         HashMap<Participant, String[]> crfStatus = new HashMap();
@@ -67,17 +68,21 @@ public class MonitorFormStatusController extends AbstractController {
                                     Participant participant = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();
 
                                     if (StringUtils.isBlank(participantId) || participant.getId().equals(Integer.parseInt(participantId))) {
-                                        String[] participantCrfStatus;
 
-                                        if (crfStatus.containsKey(participant)) {
-                                            participantCrfStatus = crfStatus.get(participant);
-                                        } else {
-                                            participantCrfStatus = new String[diffInDays];
-                                            crfStatus.put(participant, participantCrfStatus);
+                                        if (status.equals("all") || studyParticipantCrfSchedule.getStatus().getDisplayName().toUpperCase().equals(status)) {
+
+                                            String[] participantCrfStatus;
+
+                                            if (crfStatus.containsKey(participant)) {
+                                                participantCrfStatus = crfStatus.get(participant);
+                                            } else {
+                                                participantCrfStatus = new String[diffInDays];
+                                                crfStatus.put(participant, participantCrfStatus);
+                                            }
+                                            int statusLocation = getDifferenceOfDates(startDate, studyParticipantCrfSchedule.getStartDate());
+
+                                            participantCrfStatus[statusLocation] = studyParticipantCrfSchedule.getStatus().getDisplayName();
                                         }
-                                        int statusLocation = getDifferenceOfDates(startDate, studyParticipantCrfSchedule.getStartDate());
-
-                                        participantCrfStatus[statusLocation] = studyParticipantCrfSchedule.getStatus().getDisplayName();
                                     }
                                 }
                             }
