@@ -318,7 +318,7 @@ Object.extend(studySiteAutoComplter.prototype, {
         this.studyId = studyId;
         this.populator = function(autocompleter, text) {
             organization.matchOrganizationByStudyId(text, studyId, function(values) {
-                autocompleter.setChoices(values)
+                autocompleter.setChoices(values);
             })
         },
                 this.valueSelector = function (obj) {
@@ -327,6 +327,29 @@ Object.extend(studySiteAutoComplter.prototype, {
 
     }
 });
+var participantAutoCompleter = Class.create();
+Object.extend(participantAutoCompleter.prototype, {
+    initialize: function(basename, participantPopulator) {
+        this.basename = basename;
+
+        if(participantPopulator){
+            this.populator = participantPopulator
+        }
+        else{
+            this.populator = function(autocompleter, text) {
+                       participant.matchParticipantByStudySiteId(text, studySiteId, studyId, function(values) {
+                           autocompleter.setChoices(values)
+                       })
+                   }
+
+        }
+        this.valueSelector = function (obj) {
+            return obj.displayName;
+        }
+
+    }
+});
+
 
 //pass empty string for role if you don't want to search for role.
 var studyOrganizationClinicalStaffForRoleAutoCompleter = Class.create();

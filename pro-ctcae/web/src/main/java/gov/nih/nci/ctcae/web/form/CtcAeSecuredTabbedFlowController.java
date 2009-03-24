@@ -86,6 +86,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
         binder.registerCustomEditor(StudyParticipantAssignment.class, new RepositoryBasedEditor(studyParticipantAssignmentRepository, StudyParticipantAssignment.class));
 
         binder.registerCustomEditor(StudyOrganization.class, new RepositoryBasedEditor(studyOrganizationRepository, StudyOrganization.class));
+        binder.registerCustomEditor(StudyOrganizationClinicalStaff.class, new RepositoryBasedEditor(studyOrganizationRepository, StudyOrganization.class));
 
     }
 

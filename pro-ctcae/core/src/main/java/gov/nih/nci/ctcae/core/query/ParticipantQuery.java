@@ -33,6 +33,7 @@ public class ParticipantQuery extends AbstractQuery {
      * The Constant STUDY_ID.
      */
     private static final String STUDY_ID = "studyId";
+    private static final String STUDY_SITE_ID = "studySiteId";
 
     /**
      * Instantiates a new participant query.
@@ -104,6 +105,14 @@ public class ParticipantQuery extends AbstractQuery {
             leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss join ss.study as study");
             andWhere("study.id =:" + STUDY_ID);
             setParameter(STUDY_ID, studyId);
+        }
+    }
+   public void filterByStudySite(Integer studySiteId) {
+        if (studySiteId != null) {
+
+            leftJoin("p.studyParticipantAssignments as spa join spa.studySite as ss ");
+            andWhere("ss.id =:" + STUDY_SITE_ID);
+            setParameter(STUDY_SITE_ID, studySiteId);
         }
     }
 

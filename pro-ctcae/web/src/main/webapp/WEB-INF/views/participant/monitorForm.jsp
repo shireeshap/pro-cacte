@@ -13,107 +13,123 @@
 
 <html>
 <head>
-    <tags:dwrJavascriptLink objects="crf"/>
-    <script type="text/javascript">
-        Event.observe(window, "load", function () {
-            var studyAutoCompleter = new studyAutoComplter('study');
-            acCreateStudyMonitor(studyAutoCompleter);
-            initSearchField();
-        })
+<tags:dwrJavascriptLink objects="crf"/>
+<tags:dwrJavascriptLink objects="participant"/>
+<script type="text/javascript">
+Event.observe(window, "load", function () {
+    var studyAutoCompleter = new studyAutoComplter('study');
+    acCreateStudyMonitor(studyAutoCompleter);
+    initSearchField();
+})
 
-        function acCreateStudyMonitor(mode) {
-            new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-                    mode.populator, {
-                valueSelector: mode.valueSelector,
-                afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-                    acPostSelect(mode, selectedChoice);
-                    displayForms();
-                    displaySites();
-                },
-                indicator: mode.basename + "-indicator"
-            })
+function acCreateStudyMonitor(mode) {
+    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
+            mode.populator, {
+        valueSelector: mode.valueSelector,
+        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+            acPostSelect(mode, selectedChoice);
+            displayForms();
+            displaySites();
+            displayParticipants();
+        },
+        indicator: mode.basename + "-indicator"
+    })
 
-        }
+}
 
-        function displaySites() {
-            var myStudySiteAutoComplter = new studySiteAutoComplter('studySite', $('study').value);
-            acCreate(myStudySiteAutoComplter);
-            initSearchField();
-            $('studySiteAutoCompleterDiv').show();
+function displaySites() {
+    var myStudySiteAutoComplter = new studySiteAutoComplter('studySite', $('study').value);
+    acCreate(myStudySiteAutoComplter);
+    initSearchField();
+    $('studySiteAutoCompleterDiv').show();
 
-        }
-        function displayForms() {
-            var id = $('study').value
-            crf.getReducedCrfs(id, updateFormDropDown)
-        }
-        function clearDiv(divid) {
-            var children = $(divid).childElements();
-            for (i = 0; i < children.length; i++) {
-                $(children[i]).remove();
-            }
-        }
+}
 
-        function updateFormDropDown(crfs) {
-            //clearDiv('formDropDown');
-            $('displayFormStatusDiv').hide();
-            var formDropDown = new Element('SELECT', {'id':'formSelect'})
+function displayParticipants() {
+    var myParticipantAutoCompleter = new participantAutoCompleter('participant', function(autocompleter, text) {
+                       participant.matchParticipantByStudySiteId(text, $('studySite').value, $('study').value, function(values) {
+                           autocompleter.setChoices(values)
+                       })
+                   });
+    acCreate(myParticipantAutoCompleter);
+    initSearchField();
+    $('participantAutoCompleterDiv').show();
+}
 
-            for (var i = 0; i < crfs.length; i++) {
-                var crf = crfs[i];
-                var option = new Element('OPTION', {});
-                option.text = crf.title;
-                option.value = crf.id;
-                formDropDown.appendChild(option);
-            }
+function displayForms() {
+    var id = $('study').value
+    crf.getReducedCrfs(id, updateFormDropDown)
+}
 
-            $('formDropDown').appendChild(formDropDown);
-            $('formDropDownDiv').show();
-            $('dateMenuDiv').show();
-            $('searchForm').show();
-        }
-        function customDate(showDate) {
-            var myindex = showDate.selectedIndex
-            var selValue = showDate.options[myindex].value
-            if (selValue == "custom") {
-                $('dateRange').show();
-            } else {
-                $('dateRange').hide();
-            }
+function clearDiv(divid) {
+    var children = $(divid).childElements();
+    for (i = 0; i < children.length; i++) {
+        $(children[i]).remove();
+    }
+}
 
-        }
-        function formStatus() {
-            var studyId = $('study').value;
-            var stDate = $('startDate').value;
-            var endDate = $('endDate').value;
+function updateFormDropDown(crfs) {
+    //clearDiv('formDropDown');
+    $('displayFormStatusDiv').hide();
+    var formDropDown = new Element('SELECT', {'id':'formSelect'})
 
-            var crfSelect = $('formSelect');
-            var crfId = crfSelect.options[crfSelect.selectedIndex].value;
+    for (var i = 0; i < crfs.length; i++) {
+        var crf = crfs[i];
+        var option = new Element('OPTION', {});
+        option.text = crf.title;
+        option.value = crf.id;
+        formDropDown.appendChild(option);
+    }
 
-            var dateRangeSelect = $('dateOptions');
-            var dateRange = dateRangeSelect.options[dateRangeSelect.selectedIndex].value;
+    $('formDropDown').appendChild(formDropDown);
+    $('formDropDownDiv').show();
+    $('dateMenuDiv').show();
+    $('searchForm').show();
+}
+function customDate(showDate) {
+    var myindex = showDate.selectedIndex
+    var selValue = showDate.options[myindex].value
+    if (selValue == "custom") {
+        $('dateRange').show();
+    } else {
+        $('dateRange').hide();
+    }
 
-            var studySiteId = $('studySite').value;
+}
+function formStatus() {
+    var studyId = $('study').value;
+    var stDate = $('startDate').value;
+    var endDate = $('endDate').value;
 
-            var request = new Ajax.Request("<c:url value="/pages/participant/monitorFormStatus"/>", {
-                parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&subview=subview",
-                onComplete:function(transport) {
-                    showStatusTable(transport);
-                },
-                method:'get'
-            })
-        }
+    var crfSelect = $('formSelect');
+    var crfId = crfSelect.options[crfSelect.selectedIndex].value;
 
-        function showStatusTable(transport) {
-            $('displayFormStatusDiv').show();
-            $('displayFormStatus').innerHTML = transport.responseText;
-        }
+    var dateRangeSelect = $('dateOptions');
+    var dateRange = dateRangeSelect.options[dateRangeSelect.selectedIndex].value;
 
-    </script>
-    <style type="text/css">
-        table.content {
-            font-size: 10pt; /*width: 100%;*/
-        }
-    </style>
+    var studySiteId = $('studySite').value;
+    var participantId = $('participant').value;
+
+    var request = new Ajax.Request("<c:url value="/pages/participant/monitorFormStatus"/>", {
+        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&subview=subview",
+        onComplete:function(transport) {
+            showStatusTable(transport);
+        },
+        method:'get'
+    })
+}
+
+function showStatusTable(transport) {
+    $('displayFormStatusDiv').show();
+    $('displayFormStatus').innerHTML = transport.responseText;
+}
+
+</script>
+<style type="text/css">
+    table.content {
+        font-size: 10pt; /*width: 100%;*/
+    }
+</style>
 
 </head>
 <body>
@@ -150,6 +166,18 @@
                     </div>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <div id="participantAutoCompleterDiv" style="display:none">
+                        <tags:renderAutocompleter propertyName="participant"
+                                                  displayName="Participant"
+                                                  required="true"
+                                                  size="60"
+                                                  noForm="true"/>
+                    </div>
+                </td>
+            </tr>
+
             <tr>
                 <td>
                     <div id="dateMenuDiv" style="display:none">
@@ -203,6 +231,7 @@
 <div id="displayFormStatusDiv" style="display:none;">
     <chrome:box title="Results">
         <br>
+
         <div id="displayFormStatus"/>
     </chrome:box>
 </div>

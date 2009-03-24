@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 //
 /**
@@ -53,6 +54,23 @@ public class ParticipantRepository implements Repository<Participant, Participan
         }
         return savedParticipant;
     }
+
+    public List<Participant> findByStudySiteId(String text, Integer studySiteId) {
+         ParticipantQuery query = new ParticipantQuery();
+         query.filterParticipantsWithMatchingText(text);
+         query.filterByStudySite(studySiteId);
+         return (List<Participant>) find(query);
+
+     }
+    public List<Participant> findByStudyId(String text, Integer studyId) {
+         ParticipantQuery query = new ParticipantQuery();
+         query.filterParticipantsWithMatchingText(text);
+         query.filterByStudy(studyId);
+         return (List<Participant>) find(query);
+
+     }
+
+
 
     public void delete(Participant participant) {
         throw new CtcAeSystemException("delete method not supported");

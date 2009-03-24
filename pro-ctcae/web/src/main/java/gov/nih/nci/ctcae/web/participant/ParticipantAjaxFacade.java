@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
+import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
@@ -70,6 +71,18 @@ public class ParticipantAjaxFacade {
                 .find(participantQuery);
         return participants;
     }
+
+    public List<Participant> matchParticipantByStudySiteId(final String text, Integer studySiteId, Integer studyId) {
+        if (studySiteId != null){
+        List<Participant> participants = participantRepository.findByStudySiteId(text, studySiteId);
+        return ObjectTools.reduceAll(participants, "id", "firstName", "lastName");
+        } else{
+            List<Participant> participants = participantRepository.findByStudyId(text, studyId);
+            return ObjectTools.reduceAll(participants, "id", "firstName", "lastName");
+
+        }
+    }
+
 
     /**
      * Sets the participant repository.
