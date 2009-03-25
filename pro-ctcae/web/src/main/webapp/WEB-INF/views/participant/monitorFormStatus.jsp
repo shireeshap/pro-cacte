@@ -1,14 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+
 <html>
-<head><title>Simple jsp page</title>
+<head><title></title>
     <style type="text/css">
         table.widget {
             border-left: 1px solid #C3D9FF;
             border-bottom: 1px solid #C3D9FF;
             width: 90%;
-            font-size:small;
+            font-size: small;
         }
 
         td.data {
@@ -40,19 +42,20 @@
 
         td.Scheduled {
             background-color: #0051fc;
-            color:white;
+            color: white;
         }
 
         td.In-progress {
             background-color: #ff9900;
-            color:white;
+            color: white;
         }
 
         td.Completed {
             background-color: #00cc00;
-            color:white;
+            color: white;
         }
-        td.Past due{
+
+        td.Past due {
             background-color: red;
         }
 
@@ -86,6 +89,11 @@
             <td>&nbsp;</td>
         </tr>
     </table>
+    <input type="hidden" id="pgStartDateNext" value='<tags:formatDate value="${pgStartNext}"/>'/>
+    <input type="hidden" id="pgStartDatePrev" value='<tags:formatDate value="${pgStartPrev}"/>'/>
+
+
+
 </div>
 <br>
 

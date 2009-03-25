@@ -34,6 +34,8 @@ public class MonitorFormStatusController extends AbstractController {
         String strEndDate = request.getParameter("endDate");
         String participantId = request.getParameter("participantId");
         String status = request.getParameter("status");
+        String pgStartDateNext = request.getParameter("pgStartDateNext");
+        String pgStartDatePrev = request.getParameter("pgStartDatePrev");
         Date startDate, endDate;
 
         if (dateRange.equals("custom")) {
@@ -45,9 +47,28 @@ public class MonitorFormStatusController extends AbstractController {
             endDate = date[1];
         }
 
+          if (!StringUtils.isBlank(pgStartDateNext)){
+              Calendar stDate = ProCtcAECalendar.getCalendarForDate(DateUtils.parseDate(pgStartDateNext));
+              stDate.add(Calendar.DATE, 1);
+              startDate = stDate.getTime();
+        }
+        if (!StringUtils.isBlank(pgStartDatePrev)){
+            Calendar stDate = ProCtcAECalendar.getCalendarForDate(DateUtils.parseDate(pgStartDatePrev));
+            stDate.add(Calendar.DATE, -7);
+            startDate = stDate.getTime();
+        }
+
+        Calendar c = ProCtcAECalendar.getCalendarForDate(startDate);
+        c.add(Calendar.DATE, 6);
+        endDate = c.getTime();
+
+
 
         modelAndView.addObject("crfStatusMap", getFormStatus(Integer.valueOf(studyId), startDate, endDate, crfId, studySiteId, participantId, status));
         modelAndView.addObject("calendar", getCalendar(startDate, endDate));
+        modelAndView.addObject("pgStartNext", endDate);
+        modelAndView.addObject("pgStartPrev", startDate);
+
 
         return modelAndView;
     }
@@ -124,7 +145,7 @@ public class MonitorFormStatusController extends AbstractController {
                 date = 1;
                 currentMonth = c.get(Calendar.MONTH);
             }
-            dates.add(new SimpleDateFormat("MM/dd").format(c.getTime()));
+            dates.add(new SimpleDateFormat("EEE MMM-dd").format(c.getTime()));
             date++;
             c.add(Calendar.DATE, 1);
         }

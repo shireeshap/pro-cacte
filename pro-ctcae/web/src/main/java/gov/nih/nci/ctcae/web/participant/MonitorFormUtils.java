@@ -20,13 +20,13 @@ public class MonitorFormUtils {
 
 
         if ("thisWeek".equals(dateRange)) {
-            c.set(Calendar.DAY_OF_WEEK, 2);
+            c.set(Calendar.DAY_OF_WEEK, 1);
             startDate = c.getTime();
             dates[0] = startDate;
             dates[1] = today;
         }
         if ("lastWeek".equals(dateRange)) {
-            c.set(Calendar.DAY_OF_WEEK, 2);
+            c.set(Calendar.DAY_OF_WEEK, 1);
             c.add(Calendar.DATE, -7);
             startDate = c.getTime();
             dates[0] = startDate;

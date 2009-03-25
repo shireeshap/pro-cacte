@@ -47,10 +47,10 @@ function displaySites() {
 
 function displayParticipants() {
     var myParticipantAutoCompleter = new participantAutoCompleter('participant', function(autocompleter, text) {
-                       participant.matchParticipantByStudySiteId(text, $('studySite').value, $('study').value, function(values) {
-                           autocompleter.setChoices(values)
-                       })
-                   });
+        participant.matchParticipantByStudySiteId(text, $('studySite').value, $('study').value, function(values) {
+            autocompleter.setChoices(values)
+        })
+    });
     acCreate(myParticipantAutoCompleter);
     initSearchField();
     $('participantAutoCompleterDiv').show();
@@ -97,7 +97,7 @@ function customDate(showDate) {
     }
 
 }
-function formStatus() {
+function formStatus(useStartDate) {
     var studyId = $('study').value;
     var stDate = $('startDate').value;
     var endDate = $('endDate').value;
@@ -114,8 +114,25 @@ function formStatus() {
     var statusSelect = $('formStatus');
     var status = statusSelect.options[statusSelect.selectedIndex].value;
 
+    var pgStartDateNext = '';
+    if (useStartDate == 'next') {
+        try {
+            pgStartDateNext = $('pgStartDateNext').value;
+        } catch(e) {
+        }
+    }
+
+    var pgStartDatePrev = '';
+    if (useStartDate == 'prev') {
+        try {
+            pgStartDatePrev = $('pgStartDatePrev').value;
+        } catch(e) {
+        }
+    }
+
+
     var request = new Ajax.Request("<c:url value="/pages/participant/monitorFormStatus"/>", {
-        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&subview=subview",
+        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev +"&subview=subview",
         onComplete:function(transport) {
             showStatusTable(transport);
         },
@@ -138,121 +155,124 @@ function showStatusTable(transport) {
 </head>
 <body>
 <chrome:box title="participant.label.search_criteria">
-    <div align="left" style="margin-left: 50px">
-        <table class="content" cellpadding="0" cellspacing="0">
-            <tr>
-                <td>
-                    <tags:renderAutocompleter propertyName="study"
-                                              displayName="Study"
-                                              required="true"
-                                              size="60"
-                                              noForm="true"/>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <div id="formDropDownDiv" style="display:none;" class="label">
-                        <div class="row">
-                            <div class="label">Form</div>
-                            <div class="value" id="formDropDown"></div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
+<div align="left" style="margin-left: 50px">
+<table class="content" cellpadding="0" cellspacing="0">
+<tr>
+    <td>
+        <tags:renderAutocompleter propertyName="study"
+                                  displayName="Study"
+                                  required="true"
+                                  size="60"
+                                  noForm="true"/>
+    </td>
+</tr>
+<tr>
+    <td colspan="2">
+        <div id="formDropDownDiv" style="display:none;" class="label">
+            <div class="row">
+                <div class="label">Form</div>
+                <div class="value" id="formDropDown"></div>
+            </div>
+        </div>
+    </td>
+</tr>
 
-            <tr>
-                 <td>
-                     <div id="statusDiv" style="display:none">
-                         <div class="row">
-                             <div class="label">Status</div>
-                             <div class="value">
-                                 <select id="formStatus" name="statusOptions">
-                                     <option value="all">All</option>
-                                     <option value="INPROGRESS">In-progress</option>
-                                     <option value="SCHEDULED">Scheduled</option>
-                                     <option value="COMPLETED">Completed</option>
-                                     <option value="PASTDUE">Past due</option>
-                                 </select>
-                             </div>
-                         </div>
-                     </div>
-                 </td>
-             </tr>
+<tr>
+    <td>
+        <div id="statusDiv" style="display:none">
+            <div class="row">
+                <div class="label">Status</div>
+                <div class="value">
+                    <select id="formStatus" name="statusOptions">
+                        <option value="all">All</option>
+                        <option value="INPROGRESS">In-progress</option>
+                        <option value="SCHEDULED">Scheduled</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="PASTDUE">Past due</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </td>
+</tr>
 
 
-            <tr>
-                <td>
-                    <div id="studySiteAutoCompleterDiv" style="display:none">
-                        <tags:renderAutocompleter propertyName="studySite"
-                                                  displayName="Study site"
-                                                  size="60"
-                                                  noForm="true"/>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div id="participantAutoCompleterDiv" style="display:none">
-                        <tags:renderAutocompleter propertyName="participant"
-                                                  displayName="Participant"
-                                                  size="60"
-                                                  noForm="true"/>
-                    </div>
-                </td>
-            </tr>
+<tr>
+    <td>
+        <div id="studySiteAutoCompleterDiv" style="display:none">
+            <tags:renderAutocompleter propertyName="studySite"
+                                      displayName="Study site"
+                                      size="60"
+                                      noForm="true"/>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td>
+        <div id="participantAutoCompleterDiv" style="display:none">
+            <tags:renderAutocompleter propertyName="participant"
+                                      displayName="Participant"
+                                      size="60"
+                                      noForm="true"/>
+        </div>
+    </td>
+</tr>
 
-            <tr>
-                <td>
-                    <div id="dateMenuDiv" style="display:none">
-                        <div class="row">
-                            <div class="label">Date range</div>
-                            <div class="value">
-                                <select id="dateOptions" name="dateOptions" onChange="customDate(this)">
-                                    <option value="thisWeek">This Week</option>
-                                    <option value="lastWeek">Last Week</option>
-                                    <option value="thisMonth">This Month</option>
-                                    <option value="lastMonth">Last Month</option>
-                                    <option value="custom">Custom</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div id="dateRange" style="display:none">
-                        <table class="content" cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td>
-                                    <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
-                                                     doNotShowFormat="true"/>
-                                </td>
-                                <td>
-                                    <tags:renderDate noForm="true" displayName="End Date" propertyName="endDate"
-                                                     doNotShowFormat="true"/>
-                                </td>
-                            </tr>
-                        </table>
+<tr>
+    <td>
+        <div id="dateMenuDiv" style="display:none">
+            <div class="row">
+                <div class="label">Date range</div>
+                <div class="value">
+                    <select id="dateOptions" name="dateOptions" onChange="customDate(this)">
+                        <option value="thisWeek">This Week</option>
+                        <option value="lastWeek">Last Week</option>
+                        <option value="thisMonth">This Month</option>
+                        <option value="lastMonth">Last Month</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td>
+        <div id="dateRange" style="display:none">
+            <table class="content" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
+                                         doNotShowFormat="true"/>
+                    </td>
+                    <td>
+                        <tags:renderDate noForm="true" displayName="End Date" propertyName="endDate"
+                                         doNotShowFormat="true"/>
+                    </td>
+                </tr>
+            </table>
 
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div id="searchForm" style="display:none">
-                        <input type="button" value="search" onclick="formStatus()" style="margin:10px 0 0 149px;"/>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td>
+        <div id="searchForm" style="display:none">
+            <input type="button" value="search" onclick="formStatus(false)" style="margin:10px 0 0 149px;"/>
+        </div>
+    </td>
+</tr>
+</table>
+</div>
 </chrome:box>
 
 <br/><br/>
 
 <div id="displayFormStatusDiv" style="display:none;">
     <chrome:box title="Results">
+        <input type="button" value="prev" onclick="formStatus('prev')"/>
+        <input type="button" value="next" onClick="formStatus('next')"/>
+
         <br>
 
         <div id="displayFormStatus"/>
