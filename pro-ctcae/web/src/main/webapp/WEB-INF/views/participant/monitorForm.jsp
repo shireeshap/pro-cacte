@@ -161,14 +161,12 @@ function showStatusTable(transport) {
                                   required="true"
                                   size="60"
                                   noForm="true"/>
-        <div id="formDropDownDiv" style="display:none;" class="label">
-            <div class="row">
+        <div id="formDropDownDiv" style="display:none;" class="row">
                 <div class="label">Form</div>
                 <div class="value" id="formDropDown"></div>
             </div>
-        </div>
-        <div id="statusDiv" style="display:none">
-            <div class="row">
+        
+        <div id="statusDiv" style="display:none"  class="row">
                 <div class="label">Status</div>
                 <div class="value">
                     <select id="formStatus" name="statusOptions">
@@ -179,7 +177,6 @@ function showStatusTable(transport) {
                         <option value="PASTDUE">Past due</option>
                     </select>
                 </div>
-            </div>
         </div>
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="studySite"
@@ -193,8 +190,8 @@ function showStatusTable(transport) {
                                       size="60"
                                       noForm="true"/>
         </div>
-        <div id="dateMenuDiv" style="display:none">
-            <div class="row">
+        <div id="dateMenuDiv" style="display:none" class="row">
+            
                 <div class="label">Date range</div>
                 <div class="value">
                     <select id="dateOptions" name="dateOptions" onChange="customDate(this)">
@@ -205,7 +202,7 @@ function showStatusTable(transport) {
                         <option value="custom">Custom</option>
                     </select>
                 </div>
-            </div>
+            
         </div>
         <div id="dateRange" style="display:none">
             <div class="leftpanel">

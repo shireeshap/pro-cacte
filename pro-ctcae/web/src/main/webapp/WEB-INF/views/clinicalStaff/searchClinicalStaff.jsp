@@ -102,8 +102,7 @@
               <div class="label"></div>
               <div class="value">
       <c:set var="search"><tags:message code="clinicalStaff.button.search"/></c:set>
-      <input class='ibutton' type='button'  onclick="buildTable('assembler');"
-                    value='${search}' title='Search ClinicalStaff'/>
+	  <tags:button color="blue" icon="search" type="button" onclick="buildTable('assembler');" value='${search}'/>
              <tags:indicator id="indicator"/>
               </div>
      </div>

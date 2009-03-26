@@ -9,9 +9,7 @@ for the browser font setting to work on IE6. */
     height: 1%
 }
 
-.workflow-tabs {
-	top: 115px;
-}
+
 
 .pane {
 /* Fix the issue of summary not aligned properly */
