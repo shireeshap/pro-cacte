@@ -147,11 +147,9 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
             CRFCycleDefinition crfCycleDefinition = command.getCrf().getCrfCycleDefinitions().get(crfCycleDefinitionIndex);
             command.getCrf().getCrfCycleDefinitions().remove(crfCycleDefinition);
             command.setCrfCycleDefinitionIndexToRemove("");
+        } else {
+            command.createCycles(request);
         }
-//This is being called from processFinish in FormController. Need to uncomment when the issue with post process is fixed.
-//        else {
-//            command.createCycles(request);
-//        }
         super.postProcess(request, command, errors);
     }
 

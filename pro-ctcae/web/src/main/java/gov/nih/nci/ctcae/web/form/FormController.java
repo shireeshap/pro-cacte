@@ -120,8 +120,6 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
      */
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CreateFormCommand createFormCommand = (CreateFormCommand) command;
-        createFormCommand.createCycles(request);
-
         save(createFormCommand);
 
         Map model = new HashMap();
