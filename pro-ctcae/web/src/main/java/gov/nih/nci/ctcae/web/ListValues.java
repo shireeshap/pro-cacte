@@ -3,8 +3,9 @@ package gov.nih.nci.ctcae.web;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.ctcae.core.domain.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import com.semanticbits.rules.ui.ValidValue;
 
 //
 /**
@@ -295,4 +296,112 @@ public class ListValues {
         col.add(lov3);
         return col;
     }
+
+
+    public static List<ListValues> getSymptomsForCRF(CRF crf) {
+        List<ListValues> col = new ArrayList<ListValues>();
+        HashSet proCtcTerms = new HashSet();
+        for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
+            proCtcTerms.add(crfPageItem.getProCtcQuestion().getProCtcTerm());
+        }
+        Iterator setIterator = proCtcTerms.iterator();
+        while (setIterator.hasNext()) {
+            ProCtcTerm proCtcTerm = (ProCtcTerm) setIterator.next();
+            ListValues lov = new ListValues(proCtcTerm.getTerm(), proCtcTerm.getTerm());
+            col.add(lov);
+        }
+        return col;
+    }
+
+    public static List<ListValues> getQuestionTypes(CRF crf) {
+        List<ListValues> valuesList = new ArrayList<ListValues>();
+        HashSet questionTypes = new HashSet();
+        for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
+            questionTypes.add(crfPageItem.getProCtcQuestion().getProCtcQuestionType());
+        }
+        Iterator setIterator = questionTypes.iterator();
+        while (setIterator.hasNext()) {
+            ProCtcQuestionType proCtcQuestionType = (ProCtcQuestionType) setIterator.next();
+            ListValues lov = new ListValues(proCtcQuestionType.getDisplayName(), proCtcQuestionType.getDisplayName());
+            valuesList.add(lov);
+        }
+        return valuesList;
+    }
+
+    public static List<ListValues> getComparisonOptions() {
+        List<ListValues> col = new ArrayList<ListValues>();
+        ListValues lov1 = new ListValues("gt", "is greater than");
+        ListValues lov2 = new ListValues("ge", "is greater than or equal to");
+        ListValues lov3 = new ListValues("eq", "is equal to");
+        ListValues lov4 = new ListValues("le", "is less than or equal to");
+        ListValues lov5 = new ListValues("lt", "is less than");
+        col.add(lov1);
+        col.add(lov2);
+        col.add(lov3);
+        col.add(lov4);
+        col.add(lov5);
+        return col;
+    }
+
+    public static List<ListValues> getNotificationOptions() {
+        List<ListValues> col = new ArrayList<ListValues>();
+        ListValues lov1 = new ListValues("PrimaryPhysician", "Primary treating physician");
+        ListValues lov2 = new ListValues("PrimaryNurse", "Primary nurse");
+        ListValues lov3 = new ListValues("SiteCRA", "Site CRA");
+        ListValues lov4 = new ListValues("SitePI", "Site PI");
+        col.add(lov1);
+        col.add(lov2);
+        col.add(lov3);
+        col.add(lov4);
+        return col;
+    }
+
+    public static HashMap getComparisonValues(CRF crf) {
+        HashSet severityOptions = new HashSet();
+        HashSet interferenceOptions = new HashSet();
+        HashSet presentOptions = new HashSet();
+        HashSet amountOptions = new HashSet();
+        HashSet frequencyOptions = new HashSet();
+
+        for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
+            switch (crfPageItem.getProCtcQuestion().getProCtcQuestionType()) {
+                case SEVERITY:
+                    for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
+                        severityOptions.add(validValue.getValue());
+                    }
+                    break;
+                case INTERFERENCE:
+                    for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
+                        interferenceOptions.add(validValue.getValue());
+                    }
+                    break;
+                case AMOUNT:
+                    for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
+                        amountOptions.add(validValue.getValue());
+                    }
+                    break;
+                case FREQUENCY:
+                    for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
+                        frequencyOptions.add(validValue.getValue());
+                    }
+                    break;
+                case PRESENT:
+                    for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
+                        presentOptions.add(validValue.getValue());
+                    }
+                    break;
+            }
+        }
+
+        HashMap hashMap = new HashMap();
+        hashMap.put(ProCtcQuestionType.AMOUNT, amountOptions);
+        hashMap.put(ProCtcQuestionType.FREQUENCY, frequencyOptions);
+        hashMap.put(ProCtcQuestionType.PRESENT, presentOptions);
+        hashMap.put(ProCtcQuestionType.SEVERITY, severityOptions);
+        hashMap.put(ProCtcQuestionType.INTERFERENCE, interferenceOptions);
+
+        return hashMap;
+    }
+
+
 }

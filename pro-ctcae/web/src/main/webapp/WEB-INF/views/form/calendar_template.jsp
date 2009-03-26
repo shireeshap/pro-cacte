@@ -426,7 +426,6 @@ function changePlannedRep(cycleDefinitionIndex, value) {
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-    <input type="hidden" name="_finish" value="true" id="_finish">
 <form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
      <chrome:box title="Generic schedule" autopad="true">
          <c:forEach items="${command.crf.crfCalendars}" var="crfCalendar" varStatus="status">

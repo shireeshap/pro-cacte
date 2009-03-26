@@ -90,6 +90,7 @@
         <dependency org="org.mortbay.jetty" name="jsp-api-2.1" rev="6.1.9" conf="jetty->default"/>
         <dependency org="org.mortbay.jetty" name="jsp-2.1" rev="6.1.9" conf="jetty->default"/>
         <dependency org="org.mortbay.jetty" name="servlet-api-2.5" rev="6.1.9" conf="jetty->default"/>
+        <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.0.1" conf="compile->default"/>
 
     </dependencies>
 </ivy-module>

@@ -12,6 +12,7 @@
 <%@ attribute name="size" required="false" %>
 <%@ attribute name="type" required="false" %>
 <%@ attribute name="disabled" required="false" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <<c:choose><c:when test="${markupWithTag=='a'}">a</c:when><c:otherwise>button</c:otherwise></c:choose>
 	class="omnipotent-button ${color}<c:if test="${not empty size}"> ${size}</c:if><c:if test="${not empty cssClass}"> ${cssClass}</c:if>"
@@ -155,7 +156,7 @@
 					</c:choose>
 				</c:if>
 				
-				${value}
+				<spring:message code="${value}" text="${value}"/>
 				
 				<c:if test="${icon=='Save &amp; Continue' || icon=='Save & Continue'}">
 					<c:choose>

@@ -103,6 +103,9 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RolePrivilege.java -t
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RoleType.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Roles.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RuleColumnObjectType.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RuleSetType.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RuleStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganization.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationClinicalStaff.java -text
@@ -158,6 +161,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantC
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfScheduleRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/UserRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/rules/ProCtcAERulesService.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/DomainObjectAuthorizationCheck.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/DomainObjectGroupPrivilegeGenerator.java -text
@@ -197,6 +201,8 @@ pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-datasource.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-jms.xml -text
+pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-rules-jcr.xml -text
+pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-rules-services.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-setup.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-util.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/email/template/exception.ftl -text
@@ -264,6 +270,10 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.j
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepositoryTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/rules/AbstractRulesTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/rules/CreateRuleTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/rules/RuleUtilTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/rules/RulesCheckRepositoryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/AbstractInstanceLevelAuthorizationIntegrationTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/AbstractPIAndLeadCRAInstanceLevelAuthorizationIntegrationTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/AbstractPIAndLeadCRAMethodAuthorizationIntegrationTestCase.java -text
@@ -367,6 +377,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.j
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AbstractCrfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddConditionalQuestionController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddCrfComponentController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddFormRuleController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddFormScheduleCycleController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AdvanceFormController.java -text
@@ -385,6 +396,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/DeleteFormController.java
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/EditFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormRulesTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormTableRowInterceptor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ProCtcTermComparator.java -text
@@ -499,6 +511,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowControls.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowSaveButton.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/form.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formBuilder.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/formRule.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formScheduleCycleDefinition.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formSettings.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formatDate.tag -text
@@ -576,6 +589,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/conditions.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/deleteCrfConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/deleteCrfCycleConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/deleteQuestionConfirmationCheck.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/formRule.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/formScheduleCycleDefinition.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/name.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/oneCrfPageItemSection.jsp -text
@@ -589,6 +603,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/confirmFormSubmission.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/deleteForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/form_details.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/form_rules.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/manageForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/participantAddedQuestion.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/releaseForm.jsp -text

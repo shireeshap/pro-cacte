@@ -1,0 +1,176 @@
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<html>
+<head>
+
+    <tags:stylesheetLink name="tabbedflow"/>
+    <tags:includeScriptaculous/>
+    <tags:includePrototypeWindow/>
+    <script type="text/javascript">
+
+        var rules = new Array();
+        function registerme(ruleindex) {
+            var index = rules.length;
+            rules[index] = new Array();
+            rules[index]['symptom'] = 0;
+            rules[index]['condition'] = 0;
+            rules[index]['notification'] = 0;
+        }
+        function addRule() {
+            var request = new Ajax.Request("<c:url value="/pages/form/addFormRule"/>", {
+                onComplete:addRuleDiv,
+                parameters:"subview=subview",
+                method:'get'
+            })
+        }
+
+        function addRuleDiv(transport) {
+            var response = transport.responseText;
+            new Insertion.Before("hiddenDiv", response);
+        }
+        function getCopyOfSelect(original, id) {
+            var copy = original.cloneNode(true);
+            copy.id = id;
+            return copy;
+        }
+
+        function addFields(ruleindex, fieldtype, properties) {
+            var index = rules[ruleindex][fieldtype]++;
+
+            var tr = new Element('TR', {'style':"font-weight:bold",'id':fieldtype + 'row_' + ruleindex + '_' + index});
+            new Insertion.Before(fieldtype + "Div_" + ruleindex, tr);
+            if (index == 0) {
+                tr.appendChild(getColumnFor(document.createTextNode(properties[0]), true));
+            } else {
+                tr.appendChild(getColumnFor(document.createTextNode(properties[1]), true));
+            }
+
+            for (var i = 2; i < properties.length; i++) {
+                if (properties[i].indexOf('%') == -1) {
+                    var select = getCopyOfSelect($('templateSelect_' + properties[i]), properties[i] + '_' + ruleindex + '_' + index);
+                } else {
+                    var temp = properties[i].substring(0, properties[i].indexOf('%') - 1);
+                    var dependsonstr = properties[i].substring(properties[i].indexOf('%') + 1);
+                    var dependsonobj = $(dependsonstr + '_' + ruleindex + '_' + index);
+                    var dependsonval = dependsonobj.options[dependsonobj.selectedIndex].value;
+                    var select = getCopyOfSelect($('templateSelect_' + temp + '_' + dependsonval), temp + '_' + ruleindex + '_' + index);
+                }
+                tr.appendChild(getColumnFor(select, false));
+            }
+
+            if (index > 0) {
+                tr.appendChild(getDeleteColumn(fieldtype, ruleindex, index));
+            }
+
+        }
+        function addSymptom(ruleindex) {
+            var props = new Array();
+            props[0] = 'For symptom';
+            props[1] = '';
+            props[2] = 'symptoms';
+            addFields(ruleindex, 'symptom', props);
+        }
+        function addNotification(ruleindex) {
+            var props = new Array();
+            props[0] = 'Notify ';
+            props[1] = '';
+            props[2] = 'notifications';
+            addFields(ruleindex, 'notification', props);
+        }
+
+        function addCondition(ruleindex) {
+            var props = new Array();
+            props[0] = 'If';
+            props[1] = 'And';
+            props[2] = 'questiontypes';
+            props[3] = 'operators';
+            props[4] = 'values_%questiontypes';
+            addFields(ruleindex, 'condition', props);
+
+        }
+
+        function getColumnFor(element, first) {
+            var td = new Element('TD', { 'id':'td_' + element.id,'style':'text-align:right'});
+            if (first) {
+                td.width = 90;
+            }
+            td.appendChild(element);
+            return td;
+        }
+
+        function getDeleteColumn(type, ruleindex, rowindex) {
+            var obj = $("templateButton_remove").cloneNode(true);
+            var onclickmethod = 'a';
+            obj.onclick = function deleteDiv() {
+                var row = $(type + 'row_' + ruleindex + '_' + rowindex);
+                row.remove();
+            };
+
+            var td = new Element('TD', {});
+            td.appendChild(obj);
+            return td;
+        }
+
+        function initializeRule(ruleindex) {
+            registerme(ruleindex);
+            addSymptom(ruleindex);
+            addCondition(ruleindex);
+            addNotification(ruleindex);
+        }
+
+        function changeoptions(obj) {
+            var indexes = obj.id.substring(obj.id.indexOf('_') + 1);
+            var ruleindex = indexes.substring(0, indexes.indexOf('_'));
+            var index = indexes.substring(indexes.indexOf('_') + 1);
+            var selectedType = obj.options[obj.selectedIndex].value;
+            var newObjId = 'values_' + ruleindex + '_' + index;
+            var valueSelect = getCopyOfSelect($('templateSelect_values_' + selectedType), newObjId);
+            var td = $('td_' + newObjId);
+            td.removeChild($(newObjId));
+            td.appendChild(valueSelect);
+        }
+
+    </script>
+</head>
+<body>
+<div id="templateSelects" style="display:none">
+    <tags:renderSelect options="${crfSymptoms}" noForm="true" id="templateSelect_symptoms"/>
+    <tags:renderSelect options="${questionTypes}" noForm="true" id="templateSelect_questiontypes"
+                       onchange="changeoptions(this);"/>
+    <tags:renderSelect options="${comparisonOptions}" noForm="true" id="templateSelect_operators"/>
+    <c:forEach items="${comparisonValues}" var="cOptions">
+        <c:if test="${not empty cOptions.value}">
+            <select id="templateSelect_values_${cOptions.key}">
+                <c:forEach items="${cOptions.value}" var="option">
+                    <option>${option}</option>
+                </c:forEach>
+            </select>
+        </c:if>
+    </c:forEach>
+    <tags:button icon="x" color="red" size="small" markupWithTag="a" value="" id="templateButton_remove"/>
+    <tags:renderSelect options="${notifications}" noForm="true" id="templateSelect_notifications"/>
+</div>
+
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
+    <jsp:attribute name="repeatingFields">
+        <input type="hidden" name="_finish" value="true" id="_finish">
+        <c:forEach items="${command.ruleSet.rule}" var="rule" varStatus="status">
+            <tags:formRule ruleSet="${command.ruleSet}" ruleIndex="${status.index}"/>
+            <%--<script type="text/javascript">--%>
+            <%--//initializeRule(${status.index});--%>
+            <%--</script>--%>
+        </c:forEach>
+
+        <div id="hiddenDiv"></div>
+        <div align="right">
+            <tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()" value="form.rules.add_rule"
+                         icon="add"/>
+        </div>
+        
+    </jsp:attribute>
+</tags:tabForm>
+
+</body>
+</html>

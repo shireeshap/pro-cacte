@@ -111,6 +111,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
         flow.addTab(new SelectStudyForFormTab());
         flow.addTab(new FormDetailsTab());
         flow.addTab(new CalendarTemplateTab());
+        flow.addTab(new FormRulesTab());
 
     }
 

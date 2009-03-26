@@ -259,5 +259,4 @@
     <bean id="beanValidator" class="gov.nih.nci.ctcae.core.validation.BeanValidator">
         <constructor-arg ref="domainClasses"/>
     </bean>
-
 </beans>

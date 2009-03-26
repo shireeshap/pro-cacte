@@ -10,9 +10,9 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import com.semanticbits.rules.brxml.RuleSet;
 
 //
 /**
@@ -57,6 +57,8 @@ public class CreateFormCommand implements Serializable {
 
 
     private String crfCycleDefinitionIndexToRemove = "";
+
+    private RuleSet ruleSet;
 
     /**
      * Gets the title.
@@ -264,22 +266,8 @@ public class CreateFormCommand implements Serializable {
      * @return
      */
     public List<Integer> getSelectedProCtcTerms() {
-//        List<CrfPageItem> crfPageItems = getCrf().getAllCrfPageItems();
-//        Map<ProCtcTerm, List<CrfPageItem>> proCtcTermAndCrfPageItemMap = new HashMap<ProCtcTerm, List<CrfPageItem>>();
-//
-//        for (CrfPageItem crfPageItem : crfPageItems) {
-//            CollectionUtils.putInMappedList(proCtcTermAndCrfPageItemMap, crfPageItem.getProCtcQuestion().getProCtcTerm(), crfPageItem);
-//
-//        }
 
         List<Integer> selectedProCtcTerms = new ArrayList<Integer>();
-//
-//
-//        for (ProCtcTerm proCtcTerm : proCtcTermAndCrfPageItemMap.keySet()) {
-//            if (Integer.valueOf(proCtcTermAndCrfPageItemMap.get(proCtcTerm).size()).equals(proCtcTerm.getProCtcQuestions().size())) {
-//                selectedProCtcTerms.add(proCtcTerm.getId());
-//            }
-//        }
         return selectedProCtcTerms;
     }
 
@@ -316,5 +304,13 @@ public class CreateFormCommand implements Serializable {
                 }
             }
         }
+    }
+
+    public RuleSet getRuleSet() {
+        return ruleSet;
+    }
+
+    public void setRuleSet(RuleSet ruleSet) {
+        this.ruleSet = ruleSet;
     }
 }

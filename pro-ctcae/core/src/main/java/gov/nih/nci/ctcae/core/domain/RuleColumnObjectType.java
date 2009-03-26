@@ -6,37 +6,14 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
 //
 /**
- * The Enum ProCtcQuestionType.
+ * The Enum RoleStatus .
  *
- * @author Vinay Kumar
+ * @author Harsh Agarwal
  */
-public enum ProCtcQuestionType implements CodedEnum<String> {
+public enum RuleColumnObjectType implements CodedEnum<String> {
 
-    /**
-     * The PRESENT.
-     */
-    PRESENT("Present"),
-
-    /**
-     * The AMOUNT.
-     */
-    AMOUNT("Amount"),
-
-    /**
-     * The SEVERITY.
-     */
-    SEVERITY("Severity"),
-
-    /**
-     * The INTERFERENCE.
-     */
-    INTERFERENCE("Interference"),
-
-    /**
-     * The FREQUENCY.
-     */
-    FREQUENCY("Frequency");
-
+    SYMPTOM(ProCtcTerm.class.getCanonicalName()),
+    QUESTION_TYPE(ProCtcQuestionType.class.getCanonicalName());
 
     /**
      * The display text.
@@ -44,11 +21,11 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
     private final String displayText;
 
     /**
-     * Instantiates a new pro ctc question type.
+     * Instantiates a new ROLE.
      *
      * @param displayText the display text
      */
-    ProCtcQuestionType(String displayText) {
+    RuleColumnObjectType(String displayText) {
         this.displayText = displayText;
         CodedEnumHelper.register(this);
 
@@ -61,8 +38,8 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
      * @param code the code
      * @return the by code
      */
-    public static ProCtcQuestionType getByCode(String code) {
-        return getByClassAndCode(ProCtcQuestionType.class, code);
+    public static RuleColumnObjectType getByCode(String code) {
+        return getByClassAndCode(RuleColumnObjectType.class, code);
     }
 
     /* (non-Javadoc)
@@ -89,19 +66,20 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
     }
 
     /**
-     * Gets the by display name.
+     * Gets the Role by display name.
      *
      * @param displayName the display name
      * @return the by display name
      */
-    public static ProCtcQuestionType getByDisplayName(String displayName) {
-        for (ProCtcQuestionType proCtcQuestionType : ProCtcQuestionType.values()) {
+    public static RuleColumnObjectType getByDisplayName(String displayName) {
+        for (RuleColumnObjectType roleStatus : RuleColumnObjectType.values()) {
 
-            if (proCtcQuestionType.getDisplayName().equals(displayName)) {
-                return proCtcQuestionType;
+            if (roleStatus.getDisplayName().equals(displayName)) {
+                return roleStatus;
             }
         }
         return null;
     }
+
 
 }

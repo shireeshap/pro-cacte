@@ -256,9 +256,13 @@
     <bean name="/form/addFormScheduleCycle" id="addFormScheduleCycleController"
           class="gov.nih.nci.ctcae.web.form.AddFormScheduleCycleController">
     </bean>
+    <bean name="/form/addFormRule" id="addFormRuleController"
+          class="gov.nih.nci.ctcae.web.form.AddFormRuleController">
+    </bean>
 
 
-    <bean name="studyController" id="studyController"
+    <!--<bean name="studyController" id="studyController"-->
+    <bean id="studyController"
           class="gov.nih.nci.ctcae.web.study.StudyController" parent="securedTabbedFlowFormController" abstract="true">
         <property name="studyRepository" ref="studyRepository"/>
     </bean>

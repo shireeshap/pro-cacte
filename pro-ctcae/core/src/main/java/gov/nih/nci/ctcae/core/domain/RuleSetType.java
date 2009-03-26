@@ -6,50 +6,30 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
 //
 /**
- * The Enum ProCtcQuestionType.
+ * The Enum RoleStatus .
  *
- * @author Vinay Kumar
+ * @author Harsh Agarwal
  */
-public enum ProCtcQuestionType implements CodedEnum<String> {
+public enum RuleSetType implements CodedEnum<String> {
 
-    /**
-     * The PRESENT.
-     */
-    PRESENT("Present"),
-
-    /**
-     * The AMOUNT.
-     */
-    AMOUNT("Amount"),
-
-    /**
-     * The SEVERITY.
-     */
-    SEVERITY("Severity"),
-
-    /**
-     * The INTERFERENCE.
-     */
-    INTERFERENCE("Interference"),
-
-    /**
-     * The FREQUENCY.
-     */
-    FREQUENCY("Frequency");
+    FORM_LEVEL("FormLevelRuleSet", "gov.nih.nci.ctcae.rules.form"),
+    STUDY_SITE_LEVEL("StudySiteLevelRuleSet", "gov.nih.nci.ctcae.rules.studysite");
 
 
     /**
      * The display text.
      */
     private final String displayText;
+    private final String packagePrefix;
 
     /**
-     * Instantiates a new pro ctc question type.
+     * Instantiates a new ROLE.
      *
      * @param displayText the display text
      */
-    ProCtcQuestionType(String displayText) {
+    RuleSetType(String displayText, String packagePrefix) {
         this.displayText = displayText;
+        this.packagePrefix = packagePrefix;
         CodedEnumHelper.register(this);
 
     }
@@ -61,8 +41,8 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
      * @param code the code
      * @return the by code
      */
-    public static ProCtcQuestionType getByCode(String code) {
-        return getByClassAndCode(ProCtcQuestionType.class, code);
+    public static RuleSetType getByCode(String code) {
+        return getByClassAndCode(RuleSetType.class, code);
     }
 
     /* (non-Javadoc)
@@ -89,19 +69,23 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
     }
 
     /**
-     * Gets the by display name.
+     * Gets the Role by display name.
      *
      * @param displayName the display name
      * @return the by display name
      */
-    public static ProCtcQuestionType getByDisplayName(String displayName) {
-        for (ProCtcQuestionType proCtcQuestionType : ProCtcQuestionType.values()) {
+    public static RuleSetType getByDisplayName(String displayName) {
+        for (RuleSetType roleStatus : RuleSetType.values()) {
 
-            if (proCtcQuestionType.getDisplayName().equals(displayName)) {
-                return proCtcQuestionType;
+            if (roleStatus.getDisplayName().equals(displayName)) {
+                return roleStatus;
             }
         }
         return null;
+    }
+
+    public String getPackagePrefix(){
+        return packagePrefix;
     }
 
 }
