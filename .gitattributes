@@ -683,6 +683,7 @@ pro-ctcae/web/src/main/webapp/images/blue/administration_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/administration_btn_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/advancedSearch_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/advancedSearch_btn_selected.png -text
+pro-ctcae/web/src/main/webapp/images/blue/agadoo-logo.png -text
 pro-ctcae/web/src/main/webapp/images/blue/back_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/back_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/bg.jpg -text
@@ -700,6 +701,7 @@ pro-ctcae/web/src/main/webapp/images/blue/button_bg.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/caAERSlogo.png -text
 pro-ctcae/web/src/main/webapp/images/blue/caaers_watermark.png -text
 pro-ctcae/web/src/main/webapp/images/blue/clear-left-button.png -text
+pro-ctcae/web/src/main/webapp/images/blue/complete.png -text
 pro-ctcae/web/src/main/webapp/images/blue/conditional-icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/conditional-triggering-icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/continue_btn.png -text
@@ -782,6 +784,7 @@ pro-ctcae/web/src/main/webapp/images/blue/icons/searchClinicalStaffController_ic
 pro-ctcae/web/src/main/webapp/images/blue/icons/searchParticipantController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/searchStudyController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/studyController_icon.png -text
+pro-ctcae/web/src/main/webapp/images/blue/in[!!-~]progress.png -text
 pro-ctcae/web/src/main/webapp/images/blue/login-logo.png -text
 pro-ctcae/web/src/main/webapp/images/blue/logout_tab.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/logout_tab.png -text
@@ -793,6 +796,7 @@ pro-ctcae/web/src/main/webapp/images/blue/minimize-left.png -text
 pro-ctcae/web/src/main/webapp/images/blue/minimize-right.png -text
 pro-ctcae/web/src/main/webapp/images/blue/new_form_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/new_page_button.png -text
+pro-ctcae/web/src/main/webapp/images/blue/overdue.png -text
 pro-ctcae/web/src/main/webapp/images/blue/page-border-top.png -text
 pro-ctcae/web/src/main/webapp/images/blue/pageselected-border-top.png -text
 pro-ctcae/web/src/main/webapp/images/blue/power-btn-down.jpg -text
@@ -809,6 +813,7 @@ pro-ctcae/web/src/main/webapp/images/blue/saveback_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/saveback_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/savecontinue_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/savecontinue_icon.png -text
+pro-ctcae/web/src/main/webapp/images/blue/scheduled.png -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_gt4_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_hover.png -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_hover_gt4.png -text
