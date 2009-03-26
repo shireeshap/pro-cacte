@@ -132,7 +132,7 @@ function formStatus(useStartDate) {
 
 
     var request = new Ajax.Request("<c:url value="/pages/participant/monitorFormStatus"/>", {
-        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev +"&subview=subview",
+        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev + "&subview=subview",
         onComplete:function(transport) {
             showStatusTable(transport);
         },
@@ -155,28 +155,28 @@ function showStatusTable(transport) {
 </head>
 <body>
 <chrome:box title="participant.label.search_criteria">
-<div align="left" style="margin-left: 50px">
+    <div align="left" style="margin-left: 50px">
         <tags:renderAutocompleter propertyName="study"
                                   displayName="Study"
                                   required="true"
                                   size="60"
                                   noForm="true"/>
         <div id="formDropDownDiv" style="display:none;" class="row">
-                <div class="label">Form</div>
-                <div class="value" id="formDropDown"></div>
+            <div class="label">Form</div>
+            <div class="value" id="formDropDown"></div>
+        </div>
+
+        <div id="statusDiv" style="display:none" class="row">
+            <div class="label">Status</div>
+            <div class="value">
+                <select id="formStatus" name="statusOptions">
+                    <option value="all">All</option>
+                    <option value="IN-PROGRESS">In-progress</option>
+                    <option value="SCHEDULED">Scheduled</option>
+                    <option value="COMPLETED">Completed</option>
+                    <option value="PASTDUE">Past due</option>
+                </select>
             </div>
-        
-        <div id="statusDiv" style="display:none"  class="row">
-                <div class="label">Status</div>
-                <div class="value">
-                    <select id="formStatus" name="statusOptions">
-                        <option value="all">All</option>
-                        <option value="IN-PROGRESS">In-progress</option>
-                        <option value="SCHEDULED">Scheduled</option>
-                        <option value="COMPLETED">Completed</option>
-                        <option value="PASTDUE">Past due</option>
-                    </select>
-                </div>
         </div>
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="studySite"
@@ -191,49 +191,51 @@ function showStatusTable(transport) {
                                       noForm="true"/>
         </div>
         <div id="dateMenuDiv" style="display:none" class="row">
-            
-                <div class="label">Date range</div>
-                <div class="value">
-                    <select id="dateOptions" name="dateOptions" onChange="customDate(this)">
-                        <option value="thisWeek">This Week</option>
-                        <option value="lastWeek">Last Week</option>
-                        <option value="thisMonth">This Month</option>
-                        <option value="lastMonth">Last Month</option>
-                        <option value="custom">Custom</option>
-                    </select>
-                </div>
-            
+
+            <div class="label">Date range</div>
+            <div class="value">
+                <select id="dateOptions" name="dateOptions" onChange="customDate(this)">
+                    <option value="thisWeek">This Week</option>
+                    <option value="lastWeek">Last Week</option>
+                    <option value="thisMonth">This Month</option>
+                    <option value="lastMonth">Last Month</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+
         </div>
         <div id="dateRange" style="display:none">
             <div class="leftpanel">
-                        <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
-                                         doNotShowFormat="true"/>
-                </div>
+                <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
+                                 doNotShowFormat="true"/>
+            </div>
             <div class="rightpanel">
-                        <tags:renderDate noForm="true" displayName="End Date" propertyName="endDate"
-                                         doNotShowFormat="true"/>
-                                    </div>
+                <tags:renderDate noForm="true" displayName="End Date" propertyName="endDate"
+                                 doNotShowFormat="true"/>
+            </div>
         </div>
         <div id="searchForm" style="display:none" class="row">
 
-            <div class="value"> <tags:button color="blue" value="Search" onclick="formStatus(false)"  size="big" icon="search"/></div>
+            <div class="value"><tags:button color="blue" value="Search" onclick="formStatus(false)" size="big"
+                                            icon="search"/></div>
         </div>
-</div>
+    </div>
 </chrome:box>
-
 
 
 <div id="displayFormStatusDiv" style="display:none;">
     <chrome:box title="Results">
         <div>
-        <div style="height: 25px">
-        <div style="float:left"><tags:button type="button" value="Previous week" icon="back" color="blue" size="small" onclick="formStatus('prev')" /></div>
-        <div style="float:right"><tags:button type="button" value="Next week" icon="next" color="blue" size="small" onclick="formStatus('next')" /></div>
-        </div>
-        
-
-        <div id="displayFormStatus"/>
+            <div style="height: 25px">
+                <div style="float:left"><tags:button type="button" value="Previous week" icon="back" color="blue"
+                                                     size="small" onclick="formStatus('prev')"/></div>
+                <div style="float:right"><tags:button type="button" value="Next week" icon="next" color="blue"
+                                                      size="small" onclick="formStatus('next')"/></div>
             </div>
+
+
+            <div id="displayFormStatus"/>
+        </div>
     </chrome:box>
 </div>
 </body>

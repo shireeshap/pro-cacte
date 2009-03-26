@@ -33,32 +33,17 @@
             border-right: 1px solid #77a9ff;
             font-weight: bold;
             text-align: center;
-            background-color:#cccccc;
+            background-color: #cccccc;
         }
 
         #formStatusTable {
             text-align: center;
         }
 
-        td.Scheduled {
-            /*background-color: #0051fc;*/
-            /*color: white;*/
+        a {
+            text-decoration:none;
+            cursor:default;
         }
-
-        td.In-progress {
-            /*background-color: #ff9900;*/
-            /*color: white;*/
-        }
-
-        td.Completed {
-            /*background-color: #00cc00;*/
-            /*color: white;*/
-        }
-
-        td.Past due {
-            /*background-color: red;*/
-        }
-
     </style>
 </head>
 <body>
@@ -80,8 +65,12 @@
                 </td>
                 <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
                     <td class="data ${studyParticipantCrfSchedule.status.displayName}">
-                        <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png" alt=""/>&nbsp;${studyParticipantCrfSchedule.status.displayName}
-                        ${studyParticipantCrfSchedule.cycleNumber}
+                            <%--onmouseover="showTip('${studyParticipantCrfSchedule.cycleNumber}','${studyParticipantCrfSchedule.cycleDay}')">--%>
+
+                        <a 
+                           title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
+                            <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>&nbsp;${studyParticipantCrfSchedule.status.displayName}
+                        </a>
                     </td>
                 </c:forEach>
             </tr>
