@@ -64,7 +64,7 @@ public class AddCrfScheduleController extends AbstractController {
             String olddate = date.substring(date.indexOf(",") + 1);
 
             c.set(Calendar.DATE, Integer.parseInt(newdate));
-            participantSchedule.createSchedule(c, duedate);
+            participantSchedule.createSchedule(c, duedate, -1, -1);
 
             c.set(Calendar.DATE, Integer.parseInt(olddate));
             participantSchedule.removeSchedule(c);
@@ -72,7 +72,7 @@ public class AddCrfScheduleController extends AbstractController {
 
         if ("add".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));
-            participantSchedule.createSchedule(c, duedate);
+            participantSchedule.createSchedule(c, duedate, -1, -1);
         }
         if ("del".equals(action)) {
             c.set(Calendar.DATE, Integer.parseInt(date));

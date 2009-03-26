@@ -93,14 +93,16 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
                 }
             }
             if (crf.getCrfCycleDefinitions() != null) {
+                int cycleNumber = 1;
                 for (CRFCycleDefinition crfCycleDefinition : crf.getCrfCycleDefinitions()) {
                     if (crfCycleDefinition.getCrfCycles() != null) {
                         for (CRFCycle crfCycle : crfCycleDefinition.getCrfCycles()) {
-                            proCtcAECalendar.setCycleParameters(crfCycleDefinition.getCycleLength(), crfCycle.getCycleDays(), 1, crfCycleDefinition.getCycleLengthUnit(), calendarStartDate);
+                            proCtcAECalendar.setCycleParameters(crfCycleDefinition.getCycleLength(), crfCycle.getCycleDays(), 1, crfCycleDefinition.getCycleLengthUnit(), calendarStartDate,cycleNumber);
                             createSchedule(studyParticipantCrf, proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
                             Calendar c = ProCtcAECalendar.getCalendarForDate(calendarStartDate);
                             ProCtcAECalendar.incrementCalendar(c, crfCycleDefinition.getCycleLength(), crfCycleDefinition.getCycleLengthUnit());
                             calendarStartDate = c.getTime();
+                            cycleNumber++;
                         }
                     }
                 }

@@ -33,6 +33,7 @@
         function getCopyOfSelect(original, id) {
             var copy = original.cloneNode(true);
             copy.id = id;
+            copy.name=id;
             return copy;
         }
 
@@ -92,9 +93,12 @@
         }
 
         function getColumnFor(element, first) {
-            var td = new Element('TD', { 'id':'td_' + element.id,'style':'text-align:right'});
+            var td;
             if (first) {
+                td = new Element('TD', { 'id':'td_' + element.id,'style':'text-align:right'});
                 td.width = 90;
+            } else {
+                td = new Element('TD', { 'id':'td_' + element.id,'style':'text-align:left'});
             }
             td.appendChild(element);
             return td;
@@ -158,9 +162,6 @@
         <input type="hidden" name="_finish" value="true" id="_finish">
         <c:forEach items="${command.ruleSet.rule}" var="rule" varStatus="status">
             <tags:formRule ruleSet="${command.ruleSet}" ruleIndex="${status.index}"/>
-            <%--<script type="text/javascript">--%>
-            <%--//initializeRule(${status.index});--%>
-            <%--</script>--%>
         </c:forEach>
 
         <div id="hiddenDiv"></div>

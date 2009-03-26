@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import org.apache.commons.lang.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -115,32 +114,12 @@ public class ParticipantSchedule {
         int dueAfterPeriodInMill = calendar.getDueAfterPeriodInMill();
         while (calendar.hasMoreSchedules()) {
             if (scheduleType.equals(ScheduleType.GENERAL)) {
-                createSchedule(calendar.getNextGeneralScehdule(), dueAfterPeriodInMill);
+                createSchedule(calendar.getNextGeneralScehdule(), dueAfterPeriodInMill, -1, -1);
             }
             if (scheduleType.equals(ScheduleType.CYCLE)) {
-                createSchedule(calendar.getNextCycleScehdule(), dueAfterPeriodInMill);
+                createSchedule(calendar.getNextCycleScehdule(), dueAfterPeriodInMill, calendar.getCycleNumber(), calendar.getCycleDay());
             }
         }
-    }
-
-    /**
-     * Creates the schedule.
-     *
-     * @param startDate the start date
-     * @param dueDate   the due date
-     * @throws ParseException the parse exception
-     */
-    public void createSchedule(String startDate, String dueDate) throws ParseException {
-        if (!StringUtils.isBlank(dueDate)) {
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-            Calendar cstart = new GregorianCalendar();
-            cstart.setTime(sdf.parse(startDate));
-            Calendar cdue = new GregorianCalendar();
-            cdue.setTime(sdf.parse(dueDate));
-
-            createSchedule(cstart, cdue.getTimeInMillis() - cstart.getTimeInMillis());
-        }
-
     }
 
     /**
@@ -148,8 +127,10 @@ public class ParticipantSchedule {
      *
      * @param c                    the c
      * @param dueAfterPeriodInMill the due after period in mill
+     * @param cycleNumber
+     * @param cycleDay
      */
-    public void createSchedule(Calendar c, long dueAfterPeriodInMill) {
+    public void createSchedule(Calendar c, long dueAfterPeriodInMill, int cycleNumber, int cycleDay) {
         if (c != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
@@ -160,6 +141,10 @@ public class ParticipantSchedule {
             StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
             studyParticipantCrfSchedule.setStartDate(c.getTime());
             studyParticipantCrfSchedule.setDueDate(new Date(c.getTime().getTime() + dueAfterPeriodInMill));
+            if (cycleNumber != -1) {
+                studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
+                studyParticipantCrfSchedule.setCycleDay(cycleDay);
+            }
             CRF crf = crfRepository.findById(studyParticipantCrf.getCrf().getId());
             studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule, crf);
         }

@@ -54,6 +54,12 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Enumerated(value = EnumType.STRING)
     private CrfStatus status = CrfStatus.SCHEDULED;
 
+    @Column(name = "cycle_number", nullable = true)
+    private Integer cycleNumber;
+
+    @Column(name = "cycle_day", nullable = true)
+    private Integer cycleDay;
+
 
     /**
      * The study participant crf.
@@ -255,5 +261,21 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     public void setHoliday(boolean holiday) {
         this.holiday = holiday;
+    }
+
+    public Integer getCycleNumber() {
+        return cycleNumber;
+    }
+
+    public void setCycleNumber(Integer cycleNumber) {
+        this.cycleNumber = cycleNumber;
+    }
+
+    public Integer getCycleDay() {
+        return cycleDay;
+    }
+
+    public void setCycleDay(Integer cycleDay) {
+        this.cycleDay = cycleDay;
     }
 }
