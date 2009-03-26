@@ -78,9 +78,10 @@
                 <td class="data-left">
                         ${crfStatus.key.displayName}
                 </td>
-                <c:forEach items="${crfStatus.value}" var="crfStatusName">
-                    <td class="data ${crfStatusName}">
-                        <img src="../../images/blue/${crfStatusName}.png" alt=""/>&nbsp;${crfStatusName}
+                <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
+                    <td class="data ${studyParticipantCrfSchedule.status.displayName}">
+                        <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png" alt=""/>&nbsp;${studyParticipantCrfSchedule.status.displayName}
+                        ${studyParticipantCrfSchedule.cycleNumber}
                     </td>
                 </c:forEach>
             </tr>

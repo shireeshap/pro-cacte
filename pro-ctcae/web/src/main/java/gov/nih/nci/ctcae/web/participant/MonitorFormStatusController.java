@@ -76,7 +76,7 @@ public class MonitorFormStatusController extends AbstractController {
     private HashMap getFormStatus(Integer studyId, Date startDate, Date endDate, String crfId, String studySiteId, String participantId, String status) {
 
         int diffInDays = getDifferenceOfDates(startDate, endDate) + 1;
-        HashMap<Participant, String[]> crfStatus = new HashMap();
+        HashMap<Participant, StudyParticipantCrfSchedule[]> crfStatus = new HashMap();
 
         Study study = studyRepository.findById(studyId);
         for (StudySite studySite : study.getStudySites()) {
@@ -92,17 +92,17 @@ public class MonitorFormStatusController extends AbstractController {
 
                                         if (status.equals("all") || studyParticipantCrfSchedule.getStatus().getDisplayName().toUpperCase().equals(status)) {
 
-                                            String[] participantCrfStatus;
+                                            StudyParticipantCrfSchedule[] participantCrfStatus;
 
                                             if (crfStatus.containsKey(participant)) {
                                                 participantCrfStatus = crfStatus.get(participant);
                                             } else {
-                                                participantCrfStatus = new String[diffInDays];
+                                                participantCrfStatus = new StudyParticipantCrfSchedule[diffInDays];
                                                 crfStatus.put(participant, participantCrfStatus);
                                             }
                                             int statusLocation = getDifferenceOfDates(startDate, studyParticipantCrfSchedule.getStartDate());
 
-                                            participantCrfStatus[statusLocation] = studyParticipantCrfSchedule.getStatus().getDisplayName();
+                                            participantCrfStatus[statusLocation] = studyParticipantCrfSchedule;
                                         }
                                     }
                                 }
