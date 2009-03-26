@@ -290,6 +290,7 @@ public class ProCtcAECalendar {
 
             temp.add(Calendar.DATE, add);
             currentIndex++;
+            cycleDay = currentday;
             return temp;
         }
         return null;
