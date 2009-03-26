@@ -9,7 +9,7 @@
         table.widget {
             border-left: 1px solid #C3D9FF;
             border-bottom: 1px solid #C3D9FF;
-            width: 90%;
+            width: 100%;
             font-size: small;
         }
 
@@ -34,10 +34,8 @@
             font-weight: bold;
             text-align: center;
         }
-
         #formStatusTable {
-            overflow: scroll;
-            margin: 0 20px;
+            text-align:center;
         }
 
         td.Scheduled {

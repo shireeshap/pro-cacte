@@ -156,29 +156,17 @@ function showStatusTable(transport) {
 <body>
 <chrome:box title="participant.label.search_criteria">
 <div align="left" style="margin-left: 50px">
-<table class="content" cellpadding="0" cellspacing="0">
-<tr>
-    <td>
         <tags:renderAutocompleter propertyName="study"
                                   displayName="Study"
                                   required="true"
                                   size="60"
                                   noForm="true"/>
-    </td>
-</tr>
-<tr>
-    <td colspan="2">
         <div id="formDropDownDiv" style="display:none;" class="label">
             <div class="row">
                 <div class="label">Form</div>
                 <div class="value" id="formDropDown"></div>
             </div>
         </div>
-    </td>
-</tr>
-
-<tr>
-    <td>
         <div id="statusDiv" style="display:none">
             <div class="row">
                 <div class="label">Status</div>
@@ -193,33 +181,18 @@ function showStatusTable(transport) {
                 </div>
             </div>
         </div>
-    </td>
-</tr>
-
-
-<tr>
-    <td>
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="studySite"
                                       displayName="Study site"
                                       size="60"
                                       noForm="true"/>
         </div>
-    </td>
-</tr>
-<tr>
-    <td>
         <div id="participantAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="participant"
                                       displayName="Participant"
                                       size="60"
                                       noForm="true"/>
         </div>
-    </td>
-</tr>
-
-<tr>
-    <td>
         <div id="dateMenuDiv" style="display:none">
             <div class="row">
                 <div class="label">Date range</div>
@@ -234,35 +207,19 @@ function showStatusTable(transport) {
                 </div>
             </div>
         </div>
-    </td>
-</tr>
-<tr>
-    <td>
         <div id="dateRange" style="display:none">
-            <table class="content" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td>
+            <div class="leftpanel">
                         <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
                                          doNotShowFormat="true"/>
-                    </td>
-                    <td>
+                </div>
+            <div class="rightpanel">
                         <tags:renderDate noForm="true" displayName="End Date" propertyName="endDate"
                                          doNotShowFormat="true"/>
-                    </td>
-                </tr>
-            </table>
-
+                                    </div>
         </div>
-    </td>
-</tr>
-<tr>
-    <td>
         <div id="searchForm" style="display:none">
             <input type="button" value="search" onclick="formStatus(false)" style="margin:10px 0 0 149px;"/>
         </div>
-    </td>
-</tr>
-</table>
 </div>
 </chrome:box>
 
@@ -270,12 +227,15 @@ function showStatusTable(transport) {
 
 <div id="displayFormStatusDiv" style="display:none;">
     <chrome:box title="Results">
-        <input type="button" value="prev" onclick="formStatus('prev')"/>
-        <input type="button" value="next" onClick="formStatus('next')"/>
-
-        <br>
+        <div>
+        <div style="height: 25px">
+        <div style="float:left"><tags:button type="button" value="prev" icon="back" color="blue" size="small" onclick="formStatus('prev')" /></div>
+        <div style="float:right"><tags:button type="button" value="next" icon="next" color="blue" size="small" onclick="formStatus('next')" /></div>
+        </div>
+        
 
         <div id="displayFormStatus"/>
+            </div>
     </chrome:box>
 </div>
 </body>
