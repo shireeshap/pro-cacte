@@ -171,7 +171,7 @@ function showStatusTable(transport) {
                 <div class="value">
                     <select id="formStatus" name="statusOptions">
                         <option value="all">All</option>
-                        <option value="INPROGRESS">In-progress</option>
+                        <option value="IN-PROGRESS">In-progress</option>
                         <option value="SCHEDULED">Scheduled</option>
                         <option value="COMPLETED">Completed</option>
                         <option value="PASTDUE">Past due</option>
@@ -214,20 +214,21 @@ function showStatusTable(transport) {
                                          doNotShowFormat="true"/>
                                     </div>
         </div>
-        <div id="searchForm" style="display:none">
-            <input type="button" value="search" onclick="formStatus(false)" style="margin:10px 0 0 149px;"/>
+        <div id="searchForm" style="display:none" class="row">
+
+            <div class="value"> <tags:button color="blue" value="Search" onclick="formStatus(false)"  size="big" icon="search"/></div>
         </div>
 </div>
 </chrome:box>
 
-<br/><br/>
+
 
 <div id="displayFormStatusDiv" style="display:none;">
     <chrome:box title="Results">
         <div>
         <div style="height: 25px">
-        <div style="float:left"><tags:button type="button" value="prev" icon="back" color="blue" size="small" onclick="formStatus('prev')" /></div>
-        <div style="float:right"><tags:button type="button" value="next" icon="next" color="blue" size="small" onclick="formStatus('next')" /></div>
+        <div style="float:left"><tags:button type="button" value="Previous week" icon="back" color="blue" size="small" onclick="formStatus('prev')" /></div>
+        <div style="float:right"><tags:button type="button" value="Next week" icon="next" color="blue" size="small" onclick="formStatus('next')" /></div>
         </div>
         
 

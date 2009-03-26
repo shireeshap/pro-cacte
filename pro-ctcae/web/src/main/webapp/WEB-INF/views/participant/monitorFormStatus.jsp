@@ -33,28 +33,30 @@
             border-right: 1px solid #77a9ff;
             font-weight: bold;
             text-align: center;
+            background-color:#cccccc;
         }
+
         #formStatusTable {
-            text-align:center;
+            text-align: center;
         }
 
         td.Scheduled {
-            background-color: #0051fc;
-            color: white;
+            /*background-color: #0051fc;*/
+            /*color: white;*/
         }
 
         td.In-progress {
-            background-color: #ff9900;
-            color: white;
+            /*background-color: #ff9900;*/
+            /*color: white;*/
         }
 
         td.Completed {
-            background-color: #00cc00;
-            color: white;
+            /*background-color: #00cc00;*/
+            /*color: white;*/
         }
 
         td.Past due {
-            background-color: red;
+            /*background-color: red;*/
         }
 
     </style>
@@ -78,7 +80,7 @@
                 </td>
                 <c:forEach items="${crfStatus.value}" var="crfStatusName">
                     <td class="data ${crfStatusName}">
-                            ${crfStatusName}&nbsp;
+                        <img src="../../images/blue/${crfStatusName}.png" alt=""/>&nbsp;${crfStatusName}
                     </td>
                 </c:forEach>
             </tr>
@@ -89,7 +91,6 @@
     </table>
     <input type="hidden" id="pgStartDateNext" value='<tags:formatDate value="${pgStartNext}"/>'/>
     <input type="hidden" id="pgStartDatePrev" value='<tags:formatDate value="${pgStartPrev}"/>'/>
-
 
 
 </div>
