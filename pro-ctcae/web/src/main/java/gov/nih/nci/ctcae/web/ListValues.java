@@ -345,8 +345,8 @@ public class ListValues {
 
     public static List<ListValues> getNotificationOptions() {
         List<ListValues> col = new ArrayList<ListValues>();
-        ListValues lov1 = new ListValues("PrimaryPhysician", "Primary treating physician");
-        ListValues lov2 = new ListValues("PrimaryNurse", "Primary nurse");
+        ListValues lov1 = new ListValues("PrimaryPhysician", "Treating physician");
+        ListValues lov2 = new ListValues("PrimaryNurse", "Nurse");
         ListValues lov3 = new ListValues("SiteCRA", "Site CRA");
         ListValues lov4 = new ListValues("SitePI", "Site PI");
         col.add(lov1);
