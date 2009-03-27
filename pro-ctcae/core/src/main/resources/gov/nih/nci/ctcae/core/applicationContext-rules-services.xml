@@ -15,24 +15,24 @@
 
     <tx:annotation-driven/>
 
-    <bean id="ruleAuthoringService" class="com.semanticbits.rules.impl.RuleAuthoringServiceImpl">
-        <property name="repositoryService" ref="jcrService"/>
-    </bean>
+    <!--<bean id="ruleAuthoringService" class="com.semanticbits.rules.impl.RuleAuthoringServiceImpl">-->
+        <!--<property name="repositoryService" ref="jcrService"/>-->
+    <!--</bean>-->
 
-    <bean id="ruleDeploymentService" class="com.semanticbits.rules.impl.RuleDeploymentServiceImpl"/>
+    <!--<bean id="ruleDeploymentService" class="com.semanticbits.rules.impl.RuleDeploymentServiceImpl"/>-->
 
-    <bean id="ruleExecutionService" class="com.semanticbits.rules.impl.BusinessRulesExecutionServiceImpl"/>
+    <!--<bean id="ruleExecutionService" class="com.semanticbits.rules.impl.BusinessRulesExecutionServiceImpl"/>-->
 
-    <bean id="rulesLoader" class="com.semanticbits.rules.impl.SystemRulesDeployer">
-        <constructor-arg ref="ruleDeploymentService"/>
-    </bean>
+    <!--<bean id="rulesLoader" class="com.semanticbits.rules.impl.SystemRulesDeployer">-->
+        <!--<constructor-arg ref="ruleDeploymentService"/>-->
+    <!--</bean>-->
 
-    <bean id="ruleEngineService" class="com.semanticbits.rules.impl.RulesEngineServiceImpl">
-        <property name="repositoryService" ref="jcrService"/>
-    </bean>
-    <bean id="proCtcAERulesService" class="gov.nih.nci.ctcae.core.rules.ProCtcAERulesService">
-        <property name="ruleAuthoringService" ref="ruleAuthoringService"/>
-    </bean>
+    <!--<bean id="ruleEngineService" class="com.semanticbits.rules.impl.RulesEngineServiceImpl">-->
+        <!--<property name="repositoryService" ref="jcrService"/>-->
+    <!--</bean>-->
+    <!--<bean id="proCtcAERulesService" class="gov.nih.nci.ctcae.core.rules.ProCtcAERulesService">-->
+        <!--<property name="ruleAuthoringService" ref="ruleAuthoringService"/>-->
+    <!--</bean>-->
 
     <!--<bean id="emailService" class="gov.nih.nci.cabig.caaers.email.EmailServiceImpl"/>-->
     <!--<bean id="evaluationService" autowire="byType"-->

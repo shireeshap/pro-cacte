@@ -43,7 +43,10 @@
             </table>
         </div>
     </div>
-    <input type="checkbox" name="override_"${ruleIndex}/> <b>Can be overridden at site level</b>
+    <br/>
+    &nbsp;&nbsp;&nbsp;<input type="checkbox" name="override_"${ruleIndex}/> <b>Can be overridden at site level</b>
+    <br/>
+    <br/>
 </chrome:box>
 
 <script type="text/javascript">
