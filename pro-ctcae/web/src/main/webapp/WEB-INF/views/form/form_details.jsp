@@ -497,7 +497,7 @@
 
 
         addEditingDisplayToQuestion(selectedQuestionId);
-        var yPosition = parseInt($('sortable_' + selectedQuestionId).cumulativeOffset()[1]) - parseInt($('questionProperties_' + selectedQuestionId).cumulativeOffset()[1]) - 100;
+        var yPosition = parseInt($('sortable_' + selectedQuestionId).cumulativeOffset()[1]) - parseInt($('questionProperties_' + selectedQuestionId).cumulativeOffset()[1]) - 90;
         new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
 
     }
