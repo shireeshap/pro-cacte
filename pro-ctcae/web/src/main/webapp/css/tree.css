@@ -59,13 +59,15 @@ ul.tree span.b {
 }
 
 ul.tree span.a.children span.b {
-    background: url( ../images/minus.gif ) 0 50% no-repeat;
+    background: url( ../images/minus.gif ) 0 -18px no-repeat;
     cursor: pointer;
+	display:block;
 }
 
 ul.tree li.closed span.a.children span.b {
-    background: url( ../images/plus.gif ) 0 50% no-repeat;
+    background: url( ../images/plus.gif ) 0 -18px no-repeat;
     cursor: pointer;
+	display:block;
 }
 
 /* Span-C: Spacing and extending tree line below the icon */
@@ -80,6 +82,7 @@ ul.tree span.a.children span.c {
 	font-size:11pt;
 	font-weight:bolder;
 	color:#344575;
+	display:block;
 }
 ul.tree ul span.a.children span.c {
     background-image: url( ../images/page-openfoldericon.png );
@@ -92,7 +95,7 @@ ul.tree ul span.a.children span.c {
 
 ul.tree span.a.spanClosed span.c, ul.tree ul span.a.spanClosed span.c {
     background-image: url( ../images/page-foldericon.png );
-}
+	display:block;
 /*
  * Thanks to
 Bruno Maia, IconTexto
@@ -141,7 +144,9 @@ ul.tree ul ul li.last div {
 }
 ul.tree li table div {
 }
-
+.formbuilderBox li {
+	background:none;
+}
 /* As inside DIVs should be treated normally */
 ul.tree div a {
     padding: 0;
