@@ -18,19 +18,21 @@
     </appender>
 
     <logger name="gov.nih.nci.ctcae">
-        <level value="debug"/>
+        <level value="DEBUG"/>
     </logger>
     <logger name="org.springframework.security">
-        <level value="debug"/>
+        <level value="ERROR"/>
     </logger>
     <logger name="org.springframework">
-        <level value="error"/>
+        <level value="ERROR"/>
     </logger>
 
     <logger name="org.hibernate">
-        <level value="error"/>
+        <level value="INFO"/>
     </logger>
-
+    <logger name="com.semanticbits">
+        <level value="INFO"/>
+    </logger>
     <root>
         <priority value="error"/>
         <appender-ref ref="stdout"/>
