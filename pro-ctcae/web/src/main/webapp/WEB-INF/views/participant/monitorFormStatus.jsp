@@ -25,6 +25,8 @@
             border-right: 1px solid #77a9ff;
             font-weight: bold;
             white-space: nowrap;
+            background-color: #cccccc;
+            
         }
 
         td.header-top {
