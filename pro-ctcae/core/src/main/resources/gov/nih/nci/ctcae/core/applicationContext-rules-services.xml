@@ -30,22 +30,22 @@
     <!--<bean id="ruleEngineService" class="com.semanticbits.rules.impl.RulesEngineServiceImpl">-->
         <!--<property name="repositoryService" ref="jcrService"/>-->
     <!--</bean>-->
-    <!--<bean id="proCtcAERulesService" class="gov.nih.nci.ctcae.core.rules.ProCtcAERulesService">-->
+    <bean id="proCtcAERulesService" class="gov.nih.nci.ctcae.core.rules.ProCtcAERulesService">
         <!--<property name="ruleAuthoringService" ref="ruleAuthoringService"/>-->
-    <!--</bean>-->
+    </bean>
 
     <!--<bean id="emailService" class="gov.nih.nci.cabig.caaers.email.EmailServiceImpl"/>-->
     <!--<bean id="evaluationService" autowire="byType"-->
-    <!--class="com.semanticbits.rules.impl.RuleEvaluationServiceImpl"/>-->
+          <!--class="com.semanticbits.rules.impl.RuleEvaluationServiceImpl"/>-->
 
     <!--<bean id="adverseEventEvaluationService"-->
-    <!--class="gov.nih.nci.cabig.caaers.rules.business.service.AdverseEventEvaluationServiceImpl" autowire="no">-->
-    <!--<property name="rulesEngineService" ref="ruleEngineService"/>-->
-    <!--<property name="businessRulesExecutionService" ref="businessRulesExecutionService"/>-->
+          <!--class="gov.nih.nci.cabig.caaers.rules.business.service.AdverseEventEvaluationServiceImpl" autowire="no">-->
+        <!--<property name="rulesEngineService" ref="ruleEngineService"/>-->
+        <!--<property name="businessRulesExecutionService" ref="businessRulesExecutionService"/>-->
     <!--</bean>-->
 
     <!--<bean id="businessRulesExecutionService"-->
-    <!--class="com.semanticbits.rules.impl.BusinessRulesExecutionServiceImpl" autowire="byName"/>-->
+          <!--class="com.semanticbits.rules.impl.BusinessRulesExecutionServiceImpl" autowire="byName"/>-->
 
 
 </beans>

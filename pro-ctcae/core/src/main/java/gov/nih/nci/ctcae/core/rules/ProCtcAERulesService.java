@@ -18,11 +18,12 @@ import gov.nih.nci.ctcae.core.domain.*;
 public class ProCtcAERulesService {
 
 
-    RuleAuthoringService ruleAuthoringService;
+    //RuleAuthoringService ruleAuthoringService;
 
     public RuleSet getRuleSetForForm(CRF crf) {
         String packageName = RuleUtil.getPackageName(RuleSetType.FORM_LEVEL.getPackagePrefix(), crf.getStudy().getId().toString(), crf.getId().toString());
-        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
+//        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
+        RuleSet ruleSet = null;
         if (ruleSet == null) {
             ruleSet = new RuleSet();
 
@@ -31,20 +32,19 @@ public class ProCtcAERulesService {
             ruleSet.setDescription("RuleSet for Study: " + crf.getStudy().getShortTitle() + ", CRF: " + crf.getTitle());
             ruleSet.setSubject("Form Rules||" + crf.getStudy().getShortTitle() + "||" + crf.getTitle());
             ruleSet.setCoverage("Not Enabled");
-            ruleAuthoringService.createRuleSet(ruleSet);
+            //ruleAuthoringService.createRuleSet(ruleSet);
         }
         return ruleSet;
     }
 
-    @Required
-    public RuleAuthoringService getRuleAuthoringService() {
-        return ruleAuthoringService;
-    }
+//    public RuleAuthoringService getRuleAuthoringService() {
+//        return ruleAuthoringService;
+//    }
 
-    @Required
-    public void setRuleAuthoringService(RuleAuthoringService ruleAuthoringService) {
-        this.ruleAuthoringService = ruleAuthoringService;
-    }
+    //    @Required
+//    public void setRuleAuthoringService(RuleAuthoringService ruleAuthoringService) {
+//        this.ruleAuthoringService = ruleAuthoringService;
+//    }
 
     public static Rule addEmptyRule(CRF crf, RuleSet ruleSet) {
         Rule newRule = new Rule();

@@ -31,7 +31,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
     }
 
     public String getRequiredPrivilege() {
-        return Privilege.PRIVILEGE_CREATE_FORM;
+        return Privilege.PRIVILEGE_ADD_FORM_RULES;
     }
 
     /* (non-Javadoc)
