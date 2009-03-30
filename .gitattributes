@@ -159,7 +159,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantC
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfScheduleRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/UserRepository.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/rules/ProCtcAERulesService.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/ApplicationSecurityManager.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/DomainObjectAuthorizationCheck.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/DomainObjectGroupPrivilegeGenerator.java -text
@@ -268,10 +267,6 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.j
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepositoryTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/rules/AbstractRulesTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/rules/CreateRuleTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/rules/RuleUtilTest.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/rules/RulesCheckRepositoryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/AbstractInstanceLevelAuthorizationIntegrationTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/AbstractPIAndLeadCRAInstanceLevelAuthorizationIntegrationTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/security/AbstractPIAndLeadCRAMethodAuthorizationIntegrationTestCase.java -text
