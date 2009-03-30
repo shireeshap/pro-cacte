@@ -424,6 +424,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfTab.jav
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/ProCtcAERulesService.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/SecuredTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationCheck.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationTag.java -text
