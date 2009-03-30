@@ -6,7 +6,6 @@ pro-ctcae/common.xml -text
 pro-ctcae/commons/commons.iml -text
 pro-ctcae/commons/ivy-build.xml -text
 pro-ctcae/commons/ivy.xml -text
-pro-ctcae/commons/pom.xml -text
 pro-ctcae/commons/src/main/java/gov/nih/nci/ctcae/commons/utils/DateUtils.java -text
 pro-ctcae/commons/src/main/java/gov/nih/nci/ctcae/commons/utils/PropertyUtil.java -text
 pro-ctcae/commons/src/test/java/gov/nih/nci/ctcae/commons/utils/DateUtilsTest.java -text
@@ -15,7 +14,6 @@ pro-ctcae/core/core.iml -text
 pro-ctcae/core/ivy-build.xml -text
 pro-ctcae/core/ivy.xml -text
 pro-ctcae/core/maven-eclipse.xml -text
-pro-ctcae/core/pom.xml -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/001_create_audit_event_values.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/002_create_audit_events.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/003_create_organizations.groovy -text
@@ -313,7 +311,6 @@ pro-ctcae/datasource.properties -text
 pro-ctcae/ivy.xml -text
 pro-ctcae/ivysettings-offline.xml -text
 pro-ctcae/ivysettings.xml -text
-pro-ctcae/pom.xml -text
 pro-ctcae/tools/checkstyle/checkstyle-frames-errors.xsl -text
 pro-ctcae/tools/checkstyle/checkstyle-frames.xsl -text
 pro-ctcae/tools/checkstyle/checkstyle_checks.xml -text
@@ -355,7 +352,6 @@ pro-ctcae/tools/pmd/pmdRuleset.xml -text
 pro-ctcae/tools/selenium/selenium-server.jar -text
 pro-ctcae/web/ivy-build.xml -text
 pro-ctcae/web/ivy.xml -text
-pro-ctcae/web/pom.xml -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/AbstractTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/AuditInfoFilter.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/ConfirmationCheckController.java -text
