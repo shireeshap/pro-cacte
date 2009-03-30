@@ -300,6 +300,8 @@ public class ListValues {
 
     public static List<ListValues> getSymptomsForCRF(CRF crf) {
         List<ListValues> col = new ArrayList<ListValues>();
+        ListValues lov = new ListValues("Allsymptoms", "All symptoms");
+        col.add(lov);
         HashSet proCtcTerms = new HashSet();
         for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
             proCtcTerms.add(crfPageItem.getProCtcQuestion().getProCtcTerm());
@@ -307,7 +309,7 @@ public class ListValues {
         Iterator setIterator = proCtcTerms.iterator();
         while (setIterator.hasNext()) {
             ProCtcTerm proCtcTerm = (ProCtcTerm) setIterator.next();
-            ListValues lov = new ListValues(proCtcTerm.getTerm(), proCtcTerm.getTerm());
+            lov = new ListValues(proCtcTerm.getTerm(), proCtcTerm.getTerm());
             col.add(lov);
         }
         return col;
@@ -315,6 +317,7 @@ public class ListValues {
 
     public static List<ListValues> getQuestionTypes(CRF crf) {
         List<ListValues> valuesList = new ArrayList<ListValues>();
+
         HashSet questionTypes = new HashSet();
         for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
             questionTypes.add(crfPageItem.getProCtcQuestion().getProCtcQuestionType());
@@ -330,6 +333,7 @@ public class ListValues {
 
     public static List<ListValues> getComparisonOptions() {
         List<ListValues> col = new ArrayList<ListValues>();
+        ListValues lov0 = new ListValues("", "Please select");
         ListValues lov1 = new ListValues("gt", "is greater than");
         ListValues lov2 = new ListValues("ge", "is greater than or equal to");
         ListValues lov3 = new ListValues("eq", "is equal to");
@@ -345,10 +349,12 @@ public class ListValues {
 
     public static List<ListValues> getNotificationOptions() {
         List<ListValues> col = new ArrayList<ListValues>();
+        ListValues lov0 = new ListValues("", "Please select");
         ListValues lov1 = new ListValues("PrimaryPhysician", "Treating physician");
         ListValues lov2 = new ListValues("PrimaryNurse", "Nurse");
         ListValues lov3 = new ListValues("SiteCRA", "Site CRA");
         ListValues lov4 = new ListValues("SitePI", "Site PI");
+        col.add(lov0);
         col.add(lov1);
         col.add(lov2);
         col.add(lov3);
@@ -362,6 +368,11 @@ public class ListValues {
         HashSet presentOptions = new HashSet();
         HashSet amountOptions = new HashSet();
         HashSet frequencyOptions = new HashSet();
+        severityOptions.add("Please select");
+        interferenceOptions.add("Please select");
+        presentOptions.add("Please select");
+        amountOptions.add("Please select");
+        frequencyOptions.add("Please select");
 
         for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
             switch (crfPageItem.getProCtcQuestion().getProCtcQuestionType()) {

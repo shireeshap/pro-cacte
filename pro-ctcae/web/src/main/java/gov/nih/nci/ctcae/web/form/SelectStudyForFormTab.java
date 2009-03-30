@@ -22,8 +22,6 @@ public class SelectStudyForFormTab extends SecuredTab<CreateFormCommand> {
 
     public String getRequiredPrivilege() {
         return Privilege.PRIVILEGE_CREATE_FORM;
-
-
     }
 
 }

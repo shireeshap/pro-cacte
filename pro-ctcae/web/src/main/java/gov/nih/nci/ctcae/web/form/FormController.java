@@ -107,7 +107,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
      *
      * @param flow the flow
      */
-    private void layoutTabs(Flow<CreateFormCommand> flow) {
+    protected void layoutTabs(Flow<CreateFormCommand> flow) {
         flow.addTab(new SelectStudyForFormTab());
         flow.addTab(new FormDetailsTab());
         flow.addTab(new CalendarTemplateTab());
@@ -120,6 +120,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
      */
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         CreateFormCommand createFormCommand = (CreateFormCommand) command;
+        createFormCommand.processRules(request);
         save(createFormCommand);
 
         Map model = new HashMap();

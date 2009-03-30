@@ -3,16 +3,17 @@ package gov.nih.nci.ctcae.web.form;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
+import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.semanticbits.rules.brxml.RuleSet;
+import com.semanticbits.rules.brxml.*;
 
 //
 /**
@@ -60,6 +61,7 @@ public class CreateFormCommand implements Serializable {
 
     private RuleSet ruleSet;
 
+    private int ruleSetSize = 0;
     /**
      * Gets the title.
      *
@@ -99,7 +101,7 @@ public class CreateFormCommand implements Serializable {
         setQuestionIdToRemove("");
         setCrfPageNumberToRemove("");
 
-        String[] crfPageNumberArray = StringUtils.commaDelimitedListToStringArray(crfPageNumbers);
+        String[] crfPageNumberArray = org.springframework.util.StringUtils.commaDelimitedListToStringArray(crfPageNumbers);
 
         //now clear the empty pages
         clearEmptyPages();
@@ -312,5 +314,78 @@ public class CreateFormCommand implements Serializable {
 
     public void setRuleSet(RuleSet ruleSet) {
         this.ruleSet = ruleSet;
+        ruleSetSize = ruleSet.getRule().size();
+    }
+
+    public void processRules(HttpServletRequest request) {
+        int ruleIndex = 0;
+        String[] rules = (String[]) request.getParameterValues("rule");
+
+        for (String dummyRule : rules) {
+            List<String> symptoms = getListForRule(ruleIndex, request, "symptoms");
+            List<String> questiontypes = getListForRule(ruleIndex, request, "questiontypes");
+            List<String> operators = getListForRule(ruleIndex, request, "operators");
+            List<String> values = getListForRule(ruleIndex, request, "values");
+            List<String> notifications = getListForRule(ruleIndex, request, "notifications");
+            String ruleName = "Rule " + ruleIndex;
+            createRules(ruleSet, ruleName, symptoms, questiontypes, operators, values, notifications);
+            ruleIndex++;
+        }
+    }
+
+    public void createRules(RuleSet ruleSet, String ruleName, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications) {
+        for (String symptom : symptoms) {
+            Rule rule = new Rule();
+            MetaData metaData = new MetaData();
+            metaData.setName(ruleName);
+            metaData.setPackageName(ruleSet.getName());
+            metaData.setDescription("");
+            rule.setMetaData(metaData);
+            Condition condition = new Condition();
+            int j = 0;
+            for (String questiontype : questiontypes) {
+                Column column = new Column();
+                column.setObjectType(ProCtcTerm.class.getName());
+                column.setIdentifier(symptom);
+                FieldConstraint fieldConstraint = new FieldConstraint();
+                fieldConstraint.setFieldName(questiontype);
+                LiteralRestriction literalRestriction = new LiteralRestriction();
+                literalRestriction.setEvaluator(operators.get(j));
+                List<String> myValues = new ArrayList<String>();
+                myValues.add(values.get(j));
+                literalRestriction.setValue(myValues);
+                fieldConstraint.getLiteralRestriction().add(literalRestriction);
+                column.getFieldConstraint().add(fieldConstraint);
+                condition.getColumn().add(column);
+                j++;
+            }
+            rule.setCondition(condition);
+            rule.setAction(notifications);
+            ruleSet.getRule().add(rule);
+            ProCtcAERulesService.createRule(rule);
+        }
+    }
+
+    private List<String> getListForRule(int ruleIndex, HttpServletRequest request, String listType) {
+        List<String> list = new ArrayList<String>();
+        int index = 0;
+        while (true) {
+            String parameterName = listType + "_" + ruleIndex + "_" + index;
+            String parameterValue = request.getParameter(parameterName);
+            if (!StringUtils.isBlank(parameterValue)) {
+                list.add(parameterValue);
+                index++;
+            } else {
+                return list;
+            }
+        }
+    }
+
+    public void incrementRuleSetSize(){
+        ruleSetSize++;
+    }
+
+    public int getRuleSetSize() {
+        return ruleSetSize;
     }
 }

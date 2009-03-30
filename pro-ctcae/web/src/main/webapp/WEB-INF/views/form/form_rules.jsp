@@ -161,7 +161,7 @@
     <jsp:attribute name="repeatingFields">
         <input type="hidden" name="_finish" value="true" id="_finish">
         <c:forEach items="${command.ruleSet.rule}" var="rule" varStatus="status">
-            <tags:formRule ruleSet="${command.ruleSet}" ruleIndex="${status.index}"/>
+            <tags:formRule rule="${rule}" ruleIndex="${status.index}"/>
         </c:forEach>
 
         <div id="hiddenDiv"></div>

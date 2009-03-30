@@ -198,8 +198,6 @@ pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-datasource.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-jms.xml -text
-pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-rules-jcr.xml -text
-pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-rules-services.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-setup.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-util.xml -text
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/email/template/exception.ftl -text
@@ -454,6 +452,8 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tag/PublicAuthorizeTag.java -t
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/tools/ObjectTools.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/validation/validator/WebControllerValidatorImpl.java -text
+pro-ctcae/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-rules-jcr.xml -text
+pro-ctcae/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-rules-services.xml -text
 pro-ctcae/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml -text
 pro-ctcae/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-security.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/ctcae.tld -text
@@ -1086,7 +1086,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SelectStudyPartici
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendarTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/AbstractRulesTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/CreateRuleTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/CommonRulesTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/RuleUtilTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/RulesCheckRepositoryTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/AdminURLAuthorizationIntegrationTest.java -text

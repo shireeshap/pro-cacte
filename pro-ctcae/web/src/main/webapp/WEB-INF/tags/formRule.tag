@@ -1,10 +1,10 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@attribute name="ruleSet" type="com.semanticbits.rules.brxml.RuleSet" required="true" %>
+<%@attribute name="rule" type="com.semanticbits.rules.brxml.Rule" required="true" %>
 <%@attribute name="ruleIndex" required="true" %>
-<%--<chrome:box title="${ruleSet.rule[ruleIndex].metaData.name}">--%>
 <chrome:box title="Rule ${ruleIndex + 1}">
+    <input type="hidden" name="rule" value="dummy"/>
     <chrome:division title="Symptoms"/>
     <div class="row">
         <div class="value">

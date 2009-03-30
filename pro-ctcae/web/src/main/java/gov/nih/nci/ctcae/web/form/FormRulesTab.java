@@ -1,11 +1,10 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
+import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import gov.nih.nci.ctcae.web.ListValues;
 import org.springframework.validation.Errors;
-import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -60,6 +59,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
 
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
+        command.processRules(request);
         super.postProcess(request, command, errors);
     }
 

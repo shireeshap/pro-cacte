@@ -1,19 +1,18 @@
 package gov.nih.nci.ctcae.web.rules;
 
+import org.drools.repository.RulesRepository;
+import gov.nih.nci.ctcae.web.rules.AbstractRulesTest;
+import gov.nih.nci.ctcae.web.form.CreateFormCommand;
+
+import java.util.List;
+import java.util.ArrayList;
+
 import com.semanticbits.rules.brxml.RuleSet;
 import com.semanticbits.rules.brxml.Rule;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import gov.nih.nci.ctcae.web.rules.AbstractRulesTest;
-import gov.nih.nci.ctcae.web.form.CreateFormCommand;
-import gov.nih.nci.ctcae.web.WebTestCase;
+public class CommonRulesTest extends AbstractRulesTest {
 
-import javax.servlet.http.HttpServletRequest;
-
-
-public class CreateRuleTest extends AbstractRulesTest {
     List<String> symptoms = new ArrayList<String>();
     List<String> questiontypes = new ArrayList<String>();
     List<String> operators = new ArrayList<String>();
@@ -28,23 +27,14 @@ public class CreateRuleTest extends AbstractRulesTest {
         operators.add("gt");
         values.add("High");
         notifications.add("Nurse");
-
+        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
+        if (ruleSet == null) {
+            createRuleSet();
+        }
     }
 
-    public void testDeleteRuleSet() throws Exception {
-
-        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
-        assertNotNull(ruleSet);
-        ruleEngineService.deleteRuleSet(packageName);
-        ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
-        assertNull(ruleSet);
-    }
-
-    public void testCreateRuleSet() throws Exception {
-
-        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
-        assertNull(ruleSet);
-        ruleSet = new RuleSet();
+    private void createRuleSet() {
+        RuleSet ruleSet = new RuleSet();
 
         ruleSet.setName(packageName);
         ruleSet.setStatus("Draft");
@@ -54,19 +44,36 @@ public class CreateRuleTest extends AbstractRulesTest {
 
         assertEquals(0, ruleSet.getImport().size());
         ruleAuthoringService.createRuleSet(ruleSet);
-        RuleSet savedRuleSet = ruleAuthoringService.getRuleSet(packageName, true);
-        assertNotNull(savedRuleSet);
+
     }
 
-    public void testAddRule() {
+    private void deleteRuleSet() throws Exception {
+        ruleEngineService.deleteRuleSet(packageName);
+    }
+
+
+    public void testAddRule() throws Exception {
+
+        deleteRuleSet();
+        assertNull(ruleAuthoringService.getRuleSet(packageName, true));
+        createRuleSet();
 
         RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
         assertNotNull(ruleSet);
         CreateFormCommand createFormCommand = new CreateFormCommand();
         createFormCommand.createRules(ruleSet, "MyRule", symptoms, questiontypes, operators, values, notifications);
+
         assertTrue(true);
 
     }
 
+    public void testExportRuleSet() throws Exception {
+        ruleEngineService.exportRule(packageName, "c:\\etc\\ctcae");
+    }
+
+    public void testGetRules(){
+        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
+        assertEquals(1, ruleSet.getRule().size());
+    }
 
 }

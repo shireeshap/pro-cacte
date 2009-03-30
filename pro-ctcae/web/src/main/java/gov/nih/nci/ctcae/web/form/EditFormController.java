@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
@@ -19,9 +20,17 @@ import java.util.Map;
  */
 public class EditFormController extends FormController {
 
+    @Override
+    protected void layoutTabs(Flow<CreateFormCommand> flow) {
+        flow.addTab(new FormDetailsTab());
+        flow.addTab(new CalendarTemplateTab());
+        flow.addTab(new FormRulesTab());
+
+    }
+
     /* (non-Javadoc)
-     * @see gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController#referenceData(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.Errors, int)
-     */
+    * @see gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController#referenceData(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.Errors, int)
+    */
     @Override
     protected Map referenceData(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception {
 
@@ -61,6 +70,11 @@ public class EditFormController extends FormController {
     @Override
     protected boolean shouldSave(final HttpServletRequest request, final CreateFormCommand command, final Tab tab) {
         return true;
+    }
+
+    @Override
+    protected int getInitialPage(HttpServletRequest request) {
+        return 0;
     }
 
 }

@@ -18,72 +18,32 @@ import gov.nih.nci.ctcae.core.domain.*;
 public class ProCtcAERulesService {
 
 
-    //RuleAuthoringService ruleAuthoringService;
+    static RuleAuthoringService ruleAuthoringService;
 
     public RuleSet getRuleSetForForm(CRF crf) {
         String packageName = RuleUtil.getPackageName(RuleSetType.FORM_LEVEL.getPackagePrefix(), crf.getStudy().getId().toString(), crf.getId().toString());
-//        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
-        RuleSet ruleSet = null;
+        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
         if (ruleSet == null) {
             ruleSet = new RuleSet();
-
             ruleSet.setName(packageName);
             ruleSet.setStatus(RuleStatus.DRAFT.getDisplayName());
             ruleSet.setDescription("RuleSet for Study: " + crf.getStudy().getShortTitle() + ", CRF: " + crf.getTitle());
             ruleSet.setSubject("Form Rules||" + crf.getStudy().getShortTitle() + "||" + crf.getTitle());
             ruleSet.setCoverage("Not Enabled");
-            //ruleAuthoringService.createRuleSet(ruleSet);
+            ruleAuthoringService.createRuleSet(ruleSet);
         }
         return ruleSet;
     }
 
-//    public RuleAuthoringService getRuleAuthoringService() {
-//        return ruleAuthoringService;
-//    }
 
-    //    @Required
-//    public void setRuleAuthoringService(RuleAuthoringService ruleAuthoringService) {
-//        this.ruleAuthoringService = ruleAuthoringService;
-//    }
-
-    public static Rule addEmptyRule(CRF crf, RuleSet ruleSet) {
-        Rule newRule = new Rule();
-        MetaData metaData = new MetaData();
-        metaData.setName("Rule " + ruleSet.getRule().size());
-        newRule.setMetaData(metaData);
-
-        Condition condition = newCondition();
-        newRule.setCondition(condition);
-        Column column = condition.getColumn().get(0);
-        column.setObjectType(RuleColumnObjectType.SYMPTOM.getDisplayName());
-//        column.setIdentifier();
-
-
-        List<String> action = new ArrayList<String>();
-        newRule.setAction(action);
-        ruleSet.getRule().add(newRule);
-        return newRule;
+    @Required
+    public void setRuleAuthoringService(RuleAuthoringService ruleAuthoringService) {
+        this.ruleAuthoringService = ruleAuthoringService;
     }
 
-    private static Condition newCondition() {
-        Condition condition = new Condition();
-        Column column = newColumn();
-        condition.getColumn().add(column);
-        return condition;
+    public static void createRule(Rule rule) {
+        ruleAuthoringService.createRule(rule);
     }
 
-    private static Column newColumn() {
-        Column column = new Column();
-        FieldConstraint fieldConstraint = newFieldConstraint();
-        column.getFieldConstraint().add(fieldConstraint);
-        return column;
-    }
-
-    private static FieldConstraint newFieldConstraint() {
-        FieldConstraint fieldConstraint = new FieldConstraint();
-        LiteralRestriction literalRestriction = new LiteralRestriction();
-        fieldConstraint.getLiteralRestriction().add(literalRestriction);
-        return fieldConstraint;
-    }
 
 }

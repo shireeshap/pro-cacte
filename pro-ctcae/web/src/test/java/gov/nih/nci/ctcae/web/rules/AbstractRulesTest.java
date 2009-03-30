@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.rules;
 import com.semanticbits.rules.utils.RuleUtil;
 import com.semanticbits.rules.utils.RepositoryCleaner;
 import com.semanticbits.rules.api.*;
+import com.semanticbits.rules.brxml.RuleSet;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 import org.springframework.beans.factory.annotation.Required;
 import org.drools.repository.RulesRepository;
@@ -20,8 +21,9 @@ public class AbstractRulesTest extends AbstractDependencyInjectionSpringContextT
     protected String subject;
     protected RepositoryCleaner repositoryCleaner;
     protected ProCtcAERulesService proCtcAERulesService;
+    protected RuleSet ruleSet;
     private static final String[] context = new String[]{
-            "classpath*:gov/nih/nci/ctcae/core/applicationContext-rules-*.xml"
+            "classpath*:gov/nih/nci/ctcae/web/applicationContext-rules-*.xml"
     };
 
     @Override
