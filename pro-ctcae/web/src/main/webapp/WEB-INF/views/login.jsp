@@ -97,49 +97,44 @@
                 <td>admin</td>
             </tr>
             <tr>
-                <td>Angello</td>
-                <td>system_admin</td>
-                <td>Lead CRA</td>
-            </tr>
-            <tr>
-                <td>Steve</td>
+                <td>cca</td>
                 <td>system_admin</td>
                 <td>CCA</td>
             </tr>
             <tr>
-                <td>John</td>
+                <td>cs1mskcc</td>
                 <td>system_admin</td>
                 <td>Overall Data Coordinator (ODC)</td>
             </tr>
             <tr>
-                <td>Bob</td>
+                <td>cs1wake</td>
                 <td>system_admin</td>
-                <td>PI</td>
+                <td>Lead CRA</td>
             </tr>
             <tr>
-                <td>George</td>
+                <td>cs2wake</td>
                 <td>system_admin</td>
-                <td>Site CRA</td>
+                <td>Overall PI</td>
             </tr>
             <tr>
-                <td>Donna</td>
+                <td>cs1duke</td>
                 <td>system_admin</td>
                 <td>Site PI</td>
             </tr>
             <tr>
-                <td>Brian</td>
+                <td>cs2duke</td>
                 <td>system_admin</td>
-                <td>Research Nurse</td>
+                <td>Site CRA</td>
             </tr>
             <tr>
-                <td>Laura</td>
+                <td>cs3duke</td>
                 <td>system_admin</td>
-                <td>Research Nurse</td>
+                <td>Site Investigator</td>
             </tr>
             <tr>
-                <td>Joshua</td>
+                <td>cs4duke</td>
                 <td>system_admin</td>
-                <td>Primary Treating Physician</td>
+                <td>Nurse</td>
             </tr>
         </table>
         <br>
