@@ -1085,6 +1085,10 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SearchParticipantC
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendarTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/AbstractRulesTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/CreateRuleTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/RuleUtilTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/RulesCheckRepositoryTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/AdminURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/CCAURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/CommonUrlAuthorizationIntegrationTest.java -text
