@@ -51,6 +51,7 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
 
     insert('PRIVILEGES', [id: -69, privilege_name: "PRIVILEGE_EDIT_PARTICIPANT", display_name: "PRIVILEGE_EDIT_PARTICIPANT"], primaryKey: false)
     insert('PRIVILEGES', [id: -70, privilege_name: "PRIVILEGE_VIEW_PARTICIPANT", display_name: "PRIVILEGE_VIEW_PARTICIPANT"], primaryKey: false)
+    insert('PRIVILEGES', [id: -71, privilege_name: "PRIVILEGE_MONITOR_FORM", display_name: "PRIVILEGE_MONITOR_FORM"], primaryKey: false)
 
     insert('PRIVILEGES', [id: -301, privilege_name: "PRIVILEGE_CREATE_CCA", display_name: "PRIVILEGE_CREATE_CCA"], primaryKey: false)
 
@@ -85,12 +86,14 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -803, role_name: "TREATING_PHYSICIAN", privilege_id: "-65"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -804, role_name: "TREATING_PHYSICIAN", privilege_id: "-67"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -805, role_name: "TREATING_PHYSICIAN", privilege_id: "-3"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -807, role_name: "TREATING_PHYSICIAN", privilege_id: "-71"], primaryKey: false)
 
     insert('ROLE_PRIVILEGES', [id: -921, role_name: "NURSE", privilege_id: "-62"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -922, role_name: "NURSE", privilege_id: "-63"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -923, role_name: "NURSE", privilege_id: "-65"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -924, role_name: "NURSE", privilege_id: "-67"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -925, role_name: "NURSE", privilege_id: "-3"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -926, role_name: "NURSE", privilege_id: "-71"], primaryKey: false)
 
 
 
@@ -103,6 +106,7 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -687, role_name: "SITE_CRA", privilege_id: "-68"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -688, role_name: "SITE_CRA", privilege_id: "-69"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -689, role_name: "SITE_CRA", privilege_id: "-70"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -702, role_name: "SITE_CRA", privilege_id: "-71"], primaryKey: false)
 
     insert('ROLE_PRIVILEGES', [id: -690, role_name: "SITE_CRA", privilege_id: "-43"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -691, role_name: "SITE_CRA", privilege_id: "-41"], primaryKey: false)
@@ -124,6 +128,8 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -787, role_name: "SITE_PI", privilege_id: "-68"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -788, role_name: "SITE_PI", privilege_id: "-69"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -789, role_name: "SITE_PI", privilege_id: "-70"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -808, role_name: "SITE_PI", privilege_id: "-71"], primaryKey: false)
+
 
     insert('ROLE_PRIVILEGES', [id: -790, role_name: "SITE_PI", privilege_id: "-43"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -791, role_name: "SITE_PI", privilege_id: "-41"], primaryKey: false)
@@ -161,6 +167,7 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -125, role_name: "LEAD_CRA", privilege_id: "-7"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -141, role_name: "LEAD_CRA", privilege_id: "-8"], primaryKey: false)
 
+
     insert('ROLE_PRIVILEGES', [id: -126, role_name: "LEAD_CRA", privilege_id: "-41"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -127, role_name: "LEAD_CRA", privilege_id: "-43"], primaryKey: false)
 
@@ -173,6 +180,7 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -134, role_name: "LEAD_CRA", privilege_id: "-66"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -135, role_name: "LEAD_CRA", privilege_id: "-69"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -136, role_name: "LEAD_CRA", privilege_id: "-70"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -142, role_name: "LEAD_CRA", privilege_id: "-71"], primaryKey: false)
 
     insert('ROLE_PRIVILEGES', [id: -137, role_name: "LEAD_CRA", privilege_id: "-23"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -138, role_name: "LEAD_CRA", privilege_id: "-24"], primaryKey: false)
@@ -200,6 +208,7 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -234, role_name: "PI", privilege_id: "-66"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -235, role_name: "PI", privilege_id: "-69"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -236, role_name: "PI", privilege_id: "-70"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -242, role_name: "PI", privilege_id: "-71"], primaryKey: false)
 
     insert('ROLE_PRIVILEGES', [id: -237, role_name: "PI", privilege_id: "-23"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -238, role_name: "PI", privilege_id: "-24"], primaryKey: false)
@@ -213,6 +222,10 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -332, role_name: "ODC", privilege_id: "-27"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -333, role_name: "ODC", privilege_id: "-43"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -334, role_name: "ODC", privilege_id: "-62"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -335, role_name: "ODC", privilege_id: "-71"], primaryKey: false)
+
+    insert('ROLE_PRIVILEGES', [id: -336, role_name: "PARTICIPANT", privilege_id: "-64"], primaryKey: false)
+
 
 
   }
