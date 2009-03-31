@@ -106,4 +106,22 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
 
     }
 
+    public void testFindByUserId() {
+        User user = new User();
+        user.setUsername("1");
+        login(user);
+        ParticipantQuery participantQuery = new ParticipantQuery();
+        participantQuery.filterByUserId(24);
+
+        Collection<? extends Participant> participants = participantRepository
+                .find(participantQuery);
+        assertFalse(participants.isEmpty());
+//        int size = jdbcTemplate
+//                .queryForInt("select count(*) from participants participants where lower(participants.last_name ) like '%d%'");
+
+        assertEquals(1, participants.size());
+
+
+    }
+
 }

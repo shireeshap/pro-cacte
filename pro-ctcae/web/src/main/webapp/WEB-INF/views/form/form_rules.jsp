@@ -33,7 +33,7 @@
         function getCopyOfSelect(original, id) {
             var copy = original.cloneNode(true);
             copy.id = id;
-            copy.name=id;
+            copy.name = id;
             return copy;
         }
 
@@ -118,7 +118,6 @@
         }
 
         function initializeRule(ruleindex) {
-            registerme(ruleindex);
             addSymptom(ruleindex);
             addCondition(ruleindex);
             addNotification(ruleindex);
@@ -134,6 +133,10 @@
             var td = $('td_' + newObjId);
             td.removeChild($(newObjId));
             td.appendChild(valueSelect);
+        }
+
+        function deleteMe(obj){
+            obj.remove();
         }
 
     </script>
@@ -160,8 +163,12 @@
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
     <jsp:attribute name="repeatingFields">
         <input type="hidden" name="_finish" value="true" id="_finish">
-        <c:forEach items="${command.ruleSet.rule}" var="rule" varStatus="status">
-            <tags:formRule rule="${rule}" ruleIndex="${status.index}"/>
+        <c:forEach items="${command.formRules}" var="proCtcAeRule" varStatus="status">
+            <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}"
+                           comparisonOptions="${comparisonOptions}"
+                           crfSymptoms="${crfSymptoms}" comparisonValues="${comparisonValues}"
+                           notifications="${notifications}"
+                           questionTypes="${questionTypes}"/>
         </c:forEach>
 
         <div id="hiddenDiv"></div>

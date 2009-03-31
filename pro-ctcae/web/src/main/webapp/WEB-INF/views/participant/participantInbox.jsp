@@ -11,105 +11,105 @@
 
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <style type="text/css">
-        div.row div.value {
-            white-space: normal;
-        }
+    <%--<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">--%>
+    <%--<style type="text/css">--%>
+        <%--div.row div.value {--%>
+            <%--white-space: normal;--%>
+        <%--}--%>
 
-        .label {
-            font-weight: bold;
-            float: left;
-            margin-left: 0.5em;
-            margin-right: 0.5em;
-            padding: 1px;
-            font-size: 20px;
-        }
+        <%--.label {--%>
+            <%--font-weight: bold;--%>
+            <%--float: left;--%>
+            <%--margin-left: 0.5em;--%>
+            <%--margin-right: 0.5em;--%>
+            <%--padding: 1px;--%>
+            <%--font-size: 20px;--%>
+        <%--}--%>
 
-        #inboxTable {
-            width: 80%;
-            border: 0;
-            margin-left: 95px;
-            margin-top: 210px;
-            border-collapse: collapse;
-        }
+        <%--#inboxTable {--%>
+            <%--width: 80%;--%>
+            <%--border: 0;--%>
+            <%--margin-left: 95px;--%>
+            <%--margin-top: 210px;--%>
+            <%--border-collapse: collapse;--%>
+        <%--}--%>
 
-        #inboxTable th {
-            background-color: #CBD9E4;
-        }
+        <%--#inboxTable th {--%>
+            <%--background-color: #CBD9E4;--%>
+        <%--}--%>
 
-        #taskbar {
-            font-weight: bold;
-            padding-top: 12px;
-        }
+        <%--#taskbar {--%>
+            <%--font-weight: bold;--%>
+            <%--padding-top: 12px;--%>
+        <%--}--%>
 
-            /*
-            #taskbar:after {
-                        content: "Welcome $ { user name here }";
-                    }
-            */
-        #inboxTitle {
-            color: #003E7C;
-            position: absolute;
-            left: 150px;
-            top: 39px;
-        }
-    </style>
+            <%--/*--%>
+            <%--#taskbar:after {--%>
+                        <%--content: "Welcome $ { user name here }";--%>
+                    <%--}--%>
+            <%--*/--%>
+        <%--#inboxTitle {--%>
+            <%--color: #003E7C;--%>
+            <%--position: absolute;--%>
+            <%--left: 150px;--%>
+            <%--top: 39px;--%>
+        <%--}--%>
+    <%--</style>--%>
 </head>
 <body>
-<c:set var="todaysdate" value="<%= new Date()%>"/>
+<%--<c:set var="todaysdate" value="<%= new Date()%>"/>--%>
 <%--this loop is the same code as below that renders the forms, but it just gets the number of forms to display under the 'Inbox' text--%>
-<c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
-    <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
-        <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
-            <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
-                <c:set var="numberofCrfs" scope="page" value="${numberofCrfs + 1}"/>
-            </c:if>
-        </c:forEach>
-    </c:forEach>
-</c:forEach>
-<img style="position:absolute; top:0px; left:0px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox" />
-<div id="inboxTitle"><span style="font-size:75px; line-height:70px;">Inbox</span><br/>
-    <span style="font-size:13pt; margin-left:6px;">You have <span style="font-weight:bolder;">${numberofCrfs}</span> form<c:if
-            test="${numberofCrfs != 1}">s</c:if> that need<c:if
-            test="${numberofCrfs == 1}">s</c:if> to be completed.</span>
-</div>
-<table id="inboxTable">
-    <tr>
-        <th>
-            <tags:message code="participant.label.title"/>
-        </th>
-        <th>
-            <tags:message code="participant.label.status"/>
-        </th>
-        <th>
-            <tags:message code="participant.label.dueDate"/>
-        </th>
-    </tr>
-    <c:forEach items="${command.studyParticipantAssignments}"
-               var="studyParticipantAssignment">
+<%--<c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">--%>
+    <%--<c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">--%>
+        <%--<c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">--%>
+            <%--<c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">--%>
+                <%--<c:set var="numberofCrfs" scope="page" value="${numberofCrfs + 1}"/>--%>
+            <%--</c:if>--%>
+        <%--</c:forEach>--%>
+    <%--</c:forEach>--%>
+<%--</c:forEach>--%>
+<%--<img style="position:absolute; top:0px; left:0px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox" />--%>
+<%--<div id="inboxTitle"><span style="font-size:75px; line-height:70px;">Inbox</span><br/>--%>
+    <%--<span style="font-size:13pt; margin-left:6px;">You have <span style="font-weight:bolder;">${numberofCrfs}</span> form<c:if--%>
+            <%--test="${numberofCrfs != 1}">s</c:if> that need<c:if--%>
+            <%--test="${numberofCrfs == 1}">s</c:if> to be completed.</span>--%>
+<%--</div>--%>
+<%--<table id="inboxTable">--%>
+    <%--<tr>--%>
+        <%--<th>--%>
+            <%--<tags:message code="participant.label.title"/>--%>
+        <%--</th>--%>
+        <%--<th>--%>
+            <%--<tags:message code="participant.label.status"/>--%>
+        <%--</th>--%>
+        <%--<th>--%>
+            <%--<tags:message code="participant.label.dueDate"/>--%>
+        <%--</th>--%>
+    <%--</tr>--%>
+    <%--<c:forEach items="${command.studyParticipantAssignments}"--%>
+               <%--var="studyParticipantAssignment">--%>
 
-        <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}"
-                   var="studyParticipantCrf">
-            <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
-                       var="studyParticipantCrfSchedule">
-                <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
-                    <tr>
-                        <td>
-                            <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}"> ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title} </a>
-                        </td>
-                        <td>
-                                ${studyParticipantCrfSchedule.status}
-                        </td>
-                        <td>
-                            <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
-                        </td>
-                    </tr>
-                </c:if>
-            </c:forEach>
-        </c:forEach>
-    </c:forEach>
-</table>
+        <%--<c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}"--%>
+                   <%--var="studyParticipantCrf">--%>
+            <%--<c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"--%>
+                       <%--var="studyParticipantCrfSchedule">--%>
+                <%--<c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}"> ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title} </a>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                                <%--${studyParticipantCrfSchedule.status}--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--<tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                <%--</c:if>--%>
+            <%--</c:forEach>--%>
+        <%--</c:forEach>--%>
+    <%--</c:forEach>--%>
+<%--</table>--%>
 
 </body>
 

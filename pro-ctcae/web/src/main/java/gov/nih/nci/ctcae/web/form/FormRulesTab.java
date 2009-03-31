@@ -38,8 +38,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
      */
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
-        RuleSet ruleSet = proCtcAERulesService.getRuleSetForForm(command.getCrf());
-        command.setRuleSet(ruleSet);
+        command.initializeRules(proCtcAERulesService);
     }
 
     public Map<String, Object> referenceData(CreateFormCommand command) {
@@ -59,7 +58,11 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
 
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
-        command.processRules(request);
+        try {
+            command.processRules(request);
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         super.postProcess(request, command, errors);
     }
 

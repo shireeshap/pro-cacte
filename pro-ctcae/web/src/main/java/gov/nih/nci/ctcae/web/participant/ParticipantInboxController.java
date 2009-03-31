@@ -46,7 +46,7 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ParticipantQuery query = new ParticipantQuery();
-        query.filterByUsername(user.getUsername());
+        query.filterByUserId(user.getId());
         List<Participant> participants = (List<Participant>) participantRepository.find(query);
         if (participants == null || participants.size() != 1) {
             throw new CtcAeSystemException("Can not find participant for username " + user.getUsername());

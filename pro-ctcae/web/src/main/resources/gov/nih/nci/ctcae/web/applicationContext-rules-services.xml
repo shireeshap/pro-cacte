@@ -34,6 +34,7 @@
     </bean>
     <bean id="proCtcAERulesService" class="gov.nih.nci.ctcae.web.rules.ProCtcAERulesService">
         <property name="ruleAuthoringService" ref="ruleAuthoringService"/>
+        <property name="rulesEngineService" ref="ruleEngineService"/>
     </bean>
 
     <!--<bean id="emailService" class="gov.nih.nci.cabig.caaers.email.EmailServiceImpl"/>-->

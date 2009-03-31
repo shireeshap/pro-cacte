@@ -89,76 +89,76 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
-        deleteData();
+       // deleteData();
 
 
-        codeBase = (String) getApplicationContext().getBean("codebaseDirectory");
-        assertNotNull("please define codebase.directory property in datasource.properties file. " +
-                "This should property should point to directory where you have checked-out the code-base  of ctcae. " +
-                "For ex:codebase.directory=/Users/saurabhagrawal/projects/pro-ctcae", codeBase);
-
-        DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
-        DataAuditInfo.setLocal(auditInfo);
-
-        insertAdminUser();
-        login(userRepository.loadUserByUsername(SYSTEM_ADMIN));
-
-        defaultClinicalStaff = Fixture.createClinicalStaff("Angello", "Williams", "-1234");
-        defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
-        commitAndStartNewTransaction();
-        assertNotNull("must find default clinical staff. ", defaultClinicalStaff);
-
-        defaultUser = defaultClinicalStaff.getUser();
-        assertNotNull("must find user. ", defaultUser);
-
-//this is just the hack  for creating all these users ()
-        User loadedUser = userRepository.loadUserByUsername(defaultUser.getUsername());
-        assertNotNull("must find user", loadedUser);
-        GrantedAuthority[] authorities = new GrantedAuthority[]{
-                new GrantedAuthorityImpl("PRIVILEGE_CREATE_STUDY"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_STUDY"),
-                new GrantedAuthorityImpl("PRIVILEGE_CREATE_PARTICIPANT"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_PARTICIPANT"), new GrantedAuthorityImpl("PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"),
-                new GrantedAuthorityImpl("PRIVILEGE_CREATE_FORM"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_FORM"), new GrantedAuthorityImpl("PRIVILEGE_RELEASE_FORM"),
-                new GrantedAuthorityImpl("PRIVILEGE_CREATE_CLINICAL_STAFF"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_CLINICAL_STAFF"),
-                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Study.GROUP"),
-                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Organization.GROUP"),
-                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.ClinicalStaff.GROUP"),
-                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.CRF.GROUP"),
-                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP"),
-                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyOrganization.GROUP"),
-                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff.GROUP"),
-                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment.GROUP"),
-                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP")
-        };
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, Fixture.DEFAULT_PASSWORD, authorities);
-        SecurityContextHolder.clearContext();
-        SecurityContextHolder.getContext().setAuthentication(token);
-
-
-        defaultOrganization = organizationRepository.findById(DEFAULT_ORGANIZATION_ID);
-        duke = organizationRepository.findById(104880);
-        wake = organizationRepository.findById(104878);
-        orange = organizationRepository.findById(100085);
-        nci = organizationRepository.findById(105051);
-        queens = organizationRepository.findById(100233);
-        cerim = organizationRepository.findById(100022);
-        sydney = organizationRepository.findById(100044);
-        barkers = organizationRepository.findById(100104);
-        rawson = organizationRepository.findById(100004);
-
-        assertNotNull("must find organization", wake);
-
-
-        defaultOrganizationClinicalStaff = new OrganizationClinicalStaff();
-        defaultOrganizationClinicalStaff.setOrganization(defaultOrganization);
-        defaultClinicalStaff.addOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
-        defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
-        commitAndStartNewTransaction();
-
-        defaultOrganizationClinicalStaff = defaultClinicalStaff.getOrganizationClinicalStaffs().get(0);
-        assertNotNull("must find default clinical staff. ", defaultOrganizationClinicalStaff);
-
-
-        defaultStudy = createStudy("-10001");
+//        codeBase = (String) getApplicationContext().getBean("codebaseDirectory");
+//        assertNotNull("please define codebase.directory property in datasource.properties file. " +
+//                "This should property should point to directory where you have checked-out the code-base  of ctcae. " +
+//                "For ex:codebase.directory=/Users/saurabhagrawal/projects/pro-ctcae", codeBase);
+//
+//        DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
+//        DataAuditInfo.setLocal(auditInfo);
+//
+//        insertAdminUser();
+//        login(userRepository.loadUserByUsername(SYSTEM_ADMIN));
+//
+//        defaultClinicalStaff = Fixture.createClinicalStaff("Angello", "Williams", "-1234");
+//        defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
+//        commitAndStartNewTransaction();
+//        assertNotNull("must find default clinical staff. ", defaultClinicalStaff);
+//
+//        defaultUser = defaultClinicalStaff.getUser();
+//        assertNotNull("must find user. ", defaultUser);
+//
+////this is just the hack  for creating all these users ()
+//        User loadedUser = userRepository.loadUserByUsername(defaultUser.getUsername());
+//        assertNotNull("must find user", loadedUser);
+//        GrantedAuthority[] authorities = new GrantedAuthority[]{
+//                new GrantedAuthorityImpl("PRIVILEGE_CREATE_STUDY"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_STUDY"),
+//                new GrantedAuthorityImpl("PRIVILEGE_CREATE_PARTICIPANT"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_PARTICIPANT"), new GrantedAuthorityImpl("PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"),
+//                new GrantedAuthorityImpl("PRIVILEGE_CREATE_FORM"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_FORM"), new GrantedAuthorityImpl("PRIVILEGE_RELEASE_FORM"),
+//                new GrantedAuthorityImpl("PRIVILEGE_CREATE_CLINICAL_STAFF"), new GrantedAuthorityImpl("PRIVILEGE_SEARCH_CLINICAL_STAFF"),
+//                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Study.GROUP"),
+//                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Organization.GROUP"),
+//                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.ClinicalStaff.GROUP"),
+//                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.CRF.GROUP"),
+//                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP"),
+//                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyOrganization.GROUP"),
+//                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff.GROUP"),
+//                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment.GROUP"),
+//                new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP")
+//        };
+//        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, Fixture.DEFAULT_PASSWORD, authorities);
+//        SecurityContextHolder.clearContext();
+//        SecurityContextHolder.getContext().setAuthentication(token);
+//
+//
+//        defaultOrganization = organizationRepository.findById(DEFAULT_ORGANIZATION_ID);
+//        duke = organizationRepository.findById(104880);
+//        wake = organizationRepository.findById(104878);
+//        orange = organizationRepository.findById(100085);
+//        nci = organizationRepository.findById(105051);
+//        queens = organizationRepository.findById(100233);
+//        cerim = organizationRepository.findById(100022);
+//        sydney = organizationRepository.findById(100044);
+//        barkers = organizationRepository.findById(100104);
+//        rawson = organizationRepository.findById(100004);
+//
+//        assertNotNull("must find organization", wake);
+//
+//
+//        defaultOrganizationClinicalStaff = new OrganizationClinicalStaff();
+//        defaultOrganizationClinicalStaff.setOrganization(defaultOrganization);
+//        defaultClinicalStaff.addOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
+//        defaultClinicalStaff = clinicalStaffRepository.save(defaultClinicalStaff);
+//        commitAndStartNewTransaction();
+//
+//        defaultOrganizationClinicalStaff = defaultClinicalStaff.getOrganizationClinicalStaffs().get(0);
+//        assertNotNull("must find default clinical staff. ", defaultOrganizationClinicalStaff);
+//
+//
+//        defaultStudy = createStudy("-10001");
 
 
     }

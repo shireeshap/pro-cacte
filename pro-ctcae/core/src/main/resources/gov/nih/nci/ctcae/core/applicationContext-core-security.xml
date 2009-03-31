@@ -128,7 +128,7 @@
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.ParticipantRepository.find*(..))"
-                access="PRIVILEGE_SEARCH_PARTICIPANT,PRIVILEGE_VIEW_PARTICIPANT"/>
+                access="PRIVILEGE_SEARCH_PARTICIPANT,PRIVILEGE_VIEW_PARTICIPANT,PRIVILEGE_PARTICIPANT_INBOX"/>
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.ParticipantRepository.*(..))"
