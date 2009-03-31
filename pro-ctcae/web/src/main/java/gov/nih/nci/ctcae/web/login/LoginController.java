@@ -13,6 +13,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.mvc.ParameterizableViewController;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.Authentication;
 
@@ -39,7 +40,7 @@ public class LoginController extends AbstractController {
         User user = (User) auth.getPrincipal();
         if (user.getUserRoles().size() == 1) {
             if (user.getUserRoles().get(0).getRole().equals(Role.PARTICIPANT)) {
-                return new ModelAndView("participant/participantInbox");
+                return new ModelAndView(new RedirectView("participant/participantInbox"));
             }
         }
 

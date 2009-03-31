@@ -335,7 +335,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         defaultStudyParticipantAssignment.setStudyParticipantIdentifier("1234");
         defaultStudyParticipantAssignment.setStudySite(defaultStudySite);
         defaultParticipant.addStudyParticipantAssignment(defaultStudyParticipantAssignment);
-        defaultParticipant = participantRepository.save(defaultParticipant);
+//        defaultParticipant = participantRepository.save(defaultParticipant);
 
         commitAndStartNewTransaction();
 
@@ -447,7 +447,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         studyParticipantAssignment.setStudySite(studySite);
         studyParticipantAssignment.setStudyParticipantIdentifier("-12345");
         participant.addStudyParticipantAssignment(studyParticipantAssignment);
-        participant = participantRepository.save(participant);
+        //participant = participantRepository.save(participant);
         commitAndStartNewTransaction();
         return participant;
     }
