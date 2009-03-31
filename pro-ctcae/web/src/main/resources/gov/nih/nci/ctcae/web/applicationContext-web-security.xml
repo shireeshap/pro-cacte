@@ -13,7 +13,7 @@
 
 
         <!--following line disables the security-->
-        <intercept-url pattern="/pages/**" access="IS_AUTHENTICATED_FULLY"/>
+        <!--<intercept-url pattern="/pages/**" access="IS_AUTHENTICATED_FULLY"/>-->
 
         <intercept-url pattern="/pages/form/basicForm" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/allConditions" access="PRIVILEGE_CREATE_FORM"/>
