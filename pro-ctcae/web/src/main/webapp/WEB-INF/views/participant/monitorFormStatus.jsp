@@ -4,7 +4,7 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <html>
-<head><title></title>
+<head>
     <style type="text/css">
         table.widget {
             border-left: 1px solid #C3D9FF;
@@ -26,7 +26,7 @@
             font-weight: bold;
             white-space: nowrap;
             background-color: #cccccc;
-            
+
         }
 
         td.header-top {
@@ -42,9 +42,9 @@
             text-align: center;
         }
 
-        a {
-            text-decoration:none;
-            cursor:default;
+        a.nolink {
+            text-decoration: none;
+            cursor: default;
         }
     </style>
 </head>
@@ -68,11 +68,23 @@
                 <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
                     <td class="data ${studyParticipantCrfSchedule.status.displayName}">
                             <%--onmouseover="showTip('${studyParticipantCrfSchedule.cycleNumber}','${studyParticipantCrfSchedule.cycleDay}')">--%>
+                        <c:choose>
+                            <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'Completed'}">
+                                <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
+                                <a href="javascript:completedForm(${studyParticipantCrfSchedule.id})"
+                                   title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
+                                        ${studyParticipantCrfSchedule.status.displayName}
+                                </a>
+                            </c:when>
+                            <c:otherwise>
 
-                        <a 
-                           title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
-                            <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>&nbsp;${studyParticipantCrfSchedule.status.displayName}
-                        </a>
+                                <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
+                                <a class="nolink"
+                                   title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
+                                        ${studyParticipantCrfSchedule.status.displayName}
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                 </c:forEach>
             </tr>

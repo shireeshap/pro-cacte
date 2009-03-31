@@ -418,6 +418,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfControl
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTab.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ShowCompletedCrfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/ProCtcAERulesService.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/SecuredTab.java -text
@@ -619,6 +620,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/participant_reviewsummar
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/schedulecrf.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/searchParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/selectstudyparticipant.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/showCompletedCrf.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/setup/confirmSetup.jsp -text

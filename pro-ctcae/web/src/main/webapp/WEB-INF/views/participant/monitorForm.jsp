@@ -15,7 +15,21 @@
 <head>
 <tags:dwrJavascriptLink objects="crf"/>
 <tags:dwrJavascriptLink objects="participant"/>
+<tags:includePrototypeWindow/>
+<tags:includeScriptaculous/>
 <script type="text/javascript">
+
+function completedForm(id) {
+    var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
+        parameters:"id=" + id + "&subview=subview",
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 700, 500);
+        },
+        method:'get'
+    })
+}
+
+
 Event.observe(window, "load", function () {
     var studyAutoCompleter = new studyAutoComplter('study');
     acCreateStudyMonitor(studyAutoCompleter);
