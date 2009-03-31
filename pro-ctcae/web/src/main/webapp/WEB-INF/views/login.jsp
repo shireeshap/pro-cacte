@@ -83,64 +83,64 @@
 
 
     </form>
-    <chrome:division title="Test user accounts">
-        <table class="tablecontent">
-            <tr id="ss-table-head" class="amendment-table-head">
-                <th class="tableHeader">Username</th>
-                <th class="tableHeader">Password</th>
-                <th class="tableHeader">Role</th>
+    <%--<chrome:division title="Test user accounts">--%>
+        <!--<table class="tablecontent">-->
+            <!--<tr id="ss-table-head" class="amendment-table-head">-->
+                <!--<th class="tableHeader">Username</th>-->
+                <!--<th class="tableHeader">Password</th>-->
+                <!--<th class="tableHeader">Role</th>-->
 
-            </tr>
-            <tr>
-                <td>SYSTEM_ADMIN</td>
-                <td>system_admin</td>
-                <td>admin</td>
-            </tr>
-            <tr>
-                <td>cca</td>
-                <td>system_admin</td>
-                <td>CCA</td>
-            </tr>
-            <tr>
-                <td>cs1mskcc</td>
-                <td>system_admin</td>
-                <td>Overall Data Coordinator (ODC)</td>
-            </tr>
-            <tr>
-                <td>cs1wake</td>
-                <td>system_admin</td>
-                <td>Lead CRA</td>
-            </tr>
-            <tr>
-                <td>cs2wake</td>
-                <td>system_admin</td>
-                <td>Overall PI</td>
-            </tr>
-            <tr>
-                <td>cs1duke</td>
-                <td>system_admin</td>
-                <td>Site PI</td>
-            </tr>
-            <tr>
-                <td>cs2duke</td>
-                <td>system_admin</td>
-                <td>Site CRA</td>
-            </tr>
-            <tr>
-                <td>cs3duke</td>
-                <td>system_admin</td>
-                <td>Site Investigator</td>
-            </tr>
-            <tr>
-                <td>cs4duke</td>
-                <td>system_admin</td>
-                <td>Nurse</td>
-            </tr>
-        </table>
-        <br>
-        <br>
-        <a href="https://wiki.nci.nih.gov/display/CTMS/Roles">Click here </a> for security document.
-    </chrome:division>
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>SYSTEM_ADMIN</td>-->
+                <!--<td>system_admin</td>-->
+                <!--<td>admin</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>cca</td>-->
+                <!--<td>system_admin</td>-->
+                <!--<td>CCA</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>cs1mskcc</td>-->
+                <!--<td>system_admin</td>-->
+                <!--<td>Overall Data Coordinator (ODC)</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>cs1wake</td>-->
+                <!--<td>system_admin</td>-->
+                <!--<td>Lead CRA</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>cs2wake</td>-->
+                <!--<td>system_admin</td>-->
+                <!--<td>Overall PI</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>cs1duke</td>-->
+                <!--<td>system_admin</td>-->
+                <!--<td>Site PI</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>cs2duke</td>-->
+                <!--<td>system_admin</td>-->
+                <!--<td>Site CRA</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>cs3duke</td>-->
+                <!--<td>system_admin</td>-->
+                <!--<td>Site Investigator</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>cs4duke</td>-->
+                <!--<td>system_admin</td>-->
+                <!--<td>Nurse</td>-->
+            <!--</tr>-->
+        <!--</table>-->
+        <!--<br>-->
+        <!--<br>-->
+        <!--<a href="https://wiki.nci.nih.gov/display/CTMS/Roles">Click here </a> for security document.-->
+    <%--</chrome:division>--%>
 </chrome:box>
 </body>
 </html>
