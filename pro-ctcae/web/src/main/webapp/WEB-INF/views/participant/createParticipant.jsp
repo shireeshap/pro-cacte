@@ -71,6 +71,18 @@
                    </c:otherwise>
                </c:choose>
            </chrome:division>
+       <chrome:division title="participant.label.logininfo">
+           <tags:renderText propertyName="participant.user.username"
+                            displayName="participant.label.username"
+                            required="true"/>
+
+           <tags:renderPassword propertyName="participant.user.password"
+                                displayName="participant.label.password"
+                                required="true"/>
+           <tags:renderPassword propertyName="participant.user.confirmPassword"
+                                displayName="participant.label.confirmpassword"
+                                required="true"/>
+       </chrome:division>
 
            <chrome:division title="participant.label.demographic_information">
 

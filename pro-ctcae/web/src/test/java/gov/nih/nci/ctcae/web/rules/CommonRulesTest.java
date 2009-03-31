@@ -23,6 +23,7 @@ public class CommonRulesTest extends AbstractRulesTest {
     protected void onSetUp() throws Exception {
         super.onSetUp();
         symptoms.add("Migrane");
+        symptoms.add("Pain");
         questiontypes.add("Severity");
         operators.add("gt");
         values.add("High");

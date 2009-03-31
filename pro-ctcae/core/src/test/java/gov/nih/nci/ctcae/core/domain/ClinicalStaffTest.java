@@ -20,21 +20,17 @@ public class ClinicalStaffTest extends TestCase {
         clinicalStaff.setFirstName("john");
         clinicalStaff.setLastName("dow");
         clinicalStaff.setMiddleName("mid");
-        clinicalStaff.setAddress("abc");
         clinicalStaff.setEmailAddress("a@a.com");
         clinicalStaff.setFaxNumber("123 345");
         clinicalStaff.setNciIdentifier("NCI 1");
         clinicalStaff.setPhoneNumber("123 123");
-        clinicalStaff.setTitle("mr");
 
         assertEquals("john", clinicalStaff.getFirstName());
         assertEquals("dow", clinicalStaff.getLastName());
         assertEquals("mid", clinicalStaff.getMiddleName());
-        assertEquals("abc", clinicalStaff.getAddress());
         assertEquals("a@a.com", clinicalStaff.getEmailAddress());
         assertEquals("123 345", clinicalStaff.getFaxNumber());
         assertEquals("NCI 1", clinicalStaff.getNciIdentifier());
-        assertEquals("mr", clinicalStaff.getTitle());
         assertEquals("123 123", clinicalStaff.getPhoneNumber());
     }
 
@@ -65,9 +61,7 @@ public class ClinicalStaffTest extends TestCase {
         assertEquals(anotherClinicalStaff.hashCode(), clinicalStaff.hashCode());
         assertEquals(anotherClinicalStaff, clinicalStaff);
 
-        clinicalStaff.setAddress("abc");
         assertFalse(clinicalStaff.equals(anotherClinicalStaff));
-        anotherClinicalStaff.setAddress("abc");
         assertEquals(anotherClinicalStaff.hashCode(), clinicalStaff.hashCode());
         assertEquals(anotherClinicalStaff, clinicalStaff);
 
@@ -89,9 +83,7 @@ public class ClinicalStaffTest extends TestCase {
         assertEquals(anotherClinicalStaff.hashCode(), clinicalStaff.hashCode());
         assertEquals(anotherClinicalStaff, clinicalStaff);
 
-        clinicalStaff.setTitle("mr");
         assertFalse(clinicalStaff.equals(anotherClinicalStaff));
-        anotherClinicalStaff.setTitle("mr");
         assertEquals(anotherClinicalStaff.hashCode(), clinicalStaff.hashCode());
         assertEquals(anotherClinicalStaff, clinicalStaff);
 

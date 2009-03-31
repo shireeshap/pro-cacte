@@ -72,11 +72,6 @@
                                          required="true"/>
                         <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
                                            required="true" options="${genders}"/>
-                        <tags:renderSelect propertyName="participant.ethnicity"
-                                           displayName="participant.label.ethnicity"
-                                           required="true" options="${ethnicities}"/>
-                        <tags:renderSelect propertyName="participant.race" displayName="participant.label.race"
-                                           required="true" options="${races}"/>
                     </td>
                 </tr>
             </table>

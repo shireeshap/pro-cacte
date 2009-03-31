@@ -24,7 +24,7 @@ public class AddFormRuleController extends AbstractController {
         command.incrementRuleSetSize();
         Rule rule = new Rule();
         modelAndView.addObject("rule", rule);
-        modelAndView.addObject("ruleIndex", command.getRuleSetSize());
+        modelAndView.addObject("ruleIndex", command.getRuleSetSize()-1);
         return modelAndView;
     }
 }

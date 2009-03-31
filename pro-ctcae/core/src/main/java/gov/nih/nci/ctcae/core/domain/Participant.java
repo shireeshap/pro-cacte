@@ -34,18 +34,6 @@ public class Participant extends Person {
     private Date birthDate;
 
     /**
-     * The race.
-     */
-    @Column(name = "race", nullable = true)
-    private String race;
-
-    /**
-     * The ethnicity.
-     */
-    @Column(name = "ethnicity", nullable = true)
-    private String ethnicity;
-
-    /**
      * The gender.
      */
     @Column(name = "gender", nullable = true)
@@ -57,6 +45,18 @@ public class Participant extends Person {
     @Column(name = "mrn_identifier", nullable = false)
     private String assignedIdentifier;
 
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id", name = "user_id", nullable = false)
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
     /**
      * Gets the assigned identifier.
      *
@@ -118,41 +118,6 @@ public class Participant extends Person {
         this.birthDate = birthDate;
     }
 
-    /**
-     * Gets the race.
-     *
-     * @return the race
-     */
-    public String getRace() {
-        return race;
-    }
-
-    /**
-     * Sets the race.
-     *
-     * @param race the new race
-     */
-    public void setRace(String race) {
-        this.race = race;
-    }
-
-    /**
-     * Gets the ethnicity.
-     *
-     * @return the ethnicity
-     */
-    public String getEthnicity() {
-        return ethnicity;
-    }
-
-    /**
-     * Sets the ethnicity.
-     *
-     * @param ethnicity the new ethnicity
-     */
-    public void setEthnicity(String ethnicity) {
-        this.ethnicity = ethnicity;
-    }
 
     /**
      * Gets the gender.
@@ -238,15 +203,10 @@ public class Participant extends Person {
         if (birthDate != null ? !birthDate.equals(that.birthDate)
                 : that.birthDate != null)
             return false;
-        if (ethnicity != null ? !ethnicity.equals(that.ethnicity)
-                : that.ethnicity != null)
-            return false;
         if (gender != null ? !gender.equals(that.gender) : that.gender != null)
             return false;
         if (maidenName != null ? !maidenName.equals(that.maidenName)
                 : that.maidenName != null)
-            return false;
-        if (race != null ? !race.equals(that.race) : that.race != null)
             return false;
 
         return true;
@@ -260,8 +220,6 @@ public class Participant extends Person {
         int result = super.hashCode();
         result = 31 * result + (maidenName != null ? maidenName.hashCode() : 0);
         result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
-        result = 31 * result + (race != null ? race.hashCode() : 0);
-        result = 31 * result + (ethnicity != null ? ethnicity.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
         return result;
     }

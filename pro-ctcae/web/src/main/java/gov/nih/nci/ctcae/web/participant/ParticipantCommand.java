@@ -44,6 +44,7 @@ public class ParticipantCommand {
     public ParticipantCommand() {
         super();
         participant = new Participant();
+        participant.setUser(new User());
     }
 
     /**

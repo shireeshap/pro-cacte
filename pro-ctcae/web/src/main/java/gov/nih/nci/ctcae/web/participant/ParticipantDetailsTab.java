@@ -3,12 +3,15 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -53,6 +56,10 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
                         "studyId", "Please select at least one study.");
             }
         }
+        User user = command.getParticipant().getUser();
+        if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword())) {
+            errors.rejectValue("participant.user.confirmPassword", "participant.user.confirm_password", "participant.user.confirm_password");
+        }
     }
 
     public Map<String, Object> referenceData(ParticipantCommand command) {
@@ -74,8 +81,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
         ListValues listValues = new ListValues();
         referenceData.put("genders", listValues.getGenderType());
-        referenceData.put("ethnicities", listValues.getEthnicityType());
-        referenceData.put("races", listValues.getRaceType());
         referenceData.put("organizationsHavingStudySite", ListValues.getOrganizationsHavingStudySite(organizationsHavingStudySite));
         return referenceData;
     }

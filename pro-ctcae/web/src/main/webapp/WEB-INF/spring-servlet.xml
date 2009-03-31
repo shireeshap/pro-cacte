@@ -351,10 +351,7 @@
 
 
     <bean name="/home" id="homeController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-        <property name="viewName">
-            <value>home</value>
-        </property>
+          class="gov.nih.nci.ctcae.web.login.LoginController">
     </bean>
 
 

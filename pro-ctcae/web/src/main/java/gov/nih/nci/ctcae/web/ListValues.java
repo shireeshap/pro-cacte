@@ -123,38 +123,8 @@ public class ListValues {
         return valuesList;
     }
 
-    /**
-     * Gets the race type.
-     *
-     * @return the race type
-     */
-    public List<ListValues> getRaceType() {
-        List<ListValues> valuesList = new ArrayList<ListValues>();
-        valuesList.add(new ListValues("", "Please select"));
 
-        for (Race race : Race.values()) {
-            valuesList.add(new ListValues(race.getDisplayText(), race.getDisplayText()));
-        }
-
-        return valuesList;
-    }
-
-    /**
-     * Gets the ethnicity type.
-     *
-     * @return the ethnicity type
-     */
-    public List<ListValues> getEthnicityType() {
-        List<ListValues> valuesList = new ArrayList<ListValues>();
-        valuesList.add(new ListValues("", "Please select"));
-
-        for (Ethnicity ethnicity : Ethnicity.values()) {
-            valuesList.add(new ListValues(ethnicity.getDisplayText(), ethnicity.getDisplayText()));
-        }
-
-        return valuesList;
-    }
-
+    
     /**
      * Gets the participant search type.
      *
@@ -166,8 +136,6 @@ public class ListValues {
         ListValues lov2 = new ListValues("ln", "Last name");
         ListValues lov3 = new ListValues("idtf", "Identifier");
         // ListValues lov3 = new ListValues("g", "gender");
-        // ListValues lov4 = new ListValues("r", "race");
-        // ListValues lov5 = new ListValues("e", "ethnicity");
         col.add(lov1);
         col.add(lov2);
         col.add(lov3);

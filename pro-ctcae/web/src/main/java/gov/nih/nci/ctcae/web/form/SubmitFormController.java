@@ -207,5 +207,6 @@ public class SubmitFormController extends CtcAeSimpleFormController {
     public void setStudyParticipantCrfAddedQuestionRepository(StudyParticipantCrfAddedQuestionRepository studyParticipantCrfAddedQuestionRepository) {
         this.studyParticipantCrfAddedQuestionRepository = studyParticipantCrfAddedQuestionRepository;
     }
+
 }
 

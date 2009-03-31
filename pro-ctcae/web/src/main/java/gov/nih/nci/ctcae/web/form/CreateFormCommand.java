@@ -62,6 +62,7 @@ public class CreateFormCommand implements Serializable {
     private RuleSet ruleSet;
 
     private int ruleSetSize = 0;
+
     /**
      * Gets the title.
      *
@@ -317,9 +318,18 @@ public class CreateFormCommand implements Serializable {
         ruleSetSize = ruleSet.getRule().size();
     }
 
+    private void removeAllRulesFromRuleSet() {
+        int size = ruleSet.getRule().size();
+        for (int i = 0; i < size; i++) {
+            ruleSet.getRule().remove(0);
+        }
+    }
+
     public void processRules(HttpServletRequest request) {
         int ruleIndex = 0;
-        String[] rules = (String[]) request.getParameterValues("rule");
+        String[] rules = request.getParameterValues("rule");
+
+        removeAllRulesFromRuleSet();
 
         for (String dummyRule : rules) {
             List<String> symptoms = getListForRule(ruleIndex, request, "symptoms");
@@ -334,7 +344,6 @@ public class CreateFormCommand implements Serializable {
     }
 
     public void createRules(RuleSet ruleSet, String ruleName, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications) {
-        for (String symptom : symptoms) {
             Rule rule = new Rule();
             MetaData metaData = new MetaData();
             metaData.setName(ruleName);
@@ -346,7 +355,7 @@ public class CreateFormCommand implements Serializable {
             for (String questiontype : questiontypes) {
                 Column column = new Column();
                 column.setObjectType(ProCtcTerm.class.getName());
-                column.setIdentifier(symptom);
+                column.setIdentifier(symptoms.toString());
                 FieldConstraint fieldConstraint = new FieldConstraint();
                 fieldConstraint.setFieldName(questiontype);
                 LiteralRestriction literalRestriction = new LiteralRestriction();
@@ -363,7 +372,6 @@ public class CreateFormCommand implements Serializable {
             rule.setAction(notifications);
             ruleSet.getRule().add(rule);
             ProCtcAERulesService.createRule(rule);
-        }
     }
 
     private List<String> getListForRule(int ruleIndex, HttpServletRequest request, String listType) {
@@ -381,7 +389,7 @@ public class CreateFormCommand implements Serializable {
         }
     }
 
-    public void incrementRuleSetSize(){
+    public void incrementRuleSetSize() {
         ruleSetSize++;
     }
 

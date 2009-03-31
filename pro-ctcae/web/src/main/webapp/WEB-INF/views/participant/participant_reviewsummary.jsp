@@ -74,14 +74,6 @@
                         <div class="value">${command.participant.gender}</div>
                     </div>
                     <div class="row">
-                        <div class="label"><spring:message code='participant.label.ethnicity' text=''/></div>
-                        <div class="value">${command.participant.ethnicity}</div>
-                    </div>
-                    <div class="row">
-                        <div class="label"><spring:message code='participant.label.race' text=''/></div>
-                        <div class="value">${command.participant.race}</div>
-                    </div>
-                    <div class="row">
                         <div class="label">&nbsp;</div>
                         <div class="value">&nbsp;</div>
                     </div>

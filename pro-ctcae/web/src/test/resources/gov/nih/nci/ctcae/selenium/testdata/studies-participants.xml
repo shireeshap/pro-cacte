@@ -61,9 +61,7 @@
             last_name="Tanner"
             birth_date="1982-12-15"
             gender="Male"
-            ethnicity="Hispanic or Latino"
-            race="Asian"
-            />
+=            />
 
     <PARTICIPANTS
             id="-101"
@@ -72,8 +70,6 @@
             last_name="Miller"
             birth_date="1982-12-15"
             gender="Male"
-            ethnicity="Hispanic or Latino"
-            race="Asian"
             />
 
     <PARTICIPANTS
@@ -83,8 +79,6 @@
             last_name="Leslie"
             birth_date="1982-12-15"
             gender="Male"
-            ethnicity="Hispanic or Latino"
-            race="Asian"
             />
 
     <study_participant_assignments

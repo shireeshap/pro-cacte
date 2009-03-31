@@ -20,11 +20,6 @@ public class Person extends BaseVersionable {
     @Column(name = "id")
     private Integer id;
 
-    /**
-     * The title.
-     */
-    @Column(name = "title", nullable = true)
-    private String title;
 
     /**
      * The first name.
@@ -44,16 +39,10 @@ public class Person extends BaseVersionable {
     @Column(name = "middle_name", nullable = true)
     private String middleName;
 
-    /**
-     * The address.
-     */
-    @Column(name = "address", nullable = true)
-    private String address;
-
 
     /* (non-Javadoc)
-      * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
-      */
+    * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
+    */
     public Integer getId() {
         return id;
     }
@@ -65,23 +54,6 @@ public class Person extends BaseVersionable {
         this.id = id;
     }
 
-    /**
-     * Gets the title.
-     *
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * Sets the title.
-     *
-     * @param title the new title
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     /**
      * Gets the first name.
@@ -137,27 +109,10 @@ public class Person extends BaseVersionable {
         this.middleName = middleName;
     }
 
-    /**
-     * Gets the address.
-     *
-     * @return the address
-     */
-    public String getAddress() {
-        return address;
-    }
-
-    /**
-     * Sets the address.
-     *
-     * @param address the new address
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     /* (non-Javadoc)
-      * @see java.lang.Object#equals(java.lang.Object)
-      */
+    * @see java.lang.Object#equals(java.lang.Object)
+    */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -165,11 +120,9 @@ public class Person extends BaseVersionable {
 
         Person person = (Person) o;
 
-        if (address != null ? !address.equals(person.address) : person.address != null) return false;
         if (firstName != null ? !firstName.equals(person.firstName) : person.firstName != null) return false;
         if (lastName != null ? !lastName.equals(person.lastName) : person.lastName != null) return false;
         if (middleName != null ? !middleName.equals(person.middleName) : person.middleName != null) return false;
-        if (title != null ? !title.equals(person.title) : person.title != null) return false;
 
         return true;
     }
@@ -179,12 +132,10 @@ public class Person extends BaseVersionable {
       */
     @Override
     public int hashCode() {
-        int result;
-        result = (title != null ? title.hashCode() : 0);
+        int result = 0;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
     }
 

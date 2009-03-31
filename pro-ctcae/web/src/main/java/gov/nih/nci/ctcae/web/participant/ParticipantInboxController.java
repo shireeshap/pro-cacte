@@ -1,10 +1,18 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
+import gov.nih.nci.ctcae.core.query.ParticipantQuery;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.security.context.SecurityContextHolder;
+
+import java.util.List;
+import java.util.Collection;
 
 //
 /**
@@ -36,10 +44,14 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
      */
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        String participantId = request.getParameter("participantId");
-        //   Participant participantInboxCommand = new Participant();
-        Participant participant = participantRepository.findById(new Integer(participantId));
-        return participant;
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ParticipantQuery query = new ParticipantQuery();
+        query.filterByUsername(user.getUsername());
+        List<Participant> participants = (List<Participant>) participantRepository.find(query);
+        if (participants == null || participants.size() != 1) {
+            throw new CtcAeSystemException("Can not find participant for username " + user.getUsername());
+        }
+        return participants.get(0);
     }
 
 

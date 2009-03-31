@@ -76,7 +76,6 @@ public class Fixture {
         participant.setLastName(lastName);
         participant.setAssignedIdentifier(identifier);
         participant.setGender(Gender.MALE.toString());
-        participant.setEthnicity("Hispanic or Latino");
 
         return participant;
     }

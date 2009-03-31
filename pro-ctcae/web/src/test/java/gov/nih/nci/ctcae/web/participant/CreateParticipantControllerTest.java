@@ -57,13 +57,7 @@ public class CreateParticipantControllerTest extends WebTestCase {
 
     public void testReferenceData() throws Exception {
         replayMocks();
-        //	Map data = createParticipantController.referenceData(request, participantCommand, errors);
         verifyMocks();
-
-//		assertNotNull(data.get("genders"));
-//		assertNotNull(data.get("ethnicities"));
-//		assertNotNull(data.get("races"));
-//		assertNotNull(data.get("studysites"));
 
     }
 

@@ -179,6 +179,7 @@
     </bean>
     <bean id="participantRepository" class="gov.nih.nci.ctcae.core.repository.ParticipantRepository"
           p:genericRepository-ref="genericRepository">
+        <property name="userRepository" ref="userRepository"/>
     </bean>
 
     <bean id="studyRepository" class="gov.nih.nci.ctcae.core.repository.StudyRepository"

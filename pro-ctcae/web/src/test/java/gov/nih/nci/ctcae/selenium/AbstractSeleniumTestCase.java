@@ -111,8 +111,6 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
         selenium.click("participant.birthDate");
         selenium.type("participant.birthDate", "12/12/1981");
         selenium.select("participant.gender", "label=Male");
-        selenium.select("participant.ethnicity", "label=Hispanic or Latino");
-        selenium.select("participant.race", "label=White");
         selenium.click("studyId");
         selenium.click("flow-next");
         selenium.waitForPageToLoad("30000");

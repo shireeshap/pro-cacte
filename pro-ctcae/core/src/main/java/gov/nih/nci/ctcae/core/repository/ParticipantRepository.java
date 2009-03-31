@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.core.repository;
 
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import org.springframework.beans.factory.annotation.Required;
@@ -24,6 +22,7 @@ import java.util.List;
 public class ParticipantRepository implements Repository<Participant, ParticipantQuery> {
 
     private GenericRepository genericRepository;
+    private UserRepository userRepository;
 
     public Participant findById(Integer id) {
         Participant participant = genericRepository.findById(Participant.class, id);
@@ -47,29 +46,40 @@ public class ParticipantRepository implements Repository<Participant, Participan
         if (participant.getStudyParticipantAssignments().isEmpty()) {
             throw new CtcAeSystemException("can not save participants without assignments");
         }
-        Participant savedParticipant = genericRepository.save(participant);
-        for (StudyParticipantAssignment studyParticipantAssignment : savedParticipant.getStudyParticipantAssignments()) {
+        User user = participant.getUser();
+        if (user != null) {
+            UserRole userRole = new UserRole();
+            userRole.setRole(Role.PARTICIPANT);
+            user.addUserRole(userRole);
+            user = userRepository.save(user);
+            participant = genericRepository.save(participant);
+
+        } else {
+            throw new CtcAeSystemException("can not save participant without user");
+        }
+
+        for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
             studyParticipantAssignment.getStudyParticipantCrfs();
             studyParticipantAssignment.getStudyParticipantClinicalStaffs();
         }
-        return savedParticipant;
+        return participant;
     }
 
     public List<Participant> findByStudySiteId(String text, Integer studySiteId) {
-         ParticipantQuery query = new ParticipantQuery();
-         query.filterParticipantsWithMatchingText(text);
-         query.filterByStudySite(studySiteId);
-         return (List<Participant>) find(query);
+        ParticipantQuery query = new ParticipantQuery();
+        query.filterParticipantsWithMatchingText(text);
+        query.filterByStudySite(studySiteId);
+        return (List<Participant>) find(query);
 
-     }
+    }
+
     public List<Participant> findByStudyId(String text, Integer studyId) {
-         ParticipantQuery query = new ParticipantQuery();
-         query.filterParticipantsWithMatchingText(text);
-         query.filterByStudy(studyId);
-         return (List<Participant>) find(query);
+        ParticipantQuery query = new ParticipantQuery();
+        query.filterParticipantsWithMatchingText(text);
+        query.filterByStudy(studyId);
+        return (List<Participant>) find(query);
 
-     }
-
+    }
 
 
     public void delete(Participant participant) {
@@ -91,5 +101,10 @@ public class ParticipantRepository implements Repository<Participant, Participan
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
+    }
+
+    @Required
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }
