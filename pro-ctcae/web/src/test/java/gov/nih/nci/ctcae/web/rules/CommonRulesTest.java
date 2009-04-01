@@ -66,8 +66,8 @@ public class CommonRulesTest extends AbstractRulesTest {
         RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
         assertNotNull(ruleSet);
         CreateFormCommand createFormCommand = new CreateFormCommand();
-//        createFormCommand.createRules(ruleSet, "MyRule", symptoms, questiontypes, operators, values, notifications);
-
+        ProCtcAERulesService.createRules(ruleSet, "MyRule", symptoms, questiontypes, operators, values, notifications,"");
+        ruleEngineService.exportRule(packageName, "c:\\etc\\ctcae");
         assertTrue(true);
 
     }

@@ -307,6 +307,7 @@ public class ListValues {
         ListValues lov3 = new ListValues("eq", "is equal to");
         ListValues lov4 = new ListValues("le", "is less than or equal to");
         ListValues lov5 = new ListValues("lt", "is less than");
+        col.add(lov0);
         col.add(lov1);
         col.add(lov2);
         col.add(lov3);
@@ -336,11 +337,6 @@ public class ListValues {
         HashSet presentOptions = new HashSet();
         HashSet amountOptions = new HashSet();
         HashSet frequencyOptions = new HashSet();
-        severityOptions.add("Please select");
-        interferenceOptions.add("Please select");
-        presentOptions.add("Please select");
-        amountOptions.add("Please select");
-        frequencyOptions.add("Please select");
 
         for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
             switch (crfPageItem.getProCtcQuestion().getProCtcQuestionType()) {

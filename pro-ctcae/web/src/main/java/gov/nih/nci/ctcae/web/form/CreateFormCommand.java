@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.web.form;
 
-import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
@@ -310,27 +309,24 @@ public class CreateFormCommand implements Serializable {
 
 
     public void processRules(HttpServletRequest request) throws Exception {
-        RuleSet ruleSet = ProCtcAERulesService.getRuleSetForForm(crf);
-        int ruleIndex = 0;
         String[] rules = request.getParameterValues("rule");
+        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
 
-        ProCtcAERulesService.removeAllRulesFromRuleSet(ruleSet);
-
-        for (String dummyRule : rules) {
-            List<String> symptoms = getListForRule(ruleIndex, request, "symptoms");
-            List<String> questiontypes = getListForRule(ruleIndex, request, "questiontypes");
-            List<String> operators = getListForRule(ruleIndex, request, "operators");
-            List<String> values = getListForRule(ruleIndex, request, "values");
-            List<String> notifications = getListForRule(ruleIndex, request, "notifications");
-            String ruleName = "Rule " + ruleIndex;
-            ProCtcAERulesService.createRules(ruleSet, ruleName, symptoms, questiontypes, operators, values, notifications);
-            ruleIndex++;
+        for (String ruleIndexOnScreen : rules) {
+            List<String> symptoms = getListForRule(ruleIndexOnScreen, request, "symptoms");
+            List<String> questiontypes = getListForRule(ruleIndexOnScreen, request, "questiontypes");
+            List<String> operators = getListForRule(ruleIndexOnScreen, request, "operators");
+            List<String> values = getListForRule(ruleIndexOnScreen, request, "values");
+            List<String> notifications = getListForRule(ruleIndexOnScreen, request, "notifications");
+            String override = request.getParameter("override_" + ruleIndexOnScreen);
+            String ruleName = "Rule " + ruleIndexOnScreen;
+            ProCtcAERulesService.createRules(ruleSet, ruleName, symptoms, questiontypes, operators, values, notifications, override);
         }
         ProCtcAERulesService.exportRuleSet(ruleSet);
     }
 
 
-    private List<String> getListForRule(int ruleIndex, HttpServletRequest request, String listType) {
+    private List<String> getListForRule(String ruleIndex, HttpServletRequest request, String listType) {
         List<String> list = new ArrayList<String>();
         int index = 0;
         while (true) {
@@ -347,10 +343,12 @@ public class CreateFormCommand implements Serializable {
 
     public void initializeRules(ProCtcAERulesService proCtcAERulesService) {
         formRules = new ArrayList<ProCtcAERule>();
-        RuleSet ruleSet = proCtcAERulesService.getRuleSetForForm(crf);
-        for (Rule rule : ruleSet.getRule()) {
-            ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
-            formRules.add(proCtcAERule);
+        RuleSet ruleSet = proCtcAERulesService.getExistingRuleSetForCrf(crf);
+        if (ruleSet != null) {
+            for (Rule rule : ruleSet.getRule()) {
+                ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
+                formRules.add(proCtcAERule);
+            }
         }
     }
 

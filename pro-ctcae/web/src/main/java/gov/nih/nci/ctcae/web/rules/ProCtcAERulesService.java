@@ -5,9 +5,11 @@ import com.semanticbits.rules.utils.RuleUtil;
 import com.semanticbits.rules.api.RuleAuthoringService;
 import com.semanticbits.rules.api.RulesEngineService;
 import org.springframework.beans.factory.annotation.Required;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import gov.nih.nci.ctcae.core.domain.*;
 
@@ -22,18 +24,14 @@ public class ProCtcAERulesService {
     static RuleAuthoringService ruleAuthoringService;
     static RulesEngineService rulesEngineService;
 
-    public static RuleSet getRuleSetForForm(CRF crf) {
+    private static String getPackageNameForCrf(CRF crf) {
         String packageName = RuleUtil.getPackageName(RuleSetType.FORM_LEVEL.getPackagePrefix(), crf.getStudy().getId().toString(), crf.getId().toString());
+        return packageName;
+    }
+
+    public static RuleSet getExistingRuleSetForCrf(CRF crf) {
+        String packageName = getPackageNameForCrf(crf);
         RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
-        if (ruleSet == null) {
-            ruleSet = new RuleSet();
-            ruleSet.setName(packageName);
-            ruleSet.setStatus(RuleStatus.DRAFT.getDisplayName());
-            ruleSet.setDescription("RuleSet for Study: " + crf.getStudy().getShortTitle() + ", CRF: " + crf.getTitle());
-            ruleSet.setSubject("Form Rules||" + crf.getStudy().getShortTitle() + "||" + crf.getTitle());
-            ruleSet.setCoverage("Not Enabled");
-            ruleAuthoringService.createRuleSet(ruleSet);
-        }
         return ruleSet;
     }
 
@@ -56,8 +54,16 @@ public class ProCtcAERulesService {
         rulesEngineService.exportRule(ruleSet.getName(), "c:\\etc\\ctcae");
     }
 
-    public static void createRules(RuleSet ruleSet, String ruleName, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications) {
+    public static void createRules(RuleSet ruleSet, String ruleName, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {
         Rule rule = new Rule();
+        List<RuleAttribute> ruleAttributes = new ArrayList<RuleAttribute>();
+
+        RuleAttribute ruleAttribute = new RuleAttribute();
+        ruleAttribute.setName("override");
+        ruleAttribute.setValue(StringUtils.isBlank(override) ? "N" : "Y");
+        ruleAttributes.add(ruleAttribute);
+        rule.setRuleAttribute(ruleAttributes);
+
         MetaData metaData = new MetaData();
         metaData.setName(ruleName);
         metaData.setPackageName(ruleSet.getName());
@@ -67,7 +73,7 @@ public class ProCtcAERulesService {
         int j = 0;
         Column column = new Column();
         column.setObjectType(ProCtcTerm.class.getName());
-        column.setIdentifier(symptoms.toString());
+        column.setIdentifier(listToCaratSeparatedList(symptoms));
         for (String questiontype : questiontypes) {
             FieldConstraint fieldConstraint = new FieldConstraint();
             fieldConstraint.setFieldName(questiontype);
@@ -87,16 +93,48 @@ public class ProCtcAERulesService {
         createRule(rule);
     }
 
-
-    public static void removeAllRulesFromRuleSet(RuleSet ruleSet) throws Exception {
-        List<String> ruleNames = new ArrayList<String>();
-        for (Rule rule : ruleSet.getRule()) {
-            ruleNames.add(rule.getMetaData().getName());
+    private static String listToCaratSeparatedList(List<String> list) {
+        StringBuilder sb = new StringBuilder();
+        if (list != null) {
+            for (String s : list) {
+                sb.append(s + "^");
+            }
         }
+        return sb.toString();
+    }
 
-        for (String ruleName : ruleNames) {
-            rulesEngineService.deleteRule(ruleSet.getName(), ruleName);
+    public static List<String> carateSeparatedStringToList(String str) {
+        List<String> l = new ArrayList<String>();
+        if (str != null) {
+            StringTokenizer st = new StringTokenizer(str, "^");
+            while (st.hasMoreTokens()) {
+                String token = st.nextToken();
+                if (!StringUtils.isBlank(token)) {
+                    l.add(token);
+                }
+            }
         }
+        return l;
 
+    }
+
+    private static void deleteExistingRuleSetForCrf(CRF crf) throws Exception {
+        RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrf(crf);
+        if (ruleSet != null) {
+            rulesEngineService.deleteRuleSet(ruleSet.getName());
+        }
+    }
+
+    public static RuleSet deleteExistingAndGetNewRuleSetForCrf(CRF crf) throws Exception {
+        deleteExistingRuleSetForCrf(crf);
+        String packageName = getPackageNameForCrf(crf);
+        RuleSet ruleSet = new RuleSet();
+        ruleSet.setName(packageName);
+        ruleSet.setStatus(RuleStatus.DRAFT.getDisplayName());
+        ruleSet.setDescription("RuleSet for Study: " + crf.getStudy().getShortTitle() + ", CRF: " + crf.getTitle());
+        ruleSet.setSubject("Form Rules||" + crf.getStudy().getShortTitle() + "||" + crf.getTitle());
+        ruleSet.setCoverage("Not Enabled");
+        ruleAuthoringService.createRuleSet(ruleSet);
+        return ruleSet;
     }
 }

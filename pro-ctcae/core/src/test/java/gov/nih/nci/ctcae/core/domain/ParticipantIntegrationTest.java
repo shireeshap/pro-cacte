@@ -110,8 +110,9 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
         User user = new User();
         user.setUsername("1");
         login(user);
+
         ParticipantQuery participantQuery = new ParticipantQuery();
-        participantQuery.filterByUserId(24);
+        //participantQuery.filterByUsername(24);
 
         Collection<? extends Participant> participants = participantRepository
                 .find(participantQuery);

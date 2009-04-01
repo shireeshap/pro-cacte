@@ -19,7 +19,7 @@ public class ProCtcAERule {
     private List<String> operators;
     private List<String> values;
     private List<String> notifications;
-
+    private String override = "N";
 
     public ProCtcAERule() {
         symptoms = new ArrayList<String>();
@@ -69,13 +69,27 @@ public class ProCtcAERule {
         this.notifications = notifications;
     }
 
+    public String getOverride() {
+        return override;
+    }
+
+    public void setOverride(String override) {
+        this.override = override;
+    }
+
     public static ProCtcAERule getProCtcAERule(Rule rule) {
         ProCtcAERule proCtcAERule = new ProCtcAERule();
+
+        for (RuleAttribute ruleAttribute : rule.getRuleAttribute()) {
+            if (ruleAttribute.getName().equals("override")) {
+                proCtcAERule.setOverride(ruleAttribute.getValue());
+            }
+        }
         Condition condition = rule.getCondition();
         List<Column> columns = condition.getColumn();
         Column firstColumn = columns.get(0); //We should have only one column
         String strSymptoms = firstColumn.getIdentifier();
-        proCtcAERule.setSymptoms(new ArrayList(StringUtils.commaDelimitedListToSet(strSymptoms)));
+        proCtcAERule.setSymptoms(ProCtcAERulesService.carateSeparatedStringToList(strSymptoms));
         for (FieldConstraint fieldConstraint : firstColumn.getFieldConstraint()) {
             proCtcAERule.getQuestiontypes().add(fieldConstraint.getFieldName());
             LiteralRestriction firstRestriction = fieldConstraint.getLiteralRestriction().get(0);

@@ -13,6 +13,8 @@
      chrome:divisions with titles. --%>
 <%@attribute name="autopad" required="false" %>
 <%@attribute name="collapsable" required="false" %>
+<%@attribute name="enableDelete" required="false" %>
+<%@attribute name="deleteParams" required="false" %>
 <div class="box ${cssClass}"
         <tags:attribute name="id" value="${id}"/> <tags:attribute name="style" value="${style}"/>>
 
@@ -26,12 +28,26 @@
                             ${title}
                         </c:when>
                         <c:otherwise>
-                            <spring:message code='${title}' text='${title}'/>
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td>
+                                        <spring:message code='${title}' text='${title}'/>
+                                    </td>
+                                    <td width="5%">
+                                        <c:if test="${enableDelete}">
+                                            <a href="javascript:${deleteParams}"><img
+                                                    src="<c:url value="/images/checkno.gif"/>" border="0" alt="delete"></a>
+                                        </c:if>
+
+                                    </td>
+                                </tr>
+                            </table>
                         </c:otherwise>
                     </c:choose>
-                </h2><c:if test="${!empty title}">
-                <div class="hr"></div>
-            </c:if>
+                </h2>
+                <c:if test="${!empty title}">
+                    <div class="hr"></div>
+                </c:if>
             </div>
         </div>
     </div>

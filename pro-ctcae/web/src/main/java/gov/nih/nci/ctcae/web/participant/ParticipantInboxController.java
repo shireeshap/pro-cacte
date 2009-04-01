@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.context.SecurityContextHolder;
 
 import java.util.List;
-import java.util.Collection;
 
 //
 /**
@@ -46,7 +45,7 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ParticipantQuery query = new ParticipantQuery();
-        query.filterByUserId(user.getId());
+        query.filterByUsername(user.getUsername());
         List<Participant> participants = (List<Participant>) participantRepository.find(query);
         if (participants == null || participants.size() != 1) {
             throw new CtcAeSystemException("Can not find participant for username " + user.getUsername());

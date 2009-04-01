@@ -27,11 +27,6 @@ public class AddFormRuleController extends AbstractController {
         command.getFormRules().add(proCtcAERule);
         modelAndView.addObject("proCtcAERule", proCtcAERule);
         modelAndView.addObject("ruleIndex", command.getFormRules().size() - 1);
-        modelAndView.addObject("crfSymptoms", ListValues.getSymptomsForCRF(command.getCrf()));
-        modelAndView.addObject("questionTypes", ListValues.getQuestionTypes(command.getCrf()));
-        modelAndView.addObject("comparisonOptions", ListValues.getComparisonOptions());
-        modelAndView.addObject("comparisonValues", ListValues.getComparisonValues(command.getCrf()));
-        modelAndView.addObject("notifications", ListValues.getNotificationOptions());
 
         return modelAndView;
     }

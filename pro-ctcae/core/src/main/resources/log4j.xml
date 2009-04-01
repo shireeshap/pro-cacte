@@ -18,20 +18,20 @@
     </appender>
 
     <logger name="gov.nih.nci.ctcae">
-        <level value="INFO"/>
+        <level value="ERROR"/>
     </logger>
     <logger name="org.springframework.security">
-        <level value="INFO"/>
+        <level value="ERROR"/>
     </logger>
     <logger name="org.springframework">
-        <level value="INFO"/>
+        <level value="ERROR"/>
     </logger>
 
     <logger name="org.hibernate">
-        <level value="INFO"/>
+        <level value="ERROR"/>
     </logger>
     <logger name="com.semanticbits">
-        <level value="INFO"/>
+        <level value="ERROR"/>
     </logger>
     <root>
         <priority value="error"/>

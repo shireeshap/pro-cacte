@@ -64,32 +64,60 @@
             if (index > 0) {
                 tr.appendChild(getDeleteColumn(fieldtype, ruleindex, index));
             }
+            return index;
 
         }
-        function addSymptom(ruleindex) {
+
+        function setSelectValue(select, value) {
+            var opts = select.options;
+            var cleanValue = '';
+            if (typeof(value) != 'undefined') {
+                cleanValue = trimWhitespace(value);
+            } else {
+                return;
+            }
+            for (var i = 0; i < opts.length; i++) {
+                //                alert(',' + opts[i].value + ',' + cleanValue + ',' + (opts[i].value == cleanValue));
+                if (opts[i].value == cleanValue) {
+                    opts[i].selected = true;
+                    return;
+                }
+            }
+
+        }
+        function addSymptom(ruleindex, value) {
             var props = new Array();
             props[0] = 'For symptom';
             props[1] = '';
             props[2] = 'symptoms';
-            addFields(ruleindex, 'symptom', props);
+            var index = addFields(ruleindex, 'symptom', props);
+            var select = $('symptoms_' + ruleindex + '_' + index);
+            setSelectValue(select, value);
         }
-        function addNotification(ruleindex) {
+        function addNotification(ruleindex, value) {
             var props = new Array();
             props[0] = 'Notify ';
             props[1] = '';
             props[2] = 'notifications';
-            addFields(ruleindex, 'notification', props);
+            var index = addFields(ruleindex, 'notification', props);
+            var select = $('notifications_' + ruleindex + '_' + index);
+            setSelectValue(select, value);
         }
 
-        function addCondition(ruleindex) {
+        function addCondition(ruleindex, questiontype, operator, value) {
             var props = new Array();
             props[0] = 'If';
             props[1] = 'And';
             props[2] = 'questiontypes';
             props[3] = 'operators';
             props[4] = 'values_%questiontypes';
-            addFields(ruleindex, 'condition', props);
-
+            var index = addFields(ruleindex, 'condition', props);
+            var select = $('questiontypes_' + ruleindex + '_' + index);
+            setSelectValue(select, questiontype);
+            select = $('operators_' + ruleindex + '_' + index);
+            setSelectValue(select, operator);
+            select = $('values_' + ruleindex + '_' + index);
+            setSelectValue(select, value);
         }
 
         function getColumnFor(element, first) {
@@ -135,8 +163,12 @@
             td.appendChild(valueSelect);
         }
 
-        function deleteMe(obj){
+        function deleteMe(obj) {
             obj.remove();
+        }
+
+        function deleteRule(ruleIndex){
+            $('rule_div_'+ruleIndex).remove();
         }
 
     </script>
@@ -164,11 +196,7 @@
     <jsp:attribute name="repeatingFields">
         <input type="hidden" name="_finish" value="true" id="_finish">
         <c:forEach items="${command.formRules}" var="proCtcAeRule" varStatus="status">
-            <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}"
-                           comparisonOptions="${comparisonOptions}"
-                           crfSymptoms="${crfSymptoms}" comparisonValues="${comparisonValues}"
-                           notifications="${notifications}"
-                           questionTypes="${questionTypes}"/>
+            <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}"/>
         </c:forEach>
 
         <div id="hiddenDiv"></div>
