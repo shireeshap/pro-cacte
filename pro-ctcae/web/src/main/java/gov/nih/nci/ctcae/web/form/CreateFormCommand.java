@@ -310,19 +310,21 @@ public class CreateFormCommand implements Serializable {
 
     public void processRules(HttpServletRequest request) throws Exception {
         String[] rules = request.getParameterValues("rule");
-        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
+        if (rules != null) {
+            RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
 
-        for (String ruleIndexOnScreen : rules) {
-            List<String> symptoms = getListForRule(ruleIndexOnScreen, request, "symptoms");
-            List<String> questiontypes = getListForRule(ruleIndexOnScreen, request, "questiontypes");
-            List<String> operators = getListForRule(ruleIndexOnScreen, request, "operators");
-            List<String> values = getListForRule(ruleIndexOnScreen, request, "values");
-            List<String> notifications = getListForRule(ruleIndexOnScreen, request, "notifications");
-            String override = request.getParameter("override_" + ruleIndexOnScreen);
-            String ruleName = "Rule " + ruleIndexOnScreen;
-            ProCtcAERulesService.createRules(ruleSet, ruleName, symptoms, questiontypes, operators, values, notifications, override);
+            for (String ruleIndexOnScreen : rules) {
+                List<String> symptoms = getListForRule(ruleIndexOnScreen, request, "symptoms");
+                List<String> questiontypes = getListForRule(ruleIndexOnScreen, request, "questiontypes");
+                List<String> operators = getListForRule(ruleIndexOnScreen, request, "operators");
+                List<String> values = getListForRule(ruleIndexOnScreen, request, "values");
+                List<String> notifications = getListForRule(ruleIndexOnScreen, request, "notifications");
+                String override = request.getParameter("override_" + ruleIndexOnScreen);
+                String ruleName = "Rule " + ruleIndexOnScreen;
+                ProCtcAERulesService.createRules(ruleSet, ruleName, symptoms, questiontypes, operators, values, notifications, override);
+            }
+            ProCtcAERulesService.exportRuleSet(ruleSet);
         }
-        ProCtcAERulesService.exportRuleSet(ruleSet);
     }
 
 
