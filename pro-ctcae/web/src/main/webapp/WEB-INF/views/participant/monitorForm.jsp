@@ -100,6 +100,7 @@ function updateFormDropDown(crfs) {
     $('dateMenuDiv').show();
     $('searchForm').show();
     $('statusDiv').show();
+    $('tableViewDiv').show();
 }
 function customDate(showDate) {
     var myindex = showDate.selectedIndex
@@ -128,6 +129,9 @@ function formStatus(useStartDate) {
     var statusSelect = $('formStatus');
     var status = statusSelect.options[statusSelect.selectedIndex].value;
 
+    var viewSelect = $('tableView');
+    var period = viewSelect.options[viewSelect.selectedIndex].value;
+
     var pgStartDateNext = '';
     if (useStartDate == 'next') {
         try {
@@ -146,7 +150,7 @@ function formStatus(useStartDate) {
 
 
     var request = new Ajax.Request("<c:url value="/pages/participant/monitorFormStatus"/>", {
-        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev + "&subview=subview",
+        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev + "&period=" + period + "&subview=subview",
         onComplete:function(transport) {
             showStatusTable(transport);
         },
@@ -218,6 +222,17 @@ function showStatusTable(transport) {
             </div>
 
         </div>
+
+         <div id="tableViewDiv" style="display:none" class="row">
+            <div class="label">Table view</div>
+            <div class="value">
+                <select id="tableView" name="viewOptions">
+                    <option value="week">Weekly</option>
+                    <option value="month">Monthly</option>
+                   </select>
+            </div>
+        </div>
+
         <div id="dateRange" style="display:none">
             <div class="leftpanel">
                 <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
@@ -241,9 +256,9 @@ function showStatusTable(transport) {
     <chrome:box title="Results">
         <div>
             <div style="height: 25px">
-                <div style="float:left"><tags:button type="button" value="Previous week" icon="back" color="blue"
+                <div style="float:left"><tags:button type="button" value="Previous" icon="back" color="blue"
                                                      size="small" onclick="formStatus('prev')"/></div>
-                <div style="float:right"><tags:button type="button" value="Next week" icon="next" color="blue"
+                <div style="float:right"><tags:button type="button" value="Next" icon="next" color="blue"
                                                       size="small" onclick="formStatus('next')"/></div>
             </div>
 

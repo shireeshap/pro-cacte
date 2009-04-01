@@ -36,6 +36,7 @@ public class MonitorFormStatusController extends AbstractController {
         String status = request.getParameter("status");
         String pgStartDateNext = request.getParameter("pgStartDateNext");
         String pgStartDatePrev = request.getParameter("pgStartDatePrev");
+        String period = request.getParameter("period");
         Date startDate, endDate;
 
         if (dateRange.equals("custom")) {
@@ -47,21 +48,29 @@ public class MonitorFormStatusController extends AbstractController {
             endDate = date[1];
         }
 
-          if (!StringUtils.isBlank(pgStartDateNext)){
-              Calendar stDate = ProCtcAECalendar.getCalendarForDate(DateUtils.parseDate(pgStartDateNext));
-              stDate.add(Calendar.DATE, 1);
-              startDate = stDate.getTime();
+        if (!StringUtils.isBlank(pgStartDateNext)) {
+            Calendar stDate = ProCtcAECalendar.getCalendarForDate(DateUtils.parseDate(pgStartDateNext));
+            stDate.add(Calendar.DATE, 1);
+            startDate = stDate.getTime();
         }
-        if (!StringUtils.isBlank(pgStartDatePrev)){
+        if (!StringUtils.isBlank(pgStartDatePrev)) {
             Calendar stDate = ProCtcAECalendar.getCalendarForDate(DateUtils.parseDate(pgStartDatePrev));
             stDate.add(Calendar.DATE, -7);
             startDate = stDate.getTime();
         }
 
-        Calendar c = ProCtcAECalendar.getCalendarForDate(startDate);
-        c.add(Calendar.DATE, 6);
-        endDate = c.getTime();
-
+        if (period.equals("week")) {
+            Calendar c = ProCtcAECalendar.getCalendarForDate(startDate);
+            c.add(Calendar.DATE, 6);
+            endDate = c.getTime();
+        } else {
+            Calendar c = ProCtcAECalendar.getCalendarForDate(startDate);
+            int numberofdays = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+            c.set(Calendar.DATE, 1);
+            startDate = c.getTime();
+            c.add(Calendar.DATE, numberofdays - 1);
+            endDate = c.getTime();
+        }
 
 
         modelAndView.addObject("crfStatusMap", getFormStatus(Integer.valueOf(studyId), startDate, endDate, crfId, studySiteId, participantId, status));
@@ -76,7 +85,10 @@ public class MonitorFormStatusController extends AbstractController {
     private HashMap getFormStatus(Integer studyId, Date startDate, Date endDate, String crfId, String studySiteId, String participantId, String status) {
 
         int diffInDays = getDifferenceOfDates(startDate, endDate) + 1;
+
         HashMap<Participant, StudyParticipantCrfSchedule[]> crfStatus = new HashMap();
+
+        HashMap<StudySite, HashMap<Participant, StudyParticipantCrfSchedule[]>> siteCrfStatus = new HashMap();
 
         Study study = studyRepository.findById(studyId);
         for (StudySite studySite : study.getStudySites()) {
@@ -110,11 +122,13 @@ public class MonitorFormStatusController extends AbstractController {
                         }
                     }
                 }
+                siteCrfStatus.put(studySite, crfStatus);
+                crfStatus = new HashMap();
             }
-
         }
 
-        return crfStatus;
+
+        return siteCrfStatus;
     }
 
     private boolean dateBetween(Date startDate, Date endDate, Date scheduleStartDate) {
