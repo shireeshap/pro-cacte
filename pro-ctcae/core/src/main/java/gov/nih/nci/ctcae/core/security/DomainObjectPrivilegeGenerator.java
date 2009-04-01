@@ -54,10 +54,25 @@ public class DomainObjectPrivilegeGenerator {
     private Set<String> generatePrivilege(Participant participant) {
 
         Set<String> privileges = new HashSet<String>();
-
+        privileges.add(generatePrivilegeForPersistable(participant));
         List<StudyParticipantAssignment> studyParticipantAssignments = participant.getStudyParticipantAssignments();
-        privileges.addAll(generatePrivilege(studyParticipantAssignments.get(0)));
+
+        for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAssignments) {
+            privileges.addAll(generatePrivilege(studyParticipantAssignment));
+            List<StudyParticipantCrf> studyParticipantCrfs = studyParticipantAssignment.getStudyParticipantCrfs();
+            for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+                List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = studyParticipantCrf.getStudyParticipantCrfSchedules();
+                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
+                    privileges.add(generatePrivilege(studyParticipantCrfSchedule));
+                }
+            }
+        }
+
         return privileges;
+    }
+
+    private String generatePrivilege(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+        return generatePrivilegeForPersistable(studyParticipantCrfSchedule);
     }
 
     private Set<String> generatePrivilege(ClinicalStaff clinicalStaff) {
@@ -120,6 +135,9 @@ public class DomainObjectPrivilegeGenerator {
         }
         if (persistable.getClass().isAssignableFrom(ClinicalStaff.class)) {
             privileges.addAll(generatePrivilege((ClinicalStaff) persistable));
+        }
+        if (persistable.getClass().isAssignableFrom(StudyParticipantCrfSchedule.class)) {
+            privileges.add(generatePrivilege((StudyParticipantCrfSchedule) persistable));
         }
         return privileges;
     }

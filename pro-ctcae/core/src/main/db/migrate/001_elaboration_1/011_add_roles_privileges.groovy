@@ -24,6 +24,7 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('PRIVILEGES', [id: -6, privilege_name: "PRIVILEGE_VERSION_FORM", display_name: "PRIVILEGE_VERSION_FORM"], primaryKey: false)
     insert('PRIVILEGES', [id: -7, privilege_name: "PRIVILEGE_RELEASE_FORM", display_name: "PRIVILEGE_RELEASE_FORM"], primaryKey: false)
     insert('PRIVILEGES', [id: -8, privilege_name: "PRIVILEGE_ADD_FORM_RULES", display_name: "PRIVILEGE_EDIT_FORM"], primaryKey: false)
+    insert('PRIVILEGES', [id: -9, privilege_name: "PRIVILEGE_ADD_SITE_RULES", display_name: "PRIVILEGE_EDIT_FORM"], primaryKey: false)
 
     insert('PRIVILEGES', [id: -21, privilege_name: "PRIVILEGE_CREATE_STUDY", display_name: "PRIVILEGE_CREATE_STUDY"], primaryKey: false)
     insert('PRIVILEGES', [id: -22, privilege_name: "PRIVILEGE_ADD_STUDY_SITE", display_name: "PRIVILEGE_ADD_STUDY_SITE"], primaryKey: false)
@@ -116,7 +117,7 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -698, role_name: "SITE_CRA", privilege_id: "-27"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -699, role_name: "SITE_CRA", privilege_id: "-3"], primaryKey: false)
 
-    insert('ROLE_PRIVILEGES', [id: -700, role_name: "SITE_CRA", privilege_id: "-8"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -700, role_name: "SITE_CRA", privilege_id: "-9"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -701, role_name: "SITE_CRA", privilege_id: "-2"], primaryKey: false)
 
     insert('ROLE_PRIVILEGES', [id: -781, role_name: "SITE_PI", privilege_id: "-61"], primaryKey: false)
@@ -139,7 +140,7 @@ class AddRolesAndPriveleges extends edu.northwestern.bioinformatics.bering.Migra
     insert('ROLE_PRIVILEGES', [id: -798, role_name: "SITE_PI", privilege_id: "-27"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -799, role_name: "SITE_PI", privilege_id: "-3"], primaryKey: false)
 
-    insert('ROLE_PRIVILEGES', [id: -800, role_name: "SITE_PI", privilege_id: "-8"], primaryKey: false)
+    insert('ROLE_PRIVILEGES', [id: -800, role_name: "SITE_PI", privilege_id: "-9"], primaryKey: false)
     insert('ROLE_PRIVILEGES', [id: -806, role_name: "SITE_PI", privilege_id: "-2"], primaryKey: false)
 
 

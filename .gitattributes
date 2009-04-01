@@ -390,6 +390,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/RemoveConditionsControlle
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SelectStudyForFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SetNameController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ShowVersionFormController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SiteRulesTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/VersionFormController.java -text
@@ -601,6 +602,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/releaseForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/reviewFormSubmission.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/select_study.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/showVersionForm.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/site_rules.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/versionForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/home.jsp -text

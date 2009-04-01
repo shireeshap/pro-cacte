@@ -98,6 +98,20 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
 
         }
+
+        //check for participant
+
+        ParticipantQuery query = new ParticipantQuery();
+        query.filterByUsername(user.getUsername());
+        Participant participant = (Participant) genericRepository.findSingle(query);
+        if (participant != null) {
+            Set<String> privileges = privilegeGenerator.generatePrivilege(participant);
+            for (String privilege : privileges) {
+                instanceGrantedAuthorities.add(new GrantedAuthorityImpl(privilege));
+            }
+        }
+
+
         if (!roles.isEmpty()) {
             RolePrivilegeQuery rolePrivilegeQuery = new RolePrivilegeQuery();
             if (RolePrivilegeQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {

@@ -25,6 +25,7 @@ public class EditFormController extends FormController {
         flow.addTab(new FormDetailsTab());
         flow.addTab(new CalendarTemplateTab());
         flow.addTab(new FormRulesTab());
+        flow.addTab(new SiteRulesTab());
 
     }
 

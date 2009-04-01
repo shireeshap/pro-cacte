@@ -4,6 +4,9 @@
 <%@attribute name="proCtcAeRule" type="gov.nih.nci.ctcae.web.rules.ProCtcAERule" required="true" %>
 <%@attribute name="ruleIndex" required="true" %>
 <%@attribute name="isNew" %>
+<%@attribute name="isSite" %>
+
+${isSite}
 <div id="rule_div_${ruleIndex}">
     <script type="text/javascript">
         registerme(${ruleIndex});
