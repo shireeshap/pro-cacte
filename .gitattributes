@@ -692,7 +692,6 @@ pro-ctcae/web/src/main/webapp/images/blank.gif -text
 pro-ctcae/web/src/main/webapp/images/blue/Completed.png -text
 pro-ctcae/web/src/main/webapp/images/blue/In-progress.png -text
 pro-ctcae/web/src/main/webapp/images/blue/Past-due.png -text
-pro-ctcae/web/src/main/webapp/images/blue/Scheduled.png -text svneol=unset#unset
 pro-ctcae/web/src/main/webapp/images/blue/add_all_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/administration_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/administration_btn_selected.png -text
