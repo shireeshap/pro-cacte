@@ -61,10 +61,7 @@ public class DomainObjectPrivilegeGenerator {
             privileges.addAll(generatePrivilege(studyParticipantAssignment));
             List<StudyParticipantCrf> studyParticipantCrfs = studyParticipantAssignment.getStudyParticipantCrfs();
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
-                List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = studyParticipantCrf.getStudyParticipantCrfSchedules();
-                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
-                    privileges.add(generatePrivilege(studyParticipantCrfSchedule));
-                }
+                privileges.add(generatePrivilege(studyParticipantCrf));
             }
         }
 
@@ -72,7 +69,19 @@ public class DomainObjectPrivilegeGenerator {
     }
 
     private String generatePrivilege(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-        return generatePrivilegeForPersistable(studyParticipantCrfSchedule);
+        return generatePrivilege(studyParticipantCrfSchedule.getStudyParticipantCrf());
+    }
+
+    private String generatePrivilege(StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion) {
+        return generatePrivilege(studyParticipantCrfScheduleAddedQuestion.getStudyParticipantCrfSchedule().getStudyParticipantCrf());
+    }
+
+    private String generatePrivilege(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
+        return generatePrivilege(studyParticipantCrfAddedQuestion.getStudyParticipantCrf());
+    }
+
+    private String generatePrivilege(StudyParticipantCrf studyParticipantCrf) {
+        return generatePrivilegeForPersistable(studyParticipantCrf);
     }
 
     private Set<String> generatePrivilege(ClinicalStaff clinicalStaff) {
@@ -138,6 +147,15 @@ public class DomainObjectPrivilegeGenerator {
         }
         if (persistable.getClass().isAssignableFrom(StudyParticipantCrfSchedule.class)) {
             privileges.add(generatePrivilege((StudyParticipantCrfSchedule) persistable));
+        }
+        if (persistable.getClass().isAssignableFrom(StudyParticipantCrfScheduleAddedQuestion.class)) {
+            privileges.add(generatePrivilege((StudyParticipantCrfScheduleAddedQuestion) persistable));
+        }
+        if (persistable.getClass().isAssignableFrom(StudyParticipantCrfAddedQuestion.class)) {
+            privileges.add(generatePrivilege((StudyParticipantCrfAddedQuestion) persistable));
+        }
+        if (persistable.getClass().isAssignableFrom(StudyParticipantCrf.class)) {
+            privileges.add(generatePrivilege((StudyParticipantCrf) persistable));
         }
         return privileges;
     }

@@ -43,11 +43,6 @@
             padding-top: 12px;
         }
 
-            /*
-            #taskbar:after {
-                        content: "Welcome $ { user name here }";
-                    }
-            */
         #inboxTitle {
             color: #003E7C;
             position: absolute;

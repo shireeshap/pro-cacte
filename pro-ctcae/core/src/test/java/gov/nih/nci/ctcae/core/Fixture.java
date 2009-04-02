@@ -112,6 +112,11 @@ public class Fixture {
         clinicalStaff.getUser().setPassword(DEFAULT_PASSWORD);
     }
 
+    private static void addUserToParticipant(Participant participant) {
+        User user = createUser("p1mskcc", "p1mskcc", true, true, true, true);
+        participant.setUser(user);
+    }
+
     public static StudyOrganizationClinicalStaff createStudyOrganizationClinicalStaff(ClinicalStaff clinicalStaff, Role role, RoleStatus roleStatus, Date date, StudyOrganization studyOrganization) {
         StudyOrganizationClinicalStaff studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
         studyOrganizationClinicalStaff.setOrganizationClinicalStaff(clinicalStaff.getOrganizationClinicalStaffs().get(0));
@@ -119,6 +124,16 @@ public class Fixture {
         studyOrganizationClinicalStaff.setRoleStatus(roleStatus);
         studyOrganizationClinicalStaff.setStatusDate(date);
         return studyOrganizationClinicalStaff;
+    }
+
+    public static User createUser(final String userName, final String password, final boolean enabled,
+                                  final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked) {
+
+
+        User userDetails = new User(userName, password, enabled, accountNonExpired,
+                credentialsNonExpired, accountNonLocked);
+        return userDetails;
+
     }
 
 }

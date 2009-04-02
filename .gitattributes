@@ -532,6 +532,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/parsedStylesheetLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/participantcalendar.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/printRow.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/putSpecialRequiredIndicator.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/readOnlyRule.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/recallPeriodFormatter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderAutocompleter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderCheckBox.tag -text
@@ -565,6 +566,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabControls.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabFields.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabForm.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/tabMethod.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/textForCode.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/validvalue.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/accessDenied.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/ajax/deleteOrganizationClinicalStaffConfirmationCheck.jsp -text
@@ -1098,6 +1100,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/DomainObjectPrivilege
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/LeadCRAURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/ODCUrlAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/PIURLAuthorizationIntegrationTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/ParticipantURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/ResearchNurseAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/SiteCRAURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/SitePIAuthorizationIntegrationTest.java -text

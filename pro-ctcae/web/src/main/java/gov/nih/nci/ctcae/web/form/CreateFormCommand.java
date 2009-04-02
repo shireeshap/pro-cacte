@@ -357,4 +357,11 @@ public class CreateFormCommand implements Serializable {
     public List<ProCtcAERule> getFormRules() {
         return formRules;
     }
+
+    public void initializeRulesForSite(ProCtcAERulesService proCtcAERulesService) {
+                
+    }
+
+    public void processRulesForSite(HttpServletRequest request) {
+    }
 }

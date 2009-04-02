@@ -37,7 +37,6 @@ public abstract class UrlAuthorizationIntegrationTestCase extends AbstractWebInt
     protected final String ADD_CONDITIONAL_QUESTION_URL = "/pages/form/addConditionalQuestion";
     protected final String REMOVE_CONDITIONS_URL = "/pages/form/removeConditions";
     protected final String SET_NAME_URL = "/pages/form/setName";
-    protected final String SUBMIT_FORM_URL = "/pages/form/submit";
 
     protected final String CREATE_FORM_URL = "/pages/form/basicForm";
     protected final String EDIT_FORM_URL = "/pages/form/editForm";
@@ -70,6 +69,7 @@ public abstract class UrlAuthorizationIntegrationTestCase extends AbstractWebInt
     protected final String EDIT_PARTICIPANT_URL = "/pages/participant/*";
 
     protected final String PARTICIPANT_INBOX_URL = "/pages/participant/participantInbox";
+    protected final String SUBMIT_FORM_URL = "/pages/form/submit";
 
     protected UrlAuthorizationCheck urlAuthorizationCheck;
 

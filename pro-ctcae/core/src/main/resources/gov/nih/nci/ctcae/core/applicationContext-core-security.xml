@@ -40,7 +40,7 @@
 
     <security:global-method-security access-decision-manager-ref="accessDecisionManager">
         <security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.save(..))"
-                                   access="PRIVILEGE_CREATE_FORM"/>
+                                   access="PRIVILEGE_CREATE_FORM,PRIVILEGE_EDIT_FORM"/>
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.updateStatusToReleased(..))"

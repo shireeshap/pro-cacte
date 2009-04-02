@@ -21,7 +21,7 @@
         function addRule() {
             var request = new Ajax.Request("<c:url value="/pages/form/addFormRule"/>", {
                 onComplete:addRuleDiv,
-                parameters:"subview=subview",
+                parameters:"subview=subview&isSite=true",
                 method:'get'
             })
         }
@@ -174,7 +174,6 @@
     </script>
 </head>
 <body>
-site
 <div id="templateSelects" style="display:none">
     <tags:renderSelect options="${crfSymptoms}" noForm="true" id="templateSelect_symptoms"/>
     <tags:renderSelect options="${questionTypes}" noForm="true" id="templateSelect_questiontypes"

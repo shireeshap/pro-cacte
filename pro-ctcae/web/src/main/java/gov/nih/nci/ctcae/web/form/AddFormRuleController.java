@@ -27,6 +27,7 @@ public class AddFormRuleController extends AbstractController {
         command.getFormRules().add(proCtcAERule);
         modelAndView.addObject("proCtcAERule", proCtcAERule);
         modelAndView.addObject("ruleIndex", command.getFormRules().size() - 1);
+        modelAndView.addObject("isSite", request.getParameter("isSite"));
 
         return modelAndView;
     }
