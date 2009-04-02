@@ -22,7 +22,7 @@
             font-size: small;
             white-space: nowrap;
             text-align: center;
-            
+
         }
 
         td.data-left {
@@ -32,7 +32,7 @@
             font-weight: bold;
             white-space: nowrap;
             background-color: #cccccc;
-
+            text-align: center;            
         }
 
         td.header-top {
@@ -45,7 +45,7 @@
         }
 
         #formStatusTable {
-            /*text-align: center;*/
+        /*text-align: center;*/
             overflow-x: scroll;
         }
 
@@ -63,13 +63,13 @@
             <td>
                 Scheduled = <img src="../../images/blue/Scheduled.png"/>
             </td>
-             <td>
+            <td>
                 In-progress = <img src="../../images/blue/In-progress.png"/>
             </td>
-             <td>
+            <td>
                 Completed = <img src="../../images/blue/Completed.png"/>
             </td>
-             <td>
+            <td>
                 Past-due = <img src="../../images/blue/Past-due.png"/>
             </td>
         </tr>
@@ -91,18 +91,26 @@
                 <td class="header-top">Start date</td>
                 <c:forEach items="${calendar}" var="date">
                     <td class="header-top">
-                            <fmt:formatDate value="${date}" pattern="MMM-dd"/>
+                        <fmt:formatDate value="${date}" pattern="MMM-dd"/>
                     </td>
                 </c:forEach>
             </tr>
             <c:forEach items="${siteCrfStatus.value}" var="crfStatus">
                 <tr>
                     <td class="data-left">
-                            ${crfStatus.key.displayName} [${crfStatus.key.assignedIdentifier}] 
+                            ${crfStatus.key.displayName} [${crfStatus.key.assignedIdentifier}]
                     </td>
-                    <td class="data" >
+                    <td class="data">
                             <%--${crfStatus.value[0]}ss--%>
-                            <tags:formatDate value="${crfStatus.value[0].studyParticipantCrf.startDate}"/>
+                            <%----%>
+                        <c:set var="startDate"/>
+                        <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
+                            <c:if test="${!empty studyParticipantCrfSchedule}">
+                                <c:set var="startDate"
+                                       value="${studyParticipantCrfSchedule.startDate}"/>
+                            </c:if>
+                        </c:forEach>
+                        <tags:formatDate value="${startDate}"/>
                     </td>
                     <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
                         <td class="data">
