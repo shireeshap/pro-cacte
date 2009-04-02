@@ -7,7 +7,7 @@ import java.util.Calendar;
 
 /**
  * @author Mehul Gulati
- * Date: Mar 17, 2009
+ *         Date: Mar 17, 2009
  */
 public class MonitorFormUtils {
 
@@ -16,14 +16,15 @@ public class MonitorFormUtils {
         Date startDate;
         Date endDate;
         Calendar c = ProCtcAECalendar.getCalendarForDate(today);
-        Date[] dates = new Date [2];
+        Date[] dates = new Date[2];
 
 
         if ("thisWeek".equals(dateRange)) {
             c.set(Calendar.DAY_OF_WEEK, 1);
             startDate = c.getTime();
             dates[0] = startDate;
-            dates[1] = today;
+            c.add(Calendar.DATE, 6);
+            dates[1] = c.getTime();
         }
         if ("lastWeek".equals(dateRange)) {
             c.set(Calendar.DAY_OF_WEEK, 1);
@@ -45,9 +46,9 @@ public class MonitorFormUtils {
             c.add(Calendar.DATE, -1);
             endDate = c.getTime();
             dates[1] = endDate;
-            c.set(Calendar.DAY_OF_MONTH, 1);            
+            c.set(Calendar.DAY_OF_MONTH, 1);
             startDate = c.getTime();
-            dates[0] = startDate;          
+            dates[0] = startDate;
         }
         return dates;
     }

@@ -36,53 +36,83 @@ public class MonitorFormStatusController extends AbstractController {
         String status = request.getParameter("status");
         String pgStartDateNext = request.getParameter("pgStartDateNext");
         String pgStartDatePrev = request.getParameter("pgStartDatePrev");
-        String period = request.getParameter("period");
-        Date startDate, endDate;
+        String direction = request.getParameter("direction");
+        String view = request.getParameter("view");
+        Date startDate = new Date(), endDate = new Date();
 
-        if (dateRange.equals("custom")) {
-            startDate = DateUtils.parseDate(strStartDate);
-            endDate = DateUtils.parseDate(strEndDate);
+        if (view.equals("initial")) {
+            view = "weekly";
+            if (dateRange.equals("custom")) {
+                startDate = DateUtils.parseDate(strStartDate);
+                endDate = DateUtils.parseDate(strEndDate);
+            } else {
+                Date[] date = MonitorFormUtils.getStartEndDate(dateRange);
+                startDate = date[0];
+                endDate = date[1];
+            }
         } else {
-            Date[] date = MonitorFormUtils.getStartEndDate(dateRange);
-            startDate = date[0];
-            endDate = date[1];
-        }
+            int increment = 0;
+            Calendar stDate;
 
-        if (!StringUtils.isBlank(pgStartDateNext)) {
-            Calendar stDate = ProCtcAECalendar.getCalendarForDate(DateUtils.parseDate(pgStartDateNext));
-            stDate.add(Calendar.DATE, 1);
-            startDate = stDate.getTime();
-        }
-        if (!StringUtils.isBlank(pgStartDatePrev)) {
-            Calendar stDate = ProCtcAECalendar.getCalendarForDate(DateUtils.parseDate(pgStartDatePrev));
-            stDate.add(Calendar.DATE, -7);
-            startDate = stDate.getTime();
-        }
+            if (direction.equals("next")) {
+                stDate = ProCtcAECalendar.getCalendarForDate(DateUtils.parseDate(pgStartDateNext));
+                stDate.add(Calendar.DATE, 1);
+            } else {
+                stDate = ProCtcAECalendar.getCalendarForDate(DateUtils.parseDate(pgStartDatePrev));
+                stDate.add(Calendar.DATE, -1);
+            }
+            if (view.equals("monthly")) {
+                increment = stDate.getActualMaximum(Calendar.DAY_OF_MONTH) - 1;
+            } else {
+                increment = 6;
+            }
 
-        if (period.equals("week")) {
-            Calendar c = ProCtcAECalendar.getCalendarForDate(startDate);
-            c.add(Calendar.DATE, 6);
-            endDate = c.getTime();
-        } else {
-            Calendar c = ProCtcAECalendar.getCalendarForDate(startDate);
-            int numberofdays = c.getActualMaximum(Calendar.DAY_OF_MONTH);
-            c.set(Calendar.DATE, 1);
-            startDate = c.getTime();
-            c.add(Calendar.DATE, numberofdays - 1);
-            endDate = c.getTime();
+            if (direction.equals("next")) {
+                startDate = stDate.getTime();
+                stDate.add(Calendar.DATE, increment);
+                endDate = stDate.getTime();
+            } else {
+                if (direction.equals("prev")) {
+                    stDate.add(Calendar.DATE, -increment);
+                    startDate = stDate.getTime();
+                    stDate.add(Calendar.DATE, increment);
+                    endDate = stDate.getTime();
+                } else {
+                    if (view.equals("weekly")) {
+                        stDate.set(Calendar.DAY_OF_WEEK, 1);
+                        startDate = stDate.getTime();
+                        stDate.add(Calendar.DATE, increment);
+                        endDate = stDate.getTime();
+                    }
+                    if (view.equals("monthly")) {
+                        stDate.set(Calendar.DATE, 1);
+                        startDate = stDate.getTime();
+                        stDate.add(Calendar.DATE, increment);
+                        endDate = stDate.getTime();
+                    }
+                }
+            }
         }
-
 
         modelAndView.addObject("crfStatusMap", getFormStatus(Integer.valueOf(studyId), startDate, endDate, crfId, studySiteId, participantId, status));
         modelAndView.addObject("calendar", getCalendar(startDate, endDate));
         modelAndView.addObject("pgStartNext", endDate);
         modelAndView.addObject("pgStartPrev", startDate);
+        modelAndView.addObject("tablePeriod", view);
 
 
         return modelAndView;
     }
 
-    private HashMap getFormStatus(Integer studyId, Date startDate, Date endDate, String crfId, String studySiteId, String participantId, String status) {
+    private HashMap getFormStatus
+            (Integer
+                    studyId, Date
+                    startDate, Date
+                    endDate, String
+                    crfId, String
+                    studySiteId, String
+                    participantId, String
+                    status) {
 
         int diffInDays = getDifferenceOfDates(startDate, endDate) + 1;
 
@@ -131,11 +161,18 @@ public class MonitorFormStatusController extends AbstractController {
         return siteCrfStatus;
     }
 
-    private boolean dateBetween(Date startDate, Date endDate, Date scheduleStartDate) {
+    private boolean dateBetween
+            (Date
+                    startDate, Date
+                    endDate, Date
+                    scheduleStartDate) {
         return (startDate.getTime() <= scheduleStartDate.getTime() && scheduleStartDate.getTime() <= endDate.getTime());
     }
 
-    private int getDifferenceOfDates(Date startDate, Date endDate) {
+    private int getDifferenceOfDates
+            (Date
+                    startDate, Date
+                    endDate) {
         Calendar date = ProCtcAECalendar.getCalendarForDate(startDate);
         Calendar endDateC = ProCtcAECalendar.getCalendarForDate(endDate);
         int daysBetween = 0;
@@ -147,9 +184,12 @@ public class MonitorFormStatusController extends AbstractController {
 
     }
 
-    private List<String> getCalendar(Date startDate, Date endDate) {
+    private List<Date> getCalendar
+            (Date
+                    startDate, Date
+                    endDate) {
 
-        List<String> dates = new ArrayList<String>();
+        List<Date> dates = new ArrayList<Date>();
         Calendar c = ProCtcAECalendar.getCalendarForDate(startDate);
         int diffOfDates = getDifferenceOfDates(startDate, endDate);
         int currentMonth = c.get(Calendar.MONTH);
@@ -159,14 +199,17 @@ public class MonitorFormStatusController extends AbstractController {
                 date = 1;
                 currentMonth = c.get(Calendar.MONTH);
             }
-            dates.add(new SimpleDateFormat("EEE MMM-dd").format(c.getTime()));
+//            dates.add(new SimpleDateFormat("MM-dd-YY").format(c.getTime()));
+            dates.add(c.getTime());
             date++;
             c.add(Calendar.DATE, 1);
         }
         return dates;
     }
 
-    public void setStudyRepository(StudyRepository studyRepository) {
+    public void setStudyRepository
+            (StudyRepository
+                    studyRepository) {
         this.studyRepository = studyRepository;
     }
 

@@ -3,6 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <html>
@@ -19,6 +20,9 @@
             border-bottom: 1px solid #77a9ff;
             border-right: 1px solid #77a9ff;
             font-size: small;
+            white-space: nowrap;
+            text-align: center;
+            
         }
 
         td.data-left {
@@ -41,7 +45,7 @@
         }
 
         #formStatusTable {
-            text-align: center;
+            /*text-align: center;*/
             overflow-x: scroll;
         }
 
@@ -52,7 +56,29 @@
     </style>
 </head>
 <body>
+
 <div id="formStatusTable">
+    <table>
+        <tr>
+            <td>
+                Scheduled = <img src="../../images/blue/Scheduled.png"/>
+            </td>
+             <td>
+                In-progress = <img src="../../images/blue/In-progress.png"/>
+            </td>
+             <td>
+                Completed = <img src="../../images/blue/Completed.png"/>
+            </td>
+             <td>
+                Past-due = <img src="../../images/blue/Past-due.png"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Year = <fmt:formatDate value="${pgStartPrev}" pattern="yyyy"/>
+            </td>
+        </tr>
+    </table>
     <c:forEach items="${crfStatusMap}" var="siteCrfStatus">
         <chrome:division title="${siteCrfStatus.key.organization.name}"/>
 
@@ -62,26 +88,29 @@
             <tr>
                 <td class="header-top"><spring:message code="schedulecrf.label.participant"/>
                 </td>
+                <td class="header-top">Start date</td>
                 <c:forEach items="${calendar}" var="date">
                     <td class="header-top">
-                            ${date}
+                            <fmt:formatDate value="${date}" pattern="MMM-dd"/>
                     </td>
                 </c:forEach>
             </tr>
             <c:forEach items="${siteCrfStatus.value}" var="crfStatus">
                 <tr>
                     <td class="data-left">
-                            ${crfStatus.key.displayName}
+                            ${crfStatus.key.displayName} [${crfStatus.key.assignedIdentifier}] 
+                    </td>
+                    <td class="data" >
+                            <%--${crfStatus.value[0]}ss--%>
+                            <tags:formatDate value="${crfStatus.value[0].studyParticipantCrf.startDate}"/>
                     </td>
                     <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
-                        <td class="data ${studyParticipantCrfSchedule.status.displayName}">
-                                <%--onmouseover="showTip('${studyParticipantCrfSchedule.cycleNumber}','${studyParticipantCrfSchedule.cycleDay}')">--%>
+                        <td class="data">
                             <c:choose>
                                 <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'Completed'}">
-                                    <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
                                     <a href="javascript:completedForm(${studyParticipantCrfSchedule.id})"
                                        title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
-                                            ${studyParticipantCrfSchedule.status.displayName}
+                                        <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
                                     </a>
                                 </c:when>
                                 <c:otherwise>
@@ -89,7 +118,6 @@
                                     <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
                                     <a class="nolink"
                                        title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
-                                            ${studyParticipantCrfSchedule.status.displayName}
                                     </a>
                                 </c:otherwise>
                             </c:choose>
@@ -103,10 +131,9 @@
     </c:forEach>
     <input type="hidden" id="pgStartDateNext" value='<tags:formatDate value="${pgStartNext}"/>'/>
     <input type="hidden" id="pgStartDatePrev" value='<tags:formatDate value="${pgStartPrev}"/>'/>
-
+    <input type="hidden" id="periodButton" value="${tablePeriod}"/>
 
 </div>
 <br>
-
 </body>
 </html>

@@ -100,7 +100,7 @@ function updateFormDropDown(crfs) {
     $('dateMenuDiv').show();
     $('searchForm').show();
     $('statusDiv').show();
-    $('tableViewDiv').show();
+    //    $('tableViewDiv').show();
 }
 function customDate(showDate) {
     var myindex = showDate.selectedIndex
@@ -112,7 +112,7 @@ function customDate(showDate) {
     }
 
 }
-function formStatus(useStartDate) {
+function formStatus(period) {
     var studyId = $('study').value;
     var stDate = $('startDate').value;
     var endDate = $('endDate').value;
@@ -129,28 +129,39 @@ function formStatus(useStartDate) {
     var statusSelect = $('formStatus');
     var status = statusSelect.options[statusSelect.selectedIndex].value;
 
-    var viewSelect = $('tableView');
-    var period = viewSelect.options[viewSelect.selectedIndex].value;
-
     var pgStartDateNext = '';
-    if (useStartDate == 'next') {
-        try {
-            pgStartDateNext = $('pgStartDateNext').value;
-        } catch(e) {
-        }
-    }
-
     var pgStartDatePrev = '';
-    if (useStartDate == 'prev') {
-        try {
-            pgStartDatePrev = $('pgStartDatePrev').value;
-        } catch(e) {
-        }
+    var direction = '';
+    var view = period;
+    if (period == 'next') {
+        pgStartDateNext = $('pgStartDateNext').value;
+        direction = period;
+        view = $('periodButton').value;
     }
-
+    if (period == 'prev') {
+        pgStartDatePrev = $('pgStartDatePrev').value;
+        direction = period;
+        view = $('periodButton').value;
+    }
+    if (period == 'weekly') {
+        pgStartDatePrev = $('pgStartDatePrev').value;
+        view = period;
+        $('monthlyButton').show();
+        $('weeklyButton').hide();
+    }
+    if (period == 'monthly') {
+        pgStartDatePrev = $('pgStartDatePrev').value;
+        view = period;
+        $('monthlyButton').hide();
+        $('weeklyButton').show();
+    }
+    if (period == 'initial') {
+        $('monthlyButton').show();
+        $('weeklyButton').hide();
+    }
 
     var request = new Ajax.Request("<c:url value="/pages/participant/monitorFormStatus"/>", {
-        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev + "&period=" + period + "&subview=subview",
+        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev + "&direction=" + direction + "&view=" + view + "&subview=subview",
         onComplete:function(transport) {
             showStatusTable(transport);
         },
@@ -223,16 +234,6 @@ function showStatusTable(transport) {
 
         </div>
 
-         <div id="tableViewDiv" style="display:none" class="row">
-            <div class="label">Table view</div>
-            <div class="value">
-                <select id="tableView" name="viewOptions">
-                    <option value="week">Weekly</option>
-                    <option value="month">Monthly</option>
-                   </select>
-            </div>
-        </div>
-
         <div id="dateRange" style="display:none">
             <div class="leftpanel">
                 <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
@@ -245,7 +246,7 @@ function showStatusTable(transport) {
         </div>
         <div id="searchForm" style="display:none" class="row">
 
-            <div class="value"><tags:button color="blue" value="Search" onclick="formStatus(false)" size="big"
+            <div class="value"><tags:button color="blue" value="Search" onclick="formStatus('initial')" size="big"
                                             icon="search"/></div>
         </div>
     </div>
@@ -258,6 +259,14 @@ function showStatusTable(transport) {
             <div style="height: 25px">
                 <div style="float:left"><tags:button type="button" value="Previous" icon="back" color="blue"
                                                      size="small" onclick="formStatus('prev')"/></div>
+                <div id="monthlyButton" style="display:none; float:left;"><tags:button type="button" value="Monthly" icon="monthly"
+                                                                           color="blue"
+                                                                           size="small"
+                                                                           onclick="formStatus('monthly')"/></div>
+                <div id="weeklyButton" style="display:none; float:left;"><tags:button type="button" value="Weekly" icon="weekly"
+                                                                          color="blue"
+                                                                          size="small"
+                                                                          onclick="formStatus('weekly')"/></div>
                 <div style="float:right"><tags:button type="button" value="Next" icon="next" color="blue"
                                                       size="small" onclick="formStatus('next')"/></div>
             </div>
