@@ -1,3 +1,4 @@
+<%@ page import="java.util.Date" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -32,7 +33,7 @@
             font-weight: bold;
             white-space: nowrap;
             background-color: #cccccc;
-            text-align: center;            
+            text-align: center;
         }
 
         td.header-top {
@@ -61,13 +62,13 @@
     <table>
         <tr>
             <td>
-                Scheduled = <img src="../../images/blue/Scheduled.png"/>
+                Scheduled = <img src="../../images/blue/Scheduled.png"/>  &nbsp;&nbsp;
             </td>
             <td>
-                In-progress = <img src="../../images/blue/In-progress.png"/>
+                In-progress = <img src="../../images/blue/In-progress.png"/>  &nbsp;&nbsp;
             </td>
             <td>
-                Completed = <img src="../../images/blue/Completed.png"/>
+                Completed = <img src="../../images/blue/Completed.png"/>  &nbsp;&nbsp;
             </td>
             <td>
                 Past-due = <img src="../../images/blue/Past-due.png"/>
@@ -115,20 +116,28 @@
                     <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
                         <td class="data">
                             <c:choose>
-                                <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'Completed'}">
-                                    <a href="javascript:completedForm(${studyParticipantCrfSchedule.id})"
-                                       title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
-                                        <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
-                                    </a>
-                                </c:when>
-                                <c:otherwise>
-
+                            <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'Completed'}">
+                                <a href="javascript:completedForm(${studyParticipantCrfSchedule.id})"
+                                   title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
                                     <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
-                                    <a class="nolink"
-                                       title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
-                                    </a>
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                            <c:set var="todaysdate" value="<%= new Date()%>"/>
+                            <a class="nolink"
+                               title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
+                                <c:choose>
+                                    <c:when test="${todaysdate > studyParticipantCrfSchedule.dueDate && (studyParticipantCrfSchedule.status eq 'Scheduled' || studyParticipantCrfSchedule.status eq 'In-progress')}">
+                                        <img src="../../images/blue/Past-due.png"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
+                                    </c:otherwise>
+                                </c:choose>
+
                                 </c:otherwise>
-                            </c:choose>
+                                </c:choose>
+                            </a>
                         </td>
                     </c:forEach>
                 </tr>
