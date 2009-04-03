@@ -170,7 +170,11 @@
         function deleteRule(ruleIndex) {
             $('rule_div_' + ruleIndex).remove();
         }
-
+        function editRules() {
+            $('_target').name = "_target" + 3;
+            $("_finish").name = "_nofinish";
+            $('command').submit();
+        }
     </script>
 </head>
 <body>
@@ -193,13 +197,10 @@
     <tags:renderSelect options="${notifications}" noForm="true" id="templateSelect_notifications"/>
 </div>
 
-<c:set var="readonlyview" value="${empty command.readonlyview? readonlyview : command.readonlyview}"/>
-<c:set var="txtForSaveButton" value="${readonlyview ? 'Edit Rules' : 'Save'}"/>
-
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" txtForSaveButton="${txtForSaveButton}"
-              notDisplayInBox="true">
+<c:set var="readonlyview" value="${command.readonlyview}"/>
+<tags:tabForm tab="${tab}" flow="${flow}" doNotShowSave="${readonlyview}" notDisplayInBox="true">
     <jsp:attribute name="repeatingFields">
-        <input type="hidden" name="_finish" value="true" id="_finish">
+        <input type="hidden" name="_finish" id="_finish">
         <input type="hidden" name="readonlyview" value="${readonlyview}"/>
         <c:forEach items="${command.formRules}" var="proCtcAeRule" varStatus="status">
             <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}" isSite="true"
@@ -211,6 +212,13 @@
                     <tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()"
                                  value="form.rules.add_rule"
                                  icon="add"/>
+                </div>
+            </c:if>
+            <c:if test="${readonlyview}">
+                <div align="right">
+                    <tags:button color="blue" markupWithTag="a" onclick="javascript:editRules()"
+                                 value="form.rules.edit_rules"
+                                 icon="edit"/>
                 </div>
             </c:if>
     </jsp:attribute>

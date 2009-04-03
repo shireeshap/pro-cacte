@@ -8,9 +8,10 @@
 <%@attribute name="saveButtonLabel" required="false" %>
 <%@attribute name="localButtons" fragment="true" %>
 <%@attribute name="txtForSaveButton" %>
+<%@attribute name="doNotShowSave" %>
 <c:set var="tabNumber" value="${empty tabNumber ? tab.number : tabNumber}"/>
 <c:set var="isLast" value="${empty isLast ? not (tab.number < flow.tabCount - 1) : isLast}"/>
-
+<c:set var="doNotShowSave" value="${empty doNotShowSave ? false : doNotShowSave}"/>
 <div class="content buttons autoclear">
     <div class="local-buttons">
         <jsp:invoke fragment="localButtons"/>
@@ -18,13 +19,17 @@
     <div class="flow-buttons">
         <span class="prev">
             <c:if test="${tabNumber > 0}">
-					   <tags:button type="submit" color="blue" id="flow-prev" cssClass="tab${tabNumber - 1}" value="${willSave ? 'Save &amp; ' : ''}Back" icon="${willSave ? 'Save &amp; ' : ''}Back"/>
+                <tags:button type="submit" color="blue" id="flow-prev" cssClass="tab${tabNumber - 1}"
+                             value="${willSave ? 'Save &amp; ' : ''}Back" icon="${willSave ? 'Save &amp; ' : ''}Back"/>
             </c:if>
         </span>
         <span class="next">
 
             <c:if test="${not isLast and willSave}">
-					   <tags:button type="submit" color="blue" id="flow-update" cssClass="tab${tabNumber}" value="${txtForSaveButton}" icon="save" />
+                <c:if test="${!doNotShowSave}">
+                    <tags:button type="submit" color="blue" id="flow-update" cssClass="tab${tabNumber}"
+                                 value="${txtForSaveButton}" icon="save"/>
+                </c:if>
             </c:if>
 			<c:set var="saveText" value="${txtForSaveButton}"/>
             <c:set var="continueLabel" value="${isLast || willSave ? saveText : ''}"/>
@@ -34,7 +39,10 @@
             <c:if test="${not isLast}">
                 <c:set var="continueLabel" value="${continueLabel}Continue"/>
             </c:if>
-			<tags:button type="submit" color="green" id="flow-next" value="${continueLabel}" icon="${continueLabel}" />
+			<c:if test="${!doNotShowSave}">
+                <tags:button type="submit" color="green" id="flow-next" value="${continueLabel}"
+                             icon="${continueLabel}"/>
+            </c:if>
         </span>
     </div>
 </div>

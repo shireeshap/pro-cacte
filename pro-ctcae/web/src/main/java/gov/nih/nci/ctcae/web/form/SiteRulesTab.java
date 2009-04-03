@@ -50,7 +50,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         map.put("comparisonOptions", ListValues.getComparisonOptions());
         map.put("comparisonValues", ListValues.getComparisonValues(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
-        map.put("readonlyview", "true");
+        command.setReadonlyview("true");
         return map;
     }
 
@@ -62,7 +62,11 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         try {
-            command.processRulesForSite(request);
+            if ("true".equals(command.getReadonlyview())) {
+                command.setReadonlyview("false");
+            } else {
+                command.processRulesForSite(request);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
