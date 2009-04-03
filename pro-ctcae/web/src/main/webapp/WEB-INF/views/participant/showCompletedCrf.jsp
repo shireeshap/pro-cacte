@@ -25,10 +25,10 @@
                 <%--<b>${myindex}. ${spCrfItem.proCtcValidValue.proCtcQuestion.questionText} - </b>--%>
                 <b>${myindex}. ${spCrfItem.proCtcValidValue.proCtcQuestion.questionText}</b>
                 <br/>
-                <u><i>${spCrfItem.proCtcValidValue.value}</i></u>
+                Answer: <u><i>${spCrfItem.proCtcValidValue.value}</i></u>
                 <c:set var="myindex" value="${myindex + 1}"/>
             </chrome:box>
-        </c:if>
+        </c:if>                     
 
     </c:forEach>
 
@@ -39,7 +39,7 @@
                 <%--<b>${myindex}. ${spCrfAddedQuestion.proCtcQuestion.questionText} - </b>--%>
                 <b>${myindex}. ${spCrfAddedQuestion.proCtcQuestion.questionText}</b>
                 <br/>
-                <u><i>${spCrfAddedQuestion.proCtcValidValue.value}</i></u>
+                Answer: <u><i>${spCrfAddedQuestion.proCtcValidValue.value}</i></u>
                 <c:set var="myindex" value="${myindex + 1}"/>
             </chrome:box>
         </c:if>
