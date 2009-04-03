@@ -8,7 +8,11 @@
     <script type="text/javascript">
         registerme(${ruleIndex});
     </script>
-    <chrome:box title="Rule ${ruleIndex + 1}">
+
+    <c:if test="${proCtcAeRule.override == 'Y'}">
+        <c:set var="Customizable" value="(Customizable)"/>
+    </c:if>
+    <chrome:box title="Rule ${ruleIndex + 1} ${Customizable}">
         <input type="hidden" name="rule" value="${ruleIndex}"/>
         <table>
             <tr>

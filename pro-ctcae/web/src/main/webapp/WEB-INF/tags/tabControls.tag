@@ -1,7 +1,5 @@
-<!-- BEGIN tags\tabControls.tag -->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%-- must specify either tab & flow or tabNumber and isLast --%>
 <%@attribute name="tab" type="gov.nih.nci.cabig.ctms.web.tabs.Tab" %>
 <%@attribute name="flow" type="gov.nih.nci.cabig.ctms.web.tabs.Flow" %>
 <%@attribute name="tabNumber" %>
@@ -9,8 +7,10 @@
 <%@attribute name="willSave" %>
 <%@attribute name="saveButtonLabel" required="false" %>
 <%@attribute name="localButtons" fragment="true" %>
+<%@attribute name="txtForSaveButton" %>
 <c:set var="tabNumber" value="${empty tabNumber ? tab.number : tabNumber}"/>
 <c:set var="isLast" value="${empty isLast ? not (tab.number < flow.tabCount - 1) : isLast}"/>
+
 <div class="content buttons autoclear">
     <div class="local-buttons">
         <jsp:invoke fragment="localButtons"/>
@@ -18,20 +18,15 @@
     <div class="flow-buttons">
         <span class="prev">
             <c:if test="${tabNumber > 0}">
-                <%--<input type="image" src="<c:url value="/images/blue/${willSave ? 'save' : ''}back_btn.png"/>"
-                       id="flow-prev" class="tab${tabNumber - 1}" value="&laquo; ${willSave ? 'save' : ''}back"
-                       alt="&laquo; ${willSave ? 'Save &amp; ' : ''}Back"/>--%>
 					   <tags:button type="submit" color="blue" id="flow-prev" cssClass="tab${tabNumber - 1}" value="${willSave ? 'Save &amp; ' : ''}Back" icon="${willSave ? 'Save &amp; ' : ''}Back"/>
             </c:if>
         </span>
         <span class="next">
 
-            <c:if test="${not isLast  and willSave}">
-                <%--<input type="image" src="<c:url value="/images/blue/save_btn.png"/>" id="flow-update"
-                       class="tab${tabNumber}" value="Save" alt="Save"/>--%>
-					   <tags:button type="submit" color="blue" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="save" />
+            <c:if test="${not isLast and willSave}">
+					   <tags:button type="submit" color="blue" id="flow-update" cssClass="tab${tabNumber}" value="${txtForSaveButton}" icon="save" />
             </c:if>
-			<c:set var="saveText" value="Save"/>
+			<c:set var="saveText" value="${txtForSaveButton}"/>
             <c:set var="continueLabel" value="${isLast || willSave ? saveText : ''}"/>
             <c:if test="${not empty continueLabel && not isLast}">
                 <c:set var="continueLabel" value="${continueLabel} &amp; "/>
@@ -40,9 +35,6 @@
                 <c:set var="continueLabel" value="${continueLabel}Continue"/>
             </c:if>
 			<tags:button type="submit" color="green" id="flow-next" value="${continueLabel}" icon="${continueLabel}" />
-            <%--<input type="image" src="<c:url value="/images/blue/${continueLabel}_btn.png"/>" id="flow-next"
-                   value="${continueLabel} &raquo;" alt="${continueLabel} &raquo;"/>--%>
         </span>
     </div>
 </div>
-<!-- END tags\tabControls.tag -->

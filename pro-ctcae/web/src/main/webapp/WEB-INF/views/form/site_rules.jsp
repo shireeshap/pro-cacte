@@ -174,6 +174,7 @@
     </script>
 </head>
 <body>
+
 <div id="templateSelects" style="display:none">
     <tags:renderSelect options="${crfSymptoms}" noForm="true" id="templateSelect_symptoms"/>
     <tags:renderSelect options="${questionTypes}" noForm="true" id="templateSelect_questiontypes"
@@ -192,19 +193,26 @@
     <tags:renderSelect options="${notifications}" noForm="true" id="templateSelect_notifications"/>
 </div>
 
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
+<c:set var="readonlyview" value="${empty command.readonlyview? readonlyview : command.readonlyview}"/>
+<c:set var="txtForSaveButton" value="${readonlyview ? 'Edit Rules' : 'Save'}"/>
+
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" txtForSaveButton="${txtForSaveButton}"
+              notDisplayInBox="true">
     <jsp:attribute name="repeatingFields">
         <input type="hidden" name="_finish" value="true" id="_finish">
+        <input type="hidden" name="readonlyview" value="${readonlyview}"/>
         <c:forEach items="${command.formRules}" var="proCtcAeRule" varStatus="status">
-            <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}" isSite="true"/>
+            <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}" isSite="true"
+                           siteReadOnlyView="${readonlyview}"/>
         </c:forEach>
-
         <div id="hiddenDiv"></div>
-        <div align="right">
-            <tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()" value="form.rules.add_rule"
-                         icon="add"/>
-        </div>
-        
+            <c:if test="${!readonlyview}">
+                <div align="right">
+                    <tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()"
+                                 value="form.rules.add_rule"
+                                 icon="add"/>
+                </div>
+            </c:if>
     </jsp:attribute>
 </tags:tabForm>
 

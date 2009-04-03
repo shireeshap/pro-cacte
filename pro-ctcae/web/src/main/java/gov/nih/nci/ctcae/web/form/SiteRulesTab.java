@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import gov.nih.nci.ctcae.web.ListValues;
@@ -38,7 +39,8 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
      */
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
-        command.initializeRulesForSite(proCtcAERulesService);
+        command.initializeRules(proCtcAERulesService);
+//        command.initializeRulesForSite(proCtcAERulesService);
     }
 
     public Map<String, Object> referenceData(CreateFormCommand command) {
@@ -48,6 +50,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         map.put("comparisonOptions", ListValues.getComparisonOptions());
         map.put("comparisonValues", ListValues.getComparisonValues(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
+        map.put("readonlyview", "true");
         return map;
     }
 
@@ -68,5 +71,9 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
 
     public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
         this.proCtcAERulesService = proCtcAERulesService;
+    }
+
+    @Override
+    public void validate(CreateFormCommand command, Errors errors) {
     }
 }

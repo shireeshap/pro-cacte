@@ -5,13 +5,13 @@
 <%@attribute name="ruleIndex" required="true" %>
 <%@attribute name="isNew" %>
 <%@attribute name="isSite" %>
-
+<%@attribute name="siteReadOnlyView" %>
 <div id="rule_div_${ruleIndex}">
     <script type="text/javascript">
         registerme(${ruleIndex});
     </script>
     <c:choose>
-        <c:when test="${isSite && proCtcAeRule.override=='N'}">
+        <c:when test="${siteReadOnlyView || (isSite && proCtcAeRule.override=='N')}">
             <tags:readOnlyRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${ruleIndex}"/>
         </c:when>
         <c:otherwise>

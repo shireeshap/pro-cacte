@@ -60,6 +60,15 @@ public class CreateFormCommand implements Serializable {
     private String crfCycleDefinitionIndexToRemove = "";
 
     private List<ProCtcAERule> formRules;
+    private String readonlyview = "true";
+
+    public String getReadonlyview() {
+        return readonlyview;
+    }
+
+    public void setReadonlyview(String readonlyview) {
+        this.readonlyview = readonlyview;
+    }
 
     /**
      * Gets the title.
