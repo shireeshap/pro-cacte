@@ -62,13 +62,13 @@
     <table>
         <tr>
             <td>
-                Scheduled = <img src="../../images/blue/Scheduled.png"/>  &nbsp;&nbsp;
+                Scheduled = <img src="../../images/blue/Scheduled.png"/> &nbsp;&nbsp;
             </td>
             <td>
-                In-progress = <img src="../../images/blue/In-progress.png"/>  &nbsp;&nbsp;
+                In-progress = <img src="../../images/blue/In-progress.png"/> &nbsp;&nbsp;
             </td>
             <td>
-                Completed = <img src="../../images/blue/Completed.png"/>  &nbsp;&nbsp;
+                Completed = <img src="../../images/blue/Completed.png"/> &nbsp;&nbsp;
             </td>
             <td>
                 Past-due = <img src="../../images/blue/Past-due.png"/>
@@ -102,13 +102,11 @@
                             ${crfStatus.key.displayName} [${crfStatus.key.assignedIdentifier}]
                     </td>
                     <td class="data">
-                            <%--${crfStatus.value[0]}ss--%>
-                            <%----%>
-                        <c:set var="startDate"/>
+                        <c:set var="startDate" value=""/>
                         <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
                             <c:if test="${!empty studyParticipantCrfSchedule}">
                                 <c:set var="startDate"
-                                       value="${studyParticipantCrfSchedule.startDate}"/>
+                                       value="${studyParticipantCrfSchedule.studyParticipantCrf.startDate}"/>
                             </c:if>
                         </c:forEach>
                         <tags:formatDate value="${startDate}"/>
