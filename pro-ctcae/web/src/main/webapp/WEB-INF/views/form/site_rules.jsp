@@ -196,7 +196,6 @@
     <tags:button icon="x" color="red" size="small" markupWithTag="a" value="" id="templateButton_remove"/>
     <tags:renderSelect options="${notifications}" noForm="true" id="templateSelect_notifications"/>
 </div>
-${command.readonlyview}
 <c:set var="readonlyview" value="${command.readonlyview}"/>
 <tags:tabForm tab="${tab}" flow="${flow}" doNotShowSave="${readonlyview}" notDisplayInBox="true">
     <jsp:attribute name="repeatingFields">
