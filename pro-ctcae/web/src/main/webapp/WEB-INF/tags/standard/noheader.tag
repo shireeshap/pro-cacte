@@ -8,7 +8,7 @@
 <div id="header">
 
     <div class="background-R">
-        <a href="/ctcae/pages/form/createForm" id="logo">ProCtcAE</a>
+        <a href="/ctcae" id="logo">ProCtcAE</a>
         <div id="taskbar">Welcome <b><authz:authentication property="name"></authz:authentication></b></div>
         <ctcae:urlAuthorize url="/pages/j_spring_security_logout">
             <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>">Log out</a>
