@@ -37,6 +37,7 @@
                 <%--<b>${myindex}. ${spCrfAddedQuestion.proCtcQuestion.questionText} - </b>--%>
                 <b>${myindex}. ${spCrfAddedQuestion.proCtcQuestion.questionText}</b>
                 <br/>
+                <br/>
                 <u><i>${spCrfAddedQuestion.proCtcValidValue.value}</i></u>
                 <c:set var="myindex" value="${myindex + 1}"/>
             </chrome:box>
