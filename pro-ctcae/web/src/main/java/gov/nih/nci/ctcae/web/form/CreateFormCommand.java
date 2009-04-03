@@ -332,7 +332,7 @@ public class CreateFormCommand implements Serializable {
                 String ruleName = "Rule " + ruleIndexOnScreen;
                 ProCtcAERulesService.createRules(ruleSet, ruleName, symptoms, questiontypes, operators, values, notifications, override);
             }
-            ProCtcAERulesService.exportRuleSet(ruleSet);
+//            ProCtcAERulesService.exportRuleSet(ruleSet);
         }
     }
 
