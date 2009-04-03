@@ -22,7 +22,9 @@
     <c:forEach items="${completedCrf.studyParticipantCrfItems}" var="spCrfItem">
         <c:if test="${spCrfItem.proCtcValidValue.proCtcQuestion.questionText ne null}">
             <chrome:box>
-                <b>${myindex}. ${spCrfItem.proCtcValidValue.proCtcQuestion.questionText} - </b>
+                <%--<b>${myindex}. ${spCrfItem.proCtcValidValue.proCtcQuestion.questionText} - </b>--%>
+                <b>${myindex}. ${spCrfItem.proCtcValidValue.proCtcQuestion.questionText}</b>
+                <br/>
                 <u><i>${spCrfItem.proCtcValidValue.value}</i></u>
                 <c:set var="myindex" value="${myindex + 1}"/>
             </chrome:box>
@@ -36,7 +38,6 @@
             <chrome:box>
                 <%--<b>${myindex}. ${spCrfAddedQuestion.proCtcQuestion.questionText} - </b>--%>
                 <b>${myindex}. ${spCrfAddedQuestion.proCtcQuestion.questionText}</b>
-                <br/>a
                 <br/>
                 <u><i>${spCrfAddedQuestion.proCtcValidValue.value}</i></u>
                 <c:set var="myindex" value="${myindex + 1}"/>
