@@ -171,7 +171,7 @@
             $('rule_div_' + ruleIndex).remove();
         }
         function editRules() {
-            $('_target').name = "_target" + 3;
+            $('_target').name = "_target" + 0;
             $("_finish").name = "_nofinish";
             $('command').submit();
         }
@@ -196,7 +196,7 @@
     <tags:button icon="x" color="red" size="small" markupWithTag="a" value="" id="templateButton_remove"/>
     <tags:renderSelect options="${notifications}" noForm="true" id="templateSelect_notifications"/>
 </div>
-
+${command.readonlyview}
 <c:set var="readonlyview" value="${command.readonlyview}"/>
 <tags:tabForm tab="${tab}" flow="${flow}" doNotShowSave="${readonlyview}" notDisplayInBox="true">
     <jsp:attribute name="repeatingFields">

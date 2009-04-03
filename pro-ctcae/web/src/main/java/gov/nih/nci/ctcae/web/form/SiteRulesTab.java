@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import gov.nih.nci.ctcae.web.ListValues;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +51,6 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         map.put("comparisonOptions", ListValues.getComparisonOptions());
         map.put("comparisonValues", ListValues.getComparisonValues(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
-        command.setReadonlyview("true");
         return map;
     }
 
@@ -69,6 +69,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            errors.reject(e.getMessage());
         }
         super.postProcess(request, command, errors);
     }
@@ -77,7 +78,4 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         this.proCtcAERulesService = proCtcAERulesService;
     }
 
-    @Override
-    public void validate(CreateFormCommand command, Errors errors) {
-    }
 }

@@ -70,7 +70,11 @@ public class EditFormController extends FormController {
 
     @Override
     protected boolean shouldSave(final HttpServletRequest request, final CreateFormCommand command, final Tab tab) {
-        return true;
+        if ("form/site_rules".equals(tab.getViewName())) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
