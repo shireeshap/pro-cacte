@@ -101,8 +101,8 @@
                     <td class="data-left">
                             ${crfStatus.key.displayName} [${crfStatus.key.assignedIdentifier}]
                     </td>
-                    <td class="data">
-                        <c:set var="startDate" value=""/>
+                    <td class="data-left">
+                        <c:set var="startDate"/>
                         <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
                             <c:if test="${!empty studyParticipantCrfSchedule}">
                                 <c:set var="startDate"

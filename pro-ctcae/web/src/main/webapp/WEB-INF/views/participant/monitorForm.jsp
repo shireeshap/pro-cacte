@@ -261,12 +261,12 @@
             <div style="height: 25px">
                 <div style="float:left"><tags:button type="button" value="Previous" icon="back" color="blue"
                                                      size="small" onclick="formStatus('prev')"/></div>
-                <div id="monthlyButton" style="display:none; float:left;"><tags:button type="button" value="Monthly"
+                <div id="monthlyButton" style="display:none; float:left;"><tags:button type="button" value="Switch to monthly view"
                                                                                        icon="monthly"
                                                                                        color="blue"
                                                                                        size="small"
                                                                                        onclick="formStatus('monthly')"/></div>
-                <div id="weeklyButton" style="display:none; float:left;"><tags:button type="button" value="Weekly"
+                <div id="weeklyButton" style="display:none; float:left;"><tags:button type="button" value="Switch to weekly view"
                                                                                       icon="weekly"
                                                                                       color="blue"
                                                                                       size="small"
