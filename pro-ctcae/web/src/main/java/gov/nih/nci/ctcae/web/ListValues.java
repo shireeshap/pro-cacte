@@ -124,7 +124,6 @@ public class ListValues {
     }
 
 
-    
     /**
      * Gets the participant search type.
      *
@@ -323,11 +322,15 @@ public class ListValues {
         ListValues lov2 = new ListValues("PrimaryNurse", "Nurse");
         ListValues lov3 = new ListValues("SiteCRA", "Site CRA");
         ListValues lov4 = new ListValues("SitePI", "Site PI");
+        ListValues lov5 = new ListValues("LeadCRA", "Lead CRA");
+        ListValues lov6 = new ListValues("PI", "Overall PI");
         col.add(lov0);
         col.add(lov1);
         col.add(lov2);
         col.add(lov3);
         col.add(lov4);
+        col.add(lov5);
+        col.add(lov6);
         return col;
     }
 
