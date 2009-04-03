@@ -88,7 +88,7 @@
         function addSymptom(ruleindex, value) {
             var props = new Array();
             props[0] = 'For symptom';
-            props[1] = '';
+            props[1] = 'Or';
             props[2] = 'symptoms';
             var index = addFields(ruleindex, 'symptom', props);
             var select = $('symptoms_' + ruleindex + '_' + index);
