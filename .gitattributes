@@ -48,6 +48,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/010_drop_duplicate_organiza
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/011_create_ctc.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/016_create_crf_calendars.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/017_create_crf_cycles.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/018_update_participant.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text

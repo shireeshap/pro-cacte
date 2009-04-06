@@ -45,6 +45,12 @@ public class Participant extends Person {
     @Column(name = "mrn_identifier", nullable = false)
     private String assignedIdentifier;
 
+    @Column(name = "email_address", nullable = true)
+    private String emailAddress;
+
+    @Column(name = "phone_number", nullable = true)
+    private String phoneNumber;
+
     @OneToOne
     @JoinColumn(referencedColumnName = "id", name = "user_id", nullable = false)
     private User user;
@@ -222,5 +228,21 @@ public class Participant extends Person {
         result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
         return result;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
