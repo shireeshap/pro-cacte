@@ -31,17 +31,17 @@
 <table cellpadding="0" width="100%">
     <tr>
         <td class="tableHeader">
-            Study identifier
+            Select
         </td>
         <td class="tableHeader">
-            Short title
+            Study
         </td>
-        <td class="tableHeader">
-            Funding sponsor
-        </td>
-        <td class="tableHeader">
-            Coordinating center
-        </td>
+        <!--<td class="tableHeader">-->
+            <!--Funding sponsor-->
+        <!--</td>-->
+        <!--<td class="tableHeader">-->
+            <!--Coordinating center-->
+        <!--</td>-->
         <td class="tableHeader">
             Patient study identifier
         </td>
@@ -51,20 +51,17 @@
         <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
         <tr>
             <td>
-                    ${studysite.study.assignedIdentifier}
+                    <%--${studysite.study.assignedIdentifier}   --%>
             </td>
             <td>
-                    ${studysite.study.shortTitle}
+                    [${studysite.study.assignedIdentifier}] ${studysite.study.shortTitle}
             </td>
-            <td>
-                    ${studysite.study.studySponsor.organization.nciInstituteCode}
-            </td>
-            <td>
-                    ${studysite.study.dataCoordinatingCenter.organization.nciInstituteCode}
-            </td>
-            <td>
-                    ${studyParticipantAssignment.studyParticipantIdentifier}
-            </td>
+            <%--<td>--%>
+                    <%--${studysite.study.dataCoordinatingCenter.organization.nciInstituteCode}--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                    <%--${studyParticipantAssignment.studyParticipantIdentifier}--%>
+            <%--</td>--%>
         </tr>
         <tr id="forms_${studysite.id}">
             <td>
@@ -98,18 +95,18 @@
         <tr>
             <td>
                 <input type="checkbox" name="studySites" value="${studysite.id}"
-                       onchange="javascript:showForms(this, '${studysite.id}')"
-                    ${studysite.study.assignedIdentifier}
+                       onchange="javascript:showForms(this, '${studysite.id}')"/>
+
             </td>
             <td>
-                    ${studysite.study.shortTitle}
+                    [${studysite.study.assignedIdentifier}] ${studysite.study.shortTitle}
             </td>
-            <td>
-                    ${studysite.study.studySponsor.organization.nciInstituteCode}
-            </td>
-            <td>
-                    ${studysite.study.dataCoordinatingCenter.organization.nciInstituteCode}
-            </td>
+            <%--<td>--%>
+                    <%--${studysite.study.studySponsor.organization.nciInstituteCode}--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                    <%--${studysite.study.dataCoordinatingCenter.organization.nciInstituteCode}--%>
+            <%--</td>--%>
             <td>
                 <input type="text" name="participantStudyIdentifier_${studysite.id}" value="">
             </td>

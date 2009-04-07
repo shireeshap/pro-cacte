@@ -98,7 +98,8 @@
                                             displayName="participant.label.last_name"
                                             required="true"/>
                            <tags:renderEmail propertyName="participant.emailAddress"
-                                             displayName="participant.label.email_address"/>
+                                             displayName="participant.label.email_address"
+                                            required="false"/>
                        </td>
                        <td>
                            <tags:renderText propertyName="participant.assignedIdentifier"

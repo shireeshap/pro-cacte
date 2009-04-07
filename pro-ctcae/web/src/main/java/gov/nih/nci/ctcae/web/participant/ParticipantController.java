@@ -3,10 +3,7 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.UserRole;
-import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
@@ -75,8 +72,26 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
 
         ParticipantCommand command = new ParticipantCommand();
         if (id != null) {
-            Participant participant = participantRepository.findById(Integer.valueOf(id));
+            Participant participant = participantRepository.findById(Integer.valueOf(id));        
+
+//            for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
+//                for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
+//                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+//                        
+//                    }
+//                }
+//            }
+            for (UserRole userRole : participant.getUser().getUserRoles()) {
+                userRole.getId();
+            }
+            for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
+                StudyOrganization studySite = studyParticipantAssignment.getStudySite();
+                studySite.getStudy().getCrfs();
+                studySite.getStudy().getStudySponsor();
+            }
+
             command.setParticipant(participant);
+
             if (participant.getStudyParticipantAssignments().size() > 0) {
                 Organization studyOrganization = participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization();
                 String siteName = studyOrganization.getName();
