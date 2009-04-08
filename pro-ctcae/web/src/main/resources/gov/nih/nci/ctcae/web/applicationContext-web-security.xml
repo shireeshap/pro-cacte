@@ -51,6 +51,7 @@
         <intercept-url pattern="/pages/participant/monitorForm" access="PRIVILEGE_MONITOR_FORM"/>
         <intercept-url pattern="/pages/participant/schedulecrf" access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
         <intercept-url pattern="/pages/participant/monitorFormStatus" access="PRIVILEGE_MONITOR_FORM"/>
+        <intercept-url pattern="/pages/participant/offStudyDate" access="PRIVILEGE_EDIT_PARTICIPANT"/>        
         <intercept-url pattern="/pages/participant/showCompletedCrf" access="PRIVILEGE_MONITOR_FORM"/>
         <intercept-url pattern="/pages/participant/addCrfSchedule" access="PRIVILEGE_PARTICIPANT_ADD_CRF_SCHEDULE"/>
         <intercept-url pattern="/pages/participant/addNotificationClinicalStaff"

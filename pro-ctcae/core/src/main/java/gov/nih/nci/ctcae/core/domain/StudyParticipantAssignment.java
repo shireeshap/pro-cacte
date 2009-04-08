@@ -8,6 +8,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 //
 /**
@@ -37,6 +38,8 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @Column(name = "study_participant_identifier", nullable = false)
     private String studyParticipantIdentifier;
 
+    @Column(name = "off_treatment_date", nullable = true)
+    private Date offTreatmentDate;
     /**
      * The participant.
      */
@@ -309,5 +312,12 @@ public class StudyParticipantAssignment extends BaseVersionable {
         return siteCRAs;
     }
 
+    public Date getOffTreatmentDate() {
+        return offTreatmentDate;
+    }
+
+    public void setOffTreatmentDate(Date offTreatmentDate) {
+        this.offTreatmentDate = offTreatmentDate;
+    }
 }
 

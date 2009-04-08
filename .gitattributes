@@ -49,6 +49,7 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/011_create_ctc.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/016_create_crf_calendars.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/017_create_crf_cycles.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/018_update_participant.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/019_update_spAssignment.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
@@ -413,6 +414,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantControl
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantDetailsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantInboxController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantLinkDisplayDetailsCell.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantOffStudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantReviewTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfAjaxFacade.java -text
@@ -620,6 +622,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/createParticipant.jsp -t
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/editParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/monitorForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/monitorFormStatus.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/offStudyDate.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/participantInbox.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/participant_clinical_staff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/participant_reviewsummary.jsp -text

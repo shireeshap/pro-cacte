@@ -206,6 +206,7 @@
                     <option value="SCHEDULED">Scheduled</option>
                     <option value="COMPLETED">Completed</option>
                     <option value="PASTDUE">Past due</option>
+                    <option value="CANCELLED">Cancelled</option>
                 </select>
             </div>
         </div>

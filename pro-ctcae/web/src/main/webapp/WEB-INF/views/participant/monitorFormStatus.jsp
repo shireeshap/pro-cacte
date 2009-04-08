@@ -71,7 +71,10 @@
                 Completed = <img src="../../images/blue/Completed.png"/> &nbsp;&nbsp;
             </td>
             <td>
-                Past-due = <img src="../../images/blue/Past-due.png"/>
+                Past-due = <img src="../../images/blue/Past-due.png"/> &nbsp;&nbsp;
+            </td>
+            <td>
+                Cancelled = <img src="../../images/blue/Cancelled.gif"/>
             </td>
         </tr>
         <tr>
@@ -130,6 +133,7 @@
                                     </c:when>
                                     <c:otherwise>
                                         <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
+                                        <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.gif"/>
                                     </c:otherwise>
                                 </c:choose>
 

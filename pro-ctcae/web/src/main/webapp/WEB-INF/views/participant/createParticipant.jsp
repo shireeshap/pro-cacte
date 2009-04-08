@@ -1,3 +1,4 @@
+<%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -7,10 +8,16 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib uri="http://www.extremecomponents.org" prefix="ec" %>
+
 
 <html>
 <head>
+    <tags:stylesheetLink name="tabbedflow"/>
+    <tags:includeScriptaculous/>
+    <tags:includePrototypeWindow/>
+    <tags:dwrJavascriptLink objects="studyParticipantAssignment"/>
+
+
     <script>
 
         function getStudySites() {
@@ -46,6 +53,18 @@
             } catch(e) {
             }
             AE.registerCalendarPopups();
+        }
+
+        function participantOffStudy(id) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/participantOffStudy"/>", {
+                parameters:"id=" + id + "&subview=subview",
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport);
+                },
+                method:'get'
+            })
+
+
         }
 
     </script>
@@ -99,7 +118,7 @@
                                             required="true"/>
                            <tags:renderEmail propertyName="participant.emailAddress"
                                              displayName="participant.label.email_address"
-                                            required="false"/>
+                                             required="false"/>
                        </td>
                        <td>
                            <tags:renderText propertyName="participant.assignedIdentifier"

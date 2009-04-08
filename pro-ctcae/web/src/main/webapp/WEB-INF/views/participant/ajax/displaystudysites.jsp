@@ -45,6 +45,9 @@
         <td class="tableHeader">
             Patient study identifier
         </td>
+        <td class="tableHeader">
+            Action
+        </td>
     </tr>
 
     <c:forEach items="${studyparticipantassignments}" var="studyParticipantAssignment" varStatus="spastatus">
@@ -59,9 +62,12 @@
             <%--<td>--%>
                     <%--${studysite.study.dataCoordinatingCenter.organization.nciInstituteCode}--%>
             <%--</td>--%>
-            <%--<td>--%>
-                    <%--${studyParticipantAssignment.studyParticipantIdentifier}--%>
-            <%--</td>--%>
+            <td>
+                    ${studyParticipantAssignment.studyParticipantIdentifier}
+            </td>
+            <td>
+                <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Off treatment date</a>
+            </td>
         </tr>
         <tr id="forms_${studysite.id}">
             <td>

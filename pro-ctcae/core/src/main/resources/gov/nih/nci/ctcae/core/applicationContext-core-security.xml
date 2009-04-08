@@ -148,7 +148,7 @@
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository.save*(..))"
-                access="PRIVILEGE_PARTICIPANT_INBOX"/>
+                access="PRIVILEGE_PARTICIPANT_INBOX,PRIVILEGE_EDIT_PARTICIPANT"/>
 
         <security:protect-pointcut
                 expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleAddedQuestionRepository.find*(..))"

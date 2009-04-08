@@ -28,8 +28,7 @@
                 Answer: <u><i>${spCrfItem.proCtcValidValue.value}</i></u>
                 <c:set var="myindex" value="${myindex + 1}"/>
             </chrome:box>
-        </c:if>                     
-
+        </c:if>
     </c:forEach>
 
     <c:forEach items="${completedCrf.studyParticipantCrfScheduleAddedQuestions}" var="spCrfAddedQuestion">

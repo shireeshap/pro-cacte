@@ -337,6 +337,12 @@
        <bean name="/participant/showCompletedCrf" id="showCompletedCrfController"
           class="gov.nih.nci.ctcae.web.participant.ShowCompletedCrfController">
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
+
+       </bean>
+    <bean name="/participant/participantOffStudy" id="participantOffStudyController"
+          class="gov.nih.nci.ctcae.web.participant.ParticipantOffStudyController" parent="ctcaeSimpleFormController">
+        <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
+        <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
 
 
