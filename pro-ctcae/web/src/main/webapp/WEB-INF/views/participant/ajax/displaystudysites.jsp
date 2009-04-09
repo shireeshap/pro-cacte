@@ -4,7 +4,7 @@
 <style type="text/css">
     .tableHeader {
         background-color: #2B4186;
-        background-image: url(/ctcae/images/blue/eXtableheader_bg.png);
+        background-image: url( /ctcae/images/blue/eXtableheader_bg.png );
         background-position: center top;
         background-repeat: repeat-x;
         color: white;
@@ -29,121 +29,132 @@
     }
 </style>
 <table cellpadding="0" width="100%">
-    <tr>
-        <td class="tableHeader">
-            Select
-        </td>
-        <td class="tableHeader">
-            Study
-        </td>
-        <!--<td class="tableHeader">-->
-            <!--Funding sponsor-->
-        <!--</td>-->
-        <!--<td class="tableHeader">-->
-            <!--Coordinating center-->
-        <!--</td>-->
-        <td class="tableHeader">
-            Patient study identifier
-        </td>
-        <td class="tableHeader">
-            Action
-        </td>
-    </tr>
+<tr>
+    <td class="tableHeader">
+        Select
+    </td>
+    <td class="tableHeader">
+        Study
+    </td>
+    <!--<td class="tableHeader">-->
+    <!--Funding sponsor-->
+    <!--</td>-->
+    <!--<td class="tableHeader">-->
+    <!--Coordinating center-->
+    <!--</td>-->
+    <td class="tableHeader">
+        Patient study identifier
+    </td>
+
 
     <c:forEach items="${studyparticipantassignments}" var="studyParticipantAssignment" varStatus="spastatus">
-        <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
-        <tr>
-            <td>
-                    <%--${studysite.study.assignedIdentifier}   --%>
-            </td>
-            <td>
-                    [${studysite.study.assignedIdentifier}] ${studysite.study.shortTitle}
-            </td>
+    <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
+
+    <td class="tableHeader">
+        Off treatment date
+    </td>
+</tr>
+<tr>
+    <td>
+            <%--${studysite.study.assignedIdentifier}   --%>
+    </td>
+    <td>
+        [${studysite.study.assignedIdentifier}] ${studysite.study.shortTitle}
+    </td>
+        <%--<td>--%>
+        <%--${studysite.study.dataCoordinatingCenter.organization.nciInstituteCode}--%>
+        <%--</td>--%>
+    <td>
+            ${studyParticipantAssignment.studyParticipantIdentifier}
+    </td>
+    <td>
+        <c:choose>
+            <c:when test="${studyParticipantAssignment.offTreatmentDate ne null}">
+                ${studyParticipantAssignment.offTreatmentDate}
+
+            </c:when>
+            <c:otherwise>
+                <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Assign off treatment date</a>
+            </c:otherwise>
+        </c:choose>
+    </td>
+
+</tr>
+<tr id="forms_${studysite.id}">
+    <td>
+        &nbsp;
+    </td>
+    <td colspan="4">
+        <table class="widget" cellspacing="0">
+            <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="spacrf"
+                       varStatus="spacrfstatus">
+                <tr>
+                    <td class="data" width="50%" align="left">
+                        &nbsp;&nbsp;<b>Form: </b>${spacrf.crf.title}
+                    </td>
+                    <td class="data" align="center">
+                        <b><spring:message code="participant.label.startdate"/></b><tags:formatDate
+                            value="${spacrf.startDate}"/>
+                    </td>
+
+                </tr>
+            </c:forEach>
+        </table>
+    </td>
+</tr>
+</c:forEach>
+<c:forEach items="${unselectedstudysites}" var="studysite">
+    <c:forEach items="${studysite.study.crfs}" var="crf">
+        <c:if test="${crf.status eq 'Released' and crf.nextVersionId eq null}">
+            <c:set var="hasforms" value="true"/>
+        </c:if>
+    </c:forEach>
+    <tr>
+        <td>
+            <input type="checkbox" name="studySites" value="${studysite.id}"
+                   onchange="javascript:showForms(this, '${studysite.id}')"/>
+
+        </td>
+        <td>
+            [${studysite.study.assignedIdentifier}] ${studysite.study.shortTitle}
+        </td>
             <%--<td>--%>
-                    <%--${studysite.study.dataCoordinatingCenter.organization.nciInstituteCode}--%>
+            <%--${studysite.study.studySponsor.organization.nciInstituteCode}--%>
             <%--</td>--%>
-            <td>
-                    ${studyParticipantAssignment.studyParticipantIdentifier}
-            </td>
-            <td>
-                <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Off treatment date</a>
-            </td>
-        </tr>
-        <tr id="forms_${studysite.id}">
+            <%--<td>--%>
+            <%--${studysite.study.dataCoordinatingCenter.organization.nciInstituteCode}--%>
+            <%--</td>--%>
+        <td>
+            <input type="text" name="participantStudyIdentifier_${studysite.id}" value="">
+        </td>
+    </tr>
+    <c:if test="${hasforms eq 'true'}">
+        <c:set var="hasforms" value="false"/>
+        <tr id="forms_${studysite.id}" style="display:none">
             <td>
                 &nbsp;
             </td>
             <td colspan="4">
                 <table class="widget" cellspacing="0">
-                    <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="spacrf"
-                               varStatus="spacrfstatus">
-                        <tr>
-                            <td class="data" width="50%" align="left">
-                                &nbsp;&nbsp;<b>Form: </b>${spacrf.crf.title}
-                            </td>
-                            <td class="data" align="center">
-                                <b><spring:message code="participant.label.startdate"/></b><tags:formatDate
-                                    value="${spacrf.startDate}"/>
-                            </td>
+                    <c:forEach items="${studysite.study.crfs}" var="crf">
+                        <c:if test="${crf.status eq 'Released' and crf.nextVersionId eq null}">
+                            <tr>
+                                <td class="data" width="40%" align="left">
+                                    &nbsp;&nbsp;<b>Form: </b>${crf.title}
+                                </td>
+                                <td class="data" align="center">
+                                    <b><spring:message code="participant.label.startdate"/></b> <tags:renderDate
+                                        propertyName="form_date_${crf.id}"
+                                        doNotshowLabel="true"
+                                        noForm="true"/>
+                                </td>
 
-                        </tr>
+                            </tr>
+                        </c:if>
                     </c:forEach>
                 </table>
             </td>
         </tr>
-    </c:forEach>
-    <c:forEach items="${unselectedstudysites}" var="studysite">
-        <c:forEach items="${studysite.study.crfs}" var="crf">
-            <c:if test="${crf.status eq 'Released' and crf.nextVersionId eq null}">
-                <c:set var="hasforms" value="true"/>
-            </c:if>
-        </c:forEach>
-        <tr>
-            <td>
-                <input type="checkbox" name="studySites" value="${studysite.id}"
-                       onchange="javascript:showForms(this, '${studysite.id}')"/>
-
-            </td>
-            <td>
-                    [${studysite.study.assignedIdentifier}] ${studysite.study.shortTitle}
-            </td>
-            <%--<td>--%>
-                    <%--${studysite.study.studySponsor.organization.nciInstituteCode}--%>
-            <%--</td>--%>
-            <%--<td>--%>
-                    <%--${studysite.study.dataCoordinatingCenter.organization.nciInstituteCode}--%>
-            <%--</td>--%>
-            <td>
-                <input type="text" name="participantStudyIdentifier_${studysite.id}" value="">
-            </td>
-        </tr>
-        <c:if test="${hasforms eq 'true'}">
-            <c:set var="hasforms" value="false"/>
-            <tr id="forms_${studysite.id}" style="display:none">
-                <td>
-                    &nbsp;
-                </td>
-                <td colspan="4">
-                    <table class="widget" cellspacing="0">
-                        <c:forEach items="${studysite.study.crfs}" var="crf">
-                            <c:if test="${crf.status eq 'Released' and crf.nextVersionId eq null}">
-                                <tr>
-                                    <td class="data" width="40%" align="left">
-                                        &nbsp;&nbsp;<b>Form: </b>${crf.title}
-                                    </td>
-                                    <td class="data" align="center">
-                                        <b><spring:message code="participant.label.startdate"/></b> <tags:renderDate
-                                            propertyName="form_date_${crf.id}"
-                                            doNotshowLabel="true"
-                                            noForm="true"/>
-                                    </td>
-
-                                </tr>
-                            </c:if>
-                        </c:forEach>
-                    </table>
-                </td>
-            </tr>
-        </c:if>
-    </c:forEach>
+    </c:if>
+</c:forEach>
 </table>
