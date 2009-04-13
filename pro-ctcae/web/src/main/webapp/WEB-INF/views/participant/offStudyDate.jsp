@@ -18,32 +18,28 @@
         <chrome:division>
 
                     <div id="offTreatment">
+                    	<div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
+		<img src="<chrome:imageUrl name="../blue/stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:55px;" />
+		<div style="font-size:20px; margin-bottom:5px;">Are you sure you want to do this?</div>
+		<div>Taking the participant off of treatment is irreversible!</div>
+	</div>
                         <p>
-                            Participant <strong>${command.participant.displayName}</strong> will be taken off treatment
-                            from the specified date.
-                            <br/>
-                            Please provide the date on which this action will be made effective.
+                            Please provide the date on which participant <strong>${command.participant.displayName}</strong> will be taken off treatment.
                             <tags:renderDate propertyName="offTreatmentDate"
                                              displayName="participant.label.off_study_date" required="true"/>
                         </p>
 
-                        <p>
-                            You cannot reverse this step. If you're not ready to proceed, please
-                            <a href="javascript:closeWindow()">click here</a>.
-                        </p>
-
                     </div>
-                    <br>
 
                     <div class="flow-buttons">
 
-                        <input type="submit" id="flow-update"
-                               class="next" value="Assign date" alt="Save"
+                        <tags:button type="submit" id="flow-update"
+                               cssClass="next" value="Assign Date" icon="check" color="orange"
                                 />
 
 
-                        <input type="button" id="flow-cancel"
-                               class="previous ibutton" value="Cancel" alt="Cancel"
+                        <tags:button type="button" id="flow-cancel"
+                               cssClass="previous ibutton" value="Cancel" icon="x" color="red"
                                onclick="closeWindow()"/>
                     </div>
                

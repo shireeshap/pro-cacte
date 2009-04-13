@@ -51,7 +51,7 @@
     <c:set var="studysite" value="${studyParticipantAssignment.studySite}"/>
 
     <td class="tableHeader">
-        Off treatment date
+        Treatment End Date
     </td>
 </tr>
 <tr>
@@ -74,7 +74,7 @@
 
             </c:when>
             <c:otherwise>
-                <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Assign off treatment date</a>
+                <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Set treatment end date...</a>
             </c:otherwise>
         </c:choose>
     </td>
