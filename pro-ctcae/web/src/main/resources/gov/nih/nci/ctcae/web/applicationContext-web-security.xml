@@ -61,6 +61,8 @@
                        access="PRIVILEGE_PARTICIPANT_DISPLAY_STUDY_SITES"/>
         <intercept-url pattern="/pages/participant/*" access="PRIVILEGE_EDIT_PARTICIPANT"/>
 
+        <intercept-url pattern="/pages/reports/participantCareMonitor" access="PRIVILEGE_MONITOR_FORM"/>        
+
 
         <intercept-url pattern="/pages/admin/clinicalStaff/createClinicalStaff"
                        access="PRIVILEGE_CREATE_CLINICAL_STAFF"/>
@@ -74,6 +76,8 @@
         <intercept-url pattern="/pages/admin/clinicalStaff/searchClinicalStaff"
                        access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
         <intercept-url pattern="/pages/admin/*" access="PRIVILEGE_EDIT_CLINICAL_STAFF"/>
+
+        <intercept-url pattern="/pages/reports/*" access="PRIVILEGE_MONITOR_FORM"/>
 
         <intercept-url pattern="/pages/home" access="IS_AUTHENTICATED_FULLY"/>
         <intercept-url pattern="/pages/j_spring_security_logout" access="IS_AUTHENTICATED_FULLY"/>
