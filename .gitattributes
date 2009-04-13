@@ -694,6 +694,7 @@ pro-ctcae/web/src/main/webapp/images/black-70.png -text
 pro-ctcae/web/src/main/webapp/images/black.png -text
 pro-ctcae/web/src/main/webapp/images/blank.gif -text
 pro-ctcae/web/src/main/webapp/images/blue/Cancelled.gif -text
+pro-ctcae/web/src/main/webapp/images/blue/Cancelled.png -text
 pro-ctcae/web/src/main/webapp/images/blue/Completed.png -text
 pro-ctcae/web/src/main/webapp/images/blue/In-progress.png -text
 pro-ctcae/web/src/main/webapp/images/blue/Past-due.png -text
@@ -701,7 +702,6 @@ pro-ctcae/web/src/main/webapp/images/blue/Scheduled.png -text
 pro-ctcae/web/src/main/webapp/images/blue/add_all_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/administration_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/administration_btn_selected.png -text
-pro-ctcae/web/src/main/webapp/images/blue/advancedSearch_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/advancedSearch_btn_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/agadoo-logo.png -text
 pro-ctcae/web/src/main/webapp/images/blue/back_btn.png -text
@@ -822,6 +822,8 @@ pro-ctcae/web/src/main/webapp/images/blue/power-btn-up.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/preview_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/question_properties_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/report_set_bg.png -text
+pro-ctcae/web/src/main/webapp/images/blue/reports_btn.png -text
+pro-ctcae/web/src/main/webapp/images/blue/reports_btn_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/rules_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/rules_btn_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/save_btn.png -text
