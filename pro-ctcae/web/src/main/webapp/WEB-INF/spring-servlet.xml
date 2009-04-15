@@ -360,6 +360,10 @@
  <bean name="/reports/participantCareMonitor" id="participantCareMonitorController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareMonitorController">
     </bean>
+    <bean name="/reports/participantCareResults" id="participantCareResultsController"
+          class="gov.nih.nci.ctcae.web.reports.ParticipantCareResultsController">
+        <property name="studyRepository" ref="studyRepository"/>
+    </bean>
 
 -->
 
