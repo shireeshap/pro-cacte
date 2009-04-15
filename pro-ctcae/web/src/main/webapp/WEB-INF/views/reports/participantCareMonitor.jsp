@@ -161,7 +161,7 @@
             <div class="label">Date range</div>
             <div class="value">
                 <select id="dateOptions" name="dateOptions" onChange="customDate(this)">
-                    <option value="2">This Week</option>
+                    <option value="thisWeek">This Week</option>
                     <option value="lastWeek">Last Week</option>
                     <option value="thisMonth">This Month</option>
                     <option value="lastMonth">Last Month</option>
@@ -172,11 +172,11 @@
         </div>
         <div id="dateRange" style="display:none">
             <div class="leftpanel">
-                <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
+                <tags:renderDate noForm="true" displayName="Start date" propertyName="startDate"
                                  doNotShowFormat="true"/>
             </div>
             <div class="rightpanel">
-                <tags:renderDate noForm="true" displayName="End Date" propertyName="endDate"
+                <tags:renderDate noForm="true" displayName="End date" propertyName="endDate"
                                  doNotShowFormat="true"/>
             </div>
         </div>
@@ -188,7 +188,7 @@
 </chrome:box>
 
 <div id="displayParticipantCareResults" style="display:none;">
-    <chrome:box title="Results">
+    <chrome:box title="Report">
         <div>
             <div id="displayResultsTable"/>
         </div>

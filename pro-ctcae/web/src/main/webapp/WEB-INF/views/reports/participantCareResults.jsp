@@ -52,11 +52,11 @@
 
     <table class="widget" cellspacing="0">
         <td>
-             Question Type
+
         </td>
         <c:forEach items="${dates}" var="dates">
-            <td>
-                ${dates}
+            <td class="header-top">
+               <fmt:formatDate value="${dates}" pattern="MM-dd-yy"/>
             </td>
         </c:forEach>
         <c:forEach items="${resultsMap}" var="categoryMap">

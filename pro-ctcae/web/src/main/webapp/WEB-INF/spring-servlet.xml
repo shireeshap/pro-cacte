@@ -150,12 +150,12 @@
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Reports"
-                      p:mainController="searchClinicalStaffController" p:pathMapping="/reports/**">
+                      p:mainController="participantCareMonitorController" p:pathMapping="/reports/**">
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="reports.tab.participant_care"
-                                  p:linkName="searchClinicalStaffController"/>
+                                  p:linkName="participantCareMonitorController"/>
 
                         </list>
                     </property>
@@ -356,7 +356,7 @@
         <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
-   <!--
+   
  <bean name="/reports/participantCareMonitor" id="participantCareMonitorController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareMonitorController">
     </bean>
@@ -365,7 +365,6 @@
         <property name="studyRepository" ref="studyRepository"/>
     </bean>
 
--->
 
     <bean name="/participant/displaycalendar" id="displayCalendarController"
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
