@@ -70,8 +70,7 @@
     <td>
         <c:choose>
             <c:when test="${studyParticipantAssignment.offTreatmentDate ne null}">
-                ${studyParticipantAssignment.offTreatmentDate}
-
+                <tags:formatDate value="${studyParticipantAssignment.offTreatmentDate}"/>
             </c:when>
             <c:otherwise>
                 <a href="javascript:participantOffStudy(${studyParticipantAssignment.id})">Set treatment end date...</a>
