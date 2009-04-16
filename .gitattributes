@@ -104,6 +104,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Roles.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RuleColumnObjectType.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RuleSetType.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RuleStatus.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/SeverityLevelComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Study.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganization.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyOrganizationClinicalStaff.java -text
