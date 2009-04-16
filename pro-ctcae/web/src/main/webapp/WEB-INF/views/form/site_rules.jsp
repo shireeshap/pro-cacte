@@ -37,7 +37,7 @@
             return copy;
         }
 
-        function addFields(ruleindex, fieldtype, properties) {
+        function addFields(ruleindex, fieldtype, properties, value) {
             var index = rules[ruleindex][fieldtype]++;
 
             var tr = new Element('TR', {'style':"font-weight:bold",'id':fieldtype + 'row_' + ruleindex + '_' + index});
@@ -54,6 +54,10 @@
                 } else {
                     var temp = properties[i].substring(0, properties[i].indexOf('%') - 1);
                     var dependsonstr = properties[i].substring(properties[i].indexOf('%') + 1);
+                    if (typeof(value) != 'undefined') {
+                        var select = $(dependsonstr + '_' + ruleindex + '_' + index);
+                        setSelectValue(select, value);
+                    }
                     var dependsonobj = $(dependsonstr + '_' + ruleindex + '_' + index);
                     var dependsonval = dependsonobj.options[dependsonobj.selectedIndex].value;
                     var select = getCopyOfSelect($('templateSelect_' + temp + '_' + dependsonval), temp + '_' + ruleindex + '_' + index);
@@ -111,7 +115,7 @@
             props[2] = 'questiontypes';
             props[3] = 'operators';
             props[4] = 'values_%questiontypes';
-            var index = addFields(ruleindex, 'condition', props);
+            var index = addFields(ruleindex, 'condition', props, questiontype);
             var select = $('questiontypes_' + ruleindex + '_' + index);
             setSelectValue(select, questiontype);
             select = $('operators_' + ruleindex + '_' + index);
@@ -172,7 +176,7 @@
         }
         function editRules() {
             $('_target').name = "_target" + 0;
-            $("_finish").name = "_nofinish";
+            //            $("_finish").name = "_nofinish";
             $('command').submit();
         }
     </script>
@@ -188,7 +192,7 @@
         <c:if test="${not empty cOptions.value}">
             <select id="templateSelect_values_${cOptions.key}">
                 <c:forEach items="${cOptions.value}" var="option">
-                    <option>${option}</option>
+                    <option value="${option.displayOrder}">${option.value}</option>
                 </c:forEach>
             </select>
         </c:if>
@@ -199,9 +203,9 @@
 <c:set var="readonlyview" value="${command.readonlyview}"/>
 <tags:tabForm tab="${tab}" flow="${flow}" doNotShowSave="${readonlyview}" notDisplayInBox="true">
     <jsp:attribute name="repeatingFields">
-        <input type="hidden" name="_finish" id="_finish">
+        <%--<input type="hidden" name="_finish" id="_finish">--%>
         <input type="hidden" name="readonlyview" value="${readonlyview}"/>
-        <c:forEach items="${command.formRules}" var="proCtcAeRule" varStatus="status">
+        <c:forEach items="${command.formOrStudySiteRules}" var="proCtcAeRule" varStatus="status">
             <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}" isSite="true"
                            siteReadOnlyView="${readonlyview}"/>
         </c:forEach>

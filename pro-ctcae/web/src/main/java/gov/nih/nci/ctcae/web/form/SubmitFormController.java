@@ -9,6 +9,7 @@ import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleAddedQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
+import gov.nih.nci.ctcae.web.rules.NotificationsEvaluationService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -65,6 +66,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         submitFormCommand.addQuestionToDeleteList(request.getParameter("deletedQuestions"));
         studyParticipantCrfScheduleRepository.save(submitFormCommand.getStudyParticipantCrfSchedule());
         submitFormCommand.setStudyParticipantCrfSchedule(studyParticipantCrfScheduleRepository.findById(submitFormCommand.getStudyParticipantCrfSchedule().getId()));
+        NotificationsEvaluationService.executeRules(submitFormCommand.getStudyParticipantCrfSchedule(), submitFormCommand.getCurrentPageIndex() - 1, submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getCrf(), submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
         return showForm(request, response, errors);
     }
 

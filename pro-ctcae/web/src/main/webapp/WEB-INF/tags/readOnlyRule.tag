@@ -46,7 +46,7 @@
                                value="${questiontype}"/> ${questiontype}
                         <input type="hidden" name="operators_${ruleIndex}_${status.index}"
                                value="${proCtcAeRule.operators[status.index]}"/><tags:textForCode
-                            code="${proCtcAeRule.operators[status.index]}"/>
+                            codeType="condition" code="${proCtcAeRule.operators[status.index]}"/>
                         <input type="hidden" name="values_${ruleIndex}_${status.index}"
                                value="${proCtcAeRule.values[status.index]}"/>${proCtcAeRule.values[status.index]}
                         <br/>
@@ -62,7 +62,7 @@
                     <c:forEach items="${proCtcAeRule.notifications}" var="notification" varStatus="status">
                         <c:if test="${status.index > 0}">, </c:if>
                         <input type="hidden" name="notifications_${ruleIndex}_${status.index}"
-                               value="${notification}"/>${notification}
+                               value="${notification}"/><tags:textForCode codeType="notify" code="${notification}"/>
                     </c:forEach>
                 </td>
             </tr>
