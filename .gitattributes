@@ -465,6 +465,7 @@ pro-ctcae/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-rules-
 pro-ctcae/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-rules-services.xml -text
 pro-ctcae/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-dwr.xml -text
 pro-ctcae/web/src/main/resources/gov/nih/nci/ctcae/web/applicationContext-web-security.xml -text
+pro-ctcae/web/src/main/resources/mail.properties -text
 pro-ctcae/web/src/main/resources/object-graph.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/ctcae.tld -text
 pro-ctcae/web/src/main/webapp/WEB-INF/decorators.xml -text
@@ -1112,6 +1113,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/ExecuteRulesTest.java -t
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/FactResolverTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/RuleUtilTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/RulesCheckRepositoryTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/SendMailTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/AdminURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/CCAURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/CommonUrlAuthorizationIntegrationTest.java -text

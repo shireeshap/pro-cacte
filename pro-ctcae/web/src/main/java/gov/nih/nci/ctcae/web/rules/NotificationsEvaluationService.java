@@ -1,18 +1,18 @@
 package gov.nih.nci.ctcae.web.rules;
 
 import com.semanticbits.rules.brxml.*;
-import com.semanticbits.rules.utils.RuleUtil;
-import com.semanticbits.rules.api.RuleAuthoringService;
-import com.semanticbits.rules.api.RulesEngineService;
 import com.semanticbits.rules.objectgraph.FactResolver;
 import com.semanticbits.rules.impl.RuleEvaluationResult;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
+import java.io.IOException;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.web.ListValues;
+
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.InternetAddress;
 
 /**
  * User: Harsh
@@ -21,9 +21,12 @@ import gov.nih.nci.ctcae.web.ListValues;
  */
 public class NotificationsEvaluationService {
 
+    private static JavaMailSender javaMailSender;
+
 
     public static void executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, int currentPageIndex, CRF crf, StudyOrganization studySite) {
         HashSet<Integer> distinctPageNumbers = new HashSet<Integer>();
+
 
         for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
             distinctPageNumbers.add(studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber());
@@ -119,7 +122,28 @@ public class NotificationsEvaluationService {
         }
 
         System.out.println(emails);
+        try {
+            sendMail((String[]) emails.toArray(), "Notification email", "My content");
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
+    public static void sendMail(String[] to, String subject, String content) throws Exception {
+        try {
+            if(javaMailSender == null){
+                javaMailSender = new JavaMailSender();
+            }
+            MimeMessage message = javaMailSender.createMimeMessage();
+            message.setSubject(subject);
+            message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(to);
+            helper.setText(content);
+            javaMailSender.send(message);
+        } catch (Exception e) {
+            throw new Exception(" Error in sending email , please check the confiuration ", e);
+        }
+    }
 
 }
