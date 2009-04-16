@@ -21,7 +21,8 @@ import java.util.Date;
 @Entity
 @Table(name = "STUDY_PARTICIPANT_CRFS")
 
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_study_participant_crfs_id")})
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {
+    @Parameter(name = "sequence", value = "seq_study_participant_crfs_id")})
 public class StudyParticipantCrf extends BaseVersionable {
 
     /**
@@ -36,6 +37,7 @@ public class StudyParticipantCrf extends BaseVersionable {
      * The study participant crf schedules.
      */
     @OneToMany(mappedBy = "studyParticipantCrf", fetch = FetchType.LAZY)
+    @OrderBy("startDate desc")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = new ArrayList<StudyParticipantCrfSchedule>();
 
@@ -223,4 +225,32 @@ public class StudyParticipantCrf extends BaseVersionable {
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
+
+    @Transient
+    public List<StudyParticipantCrfSchedule> getCompletedCrfs () {
+        List completedCrfs = new ArrayList<StudyParticipantCrfSchedule>();
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : this.getStudyParticipantCrfSchedules()) {
+            if (studyParticipantCrfSchedule.getStatus().getDisplayName().equals("Completed")) {
+                completedCrfs.add(studyParticipantCrfSchedule);
+            }
+        }
+        return completedCrfs;
+    }
+
+          
+
+    
+
+//    @Transient
+//    public List<StudyParticipantCrfSchedule> getCrfSchedules(int number) {
+//
+//        for (int i = 0; i <= number; i++) {
+//            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : this.getStudyParticipantCrfSchedules()) {
+//
+//            }
+//        }
+//
+//
+//        return null;
+//    }
 }

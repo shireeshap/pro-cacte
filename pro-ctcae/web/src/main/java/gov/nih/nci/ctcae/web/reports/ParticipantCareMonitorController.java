@@ -15,6 +15,7 @@ public class ParticipantCareMonitorController extends AbstractController {
         protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
             ModelAndView modelAndView = new ModelAndView("reports/participantCareMonitor");
+            modelAndView.addObject("visits", 0);
             return modelAndView;
         }
 

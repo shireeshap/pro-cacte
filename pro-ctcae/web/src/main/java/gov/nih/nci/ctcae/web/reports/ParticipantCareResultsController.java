@@ -27,30 +27,42 @@ public class ParticipantCareResultsController extends AbstractController {
         String studyId = request.getParameter("studyId");
         String studySiteId = request.getParameter("studySiteId");
         String crfId = request.getParameter("crfId");
-        String dateRange = request.getParameter("dateRange");
-        String strStartDate = request.getParameter("stDate");
-        String strEndDate = request.getParameter("endDate");
+//        String dateRange = request.getParameter("dateRange");
+//        String strStartDate = request.getParameter("stDate");
+//        String strEndDate = request.getParameter("endDate");
         String participantId = request.getParameter("participantId");
-        Date startDate = new Date(), endDate = new Date();
+//        Date startDate = new Date(), endDate = new Date();
+        String forVisits = request.getParameter("forVisits");
+        String visitRange = request.getParameter("visitRange");
         List dates = new ArrayList<Date>();
+        List visitTitle = new ArrayList();
 
-
-        if (dateRange.equals("custom")) {
-            startDate = DateUtils.parseDate(strStartDate);
-            endDate = DateUtils.parseDate(strEndDate);
+        if (visitRange.equals("currentPrev")) {
+            visitTitle.add("Current");
+            visitTitle.add("Previous");
         }
+        if (visitRange.equals("currentLast")) {
+            visitTitle.add("Current");
+            visitTitle.add("First");
+        }
+//        if (dateRange.equals("custom")) {
+//            startDate = DateUtils.parseDate(strStartDate);
+//            endDate = DateUtils.parseDate(strEndDate);
+//        }
 
-        modelAndView.addObject("resultsMap", getCareResults(Integer.valueOf(studyId), startDate, endDate, crfId, Integer.valueOf(studySiteId), participantId, dates));
+        modelAndView.addObject("resultsMap", getCareResults(visitRange, Integer.valueOf(studyId), crfId, Integer.valueOf(studySiteId), participantId, dates, Integer.valueOf(forVisits)));
         modelAndView.addObject("dates", dates);
+        modelAndView.addObject("visitTitle", visitTitle);
 
         return modelAndView;
     }
 
-    private HashMap getCareResults(Integer studyId, Date startDate, Date endDate, String crfId, Integer studySiteId, String participantId, List<Date> dates) {
+    private HashMap getCareResults(String visitRange, Integer studyId, String crfId, Integer studySiteId, String participantId, List<Date> dates, Integer forVisits) {
 
         HashMap<CtcCategory, HashMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList>>> categoryMap = new HashMap();
         HashMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList>> symptomMap;
         HashMap<ProCtcQuestion, ArrayList> careResults;
+        int i = 1;
 
         Study study = studyRepository.findById(studyId);
         StudySite studySite = study.getStudySiteById(studySiteId);
@@ -61,10 +73,21 @@ public class ParticipantCareResultsController extends AbstractController {
                 for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
                     if (studyParticipantCrf.getCrf().getId().equals(Integer.parseInt(crfId))) {
 
-                        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                            if (dateBetween(startDate, endDate, studyParticipantCrfSchedule.getDueDate()) && studyParticipantCrfSchedule.getStatus().getDisplayName().equals("Completed")) {
-                                dates.add(studyParticipantCrfSchedule.getStartDate());
+                        List<StudyParticipantCrfSchedule> completedCrfs = new ArrayList<StudyParticipantCrfSchedule>();
+                        if (visitRange.equals("currentLast")) {
+                            completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(0));
+                            completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - 1));
+                        } else {
+                            completedCrfs.addAll(studyParticipantCrf.getCompletedCrfs());
+                        }
 
+
+                        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : completedCrfs) {
+
+                            if (i <= forVisits) {
+
+                                dates.add(studyParticipantCrfSchedule.getStartDate());
+                                i++;
                                 for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
 
                                     CtcCategory category = studyParticipantCrfItem.getProCtcValidValue().getProCtcQuestion().getProCtcTerm().getCtcTerm().getCategory();
@@ -95,6 +118,7 @@ public class ParticipantCareResultsController extends AbstractController {
                                     }
                                     validValue.add(value);
 
+
                                 }
                             }
                         }
@@ -107,9 +131,9 @@ public class ParticipantCareResultsController extends AbstractController {
         return categoryMap;
     }
 
-    private boolean dateBetween(Date startDate, Date endDate, Date scheduleDueDate) {
-        return (startDate.getTime() <= scheduleDueDate.getTime() && scheduleDueDate.getTime() <= endDate.getTime());
-    }
+//    private boolean dateBetween(Date startDate, Date endDate, Date scheduleDueDate) {
+//        return (startDate.getTime() <= scheduleDueDate.getTime() && scheduleDueDate.getTime() <= endDate.getTime());
+//    }
 
 
     public void setStudyRepository(StudyRepository studyRepository) {

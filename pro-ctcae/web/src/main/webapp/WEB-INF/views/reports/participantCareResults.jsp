@@ -55,9 +55,12 @@
 
         </td>
         <c:forEach items="${dates}" var="dates">
-            <td class="header-top">
-               <fmt:formatDate value="${dates}" pattern="MM-dd-yy"/>
-            </td>
+
+                <td class="header-top">
+                    ${visitTitle} <br>
+                    <fmt:formatDate value="${dates}" pattern="MM-dd-yy"/>
+                </td>
+           
         </c:forEach>
         <c:forEach items="${resultsMap}" var="categoryMap">
             <tr>
@@ -72,16 +75,16 @@
                     </td>
                 </tr>
                 <c:forEach items="${symptomMap.value}" var="careResults">
-                <tr>
-                    <td class="data-left">
-                        ${careResults.key.proCtcQuestionType.displayName}
-                    </td>
-                    <c:forEach items="${careResults.value}" var="value">
-                        <td class="data">
-                            ${value}
+                    <tr>
+                        <td class="data-left">
+                                ${careResults.key.proCtcQuestionType.displayName}
                         </td>
-                    </c:forEach>
-                </tr>
+                        <c:forEach items="${careResults.value}" var="value">
+                            <td class="data">
+                                    ${value}
+                            </td>
+                        </c:forEach>
+                    </tr>
                 </c:forEach>
             </c:forEach>
         </c:forEach>

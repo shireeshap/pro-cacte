@@ -278,4 +278,12 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     public void setCycleDay(Integer cycleDay) {
         this.cycleDay = cycleDay;
     }
+
+//    public int compareTo(StudyParticipantCrfSchedule spCrfSchedule) {
+//            return startDate.compareTo(spCrfSchedule.getStartDate());
+//             }
+
+    
+
+
 }
