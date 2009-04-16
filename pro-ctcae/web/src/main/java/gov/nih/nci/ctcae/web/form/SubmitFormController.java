@@ -60,13 +60,13 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         if ("save".equals(submitFormCommand.getDirection())) {
             submitFormCommand.deleteQuestions();
             submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.COMPLETED);
+            NotificationsEvaluationService.executeRules(submitFormCommand.getStudyParticipantCrfSchedule(), submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getCrf(), submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
         } else {
             submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.INPROGRESS);
         }
         submitFormCommand.addQuestionToDeleteList(request.getParameter("deletedQuestions"));
         studyParticipantCrfScheduleRepository.save(submitFormCommand.getStudyParticipantCrfSchedule());
         submitFormCommand.setStudyParticipantCrfSchedule(studyParticipantCrfScheduleRepository.findById(submitFormCommand.getStudyParticipantCrfSchedule().getId()));
-        NotificationsEvaluationService.executeRules(submitFormCommand.getStudyParticipantCrfSchedule(), submitFormCommand.getCurrentPageIndex() - 1, submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getCrf(), submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
         return showForm(request, response, errors);
     }
 
