@@ -1,14 +1,12 @@
 package gov.nih.nci.ctcae.web.rules;
 
-import org.drools.repository.RulesRepository;
-import gov.nih.nci.ctcae.web.rules.AbstractRulesTest;
-import gov.nih.nci.ctcae.web.form.CreateFormCommand;
+import gov.nih.nci.ctcae.core.domain.*;
 
 import java.util.List;
 import java.util.ArrayList;
 
-import com.semanticbits.rules.brxml.RuleSet;
-import com.semanticbits.rules.brxml.Rule;
+import com.semanticbits.rules.brxml.*;
+import com.semanticbits.rules.objectgraph.FactResolver;
 
 
 public class CommonRulesTest extends AbstractRulesTest {
@@ -22,16 +20,21 @@ public class CommonRulesTest extends AbstractRulesTest {
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
+
         symptoms.add("Migrane");
         symptoms.add("Pain");
+
         questiontypes.add("Severity");
-        questiontypes.add("Frequency");
-        operators.add("gt");
-        operators.add("lt");
+        operators.add("==");
         values.add("High");
+
+        questiontypes.add("Frequency");
+        operators.add(">");
         values.add("Rare");
+
         notifications.add("Nurse");
         notifications.add("Physician");
+
         RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
         if (ruleSet == null) {
             createRuleSet();
@@ -46,39 +49,101 @@ public class CommonRulesTest extends AbstractRulesTest {
         ruleSet.setDescription("First Test RuleSet");
         ruleSet.setSubject(subject);
         ruleSet.setCoverage("Not Enabled");
-
-        assertEquals(0, ruleSet.getImport().size());
+        ruleSet.setImport(imports);
+        assertEquals(1, ruleSet.getImport().size());
         ruleAuthoringService.createRuleSet(ruleSet);
 
     }
 
-    private void deleteRuleSet() throws Exception {
+    public void testDeleteRuleSet() throws Exception {
+//        packageName = "gov.nih.nci.ctcae.rules.studysite.study_3.form_1.studysite_15";
         ruleEngineService.deleteRuleSet(packageName);
     }
 
 
     public void testAddRule() throws Exception {
 
-        deleteRuleSet();
+        testDeleteRuleSet();
         assertNull(ruleAuthoringService.getRuleSet(packageName, true));
         createRuleSet();
 
-        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
+        ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
         assertNotNull(ruleSet);
-        CreateFormCommand createFormCommand = new CreateFormCommand();
-        ProCtcAERulesService.createRules(ruleSet, "MyRule", symptoms, questiontypes, operators, values, notifications,"");
+        ProCtcAERulesService.createRule(ruleSet, "MyRule", symptoms, questiontypes, operators, values, notifications, "Y");
         ruleEngineService.exportRule(packageName, "c:\\etc\\ctcae");
         assertTrue(true);
-
+        try {
+            ruleEngineService.deployRuleSet(ruleSet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void testExportRuleSet() throws Exception {
+        packageName = "gov.nih.nci.ctcae.rules.form.study_3.form_2";
         ruleEngineService.exportRule(packageName, "c:\\etc\\ctcae");
     }
 
-    public void testGetRules(){
+    private List<Object> fireRules(List<Object> inputObjects, String bindURI) {
+
+        List<Object> outputObjects = null;
+        try {
+            outputObjects = ruleExecutionService.fireRules(bindURI, inputObjects);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return outputObjects;
+    }
+
+    public void testExecuteRuleSet() throws Exception {
+
+
+        List<Object> inputObjects = new ArrayList<Object>();
+        ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
+        assertNotNull(ruleSet);
+
+        ProCtcValidValue proCtcValidValue1 = new ProCtcValidValue();
+        proCtcValidValue1.setValue("High");
+
+        ProCtcValidValue proCtcValidValue2 = new ProCtcValidValue();
+        proCtcValidValue2.setValue("Rare");
+        inputObjects.add(proCtcValidValue2);
+        inputObjects.add(proCtcValidValue1);
+
+
+        inputObjects.add(ProCtcQuestionType.FREQUENCY);
+        inputObjects.add(ProCtcQuestionType.SEVERITY);
+
+
+        ProCtcTerm proCtcTerm = new ProCtcTerm();
+        proCtcTerm.setTerm("Pain");
+        inputObjects.add(proCtcTerm);
+
+        FactResolver f = new FactResolver();
+        inputObjects.add(f);
+
+        List<Object> outputObjects = ProCtcAERulesService.fireRules(inputObjects, ruleSet.getName());
+        System.out.println(outputObjects);
+    }
+
+    public void testGetRules() {
         RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
         assertEquals(1, ruleSet.getRule().size());
     }
 
+    public void testGetProCtcAERule() {
+        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
+        assertEquals(1, ruleSet.getRule().size());
+
+        ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(ruleSet.getRule().get(0));
+
+        assertEquals(2, proCtcAERule.getOperators().size());
+        assertEquals(2, proCtcAERule.getSymptoms().size());
+        assertEquals(2, proCtcAERule.getNotifications().size());
+        assertEquals(2, proCtcAERule.getValues().size());
+        assertEquals(2, proCtcAERule.getQuestiontypes().size());
+        assertEquals("Y", proCtcAERule.getOverride());
+
+    }
 }

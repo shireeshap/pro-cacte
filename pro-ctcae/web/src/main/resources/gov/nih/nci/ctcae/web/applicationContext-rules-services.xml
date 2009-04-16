@@ -16,14 +16,23 @@
     <tx:annotation-driven/>
     <bean id="ruleServiceContext" class="com.semanticbits.rules.impl.RuleServiceContext">
         <property name="repositoryService" ref="jcrService"/>
+        <property name="ruleExecutionSetRepository" ref="ruleExecutionSetRepository"/>
+    </bean>
+
+    <bean id="ruleExecutionSetRepository" class="com.semanticbits.rules.impl.RuleExecutionSetRepositoryImpl">
+        <property name="repositoryService" ref="jcrService"/>
     </bean>
     <bean id="ruleAuthoringService" class="com.semanticbits.rules.impl.RuleAuthoringServiceImpl">
         <property name="ruleServiceContext" ref="ruleServiceContext"/>
     </bean>
 
-    <bean id="ruleDeploymentService" class="com.semanticbits.rules.impl.RuleDeploymentServiceImpl"/>
+    <bean id="ruleDeploymentService" class="com.semanticbits.rules.impl.RuleDeploymentServiceImpl">
+        <property name="ruleServiceContext" ref="ruleServiceContext"/>
+    </bean>
 
-    <bean id="ruleExecutionService" class="com.semanticbits.rules.impl.BusinessRulesExecutionServiceImpl"/>
+    <bean id="ruleExecutionService" class="com.semanticbits.rules.impl.BusinessRulesExecutionServiceImpl">
+        <property name="ruleServiceContext" ref="ruleServiceContext"/>
+    </bean>
 
     <bean id="rulesLoader" class="com.semanticbits.rules.impl.SystemRulesDeployer">
         <constructor-arg ref="ruleDeploymentService"/>
@@ -31,10 +40,13 @@
 
     <bean id="ruleEngineService" class="com.semanticbits.rules.impl.RulesEngineServiceImpl">
         <property name="repositoryService" ref="jcrService"/>
+        <property name="ruleAuthoringService" ref="ruleAuthoringService"/>
+        <property name="ruleDeploymentService" ref="ruleDeploymentService"/>
     </bean>
     <bean id="proCtcAERulesService" class="gov.nih.nci.ctcae.web.rules.ProCtcAERulesService">
         <property name="ruleAuthoringService" ref="ruleAuthoringService"/>
         <property name="rulesEngineService" ref="ruleEngineService"/>
+        <property name="ruleExecutionService" ref="ruleExecutionService"/>
     </bean>
 
     <!--<bean id="emailService" class="gov.nih.nci.cabig.caaers.email.EmailServiceImpl"/>-->
@@ -46,9 +58,6 @@
     <!--<property name="rulesEngineService" ref="ruleEngineService"/>-->
     <!--<property name="businessRulesExecutionService" ref="businessRulesExecutionService"/>-->
     <!--</bean>-->
-
-    <!--<bean id="businessRulesExecutionService"-->
-    <!--class="com.semanticbits.rules.impl.BusinessRulesExecutionServiceImpl" autowire="byName"/>-->
 
 
 </beans>

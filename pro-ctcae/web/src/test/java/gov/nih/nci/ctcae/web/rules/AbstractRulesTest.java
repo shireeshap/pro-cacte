@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Required;
 import org.drools.repository.RulesRepository;
 import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
 
+import java.util.List;
+import java.util.ArrayList;
+
 
 public class AbstractRulesTest extends AbstractDependencyInjectionSpringContextTests {
 
@@ -19,9 +22,11 @@ public class AbstractRulesTest extends AbstractDependencyInjectionSpringContextT
     protected RulesEngineService ruleEngineService;
     protected String packageName;
     protected String subject;
+    protected List imports = new ArrayList();
     protected RepositoryCleaner repositoryCleaner;
     protected ProCtcAERulesService proCtcAERulesService;
     protected RuleSet ruleSet;
+
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/web/applicationContext-rules-*.xml"
     };
@@ -36,6 +41,7 @@ public class AbstractRulesTest extends AbstractDependencyInjectionSpringContextT
 
         packageName = RuleUtil.getPackageName(packagePrefix, domainObjectValue, ruleSetName);
         subject = ruleType + "||" + domainObjectValue;
+        imports.add("gov.nih.nci.ctcae.core.domain.*");
     }
 
     @Override
