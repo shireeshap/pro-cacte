@@ -37,7 +37,7 @@ public class StudyParticipantCrf extends BaseVersionable {
      * The study participant crf schedules.
      */
     @OneToMany(mappedBy = "studyParticipantCrf", fetch = FetchType.LAZY)
-    @OrderBy("startDate desc")
+    @OrderBy("startDate asc")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = new ArrayList<StudyParticipantCrfSchedule>();
 

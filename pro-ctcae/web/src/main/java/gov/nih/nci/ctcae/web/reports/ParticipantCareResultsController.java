@@ -62,7 +62,6 @@ public class ParticipantCareResultsController extends AbstractController {
         HashMap<CtcCategory, HashMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList>>> categoryMap = new HashMap();
         HashMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList>> symptomMap;
         HashMap<ProCtcQuestion, ArrayList> careResults;
-        int i = 1;
 
         Study study = studyRepository.findById(studyId);
         StudySite studySite = study.getStudySiteById(studySiteId);
@@ -78,16 +77,14 @@ public class ParticipantCareResultsController extends AbstractController {
                             completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(0));
                             completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - 1));
                         } else {
-                            completedCrfs.addAll(studyParticipantCrf.getCompletedCrfs());
+                            for(int i = 1; i<= forVisits; forVisits--)
+                            completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - forVisits));
                         }
-
 
                         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : completedCrfs) {
 
-                            if (i <= forVisits) {
-
                                 dates.add(studyParticipantCrfSchedule.getStartDate());
-                                i++;
+
                                 for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
 
                                     CtcCategory category = studyParticipantCrfItem.getProCtcValidValue().getProCtcQuestion().getProCtcTerm().getCtcTerm().getCategory();
@@ -119,7 +116,7 @@ public class ParticipantCareResultsController extends AbstractController {
                                     validValue.add(value);
 
 
-                                }
+
                             }
                         }
                     }

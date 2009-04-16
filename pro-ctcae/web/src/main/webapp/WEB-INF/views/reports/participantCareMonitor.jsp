@@ -180,13 +180,13 @@ function showResultsTable(transport) {
                                       noForm="true" required="true"/>
         </div>
         <div id="dateMenuDiv" style="display:none" class="row">
-            <div class="label">For number of visits</div>
+            <div class="label">Visits</div>
             <div class="value">
                 <select id="visitOptions" name="visitOptions"
                         onChange="customVisit(this)">
                     <option value="currentPrev">Current & Previous</option>
                     <option value="lastFour">Last four</option>
-                    <option value="currentLast">Current & Last</option>
+                    <option value="currentLast">Current & First</option>
                     <option value="custom">Custom</option>
                 </select>
             </div>

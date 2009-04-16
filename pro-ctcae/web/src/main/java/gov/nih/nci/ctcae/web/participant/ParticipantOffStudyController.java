@@ -38,7 +38,7 @@ public class ParticipantOffStudyController extends CtcAeSimpleFormController {
 
         String spaId = request.getParameter("id");
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.findById(Integer.parseInt(spaId));
-        //studyParticipantAssignment.setOffTreatmentDate(new Date());
+        studyParticipantAssignment.setOffTreatmentDate(new Date());
         return studyParticipantAssignment;
     }
 
