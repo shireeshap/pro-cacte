@@ -62,7 +62,7 @@
         <c:forEach items="${dates}" var="dates">
 
                 <td class="header-top">
-                    ${visitTitle} <br>
+                    
                     <fmt:formatDate value="${dates}" pattern="MM-dd-yy"/>
                 </td>
            
