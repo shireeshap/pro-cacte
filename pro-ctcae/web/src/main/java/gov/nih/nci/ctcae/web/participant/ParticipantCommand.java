@@ -190,18 +190,6 @@ public class ParticipantCommand {
         this.selectedStudyParticipantAssignment = selectedStudyParticipantAssignment;
     }
 
-    private List<StudyOrganizationClinicalStaff> getListByRole(Role role) {
-        List<StudyOrganizationClinicalStaff> staff = new ArrayList<StudyOrganizationClinicalStaff>();
-        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : getSelectedStudyParticipantAssignment().getStudySite().getStudy().getStudySiteLevelStudyOrganizationClinicalStaffs()) {
-            if (studyOrganizationClinicalStaff.getRole().equals(role)) {
-                if (studyOrganizationClinicalStaff.getRoleStatus().equals(RoleStatus.ACTIVE)) {
-                    staff.add(studyOrganizationClinicalStaff);
-                }
-            }
-        }
-        return staff;
-    }
-
     public void assignStaff() {
         for (StudyParticipantAssignment studyParticipantAssignment : getParticipant().getStudyParticipantAssignments()) {
             studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantAssignment.getTreatingPhysician());
