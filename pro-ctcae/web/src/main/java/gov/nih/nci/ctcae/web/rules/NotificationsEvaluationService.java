@@ -24,7 +24,11 @@ public class NotificationsEvaluationService {
     private static JavaMailSender javaMailSender;
 
 
-    public static void executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, int currentPageIndex, CRF crf, StudyOrganization studySite) {
+    public static void executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) {
+        RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, studySite);
+        if (ruleSet == null) {
+            return;
+        }
         HashSet<Integer> distinctPageNumbers = new HashSet<Integer>();
 
 
@@ -42,7 +46,6 @@ public class NotificationsEvaluationService {
                 }
             }
             if (studyParticipantCrfItems.size() > 0) {
-                RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, studySite);
                 List<Object> inputObjects = new ArrayList<Object>();
 
                 for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfItems) {
@@ -58,19 +61,30 @@ public class NotificationsEvaluationService {
                 inputObjects.add(proCtcAEFactResolver);
                 inputObjects.add(studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf());
 
-                List<Object> outputObjects = ProCtcAERulesService.fireRules(inputObjects, ruleSet.getName());
+                try {
+                    List<Object> outputObjects = ProCtcAERulesService.fireRules(inputObjects, ruleSet.getName());
 
-                for (Object o : outputObjects) {
-                    if (o instanceof RuleEvaluationResult) {
-                        RuleEvaluationResult result = (RuleEvaluationResult) o;
-                        if (!StringUtils.isBlank(result.getMessage())) {
-                            String message = result.getMessage();
-                            System.out.println("Sending email to " + message);
-                            SendEmails(message, studyParticipantCrfSchedule);
+                    for (Object o : outputObjects) {
+                        if (o instanceof RuleEvaluationResult) {
+                            RuleEvaluationResult result = (RuleEvaluationResult) o;
+                            if (!StringUtils.isBlank(result.getMessage())) {
+                                String message = result.getMessage();
+                                System.out.println("Sending email to " + message);
+                                SendEmails(message, studyParticipantCrfSchedule);
+                            }
                         }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
                 }
             }
+        }
+    }
+
+    private static void addEmail(String email, HashSet<String> emails) {
+        if (!StringUtils.isBlank(email)) {
+            emails.add(email);
         }
     }
 
@@ -84,54 +98,65 @@ public class NotificationsEvaluationService {
             if (token.equals("PrimaryNurse")) {
                 StudyParticipantClinicalStaff studyParticipantClinicalStaff = studyParticipantAssignment.getResearchNurse();
                 if (studyParticipantClinicalStaff.isNotify()) {
-                    emails.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress());
+                    addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
                 }
             }
             if (token.equals("PrimaryPhysician")) {
                 StudyParticipantClinicalStaff studyParticipantClinicalStaff = studyParticipantAssignment.getTreatingPhysician();
                 if (studyParticipantClinicalStaff.isNotify()) {
-                    emails.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress());
+                    addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
                 }
             }
             if (token.equals("SiteCRA")) {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSiteCRAs()) {
                     if (studyParticipantClinicalStaff.isNotify()) {
-                        emails.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress());
+                        addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
                     }
                 }
             }
             if (token.equals("SitePI")) {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSitePIs()) {
                     if (studyParticipantClinicalStaff.isNotify()) {
-                        emails.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress());
+                        addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
                     }
                 }
             }
             if (token.equals("LeadCRA")) {
-                emails.add(studyParticipantAssignment.getStudySite().getStudy().getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress());
+                addEmail(studyParticipantAssignment.getStudySite().getStudy().getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
             }
             if (token.equals("PI")) {
-                emails.add(studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigator().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress());
+                addEmail(studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigator().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
             }
         }
 
         for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getNotificationClinicalStaff()) {
             if (studyParticipantClinicalStaff.isNotify()) {
-                emails.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress());
+                addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
             }
         }
 
         System.out.println(emails);
         try {
-            sendMail((String[]) emails.toArray(), "Notification email", "My content");
+            sendMail(getStringArr(emails), "Notification email", "My content");
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
+    private static String[] getStringArr(HashSet<String> emails) {
+        String[] ret = new String[emails.size()];
+        Iterator<String> it = emails.iterator();
+        int i = 0;
+        while (it.hasNext()) {
+            ret[i] = it.next();
+            i++;
+        }
+        return ret;
+    }
+
     public static void sendMail(String[] to, String subject, String content) throws Exception {
         try {
-            if(javaMailSender == null){
+            if (javaMailSender == null) {
                 javaMailSender = new JavaMailSender();
             }
             MimeMessage message = javaMailSender.createMimeMessage();
