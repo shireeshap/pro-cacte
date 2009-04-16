@@ -276,6 +276,25 @@
                 <div style="float:right"><tags:button type="button" value="Next" icon="next" color="blue"
                                                       size="small" onclick="formStatus('next')"/></div>
             </div>
+            <table>
+        <tr>
+            <td>
+                Scheduled = <img src="../../images/blue/Scheduled.png"/> &nbsp;&nbsp;
+            </td>
+            <td>
+                In-progress = <img src="../../images/blue/In-progress.png"/> &nbsp;&nbsp;
+            </td>
+            <td>
+                Completed = <img src="../../images/blue/Completed.png"/> &nbsp;&nbsp;
+            </td>
+            <td>
+                Past-due = <img src="../../images/blue/Past-due.png"/> &nbsp;&nbsp;
+            </td>
+            <td>
+                Cancelled = <img src="../../images/blue/Cancelled.png"/>
+            </td>
+        </tr>
+    </table>
 
 
             <div id="displayFormStatus"/>

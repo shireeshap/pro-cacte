@@ -60,23 +60,23 @@
 
 <div id="formStatusTable">
     <table>
-        <tr>
-            <td>
-                Scheduled = <img src="../../images/blue/Scheduled.png"/> &nbsp;&nbsp;
-            </td>
-            <td>
-                In-progress = <img src="../../images/blue/In-progress.png"/> &nbsp;&nbsp;
-            </td>
-            <td>
-                Completed = <img src="../../images/blue/Completed.png"/> &nbsp;&nbsp;
-            </td>
-            <td>
-                Past-due = <img src="../../images/blue/Past-due.png"/> &nbsp;&nbsp;
-            </td>
-            <td>
-                Cancelled = <img src="../../images/blue/Cancelled.gif"/>
-            </td>
-        </tr>
+        <!--<tr>-->
+            <!--<td>-->
+                <!--Scheduled = <img src="../../images/blue/Scheduled.png"/> &nbsp;&nbsp;-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--In-progress = <img src="../../images/blue/In-progress.png"/> &nbsp;&nbsp;-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--Completed = <img src="../../images/blue/Completed.png"/> &nbsp;&nbsp;-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--Past-due = <img src="../../images/blue/Past-due.png"/> &nbsp;&nbsp;-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--Cancelled = <img src="../../images/blue/Cancelled.png"/>-->
+            <!--</td>-->
+        <!--</tr>-->
         <tr>
             <td>
                 Year = <fmt:formatDate value="${pgStartPrev}" pattern="yyyy"/>
@@ -133,7 +133,7 @@
                                     </c:when>
                                     <c:otherwise>
                                         <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
-                                        <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.gif"/>
+                                        <%--<img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.gif"/>--%>
                                     </c:otherwise>
                                 </c:choose>
 
