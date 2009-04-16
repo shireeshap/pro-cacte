@@ -16,7 +16,7 @@
         <div id="login-action">
 
             <ctcae:urlAuthorize url="/pages/home">
-            	<a id="logo">Agadoo</a>
+            	<a id="logo">PRO-CTCAE</a>
                 <div id="welcome-user">Welcome
                     <b><authz:authentication property="name"></authz:authentication></b>
                 </div>

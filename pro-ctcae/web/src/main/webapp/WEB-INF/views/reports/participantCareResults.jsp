@@ -81,7 +81,7 @@
                 </tr>
                 <c:forEach items="${symptomMap.value}" var="careResults">
                     <tr>
-                        <td class="data-left">
+                        <td class="actual-question">
                                 ${careResults.key.proCtcQuestionType.displayName}
                         </td>
                         <c:forEach items="${careResults.value}" var="value">
