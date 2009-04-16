@@ -76,11 +76,17 @@
                     </div>
                 </div>
                 <br/>
-                <c:if test="${!isSite}">
-                &nbsp;&nbsp;&nbsp;<input type="checkbox" name="override_${ruleIndex}" <c:if
-                    test="${proCtcAeRule.override=='Y'}"> checked </c:if> />
-                <b>Can be overridden at site level</b>
-                </c:if>
+
+                <c:choose>
+                    <c:when test="${isSite}">
+                        <input type="hidden" name="override_${ruleIndex}" value="'Y"/>
+                    </c:when>
+                    <c:otherwise>
+                        &nbsp;&nbsp;&nbsp;<input type="checkbox" name="override_${ruleIndex}" <c:if
+                            test="${proCtcAeRule.override=='Y'}"> checked </c:if> />
+                        <b>Can be overridden at site level</b>
+                    </c:otherwise>
+                </c:choose>
             </chrome:box>
             <c:if test="${isNew == true}">
                 <script type="text/javascript">

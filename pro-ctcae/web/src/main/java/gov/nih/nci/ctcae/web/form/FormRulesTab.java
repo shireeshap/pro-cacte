@@ -9,8 +9,6 @@ import org.springframework.validation.Errors;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-import com.semanticbits.rules.brxml.RuleSet;
-
 //
 /**
  * The Class CalendarTemplateTab.
@@ -38,7 +36,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
      */
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
-        command.initializeRules(proCtcAERulesService);
+        command.initializeRulesForForm(proCtcAERulesService);
     }
 
     public Map<String, Object> referenceData(CreateFormCommand command) {
@@ -59,7 +57,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         try {
-            command.processRules(request);
+            command.processRulesForForm(request);
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

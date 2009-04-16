@@ -301,11 +301,11 @@ public class ListValues {
     public static List<ListValues> getComparisonOptions() {
         List<ListValues> col = new ArrayList<ListValues>();
         ListValues lov0 = new ListValues("", "Please select");
-        ListValues lov1 = new ListValues("gt", "is greater than");
-        ListValues lov2 = new ListValues("ge", "is greater than or equal to");
-        ListValues lov3 = new ListValues("eq", "is equal to");
-        ListValues lov4 = new ListValues("le", "is less than or equal to");
-        ListValues lov5 = new ListValues("lt", "is less than");
+        ListValues lov1 = new ListValues(">", "is greater than");
+        ListValues lov2 = new ListValues(">=", "is greater than or equal to");
+        ListValues lov3 = new ListValues("==", "is equal to");
+        ListValues lov4 = new ListValues("<=", "is less than or equal to");
+        ListValues lov5 = new ListValues("<", "is less than");
         col.add(lov0);
         col.add(lov1);
         col.add(lov2);
@@ -334,44 +334,44 @@ public class ListValues {
         return col;
     }
 
-    public static HashMap getComparisonValues(CRF crf) {
-        HashSet severityOptions = new HashSet();
-        HashSet interferenceOptions = new HashSet();
-        HashSet presentOptions = new HashSet();
-        HashSet amountOptions = new HashSet();
-        HashSet frequencyOptions = new HashSet();
+    public static HashMap<ProCtcQuestionType, TreeSet<ProCtcValidValue>> getComparisonValues(CRF crf) {
+        TreeSet<ProCtcValidValue> severityOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
+        TreeSet<ProCtcValidValue> interferenceOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
+        TreeSet<ProCtcValidValue> presentOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
+        TreeSet<ProCtcValidValue> amountOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
+        TreeSet<ProCtcValidValue> frequencyOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
 
         for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
             switch (crfPageItem.getProCtcQuestion().getProCtcQuestionType()) {
                 case SEVERITY:
                     for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
-                        severityOptions.add(validValue.getValue());
+                        severityOptions.add(validValue);
                     }
                     break;
                 case INTERFERENCE:
                     for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
-                        interferenceOptions.add(validValue.getValue());
+                        interferenceOptions.add(validValue);
                     }
                     break;
                 case AMOUNT:
                     for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
-                        amountOptions.add(validValue.getValue());
+                        amountOptions.add(validValue);
                     }
                     break;
                 case FREQUENCY:
                     for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
-                        frequencyOptions.add(validValue.getValue());
+                        frequencyOptions.add(validValue);
                     }
                     break;
                 case PRESENT:
                     for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
-                        presentOptions.add(validValue.getValue());
+                        presentOptions.add(validValue);
                     }
                     break;
             }
         }
 
-        HashMap hashMap = new HashMap();
+        HashMap<ProCtcQuestionType, TreeSet<ProCtcValidValue>> hashMap = new HashMap<ProCtcQuestionType, TreeSet<ProCtcValidValue>>();
         hashMap.put(ProCtcQuestionType.AMOUNT, amountOptions);
         hashMap.put(ProCtcQuestionType.FREQUENCY, frequencyOptions);
         hashMap.put(ProCtcQuestionType.PRESENT, presentOptions);
