@@ -4,8 +4,12 @@ import com.semanticbits.rules.brxml.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 import org.springframework.util.StringUtils;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 
 /**
  * User: Harsh
@@ -87,20 +91,53 @@ public class ProCtcAERule {
         }
         Condition condition = rule.getCondition();
         List<Column> columns = condition.getColumn();
-        Column firstColumn = columns.get(0); //We should have only one column
-        String strSymptoms = firstColumn.getIdentifier();
-        proCtcAERule.setSymptoms(ProCtcAERulesService.carateSeparatedStringToList(strSymptoms));
-        for (FieldConstraint fieldConstraint : firstColumn.getFieldConstraint()) {
-            proCtcAERule.getQuestiontypes().add(fieldConstraint.getFieldName());
-            LiteralRestriction firstRestriction = fieldConstraint.getLiteralRestriction().get(0);
-            proCtcAERule.getOperators().add(firstRestriction.getEvaluator());
-            proCtcAERule.getValues().add(firstRestriction.getValue().get(0));
+
+        int cols = 0;
+        for (Column column : columns) {
+            if (column.getObjectType().equals(ProCtcTerm.class.getName())) {
+                proCtcAERule.setSymptoms(column.getFieldConstraint().get(0).getLiteralRestriction().get(0).getValue());
+            }
+            if (column.getObjectType().equals(ProCtcQuestionType.class.getName())) {
+                cols++;
+            }
         }
+
+        String[] arrQuestionTypes = new String[cols];
+        String[] arrOperators = new String[cols];
+        String[] arrValues = new String[cols];
+
+        for (Column column : columns) {
+            if (column.getObjectType().equals(ProCtcQuestionType.class.getName())) {
+                String identifier = column.getIdentifier();
+                int index = Integer.parseInt(identifier.substring("proCtcQuestionType".length()));
+                arrQuestionTypes[index] = column.getFieldConstraint().get(0).getLiteralRestriction().get(0).getValue().get(0);
+            }
+            if (column.getObjectType().equals(ProCtcValidValue.class.getName())) {
+                String identifier = column.getIdentifier();
+                int index = Integer.parseInt(identifier.substring("proCtcValidValue".length()));
+                arrValues[index] = column.getFieldConstraint().get(0).getLiteralRestriction().get(0).getValue().get(0);
+                arrOperators[index] = column.getFieldConstraint().get(0).getLiteralRestriction().get(0).getEvaluator();
+            }
+        }
+
+        proCtcAERule.setOperators(arrayToList(arrOperators));
+        proCtcAERule.setQuestiontypes(arrayToList(arrQuestionTypes));
+        proCtcAERule.setValues(arrayToList(arrValues));
 
         for (String action : rule.getAction()) {
             proCtcAERule.getNotifications().add(action);
         }
 
         return proCtcAERule;
+    }
+
+    private static List<String> arrayToList(String[] arr) {
+        List<String> list = new ArrayList<String>();
+        if (arr != null) {
+            for (int i = 0; i < arr.length; i++) {
+                list.add(arr[i]);
+            }
+        }
+        return list;
     }
 }
