@@ -427,6 +427,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ShowCompletedCrfCo
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareMonitorController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareResultsController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/JavaMailSender.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/NotificationsEvaluationService.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/ProCtcAEFactResolver.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/ProCtcAERule.java -text
