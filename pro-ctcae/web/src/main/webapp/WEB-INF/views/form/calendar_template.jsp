@@ -500,10 +500,8 @@ function changePlannedRep(cycleDefinitionIndex, value) {
                                                               repeatOptions="${cycleplannedrepetitions}"/>
                         </c:forEach>
                         <div id="hiddenDiv"></div>
-                        <div class="local-buttons">
-                            <tags:button color="blue" markupWithTag="a" onclick="javascript:addCycle()"
-                                         value="form.schedule.add_cycle"/>
-                        </div>
+                            <tags:button color="blue" size="small" markupWithTag="a" onclick="javascript:addCycle()"
+                                         value="form.schedule.add_cycle" icon="add"/>
                     </td>
                 </tr>
             </table>

@@ -8,7 +8,7 @@
         var request = new Ajax.Request("<c:url value="/pages/form/releaseForm"/>", {
             parameters:"crfId=" + crfId + "&subview=subview",
             onComplete:function(transport) {
-                showConfirmationWindow(transport);
+                showConfirmationWindow(transport, 650, 280);
             },
             method:'get'
         })

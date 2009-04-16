@@ -208,11 +208,10 @@
         </c:forEach>
 
         <div id="hiddenDiv"></div>
-        <div align="right">
+		<div style="margin-bottom:25px; margin-left:60px;">
             <tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()" value="form.rules.add_rule"
                          icon="add"/>
         </div>
-        
     </jsp:attribute>
 </tags:tabForm>
 

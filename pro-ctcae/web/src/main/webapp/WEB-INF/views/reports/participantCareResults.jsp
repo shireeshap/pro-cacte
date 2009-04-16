@@ -11,39 +11,42 @@
 <head>
     <style type="text/css">
         table.widget {
-            border-left: 1px solid #C3D9FF;
-            border-bottom: 1px solid #C3D9FF;
-            width: 100%;
-            font-size: small;
+            border: 1px solid #eaeaea;
+			border-collapse:collapse;
         }
-
+		table.widget col {
+			width:200px;
+		}
         td.data {
-            border-bottom: 1px solid #77a9ff;
-            border-right: 1px solid #77a9ff;
-            font-size: small;
+            border: 1px solid #eaeaea;
+			background-color: #f1f1f1;
             white-space: nowrap;
             text-align: center;
 
         }
-
-        td.data-left {
-            border-bottom: 1px solid #77a9ff;
-            border-left: 1px solid #77a9ff;
-            border-right: 1px solid #77a9ff;
-            font-weight: bold;
-            white-space: nowrap;
-            background-color: #cccccc;
-            text-align: center;
-        }
-
-        td.header-top {
-            border-top: 1px solid #77a9ff;
-            border-bottom: 1px solid #77a9ff;
-            border-right: 1px solid #77a9ff;
+		td.header-top {
+            border: 1px solid #eaeaea;
             font-weight: bold;
             text-align: center;
             background-color: #cccccc;
         }
+		td.category-name, td.subcategory-name, td.actual-question {
+			border: 1px solid #eaeaea;
+			text-align: left;
+		} 
+		td.category-name {
+            background-color: #fff;
+			font-weight:bolder;
+        }
+        td.subcategory-name {
+            background-color: #fff;
+			padding-left:6px;
+        }
+		td.actual-question {
+            background-color: #f1f1f1;
+			padding-left:18px;
+        }
+
 
     </style>
 </head>
@@ -51,9 +54,11 @@
 <div id="careResultsTable">
 
     <table class="widget" cellspacing="0">
-        <td>
-
-        </td>
+    <col/>	
+		<tr>
+			<td>
+				&nbsp;
+	        </td>
         <c:forEach items="${dates}" var="dates">
 
                 <td class="header-top">
@@ -64,14 +69,14 @@
         </c:forEach>
         <c:forEach items="${resultsMap}" var="categoryMap">
             <tr>
-                <td class="data-left">
-                        ${categoryMap.key.name}
+                <td class="category-name">
+					${categoryMap.key.name}
                 </td>
             </tr>
             <c:forEach items="${categoryMap.value}" var="symptomMap">
                 <tr>
-                    <td class="data-left">
-                            ${symptomMap.key.term}
+                    <td class="subcategory-name">
+						${symptomMap.key.term}
                     </td>
                 </tr>
                 <c:forEach items="${symptomMap.value}" var="careResults">

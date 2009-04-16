@@ -9,18 +9,18 @@
 <body>
 
 <chrome:box title="form.button.delete.cycle">
-<chrome:division>
-<p>
-    <strong><tags:message code="form.button.delete.cycle.instructions"/></strong>
-    <br/>
-</p>
-</div>
-<br>
+<tags:message code="form.button.delete.cycle.instructions"/>
+<c:set var="delete">
+	<tags:message code="label.delete"/>
+</c:set>
+<c:set var="cancel">
+	<tags:message code="label.cancel"/>
+</c:set>
+
 <div class="flow-buttons">
-    <input type="button" id="flow-update" class="next" value="<tags:message code="label.delete"/>"
-           alt="Delete" onclick="deleteCycleConfirm('${crfCycleIndex}')"/>
-    <input type="button" id="flow-cancel" class="previous ibutton" value="<tags:message code="label.cancel"/>"
-           alt="Cancel" onclick="closeWindow()"/>
-    </chrome:division>
+    <tags:button type="button" id="flow-update" cssClass="next" value="${delete}"
+           icon="x" color="red" onclick="deleteCycleConfirm('${crfCycleIndex}')"/>
+    <tags:button type="button" id="flow-cancel" cssClass="previous ibutton" value="${cancel}"
+           color="blue" onclick="closeWindow()"/>
     </chrome:box>
 </body>

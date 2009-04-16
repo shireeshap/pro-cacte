@@ -65,7 +65,7 @@
 </c:forEach>
 <img style="position:absolute; top:0px; left:0px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox" />
 <div id="inboxTitle"><span style="font-size:75px; line-height:70px;">Inbox</span><br/>
-    <span style="font-size:13pt; margin-left:6px;">You have <span style="font-weight:bolder;">${numberofCrfs}</span> form<c:if
+    <span style="font-size:13pt; margin-left:6px;">You have <c:choose><c:when test="${not empty numberofCrfs}"><span style="font-weight:bolder;">${numberofCrfs}</span></c:when><c:otherwise>no</c:otherwise></c:choose> form<c:if
             test="${numberofCrfs != 1}">s</c:if> that need<c:if
             test="${numberofCrfs == 1}">s</c:if> to be completed.</span>
 </div>

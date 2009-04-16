@@ -12,8 +12,7 @@
 <body>
 
 <form:form method="post">
-    <chrome:box title="form.label.release_form">
-        <chrome:division>
+
             <c:choose>
                 <c:when test="${command.released}">
                     <div id="errorMessages">
@@ -32,7 +31,11 @@
                 </c:when>
                 <c:otherwise>
                     <div id="releaseForm">
-                        <p>
+                        <div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
+							<img src="<chrome:imageUrl name="../blue/stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:55px;" />
+							<div style="font-size:20px; margin-bottom:5px;">Are you sure you are ready to release this form?</div>
+							<div>Releasing a form is irreversible, you will no longer be able to edit this form.</div>
+						</div>
                             You are about to release
 
                             <strong>${command.title}</strong>.
@@ -42,32 +45,24 @@
                             Please provide the date on which this form will be made effective.
                             <tags:renderDate propertyName="effectiveStartDate"
                                              displayName="form.label.effective_start_date" required="true"/>
-                        </p>
-
-                        <p>
-                            You cannot reverse this step. If you're not ready to proceed, please
-                            <a href="javascript:closeWindow()">click here</a>.
-                        </p>
+                   
 
                     </div>
                     <br>
 
                     <div class="flow-buttons">
 
-                        <input type="submit" id="flow-update"
-                               class="next" value="Release" alt="Save"
+                        <tags:button color="orange" type="submit" id="flow-update"
+                               cssClass="next" value="Release" icon="check"
                                 />
 
 
-                        <input type="button" id="flow-cancel"
-                               class="previous ibutton" value="Cancel" alt="Cancel"
+                        <tags:button color="blue" type="button" id="flow-cancel"
+                               cssClass="previous ibutton" value="Cancel" icon="x"
                                onclick="closeWindow()"/>
                     </div>
                 </c:otherwise>
             </c:choose>
 
-
-        </chrome:division>
-    </chrome:box>
 </form:form>
 </body>

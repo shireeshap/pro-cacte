@@ -8,7 +8,7 @@
 <%@attribute name="crfIndex" required="false" %>
 <%@attribute name="repeatOptions" type="java.util.List" required="false" %>
 
-<br/>
+
 <c:if test="${cycleDefinitionIndex > 0}">
     <c:set var="extraText" value="(applied consecutively after completion of above cycle definition)"/>
 </c:if>
