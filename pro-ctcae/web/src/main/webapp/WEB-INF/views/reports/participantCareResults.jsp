@@ -21,7 +21,7 @@
 
         td.data {
             border: 1px solid #eaeaea;
-            background-color: #f1f1f1;
+            background-color: #D5D5D5;
             white-space: nowrap;
             text-align: center;
 
@@ -50,7 +50,7 @@
         }
 
         td.actual-question {
-            background-color: #f1f1f1;
+            background-color: #D5D5D5;
             padding-left: 18px;
         }
 
@@ -78,7 +78,7 @@
 
             <td class="header-top">
 
-                <fmt:formatDate value="${dates}" pattern="MM-dd-yy"/>
+                <fmt:formatDate value="${dates}" pattern="MM/dd/yy"/>
             </td>
 
             </c:forEach>

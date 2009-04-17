@@ -209,7 +209,7 @@
 
         <div id="hiddenDiv"></div>
 		<div style="margin-bottom:25px; margin-left:60px;">
-            <tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()" value="form.rules.add_rule"
+            <tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()" value="form.rules.add_rule" size="small"
                          icon="add"/>
         </div>
     </jsp:attribute>
