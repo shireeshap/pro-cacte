@@ -1,13 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CrfStatus;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfAddedQuestionRepository;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleAddedQuestionRepository;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
+import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.repository.*;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import gov.nih.nci.ctcae.web.rules.NotificationsEvaluationService;
 import org.apache.commons.lang.StringUtils;
@@ -60,7 +54,8 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         if ("save".equals(submitFormCommand.getDirection())) {
             submitFormCommand.deleteQuestions();
             submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.COMPLETED);
-            NotificationsEvaluationService.executeRules(submitFormCommand.getStudyParticipantCrfSchedule(), submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getCrf(), submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
+            StudyParticipantCrfSchedule s = initialize(submitFormCommand.getStudyParticipantCrfSchedule());
+            NotificationsEvaluationService.executeRules(s, s.getStudyParticipantCrf().getCrf(), s.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
         } else {
             submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.INPROGRESS);
         }
@@ -70,9 +65,33 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         return showForm(request, response, errors);
     }
 
+    private StudyParticipantCrfSchedule initialize(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+        StudyParticipantCrfSchedule s = studyParticipantCrfScheduleRepository.findById(studyParticipantCrfSchedule.getId());
+        for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : s.getStudyParticipantCrf().getStudyParticipantAssignment().getStudyParticipantClinicalStaffs()) {
+            studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff();
+        }
+        for (CRFPage crfPage : s.getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber()) {
+            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                crfPageItem.getProCtcQuestion();
+            }
+        }
+        return s;
+    }
+
+//    private CRF initializeCrf(CRF crf) {
+//        CRF lcrf = crfRepository.findById(crf.getId());
+//        for (CRFPage crfPage : lcrf.getCrfPagesSortedByPageNumber()) {
+//            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+//                crfPageItem.getProCtcQuestion();
+//            }
+//        }
+//        return lcrf;
+//    }
+
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.SimpleFormController#showForm(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.validation.BindException)
      */
+
     @Override
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) errors.getTarget();
@@ -209,6 +228,5 @@ public class SubmitFormController extends CtcAeSimpleFormController {
     public void setStudyParticipantCrfAddedQuestionRepository(StudyParticipantCrfAddedQuestionRepository studyParticipantCrfAddedQuestionRepository) {
         this.studyParticipantCrfAddedQuestionRepository = studyParticipantCrfAddedQuestionRepository;
     }
-
 }
 
