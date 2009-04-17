@@ -141,7 +141,8 @@ public class NotificationsEvaluationService {
 
         logger.info(emails);
         try {
-            sendMail(getStringArr(emails), "Notification email", "My content");
+            String content = "This email is being sent by rules setup in the system";
+            sendMail(getStringArr(emails), "Notification email", content);
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

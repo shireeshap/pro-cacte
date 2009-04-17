@@ -92,7 +92,7 @@ public class ParticipantCareResultsController extends AbstractController {
                                     CtcCategory category = studyParticipantCrfItem.getProCtcValidValue().getProCtcQuestion().getProCtcTerm().getCtcTerm().getCategory();
                                     ProCtcTerm symptom = studyParticipantCrfItem.getProCtcValidValue().getProCtcQuestion().getProCtcTerm();
                                     ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getProCtcValidValue().getProCtcQuestion();
-                                    String value = studyParticipantCrfItem.getProCtcValidValue().getValue();
+                                    ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
                                     ArrayList validValue;
 
                                     if (categoryMap.containsKey(category)) {
