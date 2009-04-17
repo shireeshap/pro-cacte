@@ -12,39 +12,54 @@
     <style type="text/css">
         table.widget {
             border: 1px solid #eaeaea;
-			border-collapse:collapse;
+            border-collapse: collapse;
         }
-		table.widget col {
-			width:200px;
-		}
+
+        table.widget col {
+            width: 200px;
+        }
+
         td.data {
             border: 1px solid #eaeaea;
-			background-color: #f1f1f1;
+            background-color: #f1f1f1;
             white-space: nowrap;
             text-align: center;
 
         }
-		td.header-top {
+
+        td.header-top {
             border: 1px solid #eaeaea;
             font-weight: bold;
             text-align: center;
             background-color: #cccccc;
         }
-		td.category-name, td.subcategory-name, td.actual-question {
-			border: 1px solid #eaeaea;
-			text-align: left;
-		} 
-		td.category-name {
-            background-color: #fff;
-			font-weight:bolder;
+
+        td.category-name, td.subcategory-name, td.actual-question {
+            border: 1px solid #eaeaea;
+            text-align: left;
         }
+
+        td.category-name {
+            background-color: #fff;
+            font-weight: bolder;
+        }
+
         td.subcategory-name {
             background-color: #fff;
-			padding-left:6px;
+            padding-left: 6px;
         }
-		td.actual-question {
+
+        td.actual-question {
             background-color: #f1f1f1;
-			padding-left:18px;
+            padding-left: 18px;
+        }
+
+        td.displayOrder4 {
+            background-color: red;
+        }
+
+        td.displayOrder5 {
+            background-color: red;
         }
 
 
@@ -54,44 +69,44 @@
 <div id="careResultsTable">
 
     <table class="widget" cellspacing="0">
-    <col/>	
-		<tr>
-			<td>
-				&nbsp;
-	        </td>
-        <c:forEach items="${dates}" var="dates">
+        <col/>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+            <c:forEach items="${dates}" var="dates">
 
-                <td class="header-top">
-                    
-                    <fmt:formatDate value="${dates}" pattern="MM-dd-yy"/>
-                </td>
-           
-        </c:forEach>
-        <c:forEach items="${resultsMap}" var="categoryMap">
+            <td class="header-top">
+
+                <fmt:formatDate value="${dates}" pattern="MM-dd-yy"/>
+            </td>
+
+            </c:forEach>
+            <c:forEach items="${resultsMap}" var="categoryMap">
+        <tr>
+            <td class="category-name">
+                    ${categoryMap.key.name}
+            </td>
+        </tr>
+        <c:forEach items="${categoryMap.value}" var="symptomMap">
             <tr>
-                <td class="category-name">
-					${categoryMap.key.name}
+                <td class="subcategory-name">
+                        ${symptomMap.key.term}
                 </td>
             </tr>
-            <c:forEach items="${categoryMap.value}" var="symptomMap">
+            <c:forEach items="${symptomMap.value}" var="careResults">
                 <tr>
-                    <td class="subcategory-name">
-						${symptomMap.key.term}
+                    <td class="actual-question">
+                            ${careResults.key.proCtcQuestionType.displayName}
                     </td>
-                </tr>
-                <c:forEach items="${symptomMap.value}" var="careResults">
-                    <tr>
-                        <td class="actual-question">
-                                ${careResults.key.proCtcQuestionType.displayName}
+                    <c:forEach items="${careResults.value}" var="value">
+                        <td class="data displayOrder${value.displayOrder}">
+                                ${value.value}
                         </td>
-                        <c:forEach items="${careResults.value}" var="value">
-                            <td class="data">
-                                    ${value}
-                            </td>
-                        </c:forEach>
-                    </tr>
-                </c:forEach>
+                    </c:forEach>
+                </tr>
             </c:forEach>
+        </c:forEach>
         </c:forEach>
     </table>
 
