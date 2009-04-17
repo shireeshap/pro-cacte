@@ -3,8 +3,11 @@ package gov.nih.nci.ctcae.web.rules;
 import com.semanticbits.rules.brxml.*;
 import com.semanticbits.rules.objectgraph.FactResolver;
 import com.semanticbits.rules.impl.RuleEvaluationResult;
+import com.semanticbits.rules.exception.RuleSetNotFoundException;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.*;
 import java.io.IOException;
@@ -22,6 +25,7 @@ import javax.mail.internet.InternetAddress;
 public class NotificationsEvaluationService {
 
     private static JavaMailSender javaMailSender;
+    protected static final Log logger = LogFactory.getLog(NotificationsEvaluationService.class);
 
 
     public static void executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) {
@@ -59,7 +63,7 @@ public class NotificationsEvaluationService {
                 inputObjects.add(f);
                 ProCtcAEFactResolver proCtcAEFactResolver = new ProCtcAEFactResolver();
                 inputObjects.add(proCtcAEFactResolver);
-                inputObjects.add(studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf());
+                inputObjects.add(crf);
 
                 try {
                     List<Object> outputObjects = ProCtcAERulesService.fireRules(inputObjects, ruleSet.getName());
@@ -69,13 +73,13 @@ public class NotificationsEvaluationService {
                             RuleEvaluationResult result = (RuleEvaluationResult) o;
                             if (!StringUtils.isBlank(result.getMessage())) {
                                 String message = result.getMessage();
-                                System.out.println("Sending email to " + message);
+                                logger.info("Sending email to " + message);
                                 SendEmails(message, studyParticipantCrfSchedule);
                             }
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (RuleSetNotFoundException e) {
+                    logger.error("RuleSet not found - " + e.getMessage());
                     return;
                 }
             }
@@ -135,7 +139,7 @@ public class NotificationsEvaluationService {
             }
         }
 
-        System.out.println(emails);
+        logger.info(emails);
         try {
             sendMail(getStringArr(emails), "Notification email", "My content");
         } catch (Exception e) {

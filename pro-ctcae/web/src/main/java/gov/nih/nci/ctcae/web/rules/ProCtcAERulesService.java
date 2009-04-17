@@ -256,12 +256,7 @@ public class ProCtcAERulesService {
     public static List<Object> fireRules(List<Object> inputObjects, String bindURI) {
 
         List<Object> outputObjects = null;
-        try {
-            outputObjects = ruleExecutionService.fireRules(bindURI, inputObjects);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        outputObjects = ruleExecutionService.fireRules(bindURI, inputObjects);
         return outputObjects;
     }
 
