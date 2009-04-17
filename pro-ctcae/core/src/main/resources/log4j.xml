@@ -18,7 +18,7 @@
     </appender>
 
     <logger name="gov.nih.nci.ctcae">
-        <level value="ERROR"/>
+        <level value="INFO"/>
     </logger>
     <logger name="org.springframework.security">
         <level value="ERROR"/>
