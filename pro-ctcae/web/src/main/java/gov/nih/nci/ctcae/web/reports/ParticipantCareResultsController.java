@@ -77,15 +77,17 @@ public class ParticipantCareResultsController extends AbstractController {
                             completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(0));
                             completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - 1));
                         } else {
-                            for(int i = 1; i<= forVisits; forVisits--)
-                            completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - forVisits));
+                            for (int i = 1; i <= forVisits; forVisits--)
+                                completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - forVisits));
                         }
 
                         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : completedCrfs) {
 
-                                dates.add(studyParticipantCrfSchedule.getStartDate());
+                            dates.add(studyParticipantCrfSchedule.getStartDate());
 
-                                for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+                            for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+
+                                if (studyParticipantCrfItem.getProCtcValidValue() != null) {
 
                                     CtcCategory category = studyParticipantCrfItem.getProCtcValidValue().getProCtcQuestion().getProCtcTerm().getCtcTerm().getCategory();
                                     ProCtcTerm symptom = studyParticipantCrfItem.getProCtcValidValue().getProCtcQuestion().getProCtcTerm();
@@ -116,7 +118,7 @@ public class ParticipantCareResultsController extends AbstractController {
                                     validValue.add(value);
 
 
-
+                                }
                             }
                         }
                     }
