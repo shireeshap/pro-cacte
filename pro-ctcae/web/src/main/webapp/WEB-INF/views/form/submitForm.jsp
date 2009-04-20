@@ -35,7 +35,7 @@
         .progress-bar-outer {
             border-style: solid;
             width: 150px;
-            border-color: #0066cc;
+            border-color: #a1aec5;
             border-width: 1px;
             height: 15px;
             float: right;
@@ -44,8 +44,10 @@
 
         .progress-bar-inner {
             background-color: #0066cc;
+			background-image:url(/ctcae/images/blue/progress-bar.png);
+			background-repeat:repeat-x;
             width: ${(command.currentPageIndex/command.totalPages)*150}px;
-            height: 15px
+            height: 15px;
         }
     </style>
     <script type="text/javascript">
@@ -241,15 +243,13 @@
         <tr>
             <td align="left" width="50%">
                 <c:if test="${command.currentPageIndex gt 1}">
-                    <input onclick="document.myForm.direction.value='back'" type="image"
-                           src="/ctcae/images/blue/back_btn.png" alt="back &raquo;"/>
+						   <tags:button color="blue" icon="back" onclick="document.myForm.direction.value='back'" type="submit" value="Back" />
                 </c:if>
             </td>
             <td align="right" width="50%">
                 <c:choose>
                     <c:when test="${command.currentPageIndex le command.totalPages}">
-                        <input onclick="document.myForm.direction.value='continue'" type="image"
-                               src="/ctcae/images/blue/continue_btn.png" alt="continue &raquo;"/>
+                    	<tags:button color="green" icon="next" onclick="document.myForm.direction.value='continue'" type="submit" value="Continue" />
                     </c:when>
                 </c:choose>
             </td>
