@@ -25,6 +25,9 @@
             text-align: center;
 
         }
+        td.OffStudy {
+            background-color: #666666;
+        }
 
         td.data-left {
             border-bottom: 1px solid #77a9ff;
@@ -60,23 +63,6 @@
 
 <div id="formStatusTable">
     <table>
-        <!--<tr>-->
-            <!--<td>-->
-                <!--Scheduled = <img src="../../images/blue/Scheduled.png"/> &nbsp;&nbsp;-->
-            <!--</td>-->
-            <!--<td>-->
-                <!--In-progress = <img src="../../images/blue/In-progress.png"/> &nbsp;&nbsp;-->
-            <!--</td>-->
-            <!--<td>-->
-                <!--Completed = <img src="../../images/blue/Completed.png"/> &nbsp;&nbsp;-->
-            <!--</td>-->
-            <!--<td>-->
-                <!--Past-due = <img src="../../images/blue/Past-due.png"/> &nbsp;&nbsp;-->
-            <!--</td>-->
-            <!--<td>-->
-                <!--Cancelled = <img src="../../images/blue/Cancelled.png"/>-->
-            <!--</td>-->
-        <!--</tr>-->
         <tr>
             <td>
                 Year = <fmt:formatDate value="${pgStartPrev}" pattern="yyyy"/>
@@ -115,7 +101,7 @@
                         <tags:formatDate value="${startDate}"/>
                     </td>
                     <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
-                        <td class="data">
+                        <td class="data ${studyParticipantCrfSchedule.status.displayName}">
                             <c:choose>
                             <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'Completed'}">
                                 <a href="javascript:completedForm(${studyParticipantCrfSchedule.id})"
@@ -131,9 +117,10 @@
                                     <c:when test="${todaysdate > studyParticipantCrfSchedule.dueDate && (studyParticipantCrfSchedule.status eq 'Scheduled' || studyParticipantCrfSchedule.status eq 'In-progress')}">
                                         <img src="../../images/blue/Past-due.png"/>
                                     </c:when>
+                                    <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'OffStudy'}">
+                                    </c:when>
                                     <c:otherwise>
                                         <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
-                                        <%--<img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.gif"/>--%>
                                     </c:otherwise>
                                 </c:choose>
 

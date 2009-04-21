@@ -93,14 +93,16 @@
 
     </c:when>
     <c:when test="${categoryName == 'checkbox'}"><form:checkbox path="${propertyName}" disabled="${disabled}"
-                                                                onclick="${onclick}" id="${propertyName}" onchange="${onchange}"/></c:when>
+                                                                onclick="${onclick}" id="${propertyName}"
+                                                                onchange="${onchange}"/></c:when>
 
     <c:when test="${categoryName == 'select'}">
         <c:choose>
             <c:when test="${noForm}">
                 <c:set var="enabledisableselect" value="${disabled?'disabled':'enabled'}"/>
                 <select id="${not empty propertyName?propertyName:id}" class="${cssClass}" title="${title}"
-                        name="${not empty propertyName?propertyName:name}" onchange="${onchange}" ${enabledisableselect}>
+                        name="${not empty propertyName?propertyName:name}"
+                        onchange="${onchange}" ${enabledisableselect}>
 
                     <c:forEach items="${values}" var="item">
                         <c:choose>
@@ -177,7 +179,7 @@
 
         <c:if test="${showIndicator}">
 
-        <tags:indicator id="${propertyName}-indicator"/>
+            <tags:indicator id="${propertyName}-indicator"/>
         </c:if>
 
         <div id="${propertyName}-choices" class="autocomplete" style="display: none"></div>

@@ -33,7 +33,7 @@ public class DisplayStudySitesController extends AbstractController {
 
         StudyOrganizationQuery query = new StudyOrganizationQuery();
         query.filterByOrganizationId(organizationId);
-        query.filterByStudySiteOnly();
+        query.filterByStudySiteAndLeadSiteOnly();
 
 
         Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);

@@ -129,7 +129,7 @@ public class StudyOrganizationIntegrationTest extends AbstractHibernateIntegrati
         StudyOrganizationQuery query = new StudyOrganizationQuery();
         query.filterByOrganizationId(organization.getId());
         query.filterByStudyId(study.getId());
-        query.filterByStudySiteOnly();
+        query.filterByStudySiteAndLeadSiteOnly();
 
         System.out.println(organization.getId());
         System.out.println(study.getId());

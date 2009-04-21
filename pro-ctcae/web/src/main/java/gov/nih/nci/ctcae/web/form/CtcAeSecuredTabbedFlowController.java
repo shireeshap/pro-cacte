@@ -35,6 +35,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
     protected StudyOrganizationRepository studyOrganizationRepository;
     protected ParticipantRepository participantRepository;
     private PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
+    private StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
     /**
      * The organization repository.
      */
@@ -69,25 +70,16 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
 
         binder.registerCustomEditor(Date.class, controllerTools.getDateEditor(true));
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-
         binder.registerCustomEditor(Study.class, new RepositoryBasedEditor(studyRepository, Study.class));
-
         binder.registerCustomEditor(Organization.class, new RepositoryBasedEditor(organizationRepository, Organization.class));
-
         binder.registerCustomEditor(OrganizationClinicalStaff.class, new RepositoryBasedEditor(organizationClinicalStaffRepository, OrganizationClinicalStaff.class));
-
         binder.registerCustomEditor(Participant.class, new RepositoryBasedEditor(participantRepository, Participant.class));
-
         binder.registerCustomEditor(ClinicalStaff.class, new RepositoryBasedEditor(clinicalStaffRepository, ClinicalStaff.class));
-
         binder.registerCustomEditor(CrfItemAllignment.class, new EnumByNameEditor<CrfItemAllignment>(CrfItemAllignment.class));
-
         binder.registerCustomEditor(RoleStatus.class, new EnumByNameEditor<RoleStatus>(RoleStatus.class));
         binder.registerCustomEditor(StudyParticipantAssignment.class, new RepositoryBasedEditor(studyParticipantAssignmentRepository, StudyParticipantAssignment.class));
-
         binder.registerCustomEditor(StudyOrganization.class, new RepositoryBasedEditor(studyOrganizationRepository, StudyOrganization.class));
-        binder.registerCustomEditor(StudyOrganizationClinicalStaff.class, new RepositoryBasedEditor(studyOrganizationRepository, StudyOrganization.class));
-
+        binder.registerCustomEditor(StudyOrganizationClinicalStaff.class, new RepositoryBasedEditor(studyOrganizationClinicalStaffRepository, StudyOrganizationClinicalStaff.class));
     }
 
     /* (non-Javadoc)
@@ -254,5 +246,10 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
     @Required
     public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
         this.studyOrganizationRepository = studyOrganizationRepository;
+    }
+
+    @Required
+    public void setStudyOrganizationClinicalStaffRepository(StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository) {
+        this.studyOrganizationClinicalStaffRepository = studyOrganizationClinicalStaffRepository;
     }
 }

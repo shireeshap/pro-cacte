@@ -54,7 +54,7 @@ public class ParticipantOffStudyController extends CtcAeSimpleFormController {
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                 if (studyParticipantAssignment.getOffTreatmentDate().getTime() < studyParticipantCrfSchedule.getStartDate().getTime()) {
-                    studyParticipantCrfSchedule.setStatus(CrfStatus.CANCELLED);
+                    studyParticipantCrfSchedule.setStatus(CrfStatus.OFFSTUDY);
                     studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
                 }
             }

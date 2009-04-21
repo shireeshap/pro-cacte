@@ -6,9 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
+import java.util.*;
 
 //
 /**
@@ -286,11 +284,28 @@ public class StudyParticipantAssignment extends BaseVersionable {
     }
 
     private List<StudyParticipantClinicalStaff> getListByRole(Role role) {
+
         List<StudyParticipantClinicalStaff> staff = new ArrayList<StudyParticipantClinicalStaff>();
+        Set<StudyOrganizationClinicalStaff> myStaff = new HashSet<StudyOrganizationClinicalStaff>();
+
         for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantClinicalStaffs) {
             if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRole().equals(role)) {
                 if (studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getRoleStatus().equals(RoleStatus.ACTIVE)) {
                     staff.add(studyParticipantClinicalStaff);
+                    myStaff.add(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff());
+                }
+            }
+        }
+        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : getStudySite().getStudyOrganizationClinicalStaffs()) {
+            if (studyOrganizationClinicalStaff.getRole().equals(role)) {
+                if (studyOrganizationClinicalStaff.getRoleStatus().equals(RoleStatus.ACTIVE)) {
+                    if (!myStaff.contains(studyOrganizationClinicalStaff)) {
+                        StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
+                        studyParticipantClinicalStaff.setStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+                        studyParticipantClinicalStaff.setNotify(true);
+                        addStudyParticipantClinicalStaff(studyParticipantClinicalStaff);
+                        staff.add(studyParticipantClinicalStaff);
+                    }
                 }
             }
         }

@@ -62,6 +62,7 @@ public class ParticipantRepository implements Repository<Participant, Participan
             studyParticipantAssignment.getStudyParticipantCrfs();
             studyParticipantAssignment.getStudyParticipantClinicalStaffs();
         }
+        participant.getUser().setConfirmPassword(participant.getUser().getPassword());
         return participant;
     }
 

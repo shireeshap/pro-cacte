@@ -1,5 +1,8 @@
 package gov.nih.nci.ctcae.core.query;
 
+import java.util.List;
+import java.util.ArrayList;
+
 //
 /**
  * The Class StudyOrganizationQuery.
@@ -52,13 +55,16 @@ public class StudyOrganizationQuery extends AbstractQuery {
     /**
      * Filter by study site only.
      */
-    public void filterByStudySiteOnly() {
-        andWhere("o.class = :" + STUDY_SITE);
-        setParameter(STUDY_SITE, "SST");
+    public void filterByStudySiteAndLeadSiteOnly() {
+        List<String> siteTypes = new ArrayList<String>();
+        siteTypes.add("SST");
+        siteTypes.add("LSS");
+        andWhere("o.class in ( :" + STUDY_SITE + ")");
+        setParameterList(STUDY_SITE, siteTypes);
 
     }
 
-       public void filterByOrganizationName(final String name) {
+    public void filterByOrganizationName(final String name) {
         String searchString = "%" + name.toLowerCase() + "%";
         andWhere("lower(o.organization.name) LIKE :" + ORGANIZATION_NAME);
         setParameter(ORGANIZATION_NAME, searchString);

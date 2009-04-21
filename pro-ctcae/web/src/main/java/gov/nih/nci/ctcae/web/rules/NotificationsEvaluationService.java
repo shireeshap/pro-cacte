@@ -143,6 +143,7 @@ public class NotificationsEvaluationService {
         try {
             String content = "This email is being sent from PRO-CTCAE system for ";
             content += "participant " + studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getDisplayName() + ", it has been triggered by the responses to the following questions";
+            content += "\nParticipant: " + studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getDisplayName();
             sendMail(getStringArr(emails), "Notification email", content);
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

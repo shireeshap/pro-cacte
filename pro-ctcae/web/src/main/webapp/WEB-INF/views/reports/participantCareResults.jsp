@@ -54,25 +54,42 @@
             padding-left: 18px;
         }
 
+        td.displayOrder0 {
+            background-color: #ccccff;
+        }
+
+        td.displayOrder1 {
+            background-color: #ccccff;
+        }
+
+        td.displayOrder2 {
+            background-color: #ccccff;
+        }
+
+        td.displayOrder3 {
+            background-color: #ccccff;
+        }
+
         td.displayOrder4 {
             background-color: red;
         }
-
-        td.displayOrder5 {
-            background-color: red;
-        }
-
 
     </style>
 </head>
 <body>
 <div id="careResultsTable">
-
+    <div class="row">
+        <b>Participant:</b>
+        ${participant.displayName} [${participant.assignedIdentifier}]
+    </div>
     <table class="widget" cellspacing="0">
         <col/>
         <tr>
-            <td>
-                &nbsp;
+            <td class="header-top">
+                Symptom
+            </td>
+            <td class="header-top">
+                Type
             </td>
             <c:forEach items="${dates}" var="dates">
 
@@ -83,29 +100,25 @@
 
             </c:forEach>
             <c:forEach items="${resultsMap}" var="categoryMap">
+            <c:forEach items="${categoryMap.value}" var="symptomMap">
         <tr>
-            <td class="category-name">
-                    ${categoryMap.key.name}
+            <td class="subcategory-name">
+                <b>${symptomMap.key.term}</b>
             </td>
         </tr>
-        <c:forEach items="${categoryMap.value}" var="symptomMap">
+        <c:forEach items="${symptomMap.value}" var="careResults">
             <tr>
-                <td class="subcategory-name">
-                        ${symptomMap.key.term}
+                <td>&nbsp;</td>
+                <td class="actual-question">
+                        ${careResults.key.proCtcQuestionType.displayName}
                 </td>
-            </tr>
-            <c:forEach items="${symptomMap.value}" var="careResults">
-                <tr>
-                    <td class="actual-question">
-                            ${careResults.key.proCtcQuestionType.displayName}
+                <c:forEach items="${careResults.value}" var="value">
+                    <td class="data displayOrder${value.displayOrder}">
+                            ${value.value}
                     </td>
-                    <c:forEach items="${careResults.value}" var="value">
-                        <td class="data displayOrder${value.displayOrder}">
-                                ${value.value}
-                        </td>
-                    </c:forEach>
-                </tr>
-            </c:forEach>
+                </c:forEach>
+            </tr>
+        </c:forEach>
         </c:forEach>
         </c:forEach>
     </table>

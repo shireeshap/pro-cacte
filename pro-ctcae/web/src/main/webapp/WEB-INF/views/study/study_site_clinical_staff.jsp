@@ -61,7 +61,11 @@
 
     </script>
 
-
+    <style type="text/css">
+        div.row div.label {
+            width: 20em;
+        }
+    </style>
 </head>
 <body>
 
@@ -74,46 +78,56 @@
                                               onchange="changeStudySite()" itemLabel="organization.displayName"/>
 
 
-            <c:forEach items="${studySites}" var="studySite">
+        <chrome:box title="study.tab.clinical_staff">
+            <div class="row">
+                <div class="label"><spring:message code="study.label.clinical.staff.lead.cra"/>:</div>
+                <div class="value">${leadCRA.displayName}</div>
+            </div>
+            <div class="row">
+                <div class="label"><spring:message code="study.label.clinical.staff.pi"/>:</div>
+                <div class="value">${OverallPI.displayName}</div>
+            </div>
+        </chrome:box>
+        <c:forEach items="${studySites}" var="studySite">
 
-                <c:if test="${studySite.id eq command.selectedStudySite.id}">
+            <c:if test="${studySite.id eq command.selectedStudySite.id}">
 
-                    <chrome:box title="study.tab.investigator" id="studySiteClinicalStaff">
+                <chrome:box title="study.tab.investigator" id="studySiteClinicalStaff">
 
-                        <chrome:division title="study.label.clinical.staff.lead.site_pi">
+                    <chrome:division title="study.label.clinical.staff.lead.site_pi">
 
-                            <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_PI"
-                                                               roleStatusOptions="${roleStatusOptions}"
-                                                               studyCommand="${command}"/>
-                        </chrome:division>
+                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_PI"
+                                                           roleStatusOptions="${roleStatusOptions}"
+                                                           studyCommand="${command}"/>
+                    </chrome:division>
 
-                        <chrome:division title="study.label.clinical.staff.lead.site_cra">
+                    <chrome:division title="study.label.clinical.staff.lead.site_cra">
 
-                            <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_CRA"
-                                                               roleStatusOptions="${roleStatusOptions}"
-                                                               studyCommand="${command}"/>
-                        </chrome:division>
-                    </chrome:box>
-                    <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
-                        <chrome:division title="study.label.clinical.staff.lead.treating_physican">
+                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="SITE_CRA"
+                                                           roleStatusOptions="${roleStatusOptions}"
+                                                           studyCommand="${command}"/>
+                    </chrome:division>
+                </chrome:box>
+                <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
+                    <chrome:division title="study.label.clinical.staff.lead.treating_physican">
 
-                            <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="TREATING_PHYSICIAN"
-                                                               roleStatusOptions="${roleStatusOptions}"
-                                                               studyCommand="${command}"/>
-                        </chrome:division>
+                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="TREATING_PHYSICIAN"
+                                                           roleStatusOptions="${roleStatusOptions}"
+                                                           studyCommand="${command}"/>
+                    </chrome:division>
 
-                        <chrome:division title="study.label.clinical.staff.lead.nurse">
+                    <chrome:division title="study.label.clinical.staff.lead.nurse">
 
-                            <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="NURSE"
-                                                               roleStatusOptions="${roleStatusOptions}"
-                                                               studyCommand="${command}"/>
-                        </chrome:division>
-                    </chrome:box>
+                        <study:studySiteClinicalStaffTable studySiteId="${studySite.id}" role="NURSE"
+                                                           roleStatusOptions="${roleStatusOptions}"
+                                                           studyCommand="${command}"/>
+                    </chrome:division>
+                </chrome:box>
 
-                </c:if>
+            </c:if>
 
 
-            </c:forEach>
+        </c:forEach>
 
 
 

@@ -185,10 +185,6 @@
     </bean>
 
 
-    <!--<bean name="/form/viewForm" id="viewFormController"-->
-    <!--class="gov.nih.nci.ctcae.web.form.ConfirmFormController">-->
-    <!--</bean>-->
-    <!---->
     <bean name="/form/releaseForm" id="releaseFormController"
           class="gov.nih.nci.ctcae.web.form.ReleaseFormController" parent="ctcaeSimpleFormController"
           p:crfRepository-ref="crfRepository">
@@ -363,6 +359,7 @@
     <bean name="/reports/participantCareResults" id="participantCareResultsController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareResultsController">
         <property name="studyRepository" ref="studyRepository"/>
+        <property name="participantRepository" ref="participantRepository"/>
     </bean>
 
 
@@ -370,8 +367,6 @@
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
         <property name="crfRepository" ref="crfRepository"/>
     </bean>
-    <!--<bean name="/csvLoader/fileLoader" id="fileUploadController"-->
-    <!--class="gov.nih.nci.ctcae.web.csvLoader.FileUploadController"/>-->
 
     <bean name="/participant/displaystudysites" id="displayStudySitesController"
           class="gov.nih.nci.ctcae.web.participant.DisplayStudySitesController">
@@ -418,6 +413,7 @@
         <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
         <property name="privilegeAuthorizationCheck" ref="privilegeAuthorizationCheck"/>
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
+        <property name="studyOrganizationClinicalStaffRepository" ref="studyOrganizationClinicalStaffRepository"/>
     </bean>
 
 

@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
@@ -13,6 +11,8 @@ import org.springframework.validation.Errors;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Vinay Kumar
@@ -43,15 +43,18 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
 
         StudyOrganizationQuery query = new StudyOrganizationQuery();
         query.filterByStudyId(command.getStudy().getId());
-        query.filterByStudySiteOnly();
+        query.filterByStudySiteAndLeadSiteOnly();
 
         Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
         if (!studySites.isEmpty() && command.getSelectedStudySite() == null) {
             command.setSelectedStudySite((StudySite) studySites.iterator().next());
         }
 
+
         referenceData.put("studySites", studySites);
         referenceData.put("roleStatusOptions", ListValues.getRoleStatusType());
+        referenceData.put("leadCRA", command.getStudy().getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA));
+        referenceData.put("OverallPI", command.getStudy().getStudyOrganizationClinicalStaffByRole(Role.PI));
 
 
         return referenceData;
@@ -76,4 +79,5 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
     public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
         this.studyOrganizationRepository = studyOrganizationRepository;
     }
+
 }

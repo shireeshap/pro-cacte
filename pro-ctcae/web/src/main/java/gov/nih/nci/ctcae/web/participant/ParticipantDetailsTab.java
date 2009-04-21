@@ -10,7 +10,6 @@ import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +66,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
 
         StudyOrganizationQuery query = new StudyOrganizationQuery();
-        query.filterByStudySiteOnly();
+        query.filterByStudySiteAndLeadSiteOnly();
 
 
         Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);

@@ -94,6 +94,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestion.java -
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionDisplayRule.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcQuestionType.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTerm.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcTermComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ProCtcValidValue.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/RecallPeriod.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Role.java -text
@@ -152,6 +153,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcRepository.
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcTermRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ProCtcValidValueRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/Repository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyOrganizationClinicalStaffRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyOrganizationRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantAssignmentRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/StudyParticipantCrfAddedQuestionRepository.java -text

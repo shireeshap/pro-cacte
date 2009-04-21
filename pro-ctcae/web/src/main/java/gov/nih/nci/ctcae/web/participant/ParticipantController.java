@@ -73,14 +73,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         ParticipantCommand command = new ParticipantCommand();
         if (id != null) {
             Participant participant = participantRepository.findById(Integer.valueOf(id));        
-
-//            for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
-//                for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-//                    for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-//                        
-//                    }
-//                }
-//            }
+            participant.getUser().setConfirmPassword(participant.getUser().getPassword());
             for (UserRole userRole : participant.getUser().getUserRoles()) {
                 userRole.getId();
             }
