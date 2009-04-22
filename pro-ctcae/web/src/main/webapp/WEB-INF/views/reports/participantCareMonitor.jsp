@@ -107,7 +107,7 @@
 
         }
 
-        function participantCareResults() {
+        function participantCareResults(format, symptomId, selectedTypes) {
 
             var studyId = $('study').value;
             var forVisits = $('visits').value;
@@ -133,26 +133,70 @@
                 forVisits = "-1";
             }
 
-
-            //            alert(studySiteId);
-
-            var request = new Ajax.Request("<c:url
-value="/pages/reports/participantCareResults"/>", {
-                parameters:"studyId=" + studyId + "&crfId=" + crfId +
-                           "&studySiteId=" + studySiteId + "&participantId=" + participantId +
-                           "&visitRange=" + visitRange + "&forVisits=" + forVisits +
-                           "&subview=subview",
-                onComplete:function(transport) {
-                    showResultsTable(transport);
-                },
-                method:'get'
-            })
+            if (format == 'tabular') {
+                var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResults"/>", {
+                    parameters:"studyId=" + studyId + "&crfId=" + crfId +
+                               "&studySiteId=" + studySiteId + "&participantId=" + participantId +
+                               "&visitRange=" + visitRange + "&forVisits=" + forVisits +
+                               "&subview=subview",
+                    onComplete:function(transport) {
+                        showResultsTable(transport);
+                    },
+                    method:'get'
+                })
+            }
+            if (format == 'graphical') {
+                if (typeof(selectedTypes) == 'undefined') {
+                    selectedTypes = '';
+                }
+                var url = "<c:url value='/pages/reports/participantCareResultsGraph'/>" + "?studyId=" + studyId + "&crfId=" + crfId +
+                          "&studySiteId=" + studySiteId + "&participantId=" + participantId +
+                          "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&symptomId=" + symptomId +
+                          "&selectedTypes=" + selectedTypes +
+                          "&subview=subview";
+                $('graph').src = url;
+            }
         }
 
         function showResultsTable(transport) {
             $('displayParticipantCareResults').show();
             $('displayResultsTable').innerHTML = transport.responseText;
         }
+
+        function getChartView() {
+            $('careResultsTable').hide();
+            $('careResultsGraph').show();
+        }
+        function getTableView() {
+            $('careResultsTable').show();
+            $('careResultsGraph').hide();
+        }
+        function getChart(symptomId) {
+            var obj = document.getElementsByName('div_questiontype');
+            for (var i = 0; i < obj.length; i++) {
+                obj[i].hide();
+            }
+            var obj1 = document.getElementsByName('questiontype_' + symptomId);
+            if (obj1.length > 1) {
+                $('div_questiontype_' + symptomId).show();
+            }
+            participantCareResults('graphical', symptomId);
+        }
+        function updateChart(symptomId) {
+            var obj = document.getElementsByName('questiontype_' + symptomId);
+            var selectedTypes = '';
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i].checked) {
+                    selectedTypes = selectedTypes + ',' + obj[i].value;
+                }
+            }
+            if (selectedTypes == '') {
+                alert('Please select at least one question type.');
+                return;
+            }
+            participantCareResults('graphical', symptomId, selectedTypes);
+        }
+
 
     </script>
 </head>
@@ -203,13 +247,12 @@ value="/pages/reports/participantCareResults"/>", {
 
         <div id="search" style="display:none" class="row">
             <div class="value"><tags:button color="blue" value="Search"
-                                            onclick="participantCareResults()" size="big"
+                                            onclick="participantCareResults('tabular')" size="big"
                                             icon="search"/></div>
         </div>
 
     </div>
 </chrome:box>
-
 <div id="displayParticipantCareResults" style="display:none;">
     <chrome:box title="Report">
         <div>

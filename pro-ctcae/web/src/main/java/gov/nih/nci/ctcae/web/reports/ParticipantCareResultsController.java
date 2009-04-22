@@ -40,19 +40,21 @@ public class ParticipantCareResultsController extends AbstractController {
             visitTitle.add("Current");
             visitTitle.add("First");
         }
-        modelAndView.addObject("resultsMap", getCareResults(visitRange, Integer.valueOf(studyId), crfId, Integer.valueOf(studySiteId), participantId, dates, Integer.valueOf(forVisits)));
+        HashMap<CtcCategory, TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> results = getCareResults(visitRange, Integer.valueOf(studyId), crfId, Integer.valueOf(studySiteId), participantId, dates, Integer.valueOf(forVisits));
+        modelAndView.addObject("resultsMap", results);
         modelAndView.addObject("dates", dates);
         modelAndView.addObject("visitTitle", visitTitle);
         modelAndView.addObject("participant", participantRepository.findById(participantId));
-
+        request.getSession().setAttribute("sessionResultsMap", results);
+        request.getSession().setAttribute("sessionDates", dates);
         return modelAndView;
     }
 
-    private HashMap getCareResults(String visitRange, Integer studyId, String crfId, Integer studySiteId, Integer participantId, List<Date> dates, Integer forVisits) {
+    private HashMap<CtcCategory, TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> getCareResults(String visitRange, Integer studyId, String crfId, Integer studySiteId, Integer participantId, List<Date> dates, Integer forVisits) {
 
-        HashMap<CtcCategory, TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList>>> categoryMap = new HashMap();
-        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList>> symptomMap;
-        HashMap<ProCtcQuestion, ArrayList> careResults;
+        HashMap<CtcCategory, TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> categoryMap = new HashMap();
+        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap;
+        HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults;
 
         Study study = studyRepository.findById(studyId);
         StudySite studySite = study.getStudySiteById(studySiteId);
@@ -80,42 +82,41 @@ public class ParticipantCareResultsController extends AbstractController {
                         }
 
                         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : completedCrfs) {
-
                             dates.add(studyParticipantCrfSchedule.getStartDate());
-
                             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+                                ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
+                                CtcCategory category = proCtcQuestion.getProCtcTerm().getCtcTerm().getCategory();
+                                ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
+                                ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
+                                ArrayList<ProCtcValidValue> validValue;
 
-                                if (studyParticipantCrfItem.getProCtcValidValue() != null) {
+                                if (categoryMap.containsKey(category)) {
+                                    symptomMap = categoryMap.get(category);
+                                } else {
+                                    symptomMap = new TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
+                                    categoryMap.put(category, symptomMap);
+                                }
 
-                                    CtcCategory category = studyParticipantCrfItem.getProCtcValidValue().getProCtcQuestion().getProCtcTerm().getCtcTerm().getCategory();
-                                    ProCtcTerm symptom = studyParticipantCrfItem.getProCtcValidValue().getProCtcQuestion().getProCtcTerm();
-                                    ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getProCtcValidValue().getProCtcQuestion();
-                                    ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
-                                    ArrayList validValue;
+                                if (symptomMap.containsKey(symptom)) {
+                                    careResults = symptomMap.get(symptom);
+                                } else {
+                                    careResults = new HashMap();
+                                    symptomMap.put(symptom, careResults);
+                                }
 
-                                    if (categoryMap.containsKey(category)) {
-                                        symptomMap = categoryMap.get(category);
-                                    } else {
-                                        symptomMap = new TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList>>(new ProCtcTermComparator());
-                                        categoryMap.put(category, symptomMap);
-                                    }
-
-                                    if (symptomMap.containsKey(symptom)) {
-                                        careResults = symptomMap.get(symptom);
-                                    } else {
-                                        careResults = new HashMap();
-                                        symptomMap.put(symptom, careResults);
-                                    }
-
-                                    if (careResults.containsKey(proCtcQuestion)) {
-                                        validValue = careResults.get(proCtcQuestion);
-                                    } else {
-                                        validValue = new ArrayList();
-                                        careResults.put(proCtcQuestion, validValue);
-                                    }
+                                if (careResults.containsKey(proCtcQuestion)) {
+                                    validValue = careResults.get(proCtcQuestion);
+                                } else {
+                                    validValue = new ArrayList<ProCtcValidValue>();
+                                    careResults.put(proCtcQuestion, validValue);
+                                }
+                                if (value == null) {
+                                    ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
+                                    myProCtcValidValue.setProCtcQuestion(proCtcQuestion);
+                                    myProCtcValidValue.setDisplayOrder(0);
+                                    validValue.add(myProCtcValidValue);
+                                } else {
                                     validValue.add(value);
-
-
                                 }
                             }
                         }
@@ -127,11 +128,6 @@ public class ParticipantCareResultsController extends AbstractController {
 
         return categoryMap;
     }
-
-//    private boolean dateBetween(Date startDate, Date endDate, Date scheduleDueDate) {
-//        return (startDate.getTime() <= scheduleDueDate.getTime() && scheduleDueDate.getTime() <= endDate.getTime());
-//    }
-
 
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;

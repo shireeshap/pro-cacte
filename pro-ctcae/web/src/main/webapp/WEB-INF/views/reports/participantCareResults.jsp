@@ -47,6 +47,7 @@
         td.subcategory-name {
             background-color: #fff;
             padding-left: 6px;
+            vertical-align: top;
         }
 
         td.actual-question {
@@ -78,6 +79,8 @@
 </head>
 <body>
 <div id="careResultsTable">
+    <a href="javascript:getChartView()">Switch to graphical view</a>
+
     <div class="row">
         <b>Participant:</b>
         ${participant.displayName} [${participant.assignedIdentifier}]
@@ -123,6 +126,41 @@
         </c:forEach>
     </table>
 
+</div>
+<div id="careResultsGraph" style="display:none">
+    <a href="javascript:getTableView()">Switch to tabular view</a>
+
+    <div class="row">
+        <b>Participant:</b>
+        ${participant.displayName} [${participant.assignedIdentifier}]
+    </div>
+    <table class="widget" cellspacing="0" width="100%">
+        <tr>
+            <td class="subcategory-name">
+                <c:forEach items="${resultsMap}" var="categoryMap">
+                    <c:forEach items="${categoryMap.value}" var="symptomMap">
+                        <a href="javascript:getChart('${symptomMap.key.id}')"><b>${symptomMap.key.term}</b></a>
+                        <br/>
+                    </c:forEach>
+                </c:forEach>
+            </td>
+            <td>
+                <c:forEach items="${resultsMap}" var="categoryMap">
+                    <c:forEach items="${categoryMap.value}" var="symptomMap">
+                        <div id="div_questiontype_${symptomMap.key.id}" name="div_questiontype" style="display:none">
+                            <c:forEach items="${symptomMap.value}" var="careResults">
+                                <input type="checkbox" name="questiontype_${symptomMap.key.id}"
+                                       value="${careResults.key.proCtcQuestionType.displayName}"
+                                       onclick="updateChart('${symptomMap.key.id}');">${careResults.key.proCtcQuestionType.displayName}
+                                &nbsp;
+                            </c:forEach>
+                        </div>
+                    </c:forEach>
+                </c:forEach>
+                <iframe id="graph" height="500" width="600" frameborder="0" scrolling="auto"></iframe>
+            </td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>

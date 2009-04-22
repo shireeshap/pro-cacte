@@ -342,18 +342,18 @@
           class="gov.nih.nci.ctcae.web.participant.MonitorFormStatusController">
         <property name="studyRepository" ref="studyRepository"/>
     </bean>
-       <bean name="/participant/showCompletedCrf" id="showCompletedCrfController"
+    <bean name="/participant/showCompletedCrf" id="showCompletedCrfController"
           class="gov.nih.nci.ctcae.web.participant.ShowCompletedCrfController">
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
 
-       </bean>
+    </bean>
     <bean name="/participant/participantOffStudy" id="participantOffStudyController"
           class="gov.nih.nci.ctcae.web.participant.ParticipantOffStudyController" parent="ctcaeSimpleFormController">
         <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
-   
- <bean name="/reports/participantCareMonitor" id="participantCareMonitorController"
+
+    <bean name="/reports/participantCareMonitor" id="participantCareMonitorController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareMonitorController">
     </bean>
     <bean name="/reports/participantCareResults" id="participantCareResultsController"
@@ -371,6 +371,9 @@
     <bean name="/participant/displaystudysites" id="displayStudySitesController"
           class="gov.nih.nci.ctcae.web.participant.DisplayStudySitesController">
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
+    </bean>
+    <bean name="/reports/participantCareResultsGraph" id="participantCareResultsGraph"
+          class="gov.nih.nci.ctcae.web.reports.ParticipantCareGraphicalReportController" parent="participantCareResultsController">
     </bean>
 
 
