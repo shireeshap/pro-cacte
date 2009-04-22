@@ -31,8 +31,8 @@
                 </c:when>
                 <c:otherwise>
                     <div id="releaseForm">
-                        <div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
-							<img src="<chrome:imageUrl name="../blue/stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:55px;" />
+                        <div style="border:1px solid #ccc; height:55px; padding:9px; margin-bottom:10px;">
+							<img src="<chrome:imageUrl name="../blue/stop_sign_small.png" />" alt="Stop!" style="float:left; margin-right:15px; margin-left:50px;" />
 							<div style="font-size:20px; margin-bottom:5px;">Are you sure you are ready to release this form?</div>
 							<div>Releasing a form is irreversible, you will no longer be able to edit this form.</div>
 						</div>
