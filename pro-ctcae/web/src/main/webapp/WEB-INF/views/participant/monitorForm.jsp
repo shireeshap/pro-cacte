@@ -52,6 +52,13 @@
         }
 
         function displaySites() {
+
+            organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
+                alert(values);
+                alert(values.length);
+            })
+
+
             var myStudySiteAutoComplter = new studySiteAutoComplter('studySite', $('study').value);
             acCreate(myStudySiteAutoComplter);
             initSearchField();
@@ -262,12 +269,14 @@
             <div style="height: 25px">
                 <div style="float:left"><tags:button type="button" value="Previous" icon="back" color="blue"
                                                      size="small" onclick="formStatus('prev')"/></div>
-                <div id="monthlyButton" style="display:none; float:left;"><tags:button type="button" value="Switch to monthly view"
+                <div id="monthlyButton" style="display:none; float:left;"><tags:button type="button"
+                                                                                       value="Switch to monthly view"
                                                                                        icon="monthly"
                                                                                        color="blue"
                                                                                        size="small"
                                                                                        onclick="formStatus('monthly')"/></div>
-                <div id="weeklyButton" style="display:none; float:left;"><tags:button type="button" value="Switch to weekly view"
+                <div id="weeklyButton" style="display:none; float:left;"><tags:button type="button"
+                                                                                      value="Switch to weekly view"
                                                                                       icon="weekly"
                                                                                       color="blue"
                                                                                       size="small"
@@ -277,24 +286,24 @@
                                                       size="small" onclick="formStatus('next')"/></div>
             </div>
             <table>
-        <tr>
-            <td>
-                Scheduled = <img src="../../images/blue/Scheduled.png"/> &nbsp;&nbsp;
-            </td>
-            <td>
-                In-progress = <img src="../../images/blue/In-progress.png"/> &nbsp;&nbsp;
-            </td>
-            <td>
-                Completed = <img src="../../images/blue/Completed.png"/> &nbsp;&nbsp;
-            </td>
-            <td>
-                Past-due = <img src="../../images/blue/Past-due.png"/> &nbsp;&nbsp;
-            </td>
-            <td>
-                Cancelled = <img src="../../images/blue/Cancelled.png"/>
-            </td>
-        </tr>
-    </table>
+                <tr>
+                    <td>
+                        Scheduled = <img src="../../images/blue/Scheduled.png"/> &nbsp;&nbsp;
+                    </td>
+                    <td>
+                        In-progress = <img src="../../images/blue/In-progress.png"/> &nbsp;&nbsp;
+                    </td>
+                    <td>
+                        Completed = <img src="../../images/blue/Completed.png"/> &nbsp;&nbsp;
+                    </td>
+                    <td>
+                        Past-due = <img src="../../images/blue/Past-due.png"/> &nbsp;&nbsp;
+                    </td>
+                    <td>
+                        Cancelled = <img src="../../images/blue/Cancelled.png"/>
+                    </td>
+                </tr>
+            </table>
 
 
             <div id="displayFormStatus"/>

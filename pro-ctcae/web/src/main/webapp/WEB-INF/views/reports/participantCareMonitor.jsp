@@ -104,6 +104,11 @@
             } else {
                 $('visitNum').hide();
             }
+            if (selValue == "dateRange") {
+                $('dateRange').show();
+            } else {
+                $('dateRange').hide();
+            }
 
         }
 
@@ -129,15 +134,17 @@
             if (visitRange == 'lastFour') {
                 forVisits = "4";
             }
-            if (visitRange == 'all') {
+            if (visitRange == 'all' || visitRange == 'dateRange') {
                 forVisits = "-1";
             }
+            var stDate = $('startDate').value;
+            var endDate = $('endDate').value;
 
             if (format == 'tabular') {
                 var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResults"/>", {
                     parameters:"studyId=" + studyId + "&crfId=" + crfId +
                                "&studySiteId=" + studySiteId + "&participantId=" + participantId +
-                               "&visitRange=" + visitRange + "&forVisits=" + forVisits +
+                               "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate + "&endDate=" + endDate +
                                "&subview=subview",
                     onComplete:function(transport) {
                         showResultsTable(transport);
@@ -149,9 +156,7 @@
                 if (typeof(selectedTypes) == 'undefined') {
                     selectedTypes = '';
                 }
-                var url = "<c:url value='/pages/reports/participantCareResultsGraph'/>" + "?studyId=" + studyId + "&crfId=" + crfId +
-                          "&studySiteId=" + studySiteId + "&participantId=" + participantId +
-                          "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&symptomId=" + symptomId +
+                var url = "<c:url value='/pages/reports/participantCareResultsGraph'/>" + "?symptomId=" + symptomId +
                           "&selectedTypes=" + selectedTypes +
                           "&subview=subview";
                 $('graph').src = url;
@@ -235,6 +240,7 @@
                     <option value="lastFour">Last four</option>
                     <option value="currentLast">Current & First</option>
                     <option value="custom">Custom</option>
+                    <option value="dateRange">Date range</option>
                 </select>
             </div>
 
@@ -243,6 +249,22 @@
             <div class="label"> Most recent</div>
             <div class="value"><input type="text" id="visits" class="validate-NUMERIC" style="width:25px;"/>
                 <b>visits</b>
+            </div>
+        </div>
+        <div id="visitDate" class="row" style="display:none">
+            <div class="label"> Most recent</div>
+            <div class="value"><input type="text" id="visits" class="validate-NUMERIC" style="width:25px;"/>
+                <b>visits</b>
+            </div>
+        </div>
+        <div id="dateRange" style="display:none">
+            <div class="leftpanel">
+                <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
+                                 doNotShowFormat="true"/>
+            </div>
+            <div class="rightpanel">
+                <tags:renderDate noForm="true" displayName="End Date" propertyName="endDate"
+                                 doNotShowFormat="true"/>
             </div>
         </div>
 
@@ -255,14 +277,9 @@
     </div>
 </chrome:box>
 <div id="displayParticipantCareResults" style="display:none;">
-    <chrome:box title="Report">
-        <div>
-            <div id="displayResultsTable"/>
-        </div>
-
-    </chrome:box>
+    <div>
+        <div id="displayResultsTable"/>
+    </div>
 </div>
-
-
 </body>
 </html>

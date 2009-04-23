@@ -4,6 +4,8 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.cabig.ctms.domain.CodedEnumHelper;
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
+import java.util.ArrayList;
+
 //
 /**
  * The Enum ProCtcQuestionType.
@@ -15,43 +17,40 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
     /**
      * The PRESENT.
      */
-    PRESENT("Present"),
+    PRESENT("Present/Not present", new String[]{"Yes", "No"}),
 
     /**
      * The AMOUNT.
      */
-    AMOUNT("Amount"),
+    AMOUNT("Amount", new String[]{"Not at all", "A little bit", "Somewhat", "Quite a bit", "Very much"}),
 
     /**
      * The SEVERITY.
      */
-    SEVERITY("Severity"),
+    SEVERITY("Severity", new String[]{"None", "Mild", "Moderate", "Severe", "Very severe"}),
 
     /**
      * The INTERFERENCE.
      */
-    INTERFERENCE("Interference"),
+    INTERFERENCE("Interference", new String[]{"Not at all", "A little bit", "Somewhat", "Quite a bit", "Very much"}),
 
     /**
      * The FREQUENCY.
      */
-    FREQUENCY("Frequency");
+    FREQUENCY("Frequency", new String[]{"Never", "Rarely", "Occasionally", "Frequently", "Almost Constantly"});
 
 
     /**
      * The display text.
      */
     private final String displayText;
+    private final String[] validValues;
 
-    /**
-     * Instantiates a new pro ctc question type.
-     *
-     * @param displayText the display text
-     */
-    ProCtcQuestionType(String displayText) {
+
+    ProCtcQuestionType(String displayText, String[] validValues) {
         this.displayText = displayText;
+        this.validValues = validValues;
         CodedEnumHelper.register(this);
-
     }
 
 
@@ -102,6 +101,21 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
             }
         }
         return null;
+    }
+
+    public String[] getValidValues() {
+        return validValues;
+    }
+
+    public static ArrayList<ProCtcQuestionType> getAllDisplayTypes() {
+        ArrayList<ProCtcQuestionType> proCtcQuestionTypes = new ArrayList<ProCtcQuestionType>();
+
+        proCtcQuestionTypes.add(ProCtcQuestionType.FREQUENCY);
+        proCtcQuestionTypes.add(ProCtcQuestionType.INTERFERENCE);
+        proCtcQuestionTypes.add(ProCtcQuestionType.SEVERITY);
+        proCtcQuestionTypes.add(ProCtcQuestionType.AMOUNT);
+
+        return proCtcQuestionTypes;
     }
 
 }

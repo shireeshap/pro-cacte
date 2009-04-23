@@ -21,9 +21,8 @@ import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.util.*;
-import java.text.NumberFormat;
+import java.awt.*;
 
 import gov.nih.nci.ctcae.core.domain.CtcCategory;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
@@ -57,19 +56,16 @@ public class ParticipantCareGraphicalReportController extends ParticipantCareRes
         }
 
 
-        HashMap<CtcCategory, TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> results = (HashMap<CtcCategory, TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>) request.getSession().getAttribute("sessionResultsMap");
+        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<Date> dates = (ArrayList<Date>) request.getSession().getAttribute("sessionDates");
         HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart = null;
         ProCtcTerm selectedTerm = null;
-        for (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap : results.values()) {
-            for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
-                if (proCtcTerm.getId().equals(inputSymptomId)) {
-                    selectedTerm = proCtcTerm;
-                    dataForChart = symptomMap.get(selectedTerm);
-                    break;
-                }
+        for (ProCtcTerm proCtcTerm : results.keySet()) {
+            if (proCtcTerm.getId().equals(inputSymptomId)) {
+                selectedTerm = proCtcTerm;
+                dataForChart = results.get(selectedTerm);
+                break;
             }
-
         }
         response.setContentType("image/png");
         CategoryDataset dataset = createDataset(dataForChart, dates, arrSelectedTypes);
@@ -175,6 +171,11 @@ public class ParticipantCareGraphicalReportController extends ParticipantCareRes
         renderer.setSeriesPaint(2, gp2);
         renderer.setSeriesPaint(3, gp3);
         renderer.setSeriesPaint(4, gp4);
+        renderer.setSeriesShape(0, new Rectangle(100, 1));
+        renderer.setSeriesShape(1, new Rectangle(100, 100));
+        renderer.setSeriesShape(2, new Rectangle(100, 200));
+        renderer.setSeriesShape(3, new Rectangle(100, 300));
+        renderer.setSeriesShape(4, new Rectangle(100, 400));
 
         CategoryAxis domainAxis = plot.getDomainAxis();
         domainAxis.setCategoryLabelPositions(
@@ -185,35 +186,4 @@ public class ParticipantCareGraphicalReportController extends ParticipantCareRes
         return chart;
 
     }
-
-//    static class LabelGenerator extends AbstractCategoryItemLabelGenerator
-//            implements CategoryItemLabelGenerator {
-//
-//        public LabelGenerator() {
-//            super("", NumberFormat.getInstance());
-//        }
-//
-//        /**
-//         * Generates a label for the specified item. The label is typically a
-//         * formatted version of the data value, but any text can be used.
-//         *
-//         * @param dataset  the dataset (<code>null</code> not permitted).
-//         * @param series   the series index (zero-based).
-//         * @param category the category index (zero-based).
-//         * @return the label (possibly <code>null</code>).
-//         */
-//        public String generateLabel(CategoryDataset dataset,
-//                                    int series,
-//                                    int category) {
-//            String result = null;
-//            Number value = dataset.getValue(series, category);
-//            if (value != null) {
-//                double v = value.doubleValue();
-//                if (v > this.threshold) {
-//                    result = value.toString(); // could apply formatting here
-//                }
-//            }
-//            return result;
-//        }
-//    }
 }

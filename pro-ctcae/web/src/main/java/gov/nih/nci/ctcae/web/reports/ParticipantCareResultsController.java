@@ -10,6 +10,7 @@ import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.text.ParseException;
 
 /**
  * @author Mehul Gulati
@@ -29,6 +30,9 @@ public class ParticipantCareResultsController extends AbstractController {
         Integer participantId = Integer.parseInt(request.getParameter("participantId"));
         String forVisits = request.getParameter("forVisits");
         String visitRange = request.getParameter("visitRange");
+        String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
+
         List dates = new ArrayList<Date>();
         List visitTitle = new ArrayList();
 
@@ -40,20 +44,21 @@ public class ParticipantCareResultsController extends AbstractController {
             visitTitle.add("Current");
             visitTitle.add("First");
         }
-        HashMap<CtcCategory, TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> results = getCareResults(visitRange, Integer.valueOf(studyId), crfId, Integer.valueOf(studySiteId), participantId, dates, Integer.valueOf(forVisits));
+        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = getCareResults(visitRange, Integer.valueOf(studyId), crfId, Integer.valueOf(studySiteId), participantId, dates, Integer.valueOf(forVisits), startDate, endDate);
         modelAndView.addObject("resultsMap", results);
         modelAndView.addObject("dates", dates);
         modelAndView.addObject("visitTitle", visitTitle);
         modelAndView.addObject("participant", participantRepository.findById(participantId));
+        modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
+
         request.getSession().setAttribute("sessionResultsMap", results);
         request.getSession().setAttribute("sessionDates", dates);
         return modelAndView;
     }
 
-    private HashMap<CtcCategory, TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> getCareResults(String visitRange, Integer studyId, String crfId, Integer studySiteId, Integer participantId, List<Date> dates, Integer forVisits) {
+    private TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> getCareResults(String visitRange, Integer studyId, String crfId, Integer studySiteId, Integer participantId, List<Date> dates, Integer forVisits, String startDate, String endDate) throws ParseException {
 
-        HashMap<CtcCategory, TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> categoryMap = new HashMap();
-        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap;
+        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = new TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
         HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults;
 
         Study study = studyRepository.findById(studyId);
@@ -82,20 +87,17 @@ public class ParticipantCareResultsController extends AbstractController {
                         }
 
                         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : completedCrfs) {
+                            if (visitRange.equals("dateRange")) {
+                                if (!dateBetween(DateUtils.parseDate(startDate), DateUtils.parseDate(endDate), studyParticipantCrfSchedule.getStartDate())) {
+                                    continue;
+                                }
+                            }
                             dates.add(studyParticipantCrfSchedule.getStartDate());
                             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
                                 ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
-                                CtcCategory category = proCtcQuestion.getProCtcTerm().getCtcTerm().getCategory();
                                 ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
                                 ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
                                 ArrayList<ProCtcValidValue> validValue;
-
-                                if (categoryMap.containsKey(category)) {
-                                    symptomMap = categoryMap.get(category);
-                                } else {
-                                    symptomMap = new TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
-                                    categoryMap.put(category, symptomMap);
-                                }
 
                                 if (symptomMap.containsKey(symptom)) {
                                     careResults = symptomMap.get(symptom);
@@ -122,11 +124,18 @@ public class ParticipantCareResultsController extends AbstractController {
                         }
                     }
                 }
-
             }
         }
 
-        return categoryMap;
+        return symptomMap;
+    }
+
+    private boolean dateBetween
+            (Date
+                    startDate, Date
+                    endDate, Date
+                    scheduleStartDate) {
+        return (startDate.getTime() <= scheduleStartDate.getTime() && scheduleStartDate.getTime() <= endDate.getTime());
     }
 
     public void setStudyRepository(StudyRepository studyRepository) {

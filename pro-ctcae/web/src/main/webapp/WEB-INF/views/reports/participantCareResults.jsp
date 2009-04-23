@@ -32,6 +32,7 @@
             font-weight: bold;
             text-align: center;
             background-color: #cccccc;
+            width: 100px;
         }
 
         td.category-name, td.subcategory-name, td.actual-question {
@@ -78,76 +79,71 @@
     </style>
 </head>
 <body>
-<div id="careResultsTable">
-    <a href="javascript:getChartView()">Switch to graphical view</a>
+<chrome:box title="Report - ${participant.displayName} [${participant.assignedIdentifier}]">
 
-    <div class="row">
-        <b>Participant:</b>
-        ${participant.displayName} [${participant.assignedIdentifier}]
-    </div>
-    <table class="widget" cellspacing="0">
-        <col/>
-        <tr>
-            <td class="header-top">
-                Symptom
-            </td>
-            <td class="header-top">
-                Type
-            </td>
-            <c:forEach items="${dates}" var="dates">
+    <div id="careResultsTable">
+        <a href="javascript:getChartView()">Switch to graphical view</a>
+        <br/>
+        <br/>
 
-            <td class="header-top">
-
-                <fmt:formatDate value="${dates}" pattern="MM/dd/yy"/>
-            </td>
-
-            </c:forEach>
-            <c:forEach items="${resultsMap}" var="categoryMap">
-            <c:forEach items="${categoryMap.value}" var="symptomMap">
-        <tr>
-            <td class="subcategory-name">
-                <b>${symptomMap.key.term}</b>
-            </td>
-        </tr>
-        <c:forEach items="${symptomMap.value}" var="careResults">
+        <table class="widget" cellspacing="0">
+            <col/>
             <tr>
-                <td>&nbsp;</td>
-                <td class="actual-question">
-                        ${careResults.key.proCtcQuestionType.displayName}
+                <td class="header-top">
+                    Symptom
                 </td>
-                <c:forEach items="${careResults.value}" var="value">
-                    <td class="data displayOrder${value.displayOrder}">
-                            ${value.value}
-                    </td>
+                <td class="header-top">
+                    Attribute <a href="" title="<table border='1'><tr><td>ss</td></tr></table>">dd</a>
+                </td>
+                <c:forEach items="${dates}" var="dates">
+
+                <td class="header-top">
+                    <fmt:formatDate value="${dates}" pattern="MM/dd/yy"/>
+                </td>
+
                 </c:forEach>
+                <c:forEach items="${resultsMap}" var="symptomMap">
+            <tr>
+                <td class="subcategory-name">
+                    <b>${symptomMap.key.term}</b>
+                </td>
             </tr>
-        </c:forEach>
-        </c:forEach>
-        </c:forEach>
-    </table>
+            <c:forEach items="${symptomMap.value}" var="careResults">
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="actual-question">
+                            ${careResults.key.proCtcQuestionType.displayName}
+                    </td>
+                    <c:forEach items="${careResults.value}" var="value">
+                        <td class="data displayOrder${value.displayOrder}">
+                                ${value.value}
+                        </td>
+                    </c:forEach>
+                </tr>
+            </c:forEach>
+            </c:forEach>
+        </table>
 
-</div>
-<div id="careResultsGraph" style="display:none">
-    <a href="javascript:getTableView()">Switch to tabular view</a>
-
-    <div class="row">
-        <b>Participant:</b>
-        ${participant.displayName} [${participant.assignedIdentifier}]
     </div>
-    <table class="widget" cellspacing="0" width="100%">
-        <tr>
-            <td class="subcategory-name">
-                <c:forEach items="${resultsMap}" var="categoryMap">
-                    <c:forEach items="${categoryMap.value}" var="symptomMap">
+    <div id="careResultsGraph" style="display:none">
+        <a href="javascript:getTableView()">Switch to tabular view</a>
+
+        <div class="row">
+            <b>Participant:</b>
+                ${participant.displayName} [${participant.assignedIdentifier}]
+        </div>
+        <table class="widget" cellspacing="0" width="100%">
+            <tr>
+                <td class="subcategory-name">
+                    <c:forEach items="${resultsMap}" var="symptomMap">
                         <a href="javascript:getChart('${symptomMap.key.id}')"><b>${symptomMap.key.term}</b></a>
                         <br/>
                     </c:forEach>
-                </c:forEach>
-            </td>
-            <td>
-                <c:forEach items="${resultsMap}" var="categoryMap">
-                    <c:forEach items="${categoryMap.value}" var="symptomMap">
-                        <div id="div_questiontype_${symptomMap.key.id}" name="div_questiontype" style="display:none">
+                </td>
+                <td>
+                    <c:forEach items="${resultsMap}" var="symptomMap">
+                        <div id="div_questiontype_${symptomMap.key.id}" name="div_questiontype"
+                             style="display:none">
                             <c:forEach items="${symptomMap.value}" var="careResults">
                                 <input type="checkbox" checked="true" name="questiontype_${symptomMap.key.id}"
                                        value="${careResults.key.proCtcQuestionType.displayName}"
@@ -156,11 +152,36 @@
                             </c:forEach>
                         </div>
                     </c:forEach>
-                </c:forEach>
-                <iframe id="graph" height="500" width="600" frameborder="0" scrolling="auto"></iframe>
-            </td>
-        </tr>
-    </table>
-</div>
+                    <iframe id="graph" height="500" width="600" frameborder="0" scrolling="auto"></iframe>
+
+
+                    <table  class="widget" cellspacing="0">
+                        <tr>
+                            <td class="header-top"></td>
+                            <td class="header-top">0</td>
+                            <td class="header-top">1</td>
+                            <td class="header-top">2</td>
+                            <td class="header-top">3</td>
+                            <td class="header-top">4</td>
+                        </tr>
+                        <c:forEach items="${questionTypes}" var="questionType">
+                            <tr>
+                                <td class="header-top">
+                                    ${questionType}
+                                </td>
+                                <c:forEach items="${questionType.validValues}" var="validValue">
+                                    <td class="subcategory-name">
+                                            ${validValue}
+                                    </td>
+                                </c:forEach>
+                            </tr>
+
+                        </c:forEach>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</chrome:box>
 </body>
 </html>
