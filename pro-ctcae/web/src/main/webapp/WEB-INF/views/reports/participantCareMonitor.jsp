@@ -182,7 +182,7 @@
             }
             participantCareResults('graphical', symptomId);
         }
-        function updateChart(symptomId) {
+        function updateChart(chkbox, symptomId) {
             var obj = document.getElementsByName('questiontype_' + symptomId);
             var selectedTypes = '';
             for (var i = 0; i < obj.length; i++) {
@@ -192,6 +192,7 @@
             }
             if (selectedTypes == '') {
                 alert('Please select at least one question type.');
+                chkbox.checked = true;
                 return;
             }
             participantCareResults('graphical', symptomId, selectedTypes);

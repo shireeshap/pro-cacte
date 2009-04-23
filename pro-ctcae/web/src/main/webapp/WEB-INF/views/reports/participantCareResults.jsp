@@ -149,9 +149,9 @@
                     <c:forEach items="${categoryMap.value}" var="symptomMap">
                         <div id="div_questiontype_${symptomMap.key.id}" name="div_questiontype" style="display:none">
                             <c:forEach items="${symptomMap.value}" var="careResults">
-                                <input type="checkbox" name="questiontype_${symptomMap.key.id}"
+                                <input type="checkbox" checked="true" name="questiontype_${symptomMap.key.id}"
                                        value="${careResults.key.proCtcQuestionType.displayName}"
-                                       onclick="updateChart('${symptomMap.key.id}');">${careResults.key.proCtcQuestionType.displayName}
+                                       onclick="updateChart(this,'${symptomMap.key.id}');">${careResults.key.proCtcQuestionType.displayName}
                                 &nbsp;
                             </c:forEach>
                         </div>
