@@ -203,6 +203,9 @@
             participantCareResults('graphical', symptomId, selectedTypes);
         }
 
+        function hideHelp() {
+            $('attribute-help-content').style.display = 'none';
+        }
 
     </script>
 </head>

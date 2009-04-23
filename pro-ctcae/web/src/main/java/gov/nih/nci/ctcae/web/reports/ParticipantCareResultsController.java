@@ -85,7 +85,7 @@ public class ParticipantCareResultsController extends AbstractController {
                                     completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - forVisits));
                                 }
                         }
-
+                       
                         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : completedCrfs) {
                             if (visitRange.equals("dateRange")) {
                                 if (!dateBetween(DateUtils.parseDate(startDate), DateUtils.parseDate(endDate), studyParticipantCrfSchedule.getStartDate())) {
