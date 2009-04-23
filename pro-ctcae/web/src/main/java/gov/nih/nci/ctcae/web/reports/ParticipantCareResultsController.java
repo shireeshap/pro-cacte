@@ -85,7 +85,8 @@ public class ParticipantCareResultsController extends AbstractController {
                                     completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - forVisits));
                                 }
                         }
-                       
+
+                        sortByStartDate(completedCrfs);
                         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : completedCrfs) {
                             if (visitRange.equals("dateRange")) {
                                 if (!dateBetween(DateUtils.parseDate(startDate), DateUtils.parseDate(endDate), studyParticipantCrfSchedule.getStartDate())) {
@@ -128,6 +129,19 @@ public class ParticipantCareResultsController extends AbstractController {
         }
 
         return symptomMap;
+    }
+
+    private void sortByStartDate(List<StudyParticipantCrfSchedule> completedCrfs) {
+        TreeSet<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = new TreeSet<StudyParticipantCrfSchedule>(new StudyParticipantCrfScheduleStartDateComparator());
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : completedCrfs) {
+            studyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+        }
+
+        completedCrfs.clear();
+        Iterator<StudyParticipantCrfSchedule> i = studyParticipantCrfSchedules.iterator();
+        while (i.hasNext()) {
+            completedCrfs.add(i.next());
+        }
     }
 
     private boolean dateBetween
