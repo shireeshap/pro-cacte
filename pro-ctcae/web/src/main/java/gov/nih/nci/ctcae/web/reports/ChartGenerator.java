@@ -7,6 +7,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.AbstractCategoryItemLabelGenerator;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.axis.NumberAxis;
@@ -14,9 +16,11 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.ui.TextAnchor;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -33,7 +37,9 @@ import java.text.NumberFormat;
  */
 public class ChartGenerator {
 
-    public static JFreeChart getChartForSymptom(TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results, ArrayList<Date> dates, Integer inputSymptomId, ArrayList<String> arrSelectedTypes) {
+    ArrayList<String> typesInSymptom = new ArrayList<String>();
+
+    public JFreeChart getChartForSymptom(TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results, ArrayList<Date> dates, Integer inputSymptomId, ArrayList<String> arrSelectedTypes) {
         ProCtcTerm selectedTerm = null;
         HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart = null;
         for (ProCtcTerm proCtcTerm : results.keySet()) {
@@ -56,10 +62,13 @@ public class ChartGenerator {
      * @param arrSelectedTypes
      * @return the category dataset
      */
-    private static CategoryDataset createDataset(HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart, ArrayList<Date> dates, ArrayList<String> arrSelectedTypes) {
+    private CategoryDataset createDataset(HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart, ArrayList<Date> dates, ArrayList<String> arrSelectedTypes) {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
+//        for (ProCtcQuestionType proCtcQuestionType : ProCtcQuestionType.getAllDisplayTypes()) {
+//            dataset.addValue(0, proCtcQuestionType.getDisplayName(), "");
+//        }
+//        dataset.addValue(0, ProCtcQuestionType.PRESENT, "");
 
         int i = 0;
         for (Date date : dates) {
@@ -74,6 +83,9 @@ public class ChartGenerator {
                         dataset.addValue(proCtcValidValue.getDisplayOrder(), questionType, DateUtils.format(date));
                     }
                 }
+                if (!typesInSymptom.contains(questionType)) {
+                    typesInSymptom.add(questionType);
+                }
             }
             i++;
         }
@@ -86,10 +98,11 @@ public class ChartGenerator {
      *
      * @param dataset      the dataset
      * @param selectedTerm
+     * @param angle
      * @return the j free chart
      */
 
-    private static JFreeChart createChart(CategoryDataset dataset, ProCtcTerm selectedTerm) {
+    private JFreeChart createChart(CategoryDataset dataset, ProCtcTerm selectedTerm) {
 
         String title = "";
         if (selectedTerm != null) {
@@ -137,28 +150,29 @@ public class ChartGenerator {
                 0.0f, 0.0f, new Color(64, 0, 0));
         GradientPaint gp4 = new GradientPaint(0.0f, 0.0f, Color.orange,
                 0.0f, 0.0f, new Color(64, 0, 0));
-        renderer.setSeriesPaint(0, gp0);
-        renderer.setSeriesPaint(1, gp1);
-        renderer.setSeriesPaint(2, gp2);
-        renderer.setSeriesPaint(3, gp3);
-        renderer.setSeriesPaint(4, gp4);
-        renderer.setSeriesShape(0, new Rectangle(100, 1));
-        renderer.setSeriesShape(1, new Rectangle(100, 100));
-        renderer.setSeriesShape(2, new Rectangle(100, 200));
-        renderer.setSeriesShape(3, new Rectangle(100, 300));
-        renderer.setSeriesShape(4, new Rectangle(100, 400));
+        categoryItemRenderer.setSeriesPaint(0, gp0);
+        categoryItemRenderer.setSeriesPaint(1, gp1);
+        categoryItemRenderer.setSeriesPaint(2, gp2);
+        categoryItemRenderer.setSeriesPaint(3, gp3);
+        categoryItemRenderer.setSeriesPaint(4, gp4);
+        ItemLabelPosition itemLabelPosition = new ItemLabelPosition(ItemLabelAnchor.INSIDE12, TextAnchor.CENTER_RIGHT, TextAnchor.CENTER_RIGHT, -Math.PI / 2.0);
 
+        for (int i = 0; i < 5; i++) {
+            categoryItemRenderer.setSeriesItemLabelsVisible(i, true);
+            categoryItemRenderer.setSeriesItemLabelGenerator(i, new LabelGenerator());
+            categoryItemRenderer.setSeriesPositiveItemLabelPosition(i, itemLabelPosition);
+            categoryItemRenderer.setSeriesItemLabelPaint(i, Color.black);
+        }
         CategoryAxis domainAxis = plot.getDomainAxis();
         domainAxis.setCategoryLabelPositions(
                 CategoryLabelPositions.createUpRotationLabelPositions(
                         Math.PI / 6.0));
-        // OPTIONAL CUSTOMISATION COMPLETED.
 
         return chart;
 
     }
 
-    static class LabelGenerator extends AbstractCategoryItemLabelGenerator
+    class LabelGenerator extends AbstractCategoryItemLabelGenerator
             implements CategoryItemLabelGenerator {
 
         public LabelGenerator() {
@@ -177,13 +191,11 @@ public class ChartGenerator {
         public String generateLabel(CategoryDataset dataset,
                                     int series,
                                     int category) {
-            String result = null;
+            String questionType = typesInSymptom.get(series);
+            ProCtcQuestionType proCtcQuestionType = ProCtcQuestionType.getByCode(questionType);
             Number value = dataset.getValue(series, category);
-            if (value != null) {
-                double v = value.doubleValue();
-                result = value.toString(); // could apply formatting here
-            }
-            return result;
+            String label = proCtcQuestionType.getValidValues()[value.intValue()];
+            return label;
         }
     }
 }

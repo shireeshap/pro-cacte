@@ -216,9 +216,9 @@ function updateChart(chkbox, symptomId) {
     participantCareResults('graphical', symptomId, selectedTypes);
 }
 
-        function hideHelp() {
-            $('attribute-help-content').style.display = 'none';
-        }
+function hideHelp() {
+    $('attribute-help-content').style.display = 'none';
+}
 
 </script>
 </head>
@@ -241,7 +241,7 @@ function updateChart(chkbox, symptomId) {
                                       noForm="true" required="true"/>
         </div>
         <div id="studySiteDiv" style="display:none" class="row">
-             <div class="label">Study site <input id="studySite" name="studySite" type="hidden"></div>
+            <div class="label">Study site <input id="studySite" name="studySite" type="hidden"></div>
             <div id="studySiteName" class="value"></div>
         </div>
         <div id="participantAutoCompleterDiv" style="display:none">

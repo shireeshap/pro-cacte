@@ -78,10 +78,11 @@ public class ParticipantCarePdfView extends AbstractPdfView {
                 document.newPage();
                 i = 0;
             }
+            ChartGenerator chartGenerator = new ChartGenerator();
             PdfContentByte cb = pdfWriter.getDirectContent();
             PdfTemplate tp = cb.createTemplate(width, height);
             Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());
-            JFreeChart chart = ChartGenerator.getChartForSymptom(results, dates, proCtcTerm.getId(), null);
+            JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, proCtcTerm.getId(), null);
             Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height - 20);
             chart.draw(g2, r2D);
             g2.dispose();

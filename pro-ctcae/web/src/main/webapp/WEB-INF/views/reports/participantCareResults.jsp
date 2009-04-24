@@ -50,12 +50,13 @@
             padding-left: 6px;
             vertical-align: top;
         }
+
         td.help-values {
             border: 1px solid #eaeaea;
             background-color: #fff;
             padding-left: 6px;
             vertical-align: top;
-            text-align:center;
+            text-align: center;
         }
 
         td.actual-question {
@@ -133,7 +134,8 @@
 
     <div id="careResultsTable">
         <a href="javascript:getChartView()">Switch to graphical view</a> | <a
-            href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank">pdf</a>
+            href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank"><img src="/ctcae/images/table/pdf.gif"
+                                                                                           alt="pdf"/></a>
 
         <br/>
         <br/>
