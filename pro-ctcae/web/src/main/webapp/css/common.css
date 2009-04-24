@@ -154,16 +154,17 @@ p {
 	background-image: url(../images/blue/header_bg.jpg);
 	background-position: top;
 }
-
+*/
 
 a#logo {
+	background-image:url(/ctcae/images/blue/PRO-CTCAE-logo.png);
     height: 98px;
     width: 220px;
     position: absolute;
     text-indent: -9999px;
 }
 
-
+/*
 a#logo:link {
 background-position: 0px
 }

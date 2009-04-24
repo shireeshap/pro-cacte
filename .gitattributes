@@ -715,6 +715,7 @@ pro-ctcae/web/src/main/webapp/images/blue/Cancelled.gif -text
 pro-ctcae/web/src/main/webapp/images/blue/Cancelled.png -text
 pro-ctcae/web/src/main/webapp/images/blue/Completed.png -text
 pro-ctcae/web/src/main/webapp/images/blue/In-progress.png -text
+pro-ctcae/web/src/main/webapp/images/blue/PRO-CTCAE-logo.png -text
 pro-ctcae/web/src/main/webapp/images/blue/Past-due.png -text
 pro-ctcae/web/src/main/webapp/images/blue/Scheduled.png -text
 pro-ctcae/web/src/main/webapp/images/blue/add_all_btn.png -text
