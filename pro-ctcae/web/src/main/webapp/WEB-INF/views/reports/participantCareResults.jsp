@@ -50,6 +50,13 @@
             padding-left: 6px;
             vertical-align: top;
         }
+        td.help-values {
+            border: 1px solid #eaeaea;
+            background-color: #fff;
+            padding-left: 6px;
+            vertical-align: top;
+            text-align:center;
+        }
 
         td.actual-question {
             background-color: #D5D5D5;
@@ -81,7 +88,7 @@
             z-index: 3; /* To handle the overlapping issue*/
             display: none;
             position: absolute;
-            width: 400px;
+            width: 700px;
             white-space: normal;
             margin-top: -4px;
             border: 1px solid #c93;
@@ -93,7 +100,7 @@
 </head>
 <body>
 <span id="attribute-help-content" class="hint" style="display: none;">
-    <table class="widget" cellspacing="0">
+    <table class="widget" cellspacing="0" width="100%" align="center">
         <tr>
             <td colspan="6" align="right">
                 <a href="javascript:hideHelp();">X</a>
@@ -113,7 +120,7 @@
                         ${questionType}
                 </td>
                 <c:forEach items="${questionType.validValues}" var="validValue">
-                    <td class="subcategory-name">
+                    <td class="help-values">
                             ${validValue}
                     </td>
                 </c:forEach>

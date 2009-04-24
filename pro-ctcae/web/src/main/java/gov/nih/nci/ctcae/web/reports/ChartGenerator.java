@@ -5,6 +5,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.Range;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.labels.CategoryItemLabelGenerator;
+import org.jfree.chart.labels.AbstractCategoryItemLabelGenerator;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.axis.NumberAxis;
@@ -22,6 +24,7 @@ import java.util.HashMap;
 import java.util.Date;
 import java.util.TreeMap;
 import java.awt.*;
+import java.text.NumberFormat;
 
 /**
  * User: Harsh
@@ -153,5 +156,34 @@ public class ChartGenerator {
 
         return chart;
 
+    }
+
+    static class LabelGenerator extends AbstractCategoryItemLabelGenerator
+            implements CategoryItemLabelGenerator {
+
+        public LabelGenerator() {
+            super("", NumberFormat.getInstance());
+        }
+
+        /**
+         * Generates a label for the specified item. The label is typically a
+         * formatted version of the data value, but any text can be used.
+         *
+         * @param dataset  the dataset (<code>null</code> not permitted).
+         * @param series   the series index (zero-based).
+         * @param category the category index (zero-based).
+         * @return the label (possibly <code>null</code>).
+         */
+        public String generateLabel(CategoryDataset dataset,
+                                    int series,
+                                    int category) {
+            String result = null;
+            Number value = dataset.getValue(series, category);
+            if (value != null) {
+                double v = value.doubleValue();
+                result = value.toString(); // could apply formatting here
+            }
+            return result;
+        }
     }
 }
