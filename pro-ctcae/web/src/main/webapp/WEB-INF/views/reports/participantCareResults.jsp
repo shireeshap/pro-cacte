@@ -125,7 +125,8 @@
 <chrome:box title="Report - ${participant.displayName} [${participant.assignedIdentifier}]">
 
     <div id="careResultsTable">
-        <a href="javascript:getChartView()">Switch to graphical view</a>
+        <a href="javascript:getChartView()">Switch to graphical view</a> | <a
+            href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank">pdf</a>
 
         <br/>
         <br/>

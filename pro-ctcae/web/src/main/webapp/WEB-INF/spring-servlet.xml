@@ -361,6 +361,9 @@
         <property name="studyRepository" ref="studyRepository"/>
         <property name="participantRepository" ref="participantRepository"/>
     </bean>
+    <bean name="/reports/participantCarePdf" id="participantCarePdfController"
+          class="gov.nih.nci.ctcae.web.reports.ParticipantCarePdfController">
+    </bean>
 
 
     <bean name="/participant/displaycalendar" id="displayCalendarController"
@@ -373,7 +376,8 @@
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
     <bean name="/reports/participantCareResultsGraph" id="participantCareResultsGraph"
-          class="gov.nih.nci.ctcae.web.reports.ParticipantCareGraphicalReportController" parent="participantCareResultsController">
+          class="gov.nih.nci.ctcae.web.reports.ParticipantCareGraphicalReportController"
+          parent="participantCareResultsController">
     </bean>
 
 

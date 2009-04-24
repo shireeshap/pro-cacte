@@ -428,8 +428,11 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantC
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ShowCompletedCrfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareGraphicalReportController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareMonitorController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCarePdfController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCarePdfView.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/JavaMailSender.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/NotificationsEvaluationService.java -text

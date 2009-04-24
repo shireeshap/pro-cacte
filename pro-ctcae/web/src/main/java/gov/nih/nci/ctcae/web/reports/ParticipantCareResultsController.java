@@ -48,11 +48,13 @@ public class ParticipantCareResultsController extends AbstractController {
         modelAndView.addObject("resultsMap", results);
         modelAndView.addObject("dates", dates);
         modelAndView.addObject("visitTitle", visitTitle);
-        modelAndView.addObject("participant", participantRepository.findById(participantId));
+        Participant participant = participantRepository.findById(participantId);
+        modelAndView.addObject("participant", participant);
         modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
 
         request.getSession().setAttribute("sessionResultsMap", results);
         request.getSession().setAttribute("sessionDates", dates);
+        request.getSession().setAttribute("participant", participant);
         return modelAndView;
     }
 
