@@ -1,6 +1,9 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
@@ -11,8 +14,6 @@ import org.springframework.validation.Errors;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * @author Vinay Kumar

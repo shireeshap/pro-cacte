@@ -6,8 +6,8 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.springframework.beans.BeanWrapperImpl;
 
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

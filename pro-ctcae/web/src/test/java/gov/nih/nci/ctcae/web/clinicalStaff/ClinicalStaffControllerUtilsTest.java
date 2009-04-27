@@ -3,8 +3,6 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 
-import java.util.Enumeration;
-
 /**
  * @author Mehul Gulati
  *         Date: Nov 11, 2008

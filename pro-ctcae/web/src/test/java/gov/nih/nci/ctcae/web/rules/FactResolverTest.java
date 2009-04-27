@@ -1,14 +1,7 @@
 package gov.nih.nci.ctcae.web.rules;
 
-import gov.nih.nci.ctcae.web.rules.AbstractRulesTest;
-import gov.nih.nci.ctcae.core.domain.*;
-
-import java.util.List;
-import java.util.ArrayList;
-
-import com.semanticbits.rules.brxml.*;
 import com.semanticbits.rules.objectgraph.FactResolver;
-import org.apache.commons.lang.StringUtils;
+import gov.nih.nci.ctcae.core.domain.*;
 import junit.framework.TestCase;
 
 

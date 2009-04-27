@@ -1,7 +1,5 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import java.util.ArrayList;
-
 //
 /**
  * The Enum Gender.

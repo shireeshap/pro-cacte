@@ -2,8 +2,8 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
 
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author Mehul Gulati

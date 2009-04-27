@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.web.WebTestCase;
-import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.verify;
 import org.springframework.web.servlet.ModelAndView;
 
 /**

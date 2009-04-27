@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;

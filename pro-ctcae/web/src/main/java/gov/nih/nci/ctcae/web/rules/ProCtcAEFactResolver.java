@@ -1,14 +1,12 @@
 package gov.nih.nci.ctcae.web.rules;
 
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.web.ListValues;
 
-import java.util.List;
-import java.util.TreeSet;
 import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * User: Harsh

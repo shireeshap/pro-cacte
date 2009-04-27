@@ -1,10 +1,10 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.apache.commons.lang.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;

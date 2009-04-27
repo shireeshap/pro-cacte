@@ -1,19 +1,19 @@
 package gov.nih.nci.ctcae.web.form;
 
+import com.semanticbits.rules.brxml.Rule;
+import com.semanticbits.rules.brxml.RuleSet;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
-import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.rules.ProCtcAERule;
+import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.semanticbits.rules.brxml.*;
 
 //
 /**

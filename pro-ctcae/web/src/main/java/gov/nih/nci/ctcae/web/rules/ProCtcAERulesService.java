@@ -1,19 +1,17 @@
 package gov.nih.nci.ctcae.web.rules;
 
-import com.semanticbits.rules.brxml.*;
-import com.semanticbits.rules.utils.RuleUtil;
+import com.semanticbits.rules.api.BusinessRulesExecutionService;
 import com.semanticbits.rules.api.RuleAuthoringService;
 import com.semanticbits.rules.api.RulesEngineService;
-import com.semanticbits.rules.api.BusinessRulesExecutionService;
+import com.semanticbits.rules.brxml.*;
 import com.semanticbits.rules.objectgraph.FactResolver;
-import org.springframework.beans.factory.annotation.Required;
-import org.apache.commons.lang.StringUtils;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
+import com.semanticbits.rules.utils.RuleUtil;
 import gov.nih.nci.ctcae.core.domain.*;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Required;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: Harsh

@@ -1,23 +1,20 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
-import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
-import gov.nih.nci.ctcae.web.ListValues;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import org.springframework.validation.Errors;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
-
-import com.semanticbits.rules.brxml.RuleSet;
+import java.util.List;
+import java.util.Map;
 
 //
 /**

@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.web.rules.ProCtcAERule;
 import gov.nih.nci.ctcae.web.ControllersUtils;
+import gov.nih.nci.ctcae.web.rules.ProCtcAERule;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 

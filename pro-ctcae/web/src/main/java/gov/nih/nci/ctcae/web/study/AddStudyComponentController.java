@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.study;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
-import gov.nih.nci.ctcae.core.domain.RoleStatus;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.ListValues;
 import org.apache.commons.lang.StringUtils;

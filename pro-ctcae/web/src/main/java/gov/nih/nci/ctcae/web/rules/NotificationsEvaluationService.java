@@ -1,21 +1,18 @@
 package gov.nih.nci.ctcae.web.rules;
 
-import com.semanticbits.rules.brxml.*;
-import com.semanticbits.rules.objectgraph.FactResolver;
-import com.semanticbits.rules.impl.RuleEvaluationResult;
+import com.semanticbits.rules.brxml.RuleSet;
 import com.semanticbits.rules.exception.RuleSetNotFoundException;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import com.semanticbits.rules.impl.RuleEvaluationResult;
+import com.semanticbits.rules.objectgraph.FactResolver;
+import gov.nih.nci.ctcae.core.domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.mail.javamail.MimeMessageHelper;
 
-import java.util.*;
-import java.io.IOException;
-
-import gov.nih.nci.ctcae.core.domain.*;
-
-import javax.mail.internet.MimeMessage;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.*;
 
 /**
  * User: Harsh

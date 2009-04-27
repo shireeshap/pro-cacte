@@ -3,10 +3,8 @@ package gov.nih.nci.ctcae.core.security;
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 
 import java.text.ParseException;
-import java.util.Collection;
 
 /**
  * @author Vinay Kumar

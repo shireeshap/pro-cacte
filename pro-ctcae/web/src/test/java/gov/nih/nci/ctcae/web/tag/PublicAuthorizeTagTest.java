@@ -2,8 +2,8 @@ package gov.nih.nci.ctcae.web.tag;
 
 import junit.framework.TestCase;
 import org.springframework.mock.web.MockPageContext;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;

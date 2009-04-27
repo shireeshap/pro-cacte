@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.core.query;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 //
 /**

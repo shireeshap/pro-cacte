@@ -1,12 +1,6 @@
 package gov.nih.nci.ctcae.web.security;
 
 import gov.nih.nci.ctcae.core.domain.User;
-import gov.nih.nci.ctcae.web.form.CalendarTemplateTab;
-import gov.nih.nci.ctcae.web.form.FormDetailsTab;
-import gov.nih.nci.ctcae.web.form.SelectStudyForFormTab;
-import gov.nih.nci.ctcae.web.participant.*;
-import gov.nih.nci.ctcae.web.study.EmptyStudyTab;
-import gov.nih.nci.ctcae.web.study.StudySiteClinicalStaffTab;
 
 import java.util.ArrayList;
 import java.util.List;

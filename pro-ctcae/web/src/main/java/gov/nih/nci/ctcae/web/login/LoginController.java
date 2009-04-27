@@ -1,25 +1,16 @@
 package gov.nih.nci.ctcae.web.login;
 
-import gov.nih.nci.ctcae.core.SetupStatus;
-import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.repository.UserRepository;
-import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import gov.nih.nci.ctcae.web.setup.SetupCommand;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.mvc.ParameterizableViewController;
-import org.springframework.web.servlet.mvc.AbstractController;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.tagext.Tag;
 
 /**
  * @author Vinay Kumar

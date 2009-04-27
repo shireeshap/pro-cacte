@@ -1,12 +1,13 @@
 package gov.nih.nci.ctcae.web.rules;
 
-import gov.nih.nci.ctcae.core.domain.*;
-
-import java.util.List;
-import java.util.ArrayList;
-
-import com.semanticbits.rules.brxml.*;
+import com.semanticbits.rules.brxml.RuleSet;
 import com.semanticbits.rules.objectgraph.FactResolver;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CommonRulesTest extends AbstractRulesTest {

@@ -1,16 +1,14 @@
 package gov.nih.nci.ctcae.web.rules;
 
-import com.semanticbits.rules.utils.RuleUtil;
-import com.semanticbits.rules.utils.RepositoryCleaner;
 import com.semanticbits.rules.api.*;
 import com.semanticbits.rules.brxml.RuleSet;
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
+import com.semanticbits.rules.utils.RepositoryCleaner;
+import com.semanticbits.rules.utils.RuleUtil;
 import org.springframework.beans.factory.annotation.Required;
-import org.drools.repository.RulesRepository;
-import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
+import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class AbstractRulesTest extends AbstractDependencyInjectionSpringContextTests {

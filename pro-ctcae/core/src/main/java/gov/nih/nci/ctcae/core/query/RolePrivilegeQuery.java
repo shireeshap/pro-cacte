@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.Role;
 
-import java.util.List;
 import java.util.Set;
 
 //

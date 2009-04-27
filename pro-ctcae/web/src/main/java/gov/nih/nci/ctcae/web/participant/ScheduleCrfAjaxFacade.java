@@ -6,14 +6,14 @@ import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
-import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import gov.nih.nci.ctcae.web.form.SubmitFormCommand;
 import gov.nih.nci.ctcae.web.form.SubmitFormController;
+import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 //
 /**

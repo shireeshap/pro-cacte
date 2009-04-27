@@ -1,15 +1,15 @@
 package gov.nih.nci.ctcae.web.rules;
 
-import com.semanticbits.rules.brxml.*;
+import com.semanticbits.rules.brxml.Column;
+import com.semanticbits.rules.brxml.Condition;
+import com.semanticbits.rules.brxml.Rule;
+import com.semanticbits.rules.brxml.RuleAttribute;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
-
-import org.springframework.util.StringUtils;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 
 /**
  * User: Harsh

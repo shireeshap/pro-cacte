@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.rules;
 
 import org.drools.repository.RulesRepository;
-import gov.nih.nci.ctcae.web.rules.AbstractRulesTest;
 
 
 public class RulesCheckRepositoryTest extends AbstractRulesTest {

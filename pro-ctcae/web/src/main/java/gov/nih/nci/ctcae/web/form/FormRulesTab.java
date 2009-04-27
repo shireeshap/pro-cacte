@@ -1,9 +1,9 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
-import gov.nih.nci.ctcae.web.ListValues;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;

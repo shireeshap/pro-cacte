@@ -1,6 +1,9 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 //
 /**

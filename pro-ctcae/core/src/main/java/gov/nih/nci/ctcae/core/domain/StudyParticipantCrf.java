@@ -6,9 +6,8 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 //
 /**
