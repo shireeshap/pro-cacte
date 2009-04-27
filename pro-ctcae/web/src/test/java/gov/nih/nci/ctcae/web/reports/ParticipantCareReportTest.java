@@ -20,7 +20,7 @@ import java.io.BufferedOutputStream;
  * @author Vinay Kumar
  * @crated Mar 18, 2009
  */
-public class ParticipantCareReportPdfViewTest extends WebTestCase {
+public class ParticipantCareReportTest extends WebTestCase {
 
     ProCtcQuestion proCtcQuestion1, proCtcQuestion2, proCtcQuestion3;
     ProCtcTerm proCtcTerm;
@@ -32,7 +32,7 @@ public class ParticipantCareReportPdfViewTest extends WebTestCase {
         super.setUp();
 
         dates = new ArrayList<Date>();
-        Calendar calendar= ProCtcAECalendar.getCalendarForDate(new Date());
+        Calendar calendar = ProCtcAECalendar.getCalendarForDate(new Date());
         calendar.add(Calendar.DATE, 10);
         dates.add(calendar.getTime());
         calendar.add(Calendar.DATE, 10);
@@ -123,20 +123,23 @@ public class ParticipantCareReportPdfViewTest extends WebTestCase {
         symptoms.put(proCtcQuestion2, proCtcValidValueList2);
         symptoms.put(proCtcQuestion3, proCtcValidValueList3);
 
+        Study study = Fixture.createStudyWithStudySite("short", "long", "assigned id", Fixture.createOrganization("orgname", "orgcode"));
         results.put(proCtcTerm, symptoms);
+        request.getSession().setAttribute("sessionResultsMap", results);
+        request.getSession().setAttribute("sessionDates", dates);
+        request.getSession().setAttribute("participant", Fixture.createParticipant("pf", "pl", "pid"));
+        request.getSession().setAttribute("study", study);
+        request.getSession().setAttribute("crf", Fixture.createCrf());
+        request.getSession().setAttribute("studySite", study.getStudySites().get(0));
     }
 
     public void testPdfGeneration() throws Exception {
-        request.getSession().setAttribute("sessionResultsMap", results);
 
-        request.getSession().setAttribute("sessionDates", dates);
-        request.getSession().setAttribute("participant", Fixture.createParticipant("pf", "pl", "pid"));
-
-        ParticipantCarePdfController participantCarePdfController = new ParticipantCarePdfController();
-        ModelAndView modelAndView = participantCarePdfController.handleRequestInternal(request, response);
-        ParticipantCarePdfView participantCarePdfView = (ParticipantCarePdfView) modelAndView.getView();
-        participantCarePdfView.render(null, request, response);
-        System.out.println(response.getContentType());
+        ParticipantCarePdfController controller = new ParticipantCarePdfController();
+        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
+        ParticipantCarePdfView view = (ParticipantCarePdfView) modelAndView.getView();
+        view.render(null, request, response);
+        assertEquals("application/pdf", response.getContentType());
         File f = new File("/etc/ctcae/generatedpdf.pdf");
         if (f.exists()) {
             f.delete();
@@ -147,5 +150,22 @@ public class ParticipantCareReportPdfViewTest extends WebTestCase {
         bufferedOutputStream.close();
 
 
+    }
+
+    public void testExcelGeneration() throws Exception {
+
+        ParticipantCareExcelController controller = new ParticipantCareExcelController();
+        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
+        ParticipantCareExcelView view = (ParticipantCareExcelView) modelAndView.getView();
+        view.render(null, request, response);
+        assertEquals("application/vnd.ms-excel", response.getContentType());
+        File f = new File("/etc/ctcae/generatedexcel.xls");
+        if (f.exists()) {
+            f.delete();
+        }
+        f.createNewFile();
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(f));
+        bufferedOutputStream.write(response.getContentAsByteArray());
+        bufferedOutputStream.close();
     }
 }

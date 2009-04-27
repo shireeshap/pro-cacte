@@ -134,8 +134,12 @@
 
     <div id="careResultsTable">
         <a href="javascript:getChartView()">Switch to graphical view</a> | <a
-            href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank"><img src="/ctcae/images/table/pdf.gif"
-                                                                                           alt="pdf"/></a>
+            href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank"><img
+            src="/ctcae/images/table/pdf.gif"
+            alt="pdf"/></a> | <a
+            href="<c:url value='/pages/reports/participantCareExcel'/>" target="_blank"><img
+            src="/ctcae/images/table/xls.gif"
+            alt="xls"/></a>
 
         <br/>
         <br/>

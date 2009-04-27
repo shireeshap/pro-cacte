@@ -429,6 +429,8 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SelectStudyPartici
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ShowCompletedCrfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ChartGenerator.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareExcelController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareExcelView.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareGraphicalReportController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareMonitorController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCarePdfController.java -text
@@ -1118,7 +1120,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SearchParticipantC
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendarTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantCareReportPdfViewTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantCareReportTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/AbstractRulesTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/CommonRulesTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/ExecuteRulesTest.java -text

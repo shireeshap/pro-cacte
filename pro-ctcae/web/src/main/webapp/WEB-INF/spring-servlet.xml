@@ -360,9 +360,15 @@
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareResultsController">
         <property name="studyRepository" ref="studyRepository"/>
         <property name="participantRepository" ref="participantRepository"/>
+        <property name="crfRepository" ref="crfRepository"/>
+        <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
     <bean name="/reports/participantCarePdf" id="participantCarePdfController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantCarePdfController">
+    </bean>
+
+    <bean name="/reports/participantCareExcel" id="participantCareExcelController"
+          class="gov.nih.nci.ctcae.web.reports.ParticipantCareExcelController">
     </bean>
 
 

@@ -2,6 +2,8 @@ package gov.nih.nci.ctcae.web.reports;
 
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 import org.jfree.chart.JFreeChart;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFCell;
 
 import java.util.*;
 import java.awt.*;
@@ -14,10 +16,7 @@ import com.lowagie.text.pdf.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
-import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 /**
@@ -30,15 +29,31 @@ public class ParticipantCarePdfView extends AbstractPdfView {
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<Date> dates = (ArrayList<Date>) request.getSession().getAttribute("sessionDates");
         Participant participant = (Participant) request.getSession().getAttribute("participant");
+        Study study = (Study) request.getSession().getAttribute("study");
+        CRF crf = (CRF) request.getSession().getAttribute("crf");
+        StudySite studySite = (StudySite) request.getSession().getAttribute("studySite");
+
         PdfPTable table = new PdfPTable(dates.size() + 2);
         Font f = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, Color.BLACK);
-        Paragraph p = new Paragraph("Participant: " + participant.getDisplayName() + " [" + participant.getAssignedIdentifier() + "]", f);
+        //Study
+        document.add(new Paragraph("Study: " + study.getShortTitle() + " [" + study.getAssignedIdentifier() + "]"));
 
-        PdfPCell cell = new PdfPCell(p);
-        cell.setColspan(dates.size() + 2);
-        table.addCell(cell);
+        //CRF
+        document.add(new Paragraph("Form: " + crf.getTitle()));
 
-        cell = new PdfPCell(new Paragraph("Symptom"));
+        //Study Site
+        document.add(new Paragraph("Study site: " + studySite.getDisplayName()));
+
+        //Particpant
+        document.add(new Paragraph("Participant: " + participant.getDisplayName() + " [" + participant.getAssignedIdentifier() + "]"));
+
+        //Report run date
+        document.add(new Paragraph("Report run date: " + DateUtils.format(new Date())));
+
+        document.add(new Paragraph(" "));
+
+
+        PdfPCell cell = new PdfPCell(new Paragraph("Symptom"));
         cell.setBackgroundColor(Color.lightGray);
         table.addCell(cell);
 
@@ -62,7 +77,9 @@ public class ParticipantCarePdfView extends AbstractPdfView {
             HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = results.get(proCtcTerm);
             for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
                 table.addCell("");
-                table.addCell(proCtcQuestion.getProCtcQuestionType().getDisplayName());
+                cell = new PdfPCell(new Paragraph(proCtcQuestion.getProCtcQuestionType().getDisplayName()));
+                cell.setBackgroundColor(new Color(161, 218, 215));
+                table.addCell(cell);
                 ArrayList<ProCtcValidValue> validValues = questionMap.get(proCtcQuestion);
                 for (ProCtcValidValue proCtcValidValue : validValues) {
                     table.addCell(proCtcValidValue.getValue());

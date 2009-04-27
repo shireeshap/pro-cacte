@@ -4,6 +4,8 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.ModelAndView;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
@@ -20,13 +22,15 @@ public class ParticipantCareResultsController extends AbstractController {
 
     StudyRepository studyRepository;
     ParticipantRepository participantRepository;
+    CRFRepository crfRepository;
+    StudyOrganizationRepository studyOrganizationRepository;
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("reports/participantCareResults");
-        String studyId = request.getParameter("studyId");
-        String studySiteId = request.getParameter("studySiteId");
-        String crfId = request.getParameter("crfId");
+        Integer studyId = Integer.parseInt(request.getParameter("studyId"));
+        Integer studySiteId = Integer.parseInt(request.getParameter("studySiteId"));
+        Integer crfId = Integer.parseInt(request.getParameter("crfId"));
         Integer participantId = Integer.parseInt(request.getParameter("participantId"));
         String forVisits = request.getParameter("forVisits");
         String visitRange = request.getParameter("visitRange");
@@ -44,7 +48,7 @@ public class ParticipantCareResultsController extends AbstractController {
             visitTitle.add("Current");
             visitTitle.add("First");
         }
-        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = getCareResults(visitRange, Integer.valueOf(studyId), crfId, Integer.valueOf(studySiteId), participantId, dates, Integer.valueOf(forVisits), startDate, endDate);
+        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = getCareResults(visitRange, studyId, crfId, studySiteId, participantId, dates, Integer.valueOf(forVisits), startDate, endDate);
         modelAndView.addObject("resultsMap", results);
         modelAndView.addObject("dates", dates);
         modelAndView.addObject("visitTitle", visitTitle);
@@ -55,10 +59,14 @@ public class ParticipantCareResultsController extends AbstractController {
         request.getSession().setAttribute("sessionResultsMap", results);
         request.getSession().setAttribute("sessionDates", dates);
         request.getSession().setAttribute("participant", participant);
+        request.getSession().setAttribute("study", studyRepository.findById(studyId));
+        request.getSession().setAttribute("crf", crfRepository.findById(crfId));
+        request.getSession().setAttribute("studySite", studyOrganizationRepository.findById(studySiteId));
+
         return modelAndView;
     }
 
-    private TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> getCareResults(String visitRange, Integer studyId, String crfId, Integer studySiteId, Integer participantId, List<Date> dates, Integer forVisits, String startDate, String endDate) throws ParseException {
+    private TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> getCareResults(String visitRange, Integer studyId, Integer crfId, Integer studySiteId, Integer participantId, List<Date> dates, Integer forVisits, String startDate, String endDate) throws ParseException {
 
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = new TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
         HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults;
@@ -70,7 +78,7 @@ public class ParticipantCareResultsController extends AbstractController {
             if (studyParticipantAssignment.getParticipant().getId().equals(participantId)) {
 
                 for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-                    if (studyParticipantCrf.getCrf().getId().equals(Integer.parseInt(crfId))) {
+                    if (studyParticipantCrf.getCrf().getId().equals(crfId)) {
 
                         List<StudyParticipantCrfSchedule> completedCrfs = new ArrayList<StudyParticipantCrfSchedule>();
                         if (visitRange.equals("currentLast")) {
@@ -160,5 +168,13 @@ public class ParticipantCareResultsController extends AbstractController {
 
     public void setParticipantRepository(ParticipantRepository participantRepository) {
         this.participantRepository = participantRepository;
+    }
+
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
+    }
+
+    public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
+        this.studyOrganizationRepository = studyOrganizationRepository;
     }
 }
