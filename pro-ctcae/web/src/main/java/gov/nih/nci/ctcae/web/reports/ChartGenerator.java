@@ -65,17 +65,12 @@ public class ChartGenerator {
     private CategoryDataset createDataset(HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart, ArrayList<Date> dates, ArrayList<String> arrSelectedTypes) {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//        for (ProCtcQuestionType proCtcQuestionType : ProCtcQuestionType.getAllDisplayTypes()) {
-//            dataset.addValue(0, proCtcQuestionType.getDisplayName(), "");
-//        }
-//        dataset.addValue(0, ProCtcQuestionType.PRESENT, "");
-
         int i = 0;
         for (Date date : dates) {
             for (ProCtcQuestion proCtcQuestion : dataForChart.keySet()) {
                 ArrayList<ProCtcValidValue> proCtcValidValues = dataForChart.get(proCtcQuestion);
                 ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
-                String questionType = proCtcValidValue.getProCtcQuestion().getProCtcQuestionType().getDisplayName();
+                String questionType = proCtcQuestion.getProCtcQuestionType().getDisplayName();
                 if (arrSelectedTypes == null) {
                     dataset.addValue(proCtcValidValue.getDisplayOrder(), questionType, DateUtils.format(date));
                 } else {
@@ -98,7 +93,6 @@ public class ChartGenerator {
      *
      * @param dataset      the dataset
      * @param selectedTerm
-     * @param angle
      * @return the j free chart
      */
 
@@ -161,7 +155,7 @@ public class ChartGenerator {
             categoryItemRenderer.setSeriesItemLabelsVisible(i, true);
             categoryItemRenderer.setSeriesItemLabelGenerator(i, new LabelGenerator());
             categoryItemRenderer.setSeriesPositiveItemLabelPosition(i, itemLabelPosition);
-            categoryItemRenderer.setSeriesItemLabelPaint(i, Color.black);
+            categoryItemRenderer.setSeriesItemLabelPaint(i, Color.white);
         }
         CategoryAxis domainAxis = plot.getDomainAxis();
         domainAxis.setCategoryLabelPositions(
