@@ -60,7 +60,7 @@ public class ParticipantCareGraphicalReportController extends ParticipantCareRes
         ArrayList<Date> dates = (ArrayList<Date>) request.getSession().getAttribute("sessionDates");
         response.setContentType("image/png");
         JFreeChart chart = chartGenerator.getChartForSymptom(results,dates, inputSymptomId, arrSelectedTypes);
-        ChartUtilities.writeChartAsPNG(response.getOutputStream(), chart, 700, 500);
+        ChartUtilities.writeChartAsPNG(response.getOutputStream(), chart, 700, 450);
         response.getOutputStream().close();
 
         return null;
