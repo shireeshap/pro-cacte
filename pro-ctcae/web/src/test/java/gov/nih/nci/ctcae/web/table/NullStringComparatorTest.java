@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.table;
 
-import gov.nih.nci.ctcae.core.TestBean;
 import gov.nih.nci.ctcae.core.AbstractTestCase;
+import gov.nih.nci.ctcae.core.TestBean;
 
 import java.util.Comparator;
 

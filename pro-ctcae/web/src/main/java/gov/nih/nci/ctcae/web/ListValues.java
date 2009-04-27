@@ -5,8 +5,6 @@ import gov.nih.nci.ctcae.core.domain.*;
 
 import java.util.*;
 
-import com.semanticbits.rules.ui.ValidValue;
-
 //
 /**
  * The Class ListValues.

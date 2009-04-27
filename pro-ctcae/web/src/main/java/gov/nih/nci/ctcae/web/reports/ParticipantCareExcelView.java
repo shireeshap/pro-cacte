@@ -1,25 +1,14 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import org.springframework.web.servlet.view.document.AbstractPdfView;
-import org.springframework.web.servlet.view.document.AbstractExcelView;
-import org.jfree.chart.JFreeChart;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.core.domain.*;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.hssf.model.Workbook;
-
-import java.util.*;
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.*;
+import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import java.util.*;
 
 /**
  * User: Harsh

@@ -1,12 +1,10 @@
 package gov.nih.nci.ctcae.web;
 
+import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.domain.*;
 import junit.framework.TestCase;
 
 import java.util.List;
-
-import gov.nih.nci.ctcae.web.ListValues;
-import gov.nih.nci.ctcae.core.Fixture;
-import gov.nih.nci.ctcae.core.domain.*;
 
 /**
  * @author Vinay Kumar

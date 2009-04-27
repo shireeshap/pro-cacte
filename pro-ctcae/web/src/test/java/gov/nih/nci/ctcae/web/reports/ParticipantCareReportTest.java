@@ -1,20 +1,14 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.SetupStatus;
 import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.web.setup.SetupOrNotFilter;
-import static org.easymock.EasyMock.expect;
-import org.springframework.mock.web.MockFilterConfig;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.FilterChain;
-import java.util.*;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
+import java.util.*;
 
 /**
  * @author Vinay Kumar
