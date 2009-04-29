@@ -1130,6 +1130,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SelectStudyPartici
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendarTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantCareReportTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/AbstractRulesTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/CommonRulesTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/ExecuteRulesTest.java -text

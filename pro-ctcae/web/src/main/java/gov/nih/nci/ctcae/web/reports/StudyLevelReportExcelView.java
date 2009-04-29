@@ -4,11 +4,14 @@ import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.hssf.util.Region;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+
+import com.semanticbits.rules.utils.DateUtil;
 
 /**
  * User: Harsh
@@ -18,9 +21,8 @@ import java.util.*;
 public class StudyLevelReportExcelView extends AbstractExcelView {
 
     protected void buildExcelDocument(Map map, HSSFWorkbook hssfWorkbook, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
-        ArrayList<Date> dates = (ArrayList<Date>) request.getSession().getAttribute("sessionDates");
-        Participant participant = (Participant) request.getSession().getAttribute("participant");
+        TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> results = (TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>) request.getSession().getAttribute("sessionResultsMap");
+        LinkedHashMap<Participant, ArrayList<Date>> datesMap = (LinkedHashMap<Participant, ArrayList<Date>>) request.getSession().getAttribute("sessionDatesMap");
         Study study = (Study) request.getSession().getAttribute("study");
         CRF crf = (CRF) request.getSession().getAttribute("crf");
         StudySite studySite = (StudySite) request.getSession().getAttribute("studySite");
@@ -58,14 +60,6 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         cell = row.createCell((short) 1);
         cell.setCellValue(studySite.getDisplayName());
 
-        //Particpant
-        row = hssfSheet.createRow(rownum++);
-        cell = row.createCell((short) 0);
-        cell.setCellValue("Participant");
-        cell.setCellStyle(style);
-        cell = row.createCell((short) 1);
-        cell.setCellValue(participant.getDisplayName() + " [" + participant.getAssignedIdentifier() + "]");
-
         //Report run date
         row = hssfSheet.createRow(rownum++);
         cell = row.createCell((short) 0);
@@ -79,73 +73,111 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
         style = hssfWorkbook.createCellStyle();
         style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
         style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        row = hssfSheet.createRow(rownum++);
-        cell = row.createCell((short) 0);
-        cell.setCellValue("Symptom");
-        cell.setCellStyle(style);
 
-
-        cell = row.createCell((short) 1);
-        cell.setCellValue("Attribute");
-        cell.setCellStyle(style);
-
-        short i = 2;
-        for (Date date : dates) {
-            cell = row.createCell(i++);
-            cell.setCellValue(DateUtils.format(date));
-            cell.setCellStyle(style);
-        }
+        HSSFCellStyle centerStyle = hssfWorkbook.createCellStyle();
+        centerStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+        centerStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        centerStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
         row = hssfSheet.createRow(rownum++);
-        HSSFCellStyle style1 = hssfWorkbook.createCellStyle();
-        style1.setFillForegroundColor(HSSFColor.AQUA.index);
-        style1.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        for (ProCtcTerm proCtcTerm : results.keySet()) {
+        int numOfColumns = 0;
+        for (Participant participant : results.keySet()) {
             row = hssfSheet.createRow(rownum++);
             cell = row.createCell((short) 0);
-            cell.setCellValue(proCtcTerm.getTerm());
+            cell.setCellValue(new HSSFRichTextString("Participant"));
             cell.setCellStyle(style);
+            cell = row.createCell((short) 1);
+            cell.setCellValue(new HSSFRichTextString(participant.getDisplayName() + " [" + participant.getAssignedIdentifier() + "]"));
 
+            TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = results.get(participant);
+            short symptomCellRow = rownum;
+            HSSFRow rowSymptom = hssfSheet.createRow(rownum++);
+            HSSFRow rowQuestion = hssfSheet.createRow(rownum++);
+            short symptomCellNum = 0;
+            short questionCellNum = 0;
+            short symptomIndex = 1;
+            cell = rowSymptom.createCell(symptomCellNum++);
+            cell.setCellValue(new HSSFRichTextString("-"));
+            cell = rowQuestion.createCell(questionCellNum++);
+            cell.setCellValue(new HSSFRichTextString("~"));
 
-            HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = results.get(proCtcTerm);
-            for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
-                i = 0;
-                row = hssfSheet.createRow(rownum++);
-
-                cell = row.createCell(i++);
-                cell.setCellValue("");
-
-                cell = row.createCell(i++);
-                cell.setCellValue(proCtcQuestion.getProCtcQuestionType().getDisplayName());
-                cell.setCellStyle(style1);
-                ArrayList<ProCtcValidValue> validValues = questionMap.get(proCtcQuestion);
-                for (ProCtcValidValue proCtcValidValue : validValues) {
-                    cell = row.createCell(i++);
-                    cell.setCellValue(proCtcValidValue.getValue());
+            ArrayList<Date> dates = null;
+            for (Participant participantT : datesMap.keySet()) {
+                if (participant.equals(participantT)) {
+                    dates = datesMap.get(participant);
+                    break;
                 }
             }
+            if (dates != null) {
+                for (Date date : dates) {
+                    row = hssfSheet.createRow(rownum++);
+                    cell = row.createCell((short) 0);
+                    cell.setCellValue(new HSSFRichTextString(DateUtils.format(date)));
+                }
+            }
+            for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
+                LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = symptomMap.get(proCtcTerm);
+                for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
+                    ArrayList<ProCtcValidValue> valuesList = questionMap.get(proCtcQuestion);
+                    cell = rowSymptom.createCell(symptomCellNum++);
+                    cell.setCellValue(new HSSFRichTextString(proCtcTerm.getTerm()));
+                    cell.setCellStyle(centerStyle);
+
+                    cell = rowQuestion.createCell(questionCellNum++);
+                    cell.setCellValue(new HSSFRichTextString(proCtcQuestion.getProCtcQuestionType().getDisplayName()));
+
+                    short cellNum = 1;
+//                    for (ProCtcValidValue proCtcValidValue : valuesList) {
+//                        cell = row.createCell(cellNum++);
+//                        cell.setCellValue(new HSSFRichTextString(proCtcValidValue.getValue()));
+//                    }
+                }
+
+                Region region = new Region();
+                region.setRowFrom(symptomCellRow);
+                region.setRowTo(symptomCellRow);
+                region.setColumnFrom((short) (symptomIndex + 1));
+                region.setColumnTo((short) (symptomIndex + questionMap.size()));
+                hssfSheet.addMergedRegion(region);
+                symptomIndex = (short) (symptomIndex + questionMap.size() + 1);
+
+            }
+
+            numOfColumns = symptomMap.size() + 2;
+            row = hssfSheet.createRow(rownum++);
         }
 
+        for (int i = 0; i < numOfColumns; i++) {
+            hssfSheet.autoSizeColumn((short) i);
+        }
 
-//        document.add(table);
-//        float height = PageSize.A4.height() / 2;
-//        float width = PageSize.A4.width();
-//        int i = 0;
+//        HSSFCellStyle style1 = hssfWorkbook.createCellStyle();
+//        style1.setFillForegroundColor(HSSFColor.AQUA.index);
+//        style1.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 //        for (ProCtcTerm proCtcTerm : results.keySet()) {
-//            if (i % 2 == 0) {
-//                document.newPage();
+//            row = hssfSheet.createRow(rownum++);
+//            cell = row.createCell((short) 0);
+//            cell.setCellValue(proCtcTerm.getTerm());
+//            cell.setCellStyle(style);
+//
+//
+//            HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = results.get(proCtcTerm);
+//            for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
 //                i = 0;
+//                row = hssfSheet.createRow(rownum++);
+//
+//                cell = row.createCell(i++);
+//                cell.setCellValue("");
+//
+//                cell = row.createCell(i++);
+//                cell.setCellValue(proCtcQuestion.getProCtcQuestionType().getDisplayName());
+//                cell.setCellStyle(style1);
+//                ArrayList<ProCtcValidValue> validValues = questionMap.get(proCtcQuestion);
+//                for (ProCtcValidValue proCtcValidValue : validValues) {
+//                    cell = row.createCell(i++);
+//                    cell.setCellValue(proCtcValidValue.getValue());
+//                }
 //            }
-//            ChartGenerator chartGenerator = new ChartGenerator();
-//            PdfContentByte cb = pdfWriter.getDirectContent();
-//            PdfTemplate tp = cb.createTemplate(width, height);
-//            Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());
-//            JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, proCtcTerm.getId(), null);
-//            Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height - 20);
-//            chart.draw(g2, r2D);
-//            g2.dispose();
-//            cb.addTemplate(tp, 0, i * height);
-//            i++;
 //        }
     }
 }
