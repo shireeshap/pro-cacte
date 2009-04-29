@@ -438,6 +438,10 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCarePdfView
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantNameComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportExcelController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportExcelView.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportPdfController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportPdfView.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/JavaMailSender.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/NotificationsEvaluationService.java -text

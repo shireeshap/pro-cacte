@@ -385,6 +385,14 @@
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
 
+    <bean name="/reports/studyLevelReportExcel" id="studyLevelReportExcelController"
+          class="gov.nih.nci.ctcae.web.reports.StudyLevelReportExcelController">
+    </bean>
+
+    <bean name="/reports/studyLevelReportPdf" id="studyLevelReportPdfController"
+          class="gov.nih.nci.ctcae.web.reports.StudyLevelReportPdfController">
+    </bean>
+
     <bean name="/participant/displaycalendar" id="displayCalendarController"
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
         <property name="crfRepository" ref="crfRepository"/>
