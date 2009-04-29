@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.login;
 
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
@@ -29,8 +30,8 @@ public class LoginController extends AbstractController {
         }
 
         User user = (User) auth.getPrincipal();
-        if (user.getUserRoles().size() == 1) {
-            if (user.getUserRoles().get(0).getRole().equals(Role.PARTICIPANT)) {
+        for (UserRole userRole : user.getUserRoles()) {
+            if (userRole.getRole().equals(Role.PARTICIPANT)) {
                 return new ModelAndView(new RedirectView("participant/participantInbox"));
             }
         }

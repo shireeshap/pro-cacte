@@ -436,6 +436,9 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareMonitor
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCarePdfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCarePdfView.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareResultsController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantNameComparator.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/JavaMailSender.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/NotificationsEvaluationService.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/ProCtcAEFactResolver.java -text
@@ -650,6 +653,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/selectstudyparticipant.j
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/showCompletedCrf.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantCareMonitor.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantCareResults.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/studyLevelReport.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/studyLevelReportResults.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/setup/confirmSetup.jsp -text

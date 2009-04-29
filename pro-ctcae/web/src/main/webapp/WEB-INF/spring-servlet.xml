@@ -156,6 +156,9 @@
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="reports.tab.participant_care"
                                   p:linkName="participantCareMonitorController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="reports.tab.study_level_report"
+                                  p:linkName="studyLevelReportController"/>
 
                         </list>
                     </property>
@@ -371,6 +374,16 @@
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareExcelController">
     </bean>
 
+    <bean name="/reports/studyLevelReport" id="studyLevelReportController"
+          class="gov.nih.nci.ctcae.web.reports.StudyLevelReportController">
+    </bean>
+
+    <bean name="/reports/studyLevelReportResults" id="studyLevelReportResultsController"
+          class="gov.nih.nci.ctcae.web.reports.StudyLevelReportResultsController">
+        <property name="studyRepository" ref="studyRepository"/>
+        <property name="crfRepository" ref="crfRepository"/>
+        <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
+    </bean>
 
     <bean name="/participant/displaycalendar" id="displayCalendarController"
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">

@@ -186,10 +186,6 @@
     <div id="careResultsGraph" style="display:none">
         <a href="javascript:getTableView()">Switch to tabular view</a>
 
-        <div class="row">
-            <b>Participant:</b>
-                ${participant.displayName} [${participant.assignedIdentifier}]
-        </div>
         <table class="widget" cellspacing="0" width="100%">
             <tr>
                 <td class="subcategory-name">
