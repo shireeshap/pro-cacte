@@ -43,6 +43,10 @@ public class CsvImporter {
             String questionText = reader.get(QUESTION_TEXT);
             String proCtcValidValues = reader.get(PRO_CTC_VALID_VALUES);
 
+            if(questionType.toLowerCase().equals("present")){
+            questionType = "Present/Not present";
+            }
+
             csvLine.setProctcTerm(proCtcTerm);
             csvLine.setCtcTerm(ctcTerm);
             csvLine.setDisplayOrder(displayOrder);
