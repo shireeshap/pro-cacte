@@ -54,8 +54,8 @@
         function displaySites() {
 
             organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
-                alert(values);
-                alert(values.length);
+//                alert(values);
+//                alert(values.length);
             })
 
 
