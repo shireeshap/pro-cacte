@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class StudyLevelReportExcelController extends AbstractController {
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        StudyLevelReportExcelView view = new StudyLevelReportExcelView();
+        StudyLevelReportPdfView view = new StudyLevelReportPdfView();
         return new ModelAndView(view);
     }
 }

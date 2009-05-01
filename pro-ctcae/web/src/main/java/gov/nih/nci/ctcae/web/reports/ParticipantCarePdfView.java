@@ -29,7 +29,6 @@ public class ParticipantCarePdfView extends AbstractPdfView {
         StudySite studySite = (StudySite) request.getSession().getAttribute("studySite");
 
         PdfPTable table = new PdfPTable(dates.size() + 2);
-        Font f = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, Color.BLACK);
         //Study
         document.add(new Paragraph("Study: " + study.getShortTitle() + " [" + study.getAssignedIdentifier() + "]"));
 

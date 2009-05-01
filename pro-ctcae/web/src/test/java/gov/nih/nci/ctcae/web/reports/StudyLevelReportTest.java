@@ -160,30 +160,30 @@ public class StudyLevelReportTest extends WebTestCase {
         request.getSession().setAttribute("studySite", study.getStudySites().get(0));
     }
 
-//    public void testPdfGeneration() throws Exception {
-//
-//        ParticipantCarePdfController controller = new ParticipantCarePdfController();
-//        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
-//        ParticipantCarePdfView view = (ParticipantCarePdfView) modelAndView.getView();
-//        view.render(null, request, response);
-//        assertEquals("application/pdf", response.getContentType());
-//        File f = new File("/etc/ctcae/generatedpdf.pdf");
-//        if (f.exists()) {
-//            f.delete();
-//        }
-//        f.createNewFile();
-//        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(f));
-//        bufferedOutputStream.write(response.getContentAsByteArray());
-//        bufferedOutputStream.close();
-//
-//
-//    }
+    public void testPdfGeneration() throws Exception {
+
+        StudyLevelReportPdfController controller = new StudyLevelReportPdfController();
+        ModelAndView modelAndView = controller.handleRequestInternal(request, response);
+        StudyLevelReportPdfView view = (StudyLevelReportPdfView) modelAndView.getView();
+        view.render(null, request, response);
+        assertEquals("application/pdf", response.getContentType());
+        File f = new File("/etc/ctcae/generatedpdf.pdf");
+        if (f.exists()) {
+            f.delete();
+        }
+        f.createNewFile();
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(f));
+        bufferedOutputStream.write(response.getContentAsByteArray());
+        bufferedOutputStream.close();
+
+
+    }
 
     public void testExcelGeneration() throws Exception {
 
         StudyLevelReportExcelController controller = new StudyLevelReportExcelController();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
-        StudyLevelReportExcelView view = (StudyLevelReportExcelView) modelAndView.getView();
+        StudyLevelReportPdfView view = (StudyLevelReportPdfView) modelAndView.getView();
         view.render(null, request, response);
         assertEquals("application/vnd.ms-excel", response.getContentType());
         File f = new File("/etc/ctcae/generatedexcel.xls");
