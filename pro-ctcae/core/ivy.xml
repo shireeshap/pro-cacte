@@ -35,10 +35,9 @@
 
         <exclude conf="*" name="cglib"/>
         <exclude conf="*" name="asm-attrs"/>
-        <exclude conf="*" name="poi"/>
 
         <!-- Apache POI dependencies -->
-        <dependency org="poi" name="poi" rev="3.0-FINAL"/>
+        <dependency org="poi" name="poi" rev="3.0-FINAL" force="true"/>
 
         <!-- ctcae module dependencies -->
         <dependency org="gov.nih.nci.ctcae" name="ctcae-commons" rev="latest.integration"

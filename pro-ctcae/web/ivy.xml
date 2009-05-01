@@ -36,7 +36,7 @@
         <exclude conf="*" name="asm-attrs"/>
 
         <!-- Apache POI dependencies -->
-        <dependency org="org.apache.poi" name="poi" rev="3.0-FINAL"/>
+        <dependency org="org.apache.poi" name="poi" rev="3.0-FINAL" force="true"/>
 
 
         <!--  caAERS other modules -->
@@ -120,9 +120,7 @@
 
 
         <!-- JFree Dependency-->
-        <dependency org="jfree" name="jfreechart" rev="1.0.9" force="true">
-            <exclude conf="*" name="poi"/>
-        </dependency>
+        <dependency org="jfree" name="jfreechart" rev="1.0.9" force="true"/>
 
         <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.0.6" conf="build->default"/>
 
