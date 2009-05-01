@@ -35,6 +35,10 @@
         <exclude conf="*" name="cglib"/>
         <exclude conf="*" name="asm-attrs"/>
 
+        <!-- Apache POI dependencies -->
+        <dependency org="org.apache.poi" name="poi" rev="3.0-FINAL"/>
+
+
         <!--  caAERS other modules -->
         <dependency org="gov.nih.nci.ctcae" name="ctcae-commons" rev="latest.integration"
                     conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
@@ -116,7 +120,9 @@
 
 
         <!-- JFree Dependency-->
-        <dependency org="jfree" name="jfreechart" rev="1.0.9" force="true"/>
+        <dependency org="jfree" name="jfreechart" rev="1.0.9" force="true">
+            <exclude conf="*" name="poi"/>
+        </dependency>
 
         <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.0.6" conf="build->default"/>
 

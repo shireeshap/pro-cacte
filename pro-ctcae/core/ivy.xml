@@ -35,7 +35,10 @@
 
         <exclude conf="*" name="cglib"/>
         <exclude conf="*" name="asm-attrs"/>
+        <exclude conf="*" name="poi"/>
 
+        <!-- Apache POI dependencies -->
+        <dependency org="poi" name="poi" rev="3.0-FINAL"/>
 
         <!-- ctcae module dependencies -->
         <dependency org="gov.nih.nci.ctcae" name="ctcae-commons" rev="latest.integration"
@@ -119,9 +122,6 @@
         <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-uctrace" rev="${ctms.version}"/>
 
 
-        <!-- Apache POI dependencies -->
-        <dependency org="org.apache.poi" name="poi" rev="3.0-FINAL"/>
-
         <!-- Test/Runtime dependencies -->
         <dependency org="dbunit" name="dbunit" rev="2.1" conf="build->default;test->default;dist->default(*)"/>
 
@@ -132,6 +132,6 @@
         <dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
         <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-all" rev="0.8" conf="test->default"/>
         <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.0.6" conf="build->default"/>
-        
+
     </dependencies>
 </ivy-module>

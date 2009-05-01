@@ -125,27 +125,8 @@ public class ParticipantCareExcelView extends AbstractExcelView {
                 }
             }
         }
-
-
-//        document.add(table);
-//        float height = PageSize.A4.height() / 2;
-//        float width = PageSize.A4.width();
-//        int i = 0;
-//        for (ProCtcTerm proCtcTerm : results.keySet()) {
-//            if (i % 2 == 0) {
-//                document.newPage();
-//                i = 0;
-//            }
-//            ChartGenerator chartGenerator = new ChartGenerator();
-//            PdfContentByte cb = pdfWriter.getDirectContent();
-//            PdfTemplate tp = cb.createTemplate(width, height);
-//            Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());
-//            JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, proCtcTerm.getId(), null);
-//            Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height - 20);
-//            chart.draw(g2, r2D);
-//            g2.dispose();
-//            cb.addTemplate(tp, 0, i * height);
-//            i++;
-//        }
+        for (short j = 0; j < dates.size() + 2; j++) {
+            hssfSheet.autoSizeColumn(j);
+        }
     }
 }

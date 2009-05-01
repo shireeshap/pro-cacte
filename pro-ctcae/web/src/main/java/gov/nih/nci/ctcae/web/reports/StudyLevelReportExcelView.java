@@ -70,18 +70,15 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
 
         row = hssfSheet.createRow(rownum++);
 
-        style = hssfWorkbook.createCellStyle();
-        style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-        style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        style = getGreyStyle(hssfWorkbook);
+        HSSFCellStyle centerStyle = getCenterStyle(hssfWorkbook);
 
-        HSSFCellStyle centerStyle = hssfWorkbook.createCellStyle();
-        centerStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-        centerStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        centerStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        HSSFCellStyle styleAqua = getAquaStyle(hssfWorkbook);
 
         row = hssfSheet.createRow(rownum++);
         int numOfColumns = 0;
         for (Participant participant : results.keySet()) {
+
             row = hssfSheet.createRow(rownum++);
             cell = row.createCell((short) 0);
             cell.setCellValue(new HSSFRichTextString("Participant"));
@@ -93,13 +90,15 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
             short symptomCellRow = rownum;
             HSSFRow rowSymptom = hssfSheet.createRow(rownum++);
             HSSFRow rowQuestion = hssfSheet.createRow(rownum++);
+
             short symptomCellNum = 0;
             short questionCellNum = 0;
             short symptomIndex = 1;
+
             cell = rowSymptom.createCell(symptomCellNum++);
-            cell.setCellValue(new HSSFRichTextString("-"));
+            cell.setCellValue(new HSSFRichTextString(""));
             cell = rowQuestion.createCell(questionCellNum++);
-            cell.setCellValue(new HSSFRichTextString("~"));
+            cell.setCellValue(new HSSFRichTextString(""));
 
             ArrayList<Date> dates = null;
             for (Participant participantT : datesMap.keySet()) {
@@ -115,6 +114,8 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
                     cell.setCellValue(new HSSFRichTextString(DateUtils.format(date)));
                 }
             }
+
+            short cellNum = 1;
             for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
                 LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = symptomMap.get(proCtcTerm);
                 for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
@@ -125,59 +126,73 @@ public class StudyLevelReportExcelView extends AbstractExcelView {
 
                     cell = rowQuestion.createCell(questionCellNum++);
                     cell.setCellValue(new HSSFRichTextString(proCtcQuestion.getProCtcQuestionType().getDisplayName()));
+                    cell.setCellStyle(styleAqua);
 
-                    short cellNum = 1;
-//                    for (ProCtcValidValue proCtcValidValue : valuesList) {
-//                        cell = row.createCell(cellNum++);
-//                        cell.setCellValue(new HSSFRichTextString(proCtcValidValue.getValue()));
-//                    }
+                    short index = 0;
+                    for (ProCtcValidValue proCtcValidValue : valuesList) {
+                        row = hssfSheet.getRow(rownum - (valuesList.size() - index));
+                        cell = row.createCell(cellNum);
+                        cell.setCellValue(new HSSFRichTextString(proCtcValidValue.getValue()));
+                        index++;
+                    }
+                    cellNum++;
+                    if (cellNum > numOfColumns) {
+                        numOfColumns = cellNum;
+                    }
                 }
 
                 Region region = new Region();
                 region.setRowFrom(symptomCellRow);
                 region.setRowTo(symptomCellRow);
-                region.setColumnFrom((short) (symptomIndex + 1));
-                region.setColumnTo((short) (symptomIndex + questionMap.size()));
+                region.setColumnFrom(symptomIndex);
+                region.setColumnTo((short) (symptomIndex + questionMap.size() - 1));
                 hssfSheet.addMergedRegion(region);
-                symptomIndex = (short) (symptomIndex + questionMap.size() + 1);
+                symptomIndex = (short) (symptomIndex + questionMap.size());
 
             }
-
-            numOfColumns = symptomMap.size() + 2;
             row = hssfSheet.createRow(rownum++);
         }
 
         for (int i = 0; i < numOfColumns; i++) {
             hssfSheet.autoSizeColumn((short) i);
         }
+    }
 
-//        HSSFCellStyle style1 = hssfWorkbook.createCellStyle();
-//        style1.setFillForegroundColor(HSSFColor.AQUA.index);
-//        style1.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-//        for (ProCtcTerm proCtcTerm : results.keySet()) {
-//            row = hssfSheet.createRow(rownum++);
-//            cell = row.createCell((short) 0);
-//            cell.setCellValue(proCtcTerm.getTerm());
-//            cell.setCellStyle(style);
-//
-//
-//            HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = results.get(proCtcTerm);
-//            for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
-//                i = 0;
-//                row = hssfSheet.createRow(rownum++);
-//
-//                cell = row.createCell(i++);
-//                cell.setCellValue("");
-//
-//                cell = row.createCell(i++);
-//                cell.setCellValue(proCtcQuestion.getProCtcQuestionType().getDisplayName());
-//                cell.setCellStyle(style1);
-//                ArrayList<ProCtcValidValue> validValues = questionMap.get(proCtcQuestion);
-//                for (ProCtcValidValue proCtcValidValue : validValues) {
-//                    cell = row.createCell(i++);
-//                    cell.setCellValue(proCtcValidValue.getValue());
-//                }
-//            }
-//        }
+    private HSSFCellStyle getCenterStyle(HSSFWorkbook hssfWorkbook) {
+        HSSFCellStyle style = hssfWorkbook.createCellStyle();
+        style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+        style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        return style;
+
+    }
+
+    private HSSFCellStyle getAquaStyle(HSSFWorkbook hssfWorkbook) {
+        HSSFCellStyle style = hssfWorkbook.createCellStyle();
+        style.setFillForegroundColor(HSSFColor.AQUA.index);
+        style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        return style;
+
+    }
+
+    private HSSFCellStyle getGreyStyle(HSSFWorkbook hssfWorkbook) {
+        HSSFCellStyle style = hssfWorkbook.createCellStyle();
+        style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+        style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        return style;
+
     }
 }
+

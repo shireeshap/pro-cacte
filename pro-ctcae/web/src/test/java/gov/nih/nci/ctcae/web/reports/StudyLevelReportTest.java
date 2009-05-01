@@ -34,14 +34,25 @@ public class StudyLevelReportTest extends WebTestCase {
         datesMap = new LinkedHashMap<Participant, ArrayList<Date>>();
 
         dates1 = new ArrayList<Date>();
+        dates2 = new ArrayList<Date>();
         Calendar calendar = ProCtcAECalendar.getCalendarForDate(new Date());
         calendar.add(Calendar.DATE, 10);
         dates1.add(calendar.getTime());
         calendar.add(Calendar.DATE, 10);
         dates1.add(calendar.getTime());
+
         calendar.add(Calendar.DATE, 10);
-        dates2 = new ArrayList<Date>();
         dates2.add(calendar.getTime());
+
+        calendar.add(Calendar.DATE, 10);
+        dates1.add(calendar.getTime());
+
+        calendar.add(Calendar.DATE, 10);
+        dates2.add(calendar.getTime());
+
+        calendar.add(Calendar.DATE, 10);
+        dates2.add(calendar.getTime());
+
         datesMap.put(participant1, dates1);
         datesMap.put(participant2, dates2);
 
