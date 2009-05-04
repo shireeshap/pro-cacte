@@ -61,28 +61,28 @@
         td.actual-question {
             background-color: #009999;
             text-align: center;
-            font-weight:bold;
-            color:white;
+            font-weight: bold;
+            color: white;
         }
 
         /*td.displayOrder0 {*/
-            /*background-color: #ccccff;*/
+        /*background-color: #ccccff;*/
         /*}*/
 
         /*td.displayOrder1 {*/
-            /*background-color: #ccccff;*/
+        /*background-color: #ccccff;*/
         /*}*/
 
         /*td.displayOrder2 {*/
-            /*background-color: #ccccff;*/
+        /*background-color: #ccccff;*/
         /*}*/
 
         /*td.displayOrder3 {*/
-            /*background-color: #ccccff;*/
+        /*background-color: #ccccff;*/
         /*}*/
 
         /*td.displayOrder4 {*/
-            /*background-color: red;*/
+        /*background-color: red;*/
         /*}*/
 
         /* The hint to Hide and Show */
@@ -133,215 +133,82 @@
 </span>
 <chrome:box title="Report">
 
-<div id="careResultsTable">
-        <%--<a href="javascript:getChartView()">Switch to graphical view</a> | --%>
-    <a href="<c:url value='/pages/reports/studyLevelReportPdf'/>" target="_blank"><img
-            src="/ctcae/images/table/pdf.gif"
-            alt="pdf"/></a> | <a
-        href="<c:url value='/pages/reports/studyLevelReportExcel'/>" target="_blank"><img
-        src="/ctcae/images/table/xls.gif"
-        alt="xls"/></a>
+    <div id="careResultsTable">
+            <%--<a href="javascript:getChartView()">Switch to graphical view</a> | --%>
+        <a href="<c:url value='/pages/reports/studyLevelReportPdf'/>" target="_blank"><img
+                src="/ctcae/images/table/pdf.gif"
+                alt="pdf"/></a> | <a
+            href="<c:url value='/pages/reports/studyLevelReportExcel'/>" target="_blank"><img
+            src="/ctcae/images/table/xls.gif"
+            alt="xls"/></a>
 
-    <br/>
-    <br/>
-    <c:forEach items="${resultsMap}" var="participantMap">
-        <chrome:division
-                title="Participant: ${participantMap.key.displayName} [${participantMap.key.assignedIdentifier}] "/>
-        <table cellspacing="0">
-            <tr>
-                <td>
-                    <c:forEach items="${datesMap}" var="datesMap">
-                        <c:if test="${datesMap.key eq participantMap.key}">
-                            <table class="widget">
-                                <tr>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <c:forEach items="${datesMap.value}" var="date">
-                                    <tr>
-                                        <td>
-                                            <tags:formatDate value="${date}"/>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </c:if>
-                    </c:forEach>
-
-                </td>
-                <c:forEach items="${participantMap.value}" var="symptomMap">
+        <br/>
+        <br/>
+        <c:forEach items="${resultsMap}" var="participantMap">
+            <chrome:division
+                    title="Participant: ${participantMap.key.displayName} [${participantMap.key.assignedIdentifier}] "/>
+            <table cellspacing="0">
+                <tr>
                     <td>
-                        <table cellspacing="0" class="widget">
-                            <tr>
-                                <td colspan="${fn:length(symptomMap.value)}" class="header-top" align="center">
-                                        ${symptomMap.key.term}
-                                </td>
-                            </tr>
-                            <tr>
-                                <c:forEach items="${symptomMap.value}" var="questionMap">
-                                    <td>
-                                        <table width="100%" cellspacing="0">
-                                            <tr>
-                                                <td align="center" class="actual-question">
-                                                        ${questionMap.key.proCtcQuestionType.displayName}
-                                                </td>
-                                            </tr>
-                                            <c:forEach items="${questionMap.value}" var="value" varStatus="status">
+                        <c:forEach items="${datesMap}" var="datesMap">
+                            <c:if test="${datesMap.key eq participantMap.key}">
+                                <table class="widget">
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <c:forEach items="${datesMap.value}" var="date">
+                                        <tr>
+                                            <td>
+                                                <tags:formatDate value="${date}"/>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                            </c:if>
+                        </c:forEach>
+
+                    </td>
+                    <c:forEach items="${participantMap.value}" var="symptomMap">
+                        <td>
+                            <table cellspacing="0" class="widget">
+                                <tr>
+                                    <td colspan="${fn:length(symptomMap.value)}" class="header-top" align="center">
+                                            ${symptomMap.key.term}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <c:forEach items="${symptomMap.value}" var="questionMap">
+                                        <td>
+                                            <table width="100%" cellspacing="0">
                                                 <tr>
-                                                    <td class="data displayOrder${value.displayOrder}" width="100">
-                                                            ${value=='null'?'&nbsp;':value}
+                                                    <td align="center" class="actual-question">
+                                                            ${questionMap.key.proCtcQuestionType.displayName}
                                                     </td>
                                                 </tr>
-                                            </c:forEach>
-                                        </table>
-                                    </td>
-                                </c:forEach>
-                            </tr>
-                        </table>
-                    </td>
-                </c:forEach>
-            </tr>
-        </table>
+                                                <c:forEach items="${questionMap.value}" var="value" varStatus="status">
+                                                    <tr>
+                                                        <td class="data displayOrder${value.displayOrder}" width="100">
+                                                                ${value=='null'?'&nbsp;':value}
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </table>
+                                        </td>
+                                    </c:forEach>
+                                </tr>
+                            </table>
+                        </td>
+                    </c:forEach>
+                </tr>
+            </table>
 
 
-        <%--<table >--%>
-        <%--<col/>--%>
-        <%--<tr>--%>
-        <%--<td >--%>
-        <%--Symptom--%>
-        <%--</td>--%>
-        <%--<td class="header-top">--%>
-        <%--Attribute--%>
-        <%--<img alt="Help" src="/ctcae/images/q.gif"--%>
-        <%--onclick="$('attribute-help-content').style.display='inline'"/>--%>
-        <%--</td>--%>
-        <%--<c:forEach items="${dates}" var="dates">--%>
-
-        <%--<td class="header-top">--%>
-        <%--<fmt:formatDate value="${dates}" pattern="MM/dd/yy"/>--%>
-        <%--</td>--%>
-
-        <%--</c:forEach>--%>
-        <%--<c:forEach items="${participantMap.value}" var="symptomMap">--%>
-        <%--<tr>--%>
-        <%--<td >--%>
-        <%--<b>${symptomMap.key.term}</b>--%>
-        <%--</td>--%>
-        <%--</tr>--%>
-        <%--<c:forEach items="${symptomMap.value}" var="careResults">--%>
-        <%--<tr>--%>
-        <%--<td>&nbsp;</td>--%>
-        <%--<td class="actual-question">--%>
-        <%--${careResults.key.proCtcQuestionType.displayName}--%>
-        <%--</td>--%>
-        <%--<c:forEach items="${careResults.value}" var="value">--%>
-        <%--<td class="data displayOrder${value.displayOrder}">--%>
-        <%--${value.value}--%>
-        <%--</td>--%>
-        <%--</c:forEach>--%>
-        <%--</tr>--%>
-        <%--</c:forEach>--%>
-        <%--</c:forEach>--%>
-        <%--</table>--%>
-        <%--<c:forEach items="${resultsMap}" var="participantMap">--%>
-        <%--<chrome:division title="Participant: ${participantMap.key.displayName} [${participantMap.key.assignedIdentifier}] "/>--%>
-        <%--<table class="widget" cellspacing="0">--%>
-        <%--<col/>--%>
-        <%--<tr>--%>
-        <%--<td class="header-top">--%>
-        <%--Symptom--%>
-        <%--</td>--%>
-        <%--<td class="header-top">--%>
-        <%--Attribute--%>
-        <%--<img alt="Help" src="/ctcae/images/q.gif"--%>
-        <%--onclick="$('attribute-help-content').style.display='inline'"/>--%>
-        <%--</td>--%>
-        <%--<c:forEach items="${dates}" var="dates">--%>
-
-        <%--<td class="header-top">--%>
-        <%--<fmt:formatDate value="${dates}" pattern="MM/dd/yy"/>--%>
-        <%--</td>--%>
-
-        <%--</c:forEach>--%>
-        <%--<c:forEach items="${participantMap.value}" var="symptomMap">--%>
-        <%--<tr>--%>
-        <%--<td class="subcategory-name">--%>
-        <%--<b>${symptomMap.key.term}</b>--%>
-        <%--</td>--%>
-        <%--</tr>--%>
-        <%--<c:forEach items="${symptomMap.value}" var="careResults">--%>
-        <%--<tr>--%>
-        <%--<td>&nbsp;</td>--%>
-        <%--<td class="actual-question">--%>
-        <%--${careResults.keeResults.value}" var="value">--%>
-        <%--<td class="data displayOrder${value.displayOrder}">--%>
-        <%--${value.value}--%>
-        <%--</td>--%>
-        <%--</c:forEach>--%>
-        <%--</tr>--%>
-        <%--</c:forEach>--%>
-        <%--</c:forEach>--%>
-        <%--</table>--%>
-        <br/>
-    </c:forEach>
-
-</div>
-<%--y.proCtcQuestionType.displayName}--%>
-<%--</td>--%>
-<%--<c:forEach items="${car
-<%--<div id="careResultsGraph" style="display:none">--%>
-<%--<a href="javascript:getTableView()">Switch to tabular view</a>--%>
-
-<%--<table class="widget" cellspacing="0" width="100%">--%>
-<%--<tr>--%>
-<%--<td class="subcategory-name">--%>
-<%--<c:forEach items="${resultsMap}" var="symptomMap">--%>
-<%--<a href="javascript:getChart('${symptomMap.key.id}')"><b>${symptomMap.key.term}</b></a>--%>
-<%--<br/>--%>
-<%--</c:forEach>--%>
-<%--</td>--%>
-<%--<td>--%>
-<%--<c:forEach items="${resultsMap}" var="symptomMap">--%>
-<%--<div id="div_questiontype_${symptomMap.key.id}" name="div_questiontype"--%>
-<%--style="display:none">--%>
-<%--<c:forEach items="${symptomMap.value}" var="careResults">--%>
-<%--<input type="checkbox" checked="true" name="questiontype_${symptomMap.key.id}"--%>
-<%--value="${careResults.key.proCtcQuestionType.displayName}"--%>
-<%--onclick="updateChart(this,'${symptomMap.key.id}');">${careResults.key.proCtcQuestionType.displayName}--%>
-<%--&nbsp;--%>
-<%--</c:forEach>--%>
-<%--</div>--%>
-<%--</c:forEach>--%>
-<%--<iframe id="graph" height="500" width="600" frameborder="0" scrolling="auto"></iframe>--%>
-<%--<table class="widget" cellspacing="0">--%>
-<%--<tr>--%>
-<%--<td class="header-top"></td>--%>
-<%--<td class="header-top">0</td>--%>
-<%--<td class="header-top">1</td>--%>
-<%--<td class="header-top">2</td>--%>
-<%--<td class="header-top">3</td>--%>
-<%--<td class="header-top">4</td>--%>
-<%--</tr>--%>
-<%--<c:forEach items="${questionTypes}" var="questionType">--%>
-<%--<tr>--%>
-<%--<td class="header-top">--%>
-<%--${questionType}--%>
-<%--</td>--%>
-<%--<c:forEach items="${questionType.validValues}" var="validValue">--%>
-<%--<td class="subcategory-name">--%>
-<%--${validValue}--%>
-<%--</td>--%>
-<%--</c:forEach>--%>
-<%--</tr>--%>
-
-<%--</c:forEach>--%>
-<%--</table>--%>
-<%--</td>--%>
-<%--</tr>--%>
-<%--</table>--%>
-<%--</div>--%>
+            <br/>
+        </c:forEach>
+    </div>
 </chrome:box>
 </body>
 </html>
