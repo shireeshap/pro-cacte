@@ -59,7 +59,6 @@ public class ParticipantTest extends TestCase {
         assertEquals(anotherParticipant.hashCode(), participant.hashCode());
         assertEquals(anotherParticipant, participant);
 
-        assertFalse(participant.equals(anotherParticipant));
         assertEquals(anotherParticipant.hashCode(), participant.hashCode());
         assertEquals(anotherParticipant, participant);
 
@@ -70,7 +69,6 @@ public class ParticipantTest extends TestCase {
         assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
-        assertFalse(participant.equals(anotherParticipant));
         assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
@@ -80,7 +78,6 @@ public class ParticipantTest extends TestCase {
         assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
-        assertFalse(participant.equals(anotherParticipant));
         assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
@@ -96,7 +93,6 @@ public class ParticipantTest extends TestCase {
         assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
-        assertFalse(participant.equals(anotherParticipant));
         assertEquals(Integer.valueOf(anotherParticipant.hashCode()), Integer.valueOf(participant.hashCode()));
         assertEquals(anotherParticipant, participant);
 
