@@ -65,25 +65,25 @@
             color:white;
         }
 
-        td.displayOrder0 {
-            background-color: #ccccff;
-        }
+        /*td.displayOrder0 {*/
+            /*background-color: #ccccff;*/
+        /*}*/
 
-        td.displayOrder1 {
-            background-color: #ccccff;
-        }
+        /*td.displayOrder1 {*/
+            /*background-color: #ccccff;*/
+        /*}*/
 
-        td.displayOrder2 {
-            background-color: #ccccff;
-        }
+        /*td.displayOrder2 {*/
+            /*background-color: #ccccff;*/
+        /*}*/
 
-        td.displayOrder3 {
-            background-color: #ccccff;
-        }
+        /*td.displayOrder3 {*/
+            /*background-color: #ccccff;*/
+        /*}*/
 
-        td.displayOrder4 {
-            background-color: red;
-        }
+        /*td.displayOrder4 {*/
+            /*background-color: red;*/
+        /*}*/
 
         /* The hint to Hide and Show */
         .hint {
