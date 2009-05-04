@@ -37,6 +37,8 @@ public class SiteCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
         allowedMethods.add(ADD_NOTIFICATION_CLINICAL_STAFF_METHOD);
         allowedMethods.add(PARTICIPANT_DISPLAY_STUDY_SITES_METHOD);
         allowedMethods.add(EDIT_PARTICIPANT_METHOD);
+        allowedMethods.add(SEARCH_PARTICIPANT_BY_STUDYSITEID_METHOD);
+        allowedMethods.add(SEARCH_PARTICIPANT_BY_STUDYID_METHOD);
 
         authorizeAndUnAuthorizeMethods(participantRepository, ParticipantRepository.class, allowedMethods);
 
