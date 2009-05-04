@@ -35,6 +35,8 @@ public class TreatingPhysicanMethodAuthorizationIntegrationTest extends MethodAu
         allowedMethods.add(SEARCH_PARTICIPANT_METHOD);
         allowedMethods.add(SEARCH_PARTICIPANT_BY_ID_METHOD);
         allowedMethods.add(SEARCH_SINGLE_PARTICIPANT_METHOD);
+        allowedMethods.add(SEARCH_PARTICIPANT_BY_STUDYSITEID_METHOD);
+        allowedMethods.add(SEARCH_PARTICIPANT_BY_STUDYID_METHOD);
 
 
         authorizeAndUnAuthorizeMethods(participantRepository, ParticipantRepository.class, allowedMethods);
