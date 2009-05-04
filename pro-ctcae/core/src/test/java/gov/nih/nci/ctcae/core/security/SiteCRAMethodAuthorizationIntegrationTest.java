@@ -82,6 +82,7 @@ public class SiteCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
         allowedMethods.add(FIND_BY_ID_METHOD);
         allowedMethods.add(FIND_SINGLE);
         allowedMethods.add(FIND_METHOD);
+        allowedMethods.add(EDIT_FORM_METHOD);
         authorizeAndUnAuthorizeMethods(crfRepository, CRFRepository.class, allowedMethods);
 
 
@@ -98,6 +99,7 @@ public class SiteCRAMethodAuthorizationIntegrationTest extends MethodAuthorizati
         allowedMethods.add(ADD_STUDY_SITE_CLINICAL_STAFF_METHOD);
         allowedMethods.add(CREATE_STUDY_METHOD);
         allowedMethods.add(EDIT_STUDY_METHOD);
+        allowedMethods.add(EDIT_FORM_METHOD);
 
 
         authorizeAndUnAuthorizeMethods(studyRepository, StudyRepository.class, allowedMethods);

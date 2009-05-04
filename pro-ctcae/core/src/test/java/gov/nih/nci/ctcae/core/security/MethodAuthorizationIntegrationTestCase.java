@@ -159,7 +159,7 @@ public abstract class MethodAuthorizationIntegrationTestCase extends AbstractHib
                         }
                     } catch (InvocationTargetException e) {
                         if (!allowedMethods.contains(method.getName())) {
-                            assertEquals("must fail becaue of access denied." + e.getCause(), e.getTargetException().getClass(), AccessDeniedException.class);
+                            assertEquals("must fail becaue of access denied." + e.getCause(), AccessDeniedException.class, e.getTargetException().getClass() );
                             assertTrue("must fail becaue of access denied" + e.getMessage(), e.getTargetException() instanceof AccessDeniedException);
                         } else {
                             if (e.getTargetException() instanceof AccessDeniedException) {
