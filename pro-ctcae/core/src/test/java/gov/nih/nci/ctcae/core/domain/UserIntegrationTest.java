@@ -145,6 +145,7 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
     public void testAuthenticateFailsIfAccountExpired() {
 
         userHavingExpiredAccount = Fixture.createUser(USER, Fixture.DEFAULT_PASSWORD, true, false, true, true);
+        userRepository.save(userHavingExpiredAccount);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userHavingExpiredAccount
                 .getUsername(), Fixture.DEFAULT_PASSWORD);
 
@@ -162,7 +163,7 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
         userHavingLockedAccount = Fixture.createUser(USER, Fixture.DEFAULT_PASSWORD, true, true, true, false);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userHavingLockedAccount
                 .getUsername(), Fixture.DEFAULT_PASSWORD);
-
+       userRepository.save(userHavingLockedAccount);
 
         try {
             daoAuthenticationProvider.authenticate(token);
@@ -178,7 +179,7 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
         userHavingExpiredCredentials = Fixture.createUser(USER, Fixture.DEFAULT_PASSWORD, true, true, false, true);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 userHavingExpiredCredentials, Fixture.DEFAULT_PASSWORD);
-
+       userRepository.save(userHavingExpiredCredentials);
         try {
             daoAuthenticationProvider.authenticate(token);
             fail("Should have thrown CredentialsExpiredException");
@@ -202,7 +203,7 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
     public void testAuthenticateFailsIfUserDisabled() {
 
         userHavingDisabledAccount = Fixture.createUser(USER, Fixture.DEFAULT_PASSWORD, false, true, true, true);
-
+        userRepository.save(userHavingDisabledAccount);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userHavingDisabledAccount,
                 Fixture.DEFAULT_PASSWORD);
         try {
