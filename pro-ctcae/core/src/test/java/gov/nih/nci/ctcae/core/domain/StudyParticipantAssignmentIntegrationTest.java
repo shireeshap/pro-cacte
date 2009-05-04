@@ -46,11 +46,7 @@ public class StudyParticipantAssignmentIntegrationTest extends AbstractHibernate
         assertNotNull(study.getId());
         assertNotNull(study.getId());
 
-        participant = new Participant();
-        participant.setFirstName("John");
-        participant.setLastName("Dow");
-        participant.setAssignedIdentifier("1234");
-
+        participant = Fixture.createParticipant("John", "Dow", "1234");
 
         assignment = new StudyParticipantAssignment();
         assignment.setStudyParticipantIdentifier("id001");

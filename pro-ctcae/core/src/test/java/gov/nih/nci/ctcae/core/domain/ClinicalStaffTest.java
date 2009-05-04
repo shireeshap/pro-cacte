@@ -61,7 +61,6 @@ public class ClinicalStaffTest extends TestCase {
         assertEquals(anotherClinicalStaff.hashCode(), clinicalStaff.hashCode());
         assertEquals(anotherClinicalStaff, clinicalStaff);
 
-        assertFalse(clinicalStaff.equals(anotherClinicalStaff));
         assertEquals(anotherClinicalStaff.hashCode(), clinicalStaff.hashCode());
         assertEquals(anotherClinicalStaff, clinicalStaff);
 
@@ -83,7 +82,6 @@ public class ClinicalStaffTest extends TestCase {
         assertEquals(anotherClinicalStaff.hashCode(), clinicalStaff.hashCode());
         assertEquals(anotherClinicalStaff, clinicalStaff);
 
-        assertFalse(clinicalStaff.equals(anotherClinicalStaff));
         assertEquals(anotherClinicalStaff.hashCode(), clinicalStaff.hashCode());
         assertEquals(anotherClinicalStaff, clinicalStaff);
 

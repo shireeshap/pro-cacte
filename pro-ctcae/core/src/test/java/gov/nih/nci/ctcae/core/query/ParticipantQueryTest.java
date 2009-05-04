@@ -72,7 +72,7 @@ public class ParticipantQueryTest extends TestCase {
     public void testFilterByUsername() throws Exception {
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByUsername("1");
-        assertEquals("SELECT p from Participant p left join p.user as u  WHERE u.username =: username order by p.id",
+        assertEquals("SELECT p from Participant p WHERE p.user.username =:username order by p.id",
                 participantQuery.getQueryString());
         assertEquals("wrong number of parameters", 1,participantQuery.getParameterMap().size());
 

@@ -76,7 +76,10 @@ public class Fixture {
         participant.setLastName(lastName);
         participant.setAssignedIdentifier(identifier);
         participant.setGender(Gender.MALE.toString());
-
+        User user = new User();
+        user.setUsername("participant_" + (new Date()).getTime());
+        user.setPassword("password");
+        participant.setUser(user);
         return participant;
     }
 

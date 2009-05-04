@@ -250,9 +250,9 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
         jdbcTemplate.execute("delete from ORGANIZATION_CLINICAL_STAFFS");
         jdbcTemplate.execute("delete from CLINICAL_STAFFS");
         jdbcTemplate.execute("delete from user_roles");
-        jdbcTemplate.execute("delete from USERS");
         jdbcTemplate.execute("delete from study_participant_assignments");
         jdbcTemplate.execute("delete from participants");
+        jdbcTemplate.execute("delete from USERS");
         commitAndStartNewTransaction();
     }
 

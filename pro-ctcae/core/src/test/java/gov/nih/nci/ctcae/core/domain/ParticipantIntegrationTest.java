@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 
@@ -17,10 +18,7 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
 
 
     private void saveParticipant() {
-        participant = new Participant();
-        participant.setFirstName("John");
-        participant.setLastName("Dow");
-        participant.setAssignedIdentifier("1234");
+        participant = Fixture.createParticipant("John","Dow","1234");
         StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
         studyParticipantAssignment.setStudySite(defaultStudySite);
         studyParticipantAssignment.setStudyParticipantIdentifier("abc");
