@@ -123,7 +123,7 @@
             var visitRange = visitRangeSelect.options[visitRangeSelect.selectedIndex].value;
 
             var studySiteId = $('studySite').value;
-
+            alert(studySiteId);
             if (visitRange == 'currentPrev' || visitRange == 'currentLast') {
                 forVisits = "2";
             }
@@ -149,15 +149,6 @@
                     method:'get'
                 })
             }
-        <%--if (format == 'graphical') {--%>
-        <%--if (typeof(selectedTypes) == 'undefined') {--%>
-        <%--selectedTypes = '';--%>
-        <%--}--%>
-        <%--var url = "<c:url value='/pages/reports/participantCareResultsGraph'/>" + "?symptomId=" + symptomId +--%>
-        <%--"&selectedTypes=" + selectedTypes +--%>
-        <%--"&subview=subview";--%>
-        <%--$('graph').src = url;--%>
-        <%--}--%>
         }
 
         function showResultsTable(transport) {
@@ -173,33 +164,6 @@
             $('careResultsTable').show();
             $('careResultsGraph').hide();
         }
-        function getChart(symptomId) {
-            var obj = document.getElementsByName('div_questiontype');
-            for (var i = 0; i < obj.length; i++) {
-                obj[i].hide();
-            }
-            var obj1 = document.getElementsByName('questiontype_' + symptomId);
-            if (obj1.length > 1) {
-                $('div_questiontype_' + symptomId).show();
-            }
-            studyLevelReportResults('graphical', symptomId);
-        }
-        function updateChart(chkbox, symptomId) {
-            var obj = document.getElementsByName('questiontype_' + symptomId);
-            var selectedTypes = '';
-            for (var i = 0; i < obj.length; i++) {
-                if (obj[i].checked) {
-                    selectedTypes = selectedTypes + ',' + obj[i].value;
-                }
-            }
-            if (selectedTypes == '') {
-                alert('Please select at least one question type.');
-                chkbox.checked = true;
-                return;
-            }
-            participantCareResults('graphical', symptomId, selectedTypes);
-        }
-
         function hideHelp() {
             $('attribute-help-content').style.display = 'none';
         }
