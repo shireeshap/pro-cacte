@@ -73,6 +73,8 @@ public abstract class MethodAuthorizationIntegrationTestCase extends AbstractHib
     protected final String SEARCH_PARTICIPANT_METHOD = "find";
     protected final String SEARCH_PARTICIPANT_BY_ID_METHOD = "findById";
     protected final String SEARCH_SINGLE_PARTICIPANT_METHOD = "findSingle";
+    protected final String SEARCH_PARTICIPANT_BY_STUDYSITEID_METHOD = "findByStudySiteId";
+    protected final String SEARCH_PARTICIPANT_BY_STUDYID_METHOD = "findByStudyId";
 
     protected final String SCHEDULE_CRF_METHOD = "save";
 
@@ -160,9 +162,15 @@ public abstract class MethodAuthorizationIntegrationTestCase extends AbstractHib
                             assertEquals("must fail becaue of access denied." + e.getCause(), e.getTargetException().getClass(), AccessDeniedException.class);
                             assertTrue("must fail becaue of access denied" + e.getMessage(), e.getTargetException() instanceof AccessDeniedException);
                         } else {
-                            assertFalse("must  not fail becaue of access denied. Because  user must be able to access that method: " + method.getName() +
-                                    ". Please check if you have configured security and given privilege to user for that method? " +
-                                    "exception is:" + e.getTargetException(), e.getTargetException() instanceof AccessDeniedException);
+                            if (e.getTargetException() instanceof AccessDeniedException) {
+                                if (e.getTargetException().getMessage() != null && e.getTargetException().getMessage().indexOf("InstanceLevelSecurity-") != -1) {
+                                    logger.debug("access denied because of instance level security");
+                                } else {
+                                    fail("must  not fail becaue of access denied. Because  user must be able to access that method: " + method.getName() +
+                                            ". Please check if you have configured security and given privilege to user for that method? " +
+                                            "exception is:" + e.getTargetException());
+                                }
+                            }
 
                         }
                     }

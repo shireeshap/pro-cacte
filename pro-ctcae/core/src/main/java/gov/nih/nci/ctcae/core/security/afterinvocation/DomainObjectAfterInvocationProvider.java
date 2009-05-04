@@ -38,7 +38,7 @@ public class DomainObjectAfterInvocationProvider extends AbstractAfterInvocation
 
         logger.debug("Denying access");
 
-        throw new AccessDeniedException(String.format("Authentication %s has NO permissions to the domain object %s", authentication.getName(), returnedObject));
+        throw new AccessDeniedException(String.format("InstanceLevelSecurity-Authentication %s has NO permissions to the domain object %s", authentication.getName(), returnedObject));
 
 
     }
