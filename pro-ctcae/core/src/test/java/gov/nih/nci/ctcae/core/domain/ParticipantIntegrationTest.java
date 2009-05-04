@@ -18,7 +18,8 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
 
 
     private void saveParticipant() {
-        participant = Fixture.createParticipant("John","Dow","1234");
+        participant = Fixture.createParticipant("John", "Dow", "1234");
+        participant.getUser().setUsername("1");
         StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
         studyParticipantAssignment.setStudySite(defaultStudySite);
         studyParticipantAssignment.setStudyParticipantIdentifier("abc");
@@ -105,19 +106,14 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
     }
 
     public void testFindByUserId() {
-        User user = new User();
-        user.setUsername("1");
-        login(user);
+        saveParticipant();
+        login(participant.getUser());
 
         ParticipantQuery participantQuery = new ParticipantQuery();
-        //participantQuery.filterByUsername(24);
-
+        participantQuery.filterByUsername(participant.getUser().getUsername());
         Collection<? extends Participant> participants = participantRepository
                 .find(participantQuery);
         assertFalse(participants.isEmpty());
-//        int size = jdbcTemplate
-//                .queryForInt("select count(*) from participants participants where lower(participants.last_name ) like '%d%'");
-
         assertEquals(1, participants.size());
 
 
