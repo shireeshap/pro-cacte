@@ -154,7 +154,7 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     public void testAddStudySiteInCreateStudy() {
         assertFalse("must save study site", studyWithStudyOrganizations.getStudySites().isEmpty());
-        assertEquals(Integer.valueOf(1), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+        assertEquals(Integer.valueOf(2), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
         StudyOrganization studyOrganization = studyWithStudyOrganizations.getStudySites().get(0);
         assertNotNull(studyOrganization.getId());
         assertEquals(nci, studyOrganization.getOrganization());
@@ -166,7 +166,7 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
         studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
         assertNotNull(studyWithStudyOrganizations.getId());
         assertFalse("must save study site", studyWithStudyOrganizations.getStudySites().isEmpty());
-        assertEquals(Integer.valueOf(2), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+        assertEquals(Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
         StudyOrganization studyOrganization = studyWithStudyOrganizations.getStudySites().get(0);
         assertNotNull(studyOrganization.getId());
         assertEquals(nci, studyOrganization.getOrganization());
@@ -180,13 +180,13 @@ public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
         studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
         assertNotNull(studyWithStudyOrganizations.getId());
         assertFalse("must save study site", studyWithStudyOrganizations.getStudySites().isEmpty());
-        assertEquals(Integer.valueOf(2), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+        assertEquals(Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
         assertNotNull(studyWithStudyOrganizations.getStudySites().get(0).getId());
 
         studyWithStudyOrganizations.removeStudySite(studyWithStudyOrganizations.getStudySites().get(0));
         studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
         assertNotNull(studyWithStudyOrganizations.getId());
-        assertEquals("must remove study site", Integer.valueOf(1), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+        assertEquals("must remove study site", Integer.valueOf(2), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
 
 
     }
