@@ -37,7 +37,6 @@ public class LeadCRAURLAuthorizationIntegrationTest extends UrlAuthorizationInte
         allowedUrls.add(ADD_CONDITIONAL_QUESTION_URL);
         allowedUrls.add(REMOVE_CONDITIONS_URL);
         allowedUrls.add(SET_NAME_URL);
-        allowedUrls.add(SUBMIT_FORM_URL);
 
         allowedUrls.add(CREATE_FORM_URL);
         allowedUrls.add(EDIT_FORM_URL);

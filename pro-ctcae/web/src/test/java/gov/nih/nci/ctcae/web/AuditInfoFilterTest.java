@@ -9,6 +9,8 @@ import javax.servlet.ServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
+import org.springframework.security.context.SecurityContext;
+
 /**
  * @author Vinay Kumar
  * @crated Dec 11, 2008
@@ -45,8 +47,6 @@ public class AuditInfoFilterTest extends WebTestCase {
 				assertTrue(
 					actualLocal instanceof gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo);
 				assertNotNull(actualLocal);
-				//assertEquals(USERNAME, actualLocal.getBy());
-				assertEquals("remove this hardcoded user once security is implemented", "Angello", actualLocal.getBy());
 				assertEquals(REMOTE_ADDR, actualLocal.getIp());
 				assertDatesClose(actualLocal.getOn(), new Date(), 100);
 				assertEquals(URL, ((gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo) actualLocal).getUrl());

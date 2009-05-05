@@ -1144,7 +1144,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/DomainObjectPrivilege
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/LeadCRAURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/ODCUrlAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/PIURLAuthorizationIntegrationTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/ParticipantURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/ResearchNurseAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/SiteCRAURLAuthorizationIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/security/SitePIAuthorizationIntegrationTest.java -text
