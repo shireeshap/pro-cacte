@@ -163,7 +163,6 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
 
         defaultStudy = createStudy("-10001");
-        insertData();
 
     }
 

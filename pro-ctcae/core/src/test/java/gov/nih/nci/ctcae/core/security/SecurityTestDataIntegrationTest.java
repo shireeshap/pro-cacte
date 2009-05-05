@@ -16,5 +16,6 @@ public class SecurityTestDataIntegrationTest extends AbstractHibernateIntegratio
     }
 
     public void testInsertData() throws ParseException {
+        insertData();
     }
 }
