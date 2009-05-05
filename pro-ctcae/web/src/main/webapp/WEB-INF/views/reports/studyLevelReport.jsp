@@ -123,7 +123,6 @@
             var visitRange = visitRangeSelect.options[visitRangeSelect.selectedIndex].value;
 
             var studySiteId = $('studySite').value;
-            alert(studySiteId);
             if (visitRange == 'currentPrev' || visitRange == 'currentLast') {
                 forVisits = "2";
             }
