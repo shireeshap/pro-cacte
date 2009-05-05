@@ -128,65 +128,6 @@
             <chrome:division
                     title="Participant: ${participantTable.key.displayName} [${participantTable.key.assignedIdentifier}] "/>
             ${participantTable.value}
-            <%--<table cellspacing="0">--%>
-            <%--<tr>--%>
-            <%--<td>--%>
-            <%--<c:forEach items="${datesMap}" var="datesMap">--%>
-            <%--<c:if test="${datesMap.key eq participantMap.key}">--%>
-            <%--<table class="widget">--%>
-            <%--<tr>--%>
-            <%--<td>&nbsp;</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<td>&nbsp;</td>--%>
-            <%--</tr>--%>
-            <%--<c:forEach items="${datesMap.value}" var="date">--%>
-            <%--<tr>--%>
-            <%--<td>--%>
-            <%--<tags:formatDate value="${date}"/>--%>
-            <%--</td>--%>
-            <%--</tr>--%>
-            <%--</c:forEach>--%>
-            <%--</table>--%>
-            <%--</c:if>--%>
-            <%--</c:forEach>--%>
-
-            <%--</td>--%>
-            <%--<c:forEach items="${participantMap.value}" var="symptomMap">--%>
-            <%--<td>--%>
-            <%--<table cellspacing="0" class="widget">--%>
-            <%--<tr>--%>
-            <%--<td colspan="${fn:length(symptomMap.value)}" class="header-top" align="center">--%>
-            <%--${symptomMap.key.term}--%>
-            <%--</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<c:forEach items="${symptomMap.value}" var="questionMap">--%>
-            <%--<td>--%>
-            <%--<table width="100%" cellspacing="0">--%>
-            <%--<tr>--%>
-            <%--<td align="center" class="actual-question">--%>
-            <%--${questionMap.key.proCtcQuestionType.displayName}--%>
-            <%--</td>--%>
-            <%--</tr>--%>
-            <%--<c:forEach items="${questionMap.value}" var="value" varStatus="status">--%>
-            <%--<tr>--%>
-            <%--<td class="data displayOrder${value.displayOrder}" width="100">--%>
-            <%--${value=='null'?'&nbsp;':value}--%>
-            <%--</td>--%>
-            <%--</tr>--%>
-            <%--</c:forEach>--%>
-            <%--</table>--%>
-            <%--</td>--%>
-            <%--</c:forEach>--%>
-            <%--</tr>--%>
-            <%--</table>--%>
-            <%--</td>--%>
-            <%--</c:forEach>--%>
-            <%--</tr>--%>
-            <%--</table>--%>
-
-
             <br/>
         </c:forEach>
     </div>
