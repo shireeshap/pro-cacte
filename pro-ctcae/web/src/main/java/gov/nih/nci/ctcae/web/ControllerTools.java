@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.web;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.binding.convert.converters.Converter;
-import org.springframework.binding.convert.converters.StringToDate;
-
 import java.beans.PropertyEditor;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
