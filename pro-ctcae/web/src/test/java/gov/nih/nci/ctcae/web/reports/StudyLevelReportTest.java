@@ -183,7 +183,7 @@ public class StudyLevelReportTest extends WebTestCase {
 
         StudyLevelReportExcelController controller = new StudyLevelReportExcelController();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
-        StudyLevelReportPdfView view = (StudyLevelReportPdfView) modelAndView.getView();
+        StudyLevelReportExcelView view = (StudyLevelReportExcelView) modelAndView.getView();
         view.render(null, request, response);
         assertEquals("application/vnd.ms-excel", response.getContentType());
         File f = new File("/etc/ctcae/generatedexcel.xls");

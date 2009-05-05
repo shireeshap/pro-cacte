@@ -35,6 +35,8 @@ public class TreatingPhysicanAuthorizationIntegrationTest extends UrlAuthorizati
 
         allowedUrls.add(MONITOR_FORM_URL);
         allowedUrls.add(MONITOR_FORM_STATUS_URL);
+        allowedUrls.add(SHOW_COMPLETED_CRF_URL);
+        allowedUrls.add(REPORTS_URL);
 
 
         user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.TREATING_PHYSICIAN).getOrganizationClinicalStaff().getClinicalStaff().getUser();

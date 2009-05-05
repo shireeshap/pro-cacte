@@ -26,14 +26,14 @@ public class ResearchNurseAuthorizationIntegrationTest extends UrlAuthorizationI
 
 
         allowedUrls.add(SEARCH_PARTICIPANT_URL);
-
-
         allowedUrls.add(SCHEDULE_CRF_URL);
         allowedUrls.add(ADD_CRF_SCHEDULE_URL);
         allowedUrls.add(DISPLAY_CALENDAR_URL);
         allowedUrls.add(MONITOR_FORM_URL);
         allowedUrls.add(MONITOR_FORM_STATUS_URL);
         allowedUrls.add(MANAGE_FORM_URL);
+        allowedUrls.add(SHOW_COMPLETED_CRF_URL);
+        allowedUrls.add(REPORTS_URL);
 
 
         user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.TREATING_PHYSICIAN).getOrganizationClinicalStaff().getClinicalStaff().getUser();

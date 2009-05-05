@@ -4,12 +4,15 @@ import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 import gov.nih.nci.cabig.ctms.web.tabs.TabConfigurer;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.web.form.BasicFormController;
 import gov.nih.nci.ctcae.web.form.CreateFormCommand;
 import gov.nih.nci.ctcae.web.form.EditFormController;
 import gov.nih.nci.ctcae.web.study.CreateStudyController;
 import gov.nih.nci.ctcae.web.study.StudyCommand;
 import gov.nih.nci.ctcae.web.study.StudyController;
+import org.easymock.EasyMock;
+import static org.easymock.EasyMock.*;
 
 /**
  * @author Vinay Kumar
@@ -51,28 +54,27 @@ public class ControllersUtilsTest extends WebTestCase {
         basicFormController.setCrfRepository(crfRepository);
         basicFormController.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
         basicFormController.setStudyRepository(studyRepository);
-        replayMocks();
+
+
 
     }
 
 
     public void testNoCommandInCreateForm() {
-
-
+        replayMocks();
         assertNull("no command should present in session", ControllersUtils.getFormCommand(request));
         verifyMocks();
 
     }
 
     public void testNoCommandInCreateStudy() {
-
-
+        replayMocks();
         assertNull("no command should present in session", ControllersUtils.getStudyCommand(request));
-
         verifyMocks();
     }
 
     public void testCommandInGetRequestOfCreateForm() throws Exception {
+        replayMocks();
         basicFormController.handleRequest(request, response);
         verifyMocks();
         Object command = ControllersUtils.getFormCommand(request);
@@ -82,7 +84,8 @@ public class ControllersUtilsTest extends WebTestCase {
     }
 
     public void testCommandInGetRequestOfEditForm() throws Exception {
-
+        expect(proCtcTermRepository.find(isA(ProCtcTermQuery.class))).andReturn(proCtcTerms);
+        replayMocks();
         editFormController.handleRequest(request, response);
         verifyMocks();
         Object command = ControllersUtils.getFormCommand(request);
@@ -92,12 +95,11 @@ public class ControllersUtilsTest extends WebTestCase {
     }
 
     public void testCommandInGetRequestOfCreateStudy() throws Exception {
-
+        replayMocks();
         studyController.handleRequest(request, response);
         verifyMocks();
         Object command = ControllersUtils.getStudyCommand(request);
         assertNotNull("command must present in session", command);
         assertTrue(command instanceof StudyCommand);
-
     }
 }

@@ -22,9 +22,8 @@ public class ParticipantURLAuthorizationIntegrationTest extends UrlAuthorization
         super.onSetUpInTransaction();
 
         allowedUrls.add(PARTICIPANT_INBOX_URL);
-        allowedUrls.add(SUBMIT_FORM_URL);
 
-        user = defaultStudy.getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getUser();
+        user = defaultStudy.getStudySites().get(0).getStudyParticipantAssignments().get(0).getParticipant().getUser();
 
     }
 

@@ -1134,7 +1134,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportTest.j
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/AbstractRulesTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/CommonRulesTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/ExecuteRulesTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/FactResolverTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/RuleUtilTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/RulesCheckRepositoryTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/SendMailTest.java -text

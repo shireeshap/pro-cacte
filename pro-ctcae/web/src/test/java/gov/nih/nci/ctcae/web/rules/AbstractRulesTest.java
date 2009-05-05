@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AbstractRulesTest extends AbstractDependencyInjectionSpringContextTests {
+public abstract class AbstractRulesTest extends AbstractDependencyInjectionSpringContextTests {
 
     protected RepositoryService jcrService;
     protected RuleAuthoringService ruleAuthoringService;

@@ -54,7 +54,7 @@ public class UrlAuthorizationCheck implements ApplicationContextAware {
 
     }
 
-    @Required
+    
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }

@@ -61,10 +61,6 @@
                        access="PRIVILEGE_PARTICIPANT_DISPLAY_STUDY_SITES"/>
         <intercept-url pattern="/pages/participant/*" access="PRIVILEGE_EDIT_PARTICIPANT"/>
 
-        <intercept-url pattern="/pages/reports/participantCareMonitor" access="PRIVILEGE_MONITOR_FORM"/>
-        <intercept-url pattern="/pages/reports/participantCareResults" access="PRIVILEGE_MONITOR_FORM"/>
-
-
         <intercept-url pattern="/pages/admin/clinicalStaff/createClinicalStaff"
                        access="PRIVILEGE_CREATE_CLINICAL_STAFF"/>
 

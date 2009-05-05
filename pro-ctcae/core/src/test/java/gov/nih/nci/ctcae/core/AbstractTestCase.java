@@ -8,6 +8,7 @@ import org.easymock.classextension.EasyMock;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.ArrayList;
 
 /**
  * @author Vinay Kumar
@@ -18,22 +19,29 @@ public abstract class AbstractTestCase extends CoreTestCase {
 
     protected Log logger = LogFactory.getLog(getClass());
     protected ProCtcTerm proCtcTerm1, proCtcTerm2, proCtcTerm3;
+    protected ArrayList<ProCtcTerm> proCtcTerms = new ArrayList<ProCtcTerm>();
 
     @Override
     protected void setUp() throws Exception {
         logger.debug("---- Begin test " + getName() + " ----");
         super.setUp();
-
-
+        CtcCategory ctcCategory = new CtcCategory();
+        ctcCategory.setName("ctccategory");
+        CtcTerm ctcTerm = new CtcTerm();
+        ctcTerm.setCategory(ctcCategory);
+        ctcTerm.setTerm("ctc");
 
         proCtcTerm1 = new ProCtcTerm();
         proCtcTerm1.setTerm("Fatigue");
+        proCtcTerm1.setCtcTerm(ctcTerm);
 
         proCtcTerm2 = new ProCtcTerm();
         proCtcTerm2.setTerm("Pain");
+        proCtcTerm2.setCtcTerm(ctcTerm);
 
         proCtcTerm3 = new ProCtcTerm();
         proCtcTerm3.setTerm("Cough");
+        proCtcTerm3.setCtcTerm(ctcTerm);
 
         proCtcQuestion1 = new ProCtcQuestion();
         proCtcQuestion1.setQuestionText("first question");
@@ -75,6 +83,10 @@ public abstract class AbstractTestCase extends CoreTestCase {
         proCtcTerm3.addProCtcQuestion(proCtcQuestion6);
         proCtcTerm3.addProCtcQuestion(proCtcQuestion7);
         proCtcTerm3.addProCtcQuestion(proCtcQuestion8);
+
+        proCtcTerms.add(proCtcTerm1);
+        proCtcTerms.add(proCtcTerm2);
+        proCtcTerms.add(proCtcTerm3);
 
     }
 

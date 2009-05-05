@@ -49,6 +49,7 @@ public abstract class UrlAuthorizationIntegrationTestCase extends AbstractWebInt
     protected final String COPY_FORM_URL = "/pages/form/copyForm";
     protected final String DELETE_FORM_URL = "/pages/form/deleteForm";
     protected final String ADD_FORM_SCHEDULE_CYFLE_URL = "/pages/form/addFormScheduleCycle";
+    protected final String ADD_FORM_RULE_URL = "/pages/form/addFormRule";
 
     protected final String ADD_ORGANIZATION_CLINICAL_STAFF_URL = "/pages/admin/clinicalStaff/addClinicalStaffComponent";
     protected final String SEARCH_CLINICAL_STAFF_URL = "/pages/admin/clinicalStaff/searchClinicalStaff";
@@ -70,6 +71,8 @@ public abstract class UrlAuthorizationIntegrationTestCase extends AbstractWebInt
 
     protected final String PARTICIPANT_INBOX_URL = "/pages/participant/participantInbox";
     protected final String SUBMIT_FORM_URL = "/pages/form/submit";
+    protected final String SHOW_COMPLETED_CRF_URL = "/pages/participant/showCompletedCrf";
+    protected final String REPORTS_URL = "/pages/reports/*";
 
     protected UrlAuthorizationCheck urlAuthorizationCheck;
 
@@ -106,7 +109,11 @@ public abstract class UrlAuthorizationIntegrationTestCase extends AbstractWebInt
         for (String url : allowedUrls) {
 
             assertTrue(String.format("user %s can not access url:%s ", authentication.getName(), url), urlAuthorizationCheck.authorize(url));
-            allUrls.remove(url);
+            if (url.indexOf("/*") != -1) {
+                removeWildCardUrl(url);
+            } else {
+                allUrls.remove(url);
+            }
         }
 
 
@@ -115,6 +122,20 @@ public abstract class UrlAuthorizationIntegrationTestCase extends AbstractWebInt
             assertFalse(String.format("user %s must not access url:%s ", authentication.getName(), url), urlAuthorizationCheck.authorize(url));
         }
 
+    }
+
+    private void removeWildCardUrl(String url) {
+        String wildCardUrl = url.substring(0, url.length() - 1);
+        List<String> wildCardUrls = new ArrayList();
+        for (String tempUrl : allUrls) {
+            if (tempUrl.indexOf(wildCardUrl) >= 0) {
+                wildCardUrls.add(tempUrl);
+            }
+        }
+
+        for (String wcUrl : wildCardUrls) {
+            allUrls.remove(wcUrl);
+        }
     }
 
     public void authorizeUserForTab(User user, List<SecuredTab> allowedTabs) {

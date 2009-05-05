@@ -80,11 +80,6 @@ public class CommonRulesTest extends AbstractRulesTest {
         }
     }
 
-    public void testExportRuleSet() throws Exception {
-        packageName = "gov.nih.nci.ctcae.rules.form.study_3.form_2";
-        ruleEngineService.exportRule(packageName, "c:\\etc\\ctcae");
-    }
-
     private List<Object> fireRules(List<Object> inputObjects, String bindURI) {
 
         List<Object> outputObjects = null;
