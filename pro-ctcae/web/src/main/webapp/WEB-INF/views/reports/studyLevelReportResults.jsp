@@ -124,7 +124,7 @@
 
         <br/>
         <br/>
-        <c:forEach items="${tableMap}" var="participantTable">
+        <c:forEach items="${table}" var="participantTable">
             <chrome:division
                     title="Participant: ${participantTable.key.displayName} [${participantTable.key.assignedIdentifier}] "/>
             ${participantTable.value}
