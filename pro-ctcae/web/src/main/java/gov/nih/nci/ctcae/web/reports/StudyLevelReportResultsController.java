@@ -73,6 +73,9 @@ public class StudyLevelReportResultsController extends AbstractController {
     }
 
     private void addColumn(StringBuilder table, String text, int colSpan, String style) {
+        if(text == null ){
+            text = "";
+        }
         String colSpanStr = "";
         if (colSpan > 1) {
             colSpanStr = "\"colspan=" + colSpan + "\"";
