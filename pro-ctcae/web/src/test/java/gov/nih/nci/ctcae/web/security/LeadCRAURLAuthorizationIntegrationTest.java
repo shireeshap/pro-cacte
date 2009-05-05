@@ -64,6 +64,8 @@ public class LeadCRAURLAuthorizationIntegrationTest extends UrlAuthorizationInte
         allowedUrls.add(SEARCH_CLINICAL_STAFF_URL);
         allowedUrls.add(CREATE_CLINICAL_STAFF_URL);
         allowedUrls.add(ADD_ORGANIZATION_CLINICAL_STAFF_URL);
+        allowedUrls.add(ADD_FORM_RULE_URL);
+        allowedUrls.add(REPORTS_URL);
 
 
         user = defaultStudy.getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getUser();

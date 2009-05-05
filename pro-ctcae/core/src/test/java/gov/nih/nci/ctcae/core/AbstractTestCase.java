@@ -109,18 +109,6 @@ public abstract class AbstractTestCase extends CoreTestCase {
         return registered(EasyMock.createMock(forClass));
     }
 
-
-//    public <T extends AbstractRepository<?,?>> T registerRepositoryMockFor(Class<T> forClass) {
-//        List<Method> methods = new LinkedList<Method>(Arrays.asList(forClass.getMethods()));
-//        for (Iterator<Method> iterator = methods.iterator(); iterator.hasNext();) {
-//            Method method = iterator.next();
-//            if ("getPersistableClass".equals(method.getName())) {
-//                iterator.remove();
-//            }
-//        }
-//        return registerMockFor(forClass, methods.toArray(new Method[methods.size()]));
-//    }
-
     public void replayMocks() {
         for (Object mock : mocks) EasyMock.replay(mock);
     }

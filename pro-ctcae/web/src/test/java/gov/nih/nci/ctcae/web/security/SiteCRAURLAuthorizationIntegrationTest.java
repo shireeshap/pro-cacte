@@ -52,6 +52,8 @@ public class SiteCRAURLAuthorizationIntegrationTest extends UrlAuthorizationInte
         allowedUrls.add(ADD_ORGANIZATION_CLINICAL_STAFF_URL);
         allowedUrls.add(EDIT_FORM_URL);
         allowedUrls.add(SHOW_VERSION_FORM_URL);
+        allowedUrls.add(ADD_FORM_RULE_URL);
+        allowedUrls.add(REPORTS_URL);
 
 
         user = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA).getOrganizationClinicalStaff().getClinicalStaff().getUser();
