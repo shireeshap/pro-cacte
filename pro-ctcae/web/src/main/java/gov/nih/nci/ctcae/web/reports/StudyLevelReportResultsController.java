@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.*;
 
+import com.lowagie.text.Paragraph;
+
 /**
  * @author Mehul Gulati
  *         Date: Apr 11, 2009
@@ -51,6 +53,7 @@ public class StudyLevelReportResultsController extends AbstractController {
         modelAndView.addObject("datesMap", datesMap);
         modelAndView.addObject("visitTitle", visitTitle);
         modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
+        modelAndView.addObject("table", getTable(results, datesMap));
 
         request.getSession().setAttribute("sessionResultsMap", results);
         request.getSession().setAttribute("sessionDatesMap", datesMap);
@@ -59,6 +62,87 @@ public class StudyLevelReportResultsController extends AbstractController {
         request.getSession().setAttribute("studySite", studyOrganizationRepository.findById(studySiteId));
 
         return modelAndView;
+    }
+
+    private void startRow(StringBuilder table) {
+        table.append("<tr>");
+    }
+
+    private void endRow(StringBuilder table) {
+        table.append("</tr>");
+    }
+
+    private void addColumn(StringBuilder table, String text, int colSpan, String style) {
+        String colSpanStr = "";
+        if (colSpan > 1) {
+            colSpanStr = "\"colspan=" + colSpan + "\"";
+        }
+        table.append("<td " + colSpanStr + " class=\"" + style + "\">" + text + "</td>");
+    }
+
+    public TreeMap<Participant, String> getTable(TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> results, LinkedHashMap<Participant, ArrayList<Date>> datesMap) {
+
+        TreeMap<Participant, String> tableMap = new TreeMap<Participant, String>(new ParticipantNameComparator());
+
+        for (Participant participant : results.keySet()) {
+            StringBuilder table = new StringBuilder();
+            table.append("<table border=\"0\">");
+            ArrayList valuesLists = new ArrayList();
+
+            int numOfColumns = 1;
+            TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = results.get(participant);
+            int i = 0;
+            for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
+                LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = symptomMap.get(proCtcTerm);
+                numOfColumns = numOfColumns + questionMap.keySet().size();
+                for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
+                    ArrayList<ProCtcValidValue> valuesList = questionMap.get(proCtcQuestion);
+                    valuesLists.add(valuesList);
+                }
+            }
+
+            startRow(table);
+            addColumn(table, "", 1, "");
+            for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
+                LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = symptomMap.get(proCtcTerm);
+                addColumn(table, proCtcTerm.getTerm(), questionMap.keySet().size(), "header-top");
+            }
+            endRow(table);
+            startRow(table);
+            addColumn(table, "", 1, "");
+            for (ProCtcTerm proCtcTerm : symptomMap.keySet()) {
+                LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = symptomMap.get(proCtcTerm);
+                for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
+                    addColumn(table, proCtcQuestion.getProCtcQuestionType().getDisplayName(), 1, "actual-question");
+                }
+            }
+            endRow(table);
+            ArrayList<Date> dates = null;
+            for (Participant participantT : datesMap.keySet()) {
+                if (participant.equals(participantT)) {
+                    dates = datesMap.get(participant);
+                    break;
+                }
+            }
+
+            int index = 0;
+            for (Date date : dates) {
+                startRow(table);
+
+                addColumn(table, DateUtils.format(date), 1, "");
+                for (Object obj : valuesLists) {
+                    ArrayList<ProCtcValidValue> valueList = (ArrayList<ProCtcValidValue>) obj;
+                    addColumn(table, valueList.get(index).getValue(), 1, "data");
+                }
+                index++;
+                endRow(table);
+            }
+
+            table.append("</table>");
+
+            tableMap.put(participant, table.toString());
+        }
+        return tableMap;
     }
 
     private TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> getCareResults(String visitRange, Integer studyId, Integer crfId, Integer studySiteId, LinkedHashMap<Participant, ArrayList<Date>> datesMap, Integer forVisits, String startDate, String endDate) throws ParseException {

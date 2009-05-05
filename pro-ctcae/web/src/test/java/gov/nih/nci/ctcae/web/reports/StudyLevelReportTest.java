@@ -195,4 +195,96 @@ public class StudyLevelReportTest extends WebTestCase {
         bufferedOutputStream.write(response.getContentAsByteArray());
         bufferedOutputStream.close();
     }
+
+    public void testHtmlTableGeneration() throws Exception {
+
+        StudyLevelReportResultsController controller = new StudyLevelReportResultsController();
+        StringBuilder out = new StringBuilder();
+        out.append("<html>\n" +
+                "<head>\n" +
+                "    <style type=\"text/css\">\n" +
+                "        table.widget {\n" +
+                "            border: 1px solid #eaeaea;\n" +
+                "            border-collapse: collapse;\n" +
+                "        }\n" +
+                "\n" +
+                "        table.widget col {\n" +
+                "            width: 200px;\n" +
+                "        }\n" +
+                "\n" +
+                "        td.data {\n" +
+                "            border: 1px solid #eaeaea;\n" +
+                "            background-color: #D5D5D5;\n" +
+                "            white-space: nowrap;\n" +
+                "            text-align: center;\n" +
+                "\n" +
+                "        }\n" +
+                "\n" +
+                "        td.header-top {\n" +
+                "            border: 1px solid #eaeaea;\n" +
+                "            font-weight: bold;\n" +
+                "            text-align: center;\n" +
+                "            background-color: #cccccc;\n" +
+                "        }\n" +
+                "\n" +
+                "        td.category-name, td.subcategory-name, td.actual-question {\n" +
+                "            border: 1px solid #eaeaea;\n" +
+                "            text-align: left;\n" +
+                "        }\n" +
+                "\n" +
+                "        td.category-name {\n" +
+                "            background-color: #fff;\n" +
+                "            font-weight: bolder;\n" +
+                "        }\n" +
+                "\n" +
+                "        td.subcategory-name {\n" +
+                "            background-color: #fff;\n" +
+                "            padding-left: 6px;\n" +
+                "            vertical-align: top;\n" +
+                "        }\n" +
+                "\n" +
+                "        td.help-values {\n" +
+                "            border: 1px solid #eaeaea;\n" +
+                "            background-color: #fff;\n" +
+                "            padding-left: 6px;\n" +
+                "            vertical-align: top;\n" +
+                "            text-align: center;\n" +
+                "        }\n" +
+                "\n" +
+                "        td.actual-question {\n" +
+                "            background-color: #009999;\n" +
+                "            text-align: center;\n" +
+                "            font-weight: bold;\n" +
+                "            color: white;\n" +
+                "        }\n" +
+                "\n" +
+                "        /* The hint to Hide and Show */\n" +
+                "        .hint {\n" +
+                "            z-index: 3; /* To handle the overlapping issue*/\n" +
+                "            display: none;\n" +
+                "            position: absolute;\n" +
+                "            width: 700px;\n" +
+                "            white-space: normal;\n" +
+                "            margin-top: -4px;\n" +
+                "            border: 1px solid #c93;\n" +
+                "            padding: 10px 12px;\n" +
+                "            opacity: .95;\n" +
+                "            background: #ffc url( ../images/pointer.gif ) no-repeat -10px 5px;\n" +
+                "        }\n" +
+                "    </style>\n" +
+                "</head>\n" +
+                "<body>");
+        String table = controller.getTable(results, datesMap);
+        out.append(table);
+        File f = new File("/etc/ctcae/generatedhtml.html");
+        if (f.exists()) {
+            f.delete();
+        }
+        f.createNewFile();
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(f));
+        bufferedOutputStream.write(out.toString().getBytes());
+        bufferedOutputStream.close();
+    }
+
+
 }

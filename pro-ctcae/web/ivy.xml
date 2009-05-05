@@ -57,7 +57,13 @@
         <dependency org="org.springframework" name="spring-web" rev="2.5.4" force="true"/>
         <dependency org="org.springframework" name="spring-webmvc" rev="2.5.4" force="true"/>
 
-        <dependency org="ognl" name="ognl" rev="2.6.7"/>
+        <dependency org="org.springframework.webflow" name="org.springframework.binding" rev="2.0.3.RELEASE"
+                    force="true"/>
+        <dependency org="org.springframework.webflow" name="org.springframework.js" rev="2.0.3.RELEASE" force="true"/>
+        <dependency org="org.springframework.webflow" name="org.springframework.webflow" rev="2.0.3.RELEASE"
+                    force="true"/>
+        <dependency org="ognl" name="ognl" rev="2.6.7"
+                />
 
 
         <dependency org="org.springframework.security" name="spring-security-taglibs" rev="2.0.4" transitive="false">
