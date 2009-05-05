@@ -33,7 +33,6 @@ public class ControllerTools {
         return new CustomDateEditor(createDateFormat(), !required);
     }
 
-    // TODO: make date format externally configurable
     /**
      * Creates the date format.
      *
@@ -43,34 +42,10 @@ public class ControllerTools {
         return new SimpleDateFormat("MM/dd/yyyy");
     }
 
-
-//	/**
-//	 * Determine whether the given request was made via an asynchronous request mechanism. Current
-//	 * implementation works for prototype.js-initiated requests only.
-//	 *
-//	 * @param request
-//	 */
-//	public static boolean isAjaxRequest(HttpServletRequest request) {
-//		String header = request.getHeader("X-Requested-With");
-//		return header != null && "XMLHttpRequest".equals(header);
-//	}
-
-    /**
-     * Gets the date converter.
-     *
-     * @return the date converter
-     */
-    public static Converter getDateConverter() {
-        StringToDate stringToDate = new StringToDate();
-        stringToDate.setPattern("MM/dd/yyyy");
-
-        return stringToDate;
-    }
-
     /**
      * Instantiates a new controller tools.
      */
     public ControllerTools() {
         super();
-	}
+    }
 }
