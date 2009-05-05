@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.Participant;
 
 import java.util.Comparator;
+import java.io.Serializable;
 
 //
 /**
@@ -16,7 +17,7 @@ import java.util.Comparator;
 /**
  * remove this class later
  */
-public class ParticipantNameComparator implements Comparator<Participant> {
+public class ParticipantNameComparator implements Comparator<Participant>, Serializable {
 
     /* (non-Javadoc)
     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
