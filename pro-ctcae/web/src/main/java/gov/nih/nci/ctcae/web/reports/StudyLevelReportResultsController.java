@@ -86,7 +86,7 @@ public class StudyLevelReportResultsController extends AbstractController {
 
         for (Participant participant : results.keySet()) {
             StringBuilder table = new StringBuilder();
-            table.append("<table border=\"0\">");
+            table.append("<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">");
             ArrayList valuesLists = new ArrayList();
 
             int numOfColumns = 1;
