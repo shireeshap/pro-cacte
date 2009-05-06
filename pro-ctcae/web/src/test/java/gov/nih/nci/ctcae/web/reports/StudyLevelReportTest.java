@@ -274,8 +274,11 @@ public class StudyLevelReportTest extends WebTestCase {
                 "    </style>\n" +
                 "</head>\n" +
                 "<body>");
-        String table = controller.getTable(results, datesMap);
-        out.append(table);
+        TreeMap<Participant, String> table = controller.getTable(results, datesMap);
+        for (Participant participant : table.keySet()) {
+            out.append(participant.getDisplayName() + "\n");
+            out.append(table.get(participant));
+        }
         File f = new File("/etc/ctcae/generatedhtml.html");
         if (f.exists()) {
             f.delete();
