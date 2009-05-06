@@ -106,7 +106,7 @@
                             <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'Completed'}">
                                 <a href="javascript:completedForm(${studyParticipantCrfSchedule.id})"
                                    title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
-                                    <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
+                                    <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/> Results
                                 </a>
                             </c:when>
                             <c:otherwise>
