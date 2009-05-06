@@ -54,8 +54,8 @@
         function displaySites() {
 
             organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
-//                alert(values);
-//                alert(values.length);
+                //                alert(values);
+                //                alert(values.length);
             })
 
 
@@ -167,11 +167,12 @@
                 $('monthlyButton').show();
                 $('weeklyButton').hide();
             }
-
+            showIndicator();
             var request = new Ajax.Request("<c:url value="/pages/participant/monitorFormStatus"/>", {
                 parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev + "&direction=" + direction + "&view=" + view + "&subview=subview",
                 onComplete:function(transport) {
                     showStatusTable(transport);
+                    hideIndicator();
                 },
                 method:'get'
             })
@@ -181,6 +182,13 @@
             $('displayFormStatusDiv').show();
             $('displayFormStatus').innerHTML = transport.responseText;
             $('indicator').hide();
+        }
+
+        function showIndicator() {
+            $('indicator').style.visibility = 'visible';
+        }
+        function hideIndicator() {
+            $('indicator').style.visibility = 'hidden';
         }
 
     </script>
@@ -257,7 +265,7 @@
         <div id="searchForm" style="display:none" class="row">
 
             <div class="value"><tags:button color="blue" value="Search" onclick="formStatus('initial')" size="big"
-                                            icon="search"/></div>
+                                            icon="search"/> <tags:indicator id="indicator"/></div>
         </div>
     </div>
 </chrome:box>

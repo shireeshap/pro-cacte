@@ -112,7 +112,7 @@
         }
 
         function studyLevelReportResults(format, symptomId, selectedTypes) {
-
+            hasError = false;
             var studyId = $('study').value;
             var forVisits = $('visits').value;
 
@@ -123,6 +123,12 @@
             var visitRange = visitRangeSelect.options[visitRangeSelect.selectedIndex].value;
 
             var studySiteId = $('studySite').value;
+            if (studySiteId == '') {
+                showError($('studySite'));
+            } else {
+                removeError($('studySite'));
+            }
+
             if (visitRange == 'currentPrev' || visitRange == 'currentLast') {
                 forVisits = "2";
             }
@@ -135,8 +141,11 @@
             }
             var stDate = $('startDate').value;
             var endDate = $('endDate').value;
-
+            if (hasError) {
+                return;
+            }
             if (format == 'tabular') {
+                showIndicator();
                 var request = new Ajax.Request("<c:url value="/pages/reports/studyLevelReportResults"/>", {
                     parameters:"studyId=" + studyId + "&crfId=" + crfId +
                                "&studySiteId=" + studySiteId +
@@ -144,6 +153,7 @@
                                "&subview=subview",
                     onComplete:function(transport) {
                         showResultsTable(transport);
+                        hideIndicator();
                     },
                     method:'get'
                 })
@@ -165,6 +175,23 @@
         }
         function hideHelp() {
             $('attribute-help-content').style.display = 'none';
+        }
+        var hasError = false;
+        function showError(element) {
+            hasError = true;
+            removeError(element);
+            new Insertion.Bottom(element.parentNode, " <ul id='" + element.name + "-msg'class='errors'><li>" + 'Missing ' + element.title + "</li></ul>");
+        }
+        function removeError(element) {
+            msgId = element.name + "-msg"
+            $(msgId) != null ? new Element.remove(msgId) : null
+        }
+
+        function showIndicator() {
+            $('indicator').style.visibility = 'visible';
+        }
+        function hideIndicator() {
+            $('indicator').style.visibility = 'hidden';
         }
 
     </script>
@@ -212,12 +239,6 @@
                 <b>visits</b>
             </div>
         </div>
-            <%--<div id="visitDate" class="row" style="display:none">--%>
-            <%--<div class="label"> Most recent</div>--%>
-            <%--<div class="value"><input type="text" id="visits" class="validate-NUMERIC" style="width:25px;"/>--%>
-            <%--<b>visits</b>--%>
-            <%--</div>--%>
-            <%--</div>--%>
         <div id="dateRange" style="display:none">
             <div class="leftpanel">
                 <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
@@ -232,7 +253,9 @@
         <div id="search" style="display:none" class="row">
             <div class="value"><tags:button color="blue" value="Search"
                                             onclick="studyLevelReportResults('tabular')" size="big"
-                                            icon="search"/></div>
+                                            icon="search"/>
+                <tags:indicator id="indicator"/>
+            </div>
         </div>
 
     </div>

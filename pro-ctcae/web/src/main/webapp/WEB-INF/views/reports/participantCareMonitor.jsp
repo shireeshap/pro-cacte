@@ -78,18 +78,14 @@ function displaySites() {
 
     organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
         var siteNum = values.length;
-        //  alert(values.length);
-
         var myStudySiteAutoComplter = new studySiteAutoComplter
                 ('studySite', $('study').value);
         acCreate(myStudySiteAutoComplter);
         initSearchField();
-        //alert(values[0].displayName);
         if (siteNum > 1) {
             $('studySiteAutoCompleterDiv').show();
         } else {
             $('studySite').value = values[0].id;
-            //  $('studySiteName').value=values[0].displayName;
             $('studySiteName').innerHTML = values[0].displayName;
             $('studySiteDiv').show();
         }
@@ -124,8 +120,25 @@ function customVisit(showVisit) {
     }
 
 }
+var hasError = false;
+function showError(element) {
+    hasError = true;
+    removeError(element);
+    new Insertion.Bottom(element.parentNode, " <ul id='" + element.name + "-msg'class='errors'><li>" + 'Missing ' + element.title + "</li></ul>");
+}
+function removeError(element) {
+    msgId = element.name + "-msg"
+    $(msgId) != null ? new Element.remove(msgId) : null
+}
 
+function showIndicator() {
+    $('indicator').style.visibility = 'visible';
+}
+function hideIndicator() {
+    $('indicator').style.visibility = 'hidden';
+}
 function participantCareResults(format, symptomId, selectedTypes) {
+    hasError = false;
 
     var studyId = $('study').value;
     var forVisits = $('visits').value;
@@ -138,7 +151,17 @@ function participantCareResults(format, symptomId, selectedTypes) {
             [visitRangeSelect.selectedIndex].value;
 
     var studySiteId = $('studySite').value;
+    if (studySiteId == '') {
+        showError($('studySite'));
+    } else {
+        removeError($('studySite'));
+    }
     var participantId = $('participant').value;
+    if (participantId == '') {
+        showError($('participant'));
+    } else {
+        removeError($('participant'));
+    }
 
     if (visitRange == 'currentPrev' || visitRange == 'currentLast') {
         forVisits = "2";
@@ -152,8 +175,11 @@ function participantCareResults(format, symptomId, selectedTypes) {
     }
     var stDate = $('startDate').value;
     var endDate = $('endDate').value;
-
+    if (hasError) {
+        return;
+    }
     if (format == 'tabular') {
+        showIndicator();
         var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResults"/>", {
             parameters:"studyId=" + studyId + "&crfId=" + crfId +
                        "&studySiteId=" + studySiteId + "&participantId=" + participantId +
@@ -161,6 +187,7 @@ function participantCareResults(format, symptomId, selectedTypes) {
                        "&subview=subview",
             onComplete:function(transport) {
                 showResultsTable(transport);
+                hideIndicator();
             },
             method:'get'
         })
@@ -271,12 +298,6 @@ function hideHelp() {
                 <b>visits</b>
             </div>
         </div>
-            <%--<div id="visitDate" class="row" style="display:none">--%>
-            <%--<div class="label"> Most recent</div>--%>
-            <%--<div class="value"><input type="text" id="visits" class="validate-NUMERIC" style="width:25px;"/>--%>
-            <%--<b>visits</b>--%>
-            <%--</div>--%>
-            <%--</div>--%>
         <div id="dateRange" style="display:none">
             <div class="leftpanel">
                 <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
@@ -291,7 +312,9 @@ function hideHelp() {
         <div id="search" style="display:none" class="row">
             <div class="value"><tags:button color="blue" value="Search"
                                             onclick="participantCareResults('tabular')" size="big"
-                                            icon="search"/></div>
+                                            icon="search"/>
+                <tags:indicator id="indicator"/>
+            </div>
         </div>
 
     </div>
