@@ -1,3 +1,4 @@
+<%@ page import="java.util.Date" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -130,7 +131,7 @@
                                         <b><spring:message code="participant.label.startdate"/></b> <tags:renderDate
                                             propertyName="form_date_${crf.id}"
                                             doNotshowLabel="true"
-                                            noForm="true"/>
+                                            noForm="true" dateValue="<%= new Date()%>"/>
                                     </td>
 
                                 </tr>
