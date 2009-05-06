@@ -66,12 +66,12 @@
             <input type="hidden" name="r"/>
             <tr>
                 <td align="left" width="50%">
-                    <input onclick="document.myForm.direction.value='back'" type="image"
-                           src="/ctcae/images/blue/back_btn.png" alt="back &raquo;"/>
+                    <tags:button onclick="document.myForm.direction.value='back'" type="submit"
+                            value="Back" icon="back" color="blue"/>
                 </td>
                 <td align="right" width="50%">
-                    <input onclick="document.myForm.direction.value='save'" type="image"
-                           src="/ctcae/images/blue/submit_btn.png" alt="save &raquo;"/>
+                    <tags:button onclick="document.myForm.direction.value='save'" type="submit"
+                           value="Submit" icon="check" color="orange"/>
                 </td>
             </tr>
         </table>

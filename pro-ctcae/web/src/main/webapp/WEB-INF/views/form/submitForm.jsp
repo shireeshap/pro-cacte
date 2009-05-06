@@ -144,7 +144,7 @@
 <form:form method="post" name="myForm">
     <tags:hasErrorsMessage hideErrorDetails="false"/>
     <div class='progress-bar-outer'>
-        <div class='progress-bar-inner'></div>
+        <div class='progress-bar-inner' style="width: ${(command.currentPageIndex/command.totalPages)*150}px;"></div>
     </div>
     <div class="currentPagediv">
         Progress:
