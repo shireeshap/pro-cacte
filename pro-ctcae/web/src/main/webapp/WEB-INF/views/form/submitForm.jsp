@@ -14,6 +14,9 @@
         div.row div.value {
             white-space: normal;
         }
+		.formbuilderBox {
+			padding-left:2px;
+		}
 
         .label {
             font-weight: bold;
@@ -30,24 +33,6 @@
             padding-right: 200px;
             text-align: right;
             margin-bottom: 15px;
-        }
-
-        .progress-bar-outer {
-            border-style: solid;
-            width: 150px;
-            border-color: #a1aec5;
-            border-width: 1px;
-            height: 15px;
-            float: right;
-            margin-right: 40px;
-        }
-
-        .progress-bar-inner {
-            background-color: #0066cc;
-			background-image:url(/ctcae/images/blue/progress-bar.png);
-			background-repeat:repeat-x;
-            width: ${(command.currentPageIndex/command.totalPages)*150}px;
-            height: 15px;
         }
     </style>
     <script type="text/javascript">
@@ -164,7 +149,7 @@
     <div class="currentPagediv">
         Progress:
     </div>
-    <div class="label"><tags:recallPeriodFormatter desc="${command.pageHeader}"/></div>
+    <div class="label" style="margin-bottom:10px;"><tags:recallPeriodFormatter desc="${command.pageHeader}"/></div>
     <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfItems}" var="participantCrfItem"
                varStatus="crfitemstatus">
         <tags:formbuilderBox id="question_${participantCrfItem.crfPageItem.id}" style="display:none">
@@ -238,7 +223,7 @@
             </table>
         </tags:formbuilderBox>
     </c:forEach>
-    <table width="100%">
+    <table width="100%" style="margin-top:10px;">
         <input type="hidden" name="direction"/>
         <tr>
             <td align="left" width="50%">

@@ -4,7 +4,11 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="authz" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
-
+<style>
+#taskbar {
+padding-top:11px;
+}
+</style>
 <div id="header">
 
     <div class="background-R">

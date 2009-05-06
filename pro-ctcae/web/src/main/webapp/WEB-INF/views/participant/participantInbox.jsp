@@ -38,11 +38,6 @@
             background-color: #CBD9E4;
         }
 
-        #taskbar {
-            font-weight: bold;
-            padding-top: 12px;
-        }
-
         #inboxTitle {
             color: #003E7C;
             position: absolute;

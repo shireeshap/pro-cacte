@@ -167,10 +167,7 @@
 <form:form method="post" name="myForm">
     <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.title}"
                 autopad="true" message="false">
-        <p>
-            <b><tags:message code="participant.form.selectsymptom"/> </b>
-        </p>
-
+		<tags:instructions code="participant.form.selectsymptom"/>
         <table id="mytable">
             <tbody>
             <c:set var="numrows" value="6"/>
@@ -178,14 +175,14 @@
                 <c:if test="${command.displaySymptoms[i*3+0] ne null}">
                     <tr id="tr_"${i}>
                         <c:forEach var="j" begin="0" end="2" varStatus="status">
-                            <td id="td_${i + (numrows+1)*j}_a" class="label" width="1%">
+                            <td id="td_${i + (numrows+1)*j}_a" class="" width="1%">
                                 <c:if test="${command.displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <input type="checkbox" name="symptomsByParticipants"
                                            value="${command.displaySymptoms[i + (numrows+1)*j]}"
                                            onchange="javascript:changeClass(this,'${i + (numrows+1)*j}');" id="${i + (numrows+1)*j}"/>
                                 </c:if>
                             </td>
-                            <td id="td_${i + (numrows+1)*j}_b" class="label" width="32%">
+                            <td id="td_${i + (numrows+1)*j}_b" class="value" width="32%">
                                 <c:if test="${command.displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <div id="div_${i + (numrows+1)*j}">${command.displaySymptoms[i + (numrows+1)*j]}</div>
                                 </c:if>
@@ -214,12 +211,10 @@
         <input type="hidden" name="direction"/>
         <tr>
             <td align="left" width="50%">
-                <input onclick="document.myForm.direction.value='back'" type="image"
-                       src="/ctcae/images/blue/back_btn.png" alt="back &raquo;"/>
+            	<tags:button onclick="document.myForm.direction.value='back'" type="submit" icon="back" color="blue" value="Back" />
             </td>
             <td align="right" width="50%">
-                <input onclick="document.myForm.direction.value='continue'" type="image"
-                       src="/ctcae/images/blue/continue_btn.png" alt="continue &raquo;"/>
+            	<tags:button onclick="document.myForm.direction.value='continue'" type="submit" icon="continue" color="green" value="Continue" />
             </td>
         </tr>
     </table>
