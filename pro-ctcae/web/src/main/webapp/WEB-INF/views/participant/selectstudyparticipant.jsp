@@ -109,7 +109,9 @@
             <tags:requiredIndicator/>
             <input type="text" id="participant-input" value="${command.participant.displayName}"
                    class="autocomplete  validate-NOTEMPTY"/>
-            <input type="button" id="participant-clear" value="Clear"/>
+            <input id="participant-clear" type="image" style="vertical-align: top;" src="/ctcae/images/blue/clear-left-button.png"  onclick="javascript:$('participant-input').clear();$('participant').clear();return false;" value="Clear" name="C"/>
+            <%--<tags:button color="blue" id="participant-clear" size="small" type="button" value='Clear'/>--%>
+            <!--<input type="button" id="participant-clear" value="Clear"/>-->
             <tags:indicator id="participant-indicator"/>
             <div id="participant-choices" class="autocomplete"></div>
             <tags:errors path="participant"/>
@@ -125,7 +127,8 @@
 
             <tags:requiredIndicator/>
             <input type="text" id="study-input" value="${command.study.shortTitle}" class="autocomplete"/>
-            <input type="button" id="study-clear" value="Clear"/>
+            <input id="study-clear" type="image" style="vertical-align: top;" src="/ctcae/images/blue/clear-left-button.png"  onclick="javascript:$('study-input').clear();$('study').clear();return false;" value="Clear" name="C"/>            
+            <!--<input type="button" id="study-clear" value="Clear"/>-->
             <tags:indicator id="study-indicator"/>
             <tags:errors path="study"/>
             <div id="study-choices" class="autocomplete"></div>

@@ -191,7 +191,8 @@
 
         </chrome:division>
     </chrome:box>
-    <tags:tabControls willSave="true"/>
+    <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save" /></div>
+    <%--<tags:tabControls willSave="true"/>--%>
 </form:form>
 
 </body>

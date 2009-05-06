@@ -55,9 +55,15 @@
 
     </tr>
     <tr>
+
         <td valign="top" width="10%">
-            <input type="button" value="<tags:message code="study.button.add.clinical.staff"/>"
-                   onclick="javascript:addClinicalStaff(${studySiteId},'${role}')">
+            <div align="left" style="margin-left: 13px">
+                <tags:button value="Add" color="blue" type="button" size="small"
+                             onclick="javascript:addClinicalStaff(${studySiteId},'${role}');return false;" icon="add"/>
+            </div>
+
+            <%--<input type="button" value="<tags:message code="study.button.add.clinical.staff"/>"--%>
+            <%--onclick="javascript:addClinicalStaff(${studySiteId},'${role}')">--%>
 
         </td>
     </tr>

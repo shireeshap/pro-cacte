@@ -82,9 +82,9 @@
                 <div id="error"></div>
             </div>
         </div>
-
-        <input class='ibutton' type='button' id="searchButton" onclick="buildTable('assembler');"
-               value='Search' title='Search Study'/>
+        <tags:button color="blue" icon="search" size="big" type="button" onclick="buildTable('assembler');" value='Search'/>
+        <%--<input class='ibutton' type='button' id="searchButton" onclick="buildTable('assembler');"--%>
+               <!--value='Search' title='Search Study'/>-->
         <tags:indicator id="indicator"/>
     </div>
 </chrome:box>

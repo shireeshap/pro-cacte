@@ -23,7 +23,7 @@ public class StudyLevelReportTest extends WebTestCase {
     TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> results;
     ArrayList<Date> dates1, dates2;
     LinkedHashMap<Participant, ArrayList<Date>> datesMap;
-    ;
+    
 
     Participant participant1, participant2;
 

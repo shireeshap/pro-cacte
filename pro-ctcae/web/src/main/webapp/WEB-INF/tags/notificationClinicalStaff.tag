@@ -23,9 +23,6 @@
 
     </td>
     <td style="border-right:none;">
-        ${role}
-    </td>
-    <td style="border-right:none;">
         <tags:renderSelect
                 propertyName="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].notify"
                 displayName="participant.label.notification"

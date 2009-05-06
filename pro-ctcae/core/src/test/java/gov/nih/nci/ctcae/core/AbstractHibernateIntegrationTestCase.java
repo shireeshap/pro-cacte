@@ -240,6 +240,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
 
     protected void deleteData() {
         jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
+        jdbcTemplate.execute("delete from study_participant_crf_items");
         jdbcTemplate.execute("delete from CRF_PAGE_ITEMS");
         jdbcTemplate.execute("delete from CRF_PAGES");
         jdbcTemplate.execute("delete from sp_crf_schedules");
