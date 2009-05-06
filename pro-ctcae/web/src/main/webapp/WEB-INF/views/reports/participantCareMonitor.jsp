@@ -255,7 +255,7 @@ function hideHelp() {
         <tags:renderAutocompleter propertyName="study"
                                   displayName="Study"
                                   required="true"
-                                  size="60"
+                                  size="40"
                                   noForm="true"/>
         <div id="formDropDownDiv" style="display:none;" class="row">
             <div class="label">Form</div>
@@ -264,7 +264,7 @@ function hideHelp() {
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="studySite"
                                       displayName="Study site"
-                                      size="60"
+                                      size="40"
                                       noForm="true" required="true"/>
         </div>
         <div id="studySiteDiv" style="display:none" class="row">
@@ -274,7 +274,7 @@ function hideHelp() {
         <div id="participantAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="participant"
                                       displayName="Participant"
-                                      size="60"
+                                      size="40"
                                       noForm="true" required="true"/>
         </div>
         <div id="dateMenuDiv" style="display:none" class="row">

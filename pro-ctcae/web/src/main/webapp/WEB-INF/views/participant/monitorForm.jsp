@@ -205,7 +205,7 @@
         <tags:renderAutocompleter propertyName="study"
                                   displayName="Study"
                                   required="true"
-                                  size="60"
+                                  size="40"
                                   noForm="true"/>
         <div id="formDropDownDiv" style="display:none;" class="row">
             <div class="label">Form</div>
@@ -228,13 +228,13 @@
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="studySite"
                                       displayName="Study site"
-                                      size="60"
+                                      size="40"
                                       noForm="true"/>
         </div>
         <div id="participantAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="participant"
                                       displayName="Participant"
-                                      size="60"
+                                      size="40"
                                       noForm="true"/>
         </div>
         <div id="dateMenuDiv" style="display:none" class="row">
