@@ -81,16 +81,6 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         return s;
     }
 
-//    private CRF initializeCrf(CRF crf) {
-//        CRF lcrf = crfRepository.findById(crf.getId());
-//        for (CRFPage crfPage : lcrf.getCrfPagesSortedByPageNumber()) {
-//            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-//                crfPageItem.getProCtcQuestion();
-//            }
-//        }
-//        return lcrf;
-//    }
-
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.SimpleFormController#showForm(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.validation.BindException)
      */

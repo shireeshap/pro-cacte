@@ -21,10 +21,10 @@
         <level value="ERROR"/>
     </logger>
     <logger name=" org.springframework.security.ui">
-        <level value="ERROR"/>
+        <level value="DEBUG"/>
     </logger>
     <logger name="org.springframework.security">
-        <level value="ERROR"/>
+        <level value="DEBUG"/>
     </logger>
     <logger name="org.springframework">
         <level value="ERROR"/>

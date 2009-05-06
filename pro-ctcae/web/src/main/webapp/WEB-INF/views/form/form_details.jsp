@@ -281,16 +281,12 @@
         var crfPageNumber = ''
 
     <c:if test="${!command.crf.advance}">
-
         getCrfPageNumbersForProCtcTerm(proCtcTermId).each(function(item) {
             crfPageNumber = item;
-
         })
 
     </c:if>
         addProCtcTermForCrfPage(proCtcTermId, crfPageNumber);
-
-
     }
     function addProCtcTermForCrfPage(proCtcTermId, crfPageNumber) {
         var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
@@ -849,7 +845,7 @@
         padding: 10px;
         background-color: #e7eaf3;
         margin-right: 3px;
-		margin-top:3px;
+        margin-top: 3px;
         position: relative;
     }
 
@@ -924,9 +920,9 @@
             <table id="formbuilderTable">
                 <tr>
                     <td id="left">
-                        <a id="shrinkQuestionBankUrl" href="javascript:shrinkQuestionBank()"><img
-                                src="<tags:imageUrl name="blue/minimize-left.png" />" style="float:right"
-                                alt="Minimize"/></a>
+                        <%--<a id="shrinkQuestionBankUrl" href="javascript:shrinkQuestionBank()"><img--%>
+                                <%--src="<tags:imageUrl name="blue/minimize-left.png" />" style="float:right"--%>
+                                <%--alt="Minimize"/></a>--%>
                         <ul id="form-tabs" class="tabs">
                             <li>
                                 <a id="firstlevelnav_1" href="javascript:showForm()" class="selected_4thlvl">
@@ -1035,9 +1031,9 @@
                         </div>
                     </td>
                     <td id="right">
-                        <a id="shrinkFormUrl" href="javascript:shrinkForm()"><img
-                                src="<tags:imageUrl name="blue/minimize-right.png" />" style="float:left"
-                                alt="Minimize"/></a>
+                        <%--<a id="shrinkFormUrl" href="javascript:shrinkForm()"><img--%>
+                                <%--src="<tags:imageUrl name="blue/minimize-right.png" />" style="float:left"--%>
+                                <%--alt="Minimize"/></a>--%>
 
                             <%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
                             <%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>

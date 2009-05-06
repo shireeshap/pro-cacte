@@ -419,6 +419,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantDetails
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantInboxController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantLinkDisplayDetailsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantOffStudyController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantResponseReportController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantReviewTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfAjaxFacade.java -text
@@ -651,6 +652,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/offStudyDate.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/participantInbox.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/participant_clinical_staff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/participant_reviewsummary.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/responseReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/schedulecrf.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/searchParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/selectstudyparticipant.jsp -text

@@ -24,6 +24,17 @@
 
     </style>
 
+    <script type="text/javascript">
+        function responseReport(id) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/responseReport"/>", {
+                parameters:"id=" + id + "&subview=subview",
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 700, 500);
+                },
+                method:'get'
+            })
+        }
+    </script>
 </head>
 <body>
 <chrome:flashMessage flashMessage="${command.flashMessage}"></chrome:flashMessage>
@@ -32,15 +43,17 @@
 
     <table>
         <tr>
-            <td  class="label">
-                    <br/>
-                    You can <a
-                        href="../participant/participantInbox?participantId=${command.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id}">click
-                    here</a> to go to your Inbox.
-                </td>
-            </tr>
-        </table>
-
+            <td class="label">
+                <br/>
+                You can <a
+                    href="../participant/participantInbox">click
+                here</a> to go to your Inbox.
+                You can <a
+                    href="javascript:responseReport('${command.studyParticipantCrfSchedule.id}');">click
+                here</a> to view your old responses.
+            </td>
+        </tr>
+    </table>
 </chrome:box>
 
 </body>

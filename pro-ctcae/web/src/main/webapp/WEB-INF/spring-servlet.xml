@@ -366,6 +366,11 @@
         <property name="crfRepository" ref="crfRepository"/>
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
+    <bean name="/participant/responseReport" id="participantResponseReportController"
+          class="gov.nih.nci.ctcae.web.participant.ParticipantResponseReportController">
+        <property name="participantRepository" ref="participantRepository"/>
+        <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
+    </bean>
     <bean name="/reports/participantCarePdf" id="participantCarePdfController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantCarePdfController">
     </bean>
