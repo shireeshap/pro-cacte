@@ -50,14 +50,14 @@
             <c:when test="${command.crf.crfVersion eq 1.0}">
                 <p><tags:instructions code="instruction_select_study"/></p>
                 <tags:renderAutocompleter propertyName="crf.study" required="true" displayName="form.label.study"
-                                          size="70"/>
+                                          size="60"/>
                 <p id="crf.study-selected" style="display: none">
                     You have selected the study <span id="crf.study-selected-name"></span>.
                 </p>
             </c:when>
             <c:otherwise>&nbsp;&nbsp;&nbsp;<b>Study</b>&nbsp;&nbsp; <input type="text"
                                                                            value="${command.crf.study.displayName}"
-                                                                           disabled="true" size="70"></c:otherwise>
+                                                                           disabled="true" size="60"></c:otherwise>
         </c:choose>
     </jsp:attribute>
 
