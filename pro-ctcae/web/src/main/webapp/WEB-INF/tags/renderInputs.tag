@@ -167,7 +167,7 @@
     <c:when test="${categoryName == 'autocompleter'}">
         <input size="${empty size ? empty attributes.size ? '50' : attributes.size : size}" type="text"
                id="${propertyName}-input" title="${title}" ${disabled ? 'disabled' : ''}
-               class=" ${cssClass}"/>
+               class="autocomplete ${cssClass}"/>
 
         <%--<a href="${showAllJavascript}">Show All</a> --%>
         <c:if test="${!doNotshowClear}">
