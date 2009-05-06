@@ -12,6 +12,9 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <tags:includeScriptaculous/>
+    <tags:includePrototypeWindow/>
+
     <style type="text/css">
         .label {
             font-weight: bold;
@@ -29,7 +32,7 @@
             var request = new Ajax.Request("<c:url value="/pages/participant/responseReport"/>", {
                 parameters:"id=" + id + "&subview=subview",
                 onComplete:function(transport) {
-                    showConfirmationWindow(transport, 700, 500);
+                    showConfirmationWindow(transport, 1000, 500);
                 },
                 method:'get'
             })
