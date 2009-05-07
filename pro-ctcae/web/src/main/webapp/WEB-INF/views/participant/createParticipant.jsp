@@ -90,31 +90,6 @@
                    </c:otherwise>
                </c:choose>
            </chrome:division>
-       <chrome:division title="participant.label.logininfo">
-           <tags:renderText propertyName="participant.user.username"
-                            displayName="participant.label.username"
-                            required="true"/>
-
-           <div class="row">
-               <div class="label"><spring:message code="participant.label.password"/></div>
-               <div class="value"><input type="password" name="participant.user.password"
-                                         id="participant.user.password"
-                                         value="${command.participant.user.password}"/></div>
-           </div>
-           <div class="row">
-               <div class="label"><spring:message code="participant.label.confirmpassword"/></div>
-               <div class="value"><input type="password"
-                                         name="participant.user.confirmPassword"
-                                         id="participant.user.confirmPassword"
-                                         value="${command.participant.user.confirmPassword}"/></div>
-           </div>
-           <%--<tags:renderPassword propertyName="participant.user.password"--%>
-           <%--displayName="participant.label.password"--%>
-           <%--required="true"/>--%>
-           <%--<tags:renderPassword propertyName="participant.user.confirmPassword"--%>
-           <%--displayName="participant.label.confirmpassword"--%>
-           <%--required="true"/>--%>
-       </chrome:division>
 
            <chrome:division title="participant.label.demographic_information">
 
@@ -131,14 +106,14 @@
                                             required="true"/>
                        </td>
                        <td>
-                           <tags:renderText propertyName="participant.assignedIdentifier"
-                                            displayName="participant.label.participant_identifier"
-                                            required="true"/>
                            <tags:renderDate propertyName="participant.birthDate"
                                             displayName="participant.label.date_of_birth"
                                             required="true"/>
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
                                               required="true" options="${genders}"/>
+                           <tags:renderText propertyName="participant.assignedIdentifier"
+                                            displayName="participant.label.participant_identifier"
+                                            required="true"/>
                        </td>
                    </tr>
                </table>
@@ -150,7 +125,7 @@
                        <td>
                            <tags:renderEmail propertyName="participant.emailAddress"
                                              displayName="participant.label.email_address"
-                                             required="false"/>
+                                             required="false" size="35"/>
                        </td>
                        <td>
                            <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
@@ -160,6 +135,25 @@
                    </tr>
                </table>
            </chrome:division>
+       <chrome:division title="participant.label.logininfo">
+           <tags:renderText propertyName="participant.user.username"
+                            displayName="participant.label.username"
+                            required="true"/>
+
+           <div class="row">
+               <div class="label"><span class="required-indicator">*</span> <spring:message code="participant.label.password"/></div>
+               <div class="value"><input type="password" name="participant.user.password"
+                                         id="participant.user.password"
+                                         value="${command.participant.user.password}"/></div>
+           </div>
+           <div class="row">
+               <div class="label"><span class="required-indicator">*</span> <spring:message code="participant.label.confirmpassword"/></div>
+               <div class="value"><input type="password"
+                                         name="participant.user.confirmPassword"
+                                         id="participant.user.confirmPassword"
+                                         value="${command.participant.user.confirmPassword}"/></div>
+           </div>
+       </chrome:division>
            <chrome:division title="participant.label.studies"/>
 
            <chrome:division id="single-fields">

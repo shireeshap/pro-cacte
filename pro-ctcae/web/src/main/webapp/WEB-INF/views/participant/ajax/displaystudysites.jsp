@@ -38,7 +38,7 @@
             Study
         </td>
         <td class="tableHeader">
-            Patient study identifier
+            <span class="required-indicator">*</span> Participant study identifier
         </td>
 
 
@@ -110,7 +110,7 @@
                 [${studysite.study.assignedIdentifier}] ${studysite.study.shortTitle}
             </td>
             <td>
-                <input type="text" name="participantStudyIdentifier_${studysite.id}" value="">
+                <input type="text" name="participantStudyIdentifier_${studysite.id}" value="" class="validate-NOTEMPTY">
             </td>
         </tr>
         <c:if test="${hasforms eq 'true'}">

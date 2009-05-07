@@ -27,17 +27,17 @@
 
     </style>
 
-    <script type="text/javascript">
-        function responseReport(id) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/responseReport"/>", {
-                parameters:"id=" + id + "&subview=subview",
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 1000, 500);
-                },
-                method:'get'
-            })
-        }
-    </script>
+    <%--<script type="text/javascript">--%>
+    <%--function responseReport(id) {--%>
+    <%--var request = new Ajax.Request("<c:url value="/pages/participant/responseReport"/>", {--%>
+    <%--parameters:"id=" + id + "&subview=subview",--%>
+    <%--onComplete:function(transport) {--%>
+    <%--showConfirmationWindow(transport, 1000, 500);--%>
+    <%--},--%>
+    <%--method:'get'--%>
+    <%--})--%>
+    <%--}--%>
+    <%--</script>--%>
 </head>
 <body>
 <chrome:flashMessage flashMessage="${command.flashMessage}"></chrome:flashMessage>
@@ -51,9 +51,14 @@
                 You can <a
                     href="../participant/participantInbox">click
                 here</a> to go to your Inbox.
+                <br/>
+                <br/>
                 You can <a
-                    href="javascript:responseReport('${command.studyParticipantCrfSchedule.id}');">click
+                    href="../participant/responseReport?id=${command.studyParticipantCrfSchedule.id}">click
                 here</a> to view your old responses.
+                    <%--You can <a--%>
+                    <%--href="javascript:responseReport('${command.studyParticipantCrfSchedule.id}');">click--%>
+                    <%--here</a> to view your old responses.--%>
             </td>
         </tr>
     </table>
