@@ -72,8 +72,8 @@
     </table>
     <c:forEach items="${crfStatusMap}" var="siteCrfStatus">
         <chrome:division title="${siteCrfStatus.key.organization.name}"/>
-        <c:forEach items="${siteCrfStatus.value}" var="crfStatus">
-            <c:if test="${!empty crfStatus}">
+        <%--<c:forEach items="${siteCrfStatus.value}" var="crfStatus">--%>
+            <%--<c:if test="${!empty crfStatus}">--%>
 
 
                 <table class="widget" cellspacing="0">
@@ -138,8 +138,8 @@
                     </c:forEach>
                 </table>
                 <br/>
-            </c:if>
-        </c:forEach>
+            <%--</c:if>--%>
+        <%--</c:forEach>--%>
     </c:forEach>
     <input type="hidden" id="pgStartDateNext" value='<tags:formatDate value="${pgStartNext}"/>'/>
     <input type="hidden" id="pgStartDatePrev" value='<tags:formatDate value="${pgStartPrev}"/>'/>
