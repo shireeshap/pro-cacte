@@ -29,7 +29,7 @@ public class UserQuery extends AbstractQuery {
      */
     public void filterByUserName(final String username) {
         andWhere("user.username = :" + USER_NAME);
-        setParameter(USER_NAME, username);
+        setParameter(USER_NAME, username.toLowerCase());
     }
 
     public void filterByUserRole(final Role role) {
