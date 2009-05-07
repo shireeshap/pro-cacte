@@ -122,6 +122,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySponsor.java -te
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/User.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/UserRole.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemException.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/exception/UsernameAlreadyExistsException.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/AbstractQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CRFQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ClinicalStaffAssignmentQuery.java -text

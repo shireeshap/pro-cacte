@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
 import gov.nih.nci.ctcae.core.query.*;
 import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
 import org.apache.commons.lang.StringUtils;
@@ -139,10 +140,17 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public User save(User user) {
+        user.setUsername(user.getUsername().toLowerCase());
         if (user.getId() == null) {
-            String encoded = getEncodedPassword(user);
-            user.setPassword(encoded);
+            UserQuery userQuery = new UserQuery();
+            userQuery.filterByUserName(user.getUsername());
+            List<User> users = new ArrayList<User>(find(userQuery));
+            if (users.size() > 0) {
+                throw new UsernameAlreadyExistsException(user.getUsername());
+            }
         }
+        String encoded = getEncodedPassword(user);
+        user.setPassword(encoded);
 
         user = genericRepository.save(user);
         return user;
