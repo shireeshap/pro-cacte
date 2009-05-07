@@ -129,9 +129,6 @@
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
                                             required="true"/>
-                           <tags:renderEmail propertyName="participant.emailAddress"
-                                             displayName="participant.label.email_address"
-                                             required="false"/>
                        </td>
                        <td>
                            <tags:renderText propertyName="participant.assignedIdentifier"
@@ -142,9 +139,6 @@
                                             required="true"/>
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
                                               required="true" options="${genders}"/>
-                           <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
-                                                  displayName="participant.label.phone"
-                                                  required="true"/>
                        </td>
                    </tr>
                </table>
