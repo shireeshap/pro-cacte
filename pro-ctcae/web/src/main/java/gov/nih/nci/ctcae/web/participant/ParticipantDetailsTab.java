@@ -1,12 +1,12 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
+import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
+import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.apache.commons.lang.StringUtils;
@@ -30,6 +30,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     protected CRFRepository crfRepository;
 
     private StudyOrganizationRepository studyOrganizationRepository;
+    private UserRepository userRepository;
 
     /**
      * Instantiates a new participant details tab.
@@ -56,9 +57,20 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
         User user = command.getParticipant().getUser();
+        if (user.getId() == null) {
+            UserQuery userQuery = new UserQuery();
+            userQuery.filterByUserName(user.getUsername());
+            List<User> users = new ArrayList<User>(userRepository.find(userQuery));
+            if (users.size() > 0) {
+                errors.rejectValue("participant.user.username", "participant.user.user_exists", "participant.user.user_exists");
+            }
+        }
+
         if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword())) {
             errors.rejectValue("participant.user.confirmPassword", "participant.user.confirm_password", "participant.user.confirm_password");
         }
+
+
     }
 
     public Map<String, Object> referenceData(ParticipantCommand command) {
@@ -67,14 +79,20 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
         StudyOrganizationQuery query = new StudyOrganizationQuery();
         query.filterByStudySiteAndLeadSiteOnly();
-
-
         Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
 
         List<Organization> organizationsHavingStudySite = new ArrayList();
         for (StudyOrganization studySite : studySites) {
             if (!organizationsHavingStudySite.contains(studySite.getOrganization())) {
                 organizationsHavingStudySite.add(studySite.getOrganization());
+            }
+        }
+
+        if(command.getParticipant().getStudyParticipantAssignments().size() > 0){
+            for(StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()){
+                for(StudyOrganization studyOrganization :studyParticipantAssignment.getStudySite().getStudy().getStudyOrganizations()){
+                    studyOrganization.getDisplayName();
+                }
             }
         }
 
@@ -102,5 +120,9 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
     public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
         this.studyOrganizationRepository = studyOrganizationRepository;
+    }
+
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }

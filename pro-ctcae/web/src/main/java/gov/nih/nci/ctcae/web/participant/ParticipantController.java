@@ -5,6 +5,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
+import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -71,8 +72,8 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         String id = request.getParameter(PARTICIPANT_ID);
 
         ParticipantCommand command = new ParticipantCommand();
-        if (id != null) {
-            Participant participant = participantRepository.findById(Integer.valueOf(id));        
+if (id != null) {
+            Participant participant = participantRepository.findById(Integer.valueOf(id));
             participant.getUser().setConfirmPassword(participant.getUser().getPassword());
             for (UserRole userRole : participant.getUser().getUserRoles()) {
                 userRole.getId();
@@ -110,6 +111,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     @Override
     protected void save(ParticipantCommand command) {
         command.setParticipant(participantRepository.save(command.getParticipant()));
+
     }
 
 

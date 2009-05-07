@@ -121,7 +121,7 @@ public class ParticipantQuery extends AbstractQuery {
     public void filterByUsername(String username) {
         if (username != null) {
             andWhere("p.user.username =:" + USERNAME);
-            setParameter(USERNAME, username);
+            setParameter(USERNAME, username.toLowerCase());
         }
     }
 
