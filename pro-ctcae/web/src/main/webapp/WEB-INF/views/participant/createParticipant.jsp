@@ -149,6 +149,23 @@
                    </tr>
                </table>
            </chrome:division>
+           <chrome:division title="participant.label.contact_information">
+
+               <table border="0" style="width:100%">
+                   <tr>
+                       <td>
+                           <tags:renderEmail propertyName="participant.emailAddress"
+                                             displayName="participant.label.email_address"
+                                             required="false"/>
+                       </td>
+                       <td>
+                           <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
+                                                  displayName="participant.label.phone"
+                                                  required="true"/>
+                       </td>
+                   </tr>
+               </table>
+           </chrome:division>
            <chrome:division title="participant.label.studies"/>
 
            <chrome:division id="single-fields">

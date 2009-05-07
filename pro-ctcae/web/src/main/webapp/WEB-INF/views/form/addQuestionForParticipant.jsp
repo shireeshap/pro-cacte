@@ -24,11 +24,11 @@
         }
 
         /*.blue {*/
-            /*background-color: #4545c3;*/
+        /*background-color: #4545c3;*/
         /*}*/
 
         /*.norm {*/
-            /*background-color: white;*/
+        /*background-color: white;*/
         /*}*/
 
     </style>
@@ -167,7 +167,9 @@
 <form:form method="post" name="myForm">
     <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.title}"
                 autopad="true" message="false">
-		<tags:instructions code="participant.form.selectsymptom"/>
+        <p>
+            <b><tags:message code="participant.form.selectsymptom"/></b>
+        </p>
         <table id="mytable">
             <tbody>
             <c:set var="numrows" value="6"/>
@@ -179,12 +181,14 @@
                                 <c:if test="${command.displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <input type="checkbox" name="symptomsByParticipants"
                                            value="${command.displaySymptoms[i + (numrows+1)*j]}"
-                                           onchange="javascript:changeClass(this,'${i + (numrows+1)*j}');" id="${i + (numrows+1)*j}"/>
+                                           onchange="javascript:changeClass(this,'${i + (numrows+1)*j}');"
+                                           id="${i + (numrows+1)*j}"/>
                                 </c:if>
                             </td>
                             <td id="td_${i + (numrows+1)*j}_b" class="value" width="32%">
                                 <c:if test="${command.displaySymptoms[i + (numrows+1)*j] ne null}">
-                                    <div id="div_${i + (numrows+1)*j}">${command.displaySymptoms[i + (numrows+1)*j]}</div>
+                                    <div id="div_${i + (numrows+1)*j}"
+                                         class="label">${command.displaySymptoms[i + (numrows+1)*j]}</div>
                                 </c:if>
                             </td>
                         </c:forEach>
@@ -196,6 +200,7 @@
 
         <br/>
         <br/>
+
         <p>
             <b><tags:message code="participant.form.typesymptom"/></b>
         </p>
@@ -211,10 +216,12 @@
         <input type="hidden" name="direction"/>
         <tr>
             <td align="left" width="50%">
-            	<tags:button onclick="document.myForm.direction.value='back'" type="submit" icon="back" color="blue" value="Back" />
+                <tags:button onclick="document.myForm.direction.value='back'" type="submit" icon="back" color="blue"
+                             value="Back"/>
             </td>
             <td align="right" width="50%">
-            	<tags:button onclick="document.myForm.direction.value='continue'" type="submit" icon="continue" color="green" value="Continue" />
+                <tags:button onclick="document.myForm.direction.value='continue'" type="submit" icon="continue"
+                             color="green" value="Continue"/>
             </td>
         </tr>
     </table>
