@@ -9,7 +9,7 @@ import gov.nih.nci.ctcae.selenium.AbstractSeleniumTestCase;
 public class CreateFormManageTabSeleniumTest extends AbstractSeleniumTestCase {
      public void testNew() throws Exception {
      String formTitle = randomString();
-        selenium.open("/ctcae/pages/form/manageForm");
+        selenium.open("/proctcae/pages/form/manageForm");
         selenium.setSpeed("1000");
         typeAutosuggest("study-input", "p", "study-choices");
         selenium.click("newFormUrl");

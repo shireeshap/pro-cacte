@@ -76,15 +76,6 @@ public class ClinicalStaffQuery extends AbstractQuery {
         andWhere("cs.user.id =:" + USER_ID);
         setParameter(USER_ID, userId);
     }
-    /*
-    public void filterByNciIdentifier(final String text) {
-        String searchString = text != null ? "%" + text.toLowerCase() + "%" : null;
-
-        andWhere(String.format("lower(clinicalstaff.nciIdentifier) LIKE :%s", NCI_IDENTIFIER));
-        setParameter(NCI_IDENTIFIER, searchString);
-
-    }
-    */
 
     /**
      * Filter by nci identifier.

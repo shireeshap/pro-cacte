@@ -11,7 +11,7 @@ public class CreateClinicalStaffSeleniumTest extends AbstractSeleniumTestCase {
             String firstName = randomString();
             String lastName = randomString();
         selenium.setSpeed("1000");
-		selenium.open("/ctcae/pages/form/manageForm");
+		selenium.open("/proctcae/pages/form/manageForm");
 		selenium.click("firstlevelnav_createClinicalStaffController");
 		selenium.waitForPageToLoad("30000");
 		selenium.click("secondlevelnav_createClinicalStaffController");

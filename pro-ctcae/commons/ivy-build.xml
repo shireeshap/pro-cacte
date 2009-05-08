@@ -1,5 +1,5 @@
 
-<project name="ctcae-commons" default="compile">
+<project name="proctcae-commons" default="compile">
 	<property name="parent.dir" value="${basedir}/.." />
 	<property file="${parent.dir}/build.properties" />
 	<import file="${parent.dir}/common.xml" />

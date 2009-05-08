@@ -11,7 +11,7 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ctcae"
-           uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
+           uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
 <html>
 <head>

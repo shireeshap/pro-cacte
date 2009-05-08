@@ -12,7 +12,7 @@ public class UniqueFormTitleSeleniumTest extends AbstractSeleniumTestCase {
         String formTitle = randomString();
         createForm(formTitle);
         selenium.setSpeed("1000");
-        selenium.open("/ctcae/pages/form/basicForm?studyId=-1001");
+        selenium.open("/proctcae/pages/form/basicForm?studyId=-1001");
         selenium.waitForPageToLoad(seleniumProperties.getWaitTime());
         selenium.click("crfTitle");
         selenium.type("crf.title", formTitle);

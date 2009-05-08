@@ -100,7 +100,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
     protected void createParticipant(String participant) throws InterruptedException {
         String firstName = participant;
         String lastName = participant;
-        selenium.open("/ctcae/pages/participant/create");
+        selenium.open("/proctcae/pages/participant/create");
         selenium.setSpeed("1000");
         selenium.click("secondlevelnav_createParticipantController");
         selenium.waitForPageToLoad("30000");
@@ -168,7 +168,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
     }
 
     public void openManageForm() {
-        selenium.open("/ctcae/pages/form/manageForm");
+        selenium.open("/proctcae/pages/form/manageForm");
     }
 
     public void updateCrfTitle(String formTitle) {
@@ -238,7 +238,7 @@ public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
 
 
     public void loginAdmin() {
-        login("SYSTEM_ADMIN", "system_admin");
+        login("system_admin", "system_admin");
     }
 
     public void login(String userId, String password) {

@@ -32,7 +32,7 @@ public class SetupOrNotFilterTest extends WebTestCase {
         verifyMocks();
         resetMocks();
 
-        request.setContextPath("/ctcae");
+        request.setContextPath("/proctcae");
     }
 
     public void testRedirectsToSetupWhenNecessary() throws Exception {
@@ -43,7 +43,7 @@ public class SetupOrNotFilterTest extends WebTestCase {
         verifyMocks();
 
         assertNotNull(response.getRedirectedUrl());
-        assertEquals("/ctcae/setup/initial", response.getRedirectedUrl());
+        assertEquals("/proctcae/setup/initial", response.getRedirectedUrl());
     }
 
     public void testFallThroughWhenNotNecessary() throws Exception {

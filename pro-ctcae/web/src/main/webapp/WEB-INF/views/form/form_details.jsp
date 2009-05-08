@@ -44,7 +44,7 @@
     })
 
     Event.observe(window, "load", function () {
-        var formNameInPlaceEdit = new Ajax.InPlaceEditor('crfTitle', '/ctcae/pages/form/setName', {
+        var formNameInPlaceEdit = new Ajax.InPlaceEditor('crfTitle', '/proctcae/pages/form/setName', {
             rows:1,
             cancelControl:false,
             okControl:false,
@@ -279,7 +279,10 @@
     }
     function addProctcTerm(proCtcTermId) {
         var crfPageNumber = ''
-
+        var obj = document.getElementsByName("question_forterm_" + proCtcTermId);
+        for(var i =0 ; i< obj.length; i++){
+            obj[i].hide();
+        }
     <c:if test="${!command.crf.advance}">
         getCrfPageNumbersForProCtcTerm(proCtcTermId).each(function(item) {
             crfPageNumber = item;
@@ -657,7 +660,7 @@
         var description = 'crf.crfPagesSortedByPageNumber[' + crfPageNumber + '].description';
         var descriptionProperty = description + '-property';
 
-        var formNameInPlaceEdit = new Ajax.InPlaceEditor(descriptionProperty, '/ctcae/pages/form/setName', {
+        var formNameInPlaceEdit = new Ajax.InPlaceEditor(descriptionProperty, '/proctcae/pages/form/setName', {
             rows:1,
             cancelControl:false,
             okControl:false,
@@ -913,16 +916,16 @@
     </div>
 
 
-    <a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;"><img
-            src="<tags:imageUrl name="blue/maximize-right.png" />" style="float:left" alt="Maximize"/></a>
-	<a id="expandFormUrl" href="javascript:expandForm()" style="display:none;" style="float:right;"><img
-            src="<tags:imageUrl name="blue/maximize-left.png" />" alt="Maximize"/></a>
+    <%--<a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;"><img--%>
+            <%--src="<tags:imageUrl name="blue/maximize-right.png" />" style="float:left" alt="Maximize"/></a>--%>
+	<%--<a id="expandFormUrl" href="javascript:expandForm()" style="display:none;" style="float:right;"><img--%>
+            <%--src="<tags:imageUrl name="blue/maximize-left.png" />" alt="Maximize"/></a>--%>
             <table id="formbuilderTable">
                 <tr>
                     <td id="left">
-                        <%--<a id="shrinkQuestionBankUrl" href="javascript:shrinkQuestionBank()"><img--%>
-                                <%--src="<tags:imageUrl name="blue/minimize-left.png" />" style="float:right"--%>
-                                <%--alt="Minimize"/></a>--%>
+                            <%--<a id="shrinkQuestionBankUrl" href="javascript:shrinkQuestionBank()"><img--%>
+                            <%--src="<tags:imageUrl name="blue/minimize-left.png" />" style="float:right"--%>
+                            <%--alt="Minimize"/></a>--%>
                         <ul id="form-tabs" class="tabs">
                             <li>
                                 <a id="firstlevelnav_1" href="javascript:showForm()" class="selected_4thlvl">
@@ -968,7 +971,7 @@
                                     <li>${ctcCategory.key.name}<a
                                             href="javascript:addCtcCategory(${ctcCategory.key.id})"
                                             id="ctcCategory_${ctcCategory.key.id}" class="addallbtn">
-                                        <img src="/ctcae/images/blue/select_question_btn.png"
+                                        <img src="/proctcae/images/blue/select_question_btn.png"
                                              alt="Add" onclick=""/></a>
                                         <ul>
                                             <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
@@ -985,7 +988,7 @@
                                                     <a href="javascript:addProctcTerm(${proCtcTerm.id})"
                                                        id="proCtcTerm_${proCtcTerm.id}"
                                                        class="addallbtn ctcCategory_${ctcCategory.key.id}">
-                                                        <img src="/ctcae/images/blue/select_question_btn.png"
+                                                        <img src="/proctcae/images/blue/select_question_btn.png"
                                                              alt="Add" onclick=""/></a>
 
 
@@ -994,7 +997,8 @@
                                                         <c:forEach items="${proCtcTerm.proCtcQuestions}"
                                                                    var="proCtcQuestion">
 
-                                                            <li id="question_${proCtcQuestion.id}">
+                                                            <li id="question_${proCtcQuestion.id}"
+                                                                name="question_forterm_${proCtcTerm.id}">
                                                                 <tags:formbuilderBox>
                                                                     <tags:formbuilderBoxControls add="${add}"
                                                                                                  proCtcQuestionId="${proCtcQuestion.id}"
@@ -1031,9 +1035,9 @@
                         </div>
                     </td>
                     <td id="right">
-                        <%--<a id="shrinkFormUrl" href="javascript:shrinkForm()"><img--%>
-                                <%--src="<tags:imageUrl name="blue/minimize-right.png" />" style="float:left"--%>
-                                <%--alt="Minimize"/></a>--%>
+                            <%--<a id="shrinkFormUrl" href="javascript:shrinkForm()"><img--%>
+                            <%--src="<tags:imageUrl name="blue/minimize-right.png" />" style="float:left"--%>
+                            <%--alt="Minimize"/></a>--%>
 
                             <%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
                             <%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>

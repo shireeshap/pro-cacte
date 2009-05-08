@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
@@ -30,6 +31,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     protected CRFRepository crfRepository;
 
     private StudyOrganizationRepository studyOrganizationRepository;
+    private StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
     private UserRepository userRepository;
 
     /**
@@ -88,9 +90,9 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
 
-        if(command.getParticipant().getStudyParticipantAssignments().size() > 0){
-            for(StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()){
-                for(StudyOrganization studyOrganization :studyParticipantAssignment.getStudySite().getStudy().getStudyOrganizations()){
+        if (command.getParticipant().getStudyParticipantAssignments().size() > 0) {
+            for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
+                for (StudyOrganization studyOrganization : studyParticipantAssignment.getStudySite().getStudy().getStudyOrganizations()) {
                     studyOrganization.getDisplayName();
                 }
             }
@@ -105,7 +107,9 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
     @Override
     public void postProcess(HttpServletRequest request, ParticipantCommand command, Errors errors) {
-        command.apply(crfRepository, request);
+        if (!errors.hasErrors()) {
+            command.apply(crfRepository, request,studyParticipantAssignmentRepository);
+        }
         super.postProcess(request, command, errors);
     }
 
@@ -124,5 +128,9 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public void setStudyParticipantAssignmentRepository(StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {
+        this.studyParticipantAssignmentRepository = studyParticipantAssignmentRepository;
     }
 }

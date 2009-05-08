@@ -11,7 +11,7 @@ public class ManageFormSeleniumTest extends AbstractSeleniumTestCase {
     public void testNew() throws Exception {
         String formTitle = randomString();
         createForm(formTitle);
-        selenium.open("/ctcae/pages/form/manageForm");
+        selenium.open("/proctcae/pages/form/manageForm");
         selenium.setSpeed("1000");
         selenium.click("secondlevelnav_manageFormController");
         selenium.waitForPageToLoad("30000");

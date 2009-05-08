@@ -2,7 +2,7 @@
 <ivy-module version="1.4">
 
     <info organisation="gov.nih.nci.ctcae"
-          module="ctcae-web"
+          module="proctcae-web"
           status="integration"/>
 
     <configurations>
@@ -25,7 +25,7 @@
     <publications>
         <artifact name="${ivy.module}" conf="publish" type="jar"/>
         <artifact name="${ivy.module}-tests" conf="test" type="jar"/>
-        <artifact name="ctcae" type="war" conf="publish"/>
+        <artifact name="proctcae" type="war" conf="publish"/>
     </publications>
 
     <!-- dependencies for the web module -->
@@ -40,9 +40,9 @@
 
 
         <!--  caAERS other modules -->
-        <dependency org="gov.nih.nci.ctcae" name="ctcae-commons" rev="latest.integration"
+        <dependency org="gov.nih.nci.ctcae" name="proctcae-commons" rev="latest.integration"
                     conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
-        <dependency org="gov.nih.nci.ctcae" name="ctcae-core" rev="latest.integration"
+        <dependency org="gov.nih.nci.ctcae" name="proctcae-core" rev="latest.integration"
                     conf="build->default;runtime->default;dist->dist,publish;distGrid->distGrid"/>
 
         <!--must use newer verison of xerces if you are using JPA..its a known bug-->
@@ -110,7 +110,7 @@
 
         <!-- Jaxen XPATH -->
         <!-- Testing dependencies -->
-        <dependency org="gov.nih.nci.ctcae" name="ctcae-core" conf="test->test(default)" rev="latest.integration"/>
+        <dependency org="gov.nih.nci.ctcae" name="proctcae-core" conf="test->test(default)" rev="latest.integration"/>
         <dependency org="org.springframework" name="spring-test" rev="2.5.4" conf="test->default(*)"/>
         <dependency org="edu.northwestern.bioinformatics" name="core-commons-testing" rev="77" conf="test->default(*)"/>
         <dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default(*)"/>

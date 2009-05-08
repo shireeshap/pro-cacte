@@ -12,7 +12,7 @@ public class EditFormSeleniumTest extends AbstractSeleniumTestCase {
         String formTitle = randomString();
         createForm(formTitle);
 
-        selenium.open("/ctcae/pages/form/manageForm");
+        selenium.open("/proctcae/pages/form/manageForm");
         selenium.setSpeed("1000");
         typeStudyAutoCompleter("p");
         selenium.click("link=Edit");

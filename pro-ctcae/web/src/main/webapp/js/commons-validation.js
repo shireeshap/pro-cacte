@@ -196,6 +196,7 @@ function isValidEmail(address) {
 // Check that an email address has the form something@something.something
 // This is a stricter standard than RFC 821 (?) which allows addresses like postmaster@localhost
 function isValidEmailStrict(address) {
+    if (address == '') return true;
     if (isValidEmail(address) == false) return false;
     var domain = address.substring(address.indexOf('@') + 1);
     if (domain.indexOf('.') == -1) return false;

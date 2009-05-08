@@ -3,8 +3,8 @@
 
 
     <info organisation="gov.nih.nci.ctcae"
-          module="ctcae-core"
-          status="integration" revision="${ctcae.version}"/>
+          module="proctcae-core"
+          status="integration" revision="${proctcae.version}"/>
 
     <configurations>
         <conf name="default" visibility="public" extends="publish,runtime"
@@ -40,7 +40,7 @@
         <dependency org="poi" name="poi" rev="3.0-FINAL" force="true"/>
 
         <!-- ctcae module dependencies -->
-        <dependency org="gov.nih.nci.ctcae" name="ctcae-commons" rev="latest.integration"
+        <dependency org="gov.nih.nci.ctcae" name="proctcae-commons" rev="latest.integration"
                     conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
 
 

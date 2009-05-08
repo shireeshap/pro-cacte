@@ -5,7 +5,7 @@
 <style type="text/css">
     .tableHeader {
         background-color: #2B4186;
-        background-image: url( /ctcae/images/blue/eXtableheader_bg.png );
+        background-image: url( /proctcae/images/blue/eXtableheader_bg.png );
         background-position: center top;
         background-repeat: repeat-x;
         color: white;
@@ -56,7 +56,8 @@
             [${studysite.study.assignedIdentifier}] ${studysite.study.shortTitle}
         </td>
         <td>
-                ${studyParticipantAssignment.studyParticipantIdentifier}
+            <input type="text" name="participantStudyIdentifier_${studysite.id}"
+                   value="${studyParticipantAssignment.studyParticipantIdentifier}" class="validate-NOTEMPTY">
         </td>
         <td>
             <c:choose>

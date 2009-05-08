@@ -12,7 +12,7 @@
 <%@attribute name="displayName" type="java.lang.String" %>
 <%@attribute name="categoryName" type="java.lang.String" %>
 <%@attribute name="defaultValue" type="java.lang.String" %>
-<%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@attribute name="noForm" type="java.lang.Boolean" %>
 <%@attribute name="doNotShowFormat" type="java.lang.Boolean" %>
@@ -173,7 +173,7 @@
         <c:if test="${!doNotshowClear}">
             <input type="image" id="${propertyName}-clear" name="C" value="Clear"
                    onClick="javascript:$('${propertyName}-input').clear();$('${propertyName}').clear();return false;"
-                   src="/ctcae/images/blue/clear-left-button.png"
+                   src="/proctcae/images/blue/clear-left-button.png"
                    style="vertical-align:top;"/>
         </c:if>
 

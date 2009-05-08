@@ -20,7 +20,7 @@
             <value>datasource</value>
         </property>
         <property name="applicationDirectoryName">
-            <value>ctcae</value>
+            <value>proctcae</value>
         </property>
     </bean>
     <bean id="rulesPropertyConfigurer"

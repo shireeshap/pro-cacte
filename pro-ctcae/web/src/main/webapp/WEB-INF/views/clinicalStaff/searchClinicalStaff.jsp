@@ -7,7 +7,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib uri="http://www.extremecomponents.org" prefix="ec" %>
-<%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
 <link rel="stylesheet" type="text/css"
       href="<c:url value="/css/extremecomponents.css"/>">
@@ -56,21 +56,21 @@
 
 
 
-           <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff" >
+           <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff" >
                <li id="thirdlevelnav" class="tab ">
                <div>
                    <a href="<c:url value="/pages/admin/clinicalStaff/createClinicalStaff"/>"><tags:message code="clinicalStaff.tab.createStaff"/></a>
                </div>
            </li>
-           </ctcae:urlAuthorize>
-           <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/searchClinicalStaff" >
+           </proctcae:urlAuthorize>
+           <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/searchClinicalStaff" >
 
            <li id="thirdlevelnav" class="tab selected">
                <div>
                    <a href="<c:url value="pages/admin/clinicalStaff/searchClinicalStaff"/>"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
                </div>
            </li>
-           </ctcae:urlAuthorize>
+           </proctcae:urlAuthorize>
                      
        </ul>
    </div>

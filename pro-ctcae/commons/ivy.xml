@@ -2,7 +2,7 @@
 <ivy-module version="1.4">
 
     <info organisation="gov.nih.nci.ctcae"
-          module="ctcae-commons"
+          module="proctcae-commons"
           status="integration"/>
 
     <configurations>

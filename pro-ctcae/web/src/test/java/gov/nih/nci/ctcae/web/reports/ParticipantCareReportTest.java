@@ -134,7 +134,7 @@ public class ParticipantCareReportTest extends WebTestCase {
         ParticipantCarePdfView view = (ParticipantCarePdfView) modelAndView.getView();
         view.render(null, request, response);
         assertEquals("application/pdf", response.getContentType());
-        File f = new File("/etc/ctcae/generatedpdf.pdf");
+        File f = new File("/etc/proctcae/generatedpdf.pdf");
         if (f.exists()) {
             f.delete();
         }
@@ -153,7 +153,7 @@ public class ParticipantCareReportTest extends WebTestCase {
         ParticipantCareExcelView view = (ParticipantCareExcelView) modelAndView.getView();
         view.render(null, request, response);
         assertEquals("application/vnd.ms-excel", response.getContentType());
-        File f = new File("/etc/ctcae/generatedexcel.xls");
+        File f = new File("/etc/proctcae/generatedexcel.xls");
         if (f.exists()) {
             f.delete();
         }

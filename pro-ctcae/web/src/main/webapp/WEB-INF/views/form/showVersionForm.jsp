@@ -46,8 +46,8 @@
 
         </td>
 
-        <!--<td><a href="/ctcae/pages/participant/schedulecrf?crfId=15">Schedule</a> | <a-->
-        <!--href="/ctcae/pages/form/copyForm?crfId=15">Copy</a></td>-->
+        <!--<td><a href="/proctcae/pages/participant/schedulecrf?crfId=15">Schedule</a> | <a-->
+        <!--href="/proctcae/pages/form/copyForm?crfId=15">Copy</a></td>-->
     </tr>
 </c:forEach>
 </body>

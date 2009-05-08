@@ -9,7 +9,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
 <head>
     <tags:formBuilder/>
@@ -136,7 +136,7 @@
 </chrome:box>
 <div id="crfItem_50"></div>
 <div id="noForm" style="display:none;">
-    <ctcae:urlAuthorize url="/pages/form/basicForm">
+    <proctcae:urlAuthorize url="/pages/form/basicForm">
     	<table>
     		<tr>
     			<td>
@@ -144,7 +144,7 @@
 		</td>
 		</tr>
 		</table>
-    </ctcae:urlAuthorize>
+    </proctcae:urlAuthorize>
 </div>
 <div id="bigSearch" style="display:none;">
     <div class="endpanes"/>

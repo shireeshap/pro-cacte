@@ -99,7 +99,7 @@
     }
 
     img.navBack {
-        background-image: url( /ctcae/images/combined_v5.gif );
+        background-image: url( /proctcae/images/combined_v5.gif );
         background-position: -148px -17px;
         padding-left: 2px;
         padding-right: 0;
@@ -107,7 +107,7 @@
     }
 
     img.removebutton {
-        background-image: url( /ctcae/images/combined_v5.gif );
+        background-image: url( /proctcae/images/combined_v5.gif );
         background-position: -0px -50px;
         padding-left: 2px;
         padding-right: 0;
@@ -115,7 +115,7 @@
     }
 
     img.navForward {
-        background-image: url( /ctcae/images/combined_v5.gif );
+        background-image: url( /proctcae/images/combined_v5.gif );
         background-position: -148px 0;
         padding-left: 2px;
         padding-right: 2px;

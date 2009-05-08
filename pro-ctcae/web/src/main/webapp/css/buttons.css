@@ -1,6 +1,6 @@
 /* Begin omnipotent-button type="button" core CSS*/
 button.omnipotent-button, a.omnipotent-button {
-	behavior: url('/ctcae/js/button-pseudoclass-IE-hack.htc');
+	behavior: url('/proctcae/js/button-pseudoclass-IE-hack.htc');
 	background:transparent;
 	border:none;
 	font-size:19px;
@@ -198,7 +198,7 @@ button.omnipotent-button.orange.active td.r, button.omnipotent-button.orange:act
 
 /* Begin omnipotent-button type="button" size="small" core CSS*/
 button.omnipotent-button.small, a.omnipotent-button.small {
-	behavior: url('/ctcae/js/button-pseudoclass-IE-hack.htc');
+	behavior: url('/proctcae/js/button-pseudoclass-IE-hack.htc');
 	background:transparent;
 	border:none;
 	color:white;

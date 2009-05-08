@@ -1,4 +1,4 @@
-<project name="ctcae-core" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="proctcae-core" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
     <property name="parent.dir" value="${basedir}/.."/>
     <property file="${parent.dir}/build.properties"/>
     <import file="${parent.dir}/common.xml"/>
@@ -44,15 +44,15 @@
 
     <!-- ========================================================================
             target: find-admin-datasource
-                Will check the datsource properties identified by -Ddb=xxx, in USER_HOME/.ctcae/
-                if not available there, it will search in /etc/ctcae/
+                Will check the datsource properties identified by -Ddb=xxx, in USER_HOME/.proctcae/
+                if not available there, it will search in /etc/proctcae/
         ============================================================================= -->
     <target name="find-admin-datasource" unless="adminDsFile.loaded"
             description="Loads the admin datasource properties">
         <echo message="databaseConfigurationName : ${databaseConfigurationName}-admin"/>
-        <condition property="adminDsFile" value="${user.home}/.ctcae/${databaseConfigurationName}-admin.properties"
-                   else="/etc/ctcae/${databaseConfigurationName}-admin.properties">
-            <available file="${user.home}/.ctcae/${databaseConfigurationName}-admin.properties"/>
+        <condition property="adminDsFile" value="${user.home}/.proctcae/${databaseConfigurationName}-admin.properties"
+                   else="/etc/proctcae/${databaseConfigurationName}-admin.properties">
+            <available file="${user.home}/.proctcae/${databaseConfigurationName}-admin.properties"/>
         </condition>
         <property name="adminDsFile.loaded" value="true"/>
     </target>

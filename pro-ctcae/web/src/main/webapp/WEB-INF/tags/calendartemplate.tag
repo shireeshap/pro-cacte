@@ -14,11 +14,11 @@
             <img height="17" width="29"
                  onmousedown="applyCalendar('${index}','prev');return false;"
                  alt="Earlier"
-                 src="/ctcae/images/blank.gif"
+                 src="/proctcae/images/blank.gif"
                  class="navbutton navBack"/>
             <img height="17" width="29"
                  onmousedown="applyCalendar('${index}','next');return false;" alt="Later"
-                 src="/ctcae/images/blank.gif"
+                 src="/proctcae/images/blank.gif"
                  class="navbutton navForward"/>
             <b> <fmt:formatDate value="${schedule.calendar.time}" pattern="MMM"/> - <fmt:formatDate
                     value="${schedule.calendar.time}" pattern="yyyy"/></b>

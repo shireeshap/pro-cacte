@@ -18,7 +18,7 @@ public class ScheduleFormSeleniumTest extends AbstractSeleniumTestCase {
             selenium.waitForPageToLoad("30000");
             assertTrue(selenium.isTextPresent("Released"));
 
-        selenium.open("/ctcae/pages/participant/schedulecrf");
+        selenium.open("/proctcae/pages/participant/schedulecrf");
 		selenium.waitForPageToLoad("30000");
 		selenium.click("secondlevelnav_scheduleCrfController");
 		selenium.waitForPageToLoad("30000");

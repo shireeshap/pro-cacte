@@ -53,11 +53,11 @@
             <tr>
                 <td align="left" width="50%">
                     <input onclick="document.myForm.direction.value='back'" type="image"
-                           src="/ctcae/images/blue/back_btn.png" alt="back &raquo;"/>
+                           src="/proctcae/images/blue/back_btn.png" alt="back &raquo;"/>
                 </td>
                 <td align="right" width="50%">
                     <input onclick="document.myForm.direction.value='continue'" type="image"
-                           src="/ctcae/images/blue/continue_btn.png" alt="continue &raquo;"/>
+                           src="/proctcae/images/blue/continue_btn.png" alt="continue &raquo;"/>
                 </td>
             </tr>
         </table>

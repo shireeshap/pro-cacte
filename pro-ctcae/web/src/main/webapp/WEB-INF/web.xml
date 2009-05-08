@@ -109,7 +109,7 @@
         <filter-class>gov.nih.nci.ctcae.web.setup.SetupOrNotFilter</filter-class>
     </filter>
 
-    <filter-mapping>
+    <filter-mapping>                                                                             
         <filter-name>setup-or-not</filter-name>
         <url-pattern>/pages/*</url-pattern>
     </filter-mapping>

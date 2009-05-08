@@ -57,7 +57,7 @@ public class ProCtcAERulesService {
     }
 
     public static void exportRuleSet(RuleSet ruleSet) throws Exception {
-        rulesEngineService.exportRule(ruleSet.getName(), "/etc/ctcae");
+        rulesEngineService.exportRule(ruleSet.getName(), "/etc/proctcae");
     }
 
     public static Rule createRule(RuleSet ruleSet, String ruleName, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {

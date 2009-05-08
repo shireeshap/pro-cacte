@@ -7,7 +7,7 @@
     <display-name>JSTL core</display-name>
     <tlib-version>1.1</tlib-version>
     <short-name>validation</short-name>
-    <uri>http://gforge.nci.nih.gov/projects/ctcae/tags</uri>
+    <uri>http://gforge.nci.nih.gov/projects/proctcae/tags</uri>
     <description>ProCtcAe JSP Form Tag Library. Author: Vinay Kumar</description>
 
 

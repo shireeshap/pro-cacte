@@ -10,7 +10,7 @@ public class CreateParticipantSeleniumTest extends AbstractSeleniumTestCase {
     	public void testNew() throws Exception {
             String firstName = randomString();
             String lastName = randomString();
-        selenium.open("/ctcae/pages/participant/create");
+        selenium.open("/proctcae/pages/participant/create");
         selenium.setSpeed("1000");
         selenium.click("secondlevelnav_createParticipantController");
 		selenium.waitForPageToLoad("30000");

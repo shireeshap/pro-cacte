@@ -8,7 +8,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
-<%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/ctcae/tags" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
 <html>
 <head>
@@ -70,22 +70,22 @@
 <div class="tabpane">
     <div class="workflow-tabs2">
         <ul id="" class="tabs autoclear">
-            <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
+            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
 
                 <li id="thirdlevelnav" class="tab selected">
                     <div>
                         <a href="createClinicalStaff"><tags:message code="clinicalStaff.tab.createStaff"/></a>
                     </div>
                 </li>
-            </ctcae:urlAuthorize>
-            <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/searchClinicalStaff">
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/searchClinicalStaff">
 
                 <li id="thirdlevelnav" class="tab">
                     <div>
                         <a href="searchClinicalStaff"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
                     </div>
                 </li>
-            </ctcae:urlAuthorize>
+            </proctcae:urlAuthorize>
         </ul>
     </div>
 </div>
@@ -94,9 +94,9 @@
 
     <chrome:box title="">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
-        <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
+        <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
             <input type="hidden" name="cca" value="true" id="cca"/>
-        </ctcae:urlAuthorize>
+        </proctcae:urlAuthorize>
 
         <input type="hidden" id="showForm" name="showForm" value=""/>
         <form:hidden path="organizationClinicalStaffIndexToRemove" id="organizationClinicalStaffIndexToRemove"/>
@@ -179,11 +179,11 @@
                         </div>
                     </td>
                     <td valign="top">
-                        <ctcae:urlAuthorize url="/pages/admin/clinicalStaff/addClinicalStaffComponent">
+                        <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/addClinicalStaffComponent">
 
                             <tags:button color="blue" markupWithTag="a" icon="add" value="clinicalStaff.button.add.site"
                                          onclick="javascript:addSite()"></tags:button>
-                        </ctcae:urlAuthorize>
+                        </proctcae:urlAuthorize>
                     </td>
                 </tr>
             </table>

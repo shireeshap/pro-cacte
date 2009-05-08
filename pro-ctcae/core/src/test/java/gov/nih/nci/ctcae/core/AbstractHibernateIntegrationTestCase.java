@@ -68,7 +68,7 @@ public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalD
     protected StudyOrganizationClinicalStaff studyOrganizationClinicalStaff;
     protected FundingSponsor fundingSponsor, fundingSponsor1, fundingSponsor2;
     protected LeadStudySite leadStudySite, leadStudySite1, leadStudySite2;
-    protected final String SYSTEM_ADMIN = "SYSTEM_ADMIN";
+    protected final String SYSTEM_ADMIN = "system_admin";
     private CtcTermRepository ctcTermRepository;
     protected Organization nci, queens, orange, cerim, sydney, barkers, rawson;
     protected DataCoordinatingCenter dataCoordinatingCenter1, dataCoordinatingCenter2;

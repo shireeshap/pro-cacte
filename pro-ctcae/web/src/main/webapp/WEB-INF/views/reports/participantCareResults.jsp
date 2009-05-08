@@ -134,10 +134,10 @@
     <div id="careResultsTable">
         <a href="javascript:getChartView()">Switch to graphical view</a> | <a
             href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank"><img
-            src="/ctcae/images/table/pdf.gif"
+            src="/proctcae/images/table/pdf.gif"
             alt="pdf"/></a> | <a
             href="<c:url value='/pages/reports/participantCareExcel'/>" target="_blank"><img
-            src="/ctcae/images/table/xls.gif"
+            src="/proctcae/images/table/xls.gif"
             alt="xls"/></a>
 
         <br/>
@@ -150,7 +150,7 @@
                 </td>
                 <td class="header-top">
                     Attribute
-                    <img alt="Help" src="/ctcae/images/q.gif"
+                    <img alt="Help" src="/proctcae/images/q.gif"
                          onclick="$('attribute-help-content').style.display='inline'"/>
                 </td>
                 <c:forEach items="${dates}" var="dates">

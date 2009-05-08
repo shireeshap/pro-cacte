@@ -1,4 +1,4 @@
-<project name="ctcae-web" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="proctcae-web" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
     <property name="parent.dir" value="${basedir}/.."/>
     <property file="${parent.dir}/build.properties"/>
     <property name="default.selenium" value="selenium"/>
@@ -17,9 +17,9 @@
     <target name="resolve-dist" depends="load-ivy"
             description="--> resolve and retrieve dist conf dependencies with ivy">
         <echo message="Executing ${ant.project.name} : resolve-dist on conf : ${webConf}"/>
-        <ivy:resolve file="${ivy.file}" conf="${webConf}" haltonfailure="false" settingsRef="ctcae.ivy.instance"/>
+        <ivy:resolve file="${ivy.file}" conf="${webConf}" haltonfailure="false" settingsRef="proctcae.ivy.instance"/>
         <ivy:retrieve pattern="${war.dir}/WEB-INF/lib/[artifact]-[revision].[ext]" haltonfailure="false"
-                      settingsRef="ctcae.ivy.instance"/>
+                      settingsRef="proctcae.ivy.instance"/>
     </target>
 
     <!-- ==================================================================
@@ -64,35 +64,35 @@
     <target name="clover-jar" depends="common.clover-jar, war">
         <echo message="Executing jar in ${ant.project.name}"/>
     </target>
-    <target name="clean" depends="common.clean, clean-war, undeploy-ctcae">
+    <target name="clean" depends="common.clean, clean-war, undeploy-proctcae">
 
     </target>
 
-    <target name="copy-ctcae-context">
+    <target name="copy-proctcae-context">
         <delete dir="${main.src}/../webapp/WEB-INF/classes"/>
         <delete dir="${main.src}/../webapp/WEB-INF/lib"/>
         <mkdir dir="${main.src}/../webapp/WEB-INF/classes"/>
         <mkdir dir="${main.src}/../webapp/WEB-INF/lib"/>
         <copy-resources src="${classes.dir}" dest="${main.src}/../webapp/WEB-INF/classes" filter="false"/>
         <copy-resources src="${lib.dir}" dest="${main.src}/../webapp/WEB-INF/lib" filter="false"/>
-        <echo file="${env.CATALINA_HOME}/conf/Catalina/localhost/ctcae.xml">&lt;Context path="/ctcae"
+        <echo file="${env.CATALINA_HOME}/conf/Catalina/localhost/proctcae.xml">&lt;Context path="/proctcae"
             docBase="${main.src}/../webapp/" reloadable="true" debug="9" />
         </echo>
     </target>
 
     <!--=================================================================
-         target :undeploy-ctcae
+         target :undeploy-proctcae
      ==================================================================== -->
-    <target name="undeploy-ctcae">
-        <delete file="${env.CATALINA_HOME}/conf/Catalina/localhost/ctcae.xml"/>
+    <target name="undeploy-proctcae">
+        <delete file="${env.CATALINA_HOME}/conf/Catalina/localhost/proctcae.xml"/>
         <delete dir="${main.src}/../webapp/WEB-INF/classes"/>
         <delete dir="${main.src}/../webapp/WEB-INF/lib"/>
     </target>
 
     <!--=================================================================
-         target :deploy-ctcae
+         target :deploy-proctcae
      ==================================================================== -->
-    <target name="deploy-ctcae" depends="undeploy-ctcae, compile, copy-ctcae-context"/>
+    <target name="deploy-proctcae" depends="undeploy-proctcae, compile, copy-proctcae-context"/>
 
     <target name="TomStart">
         <java jar="${env.CATALINA_HOME}/bin/bootstrap.jar" maxmemory="1024m" fork="true">

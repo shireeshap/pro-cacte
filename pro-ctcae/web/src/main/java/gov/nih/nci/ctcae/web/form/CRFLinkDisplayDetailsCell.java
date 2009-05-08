@@ -57,39 +57,46 @@ public class CRFLinkDisplayDetailsCell extends AbstractCell implements Cell {
 
     private String appendVersionFormValue(Integer id) {
 
-        return "<ctcae:urlAuthorize url=\"/pages/form/versionForm\">\n" +
+        return "<proctcae:urlAuthorize url=\"/pages/form/versionForm\">\n" +
                 " | <a href=\"javascript:versionForm('" + id.toString() + "')\">" + "Version" + "</a>" +
-                "    </ctcae:urlAuthorize>";
+                "    </proctcae:urlAuthorize>";
+    }
+
+    private String appendViewFormValue(Integer id) {
+
+        return "<proctcae:urlAuthorize url=\"/pages/form/viewForm\">\n" +
+                " | <a href=\"javascript:viewForm('" + id.toString() + "')\">" + "Version" + "</a>" +
+                "    </proctcae:urlAuthorize>";
     }
 
     private String appendScheduleFormValue(TableModel model, Integer id) {
         String link1 = model.getContext().getContextPath() + "/pages/participant/schedulecrf?crfId=";
 
-        return "<ctcae:urlAuthorize url=\"/pages/participant/schedulecrf\">\n" +
+        return "<proctcae:urlAuthorize url=\"/pages/participant/schedulecrf\">\n" +
                 "<a href=\"" + link1 + id.toString() + "\">" + "Schedule" + "</a>" +
-                "    </ctcae:urlAuthorize>";
+                "    </proctcae:urlAuthorize>";
     }
 
     private String appendCopyFormValue(TableModel model, Integer id) {
         String link2 = model.getContext().getContextPath() + "/pages/form/copyForm?crfId=";
 
-        return "<ctcae:urlAuthorize url=\"/pages/form/copyForm\">\n" +
+        return "<proctcae:urlAuthorize url=\"/pages/form/copyForm\">\n" +
                 " | <a href=\"" + link2 + id.toString() + "\">" + "Copy" + "</a>" +
-                "    </ctcae:urlAuthorize>";
+                "    </proctcae:urlAuthorize>";
     }
 
     private String appendReleaseFormValue(Integer id) {
 
-        return "<ctcae:urlAuthorize url=\"/pages/form/releaseForm\">\n" +
+        return "<proctcae:urlAuthorize url=\"/pages/form/releaseForm\">\n" +
                 "<a href=\"javascript:releaseForm('" + id.toString() + "')\">" + "Release" + "</a>&nbsp;&nbsp;" +
-                "    </ctcae:urlAuthorize>";
+                "    </proctcae:urlAuthorize>";
     }
 
     private String appendDeleteFormValue(Integer id) {
 
-        return "<ctcae:urlAuthorize url=\"/pages/form/deleteForm\">\n" +
+        return "<proctcae:urlAuthorize url=\"/pages/form/deleteForm\">\n" +
                 " | <a href=\"javascript:deleteForm('" + id.toString() + "')\">" + "Delete" + "</a>" +
-                "    </ctcae:urlAuthorize>";
+                "    </proctcae:urlAuthorize>";
 
 
     }
@@ -97,8 +104,8 @@ public class CRFLinkDisplayDetailsCell extends AbstractCell implements Cell {
     private String appendEditFormValue(TableModel model, Integer id) {
         String editLink = model.getContext().getContextPath() + "/pages/form/editForm?crfId=" + id.toString();
 
-        return "<ctcae:urlAuthorize url=\"/pages/form/editForm\">\n" +
+        return "<proctcae:urlAuthorize url=\"/pages/form/editForm\">\n" +
                 " | <a href=\"" + editLink + "\">" + "Edit" + "</a>" +
-                "    </ctcae:urlAuthorize>";
+                "    </proctcae:urlAuthorize>";
     }
 }

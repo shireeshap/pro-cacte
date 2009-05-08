@@ -10,7 +10,7 @@
         <c:if test="${studyParticipantCrfSchedule.status eq 'Scheduled'}">
             <img height="13" width="12"
                  alt="remove"
-                 src="/ctcae/images/blank.gif"
+                 src="/proctcae/images/blank.gif"
                  class="removebutton" align="right"
                  onclick="showDeleteWindow('<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />','${index}');"/>
         </c:if>
@@ -24,11 +24,11 @@
             <img height="17" width="29"
                  onmousedown="applyCalendar('${index}','prev');return false;"
                  alt="Earlier"
-                 src="/ctcae/images/blank.gif"
+                 src="/proctcae/images/blank.gif"
                  class="navbutton navBack"/>
             <img height="17" width="29"
                  onmousedown="applyCalendar('${index}','next');return false;" alt="Later"
-                 src="/ctcae/images/blank.gif"
+                 src="/proctcae/images/blank.gif"
                  class="navbutton navForward"/>
             <b> <fmt:formatDate value="${schedule.calendar.time}" pattern="MMM"/> - <fmt:formatDate
                     value="${schedule.calendar.time}" pattern="yyyy"/></b>

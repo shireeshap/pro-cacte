@@ -12,7 +12,7 @@ import java.util.Date;
 public class CreateFormSeleniumTest extends AbstractSeleniumTestCase {
 
     public void testNew() throws Exception {
-        selenium.open("/ctcae/pages/form/manageForm");
+        selenium.open("/proctcae/pages/form/manageForm");
         selenium.setSpeed("1000");
         typeAutosuggest("study-input", "p", "study-choices");
         selenium.click("newFormUrl");
@@ -35,7 +35,7 @@ public class CreateFormSeleniumTest extends AbstractSeleniumTestCase {
 
     public void testCreateNewFormByAddingSymptoms() throws Exception {
 
-        selenium.open("/ctcae/pages/form/manageForm");
+        selenium.open("/proctcae/pages/form/manageForm");
         selenium.setSpeed("1000");
         typeAutosuggest("study-input", "p", "study-choices");
         selenium.click("newFormUrl");
@@ -59,7 +59,7 @@ public class CreateFormSeleniumTest extends AbstractSeleniumTestCase {
 
     public void testCreateNewFormByAddingCategory() throws Exception {
 
-        selenium.open("/ctcae/pages/form/manageForm");
+        selenium.open("/proctcae/pages/form/manageForm");
         selenium.setSpeed("1000");
         typeAutosuggest("study-input", "p", "study-choices");
         selenium.click("newFormUrl");

@@ -167,7 +167,7 @@ public class StudyLevelReportTest extends WebTestCase {
         StudyLevelReportPdfView view = (StudyLevelReportPdfView) modelAndView.getView();
         view.render(null, request, response);
         assertEquals("application/pdf", response.getContentType());
-        File f = new File("/etc/ctcae/generatedpdf.pdf");
+        File f = new File("/etc/proctcae/generatedpdf.pdf");
         if (f.exists()) {
             f.delete();
         }
@@ -186,7 +186,7 @@ public class StudyLevelReportTest extends WebTestCase {
         StudyLevelReportExcelView view = (StudyLevelReportExcelView) modelAndView.getView();
         view.render(null, request, response);
         assertEquals("application/vnd.ms-excel", response.getContentType());
-        File f = new File("/etc/ctcae/generatedexcel.xls");
+        File f = new File("/etc/proctcae/generatedexcel.xls");
         if (f.exists()) {
             f.delete();
         }
@@ -279,7 +279,7 @@ public class StudyLevelReportTest extends WebTestCase {
             out.append(participant.getDisplayName() + "\n");
             out.append(table.get(participant));
         }
-        File f = new File("/etc/ctcae/generatedhtml.html");
+        File f = new File("/etc/proctcae/generatedhtml.html");
         if (f.exists()) {
             f.delete();
         }

@@ -32,7 +32,7 @@
         <attribute name="filter"/>
         <sequential>
             <filter token="databaseConfigurationName" value="${databaseConfigurationName}"/>
-            <filter token="project.version" value="${ctcae.version}"/>
+            <filter token="project.version" value="${proctcae.version}"/>
             <filter token="buildNumber" value="${today}"/>
             <copy todir="@{dest}" filtering="@{filter}">
                 <fileset dir="@{src}" includes="**/*.*">
@@ -71,9 +71,9 @@
         <attribute name="resolveId"/>
         <sequential>
             <ivy:resolve file="${ivy.file}" conf="@{confs}" resolveid="@{resolveId}" haltonfailure="false"
-                         settingsRef="ctcae.ivy.instance"/>
+                         settingsRef="proctcae.ivy.instance"/>
             <ivy:retrieve pattern="@{libDir}/[artifact]-[revision].[ext]" resolveid="@{resolveId}" haltonfailure="false"
-                          settingsRef="ctcae.ivy.instance"/>
+                          settingsRef="proctcae.ivy.instance"/>
         </sequential>
     </macrodef>
 
@@ -95,7 +95,7 @@
                          status="@{status}"
                          forcedeliver="true"
                          pubdate="${now}"
-                         overwrite="true" settingsRef="ctcae.ivy.instance"/>
+                         overwrite="true" settingsRef="proctcae.ivy.instance"/>
         </sequential>
     </macrodef>
 
@@ -226,7 +226,7 @@
         </path>
         <taskdef resource="org/apache/ivy/ant/antlib.xml"
                  uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
-        <ivy:settings file="${proj.root.dir}/ivysettings.xml" id="ctcae.ivy.instance"/>
+        <ivy:settings file="${proj.root.dir}/ivysettings.xml" id="proctcae.ivy.instance"/>
         <property name="loaded.ivy.settings" value="true"/>
     </target>
     <target name="load-offline-settings" unless="loaded.ivy.settings">
@@ -236,7 +236,7 @@
         </path>
         <taskdef resource="org/apache/ivy/ant/antlib.xml"
                  uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
-        <ivy:settings file="${proj.root.dir}/ivysettings-offline.xml" id="ctcae.ivy.instance"/>
+        <ivy:settings file="${proj.root.dir}/ivysettings-offline.xml" id="proctcae.ivy.instance"/>
     </target>
     <target name="load-ivy" depends="download-ivy,download-jsch, load-online-settings, load-offline-settings"
             unless="ivy.loaded">
@@ -334,13 +334,13 @@
         <echo message="Executing in ${ant.project.name}"/>
         <echo message="Executing ${ant.project.name} : ivy-new-version"/>
         <!-- default module version prefix value -->
-        <property name="module.version.prefix" value="${ctcae.version}"/>
+        <property name="module.version.prefix" value="${proctcae.version}"/>
 
         <!-- asks to ivy an available version number -->
-        <ivy:info file="${ivy.file}" settingsRef="ctcae.ivy.instance"/>
+        <ivy:info file="${ivy.file}" settingsRef="proctcae.ivy.instance"/>
         <ivy:buildnumber
                 organisation="${ivy.organisation}" module="${ivy.module}"
-                revision="${module.version.prefix}" defaultBuildNumber="1" revSep="." settingsRef="ctcae.ivy.instance"/>
+                revision="${module.version.prefix}" defaultBuildNumber="1" revSep="." settingsRef="proctcae.ivy.instance"/>
     </target>
 
     <!-- =====================================================================
@@ -353,7 +353,7 @@
             <format property="now" pattern="yyyyMMddHHmmss"/>
             <format property="today" pattern="yyyy-MM-dd hh:mm:ss.mmm"/>
         </tstamp>
-        <property name="ivy.new.revision" value="${ctcae.version}-local-${now}"/>
+        <property name="ivy.new.revision" value="${proctcae.version}-local-${now}"/>
     </target>
 
     <!-- =====================================================================
@@ -431,7 +431,7 @@
             description="--> publish this project in the local ivy repository">
         <echo message="Executing in ${ant.project.name}"/>
         <ivyPublish artifactspattern="${dist.dir}/[artifact].[ext]"
-                    resolver="ctcae-local"
+                    resolver="proctcae-local"
                     pubrevision="${version}"
                     status="integration"
                 />
@@ -446,7 +446,7 @@
             description="--> publish this project in the local ivy repository">
         <echo message="Executing in ${ant.project.name}"/>
         <ivyPublish artifactspattern="${dist.dir}/[artifact].[ext]"
-                    resolver="ctcae-local"
+                    resolver="proctcae-local"
                     pubrevision="${version}"
                     status="integration"
                 />
@@ -704,9 +704,9 @@
         ============================================================================= -->
     <target name="find-datasource" unless="dsFile.loaded" description="Loads the datasource properties">
         <echo message="databaseConfigurationName : ${databaseConfigurationName}"/>
-        <condition property="dsFile" value="${user.home}/.ctcae/${databaseConfigurationName}.properties"
-                   else="/etc/ctcae/${databaseConfigurationName}.properties">
-            <available file="${user.home}/.ctcae/${databaseConfigurationName}.properties"/>
+        <condition property="dsFile" value="${user.home}/.proctcae/${databaseConfigurationName}.properties"
+                   else="/etc/proctcae/${databaseConfigurationName}.properties">
+            <available file="${user.home}/.proctcae/${databaseConfigurationName}.properties"/>
         </condition>
         <property name="dsFile.loaded" value="true"/>
     </target>

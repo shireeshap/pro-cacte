@@ -10,7 +10,7 @@ public class SearchParticipantSeleniumTest extends AbstractSeleniumTestCase {
 	public void testNew() throws Exception {
         String participant = randomString();
         createParticipant(participant);
-        selenium.open("/ctcae/pages/participant/create");
+        selenium.open("/proctcae/pages/participant/create");
 		selenium.click("secondlevelnav_searchParticipantController");
 		selenium.waitForPageToLoad("30000");
 		selenium.type("firstName", participant);
