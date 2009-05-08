@@ -80,11 +80,11 @@
 
         <chrome:box title="study.tab.clinical_staff">
             <div class="row">
-                <div class="label"><spring:message code="study.label.clinical.staff.lead.cra"/>:</div>
+                <div class="label"><spring:message code="study.label.clinical.staff.lead.cra"/>: &nbsp;</div>
                 <div class="value">${leadCRA.displayName}</div>
             </div>
             <div class="row">
-                <div class="label"><spring:message code="study.label.clinical.staff.pi"/>:</div>
+                <div class="label"><spring:message code="study.label.clinical.staff.pi"/>: &nbsp;</div>
                 <div class="value">${OverallPI.displayName}</div>
             </div>
         </chrome:box>

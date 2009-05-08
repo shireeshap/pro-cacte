@@ -18,10 +18,7 @@
     <tags:dwrJavascriptLink objects="study"/>
     <style type="text/css">
         /* Override default lable length */
-        div.row {
-            margin-top: 0px;
-            margin-bottom: 0px;
-        }
+
 
         div.row div.label {
             width: 9em;
@@ -66,7 +63,7 @@
 
     <div class="content">
 
-        <div class="row" name="inputs" style="float:left;">
+        <div class="row" name="inputs">
             <div class="label"> Search By:</div>
             <div class="value">
                 <select id="searchType">
@@ -82,7 +79,9 @@
                 <div id="error"></div>
             </div>
         </div>
+        <div style="padding-left:132px">
         <tags:button color="blue" icon="search" size="big" type="button" onclick="buildTable('assembler');" value='Search'/>
+            </div>
         <%--<input class='ibutton' type='button' id="searchButton" onclick="buildTable('assembler');"--%>
                <!--value='Search' title='Search Study'/>-->
         <tags:indicator id="indicator"/>
