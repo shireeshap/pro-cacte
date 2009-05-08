@@ -92,13 +92,21 @@
 
                     </tr>
                     <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
-
-                        <tags:oneOrganization index="${status.index}"
-                                              inputName="study.studySites[${status.index}].organization"
-                                              title="Study Site" displayError="true"
-                                              required="true"></tags:oneOrganization>
+                        <c:choose>
+                            <c:when test="${studySite eq command.study.leadStudySite}">
+                                <tags:oneOrganization index="${status.index}"
+                                                      inputName="study.studySites[${status.index}].organization"
+                                                      title="Study Site" displayError="true"
+                                                      required="true" isLeadSite="true"></tags:oneOrganization>
+                            </c:when>
+                            <c:otherwise>
+                                <tags:oneOrganization index="${status.index}"
+                                                      inputName="study.studySites[${status.index}].organization"
+                                                      title="Study Site" displayError="true"
+                                                      required="true"></tags:oneOrganization>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
-
 
                     <tr id="hiddenDiv" align="center"></tr>
 

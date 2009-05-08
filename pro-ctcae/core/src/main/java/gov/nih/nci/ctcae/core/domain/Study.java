@@ -111,6 +111,7 @@ public class Study extends BasePersistable {
     public List<StudySite> getStudySites() {
         List<StudySite> studySites = new LinkedList<StudySite>();
         for (StudyOrganization studyOrganization : getStudyOrganizations()) {
+//            if ((studyOrganization instanceof StudySite) && !(studyOrganization instanceof LeadStudySite)) {
             if (studyOrganization instanceof StudySite) {
                 studySites.add((StudySite) studyOrganization);
             }

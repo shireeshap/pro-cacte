@@ -154,7 +154,7 @@ public class ParticipantCommand {
     public void apply(CRFRepository crfRepository, HttpServletRequest request) throws ParseException {
 
         //if new participant then clear all study participant assignments. otherwise it will create problem in case of any validation error.
-        if (getParticipant().getId() == null) {
+        if (!participant.isPersisted()) {
             participant.removeAllStudyParticipantAssignments();
             if (getStudySites() != null) {
                 for (StudySite studySite : getStudySites()) {

@@ -102,9 +102,11 @@
 
                     <td style="border-right:none;">
                         <c:forEach items="${command.study.studySites}" var="studySite">
-                            <div class="row">
-                                    ${studySite.organization.displayName}
-                            </div>
+                            <c:if test="${studySite ne command.study.leadStudySite}">
+                                <div class="row">
+                                        ${studySite.organization.displayName}
+                                </div>
+                            </c:if>
                         </c:forEach>
 
                     </td>
