@@ -192,41 +192,36 @@ public class Participant extends Person {
         return name.toString();
     }
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.domain.Person#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof Participant))
-            return false;
-        if (!super.equals(o))
-            return false;
+        if (this == o) return true;
+        if (!(o instanceof Participant)) return false;
+        if (!super.equals(o)) return false;
 
         Participant that = (Participant) o;
 
-        if (birthDate != null ? !birthDate.equals(that.birthDate)
-                : that.birthDate != null)
+        if (assignedIdentifier != null ? !assignedIdentifier.equals(that.assignedIdentifier) : that.assignedIdentifier != null)
             return false;
-        if (gender != null ? !gender.equals(that.gender) : that.gender != null)
-            return false;
-        if (maidenName != null ? !maidenName.equals(that.maidenName)
-                : that.maidenName != null)
-            return false;
+        if (birthDate != null ? !birthDate.equals(that.birthDate) : that.birthDate != null) return false;
+        if (emailAddress != null ? !emailAddress.equals(that.emailAddress) : that.emailAddress != null) return false;
+        if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
+        if (maidenName != null ? !maidenName.equals(that.maidenName) : that.maidenName != null) return false;
+        if (phoneNumber != null ? !phoneNumber.equals(that.phoneNumber) : that.phoneNumber != null) return false;
+        if (user != null ? !user.equals(that.user) : that.user != null) return false;
 
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.domain.Person#hashCode()
-     */
     @Override
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (maidenName != null ? maidenName.hashCode() : 0);
         result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (assignedIdentifier != null ? assignedIdentifier.hashCode() : 0);
+        result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }
 

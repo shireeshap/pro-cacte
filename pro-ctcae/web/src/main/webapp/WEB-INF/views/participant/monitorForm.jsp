@@ -13,190 +13,220 @@
 
 <html>
 <head>
-    <tags:dwrJavascriptLink objects="crf"/>
-    <tags:dwrJavascriptLink objects="participant"/>
-    <tags:includePrototypeWindow/>
-    <tags:includeScriptaculous/>
-    <script type="text/javascript">
+<tags:dwrJavascriptLink objects="crf"/>
+<tags:dwrJavascriptLink objects="participant"/>
+<tags:includePrototypeWindow/>
+<tags:includeScriptaculous/>
+<script type="text/javascript">
 
-        function completedForm(id) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
-                parameters:"id=" + id + "&subview=subview",
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 700, 500);
-                },
-                method:'get'
-            })
-        }
+function completedForm(id) {
+    var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
+        parameters:"id=" + id + "&subview=subview",
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 700, 500);
+        },
+        method:'get'
+    })
+}
 
 
-        Event.observe(window, "load", function () {
-            var studyAutoCompleter = new studyAutoComplter('study');
-            acCreateStudyMonitor(studyAutoCompleter);
-            initSearchField();
+Event.observe(window, "load", function () {
+    var studyAutoCompleter = new studyAutoComplter('study');
+    acCreateStudyMonitor(studyAutoCompleter);
+    initSearchField();
+})
+
+function acCreateStudyMonitor(mode) {
+    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
+            mode.populator, {
+        valueSelector: mode.valueSelector,
+        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+            acPostSelect(mode, selectedChoice);
+            displayForms();
+            displaySites();
+            displayParticipants();
+        },
+        indicator: mode.basename + "-indicator"
+    })
+
+}
+
+function displaySites() {
+
+    organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
+        //                alert(values);
+        //                alert(values.length);
+    })
+
+
+    var myStudySiteAutoComplter = new studySiteAutoComplter('studySite', $('study').value);
+    acCreate(myStudySiteAutoComplter);
+    initSearchField();
+    $('studySiteAutoCompleterDiv').show();
+
+}
+
+function displayParticipants() {
+    var myParticipantAutoCompleter = new participantAutoCompleter('participant', function(autocompleter, text) {
+        participant.matchParticipantByStudySiteId(text, $('studySite').value, $('study').value, function(values) {
+            autocompleter.setChoices(values)
         })
+    });
+    acCreate(myParticipantAutoCompleter);
+    initSearchField();
+    $('participantAutoCompleterDiv').show();
+}
 
-        function acCreateStudyMonitor(mode) {
-            new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-                    mode.populator, {
-                valueSelector: mode.valueSelector,
-                afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-                    acPostSelect(mode, selectedChoice);
-                    displayForms();
-                    displaySites();
-                    displayParticipants();
-                },
-                indicator: mode.basename + "-indicator"
-            })
+function displayForms() {
+    var id = $('study').value
+    crf.getReducedCrfs(id, updateFormDropDown)
+}
 
+function clearDiv(divid) {
+    var children = $(divid).childElements();
+    for (i = 0; i < children.length; i++) {
+        $(children[i]).remove();
+    }
+}
+
+function updateFormDropDown(crfs) {
+    //clearDiv('formDropDown');
+    $('displayFormStatusDiv').hide();
+    var formDropDown = new Element('SELECT', {'id':'formSelect'})
+
+    for (var i = 0; i < crfs.length; i++) {
+        var crf = crfs[i];
+        var option = new Element('OPTION', {});
+        option.text = crf.title;
+        option.value = crf.id;
+        formDropDown.appendChild(option);
+    }
+
+    $('formDropDown').appendChild(formDropDown);
+    $('formDropDownDiv').show();
+    $('dateMenuDiv').show();
+    $('searchForm').show();
+    $('statusDiv').show();
+    //    $('tableViewDiv').show();
+}
+function showError(element) {
+    removeError(element);
+    new Insertion.Bottom(element.parentNode, " <ul id='" + element.name + "-msg'class='errors'><li>" + 'Missing ' + element.title + "</li></ul>");
+}
+function removeError(element) {
+    msgId = element.name + "-msg"
+    $(msgId) != null ? new Element.remove(msgId) : null
+}
+
+function customDate(showDate) {
+    var myindex = showDate.selectedIndex
+    var selValue = showDate.options[myindex].value
+    if (selValue == "custom") {
+        $('dateRange').show();
+    } else {
+        $('dateRange').hide();
+    }
+
+}
+function formStatus(period) {
+    $('indicator').show();
+    var studyId = $('study').value;
+
+    var dateRangeSelect = $('dateOptions');
+    var dateRange = dateRangeSelect.options[dateRangeSelect.selectedIndex].value;
+
+    var stDate = $('startDate').value;
+    var endDate = $('endDate').value;
+    if (dateRange == 'custom') {
+        var error = false;
+        if (stDate == '') {
+            error = true;
+            showError($('startDate'));
+        } else {
+            removeError($('startDate'));
         }
-
-        function displaySites() {
-
-            organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
-                //                alert(values);
-                //                alert(values.length);
-            })
-
-
-            var myStudySiteAutoComplter = new studySiteAutoComplter('studySite', $('study').value);
-            acCreate(myStudySiteAutoComplter);
-            initSearchField();
-            $('studySiteAutoCompleterDiv').show();
-
+        if (endDate == '') {
+            error = true;
+            showError($('endDate'));
+        } else {
+            removeError($('endDate'));
         }
-
-        function displayParticipants() {
-            var myParticipantAutoCompleter = new participantAutoCompleter('participant', function(autocompleter, text) {
-                participant.matchParticipantByStudySiteId(text, $('studySite').value, $('study').value, function(values) {
-                    autocompleter.setChoices(values)
-                })
-            });
-            acCreate(myParticipantAutoCompleter);
-            initSearchField();
-            $('participantAutoCompleterDiv').show();
+        if (error) {
+            return;
         }
+    }
 
-        function displayForms() {
-            var id = $('study').value
-            crf.getReducedCrfs(id, updateFormDropDown)
-        }
+    var crfSelect = $('formSelect');
+    var crfId = crfSelect.options[crfSelect.selectedIndex].value;
 
-        function clearDiv(divid) {
-            var children = $(divid).childElements();
-            for (i = 0; i < children.length; i++) {
-                $(children[i]).remove();
-            }
-        }
 
-        function updateFormDropDown(crfs) {
-            //clearDiv('formDropDown');
-            $('displayFormStatusDiv').hide();
-            var formDropDown = new Element('SELECT', {'id':'formSelect'})
+    var studySiteId = $('studySite').value;
+    var participantId = $('participant').value;
 
-            for (var i = 0; i < crfs.length; i++) {
-                var crf = crfs[i];
-                var option = new Element('OPTION', {});
-                option.text = crf.title;
-                option.value = crf.id;
-                formDropDown.appendChild(option);
-            }
+    var statusSelect = $('formStatus');
+    var status = statusSelect.options[statusSelect.selectedIndex].value;
 
-            $('formDropDown').appendChild(formDropDown);
-            $('formDropDownDiv').show();
-            $('dateMenuDiv').show();
-            $('searchForm').show();
-            $('statusDiv').show();
-            //    $('tableViewDiv').show();
-        }
-        function customDate(showDate) {
-            var myindex = showDate.selectedIndex
-            var selValue = showDate.options[myindex].value
-            if (selValue == "custom") {
-                $('dateRange').show();
-            } else {
-                $('dateRange').hide();
-            }
+    var pgStartDateNext = '';
+    var pgStartDatePrev = '';
+    var direction = '';
+    var view = period;
+    if (period == 'next') {
+        pgStartDateNext = $('pgStartDateNext').value;
+        direction = period;
+        view = $('periodButton').value;
+    }
+    if (period == 'prev') {
+        pgStartDatePrev = $('pgStartDatePrev').value;
+        direction = period;
+        view = $('periodButton').value;
+    }
+    if (period == 'weekly') {
+        pgStartDatePrev = $('pgStartDatePrev').value;
+        view = period;
+        $('monthlyButton').show();
+        $('weeklyButton').hide();
+    }
+    if (period == 'monthly') {
+        pgStartDatePrev = $('pgStartDatePrev').value;
+        view = period;
+        $('monthlyButton').hide();
+        $('weeklyButton').show();
+    }
+    if (period == 'initial') {
+        $('monthlyButton').show();
+        $('weeklyButton').hide();
+    }
 
-        }
-        function formStatus(period) {
-            $('indicator').show();
-            var studyId = $('study').value;
-            var stDate = $('startDate').value;
-            var endDate = $('endDate').value;
+    showIndicator();
+    var request = new Ajax.Request("<c:url value="/pages/participant/monitorFormStatus"/>", {
+        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev + "&direction=" + direction + "&view=" + view + "&subview=subview",
+        onComplete:function(transport) {
+            showStatusTable(transport);
+            hideIndicator();
+        },
+        method:'get'
+    })
+}
 
-            var crfSelect = $('formSelect');
-            var crfId = crfSelect.options[crfSelect.selectedIndex].value;
+function showStatusTable(transport) {
+    $('displayFormStatusDiv').show();
+    $('displayFormStatus').innerHTML = transport.responseText;
+    $('indicator').hide();
+}
 
-            var dateRangeSelect = $('dateOptions');
-            var dateRange = dateRangeSelect.options[dateRangeSelect.selectedIndex].value;
+function showIndicator() {
+    $('indicator').style.visibility = 'visible';
+}
+function hideIndicator() {
+    $('indicator').style.visibility = 'hidden';
+}
 
-            var studySiteId = $('studySite').value;
-            var participantId = $('participant').value;
-
-            var statusSelect = $('formStatus');
-            var status = statusSelect.options[statusSelect.selectedIndex].value;
-
-            var pgStartDateNext = '';
-            var pgStartDatePrev = '';
-            var direction = '';
-            var view = period;
-            if (period == 'next') {
-                pgStartDateNext = $('pgStartDateNext').value;
-                direction = period;
-                view = $('periodButton').value;
-            }
-            if (period == 'prev') {
-                pgStartDatePrev = $('pgStartDatePrev').value;
-                direction = period;
-                view = $('periodButton').value;
-            }
-            if (period == 'weekly') {
-                pgStartDatePrev = $('pgStartDatePrev').value;
-                view = period;
-                $('monthlyButton').show();
-                $('weeklyButton').hide();
-            }
-            if (period == 'monthly') {
-                pgStartDatePrev = $('pgStartDatePrev').value;
-                view = period;
-                $('monthlyButton').hide();
-                $('weeklyButton').show();
-            }
-            if (period == 'initial') {
-                $('monthlyButton').show();
-                $('weeklyButton').hide();
-            }
-            showIndicator();
-            var request = new Ajax.Request("<c:url value="/pages/participant/monitorFormStatus"/>", {
-                parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev + "&direction=" + direction + "&view=" + view + "&subview=subview",
-                onComplete:function(transport) {
-                    showStatusTable(transport);
-                    hideIndicator();
-                },
-                method:'get'
-            })
-        }
-
-        function showStatusTable(transport) {
-            $('displayFormStatusDiv').show();
-            $('displayFormStatus').innerHTML = transport.responseText;
-            $('indicator').hide();
-        }
-
-        function showIndicator() {
-            $('indicator').style.visibility = 'visible';
-        }
-        function hideIndicator() {
-            $('indicator').style.visibility = 'hidden';
-        }
-
-    </script>
-    <style type="text/css">
-        table.content {
-            font-size: 10pt; /*width: 100%;*/
-        }
-    </style>
+</script>
+<style type="text/css">
+    table.content {
+        font-size: 10pt; /*width: 100%;*/
+    }
+</style>
 
 </head>
 <body>

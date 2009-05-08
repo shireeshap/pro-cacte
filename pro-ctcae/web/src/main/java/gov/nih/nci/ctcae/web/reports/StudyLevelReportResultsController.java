@@ -40,14 +40,14 @@ public class StudyLevelReportResultsController extends AbstractController {
         LinkedHashMap<Participant, ArrayList<Date>> datesMap = new LinkedHashMap<Participant, ArrayList<Date>>();
         List visitTitle = new ArrayList();
 
-        if (visitRange.equals("currentPrev")) {
-            visitTitle.add("Current");
-            visitTitle.add("Previous");
-        }
-        if (visitRange.equals("currentLast")) {
-            visitTitle.add("Current");
-            visitTitle.add("First");
-        }
+//        if (visitRange.equals("currentPrev")) {
+//            visitTitle.add("Current");
+//            visitTitle.add("Previous");
+//        }
+//        if (visitRange.equals("currentLast")) {
+//            visitTitle.add("Current");
+//            visitTitle.add("First");
+//        }
         TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> results = getCareResults(visitRange, studyId, crfId, studySiteId, datesMap, Integer.valueOf(forVisits), startDate, endDate);
         modelAndView.addObject("resultsMap", results);
         modelAndView.addObject("datesMap", datesMap);
@@ -73,7 +73,7 @@ public class StudyLevelReportResultsController extends AbstractController {
     }
 
     private void addColumn(StringBuilder table, String text, int colSpan, String style) {
-        if(text == null ){
+        if (text == null) {
             text = "";
         }
         String colSpanStr = "";
@@ -158,24 +158,25 @@ public class StudyLevelReportResultsController extends AbstractController {
         StudySite studySite = study.getStudySiteById(studySiteId);
 
         for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
-            int tempVisits = forVisits;
+//            int tempVisits = forVisits;
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
                 if (studyParticipantCrf.getCrf().getId().equals(crfId)) {
-                    List<StudyParticipantCrfSchedule> completedCrfs = new ArrayList<StudyParticipantCrfSchedule>();
-                    if (visitRange.equals("currentLast")) {
-                        completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(0));
-                        if (studyParticipantCrf.getCompletedCrfs().size() > 1) {
-                            completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - 1));
-                        }
-                    } else {
-                        if (tempVisits == -1) {
-                            tempVisits = studyParticipantCrf.getCompletedCrfs().size();
-                        }
-                        for (int i = 1; i <= tempVisits; tempVisits--)
-                            if (studyParticipantCrf.getCompletedCrfs().size() - tempVisits >= 0) {
-                                completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - tempVisits));
-                            }
-                    }
+//                    List<StudyParticipantCrfSchedule> completedCrfs = new ArrayList<StudyParticipantCrfSchedule>();
+                    List<StudyParticipantCrfSchedule> completedCrfs = studyParticipantCrf.getCompletedCrfs();
+//                    if (visitRange.equals("currentLast")) {
+//                        completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(0));
+//                        if (studyParticipantCrf.getCompletedCrfs().size() > 1) {
+//                            completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - 1));
+//                        }
+//                    } else {
+//                        if (tempVisits == -1) {
+//                            tempVisits = studyParticipantCrf.getCompletedCrfs().size();
+//                        }
+//                        for (int i = 1; i <= tempVisits; tempVisits--)
+//                            if (studyParticipantCrf.getCompletedCrfs().size() - tempVisits >= 0) {
+//                                completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - tempVisits));
+//                            }
+//                    }
 
                     sortByStartDate(completedCrfs);
                     for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : completedCrfs) {

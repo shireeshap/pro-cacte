@@ -280,7 +280,7 @@
     function addProctcTerm(proCtcTermId) {
         var crfPageNumber = ''
         var obj = document.getElementsByName("question_forterm_" + proCtcTermId);
-        for(var i =0 ; i< obj.length; i++){
+        for (var i = 0; i < obj.length; i++) {
             obj[i].hide();
         }
     <c:if test="${!command.crf.advance}">
@@ -722,8 +722,9 @@
         })
     }
 
-    function showHideCtcTerm(action) {
-        setVisible('preferencevalues');
+    function showHideCtcTerm(action, text) {
+        $('currentPreference').innerHTML = text;
+        hide('preferencevalues');
         removeClassFromHyperlink();
         showHideCtcTermA('right', 'hide');
         showHideCtcTermA('middle', 'hide');
@@ -762,29 +763,15 @@
             }
         })
     }
-    function setVisible(obj) {
-        obj = $(obj);
-        obj.style.visibility = (obj.style.visibility == 'visible') ? 'hidden' : 'visible';
-        placeIt(obj);
-    }
-    function placeIt(obj) {
-        x = 20;
-        y = 0;
 
-        if (document.documentElement) {
-            theLeft = document.documentElement.scrollLeft;
-            theTop = document.documentElement.scrollTop;
-        }
-        else if (document.body) {
-            theLeft = document.body.scrollLeft;
-            theTop = document.body.scrollTop;
-        }
-        theLeft += x;
-        theTop += y;
-        obj.style.left = theLeft + 'px';
-        obj.style.top = theTop + 'px';
+    function hide(objid) {
+        $(objid).style.display = 'none';
     }
-
+    function setVisible(objid) {
+        var obj = $(objid);
+        obj.style.display = 'inline';
+        return false;
+    }
 </script>
 <style type="text/css">
 
@@ -803,7 +790,7 @@
     #form-tabs {
         left: 5px;
         position: relative;
-        top: 13px;
+        top: 0px;
     }
 
     #firstlevelnav_1 {
@@ -848,7 +835,7 @@
         padding: 10px;
         background-color: #e7eaf3;
         margin-right: 3px;
-        margin-top: 3px;
+        margin-top: 44px;
         position: relative;
     }
 
@@ -885,24 +872,44 @@
         padding: 0;
     }
 
-    #preferencevalues {
-        position: absolute;
-        visibility: hidden;
-        width: 260px;
-        height: 80px;
-        left: 20px;
-        top: 300px;
-        background-color: #cccccc;
-        border: 1px solid #000;
-        padding: 10px;
-        z-index: 100;
-    }
-
     .nolink_hyperlink {
         font-weight: bold;
         text-decoration: none;
         cursor: default;
+        font-style:italic;
     }
+
+    /* The hint to Hide and Show */
+    .hint {
+        z-index: 3; /* To handle the overlapping issue*/
+        display: none;
+        position: absolute;
+        width: 300px;
+        white-space: normal;
+        margin-top: -4px;
+        border: 1px solid #c93;
+        padding: 10px 12px;
+        opacity: .95;
+        background: #ffc url( ../images/pointer.gif ) no-repeat -10px 5px;
+    }
+
+    td.help-values {
+        border: 1px solid #eaeaea;
+        background-color: #fff;
+        padding-left: 6px;
+        vertical-align: top;
+        text-align: left;
+    }
+
+    table.widget {
+        border: 1px solid #eaeaea;
+        border-collapse: collapse;
+    }
+
+    #currentPreference{
+        font-style:italic;
+    }
+
 </style>
 
 </head>
@@ -915,152 +922,179 @@
         <div class="summaryvalue">${command.crf.study.displayName}</div>
     </div>
 
+    <table width="0%" border="0">
+        <tr>
+            <td>
+                <tags:button value="Preferences" color="blue" size="small"
+                             onclick="javascript:setVisible('preferencevalues')"
+                             markupWithTag="a"/>
+            </td>
+            <td>
+                <span id="currentPreference"></span>
+            </td>
+        </tr>
+    </table>
 
-    <%--<a id="expandQuestionBankUrl" href="javascript:expandQuestionBank()" style="display:none;"><img--%>
-            <%--src="<tags:imageUrl name="blue/maximize-right.png" />" style="float:left" alt="Maximize"/></a>--%>
-	<%--<a id="expandFormUrl" href="javascript:expandForm()" style="display:none;" style="float:right;"><img--%>
-            <%--src="<tags:imageUrl name="blue/maximize-left.png" />" alt="Maximize"/></a>--%>
-            <table id="formbuilderTable">
-                <tr>
-                    <td id="left">
-                            <%--<a id="shrinkQuestionBankUrl" href="javascript:shrinkQuestionBank()"><img--%>
-                            <%--src="<tags:imageUrl name="blue/minimize-left.png" />" style="float:right"--%>
-                            <%--alt="Minimize"/></a>--%>
-                        <ul id="form-tabs" class="tabs">
-                            <li>
-                                <a id="firstlevelnav_1" href="javascript:showForm()" class="selected_4thlvl">
-                                    <tags:message code='form.add_question'/>
-                                    |</a>
-                            </li>
-                            <li class="">
-                                <a id="firstlevelnav_2" href="javascript:showQuestionSettings()">
-                                    <tags:message code="form.question_settings"/> |</a>
-                            </li>
+<span id="preferencevalues" class="hint" style="display: none;">
+<table class="widget" cellspacing="0" width="100%" align="center">
+    <tr>
+        <td align="right">
+            <a href="javascript:hide('preferencevalues');">X</a>
+        </td>
+    </tr>
+    <tr>
+        <td class="help-values">
+            <a href="javascript:showHideCtcTerm('noctcterm','Showing participant term only')" id="a_noctcterm">
+                Show only participant term
+            </a>
+        </td>
+    <tr>
+        <td class="help-values">
+            <a href="javascript:showHideCtcTerm('onlyctcterm','Showing CTCAE term only')" id="a_onlyctcterm">
+                Show only CTCAE term
+            </a>
+        </td>
+    </tr>
 
-                            <li class="">
-                                <a id="firstlevelnav_3" href="javascript:showFormSettings()">
-                                    <tags:message code='form.form_settings'/> </a>
-                            </li>
-                        </ul>
-                        <a href="#" onclick="setVisible('preferencevalues');return false"
-                           target="_self">Display Preferences</a></p>
-                        <div id="preferencevalues">
-                            <a href="javascript:showHideCtcTerm('noctcterm')" id="a_noctcterm">Show only participant
-                                term</a><br/>
-                            <a href="javascript:showHideCtcTerm('onlyctcterm')" id="a_onlyctcterm">Show only CTCAE
-                                term</a><br/>
-                            <a href="javascript:showHideCtcTerm('append')" id="a_append">Show both (with participant term
-                                first)</a><br/>
-                            <a href="javascript:showHideCtcTerm('prepend')" id="a_prepend" class="nolink_hyperlink">Show
-                                both (with CTCAE term
-                                first)</a><br/>
-                        </div>
-                        <br>
-                        <br>
-                        <br>
+    <tr>
+        <td class="help-values">
+            <a href="javascript:showHideCtcTerm('append','Showing both [with participant term first]')" id="a_append">
+                Show both [ with participant term first ]
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td class="help-values">
+            <a href="javascript:showHideCtcTerm('prepend','Showing both [with CTCAE term first]')" id="a_prepend"
+               class="nolink_hyperlink">Show both [ with CTCAE term first ]
+            </a>
+        </td>
+    </tr>
+</table>
+</span>
+<table id="formbuilderTable" border="0">
+    <tr>
+        <td id="left">
+            <ul id="form-tabs" class="tabs">
+                <li>
+                    <a id="firstlevelnav_1" href="javascript:showForm()" class="selected_4thlvl">
+                        <tags:message code='form.add_question'/>
+                        |</a>
+                </li>
+                <li class="">
+                    <a id="firstlevelnav_2" href="javascript:showQuestionSettings()">
+                        <tags:message code="form.question_settings"/> |</a>
+                </li>
 
-                        <div id="questionBank" class="leftBox">
-                            <c:if test="${advance}">
-                                <a id="newPageBtn" href="javascript:addCrfPage()"><img
-                                        src="<tags:imageUrl name="blue/new_page_button.png" />"
-                                        alt="New Page"/></a></c:if>
-                            <ul class="tree">
-                                <c:set var="add" value="${advance}"/>
-                                <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
+                <li class="">
+                    <a id="firstlevelnav_3" href="javascript:showFormSettings()">
+                        <tags:message code='form.form_settings'/> </a>
+                </li>
+            </ul>
 
-                                    <li>${ctcCategory.key.name}<a
-                                            href="javascript:addCtcCategory(${ctcCategory.key.id})"
-                                            id="ctcCategory_${ctcCategory.key.id}" class="addallbtn">
-                                        <img src="/proctcae/images/blue/select_question_btn.png"
-                                             alt="Add" onclick=""/></a>
-                                        <ul>
-                                            <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
-                                                <li class="closed">
-                                                    <span class="ctctermleft"> ${proCtcTerm.ctcTerm.term} - </span>
+
+            <div id="questionBank" class="leftBox">
+                <c:if test="${advance}">
+                    <a id="newPageBtn" href="javascript:addCrfPage()"><img
+                            src="<tags:imageUrl name="blue/new_page_button.png" />"
+                            alt="New Page"/></a></c:if>
+                <ul class="tree">
+                    <c:set var="add" value="${advance}"/>
+                    <c:forEach items="${ctcCategoryMap}" var="ctcCategory">
+
+                        <li>${ctcCategory.key.name}<a
+                                href="javascript:addCtcCategory(${ctcCategory.key.id})"
+                                id="ctcCategory_${ctcCategory.key.id}" class="addallbtn">
+                            <img src="/proctcae/images/blue/select_question_btn.png"
+                                 alt="Add" onclick=""/></a>
+                            <ul>
+                                <c:forEach items="${ctcCategory.value}" var="proCtcTerm">
+                                    <li class="closed">
+                                        <span class="ctctermleft"> ${proCtcTerm.ctcTerm.term} - </span>
                                                     <span class="ctctermmiddle"
                                                           style="display:none">${proCtcTerm.term}</span>
                                                     <span class="ctctermright"
                                                           style="display:none"> - [${proCtcTerm.ctcTerm.term}]</span>
                                                     <span class="ctctermonly"
                                                           style="display:none">${proCtcTerm.ctcTerm.term}</span>
-                                                    <span class="ctctermrightpro">[${proCtcTerm.term}]</span>
+                                        <span class="ctctermrightpro">[${proCtcTerm.term}]</span>
 
-                                                    <a href="javascript:addProctcTerm(${proCtcTerm.id})"
-                                                       id="proCtcTerm_${proCtcTerm.id}"
-                                                       class="addallbtn ctcCategory_${ctcCategory.key.id}">
-                                                        <img src="/proctcae/images/blue/select_question_btn.png"
-                                                             alt="Add" onclick=""/></a>
+                                        <a href="javascript:addProctcTerm(${proCtcTerm.id})"
+                                           id="proCtcTerm_${proCtcTerm.id}"
+                                           class="addallbtn ctcCategory_${ctcCategory.key.id}">
+                                            <img src="/proctcae/images/blue/select_question_btn.png"
+                                                 alt="Add" onclick=""/></a>
 
 
-                                                    <ul>
+                                        <ul>
 
-                                                        <c:forEach items="${proCtcTerm.proCtcQuestions}"
-                                                                   var="proCtcQuestion">
+                                            <c:forEach items="${proCtcTerm.proCtcQuestions}"
+                                                       var="proCtcQuestion">
 
-                                                            <li id="question_${proCtcQuestion.id}"
-                                                                name="question_forterm_${proCtcTerm.id}">
-                                                                <tags:formbuilderBox>
-                                                                    <tags:formbuilderBoxControls add="${add}"
-                                                                                                 proCtcQuestionId="${proCtcQuestion.id}"
-                                                                                                 proCtcTermId="${proCtcTerm.id}"/>
-                                                                    ${proCtcQuestion.questionText}
-                                                                    <ul>
-                                                                        <c:forEach items="${proCtcQuestion.validValues}"
-                                                                                   var="proCtcValidValue">
-                                                                            <li>${proCtcValidValue.value}</li>
-                                                                        </c:forEach>
-                                                                    </ul>
-                                                                </tags:formbuilderBox>
-                                                            </li>
-
-                                                        </c:forEach>
-                                                    </ul>
+                                                <li id="question_${proCtcQuestion.id}"
+                                                    name="question_forterm_${proCtcTerm.id}">
+                                                    <tags:formbuilderBox>
+                                                        <tags:formbuilderBoxControls add="${add}"
+                                                                                     proCtcQuestionId="${proCtcQuestion.id}"
+                                                                                     proCtcTermId="${proCtcTerm.id}"/>
+                                                        ${proCtcQuestion.questionText}
+                                                        <ul>
+                                                            <c:forEach items="${proCtcQuestion.validValues}"
+                                                                       var="proCtcValidValue">
+                                                                <li>${proCtcValidValue.value}</li>
+                                                            </c:forEach>
+                                                        </ul>
+                                                    </tags:formbuilderBox>
                                                 </li>
-                                            </c:forEach>
 
+                                            </c:forEach>
                                         </ul>
                                     </li>
-
                                 </c:forEach>
+
                             </ul>
+                        </li>
 
-                        </div>
+                    </c:forEach>
+                </ul>
 
-                        <div id="questionProperties">
-                            <div id="questionProperties0" style="display:none;"></div>
-                        </div>
+            </div>
 
-                        <div id="formSettings" class="leftBox" style="display:none;">
-                            <tags:formSettings crf="${command.crf}"></tags:formSettings>
-                        </div>
-                    </td>
-                    <td id="right">
-                            <%--<a id="shrinkFormUrl" href="javascript:shrinkForm()"><img--%>
-                            <%--src="<tags:imageUrl name="blue/minimize-right.png" />" style="float:left"--%>
-                            <%--alt="Minimize"/></a>--%>
+            <div id="questionProperties">
+                <div id="questionProperties0" style="display:none;"></div>
+            </div>
 
-                            <%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
-                            <%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>
-                        <table style="border-collapse:collapse; height:800px;width:100%;">
-                            <tr>
-                                <td id="formbuilderTable-TL"></td>
-                                <td id="formbuilderTable-T"></td>
-                                <td id="formbuilderTable-TR"></td>
-                            </tr>
-                            <tr>
-                                <td id="formbuilderTable-L"></td>
-                                <td id="formbuilderTable-M">
-                                    <div style="width:105%; position:relative; top:-20px; left:-20px;">
-                                        <c:choose>
-                                            <c:when test="${command.crf.crfVersion eq 1.0}">
+            <div id="formSettings" class="leftBox" style="display:none;">
+                <tags:formSettings crf="${command.crf}"></tags:formSettings>
+            </div>
+        </td>
+        <td id="right">
+                <%--<a id="shrinkFormUrl" href="javascript:shrinkForm()"><img--%>
+                <%--src="<tags:imageUrl name="blue/minimize-right.png" />" style="float:left"--%>
+                <%--alt="Minimize"/></a>--%>
 
-                                                <span class="formbuilderHeader" id="crfTitle">${command.title}</span>
-                                            </c:when>
-                                            <c:otherwise><h1>${command.title}</h1></c:otherwise>
-                                        </c:choose>
+                <%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
+                <%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>
+            <table style="border-collapse:collapse; height:800px;width:100%;">
+                <tr>
+                    <td id="formbuilderTable-TL"></td>
+                    <td id="formbuilderTable-T"></td>
+                    <td id="setformbuilderTable-TR"></td>
+                </tr>
+                <tr>
+                    <td id="formbuilderTable-L"></td>
+                    <td id="formbuilderTable-M">
+                        <div style="width:105%; position:relative; top:-20px; left:-20px;">
+                            <c:choose>
+                                <c:when test="${command.crf.crfVersion eq 1.0}">
+
+                                    <span class="formbuilderHeader" id="crfTitle">${command.title}</span>
+                                </c:when>
+                                <c:otherwise><h1>${command.title}</h1></c:otherwise>
+                            </c:choose>
 
 
-                                        <form:hidden path="crf.title" id="formTitle"/>
+                            <form:hidden path="crf.title" id="formTitle"/>
 
                                         <span class="formbuildersubHeader">There <span id="plural1">are</span> <span
                                                 id="totalQuestionDivision"><c:choose>
@@ -1070,39 +1104,39 @@
 										</span> question<span id="plural2">s</span> in this form.</span>
 
 
-                                        <form:hidden path="questionsIds" id="questionsIds"/>
-                                        <form:hidden path="questionIdToRemove" id="questionIdToRemove"/>
+                            <form:hidden path="questionsIds" id="questionsIds"/>
+                            <form:hidden path="questionIdToRemove" id="questionIdToRemove"/>
 
-                                        <form:hidden path="crfPageNumbers" id="crfPageNumbers"/>
-                                        <form:hidden path="crfPageNumberToRemove" id="crfPageNumberToRemove"/>
+                            <form:hidden path="crfPageNumbers" id="crfPageNumbers"/>
+                            <form:hidden path="crfPageNumberToRemove" id="crfPageNumberToRemove"/>
 
-                                        <input type="hidden" id="totalQuestions" value="${totalQuestions}">
-                                        <c:forEach items="${command.crf.crfPagesSortedByPageNumber}"
-                                                   var="selectedCrfPage"
-                                                   varStatus="status">
-                                            <tags:oneCrfPage crfPage="${selectedCrfPage}"
-                                                             crfPageNumber="${status.index}"
-                                                             advance="${command.crf.advance}">
-                                            </tags:oneCrfPage>
+                            <input type="hidden" id="totalQuestions" value="${totalQuestions}">
+                            <c:forEach items="${command.crf.crfPagesSortedByPageNumber}"
+                                       var="selectedCrfPage"
+                                       varStatus="status">
+                                <tags:oneCrfPage crfPage="${selectedCrfPage}"
+                                                 crfPageNumber="${status.index}"
+                                                 advance="${command.crf.advance}">
+                                </tags:oneCrfPage>
 
-                                        </c:forEach>
+                            </c:forEach>
 
-                                        <div id="hiddenCrfPageDiv"></div>
-                                    </div>
-                                </td>
-                                <td id="formbuilderTable-R"></td>
-                            </tr>
-                            <tr>
-                                <td id="formbuilderTable-BL"></td>
-                                <td id="formbuilderTable-B"></td>
-                                <td id="formbuilderTable-BR"></td>
-                            </tr>
-                        </table>
+                            <div id="hiddenCrfPageDiv"></div>
+                        </div>
                     </td>
-
+                    <td id="formbuilderTable-R"></td>
                 </tr>
-
+                <tr>
+                    <td id="formbuilderTable-BL"></td>
+                    <td id="formbuilderTable-B"></td>
+                    <td id="formbuilderTable-BR"></td>
+                </tr>
             </table>
+        </td>
+
+    </tr>
+
+</table>
 </jsp:attribute>
 </tags:tabForm>
 </body>

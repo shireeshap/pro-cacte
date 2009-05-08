@@ -129,18 +129,32 @@
                 removeError($('studySite'));
             }
 
-            if (visitRange == 'currentPrev' || visitRange == 'currentLast') {
-                forVisits = "2";
-            }
-
-            if (visitRange == 'lastFour') {
-                forVisits = "4";
-            }
+            //            if (visitRange == 'currentPrev' || visitRange == 'currentLast') {
+            //                forVisits = "2";
+            //            }
+            //
+            //            if (visitRange == 'lastFour') {
+            //                forVisits = "4";
+            //            }
             if (visitRange == 'all' || visitRange == 'dateRange') {
                 forVisits = "-1";
             }
             var stDate = $('startDate').value;
             var endDate = $('endDate').value;
+            if (visitRange == 'dateRange') {
+                if (stDate == '') {
+                    hasError = true;
+                    showError($('startDate'));
+                } else {
+                    removeError($('startDate'));
+                }
+                if (endDate == '') {
+                    hasError = true;
+                    showError($('endDate'));
+                } else {
+                    removeError($('endDate'));
+                }
+            }
             if (hasError) {
                 return;
             }
@@ -219,15 +233,15 @@
             <div id="studySiteName" class="value"></div>
         </div>
         <div id="dateMenuDiv" style="display:none" class="row">
-            <div class="label">Visits</div>
+            <div class="label">Date range</div>
             <div class="value">
                 <select id="visitOptions" name="visitOptions"
                         onChange="customVisit(this)">
-                    <option value="all">All</option>
-                    <option value="currentPrev">Current & Previous</option>
-                    <option value="lastFour">Last four</option>
-                    <option value="currentLast">Current & First</option>
-                    <option value="custom">Custom</option>
+                    <option value="all">All dates</option>
+                        <%--<option value="currentPrev">Current & Previous</option>--%>
+                        <%--<option value="lastFour">Last four</option>--%>
+                        <%--<option value="currentLast">Current & First</option>--%>
+                        <%--<option value="custom">Custom</option>--%>
                     <option value="dateRange">Date range</option>
                 </select>
             </div>
@@ -242,11 +256,11 @@
         <div id="dateRange" style="display:none">
             <div class="leftpanel">
                 <tags:renderDate noForm="true" displayName="Start Date" propertyName="startDate"
-                                 doNotShowFormat="true"/>
+                                 doNotShowFormat="true" required="true"/>
             </div>
             <div class="rightpanel">
                 <tags:renderDate noForm="true" displayName="End Date" propertyName="endDate"
-                                 doNotShowFormat="true"/>
+                                 doNotShowFormat="true" required="true"/>
             </div>
         </div>
 
