@@ -164,16 +164,10 @@ public class ParticipantCommand {
                 }
             }
         } else {
-            if (getStudySites() != null) {
-                for (StudySite studySite : getStudySites()) {
-                    String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studySite.getId());
-                    for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
-                        if (studyParticipantAssignment.getStudySite().equals(studySite)) {
-                            if (!StringUtils.isBlank(studyParticipantIdentifier)) {
-                                studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
-                            }
-                        }
-                    }
+            for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
+                String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studyParticipantAssignment.getStudySite().getId());
+                if (!StringUtils.isBlank(studyParticipantIdentifier)) {
+                    studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
                 }
             }
         }
