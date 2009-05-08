@@ -1,6 +1,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <html>
 <head>
@@ -36,7 +37,7 @@
                 </c:when>
                 <c:otherwise>
                     <p class="errors">Your login attempt was not successful. Please try again after some time.<br/>
-                    Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p>
+                        Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p>
                 </c:otherwise>
             </c:choose>
         </c:if>
@@ -61,7 +62,7 @@
         </div>
         <div class="row">
             <div class="submit">
-                <input type="submit" value="Log in"/>
+                <tags:button value="Log in" color="blue"/>
             </div>
         </div>
 
