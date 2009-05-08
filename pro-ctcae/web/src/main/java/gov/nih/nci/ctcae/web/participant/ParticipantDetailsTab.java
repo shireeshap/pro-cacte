@@ -15,6 +15,7 @@ import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.text.ParseException;
 
 //
 /**
@@ -31,7 +32,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     protected CRFRepository crfRepository;
 
     private StudyOrganizationRepository studyOrganizationRepository;
-    private StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
     private UserRepository userRepository;
 
     /**
@@ -107,8 +107,11 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
     @Override
     public void postProcess(HttpServletRequest request, ParticipantCommand command, Errors errors) {
-        if (!errors.hasErrors()) {
-            command.apply(crfRepository, request,studyParticipantAssignmentRepository);
+        try {
+            command.apply(crfRepository, request);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         super.postProcess(request, command, errors);
     }
@@ -130,7 +133,5 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         this.userRepository = userRepository;
     }
 
-    public void setStudyParticipantAssignmentRepository(StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {
-        this.studyParticipantAssignmentRepository = studyParticipantAssignmentRepository;
-    }
+
 }

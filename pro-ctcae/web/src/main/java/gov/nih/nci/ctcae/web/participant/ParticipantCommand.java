@@ -2,9 +2,7 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
-import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -111,37 +109,23 @@ public class ParticipantCommand {
         this.studySites = studySites;
     }
 
-    public StudyParticipantAssignment createStudyParticipantAssignments(StudySite studySite, String studyParticipantIdentifier, StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {
-        StudyParticipantAssignmentQuery studyParticipantAssignmentQuery = new StudyParticipantAssignmentQuery();
-        studyParticipantAssignmentQuery.filterByParticipantId(getParticipant().getId());
-        studyParticipantAssignmentQuery.filterByStudyId(studySite.getStudy().getId());
+    public StudyParticipantAssignment createStudyParticipantAssignment(StudySite studySite, String studyParticipantIdentifier) {
 
-        List<StudyParticipantAssignment> studyParticipantAssignments = (List<StudyParticipantAssignment>) studyParticipantAssignmentRepository.find(studyParticipantAssignmentQuery);
-
-        if (studyParticipantAssignments.size() > 0) {
-            for (StudyParticipantAssignment studyParticipantAssignment : studyParticipantAssignments)
-                if (!StringUtils.isBlank(studyParticipantIdentifier)) {
-                    studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
-                }
-            return null;
-        } else {
-            StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
-            studyParticipantAssignment.setStudySite(studySite);
-            studyParticipantAssignment.setParticipant(getParticipant());
-            studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
-            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyParticipantAssignment.getStudySite().getStudyOrganizationClinicalStaffs()) {
-                if (studyOrganizationClinicalStaff.getRole().equals(Role.SITE_PI) || studyOrganizationClinicalStaff.getRole().equals(Role.SITE_CRA)) {
-                    StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
-                    studyParticipantClinicalStaff.setPrimary(false);
-                    studyParticipantClinicalStaff.setNotify(true);
-                    studyParticipantClinicalStaff.setStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
-                    studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantClinicalStaff);
-                }
+        StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
+        studyParticipantAssignment.setStudySite(studySite);
+        studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
+        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyParticipantAssignment.getStudySite().getStudyOrganizationClinicalStaffs()) {
+            if (studyOrganizationClinicalStaff.getRole().equals(Role.SITE_PI) || studyOrganizationClinicalStaff.getRole().equals(Role.SITE_CRA)) {
+                StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
+                studyParticipantClinicalStaff.setPrimary(false);
+                studyParticipantClinicalStaff.setNotify(true);
+                studyParticipantClinicalStaff.setStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
+                studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantClinicalStaff);
             }
-            return studyParticipantAssignment;
         }
+        participant.addStudyParticipantAssignment(studyParticipantAssignment);
+        return studyParticipantAssignment;
     }
-
 
     public void assignCrfsToParticipant(StudyParticipantAssignment studyParticipantAssignment, CRFRepository crfRepository, HttpServletRequest request) throws ParseException {
         Study study = studyParticipantAssignment.getStudySite().getStudy();
@@ -167,18 +151,29 @@ public class ParticipantCommand {
 
     }
 
-    public void apply(CRFRepository crfRepository, HttpServletRequest request, StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {
-        if (getStudySites() != null) {
-            for (StudySite studySite : getStudySites()) {
-                setSiteName(studySite.getOrganization().getName());
-                StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignments(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()), studyParticipantAssignmentRepository);
-                try {
-                    if (studyParticipantAssignment != null) {
-                        assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request);
+    public void apply(CRFRepository crfRepository, HttpServletRequest request) throws ParseException {
+
+        //if new participant then clear all study participant assignments. otherwise it will create problem in case of any validation error.
+        if (getParticipant().getId() == null) {
+            participant.removeAllStudyParticipantAssignments();
+            if (getStudySites() != null) {
+                for (StudySite studySite : getStudySites()) {
+                    setSiteName(studySite.getOrganization().getName());
+                    StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignment(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()));
+                    assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request);
+                }
+            }
+        } else {
+            if (getStudySites() != null) {
+                for (StudySite studySite : getStudySites()) {
+                    String studyParticipantIdentifier = request.getParameter("participantStudyIdentifier_" + studySite.getId());
+                    for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
+                        if (studyParticipantAssignment.getStudySite().equals(studySite)) {
+                            if (!StringUtils.isBlank(studyParticipantIdentifier)) {
+                                studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
+                            }
+                        }
                     }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
                 }
             }
         }
