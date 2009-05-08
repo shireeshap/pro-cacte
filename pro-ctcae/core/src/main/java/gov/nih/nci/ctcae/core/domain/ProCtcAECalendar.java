@@ -528,7 +528,7 @@ public class ProCtcAECalendar {
 
     public void setCycleParameters(int cycleLength, String cycleSelectedDays, int cycleRepetitionNumber, String cycleLengthUnit, Date startDate, int cycleNumber) {
         this.cycleLength = getDaysForUnit(cycleLength, cycleLengthUnit);
-        if (cycleSelectedDays != null && cycleSelectedDays.indexOf(",") == 0) {
+        if (!StringUtils.isBlank(cycleSelectedDays) && cycleSelectedDays.indexOf(",") == 0) {
             this.cycleSelectedDays = cycleSelectedDays.substring(1);
         } else {
             this.cycleSelectedDays = cycleSelectedDays;
