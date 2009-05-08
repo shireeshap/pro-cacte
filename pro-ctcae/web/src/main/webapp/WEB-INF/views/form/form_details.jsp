@@ -945,11 +945,11 @@
                         <a href="#" onclick="setVisible('preferencevalues');return false"
                            target="_self">Display Preferences</a></p>
                         <div id="preferencevalues">
-                            <a href="javascript:showHideCtcTerm('noctcterm')" id="a_noctcterm">Show only patient
+                            <a href="javascript:showHideCtcTerm('noctcterm')" id="a_noctcterm">Show only participant
                                 term</a><br/>
                             <a href="javascript:showHideCtcTerm('onlyctcterm')" id="a_onlyctcterm">Show only CTCAE
                                 term</a><br/>
-                            <a href="javascript:showHideCtcTerm('append')" id="a_append">Show both (with patient term
+                            <a href="javascript:showHideCtcTerm('append')" id="a_append">Show both (with participant term
                                 first)</a><br/>
                             <a href="javascript:showHideCtcTerm('prepend')" id="a_prepend" class="nolink_hyperlink">Show
                                 both (with CTCAE term

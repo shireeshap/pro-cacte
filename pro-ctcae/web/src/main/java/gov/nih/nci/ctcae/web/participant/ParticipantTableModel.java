@@ -95,7 +95,7 @@ public class ParticipantTableModel extends AbstractTableModel {
      */
     private void addIdentifier(TableModel model) {
         Column columnIdentifier = model.getColumnInstance();
-        columnIdentifier.setTitle("Patient identifier");
+        columnIdentifier.setTitle("Participant identifier");
         columnIdentifier.setProperty("identifier");
         columnIdentifier.setSortable(Boolean.TRUE);
         columnIdentifier.setCell("gov.nih.nci.ctcae.web.participant.ParticipantLinkDisplayDetailsCell");
