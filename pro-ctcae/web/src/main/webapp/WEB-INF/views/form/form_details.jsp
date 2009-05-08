@@ -908,6 +908,7 @@
 
     #currentPreference{
         font-style:italic;
+        font-size:12px;
     }
 
 </style>
@@ -930,7 +931,7 @@
                              markupWithTag="a"/>
             </td>
             <td>
-                <span id="currentPreference"></span>
+                <span id="currentPreference">Showing both [ with CTCAE term first ]</span>
             </td>
         </tr>
     </table>
