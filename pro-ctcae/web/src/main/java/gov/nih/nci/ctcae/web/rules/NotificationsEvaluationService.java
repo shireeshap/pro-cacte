@@ -5,6 +5,7 @@ import com.semanticbits.rules.exception.RuleSetNotFoundException;
 import com.semanticbits.rules.impl.RuleEvaluationResult;
 import com.semanticbits.rules.objectgraph.FactResolver;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,36 +27,44 @@ public class NotificationsEvaluationService {
 
 
     public static void executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) {
+        ArrayList<String[]> critialcSymptoms = new ArrayList<String[]>();
+        HashSet<String> emails = new HashSet<String>();
         RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, studySite);
         if (ruleSet == null) {
             return;
         }
-        HashSet<Integer> distinctPageNumbers = new HashSet<Integer>();
-
+        TreeMap<Integer, ArrayList<StudyParticipantCrfItem>> distinctPageNumbers = new TreeMap<Integer, ArrayList<StudyParticipantCrfItem>>();
 
         for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-            distinctPageNumbers.add(studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber());
+            Integer myPageNumber = studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber();
+            ArrayList<StudyParticipantCrfItem> myItems;
+            myItems = distinctPageNumbers.get(myPageNumber);
+            if (myItems == null) {
+                myItems = new ArrayList<StudyParticipantCrfItem>();
+                distinctPageNumbers.put(myPageNumber, myItems);
+            }
+            myItems.add(studyParticipantCrfItem);
         }
 
-        Iterator<Integer> it = distinctPageNumbers.iterator();
-        while (it.hasNext()) {
-            List<StudyParticipantCrfItem> studyParticipantCrfItems = new ArrayList<StudyParticipantCrfItem>();
-            int currentPageNumber = it.next();
-            for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-                if (studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber() == currentPageNumber) {
-                    studyParticipantCrfItems.add(studyParticipantCrfItem);
-                }
-            }
-            if (studyParticipantCrfItems.size() > 0) {
+        for (Integer pageNumber : distinctPageNumbers.keySet()) {
+            List<StudyParticipantCrfItem> studyParticipantCrfItems = distinctPageNumbers.get(pageNumber);
+
+            if (studyParticipantCrfItems != null && studyParticipantCrfItems.size() > 0) {
                 List<Object> inputObjects = new ArrayList<Object>();
 
+                ArrayList<String[]> temp = new ArrayList<String[]>();
                 for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfItems) {
                     if (studyParticipantCrfItem.getProCtcValidValue() != null) {
+                        String[] tempArr = new String[2];
                         inputObjects.add(studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm());
-                        inputObjects.add(studyParticipantCrfItem.getProCtcValidValue());
+                        tempArr[0] = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getTerm();
                         inputObjects.add(studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcQuestionType());
+                        tempArr[1] = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcQuestionType().getDisplayName();
+                        inputObjects.add(studyParticipantCrfItem.getProCtcValidValue());
+                        temp.add(tempArr);
                     }
                 }
+
                 FactResolver f = new FactResolver();
                 inputObjects.add(f);
                 ProCtcAEFactResolver proCtcAEFactResolver = new ProCtcAEFactResolver();
@@ -70,8 +79,9 @@ public class NotificationsEvaluationService {
                             RuleEvaluationResult result = (RuleEvaluationResult) o;
                             if (!StringUtils.isBlank(result.getMessage())) {
                                 String message = result.getMessage();
-                                logger.info("Sending email to " + message);
-                                SendEmails(message, studyParticipantCrfSchedule);
+                                logger.info("Send email to " + message);
+                                getRecipients(emails, message, studyParticipantCrfSchedule);
+                                critialcSymptoms.addAll(temp);
                             }
                         }
                     }
@@ -79,6 +89,14 @@ public class NotificationsEvaluationService {
                     logger.error("RuleSet not found - " + e.getMessage());
                     return;
                 }
+            }
+        }
+
+        if (critialcSymptoms.size() > 0) {
+            try {
+                sendMail(getStringArr(emails), "Notification email", getEmaiContent(studyParticipantCrfSchedule, critialcSymptoms));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -89,10 +107,8 @@ public class NotificationsEvaluationService {
         }
     }
 
-    private static void SendEmails(String message, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+    private static void getRecipients(HashSet<String> emails, String message, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment();
-
-        HashSet<String> emails = new HashSet<String>();
         StringTokenizer st = new StringTokenizer(message, "||");
         while (st.hasMoreTokens()) {
             String token = st.nextToken();
@@ -137,14 +153,97 @@ public class NotificationsEvaluationService {
         }
 
         logger.info(emails);
-        try {
-            String content = "This email is being sent from PRO-CTCAE system for ";
-            content += "participant " + studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getDisplayName() + ", it has been triggered by the responses to the following questions";
-            content += "\nParticipant: " + studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getDisplayName();
-            sendMail(getStringArr(emails), "Notification email", content);
-        } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+
+    }
+
+
+    private static HashMap<String, String> getMapForSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        for (StudyParticipantCrfItem i : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+            ProCtcQuestion q = i.getCrfPageItem().getProCtcQuestion();
+            if (i.getProCtcValidValue() == null) {
+                map.put(q.getProCtcTerm().getTerm() + "~" + q.getProCtcQuestionType().getDisplayName(), "");
+            } else {
+                map.put(q.getProCtcTerm().getTerm() + "~" + q.getProCtcQuestionType().getDisplayName(), i.getProCtcValidValue().getValue());
+            }
         }
+        return map;
+    }
+
+    private static void addRow(StringBuilder content, String boldText, String nonBoldText) {
+        content.append("<tr><td><b>" + boldText + "</b>" + nonBoldText + "</td></tr>");
+    }
+
+    private static String getEmaiContent(StudyParticipantCrfSchedule studyParticipantCrfSchedule, ArrayList<String[]> criticalSymptoms) {
+
+        StudyParticipantCrfSchedule currentSchedule = studyParticipantCrfSchedule;
+        StudyParticipantCrfSchedule previousSchedule = null;
+        StudyParticipantCrfSchedule firstSchedule = null;
+        HashMap<String, String> currentScheduleMap = getMapForSchedule(currentSchedule);
+        HashMap<String, String> previousScheduleMap = null;
+        HashMap<String, String> firstScheduleMap = null;
+
+        List<StudyParticipantCrfSchedule> allSchedules = studyParticipantCrfSchedule.getStudyParticipantCrf().getCompletedCrfs();
+        if (allSchedules.size() == 1) {
+            previousSchedule = allSchedules.get(0);
+            previousScheduleMap = getMapForSchedule(previousSchedule);
+        }
+        if (allSchedules.size() > 1) {
+            firstSchedule = allSchedules.get(0);
+            firstScheduleMap = getMapForSchedule(firstSchedule);
+
+            previousSchedule = allSchedules.get(allSchedules.size() - 1);
+            previousScheduleMap = getMapForSchedule(previousSchedule);
+        }
+
+        StringBuilder emailContent = new StringBuilder();
+        emailContent.append("<html><head></head><body>");
+        emailContent.append("<table>");
+
+        addRow(emailContent, "", "This is an auto-generated email from PRO-CTCAE system.");
+        Participant participant = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();
+        addRow(emailContent, "Participant name: ", participant.getDisplayName());
+        addRow(emailContent, "Participant email: ", (participant.getEmailAddress() == null ? "Not specified" : participant.getEmailAddress()));
+        addRow(emailContent, "Participant contact phone: ", (participant.getPhoneNumber() == null ? "Not specified" : participant.getPhoneNumber()));
+        addRow(emailContent, "Treatment center: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getDisplayName());
+        addRow(emailContent, "Study: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getStudy().getShortTitle());
+        addRow(emailContent, "Research nurse: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getResearchNurse().getStudyOrganizationClinicalStaff().getDisplayName());
+        addRow(emailContent, "Treating physician: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getTreatingPhysician().getStudyOrganizationClinicalStaff().getDisplayName());
+        emailContent.append("</table>");
+        emailContent.append("<br>This notification was triggered by following responses: <br><br>");
+
+        emailContent.append("<table border=\"1\">");
+        emailContent.append("<tr>");
+        emailContent.append("<td><b>Symptom</b></td>");
+        emailContent.append("<td><b>Attribute</b></td>");
+        emailContent.append("<td><b>Current visit (" + DateUtils.format(currentSchedule.getStartDate()) + ")</b></td>");
+        if (previousSchedule != null) {
+            emailContent.append("<td><b>Previous visit (" + DateUtils.format(previousSchedule.getStartDate()) + ")</b></td>");
+        }
+        if (firstSchedule != null) {
+            emailContent.append("<td><b>First visit (" + DateUtils.format(firstSchedule.getStartDate()) + ")</b></td>");
+        }
+        emailContent.append("</tr>");
+
+        for (String[] symptom : criticalSymptoms) {
+            emailContent.append("<tr>");
+            String strSymptom = symptom[0];
+            String strAttr = symptom[1];
+            String key = strSymptom + "~" + strAttr;
+            emailContent.append("<td>" + strSymptom + "</td>");
+            emailContent.append("<td>" + strAttr + "</td>");
+            emailContent.append("<td>" + currentScheduleMap.get(key) + "</td>");
+            if (previousSchedule != null) {
+                emailContent.append("<td>" + previousScheduleMap.get(key) + "</td>");
+            }
+            if (firstSchedule != null) {
+                emailContent.append("<td>" + firstScheduleMap.get(key) + "</td>");
+            }
+            emailContent.append("</tr>");
+        }
+        emailContent.append("</table>");
+        emailContent.append("</body></html>");
+        return emailContent.toString();
     }
 
     private static String[] getStringArr(HashSet<String> emails) {
@@ -168,7 +267,7 @@ public class NotificationsEvaluationService {
             message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(to);
-            helper.setText(content);
+            helper.setText(content, javaMailSender.isHtml());
             javaMailSender.send(message);
         } catch (Exception e) {
             throw new Exception(" Error in sending email , please check the confiuration ", e);

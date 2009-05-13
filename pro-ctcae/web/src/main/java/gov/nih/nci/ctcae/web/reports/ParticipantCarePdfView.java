@@ -27,8 +27,6 @@ public class ParticipantCarePdfView extends AbstractPdfView {
         Study study = (Study) request.getSession().getAttribute("study");
         CRF crf = (CRF) request.getSession().getAttribute("crf");
         StudySite studySite = (StudySite) request.getSession().getAttribute("studySite");
-
-        PdfPTable table = new PdfPTable(dates.size() + 2);
         //Study
         document.add(new Paragraph("Study: " + study.getShortTitle() + " [" + study.getAssignedIdentifier() + "]"));
 
@@ -46,41 +44,66 @@ public class ParticipantCarePdfView extends AbstractPdfView {
 
         document.add(new Paragraph(" "));
 
+        Object[] datesArr = dates.toArray();
 
-        PdfPCell cell = new PdfPCell(new Paragraph("Symptom"));
-        cell.setBackgroundColor(Color.lightGray);
-        table.addCell(cell);
-
-        cell = new PdfPCell(new Paragraph("Attribute"));
-        cell.setBackgroundColor(Color.lightGray);
-        table.addCell(cell);
-        for (Date date : dates) {
-            cell = new PdfPCell(new Paragraph(DateUtils.format(date)));
-            cell.setBackgroundColor(Color.lightGray);
-            table.addCell(cell);
-        }
-
-        for (ProCtcTerm proCtcTerm : results.keySet()) {
-            cell = new PdfPCell(new Paragraph(proCtcTerm.getTerm()));
-            cell.setBackgroundColor(Color.lightGray);
-            table.addCell(cell);
-
-            for (int i = 0; i < dates.size() + 1; i++) {
-                table.addCell("");
+        int numOfMaxColsInTable = 4;
+        int currentIteration = 0;
+        while (true) {
+            int numOfColsInCurrentTable = 0;
+            int alreadyDisplayedDates = currentIteration * numOfMaxColsInTable;
+            int remainingDates = datesArr.length - alreadyDisplayedDates;
+            if (remainingDates == 0 || remainingDates < 0) {
+                break;
             }
-            HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = results.get(proCtcTerm);
-            for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
-                table.addCell("");
-                cell = new PdfPCell(new Paragraph(proCtcQuestion.getProCtcQuestionType().getDisplayName()));
-                cell.setBackgroundColor(new Color(161, 218, 215));
+            if (remainingDates / numOfMaxColsInTable > 0) {
+                numOfColsInCurrentTable = numOfMaxColsInTable;
+            } else {
+                numOfColsInCurrentTable = remainingDates % numOfMaxColsInTable;
+            }
+
+            PdfPTable table = new PdfPTable(numOfColsInCurrentTable + 2);
+            PdfPCell cell = new PdfPCell(new Paragraph("Symptom"));
+            cell.setBackgroundColor(Color.lightGray);
+            table.addCell(cell);
+
+            cell = new PdfPCell(new Paragraph("Attribute"));
+            cell.setBackgroundColor(Color.lightGray);
+            table.addCell(cell);
+
+            for (int j = 0; j < numOfColsInCurrentTable; j++) {
+                int absIndex = currentIteration * numOfMaxColsInTable + j;
+                cell = new PdfPCell(new Paragraph(DateUtils.format((Date) datesArr[absIndex])));
+                cell.setBackgroundColor(Color.lightGray);
                 table.addCell(cell);
-                ArrayList<ProCtcValidValue> validValues = questionMap.get(proCtcQuestion);
-                for (ProCtcValidValue proCtcValidValue : validValues) {
-                    table.addCell(proCtcValidValue.getValue());
-                }
             }
+
+            for (ProCtcTerm proCtcTerm : results.keySet()) {
+                cell = new PdfPCell(new Paragraph(proCtcTerm.getTerm()));
+                cell.setBackgroundColor(Color.lightGray);
+                table.addCell(cell);
+                for (int i = 0; i < numOfColsInCurrentTable + 1; i++) {
+                    table.addCell("");
+                }
+                HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = results.get(proCtcTerm);
+                for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
+                    table.addCell("");
+                    cell = new PdfPCell(new Paragraph(proCtcQuestion.getProCtcQuestionType().getDisplayName()));
+                    cell.setBackgroundColor(new Color(161, 218, 215));
+                    table.addCell(cell);
+                    ArrayList<ProCtcValidValue> validValues = questionMap.get(proCtcQuestion);
+                    Object[] validValuesArr = validValues.toArray();
+                    for (int k = 0; k < numOfColsInCurrentTable; k++) {
+                        int absIndex = currentIteration * numOfMaxColsInTable + k;
+                        table.addCell(((ProCtcValidValue) validValuesArr[absIndex]).getValue());
+                    }
+                }
+
+            }
+            document.add(table);
+            document.add(new Paragraph(" "));
+            currentIteration++;
+
         }
-        document.add(table);
         float height = PageSize.A4.height() / 2;
         float width = PageSize.A4.width();
         int i = 0;

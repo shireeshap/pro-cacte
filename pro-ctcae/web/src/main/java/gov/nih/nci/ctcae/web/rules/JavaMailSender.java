@@ -32,6 +32,7 @@ public class JavaMailSender extends JavaMailSenderImpl {
     private static final String SMTP_PASSWORD = "smtp.password";
     private static final String SMTP_SSL_ENABLED = "smtp.ssl_enabled";
     private static final String SYSTEM_FROM_EMAIL = "smtp.from_email";
+    private static final String IS_EMAIL_HTML = "smtp.is_html";
 
     public JavaMailSender() throws IOException {
         properties.load(classPathResource.getInputStream());
@@ -90,6 +91,7 @@ public class JavaMailSender extends JavaMailSenderImpl {
 
     @Override
     public void send(MimeMessage message) {
+
         try {
             String fromAddress = properties.getProperty(SYSTEM_FROM_EMAIL);
             if (!fromAddress.equals("")) message.setFrom(new InternetAddress(fromAddress));
@@ -98,7 +100,7 @@ public class JavaMailSender extends JavaMailSenderImpl {
         } catch (MailException e) {
             throw e;
         } catch (MessagingException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
     }
 
@@ -114,7 +116,6 @@ public class JavaMailSender extends JavaMailSenderImpl {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(to);
             helper.setText(content);
-
             for (String attachmentPath : attachmentFilePaths) {
                 if (StringUtils.isNotEmpty(attachmentPath)) {
                     File f = new File(attachmentPath);
@@ -138,5 +139,13 @@ public class JavaMailSender extends JavaMailSenderImpl {
 
     public String getFromAddress() {
         return properties.getProperty(SYSTEM_FROM_EMAIL);
+    }
+
+    public boolean isHtml() {
+        String isHTML = properties.getProperty(IS_EMAIL_HTML);
+        if ("Y".equals(isHTML) || "y".equals(isHTML)) {
+            return true;
+        }
+        return false;
     }
 }

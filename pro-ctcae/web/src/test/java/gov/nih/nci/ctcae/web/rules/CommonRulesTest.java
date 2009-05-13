@@ -123,6 +123,7 @@ public class CommonRulesTest extends AbstractRulesTest {
         System.out.println(outputObjects);
     }
 
+
     public void testGetRules() {
         RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
         assertEquals(1, ruleSet.getRule().size());

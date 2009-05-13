@@ -5,6 +5,7 @@
 
 <html>
 <head>
+    <tags:includeVirtualKeyboard/>
     <script type="text/javascript">
     </script>
     <style type="text/css">
@@ -49,7 +50,7 @@
             <div class="value">
                 <input type="text" name="j_username"
                        value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}"
-                        />
+                        class="keyboardInput"/>
             </div>
         </div>
         <div class="row">
@@ -57,7 +58,7 @@
                 Password
             </div>
             <div class="value">
-                <input type="password" name="j_password"/>
+                <input type="password" name="j_password" class="keyboardInput"/>
             </div>
         </div>
         <div class="row">

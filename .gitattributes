@@ -545,6 +545,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/hoverText.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/imageUrl.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/includePrototypeWindow.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/includeScriptaculous.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/includeVirtualKeyboard.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/indicator.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/instructions.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/javascriptLink.tag -text
@@ -689,6 +690,7 @@ pro-ctcae/web/src/main/webapp/css/extremecomponents.css -text
 pro-ctcae/web/src/main/webapp/css/fields.css -text
 pro-ctcae/web/src/main/webapp/css/hoverhelp.css -text
 pro-ctcae/web/src/main/webapp/css/ie.css -text
+pro-ctcae/web/src/main/webapp/css/keyboard/keyboard.css -text
 pro-ctcae/web/src/main/webapp/css/lightwindow.css -text
 pro-ctcae/web/src/main/webapp/css/menu.css -text
 pro-ctcae/web/src/main/webapp/css/pw_alphacube.css -text
@@ -973,6 +975,7 @@ pro-ctcae/web/src/main/webapp/images/i-bottom.gif -text
 pro-ctcae/web/src/main/webapp/images/i-repeater.gif -text
 pro-ctcae/web/src/main/webapp/images/indicator.white.gif -text
 pro-ctcae/web/src/main/webapp/images/info.png -text
+pro-ctcae/web/src/main/webapp/images/keyboard.png -text
 pro-ctcae/web/src/main/webapp/images/l.gif -text
 pro-ctcae/web/src/main/webapp/images/minus.gif -text
 pro-ctcae/web/src/main/webapp/images/page-file.png -text
@@ -1042,6 +1045,7 @@ pro-ctcae/web/src/main/webapp/js/date.js -text
 pro-ctcae/web/src/main/webapp/js/dropdown_menu.js -text
 pro-ctcae/web/src/main/webapp/js/extremecomponents.js -text
 pro-ctcae/web/src/main/webapp/js/hover-display.js -text
+pro-ctcae/web/src/main/webapp/js/keyboard/keyboard.js -text
 pro-ctcae/web/src/main/webapp/js/lightwindow/lightwindow.js -text
 pro-ctcae/web/src/main/webapp/js/menu_tpl.js -text
 pro-ctcae/web/src/main/webapp/js/prototype.js -text
