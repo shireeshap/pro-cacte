@@ -11,6 +11,7 @@
 
 <html>
 <head>
+    <tags:includeVirtualKeyboard/>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
         body {
@@ -205,8 +206,11 @@
             <b><tags:message code="participant.form.typesymptom"/></b>
         </p>
 
-        <input type="text" id="participantquestion-input" value="" class="autocomplete  validate-NOTEMPTY" size="60"/>
-        <input type="button" id="participantquestion-clear" value="Clear"/>
+        <input type="text" id="participantquestion-input" value="" class="autocomplete  validate-NOTEMPTY"
+               size="60"/>
+        <img src="/proctcae/images/blue/clear-left-button.png"
+             onclick="javascript:$('participantquestion-input').clear();"
+             style="vertical-align:top;cursor:pointer"/>
         <tags:indicator id="participantquestion-indicator"/>
         <div id="participantquestion-choices" class="autocomplete"></div>
         </p>

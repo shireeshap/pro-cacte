@@ -453,7 +453,7 @@ var VKI_attach, VKI_close;
     this.VKI_attachKeyboard = VKI_attach = function(elem) {
       if (elem.VKI_attached) return false;
       var keybut = document.createElement('img');
-          keybut.src = "../images/keyboard.png";
+          keybut.src = "/proctcae/images/keyboard.png";
           keybut.alt = "Keyboard interface";
           keybut.className = "keyboardInputInitiator";
           keybut.title = "Display graphical keyboard interface";
