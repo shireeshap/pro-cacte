@@ -4,12 +4,6 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
-<%
-    boolean isMobile = ControllersUtils.isRequestComingFromMobile(request);
-    if (isMobile) {
-        response.sendRedirect("../mobile/login");
-    }
-%>
 <html>
 <head>
 
