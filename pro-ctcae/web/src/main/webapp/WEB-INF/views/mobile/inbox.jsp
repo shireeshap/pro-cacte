@@ -1,11 +1,54 @@
 <%@ page import="java.util.Date" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<% response.setContentType("text/vnd.wap.wml"); %>
-<?xml version="1.0"?>
-<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <style type="text/css">
+        div.row div.value {
+            white-space: normal;
+        }
+
+        .label {
+            font-weight: bold;
+            float: left;
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+            padding: 1px;
+            font-size: 20px;
+        }
+
+        #inboxTable {
+            width: 80%;
+            border: 0;
+            margin-left: 95px;
+            margin-top: 210px;
+            border-collapse: collapse;
+        }
+
+        #inboxTable th {
+            background-color: #CBD9E4;
+        }
+
+        #inboxTitle {
+            color: #003E7C;
+            position: absolute;
+            left: 150px;
+            top: 39px;
+        }
+    </style>
+</head>
+<body>
 <c:set var="todaysdate" value="<%= new Date()%>"/>
+<%--this loop is the same code as below that renders the forms, but it just gets the number of forms to display under the 'Inbox' text--%>
 <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
         <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
@@ -15,49 +58,52 @@
         </c:forEach>
     </c:forEach>
 </c:forEach>
-<wml>
-    <card id="Inbox" title="ProCtcAE Inbox">
-        <p align="center">
-            You have hh
-            <c:choose>
-                <c:when test="${not empty numberofCrfs}"> ${numberofCrfs}</c:when>
-                <c:otherwise>no</c:otherwise>
-            </c:choose>
-            form<c:if test="${numberofCrfs != 1}">s</c:if> that need<c:if test="${numberofCrfs == 1}">s</c:if> to be
-            completed.
-        </p>
-        <table columns="3" border="1" width="100%" style="border:1px solid blue;">
-            <tr>
-                <td><b><tags:message code="participant.label.title"/></b></td>
-                <td><b><tags:message code="participant.label.status"/></b></td>
-                <td><b><tags:message code="participant.label.dueDate"/></b></td>
-            </tr>
-            <c:forEach items="${command.studyParticipantAssignments}"
-                       var="studyParticipantAssignment">
-                <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}"
-                           var="studyParticipantCrf">
-                    <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
-                               var="studyParticipantCrfSchedule">
-                        <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
-                            <tr>
-                                <td>
-                                    <anchor>${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
-                                        <go method="get"
-                                            href="/proctcae/mobile/submit?id=${studyParticipantCrfSchedule.id}">
-                                        </go>
-                                    </anchor>
-                                </td>
-                                <td>
-                                        ${studyParticipantCrfSchedule.status}
-                                </td>
-                                <td>
-                                    <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
-                                </td>
-                            </tr>
-                        </c:if>
-                    </c:forEach>
-                </c:forEach>
+<img style="position:absolute; top:0px; left:0px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
+
+<div id="inboxTitle"><span style="font-size:75px; line-height:70px;">Inbox</span><br/>
+    <span style="font-size:13pt; margin-left:6px;">You have <c:choose><c:when test="${not empty numberofCrfs}"><span
+            style="font-weight:bolder;">${numberofCrfs}</span></c:when><c:otherwise>no</c:otherwise></c:choose> form<c:if
+            test="${numberofCrfs != 1}">s</c:if> that need<c:if
+            test="${numberofCrfs == 1}">s</c:if> to be completed.</span>
+</div>
+<table id="inboxTable">
+    <tr>
+        <th>
+            <tags:message code="participant.label.title"/>
+        </th>
+        <th>
+            <tags:message code="participant.label.status"/>
+        </th>
+        <th>
+            <tags:message code="participant.label.dueDate"/>
+        </th>
+    </tr>
+    <c:forEach items="${command.studyParticipantAssignments}"
+               var="studyParticipantAssignment">
+
+        <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}"
+                   var="studyParticipantCrf">
+            <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
+                       var="studyParticipantCrfSchedule">
+                <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
+                    <tr>
+                        <td>
+                            <a href="submit?id=${studyParticipantCrfSchedule.id}"> ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title} </a>
+                        </td>
+                        <td>
+                                ${studyParticipantCrfSchedule.status}
+                        </td>
+                        <td>
+                            <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
+                        </td>
+                    </tr>
+                </c:if>
             </c:forEach>
-        </table>
-    </card>
-</wml>
+        </c:forEach>
+    </c:forEach>
+</table>
+
+</body>
+
+
+</html>
