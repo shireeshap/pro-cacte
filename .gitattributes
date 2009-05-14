@@ -488,6 +488,7 @@ pro-ctcae/web/src/main/resources/mail.properties -text
 pro-ctcae/web/src/main/resources/object-graph.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/ctcae.tld -text
 pro-ctcae/web/src/main/webapp/WEB-INF/decorators.xml -text
+pro-ctcae/web/src/main/webapp/WEB-INF/decorators/mobilelite.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/decorators/notabbedflow.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/decorators/standard.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/decorators/tabbedflow.jsp -text
@@ -589,6 +590,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/ssoForm.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/footer.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/head.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/header.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/mobilehead.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/standard/noheader.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/study/studySiteClinicalStaff.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/study/studySiteClinicalStaffTable.tag -text

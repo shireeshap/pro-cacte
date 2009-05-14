@@ -85,7 +85,7 @@
             </div>
         </div>
         <div class="row">
-            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this);">&nbsp;Use virtual keyboard
+            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this);">Use virtual keyboard
             <div id="keyboardDiv"></div>
         </div>
         <div class="row">

@@ -33,6 +33,10 @@
         <pattern>/pages/participant/displaycalendar</pattern>
     </decorator>
 
+    <decorator name="mobilelite" page="mobilelite.jsp">
+        <pattern>/mobile/*</pattern>
+    </decorator>
+
 
     <excludes>
         <pattern>/pages/form/setName</pattern>

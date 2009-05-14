@@ -23,7 +23,7 @@ public class ControllersUtils {
 
     static {
         pdaBrowserUserAgentsOS.add("Windows CE");
-        pdaBrowserUserAgentsOS.add("iPhone OS");
+        pdaBrowserUserAgentsOS.add("iPhone");
         pdaBrowserUserAgentsOS.add("Profile/MIDP");
     }
 
