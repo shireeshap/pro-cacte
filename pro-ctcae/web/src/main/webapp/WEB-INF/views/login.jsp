@@ -1,12 +1,34 @@
+<%@page import="gov.nih.nci.ctcae.web.ControllersUtils" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
+<%
+    boolean isMobile = ControllersUtils.isRequestComingFromMobile(request);
+    if (isMobile) {
+        response.sendRedirect("../mobile/login");
+    }
+%>
 <html>
 <head>
     <tags:includeVirtualKeyboard/>
     <script type="text/javascript">
+
+        function showVirtualKeyBoard(elem) {
+            if (elem.checked) {
+                VKI_attach($('username'));
+            } else {
+                VKI_close();
+            }
+        }
+
+        function attachKeyBoard(elem) {
+            if ($('usevirtualkeyboard').checked) {
+                if(elem)
+                VKI_attach(elem);
+            }
+        }
     </script>
     <style type="text/css">
         .box {
@@ -23,6 +45,7 @@
             float: left;
             margin-top: 1em;
         }
+
     </style>
 </head>
 <body>
@@ -48,9 +71,9 @@
                 Username
             </div>
             <div class="value">
-                <input type="text" name="j_username"
+                <input type="text" name="j_username" id="username"
                        value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}"
-                        class="keyboardInput"/>
+                       onclick="attachKeyBoard($('username'));"/>
             </div>
         </div>
         <div class="row">
@@ -58,8 +81,13 @@
                 Password
             </div>
             <div class="value">
-                <input type="password" name="j_password" class="keyboardInput"/>
+                <input type="password" name="j_password" id="password" onclick="attachKeyBoard($('password'));"/>
             </div>
+        </div>
+        <div class="row">
+            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this);">Use virtual keyboard
+            &nbsp;<br/>&nbsp;
+            <div id="keyboardDiv"></div>
         </div>
         <div class="row">
             <div class="submit">
@@ -80,5 +108,6 @@
 </chrome:box>
 </body>
 </html>
+
 
 

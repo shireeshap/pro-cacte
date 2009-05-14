@@ -6,6 +6,9 @@ import gov.nih.nci.ctcae.web.study.StudyCommand;
 import gov.nih.nci.ctcae.web.study.StudyController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+
+import org.apache.commons.lang.StringUtils;
 
 //
 /**
@@ -16,6 +19,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ControllersUtils {
 
+    public static final ArrayList<String> pdaBrowserUserAgentsOS = new ArrayList<String>();
+
+    static {
+        pdaBrowserUserAgentsOS.add("Windows CE");
+        pdaBrowserUserAgentsOS.add("iPhone OS");
+        pdaBrowserUserAgentsOS.add("Profile/MIDP");
+    }
 
     /**
      * Gets the form command.
@@ -40,5 +50,22 @@ public class ControllersUtils {
         StudyCommand studyCommand = (StudyCommand)
                 request.getSession().getAttribute(StudyController.class.getName() + ".FORM." + "command");
         return studyCommand;
+    }
+
+    public static boolean isRequestComingFromMobile(HttpServletRequest request) {
+        String wapProfileHeader = request.getHeader("x-wap-profile");
+        if (!StringUtils.isEmpty(wapProfileHeader)) {
+            return true;
+        }
+        String userAgentHeader = request.getHeader("user-agent");
+        if (!StringUtils.isEmpty(userAgentHeader)) {
+            userAgentHeader = userAgentHeader.toLowerCase();
+            for (String os : pdaBrowserUserAgentsOS) {
+                if (userAgentHeader.indexOf(os.toLowerCase()) > -1) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
