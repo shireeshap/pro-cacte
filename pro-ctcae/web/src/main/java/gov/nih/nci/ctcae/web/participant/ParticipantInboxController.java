@@ -31,7 +31,6 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
     public ParticipantInboxController() {
         super();
         setCommandClass(gov.nih.nci.ctcae.core.domain.Participant.class);
-        setFormView("participant/participantInbox");
         setBindOnNewForm(true);
         setSessionForm(true);
     }

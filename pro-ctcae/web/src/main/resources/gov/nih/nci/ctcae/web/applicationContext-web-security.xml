@@ -10,6 +10,7 @@
 
         <intercept-url pattern="/public/login" filters="none"/>
         <intercept-url pattern="/public/logout" filters="none"/>
+        <intercept-url pattern="/mobile/login" filters="none"/>
 
 
         <!--following line disables the security-->
@@ -46,6 +47,7 @@
         <intercept-url pattern="/pages/study/*" access="PRIVILEGE_EDIT_STUDY"/>
 
         <intercept-url pattern="/pages/participant/participantInbox" access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <intercept-url pattern="/mobile/*" access="PRIVILEGE_PARTICIPANT_INBOX"/>
 
         <intercept-url pattern="/pages/participant/create" access="PRIVILEGE_CREATE_PARTICIPANT"/>
         <intercept-url pattern="/pages/participant/search" access="PRIVILEGE_SEARCH_PARTICIPANT"/>

@@ -25,8 +25,8 @@
 
         function attachKeyBoard(elem) {
             if ($('usevirtualkeyboard').checked) {
-                if(elem)
-                VKI_attach(elem);
+                if (elem)
+                    VKI_attach(elem);
             }
         }
     </script>
@@ -85,8 +85,7 @@
             </div>
         </div>
         <div class="row">
-            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this);">Use virtual keyboard
-            &nbsp;<br/>&nbsp;
+            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this);">&nbsp;Use virtual keyboard
             <div id="keyboardDiv"></div>
         </div>
         <div class="row">

@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.UserRole;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,7 +33,11 @@ public class LoginController extends AbstractController {
         User user = (User) auth.getPrincipal();
         for (UserRole userRole : user.getUserRoles()) {
             if (userRole.getRole().equals(Role.PARTICIPANT)) {
-                return new ModelAndView(new RedirectView("participant/participantInbox"));
+                if (ControllersUtils.isRequestComingFromMobile(request)) {
+                    return new ModelAndView(new RedirectView("../mobile/inbox"));
+                } else {
+                    return new ModelAndView(new RedirectView("participant/participantInbox"));
+                }
             }
         }
 

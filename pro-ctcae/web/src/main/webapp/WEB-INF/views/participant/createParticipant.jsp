@@ -9,7 +9,6 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
 <html>
 <head>
     <tags:stylesheetLink name="tabbedflow"/>

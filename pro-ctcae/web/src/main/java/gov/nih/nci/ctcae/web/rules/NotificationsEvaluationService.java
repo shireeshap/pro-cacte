@@ -202,11 +202,11 @@ public class NotificationsEvaluationService {
 
         addRow(emailContent, "", "This is an auto-generated email from PRO-CTCAE system.");
         Participant participant = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();
-        addRow(emailContent, "Participant name: ", participant.getDisplayName());
+        addRow(emailContent, "Participant name: ", participant.getDisplayName() + "[" + participant.getAssignedIdentifier() + "]");
         addRow(emailContent, "Participant email: ", (participant.getEmailAddress() == null ? "Not specified" : participant.getEmailAddress()));
         addRow(emailContent, "Participant contact phone: ", (participant.getPhoneNumber() == null ? "Not specified" : participant.getPhoneNumber()));
-        addRow(emailContent, "Treatment center: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getDisplayName());
-        addRow(emailContent, "Study: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getStudy().getShortTitle());
+        addRow(emailContent, "Study site: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getDisplayName());
+        addRow(emailContent, "Study: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getStudy().getShortTitle() + "[" + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getStudy().getAssignedIdentifier() + "]");
         addRow(emailContent, "Research nurse: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getResearchNurse().getStudyOrganizationClinicalStaff().getDisplayName());
         addRow(emailContent, "Treating physician: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getTreatingPhysician().getStudyOrganizationClinicalStaff().getDisplayName());
         emailContent.append("</table>");
@@ -217,11 +217,11 @@ public class NotificationsEvaluationService {
         emailContent.append("<td><b>Symptom</b></td>");
         emailContent.append("<td><b>Attribute</b></td>");
         emailContent.append("<td><b>Current visit (" + DateUtils.format(currentSchedule.getStartDate()) + ")</b></td>");
-        if (previousSchedule != null) {
-            emailContent.append("<td><b>Previous visit (" + DateUtils.format(previousSchedule.getStartDate()) + ")</b></td>");
-        }
         if (firstSchedule != null) {
             emailContent.append("<td><b>First visit (" + DateUtils.format(firstSchedule.getStartDate()) + ")</b></td>");
+        }
+        if (previousSchedule != null) {
+            emailContent.append("<td><b>Previous visit (" + DateUtils.format(previousSchedule.getStartDate()) + ")</b></td>");
         }
         emailContent.append("</tr>");
 
@@ -233,11 +233,11 @@ public class NotificationsEvaluationService {
             emailContent.append("<td>" + strSymptom + "</td>");
             emailContent.append("<td>" + strAttr + "</td>");
             emailContent.append("<td>" + currentScheduleMap.get(key) + "</td>");
-            if (previousSchedule != null) {
-                emailContent.append("<td>" + previousScheduleMap.get(key) + "</td>");
-            }
             if (firstSchedule != null) {
                 emailContent.append("<td>" + firstScheduleMap.get(key) + "</td>");
+            }
+            if (previousSchedule != null) {
+                emailContent.append("<td>" + previousScheduleMap.get(key) + "</td>");
             }
             emailContent.append("</tr>");
         }

@@ -80,6 +80,17 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>mobile</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>mobile</servlet-name>
+        <url-pattern>/mobile/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>dwr-invoker</servlet-name>
         <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
         <init-param>
@@ -109,7 +120,7 @@
         <filter-class>gov.nih.nci.ctcae.web.setup.SetupOrNotFilter</filter-class>
     </filter>
 
-    <filter-mapping>                                                                             
+    <filter-mapping>
         <filter-name>setup-or-not</filter-name>
         <url-pattern>/pages/*</url-pattern>
     </filter-mapping>
@@ -135,6 +146,10 @@
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/pages/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/mobile/*</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -184,21 +199,6 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-
-    <!--<filter>-->
-    <!--<filter-name>BeansInRequestFilter</filter-name>-->
-    <!--<filter-class>gov.nih.nci.cabig.ctms.web.filters.BeansInRequestFilter</filter-class>-->
-    <!--<init-param>-->
-    <!--<param-name>beanNames</param-name>-->
-    <!--<param-value>configuration, buildInfo</param-value>-->
-    <!--</init-param>-->
-    <!--</filter>-->
-
-    <!--<filter-mapping>-->
-    <!--<filter-name>BeansInRequestFilter</filter-name>-->
-    <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
-
     <filter>
         <filter-name>eXtremeExport</filter-name>
         <filter-class>org.extremecomponents.table.filter.ExportFilter</filter-class>
@@ -216,15 +216,6 @@
         <filter-name>sitemesh</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <!--<filter>-->
-    <!--<filter-name>ExceptionTranslator</filter-name>-->
-    <!--<filter-class>gov.nih.nci.ctcae.web.filter.ExceptionTranslationFilter</filter-class>-->
-    <!--</filter>-->
-
-    <!--<filter-mapping>-->
-    <!--<filter-name>ExceptionTranslator</filter-name>-->
-    <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
 
     <error-page>
         <error-code>500</error-code>

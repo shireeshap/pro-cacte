@@ -320,6 +320,7 @@
     <bean name="/participant/participantInbox" id="participantInboxController"
           class="gov.nih.nci.ctcae.web.participant.ParticipantInboxController" parent="ctcaeSimpleFormController">
         <property name="participantRepository" ref="participantRepository"/>
+        <property name="formView" value="participant/participantInbox"/>
     </bean>
 
     <bean name="/participant/addCrfSchedule" id="addCrfScheduleController"

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.directwebremoting.org/schema/spring-dwr
+        http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+    <bean id="loginViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass">
+            <value>org.springframework.web.servlet.view.InternalResourceView</value>
+        </property>
+        <property name="prefix">
+            <value>/WEB-INF/views/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+    <bean id="webControllerValidatorMobile"
+          class="gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl"/>
+    <bean id="controllerToolsMobile" class="gov.nih.nci.ctcae.web.ControllerTools">
+    </bean>
+    <bean id="ctcaeSimpleFormControllerMobile" class="gov.nih.nci.ctcae.web.CtcAeSimpleFormController"
+          p:proCtcValidValueRepository-ref="proCtcValidValueRepository"
+          p:organizationRepository-ref="organizationRepository"
+          p:controllerTools-ref="controllerToolsMobile" p:studyOrganizationRepository-ref="studyOrganizationRepository">
+        <property name="webControllerValidator" ref="webControllerValidatorMobile"/>
+    </bean>
+
+    <bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="location">
+            <value>/WEB-INF/special-views.xml</value>
+        </property>
+    </bean>
+
+    <bean id="publicHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+    </bean>
+
+    <bean name="/login" id="mobileLoginController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>mobile/login</value>
+        </property>
+    </bean>
+
+    <bean name="/inbox" id="mobileInboxController"
+          class="gov.nih.nci.ctcae.web.participant.ParticipantInboxController"
+          parent="ctcaeSimpleFormControllerMobile">
+        <property name="formView" value="mobile/inbox"/>
+        <property name="participantRepository" ref="participantRepository"/>
+    </bean>
+
+    <bean name="/accessDenied" id="accessDeniedController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>accessDenied</value>
+        </property>
+    </bean>
+
+
+    <bean name="/css/*"
+          class="org.springframework.web.servlet.mvc.UrlFilenameViewController">
+        <property name="prefix" value="css/"></property>
+        <property name="suffix">
+            <value>.css</value>
+        </property>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename">
+            <value>/WEB-INF/message</value>
+        </property>
+        <property name="cacheSeconds" value="1"/>
+    </bean>
+
+</beans>

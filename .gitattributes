@@ -495,6 +495,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/dwr.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/layouts/defaultLayout.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/log4j.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/message.properties -text
+pro-ctcae/web/src/main/webapp/WEB-INF/mobile-servlet.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/public-servlet.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/setup-servlet.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/sitemesh.xml -text
@@ -640,6 +641,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/versionForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/home.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/mobile/inbox.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/mobile/login.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/deleteNotificationClinicalStaffConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/displaycalendar.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/displaystudysites.jsp -text

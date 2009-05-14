@@ -91,6 +91,7 @@ Autocompleter.Base = Class.create({
 
         Event.observe(this.element, 'blur', this.onBlur.bindAsEventListener(this));
         Event.observe(this.element, 'keydown', this.onKeyPress.bindAsEventListener(this));
+//        Event.observe(this.element, 'change', this.onKeyPress.bindAsEventListener(this));
     },
 
     show: function() {
