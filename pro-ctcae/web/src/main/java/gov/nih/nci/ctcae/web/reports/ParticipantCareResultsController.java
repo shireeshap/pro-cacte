@@ -69,7 +69,8 @@ public class ParticipantCareResultsController extends AbstractController {
     private TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> getCareResults(String visitRange, Integer studyId, Integer crfId, Integer studySiteId, Integer participantId, List<Date> dates, Integer forVisits, String startDate, String endDate) throws ParseException {
 
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = new TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
-        HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults;
+        HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults = new HashMap();
+        boolean participantAddedQuestion;
 
         Study study = studyRepository.findById(studyId);
         StudySite studySite = study.getStudySiteById(studySiteId);
@@ -104,33 +105,20 @@ public class ParticipantCareResultsController extends AbstractController {
                                 }
                             }
                             dates.add(studyParticipantCrfSchedule.getStartDate());
+                            Integer arraySize = dates.size();
                             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
                                 ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
                                 ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
                                 ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
-                                ArrayList<ProCtcValidValue> validValue;
-
-                                if (symptomMap.containsKey(symptom)) {
-                                    careResults = symptomMap.get(symptom);
-                                } else {
-                                    careResults = new HashMap();
-                                    symptomMap.put(symptom, careResults);
-                                }
-
-                                if (careResults.containsKey(proCtcQuestion)) {
-                                    validValue = careResults.get(proCtcQuestion);
-                                } else {
-                                    validValue = new ArrayList<ProCtcValidValue>();
-                                    careResults.put(proCtcQuestion, validValue);
-                                }
-                                if (value == null) {
-                                    ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
-                                    myProCtcValidValue.setProCtcQuestion(proCtcQuestion);
-                                    myProCtcValidValue.setDisplayOrder(0);
-                                    validValue.add(myProCtcValidValue);
-                                } else {
-                                    validValue.add(value);
-                                }
+                                participantAddedQuestion = false;
+                                buildMap(proCtcQuestion, symptom, value, symptomMap, careResults, participantAddedQuestion, arraySize);
+                            }
+                            for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
+                                ProCtcQuestion proCtcQuestion = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getProCtcQuestion();
+                                ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
+                                ProCtcValidValue value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
+                                participantAddedQuestion = true;
+                                buildMap(proCtcQuestion, symptom, value, symptomMap, careResults, participantAddedQuestion, arraySize);
                             }
                         }
                     }
@@ -139,6 +127,45 @@ public class ParticipantCareResultsController extends AbstractController {
         }
 
         return symptomMap;
+    }
+
+    private void buildMap(ProCtcQuestion proCtcQuestion, ProCtcTerm symptom, ProCtcValidValue value, TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults, boolean participantAddedQuestion, Integer arraySize) {
+
+        ArrayList<ProCtcValidValue> validValue;
+        if (symptomMap.containsKey(symptom)) {
+            careResults = symptomMap.get(symptom);
+        } else {
+            careResults = new HashMap();
+            symptomMap.put(symptom, careResults);
+        }
+
+        if (careResults.containsKey(proCtcQuestion)) {
+            validValue = careResults.get(proCtcQuestion);
+        } else {
+            if (participantAddedQuestion) {
+                validValue = new ArrayList<ProCtcValidValue>();
+                for (int i = 0; i < arraySize - 1; i++) {
+                    ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
+                    myProCtcValidValue.setProCtcQuestion(proCtcQuestion);
+                    myProCtcValidValue.setDisplayOrder(0);
+                    validValue.add(myProCtcValidValue);
+                }
+                careResults.put(proCtcQuestion, validValue);
+
+            } else {
+                validValue = new ArrayList<ProCtcValidValue>();
+                careResults.put(proCtcQuestion, validValue);
+            }
+
+        }
+        if (value == null) {
+            ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
+            myProCtcValidValue.setProCtcQuestion(proCtcQuestion);
+            myProCtcValidValue.setDisplayOrder(0);
+            validValue.add(myProCtcValidValue);
+        } else {
+            validValue.add(value);
+        }
     }
 
     private void sortByStartDate(List<StudyParticipantCrfSchedule> completedCrfs) {

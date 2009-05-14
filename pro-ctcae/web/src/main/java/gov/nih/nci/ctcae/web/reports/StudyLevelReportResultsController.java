@@ -152,7 +152,7 @@ public class StudyLevelReportResultsController extends AbstractController {
 
         TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> participantMap = new TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>(new ParticipantNameComparator());
         TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap;
-        LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults;
+        LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults = new LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>();
         ArrayList<Date> dates;
         Study study = studyRepository.findById(studyId);
         StudySite studySite = study.getStudySiteById(studySiteId);
@@ -205,9 +205,25 @@ public class StudyLevelReportResultsController extends AbstractController {
                             ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
                             ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
                             ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
-                            ArrayList<ProCtcValidValue> validValue;
+                            buildMap(proCtcQuestion, symptom,  value, symptomMap, careResults);
+                        }
+//                        for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
+//                            ProCtcQuestion proCtcQuestion = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getProCtcQuestion();
+//                            ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
+//                            ProCtcValidValue value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
+//                            buildMap(proCtcQuestion, symptom,  value, symptomMap, careResults);
+//                        }
+                    }
+                }
+            }
+        }
 
-                            if (symptomMap.containsKey(symptom)) {
+        return participantMap;
+    }
+
+    private void buildMap(ProCtcQuestion proCtcQuestion, ProCtcTerm symptom, ProCtcValidValue value, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults) {
+        ArrayList<ProCtcValidValue> validValue;
+        if (symptomMap.containsKey(symptom)) {
                                 careResults = symptomMap.get(symptom);
                             } else {
                                 careResults = new LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>();
@@ -228,13 +244,8 @@ public class StudyLevelReportResultsController extends AbstractController {
                             } else {
                                 validValue.add(value);
                             }
-                        }
-                    }
-                }
-            }
-        }
 
-        return participantMap;
+
     }
 
     private void sortByStartDate(List<StudyParticipantCrfSchedule> completedCrfs) {
