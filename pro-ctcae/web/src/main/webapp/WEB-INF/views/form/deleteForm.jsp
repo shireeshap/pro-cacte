@@ -21,7 +21,7 @@
                     <strong>${crf.title}</strong>.
 
                 </p>
-               
+
                 <p>
                     You cannot reverse this step.
                     Do you want to continue?
@@ -31,15 +31,16 @@
             <br>
 
             <div class="flow-buttons">
-
-                <input type="submit" id="flow-update"
-                       class="next" value="Yes" alt="Save"
-                        />
-
-
-                <input type="button" id="flow-cancel"
-                       class="previous ibutton" value="No" alt="Cancel"
-                       onclick="closeWindow()"/>
+                <table>
+                    <tr>
+                        <td>
+                            <tags:button id="flow-update" color="blue" value="Yes"/>
+                        </td>
+                        <td>
+                            <tags:button onclick="closeWindow()" color="blue" value="No" markupWithTag="a"/>
+                        </td>
+                    </tr>
+                </table>
             </div>
 
 
