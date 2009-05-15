@@ -206,7 +206,7 @@
             <b><tags:message code="participant.form.typesymptom"/></b>
         </p>
 
-        <input type="text" id="participantquestion-input" value="" class="autocomplete  validate-NOTEMPTY"
+        <input type="text" id="participantquestion-input" value="" class="autocomplete"
                size="60"/>
         <img src="/proctcae/images/blue/clear-left-button.png"
              onclick="javascript:$('participantquestion-input').clear();"
