@@ -145,6 +145,9 @@
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="clinicalStaff.tab.clinical_staff"
                                   p:linkName="searchClinicalStaffController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="importMeddra.tab.meddra_import"
+                                  p:linkName="importMeddraController"/>
                         </list>
                     </property>
                 </bean>
@@ -362,6 +365,11 @@
 
     <bean name="/reports/participantCareMonitor" id="participantCareMonitorController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareMonitorController">
+    </bean>
+
+     <bean name="/admin/meddra/meddra_import" id="importMeddraController"
+          class="gov.nih.nci.ctcae.web.meddra.ImportMeddraController">
+         <property name="meddraVersionDao" ref="meddraVersionDao"/>
     </bean>
     <bean name="/reports/participantCareResults" id="participantCareResultsController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareResultsController">

@@ -83,6 +83,9 @@
         <intercept-url pattern="/pages/j_spring_security_logout" access="IS_AUTHENTICATED_FULLY"/>
         <intercept-url pattern="/pages/confirmationCheck" access="IS_AUTHENTICATED_FULLY"/>
 
+        <intercept-url pattern="/pages/admin/meddra/meddra_import"
+                       access="PRIVILEGE_CREATE_CLINICAL_STAFF"/>
+
 
         <!--<intercept-url pattern="/pages/**" access="IS_AUTHENTICATED_ANONYMOUSLY" filters="" />-->
 

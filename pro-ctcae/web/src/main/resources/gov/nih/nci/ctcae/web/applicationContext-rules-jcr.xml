@@ -14,7 +14,7 @@
 
     <tx:annotation-driven proxy-target-class="true"/>
 
-    <bean id="rulesPropertiesFileLoader"
+    <bean id="propertiesFileLoader"
           class="com.semanticbits.rules.utils.RulesPropertiesFileLoader">
         <property name="databaseConfigurationName">
             <value>datasource</value>
@@ -25,7 +25,7 @@
     </bean>
     <bean id="rulesPropertyConfigurer"
           class="gov.nih.nci.cabig.ctms.tools.spring.PropertyPlaceholderConfigurer">
-        <property name="properties" ref="rulesPropertiesFileLoader"/>
+        <property name="properties" ref="propertiesFileLoader"/>
         <property name="placeholderPrefix">
             <value>s[</value>
         </property>

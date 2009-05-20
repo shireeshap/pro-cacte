@@ -54,6 +54,14 @@
         <value>gov.nih.nci.ctcae.core.domain.User</value>
         <value>gov.nih.nci.ctcae.core.domain.UserRole</value>
         <value>gov.nih.nci.ctcae.core.domain.CRFCycleDefinition</value>
+        <value>gov.nih.nci.ctcae.core.domain.meddra.AbstractMeddraDomainObject</value>
+        <value>gov.nih.nci.ctcae.core.domain.MeddraVersion</value> 
+        <value>gov.nih.nci.ctcae.core.domain.meddra.HighLevelGroupTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.meddra.HighLevelTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.meddra.PreferredTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.meddra.SystemOrganClass</value>
+
 
     </util:list>
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
@@ -245,6 +253,7 @@
           class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
+
 
     <bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository"
           p:genericRepository-ref="genericRepository">
