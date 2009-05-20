@@ -178,8 +178,8 @@ var t= 0 ;
         <div style="display: none" id = "import">
         <b>MedDRA Files Folder:</b><br>
     	<input id="meddra_path" type="text" size="55" />&nbsp;&nbsp;&nbsp;
-		<input id="import_button" type="button" value="Import" />
-            <%--<tags:button id="import_button" type="button" value="Import" size="big" color="blue"/>--%>
+		<!--<input id="import_button" type="button" value="Import" />-->
+            <tags:button id="import_button" type="button" value="Import" size="big" color="blue"/>
         </div>
         <div style="display: none;position:relative;top:-30px; left:200px;" id = "meddra">
     		<input id="meddra_file" type="file" name="meddraFile" />
