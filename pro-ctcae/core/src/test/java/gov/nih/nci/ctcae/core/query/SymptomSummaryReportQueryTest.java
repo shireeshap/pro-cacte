@@ -38,7 +38,8 @@ public class SymptomSummaryReportQueryTest extends AbstractDependencyInjectionSp
         query.filterByResponse(responses);
         query.filterByParticipantGender("Male");
         query.filterByScheduleStartDate(DateUtils.parseDate("05/10/2009"), DateUtils.parseDate("05/12/2009"));
-        query.filterByCrf(2);
+        query.filterByCrf(1);
+        query.filterByStudySite(15);
         System.out.println(query.getQueryString());
         List result = genericRepository.find(query);
         for (Object obj : result) {

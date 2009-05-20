@@ -6,9 +6,7 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.AxisLocation;
-import org.jfree.chart.labels.ItemLabelAnchor;
-import org.jfree.chart.labels.ItemLabelPosition;
-import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.labels.*;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -21,6 +19,9 @@ import org.jfree.ui.TextAnchor;
 import java.awt.*;
 import java.util.List;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 
 /**
  * User: Harsh
@@ -30,9 +31,9 @@ import java.text.DecimalFormat;
 public class SymptomSummaryChartGenerator {
 
 
-    public JFreeChart getChart(java.util.List results) {
+    public JFreeChart getChart(java.util.List results, String symptom, String attribute, String dates) {
         CategoryDataset[] dataset = createDataset(results);
-        JFreeChart chart = createChart(dataset);
+        JFreeChart chart = createChart(dataset, symptom, attribute, dates);
         return chart;
     }
 
@@ -57,7 +58,7 @@ public class SymptomSummaryChartGenerator {
         DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
         for (Object obj : results) {
             Object[] o = (Object[]) obj;
-            dataset1.addValue((Long) o[0] / sum, "", (String) o[1]);
+            dataset1.addValue(((Long) o[0] / sum) * 100, "", (String) o[1]);
         }
         return new CategoryDataset[]{dataset, dataset1};
     }
@@ -65,13 +66,14 @@ public class SymptomSummaryChartGenerator {
     /**
      * Creates the chart.
      *
-     * @param dataset the dataset
-     * @return the j free chart
+     * @param dataset   the dataset
+     * @param symptom
+     * @param attribute @return the j free chart
      */
 
-    private JFreeChart createChart(CategoryDataset[] dataset) {
+    private JFreeChart createChart(CategoryDataset[] dataset, String symptom, String attribute, String dates) {
 
-        String title = "";
+        String title = "Participant reported responses for the " + attribute + " of " + symptom + " symptoms (" + dates + " responses)";
         JFreeChart chart = ChartFactory.createBarChart(
                 title,       // chart title
                 "Response",               // domain axis label
@@ -102,7 +104,7 @@ public class SymptomSummaryChartGenerator {
 
         barrenderer1.setSeriesItemLabelsVisible(0, true);
         barrenderer1.setSeriesItemLabelPaint(0, Color.RED);
-        StandardCategoryItemLabelGenerator lg = new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("0.00%"));
+        LabelGenerator lg = new LabelGenerator();
         barrenderer1.setSeriesItemLabelGenerator(0, lg);
 
 
@@ -124,5 +126,31 @@ public class SymptomSummaryChartGenerator {
 
         return chart;
 
+    }
+
+    class LabelGenerator extends AbstractCategoryItemLabelGenerator
+            implements CategoryItemLabelGenerator {
+
+        public LabelGenerator() {
+            super("", NumberFormat.getInstance());
+        }
+
+        /**
+         * Generates a label for the specified item. The label is typically a
+         * formatted version of the data value, but any text can be used.
+         *
+         * @param dataset  the dataset (<code>null</code> not permitted).
+         * @param series   the series index (zero-based).
+         * @param category the category index (zero-based).
+         * @return the label (possibly <code>null</code>).
+         */
+        public String generateLabel(CategoryDataset dataset,
+                                    int series,
+                                    int category) {
+            Number value = dataset.getValue(series, category);
+            DecimalFormat df = new DecimalFormat("0.00");
+            String label = df.format(value) + "%";
+            return label;
+        }
     }
 }

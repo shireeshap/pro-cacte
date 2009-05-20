@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.query.SymptomSummaryReportQuery;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 import java.util.*;
 
@@ -26,41 +27,59 @@ public class SymptomSummaryReportController extends AbstractController {
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         SymptomSummaryReportQuery query = new SymptomSummaryReportQuery();
+
         query.filterByCrf(Integer.parseInt(request.getParameter("crfId")));
         query.filterBySymptomId(Integer.parseInt(request.getParameter("symptom")));
+        query.filterByAttribute(ProCtcQuestionType.getByDisplayName(request.getParameter("attribute")));
+        String dateRange = "All";
         String gender = request.getParameter("gender");
         if (!StringUtils.isBlank(gender) && !"all".equals(gender.toLowerCase())) {
             query.filterByParticipantGender(gender);
         }
-        query.filterByAttribute(ProCtcQuestionType.getByDisplayName(request.getParameter("attribute")));
+
+        String studySiteId = request.getParameter("studySiteId");
+        if (!StringUtils.isBlank(studySiteId)) {
+            query.filterByStudySite(Integer.parseInt(studySiteId));
+        }
+
+        String visitRange = request.getParameter("visitRange");
+        if (!StringUtils.isBlank(visitRange) && "dateRange".equals(visitRange)) {
+            Date startDate = DateUtils.parseDate(request.getParameter("startDate"));
+            Date endDate = DateUtils.parseDate(request.getParameter("endDate"));
+            dateRange = request.getParameter("startDate") + " - " + request.getParameter("endDate");
+            query.filterByScheduleStartDate(startDate, endDate);
+        }
 
         List results = genericRepository.find(query);
 
-        addEmptyValues(results, ProCtcQuestionType.getByDisplayName(request.getParameter("attribute")));
+        results = addEmptyValues(results, ProCtcQuestionType.getByDisplayName(request.getParameter("attribute")));
 
         SymptomSummaryChartGenerator chartGenerator = new SymptomSummaryChartGenerator();
         response.setContentType("image/png");
-        JFreeChart chart = chartGenerator.getChart(results);
+        ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class,Integer.parseInt(request.getParameter("symptom")));
+        JFreeChart chart = chartGenerator.getChart(results,proCtcTerm.getTerm(),request.getParameter("attribute"), dateRange);
         ChartUtilities.writeChartAsPNG(response.getOutputStream(), chart, 700, 450);
         response.getOutputStream().close();
         return null;
     }
 
-    private void addEmptyValues(List results, ProCtcQuestionType qType) {
-
+    private List addEmptyValues(List results, ProCtcQuestionType qType) {
+        List newResults = new ArrayList();
         for (String vv : qType.getValidValues()) {
             boolean found = false;
             for (Object o : results) {
                 Object[] obj = (Object[]) o;
                 if (obj[1].equals(vv)) {
                     found = true;
+                    newResults.add(o);
                     break;
                 }
             }
             if (!found) {
-                results.add(new Object[]{0L, vv});
+                newResults.add(new Object[]{0L, vv});
             }
         }
+        return newResults;
     }
 
     public void setGenericRepository(GenericRepository genericRepository) {

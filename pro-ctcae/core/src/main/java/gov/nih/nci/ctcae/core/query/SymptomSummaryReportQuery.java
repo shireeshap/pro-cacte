@@ -58,4 +58,9 @@ public class SymptomSummaryReportQuery extends AbstractQuery {
         andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.crf.id=:crfId");
         setParameter("crfId", crfId);
     }
+
+    public void filterByStudySite(Integer id){
+        andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.studySite.id=:studySiteId");
+        setParameter("studySiteId", id);
+    }
 }

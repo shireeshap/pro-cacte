@@ -37,6 +37,6 @@ public class SymptomSummaryChartGeneratorTest extends WebTestCase {
         l.add(e);
 
         SymptomSummaryChartGenerator ss = new SymptomSummaryChartGenerator();
-        ss.getChart(l);
+        ss.getChart(l,"Pain","Severity","All");
     }
 }

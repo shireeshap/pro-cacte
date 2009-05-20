@@ -9,6 +9,7 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
 <html>
 <head>
@@ -128,31 +129,28 @@ function displaySites() {
     })
 }
 //
-//function customVisit(showVisit) {
-//    var myindex = showVisit.selectedIndex
-//    var selValue = showVisit.options[myindex].value
-//    if (selValue == "custom") {
-//        $('visitNum').show();
-//    } else {
-//        $('visitNum').hide();
-//    }
-//    if (selValue == "dateRange") {
-//        $('dateRange').show();
-//    } else {
-//        $('dateRange').hide();
-//    }
-//
-//}
+function customVisit(showVisit) {
+    var myindex = showVisit.selectedIndex
+    var selValue = showVisit.options[myindex].value
+    if (selValue == "custom") {
+        $('visitNum').show();
+    } else {
+        $('visitNum').hide();
+    }
+    if (selValue == "dateRange") {
+        $('dateRange').show();
+    } else {
+        $('dateRange').hide();
+    }
+
+}
 
 function studyLevelReportResults(format, symptomId, selectedTypes) {
     hasError = false;
-    var studyId = $('study').value;
-    var forVisits = $('visits').value;
+    //        var forVisits = $('visits').value;
 
     var visitRangeSelect = $('visitOptions');
     var visitRange = visitRangeSelect.options[visitRangeSelect.selectedIndex].value;
-
-    var studySiteId = $('studySite').value;
 
     //            if (visitRange == 'currentPrev' || visitRange == 'currentLast') {
     //                forVisits = "2";
@@ -161,9 +159,10 @@ function studyLevelReportResults(format, symptomId, selectedTypes) {
     //            if (visitRange == 'lastFour') {
     //                forVisits = "4";
     //            }
-    if (visitRange == 'all' || visitRange == 'dateRange') {
-        forVisits = "-1";
-    }
+    //        if (visitRange == 'all' || visitRange == 'dateRange') {
+    //            forVisits = "-1";
+    //        }
+
     var stDate = $('startDate').value;
     var endDate = $('endDate').value;
     if (visitRange == 'dateRange') {
@@ -183,13 +182,16 @@ function studyLevelReportResults(format, symptomId, selectedTypes) {
     if (hasError) {
         return;
     }
-//    showIndicator();
+    //    showIndicator();
     var url = "<c:url value="/pages/reports/symptomSummaryReportResults"/>" +
               "?crfId=" + $('formSelect').options[$('formSelect').selectedIndex].value +
               "&symptom=" + $('symptomSelect').options[$('symptomSelect').selectedIndex].value +
               "&attribute=" + $('attributeSelect').options[$('attributeSelect').selectedIndex].value +
               "&gender=all" +
-              "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate + "&endDate=" + endDate +
+              "&studySiteId=" + $('studySite').value +
+              "&visitRange=" + visitRange +
+              "&startDate=" + stDate +
+              "&endDate=" + endDate +
               "&subview=subview";
     $('graph').src = url;
 
@@ -219,6 +221,29 @@ function hideIndicator() {
 </script>
 </head>
 <body>
+<div class="tabpane">
+    <div class="workflow-tabs2">
+        <ul id="" class="tabs autoclear">
+            <proctcae:urlAuthorize url="/pages/reports/studyLevelReport">
+
+                <li id="thirdlevelnav" class="tab">
+                    <div>
+                        <a href="studyLevelReport"><tags:message code="reports.tab.studyLevel"/></a>
+                    </div>
+                </li>
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/reports/symptomsummary">
+
+                <li id="thirdlevelnav" class="tab selected">
+                    <div>
+                        <a href="symptomsummary"><tags:message code="reports.tab.symptomsummary"/></a>
+                    </div>
+                </li>
+            </proctcae:urlAuthorize>
+        </ul>
+    </div>
+</div>
+
 <chrome:box title="participant.label.search_criteria">
     <div align="left" style="margin-left: 50px">
         <tags:renderAutocompleter propertyName="study"

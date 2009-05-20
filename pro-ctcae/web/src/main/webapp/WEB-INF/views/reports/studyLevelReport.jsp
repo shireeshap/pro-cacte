@@ -12,6 +12,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ctcae"
            uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 
 <html>
 <head>
@@ -54,7 +55,7 @@
         }
 
         function updateFormDropDown(crfs) {
-//            clearDiv('formDropDown');
+            //            clearDiv('formDropDown');
             var formDropDown = new Element('SELECT', {'id':'formSelect'})
 
             for (var i = 0; i < crfs.length; i++) {
@@ -211,6 +212,28 @@
     </script>
 </head>
 <body>
+<div class="tabpane">
+    <div class="workflow-tabs2">
+        <ul id="" class="tabs autoclear">
+            <proctcae:urlAuthorize url="/pages/reports/studyLevelReport">
+
+                <li id="thirdlevelnav" class="tab selected">
+                    <div>
+                        <a href="studyLevelReport"><tags:message code="reports.tab.studyLevel"/></a>
+                    </div>
+                </li>
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/reports/symptomsummary">
+
+                <li id="thirdlevelnav" class="tab">
+                    <div>
+                        <a href="symptomsummary"><tags:message code="reports.tab.symptomsummary"/></a>
+                    </div>
+                </li>
+            </proctcae:urlAuthorize>
+        </ul>
+    </div>
+</div>
 <chrome:box title="participant.label.search_criteria">
     <div align="left" style="margin-left: 50px">
         <tags:renderAutocompleter propertyName="study"
