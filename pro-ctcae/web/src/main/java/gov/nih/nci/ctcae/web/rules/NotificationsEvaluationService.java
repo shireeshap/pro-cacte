@@ -217,11 +217,11 @@ public class NotificationsEvaluationService {
         emailContent.append("<td><b>Symptom</b></td>");
         emailContent.append("<td><b>Attribute</b></td>");
         emailContent.append("<td><b>Current visit (" + DateUtils.format(currentSchedule.getStartDate()) + ")</b></td>");
-        if (firstSchedule != null) {
-            emailContent.append("<td><b>First visit (" + DateUtils.format(firstSchedule.getStartDate()) + ")</b></td>");
-        }
         if (previousSchedule != null) {
             emailContent.append("<td><b>Previous visit (" + DateUtils.format(previousSchedule.getStartDate()) + ")</b></td>");
+        }
+        if (firstSchedule != null) {
+            emailContent.append("<td><b>First visit (" + DateUtils.format(firstSchedule.getStartDate()) + ")</b></td>");
         }
         emailContent.append("</tr>");
 
@@ -233,11 +233,11 @@ public class NotificationsEvaluationService {
             emailContent.append("<td>" + strSymptom + "</td>");
             emailContent.append("<td>" + strAttr + "</td>");
             emailContent.append("<td>" + currentScheduleMap.get(key) + "</td>");
-            if (firstSchedule != null) {
-                emailContent.append("<td>" + firstScheduleMap.get(key) + "</td>");
-            }
             if (previousSchedule != null) {
                 emailContent.append("<td>" + previousScheduleMap.get(key) + "</td>");
+            }
+            if (firstSchedule != null) {
+                emailContent.append("<td>" + firstScheduleMap.get(key) + "</td>");
             }
             emailContent.append("</tr>");
         }

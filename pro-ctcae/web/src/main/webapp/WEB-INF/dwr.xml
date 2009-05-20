@@ -36,6 +36,7 @@
         <convert converter="bean" match="gov.nih.nci.ctcae.core.domain.*"/>
         <convert converter="bean" match="gov.nih.nci.ctcae.web.*"/>
         <convert converter="bean" match="gov.nih.nci.ctcae.web.ajax.*"/>
+        <convert converter="bean" match="*"/>
 
         <convert converter="null" match="java.lang.Void"/>
 

@@ -72,7 +72,7 @@ public class ScheduleCrfAjaxFacade {
      * @param text the text
      * @return the list< participant>
      */
-    public List<String> matchSymptoms(HttpServletRequest request, String text, Integer studyParticipantCrfScheduleId) {
+    public List<String> matchSymptoms(HttpServletRequest request, String text) {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand)
                 request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
         List<String> symptoms = submitFormCommand.getSortedSymptoms();

@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import com.lowagie.text.*;
-import com.lowagie.text.Font;
 import com.lowagie.text.pdf.*;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
@@ -113,7 +112,7 @@ public class ParticipantCarePdfView extends AbstractPdfView {
                 document.newPage();
                 i = 0;
             }
-            ChartGenerator chartGenerator = new ChartGenerator();
+            ParticipantLevelChartGenerator chartGenerator = new ParticipantLevelChartGenerator();
             PdfContentByte cb = pdfWriter.getDirectContent();
             PdfTemplate tp = cb.createTemplate(width, height);
             Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());

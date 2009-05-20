@@ -159,6 +159,9 @@
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="reports.tab.study_level_report"
                                   p:linkName="studyLevelReportController"/>
+                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
+                                  p:displayName="reports.tab.study_level_report"
+                                  p:linkName="symptomSummaryReportController"/>
 
                         </list>
                     </property>
@@ -411,6 +414,18 @@
     <bean name="/reports/participantCareResultsGraph" id="participantCareResultsGraph"
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareGraphicalReportController"
           parent="participantCareResultsController">
+    </bean>
+
+
+    <bean name="/reports/symptomsummary" id="symptomSummaryReportController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>reports/symptomSummaryReport</value>
+        </property>
+    </bean>
+    <bean name="/reports/symptomSummaryReportResults" id="symptomSummaryReportResultsController"
+          class="gov.nih.nci.ctcae.web.reports.SymptomSummaryReportController">
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
 

@@ -35,7 +35,7 @@ import java.util.TreeMap;
  * Date: Apr 24, 2009
  * Time: 2:42:11 PM
  */
-public class ChartGenerator {
+public class ParticipantLevelChartGenerator {
 
     ArrayList<String> typesInSymptom = new ArrayList<String>();
 
@@ -130,7 +130,8 @@ public class ChartGenerator {
         // disable bar outlines...
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
         renderer.setDrawBarOutline(false);
-
+        renderer.setItemMargin(0.05);
+        
         CategoryItemRenderer categoryItemRenderer = plot.getRenderer();
         categoryItemRenderer.setBaseItemLabelsVisible(true);
         // set up gradient paints for series...

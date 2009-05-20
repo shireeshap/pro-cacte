@@ -54,7 +54,7 @@
         }
 
         function updateFormDropDown(crfs) {
-            //clearDiv('formDropDown');
+//            clearDiv('formDropDown');
             var formDropDown = new Element('SELECT', {'id':'formSelect'})
 
             for (var i = 0; i < crfs.length; i++) {

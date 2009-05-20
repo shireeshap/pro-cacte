@@ -38,6 +38,7 @@
     <bean id="crfAjaxFacade"
           class="gov.nih.nci.ctcae.web.form.CrfAjaxFacade">
         <property name="crfRepository" ref="crfRepository"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
 

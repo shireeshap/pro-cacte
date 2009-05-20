@@ -1,15 +1,13 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
+import java.util.*;
 
 //
 /**
@@ -24,6 +22,7 @@ public class CrfAjaxFacade {
      * The crf repository.
      */
     private CRFRepository crfRepository;
+    private GenericRepository genericRepository;
 
 
     /**
@@ -69,12 +68,30 @@ public class CrfAjaxFacade {
     public List<CRF> getReducedCrfs(Integer id) {
         List<CRF> crfs = getObjects(id);
         List<CRF> releasedCrfs = new ArrayList();
-        for(CRF crf : crfs) {
+        for (CRF crf : crfs) {
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 releasedCrfs.add(crf);
             }
         }
         return ObjectTools.reduceAll(releasedCrfs, "id", "title");
+    }
+
+    public List<ProCtcTerm> getSymptomsForCrf(Integer id) {
+        CRF crf = crfRepository.findById(id);
+        Set<ProCtcTerm> terms = new TreeSet(new ProCtcTermComparator());
+        for (CrfPageItem i : crf.getAllCrfPageItems()) {
+            terms.add(i.getProCtcQuestion().getProCtcTerm());
+        }
+        return ObjectTools.reduceAll(new ArrayList(terms), "id", "term");
+    }
+
+    public List<String> getAttributesForSymptom(Integer id) {
+        ProCtcTerm term = genericRepository.findById(ProCtcTerm.class, id);
+        ArrayList<String> attributes = new ArrayList();
+        for (ProCtcQuestion proCtcQuestion : term.getProCtcQuestions()) {
+            attributes.add(proCtcQuestion.getProCtcQuestionType().getDisplayName());
+        }
+        return attributes;
     }
 
 
@@ -85,5 +102,9 @@ public class CrfAjaxFacade {
      */
     public void setCrfRepository(CRFRepository crfRepository) {
         this.crfRepository = crfRepository;
+    }
+
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }

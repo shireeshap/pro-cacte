@@ -27,7 +27,6 @@ public class ParticipantCareGraphicalReportController extends ParticipantCareRes
 
         Integer inputSymptomId = Integer.parseInt(request.getParameter("symptomId"));
         String selectedTypes = request.getParameter("selectedTypes");
-        String angle = request.getParameter("angle");
         ArrayList<String> arrSelectedTypes = null;
         if (!StringUtils.isBlank(selectedTypes)) {
             StringTokenizer st = new StringTokenizer(selectedTypes, ",");
@@ -37,7 +36,7 @@ public class ParticipantCareGraphicalReportController extends ParticipantCareRes
             }
         }
 
-        ChartGenerator chartGenerator = new ChartGenerator();
+        ParticipantLevelChartGenerator chartGenerator = new ParticipantLevelChartGenerator();
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<Date> dates = (ArrayList<Date>) request.getSession().getAttribute("sessionDates");
         response.setContentType("image/png");

@@ -81,14 +81,21 @@ public abstract class AbstractQuery implements Query {
       * @see gov.nih.nci.ctcae.core.query.Query#getQueryString()
       */
     public String getQueryString() {
+        queryBuffer = new StringBuffer(queryString.trim());
         String orderByString = "";
-        if (queryString.lastIndexOf("order by") > 0) {
-            orderByString = queryString.substring(queryString.lastIndexOf("order by"),
-                    queryString.length()).trim();
-            queryBuffer = new StringBuffer(queryString.substring(0,
-                    queryString.lastIndexOf("order by")).trim());
-        } else {
-            queryBuffer = new StringBuffer(queryString.trim());
+        String groupByString = "";
+
+        if (queryBuffer.lastIndexOf("order by") > 0) {
+            orderByString = queryBuffer.substring(queryBuffer.lastIndexOf("order by"),
+                    queryBuffer.length()).trim();
+            queryBuffer = new StringBuffer(queryBuffer.substring(0,
+                    queryBuffer.lastIndexOf("order by")).trim());
+        }
+        if (queryBuffer.lastIndexOf("group by") > 0) {
+            groupByString = queryBuffer.substring(queryBuffer.lastIndexOf("group by"),
+                    queryBuffer.length()).trim();
+            queryBuffer = new StringBuffer(queryBuffer.substring(0,
+                    queryBuffer.lastIndexOf("group by")).trim());
         }
 
         for (String join : joins) {
@@ -103,30 +110,10 @@ public abstract class AbstractQuery implements Query {
             }
 
         }
-
-//        if (!orConditions.isEmpty()) {
-//            boolean groupOR = andConditions.size() > 0
-//                    || queryBuffer.toString().toUpperCase().indexOf(WHERE) > 0;
-//
-//            if (groupOR) {
-//                queryBuffer.append(" " + AND + " (");
-//            }
-//
-//            int orIndx = 0;
-//            for (String conditon : orConditions) {
-//                if (orIndx == 0 && groupOR) {
-//                    queryBuffer.append(" " + conditon);
-//                } else {
-//                    queryBuffer.append(" " + OR + " " + conditon);
-//                }
-//                orIndx++;
-//            }
-//
-//            if (groupOR) {
-//                queryBuffer.append(" )");
-//            }
-//        }
-
+        if (!groupByString.equalsIgnoreCase("")) {
+            // finally add group by
+            queryBuffer.append(" " + groupByString);
+        }
         if (!orderByString.equalsIgnoreCase("")) {
             // finally add order by
             queryBuffer.append(" " + orderByString);

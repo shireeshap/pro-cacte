@@ -39,7 +39,7 @@
         var participantQuestionAutocompleterProps = {
             basename: "participantquestion",
             populator: function(autocompleter, text) {
-                scheduleCrf.matchSymptoms(text, '${command.studyParticipantCrfSchedule.id}', function(values) {
+                scheduleCrf.matchSymptoms(text, function(values) {
                     autocompleter.setChoices(values);
                 })
             },
