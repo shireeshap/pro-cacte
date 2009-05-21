@@ -2,27 +2,23 @@ package gov.nih.nci.ctcae.web.reports;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.urls.StandardCategoryURLGenerator;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.*;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
-import org.jfree.data.Range;
+import org.jfree.chart.urls.CategoryURLGenerator;
+import org.jfree.chart.urls.URLUtilities;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.TextAnchor;
 
 import java.awt.*;
-import java.util.List;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
+import java.util.List;
 
 /**
  * User: Harsh
@@ -31,8 +27,10 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
  */
 public class SymptomSummaryChartGenerator {
 
+    private String queryString;
 
-    public JFreeChart getChart(java.util.List results, String symptom, String attribute, String dates) {
+    public JFreeChart getChart(java.util.List results, String symptom, String attribute, String dates, String queryString) {
+        this.queryString = queryString;
         StringBuffer sum = new StringBuffer();
         CategoryDataset[] dataset = createDataset(results, sum);
         JFreeChart chart = createChart(dataset, symptom, attribute, dates, sum);
@@ -77,7 +75,7 @@ public class SymptomSummaryChartGenerator {
 
     private JFreeChart createChart(CategoryDataset[] dataset, String symptom, String attribute, String dates, StringBuffer sum) {
 
-        String title = "Participant reported responses for the " + attribute + " of " + symptom + " symptoms (" + dates + " responses)";
+        String title = "Participant reported responses for the " + attribute + " of " + symptom + " symptom (" + dates + " responses)";
         JFreeChart chart = ChartFactory.createBarChart(
                 title,       // chart title
                 "Response",               // domain axis label
@@ -123,8 +121,8 @@ public class SymptomSummaryChartGenerator {
         categoryItemRenderer.setSeriesPositiveItemLabelPosition(0, itemLabelPosition);
         StandardCategoryItemLabelGenerator lg1 = new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("0"));
         categoryItemRenderer.setSeriesItemLabelGenerator(0, lg1);
-        categoryItemRenderer.setSeriesItemURLGenerator(0, new StandardCategoryURLGenerator("showDetails.jsp","series","section"));
-        categoryItemRenderer.setSeriesItemLabelFont(0,new Font("SansSerif", Font.PLAIN, 13));
+        categoryItemRenderer.setSeriesItemURLGenerator(0, new URLGenerator());
+        categoryItemRenderer.setSeriesItemLabelFont(0, new Font("SansSerif", Font.PLAIN, 13));
         return chart;
 
     }
@@ -152,6 +150,17 @@ public class SymptomSummaryChartGenerator {
             DecimalFormat df = new DecimalFormat("0.00");
             String label = df.format(value) + "%";
             return label;
+        }
+    }
+
+    class URLGenerator implements CategoryURLGenerator {
+
+        public String generateURL(CategoryDataset dataset, int series, int category) {
+            String url = "javascript:showDetails('" + queryString + "&response=";
+            Comparable categoryKey = dataset.getColumnKey(category);
+            url += URLUtilities.encode(categoryKey.toString(), "UTF-8");
+            url += "');";
+            return url;
         }
     }
 }

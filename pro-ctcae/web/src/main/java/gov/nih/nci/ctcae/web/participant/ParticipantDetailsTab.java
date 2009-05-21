@@ -6,16 +6,14 @@ import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
-import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
 import java.text.ParseException;
+import java.util.*;
 
 //
 /**

@@ -363,9 +363,9 @@
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareMonitorController">
     </bean>
 
-     <bean name="/admin/meddra/meddra_import" id="importMeddraController"
+    <bean name="/admin/meddra/meddra_import" id="importMeddraController"
           class="gov.nih.nci.ctcae.web.meddra.ImportMeddraController">
-         <property name="meddraVersionDao" ref="meddraVersionDao"/>
+        <property name="meddraVersionDao" ref="meddraVersionDao"/>
     </bean>
     <bean name="/reports/participantCareResults" id="participantCareResultsController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareResultsController">
@@ -428,8 +428,12 @@
         </property>
     </bean>
     <bean name="/reports/symptomSummaryReportResults" id="symptomSummaryReportResultsController"
-          class="gov.nih.nci.ctcae.web.reports.SymptomSummaryReportController">
+          class="gov.nih.nci.ctcae.web.reports.SymptomSummaryReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+
+    <bean name="/reports/showDetails" id="symptomSummaryReportDetailsController"
+          class="gov.nih.nci.ctcae.web.reports.SymptomSummaryReportDetailsController" parent="symptomSummaryReportResultsController">
     </bean>
 
 

@@ -1,10 +1,9 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.Participant;
 
-import java.util.Comparator;
 import java.io.Serializable;
+import java.util.Comparator;
 
 //
 /**

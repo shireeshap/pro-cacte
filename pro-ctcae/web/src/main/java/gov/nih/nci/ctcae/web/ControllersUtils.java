@@ -4,11 +4,10 @@ import gov.nih.nci.ctcae.web.form.CreateFormCommand;
 import gov.nih.nci.ctcae.web.form.FormController;
 import gov.nih.nci.ctcae.web.study.StudyCommand;
 import gov.nih.nci.ctcae.web.study.StudyController;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-
-import org.apache.commons.lang.StringUtils;
 
 //
 /**

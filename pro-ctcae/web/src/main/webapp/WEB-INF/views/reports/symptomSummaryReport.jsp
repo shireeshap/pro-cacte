@@ -145,7 +145,7 @@ function customVisit(showVisit) {
 
 }
 
-function studyLevelReportResults(format, symptomId, selectedTypes) {
+function studyLevelReportResults() {
     hasError = false;
     //        var forVisits = $('visits').value;
 
@@ -182,21 +182,40 @@ function studyLevelReportResults(format, symptomId, selectedTypes) {
     if (hasError) {
         return;
     }
-    //    showIndicator();
-    var url = "<c:url value="/pages/reports/symptomSummaryReportResults"/>" +
-              "?crfId=" + $('formSelect').options[$('formSelect').selectedIndex].value +
-              "&symptom=" + $('symptomSelect').options[$('symptomSelect').selectedIndex].value +
-              "&attribute=" + $('attributeSelect').options[$('attributeSelect').selectedIndex].value +
-              "&gender=all" +
-              "&studySiteId=" + $('studySite').value +
-              "&visitRange=" + visitRange +
-              "&startDate=" + stDate +
-              "&endDate=" + endDate +
-              "&subview=subview";
-    $('graph').src = url;
-
+    showIndicator();
+    var request = new Ajax.Request("<c:url value="/pages/reports/symptomSummaryReportResults"/>", {
+        parameters:"crfId=" + $('formSelect').options[$('formSelect').selectedIndex].value +
+                   "&symptom=" + $('symptomSelect').options[$('symptomSelect').selectedIndex].value +
+                   "&attribute=" + $('attributeSelect').options[$('attributeSelect').selectedIndex].value +
+                   "&gender=all" +
+                   "&studySiteId=" + $('studySite').value +
+                   "&visitRange=" + visitRange +
+                   "&startDate=" + stDate +
+                   "&endDate=" + endDate +
+                   "&subview=subview",
+        onComplete:function(transport) {
+            showResults(transport);
+            hideIndicator();
+        },
+        method:'get'
+    })
+}
+function showResults(transport) {
+    $('symptomSummaryReportOuterDiv').show();
+    $('symptomSummaryReportInnerDiv').innerHTML = transport.responseText;
 }
 
+function showDetails(params) {
+    showIndicator();
+    var request = new Ajax.Request("<c:url value="/pages/reports/showDetails"/>", {
+        parameters:params,
+        onComplete:function(transport) {
+            $('symptomSummaryReportInnerDiv').innerHTML = transport.responseText;
+            hideIndicator();
+        },
+        method:'get'
+    })
+}
 function hideHelp() {
     $('attribute-help-content').style.display = 'none';
 }
@@ -216,6 +235,15 @@ function showIndicator() {
 }
 function hideIndicator() {
     $('indicator').style.visibility = 'hidden';
+}
+function showResponses(id) {
+    var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
+        parameters:"id=" + id + "&subview=subview",
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 700, 500);
+        },
+        method:'get'
+    })
 }
 
 </script>
@@ -303,7 +331,7 @@ function hideIndicator() {
 
         <div id="search" style="display:none" class="row">
             <div class="value"><tags:button color="blue" value="Search"
-                                            onclick="studyLevelReportResults('tabular')" size="big"
+                                            onclick="studyLevelReportResults()" size="big"
                                             icon="search"/>
                 <tags:indicator id="indicator"/>
             </div>
@@ -311,8 +339,10 @@ function hideIndicator() {
 
     </div>
 </chrome:box>
-<div align="center">
-<iframe id="graph" height="500" width="800" frameborder="0" scrolling="auto"></iframe>
+<div id="symptomSummaryReportOuterDiv" style="display:none;">
+    <div>
+        <div id="symptomSummaryReportInnerDiv"/>
     </div>
+</div>
 </body>
 </html>

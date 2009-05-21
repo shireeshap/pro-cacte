@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 import gov.nih.nci.cabig.ctms.web.tabs.TabConfigurer;
+import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
@@ -12,13 +13,11 @@ import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
-import gov.nih.nci.ctcae.core.Fixture;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
-import org.springframework.security.ConfigAttributeDefinition;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;

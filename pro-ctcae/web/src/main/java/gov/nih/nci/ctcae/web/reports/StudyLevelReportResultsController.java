@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.reports;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.*;
-
-import com.lowagie.text.Paragraph;
 
 /**
  * @author Mehul Gulati

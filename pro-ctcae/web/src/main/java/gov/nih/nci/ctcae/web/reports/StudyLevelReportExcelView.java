@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
-import com.semanticbits.rules.utils.DateUtil;
-
 /**
  * User: Harsh
  * Date: Apr 24, 2009

@@ -1,14 +1,9 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.Fixture;
-import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -37,6 +32,6 @@ public class SymptomSummaryChartGeneratorTest extends WebTestCase {
         l.add(e);
 
         SymptomSummaryChartGenerator ss = new SymptomSummaryChartGenerator();
-        ss.getChart(l,"Pain","Severity","All");
+        ss.getChart(l,"Pain","Severity","All", "");
     }
 }

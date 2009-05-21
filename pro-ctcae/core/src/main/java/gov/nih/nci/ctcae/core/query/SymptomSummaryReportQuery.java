@@ -21,10 +21,14 @@ public class SymptomSummaryReportQuery extends AbstractQuery {
      */
     private static String queryString = "SELECT count(spci.proCtcValidValue.value) , spci.proCtcValidValue.value from StudyParticipantCrfItem spci group by spci.proCtcValidValue.value  order by spci.proCtcValidValue.value ";
 
-    public SymptomSummaryReportQuery() {
-        super(queryString);
+    public SymptomSummaryReportQuery(String query) {
+        super(query);
         andWhere("spci.studyParticipantCrfSchedule.status =:status");
         setParameter("status", CrfStatus.COMPLETED);
+    }
+
+    public SymptomSummaryReportQuery() {
+        this(queryString);
     }
 
     public void filterBySymptomId(final Integer id) {
@@ -37,9 +41,9 @@ public class SymptomSummaryReportQuery extends AbstractQuery {
         setParameter("attribute", attribute);
     }
 
-    public void filterByResponse(Set<String> responses) {
-        andWhere("spci.proCtcValidValue.value in (:responses)");
-        setParameterList("responses", responses);
+    public void filterByResponse(String response) {
+        andWhere("spci.proCtcValidValue.value = :response");
+        setParameter("response", response);
 
     }
 
@@ -59,7 +63,7 @@ public class SymptomSummaryReportQuery extends AbstractQuery {
         setParameter("crfId", crfId);
     }
 
-    public void filterByStudySite(Integer id){
+    public void filterByStudySite(Integer id) {
         andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.studySite.id=:studySiteId");
         setParameter("studySiteId", id);
     }

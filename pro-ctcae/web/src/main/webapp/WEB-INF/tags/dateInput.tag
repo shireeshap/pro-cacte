@@ -1,3 +1,4 @@
+<%@ tag import="java.util.Date" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

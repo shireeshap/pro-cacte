@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import com.lowagie.text.*;
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.*;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;

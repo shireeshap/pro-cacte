@@ -157,6 +157,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationClini
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomSummaryReportDetailsQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomSummaryReportQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/UserQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CRFRepository.java -text
@@ -466,7 +467,8 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportPdfCon
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportPdfView.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryChartGenerator.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryReportController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryReportDetailsController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/JavaMailSender.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/NotificationsEvaluationService.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/rules/ProCtcAEFactResolver.java -text
@@ -692,8 +694,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantCareMonitor.jsp -
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantCareResults.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/studyLevelReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/studyLevelReportResults.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/symptomSummaryDetails.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/symptomSummaryReport.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/symptomSummaryReportResults.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/setup/confirmSetup.jsp -text

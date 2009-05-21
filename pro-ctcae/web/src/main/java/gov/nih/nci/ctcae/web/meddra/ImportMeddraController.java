@@ -2,14 +2,13 @@ package gov.nih.nci.ctcae.web.meddra;
 
 
 import gov.nih.nci.ctcae.core.dao.MeddraVersionDao;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.ParameterizableViewController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class ImportMeddraController extends ParameterizableViewController {
 

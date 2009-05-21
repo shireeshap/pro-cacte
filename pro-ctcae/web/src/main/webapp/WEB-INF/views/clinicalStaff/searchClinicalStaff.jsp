@@ -57,7 +57,7 @@
 
 
            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff" >
-               <li id="thirdlevelnav" class="tab ">
+               <li id="thirdlevelnav-x" class="tab ">
                <div>
                    <a href="<c:url value="/pages/admin/clinicalStaff/createClinicalStaff"/>"><tags:message code="clinicalStaff.tab.createStaff"/></a>
                </div>
@@ -65,7 +65,7 @@
            </proctcae:urlAuthorize>
            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/searchClinicalStaff" >
 
-           <li id="thirdlevelnav" class="tab selected">
+           <li id="thirdlevelnav-x" class="tab selected">
                <div>
                    <a href="<c:url value="pages/admin/clinicalStaff/searchClinicalStaff"/>"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
                </div>

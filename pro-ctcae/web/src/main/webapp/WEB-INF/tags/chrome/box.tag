@@ -1,3 +1,4 @@
+<%@ tag import="gov.nih.nci.ctcae.web.ControllersUtils" %>
 <%@ attribute name="noBackground" %>
 <%-- TODO: support for inner tabs (needs uniform controller support first) --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

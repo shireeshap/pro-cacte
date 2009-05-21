@@ -9,8 +9,6 @@ import javax.servlet.ServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
-import org.springframework.security.context.SecurityContext;
-
 /**
  * @author Vinay Kumar
  * @crated Dec 11, 2008

@@ -28,14 +28,28 @@ public class SymptomSummaryReportQueryTest extends AbstractDependencyInjectionSp
         return context;
     }
 
-    public void testQuery() throws Exception {
+    public void testSummaryQuery() throws Exception {
         SymptomSummaryReportQuery query = new SymptomSummaryReportQuery();
         query.filterBySymptomId(11);
         query.filterByAttribute(ProCtcQuestionType.SEVERITY);
-        HashSet responses = new HashSet();
-        responses.add("Moderate");
-        responses.add("Severe");
-        query.filterByResponse(responses);
+        query.filterByResponse("Moderate");
+        query.filterByParticipantGender("Male");
+        query.filterByScheduleStartDate(DateUtils.parseDate("05/10/2009"), DateUtils.parseDate("05/12/2009"));
+        query.filterByCrf(1);
+        query.filterByStudySite(15);
+        System.out.println(query.getQueryString());
+        List result = genericRepository.find(query);
+        for (Object obj : result) {
+            Object[] a = (Object[]) obj;
+            System.out.println(a[0] + "," + a[1]);
+        }
+
+    }
+    public void testDetailsQuery() throws Exception {
+        SymptomSummaryReportDetailsQuery query = new SymptomSummaryReportDetailsQuery();
+        query.filterBySymptomId(11);
+        query.filterByAttribute(ProCtcQuestionType.SEVERITY);
+        query.filterByResponse("Moderate");
         query.filterByParticipantGender("Male");
         query.filterByScheduleStartDate(DateUtils.parseDate("05/10/2009"), DateUtils.parseDate("05/12/2009"));
         query.filterByCrf(1);
