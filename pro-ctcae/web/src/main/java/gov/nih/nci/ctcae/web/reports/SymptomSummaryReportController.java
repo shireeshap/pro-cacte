@@ -5,6 +5,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.lang.StringUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.entity.StandardEntityCollection;
+import org.jfree.chart.servlet.ServletUtilities;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +18,7 @@ import gov.nih.nci.ctcae.core.query.SymptomSummaryReportQuery;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 import java.util.*;
+import java.io.PrintWriter;
 
 /**
  * User: Harsh
@@ -55,12 +59,20 @@ public class SymptomSummaryReportController extends AbstractController {
         results = addEmptyValues(results, ProCtcQuestionType.getByDisplayName(request.getParameter("attribute")));
 
         SymptomSummaryChartGenerator chartGenerator = new SymptomSummaryChartGenerator();
-        response.setContentType("image/png");
-        ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class,Integer.parseInt(request.getParameter("symptom")));
-        JFreeChart chart = chartGenerator.getChart(results,proCtcTerm.getTerm(),request.getParameter("attribute"), dateRange);
-        ChartUtilities.writeChartAsPNG(response.getOutputStream(), chart, 700, 450);
-        response.getOutputStream().close();
-        return null;
+        ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, Integer.parseInt(request.getParameter("symptom")));
+        JFreeChart chart = chartGenerator.getChart(results, proCtcTerm.getTerm(), request.getParameter("attribute"), dateRange);
+
+        //  Write the chart image to the temporary directory
+        ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+        String filename = ServletUtilities.saveChartAsPNG(chart, 700, 400, info, null);
+
+        String imageMap = ChartUtilities.getImageMap(filename, info);
+
+        Map model = new HashMap();
+        model.put("filename", filename);
+        model.put("imagemap", imageMap);
+        ModelAndView modelAndView = new ModelAndView("reports/bar_chart", model);
+        return modelAndView;
     }
 
     private List addEmptyValues(List results, ProCtcQuestionType qType) {

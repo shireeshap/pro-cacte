@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.reports;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.urls.StandardCategoryURLGenerator;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
@@ -32,8 +33,9 @@ public class SymptomSummaryChartGenerator {
 
 
     public JFreeChart getChart(java.util.List results, String symptom, String attribute, String dates) {
-        CategoryDataset[] dataset = createDataset(results);
-        JFreeChart chart = createChart(dataset, symptom, attribute, dates);
+        StringBuffer sum = new StringBuffer();
+        CategoryDataset[] dataset = createDataset(results, sum);
+        JFreeChart chart = createChart(dataset, symptom, attribute, dates, sum);
         return chart;
     }
 
@@ -46,7 +48,7 @@ public class SymptomSummaryChartGenerator {
      */
 
 
-    private CategoryDataset[] createDataset(List results) {
+    private CategoryDataset[] createDataset(List results, StringBuffer inSum) {
 
         float sum = 0;
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -60,6 +62,8 @@ public class SymptomSummaryChartGenerator {
             Object[] o = (Object[]) obj;
             dataset1.addValue(((Long) o[0] / sum) * 100, "", (String) o[1]);
         }
+
+        inSum.append(new DecimalFormat("0").format(sum));
         return new CategoryDataset[]{dataset, dataset1};
     }
 
@@ -71,27 +75,26 @@ public class SymptomSummaryChartGenerator {
      * @param attribute @return the j free chart
      */
 
-    private JFreeChart createChart(CategoryDataset[] dataset, String symptom, String attribute, String dates) {
+    private JFreeChart createChart(CategoryDataset[] dataset, String symptom, String attribute, String dates, StringBuffer sum) {
 
         String title = "Participant reported responses for the " + attribute + " of " + symptom + " symptoms (" + dates + " responses)";
         JFreeChart chart = ChartFactory.createBarChart(
                 title,       // chart title
                 "Response",               // domain axis label
-                "Number of Responses",                  // range axis label
+                "Number of Responses (n=" + sum + ")",                  // range axis label
                 dataset[0],                  // data
                 PlotOrientation.VERTICAL, // orientation
                 false,                     // include legend
                 false,                     // tooltips?
-                false                     // URLs?
+                true                     // URLs?
         );
 
         chart.setBackgroundPaint(Color.white);
 
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
-        plot.setBackgroundPaint(Color.lightGray);
-        plot.setDomainGridlinePaint(Color.white);
+        plot.setDomainGridlinePaint(Color.gray);
         plot.setDomainGridlinesVisible(true);
-        plot.setRangeGridlinePaint(Color.white);
+        plot.setRangeGridlinePaint(Color.gray);
 
         NumberAxis axis2 = new NumberAxis("Percentage(%)");
         plot.setRangeAxis(1, axis2);
@@ -115,15 +118,13 @@ public class SymptomSummaryChartGenerator {
 
         CategoryItemRenderer categoryItemRenderer = plot.getRenderer();
         categoryItemRenderer.setBaseItemLabelsVisible(true);
-        GradientPaint gp0 = new GradientPaint(0.0f, 0.0f, Color.blue,
-                0.0f, 0.0f, new Color(0, 0, 64));
-        categoryItemRenderer.setSeriesPaint(0, gp0);
         categoryItemRenderer.setSeriesItemLabelsVisible(0, true);
         categoryItemRenderer.setSeriesItemLabelPaint(0, Color.white);
         categoryItemRenderer.setSeriesPositiveItemLabelPosition(0, itemLabelPosition);
         StandardCategoryItemLabelGenerator lg1 = new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("0"));
         categoryItemRenderer.setSeriesItemLabelGenerator(0, lg1);
-
+        categoryItemRenderer.setSeriesItemURLGenerator(0, new StandardCategoryURLGenerator("showDetails.jsp","series","section"));
+        categoryItemRenderer.setSeriesItemLabelFont(0,new Font("SansSerif", Font.PLAIN, 13));
         return chart;
 
     }

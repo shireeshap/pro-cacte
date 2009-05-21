@@ -226,7 +226,7 @@ function hideIndicator() {
         <ul id="" class="tabs autoclear">
             <proctcae:urlAuthorize url="/pages/reports/studyLevelReport">
 
-                <li id="thirdlevelnav" class="tab">
+                <li id="thirdlevelnav-x" class="tab">
                     <div>
                         <a href="studyLevelReport"><tags:message code="reports.tab.studyLevel"/></a>
                     </div>
@@ -234,7 +234,7 @@ function hideIndicator() {
             </proctcae:urlAuthorize>
             <proctcae:urlAuthorize url="/pages/reports/symptomsummary">
 
-                <li id="thirdlevelnav" class="tab selected">
+                <li id="thirdlevelnav-x" class="tab selected">
                     <div>
                         <a href="symptomsummary"><tags:message code="reports.tab.symptomsummary"/></a>
                     </div>
@@ -311,6 +311,8 @@ function hideIndicator() {
 
     </div>
 </chrome:box>
+<div align="center">
 <iframe id="graph" height="500" width="800" frameborder="0" scrolling="auto"></iframe>
+    </div>
 </body>
 </html>

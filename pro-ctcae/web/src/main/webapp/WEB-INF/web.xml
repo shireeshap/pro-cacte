@@ -114,7 +114,14 @@
         <servlet-name>Resources Servlet</servlet-name>
         <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
-
+    <servlet>
+    <servlet-name>DisplayChart</servlet-name>
+    <servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
+  </servlet>
+   <servlet-mapping>
+        <servlet-name>DisplayChart</servlet-name>
+        <url-pattern>/servlet/DisplayChart</url-pattern>
+    </servlet-mapping>
     <filter>
         <filter-name>setup-or-not</filter-name>
         <filter-class>gov.nih.nci.ctcae.web.setup.SetupOrNotFilter</filter-class>

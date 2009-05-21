@@ -38,7 +38,7 @@
 
         .submit {
             float: right;
-            margin-top: 1em;
+            /*margin-top: 1em;*/
         }
 
         .forgot {
@@ -86,7 +86,6 @@
         </div>
         <div class="row">
             <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this);">&nbsp;Use virtual keyboard
-            <div id="keyboardDiv"></div>
         </div>
         <div class="row">
             <div class="submit">
@@ -103,8 +102,8 @@
 
 
     </form>
-
 </chrome:box>
+<div id="keyboardDiv"></div>
 </body>
 </html>
 

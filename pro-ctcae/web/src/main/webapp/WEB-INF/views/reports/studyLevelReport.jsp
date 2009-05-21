@@ -217,7 +217,7 @@
         <ul id="" class="tabs autoclear">
             <proctcae:urlAuthorize url="/pages/reports/studyLevelReport">
 
-                <li id="thirdlevelnav" class="tab selected">
+                <li id="thirdlevelnav-x" class="tab selected">
                     <div>
                         <a href="studyLevelReport"><tags:message code="reports.tab.studyLevel"/></a>
                     </div>
@@ -225,7 +225,7 @@
             </proctcae:urlAuthorize>
             <proctcae:urlAuthorize url="/pages/reports/symptomsummary">
 
-                <li id="thirdlevelnav" class="tab">
+                <li id="thirdlevelnav-x" class="tab">
                     <div>
                         <a href="symptomsummary"><tags:message code="reports.tab.symptomsummary"/></a>
                     </div>

@@ -91,6 +91,47 @@ body {
     background-position: bottom;
 }
 
+#thirdlevelnavpipe {
+    margin: 5px;
+}
+
+#thirdlevelnav-x div {
+    background-image: url( ../images/l.gif);
+    background-repeat: no-repeat;
+    background-position: right;
+    padding-right: 20px;
+}
+
+#thirdlevelnav-x div a {
+    text-decoration: none;
+    color: #fff;
+}
+
+#thirdlevelnav-x div a:hover {
+    text-decoration: underline
+}
+
+#thirdlevelnav-x div a:active {
+    color: #CCCCCC
+}
+
+#thirdlevelnav-x.last div {
+    background-image: none;
+}
+
+#thirdlevelnav-x.selected div a {
+    color: #333333;
+    font-weight: bold;
+    background-color: #FFFFCC;
+    padding-top: 2px;
+    padding-right: 7px;
+    padding-bottom: 2px;
+    padding-left: 7px;
+    background-image: url( ../images/blue/taskbar_selected.png );
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
 .hr {
     background-color: #999999;
     height: 2px;
