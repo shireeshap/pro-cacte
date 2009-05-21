@@ -111,7 +111,7 @@ public class SymptomSummaryChartGenerator {
         barrenderer1.setSeriesItemLabelGenerator(0, lg);
         barrenderer1.setSeriesPositiveItemLabelPosition(0, itemLabelPosition);
         barrenderer1.setSeriesItemLabelFont(0, new Font("SansSerif", Font.PLAIN, 13));
-        
+
         final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
@@ -162,7 +162,7 @@ public class SymptomSummaryChartGenerator {
         public String generateURL(CategoryDataset dataset, int series, int category) {
             String url = "javascript:showDetails('" + queryString + "&response=";
             Comparable categoryKey = dataset.getColumnKey(category);
-            url += URLUtilities.encode(categoryKey.toString(), "UTF-8");
+            url += categoryKey.toString();
             url += "');";
             return url;
         }
