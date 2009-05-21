@@ -9,6 +9,7 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.urls.CategoryURLGenerator;
 import org.jfree.chart.urls.URLUtilities;
 import org.jfree.data.category.CategoryDataset;
@@ -76,7 +77,7 @@ public class SymptomSummaryChartGenerator {
     private JFreeChart createChart(CategoryDataset[] dataset, String symptom, String attribute, String dates, StringBuffer sum) {
 
         String title = "Participant reported responses for the " + attribute + " of " + symptom + " symptom (" + dates + " responses)";
-        JFreeChart chart = ChartFactory.createBarChart(
+        JFreeChart chart = ChartFactory.createBarChart3D(
                 title,       // chart title
                 "Response",               // domain axis label
                 "Number of Responses (n=" + sum + ")",                  // range axis label
@@ -99,16 +100,18 @@ public class SymptomSummaryChartGenerator {
         plot.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_RIGHT);
         plot.setDataset(1, dataset[1]);
         plot.mapDatasetToRangeAxis(1, 1);
-        BarRenderer barrenderer1 = new BarRenderer();
+        BarRenderer barrenderer1 = new BarRenderer3D();
         plot.setRenderer(1, barrenderer1);
-        ItemLabelPosition itemLabelPosition = new ItemLabelPosition(ItemLabelAnchor.INSIDE12, TextAnchor.TOP_CENTER, TextAnchor.CENTER, 0);
+
+        ItemLabelPosition itemLabelPosition = new ItemLabelPosition(ItemLabelAnchor.OUTSIDE11, TextAnchor.TOP_RIGHT, TextAnchor.CENTER, 0);
 
         barrenderer1.setSeriesItemLabelsVisible(0, true);
         barrenderer1.setSeriesItemLabelPaint(0, Color.RED);
         LabelGenerator lg = new LabelGenerator();
         barrenderer1.setSeriesItemLabelGenerator(0, lg);
-
-
+        barrenderer1.setSeriesPositiveItemLabelPosition(0, itemLabelPosition);
+        barrenderer1.setSeriesItemLabelFont(0, new Font("SansSerif", Font.PLAIN, 13));
+        
         final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
@@ -118,7 +121,8 @@ public class SymptomSummaryChartGenerator {
         categoryItemRenderer.setBaseItemLabelsVisible(true);
         categoryItemRenderer.setSeriesItemLabelsVisible(0, true);
         categoryItemRenderer.setSeriesItemLabelPaint(0, Color.white);
-        categoryItemRenderer.setSeriesPositiveItemLabelPosition(0, itemLabelPosition);
+        ItemLabelPosition itemLabelPosition1 = new ItemLabelPosition(ItemLabelAnchor.INSIDE12, TextAnchor.TOP_CENTER, TextAnchor.CENTER, 0);
+        categoryItemRenderer.setSeriesPositiveItemLabelPosition(0, itemLabelPosition1);
         StandardCategoryItemLabelGenerator lg1 = new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("0"));
         categoryItemRenderer.setSeriesItemLabelGenerator(0, lg1);
         categoryItemRenderer.setSeriesItemURLGenerator(0, new URLGenerator());
@@ -147,7 +151,7 @@ public class SymptomSummaryChartGenerator {
                                     int series,
                                     int category) {
             Number value = dataset.getValue(series, category);
-            DecimalFormat df = new DecimalFormat("0.00");
+            DecimalFormat df = new DecimalFormat("0");
             String label = df.format(value) + "%";
             return label;
         }
