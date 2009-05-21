@@ -239,7 +239,7 @@
         <tags:renderAutocompleter propertyName="study"
                                   displayName="Study"
                                   required="true"
-                                  size="70"
+                                  size="60"
                                   noForm="true"/>
         <div id="formDropDownDiv" style="display:none;" class="row">
             <div class="label">Form</div>
@@ -248,7 +248,7 @@
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="studySite"
                                       displayName="Study site"
-                                      size="70"
+                                      size="60"
                                       noForm="true" required="true"/>
         </div>
         <div id="studySiteDiv" style="display:none" class="row">
