@@ -156,7 +156,7 @@ var t= 0 ;
    </p>
 		<table id="test" class="tablecontent">
     		<tr id="organization-section">
-    			<th class="tableHeader" width=300>Version Name</th>
+    			<th class="tableHeader" width=300>Version name</th>
     			<th class="tableHeader" width=100>Action</th>
     		</tr>
 
@@ -176,7 +176,7 @@ var t= 0 ;
         </table>
         <br>
         <div style="display: none" id = "import">
-        <b>MedDRA Files Folder:</b><br>
+        <b>MedDRA files folder:</b><br>
     	<input id="meddra_path" type="text" size="55" />&nbsp;&nbsp;&nbsp;
 		<!--<input id="import_button" type="button" value="Import" />-->
             <tags:button id="import_button" type="button" value="Import" size="big" color="blue"/>
