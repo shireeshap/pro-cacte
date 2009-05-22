@@ -45,6 +45,7 @@ public class SymptomSummaryReportQueryTest extends AbstractDependencyInjectionSp
         }
 
     }
+
     public void testDetailsQuery() throws Exception {
         SymptomSummaryReportDetailsQuery query = new SymptomSummaryReportDetailsQuery();
         query.filterBySymptomId(11);
@@ -60,6 +61,21 @@ public class SymptomSummaryReportQueryTest extends AbstractDependencyInjectionSp
             Object[] a = (Object[]) obj;
             System.out.println(a[0] + "," + a[1]);
         }
+
+    }
+
+    public void testParticipantCountQuery() throws Exception {
+        SymptomSummaryParticipantCountQuery query = new SymptomSummaryParticipantCountQuery();
+        query.filterBySymptomId(11);
+        query.filterByAttribute(ProCtcQuestionType.SEVERITY);
+        query.filterByResponse("Moderate");
+        query.filterByParticipantGender("Male");
+        query.filterByScheduleStartDate(DateUtils.parseDate("05/10/2009"), DateUtils.parseDate("05/12/2009"));
+        query.filterByCrf(1);
+        query.filterByStudySite(15);
+        System.out.println(query.getQueryString());
+        List result = genericRepository.find(query);
+        System.out.println(result.get(0));
 
     }
 

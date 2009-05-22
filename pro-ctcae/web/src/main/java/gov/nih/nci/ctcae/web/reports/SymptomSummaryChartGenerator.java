@@ -30,14 +30,13 @@ public class SymptomSummaryChartGenerator {
 
     private String queryString;
 
-    public JFreeChart getChart(java.util.List results, String symptom, String attribute, String dates, String queryString) {
+    public JFreeChart getChart(java.util.List results, String symptom, String attribute, String dates, String queryString, Long l) {
         this.queryString = queryString;
         StringBuffer sum = new StringBuffer();
         CategoryDataset[] dataset = createDataset(results, sum);
-        JFreeChart chart = createChart(dataset, symptom, attribute, dates, sum);
+        JFreeChart chart = createChart(dataset, symptom, attribute, dates, sum, l);
         return chart;
     }
-
 
     /**
      * Creates the dataset.
@@ -72,15 +71,16 @@ public class SymptomSummaryChartGenerator {
      * @param dataset   the dataset
      * @param symptom
      * @param attribute @return the j free chart
+     * @param l
      */
 
-    private JFreeChart createChart(CategoryDataset[] dataset, String symptom, String attribute, String dates, StringBuffer sum) {
+    private JFreeChart createChart(CategoryDataset[] dataset, String symptom, String attribute, String dates, StringBuffer sum, Long l) {
 
         String title = "Participant reported responses for the " + attribute + " of " + symptom + " symptom (" + dates + " responses)";
         JFreeChart chart = ChartFactory.createBarChart3D(
                 title,       // chart title
                 "Response",               // domain axis label
-                "Number of Responses (n=" + sum + ")",                  // range axis label
+                "Number of Responses (n=" + sum + ", p=" + l + ")",                  // range axis label
                 dataset[0],                  // data
                 PlotOrientation.VERTICAL, // orientation
                 false,                     // include legend
@@ -103,10 +103,10 @@ public class SymptomSummaryChartGenerator {
         BarRenderer barrenderer1 = new BarRenderer3D();
         plot.setRenderer(1, barrenderer1);
 
-        ItemLabelPosition itemLabelPosition = new ItemLabelPosition(ItemLabelAnchor.OUTSIDE11, TextAnchor.TOP_RIGHT, TextAnchor.CENTER, 0);
+        ItemLabelPosition itemLabelPosition = new ItemLabelPosition();
 
         barrenderer1.setSeriesItemLabelsVisible(0, true);
-        barrenderer1.setSeriesItemLabelPaint(0, Color.RED);
+        barrenderer1.setSeriesItemLabelPaint(0, Color.BLACK);
         LabelGenerator lg = new LabelGenerator();
         barrenderer1.setSeriesItemLabelGenerator(0, lg);
         barrenderer1.setSeriesPositiveItemLabelPosition(0, itemLabelPosition);

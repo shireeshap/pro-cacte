@@ -157,6 +157,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationClini
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomSummaryParticipantCountQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomSummaryReportDetailsQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomSummaryReportQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/UserQuery.java -text

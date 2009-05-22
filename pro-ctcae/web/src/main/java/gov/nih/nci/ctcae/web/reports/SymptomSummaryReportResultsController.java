@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.query.SymptomSummaryReportQuery;
+import gov.nih.nci.ctcae.core.query.SymptomSummaryParticipantCountQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.apache.commons.lang.StringUtils;
 import org.jfree.chart.ChartRenderingInfo;
@@ -40,13 +41,18 @@ public class SymptomSummaryReportResultsController extends AbstractController {
         parseRequestParametersAndFormQuery(request, query);
         List results = genericRepository.find(query);
 
+        SymptomSummaryParticipantCountQuery query1 = new SymptomSummaryParticipantCountQuery();
+        parseRequestParametersAndFormQuery(request, query1);
+        List list = genericRepository.find(query1);
+        Long l = (Long) list.get(0);
+
         results = addEmptyValues(results, ProCtcQuestionType.getByDisplayName(request.getParameter("attribute")));
 
 
         SymptomSummaryChartGenerator
                 chartGenerator = new SymptomSummaryChartGenerator();
         ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, Integer.parseInt(request.getParameter("symptom")));
-        JFreeChart chart = chartGenerator.getChart(results, proCtcTerm.getTerm(), request.getParameter("attribute"), dateRange, request.getQueryString());
+        JFreeChart chart = chartGenerator.getChart(results, proCtcTerm.getTerm(), request.getParameter("attribute"), dateRange, request.getQueryString(), l);
 
         //  Write the chart image to the temporary directory
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
