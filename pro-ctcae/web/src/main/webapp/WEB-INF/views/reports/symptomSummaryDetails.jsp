@@ -15,9 +15,10 @@
             font-weight: normal;
             color: #666666;
         }
+
         .link:hover {
             font-weight: normal;
-            color:black;
+            color: black;
         }
 
         table.widget {
@@ -29,7 +30,6 @@
         .highlight td {
             background-color: #6666ff;
             color: white;
-            cursor: pointer;
         }
 
         table.widget tr {
@@ -72,6 +72,7 @@
             position: relative;
             visibility: hidden;
             white-space: nowrap;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -100,9 +101,9 @@
         <tr id="details_row_${status.index}" onmouseover="highlightrow('${status.index}');"
             onmouseout="removehighlight('${status.index}');">
             <td align="right">
-                <div id="img_${status.index}" class="indIcon">
-                    <img src="../../images/menu.png" alt=""
-                         onclick="showPopUpMenu('${status.index}','${participant.id}','${schedule.id}',-95,-130)"/>
+                <div id="img_${status.index}" class="indIcon"
+                     onclick="showPopUpMenu('${status.index}','${participant.id}','${schedule.id}',-95,-130)">
+                    <img src="../../images/menu.png" alt=""/>
                 </div>
             </td>
             <td class="data">
