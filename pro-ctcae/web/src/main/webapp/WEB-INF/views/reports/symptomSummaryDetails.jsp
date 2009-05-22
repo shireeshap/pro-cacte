@@ -56,7 +56,7 @@
         .ddnotediv {
             background-color: #F5F5F5;
             border: 1px solid #E1E1E1;
-            padding: 10px 10px 0px 10px;
+            padding: 10px 10px 10px 10px;
             position: absolute;
             text-align: left;
         }
