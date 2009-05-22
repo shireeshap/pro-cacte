@@ -56,7 +56,7 @@
         .ddnotediv {
             background-color: #F5F5F5;
             border: 1px solid #E1E1E1;
-            padding: 10px 10px 10px 10px;
+            padding: 7px;
             position: absolute;
             text-align: left;
         }
@@ -102,7 +102,7 @@
             onmouseout="removehighlight('${status.index}');">
             <td align="right">
                 <div id="img_${status.index}" class="indIcon"
-                     onclick="showPopUpMenu('${status.index}','${participant.id}','${schedule.id}',-95,-130)">
+                     onclick="showPopUpMenu('${status.index}','${participant.id}','${schedule.id}',-105,-130)">
                     <img src="../../images/menu.png" alt=""/>
                 </div>
             </td>
