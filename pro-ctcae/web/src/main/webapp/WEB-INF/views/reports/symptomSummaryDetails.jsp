@@ -56,7 +56,7 @@
         .ddnotediv {
             background-color: #F5F5F5;
             border: 1px solid #E1E1E1;
-            padding: 5px 5px 5px 5px;
+            padding: 10px 10px 0px 10px;
             position: absolute;
             text-align: left;
         }
@@ -102,7 +102,7 @@
             <td align="right">
                 <div id="img_${status.index}" class="indIcon">
                     <img src="../../images/menu.png" alt=""
-                         onclick="showPopUpMenu('${status.index}','${participant.id}','${schedule.id}',-80,-130)"/>
+                         onclick="showPopUpMenu('${status.index}','${participant.id}','${schedule.id}',-95,-130)"/>
                 </div>
             </td>
             <td class="data">
