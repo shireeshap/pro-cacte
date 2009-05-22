@@ -54,9 +54,12 @@
         }
 
         .ddnotediv {
-            background-color: #F5F5F5;
-            border: 1px solid #E1E1E1;
-            padding: 7px;
+            background-color: #F5F5F5; /*border: 2px solid #333333;*/
+            /*border-top: 1px solid #F5F5F5;*/
+            border-right: 3px solid #333333;
+            border-bottom: 3px solid #333333;
+            /*border-left: 1px solid #F5F5F5;*/
+            padding: 7px;       
             position: absolute;
             text-align: left;
         }
