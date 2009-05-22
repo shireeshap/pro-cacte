@@ -738,6 +738,7 @@ pro-ctcae/web/src/main/webapp/decorated-error.jsp -text
 pro-ctcae/web/src/main/webapp/error.jsp -text
 pro-ctcae/web/src/main/webapp/images/add_icon.png -text
 pro-ctcae/web/src/main/webapp/images/ajax-loading.gif -text
+pro-ctcae/web/src/main/webapp/images/allCommon-Icons.gif.png -text
 pro-ctcae/web/src/main/webapp/images/alphacube/bottom-left-c.gif -text
 pro-ctcae/web/src/main/webapp/images/alphacube/bottom-middle.gif -text
 pro-ctcae/web/src/main/webapp/images/alphacube/bottom-right-c.gif -text
@@ -1011,6 +1012,7 @@ pro-ctcae/web/src/main/webapp/images/indicator.white.gif -text
 pro-ctcae/web/src/main/webapp/images/info.png -text
 pro-ctcae/web/src/main/webapp/images/keyboard.png -text
 pro-ctcae/web/src/main/webapp/images/l.gif -text
+pro-ctcae/web/src/main/webapp/images/menu.png -text
 pro-ctcae/web/src/main/webapp/images/minus.gif -text
 pro-ctcae/web/src/main/webapp/images/page-file.png -text
 pro-ctcae/web/src/main/webapp/images/page-foldericon.png -text
