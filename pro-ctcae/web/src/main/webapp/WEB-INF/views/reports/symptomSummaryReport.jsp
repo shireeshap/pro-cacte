@@ -259,12 +259,12 @@ function removehighlight(index)
     if ($("dropnoteDiv")) {
         Element.hide($("dropnoteDiv"));
         $("dropnoteDiv").onmouseover = function() {
-            rEle.className = "tdhover";
+            rEle.className = "highlight";
             $('img_' + index).style.visibility = "visible";
             Element.show($("dropnoteDiv"));
         };
         $("dropnoteDiv").onmouseout = function() {
-            rEle.className = "tdout";
+            rEle.className = "";
             $('img_' + index).style.visibility = "hidden";
             Element.hide($("dropnoteDiv"));
         };
