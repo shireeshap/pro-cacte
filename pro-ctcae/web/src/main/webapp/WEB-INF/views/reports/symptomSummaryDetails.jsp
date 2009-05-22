@@ -13,12 +13,12 @@
             font-family: Verdana, Arial, Helvetica, sans-serif;
             font-size: 11px;
             font-weight: normal;
-            color: #666666;
+            color: #333333;
         }
 
         .link:hover {
             font-weight: normal;
-            color: black;
+            color: #6666ff;
         }
 
         table.widget {
