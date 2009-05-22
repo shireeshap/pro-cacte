@@ -9,37 +9,79 @@
 <html>
 <head>
     <style type="text/css">
+        .link {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            font-weight: normal;
+            color: #666666;
+        }
+        .link:hover {
+            font-weight: normal;
+            color:black;
+        }
+
         table.widget {
             border: 1px solid #eaeaea;
             border-collapse: collapse;
-            width: 90%;
+            width: 100%;
         }
 
-        table.widget col {
-            width: 200px;
+        .highlight td {
+            background-color: #6666ff;
+            color: white;
+            cursor: pointer;
+        }
+
+        table.widget tr {
+            border-bottom: 1px #999999 solid;
         }
 
         td.data {
-            border: 1px solid #eaeaea; /*background-color: #D5D5D5;*/
             white-space: nowrap;
             text-align: center;
-
         }
 
         td.header-top {
-            border: 1px solid #eaeaea;
             font-weight: bold;
             text-align: center;
             background-color: #cccccc;
-            width: 100px;
+        }
+
+        .shadowB {
+            background: #FAFAFA url( ../../images/allCommon-Icons.gif ) repeat-x scroll 100% 100%;
+            border: 0 none;
+            padding-bottom: 4px;
+        }
+
+        .ddnotediv {
+            background-color: #F5F5F5;
+            border: 1px solid #E1E1E1;
+            padding: 5px 5px 5px 5px;
+            position: absolute;
+            text-align: left;
+        }
+
+        .shadowr {
+            background: #FAFAFA url( ../../images/allCommon-Icons.gif ) repeat-y scroll 100% -92px;
+            padding-right: 4px;
+        }
+
+        .indIcon {
+            padding-left: 10px;
+            padding-right: 10px;
+            position: relative;
+            visibility: hidden;
+            white-space: nowrap;
         }
     </style>
 </head>
 <body>
 <chrome:box title="Report">
+    <tags:button value="Show chart" color="blue" size="small" markupWithTag="a" onclick="studyLevelReportResults();"/>
+    <br/>
     <table class="widget" cellspacing="0" align="center">
-        <col/>
         <tr>
+            <td class="header-top"></td>
             <td class="header-top">
                 Participant
             </td>
@@ -49,26 +91,41 @@
             <td class="header-top">
                 Response
             </td>
-            <c:forEach items="${results}" var="lineItem">
+            <td class="header-top">
+                Study site
+            </td>
+            <c:forEach items="${results}" var="lineItem" varStatus="status">
                 <c:set var="schedule" value="${lineItem[0]}"/>
                 <c:set var="participant" value="${lineItem[1]}"/>
-        <tr>
+        <tr id="details_row_${status.index}" onmouseover="highlightrow('${status.index}');"
+            onmouseout="removehighlight('${status.index}');">
+            <td align="right">
+                <div id="img_${status.index}" class="indIcon">
+                    <img src="../../images/menu.png" alt=""
+                         onclick="showPopUpMenu('${status.index}','${participant.id}','${schedule.id}',-80,-130)"/>
+                </div>
+            </td>
             <td class="data">
                     ${participant.displayName}
             </td>
             <td class="data">
-                <a href="javascript:showResponses('${schedule.id}')"><tags:formatDate value="${schedule.startDate}"/></a>
+                <tags:formatDate value="${schedule.startDate}"/>
             </td>
             <td class="data">
                     ${response}
+            </td>
+            <td class="data">
+                    ${schedule.studyParticipantCrf.studyParticipantAssignment.studySite.displayName}
             </td>
         </tr>
         </c:forEach>
     </table>
     <br/>
 </chrome:box>
-<tags:button value="Back" color="blue" icon="back" size="medium" markupWithTag="a"
-             onclick="studyLevelReportResults();"/>
+<div id="dropnoteDiv" class="ddnotediv shadowB" style="display:none;left:0;top:0">
+    <div id="dropnoteinnerDiv" class="shadowr">
+    </div>
+</div>
 </body>
 </html>
 
