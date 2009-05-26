@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="report" tagdir="/WEB-INF/tags/reports" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
@@ -8,8 +9,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="ctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
-<%@ taglib prefix="report" tagdir="/WEB-INF/tags/reports" %>
 
 <html>
 <head>
@@ -184,7 +185,7 @@ function studyLevelReportResults() {
         return;
     }
     showIndicator();
-    var request = new Ajax.Request("<c:url value="/pages/reports/symptomSummaryReportResults"/>", {
+    var request = new Ajax.Request("<c:url value="/pages/reports/symptomOverTimeReportResults"/>", {
         parameters:"crfId=" + $('formSelect').options[$('formSelect').selectedIndex].value +
                    "&symptom=" + $('symptomSelect').options[$('symptomSelect').selectedIndex].value +
                    "&attribute=" + $('attributeSelect').options[$('attributeSelect').selectedIndex].value +
@@ -208,7 +209,7 @@ function showResults(transport) {
 
 function showDetails(params) {
     showIndicator();
-    var request = new Ajax.Request("<c:url value="/pages/reports/showDetails"/>", {
+    var request = new Ajax.Request("<c:url value="/pages/reports/showDetailsOverTime"/>", {
         parameters:params,
         onComplete:function(transport) {
             $('symptomSummaryReportInnerDiv').innerHTML = transport.responseText;
@@ -311,7 +312,7 @@ function findPosY(obj) {
 </script>
 </head>
 <body>
-<report:thirdlevelmenu selected="symptomsummary"/>
+<report:thirdlevelmenu selected="symptomovertime"/>
 <chrome:box title="participant.label.search_criteria">
     <div align="left" style="margin-left: 50px">
         <tags:renderAutocompleter propertyName="study"

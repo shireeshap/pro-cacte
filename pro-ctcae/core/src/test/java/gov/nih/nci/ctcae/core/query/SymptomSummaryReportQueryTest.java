@@ -79,6 +79,23 @@ public class SymptomSummaryReportQueryTest extends AbstractDependencyInjectionSp
 
     }
 
+    public void testSymptomOverTimeQuery() throws Exception {
+        SymptomOverTimeReportQuery query = new SymptomOverTimeReportQuery();
+        query.filterBySymptomId(11);
+        query.filterByAttribute(ProCtcQuestionType.SEVERITY);
+        query.filterByParticipantGender("Male");
+//        query.filterByScheduleStartDate(DateUtils.parseDate("05/10/2009"), DateUtils.parseDate("05/12/2009"));
+        query.filterByCrf(1);
+        query.filterByStudySite(15);
+        System.out.println(query.getQueryString());
+        List result = genericRepository.find(query);
+         for (Object obj : result) {
+            Object[] a = (Object[]) obj;
+            System.out.println(a[0] + "," + a[1]);
+        }
+
+    }
+
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;

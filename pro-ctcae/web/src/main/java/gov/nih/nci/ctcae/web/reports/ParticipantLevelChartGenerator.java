@@ -131,25 +131,16 @@ public class ParticipantLevelChartGenerator {
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
         renderer.setDrawBarOutline(false);
         renderer.setItemMargin(0.05);
-        
+
         CategoryItemRenderer categoryItemRenderer = plot.getRenderer();
         categoryItemRenderer.setBaseItemLabelsVisible(true);
         // set up gradient paints for series...
-        GradientPaint gp0 = new GradientPaint(0.0f, 0.0f, Color.blue,
-                0.0f, 0.0f, new Color(0, 0, 64));
-        GradientPaint gp1 = new GradientPaint(0.0f, 0.0f, Color.green,
-                0.0f, 0.0f, new Color(0, 64, 0));
-        GradientPaint gp2 = new GradientPaint(0.0f, 0.0f, Color.red,
-                0.0f, 0.0f, new Color(64, 0, 0));
-        GradientPaint gp3 = new GradientPaint(0.0f, 0.0f, Color.cyan,
-                0.0f, 0.0f, new Color(64, 0, 0));
-        GradientPaint gp4 = new GradientPaint(0.0f, 0.0f, Color.orange,
-                0.0f, 0.0f, new Color(64, 0, 0));
-        categoryItemRenderer.setSeriesPaint(0, gp0);
-        categoryItemRenderer.setSeriesPaint(1, gp1);
-        categoryItemRenderer.setSeriesPaint(2, gp2);
-        categoryItemRenderer.setSeriesPaint(3, gp3);
-        categoryItemRenderer.setSeriesPaint(4, gp4);
+
+        categoryItemRenderer.setSeriesPaint(0, Color.blue);
+        categoryItemRenderer.setSeriesPaint(1, Color.green);
+        categoryItemRenderer.setSeriesPaint(2, Color.red);
+        categoryItemRenderer.setSeriesPaint(3, Color.cyan);
+        categoryItemRenderer.setSeriesPaint(4, Color.orange);
         ItemLabelPosition itemLabelPosition = new ItemLabelPosition(ItemLabelAnchor.INSIDE12, TextAnchor.CENTER_RIGHT, TextAnchor.CENTER_RIGHT, -Math.PI / 2.0);
 
         for (int i = 0; i < 5; i++) {

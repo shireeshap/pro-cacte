@@ -8,10 +8,9 @@ import org.jfree.chart.labels.*;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.BarRenderer3D;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.urls.CategoryURLGenerator;
-import org.jfree.chart.urls.URLUtilities;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.TextAnchor;
@@ -111,6 +110,7 @@ public class SymptomSummaryChartGenerator {
         barrenderer1.setSeriesItemLabelGenerator(0, lg);
         barrenderer1.setSeriesPositiveItemLabelPosition(0, itemLabelPosition);
         barrenderer1.setSeriesItemLabelFont(0, new Font("SansSerif", Font.PLAIN, 13));
+        barrenderer1.setSeriesPaint(0, Color.blue);
 
         final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
@@ -127,6 +127,7 @@ public class SymptomSummaryChartGenerator {
         categoryItemRenderer.setSeriesItemLabelGenerator(0, lg1);
         categoryItemRenderer.setSeriesItemURLGenerator(0, new URLGenerator());
         categoryItemRenderer.setSeriesItemLabelFont(0, new Font("SansSerif", Font.PLAIN, 13));
+        categoryItemRenderer.setSeriesPaint(0, Color.blue);
         return chart;
 
     }

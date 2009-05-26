@@ -157,6 +157,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationClini
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyOrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/StudyQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomOverTimeReportQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomSummaryParticipantCountQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomSummaryReportDetailsQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomSummaryReportQuery.java -text
@@ -452,6 +453,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantC
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ShowCompletedCrfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/AbstractReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareExcelController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareExcelView.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareGraphicalReportController.java -text
@@ -467,6 +469,9 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportExcelV
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportPdfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportPdfView.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportResultsController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomOverTimeChartGenerator.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomOverTimeReportDetailsController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomOverTimeReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryReportDetailsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryReportResultsController.java -text
@@ -607,6 +612,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderSelect.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderSelectForDomainObject.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderText.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderTextArea.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/reports/thirdlevelmenu.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/requiredIndicator.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/reviewCrfPageItem.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/reviewQuestion.tag -text
@@ -695,6 +701,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantCareMonitor.jsp -
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantCareResults.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/studyLevelReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/studyLevelReportResults.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/symptomOverTimeDetails.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/symptomOverTimeReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/symptomSummaryDetails.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/symptomSummaryReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text

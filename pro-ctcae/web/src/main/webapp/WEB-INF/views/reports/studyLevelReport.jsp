@@ -2,6 +2,7 @@
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator"
           prefix="decorator" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="report" tagdir="/WEB-INF/tags/reports" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
@@ -212,28 +213,7 @@
     </script>
 </head>
 <body>
-<div class="tabpane">
-    <div class="workflow-tabs2">
-        <ul id="" class="tabs autoclear">
-            <proctcae:urlAuthorize url="/pages/reports/studyLevelReport">
-
-                <li id="thirdlevelnav-x" class="tab selected">
-                    <div>
-                        <a href="studyLevelReport"><tags:message code="reports.tab.studyLevel"/></a>
-                    </div>
-                </li>
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/reports/symptomsummary">
-
-                <li id="thirdlevelnav-x" class="tab">
-                    <div>
-                        <a href="symptomsummary"><tags:message code="reports.tab.symptomsummary"/></a>
-                    </div>
-                </li>
-            </proctcae:urlAuthorize>
-        </ul>
-    </div>
-</div>
+<report:thirdlevelmenu selected="studyLevelReport"/>
 <chrome:box title="participant.label.search_criteria">
     <div align="left" style="margin-left: 50px">
         <tags:renderAutocompleter propertyName="study"

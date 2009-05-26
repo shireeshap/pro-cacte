@@ -433,7 +433,24 @@
     </bean>
 
     <bean name="/reports/showDetails" id="symptomSummaryReportDetailsController"
-          class="gov.nih.nci.ctcae.web.reports.SymptomSummaryReportDetailsController" parent="symptomSummaryReportResultsController">
+          class="gov.nih.nci.ctcae.web.reports.SymptomSummaryReportDetailsController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+
+
+    <bean name="/reports/symptomovertime" id="symptomOverTimeReportController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>reports/symptomOverTimeReport</value>
+        </property>
+    </bean>
+    <bean name="/reports/symptomOverTimeReportResults" id="symptomOverTimeReportResultsController"
+          class="gov.nih.nci.ctcae.web.reports.SymptomOverTimeReportResultsController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+    <bean name="/reports/showDetailsOverTime" id="symptomOverTimeReportDetailsController"
+          class="gov.nih.nci.ctcae.web.reports.SymptomOverTimeReportDetailsController">
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
 

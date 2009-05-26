@@ -1,25 +1,20 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
+import gov.nih.nci.ctcae.core.query.SymptomOverTimeReportQuery;
 import gov.nih.nci.ctcae.core.query.SymptomSummaryParticipantCountQuery;
-import gov.nih.nci.ctcae.core.query.SymptomSummaryReportQuery;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.apache.commons.lang.StringUtils;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.entity.StandardEntityCollection;
 import org.jfree.chart.servlet.ServletUtilities;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -27,9 +22,8 @@ import java.util.Map;
  * Date: May 19, 2009
  * Time: 9:34:01 AM
  */
-public class SymptomSummaryReportResultsController extends AbstractReportResultsController {
+public class SymptomOverTimeReportResultsController extends AbstractReportResultsController {
 
-    protected GenericRepository genericRepository;
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -37,7 +31,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         if (!StringUtils.isBlank(request.getParameter("startDate"))) {
             dateRange = request.getParameter("startDate") + " - " + request.getParameter("endDate");
         }
-        SymptomSummaryReportQuery query = new SymptomSummaryReportQuery();
+        SymptomOverTimeReportQuery query = new SymptomOverTimeReportQuery();
         parseRequestParametersAndFormQuery(request, query);
         List results = genericRepository.find(query);
 
@@ -46,13 +40,12 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         List list = genericRepository.find(query1);
         Long l = (Long) list.get(0);
 
-        results = addEmptyValues(results, ProCtcQuestionType.getByDisplayName(request.getParameter("attribute")));
+        TreeMap<Integer, Float> out = transformData(results);
 
-
-        SymptomSummaryChartGenerator
-                chartGenerator = new SymptomSummaryChartGenerator();
+        SymptomOverTimeChartGenerator
+                chartGenerator = new SymptomOverTimeChartGenerator();
         ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, Integer.parseInt(request.getParameter("symptom")));
-        JFreeChart chart = chartGenerator.getChart(results, proCtcTerm.getTerm(), request.getParameter("attribute"), dateRange, request.getQueryString(), l);
+        JFreeChart chart = chartGenerator.getChart(out, proCtcTerm.getTerm(), request.getParameter("attribute"), dateRange, request.getQueryString(), l);
 
         //  Write the chart image to the temporary directory
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
@@ -67,27 +60,37 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         return modelAndView;
     }
 
-    private List addEmptyValues(List results, ProCtcQuestionType qType) {
-        List newResults = new ArrayList();
-        for (String vv : qType.getValidValues()) {
-            boolean found = false;
-            for (Object o : results) {
-                Object[] obj = (Object[]) o;
-                if (obj[1].equals(vv)) {
-                    found = true;
-                    newResults.add(o);
-                    break;
-                }
+    private TreeMap<Integer, Float> transformData(List results) {
+        TreeMap<Integer, ArrayList<Integer>> temp = new TreeMap<Integer, ArrayList<Integer>>();
+        TreeMap<Integer, Float> out = new TreeMap<Integer, Float>();
+        Calendar c = Calendar.getInstance();
+        for (Object obj : results) {
+            ArrayList<Integer> holderForAvg;
+            StudyParticipantCrfItem item = (StudyParticipantCrfItem) obj;
+            Integer val = item.getProCtcValidValue().getDisplayOrder();
+            Date startDate = item.getStudyParticipantCrfSchedule().getStartDate();
+            c.setTime(startDate);
+            int week = c.get(Calendar.WEEK_OF_YEAR);
+
+            if (temp.containsKey(week)) {
+                holderForAvg = temp.get(week);
+            } else {
+                holderForAvg = new ArrayList<Integer>();
+                temp.put(week, holderForAvg);
             }
-            if (!found) {
-                newResults.add(new Object[]{0L, vv});
-            }
+            holderForAvg.add(val.intValue());
         }
-        return newResults;
+
+        for (Integer i : temp.keySet()) {
+            ArrayList<Integer> l = temp.get(i);
+            float sum = 0;
+            for (Integer j : l) {
+                sum += j;
+            }
+            float avg = sum / l.size();
+            out.put(i, avg);
+        }
+        return out;
     }
 
-    @Required
-    public void setGenericRepository(GenericRepository genericRepository) {
-        this.genericRepository = genericRepository;
-    }
 }
