@@ -39,13 +39,13 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         parseRequestParametersAndFormQuery(request, query1);
         List list = genericRepository.find(query1);
         Long l = (Long) list.get(0);
-
+        int totalSchedules = results.size();
         TreeMap<Integer, Float> out = transformData(results);
 
         SymptomOverTimeChartGenerator
                 chartGenerator = new SymptomOverTimeChartGenerator();
         ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, Integer.parseInt(request.getParameter("symptom")));
-        JFreeChart chart = chartGenerator.getChart(out, proCtcTerm.getTerm(), request.getParameter("attribute"), dateRange, request.getQueryString(), l);
+        JFreeChart chart = chartGenerator.getChart(out, proCtcTerm.getTerm(), request.getParameter("attribute"), dateRange, request.getQueryString(), l, totalSchedules);
 
         //  Write the chart image to the temporary directory
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());

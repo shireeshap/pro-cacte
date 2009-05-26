@@ -29,11 +29,10 @@ public class SymptomOverTimeChartGenerator {
     private String queryString;
     private int firstWeek = 0;
 
-    public JFreeChart getChart(TreeMap<Integer, Float> results, String symptom, String attribute, String dates, String queryString, Long l) {
+    public JFreeChart getChart(TreeMap<Integer, Float> results, String symptom, String attribute, String dates, String queryString, Long l, int totalSchedules) {
         this.queryString = queryString;
-        StringBuffer first = new StringBuffer();
         CategoryDataset dataset = createDataset(results);
-        JFreeChart chart = createChart(dataset, symptom, attribute, dates);
+        JFreeChart chart = createChart(dataset, symptom, attribute, dates,l,totalSchedules);
         return chart;
     }
 
@@ -64,16 +63,17 @@ public class SymptomOverTimeChartGenerator {
      * @param dataset   the dataset
      * @param symptom
      * @param attribute @return the j free chart
-     * @param
+     * @param l
+     * @param totalSchedules
      */
 
-    private JFreeChart createChart(CategoryDataset dataset, String symptom, String attribute, String dates) {
+    private JFreeChart createChart(CategoryDataset dataset, String symptom, String attribute, String dates, Long l, int totalSchedules) {
 
         String title = "Average Patient Reported Responses vs. Time for the " + attribute + " of " + symptom + " symptom (" + dates + " responses)";
         JFreeChart chart = ChartFactory.createBarChart3D(
                 title,       // chart title
                 "Week #",               // domain axis label
-                "Average Response",                  // range axis label
+                "Average Response (n=" + totalSchedules + ", p=" + l + ")",                  // range axis label
                 dataset,                  // data
                 PlotOrientation.VERTICAL, // orientation
                 false,                     // include legend
