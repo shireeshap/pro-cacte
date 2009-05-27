@@ -69,7 +69,7 @@ public class SymptomOverTimeChartGenerator {
 
     private JFreeChart createChart(CategoryDataset dataset, String symptom, String attribute, String dates, Long l, int totalSchedules) {
 
-        String title = "Average Patient Reported Responses vs. Time for the " + attribute + " of " + symptom + " symptom (" + dates + " responses)";
+        String title = "Average Participant Reported Responses vs. Time for the " + attribute + " of " + symptom + " symptom (" + dates + " responses)";
         JFreeChart chart = ChartFactory.createBarChart3D(
                 title,       // chart title
                 "Week #",               // domain axis label
