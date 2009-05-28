@@ -213,7 +213,7 @@
              style="vertical-align:top;cursor:pointer"/>
         <tags:indicator id="participantquestion-indicator"/>
         <div id="participantquestion-choices" class="autocomplete"></div>
-        </p>
+        
         <br/>&nbsp;<br/>
     </chrome:box>
     <table width="100%">

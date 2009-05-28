@@ -144,6 +144,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CRFQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ClinicalStaffAssignmentQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ClinicalStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CtcQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/MeddraQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationClinicalStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ParticipantQuery.java -text

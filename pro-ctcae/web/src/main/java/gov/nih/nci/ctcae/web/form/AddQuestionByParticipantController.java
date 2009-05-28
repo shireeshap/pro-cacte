@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
+import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.repository.*;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.beans.factory.annotation.Required;
@@ -26,7 +27,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
     private StudyParticipantCrfRepository studyParticipantCrfRepository;
     private StudyParticipantCrfAddedQuestionRepository studyParticipantCrfAddedQuestionRepository;
     private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
-
+  
     private StudyParticipantCrfScheduleAddedQuestionRepository studyParticipantCrfScheduleAddedQuestionRepository;
 
 
@@ -154,4 +155,5 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
     public void setStudyParticipantCrfScheduleAddedQuestionRepository(StudyParticipantCrfScheduleAddedQuestionRepository studyParticipantCrfScheduleAddedQuestionRepository) {
         this.studyParticipantCrfScheduleAddedQuestionRepository = studyParticipantCrfScheduleAddedQuestionRepository;
     }
-}
+
+ }

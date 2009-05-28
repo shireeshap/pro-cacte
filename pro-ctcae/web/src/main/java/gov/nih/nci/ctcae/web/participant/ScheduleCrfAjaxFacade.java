@@ -4,8 +4,10 @@ import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
+import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.form.SubmitFormCommand;
 import gov.nih.nci.ctcae.web.form.SubmitFormController;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Required;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 //
 /**
@@ -33,6 +36,7 @@ public class ScheduleCrfAjaxFacade {
      * The study repository.
      */
     private StudyRepository studyRepository;
+    private GenericRepository genericRepository;
 
     /**
      * Match studies.
@@ -82,6 +86,15 @@ public class ScheduleCrfAjaxFacade {
                 results.add(symptom);
             }
         }
+        MeddraQuery meddraQuery = new MeddraQuery();
+        if (text != null && text.length() > 3) {
+            meddraQuery.filterMeddraWithMatchingText(text);
+            List meddraTermsObj = genericRepository.find(meddraQuery);
+            List<String> meddraTerms = (List<String>) meddraTermsObj;
+
+            results.addAll(meddraTerms);
+            Collections.sort(results);
+        }
         return results;
     }
 
@@ -103,5 +116,9 @@ public class ScheduleCrfAjaxFacade {
      */
     public void setStudyRepository(gov.nih.nci.ctcae.core.repository.StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
+    }
+
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }

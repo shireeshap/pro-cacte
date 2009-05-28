@@ -1,12 +1,7 @@
 package gov.nih.nci.ctcae.core.domain.meddra;
 
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -16,6 +11,8 @@ import org.hibernate.annotations.CascadeType;
 public class LowLevelTerm extends AbstractMeddraDomainObject {
 
     private PreferredTerm preferredTerm;
+
+
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "meddra_pt_id")
