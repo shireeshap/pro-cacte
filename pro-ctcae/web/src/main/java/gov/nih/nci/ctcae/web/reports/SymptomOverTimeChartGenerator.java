@@ -14,6 +14,7 @@ import org.jfree.chart.urls.CategoryURLGenerator;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.TextAnchor;
+import org.apache.commons.lang.StringUtils;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -27,12 +28,12 @@ import java.util.TreeMap;
 public class SymptomOverTimeChartGenerator {
 
     private String queryString;
-    private int firstWeek = 0;
+    private int firstCat = 0;
 
-    public JFreeChart getChart(TreeMap<Integer, Float> results, String symptom, String attribute, String dates, String queryString, Long l, int totalSchedules) {
+    public JFreeChart getChart(TreeMap<Integer, Float> results, String symptom, String attribute, String dates, String queryString, Long l, int totalSchedules, String group) {
         this.queryString = queryString;
-        CategoryDataset dataset = createDataset(results);
-        JFreeChart chart = createChart(dataset, symptom, attribute, dates,l,totalSchedules);
+        CategoryDataset dataset = createDataset(results, group);
+        JFreeChart chart = createChart(dataset, symptom, attribute, dates, l, totalSchedules);
         return chart;
     }
 
@@ -40,19 +41,20 @@ public class SymptomOverTimeChartGenerator {
      * Creates the dataset.
      *
      * @param results
+     * @param group
      * @return the category dataset
      */
 
 
-    private CategoryDataset createDataset(TreeMap<Integer, Float> results) {
+    private CategoryDataset createDataset(TreeMap<Integer, Float> results, String group) {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         if (results.keySet().size() > 0) {
-            firstWeek = (Integer) results.keySet().toArray()[0];
+            firstCat = (Integer) results.keySet().toArray()[0];
         }
 
         for (Integer i : results.keySet()) {
-            dataset.addValue(results.get(i), "", "Week " + (i - firstWeek + 1));
+            dataset.addValue(results.get(i), "", StringUtils.capitalize(group) + " " + (i - firstCat + 1));
         }
         return dataset;
     }
@@ -60,9 +62,9 @@ public class SymptomOverTimeChartGenerator {
     /**
      * Creates the chart.
      *
-     * @param dataset   the dataset
+     * @param dataset        the dataset
      * @param symptom
-     * @param attribute @return the j free chart
+     * @param attribute      @return the j free chart
      * @param l
      * @param totalSchedules
      */
@@ -111,11 +113,11 @@ public class SymptomOverTimeChartGenerator {
     class URLGenerator implements CategoryURLGenerator {
 
         public String generateURL(CategoryDataset dataset, int series, int category) {
-            String url = "javascript:showDetails('" + queryString + "&week=";
+            String url = "javascript:showDetails('" + queryString + "&cat=";
             Comparable categoryKey = dataset.getColumnKey(category);
-            String week = categoryKey.toString();
-            week = week.substring(week.indexOf(' ') + 1);
-            int weekInYear = Integer.parseInt(week) + firstWeek - 1;
+            String cat = categoryKey.toString();
+            cat = cat.substring(cat.indexOf(' ') + 1);
+            int weekInYear = Integer.parseInt(cat) + firstCat - 1;
             url += weekInYear;
             url += "');";
             return url;

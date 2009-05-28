@@ -147,8 +147,11 @@ function customVisit(showVisit) {
 
 }
 
-function studyLevelReportResults() {
+function studyLevelReportResults(group) {
     hasError = false;
+    if (group == '') {
+        group = 'week';
+    }
     //        var forVisits = $('visits').value;
 
     var visitRangeSelect = $('visitOptions');
@@ -194,6 +197,7 @@ function studyLevelReportResults() {
                    "&visitRange=" + visitRange +
                    "&startDate=" + stDate +
                    "&endDate=" + endDate +
+                   "&group=" + group +
                    "&subview=subview",
         onComplete:function(transport) {
             showResults(transport);
@@ -372,7 +376,7 @@ function findPosY(obj) {
 
         <div id="search" style="display:none" class="row">
             <div class="value"><tags:button color="blue" value="Search"
-                                            onclick="studyLevelReportResults()" size="big"
+                                            onclick="studyLevelReportResults('${group}')" size="big"
                                             icon="search"/>
                 <tags:indicator id="indicator"/>
             </div>

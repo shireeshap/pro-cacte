@@ -80,7 +80,8 @@
 </head>
 <body>
 <chrome:box title="Report">
-    <tags:button value="Show chart" color="blue" size="small" markupWithTag="a" onclick="studyLevelReportResults();"/>
+    <tags:button value="Show chart" color="blue" size="small" markupWithTag="a"
+                 onclick="studyLevelReportResults('${group}');"/>
     <br/>
     <table class="widget" cellspacing="0" align="center">
         <tr>

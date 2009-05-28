@@ -31,6 +31,11 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         if (!StringUtils.isBlank(request.getParameter("startDate"))) {
             dateRange = request.getParameter("startDate") + " - " + request.getParameter("endDate");
         }
+
+        String group = request.getParameter("group");
+        if (StringUtils.isBlank(group)) {
+            group = "week";
+        }
         SymptomOverTimeReportQuery query = new SymptomOverTimeReportQuery();
         parseRequestParametersAndFormQuery(request, query);
         List results = genericRepository.find(query);
@@ -40,12 +45,12 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         List list = genericRepository.find(query1);
         Long l = (Long) list.get(0);
         int totalSchedules = results.size();
-        TreeMap<Integer, Float> out = transformData(results);
+        TreeMap<Integer, Float> out = transformData(results, group);
 
         SymptomOverTimeChartGenerator
                 chartGenerator = new SymptomOverTimeChartGenerator();
         ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, Integer.parseInt(request.getParameter("symptom")));
-        JFreeChart chart = chartGenerator.getChart(out, proCtcTerm.getTerm(), request.getParameter("attribute"), dateRange, request.getQueryString(), l, totalSchedules);
+        JFreeChart chart = chartGenerator.getChart(out, proCtcTerm.getTerm(), request.getParameter("attribute"), dateRange, request.getQueryString(), l, totalSchedules,group);
 
         //  Write the chart image to the temporary directory
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
@@ -56,11 +61,12 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         Map model = new HashMap();
         model.put("filename", filename);
         model.put("imagemap", imageMap);
+        model.put("group", group);
         ModelAndView modelAndView = new ModelAndView("reports/bar_chart", model);
         return modelAndView;
     }
 
-    private TreeMap<Integer, Float> transformData(List results) {
+    private TreeMap<Integer, Float> transformData(List results, String group) {
         TreeMap<Integer, ArrayList<Integer>> temp = new TreeMap<Integer, ArrayList<Integer>>();
         TreeMap<Integer, Float> out = new TreeMap<Integer, Float>();
         Calendar c = Calendar.getInstance();
@@ -70,13 +76,18 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
             Integer val = item.getProCtcValidValue().getDisplayOrder();
             Date startDate = item.getStudyParticipantCrfSchedule().getStartDate();
             c.setTime(startDate);
-            int week = c.get(Calendar.WEEK_OF_YEAR);
-
-            if (temp.containsKey(week)) {
-                holderForAvg = temp.get(week);
+            int cat = 0;
+            if (group.equals("week")) {
+                cat = c.get(Calendar.WEEK_OF_YEAR);
+            }
+            if (group.equals("month")) {
+                cat = c.get(Calendar.MONTH);
+            }
+            if (temp.containsKey(cat)) {
+                holderForAvg = temp.get(cat);
             } else {
                 holderForAvg = new ArrayList<Integer>();
-                temp.put(week, holderForAvg);
+                temp.put(cat, holderForAvg);
             }
             holderForAvg.add(val.intValue());
         }
