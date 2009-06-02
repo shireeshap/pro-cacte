@@ -404,7 +404,7 @@ function deleteCycleConfirm(crfCycleIndex) {
 }
 function submitScheduleTemplateTabPage() {
     $('_target').name = "_target" + 2;
-    $("_finish").name = "_nofinish";
+//    $("_finish").name = "_nofinish";
     $('command').submit();
 }
 

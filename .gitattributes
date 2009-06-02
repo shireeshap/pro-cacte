@@ -147,6 +147,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CtcQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/MeddraQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationClinicalStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/OrganizationQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ParticipantAddedQuestionsReportQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ParticipantQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ProCtcQuestionQuery.java -text
@@ -285,6 +286,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/AbstractQueryTest.java
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/CRFQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ClinicalStaffQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/OrganizationQueryTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantAddedQuestionReportQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
@@ -455,6 +457,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SelectStudyPartici
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ShowCompletedCrfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/AbstractReportResultsController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantAddedQuestionsResultsReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareExcelController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareExcelView.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareGraphicalReportController.java -text
@@ -698,6 +701,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/searchParticipant.jsp -t
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/selectstudyparticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/showCompletedCrf.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/bar_chart.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsReport.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantCareMonitor.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantCareResults.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/studyLevelReport.jsp -text

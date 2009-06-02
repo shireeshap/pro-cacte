@@ -27,6 +27,14 @@
                     </div>
                 </li>
             </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/reports/participantaddedquestions">
+                <li id="thirdlevelnav-x" class="tab ${selected=='participantAddedQuestions'?'selected':''}">
+                    <div>
+                        <a href="participantaddedquestions"><tags:message code="reports.tab.participantaddedquestions"/></a>
+                    </div>
+                </li>
+            </proctcae:urlAuthorize>
         </ul>
     </div>
 </div>
+

@@ -453,6 +453,17 @@
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
+    <bean name="/reports/participantaddedquestions" id="participantAddedQuestionsReportController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>reports/participantAddedQuestionsReport</value>
+        </property>
+    </bean>
+    <bean name="/reports/participantAddedQuestionsResults" id="participantAddedQuestionsResultsController"
+          class="gov.nih.nci.ctcae.web.reports.ParticipantAddedQuestionsResultsReportResultsController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+
 
     <bean name="/home" id="homeController"
           class="gov.nih.nci.ctcae.web.login.LoginController">
