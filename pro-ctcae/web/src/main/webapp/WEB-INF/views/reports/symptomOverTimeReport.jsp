@@ -14,306 +14,64 @@
 
 <html>
 <head>
-<tags:dwrJavascriptLink objects="crf"/>
-<tags:includePrototypeWindow/>
-<tags:includeScriptaculous/>
-<tags:javascriptLink name="mouse"/>
-<script type="text/javascript">
-
-Event.observe(window, "load", function () {
-    var studyAutoCompleter = new studyAutoComplter('study');
-    acCreateStudyMonitor(studyAutoCompleter);
-    initSearchField();
-})
-
-function acCreateStudyMonitor(mode) {
-    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-            mode.populator, {
-        valueSelector: mode.valueSelector,
-        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-            acPostSelect(mode, selectedChoice);
-            displayForms();
-            displaySites();
-        },
-        indicator: mode.basename + "-indicator"
-    })
-}
-
-function getSelect(id) {
-    var dropDown ;
-    if ($(id + 'Select') == null) {
-        dropDown = new Element('SELECT', {'id':id + 'Select'})
-        $(id + 'DropDown').appendChild(dropDown);
-    } else {
-        dropDown = $(id + 'Select');
-        var len = dropDown.length;
-        for (i = 0; i < len; i++) {
-            $(id + 'Select').remove(0);
+    <tags:dwrJavascriptLink objects="crf"/>
+    <tags:includePrototypeWindow/>
+    <tags:includeScriptaculous/>
+    <tags:javascriptLink name="reports_common"/>
+    <tags:javascriptLink name="table_menu"/>
+    <script type="text/javascript">
+        function showResponses(id) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
+                parameters:"id=" + id + "&subview=subview",
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 700, 500);
+                },
+                method:'get'
+            })
         }
-    }
-    return dropDown;
-}
-
-function displayForms() {
-    var id = $('study').value
-    crf.getReducedCrfs(id, updateFormDropDown)
-}
-
-function updateFormDropDown(crfs) {
-    var formDropDown = getSelect('form');
-    formDropDown.onchange = function() {
-        displaySymptoms(this);
-    }
-    for (var i = 0; i < crfs.length; i++) {
-        var crf = crfs[i];
-        var option = new Element('OPTION', {});
-        option.text = crf.title;
-        option.value = crf.id;
-        formDropDown.appendChild(option);
-    }
-    displaySymptoms(formDropDown);
-    $('formDropDownDiv').show();
-    $('dateMenuDiv').show();
-    $('search').show();
-}
-
-function displaySymptoms(obj) {
-    crf.getSymptomsForCrf(obj[obj.selectedIndex].value, updateSymptomDropDown);
-}
-function updateSymptomDropDown(symptoms) {
-    var symptomDropDown = getSelect('symptom');
-    symptomDropDown.onchange = function() {
-        displayAttributes(this);
-    }
-    for (var i = 0; i < symptoms.length; i++) {
-        var symptom = symptoms[i];
-        var option = new Element('OPTION', {});
-        option.text = symptom.term;
-        option.value = symptom.id;
-        symptomDropDown.appendChild(option);
-    }
-    displayAttributes(symptomDropDown);
-    $('symptomDropDown').appendChild(symptomDropDown);
-    $('symptomDropDownDiv').show();
-}
-
-function displayAttributes(obj) {
-    crf.getAttributesForSymptom(obj[obj.selectedIndex].value, updateAttribueDropDown);
-}
-function updateAttribueDropDown(atributes) {
-    var attributeDropDown = getSelect('attribute');
-
-    for (var i = 0; i < atributes.length; i++) {
-        var atribute = atributes[i];
-        var option = new Element('OPTION', {});
-        option.text = atribute;
-        option.value = atribute;
-        attributeDropDown.appendChild(option);
-    }
-    $('attributeDropDown').appendChild(attributeDropDown);
-    $('attributeDropDownDiv').show();
-}
-function displaySites() {
-
-    organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
-        var siteNum = values.length;
-        var myStudySiteAutoComplter = new studySiteAutoComplter
-                ('studySite', $('study').value);
-        acCreate(myStudySiteAutoComplter);
-        initSearchField();
-        if (siteNum > 1) {
-            $('studySiteAutoCompleterDiv').show();
-        } else {
-            $('studySite').value = values[0].id;
-            $('studySiteName').innerHTML = values[0].displayName;
-            $('studySiteDiv').show();
+        function showDetails(params) {
+            showIndicator();
+            var request = new Ajax.Request("<c:url value="/pages/reports/showDetailsOverTime"/>", {
+                parameters:params,
+                onComplete:function(transport) {
+                    $('symptomSummaryReportInnerDiv').innerHTML = transport.responseText;
+                    hideIndicator();
+                },
+                method:'get'
+            })
         }
-    })
-}
-//
-function customVisit(showVisit) {
-    var myindex = showVisit.selectedIndex
-    var selValue = showVisit.options[myindex].value
-    if (selValue == "custom") {
-        $('visitNum').show();
-    } else {
-        $('visitNum').hide();
-    }
-    if (selValue == "dateRange") {
-        $('dateRange').show();
-    } else {
-        $('dateRange').hide();
-    }
 
-}
-
-function studyLevelReportResults(group) {
-    hasError = false;
-    if (group == '') {
-        group = 'week';
-    }
-    //        var forVisits = $('visits').value;
-
-    var visitRangeSelect = $('visitOptions');
-    var visitRange = visitRangeSelect.options[visitRangeSelect.selectedIndex].value;
-
-    //            if (visitRange == 'currentPrev' || visitRange == 'currentLast') {
-    //                forVisits = "2";
-    //            }
-    //
-    //            if (visitRange == 'lastFour') {
-    //                forVisits = "4";
-    //            }
-    //        if (visitRange == 'all' || visitRange == 'dateRange') {
-    //            forVisits = "-1";
-    //        }
-
-    var stDate = $('startDate').value;
-    var endDate = $('endDate').value;
-    if (visitRange == 'dateRange') {
-        if (stDate == '') {
-            hasError = true;
-            showError($('startDate'));
-        } else {
-            removeError($('startDate'));
+        function reportResults(group) {
+            if (!performValidations()) {
+                return;
+            }
+            if (group == '') {
+                group = 'week';
+            }
+            var visitRangeSelect = $('visitOptions');
+            var visitRange = visitRangeSelect.options[visitRangeSelect.selectedIndex].value;
+            var stDate = $('startDate').value;
+            var endDate = $('endDate').value;
+            showIndicator();
+            var request = new Ajax.Request("<c:url value="/pages/reports/symptomOverTimeReportResults"/>", {
+                parameters:"crfId=" + $('formSelect').options[$('formSelect').selectedIndex].value +
+                           "&symptom=" + $('symptomSelect').options[$('symptomSelect').selectedIndex].value +
+                           "&attribute=" + $('attributeSelect').options[$('attributeSelect').selectedIndex].value +
+                           "&gender=all" +
+                           "&studySiteId=" + $('studySite').value +
+                           "&visitRange=" + visitRange +
+                           "&startDate=" + stDate +
+                           "&endDate=" + endDate +
+                           "&group=" + group +
+                           "&subview=subview",
+                onComplete:function(transport) {
+                    showResults(transport);
+                    hideIndicator();
+                },
+                method:'get'
+            })
         }
-        if (endDate == '') {
-            hasError = true;
-            showError($('endDate'));
-        } else {
-            removeError($('endDate'));
-        }
-    }
-    if (hasError) {
-        return;
-    }
-    showIndicator();
-    var request = new Ajax.Request("<c:url value="/pages/reports/symptomOverTimeReportResults"/>", {
-        parameters:"crfId=" + $('formSelect').options[$('formSelect').selectedIndex].value +
-                   "&symptom=" + $('symptomSelect').options[$('symptomSelect').selectedIndex].value +
-                   "&attribute=" + $('attributeSelect').options[$('attributeSelect').selectedIndex].value +
-                   "&gender=all" +
-                   "&studySiteId=" + $('studySite').value +
-                   "&visitRange=" + visitRange +
-                   "&startDate=" + stDate +
-                   "&endDate=" + endDate +
-                   "&group=" + group +
-                   "&subview=subview",
-        onComplete:function(transport) {
-            showResults(transport);
-            hideIndicator();
-        },
-        method:'get'
-    })
-}
-function showResults(transport) {
-    $('symptomSummaryReportOuterDiv').show();
-    $('symptomSummaryReportInnerDiv').innerHTML = transport.responseText;
-}
-
-function showDetails(params) {
-    showIndicator();
-    var request = new Ajax.Request("<c:url value="/pages/reports/showDetailsOverTime"/>", {
-        parameters:params,
-        onComplete:function(transport) {
-            $('symptomSummaryReportInnerDiv').innerHTML = transport.responseText;
-            hideIndicator();
-        },
-        method:'get'
-    })
-}
-function hideHelp() {
-    $('attribute-help-content').style.display = 'none';
-}
-var hasError = false;
-function showError(element) {
-    hasError = true;
-    removeError(element);
-    new Insertion.Bottom(element.parentNode, " <ul id='" + element.name + "-msg'class='errors'><li>" + 'Missing ' + element.title + "</li></ul>");
-}
-function removeError(element) {
-    msgId = element.name + "-msg"
-    $(msgId) != null ? new Element.remove(msgId) : null
-}
-
-function showIndicator() {
-    $('indicator').style.visibility = 'visible';
-}
-function hideIndicator() {
-    $('indicator').style.visibility = 'hidden';
-}
-function showResponses(id) {
-    var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
-        parameters:"id=" + id + "&subview=subview",
-        onComplete:function(transport) {
-            showConfirmationWindow(transport, 700, 500);
-        },
-        method:'get'
-    })
-}
-function highlightrow(index) {
-    $('details_row_' + index).className = 'highlight';
-    $('img_' + index).style.visibility = 'visible';
-}
-
-function removehighlight(index)
-{
-    var rEle = $('details_row_' + index);
-    rEle.className = '';
-    $('img_' + index).style.visibility = 'hidden';
-    if ($("dropnoteDiv")) {
-        Element.hide($("dropnoteDiv"));
-        $("dropnoteDiv").onmouseover = function() {
-            rEle.className = "highlight";
-            $('img_' + index).style.visibility = "visible";
-            Element.show($("dropnoteDiv"));
-        };
-        $("dropnoteDiv").onmouseout = function() {
-            rEle.className = "";
-            $('img_' + index).style.visibility = "hidden";
-            Element.hide($("dropnoteDiv"));
-        };
-    }
-}
-
-function showPopUpMenu(index, pid, sid, x, y) {
-
-    var html = '<a href="../participant/create?id=' + pid + '" class="link">View participant</a><br/><a href="javascript:showResponses(' + sid + ');" class="link">View all responses</a>';
-    Element.show($("dropnoteDiv"));
-    $("dropnoteDiv").style.left = (findPosX($("img_" + index)) + x) + 'px';
-    $("dropnoteDiv").style.top = (findPosY($("img_" + index)) + y) + 'px';
-    $("dropnoteinnerDiv").innerHTML = html;
-}
-
-function findPosX(obj) {
-    var X = 0;
-    if (document.getElementById || document.all) {
-        while (obj.offsetParent) {
-            X += obj.offsetLeft;
-            obj = obj.offsetParent;
-        }
-    } else {
-        if (document.layers) {
-            X += obj.x;
-        }
-    }
-    return X;
-}
-function findPosY(obj) {
-    var Y = 0;
-    if (document.getElementById || document.all) {
-        while (obj.offsetParent) {
-            Y += obj.offsetTop;
-            obj = obj.offsetParent;
-        }
-    } else {
-        if (document.layers) {
-            Y += obj.y;
-        }
-    }
-    return Y;
-}
-</script>
+    </script>
 </head>
 <body>
 <report:thirdlevelmenu selected="symptomovertime"/>
@@ -376,7 +134,7 @@ function findPosY(obj) {
 
         <div id="search" style="display:none" class="row">
             <div class="value"><tags:button color="blue" value="Search"
-                                            onclick="studyLevelReportResults('${group}')" size="big"
+                                            onclick="reportResults('${group}')" size="big"
                                             icon="search"/>
                 <tags:indicator id="indicator"/>
             </div>
@@ -384,9 +142,9 @@ function findPosY(obj) {
 
     </div>
 </chrome:box>
-<div id="symptomSummaryReportOuterDiv" style="display:none;">
+<div id="reportOuterDiv" style="display:none;">
     <div>
-        <div id="symptomSummaryReportInnerDiv"/>
+        <div id="reportInnerDiv"/>
     </div>
 </div>
 </body>

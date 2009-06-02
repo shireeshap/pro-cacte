@@ -460,7 +460,7 @@
         </property>
     </bean>
     <bean name="/reports/participantAddedQuestionsResults" id="participantAddedQuestionsResultsController"
-          class="gov.nih.nci.ctcae.web.reports.ParticipantAddedQuestionsResultsReportResultsController">
+          class="gov.nih.nci.ctcae.web.reports.ParticipantAddedQuestionsReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
 

@@ -6,11 +6,11 @@
     <c:choose>
         <c:when test="${group =='week'}">
             <tags:button value="Group by month" color="blue" size="small" markupWithTag="a"
-                         onclick="studyLevelReportResults('month');"/>
+                         onclick="reportResults('month');"/>
         </c:when>
         <c:when test="${group =='month'}">
             <tags:button value="Group by week" color="blue" size="small" markupWithTag="a"
-                         onclick="studyLevelReportResults('week');"/>
+                         onclick="reportResults('week');"/>
         </c:when>
     </c:choose>
 

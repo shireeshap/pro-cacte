@@ -26,7 +26,7 @@ import java.util.*;
  * Date: Jun 2, 2009
  * Time: 8:01:32 AM
  */
-public class ParticipantAddedQuestionsResultsReportResultsController extends AbstractController {
+public class ParticipantAddedQuestionsReportResultsController extends AbstractController {
     GenericRepository genericRepository;
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

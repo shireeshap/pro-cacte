@@ -21,100 +21,15 @@
     <tags:dwrJavascriptLink objects="participant"/>
     <tags:includePrototypeWindow/>
     <tags:includeScriptaculous/>
+    <tags:javascriptLink name="reports_common"/>
     <script type="text/javascript">
-        Event.observe(window, "load", function () {
-            var studyAutoCompleter = new studyAutoComplter('study');
-            acCreateStudyMonitor(studyAutoCompleter);
-            initSearchField();
-        })
 
-        function acCreateStudyMonitor(mode) {
-            new Autocompleter.DWR(mode.basename + "-input", mode.basename +
-                                                            "-choices",
-                    mode.populator, {
-                valueSelector: mode.valueSelector,
-                afterUpdateElement: function(inputElement, selectedElement,
-                                             selectedChoice) {
-                    acPostSelect(mode, selectedChoice);
-                    displayForms();
-                    displaySites();
-                },
-                indicator: mode.basename + "-indicator"
-            })
-
-        }
-        function displayForms() {
-            var id = $('study').value
-            crf.getReducedCrfs(id, updateFormDropDown)
-        }
-
-        function clearDiv(divid) {
-            var children = $(divid).childElements();
-            for (i = 0; i < children.length; i++) {
-                $(children[i]).remove();
+        var displaySymptom = false;
+        var studySiteMandatory = true;
+        function reportResults(format, symptomId, selectedTypes) {
+            if (!performValidations()) {
+                return;
             }
-        }
-
-        function updateFormDropDown(crfs) {
-            //            clearDiv('formDropDown');
-            var formDropDown = new Element('SELECT', {'id':'formSelect'})
-
-            for (var i = 0; i < crfs.length; i++) {
-                var crf = crfs[i];
-                var option = new Element('OPTION', {});
-                option.text = crf.title;
-                option.value = crf.id;
-                formDropDown.appendChild(option);
-            }
-
-            $('formDropDown').appendChild(formDropDown);
-            $('formDropDownDiv').show();
-            $('dateMenuDiv').show();
-            $('search').show();
-        }
-
-
-        function displaySites() {
-
-            organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
-                var siteNum = values.length;
-                //  alert(values.length);
-
-                var myStudySiteAutoComplter = new studySiteAutoComplter
-                        ('studySite', $('study').value);
-                acCreate(myStudySiteAutoComplter);
-                initSearchField();
-                //alert(values[0].displayName);
-                if (siteNum > 1) {
-                    $('studySiteAutoCompleterDiv').show();
-                } else {
-                    $('studySite').value = values[0].id;
-                    //  $('studySiteName').value=values[0].displayName;
-                    $('studySiteName').innerHTML = values[0].displayName;
-                    $('studySiteDiv').show();
-                }
-            })
-        }
-
-
-        function customVisit(showVisit) {
-            var myindex = showVisit.selectedIndex
-            var selValue = showVisit.options[myindex].value
-            if (selValue == "custom") {
-                $('visitNum').show();
-            } else {
-                $('visitNum').hide();
-            }
-            if (selValue == "dateRange") {
-                $('dateRange').show();
-            } else {
-                $('dateRange').hide();
-            }
-
-        }
-
-        function studyLevelReportResults(format, symptomId, selectedTypes) {
-            hasError = false;
             var studyId = $('study').value;
             var forVisits = $('visits').value;
 
@@ -125,41 +40,11 @@
             var visitRange = visitRangeSelect.options[visitRangeSelect.selectedIndex].value;
 
             var studySiteId = $('studySite').value;
-            if (studySiteId == '') {
-                showError($('studySite'));
-            } else {
-                removeError($('studySite'));
-            }
-
-            //            if (visitRange == 'currentPrev' || visitRange == 'currentLast') {
-            //                forVisits = "2";
-            //            }
-            //
-            //            if (visitRange == 'lastFour') {
-            //                forVisits = "4";
-            //            }
             if (visitRange == 'all' || visitRange == 'dateRange') {
                 forVisits = "-1";
             }
             var stDate = $('startDate').value;
             var endDate = $('endDate').value;
-            if (visitRange == 'dateRange') {
-                if (stDate == '') {
-                    hasError = true;
-                    showError($('startDate'));
-                } else {
-                    removeError($('startDate'));
-                }
-                if (endDate == '') {
-                    hasError = true;
-                    showError($('endDate'));
-                } else {
-                    removeError($('endDate'));
-                }
-            }
-            if (hasError) {
-                return;
-            }
             if (format == 'tabular') {
                 showIndicator();
                 var request = new Ajax.Request("<c:url value="/pages/reports/studyLevelReportResults"/>", {
@@ -168,17 +53,12 @@
                                "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate + "&endDate=" + endDate +
                                "&subview=subview",
                     onComplete:function(transport) {
-                        showResultsTable(transport);
+                        showResults(transport);
                         hideIndicator();
                     },
                     method:'get'
                 })
             }
-        }
-
-        function showResultsTable(transport) {
-            $('displayParticipantCareResults').show();
-            $('displayResultsTable').innerHTML = transport.responseText;
         }
 
         function getChartView() {
@@ -189,27 +69,6 @@
             $('careResultsTable').show();
             $('careResultsGraph').hide();
         }
-        function hideHelp() {
-            $('attribute-help-content').style.display = 'none';
-        }
-        var hasError = false;
-        function showError(element) {
-            hasError = true;
-            removeError(element);
-            new Insertion.Bottom(element.parentNode, " <ul id='" + element.name + "-msg'class='errors'><li>" + 'Missing ' + element.title + "</li></ul>");
-        }
-        function removeError(element) {
-            msgId = element.name + "-msg"
-            $(msgId) != null ? new Element.remove(msgId) : null
-        }
-
-        function showIndicator() {
-            $('indicator').style.visibility = 'visible';
-        }
-        function hideIndicator() {
-            $('indicator').style.visibility = 'hidden';
-        }
-
     </script>
 </head>
 <body>
@@ -241,10 +100,6 @@
                 <select id="visitOptions" name="visitOptions"
                         onChange="customVisit(this)">
                     <option value="all">All dates</option>
-                        <%--<option value="currentPrev">Current & Previous</option>--%>
-                        <%--<option value="lastFour">Last four</option>--%>
-                        <%--<option value="currentLast">Current & First</option>--%>
-                        <%--<option value="custom">Custom</option>--%>
                     <option value="dateRange">Date range</option>
                 </select>
             </div>
@@ -269,7 +124,7 @@
 
         <div id="search" style="display:none" class="row">
             <div class="value"><tags:button color="blue" value="Search"
-                                            onclick="studyLevelReportResults('tabular')" size="big"
+                                            onclick="reportResults('tabular')" size="big"
                                             icon="search"/>
                 <tags:indicator id="indicator"/>
             </div>
@@ -277,9 +132,9 @@
 
     </div>
 </chrome:box>
-<div id="displayParticipantCareResults" style="display:none;">
+<div id="reportOuterDiv" style="display:none;">
     <div>
-        <div id="displayResultsTable"/>
+        <div id="reportInnerDiv"/>
     </div>
 </div>
 </body>
