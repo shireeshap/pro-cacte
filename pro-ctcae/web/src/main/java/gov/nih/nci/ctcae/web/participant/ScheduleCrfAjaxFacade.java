@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
@@ -79,14 +80,14 @@ public class ScheduleCrfAjaxFacade {
     public List<String> matchSymptoms(HttpServletRequest request, String text) {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand)
                 request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
-        List<String> symptoms = submitFormCommand.getSortedSymptoms();
+        List<ProCtcTerm> symptoms = submitFormCommand.getSortedSymptoms();
         List<String> results = new ArrayList<String>();
-        for (String symptom : symptoms) {
-            if (symptom.toLowerCase().contains((text.toLowerCase()))) {
-                results.add(symptom);
+        for (ProCtcTerm symptom : symptoms) {
+            if (symptom.getTerm().toLowerCase().contains((text.toLowerCase()))) {
+                results.add(symptom.getTerm());
             }
         }
-        MeddraQuery meddraQuery = new MeddraQuery();
+        MeddraQuery meddraQuery = new MeddraQuery(true);
         if (text != null && text.length() > 3) {
             meddraQuery.filterMeddraWithMatchingText(text);
             List meddraTermsObj = genericRepository.find(meddraQuery);

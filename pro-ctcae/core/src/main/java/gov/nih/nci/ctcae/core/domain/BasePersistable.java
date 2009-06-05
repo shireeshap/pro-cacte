@@ -23,6 +23,7 @@ public abstract class BasePersistable implements Persistable {
     /**
      * {@inheritDoc}
      */
+    @Transient
     public boolean isPersisted() {
         return getId() != null;
     }

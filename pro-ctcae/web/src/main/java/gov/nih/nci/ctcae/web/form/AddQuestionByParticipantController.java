@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
-import gov.nih.nci.ctcae.core.query.MeddraQuery;
+import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
+import gov.nih.nci.ctcae.core.query.*;
 import gov.nih.nci.ctcae.core.repository.*;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.beans.factory.annotation.Required;
@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Collection;
+import java.util.ArrayList;
 
 //
 /**
@@ -23,11 +25,14 @@ import java.util.List;
  */
 public class AddQuestionByParticipantController extends CtcAeSimpleFormController {
 
-    private ProCtcQuestionRepository proCtcQuestionRepository;
     private StudyParticipantCrfRepository studyParticipantCrfRepository;
     private StudyParticipantCrfAddedQuestionRepository studyParticipantCrfAddedQuestionRepository;
     private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
-  
+    private MeddraRepository meddraRepository;
+    private CtcTermRepository ctcTermRepository;
+    private ProCtcTermRepository proCtcTermRepository;
+    private GenericRepository genericRepository;
+
     private StudyParticipantCrfScheduleAddedQuestionRepository studyParticipantCrfScheduleAddedQuestionRepository;
 
 
@@ -62,26 +67,36 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
             request.getSession().setAttribute("skipaddquestion", "true");
 
             String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
-            Hashtable arrangedQuestions = ((SubmitFormCommand) command).getArrangedQuestions();
 
             if (selectedSymptoms != null) {
                 for (String symptom : selectedSymptoms) {
-                    List<ProCtcQuestion> questions = (List<ProCtcQuestion>) arrangedQuestions.get(symptom);
-                    for (ProCtcQuestion question : questions) {
 
-                        StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = new StudyParticipantCrfAddedQuestion();
-                        studyParticipantCrfAddedQuestion.setProCtcQuestion(question);
-                        studyParticipantCrfAddedQuestion.setPageNumber(pageNumber);
-                        studyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
-                        studyParticipantCrfAddedQuestionRepository.save(studyParticipantCrfAddedQuestion);
-
-                        StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
-                        studyParticipantCrfScheduleAddedQuestion.setProCtcQuestion(question);
-                        studyParticipantCrfScheduleAddedQuestion.setPageNumber(pageNumber);
-                        studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
-                        studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfScheduleAddedQuestion);
-                        studyParticipantCrfScheduleAddedQuestionRepository.save(studyParticipantCrfScheduleAddedQuestion);
-
+                    CtcQuery ctcQuery = new CtcQuery();
+                    MeddraQuery meddraQuery = new MeddraQuery();
+                    ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+                    proCtcTermQuery.filterByTerm(symptom);
+                    ProCtcTerm proCtcTerm = proCtcTermRepository.findSingle(proCtcTermQuery);
+                    if (proCtcTerm != null) {
+                        addProCtcQuestion(proCtcTerm, pageNumber, studyParticipantCrf, studyParticipantCrfSchedule);
+                    } else {
+                        meddraQuery.filterByMeddraTerm(symptom);
+                        LowLevelTerm lowLevelTerm = meddraRepository.findSingle(meddraQuery);
+                        String meddraCode = lowLevelTerm.getMeddraCode();
+                        ctcQuery.filterByCtepCode(meddraCode);
+                        CtcTerm ctcTerm = ctcTermRepository.findSingle(ctcQuery);
+                        if (ctcTerm == null) {
+                            addMeddraQuestion(lowLevelTerm, pageNumber, studyParticipantCrf, studyParticipantCrfSchedule);
+                        } else {
+                            Integer ctcTermId = ctcTerm.getId();
+                            proCtcTermQuery = new ProCtcTermQuery();
+                            proCtcTermQuery.filterByCtcTermId(ctcTermId);
+                            proCtcTerm = proCtcTermRepository.findSingle(proCtcTermQuery);
+                            if (proCtcTerm == null) {
+                                addMeddraQuestion(lowLevelTerm, pageNumber, studyParticipantCrf, studyParticipantCrfSchedule);
+                            } else {
+                                addProCtcQuestion(proCtcTerm, pageNumber, studyParticipantCrf, studyParticipantCrfSchedule);
+                            }
+                        }
                     }
                     pageNumber++;
                 }
@@ -90,6 +105,66 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
             request.getSession().setAttribute("gotopage", "" + pageNumber);
         }
         return new ModelAndView(new RedirectView("submit?id=" + ((SubmitFormCommand) command).getStudyParticipantCrfSchedule().getId()));
+    }
+
+    public void addProCtcQuestion(ProCtcTerm proCtcTerm, int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+        List<ProCtcQuestion> questions = proCtcTerm.getProCtcQuestions();
+        for (ProCtcQuestion question : questions) {
+
+            StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = new StudyParticipantCrfAddedQuestion();
+            studyParticipantCrfAddedQuestion.setProCtcQuestion(question);
+            studyParticipantCrfAddedQuestion.setPageNumber(pageNumber);
+            studyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+            studyParticipantCrfAddedQuestionRepository.save(studyParticipantCrfAddedQuestion);
+
+            StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
+            studyParticipantCrfScheduleAddedQuestion.setProCtcQuestion(question);
+            studyParticipantCrfScheduleAddedQuestion.setPageNumber(pageNumber);
+            studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+            studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfScheduleAddedQuestion);
+            studyParticipantCrfScheduleAddedQuestionRepository.save(studyParticipantCrfScheduleAddedQuestion);
+        }
+    }
+
+    public void addMeddraQuestion(LowLevelTerm lowLevelTerm, int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+        List<MeddraQuestion> meddraQuestions = lowLevelTerm.getMeddraQuestions();
+        MeddraQuestion meddraQuestion;
+        if (meddraQuestions.size() > 0) {
+            meddraQuestion = meddraQuestions.get(0);
+        } else {
+            meddraQuestion = createMeddraQuestion(lowLevelTerm);
+        }
+        StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = new StudyParticipantCrfAddedQuestion();
+        studyParticipantCrfAddedQuestion.setMeddraQuestion(meddraQuestion);
+        studyParticipantCrfAddedQuestion.setPageNumber(pageNumber);
+        studyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+        studyParticipantCrfAddedQuestionRepository.save(studyParticipantCrfAddedQuestion);
+
+        StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
+        studyParticipantCrfScheduleAddedQuestion.setMeddraQuestion(meddraQuestion);
+        studyParticipantCrfScheduleAddedQuestion.setPageNumber(pageNumber);
+        studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+        studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfScheduleAddedQuestion);
+        studyParticipantCrfScheduleAddedQuestionRepository.save(studyParticipantCrfScheduleAddedQuestion);
+
+    }
+
+    private MeddraQuestion createMeddraQuestion(LowLevelTerm lowLevelTerm) {
+        MeddraQuestion meddraQuestion = new MeddraQuestion();
+        MeddraValidValue meddraValidValue = new MeddraValidValue();
+        meddraQuestion.setLowLevelTerm(lowLevelTerm);
+        meddraQuestion.setProCtcQuestionType(ProCtcQuestionType.PRESENT);
+        meddraValidValue.setValue("Yes");
+        meddraValidValue.setDisplayOrder(0);
+        MeddraValidValue meddraValidValue1 = new MeddraValidValue();
+        meddraValidValue1.setValue("No");
+        meddraValidValue1.setDisplayOrder(1);
+        meddraQuestion.addValidValue(meddraValidValue);
+        meddraQuestion.addValidValue(meddraValidValue1);
+        meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm() + "?");
+        meddraQuestion.setDisplayOrder(0);
+        genericRepository.save(meddraQuestion);
+        return meddraQuestion;
     }
 
 
@@ -101,9 +176,9 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         SubmitFormCommand submitFormCommand = (SubmitFormCommand)
                 request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
 
-        ProCtcQuestionQuery query = new ProCtcQuestionQuery();
-        List<ProCtcQuestion> questions = (List<ProCtcQuestion>) proCtcQuestionRepository.find(query);
-        submitFormCommand.setProCtcQuestions(questions);
+        ProCtcTermQuery query = new ProCtcTermQuery();
+        ArrayList<ProCtcTerm> proCtcTerms = (ArrayList<ProCtcTerm>) proCtcTermRepository.find(query);
+        submitFormCommand.computeAdditionalSymptoms(proCtcTerms);
 
         return submitFormCommand;
     }
@@ -127,10 +202,6 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         this.reviewView = reviewView;
     }
 
-    @Required
-    public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
-        this.proCtcQuestionRepository = proCtcQuestionRepository;
-    }
 
     @Required
 
@@ -156,4 +227,31 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         this.studyParticipantCrfScheduleAddedQuestionRepository = studyParticipantCrfScheduleAddedQuestionRepository;
     }
 
- }
+    public MeddraRepository getMeddraRepository() {
+        return meddraRepository;
+    }
+
+    public void setMeddraRepository(MeddraRepository meddraRepository) {
+        this.meddraRepository = meddraRepository;
+    }
+
+    public CtcTermRepository getCtcTermRepository() {
+        return ctcTermRepository;
+    }
+
+    public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
+        this.ctcTermRepository = ctcTermRepository;
+    }
+
+    public ProCtcTermRepository getProCtcTermRepository() {
+        return proCtcTermRepository;
+    }
+
+    public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+        this.proCtcTermRepository = proCtcTermRepository;
+    }
+
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
+    }
+}

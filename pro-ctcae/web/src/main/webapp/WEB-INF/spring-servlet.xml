@@ -228,12 +228,15 @@
 
     <bean name="/form/addquestion" id="addQuestionByParticipantController"
           class="gov.nih.nci.ctcae.web.form.AddQuestionByParticipantController" parent="ctcaeSimpleFormController">
-        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
         <property name="studyParticipantCrfRepository" ref="studyParticipantCrfRepository"/>
         <property name="studyParticipantCrfAddedQuestionRepository" ref="studyParticipantCrfAddedQuestionRepository"/>
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
         <property name="studyParticipantCrfScheduleAddedQuestionRepository"
                   ref="studyParticipantCrfScheduleAddedQuestionRepository"/>
+        <property name="meddraRepository" ref="meddraRepository"/>
+        <property name="ctcTermRepository" ref="ctcTermRepository"/>
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
     <bean name="/form/addConditionalQuestion" id="addConditionalQuestionController"
           class="gov.nih.nci.ctcae.web.form.AddConditionalQuestionController">
@@ -488,7 +491,9 @@
     <bean id="ctcaeSimpleFormController" class="gov.nih.nci.ctcae.web.CtcAeSimpleFormController"
           p:proCtcValidValueRepository-ref="proCtcValidValueRepository"
           p:organizationRepository-ref="organizationRepository"
-          p:controllerTools-ref="controllerTools" p:studyOrganizationRepository-ref="studyOrganizationRepository">
+          p:controllerTools-ref="controllerTools"
+          p:studyOrganizationRepository-ref="studyOrganizationRepository"
+          p:meddraValidValueRepository-ref="meddraValidValueRepository">
         <property name="webControllerValidator" ref="webControllerValidator"/>
     </bean>
 

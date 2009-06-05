@@ -90,7 +90,6 @@ public class SubmitFormCommandTest extends WebTestCase {
         questions.add(proCtcQuestion6);
         questions.add(proCtcQuestion7);
         questions.add(proCtcQuestion8);
-        command.setProCtcQuestions(questions);
 
 
         crf = Fixture.createCrf();

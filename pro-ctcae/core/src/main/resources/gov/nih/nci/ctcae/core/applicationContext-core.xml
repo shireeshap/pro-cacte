@@ -61,6 +61,8 @@
         <value>gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm</value>
         <value>gov.nih.nci.ctcae.core.domain.meddra.PreferredTerm</value>
         <value>gov.nih.nci.ctcae.core.domain.meddra.SystemOrganClass</value>
+        <value>gov.nih.nci.ctcae.core.domain.MeddraQuestion</value>
+        <value>gov.nih.nci.ctcae.core.domain.MeddraValidValue</value>
 
 
     </util:list>
@@ -215,6 +217,9 @@
     <bean id="ctcTermRepository" class="gov.nih.nci.ctcae.core.repository.CtcTermRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
+     <bean id="meddraRepository" class="gov.nih.nci.ctcae.core.repository.MeddraRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
 
     <bean id="proCtcQuestionRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository"
           p:genericRepository-ref="genericRepository">
@@ -251,6 +256,11 @@
     </bean>
     <bean id="studyParticipantCrfScheduleRepository"
           class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+
+    <bean id="meddraValidValueRepository"
+          class="gov.nih.nci.ctcae.core.repository.MeddraValidValueRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
 

@@ -174,22 +174,23 @@
         <table id="mytable">
             <tbody>
             <c:set var="numrows" value="6"/>
+            <c:set var="displaySymptoms" value="${command.displaySymptoms}"/>
             <c:forEach var="i" begin="0" end="${numrows}" varStatus="status">
-                <c:if test="${command.displaySymptoms[i*3+0] ne null}">
+                <c:if test="${displaySymptoms[i*3+0] ne null}">
                     <tr id="tr_"${i}>
                         <c:forEach var="j" begin="0" end="2" varStatus="status">
                             <td id="td_${i + (numrows+1)*j}_a" class="" width="1%">
-                                <c:if test="${command.displaySymptoms[i + (numrows+1)*j] ne null}">
+                                <c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <input type="checkbox" name="symptomsByParticipants"
-                                           value="${command.displaySymptoms[i + (numrows+1)*j]}"
+                                           value="${displaySymptoms[i + (numrows+1)*j]}"
                                            onchange="javascript:changeClass(this,'${i + (numrows+1)*j}');"
                                            id="${i + (numrows+1)*j}"/>
                                 </c:if>
                             </td>
                             <td id="td_${i + (numrows+1)*j}_b" class="value" width="32%">
-                                <c:if test="${command.displaySymptoms[i + (numrows+1)*j] ne null}">
+                                <c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <div id="div_${i + (numrows+1)*j}"
-                                         class="label">${command.displaySymptoms[i + (numrows+1)*j]}</div>
+                                         class="label">${displaySymptoms[i + (numrows+1)*j]}</div>
                                 </c:if>
                             </td>
                         </c:forEach>

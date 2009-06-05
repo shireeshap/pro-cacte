@@ -47,7 +47,6 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
         studyParticipantCrfRepository = registerMockFor(StudyParticipantCrfRepository.class);
 
         controller.setWebControllerValidator(validator);
-        controller.setProCtcQuestionRepository(proCtcQuestionRepository);
         controller.setStudyParticipantCrfScheduleRepository(studyParticipantCrfScheduleRepository);
         controller.setStudyParticipantCrfRepository(studyParticipantCrfRepository);
         studyParticipantCrfScheduleAddedQuestionRepository = registerMockFor(StudyParticipantCrfScheduleAddedQuestionRepository.class);
@@ -124,7 +123,6 @@ public class AddQuestionByParticipantControllerTest extends WebTestCase {
         assertNotNull("must find command object", command);
         assertTrue(command instanceof SubmitFormCommand);
         assertEquals(controller.getFormView(), modelAndView.getViewName());
-        assertEquals(questions, ((SubmitFormCommand) command).getProCtcQuestions());
     }
 
     public void testPostRequest() throws Exception {

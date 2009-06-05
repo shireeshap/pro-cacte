@@ -51,13 +51,22 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
     /**
      * The pro ctc question.
      */
-    @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = true)
     @ManyToOne
     private ProCtcQuestion proCtcQuestion;
 
     @JoinColumn(name = "sp_crf_add_ques_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
     private StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion;
+
+    @JoinColumn(name = "meddra_question_id", referencedColumnName = "id")
+     @ManyToOne
+     private MeddraQuestion meddraQuestion;
+
+    @JoinColumn(name = "meddra_valid_value_id", referencedColumnName = "id")
+     @ManyToOne
+     private MeddraValidValue meddraValidValue;
+
 
 
     /**
@@ -174,4 +183,19 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
     }
 
 
+    public MeddraQuestion getMeddraQuestion() {
+        return meddraQuestion;
+    }
+
+    public void setMeddraQuestion(MeddraQuestion meddraQuestion) {
+        this.meddraQuestion = meddraQuestion;
+    }
+
+    public MeddraValidValue getMeddraValidValue() {
+        return meddraValidValue;
+    }
+
+    public void setMeddraValidValue(MeddraValidValue meddraValidValue) {
+        this.meddraValidValue = meddraValidValue;
+    }
 }

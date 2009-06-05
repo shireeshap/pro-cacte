@@ -55,6 +55,12 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/021_create_meddra_versions.
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/022_clean_meddra_tables.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/023_create_meddra_version.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/024_create_meddra_association.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/025_create_meddra_questions.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/026_create_meddra_valid_values.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/027_update_sp_crf_added_questions.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/028_update_sp_crf_sch_added_questions.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/029_update_sp_crf_added_questions.groovy -text
+pro-ctcae/core/src/main/db/migrate/002_elaboration_1/030_update_sp_crf_sch_added_questions.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
@@ -87,6 +93,8 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DisplayOrderComparato
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/FundingSponsor.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Gender.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/LeadStudySite.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/MeddraQuestion.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/MeddraValidValue.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/MeddraVersion.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/NegativeAnswers.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Organization.java -text
@@ -170,6 +178,8 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ClinicalStaffRepo
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CtcTermRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/GenericRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/MeddraRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/MeddraValidValueRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/OrganizationClinicalStaffRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/OrganizationRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/ParticipantRepository.java -text
@@ -676,6 +686,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/deleteForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/form_details.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/form_rules.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/manageForm.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/participantAddedMeddraQuestion.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/participantAddedQuestion.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/releaseForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/reviewFormSubmission.jsp -text

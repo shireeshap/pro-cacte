@@ -31,7 +31,8 @@
     <bean id="ctcaeSimpleFormControllerMobile" class="gov.nih.nci.ctcae.web.CtcAeSimpleFormController"
           p:proCtcValidValueRepository-ref="proCtcValidValueRepository"
           p:organizationRepository-ref="organizationRepository"
-          p:controllerTools-ref="controllerToolsMobile" p:studyOrganizationRepository-ref="studyOrganizationRepository">
+          p:controllerTools-ref="controllerToolsMobile" p:studyOrganizationRepository-ref="studyOrganizationRepository"
+          p:meddraValidValueRepository-ref="meddraValidValueRepository">
         <property name="webControllerValidator" ref="webControllerValidatorMobile"/>
     </bean>
 

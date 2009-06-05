@@ -20,7 +20,8 @@ import java.util.List;
 @Entity
 @Table(name = "SP_CRF_ADDED_QUESTIONS")
 
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_sp_crf_added_questions_id")})
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {
+    @Parameter(name = "sequence", value = "seq_sp_crf_added_questions_id")})
 public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
 
     /**
@@ -51,10 +52,14 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
     @ManyToOne
     private ProCtcQuestion proCtcQuestion;
 
+    @JoinColumn(name = "meddra_question_id", referencedColumnName = "id")
+    @ManyToOne
+    private MeddraQuestion meddraQuestion;
+
 
     @OneToMany(mappedBy = "studyParticipantCrfAddedQuestion")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<StudyParticipantCrfScheduleAddedQuestion> studyParticipantCrfScheduleAddedQuestions= new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
+    private List<StudyParticipantCrfScheduleAddedQuestion> studyParticipantCrfScheduleAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
 
     /**
      * Instantiates a new study participant crf added question.
@@ -178,4 +183,11 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
         return studyParticipantCrfScheduleAddedQuestions;
     }
 
+    public MeddraQuestion getMeddraQuestion() {
+        return meddraQuestion;
+    }
+
+    public void setMeddraQuestion(MeddraQuestion meddraQuestion) {
+        this.meddraQuestion = meddraQuestion;
+    }
 }

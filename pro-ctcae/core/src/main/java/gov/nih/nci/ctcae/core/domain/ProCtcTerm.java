@@ -7,6 +7,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 //
 /**
@@ -42,7 +43,7 @@ public class ProCtcTerm extends BasePersistable {
      */
     @OneToMany(mappedBy = "proCtcTerm")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private Collection<ProCtcQuestion> proCtcQuestions = new ArrayList<ProCtcQuestion>();
+    private List<ProCtcQuestion> proCtcQuestions = new ArrayList<ProCtcQuestion>();
 
     /**
      * The pro ctc.
@@ -104,7 +105,7 @@ public class ProCtcTerm extends BasePersistable {
      *
      * @return the pro ctc questions
      */
-    public Collection<ProCtcQuestion> getProCtcQuestions() {
+    public List<ProCtcQuestion> getProCtcQuestions() {
         return proCtcQuestions;
     }
 

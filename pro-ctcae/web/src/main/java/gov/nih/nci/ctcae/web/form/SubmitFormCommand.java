@@ -56,11 +56,6 @@ public class SubmitFormCommand implements Serializable {
      */
     private String flashMessage;
 
-    /**
-     * The pro ctc questions.
-     */
-    private List<ProCtcQuestion> proCtcQuestions;
-
 
     /**
      * The deleted questions.
@@ -79,6 +74,7 @@ public class SubmitFormCommand implements Serializable {
 
 
     private Set<String> questionsToBeDeleted = new HashSet<String>();
+    private ArrayList<ProCtcTerm> sortedSymptoms;
 
     /**
      * Initialize.
@@ -101,7 +97,12 @@ public class SubmitFormCommand implements Serializable {
         if (studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size() > 0) {
             HashSet symptoms = new HashSet();
             for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
-                symptoms.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
+                if (studyParticipantCrfAddedQuestion.getProCtcQuestion() != null) {
+                    symptoms.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
+                } else {
+                    if (studyParticipantCrfAddedQuestion.getMeddraQuestion() != null)
+                        symptoms.add(studyParticipantCrfAddedQuestion.getMeddraQuestion().getLowLevelTerm().getMeddraTerm());
+                }
             }
             totalPages = totalPages + symptoms.size();
         }
@@ -142,6 +143,7 @@ public class SubmitFormCommand implements Serializable {
                     studyParticipantCrfScheduleAddedQuestion.setProCtcQuestion(studyParticipantCrfAddedQuestion.getProCtcQuestion());
                     studyParticipantCrfScheduleAddedQuestion.setPageNumber(studyParticipantCrfAddedQuestion.getPageNumber());
                     studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+                    studyParticipantCrfScheduleAddedQuestion.setMeddraQuestion(studyParticipantCrfAddedQuestion.getMeddraQuestion());
                     studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfScheduleAddedQuestion);
                 }
             }
@@ -328,48 +330,13 @@ public class SubmitFormCommand implements Serializable {
      *
      * @return the arranged questions
      */
-    public Hashtable<String, List<ProCtcQuestion>> getArrangedQuestions() {
-        Hashtable<String, List<ProCtcQuestion>> arrangedQuestions = new Hashtable<String, List<ProCtcQuestion>>();
-        List<ProCtcQuestion> l;
-        ArrayList<Integer> includedQuestionIds = new ArrayList<Integer>();
-        studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(studyParticipantCrfSchedule.getId());
-
-        for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-            includedQuestionIds.add(studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getId());
-        }
-        if (studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size() > 0) {
-            for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
-                includedQuestionIds.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getId());
-            }
-        }
-
-        for (ProCtcQuestion proCtcQuestion : proCtcQuestions) {
-
-            if (!includedQuestionIds.contains(proCtcQuestion.getId())) {
-                if (arrangedQuestions.containsKey(proCtcQuestion.getProCtcTerm().getTerm())) {
-                    l = arrangedQuestions.get(proCtcQuestion.getProCtcTerm().getTerm());
-                } else {
-                    l = new ArrayList<ProCtcQuestion>();
-                }
-                l.add(proCtcQuestion);
-                arrangedQuestions.put(proCtcQuestion.getProCtcTerm().getTerm(), l);
-            }
-        }
-
-        return arrangedQuestions;
-    }
-
     /**
      * Gets the sorted symptoms.
      *
      * @return the sorted symptoms
      */
-    public ArrayList<String> getSortedSymptoms() {
-        Hashtable<String, List<ProCtcQuestion>> arrangedQuestions = getArrangedQuestions();
-        ArrayList<String> sortedList = new ArrayList(arrangedQuestions.keySet());
-        Collections.sort(sortedList);
-        return sortedList;
-
+    public ArrayList<ProCtcTerm> getSortedSymptoms() {
+        return sortedSymptoms;
     }
 
     /**
@@ -379,12 +346,12 @@ public class SubmitFormCommand implements Serializable {
      */
     public ArrayList<String> getDisplaySymptoms() {
 
-        ArrayList<String> sortedList = getSortedSymptoms();
+        ArrayList<ProCtcTerm> sortedList = getSortedSymptoms();
         ArrayList<String> displayList = new ArrayList<String>();
         int i = 0;
-        for (String symptom : sortedList) {
-            if (symptom.length() < 35) {
-                displayList.add(symptom);
+        for (ProCtcTerm symptom : sortedList) {
+            if (symptom.getTerm().length() < 35) {
+                displayList.add(symptom.getTerm());
                 i++;
             }
             if (i > 20) {
@@ -395,25 +362,6 @@ public class SubmitFormCommand implements Serializable {
         return displayList;
 
     }
-
-    /**
-     * Sets the pro ctc questions.
-     *
-     * @param proCtcQuestions the new pro ctc questions
-     */
-    public void setProCtcQuestions(List<ProCtcQuestion> proCtcQuestions) {
-        this.proCtcQuestions = proCtcQuestions;
-    }
-
-    /**
-     * Gets the pro ctc questions.
-     *
-     * @return the pro ctc questions
-     */
-    public List<ProCtcQuestion> getProCtcQuestions() {
-        return proCtcQuestions;
-    }
-
 
     /**
      * Gets the deleted questions.
@@ -558,4 +506,17 @@ public class SubmitFormCommand implements Serializable {
         this.studyParticipantCrfAddedQuestionRepository = studyParticipantCrfAddedQuestionRepository;
     }
 
+    public void computeAdditionalSymptoms(ArrayList<ProCtcTerm> proCtcTerms) {
+        studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(studyParticipantCrfSchedule.getId());
+
+        for (StudyParticipantCrfItem s : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+            proCtcTerms.remove(s.getCrfPageItem().getProCtcQuestion().getProCtcTerm());
+        }
+        for (StudyParticipantCrfAddedQuestion s : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
+            if (s.getProCtcQuestion() != null) {
+                proCtcTerms.remove(s.getProCtcQuestion().getProCtcTerm());
+            }
+        }
+        sortedSymptoms = proCtcTerms;
+    }
 }

@@ -123,16 +123,24 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             return mv;
         }
 
-        if (submitFormCommand.getCurrentPageIndex() >= submitFormCommand.getParticipantAddedQuestionIndex())
-
-        {
+        if (submitFormCommand.getCurrentPageIndex() >= submitFormCommand.getParticipantAddedQuestionIndex()) {
             for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfScheduleAddedQuestions()) {
                 studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
+                studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue();
             }
-            mv = showForm(request, errors, "form/participantAddedQuestion");
-        } else
 
-        {
+            for (StudyParticipantCrfScheduleAddedQuestion cQ : submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfScheduleAddedQuestions()) {
+                if (cQ.getPageNumber() + 1 == submitFormCommand.getCurrentPageIndex()) {
+                    if (cQ.getProCtcQuestion() != null) {
+                        mv = showForm(request, errors, "form/participantAddedQuestion");
+                    } else {
+                        cQ.getMeddraQuestion().getValidValues();
+                        mv = showForm(request, errors, "form/participantAddedMeddraQuestion");
+                    }
+                    break;
+                }
+            }
+        } else {
             mv = showForm(request, errors, getFormView());
         }
 

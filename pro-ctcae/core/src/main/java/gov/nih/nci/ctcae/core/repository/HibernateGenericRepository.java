@@ -108,12 +108,6 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
     @SuppressWarnings("unchecked")
     public T findSingle(Query query) {
         List<T> persistables = find(query);
-        if (persistables.size() > 1) {
-            String message = "multiple results found for query:" + query + "parameters " + ((AbstractQuery) query).getParameterMap().values();
-            logger.error(message + " " + query.getQueryString());
-
-            throw new CtcAeSystemException(message);
-        }
         return persistables != null && !persistables.isEmpty() ? persistables.get(0) : null;
 
     }

@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.domain.meddra;
 
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 import gov.nih.nci.ctcae.core.domain.MeddraVersion;
+import gov.nih.nci.ctcae.core.domain.BasePersistable;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -15,7 +16,7 @@ import org.hibernate.annotations.CascadeType;
 
 
 @MappedSuperclass
-public class AbstractMeddraDomainObject implements DomainObject {
+public class AbstractMeddraDomainObject extends BasePersistable implements DomainObject{
 
     private Integer id;
 
