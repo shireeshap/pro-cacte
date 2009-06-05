@@ -28,7 +28,7 @@ public class ProCtcQuestionIntegrationTest extends AbstractHibernateIntegrationT
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
 
-        saveCsv();
+//        saveCsv();
         proCtc = proCtcRepository.find(new ProCtcQuery()).iterator().next();
         assertNotNull(proCtc);
 

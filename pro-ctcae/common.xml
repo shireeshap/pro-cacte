@@ -631,8 +631,8 @@
 
         <echo message="clover path is ${clover.jar}"></echo>
 
-        <junit printsummary="yes" errorproperty="test.failed" failureproperty="test.failed"
-               showoutput="true" maxmemory="1024m" fork="true" forkmode="once" timeout="600000">
+        <junit printsummary="withOutAndErr" errorproperty="test.failed" failureproperty="test.failed"
+               showoutput="true" maxmemory="1024m" fork="true" forkmode="once" timeout="600000" filtertrace="off">
 
             <classpath refid="test.run.classpath"/>
             <classpath>

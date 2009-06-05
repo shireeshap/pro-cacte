@@ -2,8 +2,12 @@ package gov.nih.nci.ctcae.core.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 //
 /**
@@ -47,6 +51,10 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
     @ManyToOne
     private ProCtcQuestion proCtcQuestion;
 
+
+    @OneToMany(mappedBy = "studyParticipantCrfAddedQuestion")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyParticipantCrfScheduleAddedQuestion> studyParticipantCrfScheduleAddedQuestions= new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
 
     /**
      * Instantiates a new study participant crf added question.
@@ -165,4 +173,9 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
         result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
         return result;
     }
+
+    public List<StudyParticipantCrfScheduleAddedQuestion> getStudyParticipantCrfScheduleAddedQuestions() {
+        return studyParticipantCrfScheduleAddedQuestions;
+    }
+
 }

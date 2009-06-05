@@ -61,7 +61,6 @@ public class StudyCommand {
     public StudyOrganizationClinicalStaff getOverallDataCoordinator() {
         if (overallDataCoordinator == null) {
             overallDataCoordinator = study.getOverallDataCoordinator();
-
         }
 
         return overallDataCoordinator;

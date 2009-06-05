@@ -1,4 +1,4 @@
-package gov.nih.nci.ctcae.core;
+package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.ctcae.core.domain.*;
 
@@ -12,7 +12,7 @@ public class Fixture {
 
     public static final Organization NCI = createOrganization("National Cancer Institute", "NCI");
     public static final Organization DUKE = createOrganization("DUKE", "DUKE");
-    public static final String DEFAULT_PASSWORD = "system_admin";
+    public static final String DEFAULT_PASSWORD = "password";
 
     public static Organization createOrganization(String name, String nciCode) {
 

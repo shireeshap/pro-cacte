@@ -82,7 +82,6 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
 
     public void addStudyOrganizationClinicalStaff(List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs) {
         for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganizationClinicalStaffs) {
-
             studyOrganizationClinicalStaff.getStudyOrganization().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
         }
     }

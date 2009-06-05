@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.web.security;
 
-import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.User;

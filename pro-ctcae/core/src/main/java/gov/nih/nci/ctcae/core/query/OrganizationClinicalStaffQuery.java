@@ -25,11 +25,9 @@ public class OrganizationClinicalStaffQuery extends AbstractQuery {
     }
 
     public OrganizationClinicalStaffQuery(final Integer organizationId) {
-
         super(queryString);
         andWhere("scs.organization.id = :" + ORGANIZATION_ID);
         setParameter(ORGANIZATION_ID, organizationId);
-
     }
 
 
@@ -42,5 +40,8 @@ public class OrganizationClinicalStaffQuery extends AbstractQuery {
         setParameter(NCI_IDENTIFIER, searchString);
     }
 
-
+    public void filterByExactMatchNciIdentifier(final String nciIdentifier) {
+        andWhere(String.format("lower(scs.clinicalStaff.nciIdentifier) = :%s)", NCI_IDENTIFIER));
+        setParameter(NCI_IDENTIFIER, nciIdentifier.toLowerCase());
+    }
 }

@@ -177,7 +177,7 @@ public class User extends BaseVersionable implements UserDetails {
         return username != null ? username.hashCode() : 0;
     }
 
-    public List<Integer> findAccessableObjectIds(Class<? extends Persistable> persistableClass) {
+    public List<Integer> findAccessibleObjectIds(Class<? extends Persistable> persistableClass) {
         List<Integer> accessableObjectIds = new ArrayList<Integer>();
         for (String grantedAuthority : findAllAuthorities()) {
             String requiredPrivilege = persistableClass.getName() + ".";

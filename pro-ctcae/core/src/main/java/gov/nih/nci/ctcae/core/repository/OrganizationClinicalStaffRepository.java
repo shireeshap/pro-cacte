@@ -50,8 +50,7 @@ public class OrganizationClinicalStaffRepository implements Repository<Organizat
     }
 
     public OrganizationClinicalStaff findSingle(OrganizationClinicalStaffQuery query) {
-        throw new CtcAeSystemException("must not use this method..use findByStudyOrganizationId ");
-
+        return genericRepository.findSingle(query);
     }
 
     public List<OrganizationClinicalStaff> findByStudyOrganizationId(String text, Integer studyOrganizationId) {
@@ -61,8 +60,6 @@ public class OrganizationClinicalStaffRepository implements Repository<Organizat
 
             OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery(organizationId);
             query.filterByFirstNameOrLastNameOrNciIdentifier(text);
-
-
             return genericRepository.find(query);
         }
 

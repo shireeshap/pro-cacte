@@ -34,7 +34,7 @@
             var request = new Ajax.Request("<c:url value="/pages/reports/showDetailsOverTime"/>", {
                 parameters:params,
                 onComplete:function(transport) {
-                    $('symptomSummaryReportInnerDiv').innerHTML = transport.responseText;
+                    $('reportInnerDiv').innerHTML = transport.responseText;
                     hideIndicator();
                 },
                 method:'get'

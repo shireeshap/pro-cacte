@@ -21,6 +21,7 @@
     <tags:includePrototypeWindow/>
     <tags:includeScriptaculous/>
     <tags:javascriptLink name="reports_common"/>
+    <tags:javascriptLink name="table_menu"/>
     <script type="text/javascript">
         displaySymptom = false;
         displayDate = false;
@@ -40,6 +41,23 @@
                 onComplete:function(transport) {
                     showResults(transport);
                     hideIndicator();
+                },
+                method:'get'
+            })
+        }
+
+        function getLinksHtml(symptom) {
+            return '<a href="javascript:showResponseDetails(\'' + symptom + '\');" class="link">View participant responses</a>';
+        }
+
+        function showResponseDetails(symptom) {
+            var request = new Ajax.Request("<c:url value="/pages/reports/participantAddedQuestionsDetails"/>", {
+                parameters:"studyId=" + $('study').value + "&crfId=" + $('formSelect').value +
+                           "&studySiteId=" + $('studySite').value +
+                           "&symptom=" + symptom +
+                           "&subview=subview",
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 700, 500);
                 },
                 method:'get'
             })

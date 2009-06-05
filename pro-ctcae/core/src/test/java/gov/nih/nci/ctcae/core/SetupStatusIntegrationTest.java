@@ -25,7 +25,7 @@ public class SetupStatusIntegrationTest extends AbstractHibernateIntegrationTest
 
         assertFalse("Initial setup must not be required because there is already one admin user.", setupStatus.isSetupNeeded());
 
-        deleteData();
+//        deleteData();
         assertFalse("Initial setup must be required even if  there is no admin user in database because bean has already been injected. .", setupStatus.isSetupNeeded());
 
 
@@ -33,7 +33,7 @@ public class SetupStatusIntegrationTest extends AbstractHibernateIntegrationTest
 
     public void testSetupRequired() {
 
-        deleteData();
+//        deleteData();
 
 
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(context);
@@ -54,7 +54,7 @@ public class SetupStatusIntegrationTest extends AbstractHibernateIntegrationTest
         assertFalse("Initial setup is not required. .", setupStatus.isSetupNeeded());
 
 
-        deleteData();
+//        deleteData();
 
         setupStatus.recheck();
         assertTrue("setup is now required because there is no system admin in database", setupStatus.isSetupNeeded());

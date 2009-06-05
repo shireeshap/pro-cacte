@@ -21,8 +21,12 @@ public class ParticipantAddedQuestionsReportQuery extends AbstractQuery {
      */
     private static String queryString = "SELECT spcaq.proCtcQuestion.proCtcTerm.term, count(distinct spcaq.studyParticipantCrf.studyParticipantAssignment.participant.id)  from StudyParticipantCrfAddedQuestion spcaq group by spcaq.proCtcQuestion.proCtcTerm.term order by spcaq.proCtcQuestion.proCtcTerm.term";
 
+    public ParticipantAddedQuestionsReportQuery(String query) {
+        super(query);
+    }
+
     public ParticipantAddedQuestionsReportQuery() {
-        super(queryString);
+        this(queryString);
     }
 
     public void filterByCrf(Integer crfId) {
@@ -35,5 +39,8 @@ public class ParticipantAddedQuestionsReportQuery extends AbstractQuery {
         setParameter("studySiteId", id);
     }
 
-
+    public void filterBySymptom(String symptom) {
+        andWhere("spcaq.proCtcQuestion.proCtcTerm.term=:symptom");
+        setParameter("symptom", symptom);
+    }
 }

@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.core.validation.annotation;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
-import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Study;

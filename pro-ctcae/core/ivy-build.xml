@@ -22,7 +22,7 @@
               target: migrate
                Will run the bering migration ..
           ============================================================================= -->
-    <target name="migrate" description="does bering migration" depends="resolve,find-datasource">
+    <target name="migrate" description="does bering migration" depends="find-datasource">
         <echo message="Datasource File : ${dsFile}"/>
         <property file="${dsFile}"/>
         <taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml" classpathref="main.classpath"/>
@@ -56,26 +56,9 @@
         </condition>
         <property name="adminDsFile.loaded" value="true"/>
     </target>
-    <!-- ===============================================================================================
-              target : recreate-db-hudson
-           ================================================================================================= -->
-    <target name="recreate-db-hudson" description="drop the database and create new database"
-            depends="resolve, find-admin-datasource">
-        <property file="${adminDsFile}"/>
-        <echo message="${datasource.driver}"/>
-        <echo message="${datasource.url}"/>
-        <echo message="${datasource.username}"/>
-        <echo message="${datasource.password}"/>
-        <sql driver="${datasource.driver}" userid="${datasource.username}" password="${datasource.password}"
-             url="${datasource.url}"
-             classpathref="main.classpath" onerror="abort" autocommit="true">
-            DROP DATABASE IF EXISTS "${database.name}";
-            CREATE DATABASE "${database.name}";
-        </sql>
-    </target>
 
-    <target name="recreate-db-old" description="drop the database and create new database"
-            depends="resolve, find-admin-datasource">
+    <target name="recreate-db" description="drop the database and create new database"
+            depends="find-admin-datasource">
         <property file="${adminDsFile}"/>
         <echo message="${datasource.driver}"/>
         <echo message="${datasource.url}"/>
@@ -83,7 +66,7 @@
         <echo message="${datasource.password}"/>
         <sql driver="${datasource.driver}" userid="${datasource.username}" password="${datasource.password}"
              url="${datasource.url}"
-             classpathref="main.classpath" onerror="abort" autocommit="true">
+             classpathref="main.classpath" onerror="continue" autocommit="true">
             DROP DATABASE "${database.name}";
             CREATE DATABASE "${database.name}";
         </sql>

@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import static gov.nih.nci.ctcae.core.Fixture.createCrfPageItemDisplayRules;
+import static gov.nih.nci.ctcae.core.helper.Fixture.createCrfPageItemDisplayRules;
 import junit.framework.TestCase;
 
 /**

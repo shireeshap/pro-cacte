@@ -8,44 +8,40 @@
 
 <html>
 <head>
-    <tags:stylesheetLink name="table_menu"/>
 </head>
 <body>
-<chrome:box title="Report">
+<chrome:box title="Report - ${symptom}">
     <br/>
     <table class="widget" cellspacing="0" align="center">
         <tr>
-            <td class="header-top"></td>
+                <%--<td class="header-top"></td>--%>
             <td class="header-top">
-                Symptom
+                Participant
             </td>
             <td class="header-top">
-                Number of times added
+                Response date
+            </td>
+            <td class="header-top">
+                Response
             </td>
             <c:forEach items="${results}" var="lineitem" varStatus="status">
-        <tr id="details_row_${status.index}" onmouseover="highlightrow('${status.index}');"
-            onmouseout="removehighlight('${status.index}');">
-            <td align="right">
-                <div id="img_${status.index}" class="indIcon"
-                     onclick="showPopUpMenu('${status.index}','${participant.id}','${schedule.id}',-105,-130,getLinksHtml('${lineitem[0]}'))">
-                    <img src="../../images/menu.png" alt=""/>
-                </div>
+            <c:forEach items="${lineitem.value}" var="arr">
+        <tr>
+            <td class="data">
+                    ${lineitem.key.displayName}
             </td>
             <td class="data">
-                    ${lineitem[0]}
+                    ${arr[0]}
             </td>
             <td class="data">
-                    ${lineitem[1]}
+                    ${arr[1]}
             </td>
         </tr>
+        </c:forEach>
         </c:forEach>
     </table>
     <br/>
 </chrome:box>
-<div id="dropnoteDiv" class="ddnotediv shadowB" style="display:none;left:0;top:0">
-    <div id="dropnoteinnerDiv" class="shadowr">
-    </div>
-</div>
 </body>
 </html>
 

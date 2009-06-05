@@ -23,9 +23,13 @@ function removehighlight(index)
     }
 }
 
-function showPopUpMenu(index, pid, sid, x, y) {
-
-    var html = '<a href="../participant/create?id=' + pid + '" class="link">View participant</a><br/><a href="javascript:showResponses(' + sid + ');" class="link">View all responses</a>';
+function showPopUpMenu(index, pid, sid, x, y, ihtml) {
+    var html = '';
+    if (typeof(ihtml) == 'undefined' || ihtml == '') {
+        html = '<a href="../participant/create?id=' + pid + '" class="link">View participant</a><br/><a href="javascript:showResponses(' + sid + ');" class="link">View all responses</a>';
+    } else {
+        html = ihtml
+    }
     Element.show($("dropnoteDiv"));
     $("dropnoteDiv").style.left = (findPosX($("img_" + index)) + x) + 'px';
     $("dropnoteDiv").style.top = (findPosY($("img_" + index)) + y) + 'px';

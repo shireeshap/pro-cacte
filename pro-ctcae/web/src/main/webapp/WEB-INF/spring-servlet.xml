@@ -463,6 +463,10 @@
           class="gov.nih.nci.ctcae.web.reports.ParticipantAddedQuestionsReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
+    <bean name="/reports/participantAddedQuestionsDetails" id="participantAddedQuestionsDetailsController"
+          class="gov.nih.nci.ctcae.web.reports.ParticipantAddedQuestionsReportDetailsController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
 
 
     <bean name="/home" id="homeController"

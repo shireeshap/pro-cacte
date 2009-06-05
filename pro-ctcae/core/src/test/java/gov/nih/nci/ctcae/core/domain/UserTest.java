@@ -27,14 +27,14 @@ public class UserTest extends TestCase {
 
     public void testGetAllowedOrganizationId() {
 
-        List<Integer> organizationIds = user.findAccessableObjectIds(Organization.class);
+        List<Integer> organizationIds = user.findAccessibleObjectIds(Organization.class);
         assertTrue(organizationIds.contains(1));
         assertTrue(organizationIds.contains(2));
     }
 
     public void testGetAllowedStudyId() {
 
-        List<Integer> organizationIds = user.findAccessableObjectIds(Study.class);
+        List<Integer> organizationIds = user.findAccessibleObjectIds(Study.class);
         assertTrue(organizationIds.contains(3));
     }
 }

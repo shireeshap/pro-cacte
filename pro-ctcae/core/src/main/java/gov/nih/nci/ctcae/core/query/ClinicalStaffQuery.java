@@ -77,6 +77,11 @@ public class ClinicalStaffQuery extends AbstractQuery {
         setParameter(USER_ID, userId);
     }
 
+    public void filterByUserName(final String userName) {
+        andWhere("cs.user.username =:" + "username");
+        setParameter("username", userName);
+    }
+
     /**
      * Filter by nci identifier.
      *

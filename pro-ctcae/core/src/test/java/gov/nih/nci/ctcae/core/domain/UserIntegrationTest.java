@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
-import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.springframework.security.*;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;

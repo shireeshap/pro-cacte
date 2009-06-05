@@ -1221,6 +1221,7 @@ class OrganizationCodes10 extends edu.northwestern.bioinformatics.bering.Migrati
 		insert('organizations', [id: 108012, nci_institute_code: "WY013", name: "Hematology -Oncology Centers of the Northern Rockies - Sheridan"], primaryKey: false)
 		insert('organizations', [id: 108013, nci_institute_code: "WY014", name: "Hematology-Oncology Centers of the Northern Rockies - Cody"], primaryKey: false)
 		insert('organizations', [id: 108014, nci_institute_code: "WY015", name: "Family Medical Center"], primaryKey: false)
+		insert('organizations', [id: 108015, nci_institute_code: "CALGB", name: "Cancer and Leukemia Group B"], primaryKey: false)
 	}
 
 

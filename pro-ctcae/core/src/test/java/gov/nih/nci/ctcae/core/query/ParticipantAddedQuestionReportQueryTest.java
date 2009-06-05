@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
@@ -37,6 +39,28 @@ public class ParticipantAddedQuestionReportQueryTest extends AbstractDependencyI
         for (Object obj : result) {
             Object[] a = (Object[]) obj;
             System.out.println(a[0] + "," + a[1]);
+        }
+    }
+
+    public void testDetailsQuery() throws Exception {
+        ParticipantAddedQuestionsDetailsQuery query = new ParticipantAddedQuestionsDetailsQuery();
+        query.filterByCrf(3);
+//        query.filterByStudySite(15);
+        query.filterBySymptom("Acne");
+        System.out.println(query.getQueryString());
+        List result = genericRepository.find(query);
+        for (Object obj : result) {
+            Object[] m = (Object[]) obj;
+            StudyParticipantCrfScheduleAddedQuestion a = (StudyParticipantCrfScheduleAddedQuestion) m[1];
+            StudyParticipantCrfAddedQuestion b = (StudyParticipantCrfAddedQuestion) m[0];
+            System.out.println(b.getId() + " , " + a.getId() + " , " + a.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getId());
+//
+//            StudyParticipantCrfAddedQuestion o = genericRepository.findById(StudyParticipantCrfAddedQuestion.class, ((StudyParticipantCrfAddedQuestion) m[0]).getId());
+//            o.getStudyParticipantCrfScheduleAddedQuestions();
+//            for (StudyParticipantCrfScheduleAddedQuestion q : o.getStudyParticipantCrfScheduleAddedQuestions()) {
+//                System.out.println(q.getProCtcQuestion().getProCtcTerm().getTerm() + "," + q.getProCtcQuestion().getProCtcQuestionType() + "," + q.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getDisplayName());
+//            }
+
         }
     }
 

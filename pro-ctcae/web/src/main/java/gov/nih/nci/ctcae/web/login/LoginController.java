@@ -27,7 +27,7 @@ public class LoginController extends AbstractController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             throw new CtcAeSystemException("Cannot find not-null Authentication object. Make sure the user is logged in");
-
+                                                          
         }
 
         User user = (User) auth.getPrincipal();

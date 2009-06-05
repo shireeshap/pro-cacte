@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.web.validation.validator;
 
-import gov.nih.nci.ctcae.core.Fixture;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollectionValidator;

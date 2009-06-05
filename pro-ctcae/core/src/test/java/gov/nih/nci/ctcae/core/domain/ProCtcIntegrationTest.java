@@ -19,7 +19,7 @@ public class ProCtcIntegrationTest extends AbstractHibernateIntegrationTestCase 
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
-        saveCsv();
+//        saveCsv();
 
     }
 

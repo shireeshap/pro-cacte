@@ -24,7 +24,7 @@ public abstract class SecuredQuery<T extends Persistable> extends AbstractQuery 
         super(queryString);
         User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
 
-        List<Integer> objectIds = currentLoggedInUser.findAccessableObjectIds(getPersistableClass());
+        List<Integer> objectIds = currentLoggedInUser.findAccessibleObjectIds(getPersistableClass());
 
         filterByObjectIds(objectIds);
 
