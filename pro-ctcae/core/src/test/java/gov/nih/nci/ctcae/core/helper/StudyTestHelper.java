@@ -85,33 +85,64 @@ public class StudyTestHelper extends GenerateTestDataTest {
     }
 
     private void fourthTab_SiteClinicalStaff() {
-        StudyOrganizationClinicalStaff sitePi = new StudyOrganizationClinicalStaff();
-        sitePi.setRole(Role.SITE_PI);
+
+        //DUKE
+        StudyOrganizationClinicalStaff sitePiDuke = new StudyOrganizationClinicalStaff();
+        sitePiDuke.setRole(Role.SITE_PI);
         OrganizationClinicalStaff ocs1 = csth.findOrganizationClinicalStaffByNciIdentifier("AABERNETHY");
-        sitePi.setOrganizationClinicalStaff(ocs1);
-        sitePi.setStudyOrganization(sSiteDuke);
-        sSiteDuke.addOrUpdateStudyOrganizationClinicalStaff(sitePi);
+        sitePiDuke.setOrganizationClinicalStaff(ocs1);
+        sitePiDuke.setStudyOrganization(sSiteDuke);
+        sSiteDuke.addOrUpdateStudyOrganizationClinicalStaff(sitePiDuke);
 
-        StudyOrganizationClinicalStaff siteCra = new StudyOrganizationClinicalStaff();
-        siteCra.setRole(Role.SITE_CRA);
+        StudyOrganizationClinicalStaff siteCraDuke = new StudyOrganizationClinicalStaff();
+        siteCraDuke.setRole(Role.SITE_CRA);
         OrganizationClinicalStaff ocs2 = csth.findOrganizationClinicalStaffByNciIdentifier("CDAVIS");
-        siteCra.setOrganizationClinicalStaff(ocs2);
-        siteCra.setStudyOrganization(sSiteDuke);
-        sSiteDuke.addOrUpdateStudyOrganizationClinicalStaff(siteCra);
+        siteCraDuke.setOrganizationClinicalStaff(ocs2);
+        siteCraDuke.setStudyOrganization(sSiteDuke);
+        sSiteDuke.addOrUpdateStudyOrganizationClinicalStaff(siteCraDuke);
 
-        StudyOrganizationClinicalStaff physician = new StudyOrganizationClinicalStaff();
-        physician.setRole(Role.TREATING_PHYSICIAN);
-        OrganizationClinicalStaff ocs3 = csth.findOrganizationClinicalStaffByNciIdentifier("LARCHER");
-        physician.setOrganizationClinicalStaff(ocs3);
-        physician.setStudyOrganization(sSiteMskcc);
-        sSiteMskcc.addOrUpdateStudyOrganizationClinicalStaff(physician);
+        StudyOrganizationClinicalStaff physicianDuke = new StudyOrganizationClinicalStaff();
+        physicianDuke.setRole(Role.TREATING_PHYSICIAN);
+        OrganizationClinicalStaff ocs3 = csth.findOrganizationClinicalStaffByNciIdentifier("KBUECKERS");
+        physicianDuke.setOrganizationClinicalStaff(ocs3);
+        physicianDuke.setStudyOrganization(sSiteDuke);
+        sSiteDuke.addOrUpdateStudyOrganizationClinicalStaff(physicianDuke);
 
-        StudyOrganizationClinicalStaff nurse = new StudyOrganizationClinicalStaff();
-        nurse.setRole(Role.NURSE);
-        OrganizationClinicalStaff ocs4 = csth.findOrganizationClinicalStaffByNciIdentifier("HTODD");
-        nurse.setOrganizationClinicalStaff(ocs4);
-        nurse.setStudyOrganization(sSiteMskcc);
-        sSiteMskcc.addOrUpdateStudyOrganizationClinicalStaff(nurse);
+        StudyOrganizationClinicalStaff nurseDuke = new StudyOrganizationClinicalStaff();
+        nurseDuke.setRole(Role.NURSE);
+        OrganizationClinicalStaff ocs4 = csth.findOrganizationClinicalStaffByNciIdentifier("AWILLIAMS");
+        nurseDuke.setOrganizationClinicalStaff(ocs4);
+        nurseDuke.setStudyOrganization(sSiteDuke);
+        sSiteDuke.addOrUpdateStudyOrganizationClinicalStaff(nurseDuke);
+
+        //MSKCC
+        StudyOrganizationClinicalStaff sitePiMskcc = new StudyOrganizationClinicalStaff();
+        sitePiMskcc.setRole(Role.SITE_PI);
+        OrganizationClinicalStaff ocs5 = csth.findOrganizationClinicalStaffByNciIdentifier("AABERNETHY");
+        sitePiMskcc.setOrganizationClinicalStaff(ocs5);
+        sitePiMskcc.setStudyOrganization(sSiteMskcc);
+        sSiteMskcc.addOrUpdateStudyOrganizationClinicalStaff(sitePiMskcc);
+
+        StudyOrganizationClinicalStaff siteCraMskcc = new StudyOrganizationClinicalStaff();
+        siteCraMskcc.setRole(Role.SITE_CRA);
+        OrganizationClinicalStaff ocs6 = csth.findOrganizationClinicalStaffByNciIdentifier("CDAVIS");
+        siteCraMskcc.setOrganizationClinicalStaff(ocs6);
+        siteCraMskcc.setStudyOrganization(sSiteMskcc);
+        sSiteMskcc.addOrUpdateStudyOrganizationClinicalStaff(siteCraMskcc);
+
+        StudyOrganizationClinicalStaff physicianMskcc = new StudyOrganizationClinicalStaff();
+        physicianMskcc.setRole(Role.TREATING_PHYSICIAN);
+        OrganizationClinicalStaff ocs7 = csth.findOrganizationClinicalStaffByNciIdentifier("JHENNAGIR");
+        physicianMskcc.setOrganizationClinicalStaff(ocs7);
+        physicianMskcc.setStudyOrganization(sSiteMskcc);
+        sSiteMskcc.addOrUpdateStudyOrganizationClinicalStaff(physicianMskcc);
+
+        StudyOrganizationClinicalStaff nurseMskcc = new StudyOrganizationClinicalStaff();
+        nurseMskcc.setRole(Role.NURSE);
+        OrganizationClinicalStaff ocs8 = csth.findOrganizationClinicalStaffByNciIdentifier("DOPLAND");
+        nurseMskcc.setOrganizationClinicalStaff(ocs8);
+        nurseMskcc.setStudyOrganization(sSiteMskcc);
+        sSiteMskcc.addOrUpdateStudyOrganizationClinicalStaff(nurseMskcc);
     }
 
     private void addCCA() {

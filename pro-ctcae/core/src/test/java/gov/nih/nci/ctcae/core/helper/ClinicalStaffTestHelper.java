@@ -34,12 +34,18 @@ public class ClinicalStaffTestHelper {
         Organization mskcc = oth.getMSKCC();
 
         createClinicalStaff("Meredith", "Olsen", "MOLSEN", duke);
-        createClinicalStaff("Laura", "Sit", "LSIT", mskcc);
-        createClinicalStaff("Ethan", "Basch", "EBASCH", mskcc);
         createClinicalStaff("Amy", "Abernethy", "AABERNETHY", duke);
         createClinicalStaff("Cathy", "Davis", "CDAVIS", duke);
+        createClinicalStaff("Kerry", "Bueckers", "KBUECKERS", duke);
+        createClinicalStaff("Angello", "Williams", "AWILLIAMS", duke);
+
+        createClinicalStaff("Laura", "Sit", "LSIT", mskcc);
+        createClinicalStaff("Ethan", "Basch", "EBASCH", mskcc);
         createClinicalStaff("Laura", "Archer", "LARCHER", mskcc);
         createClinicalStaff("Heather", "Todd", "HTODD", mskcc);
+        createClinicalStaff("Josh", "Hennagir", "JHENNAGIR", mskcc);
+        createClinicalStaff("Diane", "Opland", "DOPLAND", mskcc);
+
         createClinicalStaff("cca", "cca", "CCCA", duke);
     }
 
