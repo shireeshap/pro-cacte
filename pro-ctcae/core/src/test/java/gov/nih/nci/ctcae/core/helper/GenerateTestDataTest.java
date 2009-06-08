@@ -66,9 +66,6 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
         commitAndStartNewTransaction();
     }
 
-    public void testLogin(){
-
-    }
     private User insertAdminUser() {
         UserQuery userQuery = new UserQuery();
         userQuery.filterByUserName(SYSTEM_ADMIN);
