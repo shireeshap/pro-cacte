@@ -5,7 +5,6 @@ import gov.nih.nci.ctcae.core.repository.*;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,7 +12,7 @@ import java.util.List;
  * Date: Jun 5, 2009
  * Time: 8:40:02 AM
  */
-public class CrfTestHelper extends GenerateTestDataTest {
+public class CrfTestHelper {
 
     private CRFRepository crfRepository;
     private final int numberOfSymptoms = 10;
@@ -38,7 +37,7 @@ public class CrfTestHelper extends GenerateTestDataTest {
     }
 
     private void firstTab_SelectStudy(CRF crf) {
-        crf.setStudy(GenerateTestDataTest.getStandardStudy());
+        crf.setStudy(TestDataManager.getStandardStudy());
     }
 
     private void secondTab_FormBuilder(CRF crf) {

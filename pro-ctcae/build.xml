@@ -275,7 +275,7 @@
         <subant target="selenium-test" buildpath="web/ivy-build.xml"/>
     </target>
 
-    <target name="recreate-db" description="drop and create test database and populate with data">
+    <target name="recreate-test-db" description="drop and create test database and populate with data">
         <subant target="recreate-db" buildpath="core/ivy-build.xml">
             <property name="db" value="test-db"/>
         </subant>

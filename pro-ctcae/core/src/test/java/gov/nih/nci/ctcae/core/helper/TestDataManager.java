@@ -18,7 +18,7 @@ import java.util.*;
  * @author Harsh Agarwal
  *         Date: Jun 5, 2009
  */
-public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringContextTests {
+public class TestDataManager extends AbstractTransactionalDataSourceSpringContextTests {
     protected static StudyRepository studyRepository;
     protected UserRepository userRepository;
     protected static OrganizationRepository organizationRepository;
@@ -51,43 +51,69 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
         super.onSetUpInTransaction();
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
+    }
+
+    protected void createTestData() {
         insertAdminUser();
         login(SYSTEM_ADMIN);
+        createClinicalStaff();
+        createStudy();
+        createCrf();
+    }
+
+    protected void deleteTestData() {
+        login(SYSTEM_ADMIN);
+        jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
+        jdbcTemplate.execute("delete from study_participant_crf_items");
+        jdbcTemplate.execute("delete from CRF_PAGE_ITEMS");
+        jdbcTemplate.execute("delete from CRF_PAGES");
+        jdbcTemplate.execute("delete from sp_crf_schedules");
+        jdbcTemplate.execute("delete from study_participant_crfs");
+        jdbcTemplate.execute("delete from crf_cycles");
+        jdbcTemplate.execute("delete from crf_cycle_definitions");
+        jdbcTemplate.execute("delete from crfs");
+        jdbcTemplate.execute("delete from study_organization_clinical_staffs");
+        jdbcTemplate.execute("delete from study_participant_assignments");
+        jdbcTemplate.execute("delete from study_organizations");
+        jdbcTemplate.execute("delete from studies");
+        jdbcTemplate.execute("delete from ORGANIZATION_CLINICAL_STAFFS");
+        jdbcTemplate.execute("delete from CLINICAL_STAFFS");
+        jdbcTemplate.execute("delete from user_roles");
+        jdbcTemplate.execute("delete from study_participant_assignments");
+        jdbcTemplate.execute("delete from participants");
+        jdbcTemplate.execute("delete from USERS");
+        jdbcTemplate.execute("delete from audit_event_values");
+        jdbcTemplate.execute("delete from audit_events");
         commitAndStartNewTransaction();
     }
 
-    public void testCreateClinicalStaff() {
+    private void createClinicalStaff() {
         ClinicalStaffTestHelper csth = new ClinicalStaffTestHelper(organizationClinicalStaffRepository, clinicalStaffRepository, organizationRepository);
         csth.createDefaultClinicalStaff();
         commitAndStartNewTransaction();
     }
 
-    public void testCreateStudy() {
+    private void createStudy() {
         StudyTestHelper sth = new StudyTestHelper(studyRepository, organizationClinicalStaffRepository, clinicalStaffRepository, organizationRepository);
         standardStudy = sth.createStandardStudy();
         commitAndStartNewTransaction();
     }
 
-    public void testCreateCrf() {
+    private void createCrf() {
         CrfTestHelper cth = new CrfTestHelper(crfRepository, proCtcTermRepository);
         cth.createTestForm();
         commitAndStartNewTransaction();
     }
 
     private User insertAdminUser() {
-        UserQuery userQuery = new UserQuery();
-        userQuery.filterByUserName(SYSTEM_ADMIN);
-        List<User> users = new ArrayList<User>(userRepository.find(userQuery));
-        User admin;
-        if (users.isEmpty()) {
+        User admin = getAdminUser();
+        if (admin == null) {
             admin = new User(SYSTEM_ADMIN, DEFAULT_PASSWORD, true, true, true, true);
             UserRole userRole = new UserRole();
             userRole.setRole(Role.ADMIN);
             admin.addUserRole(userRole);
             admin = userRepository.save(admin);
             commitAndStartNewTransaction();
-        } else {
-            admin = users.get(0);
         }
         return admin;
     }
@@ -174,10 +200,29 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
     }
 
     public static Study getStandardStudy() {
-        if(standardStudy == null){
+        if (standardStudy == null) {
             StudyTestHelper sth = new StudyTestHelper(studyRepository, organizationClinicalStaffRepository, clinicalStaffRepository, organizationRepository);
             standardStudy = sth.getStandardStudy();
         }
         return standardStudy;
+    }
+
+    private User getAdminUser() {
+        UserQuery userQuery = new UserQuery();
+        userQuery.filterByUserName(SYSTEM_ADMIN);
+        List<User> users = new ArrayList<User>(userRepository.find(userQuery));
+        if (users.isEmpty()) {
+            return null;
+        }
+        return users.get(0);
+    }
+
+    protected final boolean isTestDataPresent() {
+
+        List l = jdbcTemplate.queryForList("select s from studies s");
+        if (l != null && l.size() > 0) {
+            return true;
+        }
+        return false;
     }
 }

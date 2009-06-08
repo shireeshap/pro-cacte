@@ -107,13 +107,9 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
 
         OrganizationQuery organizationQuery = new OrganizationQuery();
         organizationQuery.filterByOrganizationName("N");
-        try {
-            organization = organizationRepository.findSingle(organizationQuery);
-            fail("multiple results found for query");
-        } catch (CtcAeSystemException e) {
-
-        }
-
+        organization = organizationRepository.findSingle(organizationQuery);
+        fail("multiple results found for query");
+        assertNotNull(organization);
     }
 
     public void testFindSingle() {

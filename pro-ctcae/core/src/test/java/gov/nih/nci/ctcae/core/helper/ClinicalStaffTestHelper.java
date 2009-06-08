@@ -2,14 +2,10 @@ package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.*;
-import gov.nih.nci.ctcae.core.helper.GenerateTestDataTest;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.repository.*;
-import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
-import sun.security.krb5.internal.ktab.KeyTab;
-import org.omg.CORBA.CharSeqHelper;
 
 import java.util.List;
-import java.util.Collection;
 
 /**
  * User: Harsh
@@ -80,6 +76,6 @@ public class ClinicalStaffTestHelper {
 
     private void addUserToClinicalStaff(ClinicalStaff clinicalStaff) {
         clinicalStaff.setUser(new User());
-        clinicalStaff.getUser().setPassword(GenerateTestDataTest.DEFAULT_PASSWORD);
+        clinicalStaff.getUser().setPassword(TestDataManager.DEFAULT_PASSWORD);
     }
 }

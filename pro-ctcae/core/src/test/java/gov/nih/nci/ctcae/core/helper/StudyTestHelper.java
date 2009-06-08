@@ -18,7 +18,7 @@ public class StudyTestHelper {
     StudySite sSiteDuke = new StudySite();
     StudySite sSiteMskcc = new StudySite();
     private StudyRepository studyRepository;
-    private String studyId = "123-12";
+    public static final String STANDARD_STUDY_ASSIGNED_ID = "123-12-DEFAULT";
 
     public StudyTestHelper(StudyRepository studyRepository, OrganizationClinicalStaffRepository organizationClinicalStaffRepository, ClinicalStaffRepository clinicalStaffRepository, OrganizationRepository organizationRepository) {
         this.studyRepository = studyRepository;
@@ -50,7 +50,7 @@ public class StudyTestHelper {
     private void firstTab_GeneralInfo(Study study) {
         study.setShortTitle("Collection of patient-reported symptoms and performance status via the internet");
         study.setLongTitle("Collection of patient-reported symptoms and performance status via the internet");
-        study.setAssignedIdentifier(studyId);
+        study.setAssignedIdentifier(STANDARD_STUDY_ASSIGNED_ID);
         study.setDescription("Collection of patient-reported symptoms and performance status via the internet");
 
         DataCoordinatingCenter dcc = new DataCoordinatingCenter();
@@ -175,7 +175,7 @@ public class StudyTestHelper {
 
     private List<Study> findStandardStudies() {
         StudyQuery query = new StudyQuery();
-        query.filterByAssignedIdentifierExactMatch(studyId);
+        query.filterByAssignedIdentifierExactMatch(STANDARD_STUDY_ASSIGNED_ID);
         return (List<Study>) studyRepository.find(query);
     }
 

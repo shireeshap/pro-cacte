@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
-import gov.nih.nci.ctcae.core.helper.GenerateTestDataTest;
 import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
 
 /**

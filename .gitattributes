@@ -294,9 +294,9 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemExcepti
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/ClinicalStaffTestHelper.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/CrfTestHelper.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/Fixture.java -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/GenerateTestDataTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/OrganizationTestHelper.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/StudyTestHelper.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/TestDataManager.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/loader/CsvImporterIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/AbstractQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/CRFQueryTest.java -text
