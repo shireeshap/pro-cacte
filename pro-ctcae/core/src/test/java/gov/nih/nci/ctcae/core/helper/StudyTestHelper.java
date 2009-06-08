@@ -76,10 +76,6 @@ public class StudyTestHelper extends GenerateTestDataTest {
     private void secondTab_StudySites(Study study) {
         sSiteDuke.setOrganization(oth.getDUKE());
         study.addStudySite(sSiteDuke);
-
-        sSiteMskcc.setOrganization(oth.getMSKCC());
-        study.addStudySite(sSiteMskcc);
-
     }
 
     private void thirdTab_OverallStudyStaff(Study study) {
