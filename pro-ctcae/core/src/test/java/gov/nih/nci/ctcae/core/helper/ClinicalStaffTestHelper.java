@@ -55,7 +55,7 @@ public class ClinicalStaffTestHelper {
         clinicalStaff.setFirstName(firstName);
         clinicalStaff.setLastName(lastName);
         clinicalStaff.setNciIdentifier(nciIdentifier);
-        clinicalStaff.setEmailAddress(firstName + "." + lastName);
+        clinicalStaff.setEmailAddress(firstName + "." + lastName + "@demo.com");
         clinicalStaff.setPhoneNumber("234-432-2499");
         addUserToClinicalStaff(clinicalStaff);
         OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
