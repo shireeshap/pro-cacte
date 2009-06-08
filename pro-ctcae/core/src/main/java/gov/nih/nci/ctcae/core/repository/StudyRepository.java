@@ -27,8 +27,7 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
 
 
     public void delete(Study study) {
-        throw new CtcAeSystemException("delete method not supported");
-
+        genericRepository.delete(study);
     }
 
     public Collection<Study> find(StudyQuery query) {

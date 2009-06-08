@@ -2,6 +2,9 @@ package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.*;
+import gov.nih.nci.ctcae.core.query.StudyQuery;
+
+import java.util.List;
 
 /**
  * User: Harsh
@@ -15,11 +18,24 @@ public class StudyTestHelper extends GenerateTestDataTest {
     StudySite sSiteDuke = new StudySite();
     StudySite sSiteMskcc = new StudySite();
     private StudyRepository studyRepository;
+//    private String studyId = "123-12-DEFAULT";
+    private String studyId = "123-12";
 
     public StudyTestHelper(StudyRepository studyRepository, OrganizationClinicalStaffRepository organizationClinicalStaffRepository, ClinicalStaffRepository clinicalStaffRepository, OrganizationRepository organizationRepository) {
         this.studyRepository = studyRepository;
         oth = new OrganizationTestHelper(organizationRepository);
         csth = new ClinicalStaffTestHelper(organizationClinicalStaffRepository, clinicalStaffRepository, organizationRepository);
+        deleteStandardStudies();
+    }
+
+    private void deleteStandardStudies() {
+
+        StudyQuery query = new StudyQuery();
+        query.filterByAssignedIdentifierExactMatch(studyId);
+        List<Study> studies = (List<Study>) studyRepository.find(query);
+        for (Study study : studies) {
+            studyRepository.delete(study);
+        }
     }
 
     public void createStandardStudy() {
@@ -36,7 +52,7 @@ public class StudyTestHelper extends GenerateTestDataTest {
     private void firstTab_GeneralInfo(Study study) {
         study.setShortTitle("Collection of patient-reported symptoms and performance status via the internet");
         study.setLongTitle("Collection of patient-reported symptoms and performance status via the internet");
-        study.setAssignedIdentifier("123-12");
+        study.setAssignedIdentifier(studyId);
         study.setDescription("Collection of patient-reported symptoms and performance status via the internet");
 
         DataCoordinatingCenter dcc = new DataCoordinatingCenter();
@@ -118,14 +134,14 @@ public class StudyTestHelper extends GenerateTestDataTest {
         //MSKCC
         StudyOrganizationClinicalStaff sitePiMskcc = new StudyOrganizationClinicalStaff();
         sitePiMskcc.setRole(Role.SITE_PI);
-        OrganizationClinicalStaff ocs5 = csth.findOrganizationClinicalStaffByNciIdentifier("AABERNETHY");
+        OrganizationClinicalStaff ocs5 = csth.findOrganizationClinicalStaffByNciIdentifier("LARCHER");
         sitePiMskcc.setOrganizationClinicalStaff(ocs5);
         sitePiMskcc.setStudyOrganization(sSiteMskcc);
         sSiteMskcc.addOrUpdateStudyOrganizationClinicalStaff(sitePiMskcc);
 
         StudyOrganizationClinicalStaff siteCraMskcc = new StudyOrganizationClinicalStaff();
         siteCraMskcc.setRole(Role.SITE_CRA);
-        OrganizationClinicalStaff ocs6 = csth.findOrganizationClinicalStaffByNciIdentifier("CDAVIS");
+        OrganizationClinicalStaff ocs6 = csth.findOrganizationClinicalStaffByNciIdentifier("HTODD");
         siteCraMskcc.setOrganizationClinicalStaff(ocs6);
         siteCraMskcc.setStudyOrganization(sSiteMskcc);
         sSiteMskcc.addOrUpdateStudyOrganizationClinicalStaff(siteCraMskcc);

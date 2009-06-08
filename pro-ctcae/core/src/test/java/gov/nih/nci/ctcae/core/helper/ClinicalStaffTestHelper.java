@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.*;
 import gov.nih.nci.ctcae.core.helper.GenerateTestDataTest;
 import gov.nih.nci.ctcae.core.repository.*;
+import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
 import sun.security.krb5.internal.ktab.KeyTab;
 import org.omg.CORBA.CharSeqHelper;
 
@@ -57,18 +58,24 @@ public class ClinicalStaffTestHelper {
     }
 
     public ClinicalStaff createClinicalStaff(final String firstName, final String lastName, final String nciIdentifier, final Organization organization) {
-        ClinicalStaff clinicalStaff = new ClinicalStaff();
-        clinicalStaff.setFirstName(firstName);
-        clinicalStaff.setLastName(lastName);
-        clinicalStaff.setNciIdentifier(nciIdentifier);
-        clinicalStaff.setEmailAddress(firstName + "." + lastName + "@demo.com");
-        clinicalStaff.setPhoneNumber("234-432-2499");
-        addUserToClinicalStaff(clinicalStaff);
-        OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
-        organizationClinicalStaff.setOrganization(organization);
-        clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
-        clinicalStaffRepository.save(clinicalStaff);
-        return clinicalStaff;
+        ClinicalStaffQuery query = new ClinicalStaffQuery();
+        query.filterByNciIdentifier(nciIdentifier);
+        List<ClinicalStaff> cs = (List<ClinicalStaff>) clinicalStaffRepository.find(query);
+        if (cs == null || cs.size() == 0) {
+            ClinicalStaff clinicalStaff = new ClinicalStaff();
+            clinicalStaff.setFirstName(firstName);
+            clinicalStaff.setLastName(lastName);
+            clinicalStaff.setNciIdentifier(nciIdentifier);
+            clinicalStaff.setEmailAddress(firstName + "." + lastName + "@demo.com");
+            clinicalStaff.setPhoneNumber("234-432-2499");
+            addUserToClinicalStaff(clinicalStaff);
+            OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
+            organizationClinicalStaff.setOrganization(organization);
+            clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
+            clinicalStaffRepository.save(clinicalStaff);
+            return clinicalStaff;
+        }
+        return cs.get(0);
     }
 
     private void addUserToClinicalStaff(ClinicalStaff clinicalStaff) {
