@@ -27,7 +27,7 @@ public class MeddraValidValueRepository implements Repository<MeddraValidValue, 
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
-    }
+    }                                                                                 
 
     public MeddraValidValue findById(Integer id) {
         return genericRepository.findById(MeddraValidValue.class, id);

@@ -66,12 +66,6 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
         commitAndStartNewTransaction();
     }
 
-    public void testCreateCrf() {
-        StudyTestHelper sth = new StudyTestHelper(studyRepository, organizationClinicalStaffRepository, clinicalStaffRepository, organizationRepository);
-        sth.createStandardStudy();
-        commitAndStartNewTransaction();
-    }
-
     private User insertAdminUser() {
         UserQuery userQuery = new UserQuery();
         userQuery.filterByUserName(SYSTEM_ADMIN);

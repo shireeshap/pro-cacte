@@ -120,20 +120,15 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
             }
         }
 
-        if (StringUtils.isBlank(command.getCrfCycleDefinitionIndexToRemove())) {
-            if (command.getCrf().getCrfCycleDefinitions() != null) {
-                for (int i = 0; i < command.getCrf().getCrfCycleDefinitions().size(); i++) {
-                    CRFCycleDefinition crfCycleDefinition = command.getCrf().getCrfCycleDefinitions().get(i);
+        if (command.getCrf().getCrfCycleDefinitions() != null) {
+            for (int i = 0; i < command.getCrf().getCrfCycleDefinitions().size(); i++) {
+                CRFCycleDefinition crfCycleDefinition = command.getCrf().getCrfCycleDefinitions().get(i);
 
-                    if (crfCycleDefinition.getCycleLength() == null || StringUtils.isBlank("" + crfCycleDefinition.getCycleLength()) || !StringUtils.isNumeric("" + crfCycleDefinition.getCycleLength())) {
-                        errors.reject("cyclelength", "Please provide a valid numeric value for the length of cycle definition " + (i + 1) + ".");
-                    } else {
-//                        if (StringUtils.isBlank(crfCycle.getCycleDays())) {
-//                            errors.reject("days", "Please select at least one day on cycle " + (i + 1) + ".");
-//                        }
-                        if (crfCycleDefinition.getRepeatTimes() == null || StringUtils.isBlank("" + crfCycleDefinition.getRepeatTimes()) || (!StringUtils.isNumeric(crfCycleDefinition.getRepeatTimes().toString()) && !crfCycleDefinition.getRepeatTimes().toString().equals("-1"))) {
-                            errors.reject("repeat", "Please provide a valid numeric value for number of planned repetitions for cycle definition " + (i + 1) + ".");
-                        }
+                if (crfCycleDefinition.getCycleLength() == null || StringUtils.isBlank("" + crfCycleDefinition.getCycleLength()) || !StringUtils.isNumeric("" + crfCycleDefinition.getCycleLength())) {
+                    errors.reject("cyclelength", "Please provide a valid numeric value for the length of cycle definition " + (i + 1) + ".");
+                } else {
+                    if (crfCycleDefinition.getRepeatTimes() == null || StringUtils.isBlank("" + crfCycleDefinition.getRepeatTimes()) || (!StringUtils.isNumeric(crfCycleDefinition.getRepeatTimes().toString()) && !crfCycleDefinition.getRepeatTimes().toString().equals("-1"))) {
+                        errors.reject("repeat", "Please provide a valid numeric value for number of planned repetitions for cycle definition " + (i + 1) + ".");
                     }
                 }
             }
@@ -147,9 +142,8 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
             CRFCycleDefinition crfCycleDefinition = command.getCrf().getCrfCycleDefinitions().get(crfCycleDefinitionIndex);
             command.getCrf().getCrfCycleDefinitions().remove(crfCycleDefinition);
             command.setCrfCycleDefinitionIndexToRemove("");
-        } else {
-            command.createCycles(request);
         }
+        command.createCycles(request);
         super.postProcess(request, command, errors);
     }
 
