@@ -70,6 +70,7 @@ public class StudyTestHelper extends GenerateTestDataTest {
         LeadStudySite ls = new LeadStudySite();
         ls.setOrganization(oth.getMSKCC());
         study.setLeadStudySite(ls);
+        sSiteMskcc = ls;
 
     }
 
