@@ -16,7 +16,7 @@ import java.util.*;
 
 /**
  * @author Harsh Agarwal
- * Date: Jun 5, 2009
+ *         Date: Jun 5, 2009
  */
 public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringContextTests {
     protected StudyRepository studyRepository;
@@ -50,7 +50,7 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
         super.onSetUpInTransaction();
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
-        User admin = insertAdminUser();
+        insertAdminUser();
         login(SYSTEM_ADMIN);
     }
 
@@ -116,11 +116,8 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
 
     @Override
     protected void onTearDownInTransaction() throws Exception {
-
         DataAuditInfo.setLocal(null);
         super.onTearDownInTransaction();
-
-
     }
 
     @Required
