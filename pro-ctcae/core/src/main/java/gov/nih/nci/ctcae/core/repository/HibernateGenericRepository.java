@@ -44,6 +44,7 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
             getHibernateTemplate().saveOrUpdate(persistable);
         }
         return persistable;
+
     }
 
 
@@ -55,6 +56,7 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
         if (persistable.isPersisted()) {
             Persistable entityToRemove = (Persistable) getHibernateTemplate().get(persistable.getClass(), persistable.getId());
             getHibernateTemplate().delete(entityToRemove);
+            getHibernateTemplate().flush();
         }
     }
 

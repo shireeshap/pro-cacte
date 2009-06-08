@@ -19,14 +19,15 @@ import java.util.*;
  *         Date: Jun 5, 2009
  */
 public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringContextTests {
-    protected StudyRepository studyRepository;
+    protected static StudyRepository studyRepository;
     protected UserRepository userRepository;
-    protected OrganizationRepository organizationRepository;
-    protected ClinicalStaffRepository clinicalStaffRepository;
-    protected OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
+    protected static OrganizationRepository organizationRepository;
+    protected static ClinicalStaffRepository clinicalStaffRepository;
+    protected static OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
     protected ProCtcTermRepository proCtcTermRepository;
     protected CtcTermRepository ctcTermRepository;
     protected ProCtcRepository proCtcRepository;
+    protected CRFRepository crfRepository;
 
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml"
@@ -38,7 +39,7 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
     };
     private final String SYSTEM_ADMIN = "system_admin";
     public static final String DEFAULT_PASSWORD = "password";
-
+    private static Study standardStudy;
 
     @Override
     protected String[] getConfigLocations() {
@@ -63,7 +64,13 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
 
     public void testCreateStudy() {
         StudyTestHelper sth = new StudyTestHelper(studyRepository, organizationClinicalStaffRepository, clinicalStaffRepository, organizationRepository);
-        sth.createStandardStudy();
+        standardStudy = sth.createStandardStudy();
+        commitAndStartNewTransaction();
+    }
+
+    public void testCreateCrf() {
+        CrfTestHelper cth = new CrfTestHelper(crfRepository, proCtcTermRepository);
+        cth.createTestForm();
         commitAndStartNewTransaction();
     }
 
@@ -159,5 +166,18 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
     @Required
     public void setProCtcRepository(ProCtcRepository proCtcRepository) {
         this.proCtcRepository = proCtcRepository;
+    }
+
+    @Required
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
+    }
+
+    public static Study getStandardStudy() {
+        if(standardStudy == null){
+            StudyTestHelper sth = new StudyTestHelper(studyRepository, organizationClinicalStaffRepository, clinicalStaffRepository, organizationRepository);
+            standardStudy = sth.getStandardStudy();
+        }
+        return standardStudy;
     }
 }

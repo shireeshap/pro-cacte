@@ -91,15 +91,8 @@
 
         <form-login login-page="/public/login" authentication-failure-url="/public/login?error=true"
                     default-target-url="/pages/home" login-processing-url="/pages/j_spring_security_check"/>
-
-
         <remember-me user-service-ref="userRepository"/>
-
         <logout logout-success-url="/public/login" logout-url="/pages/j_spring_security_logout"/>
-
-        <concurrent-session-control max-sessions="1"/>
-
-
     </http>
 
     <beans:bean id="urlAuthorizationCheck" class="gov.nih.nci.ctcae.web.security.UrlAuthorizationCheck">

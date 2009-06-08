@@ -11,34 +11,31 @@ import java.util.List;
  * Date: Jun 5, 2009
  * Time: 8:40:02 AM
  */
-public class StudyTestHelper extends GenerateTestDataTest {
+public class StudyTestHelper {
 
     OrganizationTestHelper oth;
     ClinicalStaffTestHelper csth;
     StudySite sSiteDuke = new StudySite();
     StudySite sSiteMskcc = new StudySite();
     private StudyRepository studyRepository;
-//    private String studyId = "123-12-DEFAULT";
     private String studyId = "123-12";
 
     public StudyTestHelper(StudyRepository studyRepository, OrganizationClinicalStaffRepository organizationClinicalStaffRepository, ClinicalStaffRepository clinicalStaffRepository, OrganizationRepository organizationRepository) {
         this.studyRepository = studyRepository;
         oth = new OrganizationTestHelper(organizationRepository);
         csth = new ClinicalStaffTestHelper(organizationClinicalStaffRepository, clinicalStaffRepository, organizationRepository);
-        deleteStandardStudies();
     }
 
-    private void deleteStandardStudies() {
-
-        StudyQuery query = new StudyQuery();
-        query.filterByAssignedIdentifierExactMatch(studyId);
-        List<Study> studies = (List<Study>) studyRepository.find(query);
-        for (Study study : studies) {
-            studyRepository.delete(study);
+    public Study getStandardStudy() {
+        List<Study> studies = findStandardStudies();
+        if (studies == null || studies.size() == 0) {
+            return createStandardStudy();
         }
+        return studies.get(0);
     }
 
-    public void createStandardStudy() {
+    public Study createStandardStudy() {
+        deleteStandardStudies();
         Study study = new Study();
         firstTab_GeneralInfo(study);
         secondTab_StudySites(study);
@@ -46,7 +43,8 @@ public class StudyTestHelper extends GenerateTestDataTest {
         fourthTab_SiteClinicalStaff();
         addCCA();
 
-        studyRepository.save(study);
+        study = studyRepository.save(study);
+        return study;
     }
 
     private void firstTab_GeneralInfo(Study study) {
@@ -167,4 +165,18 @@ public class StudyTestHelper extends GenerateTestDataTest {
         sSiteDuke.addOrUpdateStudyOrganizationClinicalStaff(cca);
 
     }
+
+    private void deleteStandardStudies() {
+        List<Study> studies = findStandardStudies();
+        for (Study study : studies) {
+            studyRepository.delete(study);
+        }
+    }
+
+    private List<Study> findStandardStudies() {
+        StudyQuery query = new StudyQuery();
+        query.filterByAssignedIdentifierExactMatch(studyId);
+        return (List<Study>) studyRepository.find(query);
+    }
+
 }
