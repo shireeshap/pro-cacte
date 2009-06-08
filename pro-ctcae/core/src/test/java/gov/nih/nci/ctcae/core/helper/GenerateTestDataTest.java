@@ -29,7 +29,7 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
     protected ProCtcRepository proCtcRepository;
 
     private static final String[] context = new String[]{
-            "classpath*:gov/nih/nci/ctcae/core/applicationContext-util-test.xml"
+            "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml"
@@ -51,7 +51,7 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
         User admin = insertAdminUser();
-        login(admin);
+        login(SYSTEM_ADMIN);
     }
 
     public void testCreateClinicalStaff() {
@@ -66,6 +66,9 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
         commitAndStartNewTransaction();
     }
 
+    public void testLogin(){
+
+    }
     private User insertAdminUser() {
         UserQuery userQuery = new UserQuery();
         userQuery.filterByUserName(SYSTEM_ADMIN);
@@ -84,8 +87,8 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
         return admin;
     }
 
-    private void login(User user) {
-        User loadedUser = userRepository.loadUserByUsername(user.getUsername());
+    private void login(String userName) {
+        User loadedUser = userRepository.loadUserByUsername(userName);
         assertNotNull("must find user", loadedUser);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, DEFAULT_PASSWORD, loadedUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);

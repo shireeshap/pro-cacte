@@ -27,7 +27,7 @@ public class ClinicalStaffRepository implements Repository<ClinicalStaff, Clinic
     public ClinicalStaff save(ClinicalStaff clinicalStaff) {
         User user = clinicalStaff.getUser();
         if (user != null) {
-            user.setUsername(clinicalStaff.getFirstName() + "_" + clinicalStaff.getLastName());
+            user.setUsername(clinicalStaff.getFirstName() + clinicalStaff.getLastName()+"6");
             user = userRepository.save(user);
             clinicalStaff = genericRepository.save(clinicalStaff);
             return clinicalStaff;

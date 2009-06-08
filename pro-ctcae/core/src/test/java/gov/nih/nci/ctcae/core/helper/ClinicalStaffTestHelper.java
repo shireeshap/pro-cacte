@@ -50,20 +50,14 @@ public class ClinicalStaffTestHelper {
         return o;
     }
 
-    public ClinicalStaff createClinicalStaff(final String firstName, final String lastName, final String nciIdentifier) {
+    public ClinicalStaff createClinicalStaff(final String firstName, final String lastName, final String nciIdentifier, final Organization organization) {
         ClinicalStaff clinicalStaff = new ClinicalStaff();
         clinicalStaff.setFirstName(firstName);
         clinicalStaff.setLastName(lastName);
         clinicalStaff.setNciIdentifier(nciIdentifier);
-        clinicalStaff.setEmailAddress(firstName + "." + lastName + "@demo.com");
+        clinicalStaff.setEmailAddress(firstName + "." + lastName);
         clinicalStaff.setPhoneNumber("234-432-2499");
         addUserToClinicalStaff(clinicalStaff);
-        clinicalStaffRepository.save(clinicalStaff);
-        return clinicalStaff;
-    }
-
-    public ClinicalStaff createClinicalStaff(final String firstName, final String lastName, final String nciIdentifier, final Organization organization) {
-        ClinicalStaff clinicalStaff = createClinicalStaff(firstName, lastName, nciIdentifier);
         OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
         organizationClinicalStaff.setOrganization(organization);
         clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
