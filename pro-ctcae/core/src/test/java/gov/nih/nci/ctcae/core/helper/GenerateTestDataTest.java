@@ -52,6 +52,7 @@ public class GenerateTestDataTest extends AbstractTransactionalDataSourceSpringC
         DataAuditInfo.setLocal(auditInfo);
         insertAdminUser();
         login(SYSTEM_ADMIN);
+        commitAndStartNewTransaction();
     }
 
     public void testCreateClinicalStaff() {
