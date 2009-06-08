@@ -493,7 +493,7 @@
           p:organizationRepository-ref="organizationRepository"
           p:controllerTools-ref="controllerTools"
           p:studyOrganizationRepository-ref="studyOrganizationRepository"
-          p:meddraValidValueRepository-ref="meddraValidValueRepository">
+          >
         <property name="webControllerValidator" ref="webControllerValidator"/>
     </bean>
 
