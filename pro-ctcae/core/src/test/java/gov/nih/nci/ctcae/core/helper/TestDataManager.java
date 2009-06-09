@@ -57,6 +57,9 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         ClinicalStaffTestHelper.initialize();
         CrfTestHelper.inititalize();
         codeBase = (String) getApplicationContext().getBean("codebaseDirectory");
+        if (!isCsvLoaded()) {
+            saveCsv();
+        }
     }
 
     @Override
@@ -74,6 +77,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         }
         login(SYSTEM_ADMIN);
         defaultStudy = StudyTestHelper.getDefaultStudy();
+        System.out.println(codeBase);
     }
 
     protected void createTestData() {
@@ -157,17 +161,17 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         startNewTransaction();
     }
 
-    protected void saveCsv() throws IOException {
+    protected void saveCsv() throws Exception {
+        if (isCsvLoaded()) {
+            return;
+        }
         assertNotNull("please define codebase.directory property in datasource.properties file. " +
                 "This should property should point to directory where you have checked-out the code-base  of ctcae. " +
                 "For ex:codebase.directory=/Users/saurabhagrawal/projects/pro-ctcae", codeBase);
-        Collection<ProCtcTerm> ctcCollection = proCtcTermRepository.find(new ProCtcTermQuery());
-        if (ctcCollection != null && !ctcCollection.isEmpty()) {
-            return;
-        }
         CsvImporter csvImporter = new CsvImporter();
         csvImporter.setCtcTermRepository(ctcTermRepository);
         String fileLocation = codeBase + "/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv";
+        System.out.println("Codebase - " + codeBase + "; Reading csv file from  - " + fileLocation);
         ProCtc proctc = csvImporter.readCsv(fileLocation);
         proCtcRepository.save(proctc);
         commitAndStartNewTransaction();
@@ -186,7 +190,16 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     protected final boolean isTestDataPresent() {
 
         List l = jdbcTemplate.queryForList("select count(1) from studies s");
-        Long lg = (Long)(((ListOrderedMap) l.get(0)).getValue(0));
+        Long lg = (Long) (((ListOrderedMap) l.get(0)).getValue(0));
+        if (lg.equals(0L)) {
+            return false;
+        }
+        return true;
+    }
+
+    protected final boolean isCsvLoaded() {
+        List l = jdbcTemplate.queryForList("select count(1) from pro_ctc_terms");
+        Long lg = (Long) (((ListOrderedMap) l.get(0)).getValue(0));
         if (lg.equals(0L)) {
             return false;
         }

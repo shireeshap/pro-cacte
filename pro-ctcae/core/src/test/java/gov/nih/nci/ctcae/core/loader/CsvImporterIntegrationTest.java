@@ -9,7 +9,7 @@ import java.io.IOException;
  *         Date: Jan 19, 2009
  */
 public class CsvImporterIntegrationTest extends TestDataManager {
-    public void testSaveCsv() throws IOException {
+    public void testSaveCsv() throws Exception {
         saveCsv();
     }
 }

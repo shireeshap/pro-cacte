@@ -282,9 +282,6 @@
         <subant target="migrate" buildpath=".">
             <property name="db" value="test-db"/>
         </subant>
-        <subant target="test" buildpath="core/ivy-build.xml">
-            <property name="test" value="ImporterIntegrationTest"/>
-        </subant>
     </target>
 
 
