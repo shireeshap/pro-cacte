@@ -47,11 +47,6 @@ public class CRFIntegrationTest extends TestDataManager {
         crf.setCrfVersion("1.0");
     }
 
-    public void testSaveCRF() {
-        saveCrf();
-        assertNotNull(crf.getId());
-    }
-
     public void testCopy() {
         saveCrf();
 
