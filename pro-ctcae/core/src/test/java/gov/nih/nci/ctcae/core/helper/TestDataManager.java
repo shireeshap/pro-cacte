@@ -57,9 +57,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         ClinicalStaffTestHelper.initialize();
         CrfTestHelper.inititalize();
         codeBase = (String) getApplicationContext().getBean("codebaseDirectory");
-        if (!isCsvLoaded()) {
-            saveCsv();
-        }
     }
 
     @Override
@@ -72,6 +69,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         super.onSetUpInTransaction();
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
+        saveCsv();
         if (!isTestDataPresent()) {
             createTestData();
         }
