@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 
@@ -13,7 +13,7 @@ import java.util.UUID;
  * @author Vinay Kumar
  * @crated Oct 7, 2008
  */
-public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTestCase {
+public class OrganizationIntegrationTest extends TestDataManager {
 
     private Organization organization, inValidOrganization;
 
@@ -101,15 +101,6 @@ public class OrganizationIntegrationTest extends AbstractHibernateIntegrationTes
             assertTrue(organization.getName().toLowerCase().contains("n"));
         }
 
-    }
-
-    public void testSingleThrowsException() {
-
-        OrganizationQuery organizationQuery = new OrganizationQuery();
-        organizationQuery.filterByOrganizationName("N");
-        organization = organizationRepository.findSingle(organizationQuery);
-        fail("multiple results found for query");
-        assertNotNull(organization);
     }
 
     public void testFindSingle() {

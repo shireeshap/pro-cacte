@@ -9,7 +9,10 @@ import gov.nih.nci.ctcae.core.repository.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import org.springframework.security.providers.dao.DaoAuthenticationProvider;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
+import org.omg.CORBA.CharSeqHelper;
+import org.apache.commons.collections.map.ListOrderedMap;
 
 import java.io.IOException;
 import java.util.*;
@@ -19,27 +22,41 @@ import java.util.*;
  *         Date: Jun 5, 2009
  */
 public class TestDataManager extends AbstractTransactionalDataSourceSpringContextTests {
-    protected static StudyRepository studyRepository;
-    protected UserRepository userRepository;
-    protected static OrganizationRepository organizationRepository;
-    protected static ClinicalStaffRepository clinicalStaffRepository;
-    protected static OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
-    protected ProCtcTermRepository proCtcTermRepository;
-    protected CtcTermRepository ctcTermRepository;
-    protected ProCtcRepository proCtcRepository;
-    protected CRFRepository crfRepository;
+    public static StudyRepository studyRepository;
+    public static UserRepository userRepository;
+    public static OrganizationRepository organizationRepository;
+    public static ClinicalStaffRepository clinicalStaffRepository;
+    public static OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
+    public static ProCtcTermRepository proCtcTermRepository;
+    public static CtcTermRepository ctcTermRepository;
+    public static ProCtcRepository proCtcRepository;
+    public static CRFRepository crfRepository;
+    public static ParticipantRepository participantRepository;
+    public static StudyOrganizationRepository studyOrganizationRepository;
+    public static StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
+    public static StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
 
+    protected Study defaultStudy;
     private static final String[] context = new String[]{
-            "classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml"
+            "classpath*:gov/nih/nci/ctcae/core/applicationContext-util-test.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml"
 //            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-test.xml"
     };
-    private final String SYSTEM_ADMIN = "system_admin";
+    protected final String SYSTEM_ADMIN = "system_admin";
     public static final String DEFAULT_PASSWORD = "password";
-    private static Study standardStudy;
+
+    @Override
+    protected void injectDependencies() throws Exception {
+        super.injectDependencies();
+        StudyTestHelper.initialize();
+        OrganizationTestHelper.initialize();
+        ClinicalStaffTestHelper.initialize();
+        CrfTestHelper.inititalize();
+
+    }
 
     @Override
     protected String[] getConfigLocations() {
@@ -51,9 +68,15 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         super.onSetUpInTransaction();
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
+        if (!isTestDataPresent()) {
+            createTestData();
+        }
+        login(SYSTEM_ADMIN);
+        defaultStudy = StudyTestHelper.getDefaultStudy();
     }
 
     protected void createTestData() {
+        deleteTestData();
         insertAdminUser();
         login(SYSTEM_ADMIN);
         createClinicalStaff();
@@ -62,6 +85,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     protected void deleteTestData() {
+        insertAdminUser();
         login(SYSTEM_ADMIN);
         jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
         jdbcTemplate.execute("delete from study_participant_crf_items");
@@ -88,20 +112,17 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     private void createClinicalStaff() {
-        ClinicalStaffTestHelper csth = new ClinicalStaffTestHelper(organizationClinicalStaffRepository, clinicalStaffRepository, organizationRepository);
-        csth.createDefaultClinicalStaff();
+        ClinicalStaffTestHelper.createDefaultClinicalStaff();
         commitAndStartNewTransaction();
     }
 
     private void createStudy() {
-        StudyTestHelper sth = new StudyTestHelper(studyRepository, organizationClinicalStaffRepository, clinicalStaffRepository, organizationRepository);
-        standardStudy = sth.createStandardStudy();
+        StudyTestHelper.createDefaultStudy();
         commitAndStartNewTransaction();
     }
 
     private void createCrf() {
-        CrfTestHelper cth = new CrfTestHelper(crfRepository, proCtcTermRepository);
-        cth.createTestForm();
+        CrfTestHelper.createTestForm();
         commitAndStartNewTransaction();
     }
 
@@ -125,7 +146,11 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         SecurityContextHolder.getContext().setAuthentication(token);
     }
 
-    private void commitAndStartNewTransaction() {
+    protected void login(User user) {
+        login(user.getUsername());
+    }
+
+    protected void commitAndStartNewTransaction() {
         setComplete();
         endTransaction();
         startNewTransaction();
@@ -148,65 +173,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         commitAndStartNewTransaction();
     }
 
-    @Override
-    protected void onTearDownInTransaction() throws Exception {
-        DataAuditInfo.setLocal(null);
-        super.onTearDownInTransaction();
-    }
-
-    @Required
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
-
-    @Required
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @Required
-    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
-        this.organizationRepository = organizationRepository;
-    }
-
-    @Required
-    public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
-        this.clinicalStaffRepository = clinicalStaffRepository;
-    }
-
-    @Required
-    public void setOrganizationClinicalStaffRepository(OrganizationClinicalStaffRepository organizationClinicalStaffRepository) {
-        this.organizationClinicalStaffRepository = organizationClinicalStaffRepository;
-    }
-
-    @Required
-    public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
-        this.proCtcTermRepository = proCtcTermRepository;
-    }
-
-    @Required
-    public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
-        this.ctcTermRepository = ctcTermRepository;
-    }
-
-    @Required
-    public void setProCtcRepository(ProCtcRepository proCtcRepository) {
-        this.proCtcRepository = proCtcRepository;
-    }
-
-    @Required
-    public void setCrfRepository(CRFRepository crfRepository) {
-        this.crfRepository = crfRepository;
-    }
-
-    public static Study getStandardStudy() {
-        if (standardStudy == null) {
-            StudyTestHelper sth = new StudyTestHelper(studyRepository, organizationClinicalStaffRepository, clinicalStaffRepository, organizationRepository);
-            standardStudy = sth.getStandardStudy();
-        }
-        return standardStudy;
-    }
-
     private User getAdminUser() {
         UserQuery userQuery = new UserQuery();
         userQuery.filterByUserName(SYSTEM_ADMIN);
@@ -219,10 +185,83 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 
     protected final boolean isTestDataPresent() {
 
-        List l = jdbcTemplate.queryForList("select s from studies s");
-        if (l != null && l.size() > 0) {
-            return true;
+        List l = jdbcTemplate.queryForList("select count(1) from studies s");
+        Long lg = (Long)(((ListOrderedMap) l.get(0)).getValue(0));
+        if (lg.equals(0L)) {
+            return false;
         }
-        return false;
+        return true;
     }
+
+    @Override
+    protected void onTearDownInTransaction() throws Exception {
+        DataAuditInfo.setLocal(null);
+        super.onTearDownInTransaction();
+    }
+
+    @Required
+    public void setStudyRepository(StudyRepository studyRepository) {
+        TestDataManager.studyRepository = studyRepository;
+    }
+
+    @Required
+    public void setUserRepository(UserRepository userRepository) {
+        TestDataManager.userRepository = userRepository;
+    }
+
+    @Required
+    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
+        TestDataManager.organizationRepository = organizationRepository;
+    }
+
+    @Required
+    public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
+        TestDataManager.clinicalStaffRepository = clinicalStaffRepository;
+    }
+
+    @Required
+    public void setOrganizationClinicalStaffRepository(OrganizationClinicalStaffRepository organizationClinicalStaffRepository) {
+        TestDataManager.organizationClinicalStaffRepository = organizationClinicalStaffRepository;
+    }
+
+    @Required
+    public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+        TestDataManager.proCtcTermRepository = proCtcTermRepository;
+    }
+
+    @Required
+    public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
+        TestDataManager.ctcTermRepository = ctcTermRepository;
+    }
+
+    @Required
+    public void setProCtcRepository(ProCtcRepository proCtcRepository) {
+        TestDataManager.proCtcRepository = proCtcRepository;
+    }
+
+    @Required
+    public void setCrfRepository(CRFRepository crfRepository) {
+        TestDataManager.crfRepository = crfRepository;
+    }
+
+    @Required
+    public void setParticipantRepository(ParticipantRepository participantRepository) {
+        TestDataManager.participantRepository = participantRepository;
+    }
+
+    @Required
+    public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
+        TestDataManager.studyOrganizationRepository = studyOrganizationRepository;
+    }
+
+    @Required
+    public void setStudyParticipantAssignmentRepository(StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {
+        TestDataManager.studyParticipantAssignmentRepository = studyParticipantAssignmentRepository;
+    }
+
+    @Required
+    public void setStudyOrganizationClinicalStaffRepository(StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository) {
+        TestDataManager.studyOrganizationClinicalStaffRepository = studyOrganizationClinicalStaffRepository;
+    }
+
 }

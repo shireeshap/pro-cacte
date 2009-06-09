@@ -140,6 +140,9 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public User save(User user) {
+        if (user.getUsername() == null) {
+            throw new CtcAeSystemException("Username cannot be null;Please provide a username.");
+        }
         user.setUsername(user.getUsername().toLowerCase());
         if (user.getId() == null) {
             UserQuery userQuery = new UserQuery();

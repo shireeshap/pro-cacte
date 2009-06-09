@@ -12,9 +12,6 @@ public class SetupStatusIntegrationTest extends TestDataManager {
     private SetupStatus setupStatus;
 
     public void testSetupNotRequired() {
-        if (!isTestDataPresent()) {
-            createTestData();
-        }
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(getConfigLocations());
         setupStatus = (SetupStatus) applicationContext.getBean("setupStatus");
         assertFalse("Initial setup must not be required because there is already one admin user.", setupStatus.isSetupNeeded());
@@ -22,29 +19,19 @@ public class SetupStatusIntegrationTest extends TestDataManager {
     }
 
     public void testSetupRequired() {
-        if (isTestDataPresent()) {
-            deleteTestData();
-        }
+        deleteTestData();
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(getConfigLocations());
         setupStatus = (SetupStatus) applicationContext.getBean("setupStatus");
         assertTrue("Initial setup must be required because  there is no admin user in database. .", setupStatus.isSetupNeeded());
-        createTestData();
     }
 
     public void testReCheckSetup() {
-
-        if (!isTestDataPresent()) {
-            createTestData();
-        }
-
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(getConfigLocations());
         setupStatus = (SetupStatus) applicationContext.getBean("setupStatus");
-
         assertFalse("Initial setup is not required. .", setupStatus.isSetupNeeded());
         deleteTestData();
         setupStatus.recheck();
         assertTrue("setup is now required because there is no system admin in database", setupStatus.isSetupNeeded());
-        createTestData();
     }
 
 }

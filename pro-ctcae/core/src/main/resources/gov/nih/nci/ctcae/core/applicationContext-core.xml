@@ -2,11 +2,12 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:security="http://www.springframework.org/schema/security"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
       http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd">
 
     <tx:annotation-driven proxy-target-class="true"/>
 
@@ -55,7 +56,7 @@
         <value>gov.nih.nci.ctcae.core.domain.UserRole</value>
         <value>gov.nih.nci.ctcae.core.domain.CRFCycleDefinition</value>
         <value>gov.nih.nci.ctcae.core.domain.meddra.AbstractMeddraDomainObject</value>
-        <value>gov.nih.nci.ctcae.core.domain.MeddraVersion</value> 
+        <value>gov.nih.nci.ctcae.core.domain.MeddraVersion</value>
         <value>gov.nih.nci.ctcae.core.domain.meddra.HighLevelGroupTerm</value>
         <value>gov.nih.nci.ctcae.core.domain.meddra.HighLevelTerm</value>
         <value>gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm</value>
@@ -198,7 +199,8 @@
     <bean id="studyOrganizationRepository" class="gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
-    <bean id="studyOrganizationClinicalStaffRepository" class="gov.nih.nci.ctcae.core.repository.StudyOrganizationClinicalStaffRepository"
+    <bean id="studyOrganizationClinicalStaffRepository"
+          class="gov.nih.nci.ctcae.core.repository.StudyOrganizationClinicalStaffRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
     <bean id="clinicalStaffRepository" class="gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository"
@@ -217,7 +219,7 @@
     <bean id="ctcTermRepository" class="gov.nih.nci.ctcae.core.repository.CtcTermRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
-     <bean id="meddraRepository" class="gov.nih.nci.ctcae.core.repository.MeddraRepository"
+    <bean id="meddraRepository" class="gov.nih.nci.ctcae.core.repository.MeddraRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
 
@@ -282,4 +284,14 @@
     <bean id="beanValidator" class="gov.nih.nci.ctcae.core.validation.BeanValidator">
         <constructor-arg ref="domainClasses"/>
     </bean>
+
+    <!--It will create a daoAuthenticationProvider-->
+    <security:authentication-provider user-service-ref="userRepository">
+        <security:password-encoder ref="passwordEncoder">
+            <security:salt-source user-property="username"/>
+        </security:password-encoder>
+
+    </security:authentication-provider>
+
+
 </beans>

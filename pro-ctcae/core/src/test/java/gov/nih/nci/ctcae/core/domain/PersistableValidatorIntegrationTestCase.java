@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import edu.nwu.bioinformatics.commons.CollectionUtils;
-import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.validation.BeanValidator;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class PersistableValidatorIntegrationTestCase extends AbstractHibernateIntegrationTestCase {
+public class PersistableValidatorIntegrationTestCase extends TestDataManager {
 
 
     private BeanValidator beanValidator;

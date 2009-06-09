@@ -60,31 +60,4 @@ public class BeanValidatorTest extends AbstractTestCase {
             logger.debug(e.getMessage());
         }
     }
-
-    public void testForManyToOneAnnotationNullableColumn() {
-        StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
-        studyParticipantCrfScheduleAddedQuestion.setId(1);
-
-        try {
-            beanValidator.validate(studyParticipantCrfScheduleAddedQuestion);
-            fail("non nullable property StudyParticipantCrfSchedule of object gov.nih.nci.ctcae.core.domain.studyParticipantCrfScheduleAddedQuestion must not be null");
-        } catch (CtcAeSystemException e) {
-            logger.debug(e.getMessage());
-        }
-        studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
-        try {
-            beanValidator.validate(studyParticipantCrfScheduleAddedQuestion);
-            fail("object gov.nih.nci.ctcae.core.domain.studyParticipantCrfScheduleAddedQuestion should not give this error");
-        } catch (CtcAeSystemException e) {
-        }
-        studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestion(new StudyParticipantCrfAddedQuestion());
-        try {
-            beanValidator.validate(studyParticipantCrfScheduleAddedQuestion);
-            fail("object gov.nih.nci.ctcae.core.domain.studyParticipantCrfScheduleAddedQuestion should not give this error");
-        } catch (CtcAeSystemException e) {
-        }
-        studyParticipantCrfScheduleAddedQuestion.setProCtcQuestion(new ProCtcQuestion());
-        beanValidator.validate(studyParticipantCrfScheduleAddedQuestion);
-
-    }
 }

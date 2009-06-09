@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.web;
 
-import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mock.web.*;
 import org.springframework.web.context.WebApplicationContext;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author Vinay Kumar
  * @crated Oct 18, 2008
  */
-public abstract class AbstractWebIntegrationTestCase extends AbstractHibernateIntegrationTestCase {
+public abstract class AbstractWebIntegrationTestCase extends TestDataManager {
 
     protected MockHttpServletRequest request;
     protected MockHttpServletResponse response;

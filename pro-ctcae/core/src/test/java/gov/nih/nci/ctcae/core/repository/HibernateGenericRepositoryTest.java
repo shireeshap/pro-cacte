@@ -55,6 +55,7 @@ public class HibernateGenericRepositoryTest extends AbstractTestCase {
 		expect(hibernateTemplate.get(Organization.class, 2)).andReturn(organization);
 
 		hibernateTemplate.delete(organization);
+		hibernateTemplate.flush();
 		replayMocks();
 		genericRepository.delete(organization);
 		verifyMocks();

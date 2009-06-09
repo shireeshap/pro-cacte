@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * @author Harsh Agarwal
  * @created Oct 22, 2008
  */
-public class StudyParticipantCrfIntegrationTest extends AbstractHibernateIntegrationTestCase {
+public class StudyParticipantCrfIntegrationTest extends TestDataManager {
 
     private Study inValidStudy, studyWithStudyOrganizations;
 

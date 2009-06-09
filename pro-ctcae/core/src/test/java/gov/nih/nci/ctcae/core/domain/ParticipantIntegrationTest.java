@@ -1,8 +1,9 @@
 package gov.nih.nci.ctcae.core.domain;
 
 
-import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.helper.Fixture;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 
@@ -12,7 +13,7 @@ import java.util.Collection;
  * @author mehul
  */
 
-public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTestCase {
+public class ParticipantIntegrationTest extends TestDataManager {
 
     private Participant participant, inValidParticipant;
 
@@ -21,7 +22,7 @@ public class ParticipantIntegrationTest extends AbstractHibernateIntegrationTest
         participant = Fixture.createParticipant("John", "Dow", "1234");
         participant.getUser().setUsername("1");
         StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
-        studyParticipantAssignment.setStudySite(defaultStudySite);
+        studyParticipantAssignment.setStudySite(StudyTestHelper.getDefaultStudy().getLeadStudySite());
         studyParticipantAssignment.setStudyParticipantIdentifier("abc");
         participant.addStudyParticipantAssignment(studyParticipantAssignment);
         participant = participantRepository.save(participant);

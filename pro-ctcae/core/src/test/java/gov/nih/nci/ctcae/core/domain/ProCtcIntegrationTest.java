@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 
@@ -11,7 +11,7 @@ import java.util.Date;
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
-public class ProCtcIntegrationTest extends AbstractHibernateIntegrationTestCase {
+public class ProCtcIntegrationTest extends TestDataManager {
 
     private ProCtc proCtc, inValidProCtc;
 

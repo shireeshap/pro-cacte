@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapperImpl;
@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class PersistableIntegrationTestCase extends AbstractHibernateIntegrationTestCase {
+public class PersistableIntegrationTestCase extends TestDataManager {
 
     protected SessionFactory sessionFactory;
     protected String className;

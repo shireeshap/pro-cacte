@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 
 import java.util.ArrayList;
@@ -10,28 +12,13 @@ import java.util.List;
  * @author Vinay Kumar
  * @created Feb 06, 2009
  */
-public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHibernateIntegrationTestCase {
-
-    private StudyOrganizationClinicalStaff studyOrganizationClinicalStaff;
-
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();
-        studyOrganizationClinicalStaff = new StudyOrganizationClinicalStaff();
-        studyOrganizationClinicalStaff.setRole(Role.PI);
-        studyOrganizationClinicalStaff.setOrganizationClinicalStaff(defaultOrganizationClinicalStaff);
-        defaultStudy.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
-
-        studyOrganizationClinicalStaff = addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
-        insertDefaultUsers();
-
-    }
+public class StudyOrganizationClinicalStaffIntegrationTest extends TestDataManager {
 
     public void testFind() {
         List<Role> rolesList = new ArrayList<Role>();
         rolesList.add(Role.PI);
         List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffRepository.findByStudyOrganizationIdAndRole("%",
-                defaultStudy.getLeadStudySite().getId(), rolesList);
+                StudyTestHelper.getDefaultStudy().getLeadStudySite().getId(), rolesList);
 
         assertFalse(organizationClinicalStaffList.isEmpty());
         for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaffList) {
@@ -41,9 +28,9 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
 
     public void testFindByClinicalStaff() {
         StudyOrganizationClinicalStaffQuery query = new StudyOrganizationClinicalStaffQuery();
-
+        ClinicalStaff defaultClinicalStaff = ClinicalStaffTestHelper.getDefaultClinicalStaff();
         query.filterByClinicalStaffId(defaultClinicalStaff.getId());
-        List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = genericRepository.find(query);
+        List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = (List<StudyOrganizationClinicalStaff>) studyOrganizationClinicalStaffRepository.find(query);
 
         assertFalse(organizationClinicalStaffList.isEmpty());
         for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaffList) {
@@ -53,41 +40,28 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends AbstractHiber
 
 
     public void testDeleteStudyOrganizationClinicalStaff() {
-
-
-        assertNotNull("must find study clinical staff", genericRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId()));
-
+        StudyOrganizationClinicalStaff staff = defaultStudy.getLeadStudySite().getStudyOrganizationClinicalStaffs().get(0);
+        assertNotNull("must find study clinical staff", studyOrganizationClinicalStaffRepository.findById(staff.getId()));
         //now remove it
         defaultStudy.getLeadStudySite().getStudyOrganizationClinicalStaffs().clear();
         defaultStudy = studyRepository.save(defaultStudy);
-
         commitAndStartNewTransaction();
 
-        StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = genericRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId());
+        StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = studyOrganizationClinicalStaffRepository.findById(staff.getId());
         assertNull("must remove study clinical staff", expectedStudyOrganizationClinicalStaff);
-
+        createTestData();
     }
 
     public void testUpdateStudyOrganizationClinicalStaff() {
-
-
         StudyOrganizationClinicalStaff staff = defaultStudy.getLeadStudySite().getStudyOrganizationClinicalStaffs().get(0);
         OrganizationClinicalStaff organizationClinicalStaff = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.NURSE).getOrganizationClinicalStaff();
         staff.setOrganizationClinicalStaff(organizationClinicalStaff);
         defaultStudy = studyRepository.save(defaultStudy);
 
         commitAndStartNewTransaction();
-
-        StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = genericRepository.findById(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaff.getId());
+        StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = studyOrganizationClinicalStaffRepository.findById(staff.getId());
         assertNotNull("must not study clinical staff", expectedStudyOrganizationClinicalStaff);
         assertEquals("must not study clinical staff", organizationClinicalStaff, expectedStudyOrganizationClinicalStaff.getOrganizationClinicalStaff());
-
-    }
-
-
-    @Override
-    protected void onTearDownInTransaction() throws Exception {
-        super.onTearDownInTransaction();
-
+        createTestData();
     }
 }

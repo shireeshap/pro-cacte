@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
@@ -15,7 +15,7 @@ import java.util.UUID;
  * @author Vinay Kumar
  * @crated Oct 7, 2008
  */
-public class StudyIntegrationTest extends AbstractHibernateIntegrationTestCase {
+public class StudyIntegrationTest extends TestDataManager {
 
     private Study inValidStudy, studyWithStudyOrganizations;
 

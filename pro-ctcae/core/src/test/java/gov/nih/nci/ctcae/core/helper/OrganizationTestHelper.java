@@ -10,34 +10,34 @@ import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
  * Time: 8:40:02 AM
  */
 public class OrganizationTestHelper {
-    private OrganizationRepository organizationRepository;
+    private static OrganizationRepository organizationRepository;
 
-    public OrganizationTestHelper(OrganizationRepository organizationRepository) {
-        this.organizationRepository = organizationRepository;
+    public static void initialize() {
+        organizationRepository = TestDataManager.organizationRepository;
     }
 
 
-    public Organization getMSKCC() {
+    public static Organization getMSKCC() {
         return findOrganizationByNciInstituteCode("NY016");
     }
 
-    public Organization getDUKE() {
+    public static Organization getDUKE() {
         return findOrganizationByNciInstituteCode("NC010");
     }
 
-    public Organization getCALGB() {
+    public static Organization getCALGB() {
         return findOrganizationByNciInstituteCode("CALGB");
     }
 
-    public Organization getNCI() {
+    public static Organization getNCI() {
         return findOrganizationByNciInstituteCode("NCI");
     }
 
-    public Organization getWAKE() {
+    public static Organization getWAKE() {
         return findOrganizationByNciInstituteCode("NC008");
     }
 
-    public Organization findOrganizationByNciInstituteCode(String code) {
+    private static Organization findOrganizationByNciInstituteCode(String code) {
         OrganizationQuery query = new OrganizationQuery();
         query.filterByNciCodeExactMatch(code);
         Organization o = organizationRepository.findSingle(query);

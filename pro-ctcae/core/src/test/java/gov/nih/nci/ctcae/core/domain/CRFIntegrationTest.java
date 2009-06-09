@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
  * @author Harsh Agarwal
  * @created Oct 14, 2008
  */
-public class CRFIntegrationTest extends AbstractHibernateIntegrationTestCase {
+public class CRFIntegrationTest extends TestDataManager {
 
     private CRF crf, inValidCRF;
     private String title = "Cancer CRF" + UUID.randomUUID().toString();

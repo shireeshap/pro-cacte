@@ -6,7 +6,6 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.*;
-import gov.nih.nci.ctcae.core.security.SecurityTestDataIntegrationTest;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.GrantedAuthority;
@@ -24,7 +23,7 @@ import java.util.*;
  * @author Vinay Kumar
  * @crated Mar 9, 2009
  */
-public class AbstractHibernateIntegrationTestCase extends AbstractTransactionalDataSourceSpringContextTests {
+public class AbstractHibernateIntegrationTestCase1 extends AbstractTransactionalDataSourceSpringContextTests {
     protected ProCtcTermRepository proCtcTermRepository;
     protected ClinicalStaffRepository clinicalStaffRepository;
     protected OrganizationClinicalStaffRepository organizationClinicalStaffRepository;

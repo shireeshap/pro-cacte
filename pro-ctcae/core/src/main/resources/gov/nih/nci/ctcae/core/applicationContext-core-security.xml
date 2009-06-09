@@ -190,14 +190,6 @@
     <!--do not change this salt source. because it must be same as <salt-source/> tag -->
 
 
-    <!--It will create a daoAuthenticationProvider-->
-    <security:authentication-provider user-service-ref="userRepository">
-        <security:password-encoder ref="passwordEncoder">
-            <security:salt-source user-property="username"/>
-        </security:password-encoder>
-
-    </security:authentication-provider>
-
 
     <!-- Automatically receives AuthenticationEvent messages from DaoAuthenticationProvider -->
     <bean id="authorizationLoggerListener"

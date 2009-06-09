@@ -14,21 +14,21 @@ import java.util.List;
  */
 public class ClinicalStaffTestHelper {
 
-    private OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
-    private ClinicalStaffRepository clinicalStaffRepository;
-    private OrganizationRepository organizationRepository;
+    private static OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
+    private static ClinicalStaffRepository clinicalStaffRepository;
 
-    public ClinicalStaffTestHelper(OrganizationClinicalStaffRepository organizationClinicalStaffRepository, ClinicalStaffRepository clinicalStaffRepository, OrganizationRepository organizationRepository) {
-        this.organizationClinicalStaffRepository = organizationClinicalStaffRepository;
-        this.clinicalStaffRepository = clinicalStaffRepository;
-        this.organizationRepository = organizationRepository;
+    private ClinicalStaffTestHelper() {
 
     }
 
-    public void createDefaultClinicalStaff() {
-        OrganizationTestHelper oth = new OrganizationTestHelper(organizationRepository);
-        Organization duke = oth.getDUKE();
-        Organization mskcc = oth.getMSKCC();
+    public static void initialize() {
+        organizationClinicalStaffRepository = TestDataManager.organizationClinicalStaffRepository;
+        clinicalStaffRepository = TestDataManager.clinicalStaffRepository;
+    }
+
+    public static void createDefaultClinicalStaff() {
+        Organization duke = OrganizationTestHelper.getDUKE();
+        Organization mskcc = OrganizationTestHelper.getMSKCC();
 
         createClinicalStaff("Meredith", "Olsen", "MOLSEN", duke);
         createClinicalStaff("Amy", "Abernethy", "AABERNETHY", duke);
@@ -46,19 +46,22 @@ public class ClinicalStaffTestHelper {
         createClinicalStaff("cca", "cca", "CCCA", duke);
     }
 
-    public OrganizationClinicalStaff findOrganizationClinicalStaffByNciIdentifier(String nciIdentifier) {
+    public static OrganizationClinicalStaff findOrganizationClinicalStaffByNciIdentifier(String nciIdentifier) {
         OrganizationClinicalStaffQuery query = new OrganizationClinicalStaffQuery();
         query.filterByExactMatchNciIdentifier(nciIdentifier);
-        OrganizationClinicalStaff o = organizationClinicalStaffRepository.findSingle(query);
-        return o;
+        return organizationClinicalStaffRepository.findSingle(query);
     }
 
-    public ClinicalStaff createClinicalStaff(final String firstName, final String lastName, final String nciIdentifier, final Organization organization) {
+    private static ClinicalStaff findClinicalStaffByNCIIdentifier(String nciIdentifier) {
         ClinicalStaffQuery query = new ClinicalStaffQuery();
         query.filterByNciIdentifier(nciIdentifier);
-        List<ClinicalStaff> cs = (List<ClinicalStaff>) clinicalStaffRepository.find(query);
-        if (cs == null || cs.size() == 0) {
-            ClinicalStaff clinicalStaff = new ClinicalStaff();
+        return clinicalStaffRepository.findSingle(query);
+    }
+
+    public static ClinicalStaff createClinicalStaff(final String firstName, final String lastName, final String nciIdentifier, final Organization organization) {
+        ClinicalStaff clinicalStaff = findClinicalStaffByNCIIdentifier(nciIdentifier);
+        if (clinicalStaff == null) {
+            clinicalStaff = new ClinicalStaff();
             clinicalStaff.setFirstName(firstName);
             clinicalStaff.setLastName(lastName);
             clinicalStaff.setNciIdentifier(nciIdentifier);
@@ -68,14 +71,17 @@ public class ClinicalStaffTestHelper {
             OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
             organizationClinicalStaff.setOrganization(organization);
             clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
-            clinicalStaffRepository.save(clinicalStaff);
-            return clinicalStaff;
+            clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
         }
-        return cs.get(0);
+        return clinicalStaff;
     }
 
-    private void addUserToClinicalStaff(ClinicalStaff clinicalStaff) {
+    private static void addUserToClinicalStaff(ClinicalStaff clinicalStaff) {
         clinicalStaff.setUser(new User());
         clinicalStaff.getUser().setPassword(TestDataManager.DEFAULT_PASSWORD);
+    }
+
+    public static ClinicalStaff getDefaultClinicalStaff() {
+        return findClinicalStaffByNCIIdentifier("MOLSEN");
     }
 }

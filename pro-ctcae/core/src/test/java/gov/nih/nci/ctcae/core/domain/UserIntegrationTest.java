@@ -1,35 +1,38 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.AbstractHibernateIntegrationTestCase;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.helper.Fixture;
+import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import org.springframework.security.*;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import org.springframework.security.providers.dao.DaoAuthenticationProvider;
 import org.springframework.security.userdetails.UsernameNotFoundException;
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * @author Vinay Kumar
  */
 
-public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
+public class UserIntegrationTest extends TestDataManager {
 
-    private User invalidUser;
-
-    public User userHavingExpiredAccount, userHavingLockedAccount, userHavingExpiredCredentials,
-            userHavingDisabledAccount;
+    private User defaultUser;
+    protected DaoAuthenticationProvider daoAuthenticationProvider;
 
     private static final String USER = "user";
 
+    @Override
+    protected void onSetUpInTransaction() throws Exception {
+        super.onSetUpInTransaction();
+        defaultUser = ClinicalStaffTestHelper.getDefaultClinicalStaff().getUser();
+    }
 
     public void testSaveUser() {
-
         assertNotNull(defaultUser.getId());
-
     }
 
     public void testValidationExceptionForSavingInValidUser() {
-        invalidUser = new User();
-
+        User invalidUser = new User();
         try {
             invalidUser = userRepository.save(invalidUser);
             fail();
@@ -115,7 +118,7 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
         assertEquals(defaultUser.getUsername(), userDetails.getUsername());
 
         try {
-            userDetails = userRepository.loadUserByUsername("abc");
+            userRepository.loadUserByUsername("abc");
             fail("Should throw UserNotFoundException");
         }
         catch (UsernameNotFoundException e) {
@@ -144,7 +147,7 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     public void testAuthenticateFailsIfAccountExpired() {
 
-        userHavingExpiredAccount = Fixture.createUser(USER, Fixture.DEFAULT_PASSWORD, true, false, true, true);
+        User userHavingExpiredAccount = Fixture.createUser(USER, Fixture.DEFAULT_PASSWORD, true, false, true, true);
         userRepository.save(userHavingExpiredAccount);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userHavingExpiredAccount
                 .getUsername(), Fixture.DEFAULT_PASSWORD);
@@ -160,10 +163,10 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     public void testAuthenticateFailsIfAccountLocked() {
 
-        userHavingLockedAccount = Fixture.createUser(USER, Fixture.DEFAULT_PASSWORD, true, true, true, false);
+        User userHavingLockedAccount = Fixture.createUser(USER, Fixture.DEFAULT_PASSWORD, true, true, true, false);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userHavingLockedAccount
                 .getUsername(), Fixture.DEFAULT_PASSWORD);
-       userRepository.save(userHavingLockedAccount);
+        userRepository.save(userHavingLockedAccount);
 
         try {
             daoAuthenticationProvider.authenticate(token);
@@ -176,10 +179,10 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     public void testAuthenticateFailsIfCredentialsExpired() {
 
-        userHavingExpiredCredentials = Fixture.createUser(USER, Fixture.DEFAULT_PASSWORD, true, true, false, true);
+        User userHavingExpiredCredentials = Fixture.createUser(USER, Fixture.DEFAULT_PASSWORD, true, true, false, true);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 userHavingExpiredCredentials, Fixture.DEFAULT_PASSWORD);
-       userRepository.save(userHavingExpiredCredentials);
+        userRepository.save(userHavingExpiredCredentials);
         try {
             daoAuthenticationProvider.authenticate(token);
             fail("Should have thrown CredentialsExpiredException");
@@ -202,7 +205,7 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
 
     public void testAuthenticateFailsIfUserDisabled() {
 
-        userHavingDisabledAccount = Fixture.createUser(USER, Fixture.DEFAULT_PASSWORD, false, true, true, true);
+        User userHavingDisabledAccount = Fixture.createUser(USER, Fixture.DEFAULT_PASSWORD, false, true, true, true);
         userRepository.save(userHavingDisabledAccount);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userHavingDisabledAccount,
                 Fixture.DEFAULT_PASSWORD);
@@ -240,5 +243,11 @@ public class UserIntegrationTest extends AbstractHibernateIntegrationTestCase {
             assertTrue(true);
         }
     }
+
+    @Required
+    public void setDaoAuthenticationProvider(DaoAuthenticationProvider daoAuthenticationProvider) {
+        this.daoAuthenticationProvider = daoAuthenticationProvider;
+    }
+
 
 }
