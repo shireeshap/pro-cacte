@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.helper.Fixture;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
@@ -22,7 +23,7 @@ public class ScheduleCrfAjaxFacadeIntegrationTest extends AbstractWebIntegration
         super.onSetUpInTransaction();
 
 
-        participant = Fixture.createParticipantWithStudyAssignment("Mehul", "Gulati", "1234", defaultStudySite);
+        participant = Fixture.createParticipantWithStudyAssignment("Mehul", "Gulati", "1234", StudyTestHelper.getDefaultStudy().getLeadStudySite());
         participant = participantRepository.save(participant);
     }
 

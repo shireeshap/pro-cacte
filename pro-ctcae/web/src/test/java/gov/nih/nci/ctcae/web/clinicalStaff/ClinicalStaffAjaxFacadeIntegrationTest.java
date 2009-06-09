@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 
 import java.util.List;
@@ -15,18 +17,10 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
     private ClinicalStaffAjaxFacade clinicalStaffAjaxFacade;
     protected Map parameterMap;
 
-
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();
-        insertDefaultUsers();
-
-    }
-
     public void testFind() {
 
         List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = clinicalStaffAjaxFacade.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole
-                ("%", defaultStudySite.getId(), "NURSE");
+                ("%", StudyTestHelper.getDefaultStudy().getLeadStudySite().getId(), "NURSE");
 
         assertFalse(organizationClinicalStaffList.isEmpty());
     }
@@ -35,8 +29,8 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
 
         String table = clinicalStaffAjaxFacade.searchClinicalStaff(parameterMap, "an", "w", "", request);
         assertNotNull(table);
-        assertTrue("must find atleast clinical staff matching with first name", table.contains(defaultClinicalStaff.getFirstName()));
-        assertTrue("must find atleast clinical staff matching with last name", table.contains(defaultClinicalStaff.getLastName()));
+        assertTrue("must find atleast clinical staff matching with first name", table.contains(ClinicalStaffTestHelper.getDefaultClinicalStaff().getFirstName()));
+        assertTrue("must find atleast clinical staff matching with last name", table.contains(ClinicalStaffTestHelper.getDefaultClinicalStaff().getLastName()));
 
 
     }

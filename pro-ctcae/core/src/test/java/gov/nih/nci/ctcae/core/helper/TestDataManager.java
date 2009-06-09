@@ -37,6 +37,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
 
     protected Study defaultStudy;
+    protected String codeBase;
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-util-test.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core.xml"
@@ -55,7 +56,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         OrganizationTestHelper.initialize();
         ClinicalStaffTestHelper.initialize();
         CrfTestHelper.inititalize();
-
+        codeBase = (String) getApplicationContext().getBean("codebaseDirectory");
     }
 
     @Override
@@ -157,7 +158,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     protected void saveCsv() throws IOException {
-        String codeBase = (String) getApplicationContext().getBean("codebaseDirectory");
         assertNotNull("please define codebase.directory property in datasource.properties file. " +
                 "This should property should point to directory where you have checked-out the code-base  of ctcae. " +
                 "For ex:codebase.directory=/Users/saurabhagrawal/projects/pro-ctcae", codeBase);
