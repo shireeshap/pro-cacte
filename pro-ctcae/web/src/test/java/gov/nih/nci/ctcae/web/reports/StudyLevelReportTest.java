@@ -167,7 +167,7 @@ public class StudyLevelReportTest extends WebTestCase {
         StudyLevelReportPdfView view = (StudyLevelReportPdfView) modelAndView.getView();
         view.render(null, request, response);
         assertEquals("application/pdf", response.getContentType());
-        File f = new File("/etc/proctcae/generatedpdf.pdf");
+        File f = new File("generatedpdf.pdf");
         if (f.exists()) {
             f.delete();
         }
@@ -279,7 +279,7 @@ public class StudyLevelReportTest extends WebTestCase {
             out.append(participant.getDisplayName() + "\n");
             out.append(table.get(participant));
         }
-        File f = new File("/etc/proctcae/generatedhtml.html");
+        File f = new File("generatedhtml.html");
         if (f.exists()) {
             f.delete();
         }

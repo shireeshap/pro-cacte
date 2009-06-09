@@ -285,13 +285,4 @@
         <constructor-arg ref="domainClasses"/>
     </bean>
 
-    <!--It will create a daoAuthenticationProvider-->
-    <security:authentication-provider user-service-ref="userRepository">
-        <security:password-encoder ref="passwordEncoder">
-            <security:salt-source user-property="username"/>
-        </security:password-encoder>
-
-    </security:authentication-provider>
-
-
 </beans>

@@ -38,145 +38,145 @@
     </bean>
 
 
-    <security:global-method-security access-decision-manager-ref="accessDecisionManager">
-        <security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.save(..))"
-                                   access="PRIVILEGE_CREATE_FORM,PRIVILEGE_EDIT_FORM"/>
+    <!--<security:global-method-security access-decision-manager-ref="accessDecisionManager">-->
+        <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.save(..))"-->
+                                   <!--access="PRIVILEGE_CREATE_FORM,PRIVILEGE_EDIT_FORM"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.updateStatusToReleased(..))"
-                access="PRIVILEGE_RELEASE_FORM"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.updateStatusToReleased(..))"-->
+                <!--access="PRIVILEGE_RELEASE_FORM"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.generateSchedulesFromCrfCalendar(..))"
-                access="PRIVILEGE_CREATE_FORM"/>
-
-
-        <security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.delete(..))"
-                                   access="PRIVILEGE_DELETE_FORM"/>
-
-        <security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.find*(..))"
-                                   access="PRIVILEGE_SEARCH_FORM"/>
-
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.versionCrf(..))"
-                access="PRIVILEGE_VERSION_FORM"/>
-        <security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.copy(..))"
-                                   access="PRIVILEGE_COPY_FORM"/>
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.*(..))"
-                access="PRIVILEGE_ADMIN"/>
-
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationRepository.find*(..))"
-                access="IS_AUTHENTICATED_FULLY"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.generateSchedulesFromCrfCalendar(..))"-->
+                <!--access="PRIVILEGE_CREATE_FORM"/>-->
 
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.save(..))"
-                access="PRIVILEGE_CREATE_STUDY,PRIVILEGE_EDIT_STUDY,PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>
+        <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.delete(..))"-->
+                                   <!--access="PRIVILEGE_DELETE_FORM"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.find*(..))"
-                access="PRIVILEGE_SEARCH_STUDY"/>
+        <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.find*(..))"-->
+                                   <!--access="PRIVILEGE_SEARCH_FORM"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.addStudyOrganizationClinicalStaff(..))"
-                access="PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.versionCrf(..))"-->
+                <!--access="PRIVILEGE_VERSION_FORM"/>-->
+        <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.copy(..))"-->
+                                   <!--access="PRIVILEGE_COPY_FORM"/>-->
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.CRFRepository.*(..))"-->
+                <!--access="PRIVILEGE_ADMIN"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.addStudySite(..))"
-                access="PRIVILEGE_ADD_STUDY_SITE"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationRepository.find*(..))"-->
+                <!--access="IS_AUTHENTICATED_FULLY"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.*(..))"
-                access="PRIVILEGE_ADMIN"/>
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository.find*(..))"
-                access="PRIVILEGE_SEARCH_STUDY"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.save(..))"-->
+                <!--access="PRIVILEGE_CREATE_STUDY,PRIVILEGE_EDIT_STUDY,PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>-->
+
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.find*(..))"-->
+                <!--access="PRIVILEGE_SEARCH_STUDY"/>-->
+
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.addStudyOrganizationClinicalStaff(..))"-->
+                <!--access="PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>-->
+
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.addStudySite(..))"-->
+                <!--access="PRIVILEGE_ADD_STUDY_SITE"/>-->
+
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyRepository.*(..))"-->
+                <!--access="PRIVILEGE_ADMIN"/>-->
+
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository.find*(..))"-->
+                <!--access="PRIVILEGE_SEARCH_STUDY"/>-->
 
         <!--<security:protect-pointcut-->
         <!--expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.save(..))"-->
         <!--access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.find*(..))"
-                access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.save(..))"
-                access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.find*(..))"-->
+                <!--access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>-->
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.save(..))"-->
+                <!--access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.delete(..))"
-                access="PRIVILEGE_ADMIN"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository.delete(..))"-->
+                <!--access="PRIVILEGE_ADMIN"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.findByStudyOrganizationId(..))"
-                access="AUTH_CHECK"/>
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.findById(..))"
-                access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.findByStudyOrganizationId(..))"-->
+                <!--access="AUTH_CHECK"/>-->
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.findById(..))"-->
+                <!--access="PRIVILEGE_SEARCH_CLINICAL_STAFF"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.*(..))"
-                access="PRIVILEGE_ADMIN"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository.*(..))"-->
+                <!--access="PRIVILEGE_ADMIN"/>-->
 
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.ParticipantRepository.save(..))"
-                access="PRIVILEGE_CREATE_PARTICIPANT,PRIVILEGE_EDIT_PARTICIPANT"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.ParticipantRepository.save(..))"-->
+                <!--access="PRIVILEGE_CREATE_PARTICIPANT,PRIVILEGE_EDIT_PARTICIPANT"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.ParticipantRepository.find*(..))"
-                access="PRIVILEGE_SEARCH_PARTICIPANT,PRIVILEGE_VIEW_PARTICIPANT,PRIVILEGE_PARTICIPANT_INBOX"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.ParticipantRepository.find*(..))"-->
+                <!--access="PRIVILEGE_SEARCH_PARTICIPANT,PRIVILEGE_VIEW_PARTICIPANT,PRIVILEGE_PARTICIPANT_INBOX"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.ParticipantRepository.*(..))"
-                access="PRIVILEGE_ADMIN"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.ParticipantRepository.*(..))"-->
+                <!--access="PRIVILEGE_ADMIN"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository.save(..))"
-                access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository.save(..))"-->
+                <!--access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository.find*(..))"
-                access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository.find*(..))"-->
+                <!--access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository.find*(..))"
-                access="PRIVILEGE_PARTICIPANT_INBOX,PRIVILEGE_MONITOR_FORM"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository.find*(..))"-->
+                <!--access="PRIVILEGE_PARTICIPANT_INBOX,PRIVILEGE_MONITOR_FORM"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository.save*(..))"
-                access="PRIVILEGE_PARTICIPANT_INBOX,PRIVILEGE_EDIT_PARTICIPANT"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository.save*(..))"-->
+                <!--access="PRIVILEGE_PARTICIPANT_INBOX,PRIVILEGE_EDIT_PARTICIPANT"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleAddedQuestionRepository.find*(..))"
-                access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleAddedQuestionRepository.find*(..))"-->
+                <!--access="PRIVILEGE_PARTICIPANT_INBOX"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleAddedQuestionRepository.save*(..))"
-                access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleAddedQuestionRepository.save*(..))"-->
+                <!--access="PRIVILEGE_PARTICIPANT_INBOX"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfAddedQuestionRepository.find*(..))"
-                access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfAddedQuestionRepository.find*(..))"-->
+                <!--access="PRIVILEGE_PARTICIPANT_INBOX"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfAddedQuestionRepository.save*(..))"
-                access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfAddedQuestionRepository.save*(..))"-->
+                <!--access="PRIVILEGE_PARTICIPANT_INBOX"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository.find*(..))"
-                access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository.find*(..))"-->
+                <!--access="PRIVILEGE_PARTICIPANT_INBOX"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository.save*(..))"
-                access="PRIVILEGE_PARTICIPANT_INBOX"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository.save*(..))"-->
+                <!--access="PRIVILEGE_PARTICIPANT_INBOX"/>-->
 
-        <security:protect-pointcut
-                expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository.*(..))"
-                access="PRIVILEGE_ADMIN"/>
+        <!--<security:protect-pointcut-->
+                <!--expression="execution(* gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository.*(..))"-->
+                <!--access="PRIVILEGE_ADMIN"/>-->
 
 
         <!--must not remove this line. no one should be able to access generic methods..developer must configure security for each method->-->
@@ -184,10 +184,17 @@
         <!--<security:protect-pointcut expression="execution(* gov.nih.nci.ctcae.core.repository.OrganizationRepository.*(..))"-->
         <!--access="PRIVILEGE_ADMIN"/>-->
 
-    </security:global-method-security>
+    <!--</security:global-method-security>-->
 
 
     <!--do not change this salt source. because it must be same as <salt-source/> tag -->
+    <!--It will create a daoAuthenticationProvider-->
+    <security:authentication-provider user-service-ref="userRepository">
+        <security:password-encoder ref="passwordEncoder">
+            <security:salt-source user-property="username"/>
+        </security:password-encoder>
+
+    </security:authentication-provider>
 
 
 

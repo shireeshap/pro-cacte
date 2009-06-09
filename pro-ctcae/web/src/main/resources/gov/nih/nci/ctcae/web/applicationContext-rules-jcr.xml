@@ -68,11 +68,11 @@
         <property name="sessionFactory" ref="jcrSessionFactory"/>
     </bean>
 
-    <bean id="jcrTransactionManager"
-          class="org.springmodules.jcr.jackrabbit.LocalTransactionManager"
-          autowire="byType">
-        <property name="sessionFactory" ref="jcrSessionFactory"/>
-    </bean>
+    <!--<bean id="jcrTransactionManager"-->
+          <!--class="org.springmodules.jcr.jackrabbit.LocalTransactionManager"-->
+          <!--autowire="byType">-->
+        <!--<property name="sessionFactory" ref="jcrSessionFactory"/>-->
+    <!--</bean>-->
 
 
     <!-- transaction proxy for Jcr services/facades -->
