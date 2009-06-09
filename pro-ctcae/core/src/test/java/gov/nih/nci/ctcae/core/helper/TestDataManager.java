@@ -75,7 +75,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         }
         login(SYSTEM_ADMIN);
         defaultStudy = StudyTestHelper.getDefaultStudy();
-        System.out.println(codeBase);
     }
 
     protected void createTestData() {
