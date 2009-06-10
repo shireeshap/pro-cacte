@@ -68,7 +68,7 @@ public class CsvImporter {
 
 
         ProCtc proCtc = new ProCtc();
-        proCtc.setProCtcVersion("3.0");
+        proCtc.setProCtcVersion("1.0");
         proCtc.setReleaseDate(new Date());
 
         for (String hmKey : hm.keySet()) {

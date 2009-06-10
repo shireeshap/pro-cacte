@@ -1,4 +1,4 @@
-package gov.nih.nci.ctcae.core.loader;
+package gov.nih.nci.ctcae.core;
 
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 
@@ -10,6 +10,6 @@ import java.io.IOException;
  */
 public class CsvImporterIntegrationTest extends TestDataManager {
     public void testSaveCsv() throws Exception {
-        saveCsv();
+        saveCsv(true);
     }
 }

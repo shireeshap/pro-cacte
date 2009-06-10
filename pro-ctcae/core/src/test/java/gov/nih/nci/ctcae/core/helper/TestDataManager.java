@@ -3,18 +3,14 @@ package gov.nih.nci.ctcae.core.helper;
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.ctcae.core.csv.loader.CsvImporter;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
-import org.springframework.security.providers.dao.DaoAuthenticationProvider;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
-import org.omg.CORBA.CharSeqHelper;
 import org.apache.commons.collections.map.ListOrderedMap;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -71,21 +67,26 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         super.onSetUpInTransaction();
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
-        saveCsv();
+        saveCsv(false);
         if (!isTestDataPresent()) {
-            createTestData();
+            deleteAndcreateTestData();
         }
         login(SYSTEM_ADMIN);
         defaultStudy = StudyTestHelper.getDefaultStudy();
     }
 
-    protected void createTestData() {
+    protected void deleteAndcreateTestData() {
         deleteTestData();
+        createTestData();
+    }
+
+    protected void createTestData() {
         insertAdminUser();
         login(SYSTEM_ADMIN);
         createClinicalStaff();
         createStudy();
         createCrf();
+        commitAndStartNewTransaction();
     }
 
     protected void deleteTestData() {
@@ -160,7 +161,11 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         startNewTransaction();
     }
 
-    protected void saveCsv() throws Exception {
+    protected void saveCsv(boolean force) throws Exception {
+        if (force) {
+            deleteTestData();
+            deleteProCtcTerms();
+        }
         if (isCsvLoaded()) {
             return;
         }
@@ -173,6 +178,16 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         System.out.println("Codebase - " + codeBase + "; Reading csv file from  - " + fileLocation);
         ProCtc proctc = csvImporter.readCsv(fileLocation);
         proCtcRepository.save(proctc);
+        commitAndStartNewTransaction();
+        createTestData();
+    }
+
+    private void deleteProCtcTerms() {
+        jdbcTemplate.execute("delete from question_display_rules");
+        jdbcTemplate.execute("delete from pro_ctc_valid_values");
+        jdbcTemplate.execute("delete from pro_ctc_questions");
+        jdbcTemplate.execute("delete from pro_ctc_terms");
+        jdbcTemplate.execute("delete from pro_ctc");
         commitAndStartNewTransaction();
     }
 
