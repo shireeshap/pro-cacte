@@ -27,12 +27,4 @@ public abstract class BasePersistable implements Persistable {
     public boolean isPersisted() {
         return getId() != null;
     }
-
-//    @Override
-//    public String toString() {
-//        ToStringStyle style = new CtcAeToStringStyle();
-//        ToStringBuilder.setDefaultStyle(style);
-//        return ToStringBuilder.reflectionToString(this);
-//
-//    }
 }

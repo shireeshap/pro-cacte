@@ -60,9 +60,4 @@ public class CsvLine {
     public void setProctcValidValues(String proctcValidValues) {
         this.proctcValidValues = proctcValidValues;
     }
-
-    public String toString() {
-        return proctcTerm + "," + ctcTerm + "," + displayOrder + "," + questionType + "," + questionText + "," + proctcValidValues;
-
-    }
 }

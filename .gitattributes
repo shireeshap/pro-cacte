@@ -211,7 +211,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/afterinvocation/Fil
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/beforeinvocation/DomainObjectAuthorizationCheckVoter.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/beforeinvocation/MethodAuthorizationCheck.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/security/beforeinvocation/OrganizationClinicalStaffAuthorizationCheck.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/commons/CtcAeToStringStyle.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/ImprovedPostgreSQLDialect.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/tools/hibernate/WonderfulNamingStrategy.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/BeanValidator.java -text
@@ -296,6 +295,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/ClinicalStaffTestHelp
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/CrfTestHelper.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/Fixture.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/OrganizationTestHelper.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/ParticipantTestHelper.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/StudyTestHelper.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/TestDataManager.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/AbstractQueryTest.java -text
@@ -1136,6 +1136,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/study/CreateStudySelenium
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/study/SearchStudySeleniumTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/study/StudySeleniumTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AbstractWebIntegrationTestCase.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AbstractWebTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/AuditInfoFilterTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ConfirmationCheckControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/ControllersUtilsTest.java -text
@@ -1171,6 +1172,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SetNameControllerTest.jav
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/crfTableModelTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/login/LoginControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/CreateParticipantControllerTest.java -text

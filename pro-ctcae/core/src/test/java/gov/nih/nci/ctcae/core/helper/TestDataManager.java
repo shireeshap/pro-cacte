@@ -54,6 +54,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         OrganizationTestHelper.initialize();
         ClinicalStaffTestHelper.initialize();
         CrfTestHelper.inititalize();
+        ParticipantTestHelper.initialize();
         codeBase = (String) getApplicationContext().getBean("codebaseDirectory");
     }
 
@@ -86,8 +87,10 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         createClinicalStaff();
         createStudy();
         createCrf();
+        createParticipants();
         commitAndStartNewTransaction();
     }
+
 
     protected void deleteTestData() {
         insertAdminUser();
@@ -101,6 +104,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         jdbcTemplate.execute("delete from crf_cycles");
         jdbcTemplate.execute("delete from crf_cycle_definitions");
         jdbcTemplate.execute("delete from crfs");
+        jdbcTemplate.execute("delete from study_participant_clinical_staffs");
         jdbcTemplate.execute("delete from study_organization_clinical_staffs");
         jdbcTemplate.execute("delete from study_participant_assignments");
         jdbcTemplate.execute("delete from study_organizations");
@@ -126,6 +130,11 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         commitAndStartNewTransaction();
     }
 
+    private void createParticipants() {
+        ParticipantTestHelper.createDefaultParticipants();
+        commitAndStartNewTransaction();
+    }
+
     private void createCrf() {
         CrfTestHelper.createTestForm();
         commitAndStartNewTransaction();
@@ -144,16 +153,16 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         return admin;
     }
 
-    private void login(String userName) {
+    protected void login(String userName) {
         User loadedUser = userRepository.loadUserByUsername(userName);
         assertNotNull("must find user", loadedUser);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, DEFAULT_PASSWORD, loadedUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
     }
 
-    protected void login(User user) {
-        login(user.getUsername());
-    }
+//    protected void login(User user) {
+//        login(user.getUsername());
+//    }
 
     protected void commitAndStartNewTransaction() {
         setComplete();
@@ -212,11 +221,14 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     protected final boolean isCsvLoaded() {
+        long timeStart = System.currentTimeMillis();
         List l = jdbcTemplate.queryForList("select count(1) from pro_ctc_terms");
         Long lg = (Long) (((ListOrderedMap) l.get(0)).getValue(0));
         if (lg.equals(0L)) {
             return false;
         }
+        long timeEnd = System.currentTimeMillis();
+        System.out.println("CSV already loaded. Time take to query - " + (timeEnd - timeStart) / 1000 + " seconds.");
         return true;
     }
 

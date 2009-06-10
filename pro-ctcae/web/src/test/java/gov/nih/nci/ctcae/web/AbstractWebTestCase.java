@@ -21,37 +21,21 @@ import org.springframework.security.providers.UsernamePasswordAuthenticationToke
 /**
  * @author
  */
-public abstract class WebTestCase extends AbstractTestCase {
+public abstract class AbstractWebTestCase extends TestDataManager {
     protected MockHttpServletRequest request;
     protected MockHttpServletResponse response;
     protected MockServletContext servletContext;
     protected MockHttpSession session;
     protected ControllerTools controllerTools;
-    protected StudyRepository studyRepository;
-    protected PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
-    protected ProCtcQuestionRepository proCtcQuestionRepository;
-    protected StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
-    protected UserRepository userRepository;
-
 
     @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void onSetUpInTransaction() throws Exception {
+        super.onSetUpInTransaction();
         servletContext = new MockServletContext();
         session = new MockHttpSession(servletContext);
         request = new MockHttpServletRequest(servletContext);
-        request.setMethod("POST");
         request.setSession(session);
         response = new MockHttpServletResponse();
         controllerTools = new ControllerTools();
-        studyRepository = registerMockFor(StudyRepository.class);
-        privilegeAuthorizationCheck = registerMockFor(PrivilegeAuthorizationCheck.class);
-        expect(privilegeAuthorizationCheck.authorize(isA(String.class))).andReturn(true).anyTimes();
-        expect(privilegeAuthorizationCheck.authorize(isA(ConfigAttributeDefinition.class))).andReturn(true).anyTimes();
-
-        proCtcQuestionRepository = registerMockFor(ProCtcQuestionRepository.class);
-        studyParticipantCrfScheduleRepository = registerMockFor(StudyParticipantCrfScheduleRepository.class);
-
-
     }
 }

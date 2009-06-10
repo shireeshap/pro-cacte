@@ -108,7 +108,7 @@ public class ParticipantIntegrationTest extends TestDataManager {
 
     public void testFindByUserId() {
         saveParticipant();
-        login(participant.getUser());
+        login(participant.getUser().getUsername());
 
         ParticipantQuery participantQuery = new ParticipantQuery();
         participantQuery.filterByUsername(participant.getUser().getUsername());
