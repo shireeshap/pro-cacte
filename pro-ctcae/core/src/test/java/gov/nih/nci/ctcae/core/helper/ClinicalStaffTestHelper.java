@@ -83,9 +83,6 @@ public class ClinicalStaffTestHelper {
     }
 
     public static ClinicalStaff getDefaultClinicalStaff() {
-        if (defaultClinicalStaff == null) {
-            defaultClinicalStaff = findClinicalStaffByNCIIdentifier("MOLSEN");
-        }
-        return defaultClinicalStaff;
+        return findClinicalStaffByNCIIdentifier("MOLSEN");
     }
 }

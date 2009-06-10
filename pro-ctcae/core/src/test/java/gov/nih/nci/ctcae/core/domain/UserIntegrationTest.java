@@ -52,6 +52,7 @@ public class UserIntegrationTest extends TestDataManager {
     public void testFindById() {
 
         User existingUser = userRepository.findById(defaultUser.getId());
+        assertNotNull(existingUser);
         assertEquals(defaultUser.getUsername(), existingUser.getUsername());
     }
 
