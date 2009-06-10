@@ -11,8 +11,11 @@ import java.util.Date;
  */
 public class MonitorFormUtils {
 
-    public static Date[] getStartEndDate(String dateRange) {
-        Date today = new Date();
+    public static Date[] getStartEndDate(String dateRange, Date date) {
+        Date today = date;
+        if (today == null) {
+            today = new Date();
+        }
         Date startDate;
         Date endDate;
         Calendar c = ProCtcAECalendar.getCalendarForDate(today);

@@ -43,7 +43,7 @@ public class MonitorFormStatusController extends AbstractController {
                 startDate = DateUtils.parseDate(strStartDate);
                 endDate = DateUtils.parseDate(strEndDate);
             } else {
-                Date[] date = MonitorFormUtils.getStartEndDate(dateRange);
+                Date[] date = MonitorFormUtils.getStartEndDate(dateRange, new Date());
                 startDate = date[0];
                 endDate = date[1];
             }

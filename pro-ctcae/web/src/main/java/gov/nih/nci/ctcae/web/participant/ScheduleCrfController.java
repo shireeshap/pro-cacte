@@ -90,4 +90,6 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
     public void setStudyParticipantAssignmentRepository(StudyParticipantAssignmentRepository studyParticipantAssignmentRepository) {
         this.studyParticipantAssignmentRepository = studyParticipantAssignmentRepository;
     }
+
+    
 }
