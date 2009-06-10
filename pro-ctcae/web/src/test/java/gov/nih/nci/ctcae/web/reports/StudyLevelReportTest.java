@@ -186,7 +186,7 @@ public class StudyLevelReportTest extends WebTestCase {
         StudyLevelReportExcelView view = (StudyLevelReportExcelView) modelAndView.getView();
         view.render(null, request, response);
         assertEquals("application/vnd.ms-excel", response.getContentType());
-        File f = new File("/etc/proctcae/generatedexcel.xls");
+        File f = new File("generatedexcel.xls");
         if (f.exists()) {
             f.delete();
         }
