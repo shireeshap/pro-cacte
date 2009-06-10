@@ -101,21 +101,13 @@ public class MonitorFormStatusController extends AbstractController {
         return modelAndView;
     }
 
-    private HashMap getFormStatus
-            (Integer
-                    studyId, Date
-                    startDate, Date
-                    endDate, String
-                    crfId, String
-                    studySiteId, String
-                    participantId, String
-                    status) {
+    private HashMap<StudySite, HashMap<Participant, StudyParticipantCrfSchedule[]>> getFormStatus(Integer studyId, Date startDate, Date endDate, String crfId, String studySiteId, String participantId, String status) {
 
         int diffInDays = getDifferenceOfDates(startDate, endDate) + 1;
 
         HashMap<Participant, StudyParticipantCrfSchedule[]> crfStatus = new HashMap();
 
-        HashMap<StudySite, HashMap<Participant, StudyParticipantCrfSchedule[]>> siteCrfStatus = new HashMap();
+        HashMap<StudySite, HashMap<Participant, StudyParticipantCrfSchedule[]>> siteCrfStatus = new HashMap<StudySite, HashMap<Participant, StudyParticipantCrfSchedule[]>>();
 
         Study study = studyRepository.findById(studyId);
         for (StudySite studySite : study.getStudySites()) {
@@ -158,18 +150,11 @@ public class MonitorFormStatusController extends AbstractController {
         return siteCrfStatus;
     }
 
-    private boolean dateBetween
-            (Date
-                    startDate, Date
-                    endDate, Date
-                    scheduleStartDate) {
+    private boolean dateBetween(Date startDate, Date endDate, Date scheduleStartDate) {
         return (startDate.getTime() <= scheduleStartDate.getTime() && scheduleStartDate.getTime() <= endDate.getTime());
     }
 
-    private int getDifferenceOfDates
-            (Date
-                    startDate, Date
-                    endDate) {
+    private int getDifferenceOfDates(Date startDate, Date endDate) {
         Calendar date = ProCtcAECalendar.getCalendarForDate(startDate);
         Calendar endDateC = ProCtcAECalendar.getCalendarForDate(endDate);
         int daysBetween = 0;
@@ -181,32 +166,23 @@ public class MonitorFormStatusController extends AbstractController {
 
     }
 
-    private List<Date> getCalendar
-            (Date
-                    startDate, Date
-                    endDate) {
+    private List<Date> getCalendar(Date startDate, Date endDate) {
 
         List<Date> dates = new ArrayList<Date>();
         Calendar c = ProCtcAECalendar.getCalendarForDate(startDate);
         int diffOfDates = getDifferenceOfDates(startDate, endDate);
         int currentMonth = c.get(Calendar.MONTH);
-        int date = c.get(Calendar.DATE);
         for (int i = 0; i <= diffOfDates; i++) {
             if (c.get(Calendar.MONTH) != currentMonth) {
-                date = 1;
                 currentMonth = c.get(Calendar.MONTH);
             }
-//            dates.add(new SimpleDateFormat("MM-dd-YY").format(c.getTime()));
             dates.add(c.getTime());
-            date++;
             c.add(Calendar.DATE, 1);
         }
         return dates;
     }
 
-    public void setStudyRepository
-            (StudyRepository
-                    studyRepository) {
+    public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
     }
 
