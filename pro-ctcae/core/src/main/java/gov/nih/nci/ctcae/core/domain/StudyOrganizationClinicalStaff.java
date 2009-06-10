@@ -2,9 +2,12 @@ package gov.nih.nci.ctcae.core.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 
 //
 /**
@@ -40,6 +43,11 @@ public class StudyOrganizationClinicalStaff extends BasePersistable {
 
     @Column(name = "status_date", nullable = false)
     private Date statusDate = new Date();
+
+
+    @OneToMany(mappedBy = "studyOrganizationClinicalStaff")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyParticipantClinicalStaff> studyParticipantClinicalStaffs = new ArrayList<StudyParticipantClinicalStaff>();
 
     @Transient
     private String displayName;

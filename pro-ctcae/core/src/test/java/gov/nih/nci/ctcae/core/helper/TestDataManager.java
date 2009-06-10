@@ -228,7 +228,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             return false;
         }
         long timeEnd = System.currentTimeMillis();
-        System.out.println("CSV already loaded. Time take to query - " + (timeEnd - timeStart) / 1000 + " seconds.");
         return true;
     }
 
