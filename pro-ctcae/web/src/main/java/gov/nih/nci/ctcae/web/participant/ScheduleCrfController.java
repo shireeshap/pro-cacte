@@ -67,7 +67,6 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         StudyParticipantCommand studyParticipantCommand = (StudyParticipantCommand) command;
 
-        studyParticipantCommand.checkRepetition(request);
         studyParticipantAssignmentRepository.save(studyParticipantCommand.getStudyParticipantAssignment());
 
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.findById(studyParticipantCommand.getStudyParticipantAssignment().getId());
