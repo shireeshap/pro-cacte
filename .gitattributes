@@ -1176,7 +1176,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/login/LoginControllerTest.java
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/CreateParticipantControllerTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFacadeIntegrationTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFacadeTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantCommonTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantInboxControllerTest.java -text
