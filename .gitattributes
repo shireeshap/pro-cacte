@@ -1189,12 +1189,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantCareReportT
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelGraphicalReportsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryChartGeneratorTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/AbstractRulesTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/CommonRulesTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/ExecuteRulesTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/RuleUtilTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/RulesCheckRepositoryTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/rules/SendMailTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilterTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/AddStudySiteControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/ManageFormControllerControllerTest.java -text

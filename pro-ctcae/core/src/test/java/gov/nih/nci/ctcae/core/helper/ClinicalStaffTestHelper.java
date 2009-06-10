@@ -16,6 +16,7 @@ public class ClinicalStaffTestHelper {
 
     private static OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
     private static ClinicalStaffRepository clinicalStaffRepository;
+    private static ClinicalStaff defaultClinicalStaff;
 
     private ClinicalStaffTestHelper() {
 
@@ -82,6 +83,9 @@ public class ClinicalStaffTestHelper {
     }
 
     public static ClinicalStaff getDefaultClinicalStaff() {
-        return findClinicalStaffByNCIIdentifier("MOLSEN");
+        if (defaultClinicalStaff == null) {
+            defaultClinicalStaff = findClinicalStaffByNCIIdentifier("MOLSEN");
+        }
+        return defaultClinicalStaff;
     }
 }

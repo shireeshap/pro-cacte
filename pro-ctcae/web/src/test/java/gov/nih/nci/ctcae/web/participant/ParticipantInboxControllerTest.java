@@ -36,10 +36,6 @@ public class ParticipantInboxControllerTest extends WebTestCase {
         participant.setId(1);
     }
 
-    public void testConstructor() {
-        assertEquals("participant/participantInbox", controller.getFormView());
-        assertEquals(gov.nih.nci.ctcae.core.domain.Participant.class, controller.getCommandClass());
-    }
 
     public void testFormBackingObject() throws Exception {
         List<Participant> participants = new ArrayList<Participant>();

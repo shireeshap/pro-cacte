@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
@@ -26,11 +27,12 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
     }
 
     public void testSearchClinicalStaffByFirstName() {
+        ClinicalStaff cs = ClinicalStaffTestHelper.getDefaultClinicalStaff();
 
-        String table = clinicalStaffAjaxFacade.searchClinicalStaff(parameterMap, "an", "w", "", request);
+        String table = clinicalStaffAjaxFacade.searchClinicalStaff(parameterMap, cs.getFirstName().substring(1,3), cs.getLastName().substring(1,3), "", request);
         assertNotNull(table);
-        assertTrue("must find atleast clinical staff matching with first name", table.contains(ClinicalStaffTestHelper.getDefaultClinicalStaff().getFirstName()));
-        assertTrue("must find atleast clinical staff matching with last name", table.contains(ClinicalStaffTestHelper.getDefaultClinicalStaff().getLastName()));
+        assertTrue("must find atleast clinical staff matching with first name", table.contains(cs.getFirstName()));
+        assertTrue("must find atleast clinical staff matching with last name", table.contains(cs.getLastName()));
 
 
     }

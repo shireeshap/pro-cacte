@@ -56,7 +56,6 @@ public class StudyTableModelTest extends AbstractTableModelTestCase {
         String table = model.buildStudyTable(parameterMap, studies, request);
         validateTable(table);
         assertTrue("table must contains short title", table.contains("shortTitle"));
-        assertTrue("table must contains studySponsor", table.contains("studySponsor."));
         assertTrue("table must contains dataCoordinatingCenter", table.contains("dataCoordinatingCenter"));
         assertTrue("table must contains assignedIdentifier", table.contains("assignedIdentifier"));
 
