@@ -49,7 +49,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends TestDataManag
 
         StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = studyOrganizationClinicalStaffRepository.findById(staff.getId());
         assertNull("must remove study clinical staff", expectedStudyOrganizationClinicalStaff);
-        deleteAndcreateTestData();
+        deleteAndCreateTestData();
     }
 
     public void testUpdateStudyOrganizationClinicalStaff() {
@@ -62,6 +62,6 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends TestDataManag
         StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = studyOrganizationClinicalStaffRepository.findById(staff.getId());
         assertNotNull("must not study clinical staff", expectedStudyOrganizationClinicalStaff);
         assertEquals("must not study clinical staff", organizationClinicalStaff, expectedStudyOrganizationClinicalStaff.getOrganizationClinicalStaff());
-        deleteAndcreateTestData();
+        deleteAndCreateTestData();
     }
 }

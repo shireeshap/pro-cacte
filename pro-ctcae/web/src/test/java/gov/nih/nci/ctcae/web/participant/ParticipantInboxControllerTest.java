@@ -24,7 +24,6 @@ import java.util.List;
  * @crated Nov 4, 2008
  */
 public class ParticipantInboxControllerTest extends AbstractWebTestCase {
-    Participant participant;
 
     public void testFormBackingObject() throws Exception {
         ParticipantInboxController controller = new ParticipantInboxController();

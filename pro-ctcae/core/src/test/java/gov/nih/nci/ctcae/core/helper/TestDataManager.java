@@ -12,6 +12,7 @@ import org.springframework.test.AbstractTransactionalDataSourceSpringContextTest
 import org.apache.commons.collections.map.ListOrderedMap;
 
 import java.util.*;
+import java.text.ParseException;
 
 /**
  * @author Harsh Agarwal
@@ -70,13 +71,13 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         DataAuditInfo.setLocal(auditInfo);
         saveCsv(false);
         if (!isTestDataPresent()) {
-            deleteAndcreateTestData();
+            deleteAndCreateTestData();
         }
         login(SYSTEM_ADMIN);
         defaultStudy = StudyTestHelper.getDefaultStudy();
     }
 
-    protected void deleteAndcreateTestData() {
+    protected void deleteAndCreateTestData() {
         deleteTestData();
         createTestData();
     }
@@ -86,8 +87,12 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         login(SYSTEM_ADMIN);
         createClinicalStaff();
         createStudy();
-        createCrf();
-        createParticipants();
+        try {
+            createCrf();
+            createParticipants();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         commitAndStartNewTransaction();
     }
 
@@ -130,12 +135,12 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         commitAndStartNewTransaction();
     }
 
-    private void createParticipants() {
+    private void createParticipants() throws ParseException {
         ParticipantTestHelper.createDefaultParticipants();
         commitAndStartNewTransaction();
     }
 
-    private void createCrf() {
+    private void createCrf() throws ParseException {
         CrfTestHelper.createTestForm();
         commitAndStartNewTransaction();
     }

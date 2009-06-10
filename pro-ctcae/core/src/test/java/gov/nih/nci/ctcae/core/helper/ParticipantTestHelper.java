@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.repository.*;
 
 import java.util.List;
 import java.util.Date;
+import java.text.ParseException;
 
 /**
  * User: Harsh
@@ -16,16 +17,17 @@ import java.util.Date;
 public class ParticipantTestHelper {
 
     private static ParticipantRepository participantRepository;
-    private static Participant defaultParticipant;
+    private static CRFRepository crfRepository;
 
     private ParticipantTestHelper() {
     }
 
     public static void initialize() {
         participantRepository = TestDataManager.participantRepository;
+        crfRepository = TestDataManager.crfRepository;
     }
 
-    public static void createDefaultParticipants() {
+    public static void createDefaultParticipants() throws ParseException {
 
         StudySite ss1 = StudyTestHelper.getDefaultStudy().getStudySites().get(0);
         createParticipant("John", "Locke", "1-1", ss1);
@@ -39,11 +41,12 @@ public class ParticipantTestHelper {
 
     }
 
-    private static void createParticipant(String firstName, String lastName, String assignedIdentifier, StudySite studySite) {
+    public static void createParticipant(String firstName, String lastName, String assignedIdentifier, StudySite studySite) throws ParseException {
 
         Participant participant = new Participant();
         firstTab_ParticipantDetails(participant, firstName, lastName, assignedIdentifier, studySite);
         secondTab_ParticipantClinicalStaff(participant, studySite);
+        assignCrfToParticipantAndCreateSchedules(participant, studySite);
         participantRepository.save(participant);
     }
 
@@ -58,6 +61,7 @@ public class ParticipantTestHelper {
         addUserToParticipant(participant);
         addStudyAssignmentToParticipant(participant, studySite);
     }
+
 
     private static void secondTab_ParticipantClinicalStaff(Participant participant, StudySite studySite) {
         StudyParticipantAssignment spa = participant.getStudyParticipantAssignments().get(0);
@@ -90,6 +94,20 @@ public class ParticipantTestHelper {
         participant.addStudyParticipantAssignment(spa);
     }
 
+    private static void assignCrfToParticipantAndCreateSchedules(Participant participant, StudySite studySite) throws ParseException {
+        if (studySite.getStudy().getCrfs().size() > 0) {
+            CRF crf = studySite.getStudy().getCrfs().get(0);
+            if (crf.getStatus().equals(CrfStatus.RELEASED)) {
+                StudyParticipantCrf spc = new StudyParticipantCrf();
+                spc.setCrf(crf);
+                spc.setStartDate(new Date());
+                participant.getStudyParticipantAssignments().get(0).addStudyParticipantCrf(spc);
+                crfRepository.generateSchedulesFromCrfCalendar(crf, spc);
+            }
+        }
+    }
+
+
     private static void addUserToParticipant(Participant participant) {
         participant.setUser(new User());
         participant.getUser().setUsername(participant.getFirstName() + "." + participant.getLastName());
@@ -106,4 +124,5 @@ public class ParticipantTestHelper {
         query.filterByUsername(username);
         return participantRepository.findSingle(query);
     }
+
 }

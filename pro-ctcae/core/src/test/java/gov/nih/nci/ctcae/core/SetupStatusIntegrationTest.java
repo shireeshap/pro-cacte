@@ -11,6 +11,11 @@ public class SetupStatusIntegrationTest extends TestDataManager {
 
     private SetupStatus setupStatus;
 
+    public void testCreateTestData() {
+        deleteAndCreateTestData();
+        assertTrue(isTestDataPresent());
+    }
+
     public void testSetupNotRequired() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(getConfigLocations());
         setupStatus = (SetupStatus) applicationContext.getBean("setupStatus");
@@ -33,5 +38,6 @@ public class SetupStatusIntegrationTest extends TestDataManager {
         setupStatus.recheck();
         assertTrue("setup is now required because there is no system admin in database", setupStatus.isSetupNeeded());
     }
+
 
 }
