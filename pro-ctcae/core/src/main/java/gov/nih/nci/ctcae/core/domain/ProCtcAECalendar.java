@@ -89,7 +89,6 @@ public class ProCtcAECalendar {
     private int cycleLength;
     private String cycleSelectedDays;
     private int cycleRepetitionNumber;
-    private String cycleLenghtUnit;
 
     /**
      * Instantiates a new pro ctc ae calendar.

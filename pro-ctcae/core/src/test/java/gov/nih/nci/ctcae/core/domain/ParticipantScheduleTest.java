@@ -2,20 +2,83 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.ArrayList;
+import java.text.ParseException;
 
 /**
  * User: Harsh
  * Date: Jun 11, 2009
  * Time: 3:09:54 PM
  */
-public class ParticipantScheduleTest extends TestDataManager{
+public class ParticipantScheduleTest extends TestDataManager {
 
-    public void testGetCurrentMonthSchedules(){
-        ParticipantSchedule ps = new ParticipantSchedule();
-        ps.setStudyParticipantCrf(ParticipantTestHelper.getDefaultParticipant().getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0));
+    ParticipantSchedule ps;
+    StudyParticipantCrf spc;
+
+    @Override
+    protected void onSetUpInTransaction() throws Exception {
+        super.onSetUpInTransaction();
+        ps = new ParticipantSchedule();
+        spc = ParticipantTestHelper.getDefaultParticipant().getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
+        ps.setStudyParticipantCrf(spc);
+
+    }
+
+    public void testGetCurrentMonthSchedules() {
         List<StudyParticipantCrfSchedule> participantCrfSchedules = ps.getCurrentMonthSchedules();
         assertEquals(4, participantCrfSchedules.size());
+    }
+
+    public void testRemoveSchedule() throws ParseException {
+        assertEquals(13, spc.getStudyParticipantCrfSchedules().size());
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(new Date().getTime());
+        ps.removeSchedule(c);
+        assertEquals(12, spc.getStudyParticipantCrfSchedules().size());
+
+        ps.removeAllSchedules();
+        assertEquals(0, spc.getStudyParticipantCrfSchedules().size());
+
+    }
+
+    public void testMoveSchedule() throws ParseException {
+        StudyParticipantCrfSchedule fs = spc.getStudyParticipantCrfSchedules().get(0);
+        assertEquals(13, spc.getStudyParticipantCrfSchedules().size());
+
+        ArrayList<Date> ld = new ArrayList<Date>();
+        for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
+            ld.add(a.getStartDate());
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(new Date().getTime());
+        ps.moveAllSchedules(2);
+        assertEquals(13, spc.getStudyParticipantCrfSchedules().size());
+        int i = 0;
+        for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
+            assertEquals(DateUtils.addDaysToDate(ld.get(i), 2), a.getStartDate());
+            i++;
+        }
+
+        cal.setTime(DateUtils.addDaysToDate(cal.getTime(),3));
+        i=0;
+        ps.moveFutureSchedules(cal, 2);
+        for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
+            if (i == 0) {
+                assertEquals(DateUtils.addDaysToDate(ld.get(i),2), a.getStartDate());
+            } else {
+                assertEquals(DateUtils.addDaysToDate(ld.get(i), 4), a.getStartDate());
+            }
+            i++;
+        }
+        cal.setTime(DateUtils.addDaysToDate(cal.getTime(),10));
+        ps.deleteFutureSchedules(cal);
+        assertEquals(2, spc.getStudyParticipantCrfSchedules().size());
+
     }
 }

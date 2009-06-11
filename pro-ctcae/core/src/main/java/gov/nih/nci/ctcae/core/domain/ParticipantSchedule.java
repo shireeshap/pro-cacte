@@ -66,14 +66,6 @@ public class ParticipantSchedule {
         this.calendar = calendar;
     }
 
-    /**
-     * Gets the study participant crf.
-     *
-     * @return the study participant crf
-     */
-    public StudyParticipantCrf getStudyParticipantCrf() {
-        return studyParticipantCrf;
-    }
 
     /**
      * Sets the study participant crf.
