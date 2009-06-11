@@ -149,7 +149,6 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/exception/CtcAeSystemExcepti
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/exception/UsernameAlreadyExistsException.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/AbstractQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CRFQuery.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ClinicalStaffAssignmentQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/ClinicalStaffQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/CtcQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/MeddraQuery.java -text
@@ -302,9 +301,11 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/helper/TestDataManager.java 
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/AbstractQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/CRFQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ClinicalStaffQueryTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/OrganizationClinicalStaffQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/OrganizationQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantAddedQuestionReportQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ProCtcTermQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/SymptomSummaryReportQueryTest.java -text
