@@ -31,8 +31,8 @@ public class StudyParticipantCrfRepository implements Repository<StudyParticipan
 
     }
 
-    public void delete(StudyParticipantCrf studyParticipantCrfScheduleAddedQuestion) {
-
+    public void delete(StudyParticipantCrf studyParticipantCrf) {
+     genericRepository.delete(studyParticipantCrf);
 
     }
 

@@ -51,9 +51,9 @@ public class VersionFormController extends CtcAeSimpleFormController {
 
         CRF crf = (CRF) command;
 
-        crf = crfRepository.versionCrf(crf);
+        CRF versionedCrf = crfRepository.versionCrf(crf);
 
-        RedirectView redirectView = new RedirectView("editForm?crfId=" + crf.getNextVersionId() + "&showFormDetails=true");
+        RedirectView redirectView = new RedirectView("editForm?crfId=" + versionedCrf.getId() + "&showFormDetails=true");
 
         ModelAndView modelAndView = new ModelAndView(redirectView);
         return modelAndView;

@@ -34,6 +34,10 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
     public static StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
     public static PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
+    public static ProCtcValidValueRepository proCtcValidValueRepository;
+    public static StudyParticipantCrfRepository studyParticipantCrfRepository;
+    public static GenericRepository genericRepository;
+
 
     protected Study defaultStudy;
     protected String codeBase;
@@ -80,8 +84,13 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     protected void deleteAndCreateTestData() {
+
+        Long start = System.currentTimeMillis();
         deleteTestData();
         createTestData();
+        Long end = System.currentTimeMillis();
+        System.out.println("Time to refresh data - " + (end - start) / 1000 + " seconds");
+
     }
 
     protected void createTestData() {
@@ -106,6 +115,8 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         jdbcTemplate.execute("delete from study_participant_crf_items");
         jdbcTemplate.execute("delete from CRF_PAGE_ITEMS");
         jdbcTemplate.execute("delete from CRF_PAGES");
+        jdbcTemplate.execute("delete from sp_crf_sch_added_questions");
+        jdbcTemplate.execute("delete from sp_crf_added_questions");
         jdbcTemplate.execute("delete from sp_crf_schedules");
         jdbcTemplate.execute("delete from study_participant_crfs");
         jdbcTemplate.execute("delete from crf_cycles");
@@ -182,7 +193,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             deleteTestData();
             deleteProCtcTerms();
         }
-        if (isCsvLoaded()) {
+        if (isProCtcTermsLoaded()) {
             return;
         }
         assertNotNull("please define codebase.directory property in datasource.properties file. " +
@@ -217,9 +228,8 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         return users.get(0);
     }
 
-    protected final boolean isTestDataPresent() {
-
-        List l = jdbcTemplate.queryForList("select count(1) from studies s");
+    protected final boolean isDataPresentInTable(String tableName) {
+        List l = jdbcTemplate.queryForList("select count(1) from " + tableName + " t");
         Long lg = (Long) (((ListOrderedMap) l.get(0)).getValue(0));
         if (lg.equals(0L)) {
             return false;
@@ -227,15 +237,16 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         return true;
     }
 
-    protected final boolean isCsvLoaded() {
-        long timeStart = System.currentTimeMillis();
-        List l = jdbcTemplate.queryForList("select count(1) from pro_ctc_terms");
-        Long lg = (Long) (((ListOrderedMap) l.get(0)).getValue(0));
-        if (lg.equals(0L)) {
-            return false;
-        }
-        long timeEnd = System.currentTimeMillis();
-        return true;
+    protected final boolean isTestDataPresent() {
+        return isDataPresentInTable("studies");
+    }
+
+    protected final boolean isProCtcTermsLoaded() {
+        return isDataPresentInTable("pro_ctc_terms");
+    }
+
+    protected final boolean isMeddraTermsLoaded() {
+        return isDataPresentInTable("meddra_llt");
     }
 
     @Override
@@ -312,5 +323,21 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     @Required
     public void setPrivilegeAuthorizationCheck(PrivilegeAuthorizationCheck privilegeAuthorizationCheck) {
         TestDataManager.privilegeAuthorizationCheck = privilegeAuthorizationCheck;
+    }
+
+    @Required
+    public static void setProCtcValidValueRepository(ProCtcValidValueRepository proCtcValidValueRepository) {
+        TestDataManager.proCtcValidValueRepository = proCtcValidValueRepository;
+    }
+
+    @Required
+    public void setStudyParticipantCrfRepository(StudyParticipantCrfRepository studyParticipantCrfRepository) {
+        this.studyParticipantCrfRepository = studyParticipantCrfRepository;
+    }
+
+    @Required
+
+    public void setGenericRepository(GenericRepository genericRepository) {
+        TestDataManager.genericRepository = genericRepository;
     }
 }

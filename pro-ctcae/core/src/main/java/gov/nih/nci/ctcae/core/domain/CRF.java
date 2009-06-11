@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.validation.annotation.NotEmpty;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrf;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -298,9 +299,9 @@ public class CRF extends BaseVersionable {
 
         if (crfVersion != null ? !crfVersion.equals(crf.crfVersion) : crf.crfVersion != null) return false;
         if (description != null ? !description.equals(crf.description) : crf.description != null) return false;
-        if (effectiveEndDate != null ? !effectiveEndDate.equals(crf.effectiveEndDate) : crf.effectiveEndDate != null)
+        if (effectiveEndDate != null ? !DateUtils.format(effectiveEndDate).equals(DateUtils.format(crf.effectiveEndDate)) : crf.effectiveEndDate != null)
             return false;
-        if (effectiveStartDate != null ? !effectiveStartDate.equals(crf.effectiveStartDate) : crf.effectiveStartDate != null)
+        if (effectiveStartDate != null ? !DateUtils.format(effectiveStartDate).equals(DateUtils.format(crf.effectiveStartDate)) : crf.effectiveStartDate != null)
             return false;
         if (nextVersionId != null ? !nextVersionId.equals(crf.nextVersionId) : crf.nextVersionId != null) return false;
         if (parentVersionId != null ? !parentVersionId.equals(crf.parentVersionId) : crf.parentVersionId != null)

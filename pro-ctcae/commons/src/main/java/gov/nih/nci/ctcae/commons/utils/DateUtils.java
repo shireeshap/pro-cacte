@@ -83,4 +83,11 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
 
     }
 
+    public static Date addDaysToDate(Date date, int days) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(date.getTime());
+        c.add(Calendar.DATE, days);
+        return c.getTime();
+    }
+
 }

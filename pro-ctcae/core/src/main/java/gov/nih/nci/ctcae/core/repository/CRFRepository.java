@@ -45,7 +45,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
      * @param crf the crf
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void updateStatusToReleased(CRF crf) throws ParseException {
+    public CRF updateStatusToReleased(CRF crf) throws ParseException {
 
         if (crf != null) {
             crf.setStatus(CrfStatus.RELEASED);
@@ -63,7 +63,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
             generateSchedulesFromCrfCalendar(crf);
 
         }
-        save(crf);
+        return save(crf);
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
@@ -183,7 +183,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
         Integer nextVersionId = copiedCRF.getId();
         crf.setNextVersionId(nextVersionId);
         crf = genericRepository.save(crf);
-        return crf;
+        return copiedCRF;
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)

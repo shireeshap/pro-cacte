@@ -38,7 +38,6 @@ public class DateUtilsTest extends CoreTestCase {
     }
 
 
-
     public void testParseDashedDate() throws ParseException {
         assertEquals(Integer.valueOf(0), Integer.valueOf(DateUtils.compareDate(DateUtils.parseDashedDate("2012-07-13"), futureDate)));
         assertEquals(Integer.valueOf(0), Integer.valueOf(DateUtils.compareDate(DateUtils.parseDashedDate("2008-01-21"), pastDate)));
@@ -52,6 +51,14 @@ public class DateUtilsTest extends CoreTestCase {
         assertEquals(Integer.valueOf(1), Integer.valueOf(DateUtils.compareDate(DateUtils.parseDashedDate("2012-08-13"), futureDate)));
         assertEquals(Integer.valueOf(1), Integer.valueOf(DateUtils.compareDate(DateUtils.parseDashedDate("2013-07-13"), futureDate)));
         assertEquals(Integer.valueOf(-1), Integer.valueOf(DateUtils.compareDate(DateUtils.parseDashedDate("2008-01-20"), pastDate)));
+
+
+    }
+
+    public void testAddDaysToDate() throws ParseException {
+        Date d = DateUtils.parseDate("10/10/2009");
+        d = DateUtils.addDaysToDate(d, 5);
+        assert (DateUtils.format(d).indexOf("/15/") != -1);
 
 
     }
