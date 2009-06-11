@@ -180,4 +180,14 @@ public class StudyTestHelper {
         }
         return study;
     }
+
+    public static ClinicalStaff getLeadSite_SitePI(){
+        study = getDefaultStudy();
+        for(StudyOrganizationClinicalStaff socs : study.getLeadStudySite().getStudyOrganizationClinicalStaffs()){
+            if(socs.getRole().equals(Role.SITE_PI)){
+                return socs.getOrganizationClinicalStaff().getClinicalStaff();
+            }
+        }
+        return null;
+    }
 }

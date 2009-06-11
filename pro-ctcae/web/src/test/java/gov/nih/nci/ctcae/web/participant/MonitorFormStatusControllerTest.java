@@ -83,7 +83,6 @@ public class MonitorFormStatusControllerTest extends AbstractWebTestCase {
     }
 
     public void testControllerParticipantFilter() throws Exception {
-
         request.addParameter("studySiteId", s.getLeadStudySite().getId().toString());
         request.addParameter("participantId", ParticipantTestHelper.getDefaultParticipant().getId().toString());
         request.setParameter("view", "monthly");

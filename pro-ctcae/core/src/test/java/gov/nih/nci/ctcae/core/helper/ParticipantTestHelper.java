@@ -116,7 +116,7 @@ public class ParticipantTestHelper {
 
 
     public static Participant getDefaultParticipant() {
-        return findParticpantByUserName("Tom.Sawyer");
+        return findParticpantByUserName("John.Locke");
     }
 
     private static Participant findParticpantByUserName(String username) {

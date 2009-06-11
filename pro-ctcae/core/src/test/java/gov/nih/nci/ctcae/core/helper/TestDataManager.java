@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.csv.loader.CsvImporter;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.*;
+import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
@@ -32,6 +33,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static StudyOrganizationRepository studyOrganizationRepository;
     public static StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
     public static StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
+    public static PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
 
     protected Study defaultStudy;
     protected String codeBase;
@@ -307,4 +309,8 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         TestDataManager.studyOrganizationClinicalStaffRepository = studyOrganizationClinicalStaffRepository;
     }
 
+    @Required
+    public void setPrivilegeAuthorizationCheck(PrivilegeAuthorizationCheck privilegeAuthorizationCheck) {
+        TestDataManager.privilegeAuthorizationCheck = privilegeAuthorizationCheck;
+    }
 }
