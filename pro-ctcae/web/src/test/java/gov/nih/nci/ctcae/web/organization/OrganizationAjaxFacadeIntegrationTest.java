@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.web.organization;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -36,6 +38,15 @@ public class OrganizationAjaxFacadeIntegrationTest extends AbstractWebIntegratio
         }
 
     }
+    public void testMatchOrganizationsStudyId() {
+
+        List<StudyOrganization> organizations = organizationAjaxFacade.matchOrganizationByStudyId("Duke",StudyTestHelper.getDefaultStudy().getId());
+        assertEquals(1, organizations.size());
+        assertTrue( organizations.get(0).getDisplayName().contains("Duke"));
+
+    }
+
+
 
 
     @Required
