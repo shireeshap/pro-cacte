@@ -60,14 +60,10 @@ public class SubmitFormControllerTest extends AbstractWebTestCase {
         mv = moveNext(sfc.getCurrentPageIndex());
         assertTrue(mv.getView() instanceof RedirectView);
         assertTrue(((RedirectView) mv.getView()).getUrl().equals("addquestion"));
-        assertNotNull(sfc.getSortedSymptoms());
-
-
-
-
-        AddQuestionByParticipantController controller1 = new AddQuestionByParticipantController();
-        request.setMethod("POST");
-        controller1.handleRequest(request,response);
+//
+//        AddQuestionByParticipantController controller1 = new AddQuestionByParticipantController();
+//        request.setMethod("POST");
+//        controller1.handleRequest(request,response);
 
 
 

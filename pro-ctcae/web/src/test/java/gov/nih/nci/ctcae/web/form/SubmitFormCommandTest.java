@@ -85,12 +85,10 @@ public class SubmitFormCommandTest extends AbstractWebTestCase {
         assertEquals(0, sfc.getCurrentPageIndex());
         assertEquals(0, sfc.getTotalPages());
         assertEquals(0, sfc.getParticipantAddedQuestionIndex());
-        assertNull(sfc.getDisplayRules());
         sfc.initialize();
         assertEquals(1, sfc.getCurrentPageIndex());
         assertEquals(10, sfc.getTotalPages());
         assertEquals(11, sfc.getParticipantAddedQuestionIndex());
-        assertNotNull(sfc.getDisplayRules());
 
     }
 
