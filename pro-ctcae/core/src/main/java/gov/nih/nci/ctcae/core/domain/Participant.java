@@ -207,7 +207,7 @@ public class Participant extends Person {
         if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
         if (maidenName != null ? !maidenName.equals(that.maidenName) : that.maidenName != null) return false;
         if (phoneNumber != null ? !phoneNumber.equals(that.phoneNumber) : that.phoneNumber != null) return false;
-        if (!user.equals(that.user)) return false;
+        if (user != null ? !user.equals(that.user) : that.user != null) return false;
 
         return true;
     }
@@ -221,7 +221,7 @@ public class Participant extends Person {
         result = 31 * result + (assignedIdentifier != null ? assignedIdentifier.hashCode() : 0);
         result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        result = 31 * result + user.hashCode();
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }
 
