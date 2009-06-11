@@ -92,7 +92,6 @@ public class ParticipantCommonTest extends AbstractWebTestCase {
         assertNotNull(m.get("schedule"));
         assertNotNull(m.get("questionTypes"));
 
-
     }
 
 

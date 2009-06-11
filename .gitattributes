@@ -264,6 +264,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/GenderTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/OrganizationIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/OrganizationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ParticipantIntegrationTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ParticipantScheduleTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ParticipantTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/PersistableIntegrationTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/PersistableValidatorIntegrationTestCase.java -text
