@@ -76,6 +76,9 @@ public class Fixture {
         participant.setLastName(lastName);
         participant.setAssignedIdentifier(identifier);
         participant.setGender(Gender.MALE.toString());
+        participant.setBirthDate(new Date());
+        participant.setEmailAddress(firstName+"."+lastName+"@demo.com");
+        participant.setPhoneNumber("123-123-2344");
         User user = new User();
         user.setUsername("participant_" + (new Date()).getTime());
         user.setPassword("password");

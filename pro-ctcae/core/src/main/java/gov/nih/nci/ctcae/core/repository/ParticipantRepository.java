@@ -84,7 +84,7 @@ public class ParticipantRepository implements Repository<Participant, Participan
 
 
     public void delete(Participant participant) {
-        throw new CtcAeSystemException("delete method not supported");
+        genericRepository.delete(participant);
 
     }
 

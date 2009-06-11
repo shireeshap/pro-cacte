@@ -28,7 +28,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
      * The crf repository.
      */
     protected CRFRepository crfRepository;
-
     private StudyOrganizationRepository studyOrganizationRepository;
     private UserRepository userRepository;
 

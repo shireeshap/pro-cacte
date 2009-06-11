@@ -9,6 +9,7 @@ import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -71,7 +72,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         String id = request.getParameter(PARTICIPANT_ID);
 
         ParticipantCommand command = new ParticipantCommand();
-if (id != null) {
+        if (!StringUtils.isBlank(id)) {
             Participant participant = participantRepository.findById(Integer.valueOf(id));
             participant.getUser().setConfirmPassword(participant.getUser().getPassword());
             for (UserRole userRole : participant.getUser().getUserRoles()) {
