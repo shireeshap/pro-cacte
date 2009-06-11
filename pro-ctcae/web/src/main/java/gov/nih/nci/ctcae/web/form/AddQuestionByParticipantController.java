@@ -74,6 +74,8 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
     public void setReviewView(String reviewView) {
         this.reviewView = reviewView;
     }
-
-
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
+    }
 }
