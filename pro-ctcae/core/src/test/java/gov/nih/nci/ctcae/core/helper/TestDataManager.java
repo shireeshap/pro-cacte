@@ -36,6 +36,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static PrivilegeAuthorizationCheck privilegeAuthorizationCheck;
     public static ProCtcValidValueRepository proCtcValidValueRepository;
     public static StudyParticipantCrfRepository studyParticipantCrfRepository;
+    public static StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     public static GenericRepository genericRepository;
 
 
@@ -336,8 +337,12 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     @Required
-
     public void setGenericRepository(GenericRepository genericRepository) {
         TestDataManager.genericRepository = genericRepository;
+    }
+
+    @Required
+    public  void setStudyParticipantCrfScheduleRepository(StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {
+        TestDataManager.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
     }
 }
