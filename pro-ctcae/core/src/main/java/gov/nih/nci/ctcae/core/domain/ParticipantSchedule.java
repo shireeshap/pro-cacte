@@ -262,4 +262,8 @@ public class ParticipantSchedule {
     public boolean isRepeat() {
         return studyParticipantCrf.getStudyParticipantCrfSchedules().size() > 1 ? true : false;
     }
+
+    public StudyParticipantCrf getStudyParticipantCrf() {
+        return studyParticipantCrf;
+    }
 }
