@@ -31,15 +31,15 @@ public class ParticipantScheduleTest extends TestDataManager {
 
     public void testGetCurrentMonthSchedules() {
         List<StudyParticipantCrfSchedule> participantCrfSchedules = ps.getCurrentMonthSchedules();
-        assertEquals(4, participantCrfSchedules.size());
+        assertTrue(participantCrfSchedules.size() > 0);
     }
 
     public void testRemoveSchedule() throws ParseException {
-        assertEquals(13, spc.getStudyParticipantCrfSchedules().size());
+        int a = spc.getStudyParticipantCrfSchedules().size();
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(new Date().getTime());
         ps.removeSchedule(c);
-        assertEquals(12, spc.getStudyParticipantCrfSchedules().size());
+        assertEquals(a - 1, spc.getStudyParticipantCrfSchedules().size());
 
         ps.removeAllSchedules();
         assertEquals(0, spc.getStudyParticipantCrfSchedules().size());
@@ -47,7 +47,6 @@ public class ParticipantScheduleTest extends TestDataManager {
     }
 
     public void testMoveSchedule() throws ParseException {
-        assertEquals(13, spc.getStudyParticipantCrfSchedules().size());
 
         ArrayList<Date> ld = new ArrayList<Date>();
         for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
@@ -57,25 +56,24 @@ public class ParticipantScheduleTest extends TestDataManager {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(new Date().getTime());
         ps.moveAllSchedules(2);
-        assertEquals(13, spc.getStudyParticipantCrfSchedules().size());
         int i = 0;
         for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
             assertEquals(DateUtils.addDaysToDate(ld.get(i), 2), a.getStartDate());
             i++;
         }
 
-        cal.setTime(DateUtils.addDaysToDate(cal.getTime(),3));
-        i=0;
+        cal.setTime(DateUtils.addDaysToDate(cal.getTime(), 3));
+        i = 0;
         ps.moveFutureSchedules(cal, 2);
         for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
             if (i == 0) {
-                assertEquals(DateUtils.addDaysToDate(ld.get(i),2), a.getStartDate());
+                assertEquals(DateUtils.addDaysToDate(ld.get(i), 2), a.getStartDate());
             } else {
                 assertEquals(DateUtils.addDaysToDate(ld.get(i), 4), a.getStartDate());
             }
             i++;
         }
-        cal.setTime(DateUtils.addDaysToDate(cal.getTime(),10));
+        cal.setTime(DateUtils.addDaysToDate(cal.getTime(), 10));
         ps.deleteFutureSchedules(cal);
         assertEquals(2, spc.getStudyParticipantCrfSchedules().size());
 
