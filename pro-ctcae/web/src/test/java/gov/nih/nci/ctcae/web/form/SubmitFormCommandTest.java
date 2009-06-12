@@ -64,11 +64,18 @@ public class SubmitFormCommandTest extends AbstractWebTestCase {
     public void testAddParticipantAddedQuestions() {
         assertEquals(0, spcs.getStudyParticipantCrfScheduleAddedQuestions().size());
         sfc.setStudyParticipantCrfSchedule(spcs);
+
+        System.out.println("1*********************************************");
         if (!isMeddraTermsLoaded()) {
+            System.out.println("2*********************************************");
             for (int i = 0; i < 8; i++) {
+                System.out.println("3*********************************************");
                 meddraAjaxFacade.handleMedDRA((String) applicationContext.getBean("meddraDirectory"), i, "MEDDRA_TEST_AUTO_LOAD");
+                System.out.println("4*********************************************");
             }
+            System.out.println("5*********************************************");
         }
+        System.out.println("6*********************************************");
         String[] symptoms = new String[4];
         symptoms[0] = "Increased skin sensitivity to sunlight";
         symptoms[1] = "Bloating of the abdomen (belly)";
