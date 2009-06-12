@@ -239,7 +239,6 @@ pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-util
 pro-ctcae/core/src/main/resources/gov/nih/nci/ctcae/core/email/template/exception.ftl -text
 pro-ctcae/core/src/main/resources/log4j.properties -text
 pro-ctcae/core/src/main/resources/log4j.xml -text
-pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractHibernateIntegrationTestCase1.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/CsvImporterIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/SetupStatusIntegrationTest.java -text
