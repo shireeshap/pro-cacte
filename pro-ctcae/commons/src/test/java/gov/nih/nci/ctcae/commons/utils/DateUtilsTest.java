@@ -62,4 +62,15 @@ public class DateUtilsTest extends CoreTestCase {
 
 
     }
+
+    public void testGetCurrentDate() throws ParseException {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.SECOND,0);
+        c.set(Calendar.MINUTE,0);
+        c.set(Calendar.HOUR,0);
+        c.set(Calendar.MILLISECOND,0);
+        Date s = DateUtils.getCurrentDate();
+        assertEquals(c.getTime(), s);
+
+    }
 }
