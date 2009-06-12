@@ -20,8 +20,6 @@ import java.text.SimpleDateFormat;
  */
 public class DisplayCalendarController extends AbstractController {
 
-    private CRFRepository crfRepository;
-
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -57,10 +55,5 @@ public class DisplayCalendarController extends AbstractController {
         super();
         setSupportedMethods(new String[]{"GET"});
 
-    }
-
-    @Required
-    public void setCrfRepository(CRFRepository crfRepository) {
-        this.crfRepository = crfRepository;
     }
 }

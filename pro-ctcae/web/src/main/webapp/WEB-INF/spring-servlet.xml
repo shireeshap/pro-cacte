@@ -399,7 +399,6 @@
 
     <bean name="/participant/displaycalendar" id="displayCalendarController"
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
-        <property name="crfRepository" ref="crfRepository"/>
     </bean>
 
     <bean name="/participant/displaystudysites" id="displayStudySitesController"

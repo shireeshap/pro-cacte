@@ -95,7 +95,7 @@ public class AddCrfScheduleController extends AbstractController {
     /**
      * Sets the finder repository.
      *
-     * @param finderRepository the new finder repository
+     * @param crfRepository the new finder repository
      */
     @Required
 

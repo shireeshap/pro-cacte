@@ -29,7 +29,6 @@ public class AddCrfScheduleControllerTest extends WebTestCase {
         request.setParameter("index", "0");
         StudyParticipantCommand studyParticipantCommand = registerMockFor(StudyParticipantCommand.class);
         participantSchedule = registerMockFor(ParticipantSchedule.class);
-        registerMockFor(ParticipantControllerUtils.class);
         calendar = new ProCtcAECalendar();
         List l = new ArrayList();
         l.add(participantSchedule);
