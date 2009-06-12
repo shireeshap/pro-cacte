@@ -47,7 +47,6 @@ public class ParticipantScheduleTest extends TestDataManager {
     }
 
     public void testMoveSchedule() throws ParseException {
-        StudyParticipantCrfSchedule fs = spc.getStudyParticipantCrfSchedules().get(0);
         assertEquals(13, spc.getStudyParticipantCrfSchedules().size());
 
         ArrayList<Date> ld = new ArrayList<Date>();

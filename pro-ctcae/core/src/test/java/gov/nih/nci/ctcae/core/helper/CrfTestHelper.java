@@ -60,6 +60,17 @@ public class CrfTestHelper {
     }
 
     private static void thirdTab_ScheduleTemplate(CRF crf) {
+
+        CRFCalendar calendar = new CRFCalendar();
+        calendar.setRepeatEveryAmount("2");
+        calendar.setRepeatEveryUnit("Days");
+        calendar.setDueDateAmount("24");
+        calendar.setDueDateUnit("Hours");
+        calendar.setRepeatUntilAmount("2");
+        calendar.setRepeatUntilUnit("Number");
+
+        crf.addCrfCalendar(calendar);
+        
         CRFCycleDefinition defA = new CRFCycleDefinition();
         defA.setCycleLength(14);
         defA.setCycleLengthUnit("Days");
