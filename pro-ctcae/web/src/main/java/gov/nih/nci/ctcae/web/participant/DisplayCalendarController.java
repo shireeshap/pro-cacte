@@ -32,26 +32,15 @@ public class DisplayCalendarController extends AbstractController {
         Integer index = Integer.parseInt(request.getParameter("index"));
         ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(index);
         String direction = request.getParameter("dir");
-        if (StringUtils.isBlank(direction)) {
-            participantSchedule.getCalendar().setDueDateAmount(Integer.parseInt(request.getParameter("duea")));
-            participantSchedule.getCalendar().setDueDateUnit(request.getParameter("dueu"));
-            participantSchedule.getCalendar().setRepeatUntilUnit(request.getParameter("repuu"));
-            participantSchedule.getCalendar().setRepeatUntilValue(request.getParameter("repuv"));
-            participantSchedule.getCalendar().setRepetitionPeriodAmount(Integer.parseInt(request.getParameter("reppa")));
-            participantSchedule.getCalendar().setRepetitionPeriodUnit(request.getParameter("reppu"));
-            participantSchedule.getCalendar().setStartDate(new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("sdate")));
-            participantSchedule.setCrfRepository(crfRepository);
-            participantSchedule.createSchedules(ParticipantSchedule.ScheduleType.GENERAL);
-        } else {
-            if (direction.equals("prev")) {
-                participantSchedule.getCalendar().add(-1);
-            }
-            if (direction.equals("next")) {
-                participantSchedule.getCalendar().add(1);
-            }
-            if (direction.equals("refresh")) {
-                participantSchedule.getCalendar().add(0);
-            }
+
+        if (direction.equals("prev")) {
+            participantSchedule.getCalendar().add(-1);
+        }
+        if (direction.equals("next")) {
+            participantSchedule.getCalendar().add(1);
+        }
+        if (direction.equals("refresh")) {
+            participantSchedule.getCalendar().add(0);
         }
 
         modelAndView.addObject("participantSchedule", studyParticipantCommand.getParticipantSchedules().get(index));
