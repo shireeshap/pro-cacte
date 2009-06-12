@@ -26,12 +26,6 @@ public class SetupOrNotFilter extends ContextRetainingFilterAdapter {
             log.debug("Initial setup required.  Redirecting.");
             try {
                 new RedirectView("/setup/initial", true).render(null, (HttpServletRequest) request, (HttpServletResponse) response);
-            } catch (RuntimeException e) {
-                throw e;
-            } catch (ServletException e) {
-                throw e;
-            } catch (IOException e) {
-                throw e;
             } catch (Exception e) {
                 throw new ServletException("Redirect view rending failed", e);
             }

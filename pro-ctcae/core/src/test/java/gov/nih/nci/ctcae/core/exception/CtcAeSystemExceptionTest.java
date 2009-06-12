@@ -32,4 +32,13 @@ public class CtcAeSystemExceptionTest extends AbstractTestCase {
 
 
     }
+
+    public void testUserNameAlreadyExist(){
+        UsernameAlreadyExistsException e = new UsernameAlreadyExistsException("test");
+        assertEquals("Username test already exists. Please use a different UserName",e.getMessage());
+        exception = new CtcAeSystemException(e);
+        assertEquals("gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException: Username test already exists. Please use a different UserName",exception.getMessage());
+
+
+    }
 }

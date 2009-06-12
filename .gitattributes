@@ -1191,6 +1191,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelGraphicalRep
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryChartGeneratorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilterTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/setup/SetupTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/AddStudySiteControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/ManageFormControllerControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/SearchStudyControllerTest.java -text
