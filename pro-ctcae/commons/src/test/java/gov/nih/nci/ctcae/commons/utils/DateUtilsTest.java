@@ -69,6 +69,7 @@ public class DateUtilsTest extends CoreTestCase {
         c.set(Calendar.MINUTE,0);
         c.set(Calendar.HOUR,0);
         c.set(Calendar.MILLISECOND,0);
+        c.set(Calendar.AM_PM,0);
         Date s = DateUtils.getCurrentDate();
         assertEquals(c.getTime(), s);
 
