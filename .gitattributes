@@ -398,7 +398,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CopyFormController.java -
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfDisplayVersionsCell.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcAeSecuredTabbedFlowController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcCAtegoryComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/DeleteFormController.java -text
@@ -407,7 +406,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormRulesTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormTableRowInterceptor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ProCtcTermComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/RemoveConditionsController.java -text
@@ -1168,7 +1166,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/RemoveConditionsControlle
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SetNameControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormControllerTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/crfTableModelTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/login/LoginControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleControllerTest.java -text

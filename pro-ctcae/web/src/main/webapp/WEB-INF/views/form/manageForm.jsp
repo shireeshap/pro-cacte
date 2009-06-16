@@ -1,4 +1,3 @@
-<%-- This is the standard decorator for all caAERS pages --%>
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -15,9 +14,17 @@
     <tags:formBuilder/>
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:includeScriptaculous/>
+    <tags:stylesheetLink name="table_menu"/>
+    <tags:javascriptLink name="table_menu"/>
 
     <tags:includePrototypeWindow/>
     <tags:dwrJavascriptLink objects="crf"/>
+
+    <style type="text/css">
+        .even {
+            background-color: #ffffff;
+        }
+    </style>
 
     <script type="text/javascript">
         Event.observe(window, "load", function () {
@@ -27,30 +34,16 @@
         <c:if test="${study ne null}">
             initializeAutoCompleter('study',
                     '${study.displayName}', '${study.id}')
-
-            displayForms();
         </c:if>
             initSearchField();
 
         })
 
 
-        function displayForms() {
-            $('noForm').show();
-            var url = 'basicForm?studyId=' + $('study').value
-
-            buildTable('assembler')
-            if ($('newFormUrl') != null) {
-                $('newFormUrl').href = url;
-            }
-
-        }
-        function buildTable(form) {
-
+        function buildTable() {
             var id = $('study').value
-            var parameterMap = getParameterMap(form);
-            $('bigSearch').show();
-            crf.searchCrf(parameterMap, id, showTable)
+            var url = window.location.href.substring(0, window.location.href.indexOf('?'));
+            window.location.href = url + "?studyId=" + id;
         }
 
         function acCreateStudy(mode) {
@@ -59,7 +52,7 @@
                 valueSelector: mode.valueSelector,
                 afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
                     acPostSelect(mode, selectedChoice);
-                    displayForms();
+                    buildTable();
                 },
                 indicator: mode.basename + "-indicator"
             })
@@ -90,13 +83,7 @@
                 parameters:"crfId=" + crfId + "&subview=subview",
                 onComplete:function(transport) {
                     var response = transport.responseText;
-                    var selectedCrfId;
-                    $$('tr.crf_' + crfId).each(function(item) {
-                        item.id = 'selectedCrf_' + crfId;
-                        selectedCrfId = item.id;
-
-                    })
-                    new Insertion.After('selectedCrf_' + crfId, response);
+                    new Insertion.After('details_row_' + crfId, response);
                     $('crfVersionShowImage_' + crfId).hide();
                     $('crfVersionHideImage_' + crfId).show();
                 },
@@ -109,8 +96,35 @@
             $$('tr.childTableRow_' + crfId).each(function(item) {
                 item.remove();
             });
-
-
+        }
+        function showPopUpMenu(cid, x, y, status) {
+            var html = '';
+            if (status == 'Released') {
+            <proctcae:urlAuthorize url="/pages/form/versionForm">
+                html += '<a href="javascript:versionForm(' + cid + ')" class="link">Create new version</a><br>';
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+                html += '<a href="../participant/schedulecrf?crfId=' + cid + '" class="link">Schedule form</a><br>';
+            </proctcae:urlAuthorize>
+            }
+        <proctcae:urlAuthorize url="/pages/participant/copyForm">
+            html += '<a href="copyForm?crfId=' + cid + '" class="link">Copy form</a><br>';
+        </proctcae:urlAuthorize>
+            if (status == 'Draft') {
+            <proctcae:urlAuthorize url="/pages/form/releaseForm">
+                html += '<a href="javascript:releaseForm(' + cid + ')" class="link">Release form</a><br>';
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/form/deleteForm">
+                html += '<a href="javascript:deleteForm(' + cid + ')" class="link">Delete form</a><br>';
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/form/editForm">
+                html += '<a href="editForm?crfId=' + cid + '" class="link">Edit form</a><br>';
+            </proctcae:urlAuthorize>
+            }
+            Element.show($("dropnoteDiv"));
+            $("dropnoteDiv").style.left = (findPosX($("img_" + cid)) + x) + 'px';
+            $("dropnoteDiv").style.top = (findPosY($("img_" + cid)) + y) + 'px';
+            $("dropnoteinnerDiv").innerHTML = html;
         }
 
 
@@ -127,36 +141,82 @@
                               size="60"
                               noForm="true"/>
 
-    <p id="crf.study-selected" style="display: none">
-        You have selected the study <span id="crf.study-selected-name"></span>.
-    </p>
+    <c:if test="${crfs ne null}">
+        You have selected the study ${study.shortTitle}.
+    </c:if>
     <br>
-    <tags:indicator id="indicator"/>
-
 </chrome:box>
-<div id="crfItem_50"></div>
-<div id="noForm" style="display:none;">
-    <proctcae:urlAuthorize url="/pages/form/basicForm">
-    	<table>
-    		<tr>
-    			<td>
-        <tags:button color="blue" markupWithTag="a" id="newFormUrl" icon="add" value="New Form"/>
-		</td>
-		</tr>
-		</table>
-    </proctcae:urlAuthorize>
-</div>
-<div id="bigSearch" style="display:none;">
-    <div class="endpanes"/>
-
-    <form:form id="assembler">
-        <chrome:division id="single-fields">
-            <div id="tableDiv">
-                <c:out value="${assembler}" escapeXml="false"/>
-            </div>
-        </chrome:division>
-    </form:form>
-
+<c:if test="${crfs ne null}">
+    <div id="noForm">
+        <proctcae:urlAuthorize url="/pages/form/basicForm">
+            <table>
+                <tr>
+                    <td>
+                        <tags:button color="blue" markupWithTag="a" id="newFormUrl" icon="add" value="New Form"
+                                     href="basicForm?studyId=${study.id}"/>
+                    </td>
+                </tr>
+            </table>
+        </proctcae:urlAuthorize>
+    </div>
+    <br/>
+    <table class="widget" cellspacing="0" align="center">
+        <tr>
+            <td class="header-top"></td>
+            <td class="header-top"></td>
+            <td class="header-top">
+                Title
+            </td>
+            <td class="header-top">
+                Version
+            </td>
+            <td class="header-top">
+                Effective Date
+            </td>
+            <%--<td class="header-top">--%>
+                <%--Expiration Date--%>
+            <%--</td>--%>
+            <td class="header-top">
+                Status
+            </td>
+        </tr>
+        <c:forEach items="${crfs}" var="crf" varStatus="status">
+            <tr id="details_row_${crf.id}" onmouseover="highlightrow('${crf.id}');"
+                onmouseout="removehighlight('${crf.id}');">
+                <td align="right">
+                    <div id="img_${crf.id}" class="indIcon"
+                         onclick="showPopUpMenu('${crf.id}',-105,-130,'${crf.status}')">
+                        <img src="../../images/menu.png" alt=""/>
+                    </div>
+                </td>
+                <td class="data">
+                    <c:if test="${crf.parentVersionId ne null}">
+                        <a href="javascript:showVersionForm('${crf.id}')"><img id="crfVersionShowImage_${crf.id}" src="../../images/arrow-right.png" style=""/></a>
+                        <a href="javascript:hideVersionForm('${crf.id}')"><img id="crfVersionHideImage_${crf.id}" src="../../images/arrow-down.png" style="display:none"/></a>
+                    </c:if>
+                </td>
+                <td class="data">
+                        ${crf.title}
+                </td>
+                <td class="data">
+                        ${crf.crfVersion}
+                </td>
+                <td class="data">
+                    <tags:formatDate value="${crf.effectiveStartDate}"/>
+                </td>
+                <%--<td class="data">--%>
+                    <%--<tags:formatDate value="${crf.effectiveEndDate}"/>--%>
+                <%--</td>--%>
+                <td class="data">
+                        ${crf.status}
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+</c:if>
+<div id="dropnoteDiv" class="ddnotediv shadowB" style="display:none;left:0;top:0">
+    <div id="dropnoteinnerDiv" class="shadowr">
+    </div>
 </div>
 
 </body>

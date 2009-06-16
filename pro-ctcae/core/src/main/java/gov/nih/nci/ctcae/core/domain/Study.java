@@ -279,9 +279,8 @@ public class Study extends BasePersistable {
      * @return the display name
      */
     public String getDisplayName() {
-        return getShortTitle()
-                + (getAssignedIdentifier() == null ? "" : " ("
-                + getAssignedIdentifier() + ")");
+        return (getAssignedIdentifier() == null ? "" : " ("
+                + getAssignedIdentifier() + ") ") + getShortTitle();
     }
 
     /**

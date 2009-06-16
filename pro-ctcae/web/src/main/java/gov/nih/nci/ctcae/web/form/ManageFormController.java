@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ManageFormController extends AbstractController {
 
     private StudyRepository studyRepository;
+    private CrfAjaxFacade crfAjaxFacade;
 
     /**
      * Instantiates a new manage form controller.
@@ -41,6 +42,7 @@ public class ManageFormController extends AbstractController {
             Study study = studyRepository.findById(Integer.parseInt(studyId));
             if (study != null) {
                 modelAndView.getModel().put("study", study);
+                modelAndView.getModel().put("crfs", crfAjaxFacade.searchCrf(Integer.parseInt(studyId)));
             }
         }
         return modelAndView;
@@ -49,11 +51,16 @@ public class ManageFormController extends AbstractController {
     /**
      * Sets the finder repository.
      *
-     * @param StudyRepository the new finder repository
+     * @param studyRepository the new finder repository
      */
     @Required
 
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
+    }
+
+    @Required
+    public void setCrfAjaxFacade(CrfAjaxFacade crfAjaxFacade) {
+        this.crfAjaxFacade = crfAjaxFacade;
     }
 }

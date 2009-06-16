@@ -2,42 +2,45 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.helper.Fixture;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.helper.CrfTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 
 import java.util.Map;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * @author Mehul Gulati
- *         Date: Nov 6, 2008
+ * Date: Nov 6, 2008
  */
 public class CrfAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase {
 
     private CrfAjaxFacade crfAjaxFacade;
     protected Map parameterMap;
-    private CRF crf;
 
+    public void testSearchCRF() throws Exception {
+        List<CRF> list = crfAjaxFacade.searchCrf(StudyTestHelper.getDefaultStudy().getId());
+        assertNotNull(list);
+        assertTrue(list.size()>0);
+    }
 
-    @Override
-    protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();
+    public void testGetSymptomsForCrf_GetAttributesForSymptom() {
+        CRF crf = StudyTestHelper.getDefaultStudy().getCrfs().get(0);
+        List<ProCtcTerm> proCtcTerms = crfAjaxFacade.getSymptomsForCrf(crf.getId());
+        assertEquals(10, proCtcTerms.size());
 
-
-        crf = Fixture.createCrf("Form1", CrfStatus.DRAFT, "1.1");
-
-        crf.setStudy(defaultStudy);
-
-        crf = crfRepository.save(crf);
+        Integer id = proCtcTerms.get(1).getId();
+        List<String> attributes = crfAjaxFacade.getAttributesForSymptom(id);
+        assertEquals(2, attributes.size());
+        assertEquals("Frequency", attributes.get(0));
 
     }
 
-    public void testSearchCRF() {
-        String table = crfAjaxFacade.searchCrf(parameterMap, defaultStudy.getId(), request);
-        assertNotNull(table);
-        assertTrue("must find a crf with title", table.contains(crf.getTitle()));
-        assertTrue("must find a crf with status", table.contains(crf.getStatus().toString()));
-    }
-
+    @Required
     public void setCRFAjaxFacade(CrfAjaxFacade crfAjaxFacade) {
         this.crfAjaxFacade = crfAjaxFacade;
     }

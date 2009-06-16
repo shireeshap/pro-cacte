@@ -7,7 +7,11 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.JstlView;
 
 //
 /**
@@ -28,52 +32,17 @@ public class CrfAjaxFacade {
     /**
      * Search crf.
      *
-     * @param parameterMap the parameter map
-     * @param id           the id
-     * @param request      the request
+     * @param studyId the id
      * @return the string
      */
-    public String searchCrf(Map parameterMap, Integer id, HttpServletRequest request) {
-
-        List<CRF> crfs = getObjects(id);
-        CrfTableModel crfTableModel = new CrfTableModel();
-        String table = crfTableModel.buildCrfTable(parameterMap, crfs, request);
-        return table;
-    }
-
-
-    /**
-     * Gets the objects.
-     *
-     * @param id the id
-     * @return the objects
-     */
-    public List<CRF> getObjects(Integer id) {
+    public List<CRF> searchCrf(Integer studyId) throws Exception {
         CRFQuery crfQuery = new CRFQuery();
-
-        if (id != null) {
-            crfQuery.filterByStudyId(id);
+        if (studyId != null) {
+            crfQuery.filterByStudyId(studyId);
             crfQuery.filterByNullNextVersionId();
         }
         List<CRF> crfs = (List<CRF>) crfRepository.find(crfQuery);
         return crfs;
-    }
-
-    /**
-     * Gets the objects.
-     *
-     * @param id the id
-     * @return the objects
-     */
-    public List<CRF> getReducedCrfs(Integer id) {
-        List<CRF> crfs = getObjects(id);
-        List<CRF> releasedCrfs = new ArrayList();
-        for (CRF crf : crfs) {
-            if (crf.getStatus().equals(CrfStatus.RELEASED)) {
-                releasedCrfs.add(crf);
-            }
-        }
-        return ObjectTools.reduceAll(releasedCrfs, "id", "title");
     }
 
     public List<ProCtcTerm> getSymptomsForCrf(Integer id) {
