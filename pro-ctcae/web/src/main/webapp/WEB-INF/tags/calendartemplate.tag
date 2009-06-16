@@ -2,12 +2,6 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%--<c:forEach items="${schedule.currentMonthSchedules}" var="studyParticipantCrfSchedule">--%>
-    <%--<div id="${index}_temp_<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />"--%>
-         <%--name="${index}_temp_div">--%>
-            <%--${studyParticipantCrfSchedule.status}--%>
-    <%--</div>--%>
-<%--</c:forEach>--%>
 <table class="widget" cellspacing="0" cellpadding="0" border="0" align="center">
     <tr class="header">
         <td colspan="7" align="left" style="border-bottom:1px solid #77a9ff; font-size:small; color:#000000; ">
