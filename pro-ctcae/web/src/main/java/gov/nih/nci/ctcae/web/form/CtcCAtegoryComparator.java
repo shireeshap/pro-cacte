@@ -9,7 +9,7 @@ import java.util.Comparator;
  * The Class CtcCAtegoryComparator.
  *
  * @author Vinay Kumar
- * @crated Nov 6, 2008
+ * @since Nov 6, 2008
  */
 
 /**

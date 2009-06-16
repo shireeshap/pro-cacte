@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * @author
- * @crated Oct 6, 2008
+ * @since Oct 6, 2008
  */
 public class TestBean extends BasePersistable {
 

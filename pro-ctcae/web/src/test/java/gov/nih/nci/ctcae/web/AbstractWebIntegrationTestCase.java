@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * @author Vinay Kumar
- * @crated Oct 18, 2008
+ * @since Oct 18, 2008
  */
 public abstract class AbstractWebIntegrationTestCase extends TestDataManager {
 

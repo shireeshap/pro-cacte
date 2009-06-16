@@ -1,18 +1,18 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import gov.nih.nci.ctcae.web.meddra.MeddraAjaxFacade;
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Arrays;
-import java.text.ParseException;
-
 import org.apache.commons.collections.map.ListOrderedMap;
 import org.springframework.beans.factory.annotation.Required;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal

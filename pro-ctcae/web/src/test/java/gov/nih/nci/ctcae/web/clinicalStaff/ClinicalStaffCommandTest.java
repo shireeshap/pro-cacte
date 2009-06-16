@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.web.WebTestCase;
 
 /**

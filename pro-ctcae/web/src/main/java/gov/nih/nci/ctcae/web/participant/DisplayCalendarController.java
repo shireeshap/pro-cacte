@@ -1,22 +1,18 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 
 //
 /**
  * The Class DisplayCalendarController.
  *
  * @author Harsh Agarwal
- * @crated Nov 5, 2008
+ * @since Nov 5, 2008
  */
 public class DisplayCalendarController extends AbstractController {
 

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  * The Class SearchStudyController.
  *
  * @author Vinay Kumar
- * @crated Oct 17, 2008
+ * @since Oct 17, 2008
  */
 public class SearchStudyController extends AbstractController {
 

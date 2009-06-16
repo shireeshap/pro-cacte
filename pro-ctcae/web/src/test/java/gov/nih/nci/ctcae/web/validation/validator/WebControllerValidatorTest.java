@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.web.validation.validator;
 
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollectionValidator;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * @author Vinay Kumar
- * @crated Nov 5, 2008
+ * @since Nov 5, 2008
  */
 public class WebControllerValidatorTest extends WebTestCase {
 

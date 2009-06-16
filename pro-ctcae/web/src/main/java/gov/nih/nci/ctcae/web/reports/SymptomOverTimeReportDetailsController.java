@@ -2,8 +2,8 @@ package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.core.query.SymptomOverTimeReportQuery;
-import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

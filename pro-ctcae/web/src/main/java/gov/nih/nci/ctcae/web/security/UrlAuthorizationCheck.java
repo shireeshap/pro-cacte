@@ -16,7 +16,7 @@ import org.springframework.security.intercept.web.FilterSecurityInterceptor;
 
 /**
  * @author Vinay Kumar
- * @crated Feb 26, 2009
+ * @since Feb 26, 2009
  */
 public class UrlAuthorizationCheck implements ApplicationContextAware {
 

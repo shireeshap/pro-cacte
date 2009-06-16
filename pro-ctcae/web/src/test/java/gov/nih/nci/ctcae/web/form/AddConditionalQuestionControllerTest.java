@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Vinay Kumar
- * @crated Jan 13, 2008
+ * @since Jan 13, 2008
  */
 public class AddConditionalQuestionControllerTest extends WebTestCase {
 

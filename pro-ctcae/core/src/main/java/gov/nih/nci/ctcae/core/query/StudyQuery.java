@@ -8,7 +8,7 @@ import org.apache.commons.lang.StringUtils;
  * The Class StudyQuery.
  *
  * @author Vinay Kumar
- * @crated Oct 14, 2008
+ * @since Oct 14, 2008
  */
 public class StudyQuery extends SecuredQuery<Study> {
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @author Vinay Kumar
- * @crated Jan 13, 2008
+ * @since Jan 13, 2008
  */
 public class AllConditionsControllerTest extends WebTestCase {
 

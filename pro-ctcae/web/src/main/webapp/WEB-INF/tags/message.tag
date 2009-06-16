@@ -1,4 +1,3 @@
-<%@ tag import="java.util.Date" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ attribute name="code" %>
 <%@ attribute name="arguments" %>

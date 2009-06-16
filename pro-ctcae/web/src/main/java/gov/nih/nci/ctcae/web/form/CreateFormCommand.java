@@ -20,7 +20,7 @@ import java.util.List;
  * The Class CreateFormCommand.
  *
  * @author Vinay Kumar
- * @crated Oct 17, 2008
+ * @since Oct 17, 2008
  */
 public class CreateFormCommand implements Serializable {
 

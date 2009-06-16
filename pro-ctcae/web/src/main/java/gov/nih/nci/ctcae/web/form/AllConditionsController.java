@@ -18,7 +18,7 @@ import java.util.Map;
  * The Class AllConditionsController.
  *
  * @author Vinay Kumar
- * @crated Oct 21, 2008
+ * @since Oct 21, 2008
  */
 public class AllConditionsController extends AbstractController {
 

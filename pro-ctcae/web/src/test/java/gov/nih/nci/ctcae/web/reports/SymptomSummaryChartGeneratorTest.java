@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 18, 2009
+ * @since Mar 18, 2009
  */
 public class SymptomSummaryChartGeneratorTest extends WebTestCase {
 

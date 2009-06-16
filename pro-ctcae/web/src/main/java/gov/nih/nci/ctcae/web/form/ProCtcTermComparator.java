@@ -9,7 +9,7 @@ import java.util.Comparator;
  * The Class ProCtcTermComparator.
  *
  * @author Vinay Kumar
- * @crated Jan 26, 2008
+ * @since Jan 26, 2008
  */
 
 /**

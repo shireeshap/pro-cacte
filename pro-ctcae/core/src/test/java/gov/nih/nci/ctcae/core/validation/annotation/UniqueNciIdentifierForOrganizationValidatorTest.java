@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 /**
  * @author Vinay Kumar
- * @crated Nov 5, 2008
+ * @since Nov 5, 2008
  */
 public class UniqueNciIdentifierForOrganizationValidatorTest extends AbstractTestCase {
 

@@ -13,7 +13,7 @@ import java.util.Map;
  * Caches its results so that the setup-or-not filter is faster.
  *
  * @author Vinay Kumar
- * @crated Mar 18, 2009
+ * @since Mar 18, 2009
  */
 public class SetupStatus implements InitializingBean {
     private Map<InitialSetupElement, SetupChecker> checkers;

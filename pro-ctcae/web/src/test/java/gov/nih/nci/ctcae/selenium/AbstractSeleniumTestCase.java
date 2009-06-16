@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * @author Vinay Kumar
- * @crated Jan 26, 2009
+ * @since Jan 26, 2009
  */
 public class AbstractSeleniumTestCase extends AbstractWebIntegrationTestCase {
     protected DefaultSelenium selenium;

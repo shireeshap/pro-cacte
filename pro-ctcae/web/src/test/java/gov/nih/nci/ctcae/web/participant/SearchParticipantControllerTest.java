@@ -5,7 +5,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Harsh Agarwal
- * @crated Nov 24, 2008
+ * @since Nov 24, 2008
  */
 public class SearchParticipantControllerTest extends WebTestCase {
     private SearchParticipantController searchParticipantController;

@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.core.repository;
 
 import gov.nih.nci.ctcae.core.domain.Persistable;
-import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.AbstractQuery;
 import gov.nih.nci.ctcae.core.query.Query;
 import gov.nih.nci.ctcae.core.validation.BeanValidator;

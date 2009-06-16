@@ -1,11 +1,10 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import java.util.List;
  * The Class StudyParticipantCrfAddedQuestion.
  *
  * @author Harsh Agarwal
- * @crated jan 5, 2008
+ * @since jan 5, 2008
  */
 
 @Entity

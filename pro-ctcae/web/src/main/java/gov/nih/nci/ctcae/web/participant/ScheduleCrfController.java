@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * The Class ScheduleCrfController.
  *
  * @author Harsh Agarwal
- * @crated Nov 5, 2008
+ * @since Nov 5, 2008
  */
 public class ScheduleCrfController<C extends StudyParticipantCommand> extends CtcAeSecuredTabbedFlowController<StudyParticipantCommand> {
 

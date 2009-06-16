@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 /**
  * @author Vinay Kumar
- * @crated Jan 26, 2009
+ * @since Jan 26, 2009
  */
 public class SeleniumProperties {
     private String waitTime;

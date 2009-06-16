@@ -6,7 +6,7 @@ import java.util.Iterator;
  * Filter strategy interface.
  *
  * @author Vinay Kumar
- * @crated Mar 10, 2009
+ * @since Mar 10, 2009
  */
 interface Filterer {
     //~ Methods ========================================================================================================

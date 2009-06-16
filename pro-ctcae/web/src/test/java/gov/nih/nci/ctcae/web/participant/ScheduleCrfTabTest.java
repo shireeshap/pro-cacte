@@ -1,12 +1,11 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.web.WebTestCase;
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
-import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import org.springframework.web.servlet.ModelAndView;
+import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.Map;
 
 /**
  * @author Harsh Agarwal
- * @crated Nov 24, 2008
+ * @since Nov 24, 2008
  */
 public class ScheduleCrfTabTest extends WebTestCase {
     private ScheduleCrfTab tab;

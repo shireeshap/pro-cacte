@@ -1,13 +1,12 @@
 package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.*;
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import gov.nih.nci.ctcae.core.repository.*;
+import gov.nih.nci.ctcae.core.query.ParticipantQuery;
+import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 
-import java.util.List;
-import java.util.Date;
 import java.text.ParseException;
+import java.util.Date;
 
 /**
  * User: Harsh

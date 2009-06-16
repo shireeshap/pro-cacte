@@ -14,7 +14,7 @@ import java.util.Map;
  * The Class AbstractCrfController.
  *
  * @author Vinay Kumar
- * @crated Dec 31, 2008
+ * @since Dec 31, 2008
  */
 public abstract class AbstractCrfController extends AbstractController {
 

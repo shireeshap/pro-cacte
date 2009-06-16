@@ -1,21 +1,18 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.helper.Fixture;
-import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
-import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
-import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
-import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffAjaxFacade;
-import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -24,7 +21,7 @@ import java.util.Map;
 
 /**
  * @author Harsh Agarwal
- * @crated June 10, 2009
+ * @since June 10, 2009
  */
 public class ParticipantControllerTest extends AbstractWebTestCase {
     ParticipantController controller;

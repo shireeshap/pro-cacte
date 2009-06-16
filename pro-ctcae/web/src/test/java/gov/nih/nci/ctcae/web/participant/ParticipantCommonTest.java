@@ -1,15 +1,12 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.web.WebTestCase;
-import gov.nih.nci.ctcae.web.AbstractWebTestCase;
-import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
-
-import java.util.*;
-import java.text.ParseException;
-
+import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
+import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * @author Harsh Agarwal

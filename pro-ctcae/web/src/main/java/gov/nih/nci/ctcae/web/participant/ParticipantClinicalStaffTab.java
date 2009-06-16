@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * @author Vinay Kumar
- * @crated Feb 11, 2009
+ * @since Feb 11, 2009
  */
 public class ParticipantClinicalStaffTab extends SecuredTab<ParticipantCommand> {
 

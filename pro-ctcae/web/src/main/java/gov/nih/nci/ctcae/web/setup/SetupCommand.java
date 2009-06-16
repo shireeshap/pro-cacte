@@ -6,7 +6,7 @@ import gov.nih.nci.ctcae.core.domain.UserRole;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 18, 2009
+ * @since Mar 18, 2009
  */
 public class SetupCommand {
 

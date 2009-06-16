@@ -1,15 +1,13 @@
 package gov.nih.nci.ctcae.core.domain;
 
+import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-
-import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Mehul Gulati

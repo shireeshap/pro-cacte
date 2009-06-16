@@ -4,7 +4,7 @@ import gov.nih.nci.cabig.ctms.web.chrome.Section;
 
 /**
  * @author Vinay Kumar
- * @crated Feb 27, 2009
+ * @since Feb 27, 2009
  */
 public class MockSection extends Section {
     private String mainUrl;

@@ -15,7 +15,7 @@ import java.util.Set;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 10, 2009
+ * @since Mar 10, 2009
  */
 public class DomainObjectAuthorizationCheck {
 

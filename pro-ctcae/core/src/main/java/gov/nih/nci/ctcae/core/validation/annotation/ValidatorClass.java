@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * Link between an constraint annotation and it's validator implementation.
  *
  * @author Vinay Kumar
- * @crated Oct 27, 2008
+ * @since Oct 27, 2008
  */
 @Documented
 @Target({ANNOTATION_TYPE})

@@ -1,15 +1,14 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
+import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
-import org.easymock.EasyMock;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.GregorianCalendar;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 
 /**

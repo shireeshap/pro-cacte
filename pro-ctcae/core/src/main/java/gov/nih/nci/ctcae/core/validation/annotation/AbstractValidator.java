@@ -7,7 +7,7 @@ import java.lang.annotation.Annotation;
  * The Class AbstractValidator.
  *
  * @author Vinay Kumar
- * @crated Dec 8, 2008
+ * @since Dec 8, 2008
  */
 public abstract class AbstractValidator<T extends Annotation> implements Validator<T> {
 

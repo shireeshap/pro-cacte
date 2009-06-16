@@ -10,7 +10,7 @@ import javax.persistence.*;
  * The Class StudyParticipantCrfScheduleAddedQuestion.
  *
  * @author Harsh Agarwal
- * @crated Jan 5, 2008
+ * @since Jan 5, 2008
  */
 
 @Entity

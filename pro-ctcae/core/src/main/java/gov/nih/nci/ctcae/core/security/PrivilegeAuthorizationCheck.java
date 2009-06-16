@@ -11,7 +11,7 @@ import org.springframework.security.context.SecurityContextHolder;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 2, 2009
+ * @since Mar 2, 2009
  */
 public class PrivilegeAuthorizationCheck {
     protected static final Log logger = LogFactory.getLog(PrivilegeAuthorizationCheck.class);

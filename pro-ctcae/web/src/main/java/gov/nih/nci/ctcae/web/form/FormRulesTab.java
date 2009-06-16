@@ -14,7 +14,7 @@ import java.util.Map;
  * The Class CalendarTemplateTab.
  *
  * @author Vinay Kumar
- * @crated Nov 3, 2008
+ * @since Nov 3, 2008
  */
 public class FormRulesTab extends SecuredTab<CreateFormCommand> {
 

@@ -8,7 +8,7 @@ import java.lang.annotation.Annotation;
 
 /**
  * @author Vinay Kumar
- * @crated Dec 8, 2008
+ * @since Dec 8, 2008
  */
 public class NotNullValidatorTest extends TestCase {
 

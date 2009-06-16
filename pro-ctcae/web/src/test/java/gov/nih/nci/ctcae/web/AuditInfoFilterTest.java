@@ -11,7 +11,7 @@ import java.util.Date;
 
 /**
  * @author Vinay Kumar
- * @crated Dec 11, 2008
+ * @since Dec 11, 2008
  */
 public class AuditInfoFilterTest extends WebTestCase {
 	private static final String REMOTE_ADDR = "123.45.67.8";

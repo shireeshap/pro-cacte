@@ -1,20 +1,16 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
 import gov.nih.nci.ctcae.web.WebTestCase;
-import org.springframework.validation.BindException;
 import static org.easymock.EasyMock.expect;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal
- * @crated Nov 25, 2008
+ * @since Nov 25, 2008
  */
 public class DisplayCalendarControllerTest extends WebTestCase {
     DisplayCalendarController controller;

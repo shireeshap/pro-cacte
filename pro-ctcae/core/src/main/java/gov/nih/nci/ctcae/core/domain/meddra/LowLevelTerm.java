@@ -1,16 +1,13 @@
 package gov.nih.nci.ctcae.core.domain.meddra;
 
 
-import javax.persistence.*;
-
+import gov.nih.nci.ctcae.core.domain.MeddraQuestion;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import gov.nih.nci.ctcae.core.domain.Persistable;
-import gov.nih.nci.ctcae.core.domain.BasePersistable;
-import gov.nih.nci.ctcae.core.domain.MeddraQuestion;
 
-import java.util.List;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "meddra_llt")

@@ -10,7 +10,7 @@ import javax.persistence.*;
  * The Class CtcCategory.
  *
  * @author Vinay Kumar
- * @crated Nov 6, 2008
+ * @since Nov 6, 2008
  */
 @Entity
 @Table(name = "CTC_CATEGORIES")

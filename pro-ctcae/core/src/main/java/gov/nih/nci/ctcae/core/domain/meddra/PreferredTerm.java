@@ -1,14 +1,10 @@
 package gov.nih.nci.ctcae.core.domain.meddra;
 
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "meddra_pt")

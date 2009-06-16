@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 16, 2009
+ * @since Mar 16, 2009
  */
 public class OrganizationClinicalStaffAuthorizationCheck implements MethodAuthorizationCheck {
 

@@ -11,7 +11,7 @@ import java.beans.PropertyEditorSupport;
  * The Class EnumByNameEditor.
  *
  * @author Vinay Kumar
- * @crated Dec 18, 2008
+ * @since Dec 18, 2008
  */
 public class EnumByNameEditor<E extends CodedEnum> extends PropertyEditorSupport {
 

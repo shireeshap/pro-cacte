@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 
 /**
  * @author Vinay Kumar
- * @crated Dec 18, 2008
+ * @since Dec 18, 2008
  */
 public class EnumByNameEditorTest extends TestCase {
 	private EnumByNameEditor<CrfItemAllignment> editor = new EnumByNameEditor<CrfItemAllignment>(CrfItemAllignment.class);

@@ -10,7 +10,7 @@ import javax.persistence.*;
  * The Class StudyOrganization.
  *
  * @author
- * @crated Oct 7, 2008
+ * @since Oct 7, 2008
  */
 
 @Entity

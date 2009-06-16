@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 18, 2009
+ * @since Mar 18, 2009
  */
 public class SetupController extends CtcAeSimpleFormController {
     private UserRepository userRepository;

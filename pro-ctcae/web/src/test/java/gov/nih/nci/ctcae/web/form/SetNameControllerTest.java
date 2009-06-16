@@ -5,7 +5,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Vinay Kumar
- * @crated Oct 18, 2008
+ * @since Oct 18, 2008
  */
 public class SetNameControllerTest extends WebTestCase {
 

@@ -16,7 +16,7 @@ import java.util.Map;
  * The Class EditFormController.
  *
  * @author Vinay Kumar
- * @crated Oct 17, 2008
+ * @since Oct 17, 2008
  */
 public class EditFormController extends FormController {
 

@@ -1,18 +1,18 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
+import static org.easymock.EasyMock.expect;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import static org.easymock.EasyMock.expect;
 
 import java.util.HashMap;
 
 /**
  * @author Harsh Agarwal
- * @crated Nov 25, 2008
+ * @since Nov 25, 2008
  */
 public class ScheduleCrfControllerTest extends WebTestCase {
     private ScheduleCrfController controller;

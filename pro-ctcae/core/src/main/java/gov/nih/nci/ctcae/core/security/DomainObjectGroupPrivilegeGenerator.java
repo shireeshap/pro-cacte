@@ -5,7 +5,7 @@ import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 10, 2009
+ * @since Mar 10, 2009
  */
 public class DomainObjectGroupPrivilegeGenerator {
     protected final String GROUP = "GROUP";

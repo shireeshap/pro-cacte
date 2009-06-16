@@ -2,10 +2,10 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
-import gov.nih.nci.ctcae.core.repository.*;
 import gov.nih.nci.ctcae.core.query.CtcQuery;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
@@ -17,7 +17,7 @@ import java.util.*;
  * The Class SubmitFormCommand.
  *
  * @author Harsh Agarwal
- * @crated Nov 12, 2008
+ * @since Nov 12, 2008
  */
 public class SubmitFormCommand implements Serializable {
 

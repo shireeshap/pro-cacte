@@ -1,18 +1,14 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.helper.Fixture;
-import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
-import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
-import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
-import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
+import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**

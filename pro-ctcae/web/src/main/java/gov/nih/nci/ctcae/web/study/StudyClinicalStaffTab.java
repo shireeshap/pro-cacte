@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Vinay Kumar
- * @crated Feb 11, 2009
+ * @since Feb 11, 2009
  */
 public class StudyClinicalStaffTab extends SecuredTab<StudyCommand> {
     public StudyClinicalStaffTab() {

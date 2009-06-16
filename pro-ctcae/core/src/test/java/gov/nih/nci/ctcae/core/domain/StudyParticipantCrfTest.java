@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * @author Harsh Agarwal
- * @crated Dec 12, 2008
+ * @since Dec 12, 2008
  */
 public class StudyParticipantCrfTest extends TestCase {
     private StudyParticipantCrf studyParticipantCrf;

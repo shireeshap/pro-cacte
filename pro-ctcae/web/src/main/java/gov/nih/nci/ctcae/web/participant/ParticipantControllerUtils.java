@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
  * The Class ParticipantControllerUtils.
  *
  * @author Vinay Kumar
- * @crated Oct 21, 2008
+ * @since Oct 21, 2008
  */
 public class ParticipantControllerUtils {
 

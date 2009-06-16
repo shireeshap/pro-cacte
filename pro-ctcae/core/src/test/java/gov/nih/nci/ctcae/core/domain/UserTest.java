@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 12, 2009
+ * @since Mar 12, 2009
  */
 public class UserTest extends TestCase {
 

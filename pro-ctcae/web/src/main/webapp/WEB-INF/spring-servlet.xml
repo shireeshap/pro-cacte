@@ -12,16 +12,8 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <!--<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">-->
-    <!--<property name="basename">-->
-    <!--<value>message</value>-->
-    <!--</property>-->
-    <!--</bean>-->
-
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename">
-            <value>/WEB-INF/message</value>
-        </property>
+        <property name="basename" value="/WEB-INF/message"/>
         <property name="cacheSeconds" value="1"/>
     </bean>
 
@@ -30,26 +22,15 @@
 
         <property name="mappings">
             <value>
-                <!--/form/createForm=createFormController-->
-                <!--/form/viewForm=viewFormController-->
             </value>
         </property>
         <property name="interceptors">
             <list>
-
-                <!--<ref bean="loginCheckInterceptor"/>-->
-
                 <ref bean="sectionInterceptor"/>
             </list>
         </property>
 
     </bean>
-
-    <!--<bean id="tilesViewResolver" class="org.springframework.js.ajax.AjaxUrlBasedViewResolver">-->
-    <!--<property name="requestContextAttribute" value="requestContext"/>-->
-    <!--<property name="viewClass" value="org.springframework.js.ajax.tiles2.AjaxTilesView"/>-->
-    <!--<property name="order" value="2"/>-->
-    <!--</bean>-->
 
     <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
 
@@ -74,16 +55,12 @@
 
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <!-- one of the properties available; the maximum file size in bytes -->
         <property name="maxUploadSize" value="10000000"/>
     </bean>
 
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" lazy-init="true">
         <property name="interceptors">
             <list>
-
-                <!--<ref bean="loginCheckInterceptor"/>-->
-
                 <ref bean="sectionInterceptor"/>
             </list>
         </property>
@@ -413,9 +390,7 @@
 
     <bean name="/reports/symptomsummary" id="symptomSummaryReportController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-        <property name="viewName">
-            <value>reports/symptomSummaryReport</value>
-        </property>
+        <property name="viewName" value="reports/symptomSummaryReport"/>
     </bean>
     <bean name="/reports/symptomSummaryReportResults" id="symptomSummaryReportResultsController"
           class="gov.nih.nci.ctcae.web.reports.SymptomSummaryReportResultsController">
@@ -430,9 +405,7 @@
 
     <bean name="/reports/symptomovertime" id="symptomOverTimeReportController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-        <property name="viewName">
-            <value>reports/symptomOverTimeReport</value>
-        </property>
+        <property name="viewName" value="reports/symptomOverTimeReport"/>
     </bean>
     <bean name="/reports/symptomOverTimeReportResults" id="symptomOverTimeReportResultsController"
           class="gov.nih.nci.ctcae.web.reports.SymptomOverTimeReportResultsController">
@@ -445,9 +418,7 @@
 
     <bean name="/reports/participantaddedquestions" id="participantAddedQuestionsReportController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-        <property name="viewName">
-            <value>reports/participantAddedQuestionsReport</value>
-        </property>
+        <property name="viewName" value="reports/participantAddedQuestionsReport"/>
     </bean>
     <bean name="/reports/participantAddedQuestionsResults" id="participantAddedQuestionsResultsController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantAddedQuestionsReportResultsController">
@@ -463,14 +434,6 @@
           class="gov.nih.nci.ctcae.web.login.LoginController">
     </bean>
 
-
-    <bean id="noCacheTemplate" abstract="true">
-        <property name="cacheSeconds">
-            <value>0</value>
-        </property>
-    </bean>
-
-
     <bean id="controllerTools" class="gov.nih.nci.ctcae.web.ControllerTools">
     </bean>
 
@@ -480,7 +443,7 @@
           p:organizationRepository-ref="organizationRepository"
           p:controllerTools-ref="controllerTools"
           p:studyOrganizationRepository-ref="studyOrganizationRepository"
-          >
+            >
         <property name="webControllerValidator" ref="webControllerValidator"/>
     </bean>
 

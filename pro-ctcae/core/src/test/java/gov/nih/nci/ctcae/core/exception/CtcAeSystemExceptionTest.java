@@ -4,7 +4,7 @@ import gov.nih.nci.ctcae.core.AbstractTestCase;
 
 /**
  * @author Vinay Kumar
- * @crated Nov 4, 2008
+ * @since Nov 4, 2008
  */
 public class CtcAeSystemExceptionTest extends AbstractTestCase {
 

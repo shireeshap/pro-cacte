@@ -1,4 +1,3 @@
-<%@ tag import="java.util.Date" %>
 <%@ attribute name="dateValue" type="java.util.Date" %>
 
 <%@ attribute name="cols" %>

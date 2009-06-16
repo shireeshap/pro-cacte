@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.*;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
+import gov.nih.nci.ctcae.core.repository.StudyRepository;
 
 import java.util.List;
 

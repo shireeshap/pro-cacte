@@ -12,7 +12,7 @@ import java.util.Set;
  * A filter used to filter Collections.
  *
  * @author Vinay Kumar
- * @crated Mar 10, 2009
+ * @since Mar 10, 2009
  */
 class CollectionFilterer implements Filterer {
     //~ Static fields/initializers =====================================================================================

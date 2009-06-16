@@ -14,7 +14,7 @@ import java.util.List;
  * The Class StudyParticipantCrf.
  *
  * @author
- * @crated Oct 7, 2008
+ * @since Oct 7, 2008
  */
 
 @Entity

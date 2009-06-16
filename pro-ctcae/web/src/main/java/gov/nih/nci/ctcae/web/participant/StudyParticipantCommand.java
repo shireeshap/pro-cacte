@@ -2,8 +2,6 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 

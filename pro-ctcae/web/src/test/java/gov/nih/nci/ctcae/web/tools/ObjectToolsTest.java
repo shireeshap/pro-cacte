@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.web.tools;
 
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @author Vinay Kumar
- * @crated Nov 5, 2008
+ * @since Nov 5, 2008
  */
 
 public class ObjectToolsTest extends TestCase {

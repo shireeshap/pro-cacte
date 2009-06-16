@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
  * The Class SitesTab.
  *
  * @author Vinay Kumar
- * @crated Nov 3, 2008
+ * @since Nov 3, 2008
  */
 public class StudySitesTab extends SecuredTab<StudyCommand> {
 

@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * @author Vinay Kumar
- * @crated Jan, 20, 2009
+ * @since Jan, 20, 2009
  */
 public class BasicFormControllerTest extends WebTestCase {
     private BasicFormController controller;

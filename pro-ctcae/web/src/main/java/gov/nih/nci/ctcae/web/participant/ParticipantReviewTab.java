@@ -5,7 +5,7 @@ import gov.nih.nci.ctcae.web.security.SecuredTab;
 
 /**
  * @author Vinay Kumar
- * @crated Feb 11, 2009
+ * @since Feb 11, 2009
  */
 public class ParticipantReviewTab extends SecuredTab<ParticipantCommand> {
     public ParticipantReviewTab() {

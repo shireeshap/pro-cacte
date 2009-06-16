@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
  * The Class BasicFormController.
  *
  * @author Vinay Kumar
- * @crated Oct 17, 2008
+ * @since Oct 17, 2008
  */
 public class BasicFormController extends FormController {
 

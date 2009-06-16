@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * @author Vinay Kumar
- * @crated Nov 5, 2008
+ * @since Nov 5, 2008
  */
 public class StudyControllerTest extends WebTestCase {
     private StudyController controller;

@@ -19,7 +19,7 @@ import java.util.List;
  * The Class OrganizationAjaxFacade.
  *
  * @author Vinay Kumar
- * @crated Oct 17, 2008
+ * @since Oct 17, 2008
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class OrganizationAjaxFacade {

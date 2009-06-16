@@ -1,14 +1,14 @@
 package gov.nih.nci.ctcae.web;
 
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import junit.framework.TestCase;
 
 import java.util.List;
 
 /**
  * @author Vinay Kumar
- * @crated Dec 11, 2008
+ * @since Dec 11, 2008
  */
 public class ListValuesTest extends TestCase {
 
@@ -24,7 +24,6 @@ public class ListValuesTest extends TestCase {
     public void testParticipantSearchType() {
         List<ListValues> participantSearchType = listValues.getParticipantSearchType();
         assertEquals("must be 3 search type", Integer.valueOf(3), Integer.valueOf(participantSearchType.size()));
-        ListValues values = participantSearchType.get(0);
     }
 
     public void testGetterAndSetter() {

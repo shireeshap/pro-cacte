@@ -25,7 +25,7 @@ import java.util.Date;
  * The Class CtcAeTabbedFlowController.
  *
  * @author Saurabh Agrawal
- * @crated Nov 5, 2008
+ * @since Nov 5, 2008
  */
 public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends AbstractTabbedFlowFormController<C> {
 

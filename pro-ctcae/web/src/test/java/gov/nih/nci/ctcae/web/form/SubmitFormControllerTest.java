@@ -1,28 +1,17 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.helper.Fixture;
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfAddedQuestionRepository;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository;
-import gov.nih.nci.ctcae.web.WebTestCase;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
-import gov.nih.nci.ctcae.web.participant.ParticipantCommand;
-import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
-import static org.easymock.EasyMock.expect;
+import org.apache.commons.collections.map.ListOrderedMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-import org.apache.commons.collections.map.ListOrderedMap;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Harsh Agarwal
- * @crated Nov 25, 2008
+ * @since Nov 25, 2008
  */
 public class SubmitFormControllerTest extends AbstractWebTestCase {
     SubmitFormController controller = null;

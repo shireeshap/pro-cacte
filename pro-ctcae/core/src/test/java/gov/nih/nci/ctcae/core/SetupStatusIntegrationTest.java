@@ -1,11 +1,11 @@
 package gov.nih.nci.ctcae.core;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 18, 2009
+ * @since Mar 18, 2009
  */
 public class SetupStatusIntegrationTest extends TestDataManager {
 

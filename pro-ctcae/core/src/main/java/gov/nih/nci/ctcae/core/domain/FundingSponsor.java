@@ -7,7 +7,7 @@ import javax.persistence.Entity;
  * The Class StudyFundingSponsor.
  *
  * @author
- * @crated Oct 7, 2008
+ * @since Oct 7, 2008
  */
 
 @Entity

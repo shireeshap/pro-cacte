@@ -8,7 +8,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 
 /**
  * @author Vinay Kumar
- * @crated Dec 11, 2008
+ * @since Dec 11, 2008
  */
 public class HibernateGenericRepositoryTest extends AbstractTestCase {
 

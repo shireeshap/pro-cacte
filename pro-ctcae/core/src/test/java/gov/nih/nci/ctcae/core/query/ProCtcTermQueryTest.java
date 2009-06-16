@@ -1,15 +1,6 @@
 package gov.nih.nci.ctcae.core.query;
 
-import gov.nih.nci.ctcae.core.helper.Fixture;
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.User;
 import junit.framework.TestCase;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.GrantedAuthorityImpl;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 
 /**
  * @author Vinay Kumar

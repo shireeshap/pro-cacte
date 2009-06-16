@@ -16,7 +16,7 @@ import static org.easymock.EasyMock.isA;
 
 /**
  * @author Vinay Kumar
- * @crated Oct 24, 2008
+ * @since Oct 24, 2008
  */
 public class ControllersUtilsTest extends WebTestCase {
 

@@ -1,9 +1,8 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
-import gov.nih.nci.ctcae.core.query.*;
-import gov.nih.nci.ctcae.core.repository.*;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -12,10 +11,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Collection;
 import java.util.ArrayList;
+import java.util.List;
 
 //
 /**

@@ -7,7 +7,7 @@ import org.hibernate.cfg.ImprovedNamingStrategy;
  * The Class WonderfulNamingStrategy.
  *
  * @author Vinay Kumar
- * @crated Dec 9, 2008
+ * @since Dec 9, 2008
  */
 public class WonderfulNamingStrategy extends ImprovedNamingStrategy {
 

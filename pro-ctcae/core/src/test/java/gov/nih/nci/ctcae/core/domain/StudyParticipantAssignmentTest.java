@@ -1,12 +1,12 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 
 /**
  * @author Vinay Kumar
- * @crated Feb 9, 2009
+ * @since Feb 9, 2009
  */
 public class StudyParticipantAssignmentTest extends AbstractTestCase {
 

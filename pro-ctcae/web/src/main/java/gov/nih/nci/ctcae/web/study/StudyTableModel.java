@@ -15,7 +15,7 @@ import java.util.Map;
  * The Class StudyTableModel.
  *
  * @author Vinay Kumar
- * @crated Oct 17, 2008
+ * @since Oct 17, 2008
  */
 public class StudyTableModel extends AbstractTableModel {
 

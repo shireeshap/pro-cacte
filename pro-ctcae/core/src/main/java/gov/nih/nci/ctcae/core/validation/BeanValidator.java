@@ -15,7 +15,7 @@ import java.util.*;
 
 /**
  * @author Vinay Kumar
- * @crated Feb 9, 2009
+ * @since Feb 9, 2009
  */
 public class BeanValidator {
 

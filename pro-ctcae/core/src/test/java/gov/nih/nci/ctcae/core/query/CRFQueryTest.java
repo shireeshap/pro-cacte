@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 /**
  * @author
- * @crated Oct 7, 2008
+ * @since Oct 7, 2008
  */
 public class CRFQueryTest extends TestCase {
 

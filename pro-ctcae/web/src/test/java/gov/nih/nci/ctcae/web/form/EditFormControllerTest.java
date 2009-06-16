@@ -2,12 +2,12 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 import gov.nih.nci.cabig.ctms.web.tabs.TabConfigurer;
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * @author Vinay Kumar
- * @crated Dec 8, 2008
+ * @since Dec 8, 2008
  */
 public class EditFormControllerTest extends WebTestCase {
     private EditFormController controller;

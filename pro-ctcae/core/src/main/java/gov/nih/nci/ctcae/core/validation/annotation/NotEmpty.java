@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * array or map) is not empty (not null and length > 0).
  *
  * @author Vinay Kumar
- * @crated Nov 8, 2008
+ * @since Nov 8, 2008
  */
 @Documented
 @ValidatorClass(NotEmptyValidator.class)

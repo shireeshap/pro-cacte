@@ -1,5 +1,3 @@
-<%@ tag import="gov.nih.nci.ctcae.web.ControllersUtils" %>
-<%@ tag import="java.util.Date" %>
 <%@attribute name="name" required="true" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/images/chrome/${name}"/>

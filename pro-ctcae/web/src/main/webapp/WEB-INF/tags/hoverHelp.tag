@@ -1,4 +1,3 @@
-<%@ tag import="java.util.Date" %>
 <%@tag %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@attribute name="path" required="true" %>

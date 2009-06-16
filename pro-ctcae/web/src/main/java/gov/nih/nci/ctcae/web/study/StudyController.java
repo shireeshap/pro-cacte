@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 2, 2009
+ * @since Mar 2, 2009
  */
 public class StudyController extends CtcAeSecuredTabbedFlowController<StudyCommand> {
     /**

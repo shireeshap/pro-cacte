@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 
 import java.util.ArrayList;

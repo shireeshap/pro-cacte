@@ -1,9 +1,9 @@
 package gov.nih.nci.ctcae.core.query;
 
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import junit.framework.TestCase;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;

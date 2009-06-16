@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;

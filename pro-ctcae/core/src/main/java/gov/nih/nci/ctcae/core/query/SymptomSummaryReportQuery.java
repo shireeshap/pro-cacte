@@ -1,10 +1,8 @@
 package gov.nih.nci.ctcae.core.query;
 
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 
-import java.util.Set;
 import java.util.Date;
 
 //

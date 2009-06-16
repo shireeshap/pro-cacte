@@ -5,7 +5,7 @@ package gov.nih.nci.ctcae.core.validation.annotation;
  * Checks a not null restriction on an object.
  *
  * @author Vinay Kumar
- * @crated Nov 8, 2008
+ * @since Nov 8, 2008
  */
 public class NotNullValidator extends AbstractValidator<NotNull> {
 

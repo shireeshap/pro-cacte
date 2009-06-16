@@ -14,7 +14,7 @@ import java.util.Map;
  * The Class ConfirmationCheckController.
  *
  * @author Vinay Kumar
- * @crated Oct 21, 2008
+ * @since Oct 21, 2008
  */
 public class ConfirmationCheckController extends AbstractController {
 

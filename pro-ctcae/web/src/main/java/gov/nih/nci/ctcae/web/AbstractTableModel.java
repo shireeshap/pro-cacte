@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  * @author Vinay Kumar
- * @crated Oct 17, 2008
+ * @since Oct 17, 2008
  */
 public class AbstractTableModel {
     protected Log logger = LogFactory.getLog(getClass());

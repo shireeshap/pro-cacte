@@ -4,7 +4,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Vinay Kumar
- * @crated Jan 06, 2008
+ * @since Jan 06, 2008
  */
 public class ConfirmationCheckControllerTest extends WebTestCase {
 

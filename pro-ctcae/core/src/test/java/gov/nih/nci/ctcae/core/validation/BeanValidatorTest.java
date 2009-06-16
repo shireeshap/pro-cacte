@@ -1,7 +1,9 @@
 package gov.nih.nci.ctcae.core.validation;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ import java.util.List;
 
 /**
  * @author Vinay Kumar
- * @crated Feb 9, 2009
+ * @since Feb 9, 2009
  */
 public class BeanValidatorTest extends AbstractTestCase {
 

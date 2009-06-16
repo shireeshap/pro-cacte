@@ -20,7 +20,7 @@ import java.util.List;
  * The Class SelectStudyParticipantTab.
  *
  * @author Vinay Kumar
- * @crated Nov 3, 2008
+ * @since Nov 3, 2008
  */
 public class SelectStudyParticipantTab extends SecuredTab<StudyParticipantCommand> {
 

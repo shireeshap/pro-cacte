@@ -4,7 +4,7 @@ import gov.nih.nci.ctcae.web.WebTestCase;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 18, 2009
+ * @since Mar 18, 2009
  */
 public class StudyLevelGraphicalReportsTest extends WebTestCase {
 

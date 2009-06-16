@@ -1,10 +1,10 @@
 package gov.nih.nci.ctcae.core.domain;
 
 
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
-import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 
 import java.util.Collection;

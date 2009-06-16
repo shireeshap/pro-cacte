@@ -14,7 +14,7 @@ import java.util.Collection;
  * The Class OrganizationRepository.
  *
  * @author Vinay Kumar
- * @crated Oct 7, 2008
+ * @since Oct 7, 2008
  */
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 public class OrganizationRepository implements Repository<Organization, OrganizationQuery> {

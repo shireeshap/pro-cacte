@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * The Interface UniqueIdentifierForStudy.
  *
  * @author Vinay Kumar
- * @crated Oct 27, 2008
+ * @since Oct 27, 2008
  */
 @Documented
 @ValidatorClass(UniqueIdentifierForStudyValidator.class)

@@ -1,14 +1,14 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import gov.nih.nci.ctcae.core.helper.Fixture;
-import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
+import gov.nih.nci.ctcae.core.helper.Fixture;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.*;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.providers.dao.DaoAuthenticationProvider;
 import org.springframework.security.userdetails.UsernameNotFoundException;
-import org.springframework.beans.factory.annotation.Required;
 
 /**
  * @author Vinay Kumar

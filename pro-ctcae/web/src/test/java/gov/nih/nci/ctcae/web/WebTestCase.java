@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.ctcae.core.AbstractTestCase;
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
@@ -15,8 +13,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.security.ConfigAttributeDefinition;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 
 /**
  * @author

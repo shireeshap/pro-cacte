@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Vinay Kumar
- * @crated Dec 18, 2008
+ * @since Dec 18, 2008
  */
 public class AddCrfComponentControllerTest extends WebTestCase {
 

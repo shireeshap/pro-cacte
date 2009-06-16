@@ -10,7 +10,7 @@ import org.springframework.security.afterinvocation.AfterInvocationProvider;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 10, 2009
+ * @since Mar 10, 2009
  */
 public abstract class AbstractAfterInvocationProvider implements AfterInvocationProvider {
 

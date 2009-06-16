@@ -1,25 +1,16 @@
 package gov.nih.nci.ctcae.web.reports;
 
+import gov.nih.nci.ctcae.core.query.ParticipantAddedQuestionsReportQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
-import org.springframework.beans.factory.annotation.Required;
-import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import gov.nih.nci.ctcae.core.query.SymptomSummaryReportQuery;
-import gov.nih.nci.ctcae.core.query.Query;
-import gov.nih.nci.ctcae.core.query.ParticipantAddedQuestionsReportQuery;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfAddedQuestionRepository;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
-
 import java.text.ParseException;
-import java.util.*;
+import java.util.List;
 
 /**
  * User: Harsh

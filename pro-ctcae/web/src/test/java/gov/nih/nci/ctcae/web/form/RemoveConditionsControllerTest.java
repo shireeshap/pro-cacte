@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 /**
  * @author Vinay Kumar
- * @crated Jan 13, 2008
+ * @since Jan 13, 2008
  */
 public class RemoveConditionsControllerTest extends WebTestCase {
 

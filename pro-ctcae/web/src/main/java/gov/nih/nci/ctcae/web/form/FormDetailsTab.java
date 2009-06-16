@@ -20,7 +20,7 @@ import java.util.*;
  * The Class FormDetailsTab.
  *
  * @author Vinay Kumar
- * @crated Nov 3, 2008
+ * @since Nov 3, 2008
  */
 public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
 

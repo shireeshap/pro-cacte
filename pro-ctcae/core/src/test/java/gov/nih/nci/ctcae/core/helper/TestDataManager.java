@@ -6,14 +6,16 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.*;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
+import org.apache.commons.collections.map.ListOrderedMap;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
-import org.apache.commons.collections.map.ListOrderedMap;
 
-import java.util.*;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal

@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 /**
  * @author  Vinay Kumar
- * @crated Nov 21, 2008
+ * @since Nov 21, 2008
  */
 public class StudyParticipantAssignmentQueryTest extends TestCase {
 

@@ -7,7 +7,7 @@ import java.util.Comparator;
  * The Class ParticipantCrfDisplayOrderComparator.
  *
  * @author Vinay Kumar
- * @crated Oct 21, 2008
+ * @since Oct 21, 2008
  */
 public class ParticipantCrfDisplayOrderComparator implements Comparator<StudyParticipantCrfItem> {
 

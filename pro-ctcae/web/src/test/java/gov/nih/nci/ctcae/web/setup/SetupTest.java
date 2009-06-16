@@ -1,22 +1,13 @@
 package gov.nih.nci.ctcae.web.setup;
 
 import gov.nih.nci.ctcae.core.SetupStatus;
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
-import static org.easymock.EasyMock.expect;
-import org.springframework.mock.web.MockFilterConfig;
-import org.springframework.web.context.WebApplicationContext;
-
-import javax.servlet.FilterChain;
-
-import junit.framework.TestCase;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 18, 2009
+ * @since Mar 18, 2009
  */
 public class SetupTest extends AbstractWebIntegrationTestCase {
 

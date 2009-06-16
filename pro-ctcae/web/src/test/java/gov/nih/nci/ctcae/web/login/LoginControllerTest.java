@@ -3,9 +3,9 @@ package gov.nih.nci.ctcae.web.login;
 import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.security.context.SecurityContextHolder;
 
 /**
  * @author Harsh Agarwal

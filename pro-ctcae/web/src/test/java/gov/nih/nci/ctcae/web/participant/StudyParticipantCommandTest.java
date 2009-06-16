@@ -1,12 +1,12 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.web.WebTestCase;
 
 /**
  * @author Harsh Agarwal
- * @crated Nov 24, 2008
+ * @since Nov 24, 2008
  */
 public class StudyParticipantCommandTest extends WebTestCase {
 
@@ -16,7 +16,6 @@ public class StudyParticipantCommandTest extends WebTestCase {
     StudyParticipantAssignment studyParticipantAssignment;
     StudyParticipantCrf studyParticipantCrf;
     String objectsIndexesToRemove = "0-1";
-    private CRF crf;
 
     @Override
     protected void setUp() throws Exception {

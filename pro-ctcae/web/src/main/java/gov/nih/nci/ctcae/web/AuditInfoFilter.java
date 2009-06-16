@@ -18,7 +18,7 @@ import java.util.Date;
  * The Class AuditInfoFilter.
  *
  * @author Vinay Kumar
- * @crated Dec 9, 2008
+ * @since Dec 9, 2008
  */
 public class AuditInfoFilter extends ContextRetainingFilterAdapter {
 

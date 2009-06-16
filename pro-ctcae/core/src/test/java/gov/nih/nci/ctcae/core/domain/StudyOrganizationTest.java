@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 /**
  * @author Vinay Kumar
- * @crated Oct 7, 2008
+ * @since Oct 7, 2008
  */
 public class StudyOrganizationTest extends TestCase {
     private Study study;

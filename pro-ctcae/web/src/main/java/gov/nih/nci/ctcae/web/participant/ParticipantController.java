@@ -6,10 +6,10 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

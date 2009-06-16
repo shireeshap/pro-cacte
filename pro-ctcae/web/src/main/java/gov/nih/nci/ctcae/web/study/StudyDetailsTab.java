@@ -8,7 +8,7 @@ import gov.nih.nci.ctcae.web.security.SecuredTab;
  * The Class StudyDetailsTab.
  *
  * @author Vinay Kumar
- * @crated Nov 3, 2008
+ * @since Nov 3, 2008
  */
 public class StudyDetailsTab extends SecuredTab<StudyCommand> {
 

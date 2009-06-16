@@ -13,7 +13,7 @@ import java.util.*;
 
 /**
  * @author Vinay Kumar
- * @crated Nov 6, 2008
+ * @since Nov 6, 2008
  */
 public class FormDetailsTabTest extends WebTestCase {
     private FormDetailsTab tab;

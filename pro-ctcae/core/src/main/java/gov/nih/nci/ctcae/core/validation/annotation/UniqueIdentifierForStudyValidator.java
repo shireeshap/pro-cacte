@@ -12,7 +12,7 @@ import java.util.Collection;
  * The Class UniqueIdentifierForStudyValidator.
  *
  * @author Vinay Kumar
- * @crated Oct 27, 2008
+ * @since Oct 27, 2008
  */
 public class UniqueIdentifierForStudyValidator extends AbstractValidator<UniqueIdentifierForStudy> {
 

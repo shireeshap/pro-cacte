@@ -13,7 +13,7 @@ import java.util.*;
  * The Class StudyParticipantAssignment.
  *
  * @author
- * @crated Oct 7, 2008
+ * @since Oct 7, 2008
  */
 
 @Entity

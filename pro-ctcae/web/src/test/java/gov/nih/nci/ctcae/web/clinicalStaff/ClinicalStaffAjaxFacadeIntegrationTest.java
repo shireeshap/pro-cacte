@@ -1,9 +1,9 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 
 import java.util.List;

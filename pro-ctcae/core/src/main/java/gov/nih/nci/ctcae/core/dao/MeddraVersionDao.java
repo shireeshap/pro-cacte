@@ -2,12 +2,11 @@ package gov.nih.nci.ctcae.core.dao;
 
 
 import gov.nih.nci.ctcae.core.domain.MeddraVersion;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class implements the Data access related operations for the MeddraVersion domain object.

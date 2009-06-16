@@ -6,7 +6,7 @@ import org.springframework.security.Authentication;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 16, 2009
+ * @since Mar 16, 2009
  */
 public interface MethodAuthorizationCheck {
     boolean authorize(Authentication authentication, MethodInvocation methodInvocation) throws AccessDeniedException;

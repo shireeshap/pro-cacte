@@ -1,14 +1,14 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
+import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 
-import java.util.List;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.ArrayList;
-import java.text.ParseException;
+import java.util.List;
 
 /**
  * User: Harsh

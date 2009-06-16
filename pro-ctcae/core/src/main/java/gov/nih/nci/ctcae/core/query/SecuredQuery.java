@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @author Vinay Kumar
- * @crated Mar 13, 2009
+ * @since Mar 13, 2009
  */
 public abstract class SecuredQuery<T extends Persistable> extends AbstractQuery {
 

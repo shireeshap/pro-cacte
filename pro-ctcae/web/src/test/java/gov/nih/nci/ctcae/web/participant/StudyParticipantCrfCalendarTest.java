@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * @author Harsh Agarwal
- * @crated Nov 24, 2008
+ * @since Nov 24, 2008
  */
 public class StudyParticipantCrfCalendarTest extends WebTestCase {
 

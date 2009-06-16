@@ -8,7 +8,7 @@ import org.hibernate.id.IdentityGenerator;
  * The Class ImprovedPostgreSQLDialect.
  *
  * @author Vinay Kumar
- * @crated Dec 9, 2008
+ * @since Dec 9, 2008
  */
 public class ImprovedPostgreSQLDialect extends PostgreSQLDialect {
 

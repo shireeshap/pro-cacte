@@ -18,7 +18,7 @@ import java.util.*;
 //
 /**
  * @author Harsh Agarwal
- * @crated Feb 19, 2009
+ * @since Feb 19, 2009
  */
 public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     /**

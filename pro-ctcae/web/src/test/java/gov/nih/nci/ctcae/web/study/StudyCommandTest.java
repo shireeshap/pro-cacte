@@ -1,12 +1,12 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.web.WebTestCase;
 
 /**
  * @author Vinay Kumar
- * @crated Oct 27, 2008
+ * @since Oct 27, 2008
  */
 public class StudyCommandTest extends WebTestCase {
     private StudyCommand studyCommand;

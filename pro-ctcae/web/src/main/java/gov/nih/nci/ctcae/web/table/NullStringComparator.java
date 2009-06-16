@@ -10,7 +10,7 @@ import java.util.Comparator;
  * other String objects.
  *
  * @author Vinay Kumar
- * @crated Oct 18, 2008
+ * @since Oct 18, 2008
  */
 public class NullStringComparator extends NullComparator {
 

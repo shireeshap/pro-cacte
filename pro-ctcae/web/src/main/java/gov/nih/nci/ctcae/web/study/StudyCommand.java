@@ -10,7 +10,7 @@ import java.util.List;
  * The Class StudyCommand.
  *
  * @author Vinay Kumar
- * @crated Oct 27, 2008
+ * @since Oct 27, 2008
  */
 public class StudyCommand {
 

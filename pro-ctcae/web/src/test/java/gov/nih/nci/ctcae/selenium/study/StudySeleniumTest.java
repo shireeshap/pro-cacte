@@ -9,7 +9,7 @@ import java.util.Collection;
 
 /**
  * @author Vinay Kumar
- * @crated Oct 22, 2008
+ * @since Oct 22, 2008
  */
 public class StudySeleniumTest extends AbstractSeleniumTestCase {
 

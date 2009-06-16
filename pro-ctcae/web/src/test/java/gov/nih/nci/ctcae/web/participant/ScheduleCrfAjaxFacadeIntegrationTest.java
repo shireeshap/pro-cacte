@@ -1,12 +1,9 @@
 package gov.nih.nci.ctcae.web.participant;
 
+import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
-
-import java.util.ArrayList;
 
 
 /**

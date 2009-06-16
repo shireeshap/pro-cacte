@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 /**
  * @author vinay Kumar
- * @crated Dec 15, 2008
+ * @since Dec 15, 2008
  */
 public class AbstractQueryTest extends TestCase {
 

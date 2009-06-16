@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
 
 import java.util.Collection;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * @author Vinay Kumar
- * @crated Oct 18, 2008
+ * @since Oct 18, 2008
  */
 public class StudyAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCase {
 

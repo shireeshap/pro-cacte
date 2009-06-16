@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * The Class AddStudySiteController.
  *
  * @author Vinay Kumar
- * @crated Oct 21, 2008
+ * @since Oct 21, 2008
  */
 public class AddStudySiteController extends AbstractController {
 

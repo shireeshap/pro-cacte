@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * @author Vinay Kumar
- * @crated Nov 8, 2008
+ * @since Nov 8, 2008
  */
 public class NotEmptyValidatorTest extends TestCase {
 

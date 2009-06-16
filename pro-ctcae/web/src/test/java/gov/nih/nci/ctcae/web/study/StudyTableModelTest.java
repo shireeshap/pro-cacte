@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.web.table.AbstractTableModelTestCase;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Collection;
 
 /**
  * @author Vinay Kumar
- * @crated Oct 18, 2008
+ * @since Oct 18, 2008
  */
 public class StudyTableModelTest extends AbstractTableModelTestCase {
 

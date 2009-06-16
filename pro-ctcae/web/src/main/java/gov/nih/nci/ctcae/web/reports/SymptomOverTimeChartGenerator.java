@@ -1,5 +1,6 @@
 package gov.nih.nci.ctcae.web.reports;
 
+import org.apache.commons.lang.StringUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -14,7 +15,6 @@ import org.jfree.chart.urls.CategoryURLGenerator;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.TextAnchor;
-import org.apache.commons.lang.StringUtils;
 
 import java.awt.*;
 import java.text.DecimalFormat;

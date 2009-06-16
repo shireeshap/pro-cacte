@@ -1,19 +1,16 @@
 package gov.nih.nci.ctcae.core.query;
 
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 import java.util.List;
-import java.util.HashSet;
 
 /**
  * @author
- * @crated Oct 7, 2008
+ * @since Oct 7, 2008
  */
 public class ParticipantAddedQuestionReportQueryTest extends AbstractDependencyInjectionSpringContextTests {
 

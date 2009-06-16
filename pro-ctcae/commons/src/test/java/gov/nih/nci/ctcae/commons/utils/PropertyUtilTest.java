@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 /**
  * @author Vinay Kumar
- * @crated Oct 27, 2008
+ * @since Oct 27, 2008
  */
 public class PropertyUtilTest extends TestCase {
 

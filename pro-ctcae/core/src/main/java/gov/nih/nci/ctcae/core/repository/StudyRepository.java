@@ -4,7 +4,6 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.StudySite;
-import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,7 +17,7 @@ import java.util.List;
  * The Class StudyRepository.
  *
  * @author Vinay Kumar
- * @crated Oct 7, 2008
+ * @since Oct 7, 2008
  */
 
 @Transactional(readOnly = true, propagation = Propagation.REQUIRED)

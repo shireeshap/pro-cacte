@@ -9,7 +9,7 @@ import java.util.Map;
  * Check the non emptyness of the element.
  *
  * @author Vinay Kumar
- * @crated Nov 8, 2008
+ * @since Nov 8, 2008
  */
 public class NotEmptyValidator extends AbstractValidator<NotEmpty> {
 

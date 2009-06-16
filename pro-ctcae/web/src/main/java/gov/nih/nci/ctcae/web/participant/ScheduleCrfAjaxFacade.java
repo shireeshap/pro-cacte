@@ -1,14 +1,14 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
-import gov.nih.nci.ctcae.core.query.MeddraQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.StudyRepository;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.form.SubmitFormCommand;
 import gov.nih.nci.ctcae.web.form.SubmitFormController;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 
 //
 /**

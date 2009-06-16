@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.core.repository;
 
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.domain.MeddraValidValue;
-import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.Query;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;

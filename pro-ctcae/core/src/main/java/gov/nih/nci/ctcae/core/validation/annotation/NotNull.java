@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * not null constraint.
  *
  * @author Vinay Kumar
- * @crated Nov 8, 2008
+ * @since Nov 8, 2008
  */
 @Documented
 @ValidatorClass(NotNullValidator.class)
