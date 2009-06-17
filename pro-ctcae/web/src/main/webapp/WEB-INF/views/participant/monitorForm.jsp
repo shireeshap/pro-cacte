@@ -79,7 +79,7 @@ function displayParticipants() {
 
 function displayForms() {
     var id = $('study').value
-    crf.searchCrf(id, updateFormDropDown)
+    crf.getReducedCrfs(id, updateFormDropDown)
 }
 
 function clearDiv(divid) {
