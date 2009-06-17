@@ -45,6 +45,23 @@ public class CrfAjaxFacade {
         return crfs;
     }
 
+    /**
+     * Gets the objects.
+     *
+     * @param id the id
+     * @return the objects
+     */
+    public List<CRF> getReducedCrfs(Integer id) throws Exception {
+        List<CRF> crfs = searchCrf(id);
+        List<CRF> releasedCrfs = new ArrayList();
+        for (CRF crf : crfs) {
+            if (crf.getStatus().equals(CrfStatus.RELEASED)) {
+                releasedCrfs.add(crf);
+            }
+        }
+        return ObjectTools.reduceAll(releasedCrfs, "id", "title");
+    }
+
     public List<ProCtcTerm> getSymptomsForCrf(Integer id) {
         CRF crf = crfRepository.findById(id);
         Set<ProCtcTerm> terms = new TreeSet(new ProCtcTermComparator());
