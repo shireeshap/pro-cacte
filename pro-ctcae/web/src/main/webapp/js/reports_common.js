@@ -25,7 +25,7 @@ function acCreateStudyMonitor(mode) {
 
 function displayForms() {
     var id = $('study').value
-    crf.getReducedCrfs(id, updateFormDropDown)
+    crf.searchCrf(id, updateFormDropDown)
 }
 
 function populate(ele, values, itext, ivalue) {

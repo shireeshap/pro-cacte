@@ -33,7 +33,7 @@ public class StudyTest extends TestCase {
 
 		study.setAssignedIdentifier("identifier");
 
-		assertEquals("short title (identifier)", study.getDisplayName());
+		assertEquals("(identifier) short title", study.getDisplayName());
 	}
 
 	public void testAddStudyOrganization() {
