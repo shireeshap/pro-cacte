@@ -3,24 +3,30 @@ package gov.nih.nci.ctcae.web.study;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.form.ManageFormController;
+import gov.nih.nci.ctcae.web.form.CrfAjaxFacade;
 import static org.easymock.EasyMock.expect;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
 
 /**
  * @author Vinay Kumar
  * @since Oct 18, 2008
  */
-public class ManageFormControllerControllerTest extends WebTestCase {
+public class ManageFormControllerTest extends WebTestCase {
 
     private ManageFormController controller;
     private Study study;
+    CrfAjaxFacade crfAjaxFacade;
 
 
     @Override
     protected void setUp() throws Exception {
+        crfAjaxFacade = registerMockFor(CrfAjaxFacade.class);
         super.setUp();
         controller = new ManageFormController();
         controller.setStudyRepository(studyRepository);
+        controller.setCrfAjaxFacade(crfAjaxFacade);
 
         study = new Study();
         request.setMethod("GET");
@@ -57,6 +63,7 @@ public class ManageFormControllerControllerTest extends WebTestCase {
 
         request.addParameter("studyId", "1");
         expect(studyRepository.findById(1)).andReturn(study);
+        expect(crfAjaxFacade.searchCrf(1)).andReturn(new ArrayList());
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
         verifyMocks();
