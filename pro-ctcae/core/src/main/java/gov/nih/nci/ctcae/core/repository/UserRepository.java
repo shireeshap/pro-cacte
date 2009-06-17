@@ -5,6 +5,8 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
 import gov.nih.nci.ctcae.core.query.*;
 import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.Repository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

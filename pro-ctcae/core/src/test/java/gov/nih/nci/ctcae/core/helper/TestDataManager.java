@@ -5,17 +5,23 @@ import gov.nih.nci.ctcae.core.csv.loader.CsvImporter;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.*;
+import gov.nih.nci.ctcae.core.repository.secured.*;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
 import org.apache.commons.collections.map.ListOrderedMap;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Arrays;
 
 /**
  * @author Harsh Agarwal
@@ -49,9 +55,9 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml"
-            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-test.xml"
             , "classpath*:gov/nih/nci/ctcae/web/applicationContext-rules-jcr.xml"
+            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"
 //            , "classpath*:gov/nih/nci/ctcae/web/applicationContext-web-security.xml"
     };
     protected final String SYSTEM_ADMIN = "system_admin";
@@ -78,11 +84,11 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         super.onSetUpInTransaction();
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
+        login(SYSTEM_ADMIN);
         saveCsv(false);
         if (!isTestDataPresent()) {
             deleteAndCreateTestData();
         }
-        login(SYSTEM_ADMIN);
         defaultStudy = StudyTestHelper.getDefaultStudy();
     }
 
@@ -97,7 +103,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     protected void createTestData() {
-        insertAdminUser();
         login(SYSTEM_ADMIN);
         createClinicalStaff();
         createStudy();
@@ -112,7 +117,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 
 
     protected void deleteTestData() {
-        insertAdminUser();
         login(SYSTEM_ADMIN);
         jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
         jdbcTemplate.execute("delete from study_participant_crf_items");
@@ -175,8 +179,17 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     protected void login(String userName) {
+        if(userName.equals(SYSTEM_ADMIN)){
+            insertAdminUser();
+        }
         User loadedUser = userRepository.loadUserByUsername(userName);
-        assertNotNull("must find user", loadedUser);
+        if (userName.equals(SYSTEM_ADMIN)) {
+            ArrayList<GrantedAuthority> list = new ArrayList(Arrays.asList(loadedUser.getAuthorities()));
+            list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Study.GROUP"));
+            list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP"));
+            loadedUser.setGrantedAuthorities(list.toArray(new GrantedAuthority[]{}));
+
+        }
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loadedUser, DEFAULT_PASSWORD, loadedUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
     }
@@ -344,7 +357,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     @Required
-    public  void setStudyParticipantCrfScheduleRepository(StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {
+    public void setStudyParticipantCrfScheduleRepository(StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {
         TestDataManager.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
     }
 }

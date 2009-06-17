@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;

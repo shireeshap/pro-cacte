@@ -6,8 +6,8 @@ import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.OrganizationClinicalStaffQuery;
-import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
-import gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.secured.OrganizationClinicalStaffRepository;
 
 /**
  * User: Harsh

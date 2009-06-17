@@ -3,7 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
-import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.security.SecuredTab;

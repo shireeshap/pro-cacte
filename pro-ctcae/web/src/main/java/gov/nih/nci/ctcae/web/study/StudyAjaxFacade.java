@@ -2,8 +2,8 @@ package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
-import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.springframework.beans.factory.annotation.Required;
 

@@ -235,7 +235,7 @@ function hideIndicator() {
         <tags:renderAutocompleter propertyName="study"
                                   displayName="Study"
                                   required="true"
-                                  size="50"
+                                  size="70"
                                   noForm="true"/>
         <div id="formDropDownDiv" style="display:none;" class="row">
             <div class="label">Form</div>
@@ -258,13 +258,13 @@ function hideIndicator() {
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="studySite"
                                       displayName="Study site"
-                                      size="40"
+                                      size="50"
                                       noForm="true"/>
         </div>
         <div id="participantAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="participant"
                                       displayName="Participant"
-                                      size="40"
+                                      size="50"
                                       noForm="true"/>
         </div>
         <div id="dateMenuDiv" style="display:none" class="row">

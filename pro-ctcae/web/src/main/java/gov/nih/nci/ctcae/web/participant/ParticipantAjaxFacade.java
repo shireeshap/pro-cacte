@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
-import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.springframework.beans.factory.annotation.Required;
 

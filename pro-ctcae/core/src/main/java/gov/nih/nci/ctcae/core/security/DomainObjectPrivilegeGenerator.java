@@ -103,8 +103,9 @@ public class DomainObjectPrivilegeGenerator {
 
         StudyOrganization studyOrganization = studyOrganizationClinicalStaff.getStudyOrganization();
         if (studyOrganization instanceof LeadStudySite) {
-            privileges.add(generateGroupPrivilegeForStudyOrganization(studyOrganization));
-
+            if (studyOrganizationClinicalStaff.getRole().equals(Role.LEAD_CRA)) {
+                privileges.add(generateGroupPrivilegeForStudyOrganization(studyOrganization));
+            }
         }
         privileges.add(generatePrivilege(studyOrganization.getStudy()));
         privileges.add(generatePrivilegeForPersistable(studyOrganization));

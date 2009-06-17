@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Collection;

@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Collection;

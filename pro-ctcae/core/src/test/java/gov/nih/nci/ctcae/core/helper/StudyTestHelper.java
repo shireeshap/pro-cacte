@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 
 import java.util.List;
 
@@ -181,10 +181,36 @@ public class StudyTestHelper {
         return study;
     }
 
-    public static ClinicalStaff getLeadSite_SitePI(){
+    public static ClinicalStaff getLeadSite_SitePI() {
         study = getDefaultStudy();
-        for(StudyOrganizationClinicalStaff socs : study.getLeadStudySite().getStudyOrganizationClinicalStaffs()){
-            if(socs.getRole().equals(Role.SITE_PI)){
+        for (StudyOrganizationClinicalStaff socs : study.getLeadStudySite().getStudyOrganizationClinicalStaffs()) {
+            if (socs.getRole().equals(Role.SITE_PI)) {
+                return socs.getOrganizationClinicalStaff().getClinicalStaff();
+            }
+        }
+        return null;
+    }
+
+    public static ClinicalStaff getLeadSiteStaffByRole(Role role) {
+        study = getDefaultStudy();
+        for (StudyOrganizationClinicalStaff socs : study.getLeadStudySite().getStudyOrganizationClinicalStaffs()) {
+            if (socs.getRole().equals(role)) {
+                return socs.getOrganizationClinicalStaff().getClinicalStaff();
+            }
+        }
+        return null;
+    }
+
+    public static ClinicalStaff getNonLeadSiteStaffByRole(Role role) {
+        study = getDefaultStudy();
+        StudySite ss = null;
+        for (StudySite temp : study.getStudySites()) {
+            if (temp != study.getLeadStudySite()) {
+                ss = temp;
+            }
+        }
+        for (StudyOrganizationClinicalStaff socs : ss.getStudyOrganizationClinicalStaffs()) {
+            if (socs.getRole().equals(role)) {
                 return socs.getOrganizationClinicalStaff().getClinicalStaff();
             }
         }

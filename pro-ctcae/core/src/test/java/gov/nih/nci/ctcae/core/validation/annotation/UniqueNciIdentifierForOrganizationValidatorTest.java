@@ -3,7 +3,7 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 import gov.nih.nci.ctcae.core.AbstractTestCase;
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import org.springframework.beans.BeanWrapperImpl;

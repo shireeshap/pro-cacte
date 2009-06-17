@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -5,6 +5,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.*;
+import gov.nih.nci.ctcae.core.repository.secured.*;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
 import gov.nih.nci.ctcae.web.ControllerTools;
 import gov.nih.nci.ctcae.web.editor.EnumByNameEditor;

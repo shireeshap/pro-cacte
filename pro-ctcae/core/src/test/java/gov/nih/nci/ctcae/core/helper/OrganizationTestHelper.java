@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.ctcae.core.domain.Organization;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
-import gov.nih.nci.ctcae.core.repository.OrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 
 /**
  * User: Harsh

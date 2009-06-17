@@ -2,8 +2,8 @@ package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
+import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 
 import java.text.ParseException;
 import java.util.Date;

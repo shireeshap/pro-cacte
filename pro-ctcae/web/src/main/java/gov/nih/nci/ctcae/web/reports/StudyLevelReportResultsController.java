@@ -2,9 +2,9 @@ package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 

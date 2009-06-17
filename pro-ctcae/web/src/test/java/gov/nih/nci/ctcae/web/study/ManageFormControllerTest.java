@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.form.ManageFormController;
 import gov.nih.nci.ctcae.web.form.CrfAjaxFacade;
@@ -63,7 +64,7 @@ public class ManageFormControllerTest extends WebTestCase {
 
         request.addParameter("studyId", "1");
         expect(studyRepository.findById(1)).andReturn(study);
-        expect(crfAjaxFacade.searchCrf(1)).andReturn(new ArrayList());
+        expect(crfAjaxFacade.searchCrf(1)).andReturn(new ArrayList<CRF>());
         replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
         verifyMocks();

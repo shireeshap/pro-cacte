@@ -1,6 +1,6 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
-import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;

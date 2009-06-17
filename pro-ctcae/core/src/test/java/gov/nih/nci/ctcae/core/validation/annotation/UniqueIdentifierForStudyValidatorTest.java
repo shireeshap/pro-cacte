@@ -4,7 +4,7 @@ import gov.nih.nci.ctcae.core.AbstractTestCase;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import org.springframework.beans.BeanWrapperImpl;

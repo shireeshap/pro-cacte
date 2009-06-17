@@ -74,6 +74,9 @@ public class User extends BaseVersionable implements UserDetails {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<UserRole> userRoles = new ArrayList<UserRole>();
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<UserNotification> userNotifications = new ArrayList<UserNotification>();
 
     public User() {
     }
@@ -151,6 +154,9 @@ public class User extends BaseVersionable implements UserDetails {
         this.grantedAuthorities = grantedAuthorities;
     }
 
+    public List<UserNotification> getUserNotifications() {
+        return userNotifications;
+    }
 
     @Override
     public boolean equals(Object o) {

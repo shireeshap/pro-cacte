@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.selenium.study;
 
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.selenium.AbstractSeleniumTestCase;
 
 import java.util.Collection;

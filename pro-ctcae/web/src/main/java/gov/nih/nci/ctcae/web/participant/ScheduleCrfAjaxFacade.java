@@ -7,8 +7,8 @@ import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.repository.ParticipantRepository;
-import gov.nih.nci.ctcae.core.repository.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.web.form.SubmitFormCommand;
 import gov.nih.nci.ctcae.web.form.SubmitFormController;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
@@ -115,7 +115,7 @@ public class ScheduleCrfAjaxFacade {
      *
      * @param studyRepository the new study repository
      */
-    public void setStudyRepository(gov.nih.nci.ctcae.core.repository.StudyRepository studyRepository) {
+    public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
     }
 

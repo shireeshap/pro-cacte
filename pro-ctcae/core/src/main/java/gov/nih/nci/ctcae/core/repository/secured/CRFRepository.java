@@ -1,8 +1,11 @@
-package gov.nih.nci.ctcae.core.repository;
+package gov.nih.nci.ctcae.core.repository.secured;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.Repository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;

@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.Persistable;
 import gov.nih.nci.ctcae.core.query.AbstractQuery;
 import gov.nih.nci.ctcae.core.query.Query;
 import gov.nih.nci.ctcae.core.validation.BeanValidator;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Required;

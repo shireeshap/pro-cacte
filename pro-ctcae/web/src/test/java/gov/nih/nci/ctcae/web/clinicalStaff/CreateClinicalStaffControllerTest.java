@@ -1,7 +1,7 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
-import gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import org.apache.commons.lang.StringUtils;
 import static org.easymock.EasyMock.expect;

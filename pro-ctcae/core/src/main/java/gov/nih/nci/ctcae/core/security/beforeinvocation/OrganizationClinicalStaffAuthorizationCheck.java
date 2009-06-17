@@ -1,8 +1,8 @@
 package gov.nih.nci.ctcae.core.security.beforeinvocation;
 
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository;
-import gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.secured.OrganizationClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.security.DomainObjectAuthorizationCheck;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;

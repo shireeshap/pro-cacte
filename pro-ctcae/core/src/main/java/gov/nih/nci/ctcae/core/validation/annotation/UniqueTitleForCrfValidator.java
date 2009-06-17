@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.core.validation.annotation;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
-import gov.nih.nci.ctcae.core.repository.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.ArrayList;

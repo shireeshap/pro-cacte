@@ -64,6 +64,8 @@
         <value>gov.nih.nci.ctcae.core.domain.meddra.SystemOrganClass</value>
         <value>gov.nih.nci.ctcae.core.domain.MeddraQuestion</value>
         <value>gov.nih.nci.ctcae.core.domain.MeddraValidValue</value>
+        <value>gov.nih.nci.ctcae.core.domain.Notification</value>
+        <value>gov.nih.nci.ctcae.core.domain.UserNotification</value>
 
 
     </util:list>
@@ -170,44 +172,35 @@
 
     <tx:annotation-driven proxy-target-class="true"/>
 
-    <bean id="genericRepository" class="gov.nih.nci.ctcae.core.repository.HibernateGenericRepository">
+    <bean id="genericRepository" class="gov.nih.nci.ctcae.core.repository.HibernateGenericRepository" >
         <property name="hibernateTemplate" ref="hibernateTemplate"/>
         <property name="beanValidator" ref="beanValidator"/>
     </bean>
 
-
-    <!--<bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository">-->
-    <!--<property name="genericRepository" ref="genericRepository"></property>-->
-    <!--<property name="passwordEncoder" ref="passwordEncoder"></property>-->
-    <!--<property name="saltSource" ref="saltSource"></property>-->
-
-    <!--</bean>-->
-
-
-    <bean id="organizationRepository" class="gov.nih.nci.ctcae.core.repository.OrganizationRepository"
+    <bean id="organizationRepository" class="gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository"
           p:genericRepository-ref="genericRepository">
 
     </bean>
-    <bean id="participantRepository" class="gov.nih.nci.ctcae.core.repository.ParticipantRepository"
+    <bean id="participantRepository" class="gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository"
           p:genericRepository-ref="genericRepository">
         <property name="userRepository" ref="userRepository"/>
     </bean>
 
-    <bean id="studyRepository" class="gov.nih.nci.ctcae.core.repository.StudyRepository"
+    <bean id="studyRepository" class="gov.nih.nci.ctcae.core.repository.secured.StudyRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
-    <bean id="studyOrganizationRepository" class="gov.nih.nci.ctcae.core.repository.StudyOrganizationRepository"
+    <bean id="studyOrganizationRepository" class="gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
     <bean id="studyOrganizationClinicalStaffRepository"
-          class="gov.nih.nci.ctcae.core.repository.StudyOrganizationClinicalStaffRepository"
+          class="gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationClinicalStaffRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
-    <bean id="clinicalStaffRepository" class="gov.nih.nci.ctcae.core.repository.ClinicalStaffRepository"
+    <bean id="clinicalStaffRepository" class="gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository"
           p:genericRepository-ref="genericRepository" p:userRepository-ref="userRepository">
     </bean>
 
-    <bean id="crfRepository" class="gov.nih.nci.ctcae.core.repository.CRFRepository"
+    <bean id="crfRepository" class="gov.nih.nci.ctcae.core.repository.secured.CRFRepository"
           p:genericRepository-ref="genericRepository">
         <property name="studyRepository" ref="studyRepository"/>
         <property name="genericRepository" ref="genericRepository"/>
@@ -227,7 +220,7 @@
           p:genericRepository-ref="genericRepository">
     </bean>
     <bean id="organizationClinicalStaffRepository"
-          class="gov.nih.nci.ctcae.core.repository.OrganizationClinicalStaffRepository"
+          class="gov.nih.nci.ctcae.core.repository.secured.OrganizationClinicalStaffRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
     <bean id="studyParticipantCrfRepository"
@@ -245,7 +238,7 @@
 
 
     <bean id="studyParticipantAssignmentRepository"
-          class="gov.nih.nci.ctcae.core.repository.StudyParticipantAssignmentRepository"
+          class="gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
     <bean id="studyParticipantCrfScheduleAddedQuestionRepository"
