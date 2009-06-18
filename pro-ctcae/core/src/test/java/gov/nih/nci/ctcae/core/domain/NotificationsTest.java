@@ -8,8 +8,8 @@ import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import java.util.*;
 
 /**
- * @author Vinay Kumar
- * @since Oct 7, 2008
+ * @author Harsh Agarwal
+ * @since June 18, 2009
  */
 public class NotificationsTest extends TestDataManager {
 
@@ -32,10 +32,15 @@ public class NotificationsTest extends TestDataManager {
         assertEquals("Test Notification", found.getText());
         assertEquals(date, found.getDate());
         assertEquals(1, found.getUserNotifications().size());
+        assertEquals(savedNotification, found);
+        assertEquals(savedNotification.hashCode(), found.hashCode());
 
         UserNotification un = found.getUserNotifications().get(0);
         assertEquals(true, un.isNew());
         assertEquals(user, userNotification.getUser());
+        assertEquals(userNotification, un);
+        assertEquals(userNotification.hashCode(), un.hashCode());
+
 
         genericRepository.delete(found);
         found = genericRepository.findById(Notification.class, savedNotification.getId());
