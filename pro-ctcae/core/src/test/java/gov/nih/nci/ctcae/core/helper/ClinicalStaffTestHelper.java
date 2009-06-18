@@ -18,7 +18,6 @@ public class ClinicalStaffTestHelper {
 
     private static OrganizationClinicalStaffRepository organizationClinicalStaffRepository;
     private static ClinicalStaffRepository clinicalStaffRepository;
-    private static ClinicalStaff defaultClinicalStaff;
 
     private ClinicalStaffTestHelper() {
 

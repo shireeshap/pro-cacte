@@ -50,7 +50,7 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
     }
 
     public void testCreateParticipant() throws Exception {
-        ParticipantCommand pc = null;
+        ParticipantCommand pc;
         pc = firstTab_ParticipantDetails();
         secondTab_ClinicalStaff(pc);
     }
@@ -62,7 +62,7 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
         assertNotNull(m.get("genders"));
         assertNotNull(m.get("organizationsHavingStudySite"));
         List<ListValues> ss = (List<ListValues>) m.get("organizationsHavingStudySite");
-        assertEquals(3, ss.size());
+        assertEquals(2, ss.size());
 
         ParticipantCommand pc = (ParticipantCommand) mv.getModel().get("command");
         assertNotNull(pc);
@@ -161,7 +161,7 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
         assertNotNull(m.get("genders"));
         assertNotNull(m.get("organizationsHavingStudySite"));
         List<ListValues> ss = (List<ListValues>) m.get("organizationsHavingStudySite");
-        assertEquals(3, ss.size());
+        assertEquals(2, ss.size());
 
         ParticipantCommand pc = (ParticipantCommand) mv.getModel().get("command");
         assertNotNull(pc);
