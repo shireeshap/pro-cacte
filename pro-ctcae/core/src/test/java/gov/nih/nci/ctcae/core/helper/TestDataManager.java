@@ -139,6 +139,8 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         jdbcTemplate.execute("delete from user_roles");
         jdbcTemplate.execute("delete from study_participant_assignments");
         jdbcTemplate.execute("delete from participants");
+        jdbcTemplate.execute("delete from user_notifications");
+        jdbcTemplate.execute("delete from notifications");
         jdbcTemplate.execute("delete from USERS");
         jdbcTemplate.execute("delete from audit_event_values");
         jdbcTemplate.execute("delete from audit_events");
@@ -187,6 +189,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             ArrayList<GrantedAuthority> list = new ArrayList(Arrays.asList(loadedUser.getAuthorities()));
             list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Study.GROUP"));
             list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP"));
+            list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.CRF.GROUP"));
             loadedUser.setGrantedAuthorities(list.toArray(new GrantedAuthority[]{}));
 
         }
