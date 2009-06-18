@@ -10,6 +10,7 @@ class CreateotificationsTable extends edu.northwestern.bioinformatics.bering.Mig
             t.addColumn("notification_id", "integer", nullable: false)
             t.addColumn("user_id", "integer", nullable: false)
             t.addColumn("is_new", "boolean", nullable: false)
+            t.addColumn("study_title", "string", nullable: false)
             t.addVersionColumn()
         }
 

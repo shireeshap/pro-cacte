@@ -433,6 +433,7 @@
 
     <bean name="/home" id="homeController"
           class="gov.nih.nci.ctcae.web.login.LoginController">
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
     </bean>
 
     <bean id="controllerTools" class="gov.nih.nci.ctcae.web.ControllerTools">

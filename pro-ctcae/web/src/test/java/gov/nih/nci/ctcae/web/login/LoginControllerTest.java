@@ -2,14 +2,18 @@ package gov.nih.nci.ctcae.web.login;
 
 import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
+
 /**
  * @author Harsh Agarwal
- * Date June 10, 2009
+ *         Date June 10, 2009
  */
 public class LoginControllerTest extends AbstractWebTestCase {
 
@@ -46,10 +50,15 @@ public class LoginControllerTest extends AbstractWebTestCase {
     }
 
     public void testClinicalStaffLogin() throws Exception {
-        login(ClinicalStaffTestHelper.getDefaultClinicalStaff().getUser().getUsername());
+        String username = StudyTestHelper.getNonLeadSiteStaffByRole(Role.SITE_CRA).getUser().getUsername();
+        login(username);
         LoginController controller = new LoginController();
+        controller.setClinicalStaffRepository(clinicalStaffRepository);
         ModelAndView mv = controller.handleRequestInternal(request, response);
         assertEquals("home", mv.getViewName());
+        List l = (List)mv.getModel().get("notifications");
+        assertNotNull(l);
+        assertEquals(2, l.size());
     }
 
 }

@@ -27,7 +27,7 @@ public class NotificationsEvaluationService {
 
 
     public static void executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) {
-        ArrayList<String[]> critialcSymptoms = new ArrayList<String[]>();
+        ArrayList<String[]> criticalSymptoms = new ArrayList<String[]>();
         HashSet<String> emails = new HashSet<String>();
         RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, studySite);
         if (ruleSet == null) {
@@ -81,7 +81,7 @@ public class NotificationsEvaluationService {
                                 String message = result.getMessage();
                                 logger.info("Send email to " + message);
                                 getRecipients(emails, message, studyParticipantCrfSchedule);
-                                critialcSymptoms.addAll(temp);
+                                criticalSymptoms.addAll(temp);
                             }
                         }
                     }
@@ -92,9 +92,9 @@ public class NotificationsEvaluationService {
             }
         }
 
-        if (critialcSymptoms.size() > 0) {
+        if (criticalSymptoms.size() > 0) {
             try {
-                sendMail(getStringArr(emails), "Notification email", getEmaiContent(studyParticipantCrfSchedule, critialcSymptoms));
+                sendMail(getStringArr(emails), "Notification email", getEmaiContent(studyParticipantCrfSchedule, criticalSymptoms));
             } catch (Exception e) {
                 e.printStackTrace();
             }

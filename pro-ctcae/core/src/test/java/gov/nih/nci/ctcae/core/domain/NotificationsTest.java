@@ -22,6 +22,7 @@ public class NotificationsTest extends TestDataManager {
         UserNotification userNotification = new UserNotification();
         userNotification.setNew(true);
         userNotification.setUser(user);
+        userNotification.setStudyTitle("MyTestStudy");
         notification.addUserNotification(userNotification);
 
         Notification savedNotification = genericRepository.save(notification);
@@ -38,15 +39,12 @@ public class NotificationsTest extends TestDataManager {
         UserNotification un = found.getUserNotifications().get(0);
         assertEquals(true, un.isNew());
         assertEquals(user, userNotification.getUser());
+        assertEquals("MyTestStudy", userNotification.getStudyTitle());
+        assertEquals(savedNotification, userNotification.getNotification());
         assertEquals(userNotification, un);
         assertEquals(userNotification.hashCode(), un.hashCode());
-
-
         genericRepository.delete(found);
         found = genericRepository.findById(Notification.class, savedNotification.getId());
         assertNull(found);
-
-
     }
-
 }

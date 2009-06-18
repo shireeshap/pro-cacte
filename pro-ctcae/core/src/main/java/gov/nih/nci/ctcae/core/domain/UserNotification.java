@@ -30,6 +30,9 @@ public class UserNotification extends BaseVersionable {
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "study_title", nullable = false)
+    private String studyTitle;
+
     @Column(name = "is_new", nullable = false)
     private boolean isNew;
 
@@ -65,26 +68,12 @@ public class UserNotification extends BaseVersionable {
         this.notification = notification;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserNotification that = (UserNotification) o;
-
-        if (isNew != that.isNew) return false;
-        if (!notification.equals(that.notification)) return false;
-        if (!user.equals(that.user)) return false;
-
-        return true;
+    public String getStudyTitle() {
+        return studyTitle;
     }
 
-    @Override
-    public int hashCode() {
-        int result = (isNew ? 1 : 0);
-        result = 31 * result + user.hashCode();
-        result = 31 * result + notification.hashCode();
-        return result;
+    public void setStudyTitle(String studyTitle) {
+        this.studyTitle = studyTitle;
     }
 
     public boolean isNew() {
@@ -96,4 +85,27 @@ public class UserNotification extends BaseVersionable {
         isNew = aNew;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserNotification that = (UserNotification) o;
+
+        if (isNew != that.isNew) return false;
+        if (!notification.equals(that.notification)) return false;
+        if (!studyTitle.equals(that.studyTitle)) return false;
+        if (!user.equals(that.user)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = studyTitle.hashCode();
+        result = 31 * result + (isNew ? 1 : 0);
+        result = 31 * result + user.hashCode();
+        result = 31 * result + notification.hashCode();
+        return result;
+    }
 }
