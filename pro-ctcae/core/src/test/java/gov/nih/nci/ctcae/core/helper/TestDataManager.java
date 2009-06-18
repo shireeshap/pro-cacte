@@ -191,6 +191,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.Participant.GROUP"));
             list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.CRF.GROUP"));
             list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff.GROUP"));
+            list.add(new GrantedAuthorityImpl("gov.nih.nci.ctcae.core.domain.ClinicalStaff.GROUP"));
             loadedUser.setGrantedAuthorities(list.toArray(new GrantedAuthority[]{}));
 
         }
