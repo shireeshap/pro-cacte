@@ -21,7 +21,7 @@
             var request = new Ajax.Request("<c:url value="/pages/home/notificationdetails"/>", {
                 parameters:"id=" + id + "&subview=subview",
                 onComplete:function(transport) {
-                    $('new_' + id).innerHTML='&nbsp';
+                    $('new_' + id).innerHTML = '&nbsp';
                     showConfirmationWindow(transport, 700, 500);
                 },
                 method:'get'
@@ -60,7 +60,7 @@
                     <td class="data">
                         <c:choose>
                             <c:when test="${fn:length(usernotification.study.shortTitle) > dl}">
-                                ${fn:substring(usernotification.study.shortTitle,0,dl)}...
+                                <div title="${usernotification.study.shortTitle}"> ${fn:substring(usernotification.study.shortTitle,0,dl)}...</div>
                             </c:when>
                             <c:otherwise>
                                 ${usernotification.study.shortTitle}
