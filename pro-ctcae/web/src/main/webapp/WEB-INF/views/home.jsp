@@ -7,12 +7,26 @@
 <head>
     <tags:javascriptLink name="table_menu"/>
     <tags:stylesheetLink name="table_menu"/>
+    <tags:includeScriptaculous/>
+    <tags:includePrototypeWindow/>
     <style type="text/css">
         .quicklink {
             border-bottom: 1px solid #cccccc;
             padding-left: 15px;
         }
     </style>
+
+    <script type="text/javascript">
+        function showMessage(id) {
+            var request = new Ajax.Request("<c:url value="/pages/home/notificationdetails"/>", {
+                parameters:"id=" + id + "&subview=subview",
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 700, 500);
+                },
+                method:'get'
+            })
+        }
+    </script>
 </head>
 <body>
 <c:set var="dl" value="12"/>
@@ -53,14 +67,17 @@
                         <tags:formatDate value="${usernotification.notification.date}"/>
                     </td>
                     <td class="data">
-                        <c:choose>
-                            <c:when test="${fn:length(usernotification.notification.text) > dl}">
-                                ${fn:substring(usernotification.notification.text,0,dl)}...
-                            </c:when>
-                            <c:otherwise>
-                                ${usernotification.notification.text}
-                            </c:otherwise>
-                        </c:choose>
+                        <a class="link" href="javascript:showMessage('${usernotification.id}');">This is an auto..</a>
+
+                            <%--${fn:substring(usernotification.notification.text,7,dl+7)}...--%>
+                            <%--<c:choose>--%>
+                            <%--<c:when test="${fn:length(usernotification.notification.text) > dl}">--%>
+                            <%--${fn:substring(usernotification.notification.text,0,dl)}...--%>
+                            <%--</c:when>--%>
+                            <%--<c:otherwise>--%>
+                            <%--${usernotification.notification.text}--%>
+                            <%--</c:otherwise>--%>
+                            <%--</c:choose>--%>
                     </td>
                 </tr>
             </c:forEach>

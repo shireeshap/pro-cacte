@@ -385,6 +385,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffCon
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffLinkDisplayDetailsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalStaffController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/NotificationDetailsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
@@ -637,6 +638,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/accessDenied.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/ajax/deleteOrganizationClinicalStaffConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/confirmClinicalStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/createClinicalStaff.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/notification.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/organizationClinicalStaffSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/searchClinicalStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text

@@ -133,7 +133,24 @@ public class CrfTestHelper {
 
     private static Notification createNotification() {
         Notification notification = new Notification();
-        notification.setText("Test Notification");
+        notification.setText("<html><head></head><body><table><tr><td><b></b>This is an auto-generated em" +
+                "ail from PRO-CTCAE system.</td></tr><tr><td><b>Participant name: </b>test t" +
+                "est[12-223]</td></tr><tr><td><b>Participant email: </b>Not specified</td></" +
+                "tr><tr><td><b>Participant contact phone: </b>1231231234</td></tr><tr><td><b" +
+                ">Study site: </b>Duke University Medical Center</td></tr><tr><td><b>Study: " +
+                "</b>Study 5[-1001]</td></tr><tr><td><b>Research nurse: </b>cs2duke cs2duke<" +
+                "/td></tr><tr><td><b>Treating physician: </b>cs1duke cs1duke</td></tr></tabl" +
+                "e><br>This notification was triggered by following responses: <br><br><tabl" +
+                "e border=3D\"1\"><tr><td><b>Symptom</b></td><td><b>Attribute</b></td><td><b>C" +
+                "urrent visit (05/12/2009)</b></td><td><b>First visit (05/08/2009)</b></td><" +
+                "td><b>Previous visit (05/11/2009)</b></td></tr><tr><td>Pounding or racing h" +
+                "eartbeat (palpitations)</td><td>Frequency</td><td>Frequently</td><td>Occasi" +
+                "onally</td><td>Almost Constantly</td></tr><tr><td>Pounding or racing heartb" +
+                "eat (palpitations)</td><td>Severity</td><td>Severe</td><td>Severe</td><td>V" +
+                "ery severe</td></tr><tr><td>Fatigue (tiredness, lack of energy)</td><td>Sev" +
+                "erity</td><td>Severe</td><td>None</td><td>Very severe</td></tr><tr><td>Fati" +
+                "gue (tiredness, lack of energy)</td><td>Interference</td><td>Very much</td>" +
+                "<td></td><td>Very much</td></tr></table></body></html>");
         notification.setDate(new Date());
         return notification;
     }
