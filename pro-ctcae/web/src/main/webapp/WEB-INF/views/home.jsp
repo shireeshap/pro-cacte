@@ -21,7 +21,7 @@
             var request = new Ajax.Request("<c:url value="/pages/home/notificationdetails"/>", {
                 parameters:"id=" + id + "&subview=subview",
                 onComplete:function(transport) {
-                    $('new_'+id).remove;
+                    $('new_' + id).innerHTML='&nbsp';
                     showConfirmationWindow(transport, 700, 500);
                 },
                 method:'get'
@@ -51,9 +51,11 @@
             <c:forEach items="${notifications}" var="usernotification">
                 <tr>
                     <td class="data">
-                        <c:if test="${usernotification.new}">
-                            <div id="new_${usernotification.id}" style="float:left;margin-right:2px;margin-left:2px;color:#ff3300;font-weight:bold;">*</div>
-                        </c:if> <div style="float:left">${usernotification.participant.displayName}</div>
+                        <div id="new_${usernotification.id}"
+                             style="float:left;margin-right:2px;margin-left:2px;color:#ff3300;font-weight:bold;"><c:if
+                                test="${usernotification.new}">*</c:if><c:if
+                                test="${!usernotification.new}">&nbsp;</c:if></div>
+                        <div style="float:left">${usernotification.participant.displayName}</div>
                     </td>
                     <td class="data">
                         <c:choose>
