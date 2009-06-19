@@ -21,6 +21,7 @@
             var request = new Ajax.Request("<c:url value="/pages/home/notificationdetails"/>", {
                 parameters:"id=" + id + "&subview=subview",
                 onComplete:function(transport) {
+                    $('new_'+id).remove;
                     showConfirmationWindow(transport, 700, 500);
                 },
                 method:'get'
@@ -50,7 +51,9 @@
             <c:forEach items="${notifications}" var="usernotification">
                 <tr>
                     <td class="data">
-                            ${usernotification.participant.displayName}
+                        <c:if test="${usernotification.new}">
+                            <div id="new_${usernotification.id}" style="float:left;margin-right:2px;margin-left:2px;color:#ff3300;font-weight:bold;">*</div>
+                        </c:if> <div style="float:left">${usernotification.participant.displayName}</div>
                     </td>
                     <td class="data">
                         <c:choose>
@@ -68,16 +71,6 @@
                     </td>
                     <td class="data">
                         <a class="link" href="javascript:showMessage('${usernotification.id}');">This is an auto..</a>
-
-                            <%--${fn:substring(usernotification.notification.text,7,dl+7)}...--%>
-                            <%--<c:choose>--%>
-                            <%--<c:when test="${fn:length(usernotification.notification.text) > dl}">--%>
-                            <%--${fn:substring(usernotification.notification.text,0,dl)}...--%>
-                            <%--</c:when>--%>
-                            <%--<c:otherwise>--%>
-                            <%--${usernotification.notification.text}--%>
-                            <%--</c:otherwise>--%>
-                            <%--</c:choose>--%>
                     </td>
                 </tr>
             </c:forEach>

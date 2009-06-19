@@ -123,4 +123,8 @@ public class UserNotification extends BaseVersionable {
         result = 31 * result + participant.hashCode();
         return result;
     }
+
+    public boolean getIsNew() {
+        return isNew();
+    }
 }

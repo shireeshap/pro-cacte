@@ -23,8 +23,10 @@ public class NotificationDetailsController extends AbstractController {
 
         ModelAndView modelAndView = new ModelAndView("clinicalStaff/notification");
         String id = request.getParameter("id");
-
-        modelAndView.addObject("notification", genericRepository.findById(UserNotification.class, Integer.parseInt(id)));
+        UserNotification notification = genericRepository.findById(UserNotification.class, Integer.parseInt(id));
+        notification.setNew(false);
+        notification = genericRepository.save(notification);
+        modelAndView.addObject("notification", notification);
 
         return modelAndView;
     }
