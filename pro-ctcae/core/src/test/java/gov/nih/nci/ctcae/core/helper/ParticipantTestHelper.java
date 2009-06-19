@@ -118,7 +118,7 @@ public class ParticipantTestHelper {
         return findParticpantByUserName("John.Locke");
     }
 
-    private static Participant findParticpantByUserName(String username) {
+    public static Participant findParticpantByUserName(String username) {
         ParticipantQuery query = new ParticipantQuery();
         query.filterByUsername(username);
         return participantRepository.findSingle(query);

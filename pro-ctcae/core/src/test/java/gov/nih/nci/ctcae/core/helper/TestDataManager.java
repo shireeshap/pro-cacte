@@ -63,6 +63,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     protected final String SYSTEM_ADMIN = "system_admin";
     public static final String DEFAULT_PASSWORD = "password";
 
+
     @Override
     protected void injectDependencies() throws Exception {
         super.injectDependencies();
@@ -138,9 +139,9 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         jdbcTemplate.execute("delete from CLINICAL_STAFFS");
         jdbcTemplate.execute("delete from user_roles");
         jdbcTemplate.execute("delete from study_participant_assignments");
-        jdbcTemplate.execute("delete from participants");
         jdbcTemplate.execute("delete from user_notifications");
         jdbcTemplate.execute("delete from notifications");
+        jdbcTemplate.execute("delete from participants");
         jdbcTemplate.execute("delete from USERS");
         jdbcTemplate.execute("delete from audit_event_values");
         jdbcTemplate.execute("delete from audit_events");
@@ -181,7 +182,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     protected void login(String userName) {
-        if(userName.equals(SYSTEM_ADMIN)){
+        if (userName.equals(SYSTEM_ADMIN)) {
             insertAdminUser();
         }
         User loadedUser = userRepository.loadUserByUsername(userName);
@@ -251,12 +252,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     }
 
     protected final boolean isDataPresentInTable(String tableName) {
-        List l = jdbcTemplate.queryForList("select count(1) from " + tableName + " t");
-        Long lg = (Long) (((ListOrderedMap) l.get(0)).getValue(0));
-        if (lg.equals(0L)) {
-            return false;
-        }
-        return true;
+        return countRowsInTable(tableName) == 0 ? false : true;
     }
 
     protected final boolean isTestDataPresent() {

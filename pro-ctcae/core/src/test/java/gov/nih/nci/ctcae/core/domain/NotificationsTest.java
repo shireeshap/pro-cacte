@@ -3,6 +3,8 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 
 import java.util.*;
@@ -22,7 +24,8 @@ public class NotificationsTest extends TestDataManager {
         UserNotification userNotification = new UserNotification();
         userNotification.setNew(true);
         userNotification.setUser(user);
-        userNotification.setStudyTitle("MyTestStudy");
+        userNotification.setStudy(StudyTestHelper.getDefaultStudy());
+        userNotification.setParticipant(ParticipantTestHelper.getDefaultParticipant());
         notification.addUserNotification(userNotification);
 
         Notification savedNotification = genericRepository.save(notification);
@@ -39,7 +42,8 @@ public class NotificationsTest extends TestDataManager {
         UserNotification un = found.getUserNotifications().get(0);
         assertEquals(true, un.isNew());
         assertEquals(user, userNotification.getUser());
-        assertEquals("MyTestStudy", userNotification.getStudyTitle());
+        assertEquals(StudyTestHelper.getDefaultStudy(), userNotification.getStudy());
+        assertEquals(ParticipantTestHelper.getDefaultParticipant(), userNotification.getParticipant());
         assertEquals(savedNotification, userNotification.getNotification());
         assertEquals(userNotification, un);
         assertEquals(userNotification.hashCode(), un.hashCode());

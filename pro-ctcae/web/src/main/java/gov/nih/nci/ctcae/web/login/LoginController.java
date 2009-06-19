@@ -1,11 +1,9 @@
 package gov.nih.nci.ctcae.web.login;
 
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.User;
-import gov.nih.nci.ctcae.core.domain.UserRole;
-import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.springframework.security.Authentication;
@@ -17,6 +15,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -24,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LoginController extends AbstractController {
     ClinicalStaffRepository clinicalStaffRepository;
+    UserRepository userRepository;
 
     protected LoginController() {
     }
@@ -49,7 +49,7 @@ public class LoginController extends AbstractController {
         ClinicalStaffQuery query = new ClinicalStaffQuery();
         query.filterByUserName(user.getUsername());
         ClinicalStaff clinicalStaff = clinicalStaffRepository.findSingle(query);
-
+        user = userRepository.findById(user.getId());
         if (clinicalStaff == null) {
             throw new CtcAeSystemException("User is neither a participant nor a clinical staff - " + user.getUsername());
         }
@@ -62,5 +62,10 @@ public class LoginController extends AbstractController {
     @Required
     public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
         this.clinicalStaffRepository = clinicalStaffRepository;
+    }
+
+    @Required
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }

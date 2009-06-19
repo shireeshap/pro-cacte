@@ -30,9 +30,6 @@ public class UserNotification extends BaseVersionable {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "study_title", nullable = false)
-    private String studyTitle;
-
     @Column(name = "is_new", nullable = false)
     private boolean isNew;
 
@@ -43,6 +40,14 @@ public class UserNotification extends BaseVersionable {
     @JoinColumn(name = "notification_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
     private Notification notification;
+
+    @JoinColumn(name = "study_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    private Study study;
+
+    @JoinColumn(name = "participant_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    private Participant participant;
 
     public Integer getId() {
         return id;
@@ -68,14 +73,6 @@ public class UserNotification extends BaseVersionable {
         this.notification = notification;
     }
 
-    public String getStudyTitle() {
-        return studyTitle;
-    }
-
-    public void setStudyTitle(String studyTitle) {
-        this.studyTitle = studyTitle;
-    }
-
     public boolean isNew() {
 
         return isNew;
@@ -83,6 +80,22 @@ public class UserNotification extends BaseVersionable {
 
     public void setNew(boolean aNew) {
         isNew = aNew;
+    }
+
+    public Study getStudy() {
+        return study;
+    }
+
+    public void setStudy(Study study) {
+        this.study = study;
+    }
+
+    public Participant getParticipant() {
+        return participant;
+    }
+
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
     }
 
     @Override
@@ -94,7 +107,8 @@ public class UserNotification extends BaseVersionable {
 
         if (isNew != that.isNew) return false;
         if (!notification.equals(that.notification)) return false;
-        if (!studyTitle.equals(that.studyTitle)) return false;
+        if (!participant.equals(that.participant)) return false;
+        if (!study.equals(that.study)) return false;
         if (!user.equals(that.user)) return false;
 
         return true;
@@ -102,10 +116,11 @@ public class UserNotification extends BaseVersionable {
 
     @Override
     public int hashCode() {
-        int result = studyTitle.hashCode();
-        result = 31 * result + (isNew ? 1 : 0);
+        int result = (isNew ? 1 : 0);
         result = 31 * result + user.hashCode();
         result = 31 * result + notification.hashCode();
+        result = 31 * result + study.hashCode();
+        result = 31 * result + participant.hashCode();
         return result;
     }
 }
