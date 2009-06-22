@@ -55,7 +55,11 @@
                              style="float:left;margin-right:2px;margin-left:2px;color:#ff3300;font-weight:bold;"><c:if
                                 test="${usernotification.new}">*</c:if><c:if
                                 test="${!usernotification.new}">&nbsp;</c:if></div>
-                        <div style="float:left">${usernotification.participant.displayName}</div>
+                        <div style="float:left">
+                            <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
+                                <a href="reports/participantCareMonitor?sid=${usernotification.studyParticipantCrfSchedule.id}" class="link">${usernotification.participant.displayName}</a>
+                            </proctcae:urlAuthorize>
+                        </div>
                     </td>
                     <td class="data">
                         <c:choose>

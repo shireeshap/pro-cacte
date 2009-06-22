@@ -2,11 +2,16 @@ var hasError = false;
 var displaySymptom = true;
 var displayDate = true;
 var studySiteMandatory = false;
-
+var displayParticipants = false;
+var selectedCrf = '';
 Event.observe(window, "load", function () {
     var studyAutoCompleter = new studyAutoComplter('study');
     acCreateStudyMonitor(studyAutoCompleter);
     initSearchField();
+    try {
+        initializeFields();
+    } catch(e) {
+    }
 })
 
 function acCreateStudyMonitor(mode) {
@@ -17,18 +22,20 @@ function acCreateStudyMonitor(mode) {
             acPostSelect(mode, selectedChoice);
             displayForms();
             displaySites();
+            fnDisplayParticipants();
         },
         indicator: mode.basename + "-indicator"
     })
 }
 
 
-function displayForms() {
+function displayForms(crfid) {
+    selectedCrf= crfid;
     var id = $('study').value
     crf.getReducedCrfs(id, updateFormDropDown)
 }
 
-function populate(ele, values, itext, ivalue) {
+function populate(ele, values, itext, ivalue,selectedValue) {
     var option = new Element('OPTION', {});
     option.text = 'Please select';
     option.value = '';
@@ -46,13 +53,17 @@ function populate(ele, values, itext, ivalue) {
         } else {
             option.value = value;
         }
+
+        if(option.value == selectedValue){
+            option.selected=true;
+        }
         ele.appendChild(option);
     }
 }
 
 function updateFormDropDown(crfs) {
     var dd = getSelect('form');
-    populate(dd, crfs, 'title', 'id');
+    populate(dd, crfs, 'title', 'id',selectedCrf);
     $('formDropDownDiv').show();
     $('search').show();
     if (displaySymptom) {
@@ -141,6 +152,9 @@ function performValidations() {
     if (studySiteMandatory) {
         arr[5] = 'studySite';
     }
+    if (displayParticipants) {
+        arr[6] = 'participant';
+    }
 
     for (var i = 0; i < arr.length; i++) {
         validateField(arr[i]);
@@ -207,4 +221,19 @@ function getSelect(id) {
         }
     }
     return dropDown;
+}
+
+function fnDisplayParticipants() {
+    if (displayParticipants) {
+        var myParticipantAutoCompleter = new participantAutoCompleter
+                ('participant', function(autocompleter, text) {
+                    participant.matchParticipantByStudySiteId(text,
+                            $('studySite').value, $('study').value, function(values) {
+                        autocompleter.setChoices(values)
+                    })
+                });
+        acCreate(myParticipantAutoCompleter);
+        initSearchField();
+        $('participantAutoCompleterDiv').show();
+    }
 }

@@ -330,6 +330,7 @@
 
     <bean name="/reports/participantCareMonitor" id="participantCareMonitorController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareMonitorController">
+        <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
 
     <bean name="/admin/meddra/meddra_import" id="importMeddraController"

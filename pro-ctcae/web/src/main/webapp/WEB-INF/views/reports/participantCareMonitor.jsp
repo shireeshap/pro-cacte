@@ -15,239 +15,125 @@
 
 <html>
 <head>
-<tags:dwrJavascriptLink objects="crf"/>
-<tags:dwrJavascriptLink objects="participant"/>
-<tags:includePrototypeWindow/>
-<tags:includeScriptaculous/>
-<script type="text/javascript">
-Event.observe(window, "load", function () {
-    var studyAutoCompleter = new studyAutoComplter('study');
-    acCreateStudyMonitor(studyAutoCompleter);
-    initSearchField();
-})
-
-function acCreateStudyMonitor(mode) {
-    new Autocompleter.DWR(mode.basename + "-input", mode.basename +
-                                                    "-choices",
-            mode.populator, {
-        valueSelector: mode.valueSelector,
-        afterUpdateElement: function(inputElement, selectedElement,
-                                     selectedChoice) {
-            acPostSelect(mode, selectedChoice);
-            displayForms();
+    <tags:dwrJavascriptLink objects="crf"/>
+    <tags:dwrJavascriptLink objects="participant"/>
+    <tags:includePrototypeWindow/>
+    <tags:includeScriptaculous/>
+    <tags:javascriptLink name="reports_common"/>
+    <script type="text/javascript">
+        displayParticipants = true;
+        displaySymptom = false;
+        studySiteMandatory = true;
+        function initializeFields() {
+        <c:if test="${study ne null}">
+            initializeAutoCompleter('study', '${study.displayName}', ${study.id});
+            displayForms(${crf.id});
             displaySites();
-            displayParticipants();
-        },
-        indicator: mode.basename + "-indicator"
-    })
-
-}
-function displayForms() {
-    var id = $('study').value
-    crf.getReducedCrfs(id, updateFormDropDown)
-}
-
-function clearDiv(divid) {
-    var children = $(divid).childElements();
-    for (i = 0; i < children.length; i++) {
-        $(children[i]).remove();
-    }
-}
-
-function updateFormDropDown(crfs) {
-    //clearDiv('formDropDown');
-    $('displayParticipantCareResults').hide();
-    var formDropDown = new Element('SELECT', {'id':'formSelect'})
-
-    for (var i = 0; i < crfs.length; i++) {
-        var crf = crfs[i];
-        var option = new Element('OPTION', {});
-        option.text = crf.title;
-        option.value = crf.id;
-        formDropDown.appendChild(option);
-    }
-
-    $('formDropDown').appendChild(formDropDown);
-    $('formDropDownDiv').show();
-    $('dateMenuDiv').show();
-    $('search').show();
-}
-
-
-function displaySites() {
-
-    organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
-        var siteNum = values.length;
-        var myStudySiteAutoComplter = new studySiteAutoComplter
-                ('studySite', $('study').value);
-        acCreate(myStudySiteAutoComplter);
-        initSearchField();
-        if (siteNum > 1) {
-            $('studySiteAutoCompleterDiv').show();
-        } else {
-            $('studySite').value = values[0].id;
-            $('studySiteName').innerHTML = values[0].displayName;
-            $('studySiteDiv').show();
+            initializeAutoCompleter('studySite', '${studySite.displayName}', ${studySite.id});
+            fnDisplayParticipants();
+            initializeAutoCompleter('participant', '${participant.displayName}', ${participant.id});
+            setTimeout("participantCareResults();", 2000);
+        </c:if>
         }
-    })
-}
+        function participantCareResults(format, symptomId, selectedTypes) {
+            if (!performValidations()) {
+                return;
+            }
+            if(typeof(format) == 'undefined'){
+                format = 'tabular';
+            }
+            var studyId = $('study').value;
+            var forVisits = $('visits').value;
+            var crfSelect = $('formSelect');
+            var crfId = crfSelect.options[crfSelect.selectedIndex].value;
 
-function displayParticipants() {
-    var myParticipantAutoCompleter = new participantAutoCompleter
-            ('participant', function(autocompleter, text) {
-                participant.matchParticipantByStudySiteId(text,
-                        $('studySite').value, $('study').value, function(values) {
-                    autocompleter.setChoices(values)
+            var visitRangeSelect = $('visitOptions');
+            var visitRange = visitRangeSelect.options
+                    [visitRangeSelect.selectedIndex].value;
+
+            var studySiteId = $('studySite').value;
+            var participantId = $('participant').value;
+            if (visitRange == 'currentPrev' || visitRange == 'currentLast') {
+                forVisits = "2";
+            }
+            if (visitRange == 'lastFour') {
+                forVisits = "4";
+            }
+            if (visitRange == 'all' || visitRange == 'dateRange') {
+                forVisits = "-1";
+            }
+            var stDate = $('startDate').value;
+            var endDate = $('endDate').value;
+            if (format == 'tabular') {
+                showIndicator();
+                var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResults"/>", {
+                    parameters:"studyId=" + studyId + "&crfId=" + crfId +
+                               "&studySiteId=" + studySiteId + "&participantId=" + participantId +
+                               "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate + "&endDate=" + endDate +
+                               "&subview=subview",
+                    onComplete:function(transport) {
+                        showResultsTable(transport);
+                        hideIndicator();
+                    },
+                    method:'get'
                 })
-            });
-    acCreate(myParticipantAutoCompleter);
-    initSearchField();
-    $('participantAutoCompleterDiv').show();
-}
-
-function customVisit(showVisit) {
-    var myindex = showVisit.selectedIndex
-    var selValue = showVisit.options[myindex].value
-    if (selValue == "custom") {
-        $('visitNum').show();
-    } else {
-        $('visitNum').hide();
-    }
-    if (selValue == "dateRange") {
-        $('dateRange').show();
-    } else {
-        $('dateRange').hide();
-    }
-
-}
-var hasError = false;
-function showError(element) {
-    hasError = true;
-    removeError(element);
-    new Insertion.Bottom(element.parentNode, " <ul id='" + element.name + "-msg'class='errors'><li>" + 'Missing ' + element.title + "</li></ul>");
-}
-function removeError(element) {
-    msgId = element.name + "-msg"
-    $(msgId) != null ? new Element.remove(msgId) : null
-}
-
-function showIndicator() {
-    $('indicator').style.visibility = 'visible';
-}
-function hideIndicator() {
-    $('indicator').style.visibility = 'hidden';
-}
-function participantCareResults(format, symptomId, selectedTypes) {
-    hasError = false;
-
-    var studyId = $('study').value;
-    var forVisits = $('visits').value;
-
-    var crfSelect = $('formSelect');
-    var crfId = crfSelect.options[crfSelect.selectedIndex].value;
-
-    var visitRangeSelect = $('visitOptions');
-    var visitRange = visitRangeSelect.options
-            [visitRangeSelect.selectedIndex].value;
-
-    var studySiteId = $('studySite').value;
-    if (studySiteId == '') {
-        showError($('studySite'));
-    } else {
-        removeError($('studySite'));
-    }
-    var participantId = $('participant').value;
-    if (participantId == '') {
-        showError($('participant'));
-    } else {
-        removeError($('participant'));
-    }
-
-    if (visitRange == 'currentPrev' || visitRange == 'currentLast') {
-        forVisits = "2";
-    }
-
-    if (visitRange == 'lastFour') {
-        forVisits = "4";
-    }
-    if (visitRange == 'all' || visitRange == 'dateRange') {
-        forVisits = "-1";
-    }
-    var stDate = $('startDate').value;
-    var endDate = $('endDate').value;
-    if (hasError) {
-        return;
-    }
-    if (format == 'tabular') {
-        showIndicator();
-        var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResults"/>", {
-            parameters:"studyId=" + studyId + "&crfId=" + crfId +
-                       "&studySiteId=" + studySiteId + "&participantId=" + participantId +
-                       "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate + "&endDate=" + endDate +
-                       "&subview=subview",
-            onComplete:function(transport) {
-                showResultsTable(transport);
-                hideIndicator();
-            },
-            method:'get'
-        })
-    }
-    if (format == 'graphical') {
-        if (typeof(selectedTypes) == 'undefined') {
-            selectedTypes = '';
+            }
+            if (format == 'graphical') {
+                if (typeof(selectedTypes) == 'undefined') {
+                    selectedTypes = '';
+                }
+                var url = "<c:url value='/pages/reports/participantCareResultsGraph'/>" + "?symptomId=" + symptomId +
+                          "&selectedTypes=" + selectedTypes +
+                          "&subview=subview";
+                $('graph').src = url;
+            }
         }
-        var url = "<c:url value='/pages/reports/participantCareResultsGraph'/>" + "?symptomId=" + symptomId +
-                  "&selectedTypes=" + selectedTypes +
-                  "&subview=subview";
-        $('graph').src = url;
-    }
-}
 
-function showResultsTable(transport) {
-    $('displayParticipantCareResults').show();
-    $('displayResultsTable').innerHTML = transport.responseText;
-}
-
-function getChartView() {
-    $('careResultsTable').hide();
-    $('careResultsGraph').show();
-}
-function getTableView() {
-    $('careResultsTable').show();
-    $('careResultsGraph').hide();
-}
-function getChart(symptomId) {
-    var obj = document.getElementsByName('div_questiontype');
-    for (var i = 0; i < obj.length; i++) {
-        obj[i].hide();
-    }
-    var obj1 = document.getElementsByName('questiontype_' + symptomId);
-    if (obj1.length > 1) {
-        $('div_questiontype_' + symptomId).show();
-    }
-    participantCareResults('graphical', symptomId);
-}
-function updateChart(chkbox, symptomId) {
-    var obj = document.getElementsByName('questiontype_' + symptomId);
-    var selectedTypes = '';
-    for (var i = 0; i < obj.length; i++) {
-        if (obj[i].checked) {
-            selectedTypes = selectedTypes + ',' + obj[i].value;
+        function showResultsTable(transport) {
+            $('displayParticipantCareResults').show();
+            $('displayResultsTable').innerHTML = transport.responseText;
         }
-    }
-    if (selectedTypes == '') {
-        alert('Please select at least one question type.');
-        chkbox.checked = true;
-        return;
-    }
-    participantCareResults('graphical', symptomId, selectedTypes);
-}
 
-function hideHelp() {
-    $('attribute-help-content').style.display = 'none';
-}
+        function getChartView() {
+            $('careResultsTable').hide();
+            $('careResultsGraph').show();
+        }
+        function getTableView() {
+            $('careResultsTable').show();
+            $('careResultsGraph').hide();
+        }
+        function getChart(symptomId) {
+            var obj = document.getElementsByName('div_questiontype');
+            for (var i = 0; i < obj.length; i++) {
+                obj[i].hide();
+            }
+            var obj1 = document.getElementsByName('questiontype_' + symptomId);
+            if (obj1.length > 1) {
+                $('div_questiontype_' + symptomId).show();
+            }
+            participantCareResults('graphical', symptomId);
+        }
+        function updateChart(chkbox, symptomId) {
+            var obj = document.getElementsByName('questiontype_' + symptomId);
+            var selectedTypes = '';
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i].checked) {
+                    selectedTypes = selectedTypes + ',' + obj[i].value;
+                }
+            }
+            if (selectedTypes == '') {
+                alert('Please select at least one question type.');
+                chkbox.checked = true;
+                return;
+            }
+            participantCareResults('graphical', symptomId, selectedTypes);
+        }
 
-</script>
+        function hideHelp() {
+            $('attribute-help-content').style.display = 'none';
+        }
+
+    </script>
 </head>
 <body>
 <chrome:box title="participant.label.search_criteria">
