@@ -27,6 +27,15 @@
                 method:'get'
             })
         }
+        function completedForm(id) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
+                parameters:"id=" + id + "&subview=subview",
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 700, 500);
+                },
+                method:'get'
+            })
+        }
     </script>
 </head>
 <body>
@@ -57,7 +66,8 @@
                                 test="${!usernotification.new}">&nbsp;</c:if></div>
                         <div style="float:left">
                             <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
-                                <a href="reports/participantCareMonitor?sid=${usernotification.studyParticipantCrfSchedule.id}" class="link">${usernotification.participant.displayName}</a>
+                                <a href="reports/participantCareMonitor?sid=${usernotification.studyParticipantCrfSchedule.id}"
+                                   class="link">${usernotification.participant.displayName}</a>
                             </proctcae:urlAuthorize>
                         </div>
                     </td>
@@ -73,7 +83,9 @@
                         </fn>
                     </td>
                     <td class="data">
-                        <tags:formatDate value="${usernotification.notification.date}"/>
+                        <a class="link"
+                           href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
+                                value="${usernotification.notification.date}"/></a>
                     </td>
                     <td class="data">
                         <a class="link" href="javascript:showMessage('${usernotification.id}');">This is an auto..</a>
