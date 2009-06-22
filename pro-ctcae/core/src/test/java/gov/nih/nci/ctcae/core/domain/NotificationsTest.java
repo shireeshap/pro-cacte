@@ -25,6 +25,9 @@ public class NotificationsTest extends TestDataManager {
         userNotification.setNew(true);
         userNotification.setUser(user);
         userNotification.setStudy(StudyTestHelper.getDefaultStudy());
+        userNotification.setMarkDelete(false);
+        String uuid = UUID.randomUUID().toString();
+        userNotification.setUuid(uuid);
         userNotification.setParticipant(ParticipantTestHelper.getDefaultParticipant());
         notification.addUserNotification(userNotification);
 
@@ -43,6 +46,8 @@ public class NotificationsTest extends TestDataManager {
         assertEquals(true, un.isNew());
         assertEquals(user, userNotification.getUser());
         assertEquals(StudyTestHelper.getDefaultStudy(), userNotification.getStudy());
+        assertEquals(false, userNotification.isMarkDelete());
+        assertEquals(uuid, userNotification.getUuid());
         assertEquals(ParticipantTestHelper.getDefaultParticipant(), userNotification.getParticipant());
         assertEquals(savedNotification, userNotification.getNotification());
         assertEquals(userNotification, un);

@@ -12,6 +12,8 @@ class CreateotificationsTable extends edu.northwestern.bioinformatics.bering.Mig
             t.addColumn("study_id", "integer", nullable: false)
             t.addColumn("participant_id", "integer", nullable: false)
             t.addColumn("is_new", "boolean", nullable: false)
+            t.addColumn("mark_delete", "boolean", nullable: false)
+            t.addColumn("uuid", "string", nullable: true)
             t.addVersionColumn()
         }
 

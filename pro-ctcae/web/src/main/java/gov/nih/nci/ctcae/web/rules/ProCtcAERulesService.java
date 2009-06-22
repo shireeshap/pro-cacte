@@ -25,39 +25,14 @@ public class ProCtcAERulesService {
     static RulesEngineService rulesEngineService;
     static BusinessRulesExecutionService ruleExecutionService;
 
-    private static String getPackageNameForCrf(CRF crf) {
-        String packageName = RuleUtil.getPackageName(RuleSetType.FORM_LEVEL.getPackagePrefix(), "Study_" + crf.getStudy().getId().toString(), "Form_" + crf.getId().toString());
-        return packageName;
-    }
-
     public static RuleSet getExistingRuleSetForCrf(CRF crf) {
         String packageName = getPackageNameForCrf(crf);
-        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
-        return ruleSet;
+        return ruleAuthoringService.getRuleSet(packageName, true);
     }
 
-
-    @Required
-    public void setRuleAuthoringService(RuleAuthoringService ruleAuthoringService) {
-        this.ruleAuthoringService = ruleAuthoringService;
-    }
-
-    @Required
-    public void setRulesEngineService(RulesEngineService rulesEngineService) {
-        ProCtcAERulesService.rulesEngineService = rulesEngineService;
-    }
-
-    @Required
-    public void setRuleExecutionService(BusinessRulesExecutionService ruleExecutionService) {
-        ProCtcAERulesService.ruleExecutionService = ruleExecutionService;
-    }
 
     public static void createRule(Rule rule) {
         ruleAuthoringService.createRule(rule);
-    }
-
-    public static void exportRuleSet(RuleSet ruleSet) throws Exception {
-        rulesEngineService.exportRule(ruleSet.getName(), "/etc/proctcae");
     }
 
     public static Rule createRule(RuleSet ruleSet, String ruleName, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {
@@ -91,6 +66,47 @@ public class ProCtcAERulesService {
         ruleSet.getRule().add(rule);
         createRule(rule);
         return rule;
+    }
+
+    public static RuleSet deleteExistingAndGetNewRuleSetForSite(CRF crf, StudyOrganization myOrg) throws Exception {
+        deleteExistingRuleSetForCrfAndSite(crf, myOrg);
+        String packageName = getPackageNameForCrfAndSite(crf, myOrg);
+        return createRuleSetForCrfAndSite(crf, myOrg, packageName);
+    }
+
+    public static RuleSet getExistingRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg) {
+        String packageName = getPackageNameForCrfAndSite(crf, myOrg);
+        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
+        if (ruleSet == null) {
+            ruleSet = getExistingRuleSetForCrf(crf);
+        }
+        return ruleSet;
+
+    }
+
+    public static boolean isSiteLevelRuleSet(RuleSet ruleSet) {
+        return ruleSet.getName().startsWith(RuleSetType.STUDY_SITE_LEVEL.getPackagePrefix());
+    }
+
+    public static List<Object> fireRules(List<Object> inputObjects, String bindURI) {
+
+        List<Object> outputObjects;
+        outputObjects = ruleExecutionService.fireRules(bindURI, inputObjects);
+        return outputObjects;
+    }
+
+    public static void deployRuleSet(RuleSet ruleSet) throws Exception {
+        rulesEngineService.deployRuleSet(ruleSet);
+    }
+
+    public static RuleSet deleteExistingAndGetNewRuleSetForCrf(CRF crf) throws Exception {
+        deleteExistingRuleSetForCrf(crf);
+        String packageName = getPackageNameForCrf(crf);
+        return createRuleSetForCrf(crf, packageName);
+    }
+
+    private static String getPackageNameForCrf(CRF crf) {
+        return RuleUtil.getPackageName(RuleSetType.FORM_LEVEL.getPackagePrefix(), "Study_" + crf.getStudy().getId().toString(), "Form_" + crf.getId().toString());
     }
 
     private static Column getColumnForValidValue(String questionType, String operator, String value, int index) {
@@ -184,13 +200,6 @@ public class ProCtcAERulesService {
         }
     }
 
-    public static RuleSet deleteExistingAndGetNewRuleSetForCrf(CRF crf) throws Exception {
-        deleteExistingRuleSetForCrf(crf);
-        String packageName = getPackageNameForCrf(crf);
-        RuleSet ruleSet = createRuleSetForCrf(crf, packageName);
-        return ruleSet;
-    }
-
     private static RuleSet createRuleSetForCrf(CRF crf, String packageName) {
         RuleSet ruleSet = new RuleSet();
         ruleSet.setName(packageName);
@@ -198,17 +207,10 @@ public class ProCtcAERulesService {
         ruleSet.setDescription("RuleSet for Study: " + crf.getStudy().getShortTitle() + ", CRF: " + crf.getTitle());
         ruleSet.setSubject("Form Rules||" + crf.getStudy().getShortTitle() + "||" + crf.getTitle());
         ruleSet.setCoverage("Not Enabled");
-        List imports = new ArrayList();
+        List<String> imports = new ArrayList<String>();
         imports.add("gov.nih.nci.ctcae.core.domain.*");
         ruleSet.setImport(imports);
         ruleAuthoringService.createRuleSet(ruleSet);
-        return ruleSet;
-    }
-
-    public static RuleSet deleteExistingAndGetNewRuleSetForSite(CRF crf, StudyOrganization myOrg) throws Exception {
-        deleteExistingRuleSetForCrfAndSite(crf, myOrg);
-        String packageName = getPackageNameForCrfAndSite(crf, myOrg);
-        RuleSet ruleSet = createRuleSetForCrfAndSite(crf, myOrg, packageName);
         return ruleSet;
     }
 
@@ -232,34 +234,25 @@ public class ProCtcAERulesService {
         }
     }
 
-    public static RuleSet getExistingRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg) {
-        String packageName = getPackageNameForCrfAndSite(crf, myOrg);
-        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
-        if (ruleSet == null) {
-            ruleSet = getExistingRuleSetForCrf(crf);
-        }
-        return ruleSet;
-
-    }
 
     private static String getPackageNameForCrfAndSite(CRF crf, StudyOrganization myOrg) {
-        String packageName = RuleUtil.getPackageName(RuleSetType.STUDY_SITE_LEVEL.getPackagePrefix(), "Study_" + crf.getStudy().getId().toString(), "Form_" + crf.getId().toString() + ".StudySite_" + myOrg.getId().toString());
-        return packageName;
+        return RuleUtil.getPackageName(RuleSetType.STUDY_SITE_LEVEL.getPackagePrefix(), "Study_" + crf.getStudy().getId().toString(), "Form_" + crf.getId().toString() + ".StudySite_" + myOrg.getId().toString());
     }
 
-    public static boolean isSiteLevelRuleSet(RuleSet ruleSet) {
-        return ruleSet.getName().startsWith(RuleSetType.STUDY_SITE_LEVEL.getPackagePrefix());
+    @Required
+    public void setRuleAuthoringService(RuleAuthoringService ruleAuthoringService) {
+        ProCtcAERulesService.ruleAuthoringService = ruleAuthoringService;
     }
 
-    public static List<Object> fireRules(List<Object> inputObjects, String bindURI) {
-
-        List<Object> outputObjects = null;
-        outputObjects = ruleExecutionService.fireRules(bindURI, inputObjects);
-        return outputObjects;
+    @Required
+    public void setRulesEngineService(RulesEngineService rulesEngineService) {
+        ProCtcAERulesService.rulesEngineService = rulesEngineService;
     }
 
-    public static void deployRuleSet(RuleSet ruleSet) throws Exception {
-        rulesEngineService.deployRuleSet(ruleSet);
+    @Required
+    public void setRuleExecutionService(BusinessRulesExecutionService ruleExecutionService) {
+        ProCtcAERulesService.ruleExecutionService = ruleExecutionService;
     }
+
 
 }

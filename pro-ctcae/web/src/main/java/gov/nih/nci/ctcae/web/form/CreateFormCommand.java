@@ -390,7 +390,6 @@ public class CreateFormCommand implements Serializable {
                 }
             }
             ProCtcAERulesService.deployRuleSet(ruleSet);
-            ProCtcAERulesService.exportRuleSet(ruleSet);
         }
     }
 

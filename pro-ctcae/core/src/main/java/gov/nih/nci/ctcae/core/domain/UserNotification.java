@@ -31,7 +31,13 @@ public class UserNotification extends BaseVersionable {
     private Integer id;
 
     @Column(name = "is_new", nullable = false)
-    private boolean isNew;
+    private boolean isNew = true;
+
+    @Column(name = "mark_delete", nullable = false)
+    private boolean markDelete = false;
+
+    @Column(name = "uuid", nullable = true)
+    private String uuid;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
@@ -98,6 +104,31 @@ public class UserNotification extends BaseVersionable {
         this.participant = participant;
     }
 
+
+    public boolean isMarkDelete() {
+        return markDelete;
+    }
+
+    public boolean getMarkDelete() {
+        return isMarkDelete();
+    }
+
+    public void setMarkDelete(boolean markDelete) {
+        this.markDelete = markDelete;
+    }
+
+    public boolean getIsNew() {
+        return isNew();
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,10 +137,12 @@ public class UserNotification extends BaseVersionable {
         UserNotification that = (UserNotification) o;
 
         if (isNew != that.isNew) return false;
+        if (markDelete != that.markDelete) return false;
         if (!notification.equals(that.notification)) return false;
         if (!participant.equals(that.participant)) return false;
         if (!study.equals(that.study)) return false;
         if (!user.equals(that.user)) return false;
+        if (uuid != null ? !uuid.equals(that.uuid) : that.uuid != null) return false;
 
         return true;
     }
@@ -117,14 +150,12 @@ public class UserNotification extends BaseVersionable {
     @Override
     public int hashCode() {
         int result = (isNew ? 1 : 0);
+        result = 31 * result + (markDelete ? 1 : 0);
+        result = 31 * result + (uuid != null ? uuid.hashCode() : 0);
         result = 31 * result + user.hashCode();
         result = 31 * result + notification.hashCode();
         result = 31 * result + study.hashCode();
         result = 31 * result + participant.hashCode();
         return result;
-    }
-
-    public boolean getIsNew() {
-        return isNew();
     }
 }
