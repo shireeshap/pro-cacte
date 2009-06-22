@@ -398,12 +398,10 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddQuestionByParticipantC
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AdvanceFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AllConditionsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/BasicFormController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CRFLinkDisplayDetailsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CalendarTemplateTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CopyFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CreateFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfAjaxFacade.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfDisplayVersionsCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcAeSecuredTabbedFlowController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcCAtegoryComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/DeleteFormController.java -text
@@ -1161,7 +1159,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddConditionalQuestionCon
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddCrfComponentControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AllConditionsControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/BasicFormControllerTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CRFLinkDisplayDetailsCellTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CopyFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CreateFormCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/CrfAjaxFacadeIntegrationTest.java -text
