@@ -65,7 +65,7 @@
             color: white;
         }
 
-        #formStatusTable, #careResultsTable {
+        #careResultsTable {
                /*text-align: center;*/
                    overflow-x: scroll;
                }
@@ -88,7 +88,6 @@
 </head>
 <body>
 <span id="attribute-help-content" class="hint" style="display: none;">
-    <div id="formStatusTable">
     <table class="widget" cellspacing="0" width="100%" align="center">
         <tr>
             <td colspan="6" align="right">
@@ -117,7 +116,6 @@
 
         </c:forEach>
     </table>
-        </div>
 </span>
 <chrome:box title="Report">
 
