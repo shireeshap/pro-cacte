@@ -5,10 +5,14 @@ import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
+import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.UUID;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User: Harsh
@@ -28,7 +32,6 @@ public class ParticipantTestHelper {
         participantRepository = TestDataManager.participantRepository;
         crfRepository = TestDataManager.crfRepository;
         genericRepository = TestDataManager.genericRepository;
-
     }
 
     public static void createDefaultParticipants() throws ParseException {
@@ -43,8 +46,19 @@ public class ParticipantTestHelper {
         createParticipant("Charles", "Widmore", "2-2", ss2);
         createParticipant("Hugo", "Hurley", "2-3", ss2);
 
-        createNotifications(StudyTestHelper.getDefaultStudy().getCrfs().get(0));
+        completeParticipantSchedule(getDefaultParticipant(), ss1);
 
+    }
+
+    private static void completeParticipantSchedule(Participant participant, StudySite ss1) {
+        StudyParticipantCrfSchedule schedule = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(0);
+        for (StudyParticipantCrfItem studyParticipantCrfItem : schedule.getStudyParticipantCrfItems()) {
+            List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
+            studyParticipantCrfItem.setProCtcValidValue(validValues.get(validValues.size() - 1));
+        }
+        genericRepository.save(schedule);
+        NotificationsEvaluationService.setGenericRepository(genericRepository);
+        NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
 
     }
 
@@ -134,47 +148,47 @@ public class ParticipantTestHelper {
         return participantRepository.findSingle(query);
     }
 
-    private static void createNotifications(CRF crf) {
-        createUserNotification(StudyTestHelper.getNonLeadSiteStaffByRole(Role.SITE_CRA).getUser(), crf);
-        createUserNotification(StudyTestHelper.getNonLeadSiteStaffByRole(Role.SITE_CRA).getUser(), crf);
-    }
-
-    private static Notification createNotification() {
-        Notification notification = new Notification();
-        notification.setText("<html><head></head><body><table><tr><td><b></b>This is an auto-generated em" +
-                "ail from PRO-CTCAE system.</td></tr><tr><td><b>Participant name: </b>test t" +
-                "est[12-223]</td></tr><tr><td><b>Participant email: </b>Not specified</td></" +
-                "tr><tr><td><b>Participant contact phone: </b>1231231234</td></tr><tr><td><b" +
-                ">Study site: </b>Duke University Medical Center</td></tr><tr><td><b>Study: " +
-                "</b>Study 5[-1001]</td></tr><tr><td><b>Research nurse: </b>cs2duke cs2duke<" +
-                "/td></tr><tr><td><b>Treating physician: </b>cs1duke cs1duke</td></tr></tabl" +
-                "e><br>This notification was triggered by following responses: <br><br><tabl" +
-                "e border=3D\"1\"><tr><td><b>Symptom</b></td><td><b>Attribute</b></td><td><b>C" +
-                "urrent visit (05/12/2009)</b></td><td><b>First visit (05/08/2009)</b></td><" +
-                "td><b>Previous visit (05/11/2009)</b></td></tr><tr><td>Pounding or racing h" +
-                "eartbeat (palpitations)</td><td>Frequency</td><td>Frequently</td><td>Occasi" +
-                "onally</td><td>Almost Constantly</td></tr><tr><td>Pounding or racing heartb" +
-                "eat (palpitations)</td><td>Severity</td><td>Severe</td><td>Severe</td><td>V" +
-                "ery severe</td></tr><tr><td>Fatigue (tiredness, lack of energy)</td><td>Sev" +
-                "erity</td><td>Severe</td><td>None</td><td>Very severe</td></tr><tr><td>Fati" +
-                "gue (tiredness, lack of energy)</td><td>Interference</td><td>Very much</td>" +
-                "<td></td><td>Very much</td></tr></table></body></html>");
-        notification.setDate(new Date());
-        return notification;
-    }
-
-    private static void createUserNotification(User user, CRF crf) {
-        UserNotification userNotification = new UserNotification();
-        userNotification.setNew(true);
-        userNotification.setUser(user);
-        userNotification.setStudy(crf.getStudy());
-        userNotification.setUuid(UUID.randomUUID().toString());
-        userNotification.setStudyParticipantCrfSchedule(ParticipantTestHelper.getDefaultParticipant().getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(0));
-        userNotification.setParticipant(ParticipantTestHelper.findParticpantByUserName("charlie.boon"));
-        Notification notification = createNotification();
-        notification.addUserNotification(userNotification);
-        genericRepository.save(notification);
-    }
+//    private static void createNotifications(CRF crf) {
+//        createUserNotification(StudyTestHelper.getNonLeadSiteStaffByRole(Role.SITE_CRA).getUser(), crf);
+//        createUserNotification(StudyTestHelper.getNonLeadSiteStaffByRole(Role.SITE_CRA).getUser(), crf);
+//    }
+//
+//    private static Notification createNotification() {
+//        Notification notification = new Notification();
+//        notification.setText("<html><head></head><body><table><tr><td><b></b>This is an auto-generated em" +
+//                "ail from PRO-CTCAE system.</td></tr><tr><td><b>Participant name: </b>test t" +
+//                "est[12-223]</td></tr><tr><td><b>Participant email: </b>Not specified</td></" +
+//                "tr><tr><td><b>Participant contact phone: </b>1231231234</td></tr><tr><td><b" +
+//                ">Study site: </b>Duke University Medical Center</td></tr><tr><td><b>Study: " +
+//                "</b>Study 5[-1001]</td></tr><tr><td><b>Research nurse: </b>cs2duke cs2duke<" +
+//                "/td></tr><tr><td><b>Treating physician: </b>cs1duke cs1duke</td></tr></tabl" +
+//                "e><br>This notification was triggered by following responses: <br><br><tabl" +
+//                "e border=3D\"1\"><tr><td><b>Symptom</b></td><td><b>Attribute</b></td><td><b>C" +
+//                "urrent visit (05/12/2009)</b></td><td><b>First visit (05/08/2009)</b></td><" +
+//                "td><b>Previous visit (05/11/2009)</b></td></tr><tr><td>Pounding or racing h" +
+//                "eartbeat (palpitations)</td><td>Frequency</td><td>Frequently</td><td>Occasi" +
+//                "onally</td><td>Almost Constantly</td></tr><tr><td>Pounding or racing heartb" +
+//                "eat (palpitations)</td><td>Severity</td><td>Severe</td><td>Severe</td><td>V" +
+//                "ery severe</td></tr><tr><td>Fatigue (tiredness, lack of energy)</td><td>Sev" +
+//                "erity</td><td>Severe</td><td>None</td><td>Very severe</td></tr><tr><td>Fati" +
+//                "gue (tiredness, lack of energy)</td><td>Interference</td><td>Very much</td>" +
+//                "<td></td><td>Very much</td></tr></table></body></html>");
+//        notification.setDate(new Date());
+//        return notification;
+//    }
+//
+//    private static void createUserNotification(User user, CRF crf) {
+//        UserNotification userNotification = new UserNotification();
+//        userNotification.setNew(true);
+//        userNotification.setUser(user);
+//        userNotification.setStudy(crf.getStudy());
+//        userNotification.setUuid(UUID.randomUUID().toString());
+//        userNotification.setStudyParticipantCrfSchedule(ParticipantTestHelper.getDefaultParticipant().getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(0));
+//        userNotification.setParticipant(ParticipantTestHelper.findParticpantByUserName("charlie.boon"));
+//        Notification notification = createNotification();
+//        notification.addUserNotification(userNotification);
+//        genericRepository.save(notification);
+//    }
 
 
 }

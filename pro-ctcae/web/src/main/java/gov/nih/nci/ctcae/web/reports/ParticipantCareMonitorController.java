@@ -11,6 +11,8 @@ import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;
 import gov.nih.nci.ctcae.core.domain.*;
 
+import java.util.Map;
+
 /**
  * @author Mehul Gulati
  *         Date: Apr 10, 2009
@@ -37,11 +39,12 @@ public class ParticipantCareMonitorController extends AbstractController {
             modelAndView.addObject("participant", participant);
             modelAndView.addObject("visits", "ALL");
         } else {
-            modelAndView.addObject("study", null);
-            modelAndView.addObject("crf", null);
-            modelAndView.addObject("studySite", null);
-            modelAndView.addObject("participant", null);
-            modelAndView.addObject("visits", 0);
+            Map m = modelAndView.getModel();
+            m.put("study", null);
+            m.put("crf", null);
+            m.put("studySite", null);
+            m.put("participant", null);
+            m.put("visits", 0);
         }
 
         return modelAndView;

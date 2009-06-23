@@ -14,6 +14,12 @@
             border-bottom: 1px solid #cccccc;
             padding-left: 15px;
         }
+        .bold {
+            font-weight:bold;
+        }
+        .bold a {
+            font-weight:bold;
+        }
     </style>
 
     <script type="text/javascript">
@@ -21,7 +27,7 @@
             var request = new Ajax.Request("<c:url value="/pages/home/notificationdetails"/>", {
                 parameters:"id=" + id + "&subview=subview",
                 onComplete:function(transport) {
-                    $('new_' + id).innerHTML = '&nbsp';
+                    $('tr_' + id).removeClassName('bold');
                     showConfirmationWindow(transport, 700, 500);
                 },
                 method:'get'
@@ -76,19 +82,22 @@
                     </tr>
                     <c:forEach items="${notifications}" var="usernotification">
                         <c:if test="${!usernotification.markDelete}">
-                            <tr>
+                            <c:choose>
+                                <c:when test="">
+                                    <tr id="tr_${usernotification.id}">
+                                </c:when>
+                                <c:otherwise>
+
+                                </c:otherwise>
+                            </c:choose>
+
+                            <tr id="tr_${usernotification.id}" <c:if test="${usernotification.new}">class="bold"</c:if>>
                                 <td class="data">
-                                    <div id="new_${usernotification.id}"
-                                         style="float:left;margin-right:2px;margin-left:2px;color:#ff3300;font-weight:bold;">
-                                        <c:if
-                                                test="${usernotification.new}">*</c:if><c:if
-                                            test="${!usernotification.new}">&nbsp;</c:if></div>
-                                    <div style="float:left">
-                                        <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
-                                            <a href="reports/participantCareMonitor?sid=${usernotification.studyParticipantCrfSchedule.id}"
-                                               class="link">${usernotification.participant.displayName}</a>
-                                        </proctcae:urlAuthorize>
-                                    </div>
+
+                                    <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
+                                        <a href="reports/participantCareMonitor?sid=${usernotification.studyParticipantCrfSchedule.id}"
+                                           class="link">${usernotification.participant.displayName}</a>
+                                    </proctcae:urlAuthorize>
                                 </td>
                                 <td class="data">
                                     <c:choose>

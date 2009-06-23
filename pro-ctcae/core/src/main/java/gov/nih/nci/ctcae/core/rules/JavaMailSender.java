@@ -1,4 +1,4 @@
-package gov.nih.nci.ctcae.web.rules;
+package gov.nih.nci.ctcae.core.rules;
 
 
 import org.apache.commons.lang.StringUtils;

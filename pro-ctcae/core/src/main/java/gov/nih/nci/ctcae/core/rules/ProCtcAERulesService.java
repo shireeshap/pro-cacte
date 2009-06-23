@@ -1,4 +1,4 @@
-package gov.nih.nci.ctcae.web.rules;
+package gov.nih.nci.ctcae.core.rules;
 
 import com.semanticbits.rules.api.BusinessRulesExecutionService;
 import com.semanticbits.rules.api.RuleAuthoringService;

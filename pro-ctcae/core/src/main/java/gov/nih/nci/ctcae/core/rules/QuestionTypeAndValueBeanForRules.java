@@ -1,4 +1,4 @@
-package gov.nih.nci.ctcae.web.rules;
+package gov.nih.nci.ctcae.core.rules;
 
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;

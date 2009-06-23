@@ -4,8 +4,9 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
+import gov.nih.nci.ctcae.core.rules.ProCtcAEFactResolver;
 import gov.nih.nci.ctcae.web.ListValues;
-import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
@@ -73,7 +74,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         map.put("crfSymptoms", ListValues.getSymptomsForCRF(command.getCrf()));
         map.put("questionTypes", ListValues.getQuestionTypes(command.getCrf()));
         map.put("comparisonOptions", ListValues.getComparisonOptions());
-        map.put("comparisonValues", ListValues.getComparisonValues(command.getCrf()));
+        map.put("comparisonValues", ProCtcAEFactResolver.getComparisonValues(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
         return map;
     }

@@ -81,6 +81,7 @@
 
         td.displayOrder4 {
             background-color: red;
+            color: white;
         }
 
         /* The hint to Hide and Show */

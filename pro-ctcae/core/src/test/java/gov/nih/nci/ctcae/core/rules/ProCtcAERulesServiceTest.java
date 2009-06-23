@@ -1,41 +1,36 @@
-package gov.nih.nci.ctcae.web.rules;
+package gov.nih.nci.ctcae.core.rules;
 
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import gov.nih.nci.ctcae.core.helper.CrfTestHelper;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.semanticbits.rules.brxml.RuleSet;
 
 /**
- * Created by IntelliJ IDEA.
  * User: Harsh
  * Date: Jun 19, 2009
  * Time: 11:26:16 AM
- * To change this template use File | Settings | File Templates.
  */
 public class ProCtcAERulesServiceTest extends TestDataManager {
-
-    public void testDummy(){
+    public void testDummy() {
 
     }
+
 //    CRF crf;
 //    Study study;
-//    ProCtcAERulesService proCtcAERulesService;
+//    List<String> symptoms = new ArrayList<String>();
+//    List<String> questiontypes = new ArrayList<String>();
+//    List<String> operators = new ArrayList<String>();
+//    List<String> values = new ArrayList<String>();
+//    List<String> notifications = new ArrayList<String>();
 //
-//
-//    @Override
-//    protected String[] getConfigLocations() {
-//        String[] locations = super.getConfigLocations();
-//        ArrayList<String> l = new ArrayList<String>(Arrays.asList(locations));
-//        l.add("classpath*:gov/nih/nci/ctcae/web/applicationContext-rules-services.xml");
-//        return l.toArray(new String[]{});
-//    }
 //
 //    @Override
 //    protected void onSetUpInTransaction() throws Exception {
@@ -59,9 +54,24 @@ public class ProCtcAERulesServiceTest extends TestDataManager {
 //    public void testCreateRule() throws Exception {
 //        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
 //
+//        symptoms.add("Migrane");
+//        symptoms.add("Pain");
+//
+//        questiontypes.add("Severity");
+//        operators.add("==");
+//        values.add("High");
+//
+//        questiontypes.add("Frequency");
+//        operators.add(">");
+//        values.add("Rare");
+//
+//        notifications.add("Nurse");
+//        notifications.add("Physician");
+//        assertEquals(0, ruleSet.getRule().size());
+//
+//        ProCtcAERulesService.createRule(ruleSet, "My Test Rule", symptoms, questiontypes, operators, values, notifications, "Y");
+//        ProCtcAERulesService.deployRuleSet(ruleSet);
+//        assertEquals(1, ruleSet.getRule().size());
 //    }
-//    @Required
-//    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
-//        this.proCtcAERulesService = proCtcAERulesService;
-//    }
+//
 }

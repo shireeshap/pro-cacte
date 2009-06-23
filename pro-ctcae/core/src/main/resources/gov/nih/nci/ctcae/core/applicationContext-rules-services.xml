@@ -43,7 +43,7 @@
         <property name="ruleAuthoringService" ref="ruleAuthoringService"/>
         <property name="ruleDeploymentService" ref="ruleDeploymentService"/>
     </bean>
-    <bean id="proCtcAERulesService" class="gov.nih.nci.ctcae.web.rules.ProCtcAERulesService">
+    <bean id="proCtcAERulesService" class="gov.nih.nci.ctcae.core.rules.ProCtcAERulesService">
         <property name="ruleAuthoringService" ref="ruleAuthoringService"/>
         <property name="rulesEngineService" ref="ruleEngineService"/>
         <property name="ruleExecutionService" ref="ruleExecutionService"/>

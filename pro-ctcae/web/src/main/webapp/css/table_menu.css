@@ -10,6 +10,11 @@
     color: #6666ff;
 }
 
+.bold a:hover {
+    color: #6666ff;
+    font-weight:bold;
+}
+
 table.widget {
     border: 1px solid #eaeaea;
     border-collapse: collapse;

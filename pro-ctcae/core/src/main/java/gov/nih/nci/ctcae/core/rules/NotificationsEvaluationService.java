@@ -1,4 +1,4 @@
-package gov.nih.nci.ctcae.web.rules;
+package gov.nih.nci.ctcae.core.rules;
 
 import com.semanticbits.rules.brxml.RuleSet;
 import com.semanticbits.rules.exception.RuleSetNotFoundException;
@@ -6,6 +6,7 @@ import com.semanticbits.rules.impl.RuleEvaluationResult;
 import com.semanticbits.rules.objectgraph.FactResolver;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,6 +25,7 @@ public class NotificationsEvaluationService {
 
     private static JavaMailSender javaMailSender;
     protected static final Log logger = LogFactory.getLog(NotificationsEvaluationService.class);
+    private static GenericRepository genericRepository;
 
 
     public static void executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) {
@@ -34,6 +36,7 @@ public class NotificationsEvaluationService {
             return;
         }
         TreeMap<Integer, ArrayList<StudyParticipantCrfItem>> distinctPageNumbers = new TreeMap<Integer, ArrayList<StudyParticipantCrfItem>>();
+        Notification notification = new Notification();
 
         for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
             Integer myPageNumber = studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber();
@@ -78,9 +81,9 @@ public class NotificationsEvaluationService {
                         if (o instanceof RuleEvaluationResult) {
                             RuleEvaluationResult result = (RuleEvaluationResult) o;
                             if (!StringUtils.isBlank(result.getMessage())) {
-                                String message = result.getMessage();
-                                logger.info("Send email to " + message);
-                                getRecipients(emails, message, studyParticipantCrfSchedule);
+                                String recipients = result.getMessage();
+                                logger.info("Send email to " + recipients);
+                                getRecipients(notification, emails, recipients, studyParticipantCrfSchedule);
                                 criticalSymptoms.addAll(temp);
                             }
                         }
@@ -94,7 +97,12 @@ public class NotificationsEvaluationService {
 
         if (criticalSymptoms.size() > 0) {
             try {
-                sendMail(getStringArr(emails), "Notification email", getEmaiContent(studyParticipantCrfSchedule, criticalSymptoms));
+                String emailMessage = getEmaiContent(studyParticipantCrfSchedule, criticalSymptoms);
+                notification.setText(emailMessage);
+                notification.setDate(new Date());
+                genericRepository.save(notification);
+                
+                sendMail(getStringArr(emails), "Notification email", emailMessage);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -107,7 +115,8 @@ public class NotificationsEvaluationService {
         }
     }
 
-    private static void getRecipients(HashSet<String> emails, String message, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+    private static void getRecipients(Notification notification, HashSet<String> emails, String message, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment();
         StringTokenizer st = new StringTokenizer(message, "||");
         while (st.hasMoreTokens()) {
@@ -116,18 +125,21 @@ public class NotificationsEvaluationService {
                 StudyParticipantClinicalStaff studyParticipantClinicalStaff = studyParticipantAssignment.getResearchNurse();
                 if (studyParticipantClinicalStaff.isNotify()) {
                     addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
+                    addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantClinicalStaff);
                 }
             }
             if (token.equals("PrimaryPhysician")) {
                 StudyParticipantClinicalStaff studyParticipantClinicalStaff = studyParticipantAssignment.getTreatingPhysician();
                 if (studyParticipantClinicalStaff.isNotify()) {
                     addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
+                    addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantClinicalStaff);
                 }
             }
             if (token.equals("SiteCRA")) {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSiteCRAs()) {
                     if (studyParticipantClinicalStaff.isNotify()) {
                         addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
+                        addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantClinicalStaff);
                     }
                 }
             }
@@ -135,25 +147,48 @@ public class NotificationsEvaluationService {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSitePIs()) {
                     if (studyParticipantClinicalStaff.isNotify()) {
                         addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
+                        addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantClinicalStaff);
                     }
                 }
             }
             if (token.equals("LeadCRA")) {
                 addEmail(studyParticipantAssignment.getStudySite().getStudy().getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
+                addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantAssignment.getStudySite().getStudy().getLeadCRA().getOrganizationClinicalStaff());
             }
             if (token.equals("PI")) {
                 addEmail(studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigator().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
+                addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigator().getOrganizationClinicalStaff());
             }
         }
 
         for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getNotificationClinicalStaff()) {
             if (studyParticipantClinicalStaff.isNotify()) {
                 addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
+                addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantClinicalStaff);
             }
         }
-
         logger.info(emails);
 
+    }
+
+    private static void addUserNotification(Notification notification, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
+        addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getUser());
+    }
+
+    private static void addUserNotification(Notification notification, StudyParticipantCrfSchedule studyParticipantCrfSchedule, OrganizationClinicalStaff organizationClinicalStaff) {
+        addUserNotification(notification, studyParticipantCrfSchedule, organizationClinicalStaff.getClinicalStaff().getUser());
+    }
+
+    private static void addUserNotification(Notification notification, StudyParticipantCrfSchedule studyParticipantCrfSchedule, User user) {
+        UserNotification userNotification = new UserNotification();
+        userNotification.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+        userNotification.setUuid(UUID.randomUUID().toString());
+        userNotification.setMarkDelete(false);
+        userNotification.setNew(true);
+        userNotification.setParticipant(studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant());
+        userNotification.setStudy(studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getStudy());
+        userNotification.setUser(user);
+        notification.addUserNotification(userNotification);
     }
 
 
@@ -183,7 +218,7 @@ public class NotificationsEvaluationService {
         HashMap<String, String> previousScheduleMap = null;
         HashMap<String, String> firstScheduleMap = null;
 
-        List<StudyParticipantCrfSchedule> allSchedules = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrfsByStatus(CrfStatus.COMPLETED);
+        List<StudyParticipantCrfSchedule> allSchedules = studyParticipantCrfSchedule.getStudyParticipantCrf().getCompletedCrfs();
         if (allSchedules.size() == 1) {
             previousSchedule = allSchedules.get(0);
             previousScheduleMap = getMapForSchedule(previousSchedule);
@@ -274,4 +309,7 @@ public class NotificationsEvaluationService {
         }
     }
 
+    public static void setGenericRepository(GenericRepository inGenericRepository) {
+        genericRepository = inGenericRepository;
+    }
 }

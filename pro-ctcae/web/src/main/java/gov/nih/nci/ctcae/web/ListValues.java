@@ -332,52 +332,7 @@ public class ListValues {
         return col;
     }
 
-    public static HashMap<ProCtcQuestionType, TreeSet<ProCtcValidValue>> getComparisonValues(CRF crf) {
-        TreeSet<ProCtcValidValue> severityOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
-        TreeSet<ProCtcValidValue> interferenceOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
-        TreeSet<ProCtcValidValue> presentOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
-        TreeSet<ProCtcValidValue> amountOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
-        TreeSet<ProCtcValidValue> frequencyOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
-
-        for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
-            switch (crfPageItem.getProCtcQuestion().getProCtcQuestionType()) {
-                case SEVERITY:
-                    for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
-                        severityOptions.add(validValue);
-                    }
-                    break;
-                case INTERFERENCE:
-                    for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
-                        interferenceOptions.add(validValue);
-                    }
-                    break;
-                case AMOUNT:
-                    for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
-                        amountOptions.add(validValue);
-                    }
-                    break;
-                case FREQUENCY:
-                    for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
-                        frequencyOptions.add(validValue);
-                    }
-                    break;
-                case PRESENT:
-                    for (ProCtcValidValue validValue : crfPageItem.getProCtcQuestion().getValidValues()) {
-                        presentOptions.add(validValue);
-                    }
-                    break;
-            }
-        }
-
-        HashMap<ProCtcQuestionType, TreeSet<ProCtcValidValue>> hashMap = new HashMap<ProCtcQuestionType, TreeSet<ProCtcValidValue>>();
-        hashMap.put(ProCtcQuestionType.AMOUNT, amountOptions);
-        hashMap.put(ProCtcQuestionType.FREQUENCY, frequencyOptions);
-        hashMap.put(ProCtcQuestionType.PRESENT, presentOptions);
-        hashMap.put(ProCtcQuestionType.SEVERITY, severityOptions);
-        hashMap.put(ProCtcQuestionType.INTERFERENCE, interferenceOptions);
-
-        return hashMap;
-    }
+   
 
 
 }

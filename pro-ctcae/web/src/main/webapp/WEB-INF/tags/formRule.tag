@@ -1,7 +1,7 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@attribute name="proCtcAeRule" type="gov.nih.nci.ctcae.web.rules.ProCtcAERule" required="true" %>
+<%@attribute name="proCtcAeRule" type="gov.nih.nci.ctcae.core.rules.ProCtcAERule" required="true" %>
 <%@attribute name="ruleIndex" required="true" %>
 <%@attribute name="isNew" %>
 <%@attribute name="isSite" %>

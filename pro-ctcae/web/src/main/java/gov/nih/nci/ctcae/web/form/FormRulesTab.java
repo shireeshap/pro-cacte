@@ -1,8 +1,9 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
+import gov.nih.nci.ctcae.core.rules.ProCtcAEFactResolver;
 import gov.nih.nci.ctcae.web.ListValues;
-import gov.nih.nci.ctcae.web.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
 
@@ -44,7 +45,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
         map.put("crfSymptoms", ListValues.getSymptomsForCRF(command.getCrf()));
         map.put("questionTypes", ListValues.getQuestionTypes(command.getCrf()));
         map.put("comparisonOptions", ListValues.getComparisonOptions());
-        map.put("comparisonValues", ListValues.getComparisonValues(command.getCrf()));
+        map.put("comparisonValues", ProCtcAEFactResolver.getComparisonValues(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
         return map;
     }

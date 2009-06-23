@@ -9,6 +9,8 @@ import gov.nih.nci.ctcae.core.repository.secured.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
+import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
 import org.apache.commons.collections.map.ListOrderedMap;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
@@ -46,7 +48,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static StudyParticipantCrfRepository studyParticipantCrfRepository;
     public static StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     public static GenericRepository genericRepository;
-
+    public static ProCtcAERulesService proCtcAERulesService;
 
     protected String codeBase;
     private static final String[] context = new String[]{
@@ -55,8 +57,9 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-test.xml"
-            , "classpath*:gov/nih/nci/ctcae/web/applicationContext-rules-jcr.xml"
+            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-rules-jcr.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"
+            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-rules-services.xml"
 //            , "classpath*:gov/nih/nci/ctcae/web/applicationContext-web-security.xml"
     };
     protected final String SYSTEM_ADMIN = "system_admin";
@@ -95,13 +98,18 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 
         Long start = System.currentTimeMillis();
         deleteTestData();
-        createTestData();
+        try {
+            createTestData();
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
         Long end = System.currentTimeMillis();
         System.out.println("Time to refresh data - " + (end - start) / 1000 + " seconds");
 
     }
 
-    protected void createTestData() {
+    protected void createTestData() throws Exception {
         login(SYSTEM_ADMIN);
         createClinicalStaff();
         createStudy();
@@ -161,7 +169,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         commitAndStartNewTransaction();
     }
 
-    private void createCrf() throws ParseException {
+    private void createCrf() throws Exception {
         CrfTestHelper.createTestForm();
         commitAndStartNewTransaction();
     }
@@ -360,4 +368,10 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public void setStudyParticipantCrfScheduleRepository(StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {
         TestDataManager.studyParticipantCrfScheduleRepository = studyParticipantCrfScheduleRepository;
     }
+
+    @Required
+    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
+        TestDataManager.proCtcAERulesService = proCtcAERulesService;
+    }
+
 }

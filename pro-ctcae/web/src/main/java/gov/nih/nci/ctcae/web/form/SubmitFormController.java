@@ -2,8 +2,8 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
-import gov.nih.nci.ctcae.web.rules.NotificationsEvaluationService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -24,7 +24,6 @@ public class SubmitFormController extends CtcAeSimpleFormController {
 
     private String reviewView;
     private GenericRepository genericRepository;
-
 
     /**
      * Instantiates a new submit form controller.
@@ -48,6 +47,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             submitFormCommand.deleteQuestions();
             submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.COMPLETED);
             StudyParticipantCrfSchedule s = initialize(submitFormCommand.getStudyParticipantCrfSchedule());
+            NotificationsEvaluationService.setGenericRepository(genericRepository);
             NotificationsEvaluationService.executeRules(s, s.getStudyParticipantCrf().getCrf(), s.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
         } else {
             submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.INPROGRESS);
