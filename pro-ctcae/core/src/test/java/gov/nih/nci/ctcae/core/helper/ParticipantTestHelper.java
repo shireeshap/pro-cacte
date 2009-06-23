@@ -52,9 +52,11 @@ public class ParticipantTestHelper {
 
         Participant participant = new Participant();
         firstTab_ParticipantDetails(participant, firstName, lastName, assignedIdentifier, studySite);
+        participant = participantRepository.save(participant);
         secondTab_ParticipantClinicalStaff(participant, studySite);
+        participant = participantRepository.save(participant);
         assignCrfToParticipantAndCreateSchedules(participant, studySite);
-        participantRepository.save(participant);
+        participant = participantRepository.save(participant);
     }
 
     private static void firstTab_ParticipantDetails(Participant participant, String firstName, String lastName, String assignedIdentifier, StudySite studySite) {

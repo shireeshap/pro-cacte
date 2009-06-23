@@ -5,8 +5,6 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
 import gov.nih.nci.ctcae.core.query.*;
 import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.repository.Repository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -143,7 +141,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public User save(User user) {
         if (user.getUsername() == null) {
-            throw new CtcAeSystemException("Username cannot be null;Please provide a username.");
+            throw new CtcAeSystemException("Username cannot be empty. Please provide a valid username.");
         }
         user.setUsername(user.getUsername().toLowerCase());
         if (user.getId() == null) {
@@ -153,9 +151,16 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             if (users.size() > 0) {
                 throw new UsernameAlreadyExistsException(user.getUsername());
             }
+            String encoded = getEncodedPassword(user);
+            user.setPassword(encoded);
+        } else {
+            String myPassword = user.getPassword();
+            User temp = findById(user.getId());
+            String currentPassword = temp.getPassword();
+            if (!myPassword.equals(currentPassword)) {
+                user.setPassword(getEncodedPassword(user));
+            }
         }
-        String encoded = getEncodedPassword(user);
-        user.setPassword(encoded);
 
         user = genericRepository.save(user);
         return user;
@@ -163,8 +168,6 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     }
 
     public void delete(User user) {
-
-
     }
 
 
@@ -191,9 +194,9 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     private String getEncodedPassword(final User user) {
         if (!StringUtils.isBlank(user.getPassword())) {
             Object salt = saltSource.getSalt(user);
-            String encoded = passwordEncoder.encodePassword(user.getPassword(), salt);
-            return encoded;
-        } else return null;
+            return passwordEncoder.encodePassword(user.getPassword(), salt);
+        }
+        return null;
     }
 
     @Required
