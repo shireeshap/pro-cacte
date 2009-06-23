@@ -15,6 +15,7 @@ class CreateotificationsTable extends edu.northwestern.bioinformatics.bering.Mig
             t.addColumn("mark_delete", "boolean", nullable: false)
             t.addColumn("uuid", "string", nullable: true)
             t.addColumn("spc_schedule_id", "integer", nullable: false)
+            
             t.addVersionColumn()
         }
 
