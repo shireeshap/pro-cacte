@@ -50,7 +50,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
      */
     @JoinColumn(name = "study_site_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
-    private StudyOrganization studySite;
+    private StudySite studySite;
 
     /**
      * The study participant crfs.
@@ -137,7 +137,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
      *
      * @return the study site
      */
-    public StudyOrganization getStudySite() {
+    public StudySite getStudySite() {
         return studySite;
     }
 
@@ -146,7 +146,7 @@ public class StudyParticipantAssignment extends BaseVersionable {
      *
      * @param studySite the new study site
      */
-    public void setStudySite(StudyOrganization studySite) {
+    public void setStudySite(StudySite studySite) {
         this.studySite = studySite;
     }
 

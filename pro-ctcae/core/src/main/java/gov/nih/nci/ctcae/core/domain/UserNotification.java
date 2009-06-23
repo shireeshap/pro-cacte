@@ -55,6 +55,10 @@ public class UserNotification extends BaseVersionable {
     @ManyToOne
     private Participant participant;
 
+    @JoinColumn(name = "spc_schedule_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    private StudyParticipantCrfSchedule studyParticipantCrfSchedule;
+
     public Integer getId() {
         return id;
     }
@@ -141,6 +145,7 @@ public class UserNotification extends BaseVersionable {
         if (!notification.equals(that.notification)) return false;
         if (!participant.equals(that.participant)) return false;
         if (!study.equals(that.study)) return false;
+        if (!studyParticipantCrfSchedule.equals(that.studyParticipantCrfSchedule)) return false;
         if (!user.equals(that.user)) return false;
         if (uuid != null ? !uuid.equals(that.uuid) : that.uuid != null) return false;
 
@@ -156,6 +161,16 @@ public class UserNotification extends BaseVersionable {
         result = 31 * result + notification.hashCode();
         result = 31 * result + study.hashCode();
         result = 31 * result + participant.hashCode();
+        result = 31 * result + studyParticipantCrfSchedule.hashCode();
         return result;
+    }
+
+    public StudyParticipantCrfSchedule getStudyParticipantCrfSchedule() {
+
+        return studyParticipantCrfSchedule;
+    }
+
+    public void setStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+        this.studyParticipantCrfSchedule = studyParticipantCrfSchedule;
     }
 }
