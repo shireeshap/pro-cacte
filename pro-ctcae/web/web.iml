@@ -7,7 +7,7 @@
     <facet type="web" name="Web">
       <configuration>
         <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" optional="false" version="2.5" />
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/web.xml" optional="false" version="2.5" />
         </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
@@ -46,6 +46,8 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="AllJars" level="project" />
+    <orderEntry type="module" module-name="commons" />
+    <orderEntry type="module" module-name="core" />
   </component>
 </module>
 
