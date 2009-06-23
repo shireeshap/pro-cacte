@@ -29,6 +29,8 @@ public class NotificationsTest extends TestDataManager {
         String uuid = UUID.randomUUID().toString();
         userNotification.setUuid(uuid);
         userNotification.setParticipant(ParticipantTestHelper.getDefaultParticipant());
+        StudyParticipantCrfSchedule studyParticipantCrfSchedule = ParticipantTestHelper.getDefaultParticipant().getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(0);
+        userNotification.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
         notification.addUserNotification(userNotification);
 
         Notification savedNotification = genericRepository.save(notification);
@@ -49,6 +51,7 @@ public class NotificationsTest extends TestDataManager {
         assertEquals(false, userNotification.isMarkDelete());
         assertEquals(uuid, userNotification.getUuid());
         assertEquals(ParticipantTestHelper.getDefaultParticipant(), userNotification.getParticipant());
+        assertEquals(studyParticipantCrfSchedule, userNotification.getStudyParticipantCrfSchedule());
         assertEquals(savedNotification, userNotification.getNotification());
         assertEquals(userNotification, un);
         assertEquals(userNotification.hashCode(), un.hashCode());

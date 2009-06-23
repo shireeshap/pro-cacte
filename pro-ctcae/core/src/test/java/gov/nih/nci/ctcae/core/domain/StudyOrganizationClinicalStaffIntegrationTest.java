@@ -40,6 +40,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends TestDataManag
 
 
     public void testDeleteStudyOrganizationClinicalStaff() {
+        Study defaultStudy = StudyTestHelper.getDefaultStudy();
         StudyOrganizationClinicalStaff staff = defaultStudy.getLeadStudySite().getStudyOrganizationClinicalStaffs().get(0);
         assertNotNull("must find study clinical staff", studyOrganizationClinicalStaffRepository.findById(staff.getId()));
         //now remove it
@@ -53,6 +54,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends TestDataManag
     }
 
     public void testUpdateStudyOrganizationClinicalStaff() {
+        Study defaultStudy = StudyTestHelper.getDefaultStudy();
         StudyOrganizationClinicalStaff staff = defaultStudy.getLeadStudySite().getStudyOrganizationClinicalStaffs().get(0);
         OrganizationClinicalStaff organizationClinicalStaff = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.NURSE).getOrganizationClinicalStaff();
         staff.setOrganizationClinicalStaff(organizationClinicalStaff);
