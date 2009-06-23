@@ -132,22 +132,21 @@
             <property name="resolve.confs" value="runtime,test"/>
             <property name="resolve.to.dir" value="${user.home}/ivylibs"/>
         </subant>
-        <taskdef name="eclipseClasspath" classname="com.semanticbits.ctms.ant.BuildPathGenerator">
-            <classpath>
-                <path>
-                    <fileset dir="${user.home}/ivylibs">
-                        <include name="*.jar"/>
-                    </fileset>
-                </path>
-            </classpath>
-        </taskdef>
+        <!--<taskdef name="eclipseClasspath" classname="com.semanticbits.ctms.ant.BuildPathGenerator">-->
+            <!--<classpath>-->
+                <!--<path>-->
+                    <!--<fileset dir="${user.home}/ivylibs">-->
+                        <!--<include name="*.jar"/>-->
+                    <!--</fileset>-->
+                <!--</path>-->
+            <!--</classpath>-->
+        <!--</taskdef>-->
 
-        <eclipseClasspath templatefile=".classpath.tmpl" destinationfile=".classpath"
-                          srcpattern="src/main/java,src/main/resources,src/test/java,src/test/resources,build/generated-sources/xjc"
-                          excludes="**/*ctcae-*.jar" ivylibdir="${user.home}/ivylibs"
-                          modulerefs="build-path">
-        </eclipseClasspath>
-
+        <!--<eclipseClasspath templatefile=".classpath.tmpl" destinationfile=".classpath"-->
+                          <!--srcpattern="src/main/java,src/main/resources,src/test/java,src/test/resources,build/generated-sources/xjc"-->
+                          <!--excludes="**/*ctcae-*.jar" ivylibdir="${user.home}/ivylibs"-->
+                          <!--modulerefs="build-path">-->
+        <!--</eclipseClasspath>-->
     </target>
     <!-- =================================
          target: report-all
