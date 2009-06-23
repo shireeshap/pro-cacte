@@ -65,7 +65,7 @@
             color: white;
         }
 
-        #formStatusTable {
+        #formStatusTable, #careResultsTable {
                /*text-align: center;*/
                    overflow-x: scroll;
                }
