@@ -14,6 +14,7 @@ class CreateotificationsTable extends edu.northwestern.bioinformatics.bering.Mig
             t.addColumn("is_new", "boolean", nullable: false)
             t.addColumn("mark_delete", "boolean", nullable: false)
             t.addColumn("uuid", "string", nullable: true)
+            t.addColumn("spc_schedule_id", "integer", nullable: false)
             t.addVersionColumn()
         }
 
@@ -22,6 +23,7 @@ class CreateotificationsTable extends edu.northwestern.bioinformatics.bering.Mig
         execute('ALTER TABLE user_notifications ADD CONSTRAINT fk_notifications FOREIGN KEY (notification_id) REFERENCES NOTIFICATIONS')
         execute('ALTER TABLE user_notifications ADD CONSTRAINT fk_participant FOREIGN KEY (participant_id) REFERENCES PARTICIPANTS')
         execute('ALTER TABLE user_notifications ADD CONSTRAINT fk_study FOREIGN KEY (study_id) REFERENCES STUDIES')
+        execute('ALTER TABLE user_notifications ADD CONSTRAINT fk_spc_schedule FOREIGN KEY (spc_schedule_id) REFERENCES SP_CRF_SCHEDULES')
     }
 
     void down() {
