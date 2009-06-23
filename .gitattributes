@@ -13,7 +13,6 @@ pro-ctcae/commons/src/test/java/gov/nih/nci/ctcae/commons/utils/PropertyUtilTest
 pro-ctcae/core/core.iml -text
 pro-ctcae/core/ivy-build.xml -text
 pro-ctcae/core/ivy.xml -text
-pro-ctcae/core/maven-eclipse.xml -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/001_create_audit_event_values.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/002_create_audit_events.groovy -text
 pro-ctcae/core/src/main/db/migrate/001_elaboration_1/003_create_organizations.groovy -text

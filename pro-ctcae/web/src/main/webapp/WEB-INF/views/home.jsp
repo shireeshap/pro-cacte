@@ -37,76 +37,89 @@
             })
         }
 
-        function deleteMsg(id){
+        function deleteMsg(id) {
             alert(id);
         }
     </script>
 </head>
 <body>
+
+<c:forEach items="${notifications}" var="usernotification">
+    <c:if test="${!usernotification.markDelete}">
+        <c:set var="numberofalerts" scope="page" value="${numberofalerts + 1}"/>
+    </c:if>
+</c:forEach>
 <c:set var="dl" value="12"/>
 <div style="float:left;width:50%;">
     <chrome:box title="Alerts">
-        <table class="widget">
-            <tr>
-                <td class="header-top">
-                    Participant
-                </td>
-                <td class="header-top">
-                    Study
-                </td>
-                <td class="header-top">
-                    Date
-                </td>
-                <td class="header-top">
-                    Message
-                </td>
-                <td class="header-top">
-                </td>
-            </tr>
-            <c:forEach items="${notifications}" var="usernotification">
-                <c:if test="${!usernotification.markDelete}">
+        <c:choose>
+            <c:when test="${empty numberofalerts}">
+                You have no alerts.
+            </c:when>
+            <c:otherwise>
+                <table class="widget">
                     <tr>
-                        <td class="data">
-                            <div id="new_${usernotification.id}"
-                                 style="float:left;margin-right:2px;margin-left:2px;color:#ff3300;font-weight:bold;">
-                                <c:if
-                                        test="${usernotification.new}">*</c:if><c:if
-                                    test="${!usernotification.new}">&nbsp;</c:if></div>
-                            <div style="float:left">
-                                <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
-                                    <a href="reports/participantCareMonitor?sid=${usernotification.studyParticipantCrfSchedule.id}"
-                                       class="link">${usernotification.participant.displayName}</a>
-                                </proctcae:urlAuthorize>
-                            </div>
+                        <td class="header-top">
+                            Participant
                         </td>
-                        <td class="data">
-                            <c:choose>
-                                <c:when test="${fn:length(usernotification.study.shortTitle) > dl}">
-                                    <div title="${usernotification.study.shortTitle}"> ${fn:substring(usernotification.study.shortTitle,0,dl)}...</div>
-                                </c:when>
-                                <c:otherwise>
-                                    ${usernotification.study.shortTitle}
-                                </c:otherwise>
-                            </c:choose>
-                            </fn>
+                        <td class="header-top">
+                            Study
                         </td>
-                        <td class="data">
-                            <a class="link"
-                               href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
-                                    value="${usernotification.notification.date}"/></a>
+                        <td class="header-top">
+                            Date
                         </td>
-                        <td class="data">
-                            <a class="link" href="javascript:showMessage('${usernotification.id}');">This is an
-                                auto..</a>
+                        <td class="header-top">
+                            Message
                         </td>
-                        <td>
-                            <tags:button icon="x" color="red" size="small" markupWithTag="a"
-                                         onclick="javascript:deleteMsg('${usernotification.id}');" value=""/>
+                        <td class="header-top">
                         </td>
                     </tr>
-                </c:if>
-            </c:forEach>
-        </table>
+                    <c:forEach items="${notifications}" var="usernotification">
+                        <c:if test="${!usernotification.markDelete}">
+                            <tr>
+                                <td class="data">
+                                    <div id="new_${usernotification.id}"
+                                         style="float:left;margin-right:2px;margin-left:2px;color:#ff3300;font-weight:bold;">
+                                        <c:if
+                                                test="${usernotification.new}">*</c:if><c:if
+                                            test="${!usernotification.new}">&nbsp;</c:if></div>
+                                    <div style="float:left">
+                                        <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
+                                            <a href="reports/participantCareMonitor?sid=${usernotification.studyParticipantCrfSchedule.id}"
+                                               class="link">${usernotification.participant.displayName}</a>
+                                        </proctcae:urlAuthorize>
+                                    </div>
+                                </td>
+                                <td class="data">
+                                    <c:choose>
+                                        <c:when test="${fn:length(usernotification.study.shortTitle) > dl}">
+                                            <div title="${usernotification.study.shortTitle}"> ${fn:substring(usernotification.study.shortTitle,0,dl)}...</div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${usernotification.study.shortTitle}
+                                        </c:otherwise>
+                                    </c:choose>
+                                    </fn>
+                                </td>
+                                <td class="data">
+                                    <a class="link"
+                                       href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
+                                            value="${usernotification.notification.date}"/></a>
+                                </td>
+                                <td class="data">
+                                    <a class="link" href="javascript:showMessage('${usernotification.id}');">This is an
+                                        auto..</a>
+                                </td>
+                                <td>
+                                    <tags:button icon="x" color="red" size="small" markupWithTag="a"
+                                                 onclick="javascript:deleteMsg('${usernotification.id}');" value=""/>
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                </table>
+            </c:otherwise>
+        </c:choose>
         <br/>
     </chrome:box>
 </div>
