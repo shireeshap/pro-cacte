@@ -83,17 +83,17 @@ public class ParticipantCareResultsController extends AbstractController {
 
                         List<StudyParticipantCrfSchedule> completedCrfs = new ArrayList<StudyParticipantCrfSchedule>();
                         if (visitRange.equals("currentLast")) {
-                            completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(0));
-                            if (studyParticipantCrf.getCompletedCrfs().size() > 1) {
-                                completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - 1));
+                            completedCrfs.add(studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).get(0));
+                            if (studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).size() > 1) {
+                                completedCrfs.add(studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).get(studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).size() - 1));
                             }
                         } else {
                             if (forVisits == -1) {
-                                forVisits = studyParticipantCrf.getCompletedCrfs().size();
+                                forVisits = studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).size();
                             }
                             for (int i = 1; i <= forVisits; forVisits--)
-                                if (studyParticipantCrf.getCompletedCrfs().size() - forVisits >= 0) {
-                                    completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - forVisits));
+                                if (studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).size() - forVisits >= 0) {
+                                    completedCrfs.add(studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).get(studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).size() - forVisits));
                                 }
                         }
 

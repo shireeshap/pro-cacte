@@ -159,19 +159,19 @@ public class StudyLevelReportResultsController extends AbstractController {
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
                 if (studyParticipantCrf.getCrf().getId().equals(crfId)) {
 //                    List<StudyParticipantCrfSchedule> completedCrfs = new ArrayList<StudyParticipantCrfSchedule>();
-                    List<StudyParticipantCrfSchedule> completedCrfs = studyParticipantCrf.getCompletedCrfs();
+                    List<StudyParticipantCrfSchedule> completedCrfs = studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED);
 //                    if (visitRange.equals("currentLast")) {
-//                        completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(0));
-//                        if (studyParticipantCrf.getCompletedCrfs().size() > 1) {
-//                            completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - 1));
+//                        completedCrfs.add(studyParticipantCrf.getCrfsByStatus().get(0));
+//                        if (studyParticipantCrf.getCrfsByStatus().size() > 1) {
+//                            completedCrfs.add(studyParticipantCrf.getCrfsByStatus().get(studyParticipantCrf.getCrfsByStatus().size() - 1));
 //                        }
 //                    } else {
 //                        if (tempVisits == -1) {
-//                            tempVisits = studyParticipantCrf.getCompletedCrfs().size();
+//                            tempVisits = studyParticipantCrf.getCrfsByStatus().size();
 //                        }
 //                        for (int i = 1; i <= tempVisits; tempVisits--)
-//                            if (studyParticipantCrf.getCompletedCrfs().size() - tempVisits >= 0) {
-//                                completedCrfs.add(studyParticipantCrf.getCompletedCrfs().get(studyParticipantCrf.getCompletedCrfs().size() - tempVisits));
+//                            if (studyParticipantCrf.getCrfsByStatus().size() - tempVisits >= 0) {
+//                                completedCrfs.add(studyParticipantCrf.getCrfsByStatus().get(studyParticipantCrf.getCrfsByStatus().size() - tempVisits));
 //                            }
 //                    }
 

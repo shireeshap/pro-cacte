@@ -442,12 +442,15 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantOffStud
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantResponseReportController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantReviewTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantTableModel.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/PrintParticipantScheduleController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/PrintSchedulePdfView.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ShowCompletedCrfController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ShowParticipantScheduleController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/AbstractReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantAddedQuestionsReportDetailsController.java -text
@@ -696,6 +699,8 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/schedulecrf.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/searchParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/selectstudyparticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/showCompletedCrf.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/showParticipantSchedule.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/showParticipantScheduleTable.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/bar_chart.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsDetails.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsReport.jsp -text
@@ -1183,6 +1188,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfControl
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SearchParticipantControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTabTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ShowParticipantScheduleControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendarTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantCareMonitorTest.java -text

@@ -1,15 +1,18 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.helper.Fixture;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import junit.framework.TestCase;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal
  * @since Dec 12, 2008
  */
-public class StudyParticipantCrfTest extends TestCase {
+public class StudyParticipantCrfTest extends TestDataManager {
     private StudyParticipantCrf studyParticipantCrf;
 
     public void testConstructor() {
@@ -47,6 +50,16 @@ public class StudyParticipantCrfTest extends TestCase {
 
 
     }
+
+    public void testGetCrfByStatus() {
+        Study s = StudyTestHelper.getDefaultStudy();
+        StudyParticipantCrf studyParticipantCrf = s.getLeadStudySite().getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
+        List<StudyParticipantCrfSchedule> schedules = studyParticipantCrf.getCrfsByStatus(CrfStatus.SCHEDULED);
+        assertNotNull(schedules);
+        assertEquals(14, schedules.size());
+    }
+    
+
 
 
 }

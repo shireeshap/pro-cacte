@@ -21,7 +21,7 @@ import java.util.List;
 @Table(name = "STUDY_PARTICIPANT_CRFS")
 
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
-        @Parameter(name = "sequence", value = "seq_study_participant_crfs_id")})
+    @Parameter(name = "sequence", value = "seq_study_participant_crfs_id")})
 public class StudyParticipantCrf extends BaseVersionable {
 
     /**
@@ -226,13 +226,14 @@ public class StudyParticipantCrf extends BaseVersionable {
     }
 
     @Transient
-    public List<StudyParticipantCrfSchedule> getCompletedCrfs() {
-        List completedCrfs = new ArrayList<StudyParticipantCrfSchedule>();
+    public List<StudyParticipantCrfSchedule> getCrfsByStatus(CrfStatus crfStatus) {
+        List crfs = new ArrayList<StudyParticipantCrfSchedule>();
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
-            if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
-                completedCrfs.add(studyParticipantCrfSchedule);
+            if (studyParticipantCrfSchedule.getStatus().equals(crfStatus)) {
+                crfs.add(studyParticipantCrfSchedule);
             }
         }
-        return completedCrfs;
+        return crfs;
     }
+
 }
