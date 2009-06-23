@@ -54,7 +54,7 @@
     <chrome:box title="Alerts">
         <c:choose>
             <c:when test="${empty numberofalerts}">
-                You have no alerts.
+                <div style="margin-left:15px;">You have no alerts.</div>
             </c:when>
             <c:otherwise>
                 <table class="widget">
