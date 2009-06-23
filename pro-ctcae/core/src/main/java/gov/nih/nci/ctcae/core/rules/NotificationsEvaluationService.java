@@ -206,15 +206,14 @@ public class NotificationsEvaluationService {
     }
 
     private static void addRow(StringBuilder content, String boldText, String nonBoldText) {
-        content.append("<tr><td><b>" + boldText + "</b>" + nonBoldText + "</td></tr>");
+        content.append("<tr><td><b>").append(boldText).append("</b>").append(nonBoldText).append("</td></tr>");
     }
 
     private static String getEmaiContent(StudyParticipantCrfSchedule studyParticipantCrfSchedule, ArrayList<String[]> criticalSymptoms) {
 
-        StudyParticipantCrfSchedule currentSchedule = studyParticipantCrfSchedule;
         StudyParticipantCrfSchedule previousSchedule = null;
         StudyParticipantCrfSchedule firstSchedule = null;
-        HashMap<String, String> currentScheduleMap = getMapForSchedule(currentSchedule);
+        HashMap<String, String> currentScheduleMap = getMapForSchedule(studyParticipantCrfSchedule);
         HashMap<String, String> previousScheduleMap = null;
         HashMap<String, String> firstScheduleMap = null;
 
@@ -252,12 +251,12 @@ public class NotificationsEvaluationService {
         emailContent.append("<td><b>Symptom</b></td>");
         emailContent.append("<td><b>Attribute</b></td>");
         if (firstSchedule != null) {
-            emailContent.append("<td><b>First visit (" + DateUtils.format(firstSchedule.getStartDate()) + ")</b></td>");
+            emailContent.append("<td><b>First visit (").append(DateUtils.format(firstSchedule.getStartDate())).append(")</b></td>");
         }
         if (previousSchedule != null) {
-            emailContent.append("<td><b>Previous visit (" + DateUtils.format(previousSchedule.getStartDate()) + ")</b></td>");
+            emailContent.append("<td><b>Previous visit (").append(DateUtils.format(previousSchedule.getStartDate())).append(")</b></td>");
         }
-        emailContent.append("<td><b>Current visit (" + DateUtils.format(currentSchedule.getStartDate()) + ")</b></td>");
+        emailContent.append("<td><b>Current visit (").append(DateUtils.format(studyParticipantCrfSchedule.getStartDate())).append(")</b></td>");
         emailContent.append("</tr>");
 
         for (String[] symptom : criticalSymptoms) {
@@ -265,15 +264,15 @@ public class NotificationsEvaluationService {
             String strSymptom = symptom[0];
             String strAttr = symptom[1];
             String key = strSymptom + "~" + strAttr;
-            emailContent.append("<td>" + strSymptom + "</td>");
-            emailContent.append("<td>" + strAttr + "</td>");
+            emailContent.append("<td>").append(strSymptom).append("</td>");
+            emailContent.append("<td>").append(strAttr).append("</td>");
             if (firstSchedule != null) {
-                emailContent.append("<td>" + firstScheduleMap.get(key) + "</td>");
+                emailContent.append("<td>").append(firstScheduleMap.get(key)).append("</td>");
             }
             if (previousSchedule != null) {
-                emailContent.append("<td>" + previousScheduleMap.get(key) + "</td>");
+                emailContent.append("<td>").append(previousScheduleMap.get(key)).append("</td>");
             }
-            emailContent.append("<td>" + currentScheduleMap.get(key) + "</td>");
+            emailContent.append("<td>").append(currentScheduleMap.get(key)).append("</td>");
             emailContent.append("</tr>");
         }
         emailContent.append("</table>");
