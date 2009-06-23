@@ -127,27 +127,27 @@
     <chrome:box title="Quick Links">
         <proctcae:urlAuthorize url="/pages/participant/create">
             <div class="quicklink">
-                <a class="link" href="/pages/participant/create">Enter Participant</a>
+                <a class="link" href="participant/create">Enter Participant</a>
             </div>
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/study/createStudy">
             <div class="quicklink">
-                <a class="link" href="/pages/study/createStudy">Enter Study</a>
+                <a class="link" href="study/createStudy">Enter Study</a>
             </div>
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/study/searchStudy">
             <div class="quicklink">
-                <a class="link" href="/pages/study/searchStudy">Search Study</a>
+                <a class="link" href="study/searchStudy">Search Study</a>
             </div>
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/form/basicForm">
             <div class="quicklink">
-                <a class="link" href="/pages/form/basicForm">Create Form</a>
+                <a class="link" href="form/basicForm">Create Form</a>
             </div>
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/form/manageForm">
             <div class="quicklink">
-                <a class="link" href="/pages/form/manageForm">Manage Form</a>
+                <a class="link" href="form/manageForm">Manage Form</a>
             </div>
         </proctcae:urlAuthorize>
 
