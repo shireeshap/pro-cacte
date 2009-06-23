@@ -48,7 +48,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static GenericRepository genericRepository;
 
 
-    protected Study defaultStudy;
     protected String codeBase;
     private static final String[] context = new String[]{
             "classpath*:gov/nih/nci/ctcae/core/applicationContext-util-test.xml"
@@ -90,7 +89,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         if (!isTestDataPresent()) {
             deleteAndCreateTestData();
         }
-        defaultStudy = StudyTestHelper.getDefaultStudy();
     }
 
     protected void deleteAndCreateTestData() {

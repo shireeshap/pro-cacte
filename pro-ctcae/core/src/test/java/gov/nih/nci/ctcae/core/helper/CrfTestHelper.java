@@ -10,6 +10,7 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * User: Harsh
@@ -23,7 +24,7 @@ public class CrfTestHelper {
     private static final String formTitle = "Auto-Generated Form";
     private static CRFRepository crfRepository;
     private static ProCtcTermRepository proCtcTermRepository;
-    private static GenericRepository genericRepository;
+   
 
     private CrfTestHelper() {
 
@@ -32,7 +33,6 @@ public class CrfTestHelper {
     public static void inititalize() {
         crfRepository = TestDataManager.crfRepository;
         proCtcTermRepository = TestDataManager.proCtcTermRepository;
-        genericRepository = TestDataManager.genericRepository;
     }
 
     public static void createTestForm() throws ParseException {
@@ -46,13 +46,9 @@ public class CrfTestHelper {
         ParticipantTestHelper.createParticipant("Charlie", "Boon", "1-4", crf.getStudy().getLeadStudySite());
         crf.setEffectiveStartDate(new Date());
         crf = crfRepository.updateStatusToReleased(crf);
-        createNotifications(crf);
     }
 
-    private static void createNotifications(CRF crf) {
-        createUserNotification(StudyTestHelper.getNonLeadSiteStaffByRole(Role.SITE_CRA).getUser(), crf);
-        createUserNotification(StudyTestHelper.getNonLeadSiteStaffByRole(Role.SITE_CRA).getUser(), crf);
-    }
+
 
     private static void firstTab_SelectStudy(CRF crf) {
         crf.setStudy(StudyTestHelper.getDefaultStudy());
@@ -131,39 +127,7 @@ public class CrfTestHelper {
         }
     }
 
-    private static Notification createNotification() {
-        Notification notification = new Notification();
-        notification.setText("<html><head></head><body><table><tr><td><b></b>This is an auto-generated em" +
-                "ail from PRO-CTCAE system.</td></tr><tr><td><b>Participant name: </b>test t" +
-                "est[12-223]</td></tr><tr><td><b>Participant email: </b>Not specified</td></" +
-                "tr><tr><td><b>Participant contact phone: </b>1231231234</td></tr><tr><td><b" +
-                ">Study site: </b>Duke University Medical Center</td></tr><tr><td><b>Study: " +
-                "</b>Study 5[-1001]</td></tr><tr><td><b>Research nurse: </b>cs2duke cs2duke<" +
-                "/td></tr><tr><td><b>Treating physician: </b>cs1duke cs1duke</td></tr></tabl" +
-                "e><br>This notification was triggered by following responses: <br><br><tabl" +
-                "e border=3D\"1\"><tr><td><b>Symptom</b></td><td><b>Attribute</b></td><td><b>C" +
-                "urrent visit (05/12/2009)</b></td><td><b>First visit (05/08/2009)</b></td><" +
-                "td><b>Previous visit (05/11/2009)</b></td></tr><tr><td>Pounding or racing h" +
-                "eartbeat (palpitations)</td><td>Frequency</td><td>Frequently</td><td>Occasi" +
-                "onally</td><td>Almost Constantly</td></tr><tr><td>Pounding or racing heartb" +
-                "eat (palpitations)</td><td>Severity</td><td>Severe</td><td>Severe</td><td>V" +
-                "ery severe</td></tr><tr><td>Fatigue (tiredness, lack of energy)</td><td>Sev" +
-                "erity</td><td>Severe</td><td>None</td><td>Very severe</td></tr><tr><td>Fati" +
-                "gue (tiredness, lack of energy)</td><td>Interference</td><td>Very much</td>" +
-                "<td></td><td>Very much</td></tr></table></body></html>");
-        notification.setDate(new Date());
-        return notification;
-    }
 
-    private static void createUserNotification(User user, CRF crf) {
-        UserNotification userNotification = new UserNotification();
-        userNotification.setNew(true);
-        userNotification.setUser(user);
-        userNotification.setStudy(crf.getStudy());
-        userNotification.setParticipant(ParticipantTestHelper.findParticpantByUserName("charlie.boon"));
-        Notification notification = createNotification();
-        notification.addUserNotification(userNotification);
-        genericRepository.save(notification);
-    }
+
 
 }
