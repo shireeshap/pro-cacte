@@ -34,10 +34,6 @@
         <property name="ruleServiceContext" ref="ruleServiceContext"/>
     </bean>
 
-    <bean id="rulesLoader" class="com.semanticbits.rules.impl.SystemRulesDeployer">
-        <constructor-arg ref="ruleDeploymentService"/>
-    </bean>
-
     <bean id="ruleEngineService" class="com.semanticbits.rules.impl.RulesEngineServiceImpl">
         <property name="repositoryService" ref="jcrService"/>
         <property name="ruleAuthoringService" ref="ruleAuthoringService"/>
@@ -48,16 +44,4 @@
         <property name="rulesEngineService" ref="ruleEngineService"/>
         <property name="ruleExecutionService" ref="ruleExecutionService"/>
     </bean>
-
-    <!--<bean id="emailService" class="gov.nih.nci.cabig.caaers.email.EmailServiceImpl"/>-->
-    <!--<bean id="evaluationService" autowire="byType"-->
-    <!--class="com.semanticbits.rules.impl.RuleEvaluationServiceImpl"/>-->
-
-    <!--<bean id="adverseEventEvaluationService"-->
-    <!--class="gov.nih.nci.cabig.caaers.rules.business.service.AdverseEventEvaluationServiceImpl" autowire="no">-->
-    <!--<property name="rulesEngineService" ref="ruleEngineService"/>-->
-    <!--<property name="businessRulesExecutionService" ref="businessRulesExecutionService"/>-->
-    <!--</bean>-->
-
-
 </beans>

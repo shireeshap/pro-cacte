@@ -122,7 +122,7 @@
         <!-- JFree Dependency-->
         <dependency org="jfree" name="jfreechart" rev="1.0.9" force="true"/>
 
-        <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.0.6" conf="build->default"/>
+        <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.1.2" conf="build->default"/>
 
     </dependencies>
 </ivy-module>
