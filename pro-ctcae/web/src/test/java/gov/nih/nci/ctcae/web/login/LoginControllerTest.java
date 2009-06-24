@@ -56,11 +56,33 @@ public class LoginControllerTest extends AbstractWebTestCase {
         LoginController controller = new LoginController();
         controller.setClinicalStaffRepository(clinicalStaffRepository);
         controller.setUserRepository(userRepository);
+        controller.setStudyOrganizationClinicalStaffRepository(studyOrganizationClinicalStaffRepository);
         ModelAndView mv = controller.handleRequestInternal(request, response);
         assertEquals("home", mv.getViewName());
-        List<UserNotification> l = (List<UserNotification>) mv.getModel().get("notifications");
-        assertNotNull(l);
-        assertEquals(2, l.size());
+        List<UserNotification> noti = (List<UserNotification>) mv.getModel().get("notifications");
+        assertNotNull(noti);
+        assertEquals(0, noti.size());
+        List<UserNotification> over = (List<UserNotification>) mv.getModel().get("overdue");
+        assertNotNull(over);
+        assertEquals(0, over.size());
+        List<UserNotification> up = (List<UserNotification>) mv.getModel().get("upcoming");
+        assertNotNull(up);
+        assertEquals(6, up.size());
+
+        username = StudyTestHelper.getLeadSiteStaffByRole(Role.SITE_CRA).getUser().getUsername();
+        login(username);
+        mv = controller.handleRequestInternal(request, response);
+        assertEquals("home", mv.getViewName());
+        noti = (List<UserNotification>) mv.getModel().get("notifications");
+        assertNotNull(noti);
+        assertEquals(2, noti.size());
+        over = (List<UserNotification>) mv.getModel().get("overdue");
+        assertNotNull(over);
+        assertEquals(2, over.size());
+        up = (List<UserNotification>) mv.getModel().get("upcoming");
+        assertNotNull(up);
+        assertEquals(8, up.size());
+
     }
 
 }

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 //
 /**
@@ -41,7 +42,7 @@ public class StudyOrganizationClinicalStaffRepository implements Repository<Stud
     public void delete(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
     }
 
-    public Collection<StudyOrganizationClinicalStaff> find(StudyOrganizationClinicalStaffQuery query) {
+    public List<StudyOrganizationClinicalStaff> find(StudyOrganizationClinicalStaffQuery query) {
         return genericRepository.find(query);
     }
 

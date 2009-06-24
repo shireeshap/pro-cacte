@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -37,7 +38,7 @@ public class StudyParticipantCrfScheduleRepository implements Repository<StudyPa
 
     }
 
-    public Collection<StudyParticipantCrfSchedule> find(Query query) {
+    public List<StudyParticipantCrfSchedule> find(Query query) {
         return null;
 
 

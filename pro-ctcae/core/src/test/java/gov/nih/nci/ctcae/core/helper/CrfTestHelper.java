@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -50,7 +51,7 @@ public class CrfTestHelper {
         fourthTab_Notifications(crf);
         crfRepository.save(crf);
         ParticipantTestHelper.createParticipant("Charlie", "Boon", "1-4", crf.getStudy().getLeadStudySite());
-        crf.setEffectiveStartDate(new Date());
+        crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), -7));
         crf = crfRepository.updateStatusToReleased(crf);
     }
 

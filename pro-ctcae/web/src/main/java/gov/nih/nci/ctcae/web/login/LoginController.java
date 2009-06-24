@@ -3,9 +3,13 @@ package gov.nih.nci.ctcae.web.login;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
+import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
+import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 import gov.nih.nci.ctcae.web.ControllersUtils;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,6 +20,9 @@ import org.springframework.beans.factory.annotation.Required;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * @author Vinay Kumar
@@ -24,6 +31,7 @@ import java.util.List;
 public class LoginController extends AbstractController {
     ClinicalStaffRepository clinicalStaffRepository;
     UserRepository userRepository;
+    StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
 
     protected LoginController() {
     }
@@ -55,8 +63,44 @@ public class LoginController extends AbstractController {
         }
 
         ModelAndView mv = new ModelAndView("home");
-        mv.addObject("notifications", user.getUserNotifications());
+        mv.addObject("notifications", getNotifications(user));
+        mv.addObject("overdue", getOverdueAndUpcomingSchedules(clinicalStaff).get(0));
+        mv.addObject("upcoming", getOverdueAndUpcomingSchedules(clinicalStaff).get(1));
         return mv;
+    }
+
+    private List<UserNotification> getNotifications(User user) {
+        return user.getUserNotifications();
+    }
+
+    public List<List<StudyParticipantCrfSchedule>> getOverdueAndUpcomingSchedules(ClinicalStaff clinicalStaff) {
+        StudyOrganizationClinicalStaffQuery query = new StudyOrganizationClinicalStaffQuery();
+        query.filterByClinicalStaffId(clinicalStaff.getId());
+        List<StudyOrganizationClinicalStaff> socs = studyOrganizationClinicalStaffRepository.find(query);
+        ArrayList<List<StudyParticipantCrfSchedule>> out = new ArrayList<List<StudyParticipantCrfSchedule>>();
+        ArrayList<StudyParticipantCrfSchedule> overdue = new ArrayList<StudyParticipantCrfSchedule>();
+        ArrayList<StudyParticipantCrfSchedule> upcoming = new ArrayList<StudyParticipantCrfSchedule>();
+        out.add(overdue);
+        out.add(upcoming);
+        Date today = new Date();
+        Date week = DateUtils.addDaysToDate(today, 6);
+        Date yesterday = DateUtils.addDaysToDate(today, -1);
+
+        for (StudyOrganizationClinicalStaff staff : socs) {
+            for (StudyParticipantAssignment studyParticipantAssignment : staff.getStudyOrganization().getStudyParticipantAssignments()) {
+                for (StudyParticipantCrf spc : studyParticipantAssignment.getStudyParticipantCrfs()) {
+                    for (StudyParticipantCrfSchedule spcs : spc.getStudyParticipantCrfSchedules()) {
+                        if (today.after(spcs.getDueDate())) {
+                            overdue.add(spcs);
+                        }
+                        if (spcs.getStartDate().after(yesterday) && spcs.getStartDate().before(week)) {
+                            upcoming.add(spcs);
+                        }
+                    }
+                }
+            }
+        }
+        return out;
     }
 
     @Required
@@ -67,5 +111,10 @@ public class LoginController extends AbstractController {
     @Required
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Required
+    public void setStudyOrganizationClinicalStaffRepository(StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository) {
+        this.studyOrganizationClinicalStaffRepository = studyOrganizationClinicalStaffRepository;
     }
 }
