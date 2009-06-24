@@ -276,6 +276,7 @@ public class NotificationsEvaluationService {
             emailContent.append("</tr>");
         }
         emailContent.append("</table>");
+//        emailContent.append("<br>If you want to remove this message from your ProCtcAE alerts, <a href=");
         emailContent.append("</body></html>");
         return emailContent.toString();
     }

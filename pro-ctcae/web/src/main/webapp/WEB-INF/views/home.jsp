@@ -29,6 +29,13 @@
             vertical-align: top;
         }
 
+        .delete {
+            font-weight: bold;
+            color: red;
+            text-decoration: none;
+        }
+
+
     </style>
     <script type="text/javascript">
         function showMessage(id) {
@@ -51,8 +58,16 @@
             })
         }
 
-        function deleteMsg(id) {
-            alert(id);
+        function deleteMsg(id, uuid) {
+            if (uuid != '') {
+                var request = new Ajax.Request("<c:url value="/public/removealert"/>", {
+                    parameters:"uuid=" + uuid + "&subview=subview",
+                    onComplete:function(transport) {
+                        $('tr_' + id).remove();
+                    },
+                    method:'get'
+                })
+            }
         }
     </script>
 </head>
@@ -122,9 +137,8 @@
                                             auto..</a>
                                     </td>
                                     <td>
-                                        <tags:button icon="x" color="red" size="small" markupWithTag="a"
-                                                     onclick="javascript:deleteMsg('${usernotification.id}');"
-                                                     value=""/>
+                                        <a href="javascript:deleteMsg('${usernotification.id}','${usernotification.uuid}');"
+                                           class="delete">x</a>
                                     </td>
                                 </tr>
                             </c:if>
@@ -168,127 +182,140 @@
     </td>
 </tr>
 <tr>
-    <td>
-        <chrome:box title="Over due forms">
-            <table class="widget" cellpadding="5px;">
-                <tr>
-                    <td class="header-top">
-                        Participant
-                    </td>
-                    <td class="header-top">
-                        Study
-                    </td>
-                    <td class="header-top">
-                        Form
-                    </td>
-                    <td class="header-top">
-                        Start date
-                    </td>
-                    <td class="header-top">
-                        Due date
-                    </td>
-                </tr>
-                <c:forEach items="${overdue}" var="schedule">
+    <td><chrome:box title="Over due forms">
+        <c:choose>
+            <c:when test="${empty overdue}">
+                <div style="margin-left:15px;">You have overdue forms.</div>
+            </c:when>
+            <c:otherwise>
+                <table class="widget" cellpadding="5px;">
                     <tr>
-                        <td class="data">
-                            <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
-                                <a href="reports/participantCareMonitor?sid=${schedule.id}"
-                                   class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
-                            </proctcae:urlAuthorize>
+                        <td class="header-top">
+                            Participant
                         </td>
-                        <td class="data">
-                            <c:choose>
-                                <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
-                                    <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}"> ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...</div>
-                                </c:when>
-                                <c:otherwise>
-                                    ${schedule.studyParticipantCrf.crf.study.shortTitle}
-                                </c:otherwise>
-                            </c:choose>
+                        <td class="header-top">
+                            Study
                         </td>
-                        <td class="data">
-                            <c:choose>
-                                <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
-                                    <div title="${schedule.studyParticipantCrf.crf.title}"> ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...</div>
-                                </c:when>
-                                <c:otherwise>
-                                    ${schedule.studyParticipantCrf.crf.title}
-                                </c:otherwise>
-                            </c:choose>
+                        <td class="header-top">
+                            Form
                         </td>
-                        <td class="data">
-                            <tags:formatDate value="${schedule.startDate}"/>
+                        <td class="header-top">
+                            Start date
                         </td>
-                        <td class="data">
-                            <tags:formatDate value="${schedule.dueDate}"/>
-                        </td>
-                        <td class="data">
+                        <td class="header-top">
+                            Due date
                         </td>
                     </tr>
-                </c:forEach>
-            </table>
-            <br/>
-        </chrome:box>
+                    <c:forEach items="${overdue}" var="schedule">
+                        <tr>
+                            <td class="data">
+                                <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
+                                    <a href="reports/participantCareMonitor?sid=${schedule.id}"
+                                       class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
+                                </proctcae:urlAuthorize>
+                            </td>
+                            <td class="data">
+                                <c:choose>
+                                    <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
+                                        <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}"> ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...</div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${schedule.studyParticipantCrf.crf.study.shortTitle}
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td class="data">
+                                <c:choose>
+                                    <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
+                                        <div title="${schedule.studyParticipantCrf.crf.title}"> ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...</div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${schedule.studyParticipantCrf.crf.title}
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td class="data">
+                                <tags:formatDate value="${schedule.startDate}"/>
+                            </td>
+                            <td class="data">
+                                <tags:formatDate value="${schedule.dueDate}"/>
+                            </td>
+                            <td class="data">
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <br/>
+            </c:otherwise>
+        </c:choose>
+    </chrome:box>
     </td>
     <td>
         <chrome:box title="Upcoming Schedule">
-            <table class="widget" cellpadding="5px;">
-                <tr>
-                    <td class="header-top">
-                        Participant
-                    </td>
-                    <td class="header-top">
-                        Study
-                    </td>
-                    <td class="header-top">
-                        Form
-                    </td>
-                    <td class="header-top">
-                        Start date
-                    </td>
-                    <td class="header-top">
-                        Due date
-                    </td>
-                </tr>
-                <c:forEach items="${upcoming}" var="schedule">
-                    <tr>
-                        <td class="data">
-                            <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
-                                <a href="reports/participantCareMonitor?sid=${schedule.id}"
-                                   class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
-                            </proctcae:urlAuthorize>
-                        </td>
-                        <td class="data">
-                            <c:choose>
-                                <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
-                                    <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}"> ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...</div>
-                                </c:when>
-                                <c:otherwise>
-                                    ${schedule.studyParticipantCrf.crf.study.shortTitle}
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td class="data">
-                            <c:choose>
-                                <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
-                                    <div title="${schedule.studyParticipantCrf.crf.title}"> ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...</div>
-                                </c:when>
-                                <c:otherwise>
-                                    ${schedule.studyParticipantCrf.crf.title}
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td class="data">
-                            <tags:formatDate value="${schedule.startDate}"/>
-                        </td>
-                        <td class="data">
-                            <tags:formatDate value="${schedule.dueDate}"/>
-                        </td>
-                        <td class="data">
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
+            <c:choose>
+                <c:when test="${empty overdue}">
+                    <div style="margin-left:15px;">You have no upcoming schedule.</div>
+                </c:when>
+                <c:otherwise>
+                    <table class="widget" cellpadding="5px;">
+                        <tr>
+                            <td class="header-top">
+                                Participant
+                            </td>
+                            <td class="header-top">
+                                Study
+                            </td>
+                            <td class="header-top">
+                                Form
+                            </td>
+                            <td class="header-top">
+                                Start date
+                            </td>
+                            <td class="header-top">
+                                Due date
+                            </td>
+                        </tr>
+                        <c:forEach items="${upcoming}" var="schedule">
+                            <tr>
+                                <td class="data">
+                                    <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
+                                        <a href="reports/participantCareMonitor?sid=${schedule.id}"
+                                           class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
+                                    </proctcae:urlAuthorize>
+                                </td>
+                                <td class="data">
+                                    <c:choose>
+                                        <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
+                                            <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}"> ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...</div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${schedule.studyParticipantCrf.crf.study.shortTitle}
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td class="data">
+                                    <c:choose>
+                                        <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
+                                            <div title="${schedule.studyParticipantCrf.crf.title}"> ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...</div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${schedule.studyParticipantCrf.crf.title}
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td class="data">
+                                    <tags:formatDate value="${schedule.startDate}"/>
+                                </td>
+                                <td class="data">
+                                    <tags:formatDate value="${schedule.dueDate}"/>
+                                </td>
+                                <td class="data">
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </c:otherwise>
+            </c:choose>
             <br/>
         </chrome:box>
     </td>

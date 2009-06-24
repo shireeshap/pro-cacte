@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.semanticbits.rules.brxml.RuleSet;
+import com.semanticbits.rules.utils.RepositoryCleaner;
 
 /**
  * User: Harsh
@@ -22,7 +23,7 @@ public class ProCtcAERulesServiceTest extends TestDataManager {
     public void testDummy() {
 
     }
-
+//
 //    CRF crf;
 //    Study study;
 //    List<String> symptoms = new ArrayList<String>();
@@ -73,5 +74,7 @@ public class ProCtcAERulesServiceTest extends TestDataManager {
 //        ProCtcAERulesService.deployRuleSet(ruleSet);
 //        assertEquals(1, ruleSet.getRule().size());
 //    }
-//
+
+    
+
 }

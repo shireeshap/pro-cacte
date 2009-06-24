@@ -173,6 +173,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomOverTimeReportQ
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomSummaryParticipantCountQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomSummaryReportDetailsQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/SymptomSummaryReportQuery.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/UserNotificationQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/UserQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CtcTermRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/GenericRepository.java -text
@@ -331,6 +332,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/Unique
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueNciIdentifierForOrganizationValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollectionValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueTitleForCrfValidatorTest.java -text
+pro-ctcae/core/src/test/resources/gov/nih/nci/ctcae/core/applicationContext-rules-jcr-test.xml -text
 pro-ctcae/core/src/test/resources/gov/nih/nci/ctcae/core/applicationContext-test.xml -text
 pro-ctcae/core/src/test/resources/gov/nih/nci/ctcae/core/applicationContext-util-test.xml -text
 pro-ctcae/core/src/test/resources/logback.xml -text
@@ -489,6 +491,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryReportRe
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/SecuredTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationCheck.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationTag.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/RemoveAlertController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilter.java -text
@@ -1197,6 +1200,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantCareReportT
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelGraphicalReportsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryChartGeneratorTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/setup/RemoveAlertControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilterTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/setup/SetupTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/study/AddStudySiteControllerTest.java -text

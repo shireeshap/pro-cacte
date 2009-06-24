@@ -10,8 +10,6 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
-import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
-import org.apache.commons.collections.map.ListOrderedMap;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
@@ -57,10 +55,9 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-test.xml"
-            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-rules-jcr.xml"
+            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-rules-jcr-test.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-rules-services.xml"
-//            , "classpath*:gov/nih/nci/ctcae/web/applicationContext-web-security.xml"
     };
     protected final String SYSTEM_ADMIN = "system_admin";
     public static final String DEFAULT_PASSWORD = "password";

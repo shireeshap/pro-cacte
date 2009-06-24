@@ -54,12 +54,14 @@
         </property>
     </bean>
 
-    
-
     <bean name="/user/emailSent" id="emailSentController" autowire="byType"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController">
         <property name="viewName">
             <value>user/emailSent</value>
         </property>
+    </bean>
+    <bean name="/removealert" id="removeAlertController"
+          class="gov.nih.nci.ctcae.web.setup.RemoveAlertController">
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 </beans>
