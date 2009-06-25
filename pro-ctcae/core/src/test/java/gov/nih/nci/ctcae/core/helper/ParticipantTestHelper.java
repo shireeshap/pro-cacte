@@ -9,10 +9,7 @@ import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
 
 import java.text.ParseException;
-import java.util.Date;
-import java.util.UUID;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: Harsh
@@ -37,16 +34,40 @@ public class ParticipantTestHelper {
     public static void createDefaultParticipants() throws ParseException {
 
         StudySite ss1 = StudyTestHelper.getDefaultStudy().getStudySites().get(0);
-        createParticipant("John", "Locke", "1-1", ss1);
-        createParticipant("Jack", "Shepard", "1-2", ss1);
-        createParticipant("Kate", "Austen", "1-3", ss1);
+        Participant john = createParticipant("John", "Locke", "1-1", ss1);
+        Participant jack = createParticipant("Jack", "Shephard", "1-2", ss1);
+        Participant kate = createParticipant("Kate", "Austen", "1-3", ss1);
+        Participant sayid = createParticipant("Sayid", "Jarrah", "1-4", ss1);
+        Participant sun = createParticipant("Sun", "Kwon", "1-5", ss1);
+        Participant miles = createParticipant("Miles", "Straume", "1-6", ss1);
+        Participant jim = createParticipant("Jim", "Kwon", "1-7", ss1);
+
+        completeParticipantSchedule(john, ss1);
+        completeParticipantSchedule(jack, ss1);
+        completeParticipantSchedule(kate, ss1);
+        completeParticipantSchedule(sayid, ss1);
+        completeParticipantSchedule(sun, ss1);
+        completeParticipantSchedule(miles, ss1);
+        completeParticipantSchedule(jim, ss1);
 
         StudySite ss2 = StudyTestHelper.getDefaultStudy().getStudySites().get(1);
-        createParticipant("Tom", "Sawyer", "2-1", ss2);
-        createParticipant("Charles", "Widmore", "2-2", ss2);
-        createParticipant("Hugo", "Hurley", "2-3", ss2);
+        Participant james = createParticipant("James", "Sawyer", "2-1", ss2);
+        Participant charles = createParticipant("Charles", "Widmore", "2-2", ss2);
+        Participant hugo = createParticipant("Hugo", "Hurley", "2-3", ss2);
+        Participant daniel = createParticipant("Daniel", "Faraday", "2-4", ss2);
+        Participant ben = createParticipant("Ben", "Linus", "2-5", ss2);
+        Participant desmond = createParticipant("Desmond", "Hume", "2-6", ss2);
+        Participant juliet = createParticipant("Juliet", "Burke", "2-7", ss2);
 
-        completeParticipantSchedule(getDefaultParticipant(), ss1);
+        completeParticipantSchedule(james, ss2);
+        completeParticipantSchedule(charles, ss2);
+        completeParticipantSchedule(hugo, ss2);
+        completeParticipantSchedule(daniel, ss2);
+        completeParticipantSchedule(ben, ss2);
+        completeParticipantSchedule(desmond, ss2);
+        completeParticipantSchedule(juliet, ss2);
+
+        completeParticipantSchedule(findParticpantByUserName("Charlie.Boon"), StudyTestHelper.getDefaultStudy().getLeadStudySite());
 
     }
 
@@ -54,15 +75,17 @@ public class ParticipantTestHelper {
         StudyParticipantCrfSchedule schedule = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(0);
         for (StudyParticipantCrfItem studyParticipantCrfItem : schedule.getStudyParticipantCrfItems()) {
             List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
-            studyParticipantCrfItem.setProCtcValidValue(validValues.get(validValues.size() - 1));
+            Random random = new Random();
+            studyParticipantCrfItem.setProCtcValidValue(validValues.get(random.nextInt(validValues.size())));
         }
+        schedule.setStatus(CrfStatus.COMPLETED);
         genericRepository.save(schedule);
         NotificationsEvaluationService.setGenericRepository(genericRepository);
         NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
 
     }
 
-    public static void createParticipant(String firstName, String lastName, String assignedIdentifier, StudySite studySite) throws ParseException {
+    public static Participant createParticipant(String firstName, String lastName, String assignedIdentifier, StudySite studySite) throws ParseException {
 
         Participant participant = new Participant();
         firstTab_ParticipantDetails(participant, firstName, lastName, assignedIdentifier, studySite);
@@ -71,6 +94,7 @@ public class ParticipantTestHelper {
         participant = participantRepository.save(participant);
         assignCrfToParticipantAndCreateSchedules(participant, studySite);
         participant = participantRepository.save(participant);
+        return participant;
     }
 
     private static void firstTab_ParticipantDetails(Participant participant, String firstName, String lastName, String assignedIdentifier, StudySite studySite) {

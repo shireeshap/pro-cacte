@@ -185,7 +185,7 @@
     <td><chrome:box title="Over due forms">
         <c:choose>
             <c:when test="${empty overdue}">
-                <div style="margin-left:15px;">You have overdue forms.</div>
+                <div style="margin-left:15px;">You have no overdue forms.</div>
             </c:when>
             <c:otherwise>
                 <table class="widget" cellpadding="5px;">

@@ -103,7 +103,7 @@ public class DomainObjectPrivilegeGenerator {
 
         StudyOrganization studyOrganization = studyOrganizationClinicalStaff.getStudyOrganization();
         if (studyOrganization instanceof LeadStudySite) {
-            if (studyOrganizationClinicalStaff.getRole().equals(Role.LEAD_CRA)) {
+            if (studyOrganizationClinicalStaff.getRole().equals(Role.LEAD_CRA) || studyOrganizationClinicalStaff.getRole().equals(Role.PI)) {
                 privileges.add(generateGroupPrivilegeForStudyOrganization(studyOrganization));
             }
         }

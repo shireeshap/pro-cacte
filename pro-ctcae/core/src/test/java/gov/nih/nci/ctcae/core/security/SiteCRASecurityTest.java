@@ -45,5 +45,13 @@ public class SiteCRASecurityTest extends TestDataManager {
         assertEquals(2, organizations.size());
 
     }
+    public void testInstance_StudySitesForPI() {
+        ClinicalStaff clinicalStaff = StudyTestHelper.getLeadSiteStaffByRole(Role.PI);
+        login(clinicalStaff.getUser().getUsername());
+
+        List<StudyOrganization> organizations = studyOrganizationRepository.findByStudyId("%", StudyTestHelper.getDefaultStudy().getId());
+        assertEquals(2, organizations.size());
+
+    }
 
 }
