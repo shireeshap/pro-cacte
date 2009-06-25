@@ -72,16 +72,19 @@ public class ParticipantTestHelper {
     }
 
     private static void completeParticipantSchedule(Participant participant, StudySite ss1) {
-        StudyParticipantCrfSchedule schedule = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(0);
-        for (StudyParticipantCrfItem studyParticipantCrfItem : schedule.getStudyParticipantCrfItems()) {
-            List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
-            Random random = new Random();
-            studyParticipantCrfItem.setProCtcValidValue(validValues.get(random.nextInt(validValues.size())));
+        Random random = new Random();
+        int totalSchedules =participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().size();
+        for (int i = 0; i < random.nextInt(totalSchedules); i++) {
+            StudyParticipantCrfSchedule schedule = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(i);
+            for (StudyParticipantCrfItem studyParticipantCrfItem : schedule.getStudyParticipantCrfItems()) {
+                List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
+                studyParticipantCrfItem.setProCtcValidValue(validValues.get(random.nextInt(validValues.size())));
+            }
+            schedule.setStatus(CrfStatus.COMPLETED);
+            genericRepository.save(schedule);
+            NotificationsEvaluationService.setGenericRepository(genericRepository);
+            NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
         }
-        schedule.setStatus(CrfStatus.COMPLETED);
-        genericRepository.save(schedule);
-        NotificationsEvaluationService.setGenericRepository(genericRepository);
-        NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
 
     }
 
