@@ -31,6 +31,7 @@ public class NotificationsEvaluationService {
     public static void executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) {
         ArrayList<String[]> criticalSymptoms = new ArrayList<String[]>();
         HashSet<String> emails = new HashSet<String>();
+        HashSet<User> users = new HashSet<User>();
         RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, studySite);
         if (ruleSet == null) {
             return;
@@ -83,7 +84,7 @@ public class NotificationsEvaluationService {
                             if (!StringUtils.isBlank(result.getMessage())) {
                                 String recipients = result.getMessage();
                                 logger.info("Send email to " + recipients);
-                                getRecipients(notification, emails, recipients, studyParticipantCrfSchedule);
+                                getRecipients(users, emails, recipients, studyParticipantCrfSchedule);
                                 criticalSymptoms.addAll(temp);
                             }
                         }
@@ -100,8 +101,9 @@ public class NotificationsEvaluationService {
                 String emailMessage = getEmaiContent(studyParticipantCrfSchedule, criticalSymptoms);
                 notification.setText(emailMessage);
                 notification.setDate(new Date());
+                addUserNotifications(notification, studyParticipantCrfSchedule, users);
                 genericRepository.save(notification);
-                
+
                 sendMail(getStringArr(emails), "Notification email", emailMessage);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -115,80 +117,74 @@ public class NotificationsEvaluationService {
         }
     }
 
-    private static void getRecipients(Notification notification, HashSet<String> emails, String message, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+    private static void getRecipients(HashSet<User> users, HashSet<String> emails, String message, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
 
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment();
         StringTokenizer st = new StringTokenizer(message, "||");
         while (st.hasMoreTokens()) {
             String token = st.nextToken();
+            ClinicalStaff cs = null;
             if (token.equals("PrimaryNurse")) {
                 StudyParticipantClinicalStaff studyParticipantClinicalStaff = studyParticipantAssignment.getResearchNurse();
                 if (studyParticipantClinicalStaff.isNotify()) {
-                    addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
-                    addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantClinicalStaff);
+                    cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
                 }
             }
             if (token.equals("PrimaryPhysician")) {
                 StudyParticipantClinicalStaff studyParticipantClinicalStaff = studyParticipantAssignment.getTreatingPhysician();
                 if (studyParticipantClinicalStaff.isNotify()) {
-                    addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
-                    addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantClinicalStaff);
+                    cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
                 }
             }
             if (token.equals("SiteCRA")) {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSiteCRAs()) {
                     if (studyParticipantClinicalStaff.isNotify()) {
-                        addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
-                        addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantClinicalStaff);
+                        cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
                     }
                 }
             }
             if (token.equals("SitePI")) {
                 for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getSitePIs()) {
                     if (studyParticipantClinicalStaff.isNotify()) {
-                        addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
-                        addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantClinicalStaff);
+                        cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
                     }
                 }
             }
             if (token.equals("LeadCRA")) {
-                addEmail(studyParticipantAssignment.getStudySite().getStudy().getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
-                addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantAssignment.getStudySite().getStudy().getLeadCRA().getOrganizationClinicalStaff());
+                cs = studyParticipantAssignment.getStudySite().getStudy().getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff();
             }
             if (token.equals("PI")) {
-                addEmail(studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigator().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
-                addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantAssignment.getStudySite().getStudy().getPrincipalInvestigator().getOrganizationClinicalStaff());
+                cs = studyParticipantAssignment.getStudySite().getStudy().getLeadCRA().getOrganizationClinicalStaff().getClinicalStaff();
+            }
+            if (cs != null) {
+                addEmail(cs.getEmailAddress(), emails);
+                users.add(cs.getUser());
             }
         }
 
         for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getNotificationClinicalStaff()) {
             if (studyParticipantClinicalStaff.isNotify()) {
-                addEmail(studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getEmailAddress(), emails);
-                addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantClinicalStaff);
+                ClinicalStaff cs = studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff();
+                addEmail(cs.getEmailAddress(), emails);
+                users.add(cs.getUser());
             }
         }
         logger.info(emails);
 
     }
 
-    private static void addUserNotification(Notification notification, StudyParticipantCrfSchedule studyParticipantCrfSchedule, StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
-        addUserNotification(notification, studyParticipantCrfSchedule, studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff().getOrganizationClinicalStaff().getClinicalStaff().getUser());
-    }
-
-    private static void addUserNotification(Notification notification, StudyParticipantCrfSchedule studyParticipantCrfSchedule, OrganizationClinicalStaff organizationClinicalStaff) {
-        addUserNotification(notification, studyParticipantCrfSchedule, organizationClinicalStaff.getClinicalStaff().getUser());
-    }
-
-    private static void addUserNotification(Notification notification, StudyParticipantCrfSchedule studyParticipantCrfSchedule, User user) {
-        UserNotification userNotification = new UserNotification();
-        userNotification.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
-        userNotification.setUuid(UUID.randomUUID().toString());
-        userNotification.setMarkDelete(false);
-        userNotification.setNew(true);
-        userNotification.setParticipant(studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant());
-        userNotification.setStudy(studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getStudy());
-        userNotification.setUser(user);
-        notification.addUserNotification(userNotification);
+    private static void addUserNotifications(Notification notification, StudyParticipantCrfSchedule studyParticipantCrfSchedule, HashSet<User> users) {
+        for (User user : users) {
+            UserNotification userNotification = new UserNotification();
+            userNotification.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+            userNotification.setUuid(UUID.randomUUID().toString());
+            userNotification.setMarkDelete(false);
+            userNotification.setNew(true);
+            userNotification.setParticipant(studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant());
+            userNotification.setStudy(studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getStudy());
+            userNotification.setUser(user);
+            notification.addUserNotification(userNotification);
+        }
     }
 
 
