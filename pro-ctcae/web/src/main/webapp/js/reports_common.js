@@ -79,7 +79,6 @@ function updateFormDropDown(crfs) {
 function displaySymptoms(obj) {
     if (obj.value == '') {
         $('symptomDropDownDiv').hide();
-        $('attributeDropDownDiv').hide();
     } else {
         crf.getSymptomsForCrf(obj[obj.selectedIndex].value, updateSymptomDropDown);
     }
@@ -87,26 +86,9 @@ function displaySymptoms(obj) {
 
 function updateSymptomDropDown(symptoms) {
     var dd = getSelect('symptom');
-    dd.onchange = function() {
-        displayAttributes(this);
-    }
     populate(dd, symptoms, 'term', 'id');
     $('symptomDropDown').appendChild(dd);
     $('symptomDropDownDiv').show();
-}
-
-function displayAttributes(obj) {
-    if (obj.value == '') {
-        $('attributeDropDownDiv').hide();
-    } else {
-        crf.getAttributesForSymptom(obj[obj.selectedIndex].value, updateAttribueDropDown);
-    }
-}
-function updateAttribueDropDown(attributes) {
-    var dd = getSelect('attribute');
-    populate(dd, attributes);
-    $('attributeDropDown').appendChild(dd);
-    $('attributeDropDownDiv').show();
 }
 
 function displaySites() {
@@ -146,9 +128,8 @@ function performValidations() {
     var arr = new Array();
     arr[0] = 'formSelect';
     arr[1] = 'symptomSelect';
-    arr[2] = 'attributeSelect';
-    arr[3] = 'startDate';
-    arr[4] = 'endDate';
+    arr[2] = 'startDate';
+    arr[3] = 'endDate';
     if (studySiteMandatory) {
         arr[5] = 'studySite';
     }

@@ -43,9 +43,13 @@
                     )
         }
 
-        function reportResults() {
+        function reportResults(attributes) {
+
             if (!performValidations()) {
                 return;
+            }
+            if(typeof(attributes) == 'undefined'){
+                attributes='';
             }
             var visitRangeSelect = $('visitOptions');
             var visitRange = visitRangeSelect.options[visitRangeSelect.selectedIndex].value;
@@ -53,14 +57,14 @@
             var endDate = $('endDate').value;
             showIndicator();
             var request = new Ajax.Request("<c:url value="/pages/reports/symptomSummaryReportResults"/>", {
-                parameters:"crfId=" + $('formSelect').options[$('formSelect').selectedIndex].value +
-                           "&symptom=" + $('symptomSelect').options[$('symptomSelect').selectedIndex].value +
-                           "&attribute=" + $('attributeSelect').options[$('attributeSelect').selectedIndex].value +
+                parameters:"crfId=" + $('formSelect').value +
+                           "&symptom=" + $('symptomSelect').value +
                            "&gender=all" +
                            "&studySiteId=" + $('studySite').value +
                            "&visitRange=" + visitRange +
                            "&startDate=" + stDate +
                            "&endDate=" + endDate +
+                           "&attributes=" + attributes+
                            "&subview=subview",
                 onComplete:function(transport) {
                     showResults(transport);
@@ -70,13 +74,29 @@
             }
                     )
         }
+        function updateChart(chkbox) {
+            var obj = document.getElementsByName('attribute');
+            var selectedAttributes = '';
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i].checked) {
+                    selectedAttributes = selectedAttributes + ',' + obj[i].value;
+                }
+            }
+            if (selectedAttributes == '') {
+                alert('Please select at least one question type.');
+                chkbox.checked = true;
+                return;
+            }
+            reportResults(selectedAttributes);
+        }
+
     </script>
 </head>
 <body>
 <report:thirdlevelmenu selected="symptomsummary"/>
 <chrome:box title="participant.label.search_criteria">
     <div align="left" style="margin-left: 50px">
-        <tags:renderAutocompleter propertyName="study" displayName="Study" required="true" size="60" noForm="true"/>
+        <tags:renderAutocompleter propertyName="study" displayName="Study" required="true" size="80" noForm="true"/>
         <div id="formDropDownDiv" style="display:none;" class="row">
             <div class="label">Form</div>
             <div class="value" id="formDropDown"></div>
@@ -84,10 +104,6 @@
         <div id="symptomDropDownDiv" style="display:none;" class="row">
             <div class="label">Symptom</div>
             <div class="value" id="symptomDropDown"></div>
-        </div>
-        <div id="attributeDropDownDiv" style="display:none;" class="row">
-            <div class="label">Attribute</div>
-            <div class="value" id="attributeDropDown"></div>
         </div>
         <div id="studySiteAutoCompleterDiv" style="display:none">
             <tags:renderAutocompleter propertyName="studySite" displayName="Study site" size="60" noForm="true"/>

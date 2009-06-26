@@ -137,6 +137,7 @@ public class ParticipantSchedule {
                 studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
                 studyParticipantCrfSchedule.setCycleDay(cycleDay);
             }
+            
             CRF crf = crfRepository.findById(studyParticipantCrf.getCrf().getId());
             studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule, crf);
         }

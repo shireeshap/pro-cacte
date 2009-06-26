@@ -415,7 +415,7 @@
     </bean>
 
     <bean name="/reports/symptomSummaryReportResults" id="symptomSummaryReportResultsController"
-          class="gov.nih.nci.ctcae.web.reports.SymptomSummaryReportResultsController">
+          class="gov.nih.nci.ctcae.web.reports.graphical.SymptomSummaryReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
@@ -430,7 +430,7 @@
         <property name="viewName" value="reports/symptomOverTimeReport"/>
     </bean>
     <bean name="/reports/symptomOverTimeReportResults" id="symptomOverTimeReportResultsController"
-          class="gov.nih.nci.ctcae.web.reports.SymptomOverTimeReportResultsController">
+          class="gov.nih.nci.ctcae.web.reports.graphical.SymptomOverTimeReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
     <bean name="/reports/showDetailsOverTime" id="symptomOverTimeReportDetailsController"

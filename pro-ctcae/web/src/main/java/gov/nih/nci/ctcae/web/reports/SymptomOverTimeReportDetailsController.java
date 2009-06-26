@@ -1,7 +1,8 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
-import gov.nih.nci.ctcae.core.query.SymptomOverTimeReportQuery;
+import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeAllResponsesQuery;
+import gov.nih.nci.ctcae.web.reports.graphical.AbstractReportResultsController;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,18 +15,18 @@ import java.util.*;
  * Date: May 19, 2009
  * Time: 9:34:01 AM
  */
-public class SymptomOverTimeReportDetailsController extends SymptomSummaryReportResultsController {
+public class SymptomOverTimeReportDetailsController extends AbstractReportResultsController {
 
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        SymptomOverTimeReportQuery query = new SymptomOverTimeReportQuery();
-        parseRequestParametersAndFormQuery(request, query);
-        List results = genericRepository.find(query);
         String group = request.getParameter("group");
         if (StringUtils.isBlank(group)) {
             group = "week";
         }
+        SymptomOverTimeAllResponsesQuery query = new SymptomOverTimeAllResponsesQuery("group");
+        parseRequestParametersAndFormQuery(request, query);
+        List results = genericRepository.find(query);
 
         Map model = new HashMap();
         model.put("results", transformData(results, request.getParameter("cat"), group));

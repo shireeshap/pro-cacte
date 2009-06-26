@@ -8,6 +8,8 @@ class CreateStudyParticipantCrfSchedules extends edu.northwestern.bioinformatics
       t.addColumn('is_holiday', 'boolean', nullable: true)
       t.addColumn('cycle_number', 'integer', nullable: true)
       t.addColumn('cycle_day', 'integer', nullable: true)
+      t.addColumn('week_in_year', 'integer', nullable: false)
+      t.addColumn('month_in_year', 'integer', nullable: false)
     }
     execute('ALTER TABLE SP_CRF_SCHEDULES ADD CONSTRAINT fk_spcs_spc FOREIGN KEY (study_participant_crf_id) REFERENCES STUDY_PARTICIPANT_CRFS')
 

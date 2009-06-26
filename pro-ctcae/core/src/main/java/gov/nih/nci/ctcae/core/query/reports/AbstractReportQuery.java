@@ -1,53 +1,34 @@
-package gov.nih.nci.ctcae.core.query;
+package gov.nih.nci.ctcae.core.query.reports;
 
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
+import gov.nih.nci.ctcae.core.query.AbstractQuery;
 
 import java.util.Date;
+import java.util.Collection;
 
 //
 /**
- * The Class ProCtcQuestionQuery.
- *
  * @author Harsh Agarwal
- * @created Oct 14, 2008
+ * @created June 26, 2009
  */
-public class SymptomSummaryReportQuery extends AbstractQuery {
+public abstract class AbstractReportQuery extends AbstractQuery {
 
-    /**
-     * The query string.
-     */
-    private static String queryString = "SELECT count(spci.proCtcValidValue.value) , spci.proCtcValidValue.value from StudyParticipantCrfItem spci group by spci.proCtcValidValue.value  order by spci.proCtcValidValue.value ";
-
-    public SymptomSummaryReportQuery(String query) {
+    protected AbstractReportQuery(String query) {
         super(query);
         andWhere("spci.studyParticipantCrfSchedule.status =:status");
         setParameter("status", CrfStatus.COMPLETED);
     }
 
-    public SymptomSummaryReportQuery() {
-        this(queryString);
-    }
 
     public void filterBySymptomId(final Integer id) {
         andWhere("spci.proCtcValidValue.proCtcQuestion.proCtcTerm.id = :symptom");
         setParameter("symptom", id);
     }
 
-    public void filterByAttribute(final ProCtcQuestionType attribute) {
-        andWhere("spci.proCtcValidValue.proCtcQuestion.proCtcQuestionType = :attribute");
-        setParameter("attribute", attribute);
-    }
-
-    public void filterByResponse(String response) {
-        andWhere("spci.proCtcValidValue.value = :response");
-        setParameter("response", response);
-
-    }
-
-    public void filterByParticipantGender(String gender) {
-        andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.gender = :gender");
-        setParameter("gender", gender);
+    public void filterByAttributes(final Collection<ProCtcQuestionType> attributes) {
+        andWhere("spci.proCtcValidValue.proCtcQuestion.proCtcQuestionType in ( :attributesList)");
+        setParameterList("attributesList", attributes);
     }
 
     public void filterByScheduleStartDate(Date startDate, Date endDate) {

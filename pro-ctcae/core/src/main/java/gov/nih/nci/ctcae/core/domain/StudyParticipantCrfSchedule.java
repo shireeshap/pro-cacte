@@ -5,10 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 //
 /**
@@ -59,6 +56,12 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     @Column(name = "cycle_day", nullable = true)
     private Integer cycleDay;
+
+    @Column(name = "week_in_year", nullable = false)
+    private Integer weekInYear;
+
+    @Column(name = "month_in_year", nullable = false)
+    private Integer monthInYear;
 
 
     /**
@@ -144,6 +147,10 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
      */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+        Calendar c = Calendar.getInstance();
+        c.setTime(startDate);
+        setWeekInYear(c.get(Calendar.WEEK_OF_YEAR));
+        setMonthInYear(c.get(Calendar.MONTH));
     }
 
 
@@ -201,36 +208,6 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         this.status = status;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        StudyParticipantCrfSchedule that = (StudyParticipantCrfSchedule) o;
-
-        if (dueDate != null ? !dueDate.equals(that.dueDate) : that.dueDate != null) return false;
-        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
-        if (status != that.status) return false;
-        if (studyParticipantCrf != null ? !studyParticipantCrf.equals(that.studyParticipantCrf) : that.studyParticipantCrf != null)
-            return false;
-        return true;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        int result = startDate != null ? startDate.hashCode() : 0;
-        result = 31 * result + (dueDate != null ? dueDate.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
-        return result;
-    }
-
     /**
      * Gets the study participant crf schedule added questions.
      *
@@ -279,11 +256,53 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         this.cycleDay = cycleDay;
     }
 
-//    public int compareTo(StudyParticipantCrfSchedule spCrfSchedule) {
-//            return startDate.compareTo(spCrfSchedule.getStartDate());
-//             }
+    public Integer getWeekInYear() {
+        return weekInYear;
+    }
 
-    
+    public void setWeekInYear(Integer weekInYear) {
+        this.weekInYear = weekInYear;
+    }
 
+    public Integer getMonthInYear() {
+        return monthInYear;
+    }
 
+    public void setMonthInYear(Integer monthInYear) {
+        this.monthInYear = monthInYear;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StudyParticipantCrfSchedule that = (StudyParticipantCrfSchedule) o;
+
+        if (holiday != that.holiday) return false;
+        if (cycleDay != null ? !cycleDay.equals(that.cycleDay) : that.cycleDay != null) return false;
+        if (cycleNumber != null ? !cycleNumber.equals(that.cycleNumber) : that.cycleNumber != null) return false;
+        if (!dueDate.equals(that.dueDate)) return false;
+        if (!startDate.equals(that.startDate)) return false;
+        if (status != that.status) return false;
+        if (!studyParticipantCrf.equals(that.studyParticipantCrf)) return false;
+        if (!monthInYear.equals(that.monthInYear)) return false;
+        if (!weekInYear.equals(that.weekInYear)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = startDate.hashCode();
+        result = 31 * result + dueDate.hashCode();
+        result = 31 * result + (holiday ? 1 : 0);
+        result = 31 * result + status.hashCode();
+        result = 31 * result + (cycleNumber != null ? cycleNumber.hashCode() : 0);
+        result = 31 * result + (cycleDay != null ? cycleDay.hashCode() : 0);
+        result = 31 * result + weekInYear.hashCode();
+        result = 31 * result + monthInYear.hashCode();
+        result = 31 * result + studyParticipantCrf.hashCode();
+        return result;
+    }
 }

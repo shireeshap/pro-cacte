@@ -1,9 +1,9 @@
-package gov.nih.nci.ctcae.web.reports;
+package gov.nih.nci.ctcae.web.reports.graphical;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
-import gov.nih.nci.ctcae.core.query.SymptomSummaryReportQuery;
+import gov.nih.nci.ctcae.core.query.reports.AbstractReportQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -11,6 +11,8 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.StringTokenizer;
+import java.util.HashSet;
 
 
 /**
@@ -22,19 +24,25 @@ public abstract class AbstractReportResultsController extends AbstractController
 
     protected GenericRepository genericRepository;
 
-    protected void parseRequestParametersAndFormQuery(HttpServletRequest request, SymptomSummaryReportQuery query) throws ParseException {
+    protected void parseRequestParametersAndFormQuery(HttpServletRequest request, AbstractReportQuery query) throws ParseException {
         int crfId = Integer.parseInt(request.getParameter("crfId"));
         int symptomId = Integer.parseInt(request.getParameter("symptom"));
-        String attributeName = request.getParameter("attribute");
-        String gender = request.getParameter("gender");
+        String attributes = request.getParameter("attributes");
         String studySiteId = request.getParameter("studySiteId");
         String visitRange = request.getParameter("visitRange");
 
         query.filterByCrf(crfId);
         query.filterBySymptomId(symptomId);
-        query.filterByAttribute(ProCtcQuestionType.getByDisplayName(attributeName));
-        if (!StringUtils.isBlank(gender) && !"all".equals(gender.toLowerCase())) {
-            query.filterByParticipantGender(gender);
+        if (!StringUtils.isBlank(attributes)) {
+            HashSet<ProCtcQuestionType> qT = new HashSet<ProCtcQuestionType>();
+            StringTokenizer st = new StringTokenizer(attributes,",");
+            while(st.hasMoreTokens()){
+                String a = st.nextToken();
+                if(!StringUtils.isBlank(a)){
+                    qT.add(ProCtcQuestionType.getByDisplayName(a));
+                }
+            }
+            query.filterByAttributes(qT);
         }
         if (!StringUtils.isBlank(studySiteId)) {
             query.filterByStudySite(Integer.parseInt(studySiteId));
@@ -44,10 +52,6 @@ public abstract class AbstractReportResultsController extends AbstractController
             Date startDate = DateUtils.parseDate(request.getParameter("startDate"));
             Date endDate = DateUtils.parseDate(request.getParameter("endDate"));
             query.filterByScheduleStartDate(startDate, endDate);
-        }
-
-        if (!StringUtils.isBlank(request.getParameter("response"))) {
-            query.filterByResponse(request.getParameter("response"));
         }
     }
 

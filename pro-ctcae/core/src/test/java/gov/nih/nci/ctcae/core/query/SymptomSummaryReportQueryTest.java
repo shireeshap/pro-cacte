@@ -1,8 +1,10 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryParticipantCountQuery;
+import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryAllResponsesQuery;
+import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeAllResponsesQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
@@ -28,11 +30,9 @@ public class SymptomSummaryReportQueryTest extends AbstractDependencyInjectionSp
     }
 
     public void testSummaryQuery() throws Exception {
-        SymptomSummaryReportQuery query = new SymptomSummaryReportQuery();
+        SymptomSummaryAllResponsesQuery query = new SymptomSummaryAllResponsesQuery();
         query.filterBySymptomId(11);
-        query.filterByAttribute(ProCtcQuestionType.SEVERITY);
-        query.filterByResponse("Moderate");
-        query.filterByParticipantGender("Male");
+//        query.filterByAttributes(ProCtcQuestionType.SEVERITY);
         query.filterByScheduleStartDate(DateUtils.parseDate("05/10/2009"), DateUtils.parseDate("05/12/2009"));
         query.filterByCrf(1);
         query.filterByStudySite(15);
@@ -48,9 +48,7 @@ public class SymptomSummaryReportQueryTest extends AbstractDependencyInjectionSp
     public void testDetailsQuery() throws Exception {
         SymptomSummaryReportDetailsQuery query = new SymptomSummaryReportDetailsQuery();
         query.filterBySymptomId(11);
-        query.filterByAttribute(ProCtcQuestionType.SEVERITY);
-        query.filterByResponse("Moderate");
-        query.filterByParticipantGender("Male");
+//        query.filterByAttributes(ProCtcQuestionType.SEVERITY);
         query.filterByScheduleStartDate(DateUtils.parseDate("05/10/2009"), DateUtils.parseDate("05/12/2009"));
         query.filterByCrf(1);
         query.filterByStudySite(15);
@@ -66,9 +64,7 @@ public class SymptomSummaryReportQueryTest extends AbstractDependencyInjectionSp
     public void testParticipantCountQuery() throws Exception {
         SymptomSummaryParticipantCountQuery query = new SymptomSummaryParticipantCountQuery();
         query.filterBySymptomId(11);
-        query.filterByAttribute(ProCtcQuestionType.SEVERITY);
-        query.filterByResponse("Moderate");
-        query.filterByParticipantGender("Male");
+//        query.filterByAttributes(ProCtcQuestionType.SEVERITY);
         query.filterByScheduleStartDate(DateUtils.parseDate("05/10/2009"), DateUtils.parseDate("05/12/2009"));
         query.filterByCrf(1);
         query.filterByStudySite(15);
@@ -79,10 +75,9 @@ public class SymptomSummaryReportQueryTest extends AbstractDependencyInjectionSp
     }
 
     public void testSymptomOverTimeQuery() throws Exception {
-        SymptomOverTimeReportQuery query = new SymptomOverTimeReportQuery();
+        SymptomOverTimeAllResponsesQuery query = new SymptomOverTimeAllResponsesQuery("week");
         query.filterBySymptomId(11);
-        query.filterByAttribute(ProCtcQuestionType.SEVERITY);
-        query.filterByParticipantGender("Male");
+//        query.filterByAttributes(ProCtcQuestionType.SEVERITY);
 //        query.filterByScheduleStartDate(DateUtils.parseDate("05/10/2009"), DateUtils.parseDate("05/12/2009"));
         query.filterByCrf(1);
         query.filterByStudySite(15);
