@@ -38,9 +38,9 @@ public class SymptomOverTimeWorstResponsesChartGenerator extends AbstractChartGe
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (String a : temp.keySet()) {
             TreeMap<Integer, Float> map = temp.get(a);
-            ArrayList<Integer> l = new ArrayList(map.keySet());
+            ArrayList<String> l = new ArrayList(map.keySet());
             Collections.sort(l);
-            for (Integer i : l) {
+            for (String i : l) {
                 dataset.addValue(map.get(i), a, i);
             }
         }

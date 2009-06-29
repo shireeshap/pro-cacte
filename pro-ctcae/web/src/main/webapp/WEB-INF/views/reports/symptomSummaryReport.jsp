@@ -59,7 +59,6 @@
             var request = new Ajax.Request("<c:url value="/pages/reports/symptomSummaryReportResults"/>", {
                 parameters:"crfId=" + $('formSelect').value +
                            "&symptom=" + $('symptomSelect').value +
-                           "&gender=all" +
                            "&studySiteId=" + $('studySite').value +
                            "&visitRange=" + visitRange +
                            "&startDate=" + stDate +

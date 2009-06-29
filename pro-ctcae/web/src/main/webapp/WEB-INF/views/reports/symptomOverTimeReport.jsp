@@ -41,27 +41,30 @@
             })
         }
 
-        function reportResults(group) {
+        function reportResults(group, attributes) {
             if (!performValidations()) {
                 return;
             }
             if (group == '') {
                 group = 'week';
             }
+            if (typeof(attributes) == 'undefined') {
+                attributes = '';
+            }
+
             var visitRangeSelect = $('visitOptions');
             var visitRange = visitRangeSelect.options[visitRangeSelect.selectedIndex].value;
             var stDate = $('startDate').value;
             var endDate = $('endDate').value;
             showIndicator();
             var request = new Ajax.Request("<c:url value="/pages/reports/symptomOverTimeReportResults"/>", {
-                parameters:"crfId=" + $('formSelect').options[$('formSelect').selectedIndex].value +
-                           "&symptom=" + $('symptomSelect').options[$('symptomSelect').selectedIndex].value +
-                           "&attribute=" + $('attributeSelect').options[$('attributeSelect').selectedIndex].value +
-                           "&gender=all" +
+                parameters:"crfId=" + $('formSelect').value +
+                           "&symptom=" + $('symptomSelect').value +
                            "&studySiteId=" + $('studySite').value +
                            "&visitRange=" + visitRange +
                            "&startDate=" + stDate +
                            "&endDate=" + endDate +
+                           "&attributes=" + attributes+
                            "&group=" + group +
                            "&subview=subview",
                 onComplete:function(transport) {
@@ -71,6 +74,22 @@
                 method:'get'
             })
         }
+        function updateChart(chkbox,group) {
+            var obj = document.getElementsByName('attribute');
+            var selectedAttributes = '';
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i].checked) {
+                    selectedAttributes = selectedAttributes + ',' + obj[i].value;
+                }
+            }
+            if (selectedAttributes == '') {
+                alert('Please select at least one question type.');
+                chkbox.checked = true;
+                return;
+            }
+            reportResults(group,selectedAttributes);
+        }
+
     </script>
 </head>
 <body>
@@ -80,7 +99,7 @@
         <tags:renderAutocompleter propertyName="study"
                                   displayName="Study"
                                   required="true"
-                                  size="60"
+                                  size="80"
                                   noForm="true"/>
         <div id="formDropDownDiv" style="display:none;" class="row">
             <div class="label">Form</div>

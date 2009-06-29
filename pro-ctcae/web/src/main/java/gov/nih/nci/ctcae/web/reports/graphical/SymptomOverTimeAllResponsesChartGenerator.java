@@ -39,7 +39,7 @@ public class SymptomOverTimeAllResponsesChartGenerator extends AbstractChartGene
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (Object obj : temp) {
             Object[] o = (Object[]) obj;
-            dataset.addValue((Double) o[0], ((ProCtcQuestionType) o[1]).getDisplayName(), (Integer) o[2]);
+            dataset.addValue((Double) o[0], ((ProCtcQuestionType) o[1]).getDisplayName(), (String) o[2]);
         }
         return dataset;
     }

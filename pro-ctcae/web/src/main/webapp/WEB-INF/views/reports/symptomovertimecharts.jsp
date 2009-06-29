@@ -6,12 +6,46 @@
 <chrome:box title="Report">
     <c:choose>
         <c:when test="${group =='week'}">
-            <tags:button value="Group by month" color="blue" size="small" markupWithTag="a"
-                         onclick="reportResults('month');"/>
+            <table>
+                <tr>
+                    <td>
+                        <tags:button value="Group by month" color="blue" size="small" markupWithTag="a"
+                                     onclick="reportResults('month');"/>
+                    </td>
+                    <td>
+                        <tags:button value="Group by cycle" color="blue" size="small" markupWithTag="a"
+                                     onclick="reportResults('cycle');"/>
+                    </td>
+                </tr>
+            </table>
         </c:when>
         <c:when test="${group =='month'}">
-            <tags:button value="Group by week" color="blue" size="small" markupWithTag="a"
-                         onclick="reportResults('week');"/>
+            <table>
+                <tr>
+                    <td>
+                        <tags:button value="Group by week" color="blue" size="small" markupWithTag="a"
+                                     onclick="reportResults('week');"/>
+                    </td>
+                    <td>
+                        <tags:button value="Group by cycle" color="blue" size="small" markupWithTag="a"
+                                     onclick="reportResults('cycle');"/>
+                    </td>
+                </tr>
+            </table>
+        </c:when>
+        <c:when test="${group =='cycle'}">
+            <table>
+                <tr>
+                    <td>
+                        <tags:button value="Group by week" color="blue" size="small" markupWithTag="a"
+                                     onclick="reportResults('week');"/>
+                    </td>
+                    <td>
+                        <tags:button value="Group by month" color="blue" size="small" markupWithTag="a"
+                                     onclick="reportResults('month');"/>
+                    </td>
+                </tr>
+            </table>
         </c:when>
     </c:choose>
 
@@ -22,7 +56,7 @@
                 <input type="checkbox"
                        <c:if test="${fn:contains(selectedAttributes,attribute)}">checked="true"</c:if> name="attribute"
                        value="${attribute}"
-                       onclick="updateChart(this);">${attribute}&nbsp;&nbsp;
+                       onclick="updateChart(this,'${group}');">${attribute}&nbsp;&nbsp;
             </c:forEach>
 
         </div>
