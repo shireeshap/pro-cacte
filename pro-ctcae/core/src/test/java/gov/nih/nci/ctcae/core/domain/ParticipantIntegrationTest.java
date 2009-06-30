@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
+import gov.nih.nci.ctcae.core.query.UserQuery;
 
 import java.util.Collection;
 
@@ -19,6 +20,13 @@ public class ParticipantIntegrationTest extends TestDataManager {
 
 
     private void saveParticipant() {
+        ParticipantQuery pq = new ParticipantQuery();
+        pq.filterByUsername("1");
+        genericRepository.delete(genericRepository.findSingle(pq));
+        UserQuery uq = new UserQuery();
+        uq.filterByUserName("1");
+        genericRepository.delete(genericRepository.findSingle(uq));
+        commitAndStartNewTransaction();
         participant = Fixture.createParticipant("John", "Dow", "1234");
         participant.getUser().setUsername("1");
         StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
@@ -116,8 +124,6 @@ public class ParticipantIntegrationTest extends TestDataManager {
                 .find(participantQuery);
         assertFalse(participants.isEmpty());
         assertEquals(1, participants.size());
-
-
     }
 
 }

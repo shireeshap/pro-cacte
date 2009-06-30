@@ -53,10 +53,12 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void delete(Persistable persistable) {
-        if (persistable.isPersisted()) {
-            Persistable entityToRemove = (Persistable) getHibernateTemplate().get(persistable.getClass(), persistable.getId());
-            getHibernateTemplate().delete(entityToRemove);
-            getHibernateTemplate().flush();
+        if (persistable != null) {
+            if (persistable.isPersisted()) {
+                Persistable entityToRemove = (Persistable) getHibernateTemplate().get(persistable.getClass(), persistable.getId());
+                getHibernateTemplate().delete(entityToRemove);
+                getHibernateTemplate().flush();
+            }
         }
     }
 

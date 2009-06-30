@@ -87,8 +87,9 @@ public class ParticipantRepository implements Repository<Participant, Participan
 
 
     public void delete(Participant participant) {
-        genericRepository.delete(participant);
-
+        if (participant != null) {
+            genericRepository.delete(participant);
+        }
     }
 
     public Collection<Participant> find(ParticipantQuery query) {
