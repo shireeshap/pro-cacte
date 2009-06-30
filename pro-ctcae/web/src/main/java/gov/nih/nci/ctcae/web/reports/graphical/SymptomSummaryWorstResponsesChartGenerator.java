@@ -17,7 +17,7 @@ public class SymptomSummaryWorstResponsesChartGenerator extends AbstractChartGen
     }
 
     public CategoryDataset createDataSet(Object results) {
-        HashMap<String, TreeMap<Integer, Integer>> temp = (HashMap<String, TreeMap<Integer, Integer>>) results;
+        TreeMap<String, TreeMap<Integer, Integer>> temp = (TreeMap<String, TreeMap<Integer, Integer>>) results;
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (String a : temp.keySet()) {
             TreeMap<Integer, Integer> map = temp.get(a);

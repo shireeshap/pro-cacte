@@ -14,7 +14,8 @@ public class SymptomSummaryAllResponsesQuery extends AbstractReportQuery {
             "from StudyParticipantCrfItem spci " +
             "group by spci.proCtcValidValue.displayOrder, " +
             "spci.crfPageItem.proCtcQuestion.proCtcQuestionType " +
-            "order by spci.proCtcValidValue.displayOrder";
+            "order by spci.crfPageItem.proCtcQuestion.proCtcQuestionType, " +
+            "spci.proCtcValidValue.displayOrder ";
 
     public SymptomSummaryAllResponsesQuery() {
         super(queryString);

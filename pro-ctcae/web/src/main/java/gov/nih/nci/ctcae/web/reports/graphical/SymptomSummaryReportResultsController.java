@@ -105,7 +105,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         parseRequestParametersAndFormQuery(request, worstResponsesQuery);
         List worstResponses = genericRepository.find(worstResponsesQuery);
 
-        HashMap<String, TreeMap<Integer, Integer>> results = new HashMap<String, TreeMap<Integer, Integer>>();
+        TreeMap<String, TreeMap<Integer, Integer>> results = new TreeMap<String, TreeMap<Integer, Integer>>();
         for (Object obj : worstResponses) {
             Object[] a = (Object[]) obj;
             Integer level = (Integer) a[0];
