@@ -17,18 +17,18 @@ public class SymptomOverTimeWorstResponsesQuery extends AbstractReportQuery {
         String selectGroup = "'Week ' || spci.studyParticipantCrfSchedule.weekInYear ";
         String middle = "from StudyParticipantCrfItem spci group by spci.proCtcValidValue.displayOrder,spci.crfPageItem.proCtcQuestion.proCtcQuestionType,spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id, ";
         String groupBy = "spci.studyParticipantCrfSchedule.weekInYear ";
-        String orderBy = "order by spci.studyParticipantCrfSchedule.weekInYear, ";
-        String orderBy2 = "spci.crfPageItem.proCtcQuestion.proCtcQuestionType ";
+        String orderBy = "order by spci.crfPageItem.proCtcQuestion.proCtcQuestionType, ";
+        String orderBy2 = "spci.studyParticipantCrfSchedule.weekInYear ";
 
         if (group.equals("month")) {
             selectGroup = "'Month ' || spci.studyParticipantCrfSchedule.monthInYear ";
             groupBy = "spci.studyParticipantCrfSchedule.monthInYear ";
-            orderBy = "order by spci.studyParticipantCrfSchedule.monthInYear, ";
+            orderBy2 = "spci.studyParticipantCrfSchedule.monthInYear ";
         }
         if (group.equals("cycle")) {
             selectGroup = "'Cycle ' || spci.studyParticipantCrfSchedule.cycleNumber ";
             groupBy = "spci.studyParticipantCrfSchedule.cycleNumber ";
-            orderBy = "order by spci.studyParticipantCrfSchedule.cycleNumber, ";
+            orderBy2 = "spci.studyParticipantCrfSchedule.cycleNumber ";
         }
 
         query.append(append).append(selectGroup).append(middle).append(groupBy).append(orderBy).append(orderBy2);
