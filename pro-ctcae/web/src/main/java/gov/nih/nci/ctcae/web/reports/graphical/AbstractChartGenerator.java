@@ -4,6 +4,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.urls.CategoryURLGenerator;
 import org.jfree.chart.labels.AbstractCategoryItemLabelGenerator;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.ItemLabelPosition;
@@ -29,20 +30,22 @@ public abstract class AbstractChartGenerator {
     private String rangeAxisLabel;
     private String domainAxisLabel;
     private boolean showPercentage = false;
+    private String queryString;
 
-
-    public AbstractChartGenerator(String title, String rangeAxisLabel, String domainAxisLabel) {
+    public AbstractChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, String queryString) {
         this.title = title;
         this.rangeAxisLabel = rangeAxisLabel;
         this.domainAxisLabel = domainAxisLabel;
+        this.queryString = queryString;
+
     }
 
-    public AbstractChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, boolean showPercentage, Integer total) {
-        this(title, domainAxisLabel, rangeAxisLabel);
+    public AbstractChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, boolean showPercentage, Integer total, String queryString) {
+        this(title, domainAxisLabel, rangeAxisLabel, queryString);
         this.title = title;
         this.showPercentage = showPercentage;
         this.total = total;
-    }
+    }                                                                               
 
     protected abstract CategoryDataset createDataSet(Object results);
 
@@ -81,6 +84,7 @@ public abstract class AbstractChartGenerator {
             renderer.setSeriesItemLabelsVisible(i, true);
             renderer.setSeriesItemLabelPaint(i, Color.BLACK);
             renderer.setSeriesPositiveItemLabelPosition(i, itemLabelPosition);
+            renderer.setSeriesItemURLGenerator(i, new URLGenerator());
         }
 
         return chart;
@@ -104,15 +108,17 @@ public abstract class AbstractChartGenerator {
             return label;
         }
     }
-//
-//    class URLGenerator implements CategoryURLGenerator {
-//
-//        public String generateURL(CategoryDataset dataset, int series, int category) {
-//            String url = "javascript:showDetails('" + queryString + "&response=";
-//            Comparable categoryKey = dataset.getColumnKey(category);
-//            url += categoryKey.toString();
-//            url += "');";
-//            return url;
-//        }
-//    }
+
+    class URLGenerator implements CategoryURLGenerator {
+
+        public String generateURL(CategoryDataset dataset, int series, int category) {
+            String url = "javascript:showDetails('" + queryString + "&col=";
+            Comparable categoryKey = dataset.getColumnKey(category);
+            url += categoryKey.toString();
+            Comparable seriesKey = dataset.getRowKey(series);
+            url += "&ser=" + seriesKey.toString();
+            url += "');";
+            return url;
+        }
+    }
 }

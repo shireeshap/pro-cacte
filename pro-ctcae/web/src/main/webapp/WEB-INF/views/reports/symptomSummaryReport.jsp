@@ -19,16 +19,6 @@
     <tags:javascriptLink name="reports_common"/>
     <tags:javascriptLink name="table_menu"/>
     <script type="text/javascript">
-        function showResponses(id) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
-                parameters:"id=" + id + "&subview=subview",
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 700, 500);
-                },
-                method:'get'
-            }
-                    )
-        }
 
         function showDetails(params) {
             showIndicator();
@@ -51,8 +41,7 @@
             if(typeof(attributes) == 'undefined'){
                 attributes='';
             }
-            var visitRangeSelect = $('visitOptions');
-            var visitRange = visitRangeSelect.options[visitRangeSelect.selectedIndex].value;
+            var visitRange = $('visitOptions').value;
             var stDate = $('startDate').value;
             var endDate = $('endDate').value;
             showIndicator();

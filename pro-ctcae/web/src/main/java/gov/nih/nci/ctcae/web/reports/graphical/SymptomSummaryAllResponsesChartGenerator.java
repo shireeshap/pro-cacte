@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.reports.graphical;
 
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.urls.CategoryURLGenerator;
 
 import java.util.List;
 
@@ -14,9 +15,10 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
  */
 public class SymptomSummaryAllResponsesChartGenerator extends AbstractChartGenerator {
 
-    public SymptomSummaryAllResponsesChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, Integer total) {
-        super(title,  domainAxisLabel, rangeAxisLabel, true, total);
+    public SymptomSummaryAllResponsesChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, Integer total,String queryString) {
+        super(title, domainAxisLabel, rangeAxisLabel, true, total, queryString+"&type=ALL");
     }
+
     public CategoryDataset createDataSet(Object results) {
         List temp = (List) results;
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -26,4 +28,7 @@ public class SymptomSummaryAllResponsesChartGenerator extends AbstractChartGener
         }
         return dataset;
     }
+
+   
+
 }

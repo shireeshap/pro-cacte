@@ -4,15 +4,16 @@ import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.query.reports.AbstractReportQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
+import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.StringTokenizer;
-import java.util.HashSet;
+import java.util.*;
 
 
 /**
@@ -30,15 +31,18 @@ public abstract class AbstractReportResultsController extends AbstractController
         String attributes = request.getParameter("attributes");
         String studySiteId = request.getParameter("studySiteId");
         String visitRange = request.getParameter("visitRange");
-
+        String series = request.getParameter("ser");
+        if (!StringUtils.isBlank(series)) {
+            attributes = series;
+        }
         query.filterByCrf(crfId);
         query.filterBySymptomId(symptomId);
         if (!StringUtils.isBlank(attributes)) {
             HashSet<ProCtcQuestionType> qT = new HashSet<ProCtcQuestionType>();
-            StringTokenizer st = new StringTokenizer(attributes,",");
-            while(st.hasMoreTokens()){
+            StringTokenizer st = new StringTokenizer(attributes, ",");
+            while (st.hasMoreTokens()) {
                 String a = st.nextToken();
-                if(!StringUtils.isBlank(a)){
+                if (!StringUtils.isBlank(a)) {
                     qT.add(ProCtcQuestionType.getByDisplayName(a));
                 }
             }
@@ -59,4 +63,5 @@ public abstract class AbstractReportResultsController extends AbstractController
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
+
 }

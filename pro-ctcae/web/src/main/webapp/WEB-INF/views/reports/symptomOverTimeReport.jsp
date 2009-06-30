@@ -17,18 +17,10 @@
     <tags:dwrJavascriptLink objects="crf"/>
     <tags:includePrototypeWindow/>
     <tags:includeScriptaculous/>
+    <tags:javascriptLink name="mouse"/>
     <tags:javascriptLink name="reports_common"/>
     <tags:javascriptLink name="table_menu"/>
     <script type="text/javascript">
-        function showResponses(id) {
-            var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
-                parameters:"id=" + id + "&subview=subview",
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport, 700, 500);
-                },
-                method:'get'
-            })
-        }
         function showDetails(params) {
             showIndicator();
             var request = new Ajax.Request("<c:url value="/pages/reports/showDetailsOverTime"/>", {
@@ -41,19 +33,21 @@
             })
         }
 
-        function reportResults(group, attributes) {
+        function reportResults(attributes) {
             if (!performValidations()) {
                 return;
             }
-            if (group == '') {
-                group = 'week';
+            if ($('groupby') == null) {
+                var group = 'week';
+            } else {
+                var group = $('groupby').value.toLowerCase();
             }
+
             if (typeof(attributes) == 'undefined') {
                 attributes = '';
             }
 
-            var visitRangeSelect = $('visitOptions');
-            var visitRange = visitRangeSelect.options[visitRangeSelect.selectedIndex].value;
+            var visitRange = $('visitOptions').value;
             var stDate = $('startDate').value;
             var endDate = $('endDate').value;
             showIndicator();
@@ -64,7 +58,7 @@
                            "&visitRange=" + visitRange +
                            "&startDate=" + stDate +
                            "&endDate=" + endDate +
-                           "&attributes=" + attributes+
+                           "&attributes=" + attributes +
                            "&group=" + group +
                            "&subview=subview",
                 onComplete:function(transport) {
@@ -74,7 +68,7 @@
                 method:'get'
             })
         }
-        function updateChart(chkbox,group) {
+        function updateChart(chkbox, group) {
             var obj = document.getElementsByName('attribute');
             var selectedAttributes = '';
             for (var i = 0; i < obj.length; i++) {
@@ -87,7 +81,7 @@
                 chkbox.checked = true;
                 return;
             }
-            reportResults(group,selectedAttributes);
+            reportResults(group, selectedAttributes);
         }
 
     </script>

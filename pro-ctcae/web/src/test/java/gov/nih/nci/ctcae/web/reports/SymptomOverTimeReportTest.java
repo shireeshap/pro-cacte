@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class SymptomOverTimeReportTest extends AbstractWebTestCase {
 
 
-    public void testController() throws Exception {
+    public void testReportController() throws Exception {
 
         Study study = StudyTestHelper.getDefaultStudy();
         CRF crf = study.getCrfs().get(0);
@@ -34,7 +34,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         request.setParameter("crfId", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());
         request.setParameter("attributes", ",Severity,Frequency");
-        request.setParameter("group", "cycle");
+        request.setParameter("group", "week");
         request.setMethod("GET");
 
         ModelAndView modelAndView = controller.handleRequest(request, response);
@@ -48,6 +48,27 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         showCharts(allResponseChart, worstResponseChart);
 
 
+    }
+
+    public void testReportDetailsController() throws Exception {
+
+        Study study = StudyTestHelper.getDefaultStudy();
+        CRF crf = study.getCrfs().get(0);
+        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+
+        SymptomOverTimeReportDetailsController controller = new SymptomOverTimeReportDetailsController();
+        controller.setGenericRepository(genericRepository);
+        request.setParameter("crfId", crf.getId().toString());
+        request.setParameter("symptom", symptomId.toString());
+        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("group", "week");
+        request.setParameter("col", "Week 26");
+        request.setParameter("ser", "Frequency");
+        request.setParameter("type", "WOR");
+        request.setMethod("GET");
+
+        ModelAndView modelAndView = controller.handleRequest(request, response);
+        Map m = modelAndView.getModel();
     }
 
     private void showCharts(JFreeChart allResponseChart, JFreeChart worstResponseChart) throws InterruptedException {

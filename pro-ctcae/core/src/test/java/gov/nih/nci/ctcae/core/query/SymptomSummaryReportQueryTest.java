@@ -2,7 +2,7 @@ package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryParticipantCountQuery;
+import gov.nih.nci.ctcae.core.query.reports.ReportParticipantCountQuery;
 import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryAllResponsesQuery;
 import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeAllResponsesQuery;
 import org.springframework.beans.factory.annotation.Required;
@@ -46,7 +46,7 @@ public class SymptomSummaryReportQueryTest extends AbstractDependencyInjectionSp
     }
 
     public void testDetailsQuery() throws Exception {
-        SymptomSummaryReportDetailsQuery query = new SymptomSummaryReportDetailsQuery();
+        SymptomSummaryAllResponsesDetailsQuery query = new SymptomSummaryAllResponsesDetailsQuery();
         query.filterBySymptomId(11);
 //        query.filterByAttributes(ProCtcQuestionType.SEVERITY);
         query.filterByScheduleStartDate(DateUtils.parseDate("05/10/2009"), DateUtils.parseDate("05/12/2009"));
@@ -62,7 +62,7 @@ public class SymptomSummaryReportQueryTest extends AbstractDependencyInjectionSp
     }
 
     public void testParticipantCountQuery() throws Exception {
-        SymptomSummaryParticipantCountQuery query = new SymptomSummaryParticipantCountQuery();
+        ReportParticipantCountQuery query = new ReportParticipantCountQuery();
         query.filterBySymptomId(11);
 //        query.filterByAttributes(ProCtcQuestionType.SEVERITY);
         query.filterByScheduleStartDate(DateUtils.parseDate("05/10/2009"), DateUtils.parseDate("05/12/2009"));

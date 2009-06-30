@@ -12,8 +12,8 @@ import java.util.*;
  */
 public class SymptomSummaryWorstResponsesChartGenerator extends AbstractChartGenerator {
 
-    public SymptomSummaryWorstResponsesChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, Integer total) {
-        super(title, domainAxisLabel, rangeAxisLabel, true, total);
+    public SymptomSummaryWorstResponsesChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, Integer total,String queryString) {
+        super(title, domainAxisLabel, rangeAxisLabel, true, total, queryString+"&type=WOR");
     }
 
     public CategoryDataset createDataSet(Object results) {

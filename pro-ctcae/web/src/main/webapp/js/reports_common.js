@@ -30,12 +30,12 @@ function acCreateStudyMonitor(mode) {
 
 
 function displayForms(crfid) {
-    selectedCrf= crfid;
+    selectedCrf = crfid;
     var id = $('study').value
     crf.getReducedCrfs(id, updateFormDropDown)
 }
 
-function populate(ele, values, itext, ivalue,selectedValue) {
+function populate(ele, values, itext, ivalue, selectedValue) {
     var option = new Element('OPTION', {});
     option.text = 'Please select';
     option.value = '';
@@ -54,8 +54,8 @@ function populate(ele, values, itext, ivalue,selectedValue) {
             option.value = value;
         }
 
-        if(option.value == selectedValue){
-            option.selected=true;
+        if (option.value == selectedValue) {
+            option.selected = true;
         }
         ele.appendChild(option);
     }
@@ -63,7 +63,7 @@ function populate(ele, values, itext, ivalue,selectedValue) {
 
 function updateFormDropDown(crfs) {
     var dd = getSelect('form');
-    populate(dd, crfs, 'title', 'id',selectedCrf);
+    populate(dd, crfs, 'title', 'id', selectedCrf);
     $('formDropDownDiv').show();
     $('search').show();
     if (displaySymptom) {
@@ -184,6 +184,10 @@ function removeError(element) {
 
 function showIndicator() {
     $('indicator').style.visibility = 'visible';
+    if (typeof(xMousePos) != 'undefined') {
+        $("indicator").style.left = xMousePos + 'px';
+        $("indicator").style.top = yMousePos + 'px';
+    }
 }
 function hideIndicator() {
     $('indicator').style.visibility = 'hidden';
@@ -217,4 +221,13 @@ function fnDisplayParticipants() {
         initSearchField();
         $('participantAutoCompleterDiv').show();
     }
+}
+function showResponses(id) {
+    var request = new Ajax.Request("../participant/showCompletedCrf", {
+        parameters:"id=" + id + "&subview=subview",
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 700, 500);
+        },
+        method:'get'
+    })
 }

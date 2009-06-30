@@ -29,8 +29,8 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
  * Time: 2:42:11 PM
  */
 public class SymptomOverTimeWorstResponsesChartGenerator extends AbstractChartGenerator {
-    public SymptomOverTimeWorstResponsesChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel) {
-        super(title, domainAxisLabel, rangeAxisLabel);
+    public SymptomOverTimeWorstResponsesChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel,String queryString) {
+        super(title, domainAxisLabel, rangeAxisLabel, queryString+"&type=WOR");
     }
 
     public CategoryDataset createDataSet(Object results) {

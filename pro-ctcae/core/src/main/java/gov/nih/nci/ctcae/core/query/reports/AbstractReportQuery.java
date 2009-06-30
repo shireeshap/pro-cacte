@@ -46,4 +46,12 @@ public abstract class AbstractReportQuery extends AbstractQuery {
         andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.studySite.id=:studySiteId");
         setParameter("studySiteId", id);
     }
+    public void filterByParticipantId(Integer id) {
+        andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id=:participantId");
+        setParameter("participantId", id);
+    }
+    public void filterByResponse(Integer response) {
+        andWhere("spci.proCtcValidValue.displayOrder=:response");
+        setParameter("response", response);
+    }
 }

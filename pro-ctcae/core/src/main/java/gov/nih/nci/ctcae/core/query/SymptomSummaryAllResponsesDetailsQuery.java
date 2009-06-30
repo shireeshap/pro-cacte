@@ -2,12 +2,12 @@ package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.query.reports.AbstractReportQuery;
 
-public class SymptomSummaryReportDetailsQuery extends AbstractReportQuery {
-    private static String queryString = "SELECT spci.studyParticipantCrfSchedule,spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant " +
+public class SymptomSummaryAllResponsesDetailsQuery extends AbstractReportQuery {
+    private static String queryString = "SELECT spci " +
             "from StudyParticipantCrfItem spci order by  spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.lastName, spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.firstName, " +
             "spci.studyParticipantCrfSchedule.startDate";
 
-    public SymptomSummaryReportDetailsQuery() {
+    public SymptomSummaryAllResponsesDetailsQuery() {
         super(queryString);
     }
 }

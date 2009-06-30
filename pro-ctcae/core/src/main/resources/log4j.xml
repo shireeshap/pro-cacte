@@ -28,7 +28,7 @@
     </logger>
 
     <logger name="org.hibernate">
-        <level value="DEBUG"/>
+        <level value="ERROR"/>
     </logger>
     <logger name="com.semanticbits">
         <level value="ERROR"/>

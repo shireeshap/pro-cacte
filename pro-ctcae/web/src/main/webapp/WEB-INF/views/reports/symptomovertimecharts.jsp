@@ -4,73 +4,43 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <chrome:box title="Report">
-    <c:choose>
-        <c:when test="${group =='week'}">
-            <table>
-                <tr>
-                    <td>
-                        <tags:button value="Group by month" color="blue" size="small" markupWithTag="a"
-                                     onclick="reportResults('month');"/>
-                    </td>
-                    <td>
-                        <tags:button value="Group by cycle" color="blue" size="small" markupWithTag="a"
-                                     onclick="reportResults('cycle');"/>
-                    </td>
-                </tr>
-            </table>
-        </c:when>
-        <c:when test="${group =='month'}">
-            <table>
-                <tr>
-                    <td>
-                        <tags:button value="Group by week" color="blue" size="small" markupWithTag="a"
-                                     onclick="reportResults('week');"/>
-                    </td>
-                    <td>
-                        <tags:button value="Group by cycle" color="blue" size="small" markupWithTag="a"
-                                     onclick="reportResults('cycle');"/>
-                    </td>
-                </tr>
-            </table>
-        </c:when>
-        <c:when test="${group =='cycle'}">
-            <table>
-                <tr>
-                    <td>
-                        <tags:button value="Group by week" color="blue" size="small" markupWithTag="a"
-                                     onclick="reportResults('week');"/>
-                    </td>
-                    <td>
-                        <tags:button value="Group by month" color="blue" size="small" markupWithTag="a"
-                                     onclick="reportResults('month');"/>
-                    </td>
-                </tr>
-            </table>
-        </c:when>
-    </c:choose>
+    <table>
+        <tr>
+            <td>
+                <b>Group by:</b>
+                <select id="groupby" onchange="reportResults();">
+                    <option <c:if test="${group=='week'}">selected</c:if>>Week</option>
+                    <option <c:if test="${group=='month'}">selected</c:if>>Month</option>
+                    <option <c:if test="${group=='cycle'}">selected</c:if>>Cycle</option>
+                </select>
+            </td>
+            <c:if test="${fn:length(allAttributes)>1}">
+                <td>
+                    <b>&nbsp;&nbsp;&nbsp;&nbsp;Display:</b>&nbsp;<c:forEach items="${allAttributes}" var="attribute">
+                    <input type="checkbox"
+                           <c:if test="${fn:contains(selectedAttributes,attribute)}">checked="true"</c:if>
+                           name="attribute"
+                           value="${attribute}"
+                           onclick="updateChart(this,'${group}');">${attribute}&nbsp;&nbsp;
+                </c:forEach>
+                    <br/>
+                </td>
+            </c:if>
+        </tr>
+    </table>
 
-    <c:if test="${fn:length(allAttributes)>1}">
-        <div align="center">
-            <c:forEach items="${allAttributes}" var="attribute">
-
-                <input type="checkbox"
-                       <c:if test="${fn:contains(selectedAttributes,attribute)}">checked="true"</c:if> name="attribute"
-                       value="${attribute}"
-                       onclick="updateChart(this,'${group}');">${attribute}&nbsp;&nbsp;
-            </c:forEach>
-
-        </div>
-        <br/>
-    </c:if>
-
+    </div>
     ${worstResponseChartImageMap}
+    <chrome:division title="Average Participant Reported Responses vs. Time for ${symptom} symptom ( Worst responses)"/>
+    <br/>
+
     <div align="center">
         <img src="../../servlet/DisplayChart?filename=${worstResponseChartFileName}" width=700 height=400 border=0
              usemap="#${worstResponseChartFileName}"/>
     </div>
     ${allResponseChartImageMap}
     <br/>
-    <chrome:division title=" "/>
+    <chrome:division title="Average Participant Reported Responses vs. Time for ${symptom} symptom ( All responses)" collapsable="true"  id="allResponse"/>
     <br/>
 
     <div align="center">

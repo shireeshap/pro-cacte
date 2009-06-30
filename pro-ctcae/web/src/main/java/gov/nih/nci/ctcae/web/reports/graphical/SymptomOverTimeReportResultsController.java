@@ -1,11 +1,10 @@
 package gov.nih.nci.ctcae.web.reports.graphical;
 
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeAllResponsesQuery;
-import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryParticipantCountQuery;
+import gov.nih.nci.ctcae.core.query.reports.ReportParticipantCountQuery;
 import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeWorstResponsesQuery;
 import gov.nih.nci.ctcae.web.reports.graphical.AbstractReportResultsController;
 import gov.nih.nci.ctcae.web.reports.graphical.SymptomOverTimeAllResponsesChartGenerator;
@@ -37,7 +36,7 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         if (StringUtils.isBlank(group)) {
             group = "week";
         }
-        SymptomSummaryParticipantCountQuery query = new SymptomSummaryParticipantCountQuery();
+        ReportParticipantCountQuery query = new ReportParticipantCountQuery();
         parseRequestParametersAndFormQuery(request, query);
         List list = genericRepository.find(query);
         Long totalParticipants = (Long) list.get(0);
@@ -68,11 +67,13 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         modelAndView.addObject("worstResponseChart", worstResponseChart);
         modelAndView.addObject("allAttributes", allAttributes);
         modelAndView.addObject("selectedAttributes", selectedAttributes);
+        modelAndView.addObject("symptom", proCtcTerm.getTerm());
         return modelAndView;
     }
 
     private JFreeChart getWorstResponseChart(HttpServletRequest request, String group, String symptom, int totalParticipants, HashSet<String> selectedAttributes) throws ParseException {
-        String title = "Average Participant Reported Responses vs. Time for " + symptom + " symptom ( Worst responses)";
+//        String title = "Average Participant Reported Responses vs. Time for " + symptom + " symptom ( Worst responses)";
+        String title = "";
         String domainAxisLabel = group + "#";
 
         SymptomOverTimeWorstResponsesQuery query = new SymptomOverTimeWorstResponsesQuery(group);
@@ -116,38 +117,22 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
 
 
         String rangeAxisLabel = "Average Worst Response (p=" + totalParticipants + ")";
-        SymptomOverTimeWorstResponsesChartGenerator chartGenerator = new SymptomOverTimeWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel);
+        SymptomOverTimeWorstResponsesChartGenerator chartGenerator = new SymptomOverTimeWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, request.getQueryString());
         return chartGenerator.getChart(out);
 
     }
 
 
     private JFreeChart getAllResponseChart(HttpServletRequest request, String group, String symptom, int totalParticipants) throws ParseException {
-        String title = "Average Participant Reported Responses vs. Time for " + symptom + " symptom ( All responses)";
+//        String title = "Average Participant Reported Responses vs. Time for " + symptom + " symptom ( All responses)";
+        String title = "";
         String domainAxisLabel = group + "#";
 
         SymptomOverTimeAllResponsesQuery query = new SymptomOverTimeAllResponsesQuery(group);
         parseRequestParametersAndFormQuery(request, query);
         List results = genericRepository.find(query);
-
-        int i = 0;
-        int totalResponses = 0;
-        String attribute = "";
-        for (Object o : results) {
-            Object[] row = (Object[]) o;
-            if (i == 0) {
-                attribute = ((ProCtcQuestionType) row[1]).getDisplayName();
-                totalResponses += (Double) row[0];
-                i++;
-            } else {
-                String temp = ((ProCtcQuestionType) row[1]).getDisplayName();
-                if (temp.equals(attribute)) {
-                    totalResponses += (Double) row[0];
-                }
-            }
-        }
-        String rangeAxisLabel = "Average Response (n=" + totalResponses + ", p=" + totalParticipants + ")";
-        SymptomOverTimeAllResponsesChartGenerator chartGenerator = new SymptomOverTimeAllResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel);
+        String rangeAxisLabel = "Average Response (p=" + totalParticipants + ")";
+        SymptomOverTimeAllResponsesChartGenerator chartGenerator = new SymptomOverTimeAllResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, request.getQueryString());
         return chartGenerator.getChart(results);
 
     }
