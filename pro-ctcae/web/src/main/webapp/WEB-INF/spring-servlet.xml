@@ -110,8 +110,8 @@
                                   p:displayName="participant.tab.schedule_form" p:linkName="scheduleCrfController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="participant.tab.monitor_form" p:linkName="monitorFormController"/>
-                            <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
-                                  p:displayName="participant.tab.participant_schedules" p:linkName="showParticipantSchedulesController"/>
+                            <!--<bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"-->
+                                  <!--p:displayName="participant.tab.participant_schedules" p:linkName="showParticipantSchedulesController"/>-->
 
                         </list>
                     </property>
@@ -296,15 +296,18 @@
         <property name="formView" value="participant/participantInbox"/>
     </bean>
 
-    <bean name="/participant/showParticipantScheduleTable" id="showParticipantScheduleController"
-          class="gov.nih.nci.ctcae.web.participant.ShowParticipantScheduleController">
-        <property name="studyRepository" ref="studyRepository"/>
-    </bean>
+    <!--<bean name="/participant/showParticipantScheduleTable" id="showParticipantScheduleController"-->
+          <!--class="gov.nih.nci.ctcae.web.participant.ShowParticipantScheduleController">-->
+        <!--<property name="studyRepository" ref="studyRepository"/>-->
+    <!--</bean>-->
     <bean name="/participant/printSchedule" id="printParticipantScheduleController"
               class="gov.nih.nci.ctcae.web.participant.PrintParticipantScheduleController">
             <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
         </bean>
-
+    <bean name="/participant/enterResponses" id="enterParticipantResponsesController"
+             class="gov.nih.nci.ctcae.web.participant.EnterParticpantResponsesController" parent="ctcaeSimpleFormController">
+        <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
+             </bean>
 
     <bean name="/participant/addCrfSchedule" id="addCrfScheduleController"
           class="gov.nih.nci.ctcae.web.participant.AddCrfScheduleController">
@@ -407,12 +410,12 @@
         <property name="viewName" value="reports/symptomSummaryReport"/>
     </bean>
 
-    <bean name="/participant/showParticipantSchedule" id="showParticipantSchedulesController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-        <property name="viewName">
-            <value>/participant/showParticipantSchedule</value>
-        </property>
-    </bean>
+    <!--<bean name="/participant/showParticipantSchedule" id="showParticipantSchedulesController"-->
+          <!--class="org.springframework.web.servlet.mvc.ParameterizableViewController">-->
+        <!--<property name="viewName">-->
+            <!--<value>/participant/showParticipantSchedule</value>-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <bean name="/reports/symptomSummaryReportResults" id="symptomSummaryReportResultsController"
           class="gov.nih.nci.ctcae.web.reports.graphical.SymptomSummaryReportResultsController">

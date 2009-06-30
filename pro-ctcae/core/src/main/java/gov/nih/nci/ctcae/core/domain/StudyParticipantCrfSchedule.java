@@ -18,7 +18,8 @@ import java.util.*;
 @Entity
 @Table(name = "SP_CRF_SCHEDULES")
 
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_sp_crf_schedules_id")})
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {
+    @Parameter(name = "sequence", value = "seq_sp_crf_schedules_id")})
 public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
@@ -129,6 +130,27 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             studyParticipantCrfItem.setStudyParticipantCrfSchedule(this);
             studyParticipantCrfItems.add(studyParticipantCrfItem);
         }
+    }
+
+    public HashMap<ProCtcTerm, ArrayList<ArrayList>> getSymptomItems() {
+        HashMap<ProCtcTerm, ArrayList<ArrayList>> symptomMap = new HashMap();
+        ArrayList<ArrayList> spCrfItems;
+        Integer counter = 0;
+        for (StudyParticipantCrfItem studyParticipantCrfItem : getStudyParticipantCrfItems()) {
+            ArrayList itemCounter = new ArrayList();
+            ProCtcTerm symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm();
+            if (symptomMap.containsKey(symptom)) {
+                spCrfItems = symptomMap.get(symptom);
+            } else {
+                spCrfItems = new ArrayList();
+                symptomMap.put(symptom, spCrfItems);
+            }
+            itemCounter.add(studyParticipantCrfItem);
+            itemCounter.add(counter);
+            spCrfItems.add(itemCounter);
+            counter++;
+        }
+        return symptomMap;
     }
 
     /**

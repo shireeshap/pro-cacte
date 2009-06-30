@@ -8,6 +8,7 @@
 
 <html>
 <head>
+    <tags:stylesheetLink name="table_menu"/>
     <style type="text/css">
         table.widget {
             border: 1px solid #eaeaea;
@@ -43,6 +44,9 @@
 
     <table class="widget" cellspacing="0" width="100%">
         <tr>
+            <td style="width:2px;background-color:#cccccc;border:1px solid #eaeaea;">
+
+            </td>
             <td class="header-top">
                 Schedules
             </td>
@@ -57,19 +61,26 @@
             </td>
         </tr>
 
-        <c:forEach items="${scheduledCrfs}" var="schedule">
-            <tr>
-                <td align="center">
-                   <a href="printSchedule?id=${schedule.id}" target="_blank"> <tags:formatDate value="${schedule.startDate}"/> </a>
+        <c:forEach items="${scheduledCrfs}" var="schedule" varStatus="status">
+            <tr id="details_row_${status.index}" onmouseover="highlightrow('${status.index}');"
+                onmouseout="removehighlight('${status.index}');">
+                <td align="right">
+                    <div id="img_${status.index}" class="indIcon"
+                         onclick="showPopUpMenu('${status.index}', '${schedule.id}',-105,-130)">
+                        <img src="../../images/menu.png" alt=""/>
+                    </div>
                 </td>
                 <td align="center">
-                    ${schedule.status}
+                  <tags:formatDate value="${schedule.startDate}"/>
                 </td>
                 <td align="center">
-                    ${schedule.studyParticipantCrf.studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.displayName}
+                        ${schedule.status}
                 </td>
                 <td align="center">
-                     ${schedule.studyParticipantCrf.studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.displayName}
+                        ${schedule.studyParticipantCrf.studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.displayName}
+                </td>
+                <td align="center">
+                        ${schedule.studyParticipantCrf.studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.displayName}
                 </td>
             </tr>
         </c:forEach>
