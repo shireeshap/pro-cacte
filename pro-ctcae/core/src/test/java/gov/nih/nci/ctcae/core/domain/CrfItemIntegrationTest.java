@@ -1,15 +1,18 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.helper.Fixture;
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.ProCtcQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcQuestionQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import gov.nih.nci.ctcae.core.helper.Fixture;
 
 import java.util.Collection;
 import java.util.Iterator;
+
+import junit.framework.TestCase;
 
 /**
  * @author Harsh Agarwal
@@ -34,10 +37,12 @@ public class CrfItemIntegrationTest extends TestDataManager {
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
-
-
         super.onSetUpInTransaction();
         crf = Fixture.createCrf();
+        CRFQuery query = new CRFQuery();
+        query.filterByTitleExactMatch(crf.getTitle());
+        crfRepository.delete(crfRepository.findSingle(query));
+        commitAndStartNewTransaction();
         crfPage = new CRFPage();
         proCtc = proCtcRepository.find(new ProCtcQuery()).iterator().next();
         assertNotNull(proCtc);
@@ -97,7 +102,6 @@ public class CrfItemIntegrationTest extends TestDataManager {
         assertEquals(CrfItemAllignment.HORIZONTAL, crfPageItem.getCrfItemAllignment());
         assertEquals("instructions", crfPageItem.getInstructions());
         assertTrue(crfPageItem.getResponseRequired());
-
     }
 
 
@@ -113,7 +117,6 @@ public class CrfItemIntegrationTest extends TestDataManager {
     }
 
     public void testAddCrfPageItemDisplayRuleInEditCrfItem() {
-
         crf = saveCrfItemWithDisplayRule();
         crfPageItem = crfPage.getCrfPageItems().iterator().next();
         assertNotNull(crfPageItem.getId());
@@ -127,13 +130,10 @@ public class CrfItemIntegrationTest extends TestDataManager {
             assertNotNull(crfPageItemDisplayRule.getId());
             assertEquals(crfPageItem, savedCrfPageItemDisplayRule.getCrfItem());
         }
-
     }
 
 
     public void testDeleteCrfPageItemDisplayRule() {
-
-
         crf = saveCrfItemWithDisplayRule();
         crfPageItem = crfPage.getCrfPageItems().iterator().next();
 
@@ -146,8 +146,6 @@ public class CrfItemIntegrationTest extends TestDataManager {
         crfPageItem = crfPage.getCrfPageItems().iterator().next();
         assertNotNull(crfPageItem.getId());
         assertTrue("must remove crf item display rule", crfPageItem.getCrfPageItemDisplayRules().isEmpty());
-
-
     }
 
 

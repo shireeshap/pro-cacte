@@ -100,7 +100,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
                 for (CRFCycleDefinition crfCycleDefinition : crf.getCrfCycleDefinitions()) {
                     if (crfCycleDefinition.getCrfCycles() != null) {
                         for (CRFCycle crfCycle : crfCycleDefinition.getCrfCycles()) {
-                            proCtcAECalendar.setCycleParameters(crfCycleDefinition.getCycleLength(), crfCycle.getCycleDays(), 1, crfCycleDefinition.getCycleLengthUnit(), calendarStartDate,cycleNumber);
+                            proCtcAECalendar.setCycleParameters(crfCycleDefinition.getCycleLength(), crfCycle.getCycleDays(), 1, crfCycleDefinition.getCycleLengthUnit(), calendarStartDate, cycleNumber);
                             createSchedule(studyParticipantCrf, proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
                             Calendar c = ProCtcAECalendar.getCalendarForDate(calendarStartDate);
                             ProCtcAECalendar.incrementCalendar(c, crfCycleDefinition.getCycleLength(), crfCycleDefinition.getCycleLengthUnit());
@@ -149,10 +149,12 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void delete(CRF crf) {
-        if (!crf.isReleased()) {
-            genericRepository.delete(crf);
-        } else {
-            throw new CtcAeSystemException("Released CRF can not be deleted");
+        if (crf != null) {
+            if (!crf.isReleased()) {
+                genericRepository.delete(crf);
+            } else {
+                throw new CtcAeSystemException("Released CRF can not be deleted");
+            }
         }
     }
 
