@@ -36,7 +36,7 @@ public class StudyParticipantCrfItemTest extends TestCase {
 
 	}
 
-	public void testEqulasHashCode() {
+	public void testEqualsHashCode() {
 		studyParticipantCrfItem = new StudyParticipantCrfItem();
 		StudyParticipantCrfItem studyParticipantCrfItem2 = new StudyParticipantCrfItem();
 
