@@ -20,9 +20,12 @@
 <tags:javascriptLink name="table_menu"/>
 <script type="text/javascript">
 
+function hideme(){
+    Element.hide($("dropnoteDiv"));
+}
 function showPopUpMenu(index, sid, x, y) {
     var html = '';
-        html = '<a href="printSchedule?id=' + sid + '" target="_blank" class="link">Print form</a><br/><a href="enterResponses?id=' + sid + '" class="link">Enter responses</a>';
+        html = '<table cellpadding="0" cellspacing="0"><tr><td align="right"><a href="javascript:hideme();" class="link">x</a></td></tr><tr><td><a href="printSchedule?id=' + sid + '" target="_blank" class="link">Print form</a></td></tr><tr><td><a href="enterResponses?id=' + sid + '" class="link">Enter responses</a></td></tr></table>';
     Element.show($("dropnoteDiv"));
     $("dropnoteDiv").style.left = (findPosX($("img_" + index)) + x) + 'px';
     $("dropnoteDiv").style.top = (findPosY($("img_" + index)) + y) + 'px';
