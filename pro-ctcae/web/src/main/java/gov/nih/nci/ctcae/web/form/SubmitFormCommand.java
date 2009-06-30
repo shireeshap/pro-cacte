@@ -30,7 +30,6 @@ public class SubmitFormCommand implements Serializable {
     private String flashMessage;
     private String deletedQuestions;
     private int participantAddedQuestionIndex = 0;
-    private String pageHeader = "";
     private Set<String> questionsToBeDeleted = new HashSet<String>();
     private ArrayList<ProCtcTerm> sortedSymptoms;
 
@@ -214,18 +213,6 @@ public class SubmitFormCommand implements Serializable {
             }
         }
         questionsToBeDeleted.clear();
-    }
-
-    public String getPageHeader() {
-
-        if (currentPageIndex <= totalPages) {
-            for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-                if (studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber() == currentPageIndex - 1) {
-                    pageHeader = studyParticipantCrfItem.getCrfPageItem().getCrfPage().getInstructions();
-                }
-            }
-        }
-        return pageHeader;
     }
 
     public void addQuestionToDeleteList(String questionid) {
