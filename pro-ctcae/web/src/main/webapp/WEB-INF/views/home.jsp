@@ -182,7 +182,7 @@
     </td>
 </tr>
 <tr>
-    <td><chrome:box title="Over due forms">
+    <td><chrome:box title="Overdue forms">
         <c:choose>
             <c:when test="${empty overdue}">
                 <div style="margin-left:15px;">You have no overdue forms.</div>
