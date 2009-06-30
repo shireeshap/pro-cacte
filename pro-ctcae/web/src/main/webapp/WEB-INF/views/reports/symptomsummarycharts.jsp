@@ -17,7 +17,7 @@
     </c:if>
 
     ${worstResponseChartImageMap}
-    <chrome:division title="Participant reported responses for symptom ${symptom} (Worst responses)"/>
+    <chrome:division title="Participant reported responses for ${symptom} symptom (Worst responses)"/>
     <br/>
     <div align="center">
         <img src="../../servlet/DisplayChart?filename=${worstResponseChartFileName}" width=700 height=400 border=0
@@ -25,7 +25,7 @@
     </div>
     ${allResponseChartImageMap}
     <br/>
-    <chrome:division title="Participant reported responses for symptom ${symptom} (All responses)" collapsable="true" id="allResponses"/>
+    <chrome:division title="Participant reported responses for ${symptom} symptom (All responses)" collapsable="true" id="allResponses"/>
     <br/>
     <div align="center">
         <img src="../../servlet/DisplayChart?filename=${allResponseChartFileName}" width=700 height=400 border=0

@@ -147,7 +147,7 @@
 
         <div id="search" style="display:none" class="row">
             <div class="value"><tags:button color="blue" value="Search"
-                                            onclick="reportResults('${group}')" size="big"
+                                            onclick="reportResults();" size="big"
                                             icon="search"/>
                 <tags:indicator id="indicator"/>
             </div>
