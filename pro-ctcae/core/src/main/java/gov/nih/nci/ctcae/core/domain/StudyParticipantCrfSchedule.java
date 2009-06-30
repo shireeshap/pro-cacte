@@ -304,27 +304,28 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         if (holiday != that.holiday) return false;
         if (cycleDay != null ? !cycleDay.equals(that.cycleDay) : that.cycleDay != null) return false;
         if (cycleNumber != null ? !cycleNumber.equals(that.cycleNumber) : that.cycleNumber != null) return false;
-        if (!dueDate.equals(that.dueDate)) return false;
-        if (!startDate.equals(that.startDate)) return false;
+        if (dueDate != null ? !dueDate.equals(that.dueDate) : that.dueDate != null) return false;
+        if (monthInYear != null ? !monthInYear.equals(that.monthInYear) : that.monthInYear != null) return false;
+        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
         if (status != that.status) return false;
-        if (!studyParticipantCrf.equals(that.studyParticipantCrf)) return false;
-        if (!monthInYear.equals(that.monthInYear)) return false;
-        if (!weekInYear.equals(that.weekInYear)) return false;
+        if (studyParticipantCrf != null ? !studyParticipantCrf.equals(that.studyParticipantCrf) : that.studyParticipantCrf != null)
+            return false;
+        if (weekInYear != null ? !weekInYear.equals(that.weekInYear) : that.weekInYear != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = startDate.hashCode();
-        result = 31 * result + dueDate.hashCode();
+        int result = startDate != null ? startDate.hashCode() : 0;
+        result = 31 * result + (dueDate != null ? dueDate.hashCode() : 0);
         result = 31 * result + (holiday ? 1 : 0);
-        result = 31 * result + status.hashCode();
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (cycleNumber != null ? cycleNumber.hashCode() : 0);
         result = 31 * result + (cycleDay != null ? cycleDay.hashCode() : 0);
-        result = 31 * result + weekInYear.hashCode();
-        result = 31 * result + monthInYear.hashCode();
-        result = 31 * result + studyParticipantCrf.hashCode();
+        result = 31 * result + (weekInYear != null ? weekInYear.hashCode() : 0);
+        result = 31 * result + (monthInYear != null ? monthInYear.hashCode() : 0);
+        result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
         return result;
     }
 }
