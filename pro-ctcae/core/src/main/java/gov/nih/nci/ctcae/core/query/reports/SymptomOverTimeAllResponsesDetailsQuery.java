@@ -6,25 +6,25 @@ public class SymptomOverTimeAllResponsesDetailsQuery extends AbstractReportQuery
 
     protected static String queryString = "SELECT spci from StudyParticipantCrfItem spci order by spci.studyParticipantCrfSchedule.startDate";
 
-    public SymptomOverTimeAllResponsesDetailsQuery(String column, String group) {
-        super(queryString); 
-        filterByColumn(column,group);
-    }
-
-    public SymptomOverTimeAllResponsesDetailsQuery(String queryString, String column, String group) {
+    public SymptomOverTimeAllResponsesDetailsQuery(Integer column, String group) {
         super(queryString);
-        filterByColumn(column,group);
+        filterByColumn(column, group);
     }
 
-    private void filterByColumn(String column, String group) {
+    public SymptomOverTimeAllResponsesDetailsQuery(String queryString, Integer column, String group) {
+        super(queryString);
+        filterByColumn(column, group);
+    }
+
+    private void filterByColumn(Integer column, String group) {
         if ("week".equals(group)) {
-            andWhere("'" + StringUtils.capitalize(group) + " ' || spci.studyParticipantCrfSchedule.weekInYear = :col");
+            andWhere("spci.studyParticipantCrfSchedule.weekInYear = :col");
         }
         if ("month".equals(group)) {
-            andWhere("'" + StringUtils.capitalize(group) + " ' || spci.studyParticipantCrfSchedule.monthInYear = :col");
+            andWhere("spci.studyParticipantCrfSchedule.monthInYear = :col");
         }
         if ("cycle".equals(group)) {
-            andWhere("'" + StringUtils.capitalize(group) + " ' || spci.studyParticipantCrfSchedule.cycleNumber = :col");
+            andWhere("spci.studyParticipantCrfSchedule.cycleNumber = :col");
         }
         setParameter("col", column);
     }

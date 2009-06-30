@@ -5,7 +5,7 @@ public class SymptomOverTimeWorstResponsesDetailsQuery extends SymptomOverTimeAl
             "spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id " +
             "from StudyParticipantCrfItem spci group by spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id ";
 
-    public SymptomOverTimeWorstResponsesDetailsQuery(String column, String group) {
+    public SymptomOverTimeWorstResponsesDetailsQuery(Integer column, String group) {
         super(queryString,column, group);
     }
 }

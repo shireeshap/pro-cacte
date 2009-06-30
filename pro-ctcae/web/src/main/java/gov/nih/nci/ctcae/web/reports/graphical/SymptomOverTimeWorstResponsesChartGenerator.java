@@ -34,30 +34,16 @@ public class SymptomOverTimeWorstResponsesChartGenerator extends AbstractChartGe
     }
 
     public CategoryDataset createDataSet(Object results) {
-        HashMap<String, TreeMap<Integer, Float>> temp = (HashMap<String, TreeMap<Integer, Float>>) results;
+        TreeMap<String, TreeMap<Integer, Float>> temp = (TreeMap<String, TreeMap<Integer, Float>>) results;
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for (String a : temp.keySet()) {
-            TreeMap<Integer, Float> map = temp.get(a);
+        for (String attribute : temp.keySet()) {
+            TreeMap<Integer, Float> map = temp.get(attribute);
             ArrayList<String> l = new ArrayList(map.keySet());
             Collections.sort(l);
             for (String i : l) {
-                dataset.addValue(map.get(i), a, i);
+                dataset.addValue(map.get(i), attribute, i);
             }
         }
         return dataset;
     }
-
-//    class URLGenerator implements CategoryURLGenerator {
-//
-//        public String generateURL(CategoryDataset dataset, int series, int category) {
-//            String url = "javascript:showDetails('" + queryString + "&cat=";
-//            Comparable categoryKey = dataset.getColumnKey(category);
-//            String cat = categoryKey.toString();
-//            cat = cat.substring(cat.indexOf(' ') + 1);
-//            int weekInYear = Integer.parseInt(cat) + firstCat - 1;
-//            url += weekInYear;
-//            url += "');";
-//            return url;
-//        }
-//    }
 }

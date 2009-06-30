@@ -30,15 +30,17 @@ public class SymptomOverTimeReportDetailsController extends AbstractReportResult
             group = "week";
         }
         String type = request.getParameter("type");
-
+        String col = request.getParameter("col");
+        Integer sum = Integer.valueOf(request.getParameter("sum"));
+        Integer colInt = Integer.parseInt(col.substring(col.indexOf(' ') + 1)) + sum - 1;
         List<StudyParticipantCrfItem> results = new ArrayList<StudyParticipantCrfItem>();
         if ("WOR".equals(type)) {
-            SymptomOverTimeWorstResponsesDetailsQuery query = new SymptomOverTimeWorstResponsesDetailsQuery(request.getParameter("col"), group);
+            SymptomOverTimeWorstResponsesDetailsQuery query = new SymptomOverTimeWorstResponsesDetailsQuery(colInt, group);
             parseRequestParametersAndFormQuery(request, query);
             List list = genericRepository.find(query);
             for (Object o : list) {
                 Object[] oArr = (Object[]) o;
-                SymptomOverTimeAllResponsesDetailsQuery temp = new SymptomOverTimeAllResponsesDetailsQuery(request.getParameter("col"), group);
+                SymptomOverTimeAllResponsesDetailsQuery temp = new SymptomOverTimeAllResponsesDetailsQuery(colInt, group);
                 parseRequestParametersAndFormQuery(request, temp);
                 temp.filterByParticipantId((Integer) oArr[1]);
                 temp.filterByResponse((Integer) oArr[0]);
@@ -46,7 +48,7 @@ public class SymptomOverTimeReportDetailsController extends AbstractReportResult
                 results.addAll(l);
             }
         } else {
-            SymptomOverTimeAllResponsesDetailsQuery query = new SymptomOverTimeAllResponsesDetailsQuery(request.getParameter("col"), group);
+            SymptomOverTimeAllResponsesDetailsQuery query = new SymptomOverTimeAllResponsesDetailsQuery(colInt, group);
             parseRequestParametersAndFormQuery(request, query);
             results = genericRepository.find(query);
         }

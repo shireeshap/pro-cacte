@@ -82,7 +82,7 @@ public abstract class AbstractChartGenerator {
         for (int i = 0; i < dataset.getRowCount(); i++) {
             renderer.setSeriesItemLabelGenerator(i, lg);
             renderer.setSeriesItemLabelsVisible(i, true);
-            renderer.setSeriesItemLabelPaint(i, Color.BLACK);
+            renderer.setSeriesItemLabelPaint(i, Color.WHITE);
             renderer.setSeriesPositiveItemLabelPosition(i, itemLabelPosition);
             renderer.setSeriesItemURLGenerator(i, new URLGenerator());
         }

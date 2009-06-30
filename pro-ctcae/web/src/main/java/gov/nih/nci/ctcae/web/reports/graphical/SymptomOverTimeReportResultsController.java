@@ -79,12 +79,14 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         SymptomOverTimeWorstResponsesQuery query = new SymptomOverTimeWorstResponsesQuery(group);
         parseRequestParametersAndFormQuery(request, query);
         List worstResponses = genericRepository.find(query);
-        HashMap<String, TreeMap<String, ArrayList<Integer>>> results = new HashMap<String, TreeMap<String, ArrayList<Integer>>>();
+        TreeMap<String, TreeMap<String, ArrayList<Integer>>> results = new TreeMap<String, TreeMap<String, ArrayList<Integer>>>();
+        Integer smallest = getSmallest(worstResponses, 3);
+
         for (Object obj : worstResponses) {
             Object[] a = (Object[]) obj;
             Integer level = (Integer) a[0];
             String attribute = ((ProCtcQuestionType) a[1]).getDisplayName();
-            String period = (String) a[3];
+            String period = getNewPeriod(a[3], smallest, group);
             TreeMap<String, ArrayList<Integer>> map = results.get(attribute);
             selectedAttributes.add(attribute);
             if (map == null) {
@@ -98,7 +100,7 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
             avgL.add(level);
             map.put(period, avgL);
         }
-        HashMap<String, TreeMap<String, Float>> out = new HashMap<String, TreeMap<String, Float>>();
+        TreeMap<String, TreeMap<String, Float>> out = new TreeMap<String, TreeMap<String, Float>>();
 
         for (String attribute : results.keySet()) {
             TreeMap<String, ArrayList<Integer>> map = results.get(attribute);
@@ -117,11 +119,10 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
 
 
         String rangeAxisLabel = "Average Worst Response (p=" + totalParticipants + ")";
-        SymptomOverTimeWorstResponsesChartGenerator chartGenerator = new SymptomOverTimeWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, request.getQueryString());
+        SymptomOverTimeWorstResponsesChartGenerator chartGenerator = new SymptomOverTimeWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, request.getQueryString() + "&sum=" + smallest);
         return chartGenerator.getChart(out);
 
     }
-
 
     private JFreeChart getAllResponseChart(HttpServletRequest request, String group, String symptom, int totalParticipants) throws ParseException {
 //        String title = "Average Participant Reported Responses vs. Time for " + symptom + " symptom ( All responses)";
@@ -131,9 +132,34 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         SymptomOverTimeAllResponsesQuery query = new SymptomOverTimeAllResponsesQuery(group);
         parseRequestParametersAndFormQuery(request, query);
         List results = genericRepository.find(query);
-        String rangeAxisLabel = "Average Response (p=" + totalParticipants + ")";
-        SymptomOverTimeAllResponsesChartGenerator chartGenerator = new SymptomOverTimeAllResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, request.getQueryString());
+        String rangeAxisLabel = "Average Overall Response (p=" + totalParticipants + ")";
+        Integer smallest = getSmallest(results, 2);
+        for (Object obj : results) {
+            Object[] a = (Object[]) obj;
+            String period = getNewPeriod(a[2], smallest, group);
+            a[2] = period;
+        }
+        SymptomOverTimeAllResponsesChartGenerator chartGenerator = new SymptomOverTimeAllResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, request.getQueryString() + "&sum=" + smallest);
         return chartGenerator.getChart(results);
+    }
 
+    private Integer getSmallest(List worstResponses, int i) {
+        Integer smallest = -1;
+        for (Object obj : worstResponses) {
+            Object[] a = (Object[]) obj;
+            String period = (String) a[i];
+            Integer p = Integer.parseInt(period.substring(period.indexOf(' ') + 1));
+            if (smallest < 0 || p < smallest) {
+                smallest = p;
+            }
+        }
+        return smallest;
+    }
+
+    private String getNewPeriod(Object objPeriod, Integer smallest, String group) {
+        String period = (String) objPeriod;
+        Integer p = Integer.parseInt(period.substring(period.indexOf(' ') + 1));
+        period = StringUtils.capitalize(group) + " " + (p - smallest + 1);
+        return period;
     }
 }

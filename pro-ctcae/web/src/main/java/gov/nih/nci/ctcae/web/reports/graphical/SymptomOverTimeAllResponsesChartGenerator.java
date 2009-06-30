@@ -43,18 +43,4 @@ public class SymptomOverTimeAllResponsesChartGenerator extends AbstractChartGene
         }
         return dataset;
     }
-
-//    class URLGenerator implements CategoryURLGenerator {
-//
-//        public String generateURL(CategoryDataset dataset, int series, int category) {
-//            String url = "javascript:showDetails('" + queryString + "&cat=";
-//            Comparable categoryKey = dataset.getColumnKey(category);
-//            String cat = categoryKey.toString();
-//            cat = cat.substring(cat.indexOf(' ') + 1);
-//            int weekInYear = Integer.parseInt(cat) + firstCat - 1;
-//            url += weekInYear;
-//            url += "');";
-//            return url;
-//        }
-//    }
 }
