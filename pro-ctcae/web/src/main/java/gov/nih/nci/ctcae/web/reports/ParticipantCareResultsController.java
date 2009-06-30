@@ -8,6 +8,7 @@ import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +38,7 @@ public class ParticipantCareResultsController extends AbstractController {
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
 
-        List dates = new ArrayList<Date>();
+        List<String> dates = new ArrayList<String>();
         List visitTitle = new ArrayList();
 
         if (visitRange.equals("currentPrev")) {
@@ -66,7 +67,7 @@ public class ParticipantCareResultsController extends AbstractController {
         return modelAndView;
     }
 
-    private TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> getCareResults(String visitRange, Integer studyId, Integer crfId, Integer studySiteId, Integer participantId, List<Date> dates, Integer forVisits, String startDate, String endDate) throws ParseException {
+    private TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> getCareResults(String visitRange, Integer studyId, Integer crfId, Integer studySiteId, Integer participantId, List<String> dates, Integer forVisits, String startDate, String endDate) throws ParseException {
 
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = new TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
         HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults = new HashMap();
@@ -104,8 +105,12 @@ public class ParticipantCareResultsController extends AbstractController {
                                     continue;
                                 }
                             }
-                            dates.add(studyParticipantCrfSchedule.getStartDate());
-                            Integer arraySize = dates.size();
+                            if (studyParticipantCrfSchedule.getCycleNumber() != null) {
+                            dates.add(DateUtils.format(studyParticipantCrfSchedule.getStartDate()) + " (Cycle: " + studyParticipantCrfSchedule.getCycleNumber() + ", Day: " + studyParticipantCrfSchedule.getCycleDay() + ")");
+                            } else {
+                                dates.add(DateUtils.format(studyParticipantCrfSchedule.getStartDate()) + " ");
+                            }
+                                Integer arraySize = dates.size();
                             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
                                 ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
                                 ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();

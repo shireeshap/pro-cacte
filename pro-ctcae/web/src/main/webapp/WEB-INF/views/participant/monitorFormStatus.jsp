@@ -9,6 +9,7 @@
 
 <html>
 <head>
+    <tags:stylesheetLink name="table_menu"/>
     <style type="text/css">
         table.widget {
             border-left: 1px solid #C3D9FF;
@@ -58,6 +59,7 @@
             text-decoration: none;
             cursor: default;
         }
+
     </style>
 </head>
 <body>
@@ -73,72 +75,77 @@
     <c:forEach items="${crfStatusMap}" var="siteCrfStatus">
         <chrome:division title="${siteCrfStatus.key.organization.name}"/>
         <%--<c:forEach items="${siteCrfStatus.value}" var="crfStatus">--%>
-            <%--<c:if test="${!empty crfStatus}">--%>
+        <%--<c:if test="${!empty crfStatus}">--%>
 
 
-                <table class="widget" cellspacing="0">
+        <table class="widget" cellspacing="0">
 
 
-                    <tr>
-                        <td class="header-top"><spring:message code="schedulecrf.label.participant"/>
-                        </td>
-                        <td class="header-top">Start date</td>
-                        <c:forEach items="${calendar}" var="date">
-                            <td class="header-top">
-                                <fmt:formatDate value="${date}" pattern="MMM-dd"/>
-                            </td>
+            <tr>
+                <td class="header-top"><spring:message code="schedulecrf.label.participant"/>
+                </td>
+                <td class="header-top">Start date</td>
+                <c:forEach items="${calendar}" var="date">
+                    <td class="header-top">
+                        <fmt:formatDate value="${date}" pattern="MMM-dd"/>
+                    </td>
+                </c:forEach>
+            </tr>
+            <c:forEach items="${siteCrfStatus.value}" var="crfStatus">
+                <tr>
+                    <td class="data-left">
+                            ${crfStatus.key.displayName} [${crfStatus.key.assignedIdentifier}]
+                    </td>
+                    <td class="data-left">
+                        <c:set var="startDate"/>
+                        <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
+                            <c:if test="${!empty studyParticipantCrfSchedule}">
+                                <c:set var="startDate"
+                                       value="${studyParticipantCrfSchedule.studyParticipantCrf.startDate}"/>
+                            </c:if>
                         </c:forEach>
-                    </tr>
-                    <c:forEach items="${siteCrfStatus.value}" var="crfStatus">
-                        <tr>
-                            <td class="data-left">
-                                    ${crfStatus.key.displayName} [${crfStatus.key.assignedIdentifier}]
-                            </td>
-                            <td class="data-left">
-                                <c:set var="startDate"/>
-                                <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
-                                    <c:if test="${!empty studyParticipantCrfSchedule}">
-                                        <c:set var="startDate"
-                                               value="${studyParticipantCrfSchedule.studyParticipantCrf.startDate}"/>
-                                    </c:if>
-                                </c:forEach>
-                                <tags:formatDate value="${startDate}"/>
-                            </td>
-                            <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule">
-                                <td class="data ${studyParticipantCrfSchedule.status.displayName}">
-                                    <c:choose>
-                                    <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'Completed'}">
-                                        <a href="javascript:completedForm(${studyParticipantCrfSchedule.id})"
-                                           title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
-                                            <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
-                                            Results
-                                        </a>
+                        <tags:formatDate value="${startDate}"/>
+                    </td>
+                    <c:forEach items="${crfStatus.value}" var="studyParticipantCrfSchedule" varStatus="status">
+                        <td class="data ${studyParticipantCrfSchedule.status.displayName}">
+                            <c:choose>
+                            <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'Completed'}">
+                                <a href="javascript:completedForm(${studyParticipantCrfSchedule.id})"
+                                   title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
+                                    <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
+                                    Results
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                            <c:set var="todaysdate" value="<%= new Date()%>"/>
+                            <a class="nolink"
+                               title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
+                                <c:choose>
+                                <c:when test="${todaysdate > studyParticipantCrfSchedule.dueDate && (studyParticipantCrfSchedule.status eq 'Scheduled' || studyParticipantCrfSchedule.status eq 'In-progress')}">
+                                    <img src="../../images/blue/Past-due.png"/>
+                                </c:when>
+                                <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'OffStudy'}">
+                                </c:when>
+                                <c:when test="${studyParticipantCrfSchedule.status eq 'Scheduled'}">
+                                <div id="img_${status.index}" 
+                                     onclick="showPopUpMenu('${status.index}', '${studyParticipantCrfSchedule.id}',-105,-130)">
+                                    <img src="../../images/blue/Scheduled.png"/>
                                     </c:when>
                                     <c:otherwise>
-                                    <c:set var="todaysdate" value="<%= new Date()%>"/>
-                                    <a class="nolink"
-                                       title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
-                                        <c:choose>
-                                            <c:when test="${todaysdate > studyParticipantCrfSchedule.dueDate && (studyParticipantCrfSchedule.status eq 'Scheduled' || studyParticipantCrfSchedule.status eq 'In-progress')}">
-                                                <img src="../../images/blue/Past-due.png"/>
-                                            </c:when>
-                                            <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'OffStudy'}">
-                                            </c:when>
-                                            <c:otherwise>
-                                                <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
-                                            </c:otherwise>
-                                        </c:choose>
+                                    <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
+                                    </c:otherwise>
+                                    </c:choose>
 
-                                        </c:otherwise>
-                                        </c:choose>
-                                    </a>
-                                </td>
-                            </c:forEach>
-                        </tr>
+                                    </c:otherwise>
+                                    </c:choose>
+                            </a>
+                        </td>
                     </c:forEach>
-                </table>
-                <br/>
-            <%--</c:if>--%>
+                </tr>
+            </c:forEach>
+        </table>
+        <br/>
+        <%--</c:if>--%>
         <%--</c:forEach>--%>
     </c:forEach>
     <input type="hidden" id="pgStartDateNext" value='<tags:formatDate value="${pgStartNext}"/>'/>

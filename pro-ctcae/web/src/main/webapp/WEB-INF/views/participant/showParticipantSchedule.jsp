@@ -19,6 +19,7 @@
 <tags:dwrJavascriptLink objects="participant"/>
 <tags:includePrototypeWindow/>
 <tags:includeScriptaculous/>
+<tags:javascriptLink name="table_menu"/>
 <script type="text/javascript">
 
 <%--function printSchedule(id) {--%>
@@ -31,6 +32,24 @@
     <%--})--%>
 <%--}--%>
 
+function showPopUpMenu(index, sid, x, y) {
+    var html = '';
+        html = '<a href="printSchedule?id=' + sid + '" target="_blank" class="link">Print form</a><br/><a href="javascript:enterResponses(' + sid + ');" class="link">Enter responses</a>';
+    Element.show($("dropnoteDiv"));
+    $("dropnoteDiv").style.left = (findPosX($("img_" + index)) + x) + 'px';
+    $("dropnoteDiv").style.top = (findPosY($("img_" + index)) + y) + 'px';
+    $("dropnoteinnerDiv").innerHTML = html;
+}
+
+function enterResponses(id) {
+    var request = new Ajax.Request("<c:url value="/pages/participant/enterResponses"/>", {
+        parameters:"id=" + id + "&subview=subview",
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 630, 550);
+        },
+        method:'get'
+    })
+}
 
 Event.observe(window, "load", function () {
     var studyAutoCompleter = new studyAutoComplter('study');
@@ -211,7 +230,10 @@ function showResultsTable(transport) {
         <div id="displayResultsTable"/>
     </div>
 </div>
-
+ <div id="dropnoteDiv" class="ddnotediv shadowB" style="display:none;left:0;top:0">
+    <div id="dropnoteinnerDiv" class="shadowr">
+    </div>
+</div>
 
 </body>
 </html>

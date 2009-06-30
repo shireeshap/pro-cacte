@@ -154,10 +154,11 @@
                     <img alt="Help" src="/proctcae/images/q.gif"
                          onclick="$('attribute-help-content').style.display='inline'"/>
                 </td>
-                <c:forEach items="${dates}" var="dates">
+                <c:forEach items="${dates}" var="date">
 
                 <td class="header-top">
-                    <fmt:formatDate value="${dates}" pattern="MM/dd/yy"/>
+                    ${date}
+                    <%--<fmt:formatDate value="${date}" pattern="MM/dd/yy"/>--%>
                 </td>
 
                 </c:forEach>
