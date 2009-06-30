@@ -39,24 +39,18 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         Map m = modelAndView.getModel();
         assertNotNull(m.get("worstResponseChartFileName"));
         assertNotNull(m.get("worstResponseChartImageMap"));
-        assertNotNull(m.get("allResponseChartFileName"));
-        assertNotNull(m.get("allResponseChartImageMap"));
-        JFreeChart allResponseChart = (JFreeChart) m.get("allResponseChart");
-        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
-        showCharts(allResponseChart, worstResponseChart);
+//        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
+//        showCharts( worstResponseChart);
 
 
     }
 
-    private void showCharts(JFreeChart allResponseChart, JFreeChart worstResponseChart) throws InterruptedException {
+    private void showCharts( JFreeChart worstResponseChart) throws InterruptedException {
         ChartPanel chartPanel1 = new ChartPanel(worstResponseChart, false);
         chartPanel1.setPreferredSize(new Dimension(500, 270));
-        ChartPanel chartPanel2 = new ChartPanel(allResponseChart, false);
-        chartPanel2.setPreferredSize(new Dimension(500, 270));
         ApplicationFrame frame = new ApplicationFrame("MyFrame");
         frame.setLayout(new GridLayout(1, 1));
         frame.add(chartPanel1);
-        frame.add(chartPanel2);
         frame.pack();
         RefineryUtilities.centerFrameOnScreen(frame);
         frame.setVisible(true);

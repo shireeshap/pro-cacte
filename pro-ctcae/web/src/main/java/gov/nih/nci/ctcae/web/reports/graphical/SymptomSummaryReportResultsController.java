@@ -6,7 +6,6 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import gov.nih.nci.ctcae.core.query.reports.ReportParticipantCountQuery;
 import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryWorstResponsesQuery;
-import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryAllResponsesQuery;
 import org.springframework.web.servlet.ModelAndView;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartRenderingInfo;
@@ -41,7 +40,6 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
             allAttributes.add(question.getProCtcQuestionType().getDisplayName());
         }
         JFreeChart worstResponseChart = getWorstResponseChart(request, totalParticipant, proCtcTerm, selectedAttributes);
-        JFreeChart allResponseChart = getAllResponseChart(request, totalParticipant, proCtcTerm);
 
 
 //        allResponses = addEmptyValues(allResponses, ProCtcQuestionType.getByDisplayName(request.getParameter("attribute")));
@@ -49,16 +47,11 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         String worstResponseChartFileName = ServletUtilities.saveChartAsPNG(worstResponseChart, 700, 400, info, null);
         String worstResponseChartImageMap = ChartUtilities.getImageMap(worstResponseChartFileName, info);
 
-        String allResponseChartFileName = ServletUtilities.saveChartAsPNG(allResponseChart, 700, 400, info, null);
-        String allResponseChartImageMap = ChartUtilities.getImageMap(allResponseChartFileName, info);
 
 
         ModelAndView modelAndView = new ModelAndView("reports/symptomsummarycharts");
         modelAndView.addObject("worstResponseChartFileName", worstResponseChartFileName);
         modelAndView.addObject("worstResponseChartImageMap", worstResponseChartImageMap);
-        modelAndView.addObject("allResponseChartFileName", allResponseChartFileName);
-        modelAndView.addObject("allResponseChartImageMap", allResponseChartImageMap);
-        modelAndView.addObject("allResponseChart", allResponseChart);
         modelAndView.addObject("worstResponseChart", worstResponseChart);
         modelAndView.addObject("allAttributes", allAttributes);
         modelAndView.addObject("selectedAttributes", selectedAttributes);
@@ -66,35 +59,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         return modelAndView;
     }
 
-    private JFreeChart getAllResponseChart(HttpServletRequest request, int totalParticipant, ProCtcTerm proCtcTerm) throws ParseException {
-//        String title = "Participant reported responses for symptom " + symptom + " (All responses)";
-        String title = "";
-        SymptomSummaryAllResponsesQuery allResponsesQuery = new SymptomSummaryAllResponsesQuery();
-        parseRequestParametersAndFormQuery(request, allResponsesQuery);
-        List allResponses = genericRepository.find(allResponsesQuery);
-        addEmptyValues(allResponses, proCtcTerm);
-        int i = 0;
-        int totalResponses = 0;
-        String attribute = "";
-        for (Object o : allResponses) {
-            Object[] row = (Object[]) o;
-            if (i == 0) {
-                attribute = ((ProCtcQuestionType) row[2]).getDisplayName();
-                totalResponses += (Long) row[0];
-                i++;
-            } else {
-                String temp = ((ProCtcQuestionType) row[2]).getDisplayName();
-                if (temp.equals(attribute)) {
-                    totalResponses += (Long) row[0];
-                }
-            }
-        }
-        String domainAxisLabel = "Response Grade";
-        String rangeAxisLabel = "Number of Responses (n=" + totalResponses + ", p=" + totalParticipant + ")";
-        SymptomSummaryAllResponsesChartGenerator generator = new SymptomSummaryAllResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, totalResponses, request.getQueryString());
-        return generator.getChart(allResponses);
 
-    }
 
     private JFreeChart getWorstResponseChart(HttpServletRequest request, int totalParticipant, ProCtcTerm proCtcTerm, HashSet<String> selectedAttributes) throws ParseException {
 //        String title = "Participant reported responses for symptom " + symptom + " (Worst responses)";

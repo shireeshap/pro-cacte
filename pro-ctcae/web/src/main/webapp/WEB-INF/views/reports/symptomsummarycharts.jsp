@@ -23,13 +23,5 @@
         <img src="../../servlet/DisplayChart?filename=${worstResponseChartFileName}" width=700 height=400 border=0
              usemap="#${worstResponseChartFileName}"/>
     </div>
-    ${allResponseChartImageMap}
-    <br/>
-    <chrome:division title="Participant reported responses for ${symptom} symptom (All responses)" collapsable="true" id="allResponses"/>
-    <br/>
-    <div align="center">
-        <img src="../../servlet/DisplayChart?filename=${allResponseChartFileName}" width=700 height=400 border=0
-             usemap="#${allResponseChartFileName}"/>
-    </div>
     <br/>
 </chrome:box>

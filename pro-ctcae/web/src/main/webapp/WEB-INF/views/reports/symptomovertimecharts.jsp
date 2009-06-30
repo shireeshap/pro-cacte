@@ -40,12 +40,4 @@
     </div>
     ${allResponseChartImageMap}
     <br/>
-    <chrome:division title="Average Participant Reported Responses vs. Time for ${symptom} symptom ( All responses)" collapsable="true"  id="allResponse"/>
-    <br/>
-
-    <div align="center">
-        <img src="../../servlet/DisplayChart?filename=${allResponseChartFileName}" width=700 height=400 border=0
-             usemap="#${allResponseChartFileName}"/>
-    </div>
-    <br/>
 </chrome:box>

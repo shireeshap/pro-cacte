@@ -28,27 +28,19 @@ public class SymptomSummaryReportDetailsController extends AbstractReportResults
         List<StudyParticipantCrfItem> results = new ArrayList<StudyParticipantCrfItem>();
         String type = request.getParameter("type");
         Integer value = Integer.parseInt(request.getParameter("col"));
-        if ("WOR".equals(type)) {
-            SymptomSummaryWorstResponsesDetailsQuery query = new SymptomSummaryWorstResponsesDetailsQuery();
-            parseRequestParametersAndFormQuery(request, query);
-            List list = genericRepository.find(query);
-            for (Object o : list) {
-                Object[] oArr = (Object[]) o;
-                if (((Integer)oArr[0]).intValue() == value.intValue()) {
-                    SymptomSummaryAllResponsesDetailsQuery temp = new SymptomSummaryAllResponsesDetailsQuery();
-                    parseRequestParametersAndFormQuery(request, temp);
-                    temp.filterByParticipantId((Integer) oArr[1]);
-                    temp.filterByResponse((Integer) oArr[0]);
-                    List l = genericRepository.find(temp);
-                    results.addAll(l);
-                }
+        SymptomSummaryWorstResponsesDetailsQuery query = new SymptomSummaryWorstResponsesDetailsQuery();
+        parseRequestParametersAndFormQuery(request, query);
+        List list = genericRepository.find(query);
+        for (Object o : list) {
+            Object[] oArr = (Object[]) o;
+            if (((Integer) oArr[0]).intValue() == value.intValue()) {
+                SymptomSummaryAllResponsesDetailsQuery temp = new SymptomSummaryAllResponsesDetailsQuery();
+                parseRequestParametersAndFormQuery(request, temp);
+                temp.filterByParticipantId((Integer) oArr[1]);
+                temp.filterByResponse((Integer) oArr[0]);
+                List l = genericRepository.find(temp);
+                results.addAll(l);
             }
-        } else {
-            SymptomSummaryAllResponsesDetailsQuery query = new SymptomSummaryAllResponsesDetailsQuery();
-            query.filterByResponse(value);
-            parseRequestParametersAndFormQuery(request, query);
-            results = genericRepository.find(query);
-
         }
         Map model = new HashMap();
         model.put("results", results);

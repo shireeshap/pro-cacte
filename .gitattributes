@@ -176,10 +176,8 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/UserQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/AbstractReportQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/ReportParticipantCountQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/SymptomOverTimeAllResponsesDetailsQuery.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/SymptomOverTimeAllResponsesQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/SymptomOverTimeWorstResponsesDetailsQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/SymptomOverTimeWorstResponsesQuery.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/SymptomSummaryAllResponsesQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/SymptomSummaryWorstResponsesQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CtcTermRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/GenericRepository.java -text
@@ -491,10 +489,8 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomOverTimeReportD
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryReportDetailsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/AbstractChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/AbstractReportResultsController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomOverTimeAllResponsesChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomOverTimeReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomOverTimeWorstResponsesChartGenerator.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomSummaryAllResponsesChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomSummaryReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomSummaryWorstResponsesChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/SecuredTab.java -text

@@ -3,11 +3,8 @@ package gov.nih.nci.ctcae.web.reports.graphical;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeAllResponsesQuery;
 import gov.nih.nci.ctcae.core.query.reports.ReportParticipantCountQuery;
 import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeWorstResponsesQuery;
-import gov.nih.nci.ctcae.web.reports.graphical.AbstractReportResultsController;
-import gov.nih.nci.ctcae.web.reports.graphical.SymptomOverTimeAllResponsesChartGenerator;
 import org.apache.commons.lang.StringUtils;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
@@ -48,22 +45,16 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
             allAttributes.add(question.getProCtcQuestionType().getDisplayName());
         }
 
-        JFreeChart allResponseChart = getAllResponseChart(request, group, proCtcTerm.getTerm(), totalParticipants.intValue());
         JFreeChart worstResponseChart = getWorstResponseChart(request, group, proCtcTerm.getTerm(), totalParticipants.intValue(), selectedAttributes);
 
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-        String allReponseFileName = ServletUtilities.saveChartAsPNG(allResponseChart, 700, 400, info, null);
-        String allReponseImageMap = ChartUtilities.getImageMap(allReponseFileName, info);
         String worstReponseFileName = ServletUtilities.saveChartAsPNG(worstResponseChart, 700, 400, info, null);
         String worstReponseImageMap = ChartUtilities.getImageMap(worstReponseFileName, info);
 
         ModelAndView modelAndView = new ModelAndView("reports/symptomovertimecharts");
-        modelAndView.addObject("allResponseChartFileName", allReponseFileName);
-        modelAndView.addObject("allResponseChartImageMap", allReponseImageMap);
         modelAndView.addObject("worstResponseChartFileName", worstReponseFileName);
         modelAndView.addObject("worstResponseChartImageMap", worstReponseImageMap);
         modelAndView.addObject("group", group);
-        modelAndView.addObject("allResponseChart", allResponseChart);
         modelAndView.addObject("worstResponseChart", worstResponseChart);
         modelAndView.addObject("allAttributes", allAttributes);
         modelAndView.addObject("selectedAttributes", selectedAttributes);
@@ -124,24 +115,6 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
 
     }
 
-    private JFreeChart getAllResponseChart(HttpServletRequest request, String group, String symptom, int totalParticipants) throws ParseException {
-//        String title = "Average Participant Reported Responses vs. Time for " + symptom + " symptom ( All responses)";
-        String title = "";
-        String domainAxisLabel = group + "#";
-
-        SymptomOverTimeAllResponsesQuery query = new SymptomOverTimeAllResponsesQuery(group);
-        parseRequestParametersAndFormQuery(request, query);
-        List results = genericRepository.find(query);
-        String rangeAxisLabel = "Average Overall Response (p=" + totalParticipants + ")";
-        Integer smallest = getSmallest(results, 2);
-        for (Object obj : results) {
-            Object[] a = (Object[]) obj;
-            String period = getNewPeriod(a[2], smallest, group);
-            a[2] = period;
-        }
-        SymptomOverTimeAllResponsesChartGenerator chartGenerator = new SymptomOverTimeAllResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, request.getQueryString() + "&sum=" + smallest);
-        return chartGenerator.getChart(results);
-    }
 
     private Integer getSmallest(List worstResponses, int i) {
         Integer smallest = -1;
