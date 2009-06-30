@@ -82,8 +82,8 @@ public class ParticipantTestHelper {
             }
             schedule.setStatus(CrfStatus.COMPLETED);
             genericRepository.save(schedule);
-            NotificationsEvaluationService.setGenericRepository(genericRepository);
-            NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
+//            NotificationsEvaluationService.setGenericRepository(genericRepository);
+//            NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
         }
 
     }

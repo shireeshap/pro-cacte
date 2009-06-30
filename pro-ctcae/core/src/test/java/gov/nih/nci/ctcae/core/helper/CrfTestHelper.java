@@ -48,8 +48,8 @@ public class CrfTestHelper {
         secondTab_FormBuilder(crf);
         thirdTab_ScheduleTemplate(crf);
         crfRepository.save(crf);
-        fourthTab_Notifications(crf);
-        crfRepository.save(crf);
+//        fourthTab_Notifications(crf);
+//        crfRepository.save(crf);
         ParticipantTestHelper.createParticipant("Charlie", "Boon", "1-4", crf.getStudy().getLeadStudySite());
         crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), -7));
         crf = crfRepository.updateStatusToReleased(crf);
