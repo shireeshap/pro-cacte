@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import gov.nih.nci.ctcae.core.query.UserQuery;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.*;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
@@ -25,6 +26,9 @@ public class UserIntegrationTest extends TestDataManager {
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
         defaultUser = ClinicalStaffTestHelper.getDefaultClinicalStaff().getUser();
+        UserQuery uq = new UserQuery();
+        uq.filterByUserName(USER);
+        userRepository.delete(userRepository.findSingle(uq));
     }
 
     public void testSaveUser() {

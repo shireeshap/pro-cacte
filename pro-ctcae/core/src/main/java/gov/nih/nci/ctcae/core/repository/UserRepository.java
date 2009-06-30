@@ -168,6 +168,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     }
 
     public void delete(User user) {
+        genericRepository.delete(user);
     }
 
 
