@@ -1,16 +1,10 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
-import gov.nih.nci.ctcae.web.reports.ParticipantCarePdfController;
-import gov.nih.nci.ctcae.web.reports.ParticipantCarePdfView;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudySite;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
-import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
 import java.io.File;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -22,27 +16,27 @@ import java.io.FileOutputStream;
 
 public class ShowParticipantScheduleControllerTest extends AbstractWebTestCase {
 
-    ShowParticipantScheduleController controller;
-
-    public void testController() throws Exception {
-        controller = new ShowParticipantScheduleController();
-        controller.setStudyRepository(studyRepository);
-        Study s = StudyTestHelper.getDefaultStudy();
-        Integer studyId = s.getId();
-        StudySite ss = s.getLeadStudySite();
-        Integer studySiteId = ss.getId();
-        Integer participantId = ss.getStudyParticipantAssignments().get(0).getParticipant().getId();
-        Integer crfId = ss.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getCrf().getId();
-
-        request.setParameter("studyId", studyId.toString());
-        request.setParameter("studySiteId", studySiteId.toString());
-        request.setParameter("participantId", participantId.toString());
-        request.setParameter("crfId", crfId.toString());
-
-        ModelAndView mv = controller.handleRequestInternal(request, response);
-        Map m = mv.getModel();
-        assertNotNull(m.get("scheduledCrfs"));
-    }
+//    ShowParticipantScheduleController controller;
+//
+//    public void testController() throws Exception {
+//        controller = new ShowParticipantScheduleController();
+//        controller.setStudyRepository(studyRepository);
+//        Study s = StudyTestHelper.getDefaultStudy();
+//        Integer studyId = s.getId();
+//        StudySite ss = s.getLeadStudySite();
+//        Integer studySiteId = ss.getId();
+//        Integer participantId = ss.getStudyParticipantAssignments().get(0).getParticipant().getId();
+//        Integer crfId = ss.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getCrf().getId();
+//
+//        request.setParameter("studyId", studyId.toString());
+//        request.setParameter("studySiteId", studySiteId.toString());
+//        request.setParameter("participantId", participantId.toString());
+//        request.setParameter("crfId", crfId.toString());
+//
+//        ModelAndView mv = controller.handleRequestInternal(request, response);
+//        Map m = mv.getModel();
+//        assertNotNull(m.get("scheduledCrfs"));
+//    }
 
     public void testPdfGeneration() throws Exception {
 
