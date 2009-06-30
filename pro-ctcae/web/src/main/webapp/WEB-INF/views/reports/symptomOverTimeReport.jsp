@@ -68,7 +68,7 @@
                 method:'get'
             })
         }
-        function updateChart(chkbox, group) {
+        function updateChart(chkbox) {
             var obj = document.getElementsByName('attribute');
             var selectedAttributes = '';
             for (var i = 0; i < obj.length; i++) {
@@ -81,7 +81,7 @@
                 chkbox.checked = true;
                 return;
             }
-            reportResults(group, selectedAttributes);
+            reportResults(selectedAttributes);
         }
 
     </script>
