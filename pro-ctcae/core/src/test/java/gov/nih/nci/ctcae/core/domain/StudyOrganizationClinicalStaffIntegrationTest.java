@@ -30,7 +30,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends TestDataManag
         StudyOrganizationClinicalStaffQuery query = new StudyOrganizationClinicalStaffQuery();
         ClinicalStaff defaultClinicalStaff = ClinicalStaffTestHelper.getDefaultClinicalStaff();
         query.filterByClinicalStaffId(defaultClinicalStaff.getId());
-        List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = (List<StudyOrganizationClinicalStaff>) studyOrganizationClinicalStaffRepository.find(query);
+        List<StudyOrganizationClinicalStaff> organizationClinicalStaffList = studyOrganizationClinicalStaffRepository.find(query);
 
         assertFalse(organizationClinicalStaffList.isEmpty());
         for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaffList) {
@@ -45,7 +45,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends TestDataManag
         assertNotNull("must find study clinical staff", studyOrganizationClinicalStaffRepository.findById(staff.getId()));
         //now remove it
         defaultStudy.getLeadStudySite().getStudyOrganizationClinicalStaffs().clear();
-        defaultStudy = studyRepository.save(defaultStudy);
+        studyRepository.save(defaultStudy);
         commitAndStartNewTransaction();
 
         StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = studyOrganizationClinicalStaffRepository.findById(staff.getId());
@@ -58,7 +58,7 @@ public class StudyOrganizationClinicalStaffIntegrationTest extends TestDataManag
         StudyOrganizationClinicalStaff staff = defaultStudy.getLeadStudySite().getStudyOrganizationClinicalStaffs().get(0);
         OrganizationClinicalStaff organizationClinicalStaff = defaultStudy.getStudyOrganizationClinicalStaffByRole(Role.NURSE).getOrganizationClinicalStaff();
         staff.setOrganizationClinicalStaff(organizationClinicalStaff);
-        defaultStudy = studyRepository.save(defaultStudy);
+        studyRepository.save(defaultStudy);
 
         commitAndStartNewTransaction();
         StudyOrganizationClinicalStaff expectedStudyOrganizationClinicalStaff = studyOrganizationClinicalStaffRepository.findById(staff.getId());
