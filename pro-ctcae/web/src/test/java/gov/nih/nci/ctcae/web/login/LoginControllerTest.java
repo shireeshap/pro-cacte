@@ -63,7 +63,7 @@ public class LoginControllerTest extends AbstractWebTestCase {
         assertEquals("home", mv.getViewName());
         List<UserNotification> noti = (List<UserNotification>) mv.getModel().get("notifications");
         assertNotNull(noti);
-        assertEquals(0, noti.size());
+        assertEquals(2, noti.size());
         List<StudyParticipantCrfSchedule> over = (List<StudyParticipantCrfSchedule>) mv.getModel().get("overdue");
         assertNotNull(over);
         for (StudyParticipantCrfSchedule spc : over) {
