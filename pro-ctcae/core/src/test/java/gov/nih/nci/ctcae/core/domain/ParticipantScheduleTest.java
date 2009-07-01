@@ -36,14 +36,20 @@ public class ParticipantScheduleTest extends TestDataManager {
 
     public void testRemoveSchedule() throws ParseException {
         int a = spc.getStudyParticipantCrfSchedules().size();
-        Date startDate = spc.getStudyParticipantCrfSchedules().get(0).getStartDate();
+        Date startDate = null;
+        for (StudyParticipantCrfSchedule spcs : spc.getStudyParticipantCrfSchedules()) {
+            if (spcs.getStatus().equals(CrfStatus.SCHEDULED)) {
+                startDate = spcs.getStartDate();
+                break;
+            }
+        }
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(startDate.getTime());
         ps.removeSchedule(c);
         assertEquals(a - 1, spc.getStudyParticipantCrfSchedules().size());
-
+        int b = spc.getCrfsByStatus(CrfStatus.SCHEDULED).size();
         ps.removeAllSchedules();
-        assertEquals(0, spc.getStudyParticipantCrfSchedules().size());
+        assertEquals(a - 1 - b, spc.getStudyParticipantCrfSchedules().size());
 
     }
 
@@ -59,7 +65,9 @@ public class ParticipantScheduleTest extends TestDataManager {
         ps.moveAllSchedules(2);
         int i = 0;
         for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
-            assertEquals(DateUtils.addDaysToDate(ld.get(i), 2), a.getStartDate());
+            if (a.getStatus().equals(CrfStatus.SCHEDULED)) {
+                assertEquals(DateUtils.addDaysToDate(ld.get(i), 2), a.getStartDate());
+            }
             i++;
         }
 
@@ -67,17 +75,34 @@ public class ParticipantScheduleTest extends TestDataManager {
         i = 0;
         ps.moveFutureSchedules(cal, 2);
         for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
-            if (i == 0) {
-                assertEquals(DateUtils.addDaysToDate(ld.get(i), 2), a.getStartDate());
-            } else {
-                assertEquals(DateUtils.addDaysToDate(ld.get(i), 4), a.getStartDate());
+            if (a.getStatus().equals(CrfStatus.SCHEDULED)) {
+                if (i == 0) {
+                    assertEquals(DateUtils.addDaysToDate(ld.get(i), 2), a.getStartDate());
+                } else {
+                    assertEquals(DateUtils.addDaysToDate(ld.get(i), 4), a.getStartDate());
+                }
             }
             i++;
         }
-        int a = spc.getStudyParticipantCrfSchedules().size() ;
-        cal.setTime(DateUtils.addDaysToDate(cal.getTime(), 10));
+
+        int scheduledStatus = spc.getCrfsByStatus(CrfStatus.SCHEDULED).size();
+        int allStatus = spc.getStudyParticipantCrfSchedules().size();
+        Date d = null;
+        boolean nextDate = false;
+
+        for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
+            if (a.getStatus().equals(CrfStatus.SCHEDULED) && !nextDate) {
+                nextDate = true;
+                continue;
+            }
+            if (nextDate) {
+                d = a.getStartDate();
+                break;
+            }
+        }
+        cal.setTime(d);
         ps.deleteFutureSchedules(cal);
-        assertTrue(a> spc.getStudyParticipantCrfSchedules().size());
+        assertEquals(allStatus - scheduledStatus + 1, spc.getStudyParticipantCrfSchedules().size());
 
     }
 }
