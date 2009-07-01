@@ -13,7 +13,6 @@ public class CsvImporterIntegrationTest extends TestDataManager {
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
-        super.onSetUpInTransaction();
         DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
         DataAuditInfo.setLocal(auditInfo);
         login(SYSTEM_ADMIN);
