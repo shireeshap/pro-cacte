@@ -205,6 +205,8 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         if (isProCtcTermsLoaded()) {
             return;
         }
+        System.out.println("  Loading ProctcTerms...");
+        long start = System.currentTimeMillis();
         assertNotNull("please define codebase.directory property in datasource.properties file. " +
                 "This should property should point to directory where you have checked-out the code-base  of ctcae. " +
                 "For ex:codebase.directory=/Users/saurabhagrawal/projects/pro-ctcae", codeBase);
@@ -215,16 +217,23 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         ProCtc proctc = csvImporter.readCsv(fileLocation);
         proCtcRepository.save(proctc);
         commitAndStartNewTransaction();
+        long end = System.currentTimeMillis();
+        System.out.println("  ProctcTerms loaded (" + (end - start) / 1000 + " seconds)");
         createTestData();
     }
 
     private void deleteProCtcTerms() {
+        System.out.println("  Deleting ProCtcTerms...");
+        long start = System.currentTimeMillis();
+
         jdbcTemplate.execute("delete from question_display_rules");
         jdbcTemplate.execute("delete from pro_ctc_valid_values");
         jdbcTemplate.execute("delete from pro_ctc_questions");
         jdbcTemplate.execute("delete from pro_ctc_terms");
         jdbcTemplate.execute("delete from pro_ctc");
         commitAndStartNewTransaction();
+        long end = System.currentTimeMillis();
+        System.out.println("  ProCtcTerms deleted (" + (end - start) / 1000 + " seconds)");
     }
 
     private User getAdminUser() {
