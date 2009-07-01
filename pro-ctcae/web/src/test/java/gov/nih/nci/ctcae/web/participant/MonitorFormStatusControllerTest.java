@@ -63,7 +63,7 @@ public class MonitorFormStatusControllerTest extends AbstractWebTestCase {
 
         request.addParameter("studySiteId", s.getLeadStudySite().getId().toString());
         request.setParameter("view", "monthly");
-        request.setParameter("pgStartDatePrev", DateUtils.format(new Date()));
+        request.setParameter("pgStartDatePrev", DateUtils.format(DateUtils.addDaysToDate(new Date(), 1)));
         ModelAndView mv = controller.handleRequest(request, response);
 
         HashMap<StudySite, HashMap<Participant, StudyParticipantCrfSchedule[]>> sMap = (HashMap<StudySite, HashMap<Participant, StudyParticipantCrfSchedule[]>>) mv.getModel().get("crfStatusMap");
@@ -78,8 +78,8 @@ public class MonitorFormStatusControllerTest extends AbstractWebTestCase {
             }
         }
         List<Date> dates = (List<Date>) mv.getModel().get("calendar");
-        assertEquals(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH), dates.size());
-        assertEquals(dates.get(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)-1), mv.getModel().get("pgStartNext"));
+        assertEquals(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH) , dates.size());
+        assertEquals(dates.get(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH) - 1), mv.getModel().get("pgStartNext"));
         assertEquals(dates.get(0), mv.getModel().get("pgStartPrev"));
         assertEquals("monthly", mv.getModel().get("tablePeriod"));
 
@@ -93,7 +93,7 @@ public class MonitorFormStatusControllerTest extends AbstractWebTestCase {
         request.setParameter("pgStartDatePrev", DateUtils.format(new Date()));
         request.setParameter("direction", "next");
         request.setParameter("dateRange", "custom");
-        request.setParameter("pgStartDateNext",DateUtils.format(new Date()));
+        request.setParameter("pgStartDateNext", DateUtils.format(new Date()));
         ModelAndView mv = controller.handleRequest(request, response);
 
         HashMap<StudySite, HashMap<Participant, StudyParticipantCrfSchedule[]>> sMap = (HashMap<StudySite, HashMap<Participant, StudyParticipantCrfSchedule[]>>) mv.getModel().get("crfStatusMap");
@@ -105,12 +105,12 @@ public class MonitorFormStatusControllerTest extends AbstractWebTestCase {
             for (Participant p : pMap.keySet()) {
                 assertEquals(p, ParticipantTestHelper.getDefaultParticipant());
                 StudyParticipantCrfSchedule[] sArr = pMap.get(p);
-                assertEquals(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH) , sArr.length);
+                assertEquals(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH), sArr.length);
             }
         }
         List<Date> dates = (List<Date>) mv.getModel().get("calendar");
         assertEquals(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH), dates.size());
-        assertEquals(dates.get(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)-1), mv.getModel().get("pgStartNext"));
+        assertEquals(dates.get(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH) - 1), mv.getModel().get("pgStartNext"));
         assertEquals(dates.get(0), mv.getModel().get("pgStartPrev"));
         assertEquals("monthly", mv.getModel().get("tablePeriod"));
 
