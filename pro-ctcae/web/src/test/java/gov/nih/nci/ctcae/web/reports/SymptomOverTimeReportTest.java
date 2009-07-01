@@ -58,6 +58,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         request.setParameter("col", "Week 26");
         request.setParameter("ser", "Frequency");
         request.setParameter("type", "WOR");
+        request.setParameter("sum", "2");
         request.setMethod("GET");
 
         ModelAndView modelAndView = controller.handleRequest(request, response);

@@ -25,7 +25,6 @@ public class SymptomOverTimeReportDetailsController extends AbstractReportResult
         if (StringUtils.isBlank(group)) {
             group = "week";
         }
-        String type = request.getParameter("type");
         String col = request.getParameter("col");
         Integer sum = Integer.valueOf(request.getParameter("sum"));
         Integer colInt = Integer.parseInt(col.substring(col.indexOf(' ') + 1)) + sum - 1;
@@ -47,8 +46,7 @@ public class SymptomOverTimeReportDetailsController extends AbstractReportResult
         Map model = new HashMap();
         model.put("results", results);
         model.put("group", group);
-        ModelAndView modelAndView = new ModelAndView("reports/reportDetails", model);
-        return modelAndView;
+        return new ModelAndView("reports/reportDetails", model);
     }
 
 }
