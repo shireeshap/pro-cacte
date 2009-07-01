@@ -5,12 +5,15 @@ import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.core.domain.UserNotification;
+import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
+import java.util.Date;
 
 /**
  * @author Harsh Agarwal
@@ -62,12 +65,16 @@ public class LoginControllerTest extends AbstractWebTestCase {
         List<UserNotification> noti = (List<UserNotification>) mv.getModel().get("notifications");
         assertNotNull(noti);
         assertEquals(0, noti.size());
-        List<UserNotification> over = (List<UserNotification>) mv.getModel().get("overdue");
+        List<StudyParticipantCrfSchedule> over = (List<StudyParticipantCrfSchedule>) mv.getModel().get("overdue");
         assertNotNull(over);
-        assertEquals(0, over.size());
-        List<UserNotification> up = (List<UserNotification>) mv.getModel().get("upcoming");
+        for (StudyParticipantCrfSchedule spc : over) {
+            assertTrue(spc.getStartDate().before(new Date()));
+        }
+        List<StudyParticipantCrfSchedule> up = (List<StudyParticipantCrfSchedule>) mv.getModel().get("upcoming");
         assertNotNull(up);
-        assertEquals(6, up.size());
+        for (StudyParticipantCrfSchedule spc : up) {
+            assertTrue(spc.getStartDate().after(DateUtils.addDaysToDate(new Date(), -1)));
+        }
 
         username = StudyTestHelper.getLeadSiteStaffByRole(Role.SITE_CRA).getUser().getUsername();
         login(username);
@@ -75,13 +82,17 @@ public class LoginControllerTest extends AbstractWebTestCase {
         assertEquals("home", mv.getViewName());
         noti = (List<UserNotification>) mv.getModel().get("notifications");
         assertNotNull(noti);
-        assertEquals(2, noti.size());
-        over = (List<UserNotification>) mv.getModel().get("overdue");
+//        assertEquals(2, noti.size());
+        over = (List<StudyParticipantCrfSchedule>) mv.getModel().get("overdue");
         assertNotNull(over);
-        assertEquals(2, over.size());
-        up = (List<UserNotification>) mv.getModel().get("upcoming");
+        for (StudyParticipantCrfSchedule spc : over) {
+            assertTrue(spc.getStartDate().before(new Date()));
+        }
+        up = (List<StudyParticipantCrfSchedule>) mv.getModel().get("upcoming");
         assertNotNull(up);
-        assertEquals(8, up.size());
+        for (StudyParticipantCrfSchedule spc : up) {
+            assertTrue(spc.getStartDate().after(DateUtils.addDaysToDate(new Date(), -1)));
+        }
 
     }
 
