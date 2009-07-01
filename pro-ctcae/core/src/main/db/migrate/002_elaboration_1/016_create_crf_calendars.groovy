@@ -9,7 +9,7 @@ class CreateCrfCalendars extends edu.northwestern.bioinformatics.bering.Migratio
 			t.addColumn('repeat_until_unit', 'string', nullable: true)
 			t.addColumn('repeat_until_amount', 'string', nullable: true)
 			}
-
+            execute('ALTER TABLE crf_calendars ADD CONSTRAINT fk_crf FOREIGN KEY (crf_id) REFERENCES CRFS(id)')
 
  	}
  		void down() {

@@ -43,8 +43,7 @@ public class ClinicalStaffRepository implements Repository<ClinicalStaff, Clinic
     }
 
     public void delete(ClinicalStaff clinicalStaff) {
-
-
+        genericRepository.delete(clinicalStaff);
     }
 
     public Collection<ClinicalStaff> find(ClinicalStaffQuery query) {

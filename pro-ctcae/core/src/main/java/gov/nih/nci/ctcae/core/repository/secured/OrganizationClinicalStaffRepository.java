@@ -41,8 +41,7 @@ public class OrganizationClinicalStaffRepository implements Repository<Organizat
     }
 
     public void delete(OrganizationClinicalStaff organizationClinicalStaff) {
-
-
+        genericRepository.delete(organizationClinicalStaff);
     }
 
     public Collection<OrganizationClinicalStaff> find(OrganizationClinicalStaffQuery query) {
