@@ -1,6 +1,5 @@
 package gov.nih.nci.ctcae.web.login;
 
-import gov.nih.nci.ctcae.core.helper.ClinicalStaffTestHelper;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.domain.Role;
