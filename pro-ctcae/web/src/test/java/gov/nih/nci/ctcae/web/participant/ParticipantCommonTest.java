@@ -60,11 +60,11 @@ public class ParticipantCommonTest extends AbstractWebTestCase {
     public void testParticipantRepsonseReport() throws Exception {
         Participant p = ParticipantTestHelper.getDefaultParticipant();
         login(p.getUser().getUsername());
-
-        StudyParticipantCrfSchedule spcs = p.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(0);
+        StudyParticipantCrf spc = p.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
+        StudyParticipantCrfSchedule spcs = spc.getStudyParticipantCrfSchedules().get(0);
         spcs.setStatus(CrfStatus.COMPLETED);
 
-        StudyParticipantCrfSchedule spcs1 = p.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(1);
+        StudyParticipantCrfSchedule spcs1 = spc.getStudyParticipantCrfSchedules().get(1);
         spcs1.setStatus(CrfStatus.COMPLETED);
 
         ParticipantResponseReportController controller = new ParticipantResponseReportController();
@@ -80,7 +80,7 @@ public class ParticipantCommonTest extends AbstractWebTestCase {
         List dates = (List<Date>) m.get("dates");
 
         assertEquals(10, symptomMap.keySet().size());
-        assertEquals(2, dates.size());
+        assertEquals(spc.getCrfsByStatus(CrfStatus.COMPLETED).size(), dates.size());
 
         assertNotNull(m.get("schedule"));
         assertNotNull(m.get("questionTypes"));
