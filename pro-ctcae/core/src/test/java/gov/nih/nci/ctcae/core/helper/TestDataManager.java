@@ -99,11 +99,13 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             fail(e.getMessage());
         }
         Long end = System.currentTimeMillis();
-        System.out.println("Data Refreshed:(" + (end - start) / 1000 + " seconds)");
+        System.out.println("Data Refreshed (" + (end - start) / 1000 + " seconds)");
 
     }
 
     protected void createTestData() throws Exception {
+        System.out.println("  Creating data...");
+        long start = System.currentTimeMillis();
         login(SYSTEM_ADMIN);
         createClinicalStaff();
         createStudy();
@@ -114,10 +116,15 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             e.printStackTrace();
         }
         commitAndStartNewTransaction();
+        long end = System.currentTimeMillis();
+        System.out.println("  Data created (" + (end - start) / 1000 + " seconds)");
     }
 
 
     protected void deleteTestData() {
+
+        System.out.println("  Deleting data...");
+        long start = System.currentTimeMillis();
         login(SYSTEM_ADMIN);
 
         StudyQuery query = new StudyQuery();
@@ -139,12 +146,14 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         }
 
         UserQuery uQuery = new UserQuery();
-        List<User> users = (List)userRepository.find(uQuery);
-        for(User u : users){
+        List<User> users = (List) userRepository.find(uQuery);
+        for (User u : users) {
             userRepository.delete(u);
         }
 
         commitAndStartNewTransaction();
+        long end = System.currentTimeMillis();
+        System.out.println("  Data deleted (" + (end - start) / 1000 + " seconds)");
     }
 
     private void createClinicalStaff() {
