@@ -36,8 +36,9 @@ public class ParticipantScheduleTest extends TestDataManager {
 
     public void testRemoveSchedule() throws ParseException {
         int a = spc.getStudyParticipantCrfSchedules().size();
+        Date startDate = spc.getStudyParticipantCrfSchedules().get(0).getStartDate();
         Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(new Date().getTime());
+        c.setTimeInMillis(startDate.getTime());
         ps.removeSchedule(c);
         assertEquals(a - 1, spc.getStudyParticipantCrfSchedules().size());
 
