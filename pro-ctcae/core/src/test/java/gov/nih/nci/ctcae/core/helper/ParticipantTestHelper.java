@@ -73,12 +73,14 @@ public class ParticipantTestHelper {
 
     private static void completeParticipantSchedule(Participant participant, StudySite ss1) {
         Random random = new Random();
-        int totalSchedules =participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().size();
+        int totalSchedules = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().size();
         for (int i = 0; i < random.nextInt(totalSchedules); i++) {
             StudyParticipantCrfSchedule schedule = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(i);
             for (StudyParticipantCrfItem studyParticipantCrfItem : schedule.getStudyParticipantCrfItems()) {
                 List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
-                studyParticipantCrfItem.setProCtcValidValue(validValues.get(random.nextInt(validValues.size())));
+                if (validValues.size() > 0) {
+                    studyParticipantCrfItem.setProCtcValidValue(validValues.get(random.nextInt(validValues.size())));
+                }
             }
             schedule.setStatus(CrfStatus.COMPLETED);
             genericRepository.save(schedule);
