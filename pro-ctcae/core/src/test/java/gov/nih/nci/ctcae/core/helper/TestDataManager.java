@@ -127,29 +127,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         long start = System.currentTimeMillis();
         login(SYSTEM_ADMIN);
 
-        StudyQuery query = new StudyQuery();
-        List<Study> studies = (List) studyRepository.find(query);
-        for (Study study : studies) {
-            studyRepository.delete(study);
-        }
-
-        ParticipantQuery pQuery = new ParticipantQuery();
-        List<Participant> participants = (List) participantRepository.find(pQuery);
-        for (Participant p : participants) {
-            participantRepository.delete(p);
-        }
-
-        ClinicalStaffQuery csQuery = new ClinicalStaffQuery();
-        List<ClinicalStaff> clinicalStaffs = (List) clinicalStaffRepository.find(csQuery);
-        for (ClinicalStaff cs : clinicalStaffs) {
-            clinicalStaffRepository.delete(cs);
-        }
-
-        UserQuery uQuery = new UserQuery();
-        List<User> users = (List) userRepository.find(uQuery);
-        for (User u : users) {
-            userRepository.delete(u);
-        }
+        deleteUsingJdbcTemplate();
 
         commitAndStartNewTransaction();
         long end = System.currentTimeMillis();
@@ -376,33 +354,59 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         TestDataManager.proCtcAERulesService = proCtcAERulesService;
     }
 
-//    private void deleteUsingJdbcTemplate() {
-    //        jdbcTemplate.execute("delete from user_notifications");
-//        jdbcTemplate.execute("delete from notifications");
-//        jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
-//        jdbcTemplate.execute("delete from study_participant_crf_items");
-//        jdbcTemplate.execute("delete from CRF_PAGE_ITEMS");
-//        jdbcTemplate.execute("delete from CRF_PAGES");
-//        jdbcTemplate.execute("delete from sp_crf_sch_added_questions");
-//        jdbcTemplate.execute("delete from sp_crf_added_questions");
-//        jdbcTemplate.execute("delete from sp_crf_schedules");
-//        jdbcTemplate.execute("delete from study_participant_crfs");
-//        jdbcTemplate.execute("delete from crf_cycles");
-//        jdbcTemplate.execute("delete from crf_cycle_definitions");
-//        jdbcTemplate.execute("delete from crfs");
-//        jdbcTemplate.execute("delete from study_participant_clinical_staffs");
-//        jdbcTemplate.execute("delete from study_organization_clinical_staffs");
-//        jdbcTemplate.execute("delete from study_participant_assignments");
-//        jdbcTemplate.execute("delete from study_organizations");
-//        jdbcTemplate.execute("delete from studies");
-//        jdbcTemplate.execute("delete from ORGANIZATION_CLINICAL_STAFFS");
-//        jdbcTemplate.execute("delete from CLINICAL_STAFFS");
-//        jdbcTemplate.execute("delete from user_roles");
-//        jdbcTemplate.execute("delete from study_participant_assignments");
-//        jdbcTemplate.execute("delete from participants");
-//        jdbcTemplate.execute("delete from USERS");
-//        jdbcTemplate.execute("delete from audit_event_values");
-//        jdbcTemplate.execute("delete from audit_events");
+//    private void deleteUsingHibernate(){
+//                 StudyQuery query = new StudyQuery();
+//        List<Study> studies = (List) studyRepository.find(query);
+//        for (Study study : studies) {
+//            studyRepository.delete(study);
+//        }
+//
+//        ParticipantQuery pQuery = new ParticipantQuery();
+//        List<Participant> participants = (List) participantRepository.find(pQuery);
+//        for (Participant p : participants) {
+//            participantRepository.delete(p);
+//        }
+//
+//        ClinicalStaffQuery csQuery = new ClinicalStaffQuery();
+//        List<ClinicalStaff> clinicalStaffs = (List) clinicalStaffRepository.find(csQuery);
+//        for (ClinicalStaff cs : clinicalStaffs) {
+//            clinicalStaffRepository.delete(cs);
+//        }
+//
+//        UserQuery uQuery = new UserQuery();
+//        List<User> users = (List) userRepository.find(uQuery);
+//        for (User u : users) {
+//            userRepository.delete(u);
+//        }
 //    }
+
+    private void deleteUsingJdbcTemplate() {
+        jdbcTemplate.execute("delete from user_notifications");
+        jdbcTemplate.execute("delete from notifications");
+        jdbcTemplate.execute("delete from CRF_PAGE_ITEM_DISPLAY_RULES");
+        jdbcTemplate.execute("delete from study_participant_crf_items");
+        jdbcTemplate.execute("delete from CRF_PAGE_ITEMS");
+        jdbcTemplate.execute("delete from CRF_PAGES");
+        jdbcTemplate.execute("delete from sp_crf_sch_added_questions");
+        jdbcTemplate.execute("delete from sp_crf_added_questions");
+        jdbcTemplate.execute("delete from sp_crf_schedules");
+        jdbcTemplate.execute("delete from study_participant_crfs");
+        jdbcTemplate.execute("delete from crf_cycles");
+        jdbcTemplate.execute("delete from crf_cycle_definitions");
+        jdbcTemplate.execute("delete from crfs");
+        jdbcTemplate.execute("delete from study_participant_clinical_staffs");
+        jdbcTemplate.execute("delete from study_organization_clinical_staffs");
+        jdbcTemplate.execute("delete from study_participant_assignments");
+        jdbcTemplate.execute("delete from study_organizations");
+        jdbcTemplate.execute("delete from studies");
+        jdbcTemplate.execute("delete from ORGANIZATION_CLINICAL_STAFFS");
+        jdbcTemplate.execute("delete from CLINICAL_STAFFS");
+        jdbcTemplate.execute("delete from user_roles");
+        jdbcTemplate.execute("delete from study_participant_assignments");
+        jdbcTemplate.execute("delete from participants");
+        jdbcTemplate.execute("delete from USERS");
+        jdbcTemplate.execute("delete from audit_event_values");
+        jdbcTemplate.execute("delete from audit_events");
+    }
 
 }
