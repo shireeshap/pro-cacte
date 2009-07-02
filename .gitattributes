@@ -335,7 +335,6 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/Unique
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueNciIdentifierForOrganizationValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollectionValidatorTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueTitleForCrfValidatorTest.java -text
-pro-ctcae/core/src/test/resources/gov/nih/nci/ctcae/core/applicationContext-rules-jcr-test.xml -text
 pro-ctcae/core/src/test/resources/gov/nih/nci/ctcae/core/applicationContext-test.xml -text
 pro-ctcae/core/src/test/resources/gov/nih/nci/ctcae/core/applicationContext-util-test.xml -text
 pro-ctcae/core/src/test/resources/logback.xml -text

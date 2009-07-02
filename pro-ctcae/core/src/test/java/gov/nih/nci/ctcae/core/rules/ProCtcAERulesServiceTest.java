@@ -23,58 +23,57 @@ public class ProCtcAERulesServiceTest extends TestDataManager {
     public void testDummy() {
 
     }
-//
-//    CRF crf;
-//    Study study;
-//    List<String> symptoms = new ArrayList<String>();
-//    List<String> questiontypes = new ArrayList<String>();
-//    List<String> operators = new ArrayList<String>();
-//    List<String> values = new ArrayList<String>();
-//    List<String> notifications = new ArrayList<String>();
-//
-//
-//    @Override
-//    protected void onSetUpInTransaction() throws Exception {
-//        super.onSetUpInTransaction();
-//        if (crf == null) {
-//            study = StudyTestHelper.getDefaultStudy();
-//            crf = study.getCrfs().get(0);
-//        }
-//    }
-//
-//    public void testGetExistingRuleSetForCrf() {
-//        assertNull(proCtcAERulesService.getExistingRuleSetForCrf(crf));
-//    }
-//
-//    public void testDeleteExistingAndGetNewRuleSetForCrf() throws Exception {
-//        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
-//        assertNotNull(ruleSet);
-//        assertEquals("gov.nih.nci.ctcae.rules.form.study_" + study.getId() + ".form_" + crf.getId(), ruleSet.getName());
-//    }
-//
-//    public void testCreateRule() throws Exception {
-//        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
-//
-//        symptoms.add("Migrane");
-//        symptoms.add("Pain");
-//
-//        questiontypes.add("Severity");
-//        operators.add("==");
-//        values.add("High");
-//
-//        questiontypes.add("Frequency");
-//        operators.add(">");
-//        values.add("Rare");
-//
-//        notifications.add("Nurse");
-//        notifications.add("Physician");
-//        assertEquals(0, ruleSet.getRule().size());
-//
-//        ProCtcAERulesService.createRule(ruleSet, "My Test Rule", symptoms, questiontypes, operators, values, notifications, "Y");
-//        ProCtcAERulesService.deployRuleSet(ruleSet);
-//        assertEquals(1, ruleSet.getRule().size());
-//    }
 
-    
+    CRF crf;
+    Study study;
+    List<String> symptoms = new ArrayList<String>();
+    List<String> questiontypes = new ArrayList<String>();
+    List<String> operators = new ArrayList<String>();
+    List<String> values = new ArrayList<String>();
+    List<String> notifications = new ArrayList<String>();
+
+
+    @Override
+    protected void onSetUpInTransaction() throws Exception {
+        super.onSetUpInTransaction();
+        if (crf == null) {
+            study = StudyTestHelper.getDefaultStudy();
+            crf = study.getCrfs().get(0);
+        }
+    }
+
+    public void testGetExistingRuleSetForCrf() {
+        assertNull(proCtcAERulesService.getExistingRuleSetForCrf(crf));
+    }
+
+    public void testDeleteExistingAndGetNewRuleSetForCrf() throws Exception {
+        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
+        assertNotNull(ruleSet);
+        assertEquals("gov.nih.nci.ctcae.rules.form.study_" + study.getId() + ".form_" + crf.getId(), ruleSet.getName());
+    }
+
+    public void testCreateRule() throws Exception {
+        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
+
+        symptoms.add("Migrane");
+        symptoms.add("Pain");
+
+        questiontypes.add("Severity");
+        operators.add("==");
+        values.add("High");
+
+        questiontypes.add("Frequency");
+        operators.add(">");
+        values.add("Rare");
+
+        notifications.add("Nurse");
+        notifications.add("Physician");
+        assertEquals(0, ruleSet.getRule().size());
+
+        ProCtcAERulesService.createRule(ruleSet, "My Test Rule", symptoms, questiontypes, operators, values, notifications, "Y");
+        ProCtcAERulesService.deployRuleSet(ruleSet);
+        assertEquals(1, ruleSet.getRule().size());
+    }
+
 
 }

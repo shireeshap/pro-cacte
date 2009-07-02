@@ -43,5 +43,6 @@
         <property name="ruleAuthoringService" ref="ruleAuthoringService"/>
         <property name="rulesEngineService" ref="ruleEngineService"/>
         <property name="ruleExecutionService" ref="ruleExecutionService"/>
+        <property name="repositoryService" ref="jcrService"/>
     </bean>
 </beans>

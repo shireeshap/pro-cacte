@@ -68,7 +68,7 @@ public class ParticipantTestHelper {
         completeParticipantSchedule(juliet, ss2);
 
         completeParticipantSchedule(findParticpantByUserName("Charlie.Boon"), StudyTestHelper.getDefaultStudy().getLeadStudySite());
-        createNotifications(StudyTestHelper.getDefaultStudy().getCrfs().get(0));
+//        createNotifications(StudyTestHelper.getDefaultStudy().getCrfs().get(0));
 
     }
 
@@ -83,8 +83,8 @@ public class ParticipantTestHelper {
             }
             schedule.setStatus(CrfStatus.COMPLETED);
             genericRepository.save(schedule);
-//            NotificationsEvaluationService.setGenericRepository(genericRepository);
-//            NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
+            NotificationsEvaluationService.setGenericRepository(genericRepository);
+            NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
         }
 
     }

@@ -6,6 +6,7 @@ import com.semanticbits.rules.api.RulesEngineService;
 import com.semanticbits.rules.brxml.*;
 import com.semanticbits.rules.objectgraph.FactResolver;
 import com.semanticbits.rules.utils.RuleUtil;
+import com.semanticbits.rules.impl.*;
 import gov.nih.nci.ctcae.core.domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -21,18 +22,22 @@ import java.util.List;
 public class ProCtcAERulesService {
 
 
-    static RuleAuthoringService ruleAuthoringService;
-    static RulesEngineService rulesEngineService;
-    static BusinessRulesExecutionService ruleExecutionService;
+    static RuleAuthoringServiceImpl ruleAuthoringService;
+    static RulesEngineServiceImpl rulesEngineService;
+    static BusinessRulesExecutionServiceImpl ruleExecutionService;
+    static RepositoryServiceImpl repositoryService;
 
     public static RuleSet getExistingRuleSetForCrf(CRF crf) {
         String packageName = getPackageNameForCrf(crf);
-        return ruleAuthoringService.getRuleSet(packageName, true);
+        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
+        logout();
+        return ruleSet;
     }
 
 
     public static void createRule(Rule rule) {
         ruleAuthoringService.createRule(rule);
+        logout();
     }
 
     public static Rule createRule(RuleSet ruleSet, String ruleName, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {
@@ -71,15 +76,18 @@ public class ProCtcAERulesService {
     public static RuleSet deleteExistingAndGetNewRuleSetForSite(CRF crf, StudyOrganization myOrg) throws Exception {
         deleteExistingRuleSetForCrfAndSite(crf, myOrg);
         String packageName = getPackageNameForCrfAndSite(crf, myOrg);
-        return createRuleSetForCrfAndSite(crf, myOrg, packageName);
+        RuleSet site = createRuleSetForCrfAndSite(crf, myOrg, packageName);
+        logout();
+        return site;
     }
 
     public static RuleSet getExistingRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg) {
         String packageName = getPackageNameForCrfAndSite(crf, myOrg);
-        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
+        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, false);
         if (ruleSet == null) {
             ruleSet = getExistingRuleSetForCrf(crf);
         }
+        logout();
         return ruleSet;
 
     }
@@ -92,17 +100,21 @@ public class ProCtcAERulesService {
 
         List<Object> outputObjects;
         outputObjects = ruleExecutionService.fireRules(bindURI, inputObjects);
+        logout();
         return outputObjects;
     }
 
     public static void deployRuleSet(RuleSet ruleSet) throws Exception {
         rulesEngineService.deployRuleSet(ruleSet);
+        logout();
     }
 
     public static RuleSet deleteExistingAndGetNewRuleSetForCrf(CRF crf) throws Exception {
         deleteExistingRuleSetForCrf(crf);
         String packageName = getPackageNameForCrf(crf);
-        return createRuleSetForCrf(crf, packageName);
+        RuleSet ruleSet = createRuleSetForCrf(crf, packageName);
+        logout();
+        return ruleSet;
     }
 
     private static String getPackageNameForCrf(CRF crf) {
@@ -198,6 +210,7 @@ public class ProCtcAERulesService {
         if (ruleSet != null) {
             rulesEngineService.deleteRuleSet(ruleSet.getName());
         }
+        logout();
     }
 
     private static RuleSet createRuleSetForCrf(CRF crf, String packageName) {
@@ -211,6 +224,7 @@ public class ProCtcAERulesService {
         imports.add("gov.nih.nci.ctcae.core.domain.*");
         ruleSet.setImport(imports);
         ruleAuthoringService.createRuleSet(ruleSet);
+        logout();
         return ruleSet;
     }
 
@@ -222,6 +236,7 @@ public class ProCtcAERulesService {
         ruleSet.setSubject("Form Rules||" + crf.getStudy().getShortTitle() + "||" + crf.getTitle() + "||" + myOrg.getDisplayName());
         ruleSet.setCoverage("Not Enabled");
         ruleAuthoringService.createRuleSet(ruleSet);
+        logout();
         return ruleSet;
     }
 
@@ -232,6 +247,7 @@ public class ProCtcAERulesService {
                 rulesEngineService.deleteRuleSet(ruleSet.getName());
             }
         }
+        logout();
     }
 
 
@@ -240,19 +256,26 @@ public class ProCtcAERulesService {
     }
 
     @Required
-    public void setRuleAuthoringService(RuleAuthoringService ruleAuthoringService) {
+    public void setRuleAuthoringService(RuleAuthoringServiceImpl ruleAuthoringService) {
         ProCtcAERulesService.ruleAuthoringService = ruleAuthoringService;
     }
 
     @Required
-    public void setRulesEngineService(RulesEngineService rulesEngineService) {
+    public void setRulesEngineService(RulesEngineServiceImpl rulesEngineService) {
         ProCtcAERulesService.rulesEngineService = rulesEngineService;
     }
 
     @Required
-    public void setRuleExecutionService(BusinessRulesExecutionService ruleExecutionService) {
+    public void setRuleExecutionService(BusinessRulesExecutionServiceImpl ruleExecutionService) {
         ProCtcAERulesService.ruleExecutionService = ruleExecutionService;
     }
 
+    @Required
+    public void setRepositoryService(RepositoryServiceImpl repositoryService) {
+        this.repositoryService = repositoryService;
+    }
 
+    private static void logout() {
+        repositoryService.logout();
+    }
 }

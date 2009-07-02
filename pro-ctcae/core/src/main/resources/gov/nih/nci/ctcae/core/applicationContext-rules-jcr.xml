@@ -16,25 +16,15 @@
 
     <bean id="propertiesFileLoader"
           class="com.semanticbits.rules.utils.RulesPropertiesFileLoader">
-        <property name="databaseConfigurationName">
-            <value>datasource</value>
-        </property>
-        <property name="applicationDirectoryName">
-            <value>proctcae</value>
-        </property>
+        <property name="databaseConfigurationName" value="datasource"/>
+        <property name="applicationDirectoryName" value="proctcae"/>
     </bean>
     <bean id="rulesPropertyConfigurer"
           class="gov.nih.nci.cabig.ctms.tools.spring.PropertyPlaceholderConfigurer">
         <property name="properties" ref="propertiesFileLoader"/>
-        <property name="placeholderPrefix">
-            <value>s[</value>
-        </property>
-        <property name="placeholderSuffix">
-            <value>]</value>
-        </property>
-        <property name="useNullForUnresolvablePlaceholders">
-            <value>true</value>
-        </property>
+        <property name="placeholderPrefix" value="s["/>
+        <property name="placeholderSuffix" value="]"/>
+        <property name="useNullForUnresolvablePlaceholders" value="true"/>
     </bean>
 
     <!--  This bean will clear off the files in rules workspace -->
@@ -63,17 +53,9 @@
 
 
     <bean id="transactionManager"
-          class="org.springmodules.jcr.jackrabbit.LocalTransactionManager"
-          autowire="byType">
+          class="org.springmodules.jcr.jackrabbit.LocalTransactionManager">
         <property name="sessionFactory" ref="jcrSessionFactory"/>
     </bean>
-
-    <!--<bean id="jcrTransactionManager"-->
-          <!--class="org.springmodules.jcr.jackrabbit.LocalTransactionManager"-->
-          <!--autowire="byType">-->
-        <!--<property name="sessionFactory" ref="jcrSessionFactory"/>-->
-    <!--</bean>-->
-
 
     <!-- transaction proxy for Jcr services/facades -->
 
@@ -81,7 +63,7 @@
           class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
           autowire-candidate="false">
         <property name="proxyTargetClass" value="true"/>
-        <property name="transactionManager" ref="jcrTransactionManager"/>
+        <property name="transactionManager" ref="transactionManager"/>
         <property name="transactionAttributes">
             <props>
                 <prop key="save*">PROPAGATION_REQUIRED</prop>
@@ -90,17 +72,16 @@
         </property>
     </bean>
 
-    <bean id="jcrTemplate" class="org.springmodules.jcr.JcrTemplate"
-          autowire="byType">
+    <bean id="jcrTemplate" class="org.springmodules.jcr.JcrTemplate">
         <property name="sessionFactory" ref="jcrSessionFactory"/>
         <property name="allowCreate" value="true"/>
     </bean>
 
 
     <bean id="jcrService"
-          class="com.semanticbits.rules.impl.RepositoryServiceImpl"
-          autowire="byType">
-        <property name="template" ref="jcrTemplate"/>
+          class="com.semanticbits.rules.impl.RepositoryServiceImpl">
+        <property name="jcrTemplate" ref="jcrTemplate"/>
+        <property name="repository" ref="repository"/>
     </bean>
 
 </beans>

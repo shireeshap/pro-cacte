@@ -52,7 +52,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-setup.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-test.xml"
-            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-rules-jcr-test.xml"
+            , "classpath*:gov/nih/nci/ctcae/core/applicationContext-rules-jcr.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-core-security.xml"
             , "classpath*:gov/nih/nci/ctcae/core/applicationContext-rules-services.xml"
     };
