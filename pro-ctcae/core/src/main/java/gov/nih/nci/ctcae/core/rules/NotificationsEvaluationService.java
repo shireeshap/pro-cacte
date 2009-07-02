@@ -288,7 +288,7 @@ public class NotificationsEvaluationService {
         return ret;
     }
 
-    public static void sendMail(String[] to, String subject, String content) throws Exception {
+    public static void sendMail(String[] to, String subject, String content) {
         try {
             if (javaMailSender == null) {
                 javaMailSender = new JavaMailSender();
@@ -301,7 +301,7 @@ public class NotificationsEvaluationService {
             helper.setText(content, javaMailSender.isHtml());
             javaMailSender.send(message);
         } catch (Exception e) {
-            throw new Exception(" Error in sending email , please check the confiuration ", e);
+            logger.error(" Error in sending email , please check the confiuration - " + e.getMessage());
         }
     }
 

@@ -205,7 +205,7 @@ public class ProCtcAERulesService {
         return column;
     }
 
-    private static void deleteExistingRuleSetForCrf(CRF crf) throws Exception {
+    public static void deleteExistingRuleSetForCrf(CRF crf) throws Exception {
         RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrf(crf);
         if (ruleSet != null) {
             rulesEngineService.deleteRuleSet(ruleSet.getName());

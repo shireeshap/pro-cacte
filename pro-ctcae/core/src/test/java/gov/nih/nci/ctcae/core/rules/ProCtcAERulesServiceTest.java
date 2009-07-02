@@ -42,8 +42,9 @@ public class ProCtcAERulesServiceTest extends TestDataManager {
         }
     }
 
-    public void testGetExistingRuleSetForCrf() {
-        assertNull(proCtcAERulesService.getExistingRuleSetForCrf(crf));
+    public void testGetExistingRuleSetForCrf() throws Exception {
+        ProCtcAERulesService.deleteExistingRuleSetForCrf(crf);
+        assertNull(ProCtcAERulesService.getExistingRuleSetForCrf(crf));
     }
 
     public void testDeleteExistingAndGetNewRuleSetForCrf() throws Exception {
