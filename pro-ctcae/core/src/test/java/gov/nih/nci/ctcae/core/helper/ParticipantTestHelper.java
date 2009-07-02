@@ -68,7 +68,7 @@ public class ParticipantTestHelper {
         completeParticipantSchedule(juliet, ss2, false);
 
         completeParticipantSchedule(findParticpantByUserName("Charlie.Boon"), StudyTestHelper.getDefaultStudy().getLeadStudySite(), false);
-//        createNotifications(StudyTestHelper.getDefaultStudy().getCrfs().get(0));
+        createNotifications(StudyTestHelper.getDefaultStudy().getCrfs().get(0));
 
     }
 
