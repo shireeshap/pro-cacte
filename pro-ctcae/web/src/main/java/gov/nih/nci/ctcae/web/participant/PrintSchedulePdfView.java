@@ -29,8 +29,8 @@ public class PrintSchedulePdfView extends AbstractPdfView {
     StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
 
     protected void buildPdfDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        Integer crfId = Integer.parseInt(request.getParameter("id"));
-        StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(crfId);
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        StudyParticipantCrfSchedule studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(id);
         Study study = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getStudy();
         StudyOrganization studySite = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite();
         Participant participant = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();

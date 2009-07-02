@@ -441,7 +441,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleCont
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddNotificationClinicalStaffController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayCalendarController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayStudySitesController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/EnterParticpantResponsesController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/EnterParticipantResponsesController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormStatusController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormUtils.java -text
@@ -1185,11 +1185,14 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/login/LoginControllerTest.java
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/DisplayCalendarControllerTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/EnterParticipantResponsesControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/MonitorFormStatusControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFacadeTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantCommonTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantInboxControllerTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ParticipantOffStudyControllerTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/PrintParticipantCareScheduleControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfAjaxFacadeIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ScheduleCrfTabTest.java -text

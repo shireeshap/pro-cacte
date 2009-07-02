@@ -11,7 +11,7 @@ import java.io.FileOutputStream;
 import java.util.*;
 
 /**
- * @author Vinay Kumar
+ * @author Mehul Gulati
  * @since Mar 18, 2009
  */
 public class ParticipantCareReportTest extends WebTestCase {

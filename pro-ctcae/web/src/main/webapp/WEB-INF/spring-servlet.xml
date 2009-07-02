@@ -305,7 +305,7 @@
             <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
         </bean>
     <bean name="/participant/enterResponses" id="enterParticipantResponsesController"
-             class="gov.nih.nci.ctcae.web.participant.EnterParticpantResponsesController" parent="ctcaeSimpleFormController">
+             class="gov.nih.nci.ctcae.web.participant.EnterParticipantResponsesController" parent="ctcaeSimpleFormController">
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
              </bean>
 

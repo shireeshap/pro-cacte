@@ -21,11 +21,11 @@ import java.util.HashMap;
  * @author Mehul Gulati
  * Date: Jun 24, 2009
  */
-public class EnterParticpantResponsesController extends CtcAeSimpleFormController {
+public class EnterParticipantResponsesController extends CtcAeSimpleFormController {
 
     private StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
 
-    public EnterParticpantResponsesController() {
+    public EnterParticipantResponsesController() {
         super();
         setCommandClass(StudyParticipantCrfSchedule.class);
         setFormView("participant/inputParticipantResponses");

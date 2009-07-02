@@ -45,9 +45,7 @@ public class ParticipantOffStudyController extends CtcAeSimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
         StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
-        Date offTreatmentDate = studyParticipantAssignment.getOffTreatmentDate();
         studyParticipantAssignment = studyParticipantAssignmentRepository.findById(studyParticipantAssignment.getId());
-        studyParticipantAssignment.setOffTreatmentDate(offTreatmentDate);
         studyParticipantAssignmentRepository.save(studyParticipantAssignment);
 
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
