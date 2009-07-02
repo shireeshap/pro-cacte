@@ -264,6 +264,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 
     @Override
     protected void onTearDownInTransaction() throws Exception {
+        ProCtcAERulesService.logout();
         DataAuditInfo.setLocal(null);
         super.onTearDownInTransaction();
     }

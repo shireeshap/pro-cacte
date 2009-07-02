@@ -5,7 +5,6 @@ import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
 
 import java.text.ParseException;
@@ -43,13 +42,13 @@ public class ParticipantTestHelper {
         Participant miles = createParticipant("Miles", "Straume", "1-6", ss1);
         Participant jim = createParticipant("Jim", "Kwon", "1-7", ss1);
 
-        completeParticipantSchedule(john, ss1);
-        completeParticipantSchedule(jack, ss1);
-        completeParticipantSchedule(kate, ss1);
-        completeParticipantSchedule(sayid, ss1);
-        completeParticipantSchedule(sun, ss1);
-        completeParticipantSchedule(miles, ss1);
-        completeParticipantSchedule(jim, ss1);
+        completeParticipantSchedule(john, ss1, true);
+        completeParticipantSchedule(jack, ss1, false);
+        completeParticipantSchedule(kate, ss1, false);
+        completeParticipantSchedule(sayid, ss1, false);
+        completeParticipantSchedule(sun, ss1, false);
+        completeParticipantSchedule(miles, ss1, false);
+        completeParticipantSchedule(jim, ss1, false);
 
         StudySite ss2 = StudyTestHelper.getDefaultStudy().getStudySites().get(1);
         Participant james = createParticipant("James", "Sawyer", "2-1", ss2);
@@ -60,20 +59,20 @@ public class ParticipantTestHelper {
         Participant desmond = createParticipant("Desmond", "Hume", "2-6", ss2);
         Participant juliet = createParticipant("Juliet", "Burke", "2-7", ss2);
 
-        completeParticipantSchedule(james, ss2);
-        completeParticipantSchedule(charles, ss2);
-        completeParticipantSchedule(hugo, ss2);
-        completeParticipantSchedule(daniel, ss2);
-        completeParticipantSchedule(ben, ss2);
-        completeParticipantSchedule(desmond, ss2);
-        completeParticipantSchedule(juliet, ss2);
+        completeParticipantSchedule(james, ss2, false);
+        completeParticipantSchedule(charles, ss2, false);
+        completeParticipantSchedule(hugo, ss2, false);
+        completeParticipantSchedule(daniel, ss2, false);
+        completeParticipantSchedule(ben, ss2, false);
+        completeParticipantSchedule(desmond, ss2, false);
+        completeParticipantSchedule(juliet, ss2, false);
 
-        completeParticipantSchedule(findParticpantByUserName("Charlie.Boon"), StudyTestHelper.getDefaultStudy().getLeadStudySite());
+        completeParticipantSchedule(findParticpantByUserName("Charlie.Boon"), StudyTestHelper.getDefaultStudy().getLeadStudySite(), false);
 //        createNotifications(StudyTestHelper.getDefaultStudy().getCrfs().get(0));
 
     }
 
-    private static void completeParticipantSchedule(Participant participant, StudySite ss1) {
+    private static void completeParticipantSchedule(Participant participant, StudySite ss1, boolean executeRule) {
         Random random = new Random();
         int totalSchedules = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().size();
         boolean rulesExecuted = false;
@@ -85,9 +84,11 @@ public class ParticipantTestHelper {
             }
             schedule.setStatus(CrfStatus.COMPLETED);
             genericRepository.save(schedule);
-            if (!rulesExecuted) {
-                NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
-                rulesExecuted = true;
+            if (executeRule) {
+                if (!rulesExecuted) {
+                    NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
+                    rulesExecuted = true;
+                }
             }
         }
 

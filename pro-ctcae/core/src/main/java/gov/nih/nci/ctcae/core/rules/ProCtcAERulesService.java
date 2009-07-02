@@ -275,7 +275,7 @@ public class ProCtcAERulesService {
         this.repositoryService = repositoryService;
     }
 
-    private static void logout() {
+    public static void logout() {
         repositoryService.logout();
     }
 }
