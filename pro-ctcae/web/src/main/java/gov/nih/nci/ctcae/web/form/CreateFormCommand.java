@@ -342,7 +342,7 @@ public class CreateFormCommand implements Serializable {
         }
     }
 
-    public void initializeRules(ProCtcAERulesService proCtcAERulesService, RuleSet ruleSet) {
+    public void initializeRules(RuleSet ruleSet) {
         formOrStudySiteRules = new ArrayList<ProCtcAERule>();
         if (ruleSet != null) {
             for (Rule rule : ruleSet.getRule()) {
@@ -359,7 +359,7 @@ public class CreateFormCommand implements Serializable {
 
     public void initializeRulesForForm(ProCtcAERulesService proCtcAERulesService) {
         RuleSet ruleSet = proCtcAERulesService.getExistingRuleSetForCrf(crf);
-        initializeRules(proCtcAERulesService, ruleSet);
+        initializeRules(ruleSet);
     }
 
     public void processRulesForSite(HttpServletRequest request) throws Exception {
@@ -409,6 +409,6 @@ public class CreateFormCommand implements Serializable {
 
     public void initializeRulesForSite(ProCtcAERulesService proCtcAERulesService) {
         RuleSet ruleSet = proCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, myOrg);
-        initializeRules(proCtcAERulesService, ruleSet);
+        initializeRules(ruleSet);
     }
 }

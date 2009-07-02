@@ -29,6 +29,7 @@ public class ParticipantTestHelper {
         participantRepository = TestDataManager.participantRepository;
         crfRepository = TestDataManager.crfRepository;
         genericRepository = TestDataManager.genericRepository;
+        NotificationsEvaluationService.setGenericRepository(genericRepository);
     }
 
     public static void createDefaultParticipants() throws ParseException {
@@ -75,6 +76,7 @@ public class ParticipantTestHelper {
     private static void completeParticipantSchedule(Participant participant, StudySite ss1) {
         Random random = new Random();
         int totalSchedules = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().size();
+        boolean rulesExecuted = false;
         for (int i = 0; i < random.nextInt(totalSchedules); i++) {
             StudyParticipantCrfSchedule schedule = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().get(i);
             for (StudyParticipantCrfItem studyParticipantCrfItem : schedule.getStudyParticipantCrfItems()) {
@@ -83,8 +85,10 @@ public class ParticipantTestHelper {
             }
             schedule.setStatus(CrfStatus.COMPLETED);
             genericRepository.save(schedule);
-            NotificationsEvaluationService.setGenericRepository(genericRepository);
-            NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
+            if (!rulesExecuted) {
+                NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
+                rulesExecuted = true;
+            }
         }
 
     }
