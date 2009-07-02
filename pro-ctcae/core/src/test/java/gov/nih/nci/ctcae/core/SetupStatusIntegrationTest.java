@@ -24,19 +24,21 @@ public class SetupStatusIntegrationTest extends TestDataManager {
     }
 
     public void testSetupRequired() {
-        deleteTestData();
+        deleteAdminUser();
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(getConfigLocations());
         setupStatus = (SetupStatus) applicationContext.getBean("setupStatus");
         assertTrue("Initial setup must be required because  there is no admin user in database. .", setupStatus.isSetupNeeded());
+        insertAdminUser();
     }
 
     public void testReCheckSetup() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(getConfigLocations());
         setupStatus = (SetupStatus) applicationContext.getBean("setupStatus");
         assertFalse("Initial setup is not required. .", setupStatus.isSetupNeeded());
-        deleteTestData();
+        deleteAdminUser();
         setupStatus.recheck();
         assertTrue("setup is now required because there is no system admin in database", setupStatus.isSetupNeeded());
+        insertAdminUser();
     }
 
 

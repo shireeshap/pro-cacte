@@ -120,6 +120,12 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         System.out.println("  Data created (" + (end - start) / 1000 + " seconds)");
     }
 
+    protected void deleteAdminUser(){
+        UserQuery uq = new UserQuery();
+        uq.filterByUserName(SYSTEM_ADMIN);
+        userRepository.delete(userRepository.findSingle(uq));
+        commitAndStartNewTransaction();
+    }
 
     protected void deleteTestData() {
 
@@ -154,7 +160,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         commitAndStartNewTransaction();
     }
 
-    private User insertAdminUser() {
+    protected User insertAdminUser() {
         User admin = getAdminUser();
         if (admin == null) {
             admin = new User(SYSTEM_ADMIN, DEFAULT_PASSWORD, true, true, true, true);
