@@ -52,17 +52,22 @@ public class LoginController extends AbstractController {
                     return new ModelAndView(new RedirectView("participant/participantInbox"));
                 }
             }
+            if (userRole.getRole().equals(Role.ADMIN)) {
+                return new ModelAndView("home");
+            }
+
         }
+
+        ModelAndView mv = new ModelAndView("home");
 
         ClinicalStaffQuery query = new ClinicalStaffQuery();
         query.filterByUserName(user.getUsername());
         ClinicalStaff clinicalStaff = clinicalStaffRepository.findSingle(query);
         user = userRepository.findById(user.getId());
         if (clinicalStaff == null) {
-            throw new CtcAeSystemException("User is neither a participant nor a clinical staff - " + user.getUsername());
+            throw new CtcAeSystemException("User must be one of these - Clinical Staff, Participant, Admin - " + user.getUsername());
         }
 
-        ModelAndView mv = new ModelAndView("home");
         mv.addObject("notifications", getNotifications(user));
         mv.addObject("overdue", getOverdueAndUpcomingSchedules(clinicalStaff).get(0));
         mv.addObject("upcoming", getOverdueAndUpcomingSchedules(clinicalStaff).get(1));

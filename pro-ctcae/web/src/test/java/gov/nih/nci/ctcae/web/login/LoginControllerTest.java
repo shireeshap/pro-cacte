@@ -38,6 +38,14 @@ public class LoginControllerTest extends AbstractWebTestCase {
         assertEquals("participant/participantInbox", ((RedirectView) mv.getView()).getUrl());
     }
 
+    public void testAdminLogin() throws Exception {
+        login(SYSTEM_ADMIN);
+        LoginController controller = new LoginController();
+        
+        ModelAndView mv = controller.handleRequestInternal(request, response);
+        assertEquals("home", mv.getViewName());
+    }
+
     public void testParticipantMobileLogin() throws Exception {
         request.addHeader("x-wap-profile", "wap");
         login(ParticipantTestHelper.getDefaultParticipant().getUser().getUsername());
