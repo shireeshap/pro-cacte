@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 
 import java.util.List;
+import java.util.Collection;
 
 /**
  * User: Harsh
@@ -16,7 +17,8 @@ public class StudyTestHelper {
     private static StudySite sSiteDuke;
     private static StudySite sSiteMskcc;
     private static StudyRepository studyRepository;
-    public static final String STANDARD_STUDY_ASSIGNED_ID = "123-12-DEFAULT";
+    public static final String STANDARD_STUDY_ASSIGNED_ID = "1-11-DEFAULT";
+    public static final String SECONDARY_STUDY_ASSIGNED_ID = "2-22-SECONDARY";
     private static Study study;
 
     private StudyTestHelper() {
@@ -27,9 +29,9 @@ public class StudyTestHelper {
     }
 
     public static void createDefaultStudy() {
-        deleteDefaultStudy();
+        deleteStudies();
         study = new Study();
-        firstTab_GeneralInfo(study);
+        firstTab_GeneralInfo(study, "Collection of patient-reported symptoms and performance status via the internet", STANDARD_STUDY_ASSIGNED_ID);
         secondTab_StudySites(study);
         thirdTab_OverallStudyStaff(study);
         fourthTab_SiteClinicalStaff();
@@ -38,11 +40,11 @@ public class StudyTestHelper {
         study = studyRepository.save(study);
     }
 
-    private static void firstTab_GeneralInfo(Study study) {
-        study.setShortTitle("Collection of patient-reported symptoms and performance status via the internet");
-        study.setLongTitle("Collection of patient-reported symptoms and performance status via the internet");
-        study.setAssignedIdentifier(STANDARD_STUDY_ASSIGNED_ID);
-        study.setDescription("Collection of patient-reported symptoms and performance status via the internet");
+    private static void firstTab_GeneralInfo(Study study, String title, String assignedId) {
+        study.setShortTitle(title);
+        study.setLongTitle(title);
+        study.setAssignedIdentifier(assignedId);
+        study.setDescription(title);
 
         DataCoordinatingCenter dcc = new DataCoordinatingCenter();
         dcc.setOrganization(OrganizationTestHelper.getDUKE());
@@ -70,104 +72,68 @@ public class StudyTestHelper {
     }
 
     private static void thirdTab_OverallStudyStaff(Study study) {
-        StudyOrganizationClinicalStaff odc = new StudyOrganizationClinicalStaff();
-        odc.setRole(Role.ODC);
-        odc.setOrganizationClinicalStaff(ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("MOLSEN"));
-        study.getDataCoordinatingCenter().addOrUpdateStudyOrganizationClinicalStaff(odc);
+        addOrUpdateStudyOrganizationClinicalStaff("MOLSEN", Role.ODC, study.getDataCoordinatingCenter());
+        addOrUpdateStudyOrganizationClinicalStaff("LSIT", Role.LEAD_CRA, study.getLeadStudySite());
+        addOrUpdateStudyOrganizationClinicalStaff("EBASCH", Role.PI, study.getLeadStudySite());
+    }
 
-        StudyOrganizationClinicalStaff lCra = new StudyOrganizationClinicalStaff();
-        lCra.setRole(Role.LEAD_CRA);
-        lCra.setOrganizationClinicalStaff(ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("LSIT"));
-        study.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(lCra);
-
-        StudyOrganizationClinicalStaff pi = new StudyOrganizationClinicalStaff();
-        pi.setRole(Role.PI);
-        pi.setOrganizationClinicalStaff(ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("EBASCH"));
-        study.getLeadStudySite().addOrUpdateStudyOrganizationClinicalStaff(pi);
+    private static void addOrUpdateStudyOrganizationClinicalStaff(String nciId, Role role, StudyOrganization so) {
+        StudyOrganizationClinicalStaff socs = new StudyOrganizationClinicalStaff();
+        socs.setRole(role);
+        socs.setOrganizationClinicalStaff(ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier(nciId));
+        so.addOrUpdateStudyOrganizationClinicalStaff(socs);
 
     }
 
     private static void fourthTab_SiteClinicalStaff() {
-
         //DUKE
-        StudyOrganizationClinicalStaff sitePiDuke = new StudyOrganizationClinicalStaff();
-        sitePiDuke.setRole(Role.SITE_PI);
-        OrganizationClinicalStaff ocs1 = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("AABERNETHY");
-        sitePiDuke.setOrganizationClinicalStaff(ocs1);
-        sitePiDuke.setStudyOrganization(sSiteDuke);
-        sSiteDuke.addOrUpdateStudyOrganizationClinicalStaff(sitePiDuke);
-
-        StudyOrganizationClinicalStaff siteCraDuke = new StudyOrganizationClinicalStaff();
-        siteCraDuke.setRole(Role.SITE_CRA);
-        OrganizationClinicalStaff ocs2 = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("CDAVIS");
-        siteCraDuke.setOrganizationClinicalStaff(ocs2);
-        siteCraDuke.setStudyOrganization(sSiteDuke);
-        sSiteDuke.addOrUpdateStudyOrganizationClinicalStaff(siteCraDuke);
-
-        StudyOrganizationClinicalStaff physicianDuke = new StudyOrganizationClinicalStaff();
-        physicianDuke.setRole(Role.TREATING_PHYSICIAN);
-        OrganizationClinicalStaff ocs3 = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("KBUECKERS");
-        physicianDuke.setOrganizationClinicalStaff(ocs3);
-        physicianDuke.setStudyOrganization(sSiteDuke);
-        sSiteDuke.addOrUpdateStudyOrganizationClinicalStaff(physicianDuke);
-
-        StudyOrganizationClinicalStaff nurseDuke = new StudyOrganizationClinicalStaff();
-        nurseDuke.setRole(Role.NURSE);
-        OrganizationClinicalStaff ocs4 = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("AWILLIAMS");
-        nurseDuke.setOrganizationClinicalStaff(ocs4);
-        nurseDuke.setStudyOrganization(sSiteDuke);
-        sSiteDuke.addOrUpdateStudyOrganizationClinicalStaff(nurseDuke);
+        addOrUpdateStudyOrganizationClinicalStaff("AABERNETHY", Role.SITE_PI, sSiteDuke);
+        addOrUpdateStudyOrganizationClinicalStaff("CDAVIS", Role.SITE_CRA, sSiteDuke);
+        addOrUpdateStudyOrganizationClinicalStaff("KBUECKERS", Role.TREATING_PHYSICIAN, sSiteDuke);
+        addOrUpdateStudyOrganizationClinicalStaff("KBUECKERS", Role.NURSE, sSiteDuke);
 
         //MSKCC
-        StudyOrganizationClinicalStaff sitePiMskcc = new StudyOrganizationClinicalStaff();
-        sitePiMskcc.setRole(Role.SITE_PI);
-        OrganizationClinicalStaff ocs5 = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("LARCHER");
-        sitePiMskcc.setOrganizationClinicalStaff(ocs5);
-        sitePiMskcc.setStudyOrganization(sSiteMskcc);
-        sSiteMskcc.addOrUpdateStudyOrganizationClinicalStaff(sitePiMskcc);
-
-        StudyOrganizationClinicalStaff siteCraMskcc = new StudyOrganizationClinicalStaff();
-        siteCraMskcc.setRole(Role.SITE_CRA);
-        OrganizationClinicalStaff ocs6 = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("HTODD");
-        siteCraMskcc.setOrganizationClinicalStaff(ocs6);
-        siteCraMskcc.setStudyOrganization(sSiteMskcc);
-        sSiteMskcc.addOrUpdateStudyOrganizationClinicalStaff(siteCraMskcc);
-
-        StudyOrganizationClinicalStaff physicianMskcc = new StudyOrganizationClinicalStaff();
-        physicianMskcc.setRole(Role.TREATING_PHYSICIAN);
-        OrganizationClinicalStaff ocs7 = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("JHENNAGIR");
-        physicianMskcc.setOrganizationClinicalStaff(ocs7);
-        physicianMskcc.setStudyOrganization(sSiteMskcc);
-        sSiteMskcc.addOrUpdateStudyOrganizationClinicalStaff(physicianMskcc);
-
-        StudyOrganizationClinicalStaff nurseMskcc = new StudyOrganizationClinicalStaff();
-        nurseMskcc.setRole(Role.NURSE);
-        OrganizationClinicalStaff ocs8 = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("DOPLAND");
-        nurseMskcc.setOrganizationClinicalStaff(ocs8);
-        nurseMskcc.setStudyOrganization(sSiteMskcc);
-        sSiteMskcc.addOrUpdateStudyOrganizationClinicalStaff(nurseMskcc);
+        addOrUpdateStudyOrganizationClinicalStaff("LARCHER", Role.SITE_PI, sSiteMskcc);
+        addOrUpdateStudyOrganizationClinicalStaff("HTODD", Role.SITE_CRA, sSiteMskcc);
+        addOrUpdateStudyOrganizationClinicalStaff("JHENNAGIR", Role.TREATING_PHYSICIAN, sSiteMskcc);
+        addOrUpdateStudyOrganizationClinicalStaff("JHENNAGIR", Role.NURSE, sSiteMskcc);
     }
 
     private static void addCCA() {
-        StudyOrganizationClinicalStaff cca = new StudyOrganizationClinicalStaff();
-        cca.setRole(Role.CCA);
-        OrganizationClinicalStaff ocs5 = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("CCCA");
-        cca.setOrganizationClinicalStaff(ocs5);
-        cca.setStudyOrganization(sSiteMskcc);
-        sSiteDuke.addOrUpdateStudyOrganizationClinicalStaff(cca);
-
+        addOrUpdateStudyOrganizationClinicalStaff("CCCA", Role.CCA, sSiteDuke);
     }
 
-    private static void deleteDefaultStudy() {
-        List<Study> studies = findDefaultStudy();
+    private static void deleteStudies() {
+        StudyQuery query = new StudyQuery();
+        query.filterByAssignedIdentifierExactMatch(STANDARD_STUDY_ASSIGNED_ID);
+        Collection<Study> studies = studyRepository.find(query);
         for (Study study : studies) {
             studyRepository.delete(study);
         }
     }
 
     private static List<Study> findDefaultStudy() {
+        return findStudyByAssignedId(STANDARD_STUDY_ASSIGNED_ID);
+    }
+
+    public static Study getSecondaryStudy() {
+        List<Study> studies = findSecondaryStudy();
+        if (studies == null || studies.size() == 0) {
+            createDefaultStudy();
+        } else {
+            study = studies.get(0);
+        }
+        return study;
+    }
+
+    private static List<Study> findSecondaryStudy() {
+
+        return findStudyByAssignedId(SECONDARY_STUDY_ASSIGNED_ID);
+    }
+
+    private static List<Study> findStudyByAssignedId(String aId) {
         StudyQuery query = new StudyQuery();
-        query.filterByAssignedIdentifierExactMatch(STANDARD_STUDY_ASSIGNED_ID);
+        query.filterByAssignedIdentifierExactMatch(aId);
         return (List<Study>) studyRepository.find(query);
     }
 
@@ -215,5 +181,15 @@ public class StudyTestHelper {
             }
         }
         return null;
+    }
+
+    public static void createSecondaryStudy() {
+        Study study2 = new Study();
+        firstTab_GeneralInfo(study2, "A Phase 2 Study of Suberoylanilide Hydroxamic Acid (SAHA) in Acute Myeloid Leukemia (AML)", SECONDARY_STUDY_ASSIGNED_ID);
+        secondTab_StudySites(study2);
+        thirdTab_OverallStudyStaff(study2);
+        fourthTab_SiteClinicalStaff();
+        addOrUpdateStudyOrganizationClinicalStaff("DOPLAND", Role.PI, study2.getLeadStudySite());
+        study2 = studyRepository.save(study2);
     }
 }

@@ -28,8 +28,8 @@
 
     <script type="text/javascript">
         Event.observe(window, "load", function () {
-            var studyAutoCompleter = new studyAutoComplter('study');
-            acCreateStudy(studyAutoCompleter);
+            var sac = new studyAutoCompleter('study');
+            acCreateStudy(sac);
 
         <c:if test="${study ne null}">
             initializeAutoCompleter('study',
@@ -132,19 +132,21 @@
 
 </head>
 <body>
-<chrome:box title="form.box.select_study" id="study-entry" cssClass="small">
-    <p><tags:instructions code="instruction_select_study"/></p>
+<chrome:box title="form.box.select_study" id="study-entry">
+    <div align="left" style="margin-left: 50px">
+        <p><tags:instructions code="instruction_select_study"/></p>
 
-    <tags:renderAutocompleter propertyName="study"
-                              displayName="Study"
-                              required="true"
-                              size="60"
-                              noForm="true"/>
+        <tags:renderAutocompleter propertyName="study"
+                                  displayName="Study"
+                                  required="true"
+                                  size="80"
+                                  noForm="true"/>
 
-    <c:if test="${crfs ne null}">
-        You have selected the study ${study.shortTitle}.
-    </c:if>
-    <br>
+        <c:if test="${crfs ne null}">
+            You have selected the study ${study.shortTitle}.
+        </c:if>
+        <br>
+    </div>
 </chrome:box>
 <c:if test="${crfs ne null}">
     <div id="noForm">
@@ -173,9 +175,9 @@
             <td class="header-top">
                 Effective Date
             </td>
-            <%--<td class="header-top">--%>
+                <%--<td class="header-top">--%>
                 <%--Expiration Date--%>
-            <%--</td>--%>
+                <%--</td>--%>
             <td class="header-top">
                 Status
             </td>
@@ -191,8 +193,12 @@
                 </td>
                 <td class="data">
                     <c:if test="${crf.parentVersionId ne null}">
-                        <a href="javascript:showVersionForm('${crf.id}')"><img id="crfVersionShowImage_${crf.id}" src="../../images/arrow-right.png" style=""/></a>
-                        <a href="javascript:hideVersionForm('${crf.id}')"><img id="crfVersionHideImage_${crf.id}" src="../../images/arrow-down.png" style="display:none"/></a>
+                        <a href="javascript:showVersionForm('${crf.id}')"><img id="crfVersionShowImage_${crf.id}"
+                                                                               src="../../images/arrow-right.png"
+                                                                               style=""/></a>
+                        <a href="javascript:hideVersionForm('${crf.id}')"><img id="crfVersionHideImage_${crf.id}"
+                                                                               src="../../images/arrow-down.png"
+                                                                               style="display:none"/></a>
                     </c:if>
                 </td>
                 <td class="data">
@@ -204,9 +210,9 @@
                 <td class="data">
                     <tags:formatDate value="${crf.effectiveStartDate}"/>
                 </td>
-                <%--<td class="data">--%>
+                    <%--<td class="data">--%>
                     <%--<tags:formatDate value="${crf.effectiveEndDate}"/>--%>
-                <%--</td>--%>
+                    <%--</td>--%>
                 <td class="data">
                         ${crf.status}
                 </td>

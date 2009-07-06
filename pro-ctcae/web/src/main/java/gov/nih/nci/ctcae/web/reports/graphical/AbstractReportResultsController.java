@@ -36,7 +36,9 @@ public abstract class AbstractReportResultsController extends AbstractController
             attributes = series;
         }
         query.filterByCrf(crfId);
-        query.filterBySymptomId(symptomId);
+        if (symptomId != -1) {
+            query.filterBySymptomId(symptomId);
+        }
         if (!StringUtils.isBlank(attributes)) {
             HashSet<ProCtcQuestionType> qT = new HashSet<ProCtcQuestionType>();
             StringTokenizer st = new StringTokenizer(attributes, ",");

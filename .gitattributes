@@ -477,6 +477,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCarePdfView
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantCareResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantNameComparator.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ReportSearchCriteriaController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportExcelController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportExcelView.java -text
@@ -713,12 +714,14 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsRes
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantCareMonitor.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantCareResults.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/reportDetails.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/searchCriteria.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/studyLevelReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/studyLevelReportResults.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/symptomOverTimeReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/symptomSummaryReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/symptomovertimecharts.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/symptomsummarycharts.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/symptomsummarytable.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/confirmSignUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/setup/confirmSetup.jsp -text
@@ -1116,6 +1119,7 @@ pro-ctcae/web/src/main/webapp/js/prototypewindow/window.js -text
 pro-ctcae/web/src/main/webapp/js/prototypewindow/window_effects.js -text
 pro-ctcae/web/src/main/webapp/js/prototypewindow/window_ext.js -text
 pro-ctcae/web/src/main/webapp/js/reports_common.js -text
+pro-ctcae/web/src/main/webapp/js/reports_common1.js -text
 pro-ctcae/web/src/main/webapp/js/scriptaculous/builder.js -text
 pro-ctcae/web/src/main/webapp/js/scriptaculous/controls.js -text
 pro-ctcae/web/src/main/webapp/js/scriptaculous/dragdrop.js -text

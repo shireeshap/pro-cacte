@@ -3,10 +3,14 @@ package gov.nih.nci.ctcae.web.reports;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import gov.nih.nci.ctcae.web.reports.graphical.SymptomSummaryReportResultsController;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.helper.CrfTestHelper;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.Persistable;
+import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryWorstResponsesQuery;
 
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 import java.awt.*;
 
 import org.jfree.chart.ChartPanel;
@@ -45,7 +49,25 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
 
     }
 
-    private void showCharts( JFreeChart worstResponseChart) throws InterruptedException {
+    public void testController_table() throws Exception {
+
+        Study study = StudyTestHelper.getDefaultStudy();
+        CRF crf = study.getCrfs().get(0);
+
+        SymptomSummaryReportResultsController controller = new SymptomSummaryReportResultsController();
+        controller.setGenericRepository(genericRepository);
+        request.setParameter("crfId", crf.getId().toString());
+        request.setParameter("symptom", "-1");
+        request.setMethod("GET");
+
+        ModelAndView modelAndView = controller.handleRequest(request, response);
+        Map m = modelAndView.getModel();
+        assertNotNull(m.get("results"));
+        assertEquals("reports/symptomsummarytable",modelAndView.getViewName());
+
+    }
+
+    private void showCharts(JFreeChart worstResponseChart) throws InterruptedException {
         ChartPanel chartPanel1 = new ChartPanel(worstResponseChart, false);
         chartPanel1.setPreferredSize(new Dimension(500, 270));
         ApplicationFrame frame = new ApplicationFrame("MyFrame");
@@ -57,6 +79,13 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         while (frame.isVisible()) {
             Thread.sleep(2000);
         }
+    }
+
+    public void testQuery() {
+        SymptomSummaryWorstResponsesQuery query = new SymptomSummaryWorstResponsesQuery();
+        query.filterByCrf(StudyTestHelper.getDefaultStudy().getCrfs().get(0).getId());
+        List<Persistable> l = genericRepository.find(query);
+        assertTrue(l.size() > 0);
     }
 
 }

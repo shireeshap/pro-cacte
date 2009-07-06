@@ -6,6 +6,8 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import gov.nih.nci.ctcae.web.study.StudyAjaxFacade;
+
 
 /**
  * @author Mehul Gulati
@@ -14,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 public class StudyLevelReportController extends AbstractController {
 
         protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-
             ModelAndView modelAndView = new ModelAndView("reports/studyLevelReport");
             modelAndView.addObject("visits", 0);
             return modelAndView;

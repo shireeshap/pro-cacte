@@ -18,8 +18,8 @@
 
     <script type="text/javascript">
         Event.observe(window, "load", function () {
-            var studyAutoCompleter = new studyAutoComplter('crf.study');
-            acCreate(studyAutoCompleter);
+            var sac = new studyAutoCompleter('crf.study');
+            acCreate(sac);
         <c:if test="${command.crf.study ne null}">
             initializeAutoCompleter('crf.study', '${command.crf.study.displayName}', '${command.crf.study.id}')
 

@@ -147,6 +147,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 
     private void createStudy() {
         StudyTestHelper.createDefaultStudy();
+        StudyTestHelper.createSecondaryStudy();
         commitAndStartNewTransaction();
     }
 

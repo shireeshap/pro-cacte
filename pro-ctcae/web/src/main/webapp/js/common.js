@@ -332,15 +332,15 @@ Object.extend(participantAutoCompleter.prototype, {
     initialize: function(basename, participantPopulator) {
         this.basename = basename;
 
-        if(participantPopulator){
+        if (participantPopulator) {
             this.populator = participantPopulator
         }
-        else{
+        else {
             this.populator = function(autocompleter, text) {
-                       participant.matchParticipantByStudySiteId(text, studySiteId, studyId, function(values) {
-                           autocompleter.setChoices(values)
-                       })
-                   }
+                participant.matchParticipantByStudySiteId(text, studySiteId, studyId, function(values) {
+                    autocompleter.setChoices(values)
+                })
+            }
 
         }
         this.valueSelector = function (obj) {
@@ -371,10 +371,9 @@ Object.extend(studyOrganizationClinicalStaffForRoleAutoCompleter.prototype, {
     }
 });
 
-var studyAutoComplter = Class.create();
-Object.extend(studyAutoComplter.prototype, {
+var studyAutoCompleter = Class.create();
+Object.extend(studyAutoCompleter.prototype, {
     initialize: function(basename) {
-
         this.basename = basename;
         this.populator = function(autocompleter, text) {
             study.matchStudy(text, function(values) {
@@ -384,10 +383,7 @@ Object.extend(studyAutoComplter.prototype, {
                 this.valueSelector = function (obj) {
                     return obj.displayName;
                 }
-
     }
-
-
 });
 
 

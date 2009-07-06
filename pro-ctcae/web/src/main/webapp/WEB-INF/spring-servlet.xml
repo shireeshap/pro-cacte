@@ -305,7 +305,7 @@
             <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
         </bean>
     <bean name="/participant/enterResponses" id="enterParticipantResponsesController"
-             class="gov.nih.nci.ctcae.web.participant.EnterParticipantResponsesController" parent="ctcaeSimpleFormController">
+             class="gov.nih.nci.ctcae.web.participant.EnterParticpantResponsesController" parent="ctcaeSimpleFormController">
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
              </bean>
 
@@ -404,20 +404,7 @@
           parent="participantCareResultsController">
     </bean>
 
-
-    <bean name="/reports/symptomsummary" id="symptomSummaryReportController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-        <property name="viewName" value="reports/symptomSummaryReport"/>
-    </bean>
-
-    <!--<bean name="/participant/showParticipantSchedule" id="showParticipantSchedulesController"-->
-          <!--class="org.springframework.web.servlet.mvc.ParameterizableViewController">-->
-        <!--<property name="viewName">-->
-            <!--<value>/participant/showParticipantSchedule</value>-->
-        <!--</property>-->
-    <!--</bean>-->
-
-    <bean name="/reports/symptomSummaryReportResults" id="symptomSummaryReportResultsController"
+    <bean name="/reports/symptomSummary" id="symptomSummaryReportResultsController"
           class="gov.nih.nci.ctcae.web.reports.graphical.SymptomSummaryReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
@@ -452,6 +439,13 @@
     <bean name="/reports/participantAddedQuestionsDetails" id="participantAddedQuestionsDetailsController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantAddedQuestionsReportDetailsController">
         <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+
+    <bean name="/reports/report" id="reportSearchCriteriaController"
+          class="gov.nih.nci.ctcae.web.reports.ReportSearchCriteriaController">
+        <property name="studyAjaxFacade" ref="studyAjaxFacade"/>
+        <property name="crfAjaxFacade" ref="crfAjaxFacade"/>
+        <property name="organizationAjaxFacade" ref="organizationAjaxFacade"/>
     </bean>
 
 

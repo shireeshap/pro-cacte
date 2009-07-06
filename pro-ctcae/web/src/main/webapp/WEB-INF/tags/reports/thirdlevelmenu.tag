@@ -13,10 +13,10 @@
                     </div>
                 </li>
             </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/reports/symptomsummary">
-                <li id="thirdlevelnav-x" class="tab ${selected=='symptomsummary'?'selected':''}">
+            <proctcae:urlAuthorize url="/pages/reports/report">
+                <li id="thirdlevelnav-x" class="tab ${selected=='symptomSummary'?'selected':''}">
                     <div>
-                        <a href="symptomsummary"><tags:message code="reports.tab.symptomsummary"/></a>
+                        <a href="report?rt=symptomSummary"><tags:message code="reports.tab.symptomsummary"/></a>
                     </div>
                 </li>
             </proctcae:urlAuthorize>
@@ -30,7 +30,8 @@
             <proctcae:urlAuthorize url="/pages/reports/participantaddedquestions">
                 <li id="thirdlevelnav-x" class="tab ${selected=='participantAddedQuestions'?'selected':''}">
                     <div>
-                        <a href="participantaddedquestions"><tags:message code="reports.tab.participantaddedquestions"/></a>
+                        <a href="participantaddedquestions"><tags:message
+                                code="reports.tab.participantaddedquestions"/></a>
                     </div>
                 </li>
             </proctcae:urlAuthorize>

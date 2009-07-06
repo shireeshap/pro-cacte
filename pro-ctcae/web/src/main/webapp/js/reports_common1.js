@@ -4,7 +4,8 @@ var displayDate = true;
 var studySiteMandatory = false;
 var displayParticipants = false;
 var selectedCrf = '';
-Event.observe(window, "load", function () {
+
+function createStudyAutoCompleter() {
     var sac = new studyAutoCompleter('study');
     acCreateStudyMonitor(sac);
     initSearchField();
@@ -12,102 +13,81 @@ Event.observe(window, "load", function () {
         initializeFields();
     } catch(e) {
     }
-})
+}
 
 function acCreateStudyMonitor(mode) {
     new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
             mode.populator, {
         valueSelector: mode.valueSelector,
         afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+            $('search').hide();
             acPostSelect(mode, selectedChoice);
             displayForms();
             displaySites();
-            fnDisplayParticipants();
+            $('search').show();
+            //            fnDisplayParticipants();
         },
         indicator: mode.basename + "-indicator"
     })
 }
 
-
 function displayForms(crfid) {
+    $('divSymptomsRow').hide();
+    $('divFormRow').hide();
     selectedCrf = crfid;
     var id = $('study').value
     crf.getReducedCrfs(id, updateFormDropDown)
 }
 
-function populate(ele, values, itext, ivalue, selectedValue) {
-    var option = new Element('OPTION', {});
-    option.text = 'Please select';
-    option.value = '';
-    ele.appendChild(option);
-    for (var i = 0; i < values.length; i++) {
-        var value = values[i];
-        var option = new Element('OPTION', {});
-        if (typeof(itext) != 'undefined') {
-            option.text = value[itext];
-        } else {
-            option.text = value;
-        }
-        if (typeof(ivalue) != 'undefined') {
-            option.value = value[ivalue];
-        } else {
-            option.value = value;
-        }
-
-        if (option.value == selectedValue) {
-            option.selected = true;
-        }
-        ele.appendChild(option);
-    }
-}
-
-function updateFormDropDown(crfs) {
-    var dd = getSelect('form');
-    populate(dd, crfs, 'title', 'id', selectedCrf);
-    $('formDropDownDiv').show();
-    $('search').show();
-    if (displaySymptom) {
-        dd.onchange = function() {
-            displaySymptoms(this);
-        }
-    }
-    if (displayDate) {
-        $('dateMenuDiv').show();
-    }
-}
-
-function displaySymptoms(obj) {
-    if (obj.value == '') {
-        $('symptomDropDownDiv').hide();
-    } else {
-        crf.getSymptomsForCrf(obj[obj.selectedIndex].value, updateSymptomDropDown);
-    }
-}
-
-function updateSymptomDropDown(symptoms) {
-    var dd = getSelect('symptom');
-    populate(dd, symptoms, 'term', 'id');
-    $('symptomDropDown').appendChild(dd);
-    $('symptomDropDownDiv').show();
-}
-
 function displaySites() {
-
+    $('divStudySiteRow').hide();
+    $('studySiteAutoCompleter').hide();
     organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
         var siteNum = values.length;
-        var myStudySiteAutoComplter = new studySiteAutoComplter
-                ('studySite', $('study').value);
-        acCreate(myStudySiteAutoComplter);
-        initSearchField();
-        if (siteNum > 1) {
-            $('studySiteAutoCompleterDiv').show();
-        } else {
+        if (siteNum == 1) {
             $('studySite').value = values[0].id;
-            $('studySiteName').innerHTML = values[0].displayName;
-            $('studySiteDiv').show();
+            $('studySiteDisplayName').innerHTML = values[0].displayName;
+            $('divStudySiteRow').show();
+        } else {
+            $('studySiteAutoCompleter').show();
+            var ssac = new studySiteAutoComplter('studySite', $('study').value);
+            acCreate(ssac);
+            initSearchField();
         }
     })
 }
+
+function updateFormDropDown(crfs) {
+    $('divFormRow').show();
+    if (crfs.length == 1) {
+        var value = crfs[0];
+        $('formTitle').innerHTML = value['title'];
+        $('form').value = value['id'];
+        displaySymptoms(value['id']);
+    } else {
+        var select = populate('formTitle', crfs, 'title', 'id', selectedCrf);
+        if (displaySymptom) {
+            select.onchange = function() {
+                displaySymptoms(this.value);
+            }
+        }
+    }
+}
+
+function displaySymptoms(crfid) {
+    $('form').value = crfid;
+    crf.getSymptomsForCrf(crfid, updateSymptomDropDown);
+}
+
+function updateSymptomDropDown(symptoms) {
+    $('divSymptomsRow').show();
+    var select = populate('proCtcTerms', symptoms, 'term', 'id');
+    var option = new Element('OPTION', {});
+    option.text = 'All';
+    option.value = '-1';
+    select.add(option, select.options[1]);
+}
+
 function customVisit(showVisit) {
     var myindex = showVisit.selectedIndex
     var selValue = showVisit.options[myindex].value
@@ -193,21 +173,6 @@ function hideIndicator() {
     $('indicator').style.visibility = 'hidden';
 }
 
-function getSelect(id) {
-    var dropDown ;
-    if ($(id + 'Select') == null) {
-        dropDown = new Element('SELECT', {'id':id + 'Select','title':id})
-        $(id + 'DropDown').appendChild(dropDown);
-    } else {
-        dropDown = $(id + 'Select');
-        var len = dropDown.length;
-        for (i = 0; i < len; i++) {
-            $(id + 'Select').remove(0);
-        }
-    }
-    return dropDown;
-}
-
 function fnDisplayParticipants() {
     if (displayParticipants) {
         var myParticipantAutoCompleter = new participantAutoCompleter
@@ -230,4 +195,46 @@ function showResponses(id) {
         },
         method:'get'
     })
+}
+
+function populate(divid, values, itext, ivalue, selectedValue) {
+    var ele = $(divid);
+    if (ele.firstChild != null) {
+        ele.removeChild(ele.firstChild);
+    }
+    //    var select = new Element('SELECT', {'id':divid + 'Select'});
+    var select = new Element('SELECT', {'id':divid + 'Select'});
+    addPleaseSelect(select);
+
+    for (var i = 0; i < values.length; i++) {
+        var value = values[i];
+        var option = new Element('OPTION', {});
+        if (typeof(itext) != 'undefined') {
+            option.text = value[itext];
+        } else {
+            option.text = value;
+        }
+        if (typeof(ivalue) != 'undefined') {
+            option.value = value[ivalue];
+        } else {
+            option.value = value;
+        }
+        if (option.value == selectedValue) {
+            option.selected = true;
+        }
+        select.appendChild(option);
+    }
+    ele.empty();
+    ele.appendChild(select);
+    return select;
+}
+function addPleaseSelect(select) {
+    var option = new Element('OPTION', {});
+    option.text = 'Please select';
+    option.value = '';
+    select.appendChild(option);
+}
+
+function getSymptoms() {
+
 }

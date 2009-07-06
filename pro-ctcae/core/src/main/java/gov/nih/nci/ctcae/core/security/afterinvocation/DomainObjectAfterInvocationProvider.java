@@ -32,6 +32,7 @@ public class DomainObjectAfterInvocationProvider extends AbstractAfterInvocation
         }
 
 
+
         if (domainObjectAuthorizationCheck.authorize(authentication, (Persistable) returnedObject)) {
             return returnedObject;
         }

@@ -10,11 +10,13 @@ public class SymptomSummaryWorstResponsesQuery extends AbstractReportQuery {
     private static String queryString = "SELECT " +
             "max(spci.proCtcValidValue.displayOrder) , " +
             "spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id , " +
-            "spci.crfPageItem.proCtcQuestion.proCtcQuestionType " +
+            "spci.crfPageItem.proCtcQuestion.proCtcQuestionType, " +
+            "spci.crfPageItem.proCtcQuestion.proCtcTerm.term " +
             "from StudyParticipantCrfItem spci " +
             "group by " +
             "spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id, " +
-            "spci.crfPageItem.proCtcQuestion.proCtcQuestionType " +
+            "spci.crfPageItem.proCtcQuestion.proCtcQuestionType, " +
+            "spci.crfPageItem.proCtcQuestion.proCtcTerm.term " +
             "order by " +
             "max(spci.proCtcValidValue.displayOrder), " +
             "spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id";

@@ -99,6 +99,11 @@
             <div class="label">Form</div>
             <div class="value" id="formDropDown"></div>
         </div>
+        <div id="singleFormDiv" style="display:none" class="row">
+            <div class="label">Form</div>
+            <div id="singleFormName" class="value"></div>
+            <input id="formSelect" name="singleFormSelect" type="hidden">
+        </div>
         <div id="symptomDropDownDiv" style="display:none;" class="row">
             <div class="label">Symptom</div>
             <div class="value" id="symptomDropDown"></div>

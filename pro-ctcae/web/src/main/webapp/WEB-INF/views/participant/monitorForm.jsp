@@ -56,8 +56,8 @@ function completedForm(id) {
 
 
 Event.observe(window, "load", function () {
-    var studyAutoCompleter = new studyAutoComplter('study');
-    acCreateStudyMonitor(studyAutoCompleter);
+    var sac = new studyAutoCompleter('study');
+    acCreateStudyMonitor(sac);
     initSearchField();
 })
 

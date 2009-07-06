@@ -1,11 +1,9 @@
 package gov.nih.nci.ctcae.web.reports.graphical;
 
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
-import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.reports.ReportParticipantCountQuery;
 import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryWorstResponsesQuery;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import org.springframework.web.servlet.ModelAndView;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartRenderingInfo;
@@ -17,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.text.ParseException;
+import java.io.IOException;
 
 
 /**
@@ -32,23 +31,31 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         parseRequestParametersAndFormQuery(request, participantCount);
         List list = genericRepository.find(participantCount);
         int totalParticipant = ((Long) list.get(0)).intValue();
+
+        SymptomSummaryWorstResponsesQuery query = new SymptomSummaryWorstResponsesQuery();
+        parseRequestParametersAndFormQuery(request, query);
+        List queryResults = genericRepository.find(query);
+        String symptom = request.getParameter("symptom");
+        if ("-1".equals(symptom)) {
+            return generateTablularReport(queryResults,totalParticipant);
+        } else {
+            return generateGraphicalReport(queryResults, symptom, request.getQueryString(), totalParticipant);
+        }
+    }
+
+    private ModelAndView generateGraphicalReport(List queryResults, String symptom, String queryString, int totalParticipant) throws IOException, ParseException {
         HashSet<String> allAttributes = new HashSet<String>();
         HashSet<String> selectedAttributes = new HashSet<String>();
-
-        ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, Integer.parseInt(request.getParameter("symptom")));
+        ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, Integer.parseInt(symptom));
         for (ProCtcQuestion question : proCtcTerm.getProCtcQuestions()) {
             allAttributes.add(question.getProCtcQuestionType().getDisplayName());
         }
-        JFreeChart worstResponseChart = getWorstResponseChart(request, totalParticipant, proCtcTerm, selectedAttributes);
 
+        JFreeChart worstResponseChart = getWorstResponseChart(queryResults, totalParticipant, proCtcTerm, selectedAttributes, queryString);
 
-//        allResponses = addEmptyValues(allResponses, ProCtcQuestionType.getByDisplayName(request.getParameter("attribute")));
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
         String worstResponseChartFileName = ServletUtilities.saveChartAsPNG(worstResponseChart, 700, 400, info, null);
         String worstResponseChartImageMap = ChartUtilities.getImageMap(worstResponseChartFileName, info);
-
-
-
         ModelAndView modelAndView = new ModelAndView("reports/symptomsummarycharts");
         modelAndView.addObject("worstResponseChartFileName", worstResponseChartFileName);
         modelAndView.addObject("worstResponseChartImageMap", worstResponseChartImageMap);
@@ -59,17 +66,48 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         return modelAndView;
     }
 
+    private ModelAndView generateTablularReport(List queryResults, int totalParticipant) {
+        HashSet<String> selectedAttributes = new HashSet<String>();
+        HashMap<String, ArrayList<Object[]>> symptomMap = new HashMap<String, ArrayList<Object[]>>();
+        for (Object obj : queryResults) {
+            Object[] o = (Object[]) obj;
+            String symptom = (String) o[3];
+            ArrayList<Object[]> l = symptomMap.get(symptom);
+            if (l == null) {
+                l = new ArrayList<Object[]>();
+                symptomMap.put(symptom, l);
+            }
+            l.add(o);
+        }
+
+        TreeMap<String, TreeMap<String, TreeMap<Integer, Integer>>> output = new TreeMap<String, TreeMap<String, TreeMap<Integer, Integer>>>();
+        for (String symptom : symptomMap.keySet()) {
+            ProCtcTermQuery query = new ProCtcTermQuery();
+            query.filterByTerm(symptom);
+            ProCtcTerm proCtcTerm = genericRepository.findSingle(query);
+            TreeMap<String, TreeMap<Integer, Integer>> map = doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, symptomMap.get(symptom));
+            output.put(symptom, map);
+        }
+        ModelAndView modelAndView = new ModelAndView("reports/symptomsummarytable");
+        modelAndView.addObject("results", output);
+        modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
+        modelAndView.addObject("total", totalParticipant);
+        return modelAndView;
+    }
 
 
-    private JFreeChart getWorstResponseChart(HttpServletRequest request, int totalParticipant, ProCtcTerm proCtcTerm, HashSet<String> selectedAttributes) throws ParseException {
+    private JFreeChart getWorstResponseChart(List queryResults, int totalParticipant, ProCtcTerm proCtcTerm, HashSet<String> selectedAttributes, String queryString) throws ParseException {
 //        String title = "Participant reported responses for symptom " + symptom + " (Worst responses)";
         String title = "";
         String domainAxisLabel = "Response Grade";
         String rangeAxisLabel = "Number of participants (" + totalParticipant + ")";
-        SymptomSummaryWorstResponsesQuery worstResponsesQuery = new SymptomSummaryWorstResponsesQuery();
-        parseRequestParametersAndFormQuery(request, worstResponsesQuery);
-        List worstResponses = genericRepository.find(worstResponsesQuery);
+        TreeMap<String, TreeMap<Integer, Integer>> results = doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, queryResults);
 
+        SymptomSummaryWorstResponsesChartGenerator generator = new SymptomSummaryWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, totalParticipant, queryString);
+        return generator.getChart(results);
+    }
+
+    private TreeMap<String, TreeMap<Integer, Integer>> doCalculationsForOneSymptom(ProCtcTerm proCtcTerm, HashSet<String> selectedAttributes, List worstResponses) {
         TreeMap<String, TreeMap<Integer, Integer>> results = new TreeMap<String, TreeMap<Integer, Integer>>();
         for (Object obj : worstResponses) {
             Object[] a = (Object[]) obj;
@@ -90,10 +128,9 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
             }
             map.put(level, count + 1);
         }
-
-        SymptomSummaryWorstResponsesChartGenerator generator = new SymptomSummaryWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, totalParticipant, request.getQueryString());
-        return generator.getChart(results);
+        return results;
     }
+
 
     private void addEmptyValues(TreeMap<Integer, Integer> map, ProCtcTerm proCtcTerm, ProCtcQuestionType qType) {
         for (ProCtcQuestion q : proCtcTerm.getProCtcQuestions()) {
@@ -104,29 +141,5 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
             }
         }
     }
-
-    private List addEmptyValues(List results, ProCtcTerm proCtcTerm) {
-        List newResults = new ArrayList();
-
-        for (ProCtcQuestion q : proCtcTerm.getProCtcQuestions()) {
-            for (ProCtcValidValue validValue : q.getValidValues()) {
-                boolean found = false;
-                for (Object o : results) {
-                    Object[] obj = (Object[]) o;
-                    if (obj[1].equals(validValue.getDisplayOrder())) {
-                        found = true;
-                        newResults.add(o);
-                        break;
-                    }
-                }
-                if (!found) {
-                    newResults.add(new Object[]{0L, validValue.getDisplayOrder(), q.getProCtcQuestionType()});
-                }
-            }
-
-        }
-        return newResults;
-    }
-
 
 }
