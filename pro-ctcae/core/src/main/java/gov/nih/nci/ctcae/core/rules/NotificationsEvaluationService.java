@@ -232,7 +232,7 @@ public class NotificationsEvaluationService {
 
         addRow(emailContent, "", "This is an auto-generated email from PRO-CTCAE system.");
         Participant participant = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();
-        addRow(emailContent, "Participant name: ", participant.getDisplayName() + "[" + participant.getAssignedIdentifier() + "]");
+        addRow(emailContent, "Participant name: ", participant.getDisplayName());
         addRow(emailContent, "Participant email: ", (participant.getEmailAddress() == null ? "Not specified" : participant.getEmailAddress()));
         addRow(emailContent, "Participant contact phone: ", (participant.getPhoneNumber() == null ? "Not specified" : participant.getPhoneNumber()));
         addRow(emailContent, "Study site: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getDisplayName());

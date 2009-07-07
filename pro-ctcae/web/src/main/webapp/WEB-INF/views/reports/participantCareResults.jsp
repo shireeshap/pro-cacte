@@ -132,7 +132,7 @@
         </c:forEach>
     </table>
 </span>
-<chrome:box title="Report - ${participant.displayName} [${participant.assignedIdentifier}]">
+<chrome:box title="Report - ${participant.displayName}">
 
 <div id="careResultsTable">
     <a href="javascript:getChartView()">Switch to graphical view</a> | <a
