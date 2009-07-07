@@ -95,8 +95,8 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
             map.put(grade, count);
         }
         String title = "";
-        String domainAxisLabel = group + "#";
-        String rangeAxisLabel = "Average Worst Response ";//(p=" + totalParticipants + ")";
+        String rangeAxisLabel = group + " [N]";
+        String domainAxisLabel = "%";
         SymptomOverTimeStackedBarChartGenerator chartGenerator = new SymptomOverTimeStackedBarChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString + "&sum=" + smallest);
         return chartGenerator.getChart(results);
     }

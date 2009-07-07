@@ -27,8 +27,8 @@ public abstract class AbstractChartGenerator {
 
     private String title;
     private Integer total;
-    private String rangeAxisLabel;
-    private String domainAxisLabel;
+    protected String rangeAxisLabel;
+    protected String domainAxisLabel;
     private boolean showPercentage = false;
     private String queryString;
 
@@ -85,7 +85,7 @@ public abstract class AbstractChartGenerator {
         renderer.setDrawBarOutline(false);
         renderer.setItemMargin(0.05);
         LabelGenerator lg = new LabelGenerator();
-        ItemLabelPosition itemLabelPosition = new ItemLabelPosition(ItemLabelAnchor.CENTER, TextAnchor.CENTER, TextAnchor.CENTER_RIGHT, -Math.PI / 2.0);
+        ItemLabelPosition itemLabelPosition = new ItemLabelPosition(ItemLabelAnchor.INSIDE12, TextAnchor.CENTER_RIGHT, TextAnchor.CENTER_RIGHT, -Math.PI / 2.0);
         for (int i = 0; i < dataset.getRowCount(); i++) {
             renderer.setSeriesItemLabelGenerator(i, lg);
             renderer.setSeriesItemLabelsVisible(i, true);

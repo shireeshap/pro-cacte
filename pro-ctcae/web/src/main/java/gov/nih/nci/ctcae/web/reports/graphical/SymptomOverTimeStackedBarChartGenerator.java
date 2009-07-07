@@ -46,7 +46,7 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
             }
             DecimalFormat df = new DecimalFormat("0");
             for (Integer grade : l) {
-                dataset.addValue(new Float(df.format(new Float(map.get(grade)) * 100 / sum)), grade, period + "[N=" + sum + "]");
+                dataset.addValue(new Float(df.format(new Float(map.get(grade)) * 100 / sum)), grade, period + " [N=" + sum + "]");
             }
         }
         return dataset;
@@ -55,9 +55,9 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
     @Override
     protected JFreeChart createChart(CategoryDataset dataset) {
         JFreeChart chart = ChartFactory.createStackedBarChart3D(
-                "Stacked Bar Chart 3D Demo 2",  // chart title
-                "Category",                   // domain axis label
-                "Value",                      // range axis label
+                "",  // chart title
+                rangeAxisLabel,                   // domain axis label
+                domainAxisLabel,                      // range axis label
                 dataset,                      // data
                 PlotOrientation.VERTICAL,     // the plot orientation
                 true,                         // include legend

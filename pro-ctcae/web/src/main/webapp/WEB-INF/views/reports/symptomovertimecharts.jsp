@@ -41,7 +41,7 @@
     <br/>
     ${stackedBarChartImageMap}
     <%--<chrome:division title="Average Participant Reported Responses vs. Time for ${symptom} symptom ( Worst responses)"/>--%>
-    <chrome:division title=""/>
+    <chrome:division title=" "/>
     <br/>
 
     <div align="center">
