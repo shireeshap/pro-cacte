@@ -51,7 +51,7 @@ public class ParticipantCarePdfView extends AbstractPdfView {
         int numOfMaxColsInTable = 4;
         int currentIteration = 0;
         while (true) {
-            int numOfColsInCurrentTable = 0;
+            int numOfColsInCurrentTable;
             int alreadyDisplayedDates = currentIteration * numOfMaxColsInTable;
             int remainingDates = datesArr.length - alreadyDisplayedDates;
             if (remainingDates == 0 || remainingDates < 0) {

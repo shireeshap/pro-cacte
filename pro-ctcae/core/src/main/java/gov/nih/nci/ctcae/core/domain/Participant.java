@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.apache.commons.lang.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class Participant extends Person {
     public void setUser(User user) {
         this.user = user;
     }
-    
+
     /**
      * Gets the assigned identifier.
      *
@@ -179,6 +180,9 @@ public class Participant extends Person {
     @Transient
     public String getDisplayName() {
         StringBuilder name = new StringBuilder();
+        if (!StringUtils.isBlank(assignedIdentifier)) {
+            name.append("(").append(assignedIdentifier).append(")");
+        }
         boolean hasLastName = getLastName() != null;
         if (getFirstName() != null) {
             name.append(getFirstName());
@@ -189,6 +193,7 @@ public class Participant extends Person {
         if (hasLastName) {
             name.append(getLastName());
         }
+
         return name.toString();
     }
 

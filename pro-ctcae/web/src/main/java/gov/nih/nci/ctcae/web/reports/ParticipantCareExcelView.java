@@ -19,7 +19,7 @@ public class ParticipantCareExcelView extends AbstractExcelView {
 
     protected void buildExcelDocument(Map map, HSSFWorkbook hssfWorkbook, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
-        ArrayList<Date> dates = (ArrayList<Date>) request.getSession().getAttribute("sessionDates");
+        ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
         Participant participant = (Participant) request.getSession().getAttribute("participant");
         Study study = (Study) request.getSession().getAttribute("study");
         CRF crf = (CRF) request.getSession().getAttribute("crf");
@@ -37,73 +37,73 @@ public class ParticipantCareExcelView extends AbstractExcelView {
         //Study
         HSSFRow row = hssfSheet.createRow(rownum++);
         HSSFCell cell = row.createCell((short) 0);
-        cell.setCellValue("Study");
+        cell.setCellValue(new HSSFRichTextString("Study"));
         cell.setCellStyle(style);
         cell = row.createCell((short) 1);
-        cell.setCellValue(study.getShortTitle() + " [" + study.getAssignedIdentifier() + "]");
+        cell.setCellValue(new HSSFRichTextString(study.getDisplayName()));
 
         //CRF
         row = hssfSheet.createRow(rownum++);
         cell = row.createCell((short) 0);
-        cell.setCellValue("Form");
+        cell.setCellValue(new HSSFRichTextString("Form"));
         cell.setCellStyle(style);
         cell = row.createCell((short) 1);
-        cell.setCellValue(crf.getTitle());
+        cell.setCellValue(new HSSFRichTextString(crf.getTitle()));
 
         //Study Site
         row = hssfSheet.createRow(rownum++);
         cell = row.createCell((short) 0);
         cell.setCellStyle(style);
-        cell.setCellValue("Study site");
+        cell.setCellValue(new HSSFRichTextString("Study site"));
         cell = row.createCell((short) 1);
-        cell.setCellValue(studySite.getDisplayName());
+        cell.setCellValue(new HSSFRichTextString(studySite.getDisplayName()));
 
         //Particpant
         row = hssfSheet.createRow(rownum++);
         cell = row.createCell((short) 0);
-        cell.setCellValue("Participant");
+        cell.setCellValue(new HSSFRichTextString("Participant"));
         cell.setCellStyle(style);
         cell = row.createCell((short) 1);
-        cell.setCellValue(participant.getDisplayName() + " [" + participant.getAssignedIdentifier() + "]");
+        cell.setCellValue(new HSSFRichTextString(participant.getDisplayName()));
 
         //Report run date
         row = hssfSheet.createRow(rownum++);
         cell = row.createCell((short) 0);
-        cell.setCellValue("Report run date");
+        cell.setCellValue(new HSSFRichTextString("Report run date"));
         cell.setCellStyle(style);
         cell = row.createCell((short) 1);
-        cell.setCellValue(DateUtils.format(new Date()));
+        cell.setCellValue(new HSSFRichTextString(DateUtils.format(new Date())));
 
-        row = hssfSheet.createRow(rownum++);
+        hssfSheet.createRow(rownum++);
 
         style = hssfWorkbook.createCellStyle();
         style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
         style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
         row = hssfSheet.createRow(rownum++);
         cell = row.createCell((short) 0);
-        cell.setCellValue("Symptom");
+        cell.setCellValue(new HSSFRichTextString("Symptom"));
         cell.setCellStyle(style);
 
 
         cell = row.createCell((short) 1);
-        cell.setCellValue("Attribute");
+        cell.setCellValue(new HSSFRichTextString("Attribute"));
         cell.setCellStyle(style);
 
         short i = 2;
-        for (Date date : dates) {
+        for (String date : dates) {
             cell = row.createCell(i++);
-            cell.setCellValue(DateUtils.format(date));
+            cell.setCellValue(new HSSFRichTextString(date));
             cell.setCellStyle(style);
         }
 
-        row = hssfSheet.createRow(rownum++);
+        hssfSheet.createRow(rownum++);
         HSSFCellStyle style1 = hssfWorkbook.createCellStyle();
         style1.setFillForegroundColor(HSSFColor.AQUA.index);
         style1.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
         for (ProCtcTerm proCtcTerm : results.keySet()) {
             row = hssfSheet.createRow(rownum++);
             cell = row.createCell((short) 0);
-            cell.setCellValue(proCtcTerm.getTerm());
+            cell.setCellValue(new HSSFRichTextString(proCtcTerm.getTerm()));
             cell.setCellStyle(style);
 
 
@@ -113,15 +113,15 @@ public class ParticipantCareExcelView extends AbstractExcelView {
                 row = hssfSheet.createRow(rownum++);
 
                 cell = row.createCell(i++);
-                cell.setCellValue("");
+                cell.setCellValue(new HSSFRichTextString(""));
 
                 cell = row.createCell(i++);
-                cell.setCellValue(proCtcQuestion.getProCtcQuestionType().getDisplayName());
+                cell.setCellValue(new HSSFRichTextString(proCtcQuestion.getProCtcQuestionType().getDisplayName()));
                 cell.setCellStyle(style1);
                 ArrayList<ProCtcValidValue> validValues = questionMap.get(proCtcQuestion);
                 for (ProCtcValidValue proCtcValidValue : validValues) {
                     cell = row.createCell(i++);
-                    cell.setCellValue(proCtcValidValue.getValue());
+                    cell.setCellValue(new HSSFRichTextString(proCtcValidValue.getValue()));
                 }
             }
         }
