@@ -20,29 +20,17 @@
 <tags:javascriptLink name="table_menu"/>
 <script type="text/javascript">
 
-function hideme(){
+function hideme() {
     Element.hide($("dropnoteDiv"));
 }
 function showPopUpMenu(index, sid, x, y) {
     var html = '';
-        html = '<table cellpadding="0" cellspacing="0"><tr><td align="right"><a href="javascript:hideme();" class="link">x</a></td></tr><tr><td><a href="printSchedule?id=' + sid + '" target="_blank" class="link">Print form</a></td></tr><tr><td><a href="enterResponses?id=' + sid + '" class="link">Enter responses</a></td></tr></table>';
+    html = '<table cellpadding="0" cellspacing="0"><tr><td align="right"><a href="javascript:hideme();" class="link">x</a></td></tr><tr><td><a href="printSchedule?id=' + sid + '" target="_blank" class="link">Print form</a></td></tr><tr><td><a href="enterResponses?id=' + sid + '" class="link">Enter responses</a></td></tr></table>';
     Element.show($("dropnoteDiv"));
     $("dropnoteDiv").style.left = (findPosX($("img_" + index)) + x) + 'px';
     $("dropnoteDiv").style.top = (findPosY($("img_" + index)) + y) + 'px';
     $("dropnoteinnerDiv").innerHTML = html;
 }
-
-<%--function enterResponses(id) {--%>
-    <%--var request = new Ajax.Request("<c:url value="/pages/participant/enterResponses"/>", {--%>
-        <%--parameters:"id=" + id + "&subview=subview",--%>
-        <%--onComplete:function(transport) {--%>
-            <%--showConfirmationWindow(transport, 630, 550);--%>
-        <%--},--%>
-        <%--method:'get'--%>
-    <%--})--%>
-<%--}--%>
-
-
 
 function completedForm(id) {
     var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
@@ -53,7 +41,6 @@ function completedForm(id) {
         method:'get'
     })
 }
-
 
 Event.observe(window, "load", function () {
     var sac = new studyAutoCompleter('study');
@@ -79,11 +66,7 @@ function acCreateStudyMonitor(mode) {
 function displaySites() {
 
     organization.matchOrganizationByStudyId('%', $('study').value, function(values) {
-        //                alert(values);
-        //                alert(values.length);
     })
-
-
     var myStudySiteAutoComplter = new studySiteAutoComplter('studySite', $('study').value);
     acCreate(myStudySiteAutoComplter);
     initSearchField();
@@ -260,7 +243,7 @@ function hideIndicator() {
         <tags:renderAutocompleter propertyName="study"
                                   displayName="Study"
                                   required="true"
-                                  size="70"
+                                  size="100"
                                   noForm="true"/>
         <div id="formDropDownDiv" style="display:none;" class="row">
             <div class="label">Form</div>
@@ -374,9 +357,9 @@ function hideIndicator() {
     </chrome:box>
 </div>
 <div id="dropnoteDiv" class="ddnotediv shadowB" style="display:none;left:0;top:0">
-   <div id="dropnoteinnerDiv" class="shadowr">
-   </div>
-   </div>
+    <div id="dropnoteinnerDiv" class="shadowr">
+    </div>
+</div>
 
 </body>
 </html>
