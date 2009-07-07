@@ -109,12 +109,7 @@ public class ParticipantCareExcelView extends AbstractExcelView {
 
             HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = results.get(proCtcTerm);
             for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
-                i = 0;
-                row = hssfSheet.createRow(rownum++);
-
-                cell = row.createCell(i++);
-                cell.setCellValue(new HSSFRichTextString(""));
-
+                i = 1;
                 cell = row.createCell(i++);
                 cell.setCellValue(new HSSFRichTextString(proCtcQuestion.getProCtcQuestionType().getDisplayName()));
                 cell.setCellStyle(style1);
@@ -123,6 +118,7 @@ public class ParticipantCareExcelView extends AbstractExcelView {
                     cell = row.createCell(i++);
                     cell.setCellValue(new HSSFRichTextString(proCtcValidValue.getValue()));
                 }
+                row = hssfSheet.createRow(rownum++);
             }
         }
         for (short j = 0; j < dates.size() + 2; j++) {

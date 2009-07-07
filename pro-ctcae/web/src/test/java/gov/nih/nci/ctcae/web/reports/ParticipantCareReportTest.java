@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.reports;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.web.WebTestCase;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.BufferedOutputStream;
@@ -20,19 +21,19 @@ public class ParticipantCareReportTest extends WebTestCase {
     ProCtcTerm proCtcTerm;
     ArrayList<ProCtcValidValue> proCtcValidValueList1, proCtcValidValueList2, proCtcValidValueList3;
     TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results;
-    ArrayList<Date> dates;
+    ArrayList<String> dates;
 
     public void setUp() throws Exception {
         super.setUp();
 
-        dates = new ArrayList<Date>();
+        dates = new ArrayList<String>();
         Calendar calendar = ProCtcAECalendar.getCalendarForDate(new Date());
         calendar.add(Calendar.DATE, 10);
-        dates.add(calendar.getTime());
+        dates.add(DateUtils.format(calendar.getTime()));
         calendar.add(Calendar.DATE, 10);
-        dates.add(calendar.getTime());
+        dates.add(DateUtils.format(calendar.getTime()));
         calendar.add(Calendar.DATE, 10);
-        dates.add(calendar.getTime());
+        dates.add(DateUtils.format(calendar.getTime()));
 
 
         proCtcTerm = new ProCtcTerm();
