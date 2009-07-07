@@ -24,7 +24,7 @@ public class ParticipantCarePdfView extends AbstractPdfView {
     protected void buildPdfDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
 
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
-        ArrayList<Date> dates = (ArrayList<Date>) request.getSession().getAttribute("sessionDates");
+        ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
         Participant participant = (Participant) request.getSession().getAttribute("participant");
         Study study = (Study) request.getSession().getAttribute("study");
         CRF crf = (CRF) request.getSession().getAttribute("crf");
