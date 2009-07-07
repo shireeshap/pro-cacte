@@ -38,7 +38,7 @@ public class ParticipantCareGraphicalReportController extends ParticipantCareRes
 
         ParticipantLevelChartGenerator chartGenerator = new ParticipantLevelChartGenerator();
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
-        ArrayList<Date> dates = (ArrayList<Date>) request.getSession().getAttribute("sessionDates");
+        ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
         response.setContentType("image/png");
         JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, inputSymptomId, arrSelectedTypes);
         ChartUtilities.writeChartAsPNG(response.getOutputStream(), chart, 700, 450);

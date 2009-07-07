@@ -39,7 +39,7 @@ public class ParticipantLevelChartGenerator {
 
     ArrayList<String> typesInSymptom = new ArrayList<String>();
 
-    public JFreeChart getChartForSymptom(TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results, ArrayList<Date> dates, Integer inputSymptomId, ArrayList<String> arrSelectedTypes) {
+    public JFreeChart getChartForSymptom(TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results, ArrayList<String> dates, Integer inputSymptomId, ArrayList<String> arrSelectedTypes) {
         ProCtcTerm selectedTerm = null;
         HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart = null;
         for (ProCtcTerm proCtcTerm : results.keySet()) {
@@ -62,20 +62,20 @@ public class ParticipantLevelChartGenerator {
      * @param arrSelectedTypes
      * @return the category dataset
      */
-    private CategoryDataset createDataset(HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart, ArrayList<Date> dates, ArrayList<String> arrSelectedTypes) {
+    private CategoryDataset createDataset(HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart, ArrayList<String> dates, ArrayList<String> arrSelectedTypes) {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         int i = 0;
-        for (Date date : dates) {
+        for (String date : dates) {
             for (ProCtcQuestion proCtcQuestion : dataForChart.keySet()) {
                 ArrayList<ProCtcValidValue> proCtcValidValues = dataForChart.get(proCtcQuestion);
                 ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
                 String questionType = proCtcQuestion.getProCtcQuestionType().getDisplayName();
                 if (arrSelectedTypes == null) {
-                    dataset.addValue(proCtcValidValue.getDisplayOrder(), questionType, DateUtils.format(date));
+                    dataset.addValue(proCtcValidValue.getDisplayOrder(), questionType, date);
                 } else {
                     if (arrSelectedTypes.contains(questionType)) {
-                        dataset.addValue(proCtcValidValue.getDisplayOrder(), questionType, DateUtils.format(date));
+                        dataset.addValue(proCtcValidValue.getDisplayOrder(), questionType, date);
                     }
                 }
                 if (!typesInSymptom.contains(questionType)) {
