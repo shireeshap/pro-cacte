@@ -4,6 +4,7 @@ var displayDate = true;
 var studySiteMandatory = false;
 var displayParticipants = false;
 var selectedCrf = '';
+var allSymptoms = true;
 
 function createStudyAutoCompleter() {
     var sac = new studyAutoCompleter('study');
@@ -76,16 +77,20 @@ function updateFormDropDown(crfs) {
 
 function displaySymptoms(crfid) {
     $('form').value = crfid;
-    crf.getSymptomsForCrf(crfid, updateSymptomDropDown);
+    if (displaySymptom) {
+        crf.getSymptomsForCrf(crfid, updateSymptomDropDown);
+    }
 }
 
 function updateSymptomDropDown(symptoms) {
     $('divSymptomsRow').show();
     var select = populate('proCtcTerms', symptoms, 'term', 'id', '', 'Symptom');
-    var option = new Element('OPTION', {});
-    option.text = 'All';
-    option.value = '-1';
-    select.add(option, select.options[1]);
+    if (allSymptoms) {
+        var option = new Element('OPTION', {});
+        option.text = 'All';
+        option.value = '-1';
+        select.add(option, select.options[1]);
+    }
 }
 
 function customVisit(showVisit) {
@@ -108,7 +113,9 @@ function performValidations() {
     var arr = new Array();
     arr[0] = 'form';
     arr[1] = 'proCtcTermsSelect';
-
+    if (studySiteMandatory) {
+        arr[2] = 'studySite';
+    }
     for (var i = 0; i < arr.length; i++) {
         validateField(arr[i]);
     }
@@ -234,5 +241,26 @@ function updateChart(chkbox) {
         return;
     }
     reportResults(selectedAttributes);
+}
+
+function getQueryString(attributes) {
+    if (typeof(attributes) == 'undefined') {
+        attributes = '';
+    }
+    var queryString = 'subview=subview';
+    queryString += "&studyId=" + $('study').value;
+    queryString += "&crfId=" + $('form').value;
+    if (displaySymptom) {
+        queryString += "&symptom=" + $('proCtcTermsSelect').value;
+    }
+    queryString += "&studySiteId=" + $('studySite').value;
+    queryString += "&attributes=" + attributes;
+    if ($('groupby') == null) {
+        var group = 'week';
+    } else {
+        var group = $('groupby').value.toLowerCase();
+    }
+    queryString += "&group=" + group;
+    return queryString;
 }
 

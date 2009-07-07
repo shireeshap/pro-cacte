@@ -66,10 +66,8 @@
         }
 
         #careResultsTable {
-               /*text-align: center;*/
-                   overflow-x: scroll;
-               }
-
+            overflow-x: scroll;
+        }
 
         /* The hint to Hide and Show */
         .hint {
@@ -82,7 +80,7 @@
             border: 1px solid #c93;
             padding: 10px 12px;
             opacity: .95;
-            background: #ffc url( ../images/pointer.gif ) no-repeat -10px 5px;
+            background: #ffc url(../images/pointer.gif) no-repeat -10px 5px;
         }
     </style>
 </head>
@@ -119,18 +117,16 @@
 </span>
 <chrome:box title="Report">
 
+    <%--<a href="<c:url value='/pages/reports/studyLevelReportPdf'/>" target="_blank"><img--%>
+    <%--src="/proctcae/images/table/pdf.gif"--%>
+    <%--alt="pdf"/></a> | --%>
+    <div align="right">
+        <a href="<c:url value='/pages/reports/studyLevelReportExcel'/>" target="_blank">
+            <img src="/proctcae/images/table/xls.gif" alt="xls"/>
+        </a>
+    </div>
     <div id="careResultsTable">
-            <%--<a href="javascript:getChartView()">Switch to graphical view</a> | --%>
-        <a href="<c:url value='/pages/reports/studyLevelReportPdf'/>" target="_blank"><img
-                src="/proctcae/images/table/pdf.gif"
-                alt="pdf"/></a> | <a
-            href="<c:url value='/pages/reports/studyLevelReportExcel'/>" target="_blank"><img
-            src="/proctcae/images/table/xls.gif"
-            alt="xls"/></a>
-
-        <br/>
-        <br/>
-        <c:forEach items="${table}" var="participantTable">
+       <c:forEach items="${table}" var="participantTable">
             <chrome:division
                     title="Participant: ${participantTable.key.displayName} [${participantTable.key.assignedIdentifier}] "/>
             ${participantTable.value}

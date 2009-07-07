@@ -14,7 +14,7 @@
     <script type="text/javascript">
         function showDetails(params) {
             showIndicator();
-            var request = new Ajax.Request("<c:url value="/pages/reports/showDetails"/>", {
+            var request = new Ajax.Request("${url}Details", {
                 parameters:params,
                 onComplete:function(transport) {
                     $('reportInnerDiv').innerHTML = transport.responseText;
@@ -29,16 +29,9 @@
             if (!performValidations()) {
                 return;
             }
-            if (typeof(attributes) == 'undefined') {
-                attributes = '';
-            }
             showIndicator();
             var request = new Ajax.Request("${url}", {
-                parameters:"crfId=" + $('form').value +
-                           "&symptom=" + $('proCtcTermsSelect').value +
-                           "&studySiteId=" + $('studySite').value +
-                           "&attributes=" + attributes +
-                           "&subview=subview",
+                parameters:getQueryString(attributes),
                 onComplete:function(transport) {
                     showResults(transport);
                     hideIndicator();
@@ -52,6 +45,7 @@
 </head>
 <body>
 <report:thirdlevelmenu selected="${param['rt']}"/>
+<report:reportSpecificJS selected="${param['rt']}"/>
 <chrome:box title="participant.label.search_criteria">
     <div align="left" style="margin-left: 50px">
         <c:choose>
@@ -137,16 +131,18 @@
                 <input type="hidden" id="studySite" name="studySite" value="${studySite.id}"/>
             </c:when>
             <c:otherwise>
-                <input type="hidden" id="studySite" name="studySite" value=""/>
+                <div>
+                    <input type="hidden" id="studySite" name="studySite" value="" title="Study site"/>
 
-                <div id="studySiteAutoCompleter" style="display:none">
-                    <tags:renderAutocompleter
-                            propertyName="studySite" displayName="Study site" size="60"
-                            noForm="true"/>
-                </div>
-                <div class="row" id="divStudySiteRow" style="display:none">
-                    <div class="label"><tags:message code="reports.label.site"/></div>
-                    <div class="value" id="studySiteDisplayName"></div>
+                    <div id="studySiteAutoCompleter" style="display:none">
+                        <tags:renderAutocompleter
+                                propertyName="studySite" displayName="Study site" size="60"
+                                noForm="true"/>
+                    </div>
+                    <div class="row" id="divStudySiteRow" style="display:none">
+                        <div class="label"><tags:message code="reports.label.site"/></div>
+                        <div class="value" id="studySiteDisplayName"></div>
+                    </div>
                 </div>
                 <c:if test="${study ne null}">
                     <script type="text/javascript">

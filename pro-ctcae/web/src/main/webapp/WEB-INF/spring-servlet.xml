@@ -140,7 +140,7 @@
                                   p:linkName="participantCareMonitorController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="reports.tab.study_level_report"
-                                  p:linkName="studyLevelReportController"/>
+                                  p:linkName="reportSearchCriteriaController"/>
                         </list>
                     </property>
                 </bean>
@@ -373,11 +373,11 @@
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareExcelController">
     </bean>
 
-    <bean name="/reports/studyLevelReport" id="studyLevelReportController"
-          class="gov.nih.nci.ctcae.web.reports.StudyLevelReportController">
-    </bean>
+    <!--<bean name="/reports/studyLevelReport" id="studyLevelReportController"-->
+    <!--class="gov.nih.nci.ctcae.web.reports.StudyLevelReportController">-->
+    <!--</bean>-->
 
-    <bean name="/reports/studyLevelReportResults" id="studyLevelReportResultsController"
+    <bean name="/reports/overallStudy" id="studyLevelReportResultsController"
           class="gov.nih.nci.ctcae.web.reports.StudyLevelReportResultsController">
         <property name="studyRepository" ref="studyRepository"/>
         <property name="crfRepository" ref="crfRepository"/>
@@ -388,9 +388,9 @@
           class="gov.nih.nci.ctcae.web.reports.StudyLevelReportExcelController">
     </bean>
 
-    <bean name="/reports/studyLevelReportPdf" id="studyLevelReportPdfController"
-          class="gov.nih.nci.ctcae.web.reports.StudyLevelReportPdfController">
-    </bean>
+    <!--<bean name="/reports/studyLevelReportPdf" id="studyLevelReportPdfController"-->
+    <!--class="gov.nih.nci.ctcae.web.reports.StudyLevelReportPdfController">-->
+    <!--</bean>-->
 
     <bean name="/participant/displaycalendar" id="displayCalendarController"
           class="gov.nih.nci.ctcae.web.participant.DisplayCalendarController">
@@ -410,30 +410,21 @@
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
-    <bean name="/reports/showDetails" id="symptomSummaryReportDetailsController"
+    <bean name="/reports/symptomSummaryDetails" id="symptomSummaryReportDetailsController"
           class="gov.nih.nci.ctcae.web.reports.SymptomSummaryReportDetailsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
-
-    <bean name="/reports/symptomovertime" id="symptomOverTimeReportController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-        <property name="viewName" value="reports/symptomOverTimeReport"/>
-    </bean>
-    <bean name="/reports/symptomOverTimeReportResults" id="symptomOverTimeReportResultsController"
+    <bean name="/reports/symptomOverTime" id="symptomOverTimeReportResultsController"
           class="gov.nih.nci.ctcae.web.reports.graphical.SymptomOverTimeReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
-    <bean name="/reports/showDetailsOverTime" id="symptomOverTimeReportDetailsController"
+    <bean name="/reports/symptomOverTimeDetails" id="symptomOverTimeReportDetailsController"
           class="gov.nih.nci.ctcae.web.reports.SymptomOverTimeReportDetailsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
-    <bean name="/reports/participantaddedquestions" id="participantAddedQuestionsReportController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-        <property name="viewName" value="reports/participantAddedQuestionsReport"/>
-    </bean>
-    <bean name="/reports/participantAddedQuestionsResults" id="participantAddedQuestionsResultsController"
+    <bean name="/reports/participantAddedQuestions" id="participantAddedQuestionsResultsController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantAddedQuestionsReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>

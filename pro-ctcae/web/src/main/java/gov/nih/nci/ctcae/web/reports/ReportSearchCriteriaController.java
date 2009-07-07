@@ -1,11 +1,14 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.beans.factory.annotation.Required;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import gov.nih.nci.ctcae.web.study.StudyAjaxFacade;
 import gov.nih.nci.ctcae.web.form.CrfAjaxFacade;
@@ -31,7 +34,12 @@ public class ReportSearchCriteriaController extends AbstractController {
     OrganizationAjaxFacade organizationAjaxFacade;
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-
+        cleanSession(request);
+        String reportType = request.getParameter("rt");
+        if (StringUtils.isBlank(reportType)) {
+            ModelAndView rv = new ModelAndView(new RedirectView("report?rt=overallStudy"));
+            return rv;
+        }
         ModelAndView modelAndView = new ModelAndView("reports/searchCriteria");
         List<Study> studies = studyAjaxFacade.matchStudy("%");
         if (studies.size() == 1) {
@@ -53,6 +61,15 @@ public class ReportSearchCriteriaController extends AbstractController {
         }
         modelAndView.addObject("url", getUrlForReportType(request));
         return modelAndView;
+    }
+
+    private void cleanSession(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("study");
+        session.removeAttribute("crfs");
+        session.removeAttribute("proctcterms");
+        session.removeAttribute("studySite");
+        session.removeAttribute("url");
     }
 
     private List<StudyOrganization> getStudySitesForStudy(Study study) {

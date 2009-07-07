@@ -106,7 +106,7 @@ public class ParticipantCareResultsController extends AbstractController {
                                 }
                             }
                             if (studyParticipantCrfSchedule.getCycleNumber() != null) {
-                            dates.add(DateUtils.format(studyParticipantCrfSchedule.getStartDate()) + " (C " + studyParticipantCrfSchedule.getCycleNumber() + ", D " + studyParticipantCrfSchedule.getCycleDay() + ")");
+                            dates.add(DateUtils.format(studyParticipantCrfSchedule.getStartDate()) + " (C" + studyParticipantCrfSchedule.getCycleNumber() + ", D" + studyParticipantCrfSchedule.getCycleDay() + ")");
                             } else {
                                 dates.add(DateUtils.format(studyParticipantCrfSchedule.getStartDate()) + " ");
                             }

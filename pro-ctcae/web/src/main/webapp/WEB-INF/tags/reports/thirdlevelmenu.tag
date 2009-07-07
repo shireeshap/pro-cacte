@@ -6,10 +6,10 @@
 <div class="tabpane">
     <div class="workflow-tabs2">
         <ul id="" class="tabs autoclear">
-            <proctcae:urlAuthorize url="/pages/reports/studyLevelReport">
-                <li id="thirdlevelnav-x" class="tab ${selected=='studyLevelReport'?'selected':''}">
+            <proctcae:urlAuthorize url="/pages/reports/report">
+                <li id="thirdlevelnav-x" class="tab ${selected=='overallStudy'?'selected':''}">
                     <div>
-                        <a href="studyLevelReport"><tags:message code="reports.tab.studyLevel"/></a>
+                        <a href="report?rt=overallStudy"><tags:message code="reports.tab.studyLevel"/></a>
                     </div>
                 </li>
             </proctcae:urlAuthorize>
@@ -20,17 +20,17 @@
                     </div>
                 </li>
             </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/reports/symptomovertime">
-                <li id="thirdlevelnav-x" class="tab ${selected=='symptomovertime'?'selected':''}">
+            <proctcae:urlAuthorize url="/pages/reports/report">
+                <li id="thirdlevelnav-x" class="tab ${selected=='symptomOverTime'?'selected':''}">
                     <div>
-                        <a href="symptomovertime"><tags:message code="reports.tab.symptomovertime"/></a>
+                        <a href="report?rt=symptomOverTime"><tags:message code="reports.tab.symptomovertime"/></a>
                     </div>
                 </li>
             </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/reports/participantaddedquestions">
+            <proctcae:urlAuthorize url="/pages/reports/report">
                 <li id="thirdlevelnav-x" class="tab ${selected=='participantAddedQuestions'?'selected':''}">
                     <div>
-                        <a href="participantaddedquestions"><tags:message
+                        <a href="report?rt=participantAddedQuestions"><tags:message
                                 code="reports.tab.participantaddedquestions"/></a>
                     </div>
                 </li>
