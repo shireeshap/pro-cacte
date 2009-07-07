@@ -83,9 +83,6 @@ public class ParticipantCarePdfView extends AbstractPdfView {
                 cell = new PdfPCell(new Paragraph(proCtcTerm.getTerm()));
                 cell.setBackgroundColor(Color.lightGray);
                 table.addCell(cell);
-//                for (int i = 0; i < numOfColsInCurrentTable + 1; i++) {
-//                    table.addCell("");
-//                }
                 HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = results.get(proCtcTerm);
                 for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
                     cell = new PdfPCell(new Paragraph(proCtcQuestion.getProCtcQuestionType().getDisplayName()));
