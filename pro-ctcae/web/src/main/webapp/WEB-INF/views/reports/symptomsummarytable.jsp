@@ -6,24 +6,21 @@
 <style type="text/css">
     table.report {
         width: 90%;
-    }
-
-    table.report tr {
-    /*border: 1px #999999 solid;*/
+        border: 1px #999999 solid;
     }
 
     table.report td {
         border-left: 1px #cccccc solid;
         border-top: 1px #cccccc solid;
         text-align: center;
-        padding: 3px;
+        padding: 2px 5px;
+
     }
 
     table.report td.right {
         text-align: right;
         padding-left: 5px;
     }
-
 
     table.report td.bottom {
         border-top: 1px black solid;
@@ -38,6 +35,7 @@
     <table class="report" cellspacing="0" align="center">
         <tr>
             <td class="right">Present/Not Present:</td>
+            <td></td>
             <td>Yes</td>
             <td>No</td>
             <td>--</td>
@@ -47,6 +45,7 @@
         <c:forEach items="${questionTypes}" var="questionType">
             <tr>
                 <td class="right">${questionType.displayName}:</td>
+                <td></td>
                 <c:forEach items="${questionType.validValues}" var="validValue">
                     <td>${validValue}</td>
                 </c:forEach>
@@ -54,6 +53,7 @@
         </c:forEach>
         <tr>
             <td class="left bottom">Item</td>
+            <td class="bottom">N</td>
             <c:forEach begin="0" end="4" step="1">
                 <td class="bottom">N(%)</td>
             </c:forEach>
@@ -64,6 +64,9 @@
                 <tr>
                     <td class="left ${bottom}">
                             ${symptom.key} - ${attribute.key}
+                    </td>
+                    <td class="${bottom}">
+                        ${total}
                     </td>
                     <c:forEach items="${attribute.value}" var="count">
                         <td class="${bottom}">

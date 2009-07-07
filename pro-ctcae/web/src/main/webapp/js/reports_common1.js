@@ -65,7 +65,7 @@ function updateFormDropDown(crfs) {
         $('form').value = value['id'];
         displaySymptoms(value['id']);
     } else {
-        var select = populate('formTitle', crfs, 'title', 'id', selectedCrf);
+        var select = populate('formTitle', crfs, 'title', 'id', selectedCrf, 'Form');
         if (displaySymptom) {
             select.onchange = function() {
                 displaySymptoms(this.value);
@@ -81,7 +81,7 @@ function displaySymptoms(crfid) {
 
 function updateSymptomDropDown(symptoms) {
     $('divSymptomsRow').show();
-    var select = populate('proCtcTerms', symptoms, 'term', 'id');
+    var select = populate('proCtcTerms', symptoms, 'term', 'id', '', 'Symptom');
     var option = new Element('OPTION', {});
     option.text = 'All';
     option.value = '-1';
@@ -106,16 +106,8 @@ function customVisit(showVisit) {
 function performValidations() {
     hasError = false;
     var arr = new Array();
-    arr[0] = 'formSelect';
-    arr[1] = 'symptomSelect';
-    arr[2] = 'startDate';
-    arr[3] = 'endDate';
-    if (studySiteMandatory) {
-        arr[5] = 'studySite';
-    }
-    if (displayParticipants) {
-        arr[6] = 'participant';
-    }
+    arr[0] = 'form';
+    arr[1] = 'proCtcTermsSelect';
 
     for (var i = 0; i < arr.length; i++) {
         validateField(arr[i]);
@@ -126,13 +118,7 @@ function performValidations() {
     return true;
 }
 function validateField(id) {
-    if ((id == 'startDate' || id == 'endDate' ) && $('dateRange')) {
-        if ($('dateRange').style.display == 'none') {
-            return
-        }
-    }
     var obj = $(id);
-
     if (obj) {
         if (obj.value == '') {
             hasError = true;
@@ -197,13 +183,13 @@ function showResponses(id) {
     })
 }
 
-function populate(divid, values, itext, ivalue, selectedValue) {
+function populate(divid, values, itext, ivalue, selectedValue, title) {
     var ele = $(divid);
     if (ele.firstChild != null) {
         ele.removeChild(ele.firstChild);
     }
     //    var select = new Element('SELECT', {'id':divid + 'Select'});
-    var select = new Element('SELECT', {'id':divid + 'Select'});
+    var select = new Element('SELECT', {'id':divid + 'Select','title':title});
     addPleaseSelect(select);
 
     for (var i = 0; i < values.length; i++) {
@@ -234,7 +220,19 @@ function addPleaseSelect(select) {
     option.value = '';
     select.appendChild(option);
 }
-
-function getSymptoms() {
-
+function updateChart(chkbox) {
+    var obj = document.getElementsByName('attribute');
+    var selectedAttributes = '';
+    for (var i = 0; i < obj.length; i++) {
+        if (obj[i].checked) {
+            selectedAttributes = selectedAttributes + ',' + obj[i].value;
+        }
+    }
+    if (selectedAttributes == '') {
+        alert('Please select at least one question type.');
+        chkbox.checked = true;
+        return;
+    }
+    reportResults(selectedAttributes);
 }
+

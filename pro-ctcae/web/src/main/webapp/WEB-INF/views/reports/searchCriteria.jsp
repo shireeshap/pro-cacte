@@ -8,13 +8,36 @@
 <head>
     <tags:dwrJavascriptLink objects="crf"/>
     <tags:javascriptLink name="reports_common1"/>
+    <tags:javascriptLink name="table_menu"/>
+    <tags:includePrototypeWindow/>
+    <tags:includeScriptaculous/>
     <script type="text/javascript">
-        function reportResults() {
+        function showDetails(params) {
+            showIndicator();
+            var request = new Ajax.Request("<c:url value="/pages/reports/showDetails"/>", {
+                parameters:params,
+                onComplete:function(transport) {
+                    $('reportInnerDiv').innerHTML = transport.responseText;
+                    hideIndicator();
+                },
+                method:'get'
+            }
+                    )
+        }
+
+        function reportResults(attributes) {
+            if (!performValidations()) {
+                return;
+            }
+            if (typeof(attributes) == 'undefined') {
+                attributes = '';
+            }
             showIndicator();
             var request = new Ajax.Request("${url}", {
                 parameters:"crfId=" + $('form').value +
                            "&symptom=" + $('proCtcTermsSelect').value +
                            "&studySiteId=" + $('studySite').value +
+                           "&attributes=" + attributes +
                            "&subview=subview",
                 onComplete:function(transport) {
                     showResults(transport);
@@ -34,7 +57,7 @@
         <c:choose>
             <c:when test="${study ne null}">
                 <div class="row">
-                    <div class="label"><tags:message code="reports.label.study"/>:</div>
+                    <div class="label"><tags:message code="reports.label.study"/></div>
                     <div class="value">${study.displayName}</div>
                 </div>
                 <input type="hidden" id="study" name="study" value="${study.id}"/>
@@ -53,14 +76,14 @@
                 <c:choose>
                     <c:when test="${fn:length(crfs)==1}">
                         <div class="row">
-                            <div class="label"><tags:message code="reports.label.form"/>:</div>
+                            <div class="label"><tags:message code="reports.label.form"/></div>
                             <div class="value">${crfs[0].title}</div>
+                            <input type="hidden" name="form" id="form" value="${crf.id}" title="Form"/>
                         </div>
-                        <input type="hidden" name="form" id="form" value="${crf.id}"/>
                     </c:when>
                     <c:otherwise>
                         <div class="row">
-                            <div class="label"><tags:message code="reports.label.form"/>:</div>
+                            <div class="label"><tags:message code="reports.label.form"/></div>
                             <div class="value">
                                 <select onchange="javascript:displaySymptoms(this.value)">
                                     <option value="">Please select</option>
@@ -70,25 +93,25 @@
                                     </c:forEach>
                                 </select>
                             </div>
+                            <input type="hidden" name="form" id="form" value="" title="Form"/>
                         </div>
-                        <input type="hidden" name="form" id="form" value=""/>
                     </c:otherwise>
                 </c:choose>
             </c:when>
             <c:otherwise>
                 <div class="row" id="divFormRow" style="display:none">
-                    <div class="label"><tags:message code="reports.label.form"/>:</div>
+                    <div class="label"><tags:message code="reports.label.form"/></div>
                     <div class="value" id="formTitle"></div>
+                    <input type="hidden" name="form" id="form" value="" title="Form"/>
                 </div>
-                <input type="hidden" name="form" id="form" value=""/>
             </c:otherwise>
         </c:choose>
         <c:choose>
             <c:when test="${proctcterms ne null}">
                 <div class="row">
-                    <div class="label"><tags:message code="reports.label.symptoms"/>:</div>
+                    <div class="label"><tags:message code="reports.label.symptoms"/></div>
                     <div class="value">
-                        <select id="proCtcTermsSelect">
+                        <select id="proCtcTermsSelect" title="symptom">
                                 <%--<select multiple size="4">--%>
                             <option value="All">All</option>
                             <c:forEach items="${proctcterms}" var="proctcterm">
@@ -100,7 +123,7 @@
             </c:when>
             <c:otherwise>
                 <div class="row" id="divSymptomsRow" style="display:none">
-                    <div class="label"><tags:message code="reports.label.symptoms"/>:</div>
+                    <div class="label"><tags:message code="reports.label.symptoms"/></div>
                     <div class="value" id="proCtcTerms"></div>
                 </div>
             </c:otherwise>
@@ -108,7 +131,7 @@
         <c:choose>
             <c:when test="${studySite ne null}">
                 <div class="row">
-                    <div class="label"><tags:message code="reports.label.site"/>:</div>
+                    <div class="label"><tags:message code="reports.label.site"/></div>
                     <div class="value">${studySite.displayName}</div>
                 </div>
                 <input type="hidden" id="studySite" name="studySite" value="${studySite.id}"/>
@@ -119,11 +142,10 @@
                 <div id="studySiteAutoCompleter" style="display:none">
                     <tags:renderAutocompleter
                             propertyName="studySite" displayName="Study site" size="60"
-                            noForm="true"
-                            required="true"/>
+                            noForm="true"/>
                 </div>
                 <div class="row" id="divStudySiteRow" style="display:none">
-                    <div class="label"><tags:message code="reports.label.site"/>:</div>
+                    <div class="label"><tags:message code="reports.label.site"/></div>
                     <div class="value" id="studySiteDisplayName"></div>
                 </div>
                 <c:if test="${study ne null}">
