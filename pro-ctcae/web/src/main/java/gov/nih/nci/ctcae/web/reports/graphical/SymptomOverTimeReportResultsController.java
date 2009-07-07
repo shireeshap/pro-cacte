@@ -31,11 +31,11 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
 
         String group = request.getParameter("group");
         if (StringUtils.isBlank(group)) {
-            group = "week";
+            group = "cycle";
         }
-        ReportParticipantCountQuery query = new ReportParticipantCountQuery();
-        parseRequestParametersAndFormQuery(request, query);
-        List list = genericRepository.find(query);
+        ReportParticipantCountQuery cquery = new ReportParticipantCountQuery();
+        parseRequestParametersAndFormQuery(request, cquery);
+        List list = genericRepository.find(cquery);
         Long totalParticipants = (Long) list.get(0);
         HashSet<String> selectedAttributes = new HashSet<String>();
         HashSet<String> allAttributes = new HashSet<String>();
@@ -45,31 +45,67 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
             allAttributes.add(question.getProCtcQuestionType().getDisplayName());
         }
 
-        JFreeChart worstResponseChart = getWorstResponseChart(request, group, proCtcTerm.getTerm(), totalParticipants.intValue(), selectedAttributes);
+        SymptomOverTimeWorstResponsesQuery query = new SymptomOverTimeWorstResponsesQuery(group);
+        parseRequestParametersAndFormQuery(request, query);
+        List worstResponses = genericRepository.find(query);
+
+        JFreeChart worstResponseChart = getWorstResponseChart(worstResponses, group, totalParticipants.intValue(), selectedAttributes, request.getQueryString());
+        JFreeChart stackedBarChart = getStackedBarChart(worstResponses, group, request.getQueryString());
 
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
         String worstReponseFileName = ServletUtilities.saveChartAsPNG(worstResponseChart, 700, 400, info, null);
         String worstReponseImageMap = ChartUtilities.getImageMap(worstReponseFileName, info);
+        String stackedBarFileName = ServletUtilities.saveChartAsPNG(stackedBarChart, 700, 400, info, null);
+        String stackedBarImageMap = ChartUtilities.getImageMap(stackedBarFileName, info);
 
         ModelAndView modelAndView = new ModelAndView("reports/symptomovertimecharts");
         modelAndView.addObject("worstResponseChartFileName", worstReponseFileName);
         modelAndView.addObject("worstResponseChartImageMap", worstReponseImageMap);
-        modelAndView.addObject("group", group);
         modelAndView.addObject("worstResponseChart", worstResponseChart);
+        modelAndView.addObject("stackedBarChartFileName", stackedBarFileName);
+        modelAndView.addObject("stackedBarChartImageMap", stackedBarImageMap);
+        modelAndView.addObject("stackedBarChart", stackedBarChart);
+        modelAndView.addObject("group", group);
         modelAndView.addObject("allAttributes", allAttributes);
         modelAndView.addObject("selectedAttributes", selectedAttributes);
         modelAndView.addObject("symptom", proCtcTerm.getTerm());
         return modelAndView;
     }
 
-    private JFreeChart getWorstResponseChart(HttpServletRequest request, String group, String symptom, int totalParticipants, HashSet<String> selectedAttributes) throws ParseException {
+    private JFreeChart getStackedBarChart(List worstResponses, String group, String queryString) {
+
+        TreeMap<String, TreeMap<Integer, Integer>> results = new TreeMap<String, TreeMap<Integer, Integer>>();
+        Integer smallest = getSmallest(worstResponses, 3);
+        for (Object obj : worstResponses) {
+            Object[] a = (Object[]) obj;
+            Integer grade = (Integer) a[0];
+            String period = getNewPeriod(a[3], smallest, group);
+//            String attribute = ((ProCtcQuestionType) a[1]).getDisplayName();
+
+            TreeMap<Integer, Integer> map = results.get(period);
+            if (map == null) {
+                map = new TreeMap<Integer, Integer>();
+                for (int i = 0; i < 5; i++) {
+                    map.put(i, 0);
+                }
+                results.put(period, map);
+            }
+            Integer count = map.get(grade);
+            count++;
+            map.put(grade, count);
+        }
+        String title = "";
+        String domainAxisLabel = group + "#";
+        String rangeAxisLabel = "Average Worst Response ";//(p=" + totalParticipants + ")";
+        SymptomOverTimeStackedBarChartGenerator chartGenerator = new SymptomOverTimeStackedBarChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString + "&sum=" + smallest);
+        return chartGenerator.getChart(results);
+    }
+
+    private JFreeChart getWorstResponseChart(List worstResponses, String group, int totalParticipants, HashSet<String> selectedAttributes, String queryString) throws ParseException {
 //        String title = "Average Participant Reported Responses vs. Time for " + symptom + " symptom ( Worst responses)";
         String title = "";
         String domainAxisLabel = group + "#";
 
-        SymptomOverTimeWorstResponsesQuery query = new SymptomOverTimeWorstResponsesQuery(group);
-        parseRequestParametersAndFormQuery(request, query);
-        List worstResponses = genericRepository.find(query);
         TreeMap<String, TreeMap<String, ArrayList<Integer>>> results = new TreeMap<String, TreeMap<String, ArrayList<Integer>>>();
         Integer smallest = getSmallest(worstResponses, 3);
 
@@ -110,7 +146,7 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
 
 
         String rangeAxisLabel = "Average Worst Response (p=" + totalParticipants + ")";
-        SymptomOverTimeWorstResponsesChartGenerator chartGenerator = new SymptomOverTimeWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, request.getQueryString() + "&sum=" + smallest);
+        SymptomOverTimeWorstResponsesChartGenerator chartGenerator = new SymptomOverTimeWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString + "&sum=" + smallest);
         return chartGenerator.getChart(out);
 
     }

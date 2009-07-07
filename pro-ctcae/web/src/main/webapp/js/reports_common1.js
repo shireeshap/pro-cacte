@@ -256,7 +256,7 @@ function getQueryString(attributes) {
     queryString += "&studySiteId=" + $('studySite').value;
     queryString += "&attributes=" + attributes;
     if ($('groupby') == null) {
-        var group = 'week';
+        var group = 'cycle';
     } else {
         var group = $('groupby').value.toLowerCase();
     }

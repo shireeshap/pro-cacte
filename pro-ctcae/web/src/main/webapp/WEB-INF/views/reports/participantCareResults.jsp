@@ -11,7 +11,6 @@
 <head>
     <style type="text/css">
         table.widget {
-            border: 1px solid #eaeaea;
             border-collapse: collapse;
         }
 
@@ -20,19 +19,16 @@
         }
 
         td.data {
-            border: 1px solid #eaeaea;
-            background-color: #D5D5D5;
+            border: 1px solid #666666;
             white-space: nowrap;
             text-align: center;
 
         }
-
         td.header-top {
             border: 1px solid #eaeaea;
             font-weight: bold;
             text-align: center;
             background-color: #cccccc;
-            width: 100px;
         }
 
         td.category-name, td.subcategory-name, td.actual-question {
@@ -97,7 +93,7 @@
             border: 1px solid #c93;
             padding: 10px 12px;
             opacity: .95;
-            background: #ffc url( ../images/pointer.gif ) no-repeat -10px 5px;
+            background: #ffc url(../images/pointer.gif) no-repeat -10px 5px;
         }
     </style>
 </head>
@@ -134,111 +130,111 @@
 </span>
 <chrome:box title="Report - ${participant.displayName}">
 
-<div id="careResultsTable">
-    <a href="javascript:getChartView()">Switch to graphical view</a> | <a
-        href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank"><img
-        src="/proctcae/images/table/pdf.gif"
-        alt="pdf"/></a> | <a
-        href="<c:url value='/pages/reports/participantCareExcel'/>" target="_blank"><img
-        src="/proctcae/images/table/xls.gif"
-        alt="xls"/></a>
-
+    <div align="right">
+        <a href="javascript:getChartView()">Switch to graphical view</a> | <a
+            href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank"><img
+            src="/proctcae/images/table/pdf.gif"
+            alt="pdf"/></a> | <a
+            href="<c:url value='/pages/reports/participantCareExcel'/>" target="_blank"><img
+            src="/proctcae/images/table/xls.gif"
+            alt="xls"/></a>
+    </div>
     <br/>
-    <br/>
-    <table class="widget" cellspacing="0">
-        <col/>
-        <tr>
-            <td class="header-top">
-                Symptom
-            </td>
-            <td class="header-top">
-                Attribute
-                <img alt="Help" src="/proctcae/images/q.gif"
-                     onclick="$('attribute-help-content').style.display='inline'"/>
-            </td>
-            <c:forEach items="${dates}" var="date">
-
-            <td class="header-top">
-                    ${date}
-                    <%--<fmt:formatDate value="${date}" pattern="MM/dd/yy"/>--%>
-            </td>
-
-            </c:forEach>
-            <c:forEach items="${resultsMap}" var="symptomMap">
-                <c:set var="flag" value="false"></c:set>
-            <c:forEach items="${symptomMap.value}" var="careResults">
-        <tr>
-            <td class="subcategory-name">
-                <c:if test="${flag eq false}">
-                    <b>${symptomMap.key.term}</b>
-                    <c:set var="flag" value="true"></c:set>
-                </c:if>
-            </td>
-            <td class="actual-question">
-                    ${fn:toUpperCase(careResults.key.proCtcQuestionType.displayName)}
-            </td>
-            <c:forEach items="${careResults.value}" var="value">
-                <td class="data displayOrder${value.displayOrder}">
-                        ${value.value}
+    <div id="careResultsTable">
+        <table class="widget" cellspacing="0">
+            <col/>
+            <tr>
+                <td class="header-top">
+                    Symptom
                 </td>
+                <td class="header-top">
+                    Attribute
+                    <img alt="Help" src="/proctcae/images/q.gif"
+                         onclick="$('attribute-help-content').style.display='inline'"/>
+                </td>
+                <c:forEach items="${dates}" var="date">
+
+                <td class="header-top">
+                        ${date}
+                        <%--<fmt:formatDate value="${date}" pattern="MM/dd/yy"/>--%>
+                </td>
+
+                </c:forEach>
+                <c:forEach items="${resultsMap}" var="symptomMap">
+                    <c:set var="flag" value="false"></c:set>
+                <c:forEach items="${symptomMap.value}" var="careResults">
+            <tr>
+                <td class="subcategory-name">
+                    <c:if test="${flag eq false}">
+                        <b>${symptomMap.key.term}</b>
+                        <c:set var="flag" value="true"></c:set>
+                    </c:if>
+                </td>
+                <td class="actual-question">
+                        ${fn:toUpperCase(careResults.key.proCtcQuestionType.displayName)}
+                </td>
+                <c:forEach items="${careResults.value}" var="value">
+                    <td class="data displayOrder${value.displayOrder}">
+                            ${value.value}
+                    </td>
+                </c:forEach>
+            </tr>
             </c:forEach>
-        </tr>
-        </c:forEach>
-        </c:forEach>
-    </table>
+            </c:forEach>
+        </table>
 
-</div>
-<div id="careResultsGraph" style="display:none">
-    <a href="javascript:getTableView()">Switch to tabular view</a>
+    </div>
+    <div id="careResultsGraph" style="display:none">
+        <a href="javascript:getTableView()">Switch to tabular view</a>
 
-    <table class="widget" cellspacing="0" width="100%">
-        <tr>
-            <td class="subcategory-name">
-                <c:forEach items="${resultsMap}" var="symptomMap">
-                    <a href="javascript:getChart('${symptomMap.key.id}')"><b>${symptomMap.key.term}</b></a>
-                    <br/>
-                </c:forEach>
-            </td>
-            <td>
-                <c:forEach items="${resultsMap}" var="symptomMap">
-                    <div id="div_questiontype_${symptomMap.key.id}" name="div_questiontype"
-                         style="display:none">
-                        <c:forEach items="${symptomMap.value}" var="careResults">
-                            <input type="checkbox" checked="true" name="questiontype_${symptomMap.key.id}"
-                                   value="${careResults.key.proCtcQuestionType.displayName}"
-                                   onclick="updateChart(this,'${symptomMap.key.id}');">${careResults.key.proCtcQuestionType.displayName}
-                            &nbsp;
-                        </c:forEach>
-                    </div>
-                </c:forEach>
-                <iframe id="graph" height="500" width="600" frameborder="0" scrolling="auto"></iframe>
-                <table class="widget" cellspacing="0">
-                    <tr>
-                        <td class="header-top"></td>
-                        <td class="header-top">0</td>
-                        <td class="header-top">1</td>
-                        <td class="header-top">2</td>
-                        <td class="header-top">3</td>
-                        <td class="header-top">4</td>
-                    </tr>
-                    <c:forEach items="${questionTypes}" var="questionType">
-                        <tr>
-                            <td class="header-top">
-                                    ${questionType}
-                            </td>
-                            <c:forEach items="${questionType.validValues}" var="validValue">
-                                <td class="subcategory-name">
-                                        ${validValue}
-                                </td>
-                            </c:forEach>
-                        </tr>
-
+        <table class="widget" cellspacing="0" width="100%">
+            <tr>
+                <td class="subcategory-name">
+                    <c:forEach items="${resultsMap}" var="symptomMap">
+                        <a href="javascript:getChart('${symptomMap.key.id}')"><b>${symptomMap.key.term}</b></a>
+                        <br/>
                     </c:forEach>
-                </table>
-            </td>
-        </tr>
-    </table>
-</div>
+                </td>
+                <td>
+                    <c:forEach items="${resultsMap}" var="symptomMap">
+                        <div id="div_questiontype_${symptomMap.key.id}" name="div_questiontype"
+                             style="display:none">
+                            <c:forEach items="${symptomMap.value}" var="careResults">
+                                <input type="checkbox" checked="true" name="questiontype_${symptomMap.key.id}"
+                                       value="${careResults.key.proCtcQuestionType.displayName}"
+                                       onclick="updateChart(this,'${symptomMap.key.id}');">${careResults.key.proCtcQuestionType.displayName}
+                                &nbsp;
+                            </c:forEach>
+                        </div>
+                    </c:forEach>
+                    <iframe id="graph" height="500" width="600" frameborder="0" scrolling="auto"></iframe>
+                    <table class="widget" cellspacing="0">
+                        <tr>
+                            <td class="header-top"></td>
+                            <td class="header-top">0</td>
+                            <td class="header-top">1</td>
+                            <td class="header-top">2</td>
+                            <td class="header-top">3</td>
+                            <td class="header-top">4</td>
+                        </tr>
+                        <c:forEach items="${questionTypes}" var="questionType">
+                            <tr>
+                                <td class="header-top">
+                                        ${questionType}
+                                </td>
+                                <c:forEach items="${questionType.validValues}" var="validValue">
+                                    <td class="subcategory-name">
+                                            ${validValue}
+                                    </td>
+                                </c:forEach>
+                            </tr>
+
+                        </c:forEach>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
 </chrome:box>
 </body>
 </html>

@@ -83,8 +83,13 @@ public class ParticipantCarePdfView extends AbstractPdfView {
                 cell = new PdfPCell(new Paragraph(proCtcTerm.getTerm()));
                 cell.setBackgroundColor(Color.lightGray);
                 table.addCell(cell);
+                boolean first = true;
                 HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> questionMap = results.get(proCtcTerm);
                 for (ProCtcQuestion proCtcQuestion : questionMap.keySet()) {
+                    if (!first) {
+                        table.addCell("");
+                    }
+                    first = false;
                     cell = new PdfPCell(new Paragraph(proCtcQuestion.getProCtcQuestionType().getDisplayName()));
                     cell.setBackgroundColor(new Color(161, 218, 215));
                     table.addCell(cell);
@@ -94,8 +99,8 @@ public class ParticipantCarePdfView extends AbstractPdfView {
                         int absIndex = currentIteration * numOfMaxColsInTable + k;
                         table.addCell(((ProCtcValidValue) validValuesArr[absIndex]).getValue());
                     }
-                    table.addCell("");
                 }
+
             }
             document.add(table);
             document.add(new Paragraph(" "));

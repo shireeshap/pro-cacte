@@ -45,7 +45,7 @@ public abstract class AbstractChartGenerator {
         this.title = title;
         this.showPercentage = showPercentage;
         this.total = total;
-    }                                                                               
+    }
 
     protected abstract CategoryDataset createDataSet(Object results);
 
@@ -53,7 +53,7 @@ public abstract class AbstractChartGenerator {
         return createChart(createDataSet(results));
     }
 
-    private JFreeChart createChart(CategoryDataset dataset) {
+    protected JFreeChart createChart(CategoryDataset dataset) {
         JFreeChart chart = ChartFactory.createBarChart3D(
                 title,                      // chart title
                 domainAxisLabel,           // domain axis label
@@ -65,6 +65,13 @@ public abstract class AbstractChartGenerator {
                 false                       // URLs?
         );
 
+        formatChart(dataset, chart);
+
+        return chart;
+
+    }
+
+    protected void formatChart(CategoryDataset dataset, JFreeChart chart) {
         chart.setBackgroundPaint(Color.white);
 
         CategoryPlot plot = chart.getCategoryPlot();
@@ -78,18 +85,15 @@ public abstract class AbstractChartGenerator {
         renderer.setDrawBarOutline(false);
         renderer.setItemMargin(0.05);
         LabelGenerator lg = new LabelGenerator();
-        ItemLabelPosition itemLabelPosition = new ItemLabelPosition(ItemLabelAnchor.INSIDE12, TextAnchor.CENTER_RIGHT, TextAnchor.CENTER_RIGHT, -Math.PI / 2.0);
+        ItemLabelPosition itemLabelPosition = new ItemLabelPosition(ItemLabelAnchor.CENTER, TextAnchor.CENTER, TextAnchor.CENTER_RIGHT, -Math.PI / 2.0);
         for (int i = 0; i < dataset.getRowCount(); i++) {
             renderer.setSeriesItemLabelGenerator(i, lg);
             renderer.setSeriesItemLabelsVisible(i, true);
-            renderer.setSeriesItemLabelFont(i,new Font(null,0,14));
+            renderer.setSeriesItemLabelFont(i, new Font(null, Font.BOLD, 12));
             renderer.setSeriesItemLabelPaint(i, Color.BLACK);
             renderer.setSeriesPositiveItemLabelPosition(i, itemLabelPosition);
             renderer.setSeriesItemURLGenerator(i, new URLGenerator());
         }
-
-        return chart;
-
     }
 
     class LabelGenerator extends AbstractCategoryItemLabelGenerator
@@ -102,9 +106,16 @@ public abstract class AbstractChartGenerator {
         public String generateLabel(CategoryDataset dataset, int series, int category) {
             Number value = dataset.getValue(series, category);
             DecimalFormat df = new DecimalFormat("0.0");
-            String label = df.format(value);
+            String label = value.toString();
+            if (!(value instanceof Integer)) {
+                label = df.format(value);
+            }
             if (showPercentage) {
-                label += " (" + df.format((value.doubleValue() / total) * 100) + "%)";
+                if (total > -1) {
+                    label += " (" + df.format((value.doubleValue() / total) * 100) + "%)";
+                } else {
+                    label = value + "%";
+                }
             }
             return label;
         }

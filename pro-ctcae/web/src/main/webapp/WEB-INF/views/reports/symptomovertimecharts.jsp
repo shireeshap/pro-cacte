@@ -38,6 +38,15 @@
         <img src="../../servlet/DisplayChart?filename=${worstResponseChartFileName}" width=700 height=400 border=0
              usemap="#${worstResponseChartFileName}"/>
     </div>
-    ${allResponseChartImageMap}
+    <br/>
+    ${stackedBarChartImageMap}
+    <%--<chrome:division title="Average Participant Reported Responses vs. Time for ${symptom} symptom ( Worst responses)"/>--%>
+    <chrome:division title=""/>
+    <br/>
+
+    <div align="center">
+        <img src="../../servlet/DisplayChart?filename=${stackedBarChartFileName}" width=700 height=400 border=0
+             usemap="#${stackedBarChartFileName}"/>
+    </div>
     <br/>
 </chrome:box>

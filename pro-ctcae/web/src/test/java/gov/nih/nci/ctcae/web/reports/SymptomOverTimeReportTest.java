@@ -33,14 +33,15 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         controller.setGenericRepository(genericRepository);
         request.setParameter("crfId", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());
-        request.setParameter("attributes", ",Severity,Frequency");
-        request.setParameter("group", "week");
+        request.setParameter("attributes", ",Severity");
+        request.setParameter("group", "cycle");
         request.setMethod("GET");
 
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
-//        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
-//        showCharts( worstResponseChart);
+        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
+        JFreeChart stackedBarChart = (JFreeChart) m.get("stackedBarChart");
+        showCharts(worstResponseChart, stackedBarChart);
     }
 
     public void testReportDetailsController() throws Exception {
@@ -64,12 +65,15 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         ModelAndView modelAndView = controller.handleRequest(request, response);
     }
 
-    private void showCharts( JFreeChart worstResponseChart) throws InterruptedException {
+    private void showCharts(JFreeChart worstResponseChart, JFreeChart stackedBarChart) throws InterruptedException {
         ChartPanel chartPanel1 = new ChartPanel(worstResponseChart, false);
         chartPanel1.setPreferredSize(new Dimension(500, 270));
+        ChartPanel chartPanel2 = new ChartPanel(stackedBarChart, false);
+        chartPanel2.setPreferredSize(new Dimension(500, 270));
         ApplicationFrame frame = new ApplicationFrame("MyFrame");
         frame.setLayout(new GridLayout(1, 1));
         frame.add(chartPanel1);
+        frame.add(chartPanel2);
         frame.pack();
         RefineryUtilities.centerFrameOnScreen(frame);
         frame.setVisible(true);
