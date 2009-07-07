@@ -181,7 +181,7 @@ public class Participant extends Person {
     public String getDisplayName() {
         StringBuilder name = new StringBuilder();
         if (!StringUtils.isBlank(assignedIdentifier)) {
-            name.append("(").append(assignedIdentifier).append(")");
+            name.append("(").append(assignedIdentifier).append(") ");
         }
         boolean hasLastName = getLastName() != null;
         if (getFirstName() != null) {

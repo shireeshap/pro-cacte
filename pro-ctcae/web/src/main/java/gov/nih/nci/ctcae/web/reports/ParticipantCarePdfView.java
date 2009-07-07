@@ -74,7 +74,7 @@ public class ParticipantCarePdfView extends AbstractPdfView {
 
             for (int j = 0; j < numOfColsInCurrentTable; j++) {
                 int absIndex = currentIteration * numOfMaxColsInTable + j;
-                cell = new PdfPCell(new Paragraph(DateUtils.format((Date) datesArr[absIndex])));
+                cell = new PdfPCell(new Paragraph((String) datesArr[absIndex]));
                 cell.setBackgroundColor(Color.lightGray);
                 table.addCell(cell);
             }
