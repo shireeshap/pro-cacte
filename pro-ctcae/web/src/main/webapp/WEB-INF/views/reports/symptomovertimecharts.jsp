@@ -27,7 +27,7 @@
                 </td>
             </c:if>
         </tr>
-    </table>
+    </table>                                             
 
     </div>
     ${worstResponseChartImageMap}
