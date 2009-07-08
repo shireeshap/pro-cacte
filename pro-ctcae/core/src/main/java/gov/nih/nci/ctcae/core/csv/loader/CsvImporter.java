@@ -43,8 +43,8 @@ public class CsvImporter {
             String questionText = reader.get(QUESTION_TEXT);
             String proCtcValidValues = reader.get(PRO_CTC_VALID_VALUES);
 
-            if(questionType.toLowerCase().equals("present")){
-            questionType = "Present/Not present";
+            if (questionType.toLowerCase().equals("present")) {
+                questionType = "Present/Not present";
             }
 
             csvLine.setProctcTerm(proCtcTerm);
@@ -103,7 +103,15 @@ public class CsvImporter {
                 while (st1.hasMoreTokens()) {
                     ProCtcValidValue proCtcValidValue = new ProCtcValidValue();
                     proCtcValidValue.setValue(st1.nextToken());
-                    proCtcValidValue.setDisplayOrder(j);
+                    if (proCtcQuestion.getProCtcQuestionType().equals(ProCtcQuestionType.PRESENT)) {
+                        if (proCtcValidValue.getValue().equals("Yes")) {
+                            proCtcValidValue.setDisplayOrder(1);
+                        } else {
+                            proCtcValidValue.setDisplayOrder(0);
+                        }
+                    } else {
+                        proCtcValidValue.setDisplayOrder(j);
+                    }
                     j++;
                     proCtcQuestion.addValidValue(proCtcValidValue);
                 }
