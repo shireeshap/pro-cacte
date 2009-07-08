@@ -8,6 +8,7 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.CRF;
 
 import java.util.Map;
+import java.util.HashSet;
 import java.awt.*;
 
 import org.jfree.chart.ChartPanel;
@@ -33,15 +34,14 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         controller.setGenericRepository(genericRepository);
         request.setParameter("crfId", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());
-        request.setParameter("attributes", ",Severity");
+        request.setParameter("attributes", ",Severity,Frequency");
         request.setParameter("group", "cycle");
         request.setMethod("GET");
 
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
         JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
-        JFreeChart stackedBarChart = (JFreeChart) m.get("stackedBarChart");
-        showCharts(worstResponseChart, stackedBarChart);
+        showCharts(worstResponseChart, m);
     }
 
     public void testReportDetailsController() throws Exception {
@@ -65,15 +65,21 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         ModelAndView modelAndView = controller.handleRequest(request, response);
     }
 
-    private void showCharts(JFreeChart worstResponseChart, JFreeChart stackedBarChart) throws InterruptedException {
-        ChartPanel chartPanel1 = new ChartPanel(worstResponseChart, false);
-        chartPanel1.setPreferredSize(new Dimension(500, 270));
-        ChartPanel chartPanel2 = new ChartPanel(stackedBarChart, false);
-        chartPanel2.setPreferredSize(new Dimension(500, 270));
+    private void showCharts(JFreeChart worstResponseChart, Map m) throws InterruptedException {
         ApplicationFrame frame = new ApplicationFrame("MyFrame");
         frame.setLayout(new GridLayout(1, 1));
+
+        ChartPanel chartPanel1 = new ChartPanel(worstResponseChart, false);
+        chartPanel1.setPreferredSize(new Dimension(500, 270));
         frame.add(chartPanel1);
-        frame.add(chartPanel2);
+
+        HashSet<String> a = (HashSet<String>) m.get("selectedAttributes");
+        for (String b : a) {
+            JFreeChart c = (JFreeChart) m.get(b + "StackedBarChart");
+            ChartPanel chartPanel = new ChartPanel(c, false);
+            chartPanel.setPreferredSize(new Dimension(500, 270));
+            frame.add(chartPanel);
+        }
         frame.pack();
         RefineryUtilities.centerFrameOnScreen(frame);
         frame.setVisible(true);

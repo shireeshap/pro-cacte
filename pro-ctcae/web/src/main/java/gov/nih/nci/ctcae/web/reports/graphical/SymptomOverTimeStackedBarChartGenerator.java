@@ -3,18 +3,26 @@ package gov.nih.nci.ctcae.web.reports.graphical;
 import org.apache.commons.lang.StringUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.LegendItem;
+import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.SubCategoryAxis;
 import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.Plot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.GroupedStackedBarRenderer;
 import org.jfree.chart.urls.CategoryURLGenerator;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.KeyToGroupMap;
 import org.jfree.ui.TextAnchor;
+import org.jfree.ui.GradientPaintTransformType;
+import org.jfree.ui.StandardGradientPaintTransformer;
 
 import java.awt.*;
 import java.awt.List;
@@ -30,7 +38,7 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
  */
 public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenerator {
     public SymptomOverTimeStackedBarChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, String queryString) {
-        super(title, domainAxisLabel, rangeAxisLabel,true,-1, queryString + "&type=WOR");
+        super(title, domainAxisLabel, rangeAxisLabel, true, -1, queryString + "&type=WOR");
     }
 
     public CategoryDataset createDataSet(Object results) {
@@ -64,7 +72,10 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
                 true,                         // tooltips
                 false                         // urls
         );
+
         formatChart(dataset, chart);
         return chart;
     }
+
+
 }

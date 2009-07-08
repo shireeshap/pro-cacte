@@ -31,6 +31,11 @@ public abstract class AbstractReportQuery extends AbstractQuery {
         setParameterList("attributesList", attributes);
     }
 
+    public void filterBySingleAttribute(final ProCtcQuestionType attribute) {
+        andWhere("spci.proCtcValidValue.proCtcQuestion.proCtcQuestionType =  :attribute");
+        setParameter("attribute", attribute);
+    }
+
     public void filterByScheduleStartDate(Date startDate, Date endDate) {
         andWhere("spci.studyParticipantCrfSchedule.startDate between :startDate and :endDate");
         setParameter("startDate", startDate);
@@ -46,10 +51,12 @@ public abstract class AbstractReportQuery extends AbstractQuery {
         andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.studySite.id=:studySiteId");
         setParameter("studySiteId", id);
     }
+
     public void filterByParticipantId(Integer id) {
         andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id=:participantId");
         setParameter("participantId", id);
     }
+
     public void filterByResponse(Integer response) {
         andWhere("spci.proCtcValidValue.displayOrder=:response");
         setParameter("response", response);

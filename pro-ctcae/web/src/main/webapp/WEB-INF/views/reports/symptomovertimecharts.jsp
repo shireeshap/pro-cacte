@@ -39,14 +39,40 @@
              usemap="#${worstResponseChartFileName}"/>
     </div>
     <br/>
-    ${stackedBarChartImageMap}
-    <%--<chrome:division title="Average Participant Reported Responses vs. Time for ${symptom} symptom ( Worst responses)"/>--%>
-    <chrome:division title=" "/>
-    <br/>
+    <c:forEach items="${selectedAttributes}" var="attribute">
+        <chrome:division title="${attribute}"/>
+        <br/>
+        <div align="center">
+            <c:choose>
+                <c:when test="${attribute eq 'Frequency'}">
+                    <img src="../../servlet/DisplayChart?filename=${FrequencyStackedBarChartFileName}" width="700"
+                         height="400"
+                         border="0"/>
+                </c:when>
+                <c:when test="${attribute eq 'Severity'}">
+                    <img src="../../servlet/DisplayChart?filename=${SeverityStackedBarChartFileName}" width="700"
+                         height="400"
+                         border="0"/>
+                </c:when>
+                <c:when test="${attribute eq 'Interference'}">
+                    <img src="../../servlet/DisplayChart?filename=${InterferenceStackedBarChartFileName}" width="700"
+                         height="400"
+                         border="0"/>
+                </c:when>
+                <c:when test="${attribute eq 'Present/Not present'}">
+                    <img src="../../servlet/DisplayChart?filename=${PresentNotpresentStackedBarChartFileName}"
+                         width="700" height="400"
+                         border="0"/>
+                </c:when>
+                <c:when test="${attribute eq 'Amount'}">
+                    <img src="../../servlet/DisplayChart?filename=${AmountStackedBarChartFileName}" width="700"
+                         height="400"
+                         border="0"/>
+                </c:when>
+            </c:choose>
+                <%--usemap="#${stackedBarChartFileName}"/>--%>
+        </div>
+        <br/>
 
-    <div align="center">
-        <img src="../../servlet/DisplayChart?filename=${stackedBarChartFileName}" width=700 height=400 border=0
-             usemap="#${stackedBarChartFileName}"/>
-    </div>
-    <br/>
+    </c:forEach>
 </chrome:box>

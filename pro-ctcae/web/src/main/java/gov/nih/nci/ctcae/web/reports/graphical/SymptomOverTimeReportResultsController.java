@@ -45,26 +45,36 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
             allAttributes.add(question.getProCtcQuestionType().getDisplayName());
         }
 
+        ModelAndView modelAndView = new ModelAndView("reports/symptomovertimecharts");
+
         SymptomOverTimeWorstResponsesQuery query = new SymptomOverTimeWorstResponsesQuery(group);
         parseRequestParametersAndFormQuery(request, query);
         List worstResponses = genericRepository.find(query);
-
         JFreeChart worstResponseChart = getWorstResponseChart(worstResponses, group, totalParticipants.intValue(), selectedAttributes, request.getQueryString());
-        JFreeChart stackedBarChart = getStackedBarChart(worstResponses, group, request.getQueryString());
-
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
         String worstReponseFileName = ServletUtilities.saveChartAsPNG(worstResponseChart, 700, 400, info, null);
         String worstReponseImageMap = ChartUtilities.getImageMap(worstReponseFileName, info);
-        String stackedBarFileName = ServletUtilities.saveChartAsPNG(stackedBarChart, 700, 400, info, null);
-        String stackedBarImageMap = ChartUtilities.getImageMap(stackedBarFileName, info);
-
-        ModelAndView modelAndView = new ModelAndView("reports/symptomovertimecharts");
         modelAndView.addObject("worstResponseChartFileName", worstReponseFileName);
         modelAndView.addObject("worstResponseChartImageMap", worstReponseImageMap);
         modelAndView.addObject("worstResponseChart", worstResponseChart);
-        modelAndView.addObject("stackedBarChartFileName", stackedBarFileName);
-        modelAndView.addObject("stackedBarChartImageMap", stackedBarImageMap);
-        modelAndView.addObject("stackedBarChart", stackedBarChart);
+
+
+        for (String attribute : selectedAttributes) {
+            query = new SymptomOverTimeWorstResponsesQuery(group);
+            parseRequestParametersAndFormQuery(request, query);
+            query.filterBySingleAttribute(ProCtcQuestionType.getByDisplayName(attribute));
+            worstResponses = genericRepository.find(query);
+            JFreeChart stackedBarChart = getStackedBarChart(worstResponses, group, request.getQueryString());
+
+            String stackedBarFileName = ServletUtilities.saveChartAsPNG(stackedBarChart, 700, 400, info, null);
+            String stackedBarImageMap = ChartUtilities.getImageMap(stackedBarFileName, info);
+
+            String append = StringUtils.replace(attribute, " ", "");
+            append = StringUtils.replace(append,"/","");
+            modelAndView.addObject(append + "StackedBarChartFileName", stackedBarFileName);
+            modelAndView.addObject(append + "StackedBarChartImageMap", stackedBarImageMap);
+            modelAndView.addObject(append + "StackedBarChart", stackedBarChart);
+        }
         modelAndView.addObject("group", group);
         modelAndView.addObject("allAttributes", allAttributes);
         modelAndView.addObject("selectedAttributes", selectedAttributes);
@@ -81,7 +91,6 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
             Integer grade = (Integer) a[0];
             String period = getNewPeriod(a[3], smallest, group);
 //            String attribute = ((ProCtcQuestionType) a[1]).getDisplayName();
-
             TreeMap<Integer, Integer> map = results.get(period);
             if (map == null) {
                 map = new TreeMap<Integer, Integer>();
@@ -94,6 +103,7 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
             count++;
             map.put(grade, count);
         }
+
         String title = "";
         String rangeAxisLabel = group + " [N]";
         String domainAxisLabel = "%";
