@@ -26,6 +26,11 @@
         border-top: 1px black solid;
     }
 
+    table.report td.header{
+        background-color: #ccffff;
+        font-weight:bold;
+    }
+
     table.report td.left {
         text-align: left;
         padding-right: 5px;
@@ -36,8 +41,8 @@
         <tr>
             <td class="right">Present/Not Present:</td>
             <td></td>
-            <td>Yes</td>
             <td>No</td>
+            <td>Yes</td>
             <td>--</td>
             <td>--</td>
             <td>--</td>
@@ -52,10 +57,10 @@
             </tr>
         </c:forEach>
         <tr>
-            <td class="left bottom">Item</td>
-            <td class="bottom">N</td>
+            <td class="left bottom header">Item</td>
+            <td class="bottom header">N</td>
             <c:forEach begin="0" end="4" step="1">
-                <td class="bottom">N(%)</td>
+                <td class="bottom header">N(%)</td>
             </c:forEach>
         </tr>
         <c:forEach items="${results}" var="symptom">
