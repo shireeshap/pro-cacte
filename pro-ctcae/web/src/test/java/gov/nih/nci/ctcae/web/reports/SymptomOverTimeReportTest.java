@@ -41,7 +41,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
         JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
-        showCharts(worstResponseChart, m);
+//        showCharts(worstResponseChart, m);
     }
 
     public void testReportDetailsController() throws Exception {
