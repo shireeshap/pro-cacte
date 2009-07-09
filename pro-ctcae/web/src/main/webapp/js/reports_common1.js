@@ -244,7 +244,7 @@ function updateChart(chkbox) {
     reportResults(selectedAttributes);
 }
 
-function getQueryString(attributes) {
+function getQueryString(attributes, igroup) {
     if (typeof(attributes) == 'undefined') {
         attributes = '';
     }
@@ -256,10 +256,13 @@ function getQueryString(attributes) {
     }
     queryString += "&studySite=" + $('studySite').value;
     queryString += "&attributes=" + attributes;
-    if ($('groupby') == null) {
-        var group = 'cycle';
+    var group = 'cycle';
+    if (typeof(igroup) == 'undefined' || igroup == '') {
+        if ($('groupby') != null) {
+            group = $('groupby').value.toLowerCase();
+        }
     } else {
-        var group = $('groupby').value.toLowerCase();
+        group = igroup;
     }
     queryString += "&group=" + group;
     return queryString;
@@ -286,4 +289,18 @@ function hideItems(Id) {
         items[0].remove();
     }
 }
+
+function showDetails(params) {
+    showIndicator();
+    var request = new Ajax.Request("reportDetails", {
+        parameters:params,
+        onComplete:function(transport) {
+            $('reportInnerDiv').innerHTML = transport.responseText;
+            hideIndicator();
+        },
+        method:'get'
+    }
+            )
+}
+
 

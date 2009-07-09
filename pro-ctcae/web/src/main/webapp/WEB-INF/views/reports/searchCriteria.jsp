@@ -13,26 +13,13 @@
     <tags:includePrototypeWindow/>
     <tags:includeScriptaculous/>
     <script type="text/javascript">
-        function showDetails(params) {
-            showIndicator();
-            var request = new Ajax.Request("reportDetails", {
-                parameters:params,
-                onComplete:function(transport) {
-                    $('reportInnerDiv').innerHTML = transport.responseText;
-                    hideIndicator();
-                },
-                method:'get'
-            }
-                    )
-        }
-
-        function reportResults(attributes) {
+        function reportResults(attributes,group) {
             if (!performValidations()) {
                 return;
             }
             showIndicator();
             var request = new Ajax.Request("${url}", {
-                parameters:getQueryString(attributes),
+                parameters:getQueryString(attributes,group),
                 onComplete:function(transport) {
                     showResults(transport);
                     hideIndicator();
