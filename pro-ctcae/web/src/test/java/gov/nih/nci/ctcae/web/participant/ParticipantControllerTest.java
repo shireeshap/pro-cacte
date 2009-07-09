@@ -121,7 +121,7 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
         List<StudyOrganizationClinicalStaff> clinicalStaffList = csaf.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole("Josh", spa.getStudySite().getId(), "TREATING_PHYSICIAN");
         spa.getTreatingPhysician().setStudyOrganizationClinicalStaff(studyOrganizationClinicalStaffRepository.findById(clinicalStaffList.get(0).getId()));
 
-        clinicalStaffList = csaf.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole("Dian", spa.getStudySite().getId(), "NURSE");
+        clinicalStaffList = csaf.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole("Josh", spa.getStudySite().getId(), "NURSE");
         spa.getResearchNurse().setStudyOrganizationClinicalStaff(studyOrganizationClinicalStaffRepository.findById(clinicalStaffList.get(0).getId()));
 
         clinicalStaffList = csaf.matchStudyOrganizationClinicalStaffByStudyOrganizationIdAndRole("%", spa.getStudySite().getId(), "NURSE|TREATING_PHYSICIAN");
