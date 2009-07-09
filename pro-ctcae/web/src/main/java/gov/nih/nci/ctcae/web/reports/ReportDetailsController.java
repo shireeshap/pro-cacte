@@ -47,12 +47,15 @@ public class ReportDetailsController extends AbstractReportResultsController {
         }
 
         String title = getTitle(request);
-//        title += " (" + col + ")";
+        String period = request.getParameter("period");
+        if (!StringUtils.isBlank(period)) {
+            title += " (" + period + ")";
+        }
 
         Map model = new HashMap();
         model.put("results", results);
         model.put("att", request.getParameter("att"));
-        model.put("period", request.getParameter("period"));
+        model.put("period", period);
         model.put("grade", request.getParameter("grade"));
         model.put("sum", request.getParameter("sum"));
         model.put("title", title);
