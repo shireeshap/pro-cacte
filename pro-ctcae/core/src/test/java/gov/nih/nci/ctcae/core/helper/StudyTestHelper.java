@@ -175,9 +175,11 @@ public class StudyTestHelper {
                 ss = temp;
             }
         }
-        for (StudyOrganizationClinicalStaff socs : ss.getStudyOrganizationClinicalStaffs()) {
-            if (socs.getRole().equals(role)) {
-                return socs.getOrganizationClinicalStaff().getClinicalStaff();
+        if (ss != null) {
+            for (StudyOrganizationClinicalStaff socs : ss.getStudyOrganizationClinicalStaffs()) {
+                if (socs.getRole().equals(role)) {
+                    return socs.getOrganizationClinicalStaff().getClinicalStaff();
+                }
             }
         }
         return null;
@@ -190,6 +192,6 @@ public class StudyTestHelper {
         thirdTab_OverallStudyStaff(study2);
         fourthTab_SiteClinicalStaff();
         addOrUpdateStudyOrganizationClinicalStaff("DOPLAND", Role.PI, study2.getLeadStudySite());
-        study2 = studyRepository.save(study2);
+        studyRepository.save(study2);
     }
 }

@@ -5,8 +5,6 @@ import gov.nih.nci.ctcae.core.query.reports.AbstractReportQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
-import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
-import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -64,6 +62,16 @@ public abstract class AbstractReportResultsController extends AbstractController
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
+    }
+
+    protected String getTitle(HttpServletRequest request) {
+        StringBuffer title = new StringBuffer();
+        int symptomId = Integer.parseInt(request.getParameter("symptom"));
+        ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, symptomId);
+
+        String attribute = request.getParameter("ser");
+        title.append("Worst responses for " + proCtcTerm.getTerm() + " " + attribute);
+        return title.toString();
     }
 
 }

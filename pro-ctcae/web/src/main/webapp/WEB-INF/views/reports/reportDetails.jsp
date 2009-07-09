@@ -12,57 +12,35 @@
 </head>
 <body>
 <chrome:box title="Report">
-    <tags:button value="Show chart" color="blue" size="small" markupWithTag="a"
-                 onclick="reportResults();"/>
+    <a href="javascript:reportResults();" style="margin-left:2em;" class="link">Back to chart</a>
     <br/>
+    <br/>
+    <chrome:division title="${title}"/>
     <table class="widget" cellspacing="0" align="center">
-        <tr>
-            <td class="header-top"></td>
-            <td class="header-top">
-                Participant
-            </td>
-            <td class="header-top">
-                Response date
-            </td>
-            <td class="header-top">
-                Response
-            </td>
-            <td class="header-top">
-                Study site
-            </td>
-            <c:forEach items="${results}" var="studyParticipantCrfItem" varStatus="status">
-                <c:set var="schedule" value="${studyParticipantCrfItem.studyParticipantCrfSchedule}"/>
-                <c:set var="participant"
-                       value="${schedule.studyParticipantCrf.studyParticipantAssignment.participant}"/>
-        <tr id="details_row_${status.index}" onmouseover="highlightrow('${status.index}');"
-            onmouseout="removehighlight('${status.index}');">
-            <td align="right">
-                <div id="img_${status.index}" class="indIcon"
-                     onclick="showPopUpMenu('${status.index}','${participant.id}','${schedule.id}',-105,-130)">
-                    <img src="../../images/menu.png" alt=""/>
-                </div>
-            </td>
-            <td class="data">
-                    ${participant.displayName}
-            </td>
-            <td class="data">
-                <tags:formatDate value="${schedule.startDate}"/>
-            </td>
-            <td class="data">
-                    ${studyParticipantCrfItem.proCtcValidValue.value}
-            </td>
-            <td class="data">
-                    ${schedule.studyParticipantCrf.studyParticipantAssignment.studySite.displayName}
-            </td>
-        </tr>
+        <c:forEach items="${results}" var="row">
+            <c:set var="participant" value="${row.key}"/>
+            <tr id="items_row_${participant.id}">
+                <td style="padding-left:2em;width:1%">
+                    <a href="javascript:showItems('${participant.id}','${row.value}','${ser}','${group}')">
+                        <img id="pShowImage_${participant.id}" src="../../images/arrow-right.png" style=""/>
+                    </a>
+                    <a href="javascript:hideItems('${participant.id}')">
+                        <img id="pHideImage_${participant.id}" src="../../images/arrow-down.png" style="display:none"/>
+                    </a>
+                </td>
+                <td style="text-align:left;padding-left:2em;white-space:nowrap">
+                        ${participant.displayName}
+                </td>
+                <td colspan="4"/>
+            </tr>
         </c:forEach>
     </table>
     <br/>
 </chrome:box>
-<div id="dropnoteDiv" class="ddnotediv shadowB" style="display:none;left:0;top:0">
-    <div id="dropnoteinnerDiv" class="shadowr">
-    </div>
-</div>
+<%--<div id="dropnoteDiv" class="ddnotediv shadowB" style="display:none;left:0;top:0">--%>
+<%--<div id="dropnoteinnerDiv" class="shadowr">--%>
+<%--</div>--%>
+<%--</div>--%>
 </body>
 </html>
 

@@ -30,7 +30,7 @@ public class SymptomSummaryReportQueryTest extends AbstractDependencyInjectionSp
 
 
     public void testDetailsQuery() throws Exception {
-        SymptomSummaryAllResponsesDetailsQuery query = new SymptomSummaryAllResponsesDetailsQuery();
+        StudyParticipantCrfItemQuery query = new StudyParticipantCrfItemQuery();
         query.filterBySymptomId(11);
 //        query.filterByAttributes(ProCtcQuestionType.SEVERITY);
         query.filterByScheduleStartDate(DateUtils.parseDate("05/10/2009"), DateUtils.parseDate("05/12/2009"));

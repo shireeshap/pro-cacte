@@ -61,4 +61,18 @@ public abstract class AbstractReportQuery extends AbstractQuery {
         andWhere("spci.proCtcValidValue.displayOrder=:response");
         setParameter("response", response);
     }
+
+    public void filterByPeriod(String periodType, int periodValue) {
+        if ("week".equals(periodType.toLowerCase())) {
+            andWhere("spci.studyParticipantCrfSchedule.weekInYear = :periodValue");
+        }
+        if ("month".equals(periodType.toLowerCase())) {
+            andWhere("spci.studyParticipantCrfSchedule.monthInYear = :periodValue");
+        }
+        if ("cycle".equals(periodType.toLowerCase())) {
+            andWhere("spci.studyParticipantCrfSchedule.cycleNumber = :periodValue");
+        }
+        setParameter("periodValue", periodValue);
+
+    }
 }

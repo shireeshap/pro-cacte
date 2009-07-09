@@ -1,8 +1,9 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeAllResponsesDetailsQuery;
-import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeWorstResponsesDetailsQuery;
+import gov.nih.nci.ctcae.core.query.WorstResponsesDetailsQuery;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
+import gov.nih.nci.ctcae.core.domain.Participant;
+import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.web.reports.graphical.AbstractReportResultsController;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,31 +22,38 @@ public class SymptomOverTimeReportDetailsController extends AbstractReportResult
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        HashMap<Integer, Integer> participants = new HashMap<Integer, Integer>();
+        HashMap<Participant, Integer> results = new HashMap<Participant, Integer>();
         String group = request.getParameter("group");
         if (StringUtils.isBlank(group)) {
-            group = "week";
+            group = "cycle";
         }
         String col = request.getParameter("col");
         Integer sum = Integer.valueOf(request.getParameter("sum"));
         Integer colInt = Integer.parseInt(col.substring(col.indexOf(' ') + 1)) + sum - 1;
-        List<StudyParticipantCrfItem> results = new ArrayList<StudyParticipantCrfItem>();
-        SymptomOverTimeWorstResponsesDetailsQuery query = new SymptomOverTimeWorstResponsesDetailsQuery(colInt, group);
+        WorstResponsesDetailsQuery query = new WorstResponsesDetailsQuery();
         parseRequestParametersAndFormQuery(request, query);
+        query.filterByPeriod(group, colInt);
         List list = genericRepository.find(query);
         for (Object o : list) {
             Object[] oArr = (Object[]) o;
-            SymptomOverTimeAllResponsesDetailsQuery temp = new SymptomOverTimeAllResponsesDetailsQuery(colInt, group);
-            parseRequestParametersAndFormQuery(request, temp);
-            temp.filterByParticipantId((Integer) oArr[1]);
-            temp.filterByResponse((Integer) oArr[0]);
-            List l = genericRepository.find(temp);
-            results.addAll(l);
+            int grade = (Integer) oArr[0];
+            int pId = (Integer) oArr[1];
+            participants.put(pId, grade);
         }
-
+        for (Integer pId : participants.keySet()) {
+            Integer grade = participants.get(pId);
+            Participant p = genericRepository.findById(Participant.class, pId);
+            results.put(p, grade);
+        }
+        String title = getTitle(request);
+        title += " (" + col + ")";
 
         Map model = new HashMap();
         model.put("results", results);
-        model.put("group", group);
+        model.put("ser", request.getParameter("ser"));
+        model.put("group", col);
+        model.put("title", title);
         return new ModelAndView("reports/reportDetails", model);
     }
 

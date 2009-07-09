@@ -263,4 +263,26 @@ function getQueryString(attributes) {
     queryString += "&group=" + group;
     return queryString;
 }
+function showItems(Id, grade, ser, group) {
+    var request = new Ajax.Request("/proctcae/pages/reports/getParticipantItems", {
+        parameters:getQueryString() + '&pid=' + Id + '&grade=' + grade + '&ser=' + ser + '&groupby=' + group,
+        onComplete:function(transport) {
+            var response = transport.responseText;
+            new Insertion.After('items_row_' + Id, response);
+            $('pShowImage_' + Id).hide();
+            $('pHideImage_' + Id).show();
+        },
+        method:'get'
+    }
+            )
+}
+function hideItems(Id) {
+    $('pShowImage_' + Id).show();
+    $('pHideImage_' + Id).hide();
+    var items = document.getElementsByName('childTableRow_' + Id);
+    var len = items.length;
+    for (var i = 0; i < len; i++) {
+        items[0].remove();
+    }
+}
 

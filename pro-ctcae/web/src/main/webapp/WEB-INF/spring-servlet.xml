@@ -388,6 +388,11 @@
           class="gov.nih.nci.ctcae.web.reports.StudyLevelReportExcelController">
     </bean>
 
+    <bean name="/reports/getParticipantItems" id="getParticipantCrfItemsController"
+          class="gov.nih.nci.ctcae.web.reports.GetParticipantCrfItemsController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+
     <!--<bean name="/reports/studyLevelReportPdf" id="studyLevelReportPdfController"-->
     <!--class="gov.nih.nci.ctcae.web.reports.StudyLevelReportPdfController">-->
     <!--</bean>-->

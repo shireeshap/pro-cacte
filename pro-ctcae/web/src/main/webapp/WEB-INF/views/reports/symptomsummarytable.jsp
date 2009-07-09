@@ -27,7 +27,7 @@
     }
 
     table.report td.header{
-        background-color: #ccffff;
+        background-color: #cccccc;
         font-weight:bold;
     }
 

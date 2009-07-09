@@ -1,19 +1,13 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.query.SymptomSummaryAllResponsesDetailsQuery;
-import gov.nih.nci.ctcae.core.query.SymptomSummaryWorstResponsesDetailsQuery;
-import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeWorstResponsesDetailsQuery;
-import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeAllResponsesDetailsQuery;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
+import gov.nih.nci.ctcae.core.query.WorstResponsesDetailsQuery;
+import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.web.reports.graphical.AbstractReportResultsController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * User: Harsh
@@ -25,26 +19,32 @@ public class SymptomSummaryReportDetailsController extends AbstractReportResults
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        List<StudyParticipantCrfItem> results = new ArrayList<StudyParticipantCrfItem>();
-        String type = request.getParameter("type");
+        HashMap<Integer, Integer> participants = new HashMap<Integer, Integer>();
+        HashMap<Participant, Integer> results = new HashMap<Participant, Integer>();
+
         Integer value = Integer.parseInt(request.getParameter("col"));
-        SymptomSummaryWorstResponsesDetailsQuery query = new SymptomSummaryWorstResponsesDetailsQuery();
+        WorstResponsesDetailsQuery query = new WorstResponsesDetailsQuery();
         parseRequestParametersAndFormQuery(request, query);
         List list = genericRepository.find(query);
         for (Object o : list) {
             Object[] oArr = (Object[]) o;
-            if (((Integer) oArr[0]).intValue() == value.intValue()) {
-                SymptomSummaryAllResponsesDetailsQuery temp = new SymptomSummaryAllResponsesDetailsQuery();
-                parseRequestParametersAndFormQuery(request, temp);
-                temp.filterByParticipantId((Integer) oArr[1]);
-                temp.filterByResponse((Integer) oArr[0]);
-                List l = genericRepository.find(temp);
-                results.addAll(l);
+            int grade = (Integer) oArr[0];
+            if (grade == value) {
+                int pId = (Integer) oArr[1];
+                participants.put(pId, grade);
             }
         }
+        for (Integer pId : participants.keySet()) {
+            Integer grade = participants.get(pId);
+            Participant p = genericRepository.findById(Participant.class, pId);
+            results.put(p, grade);
+        }
+
         Map model = new HashMap();
         model.put("results", results);
-        ModelAndView modelAndView = new ModelAndView("reports/reportDetails", model);
-        return modelAndView;
+        model.put("col", value);
+        model.put("ser", request.getParameter("ser"));
+        model.put("title", getTitle(request));
+        return new ModelAndView("reports/reportDetails", model);
     }
 }

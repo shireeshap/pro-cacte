@@ -9,6 +9,7 @@
     <tags:dwrJavascriptLink objects="crf"/>
     <tags:javascriptLink name="reports_common1"/>
     <tags:javascriptLink name="table_menu"/>
+    <tags:stylesheetLink name="table_menu"/>
     <tags:includePrototypeWindow/>
     <tags:includeScriptaculous/>
     <script type="text/javascript">
