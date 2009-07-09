@@ -15,7 +15,7 @@ public class SymptomOverTimeWorstResponsesQuery extends AbstractReportQuery {
         StringBuffer query = new StringBuffer();
         String append = "SELECT max(spci.proCtcValidValue.displayOrder), spci.crfPageItem.proCtcQuestion.proCtcQuestionType, spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id , ";
         String selectGroup = "'Week ' || spci.studyParticipantCrfSchedule.weekInYear ";
-        String middle = "from StudyParticipantCrfItem spci group by spci.proCtcValidValue.displayOrder,spci.crfPageItem.proCtcQuestion.proCtcQuestionType,spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id, ";
+        String middle = "from StudyParticipantCrfItem spci group by spci.crfPageItem.proCtcQuestion.proCtcQuestionType,spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id, ";
         String groupBy = "spci.studyParticipantCrfSchedule.weekInYear ";
         String orderBy = "order by spci.crfPageItem.proCtcQuestion.proCtcQuestionType, ";
         String orderBy2 = "spci.studyParticipantCrfSchedule.weekInYear ";

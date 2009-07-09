@@ -415,17 +415,12 @@
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
-    <bean name="/reports/symptomSummaryDetails" id="symptomSummaryReportDetailsController"
-          class="gov.nih.nci.ctcae.web.reports.SymptomSummaryReportDetailsController">
-        <property name="genericRepository" ref="genericRepository"/>
-    </bean>
-
     <bean name="/reports/symptomOverTime" id="symptomOverTimeReportResultsController"
           class="gov.nih.nci.ctcae.web.reports.graphical.SymptomOverTimeReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
-    <bean name="/reports/symptomOverTimeDetails" id="symptomOverTimeReportDetailsController"
-          class="gov.nih.nci.ctcae.web.reports.SymptomOverTimeReportDetailsController">
+    <bean name="/reports/reportDetails" id="symptomOverTimeReportDetailsController"
+          class="gov.nih.nci.ctcae.web.reports.ReportDetailsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
 

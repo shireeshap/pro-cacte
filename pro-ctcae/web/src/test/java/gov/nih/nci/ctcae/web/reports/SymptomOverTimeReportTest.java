@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
-import gov.nih.nci.ctcae.web.reports.graphical.SymptomSummaryReportResultsController;
 import gov.nih.nci.ctcae.web.reports.graphical.SymptomOverTimeReportResultsController;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.domain.Study;
@@ -32,7 +31,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
 
         SymptomOverTimeReportResultsController controller = new SymptomOverTimeReportResultsController();
         controller.setGenericRepository(genericRepository);
-        request.setParameter("crfId", crf.getId().toString());
+        request.setParameter("crf", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());
         request.setParameter("attributes", ",Severity,Frequency");
         request.setParameter("group", "cycle");
@@ -50,7 +49,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         CRF crf = study.getCrfs().get(0);
         Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
 
-        SymptomOverTimeReportDetailsController controller = new SymptomOverTimeReportDetailsController();
+        ReportDetailsController controller = new ReportDetailsController();
         controller.setGenericRepository(genericRepository);
         request.setParameter("crfId", crf.getId().toString());
         request.setParameter("symptom", symptomId.toString());

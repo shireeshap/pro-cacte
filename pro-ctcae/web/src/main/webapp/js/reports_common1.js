@@ -156,6 +156,7 @@ function removeError(element) {
 }
 
 function showIndicator() {
+
     $('indicator').style.visibility = 'visible';
     if (typeof(xMousePos) != 'undefined') {
         $("indicator").style.left = xMousePos + 'px';
@@ -248,12 +249,12 @@ function getQueryString(attributes) {
         attributes = '';
     }
     var queryString = 'subview=subview';
-    queryString += "&studyId=" + $('study').value;
-    queryString += "&crfId=" + $('form').value;
+    queryString += "&study=" + $('study').value;
+    queryString += "&crf=" + $('form').value;
     if (displaySymptom) {
         queryString += "&symptom=" + $('proCtcTermsSelect').value;
     }
-    queryString += "&studySiteId=" + $('studySite').value;
+    queryString += "&studySite=" + $('studySite').value;
     queryString += "&attributes=" + attributes;
     if ($('groupby') == null) {
         var group = 'cycle';
@@ -263,9 +264,9 @@ function getQueryString(attributes) {
     queryString += "&group=" + group;
     return queryString;
 }
-function showItems(Id, grade, ser, group) {
+function showItems(Id, grade, att, period, sum) {
     var request = new Ajax.Request("/proctcae/pages/reports/getParticipantItems", {
-        parameters:getQueryString() + '&pid=' + Id + '&grade=' + grade + '&ser=' + ser + '&groupby=' + group,
+        parameters:getQueryString() + '&pid=' + Id + '&grade=' + grade + '&att=' + att + '&period=' + period + '&sum=' + sum,
         onComplete:function(transport) {
             var response = transport.responseText;
             new Insertion.After('items_row_' + Id, response);

@@ -15,7 +15,7 @@
     <script type="text/javascript">
         function showDetails(params) {
             showIndicator();
-            var request = new Ajax.Request("${url}Details", {
+            var request = new Ajax.Request("reportDetails", {
                 parameters:params,
                 onComplete:function(transport) {
                     $('reportInnerDiv').innerHTML = transport.responseText;

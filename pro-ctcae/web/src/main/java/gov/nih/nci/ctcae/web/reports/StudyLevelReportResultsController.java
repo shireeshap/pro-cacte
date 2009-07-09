@@ -26,9 +26,9 @@ public class StudyLevelReportResultsController extends AbstractController {
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("reports/studyLevelReportResults");
-        Integer studyId = Integer.parseInt(request.getParameter("studyId"));
-        Integer studySiteId = Integer.parseInt(request.getParameter("studySiteId"));
-        Integer crfId = Integer.parseInt(request.getParameter("crfId"));
+        Integer studyId = Integer.parseInt(request.getParameter("study"));
+        Integer studySiteId = Integer.parseInt(request.getParameter("studySite"));
+        Integer crfId = Integer.parseInt(request.getParameter("crf"));
         String visitRange = request.getParameter("visitRange");
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");

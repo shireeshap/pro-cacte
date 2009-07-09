@@ -33,8 +33,8 @@ public class ParticipantAddedQuestionsReportResultsController extends AbstractCo
     }
 
     protected void parseRequestParametersAndFormQuery(HttpServletRequest request, ParticipantAddedQuestionsReportQuery query) throws ParseException {
-        int crfId = Integer.parseInt(request.getParameter("crfId"));
-        String studySiteId = request.getParameter("studySiteId");
+        int crfId = Integer.parseInt(request.getParameter("crf"));
+        String studySiteId = request.getParameter("studySite");
         String symptom = request.getParameter("symptom");
 
         query.filterByCrf(crfId);

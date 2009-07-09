@@ -38,7 +38,7 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
  */
 public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenerator {
     public SymptomOverTimeStackedBarChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, String queryString) {
-        super(title, domainAxisLabel, rangeAxisLabel, true, -1, queryString + "&type=WOR");
+        super(title, domainAxisLabel, rangeAxisLabel, true, -1, queryString,"SYMPTOM_OVER_TIME_STACKED_BAR_CHART");
     }
 
     public CategoryDataset createDataSet(Object results) {
@@ -54,7 +54,7 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
             }
             DecimalFormat df = new DecimalFormat("0");
             for (Integer grade : l) {
-                dataset.addValue(new Float(df.format(new Float(map.get(grade)) * 100 / sum)), grade, period + " [N=" + sum + "]");
+                dataset.addValue(new Float(df.format(map.get(grade) * 100 / sum)), grade, period + " [N=" + sum + "]");
             }
         }
         return dataset;
@@ -74,6 +74,15 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
         );
 
         formatChart(dataset, chart);
+        CategoryPlot plot = chart.getCategoryPlot();
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+
+        renderer.setSeriesPaint(0, new Color(222, 216, 216));
+        renderer.setSeriesPaint(1, new Color(240, 249, 78));
+        renderer.setSeriesPaint(2, new Color(244, 187, 89));
+        renderer.setSeriesPaint(3, new Color(235, 122, 107));
+        renderer.setSeriesPaint(4, new Color(255, 54, 54));
+
         return chart;
     }
 

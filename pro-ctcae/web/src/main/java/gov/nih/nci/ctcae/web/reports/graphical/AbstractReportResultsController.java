@@ -24,14 +24,16 @@ public abstract class AbstractReportResultsController extends AbstractController
     protected GenericRepository genericRepository;
 
     protected void parseRequestParametersAndFormQuery(HttpServletRequest request, AbstractReportQuery query) throws ParseException {
-        int crfId = Integer.parseInt(request.getParameter("crfId"));
+        int crfId = Integer.parseInt(request.getParameter("crf"));
         int symptomId = Integer.parseInt(request.getParameter("symptom"));
         String attributes = request.getParameter("attributes");
-        String studySiteId = request.getParameter("studySiteId");
+        String studySiteId = request.getParameter("studySite");
         String visitRange = request.getParameter("visitRange");
-        String series = request.getParameter("ser");
-        if (!StringUtils.isBlank(series)) {
-            attributes = series;
+        String attribute = request.getParameter("att");
+        String period = request.getParameter("period");
+
+        if (!StringUtils.isBlank(attribute)) {
+            attributes = attribute;
         }
         query.filterByCrf(crfId);
         if (symptomId != -1) {
@@ -57,6 +59,13 @@ public abstract class AbstractReportResultsController extends AbstractController
             Date endDate = DateUtils.parseDate(request.getParameter("endDate"));
             query.filterByScheduleStartDate(startDate, endDate);
         }
+
+        if (!StringUtils.isBlank(period)) {
+            Integer sum = Integer.valueOf(request.getParameter("sum"));
+            String periodType = period.substring(0, period.indexOf(' ') );
+            Integer colInt = Integer.parseInt(period.substring(period.indexOf(' ') + 1)) + sum - 1;
+            query.filterByPeriod(periodType, colInt);
+        }
     }
 
     @Required
@@ -69,8 +78,8 @@ public abstract class AbstractReportResultsController extends AbstractController
         int symptomId = Integer.parseInt(request.getParameter("symptom"));
         ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, symptomId);
 
-        String attribute = request.getParameter("ser");
-        title.append("Worst responses for " + proCtcTerm.getTerm() + " " + attribute);
+        String attribute = request.getParameter("att");
+        title.append("Worst responses for ").append(proCtcTerm.getTerm()).append(" ").append(attribute);
         return title.toString();
     }
 

@@ -64,13 +64,13 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
             parseRequestParametersAndFormQuery(request, query);
             query.filterBySingleAttribute(ProCtcQuestionType.getByDisplayName(attribute));
             worstResponses = genericRepository.find(query);
-            JFreeChart stackedBarChart = getStackedBarChart(worstResponses, group, request.getQueryString());
+            JFreeChart stackedBarChart = getStackedBarChart(worstResponses, group, request.getQueryString(), attribute);
 
             String stackedBarFileName = ServletUtilities.saveChartAsPNG(stackedBarChart, 700, 400, info, null);
             String stackedBarImageMap = ChartUtilities.getImageMap(stackedBarFileName, info);
 
             String append = StringUtils.replace(attribute, " ", "");
-            append = StringUtils.replace(append,"/","");
+            append = StringUtils.replace(append, "/", "");
             modelAndView.addObject(append + "StackedBarChartFileName", stackedBarFileName);
             modelAndView.addObject(append + "StackedBarChartImageMap", stackedBarImageMap);
             modelAndView.addObject(append + "StackedBarChart", stackedBarChart);
@@ -82,7 +82,7 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         return modelAndView;
     }
 
-    private JFreeChart getStackedBarChart(List worstResponses, String group, String queryString) {
+    private JFreeChart getStackedBarChart(List worstResponses, String group, String queryString, String attribute) {
 
         TreeMap<String, TreeMap<Integer, Integer>> results = new TreeMap<String, TreeMap<Integer, Integer>>();
         Integer smallest = getSmallest(worstResponses, 3);
@@ -90,7 +90,6 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
             Object[] a = (Object[]) obj;
             Integer grade = (Integer) a[0];
             String period = getNewPeriod(a[3], smallest, group);
-//            String attribute = ((ProCtcQuestionType) a[1]).getDisplayName();
             TreeMap<Integer, Integer> map = results.get(period);
             if (map == null) {
                 map = new TreeMap<Integer, Integer>();
@@ -107,7 +106,7 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         String title = "";
         String rangeAxisLabel = group + " [N]";
         String domainAxisLabel = "%";
-        SymptomOverTimeStackedBarChartGenerator chartGenerator = new SymptomOverTimeStackedBarChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString + "&sum=" + smallest);
+        SymptomOverTimeStackedBarChartGenerator chartGenerator = new SymptomOverTimeStackedBarChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString + "&sum=" + smallest + "&att=" + attribute);
         return chartGenerator.getChart(results);
     }
 

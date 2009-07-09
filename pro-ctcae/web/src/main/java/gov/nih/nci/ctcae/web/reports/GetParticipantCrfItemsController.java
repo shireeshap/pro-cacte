@@ -4,7 +4,6 @@ import gov.nih.nci.ctcae.core.query.StudyParticipantCrfItemQuery;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.web.reports.graphical.AbstractReportResultsController;
 import org.springframework.web.servlet.ModelAndView;
-import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,16 +22,10 @@ public class GetParticipantCrfItemsController extends AbstractReportResultsContr
         List<StudyParticipantCrfItem> results = new ArrayList<StudyParticipantCrfItem>();
         Integer pId = Integer.valueOf(request.getParameter("pid"));
         Integer grade = Integer.parseInt(request.getParameter("grade"));
-        String group = request.getParameter("groupby");
         StudyParticipantCrfItemQuery query = new StudyParticipantCrfItemQuery();
         parseRequestParametersAndFormQuery(request, query);
         query.filterByParticipantId(pId);
         query.filterByResponse(grade);
-        if (!StringUtils.isBlank(group)) {
-            String period = group.substring(0, group.indexOf(' '));
-            String periodValue = group.substring(group.indexOf(' ') + 1);
-            query.filterByPeriod(period, Integer.parseInt(periodValue));
-        }
         List list = genericRepository.find(query);
         results.addAll(list);
         Map model = new HashMap();

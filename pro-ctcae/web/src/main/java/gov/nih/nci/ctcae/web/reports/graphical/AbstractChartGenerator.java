@@ -31,17 +31,19 @@ public abstract class AbstractChartGenerator {
     protected String domainAxisLabel;
     private boolean showPercentage = false;
     private String queryString;
+    private String reportType;
 
-    public AbstractChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, String queryString) {
+    public AbstractChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, String queryString, String reportType) {
         this.title = title;
         this.rangeAxisLabel = rangeAxisLabel;
         this.domainAxisLabel = domainAxisLabel;
         this.queryString = queryString;
+        this.reportType = reportType;
 
     }
 
-    public AbstractChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, boolean showPercentage, Integer total, String queryString) {
-        this(title, domainAxisLabel, rangeAxisLabel, queryString);
+    public AbstractChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, boolean showPercentage, Integer total, String queryString, String reportType) {
+        this(title, domainAxisLabel, rangeAxisLabel, queryString, reportType);
         this.title = title;
         this.showPercentage = showPercentage;
         this.total = total;
@@ -124,13 +126,24 @@ public abstract class AbstractChartGenerator {
     class URLGenerator implements CategoryURLGenerator {
 
         public String generateURL(CategoryDataset dataset, int series, int category) {
-            String url = "javascript:showDetails('" + queryString + "&col=";
-            Comparable categoryKey = dataset.getColumnKey(category);
-            url += categoryKey.toString();
-            Comparable seriesKey = dataset.getRowKey(series);
-            url += "&ser=" + seriesKey.toString();
-            url += "');";
-            return url;
+            StringBuffer url = new StringBuffer();
+            url.append("javascript:showDetails('").append(queryString);
+            String categoryVal = dataset.getColumnKey(category).toString();
+            String seriesVal = dataset.getRowKey(series).toString();
+            if ("SYMPTOM_SUMMARY_BAR_CHART".equals(reportType)) {
+                url.append("&att=").append(seriesVal);
+                url.append("&grade=").append(categoryVal);
+            }
+            if ("SYMPTOM_OVER_TIME_BAR_CHART".equals(reportType)) {
+                url.append("&att=").append(seriesVal);
+                url.append("&period=").append(categoryVal);
+            }
+            if ("SYMPTOM_OVER_TIME_STACKED_BAR_CHART".equals(reportType)) {
+                url.append("&grade=").append(seriesVal);
+                url.append("&period=").append(categoryVal.substring(0, categoryVal.indexOf("[") - 1));
+            }
+            url.append("')");
+            return url.toString();
         }
     }
 }
