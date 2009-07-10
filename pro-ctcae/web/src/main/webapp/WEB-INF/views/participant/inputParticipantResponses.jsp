@@ -20,14 +20,9 @@
 <body>
 <chrome:box>
     <form:form method="post" name="myForm">
-        <b>Please think back ${command.studyParticipantCrf.crf.recallPeriod}</b>
+        <tags:recallPeriodFormatter desc="Please think back ${command.studyParticipantCrf.crf.recallPeriod}"/>
         <div id="inputResponses">
             <table width="100%" cellpadding="3px" cellspacing="0px" border="0">
-                    <%--<tr>--%>
-                    <%--<td colspan="5">--%>
-                    <%--Study: ${commmand.studyParticipantCrf.studyParticipantAssignment.studySite.study.displayName}--%>
-                    <%--</td>--%>
-                    <%--</tr>--%>
                 <c:set var="myindex" value="1"/>
                 <c:forEach items="${command.symptomItems}" var="symptom">
                     <tr>
@@ -61,7 +56,6 @@
         <table width="100%" style="margin-top:10px;">
             <tr>
                 <td align="right">
-                    <!--<input type="submit" id="save" value="save"/>-->
                     <tags:button color="blue" type="submit" id="flow-update"
                                  cssClass="next" value="Submit" icon="save"/>
                 </td>
