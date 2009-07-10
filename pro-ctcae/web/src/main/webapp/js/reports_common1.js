@@ -5,6 +5,7 @@ var studySiteMandatory = false;
 var displayParticipants = false;
 var selectedCrf = '';
 var allSymptoms = true;
+var displayParticipant = false;
 
 function createStudyAutoCompleter() {
     var sac = new studyAutoCompleter('study');
@@ -273,7 +274,7 @@ function showItems(Id, grade, att, period, sum) {
         onComplete:function(transport) {
             var response = transport.responseText;
             new Insertion.After('items_row_' + Id, response);
-            $('pShowImage_' + Id).hide();                  SO
+            $('pShowImage_' + Id).hide();                  
             $('pHideImage_' + Id).show();
         },
         method:'get'
