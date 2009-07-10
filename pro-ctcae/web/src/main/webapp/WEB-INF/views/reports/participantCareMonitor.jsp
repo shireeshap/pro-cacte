@@ -39,29 +39,15 @@
             if (!performValidations()) {
                 return;
             }
-            if(typeof(format) == 'undefined'){
+            if (typeof(format) == 'undefined') {
                 format = 'tabular';
             }
             var studyId = $('study').value;
             var forVisits = $('visits').value;
-            var crfSelect = $('formSelect');
-            var crfId = crfSelect.options[crfSelect.selectedIndex].value;
-
-            var visitRangeSelect = $('visitOptions');
-            var visitRange = visitRangeSelect.options
-                    [visitRangeSelect.selectedIndex].value;
-
+            var crfId = $('formSelect').value;
+            var visitRange = $('visitOptions').value;
             var studySiteId = $('studySite').value;
             var participantId = $('participant').value;
-            if (visitRange == 'currentPrev' || visitRange == 'currentLast') {
-                forVisits = "2";
-            }
-            if (visitRange == 'lastFour') {
-                forVisits = "4";
-            }
-            if (visitRange == 'all' || visitRange == 'dateRange') {
-                forVisits = "-1";
-            }
             var stDate = $('startDate').value;
             var endDate = $('endDate').value;
             if (format == 'tabular') {

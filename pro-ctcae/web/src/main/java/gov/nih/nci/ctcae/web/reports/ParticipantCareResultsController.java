@@ -2,13 +2,11 @@ package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
-import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
-import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.query.StudyParticipantCrfScheduleQuery;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
-import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,113 +19,57 @@ import java.util.*;
  */
 public class ParticipantCareResultsController extends AbstractController {
 
-    StudyRepository studyRepository;
-    ParticipantRepository participantRepository;
-    CRFRepository crfRepository;
-    StudyOrganizationRepository studyOrganizationRepository;
+    GenericRepository genericRepository;
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView("reports/participantCareResults");
-        Integer studyId = Integer.parseInt(request.getParameter("studyId"));
-        Integer studySiteId = Integer.parseInt(request.getParameter("studySiteId"));
-        Integer crfId = Integer.parseInt(request.getParameter("crfId"));
-        Integer participantId = Integer.parseInt(request.getParameter("participantId"));
-        String forVisits = request.getParameter("forVisits");
-        String visitRange = request.getParameter("visitRange");
-        String startDate = request.getParameter("startDate");
-        String endDate = request.getParameter("endDate");
-
+        StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request, modelAndView);
+        List<StudyParticipantCrfSchedule> list = genericRepository.find(query);
         List<String> dates = new ArrayList<String>();
-        List visitTitle = new ArrayList();
 
-        if (visitRange.equals("currentPrev")) {
-            visitTitle.add("Current");
-            visitTitle.add("Previous");
-        }
-        if (visitRange.equals("currentLast")) {
-            visitTitle.add("Current");
-            visitTitle.add("First");
-        }
-        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = getCareResults(visitRange, studyId, crfId, studySiteId, participantId, dates, Integer.valueOf(forVisits), startDate, endDate);
+        List<StudyParticipantCrfSchedule> filteredSchedules = getFilteredSchedules(list, request);
+        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = getCareResults(dates, filteredSchedules);
+
+
         modelAndView.addObject("resultsMap", results);
         modelAndView.addObject("dates", dates);
-        modelAndView.addObject("visitTitle", visitTitle);
-        Participant participant = participantRepository.findById(participantId);
-        modelAndView.addObject("participant", participant);
         modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
 
         request.getSession().setAttribute("sessionResultsMap", results);
         request.getSession().setAttribute("sessionDates", dates);
-        request.getSession().setAttribute("participant", participant);
-        request.getSession().setAttribute("study", studyRepository.findById(studyId));
-        request.getSession().setAttribute("crf", crfRepository.findById(crfId));
-        request.getSession().setAttribute("studySite", studyOrganizationRepository.findById(studySiteId));
 
         return modelAndView;
     }
 
-    private TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> getCareResults(String visitRange, Integer studyId, Integer crfId, Integer studySiteId, Integer participantId, List<String> dates, Integer forVisits, String startDate, String endDate) throws ParseException {
+
+    private TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> getCareResults(List<String> dates, List<StudyParticipantCrfSchedule> schedules) {
 
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = new TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
-        HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults = new HashMap();
+        HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults = new HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>();
         boolean participantAddedQuestion;
 
-        Study study = studyRepository.findById(studyId);
-        StudySite studySite = study.getStudySiteById(studySiteId);
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedules) {
+            String displayDate = DateUtils.format(studyParticipantCrfSchedule.getStartDate());
+            if (studyParticipantCrfSchedule.getCycleNumber() != null) {
+                displayDate += " (C" + studyParticipantCrfSchedule.getCycleNumber() + ", D" + studyParticipantCrfSchedule.getCycleDay() + ")";
+            }
+            dates.add(displayDate);
 
-        for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
-            if (studyParticipantAssignment.getParticipant().getId().equals(participantId)) {
-
-                for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-                    if (studyParticipantCrf.getCrf().getId().equals(crfId)) {
-
-                        List<StudyParticipantCrfSchedule> completedCrfs = new ArrayList<StudyParticipantCrfSchedule>();
-                        if (visitRange.equals("currentLast")) {
-                            completedCrfs.add(studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).get(0));
-                            if (studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).size() > 1) {
-                                completedCrfs.add(studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).get(studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).size() - 1));
-                            }
-                        } else {
-                            if (forVisits == -1) {
-                                forVisits = studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).size();
-                            }
-                            for (int i = 1; i <= forVisits; forVisits--)
-                                if (studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).size() - forVisits >= 0) {
-                                    completedCrfs.add(studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).get(studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED).size() - forVisits));
-                                }
-                        }
-
-                        sortByStartDate(completedCrfs);
-                        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : completedCrfs) {
-                            if (visitRange.equals("dateRange")) {
-                                if (!dateBetween(DateUtils.parseDate(startDate), DateUtils.parseDate(endDate), studyParticipantCrfSchedule.getStartDate())) {
-                                    continue;
-                                }
-                            }
-                            if (studyParticipantCrfSchedule.getCycleNumber() != null) {
-                            dates.add(DateUtils.format(studyParticipantCrfSchedule.getStartDate()) + " (C" + studyParticipantCrfSchedule.getCycleNumber() + ", D" + studyParticipantCrfSchedule.getCycleDay() + ")");
-                            } else {
-                                dates.add(DateUtils.format(studyParticipantCrfSchedule.getStartDate()) + " ");
-                            }
-                                Integer arraySize = dates.size();
-                            for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-                                ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
-                                ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
-                                ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
-                                participantAddedQuestion = false;
-                                buildMap(proCtcQuestion, symptom, value, symptomMap, careResults, participantAddedQuestion, arraySize);
-                            }
-                            for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
-                                ProCtcQuestion proCtcQuestion = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getProCtcQuestion();
-                                ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
-                                ProCtcValidValue value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
-                                participantAddedQuestion = true;
-                                buildMap(proCtcQuestion, symptom, value, symptomMap, careResults, participantAddedQuestion, arraySize);
-                            }
-                        }
-                    }
-                }
+            Integer arraySize = dates.size();
+            for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+                ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
+                ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
+                ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
+                participantAddedQuestion = false;
+                buildMap(proCtcQuestion, symptom, value, symptomMap, careResults, participantAddedQuestion, arraySize);
+            }
+            for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
+                ProCtcQuestion proCtcQuestion = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getProCtcQuestion();
+                ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
+                ProCtcValidValue value = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
+                participantAddedQuestion = true;
+                buildMap(proCtcQuestion, symptom, value, symptomMap, careResults, participantAddedQuestion, arraySize);
             }
         }
 
@@ -173,40 +115,78 @@ public class ParticipantCareResultsController extends AbstractController {
         }
     }
 
-    private void sortByStartDate(List<StudyParticipantCrfSchedule> completedCrfs) {
-        TreeSet<StudyParticipantCrfSchedule> studyParticipantCrfSchedules = new TreeSet<StudyParticipantCrfSchedule>(new StudyParticipantCrfScheduleStartDateComparator());
-        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : completedCrfs) {
-            studyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
+
+    private List<StudyParticipantCrfSchedule> getFilteredSchedules(List<StudyParticipantCrfSchedule> list, HttpServletRequest request) {
+        ArrayList<StudyParticipantCrfSchedule> filtered = new ArrayList<StudyParticipantCrfSchedule>();
+        String visitRange = request.getParameter("visitRange");
+        if ("dateRange".equals(visitRange) || "all".equals(visitRange)) {
+            filtered.addAll(list);
+        } else {
+            if ("currentPrev".equals(visitRange)) {
+                if (list.size() > 0) {
+                    filtered.add(list.get(list.size()-1));
+                    if (list.size() > 1) {
+                        filtered.add(list.get(list.size()-2));
+                    }
+                }
+            } else {
+                if ("currentLast".equals(visitRange)) {
+                    if (list.size() > 0) {
+                        filtered.add(list.get(0));
+                        if (list.size() > 1) {
+                            filtered.add(list.get(list.size() - 1));
+                        }
+                    }
+                } else {
+                    int numberOfRecentVisits;
+                    if ("lastFour".equals(visitRange)) {
+                        numberOfRecentVisits = 4;
+                    } else {
+                        numberOfRecentVisits = Integer.parseInt(request.getParameter("forVisits"));
+                    }
+                    for (int i = list.size() - numberOfRecentVisits; i < list.size(); i++)
+                        if (i >= 0) {
+                            filtered.add(list.get(i));
+                        }
+                }
+            }
         }
+        return filtered;
+    }
 
-        completedCrfs.clear();
-        Iterator<StudyParticipantCrfSchedule> i = studyParticipantCrfSchedules.iterator();
-        while (i.hasNext()) {
-            completedCrfs.add(i.next());
+    private StudyParticipantCrfScheduleQuery parseRequestParametersAndFormQuery(HttpServletRequest request, ModelAndView modelAndView) throws ParseException {
+        StudyParticipantCrfScheduleQuery query = new StudyParticipantCrfScheduleQuery();
+        Integer studyId = Integer.parseInt(request.getParameter("studyId"));
+        Integer studySiteId = Integer.parseInt(request.getParameter("studySiteId"));
+        Integer crfId = Integer.parseInt(request.getParameter("crfId"));
+        Integer participantId = Integer.parseInt(request.getParameter("participantId"));
+        String visitRange = request.getParameter("visitRange");
+
+        query.filterByCrf(crfId);
+        query.filterByStudy(studyId);
+        query.filterByParticipant(participantId);
+        query.filterByStudySite(studySiteId);
+        if ("dateRange".equals(visitRange)) {
+            String startDate = request.getParameter("startDate");
+            String endDate = request.getParameter("endDate");
+            query.filterByDate(DateUtils.parseDate(startDate), DateUtils.parseDate(endDate));
         }
+        query.filterByStatus(CrfStatus.COMPLETED);
+
+        Participant participant = genericRepository.findById(Participant.class, participantId);
+        modelAndView.addObject("participant", participant);
+        request.getSession().setAttribute("participant", participant);
+        request.getSession().setAttribute("study", genericRepository.findById(Study.class, studyId));
+        request.getSession().setAttribute("crf", genericRepository.findById(CRF.class, crfId));
+        request.getSession().setAttribute("studySite", genericRepository.findById(StudySite.class, studySiteId));
+
+        return query;
     }
 
-    private boolean dateBetween
-            (Date
-                    startDate, Date
-                    endDate, Date
-                    scheduleStartDate) {
-        return (startDate.getTime() <= scheduleStartDate.getTime() && scheduleStartDate.getTime() <= endDate.getTime());
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
 
-    public void setParticipantRepository(ParticipantRepository participantRepository) {
-        this.participantRepository = participantRepository;
-    }
-
-    public void setCrfRepository(CRFRepository crfRepository) {
-        this.crfRepository = crfRepository;
-    }
-
-    public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
-        this.studyOrganizationRepository = studyOrganizationRepository;
-    }
 }

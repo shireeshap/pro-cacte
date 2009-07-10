@@ -235,6 +235,7 @@
             </tr>
         </table>
     </div>
+    <br/>
 </chrome:box>
 </body>
 </html>

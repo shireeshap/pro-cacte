@@ -355,10 +355,7 @@
     </bean>
     <bean name="/reports/participantCareResults" id="participantCareResultsController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareResultsController">
-        <property name="studyRepository" ref="studyRepository"/>
-        <property name="participantRepository" ref="participantRepository"/>
-        <property name="crfRepository" ref="crfRepository"/>
-        <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
     <bean name="/participant/responseReport" id="participantResponseReportController"
           class="gov.nih.nci.ctcae.web.participant.ParticipantResponseReportController">
