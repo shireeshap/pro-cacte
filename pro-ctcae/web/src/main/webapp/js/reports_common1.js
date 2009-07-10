@@ -273,7 +273,7 @@ function showItems(Id, grade, att, period, sum) {
         onComplete:function(transport) {
             var response = transport.responseText;
             new Insertion.After('items_row_' + Id, response);
-            $('pShowImage_' + Id).hide();
+            $('pShowImage_' + Id).hide();                  SO
             $('pHideImage_' + Id).show();
         },
         method:'get'
