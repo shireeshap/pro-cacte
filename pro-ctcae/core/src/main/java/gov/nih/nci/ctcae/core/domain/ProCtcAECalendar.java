@@ -514,14 +514,15 @@ public class ProCtcAECalendar {
     }
 
 
-    public void setGeneralScheduleParameters(int repetitionPeriodAmount, String repetitionPeriodUnit, int dueDateAmount, String dueDateUnit, String repeatUntilUnit, String repeatUntilValue, Date startDate) {
-        this.repetitionPeriodAmount = repetitionPeriodAmount;
-        this.repetitionPeriodUnit = repetitionPeriodUnit;
-        this.dueDateAmount = dueDateAmount;
-        this.dueDateUnit = dueDateUnit;
-        this.repeatUntilUnit = repeatUntilUnit;
-        this.repeatUntilValue = repeatUntilValue;
-        this.startDate = startDate;
+    public void setGeneralScheduleParameters(CRFCalendar crfCalendar, Date calendarStartDate) {
+
+        this.repetitionPeriodAmount = Integer.parseInt(crfCalendar.getRepeatEveryAmount());
+        this.repetitionPeriodUnit = crfCalendar.getRepeatEveryUnit();
+        this.dueDateAmount = Integer.parseInt(crfCalendar.getDueDateAmount());
+        this.dueDateUnit = crfCalendar.getDueDateUnit();
+        this.repeatUntilUnit = crfCalendar.getRepeatUntilUnit();
+        this.repeatUntilValue = crfCalendar.getRepeatUntilAmount();
+        this.startDate = calendarStartDate;
         calendar = getCalendarForDate(startDate);
     }
 

@@ -156,7 +156,7 @@ public class ParticipantTestHelper {
                 spc.setCrf(crf);
                 spc.setStartDate(new Date());
                 participant.getStudyParticipantAssignments().get(0).addStudyParticipantCrf(spc);
-                crfRepository.generateSchedulesFromCrfCalendar(crf, spc);
+                crfRepository.generateSchedulesFromCrfCalendar(spc);
             }
         }
     }

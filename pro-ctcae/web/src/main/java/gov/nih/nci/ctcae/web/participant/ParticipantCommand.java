@@ -144,7 +144,7 @@ public class ParticipantCommand {
                 }
                 studyParticipantCrf.setCrf(crf);
                 studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
-                crfRepository.generateSchedulesFromCrfCalendar(crf, studyParticipantCrf);
+                crfRepository.generateSchedulesFromCrfCalendar(studyParticipantCrf);
             }
         }
 
