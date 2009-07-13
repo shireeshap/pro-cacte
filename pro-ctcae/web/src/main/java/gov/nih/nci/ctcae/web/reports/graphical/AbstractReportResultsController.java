@@ -25,7 +25,11 @@ public abstract class AbstractReportResultsController extends AbstractController
 
     protected void parseRequestParametersAndFormQuery(HttpServletRequest request, AbstractReportQuery query) throws ParseException {
         int crfId = Integer.parseInt(request.getParameter("crf"));
-        int symptomId = Integer.parseInt(request.getParameter("symptom"));
+        String symptom = request.getParameter("symptom");
+        int symptomId = -1;
+        if (!StringUtils.isBlank(symptom)) {
+            symptomId = Integer.parseInt(symptom);
+        }
         String attributes = request.getParameter("attributes");
         String studySiteId = request.getParameter("studySite");
         String visitRange = request.getParameter("visitRange");
@@ -62,7 +66,7 @@ public abstract class AbstractReportResultsController extends AbstractController
 
         if (!StringUtils.isBlank(period)) {
             Integer sum = Integer.valueOf(request.getParameter("sum"));
-            String periodType = period.substring(0, period.indexOf(' ') );
+            String periodType = period.substring(0, period.indexOf(' '));
             Integer colInt = Integer.parseInt(period.substring(period.indexOf(' ') + 1)) + sum - 1;
             query.filterByPeriod(periodType, colInt);
         }

@@ -247,11 +247,11 @@ function showConfirmationWindow(transport, width, height, top, left) {
         win.setDestroyOnClose();
         win.setHTMLContent(transport.responseText);
         win.showCenter(true);
-
     } else {
         win.setHTMLContent(transport.responseText);
         win.refresh();
     }
+    return win;
 }
 function closeWindow() {
     var win = Windows.getFocusedWindow();

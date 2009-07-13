@@ -2,16 +2,12 @@
 <%@ attribute name="selected" required="true" %>
 <script type="text/javascript">
     <c:choose>
-    <c:when test="${selected eq 'overallStudy'}">
-    var displaySymptom = false;
-    var studySiteMandatory = true;
-    </c:when>
     <c:when test="${selected eq 'symptomOverTime'}">
-    var allSymptoms = false;
-    </c:when>
-    <c:when test="${selected eq 'participantAddedQuestions'}">
-    var displaySymptom = false;
+    var displaySymptom = true;
     </c:when>
     </c:choose>
 </script>
 
+<c:if test="${selected eq 'symptomSummary'}">
+    <input type="hidden" name="symptom" id="symptom"/>
+</c:if>

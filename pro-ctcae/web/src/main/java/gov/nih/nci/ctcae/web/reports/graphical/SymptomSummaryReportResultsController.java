@@ -10,6 +10,7 @@ import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.servlet.ServletUtilities;
 import org.jfree.chart.entity.StandardEntityCollection;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,8 +37,8 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         parseRequestParametersAndFormQuery(request, query);
         List queryResults = genericRepository.find(query);
         String symptom = request.getParameter("symptom");
-        if ("-1".equals(symptom)) {
-            return generateTablularReport(queryResults,totalParticipant);
+        if (StringUtils.isBlank(symptom)) {
+            return generateTablularReport(queryResults, totalParticipant);
         } else {
             return generateGraphicalReport(queryResults, symptom, request.getQueryString(), totalParticipant);
         }
@@ -80,13 +81,13 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
             l.add(o);
         }
 
-        TreeMap<String, TreeMap<String, TreeMap<Integer, Integer>>> output = new TreeMap<String, TreeMap<String, TreeMap<Integer, Integer>>>();
+        TreeMap<ProCtcTerm, TreeMap<String, TreeMap<Integer, Integer>>> output = new TreeMap<ProCtcTerm, TreeMap<String, TreeMap<Integer, Integer>>>(new ProCtcTermComparator());
         for (String symptom : symptomMap.keySet()) {
             ProCtcTermQuery query = new ProCtcTermQuery();
             query.filterByTerm(symptom);
             ProCtcTerm proCtcTerm = genericRepository.findSingle(query);
             TreeMap<String, TreeMap<Integer, Integer>> map = doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, symptomMap.get(symptom));
-            output.put(symptom, map);
+            output.put(proCtcTerm, map);
         }
         ModelAndView modelAndView = new ModelAndView("reports/symptomsummarytable");
         modelAndView.addObject("results", output);

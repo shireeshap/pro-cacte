@@ -57,7 +57,6 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         SymptomSummaryReportResultsController controller = new SymptomSummaryReportResultsController();
         controller.setGenericRepository(genericRepository);
         request.setParameter("crf", crf.getId().toString());
-        request.setParameter("symptom", "-1");
         request.setMethod("GET");
 
         ModelAndView modelAndView = controller.handleRequest(request, response);

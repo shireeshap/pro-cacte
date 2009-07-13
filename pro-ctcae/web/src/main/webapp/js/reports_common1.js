@@ -1,10 +1,8 @@
 var hasError = false;
-var displaySymptom = true;
+var displaySymptom = false;
 var displayDate = true;
-var studySiteMandatory = false;
 var displayParticipants = false;
 var selectedCrf = '';
-var allSymptoms = true;
 var displayParticipant = false;
 
 function createStudyAutoCompleter() {
@@ -86,12 +84,6 @@ function displaySymptoms(crfid) {
 function updateSymptomDropDown(symptoms) {
     $('divSymptomsRow').show();
     var select = populate('proCtcTerms', symptoms, 'term', 'id', '', 'Symptom');
-    if (allSymptoms) {
-        var option = new Element('OPTION', {});
-        option.text = 'All';
-        option.value = '-1';
-        select.add(option, select.options[1]);
-    }
 }
 
 function customVisit(showVisit) {
@@ -114,9 +106,6 @@ function performValidations() {
     var arr = new Array();
     arr[0] = 'form';
     arr[1] = 'proCtcTermsSelect';
-    if (studySiteMandatory) {
-        arr[2] = 'studySite';
-    }
     for (var i = 0; i < arr.length; i++) {
         validateField(arr[i]);
     }
@@ -229,7 +218,7 @@ function addPleaseSelect(select) {
     option.value = '';
     select.appendChild(option);
 }
-function updateChart(chkbox) {
+function updateChart(chkbox, popup) {
     var obj = document.getElementsByName('attribute');
     var selectedAttributes = '';
     for (var i = 0; i < obj.length; i++) {
@@ -254,6 +243,10 @@ function getQueryString(attributes, igroup) {
     queryString += "&crf=" + $('form').value;
     if (displaySymptom) {
         queryString += "&symptom=" + $('proCtcTermsSelect').value;
+    } else {
+        if ($('symptom') != null) {
+            queryString += "&symptom=" + $('symptom').value;
+        }
     }
     queryString += "&studySite=" + $('studySite').value;
     queryString += "&attributes=" + attributes;
@@ -274,7 +267,7 @@ function showItems(Id, grade, att, period, sum) {
         onComplete:function(transport) {
             var response = transport.responseText;
             new Insertion.After('items_row_' + Id, response);
-            $('pShowImage_' + Id).hide();                  
+            $('pShowImage_' + Id).hide();
             $('pHideImage_' + Id).show();
         },
         method:'get'
@@ -296,7 +289,11 @@ function showDetails(params) {
     var request = new Ajax.Request("reportDetails", {
         parameters:params,
         onComplete:function(transport) {
-            $('reportInnerDiv').innerHTML = transport.responseText;
+            if (showResultsInPopUpFlag) {
+                showResultsInPopUp(transport);
+            } else {
+                $('reportInnerDiv').innerHTML = transport.responseText;
+            }
             hideIndicator();
         },
         method:'get'
@@ -304,4 +301,19 @@ function showDetails(params) {
             )
 }
 
+function showResultsInPopUp(transport) {
+    var win = showConfirmationWindow(transport, 850, 570);
+}
+function showChartInPopup(symptomId) {
+    $('symptom').value = symptomId;
+    showResultsInPopUpFlag = true;
+    reportResults();
+}
+function resetPopUpFlagAndCallResults() {
+    showResultsInPopUpFlag = false;
+    if ($('symptom') != null) {
+        $('symptom').value = '';
+    }
+    reportResults();
+}
 

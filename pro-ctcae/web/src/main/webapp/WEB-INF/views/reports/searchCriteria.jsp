@@ -13,22 +13,26 @@
     <tags:includePrototypeWindow/>
     <tags:includeScriptaculous/>
     <script type="text/javascript">
-        function reportResults(attributes,group) {
+        var showResultsInPopUpFlag = false;
+        function reportResults(attributes, group) {
             if (!performValidations()) {
                 return;
             }
             showIndicator();
             var request = new Ajax.Request("${url}", {
-                parameters:getQueryString(attributes,group),
+                parameters:getQueryString(attributes, group),
                 onComplete:function(transport) {
-                    showResults(transport);
+                    if (showResultsInPopUpFlag) {
+                        showResultsInPopUp(transport);
+                    } else {
+                        showResults(transport);
+                    }
                     hideIndicator();
                 },
                 method:'get'
             }
                     )
         }
-
     </script>
 </head>
 <body>
@@ -142,7 +146,7 @@
 
         <div id="search" class="row" style="display:none">
             <div class="value">
-                <tags:button color="blue" value="Search" onclick="reportResults();" size="big"
+                <tags:button color="blue" value="Search" onclick="resetPopUpFlagAndCallResults();" size="big"
                              icon="search"/>
                 <tags:indicator id="indicator"/>
             </div>

@@ -26,9 +26,9 @@
         border-top: 1px black solid;
     }
 
-    table.report td.header{
+    table.report td.header {
         background-color: #cccccc;
-        font-weight:bold;
+        font-weight: bold;
     }
 
     table.report td.left {
@@ -37,6 +37,7 @@
     }
 </style>
 <chrome:box title="Report">
+    <chrome:division title="Maximum Grade per Patient"/>
     <table class="report" cellspacing="0" align="center">
         <tr>
             <td class="right">Present/Not Present:</td>
@@ -68,10 +69,12 @@
             <c:forEach items="${symptom.value}" var="attribute">
                 <tr>
                     <td class="left ${bottom}">
-                            ${symptom.key} - ${attribute.key}
+                        <a href="javascript:showChartInPopup(${symptom.key.id})" class="link">
+                                ${symptom.key.term} - ${attribute.key}
+                        </a>
                     </td>
                     <td class="${bottom}">
-                        ${total}
+                            ${total}
                     </td>
                     <c:forEach items="${attribute.value}" var="count">
                         <td class="${bottom}">

@@ -115,24 +115,27 @@
         </c:forEach>
     </table>
 </span>
-<chrome:box title="Report">
+<c:forEach items="${table}" var="organizationTable">
+    <chrome:box title="${organizationTable.key.displayName}">
 
-    <%--<a href="<c:url value='/pages/reports/studyLevelReportPdf'/>" target="_blank"><img--%>
-    <%--src="/proctcae/images/table/pdf.gif"--%>
-    <%--alt="pdf"/></a> | --%>
-    <div align="right">
-        <a href="<c:url value='/pages/reports/studyLevelReportExcel'/>" target="_blank">
-            <img src="/proctcae/images/table/xls.gif" alt="xls"/>
-        </a>
-    </div>
-    <div id="careResultsTable">
-       <c:forEach items="${table}" var="participantTable">
-            <chrome:division
-                    title="Participant: ${participantTable.key.displayName} [${participantTable.key.assignedIdentifier}] "/>
-            ${participantTable.value}
-            <br/>
-        </c:forEach>
-    </div>
-</chrome:box>
+        <%--<a href="<c:url value='/pages/reports/studyLevelReportPdf'/>" target="_blank"><img--%>
+        <%--src="/proctcae/images/table/pdf.gif"--%>
+        <%--alt="pdf"/></a> | --%>
+        <div align="right">
+            <a href="<c:url value='/pages/reports/studyLevelReportExcel'/>" target="_blank">
+                <img src="/proctcae/images/table/xls.gif" alt="xls"/>
+            </a>
+        </div>
+        <div id="careResultsTable">
+            <c:forEach items="${organizationTable.value}" var="participantTable">
+                <chrome:division
+                        title="Participant: ${participantTable.key.displayName} [${participantTable.key.assignedIdentifier}] "/>
+                ${participantTable.value}
+                <br/>
+            </c:forEach>
+
+        </div>
+    </chrome:box>
+</c:forEach>
 </body>
 </html>

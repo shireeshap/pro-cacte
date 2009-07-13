@@ -20,10 +20,10 @@ public class StudyLevelReportTest extends WebTestCase {
     ProCtcTerm proCtcTerm, proCtcTerm1;
     ArrayList<ProCtcValidValue> proCtcValidValueList1, proCtcValidValueList2, proCtcValidValueList3;
     TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap1, symptomMap2;
-    TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> results;
+    TreeMap<Organization, TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>> results;
     ArrayList<Date> dates1, dates2;
     LinkedHashMap<Participant, ArrayList<Date>> datesMap;
-    
+
 
     Participant participant1, participant2;
 
@@ -129,7 +129,7 @@ public class StudyLevelReportTest extends WebTestCase {
         proCtcValidValueList3.add(proCtcValidValue32);
         proCtcValidValueList3.add(proCtcValidValue33);
 
-        results = new TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>(new ParticipantNameComparator());
+        results = new TreeMap<Organization, TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>>(new OrganizationNameComparator());
 
         LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> symptoms1 = new LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>();
         LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> symptoms2 = new LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>();
@@ -140,8 +140,8 @@ public class StudyLevelReportTest extends WebTestCase {
         symptoms1.put(proCtcQuestion1, proCtcValidValueList1);
         symptoms1.put(proCtcQuestion2, proCtcValidValueList2);
         symptoms2.put(proCtcQuestion3, proCtcValidValueList3);
-
-        Study study = Fixture.createStudyWithStudySite("short", "long", "assigned id", Fixture.createOrganization("orgname", "orgcode"));
+        Organization organization = Fixture.createOrganization("orgname", "orgcode");
+        Study study = Fixture.createStudyWithStudySite("short", "long", "assigned id", organization);
         symptomMap1 = new TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
         symptomMap2 = new TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
         symptomMap1.put(proCtcTerm, symptoms1);
@@ -149,8 +149,10 @@ public class StudyLevelReportTest extends WebTestCase {
         symptomMap2.put(proCtcTerm1, symptoms2);
         symptomMap2.put(proCtcTerm3, symptoms2);
 
-        results.put(participant1, symptomMap1);
-        results.put(participant2, symptomMap2);
+        TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>> pMap = new TreeMap<Participant, TreeMap<ProCtcTerm, LinkedHashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>>(new ParticipantNameComparator());
+        pMap.put(participant1, symptomMap1);
+        pMap.put(participant2, symptomMap2);
+        results.put(organization, pMap);
 
         request.getSession().setAttribute("sessionResultsMap", results);
         request.getSession().setAttribute("sessionDatesMap", datesMap);
@@ -188,9 +190,9 @@ public class StudyLevelReportTest extends WebTestCase {
         assertEquals("application/vnd.ms-excel", response.getContentType());
         File f = new File("generatedexcel.xls");
         if (f.exists()) {
-            f.delete();
+            assertTrue(f.delete());
         }
-        f.createNewFile();
+        assertTrue(f.createNewFile());
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(f));
         bufferedOutputStream.write(response.getContentAsByteArray());
         bufferedOutputStream.close();
@@ -274,16 +276,19 @@ public class StudyLevelReportTest extends WebTestCase {
                 "    </style>\n" +
                 "</head>\n" +
                 "<body>");
-        TreeMap<Participant, String> table = controller.getHtmlTable(results, datesMap);
-        for (Participant participant : table.keySet()) {
-            out.append(participant.getDisplayName() + "\n");
-            out.append(table.get(participant));
+        TreeMap<Organization, TreeMap<Participant, String>> table = controller.getHtmlTable(results, datesMap);
+        for (Organization organization : table.keySet()) {
+            TreeMap<Participant, String> map = table.get(organization);
+            for (Participant participant : map.keySet()) {
+                out.append(participant.getDisplayName()).append("\n");
+                out.append(map.get(participant));
+            }
         }
         File f = new File("generatedhtml.html");
         if (f.exists()) {
-            f.delete();
+            assertTrue(f.delete());
         }
-        f.createNewFile();
+        assertTrue(f.createNewFile());
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(f));
         bufferedOutputStream.write(out.toString().getBytes());
         bufferedOutputStream.close();

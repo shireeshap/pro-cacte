@@ -370,15 +370,9 @@
           class="gov.nih.nci.ctcae.web.reports.ParticipantCareExcelController">
     </bean>
 
-    <!--<bean name="/reports/studyLevelReport" id="studyLevelReportController"-->
-    <!--class="gov.nih.nci.ctcae.web.reports.StudyLevelReportController">-->
-    <!--</bean>-->
-
     <bean name="/reports/overallStudy" id="studyLevelReportResultsController"
           class="gov.nih.nci.ctcae.web.reports.StudyLevelReportResultsController">
-        <property name="studyRepository" ref="studyRepository"/>
-        <property name="crfRepository" ref="crfRepository"/>
-        <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
     <bean name="/reports/studyLevelReportExcel" id="studyLevelReportExcelController"
