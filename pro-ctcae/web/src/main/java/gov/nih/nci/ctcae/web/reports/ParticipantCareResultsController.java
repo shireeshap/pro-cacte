@@ -20,6 +20,7 @@ import java.util.*;
 public class ParticipantCareResultsController extends AbstractController {
 
     GenericRepository genericRepository;
+    
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
