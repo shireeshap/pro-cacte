@@ -30,11 +30,6 @@ public class ParticipantSchedule {
      */
     private StudyParticipantCrf studyParticipantCrf;
 
-    /**
-     * The finder repository.
-     */
-    private CRFRepository crfRepository;
-
     public enum ScheduleType {
         GENERAL,
         CYCLE;
@@ -137,8 +132,8 @@ public class ParticipantSchedule {
                 studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
                 studyParticipantCrfSchedule.setCycleDay(cycleDay);
             }
-            
-            CRF crf = crfRepository.findById(studyParticipantCrf.getCrf().getId());
+
+            CRF crf = studyParticipantCrf.getCrf();
             studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule, crf);
         }
     }
@@ -249,10 +244,6 @@ public class ParticipantSchedule {
         studyParticipantCrfSchedule.setStartDate(c1.getTime());
         studyParticipantCrfSchedule.setDueDate(c2.getTime());
 
-    }
-
-    public void setCrfRepository(CRFRepository crfRepository) {
-        this.crfRepository = crfRepository;
     }
 
     /**

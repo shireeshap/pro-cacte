@@ -5,15 +5,12 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 //
@@ -58,57 +55,18 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
                 studyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
             }
         }
-        generateSchedulesFromCrfCalendar(crf);
-        return save(crf);
+        CRF savedCrf = save(crf);
+        generateSchedules(savedCrf);
+        return save(savedCrf);
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void generateSchedulesFromCrfCalendar(CRF crf) throws ParseException {
+    public void generateSchedules(CRF crf) throws ParseException {
         for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
-            generateSchedulesFromCrfCalendar(studyParticipantCrf);
+            studyParticipantCrf.generateSchedules();
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void generateSchedulesFromCrfCalendar(StudyParticipantCrf studyParticipantCrf) throws ParseException {
-        CRF crf = studyParticipantCrf.getCrf();
-        Date calendarStartDate = studyParticipantCrf.getStartDate();
-        ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar();
-        if (calendarStartDate == null) {
-            calendarStartDate = crf.getEffectiveStartDate();
-        }
-
-        for (CRFCalendar crfCalendar : crf.getCrfCalendars()) {
-            if (!StringUtils.isBlank(crfCalendar.getRepeatEveryAmount())) {
-                proCtcAECalendar.setGeneralScheduleParameters(crfCalendar, calendarStartDate);
-                createSchedules(studyParticipantCrf, proCtcAECalendar, ParticipantSchedule.ScheduleType.GENERAL);
-            }
-        }
-        int cycleNumber = 1;
-        for (CRFCycleDefinition crfCycleDefinition : crf.getCrfCycleDefinitions()) {
-            if (crfCycleDefinition.getCrfCycles() != null) {
-                for (CRFCycle crfCycle : crfCycleDefinition.getCrfCycles()) {
-                    Integer cycleLength = crfCycleDefinition.getCycleLength();
-                    String cycleDays = crfCycle.getCycleDays();
-                    String cycleLengthUnit = crfCycleDefinition.getCycleLengthUnit();
-                    proCtcAECalendar.setCycleParameters(cycleLength, cycleDays, 1, cycleLengthUnit, calendarStartDate, cycleNumber);
-                    createSchedules(studyParticipantCrf, proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
-                    Calendar c = ProCtcAECalendar.getCalendarForDate(calendarStartDate);
-                    ProCtcAECalendar.incrementCalendar(c, cycleLength, cycleLengthUnit);
-                    calendarStartDate = c.getTime();
-                    cycleNumber++;
-                }
-            }
-        }
-    }
-
-    private void createSchedules(StudyParticipantCrf studyParticipantCrf, ProCtcAECalendar proCtcAECalendar, ParticipantSchedule.ScheduleType scheduleType) throws ParseException {
-        ParticipantSchedule participantSchedule = new ParticipantSchedule();
-        participantSchedule.setStudyParticipantCrf(studyParticipantCrf);
-        participantSchedule.setCrfRepository(this);
-        participantSchedule.setCalendar(proCtcAECalendar);
-        participantSchedule.createSchedules(scheduleType);
-    }
 
     /* (non-Javadoc)
     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#save(gov.nih.nci.ctcae.core.domain.Persistable)
@@ -184,6 +142,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     private void initializeCollections(CRF crf) {
+        crf = findById(crf.getId());
         for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
             studyParticipantCrf.getCrf();
         }

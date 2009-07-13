@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 
 //
 /**
@@ -28,7 +29,7 @@ public class ParticipantCommand {
     /**
      * The study id.
      */
-    private List<StudySite> studySites;
+    private List<StudySite> studySites = new ArrayList<StudySite>();
 
     /**
      * The site name.
@@ -129,10 +130,7 @@ public class ParticipantCommand {
 
     public void assignCrfsToParticipant(StudyParticipantAssignment studyParticipantAssignment, CRFRepository crfRepository, HttpServletRequest request) throws ParseException {
         Study study = studyParticipantAssignment.getStudySite().getStudy();
-        CRFQuery crfQuery = new CRFQuery();
-        crfQuery.filterByStudyId(study.getId());
-        Collection<CRF> crfCollection = crfRepository.find(crfQuery);
-        for (CRF crf : crfCollection) {
+        for (CRF crf : study.getCrfs()) {
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
                 String sDate = request.getParameter("form_date_" + crf.getId());
@@ -144,7 +142,7 @@ public class ParticipantCommand {
                 }
                 studyParticipantCrf.setCrf(crf);
                 studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
-                crfRepository.generateSchedulesFromCrfCalendar(studyParticipantCrf);
+                studyParticipantCrf.generateSchedules();
             }
         }
 
@@ -156,12 +154,10 @@ public class ParticipantCommand {
         //if new participant then clear all study participant assignments. otherwise it will create problem in case of any validation error.
         if (!participant.isPersisted()) {
             participant.removeAllStudyParticipantAssignments();
-            if (getStudySites() != null) {
-                for (StudySite studySite : getStudySites()) {
-                    setSiteName(studySite.getOrganization().getName());
-                    StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignment(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()));
-                    assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request);
-                }
+            for (StudySite studySite : getStudySites()) {
+                setSiteName(studySite.getOrganization().getName());
+                StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignment(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()));
+                assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request);
             }
         } else {
             for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {

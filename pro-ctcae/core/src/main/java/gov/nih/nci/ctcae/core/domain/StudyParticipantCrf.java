@@ -3,11 +3,14 @@ package gov.nih.nci.ctcae.core.domain;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.apache.commons.lang.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Calendar;
+import java.text.ParseException;
 
 //
 /**
@@ -21,7 +24,7 @@ import java.util.List;
 @Table(name = "STUDY_PARTICIPANT_CRFS")
 
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
-    @Parameter(name = "sequence", value = "seq_study_participant_crfs_id")})
+        @Parameter(name = "sequence", value = "seq_study_participant_crfs_id")})
 public class StudyParticipantCrf extends BaseVersionable {
 
     /**
@@ -140,15 +143,11 @@ public class StudyParticipantCrf extends BaseVersionable {
      * @param crf                         the crf
      */
     public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf) {
-        if (studyParticipantCrfSchedule != null) {
-            if (crf != null) {
-                for (CRFPage crfPage : crf.getCrfPagesSortedByPageNumber()) {
-                    for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-                        StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
-                        studyParticipantCrfItem.setCrfPageItem(crfPageItem);
-                        studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
-                    }
-                }
+        for (CRFPage crfPage : crf.getCrfPagesSortedByPageNumber()) {
+            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
+                studyParticipantCrfItem.setCrfPageItem(crfPageItem);
+                studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
             }
             studyParticipantCrfSchedule.setStudyParticipantCrf(this);
             studyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
@@ -204,6 +203,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         StudyParticipantCrf that = (StudyParticipantCrf) o;
 
         if (crf != null ? !crf.equals(that.crf) : that.crf != null) return false;
+        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
         if (studyParticipantAssignment != null ? !studyParticipantAssignment.equals(that.studyParticipantAssignment) : that.studyParticipantAssignment != null)
             return false;
 
@@ -214,6 +214,7 @@ public class StudyParticipantCrf extends BaseVersionable {
     public int hashCode() {
         int result = crf != null ? crf.hashCode() : 0;
         result = 31 * result + (studyParticipantAssignment != null ? studyParticipantAssignment.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         return result;
     }
 
@@ -236,4 +237,39 @@ public class StudyParticipantCrf extends BaseVersionable {
         return crfs;
     }
 
+    public void generateSchedules() throws ParseException {
+        Date calendarStartDate = getStartDate();
+        ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar();
+
+        for (CRFCalendar crfCalendar : crf.getCrfCalendars()) {
+            if (!StringUtils.isBlank(crfCalendar.getRepeatEveryAmount())) {
+                proCtcAECalendar.setGeneralScheduleParameters(crfCalendar, calendarStartDate);
+                createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.GENERAL);
+            }
+        }
+        int cycleNumber = 1;
+        for (CRFCycleDefinition crfCycleDefinition : crf.getCrfCycleDefinitions()) {
+            if (crfCycleDefinition.getCrfCycles() != null) {
+                for (CRFCycle crfCycle : crfCycleDefinition.getCrfCycles()) {
+                    Integer cycleLength = crfCycleDefinition.getCycleLength();
+                    String cycleDays = crfCycle.getCycleDays();
+                    String cycleLengthUnit = crfCycleDefinition.getCycleLengthUnit();
+                    proCtcAECalendar.setCycleParameters(cycleLength, cycleDays, 1, cycleLengthUnit, calendarStartDate, cycleNumber);
+                    createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
+                    Calendar c = ProCtcAECalendar.getCalendarForDate(calendarStartDate);
+                    ProCtcAECalendar.incrementCalendar(c, cycleLength, cycleLengthUnit);
+                    calendarStartDate = c.getTime();
+                    cycleNumber++;
+                }
+            }
+        }
+
+    }
+
+    private void createSchedules(ProCtcAECalendar proCtcAECalendar, ParticipantSchedule.ScheduleType scheduleType) throws ParseException {
+        ParticipantSchedule participantSchedule = new ParticipantSchedule();
+        participantSchedule.setStudyParticipantCrf(this);
+        participantSchedule.setCalendar(proCtcAECalendar);
+        participantSchedule.createSchedules(scheduleType);
+    }
 }

@@ -34,7 +34,6 @@ public class AddCrfScheduleController extends AbstractController {
         String date = request.getParameter("date");
 
         ParticipantSchedule participantSchedule = studyParticipantCommand.getParticipantSchedules().get(index);
-        participantSchedule.setCrfRepository(crfRepository);
         Calendar c = new GregorianCalendar();
         int duedate = 24 * 60 * 60 * 1000;
         if ("delall".equals(action)) {
