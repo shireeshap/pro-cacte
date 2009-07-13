@@ -73,7 +73,7 @@ public class ParticipantTestHelper {
     }
 
     private static void completeParticipantSchedule(Participant participant, StudySite ss1, boolean executeRule) {
-        boolean rulesExecuted = false;
+        boolean emailSent = false;
         StudyParticipantCrf studyParticipantCrf = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
         for (int i = 0; i < 5; i++) {
             StudyParticipantCrfSchedule schedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(i);
@@ -84,9 +84,8 @@ public class ParticipantTestHelper {
             schedule.setStatus(CrfStatus.COMPLETED);
             genericRepository.save(schedule);
             if (executeRule) {
-                if (!rulesExecuted) {
-                    NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
-                    rulesExecuted = true;
+                if (!emailSent) {
+                    emailSent = NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
                 }
             }
         }

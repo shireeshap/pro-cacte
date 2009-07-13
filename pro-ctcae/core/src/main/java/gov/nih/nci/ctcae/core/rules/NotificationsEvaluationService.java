@@ -28,13 +28,13 @@ public class NotificationsEvaluationService {
     private static GenericRepository genericRepository;
 
 
-    public static void executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) {
+    public static boolean executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) {
         ArrayList<String[]> criticalSymptoms = new ArrayList<String[]>();
         HashSet<String> emails = new HashSet<String>();
         HashSet<User> users = new HashSet<User>();
         RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, studySite);
         if (ruleSet == null) {
-            return;
+            return false;
         }
         TreeMap<Integer, ArrayList<StudyParticipantCrfItem>> distinctPageNumbers = new TreeMap<Integer, ArrayList<StudyParticipantCrfItem>>();
         Notification notification = new Notification();
@@ -91,7 +91,7 @@ public class NotificationsEvaluationService {
                     }
                 } catch (RuleSetNotFoundException e) {
                     logger.error("RuleSet not found - " + e.getMessage());
-                    return;
+                    return false;
                 }
             }
         }
@@ -105,10 +105,12 @@ public class NotificationsEvaluationService {
                 genericRepository.save(notification);
 
                 sendMail(getStringArr(emails), "Notification email", emailMessage);
+                return true;
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        return false;
     }
 
     private static void addEmail(String email, HashSet<String> emails) {
