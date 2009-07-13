@@ -100,7 +100,13 @@
     </div>
     <div id="careResultsGraph" style="display:none">
         <div align="right">
-            <a href="javascript:getTableView()" class="link">Switch to tabular view</a>
+            <a href="javascript:getTableView()" class="link">Switch to tabular view</a> | <a
+                href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank"><img
+                src="/proctcae/images/table/pdf.gif"
+                alt="pdf"/></a> | <a
+                href="<c:url value='/pages/reports/participantCareExcel'/>" target="_blank"><img
+                src="/proctcae/images/table/xls.gif"
+                alt="xls"/></a>
         </div>
         <br/>
         <table class="widget" cellspacing="0" width="100%">

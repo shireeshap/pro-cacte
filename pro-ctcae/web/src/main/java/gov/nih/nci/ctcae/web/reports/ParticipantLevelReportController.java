@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
-import gov.nih.nci.ctcae.core.repository.Repository;
 import gov.nih.nci.ctcae.core.domain.*;
 
 import java.util.Map;

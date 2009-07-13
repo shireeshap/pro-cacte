@@ -38,7 +38,8 @@
             font-weight: bold;
             white-space: nowrap;
             background-color: #cccccc;
-            text-align: center;
+            text-align: left;
+            padding-left:5px;
         }
 
         td.header-top {
@@ -82,9 +83,9 @@
 
 
             <tr>
-                <td class="header-top"><spring:message code="schedulecrf.label.participant"/>
+                <td class="data-left"><spring:message code="schedulecrf.label.participant"/>
                 </td>
-                <td class="header-top">Start date</td>
+                <td class="data-left">Start date</td>
                 <c:forEach items="${calendar}" var="date">
                     <td class="header-top">
                         <fmt:formatDate value="${date}" pattern="MMM-dd"/>
@@ -94,7 +95,7 @@
             <c:forEach items="${siteCrfStatus.value}" var="crfStatus">
                 <tr>
                     <td class="data-left">
-                            ${crfStatus.key.displayName} [${crfStatus.key.assignedIdentifier}]
+                            ${crfStatus.key.displayName}
                     </td>
                     <td class="data-left">
                         <c:set var="startDate"/>
