@@ -15,7 +15,7 @@ import java.util.*;
  * @author Mehul Gulati
  * @since Mar 18, 2009
  */
-public class ParticipantCareReportTest extends WebTestCase {
+public class ParticipantLevelReportTest extends WebTestCase {
 
     ProCtcQuestion proCtcQuestion1, proCtcQuestion2, proCtcQuestion3;
     ProCtcTerm proCtcTerm;
@@ -130,9 +130,9 @@ public class ParticipantCareReportTest extends WebTestCase {
 
     public void testPdfGeneration() throws Exception {
 
-        ParticipantCarePdfController controller = new ParticipantCarePdfController();
+        ParticipantLevelReportPdfController controller = new ParticipantLevelReportPdfController();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
-        ParticipantCarePdfView view = (ParticipantCarePdfView) modelAndView.getView();
+        ParticipantLevelReportPdfView view = (ParticipantLevelReportPdfView) modelAndView.getView();
         view.render(null, request, response);
         assertEquals("application/pdf", response.getContentType());
         File f = new File("generatedpdf.pdf");
@@ -149,9 +149,9 @@ public class ParticipantCareReportTest extends WebTestCase {
 
     public void testExcelGeneration() throws Exception {
 
-        ParticipantCareExcelController controller = new ParticipantCareExcelController();
+        ParticipantReportExcelController controller = new ParticipantReportExcelController();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
-        ParticipantCareExcelView view = (ParticipantCareExcelView) modelAndView.getView();
+        ParticipantLevelReportExcelView view = (ParticipantLevelReportExcelView) modelAndView.getView();
         view.render(null, request, response);
         assertEquals("application/vnd.ms-excel", response.getContentType());
         File f = new File("generatedexcel.xls");

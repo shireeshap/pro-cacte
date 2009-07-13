@@ -9,93 +9,7 @@
 
 <html>
 <head>
-    <style type="text/css">
-        table.widget {
-            border-collapse: collapse;
-        }
-
-        table.widget col {
-            width: 200px;
-        }
-
-        td.data {
-            border: 1px solid #666666;
-            white-space: nowrap;
-            text-align: center;
-
-        }
-        td.header-top {
-            border: 1px solid #eaeaea;
-            font-weight: bold;
-            text-align: center;
-            background-color: #cccccc;
-        }
-
-        td.category-name, td.subcategory-name, td.actual-question {
-            border: 1px solid #eaeaea;
-            text-align: left;
-        }
-
-        td.category-name {
-            background-color: #fff;
-            font-weight: bolder;
-        }
-
-        td.subcategory-name {
-            background-color: #fff;
-            padding-left: 6px;
-            vertical-align: top;
-        }
-
-        td.help-values {
-            border: 1px solid #eaeaea;
-            background-color: #fff;
-            padding-left: 6px;
-            vertical-align: top;
-            text-align: center;
-        }
-
-        td.actual-question {
-            background-color: #D5D5D5;
-            padding-left: 18px;
-        }
-
-        td.displayOrder0 {
-            background-color: white;
-        }
-
-        td.displayOrder1 {
-            background-color: white;
-        }
-
-        td.displayOrder2 {
-            background-color: white;
-        }
-
-        td.displayOrder3 {
-            background-color: red;
-            color: black;
-        }
-
-        td.displayOrder4 {
-            background-color: red;
-            color: black;
-        }
-
-        /* The hint to Hide and Show */
-        .hint {
-            z-index: 3; /* To handle the overlapping issue*/
-            display: none;
-            position: absolute;
-            width: 700px;
-            white-space: normal;
-            margin-top: -4px;
-            border: 1px solid #c93;
-            padding: 10px 12px;
-            opacity: .95;
-            background: #ffc url(../images/pointer.gif) no-repeat -10px 5px;
-        }
-    </style>
+    <tags:stylesheetLink name="reports"/>
 </head>
 <body>
 <span id="attribute-help-content" class="hint" style="display: none;">
@@ -130,17 +44,17 @@
 </span>
 <chrome:box title="Report - ${participant.displayName}">
 
-    <div align="right">
-        <a href="javascript:getChartView()">Switch to graphical view</a> | <a
-            href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank"><img
-            src="/proctcae/images/table/pdf.gif"
-            alt="pdf"/></a> | <a
-            href="<c:url value='/pages/reports/participantCareExcel'/>" target="_blank"><img
-            src="/proctcae/images/table/xls.gif"
-            alt="xls"/></a>
-    </div>
-    <br/>
     <div id="careResultsTable">
+        <div align="right">
+            <a href="javascript:getChartView()" class="link">Switch to graphical view</a> | <a
+                href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank"><img
+                src="/proctcae/images/table/pdf.gif"
+                alt="pdf"/></a> | <a
+                href="<c:url value='/pages/reports/participantCareExcel'/>" target="_blank"><img
+                src="/proctcae/images/table/xls.gif"
+                alt="xls"/></a>
+        </div>
+        <br/>
         <table class="widget" cellspacing="0">
             <col/>
             <tr>
@@ -185,8 +99,10 @@
 
     </div>
     <div id="careResultsGraph" style="display:none">
-        <a href="javascript:getTableView()">Switch to tabular view</a>
-
+        <div align="right">
+            <a href="javascript:getTableView()" class="link">Switch to tabular view</a>
+        </div>
+        <br/>
         <table class="widget" cellspacing="0" width="100%">
             <tr>
                 <td class="subcategory-name">

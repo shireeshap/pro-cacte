@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
  * Date: Apr 24, 2009
  * Time: 1:13:34 PM
  */
-public class ParticipantCareExcelController extends AbstractController {
+public class ParticipantReportExcelController extends AbstractController {
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        ParticipantCareExcelView participantCareExcelView = new ParticipantCareExcelView();
-        return new ModelAndView(participantCareExcelView);
+        ParticipantLevelReportExcelView participantLevelReportExcelView = new ParticipantLevelReportExcelView();
+        return new ModelAndView(participantLevelReportExcelView);
     }
 }

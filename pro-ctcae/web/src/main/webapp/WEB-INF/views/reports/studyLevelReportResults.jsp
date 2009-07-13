@@ -9,80 +9,7 @@
 
 <html>
 <head>
-    <style type="text/css">
-        table.widget {
-            border: 1px solid #eaeaea;
-            border-collapse: collapse;
-        }
-
-        table.widget col {
-            width: 200px;
-        }
-
-        td.data {
-            border: 1px solid #eaeaea;
-            background-color: #D5D5D5;
-            white-space: nowrap;
-            text-align: center;
-
-        }
-
-        td.header-top {
-            border: 1px solid #eaeaea;
-            font-weight: bold;
-            text-align: center;
-            background-color: #cccccc;
-        }
-
-        td.category-name, td.subcategory-name, td.actual-question {
-            border: 1px solid #eaeaea;
-            text-align: left;
-        }
-
-        td.category-name {
-            background-color: #fff;
-            font-weight: bolder;
-        }
-
-        td.subcategory-name {
-            background-color: #fff;
-            padding-left: 6px;
-            vertical-align: top;
-        }
-
-        td.help-values {
-            border: 1px solid #eaeaea;
-            background-color: #fff;
-            padding-left: 6px;
-            vertical-align: top;
-            text-align: center;
-        }
-
-        td.actual-question {
-            background-color: #009999;
-            text-align: center;
-            font-weight: bold;
-            color: white;
-        }
-
-        #careResultsTable {
-            overflow-x: scroll;
-        }
-
-        /* The hint to Hide and Show */
-        .hint {
-            z-index: 3; /* To handle the overlapping issue*/
-            display: none;
-            position: absolute;
-            width: 700px;
-            white-space: normal;
-            margin-top: -4px;
-            border: 1px solid #c93;
-            padding: 10px 12px;
-            opacity: .95;
-            background: #ffc url(../images/pointer.gif) no-repeat -10px 5px;
-        }
-    </style>
+    <tags:stylesheetLink name="reports"/>
 </head>
 <body>
 <span id="attribute-help-content" class="hint" style="display: none;">
@@ -129,7 +56,7 @@
         <div id="careResultsTable">
             <c:forEach items="${organizationTable.value}" var="participantTable">
                 <chrome:division
-                        title="Participant: ${participantTable.key.displayName} [${participantTable.key.assignedIdentifier}] "/>
+                        title="Participant: ${participantTable.key.displayName}"/>
                 ${participantTable.value}
                 <br/>
             </c:forEach>

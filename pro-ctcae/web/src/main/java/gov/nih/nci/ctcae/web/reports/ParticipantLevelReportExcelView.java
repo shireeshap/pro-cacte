@@ -15,7 +15,7 @@ import java.util.*;
  * Date: Apr 24, 2009
  * Time: 1:13:34 PM
  */
-public class ParticipantCareExcelView extends AbstractExcelView {
+public class ParticipantLevelReportExcelView extends AbstractExcelView {
 
     protected void buildExcelDocument(Map map, HSSFWorkbook hssfWorkbook, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");

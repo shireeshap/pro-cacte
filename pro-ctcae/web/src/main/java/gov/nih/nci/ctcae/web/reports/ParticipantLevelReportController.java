@@ -17,13 +17,13 @@ import java.util.Map;
  * @author Mehul Gulati
  *         Date: Apr 10, 2009
  */
-public class ParticipantCareMonitorController extends AbstractController {
+public class ParticipantLevelReportController extends AbstractController {
 
     StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-        ModelAndView modelAndView = new ModelAndView("reports/participantCareMonitor");
+        ModelAndView modelAndView = new ModelAndView("reports/participantLevelReport");
         String scheduleId = request.getParameter("sid");
 
         if (!StringUtils.isBlank(scheduleId)) {
@@ -50,7 +50,7 @@ public class ParticipantCareMonitorController extends AbstractController {
         return modelAndView;
     }
 
-    public ParticipantCareMonitorController() {
+    public ParticipantLevelReportController() {
         super();
         setSupportedMethods(new String[]{"GET"});
     }

@@ -344,8 +344,8 @@
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
 
-    <bean name="/reports/participantCareMonitor" id="participantCareMonitorController"
-          class="gov.nih.nci.ctcae.web.reports.ParticipantCareMonitorController">
+    <bean name="/reports/participantReport" id="participantCareMonitorController"
+          class="gov.nih.nci.ctcae.web.reports.ParticipantLevelReportController">
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
 
@@ -354,7 +354,7 @@
         <property name="meddraVersionDao" ref="meddraVersionDao"/>
     </bean>
     <bean name="/reports/participantCareResults" id="participantCareResultsController"
-          class="gov.nih.nci.ctcae.web.reports.ParticipantCareResultsController">
+          class="gov.nih.nci.ctcae.web.reports.ParticipantLevelReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
     <bean name="/participant/responseReport" id="participantResponseReportController"
@@ -363,11 +363,11 @@
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
     </bean>
     <bean name="/reports/participantCarePdf" id="participantCarePdfController"
-          class="gov.nih.nci.ctcae.web.reports.ParticipantCarePdfController">
+          class="gov.nih.nci.ctcae.web.reports.ParticipantLevelReportPdfController">
     </bean>
 
     <bean name="/reports/participantCareExcel" id="participantCareExcelController"
-          class="gov.nih.nci.ctcae.web.reports.ParticipantCareExcelController">
+          class="gov.nih.nci.ctcae.web.reports.ParticipantReportExcelController">
     </bean>
 
     <bean name="/reports/overallStudy" id="studyLevelReportResultsController"
@@ -397,7 +397,7 @@
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
     <bean name="/reports/participantCareResultsGraph" id="participantCareResultsGraph"
-          class="gov.nih.nci.ctcae.web.reports.ParticipantCareGraphicalReportController"
+          class="gov.nih.nci.ctcae.web.reports.ParticipantLevelGraphicalReportController"
           parent="participantCareResultsController">
     </bean>
 

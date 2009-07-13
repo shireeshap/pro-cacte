@@ -26,13 +26,13 @@
         studySiteMandatory = true;
         function initializeFields() {
         <c:if test="${study ne null}">
-            initializeAutoCompleter('study', '${study.displayName}', ${study.id});
-            displayForms(${crf.id});
-            displaySites();
-            initializeAutoCompleter('studySite', '${studySite.displayName}', ${studySite.id});
-            fnDisplayParticipants();
-            initializeAutoCompleter('participant', '${participant.displayName}', ${participant.id});
-            setTimeout("participantCareResults();", 2000);
+            <%--initializeAutoCompleter('study', '${study.displayName}', ${study.id});--%>
+            <%--displayForms(${crf.id});--%>
+            <%--displaySites();--%>
+            <%--initializeAutoCompleter('studySite', '${studySite.displayName}', ${studySite.id});--%>
+            <%--fnDisplayParticipants();--%>
+            <%--initializeAutoCompleter('participant', '${participant.displayName}', ${participant.id});--%>
+            <%--setTimeout("participantCareResults();", 2000);--%>
         </c:if>
         }
         function participantCareResults(format, symptomId, selectedTypes) {

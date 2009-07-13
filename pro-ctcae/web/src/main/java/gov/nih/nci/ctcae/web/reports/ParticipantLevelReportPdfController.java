@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
  * Date: Apr 24, 2009
  * Time: 1:13:34 PM
  */
-public class ParticipantCarePdfController extends AbstractController {
+public class ParticipantLevelReportPdfController extends AbstractController {
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        ParticipantCarePdfView  participantCarePdfView = new ParticipantCarePdfView();
-        return new ModelAndView(participantCarePdfView);
+        ParticipantLevelReportPdfView participantLevelReportPdfView = new ParticipantLevelReportPdfView();
+        return new ModelAndView(participantLevelReportPdfView);
     }
 }

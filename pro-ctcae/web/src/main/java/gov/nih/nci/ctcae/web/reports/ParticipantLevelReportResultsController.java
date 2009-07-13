@@ -17,14 +17,14 @@ import java.util.*;
  * @author Mehul Gulati
  *         Date: Apr 11, 2009
  */
-public class ParticipantCareResultsController extends AbstractController {
+public class ParticipantLevelReportResultsController extends AbstractController {
 
     GenericRepository genericRepository;
     
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-        ModelAndView modelAndView = new ModelAndView("reports/participantCareResults");
+        ModelAndView modelAndView = new ModelAndView("reports/participantLevelReportResults");
         StudyParticipantCrfScheduleQuery query = parseRequestParametersAndFormQuery(request, modelAndView);
         List<StudyParticipantCrfSchedule> list = genericRepository.find(query);
         List<String> dates = new ArrayList<String>();

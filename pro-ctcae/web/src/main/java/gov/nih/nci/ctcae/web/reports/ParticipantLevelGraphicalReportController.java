@@ -18,7 +18,7 @@ import java.util.*;
  * Date: Jan 8, 2009
  * Time: 12:12:32 PM.
  */
-public class ParticipantCareGraphicalReportController extends ParticipantCareResultsController {
+public class ParticipantLevelGraphicalReportController extends ParticipantLevelReportResultsController {
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.Controller#handleRequest(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)

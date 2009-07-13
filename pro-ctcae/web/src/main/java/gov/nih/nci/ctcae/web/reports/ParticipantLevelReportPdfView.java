@@ -20,7 +20,7 @@ import java.util.*;
  * Date: Apr 24, 2009
  * Time: 1:13:34 PM
  */
-public class ParticipantCarePdfView extends AbstractPdfView {
+public class ParticipantLevelReportPdfView extends AbstractPdfView {
     protected void buildPdfDocument(Map map, Document document, PdfWriter pdfWriter, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
 
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
