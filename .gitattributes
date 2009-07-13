@@ -1206,6 +1206,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantCareMonitor
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantCareReportIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantCareReportTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelGraphicalReportsTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/SymptomOverTimeReportTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryReportTest.java -text
