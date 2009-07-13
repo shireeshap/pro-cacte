@@ -152,7 +152,7 @@ public class CrfTestHelper {
                 if (q.getProCtcQuestionType().equals(ProCtcQuestionType.SEVERITY)) {
                     symptoms.add(q.getProCtcTerm().getTerm());
                 }
-                if (symptoms.size() == 2) {
+                if (symptoms.size() == 1) {
                     break;
                 }
             }
