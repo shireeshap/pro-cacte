@@ -18,7 +18,6 @@ import java.util.*;
 public class ParticipantTestHelper {
 
     private static ParticipantRepository participantRepository;
-    private static CRFRepository crfRepository;
     private static GenericRepository genericRepository;
 
     private ParticipantTestHelper() {
@@ -26,7 +25,6 @@ public class ParticipantTestHelper {
 
     public static void initialize() {
         participantRepository = TestDataManager.participantRepository;
-        crfRepository = TestDataManager.crfRepository;
         genericRepository = TestDataManager.genericRepository;
         NotificationsEvaluationService.setGenericRepository(genericRepository);
     }
@@ -156,7 +154,7 @@ public class ParticipantTestHelper {
                 spc.setCrf(crf);
                 spc.setStartDate(new Date());
                 participant.getStudyParticipantAssignments().get(0).addStudyParticipantCrf(spc);
-                crfRepository.generateSchedulesFromCrfCalendar(spc);
+                spc.generateSchedules();
             }
         }
     }
