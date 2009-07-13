@@ -131,6 +131,7 @@ public class ParticipantCommand {
     public void assignCrfsToParticipant(StudyParticipantAssignment studyParticipantAssignment, CRFRepository crfRepository, HttpServletRequest request) throws ParseException {
         Study study = studyParticipantAssignment.getStudySite().getStudy();
         for (CRF crf : study.getCrfs()) {
+            crf = crfRepository.findById(crf.getId());
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
                 String sDate = request.getParameter("form_date_" + crf.getId());

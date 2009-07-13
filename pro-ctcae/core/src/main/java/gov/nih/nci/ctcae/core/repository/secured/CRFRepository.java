@@ -142,7 +142,6 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     private void initializeCollections(CRF crf) {
-        crf = findById(crf.getId());
         for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
             studyParticipantCrf.getCrf();
         }
