@@ -35,9 +35,9 @@ public class StudyParticipantCommandTest extends WebTestCase {
         studyParticipantCrf.setCrf(crf);
 
         crf = new CRF();
-        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(), crf);
-        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(), crf);
-        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(), crf);
+        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
+        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
+        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
 
         studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
 
