@@ -118,6 +118,7 @@ public class ParticipantSchedule {
                 }
             }
             StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
+            studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
             studyParticipantCrfSchedule.setStartDate(c.getTime());
             studyParticipantCrfSchedule.setDueDate(new Date(c.getTimeInMillis() + dueAfterPeriodInMill));
             if (cycleNumber != -1) {
@@ -125,8 +126,6 @@ public class ParticipantSchedule {
                 studyParticipantCrfSchedule.setCycleDay(cycleDay);
             }
 
-            CRF crf = studyParticipantCrf.getCrf();
-            studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule, crf);
             return studyParticipantCrfSchedule;
         }
 

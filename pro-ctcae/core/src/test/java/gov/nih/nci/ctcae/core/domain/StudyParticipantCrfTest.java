@@ -38,7 +38,7 @@ public class StudyParticipantCrfTest extends TestDataManager {
         assertEquals(crf, studyParticipantCrf.getCrf());
         assertNotNull(studyParticipantCrf.getStudyParticipantAssignment());
 
-        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule(), crf);
+        studyParticipantCrf.addStudyParticipantCrfSchedule(new StudyParticipantCrfSchedule());
 
         assertEquals(1, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
 

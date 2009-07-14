@@ -140,9 +140,8 @@ public class StudyParticipantCrf extends BaseVersionable {
      * Adds the study participant crf schedule.
      *
      * @param studyParticipantCrfSchedule the study participant crf schedule
-     * @param crf                         the crf
      */
-    public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf) {
+    public void addStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
         for (CRFPage crfPage : crf.getCrfPagesSortedByPageNumber()) {
             for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
                 StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
