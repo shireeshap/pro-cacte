@@ -74,19 +74,20 @@ public class ParticipantTestHelper {
         StudyParticipantCrf studyParticipantCrf = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
         for (int i = 0; i < 5; i++) {
             StudyParticipantCrfSchedule schedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(i);
-            for (StudyParticipantCrfItem studyParticipantCrfItem : schedule.getStudyParticipantCrfItems()) {
-                List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
-                studyParticipantCrfItem.setProCtcValidValue(validValues.get(i % validValues.size()));
-            }
-            schedule.setStatus(CrfStatus.COMPLETED);
-            genericRepository.save(schedule);
-            if (executeRule) {
-                if (!emailSent) {
-                    emailSent = NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
+            if (!schedule.isBaseline()) {
+                for (StudyParticipantCrfItem studyParticipantCrfItem : schedule.getStudyParticipantCrfItems()) {
+                    List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
+                    studyParticipantCrfItem.setProCtcValidValue(validValues.get(i % validValues.size()));
+                }
+                schedule.setStatus(CrfStatus.COMPLETED);
+                genericRepository.save(schedule);
+                if (executeRule) {
+                    if (!emailSent) {
+                        emailSent = NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
+                    }
                 }
             }
         }
-
     }
 
     public static Participant createParticipant(String firstName, String lastName, String assignedIdentifier, StudySite studySite) throws ParseException {

@@ -45,6 +45,24 @@
             top: 39px;
         }
     </style>
+    <script>
+        var baselineForms = new Array();
+        function showForm(crfid, scheduleid) {
+            var baselineCompleted = true;
+            for (var i = 0; i < baselineForms.length; i++) {
+                if (crfid = baselineForms[i]) {
+                    baselineCompleted = false;
+                    break;
+                }
+            }
+            if (baselineCompleted) {
+                window.location.href = '../../pages/form/submit?id=' + scheduleid;
+            } else {
+                alert('Please complete the baseline survey before continuing with this survey.');
+            }
+        }
+
+    </script>
 </head>
 <body>
 <c:set var="todaysdate" value="<%= new Date()%>"/>
@@ -58,9 +76,11 @@
         </c:forEach>
     </c:forEach>
 </c:forEach>
-<img style="position:absolute; top:0px; left:0px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox" />
+<img style="position:absolute; top:0px; left:0px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
+
 <div id="inboxTitle"><span style="font-size:75px; line-height:70px;">Inbox</span><br/>
-    <span style="font-size:13pt; margin-left:6px;">You have <c:choose><c:when test="${not empty numberofCrfs}"><span style="font-weight:bolder;">${numberofCrfs}</span></c:when><c:otherwise>no</c:otherwise></c:choose> form<c:if
+    <span style="font-size:13pt; margin-left:6px;">You have <c:choose><c:when test="${not empty numberofCrfs}"><span
+            style="font-weight:bolder;">${numberofCrfs}</span></c:when><c:otherwise>no</c:otherwise></c:choose> form<c:if
             test="${numberofCrfs != 1}">s</c:if> that need<c:if
             test="${numberofCrfs == 1}">s</c:if> to be completed.</span>
 </div>
@@ -86,13 +106,25 @@
                 <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
                     <tr>
                         <td>
-                            <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}"> ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title} </a>
+                            <c:choose>
+                                <c:when test="${studyParticipantCrfSchedule.baseline}">
+                                    <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}">${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}</a> (Baseline survey)
+                                    <script type="text/javascript">
+                                        baselineForms[baselineForms.length] = '${studyParticipantCrfSchedule.studyParticipantCrf.crf.id}';
+                                    </script>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="javascript:showForm('${studyParticipantCrfSchedule.studyParticipantCrf.crf.id}','${studyParticipantCrfSchedule.id}')">${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}</a>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                         <td>
                                 ${studyParticipantCrfSchedule.status}
                         </td>
                         <td>
-                            <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
+                            <c:if test="${not studyParticipantCrfSchedule.baseline}">
+                                <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
+                            </c:if>
                         </td>
                     </tr>
                 </c:if>
