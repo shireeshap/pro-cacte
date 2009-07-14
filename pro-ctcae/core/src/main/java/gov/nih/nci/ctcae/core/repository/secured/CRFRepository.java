@@ -63,7 +63,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void generateSchedules(CRF crf) throws ParseException {
         for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
-            studyParticipantCrf.generateSchedules();
+            studyParticipantCrf.createSchedules();
         }
     }
 

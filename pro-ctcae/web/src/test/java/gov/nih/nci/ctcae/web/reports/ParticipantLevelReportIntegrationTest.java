@@ -26,7 +26,7 @@ public class ParticipantLevelReportIntegrationTest extends AbstractWebTestCase {
         StudyParticipantCrf studyParticipantCrf = studySite.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
         Participant participant = studyParticipantCrf.getStudyParticipantAssignment().getParticipant();
         controller = new ParticipantLevelReportResultsController();
-        schedules = studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED);
+        schedules = studyParticipantCrf.getStudyParticipantCrfSchedulesByStatus(CrfStatus.COMPLETED);
 
         request.setMethod("GET");
         request.setParameter("studyId", study.getId().toString());

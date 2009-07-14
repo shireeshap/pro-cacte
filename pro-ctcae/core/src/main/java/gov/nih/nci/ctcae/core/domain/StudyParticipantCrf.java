@@ -149,9 +149,9 @@ public class StudyParticipantCrf extends BaseVersionable {
                 studyParticipantCrfItem.setCrfPageItem(crfPageItem);
                 studyParticipantCrfSchedule.addStudyParticipantCrfItem(studyParticipantCrfItem);
             }
-            studyParticipantCrfSchedule.setStudyParticipantCrf(this);
-            studyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
         }
+        studyParticipantCrfSchedule.setStudyParticipantCrf(this);
+        studyParticipantCrfSchedules.add(studyParticipantCrfSchedule);
     }
 
     /**
@@ -227,17 +227,18 @@ public class StudyParticipantCrf extends BaseVersionable {
     }
 
     @Transient
-    public List<StudyParticipantCrfSchedule> getCrfsByStatus(CrfStatus crfStatus) {
-        List crfs = new ArrayList<StudyParticipantCrfSchedule>();
+    public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedulesByStatus(CrfStatus crfStatus) {
+        List l = new ArrayList<StudyParticipantCrfSchedule>();
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
             if (studyParticipantCrfSchedule.getStatus().equals(crfStatus)) {
-                crfs.add(studyParticipantCrfSchedule);
+                l.add(studyParticipantCrfSchedule);
             }
         }
-        return crfs;
+        return l;
     }
 
-    public void generateSchedules() throws ParseException {
+    public void createSchedules() throws ParseException {
+        createBaseLineSchedule();
         Date calendarStartDate = getStartDate();
         ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar();
 
@@ -264,6 +265,15 @@ public class StudyParticipantCrf extends BaseVersionable {
             }
         }
 
+    }
+
+    private void createBaseLineSchedule() {
+        ParticipantSchedule participantSchedule = new ParticipantSchedule();
+        participantSchedule.setStudyParticipantCrf(this);
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.YEAR, 1);
+        StudyParticipantCrfSchedule studyParticipantCrfSchedule = participantSchedule.createSchedule(Calendar.getInstance(), c.getTimeInMillis(), -1, -1);
+        studyParticipantCrfSchedule.setBaseline(true);
     }
 
     private void createSchedules(ProCtcAECalendar proCtcAECalendar, ParticipantSchedule.ScheduleType scheduleType) throws ParseException {

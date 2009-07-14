@@ -3,9 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
-import junit.framework.TestCase;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,14 +29,10 @@ public class StudyParticipantCrfTest extends TestDataManager {
         crf.addCrfPage(new CRFPage());
         crf.addCrfPage(new CRFPage());
 
-        Date d = new Date();
-
 
         studyParticipantCrf.setId(1);
         studyParticipantCrf.setCrf(crf);
         studyParticipantCrf.setStudyParticipantAssignment(new StudyParticipantAssignment());
-        //studyParticipantCrf.addStudyParticipantCrfSchedule(null);
-
         assertEquals(0, studyParticipantCrf.getStudyParticipantCrfSchedules().size());
         assertEquals(new Integer(1), studyParticipantCrf.getId());
         assertEquals(crf, studyParticipantCrf.getCrf());
@@ -54,14 +48,14 @@ public class StudyParticipantCrfTest extends TestDataManager {
     public void testGetCrfByStatus() {
         Study s = StudyTestHelper.getDefaultStudy();
         StudyParticipantCrf studyParticipantCrf = s.getLeadStudySite().getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
-        List<StudyParticipantCrfSchedule> schedulesS = studyParticipantCrf.getCrfsByStatus(CrfStatus.SCHEDULED);
-        List<StudyParticipantCrfSchedule> schedulesC = studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED);
+        studyParticipantCrf = genericRepository.findById(StudyParticipantCrf.class, studyParticipantCrf.getId());
+        List<StudyParticipantCrfSchedule> schedulesS = studyParticipantCrf.getStudyParticipantCrfSchedulesByStatus(CrfStatus.SCHEDULED);
+        List<StudyParticipantCrfSchedule> schedulesC = studyParticipantCrf.getStudyParticipantCrfSchedulesByStatus(CrfStatus.COMPLETED);
         assertNotNull(schedulesS);
         assertNotNull(schedulesC);
-        assertEquals(14, schedulesS.size()+schedulesC.size());
+        assertEquals(5, schedulesC.size());
+        assertEquals(9, schedulesS.size());
     }
-    
-
 
 
 }

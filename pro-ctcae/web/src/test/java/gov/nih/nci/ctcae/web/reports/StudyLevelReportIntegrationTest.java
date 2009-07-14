@@ -1,16 +1,10 @@
 package gov.nih.nci.ctcae.web.reports;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
-import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.*;
 
 /**
@@ -32,7 +26,7 @@ public class StudyLevelReportIntegrationTest extends AbstractWebTestCase {
         studySite = study.getLeadStudySite();
         StudyParticipantCrf studyParticipantCrf = studySite.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
         controller = new StudyLevelReportResultsController();
-        schedules = studyParticipantCrf.getCrfsByStatus(CrfStatus.COMPLETED);
+        schedules = studyParticipantCrf.getStudyParticipantCrfSchedulesByStatus(CrfStatus.COMPLETED);
 
         request.setMethod("GET");
         request.setParameter("study", study.getId().toString());

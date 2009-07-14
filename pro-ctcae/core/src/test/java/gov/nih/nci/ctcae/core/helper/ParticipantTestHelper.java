@@ -2,7 +2,6 @@ package gov.nih.nci.ctcae.core.helper;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
-import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
@@ -154,7 +153,7 @@ public class ParticipantTestHelper {
                 spc.setCrf(crf);
                 spc.setStartDate(new Date());
                 participant.getStudyParticipantAssignments().get(0).addStudyParticipantCrf(spc);
-                spc.generateSchedules();
+                spc.createSchedules();
             }
         }
     }

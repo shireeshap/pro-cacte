@@ -19,7 +19,7 @@ import java.util.*;
 @Table(name = "SP_CRF_SCHEDULES")
 
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
-    @Parameter(name = "sequence", value = "seq_sp_crf_schedules_id")})
+        @Parameter(name = "sequence", value = "seq_sp_crf_schedules_id")})
 public class StudyParticipantCrfSchedule extends BasePersistable {
 
     /**
@@ -58,11 +58,14 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Column(name = "cycle_day", nullable = true)
     private Integer cycleDay;
 
-    @Column(name = "week_in_year", nullable = false)
-    private Integer weekInYear;
+    @Column(name = "week_in_study", nullable = false)
+    private Integer weekInStudy;
 
-    @Column(name = "month_in_year", nullable = false)
-    private Integer monthInYear;
+    @Column(name = "month_in_study", nullable = false)
+    private Integer monthInStudy;
+
+    @Column(name = "baseline", nullable = true)
+    private boolean baseline = false;
 
 
     /**
@@ -171,8 +174,8 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         this.startDate = startDate;
         Calendar c = Calendar.getInstance();
         c.setTime(startDate);
-        setWeekInYear(c.get(Calendar.WEEK_OF_YEAR));
-        setMonthInYear(c.get(Calendar.MONTH));
+        setWeekInStudy(c.get(Calendar.WEEK_OF_YEAR));
+        setMonthInStudy(c.get(Calendar.MONTH));
     }
 
 
@@ -278,20 +281,20 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         this.cycleDay = cycleDay;
     }
 
-    public Integer getWeekInYear() {
-        return weekInYear;
+    public Integer getWeekInStudy() {
+        return weekInStudy;
     }
 
-    public void setWeekInYear(Integer weekInYear) {
-        this.weekInYear = weekInYear;
+    public void setWeekInStudy(Integer weekInStudy) {
+        this.weekInStudy = weekInStudy;
     }
 
-    public Integer getMonthInYear() {
-        return monthInYear;
+    public Integer getMonthInStudy() {
+        return monthInStudy;
     }
 
-    public void setMonthInYear(Integer monthInYear) {
-        this.monthInYear = monthInYear;
+    public void setMonthInStudy(Integer monthInStudy) {
+        this.monthInStudy = monthInStudy;
     }
 
     @Override
@@ -301,16 +304,17 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
         StudyParticipantCrfSchedule that = (StudyParticipantCrfSchedule) o;
 
+        if (baseline != that.baseline) return false;
         if (holiday != that.holiday) return false;
         if (cycleDay != null ? !cycleDay.equals(that.cycleDay) : that.cycleDay != null) return false;
         if (cycleNumber != null ? !cycleNumber.equals(that.cycleNumber) : that.cycleNumber != null) return false;
         if (dueDate != null ? !dueDate.equals(that.dueDate) : that.dueDate != null) return false;
-        if (monthInYear != null ? !monthInYear.equals(that.monthInYear) : that.monthInYear != null) return false;
+        if (monthInStudy != null ? !monthInStudy.equals(that.monthInStudy) : that.monthInStudy != null) return false;
         if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
         if (status != that.status) return false;
         if (studyParticipantCrf != null ? !studyParticipantCrf.equals(that.studyParticipantCrf) : that.studyParticipantCrf != null)
             return false;
-        if (weekInYear != null ? !weekInYear.equals(that.weekInYear) : that.weekInYear != null) return false;
+        if (weekInStudy != null ? !weekInStudy.equals(that.weekInStudy) : that.weekInStudy != null) return false;
 
         return true;
     }
@@ -323,9 +327,18 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (cycleNumber != null ? cycleNumber.hashCode() : 0);
         result = 31 * result + (cycleDay != null ? cycleDay.hashCode() : 0);
-        result = 31 * result + (weekInYear != null ? weekInYear.hashCode() : 0);
-        result = 31 * result + (monthInYear != null ? monthInYear.hashCode() : 0);
+        result = 31 * result + (weekInStudy != null ? weekInStudy.hashCode() : 0);
+        result = 31 * result + (monthInStudy != null ? monthInStudy.hashCode() : 0);
+        result = 31 * result + (baseline ? 1 : 0);
         result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
         return result;
+    }
+
+    public boolean isBaseline() {
+        return baseline;
+    }
+
+    public void setBaseline(boolean baseline) {
+        this.baseline = baseline;
     }
 }

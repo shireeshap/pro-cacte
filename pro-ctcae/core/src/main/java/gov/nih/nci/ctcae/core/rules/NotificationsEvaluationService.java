@@ -215,7 +215,7 @@ public class NotificationsEvaluationService {
         HashMap<String, String> previousScheduleMap = null;
         HashMap<String, String> firstScheduleMap = null;
 
-        List<StudyParticipantCrfSchedule> allSchedules = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrfsByStatus(CrfStatus.COMPLETED);
+        List<StudyParticipantCrfSchedule> allSchedules = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfSchedulesByStatus(CrfStatus.COMPLETED);
         if (allSchedules.size() == 1) {
             previousSchedule = allSchedules.get(0);
             previousScheduleMap = getMapForSchedule(previousSchedule);

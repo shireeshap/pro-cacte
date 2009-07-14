@@ -64,10 +64,10 @@ public abstract class AbstractReportQuery extends AbstractQuery {
 
     public void filterByPeriod(String periodType, int periodValue) {
         if ("week".equals(periodType.toLowerCase())) {
-            andWhere("spci.studyParticipantCrfSchedule.weekInYear = :periodValue");
+            andWhere("spci.studyParticipantCrfSchedule.weekInStudy = :periodValue");
         }
         if ("month".equals(periodType.toLowerCase())) {
-            andWhere("spci.studyParticipantCrfSchedule.monthInYear = :periodValue");
+            andWhere("spci.studyParticipantCrfSchedule.monthInStudy = :periodValue");
         }
         if ("cycle".equals(periodType.toLowerCase())) {
             andWhere("spci.studyParticipantCrfSchedule.cycleNumber = :periodValue");

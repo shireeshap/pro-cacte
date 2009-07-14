@@ -80,7 +80,7 @@ public class ParticipantCommonTest extends AbstractWebTestCase {
         List dates = (List<Date>) m.get("dates");
 
         assertEquals(10, symptomMap.keySet().size());
-        assertEquals(spc.getCrfsByStatus(CrfStatus.COMPLETED).size(), dates.size());
+        assertEquals(spc.getStudyParticipantCrfSchedulesByStatus(CrfStatus.COMPLETED).size(), dates.size());
 
         assertNotNull(m.get("schedule"));
         assertNotNull(m.get("questionTypes"));

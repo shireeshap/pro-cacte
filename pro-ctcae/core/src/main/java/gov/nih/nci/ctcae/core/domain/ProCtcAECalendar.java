@@ -154,11 +154,8 @@ public class ProCtcAECalendar {
         int month = Integer.parseInt(monYear.substring(0, monYear.indexOf('-')));
         int year = Integer.parseInt(monYear.substring(monYear.indexOf('-') + 1));
 
-        if (calendar.get(Calendar.MONTH) + 1 == month && calendar.get(Calendar.YEAR) == year) {
-            return true;
-        }
+        return calendar.get(Calendar.MONTH) + 1 == month && calendar.get(Calendar.YEAR) == year;
 
-        return false;
     }
 
     /**

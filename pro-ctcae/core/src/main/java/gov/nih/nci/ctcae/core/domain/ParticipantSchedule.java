@@ -1,7 +1,5 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -16,11 +14,6 @@ import java.util.*;
 public class ParticipantSchedule {
 
     /**
-     * The current month schedules.
-     */
-    private List<StudyParticipantCrfSchedule> currentMonthSchedules = new ArrayList<StudyParticipantCrfSchedule>();
-
-    /**
      * The calendar.
      */
     private ProCtcAECalendar calendar;
@@ -32,7 +25,7 @@ public class ParticipantSchedule {
 
     public enum ScheduleType {
         GENERAL,
-        CYCLE;
+        CYCLE
     }
 
     /**
@@ -77,7 +70,7 @@ public class ParticipantSchedule {
      * @return the current month schedules
      */
     public List<StudyParticipantCrfSchedule> getCurrentMonthSchedules() {
-        currentMonthSchedules = new ArrayList<StudyParticipantCrfSchedule>();
+        List<StudyParticipantCrfSchedule> currentMonthSchedules = new ArrayList<StudyParticipantCrfSchedule>();
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
             Date startDate = studyParticipantCrfSchedule.getStartDate();
             if (calendar.isDateWithinMonth(startDate)) {
@@ -96,7 +89,6 @@ public class ParticipantSchedule {
      * @throws ParseException the parse exception
      */
     public void createSchedules(ScheduleType scheduleType) throws ParseException {
-        //removeAllSchedules();
         calendar.prepareSchedules(scheduleType);
         int dueAfterPeriodInMill = calendar.getDueAfterPeriodInMill();
         while (calendar.hasMoreSchedules()) {
@@ -117,17 +109,17 @@ public class ParticipantSchedule {
      * @param cycleNumber
      * @param cycleDay
      */
-    public void createSchedule(Calendar c, long dueAfterPeriodInMill, int cycleNumber, int cycleDay) {
+    public StudyParticipantCrfSchedule createSchedule(Calendar c, long dueAfterPeriodInMill, int cycleNumber, int cycleDay) {
         if (c != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                 if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
-                    return;
+                    return studyParticipantCrfSchedule;
                 }
             }
             StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
             studyParticipantCrfSchedule.setStartDate(c.getTime());
-            studyParticipantCrfSchedule.setDueDate(new Date(c.getTime().getTime() + dueAfterPeriodInMill));
+            studyParticipantCrfSchedule.setDueDate(new Date(c.getTimeInMillis() + dueAfterPeriodInMill));
             if (cycleNumber != -1) {
                 studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
                 studyParticipantCrfSchedule.setCycleDay(cycleDay);
@@ -135,7 +127,10 @@ public class ParticipantSchedule {
 
             CRF crf = studyParticipantCrf.getCrf();
             studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule, crf);
+            return studyParticipantCrfSchedule;
         }
+
+        return null;
     }
 
     /**
@@ -167,10 +162,8 @@ public class ParticipantSchedule {
      */
     public void removeAllSchedules() {
         List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-            if (//(sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(startDate)) || studyParticipantCrfSchedule.getStartDate().after(startDate)) &&
-                    studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
+            if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
                 schedulesToRemove.add(studyParticipantCrfSchedule);
             }
         }
@@ -236,8 +229,8 @@ public class ParticipantSchedule {
     }
 
     private void moveSingleSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, int offset) {
-        Calendar c1 = calendar.getCalendarForDate(studyParticipantCrfSchedule.getStartDate());
-        Calendar c2 = calendar.getCalendarForDate(studyParticipantCrfSchedule.getDueDate());
+        Calendar c1 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getStartDate());
+        Calendar c2 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getDueDate());
         c1.add(Calendar.DATE, offset);
         c2.add(Calendar.DATE, offset);
 
@@ -252,7 +245,7 @@ public class ParticipantSchedule {
      * @return true, if is repeat
      */
     public boolean isRepeat() {
-        return studyParticipantCrf.getStudyParticipantCrfSchedules().size() > 1 ? true : false;
+        return studyParticipantCrf.getStudyParticipantCrfSchedules().size() > 1;
     }
 
     public StudyParticipantCrf getStudyParticipantCrf() {

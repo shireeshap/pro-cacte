@@ -1,14 +1,12 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.*;
-import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -143,7 +141,7 @@ public class ParticipantCommand {
                 }
                 studyParticipantCrf.setCrf(crf);
                 studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
-                studyParticipantCrf.generateSchedules();
+                studyParticipantCrf.createSchedules();
             }
         }
 

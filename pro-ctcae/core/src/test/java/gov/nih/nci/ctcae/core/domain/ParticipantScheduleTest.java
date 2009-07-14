@@ -47,7 +47,7 @@ public class ParticipantScheduleTest extends TestDataManager {
         c.setTimeInMillis(startDate.getTime());
         ps.removeSchedule(c);
         assertEquals(a - 1, spc.getStudyParticipantCrfSchedules().size());
-        int b = spc.getCrfsByStatus(CrfStatus.SCHEDULED).size();
+        int b = spc.getStudyParticipantCrfSchedulesByStatus(CrfStatus.SCHEDULED).size();
         ps.removeAllSchedules();
         assertEquals(a - 1 - b, spc.getStudyParticipantCrfSchedules().size());
 
@@ -85,7 +85,7 @@ public class ParticipantScheduleTest extends TestDataManager {
             i++;
         }
 
-        int scheduledStatus = spc.getCrfsByStatus(CrfStatus.SCHEDULED).size();
+        int scheduledStatus = spc.getStudyParticipantCrfSchedulesByStatus(CrfStatus.SCHEDULED).size();
         int allStatus = spc.getStudyParticipantCrfSchedules().size();
         Date d = null;
         boolean nextDate = false;
