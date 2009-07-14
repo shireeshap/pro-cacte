@@ -98,11 +98,11 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
     }
 
     public static int weeksBetweenDates(Date first, Date second) {
-        return daysBetweenDates(first, second) / 7;
+        return (daysBetweenDates(first, second) / 7) + 1;
     }
 
     public static int monthsBetweenDates(Date first, Date second) {
-        return daysBetweenDates(first, second) / 30;
+        return (daysBetweenDates(first, second) / 30) + 1;
     }
 
 }

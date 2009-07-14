@@ -94,32 +94,45 @@ public class DateUtilsTest extends CoreTestCase {
 
         c.add(Calendar.DATE, 2);
         Date d2 = c.getTime();
-        assertEquals(0, DateUtils.weeksBetweenDates(d2, d1));
+        assertEquals(1, DateUtils.weeksBetweenDates(d2, d1));
 
-        c.add(Calendar.DATE, 14);
+        c.add(Calendar.DATE, 11);
         d2 = c.getTime();
         assertEquals(2, DateUtils.weeksBetweenDates(d2, d1));
 
-        c.add(Calendar.DATE, 5);
+        c.add(Calendar.DATE, 1);
         d2 = c.getTime();
         assertEquals(3, DateUtils.weeksBetweenDates(d2, d1));
 
+        c.add(Calendar.DATE, 2);
+        d2 = c.getTime();
+        assertEquals(3, DateUtils.weeksBetweenDates(d2, d1));
+
+        c.add(Calendar.DATE, 5);
+        d2 = c.getTime();
+        assertEquals(4, DateUtils.weeksBetweenDates(d2, d1));
+
     }
+    
     public void testMonthsBetweenDates() {
         Calendar c = GregorianCalendar.getInstance();
         Date d1 = c.getTime();
 
         c.add(Calendar.DATE, 2);
         Date d2 = c.getTime();
-        assertEquals(0, DateUtils.monthsBetweenDates(d2, d1));
-
-        c.add(Calendar.DATE, 31);
-        d2 = c.getTime();
         assertEquals(1, DateUtils.monthsBetweenDates(d2, d1));
+
+        c.add(Calendar.DATE, 30);
+        d2 = c.getTime();
+        assertEquals(2, DateUtils.monthsBetweenDates(d2, d1));
+
+        c.add(Calendar.DATE, 1);
+        d2 = c.getTime();
+        assertEquals(2, DateUtils.monthsBetweenDates(d2, d1));
 
         c.add(Calendar.DATE, 27);
         d2 = c.getTime();
-        assertEquals(2, DateUtils.monthsBetweenDates(d2, d1));
+        assertEquals(3, DateUtils.monthsBetweenDates(d2, d1));
 
     }
 
