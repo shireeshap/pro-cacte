@@ -125,13 +125,13 @@ public class SubmitFormCommand implements Serializable {
         studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment();
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-            if (studyParticipantCrf.getCrf().getId().equals(latestEffectiveCrf.getId())) {
+            if (studyParticipantCrf.getCrf().equals(latestEffectiveCrf)) {
                 StudyParticipantCrfSchedule newSchedule = new StudyParticipantCrfSchedule();
                 newSchedule.setStartDate(studyParticipantCrfSchedule.getStartDate());
                 newSchedule.setDueDate(studyParticipantCrfSchedule.getDueDate());
                 newSchedule.setStatus(CrfStatus.SCHEDULED);
                 newSchedule.setBaseline(studyParticipantCrfSchedule.isBaseline());
-                studyParticipantCrf.addStudyParticipantCrfSchedule(newSchedule, latestEffectiveCrf);
+                studyParticipantCrf.addStudyParticipantCrfSchedule(newSchedule);
                 return newSchedule;
             }
         }
