@@ -55,11 +55,11 @@ public class ProCtcAEFactResolver {
     }
 
     public static HashMap<ProCtcQuestionType, TreeSet<ProCtcValidValue>> getComparisonValues(CRF crf) {
-        TreeSet<ProCtcValidValue> severityOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
-        TreeSet<ProCtcValidValue> interferenceOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
-        TreeSet<ProCtcValidValue> presentOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
-        TreeSet<ProCtcValidValue> amountOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
-        TreeSet<ProCtcValidValue> frequencyOptions = new TreeSet<ProCtcValidValue>(new SeverityLevelComparator());
+        TreeSet<ProCtcValidValue> severityOptions = new TreeSet<ProCtcValidValue>(new DisplayOrderComparator());
+        TreeSet<ProCtcValidValue> interferenceOptions = new TreeSet<ProCtcValidValue>(new DisplayOrderComparator());
+        TreeSet<ProCtcValidValue> presentOptions = new TreeSet<ProCtcValidValue>(new DisplayOrderComparator());
+        TreeSet<ProCtcValidValue> amountOptions = new TreeSet<ProCtcValidValue>(new DisplayOrderComparator());
+        TreeSet<ProCtcValidValue> frequencyOptions = new TreeSet<ProCtcValidValue>(new DisplayOrderComparator());
 
         for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
             switch (crfPageItem.getProCtcQuestion().getProCtcQuestionType()) {

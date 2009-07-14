@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.CRFPage;
 import gov.nih.nci.ctcae.core.domain.CrfPageItem;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtcTermComparator;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.apache.commons.lang.StringUtils;

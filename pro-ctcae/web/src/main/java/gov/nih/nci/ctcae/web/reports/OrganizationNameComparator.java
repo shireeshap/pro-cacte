@@ -22,7 +22,5 @@ public class OrganizationNameComparator implements Comparator<Organization> {
     */
     public int compare(Organization organization, Organization organization1) {
         return organization.getDisplayName().toLowerCase().compareTo(organization1.getDisplayName().toLowerCase());
-
-
     }
 }

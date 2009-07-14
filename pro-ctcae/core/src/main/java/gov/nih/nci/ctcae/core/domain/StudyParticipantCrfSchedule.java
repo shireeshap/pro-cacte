@@ -118,7 +118,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
      * @return the study participant crf items
      */
     public List<StudyParticipantCrfItem> getStudyParticipantCrfItems() {
-        Collections.sort(studyParticipantCrfItems, new ParticipantCrfDisplayOrderComparator());
+        Collections.sort(studyParticipantCrfItems, new DisplayOrderComparator());
         return studyParticipantCrfItems;
     }
 
@@ -239,7 +239,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
      * @return the study participant crf schedule added questions
      */
     public List<StudyParticipantCrfScheduleAddedQuestion> getStudyParticipantCrfScheduleAddedQuestions() {
-        Collections.sort(studyParticipantCrfScheduleAddedQuestions, new ParticipantAddedQuestionDisplayOrderComparator());
+        Collections.sort(studyParticipantCrfScheduleAddedQuestions, new DisplayOrderComparator());
         return studyParticipantCrfScheduleAddedQuestions;
     }
 

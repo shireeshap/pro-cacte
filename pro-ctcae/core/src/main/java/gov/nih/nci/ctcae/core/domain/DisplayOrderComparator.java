@@ -31,10 +31,42 @@ public class DisplayOrderComparator implements Comparator {
             return compareCrfPageItem((CrfPageItem) object, (CrfPageItem) object1);
         } else if (object instanceof CRFPage) {
             return compareCrfPage((CRFPage) object, (CRFPage) object1);
+        } else if (object instanceof ProCtcValidValue) {
+            compareValidValue((ProCtcValidValue) object, (ProCtcValidValue) object1);
+        } else if (object instanceof StudyParticipantCrfItem) {
+            compareCrfPageItem(((StudyParticipantCrfItem) object).getCrfPageItem(), ((StudyParticipantCrfItem) object1).getCrfPageItem());
+        } else if (object instanceof StudyParticipantCrfScheduleAddedQuestion) {
+            compareStudyParticipantCrfScheduleAddedQuestion((StudyParticipantCrfScheduleAddedQuestion) object, (StudyParticipantCrfScheduleAddedQuestion) object1);
         }
 
         return 0;
 
+    }
+
+    private int compareStudyParticipantCrfScheduleAddedQuestion(StudyParticipantCrfScheduleAddedQuestion object, StudyParticipantCrfScheduleAddedQuestion object1) {
+        Integer fDisplayOrder = 0;
+        Integer sDisplayOrder = 0;
+
+        if (object.getProCtcQuestion() == null && object.getMeddraQuestion() == null) {
+            return 0;
+        }
+
+        if (object.getProCtcQuestion() == null) {
+            fDisplayOrder = object.getMeddraQuestion().getDisplayOrder();
+        } else {
+            fDisplayOrder = object.getProCtcQuestion().getDisplayOrder();
+        }
+
+        if (object1.getProCtcQuestion() == null) {
+            sDisplayOrder = object1.getMeddraQuestion().getDisplayOrder();
+        } else {
+            sDisplayOrder = object1.getProCtcQuestion().getDisplayOrder();
+        }
+        return fDisplayOrder.compareTo(sDisplayOrder);
+    }
+
+    private int compareValidValue(ProCtcValidValue proCtcValidValue, ProCtcValidValue proCtcValidValue1) {
+        return proCtcValidValue.getDisplayOrder().compareTo(proCtcValidValue1.getDisplayOrder());
     }
 
     /**
@@ -48,5 +80,5 @@ public class DisplayOrderComparator implements Comparator {
         return crfPage.getPageNumber().compareTo(crfPage1.getPageNumber());
 
 
-	}
+    }
 }

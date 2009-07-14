@@ -23,7 +23,5 @@ public class ParticipantNameComparator implements Comparator<Participant>, Seria
     */
     public int compare(Participant obj, Participant obj1 ) {
         return obj.getDisplayName().toLowerCase().compareTo(obj1.getDisplayName().toLowerCase());
-
-
     }
 }

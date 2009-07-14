@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Collections;
 
 //
 /**
@@ -149,6 +150,7 @@ public class ProCtcQuestion extends BasePersistable {
      * @return the valid values
      */
     public Collection<ProCtcValidValue> getValidValues() {
+        Collections.sort(validValues, new DisplayOrderComparator());
         return validValues;
     }
 
