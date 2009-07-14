@@ -18,6 +18,8 @@ public abstract class AbstractReportQuery extends AbstractQuery {
         super(query);
         andWhere("spci.studyParticipantCrfSchedule.status =:status");
         setParameter("status", CrfStatus.COMPLETED);
+        andWhere("spci.studyParticipantCrfSchedule.baseline =:baseline");
+        setParameter("baseline", false);
     }
 
 

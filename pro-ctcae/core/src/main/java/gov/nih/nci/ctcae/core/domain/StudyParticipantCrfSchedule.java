@@ -66,7 +66,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     @Column(name = "month_in_study", nullable = false)
     private Integer monthInStudy;
 
-    @Column(name = "baseline", nullable = true)
+    @Column(name = "baseline", nullable = false)
     private boolean baseline = false;
 
 
@@ -175,7 +175,11 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
         Date baselineDate = new Date();
-        setWeekInStudy(DateUtils.weeksBetweenDates(startDate,baselineDate));
+        StudyParticipantCrfSchedule crfSchedule = studyParticipantCrf.getBaseLineSchedule();
+        if (crfSchedule != null) {
+            baselineDate = crfSchedule.getStartDate();
+        }
+        setWeekInStudy(DateUtils.weeksBetweenDates(startDate, baselineDate));
         setMonthInStudy(DateUtils.monthsBetweenDates(startDate, baselineDate));
     }
 

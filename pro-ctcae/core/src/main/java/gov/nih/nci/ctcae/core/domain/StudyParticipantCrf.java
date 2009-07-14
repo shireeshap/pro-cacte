@@ -281,4 +281,13 @@ public class StudyParticipantCrf extends BaseVersionable {
         participantSchedule.setCalendar(proCtcAECalendar);
         participantSchedule.createSchedules(scheduleType);
     }
+
+    public StudyParticipantCrfSchedule getBaseLineSchedule() {
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : getStudyParticipantCrfSchedules()) {
+            if (studyParticipantCrfSchedule.isBaseline()) {
+                return studyParticipantCrfSchedule;
+            }
+        }
+        return null;
+    }
 }
