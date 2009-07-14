@@ -50,7 +50,7 @@ public class ProCtcAEFactResolver {
                 returnValue = inputValidValue >= compareTo;
             }
         }
-        System.out.println("Assert.." + "," + crf + "," + proCtcQuestionType + "," + proCtcValidValue + "," + questionType + "," + operator + "," + validValue + " --- " + returnValue);
+//        System.out.println("Assert.." + "," + crf + "," + proCtcQuestionType + "," + proCtcValidValue + "," + questionType + "," + operator + "," + validValue + " --- " + returnValue);
         return returnValue;
     }
 
