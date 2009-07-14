@@ -105,7 +105,9 @@ function performValidations() {
     hasError = false;
     var arr = new Array();
     arr[0] = 'form';
-    arr[1] = 'proCtcTermsSelect';
+    if (displaySymptom) {
+        arr[1] = 'proCtcTermsSelect';
+    }
     for (var i = 0; i < arr.length; i++) {
         validateField(arr[i]);
     }
@@ -123,6 +125,9 @@ function validateField(id) {
         } else {
             removeError(obj);
         }
+    } else {
+        hasError = true;
+        showError(obj);
     }
 }
 

@@ -50,7 +50,7 @@ public class CrfTestHelper {
         fourthTab_Notifications(crf);
         crfRepository.save(crf);
         ParticipantTestHelper.createParticipant("Charlie", "Boon", "1-4", crf.getStudy().getLeadStudySite());
-        crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), -7));
+        crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), 2));
         crf = crfRepository.updateStatusToReleased(crf);
         createSecondaryForms();
 
@@ -62,7 +62,7 @@ public class CrfTestHelper {
         firstTab_SelectStudy(crf,StudyTestHelper.getSecondaryStudy());
         secondTab_FormBuilder(crf);
         crfRepository.save(crf);
-        crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), -7));
+        crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), 3));
         crf = crfRepository.updateStatusToReleased(crf);
 
         crf = new CRF();
@@ -70,7 +70,7 @@ public class CrfTestHelper {
         firstTab_SelectStudy(crf,StudyTestHelper.getSecondaryStudy());
         secondTab_FormBuilder(crf);
         crfRepository.save(crf);
-        crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), -7));
+        crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), 0));
         crf = crfRepository.updateStatusToReleased(crf);
     }
 

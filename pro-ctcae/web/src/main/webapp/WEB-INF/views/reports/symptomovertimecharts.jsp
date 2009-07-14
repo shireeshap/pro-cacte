@@ -9,9 +9,9 @@
             <td>
                 <b>Group by:</b>
                 <select id="groupby" onchange="reportResults();">
+                    <option <c:if test="${group=='cycle'}">selected</c:if>>Cycle</option>
                     <option <c:if test="${group=='week'}">selected</c:if>>Week</option>
                     <option <c:if test="${group=='month'}">selected</c:if>>Month</option>
-                    <option <c:if test="${group=='cycle'}">selected</c:if>>Cycle</option>
                 </select>
             </td>
             <c:if test="${fn:length(allAttributes)>1}">
