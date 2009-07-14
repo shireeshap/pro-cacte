@@ -6,12 +6,16 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.HashMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * User: Harsh
  * Date: Apr 14, 2009
  * Time: 5:30:38 PM
  */
 public class ProCtcAEFactResolver {
+    protected static final Log logger = LogFactory.getLog(ProCtcAEFactResolver.class);
 
     public boolean assertFact(CRF crf, ProCtcQuestionType proCtcQuestionType, ProCtcValidValue proCtcValidValue, String questionType, String operator, String validValue) {
 
@@ -50,7 +54,7 @@ public class ProCtcAEFactResolver {
                 returnValue = inputValidValue >= compareTo;
             }
         }
-//        System.out.println("Assert.." + "," + crf + "," + proCtcQuestionType + "," + proCtcValidValue + "," + questionType + "," + operator + "," + validValue + " --- " + returnValue);
+        logger.debug("Assert.." + "," + crf + "," + proCtcQuestionType + "," + proCtcValidValue + "," + questionType + "," + operator + "," + validValue + " --- " + returnValue);
         return returnValue;
     }
 
