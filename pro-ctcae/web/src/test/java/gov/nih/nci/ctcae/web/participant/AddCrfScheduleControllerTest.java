@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,7 +35,6 @@ public class AddCrfScheduleControllerTest extends WebTestCase {
         request.getSession().setAttribute(ScheduleCrfController.class.getName() + ".FORM." + "command", studyParticipantCommand);
         expect(participantSchedule.getCalendar()).andReturn(calendar);
         expect(studyParticipantCommand.getParticipantSchedules()).andReturn(l);
-
     }
 
     public void testController() throws Exception {
@@ -80,7 +80,7 @@ public class AddCrfScheduleControllerTest extends WebTestCase {
         request.setParameter("date", "5,1");
         c.setTime(calendar.getTime());
         c.set(Calendar.DATE, 5);
-        participantSchedule.createSchedule(c, 86400000, -1, -1);
+        expect(participantSchedule.createSchedule(c, 86400000, -1, -1)).andReturn(null);
 
         Calendar d = new GregorianCalendar();
         d.setTime(calendar.getTime());
@@ -95,7 +95,7 @@ public class AddCrfScheduleControllerTest extends WebTestCase {
         request.setParameter("date", "9");
         c.setTime(calendar.getTime());
         c.set(Calendar.DATE, 9);
-        participantSchedule.createSchedule(c, 86400000, -1, -1);
+        expect(participantSchedule.createSchedule(c, 86400000, -1, -1)).andReturn(null);
         replayMocks();
         controller.handleRequest(request, response);
         verifyMocks();
