@@ -271,7 +271,6 @@ public class StudyParticipantCrf extends BaseVersionable {
         ParticipantSchedule participantSchedule = new ParticipantSchedule();
         participantSchedule.setStudyParticipantCrf(this);
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.YEAR, 1);
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = participantSchedule.createSchedule(Calendar.getInstance(), c.getTimeInMillis(), -1, -1);
         studyParticipantCrfSchedule.setBaseline(true);
     }

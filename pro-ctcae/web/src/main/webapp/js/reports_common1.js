@@ -261,9 +261,9 @@ function getQueryString(attributes, igroup) {
     queryString += "&group=" + group;
     return queryString;
 }
-function showItems(Id, grade, att, period, sum) {
+function showItems(Id, grade, att, period) {
     var request = new Ajax.Request("/proctcae/pages/reports/getParticipantItems", {
-        parameters:getQueryString() + '&pid=' + Id + '&grade=' + grade + '&att=' + att + '&period=' + period + '&sum=' + sum,
+        parameters:getQueryString() + '&pid=' + Id + '&grade=' + grade + '&att=' + att + '&period=' + period,
         onComplete:function(transport) {
             var response = transport.responseText;
             new Insertion.After('items_row_' + Id, response);

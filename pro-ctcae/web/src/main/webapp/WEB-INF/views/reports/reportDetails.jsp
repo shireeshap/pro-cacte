@@ -21,7 +21,7 @@
             <c:set var="participant" value="${row.key}"/>
             <tr id="items_row_${participant.id}">
                 <td style="padding-left:2em;width:1%">
-                    <a href="javascript:showItems('${participant.id}','${row.value}','${att}','${period}','${sum}')">
+                    <a href="javascript:showItems('${participant.id}','${row.value}','${att}','${period}')">
                         <img id="pShowImage_${participant.id}" src="../../images/arrow-right.png" style=""/>
                     </a>
                     <a href="javascript:hideItems('${participant.id}')">

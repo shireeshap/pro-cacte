@@ -130,6 +130,7 @@ public class SubmitFormCommand implements Serializable {
                 newSchedule.setStartDate(studyParticipantCrfSchedule.getStartDate());
                 newSchedule.setDueDate(studyParticipantCrfSchedule.getDueDate());
                 newSchedule.setStatus(CrfStatus.SCHEDULED);
+                newSchedule.setBaseline(studyParticipantCrfSchedule.isBaseline());
                 studyParticipantCrf.addStudyParticipantCrfSchedule(newSchedule, latestEffectiveCrf);
                 return newSchedule;
             }

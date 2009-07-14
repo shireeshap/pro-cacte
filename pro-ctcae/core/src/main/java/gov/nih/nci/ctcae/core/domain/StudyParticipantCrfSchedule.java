@@ -7,6 +7,8 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.*;
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
+
 //
 /**
  * The Class StudyParticipantCrfSchedule.
@@ -172,10 +174,9 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
      */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
-        Calendar c = Calendar.getInstance();
-        c.setTime(startDate);
-        setWeekInStudy(c.get(Calendar.WEEK_OF_YEAR));
-        setMonthInStudy(c.get(Calendar.MONTH));
+        Date baselineDate = new Date();
+        setWeekInStudy(DateUtils.weeksBetweenDates(startDate,baselineDate));
+        setMonthInStudy(DateUtils.monthsBetweenDates(startDate, baselineDate));
     }
 
 

@@ -65,9 +65,8 @@ public abstract class AbstractReportResultsController extends AbstractController
         }
 
         if (!StringUtils.isBlank(period)) {
-            Integer sum = Integer.valueOf(request.getParameter("sum"));
             String periodType = period.substring(0, period.indexOf(' '));
-            Integer colInt = Integer.parseInt(period.substring(period.indexOf(' ') + 1)) + sum - 1;
+            Integer colInt = Integer.parseInt(period.substring(period.indexOf(' ') + 1)) - 1;
             query.filterByPeriod(periodType, colInt);
         }
     }
