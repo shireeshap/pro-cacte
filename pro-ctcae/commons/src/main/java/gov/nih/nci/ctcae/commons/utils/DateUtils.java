@@ -90,4 +90,19 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
         return c.getTime();
     }
 
+    public static int daysBetweenDates(Date first, Date second) {
+        long time = first.getTime();
+        long time1 = second.getTime();
+        long diff = time - time1;
+        return new Long(diff / (1000 * 60 * 60 * 24)).intValue();
+    }
+
+    public static int weeksBetweenDates(Date first, Date second) {
+        return daysBetweenDates(first, second) / 7;
+    }
+
+    public static int monthsBetweenDates(Date first, Date second) {
+        return daysBetweenDates(first, second) / 30;
+    }
+
 }

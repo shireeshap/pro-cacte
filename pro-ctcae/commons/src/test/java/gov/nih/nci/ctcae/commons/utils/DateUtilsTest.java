@@ -5,6 +5,7 @@ import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * @author
@@ -65,13 +66,62 @@ public class DateUtilsTest extends CoreTestCase {
 
     public void testGetCurrentDate() throws ParseException {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.SECOND,0);
-        c.set(Calendar.MINUTE,0);
-        c.set(Calendar.HOUR,0);
-        c.set(Calendar.MILLISECOND,0);
-        c.set(Calendar.AM_PM,0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.HOUR, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        c.set(Calendar.AM_PM, 0);
         Date s = DateUtils.getCurrentDate();
         assertEquals(c.getTime(), s);
 
     }
+
+    public void testDaysBetweenDates() {
+        Calendar c = GregorianCalendar.getInstance();
+        Date d1 = c.getTime();
+
+        c.add(Calendar.DATE, 8);
+        Date d2 = c.getTime();
+
+        assertEquals(-8, DateUtils.daysBetweenDates(d1, d2));
+        assertEquals(8, DateUtils.daysBetweenDates(d2, d1));
+
+    }
+
+    public void testWeeksBetweenDates() {
+        Calendar c = GregorianCalendar.getInstance();
+        Date d1 = c.getTime();
+
+        c.add(Calendar.DATE, 2);
+        Date d2 = c.getTime();
+        assertEquals(0, DateUtils.weeksBetweenDates(d2, d1));
+
+        c.add(Calendar.DATE, 14);
+        d2 = c.getTime();
+        assertEquals(2, DateUtils.weeksBetweenDates(d2, d1));
+
+        c.add(Calendar.DATE, 5);
+        d2 = c.getTime();
+        assertEquals(3, DateUtils.weeksBetweenDates(d2, d1));
+
+    }
+    public void testMonthsBetweenDates() {
+        Calendar c = GregorianCalendar.getInstance();
+        Date d1 = c.getTime();
+
+        c.add(Calendar.DATE, 2);
+        Date d2 = c.getTime();
+        assertEquals(0, DateUtils.monthsBetweenDates(d2, d1));
+
+        c.add(Calendar.DATE, 31);
+        d2 = c.getTime();
+        assertEquals(1, DateUtils.monthsBetweenDates(d2, d1));
+
+        c.add(Calendar.DATE, 27);
+        d2 = c.getTime();
+        assertEquals(2, DateUtils.monthsBetweenDates(d2, d1));
+
+    }
+
+
 }
