@@ -76,7 +76,7 @@ public class ParticipantLevelReportIntegrationTest extends AbstractWebTestCase {
         assertEquals("reports/participantLevelReportResults", modelAndView.getViewName());
         Map map = modelAndView.getModel();
         List<String> dates = (List<String>) map.get("dates");
-        assertEquals(5, dates.size());
+        assertEquals(4, dates.size());
     }
 
     public void testController_WithId() throws Exception {

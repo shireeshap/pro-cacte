@@ -73,8 +73,8 @@ public class SubmitFormCommand implements Serializable {
                 StudyParticipantCrfSchedule newSchedule = createScheduleForNewStudyParticipantCrf(latestEffectiveCrf);
                 addParticipantAddedQuestionsToNewSchedule(latestEffectiveCrf, newSchedule.getStudyParticipantCrf());
                 if (newSchedule != null) {
-                    genericRepository.save(newSchedule.getStudyParticipantCrf());
                     genericRepository.delete(studyParticipantCrfSchedule);
+                    genericRepository.save(newSchedule.getStudyParticipantCrf());
                     studyParticipantCrfSchedule = newSchedule;
                 }
             }
@@ -127,11 +127,11 @@ public class SubmitFormCommand implements Serializable {
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
             if (studyParticipantCrf.getCrf().equals(latestEffectiveCrf)) {
                 StudyParticipantCrfSchedule newSchedule = new StudyParticipantCrfSchedule();
+                studyParticipantCrf.addStudyParticipantCrfSchedule(newSchedule);
                 newSchedule.setStartDate(studyParticipantCrfSchedule.getStartDate());
                 newSchedule.setDueDate(studyParticipantCrfSchedule.getDueDate());
                 newSchedule.setStatus(CrfStatus.SCHEDULED);
                 newSchedule.setBaseline(studyParticipantCrfSchedule.isBaseline());
-                studyParticipantCrf.addStudyParticipantCrfSchedule(newSchedule);
                 return newSchedule;
             }
         }
