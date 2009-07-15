@@ -31,7 +31,6 @@ public class ParticipantAddedQuestionReportQueryTest extends AbstractDependencyI
         ParticipantAddedQuestionsReportQuery query = new ParticipantAddedQuestionsReportQuery();
         query.filterByCrf(3);
 //        query.filterByStudySite(15);
-        System.out.println(query.getQueryString());
         List result = genericRepository.find(query);
         for (Object obj : result) {
             Object[] a = (Object[]) obj;
@@ -44,13 +43,11 @@ public class ParticipantAddedQuestionReportQueryTest extends AbstractDependencyI
         query.filterByCrf(3);
 //        query.filterByStudySite(15);
         query.filterBySymptom("Acne");
-        System.out.println(query.getQueryString());
         List result = genericRepository.find(query);
         for (Object obj : result) {
             Object[] m = (Object[]) obj;
             StudyParticipantCrfScheduleAddedQuestion a = (StudyParticipantCrfScheduleAddedQuestion) m[1];
             StudyParticipantCrfAddedQuestion b = (StudyParticipantCrfAddedQuestion) m[0];
-            System.out.println(b.getId() + " , " + a.getId() + " , " + a.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant().getId());
 //
 //            StudyParticipantCrfAddedQuestion o = genericRepository.findById(StudyParticipantCrfAddedQuestion.class, ((StudyParticipantCrfAddedQuestion) m[0]).getId());
 //            o.getStudyParticipantCrfScheduleAddedQuestions();
