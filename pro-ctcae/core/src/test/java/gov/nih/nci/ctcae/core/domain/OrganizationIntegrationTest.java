@@ -4,9 +4,7 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -15,7 +13,7 @@ import java.util.UUID;
  */
 public class OrganizationIntegrationTest extends TestDataManager {
 
-    private Organization organization, inValidOrganization;
+    private Organization organization;
 
 
     private void saveOrganization() {
@@ -25,63 +23,6 @@ public class OrganizationIntegrationTest extends TestDataManager {
         organization = organizationRepository.save(organization);
     }
 
-
-    public void testFindQueryPerformance() {
-
-
-        List<Integer> ids = new ArrayList<Integer>();
-        List<Integer> organizationids = jdbcTemplate.queryForList("select id from organizations", Integer.class);
-
-
-        //first check for 10 organzations
-        for (int i = 0; i < 21; i++) {
-            ids.add(organizationids.get(i));
-        }
-        System.out.println("running for 10 ids");
-        timeDifferenceForQueries(ids);
-
-        ids.clear();
-
-        for (int i = 0; i < 101; i++) {
-            ids.add(organizationids.get(i));
-        }
-
-        System.out.println("running for 100 ids");
-        timeDifferenceForQueries(ids);
-
-
-        ids.clear();
-
-        for (int i = 0; i < 1001; i++) {
-            ids.add(organizationids.get(i));
-        }
-        System.out.println("running for 1000 ids");
-        timeDifferenceForQueries(ids);
-
-        ids.clear();
-        for (int i = 0; i < 5001; i++) {
-            ids.add(organizationids.get(i));
-        }
-
-        System.out.println("running for 5000 ids");
-        timeDifferenceForQueries(ids);
-
-    }
-
-    private void timeDifferenceForQueries(List<Integer> ids) {
-        String queryString = "";
-
-        for (Integer id : ids) {
-            queryString = id + "," + queryString;
-        }
-        queryString = queryString + ids.get(0);
-
-        long startTime = System.currentTimeMillis();
-        jdbcTemplate.queryForList(String.format("select id from organizations o where o.id in (%s)", queryString));
-        long endTime = System.currentTimeMillis();
-        long timeDiff = endTime - startTime;
-        System.out.print("time diff for  is:" + timeDiff + "milisecond .end of time diff");
-    }
 
     public void testFindByName() {
 
@@ -170,7 +111,7 @@ public class OrganizationIntegrationTest extends TestDataManager {
     }
 
     public void testValidationExceptionForSavingInValidOrganization() {
-        inValidOrganization = new Organization();
+        Organization inValidOrganization = new Organization();
 
         try {
             inValidOrganization = organizationRepository.save(inValidOrganization);
