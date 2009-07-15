@@ -32,15 +32,19 @@ public class DisplayOrderComparator implements Comparator {
         } else if (object instanceof CRFPage) {
             return compareCrfPage((CRFPage) object, (CRFPage) object1);
         } else if (object instanceof ProCtcValidValue) {
-            compareValidValue((ProCtcValidValue) object, (ProCtcValidValue) object1);
+            return compareValidValue((ProCtcValidValue) object, (ProCtcValidValue) object1);
         } else if (object instanceof StudyParticipantCrfItem) {
-            compareCrfPageItem(((StudyParticipantCrfItem) object).getCrfPageItem(), ((StudyParticipantCrfItem) object1).getCrfPageItem());
+            return compareCrfPageItem(((StudyParticipantCrfItem) object).getCrfPageItem(), ((StudyParticipantCrfItem) object1).getCrfPageItem());
         } else if (object instanceof StudyParticipantCrfScheduleAddedQuestion) {
-            compareStudyParticipantCrfScheduleAddedQuestion((StudyParticipantCrfScheduleAddedQuestion) object, (StudyParticipantCrfScheduleAddedQuestion) object1);
+            return compareStudyParticipantCrfScheduleAddedQuestion((StudyParticipantCrfScheduleAddedQuestion) object, (StudyParticipantCrfScheduleAddedQuestion) object1);
         }
 
+        try {
+            throw new Exception("Unsupported object type for DisplayOrderComparator");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return 0;
-
     }
 
     private int compareStudyParticipantCrfScheduleAddedQuestion(StudyParticipantCrfScheduleAddedQuestion object, StudyParticipantCrfScheduleAddedQuestion object1) {
