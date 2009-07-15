@@ -38,9 +38,19 @@
 
 <c:choose>
     <c:when test="${categoryName == 'text'}">
-        <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
-                    title="${title}"
-                    cssClass="${cssClass}"/>
+        <c:choose>
+            <c:when test="${noForm}">
+                <input name="${propertyName}" type="text" size="${empty size ? attributes.size : size}" title="${title}"
+                       class="${cssClass}" value="${propertyValue}"/>
+            </c:when>
+            <c:otherwise>
+                <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
+                            title="${title}"
+                            cssClass="${cssClass}"/>
+            </c:otherwise>
+
+        </c:choose>
+
     </c:when>
     <c:when test="${categoryName == 'email'}">
         <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"

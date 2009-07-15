@@ -1,7 +1,5 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -20,11 +18,6 @@ import javax.persistence.*;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_pages_id")})
 
 public class CRFCalendar extends BasePersistable {
-
-    /**
-     * The Constant logger.
-     */
-    private static final Log logger = LogFactory.getLog(CRFCalendar.class);
 
     /**
      * The id.
@@ -53,12 +46,9 @@ public class CRFCalendar extends BasePersistable {
     @Column(name = "repeat_until_amount")
     private String repeatUntilAmount;
 
-    /**
-     * The crf.
-     */
-    @JoinColumn(name = "crf_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "form_arm_schedules_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
-    private CRF crf;
+    private FormArmSchedule formArmSchedule;
 
 
     /**
@@ -66,25 +56,6 @@ public class CRFCalendar extends BasePersistable {
      */
     public CRFCalendar() {
         super();
-    }
-
-
-    /**
-     * Gets the crf.
-     *
-     * @return the crf
-     */
-    public CRF getCrf() {
-        return crf;
-    }
-
-    /**
-     * Sets the crf.
-     *
-     * @param crf the new crf
-     */
-    public void setCrf(final CRF crf) {
-        this.crf = crf;
     }
 
     /* (non-Javadoc)
@@ -157,7 +128,6 @@ public class CRFCalendar extends BasePersistable {
 
         CRFCalendar that = (CRFCalendar) o;
 
-        if (crf != null ? !crf.equals(that.crf) : that.crf != null) return false;
         if (dueDateAmount != null ? !dueDateAmount.equals(that.dueDateAmount) : that.dueDateAmount != null)
             return false;
         if (dueDateUnit != null ? !dueDateUnit.equals(that.dueDateUnit) : that.dueDateUnit != null) return false;
@@ -181,7 +151,14 @@ public class CRFCalendar extends BasePersistable {
         result = 31 * result + (dueDateAmount != null ? dueDateAmount.hashCode() : 0);
         result = 31 * result + (repeatUntilUnit != null ? repeatUntilUnit.hashCode() : 0);
         result = 31 * result + (repeatUntilAmount != null ? repeatUntilAmount.hashCode() : 0);
-        result = 31 * result + (crf != null ? crf.hashCode() : 0);
         return result;
+    }
+
+    public FormArmSchedule getFormArmSchedule() {
+        return formArmSchedule;
+    }
+
+    public void setFormArmSchedule(FormArmSchedule formArmSchedule) {
+        this.formArmSchedule = formArmSchedule;
     }
 }

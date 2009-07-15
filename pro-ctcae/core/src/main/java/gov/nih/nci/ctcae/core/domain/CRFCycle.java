@@ -48,6 +48,7 @@ public class CRFCycle extends BasePersistable {
     private CRFCycleDefinition crfCycleDefinition;
 
 
+
     /**
      * Instantiates a new cRF calendar.
      */
@@ -109,4 +110,5 @@ public class CRFCycle extends BasePersistable {
     public void setOrder(Integer order) {
         this.order = order;
     }
+
 }

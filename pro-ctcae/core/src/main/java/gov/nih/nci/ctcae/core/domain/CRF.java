@@ -92,18 +92,10 @@ public class CRF extends BaseVersionable {
      */
     @OneToMany(mappedBy = "crf", fetch = FetchType.EAGER)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-
     private List<CRFPage> crfPages = new LinkedList<CRFPage>();
 
-    @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
 
-    private List<CRFCalendar> crfCalendars = new LinkedList<CRFCalendar>();
 
-    @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-
-    private List<CRFCycleDefinition> crfCycleDefinitions = new ArrayList<CRFCycleDefinition>();
 
     /**
      * The study.
@@ -124,6 +116,11 @@ public class CRF extends BaseVersionable {
     @Column(name = "crf_creation_mode", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private CrfCreationMode crfCreationMode = CrfCreationMode.BASIC;
+
+    @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<FormArmSchedule> formArmSchedules = new LinkedList<FormArmSchedule>();
+    
 
     /**
      * Gets the recall period.
@@ -436,17 +433,7 @@ public class CRF extends BaseVersionable {
         return sortedCrfPages;
     }
 
-    public List<CRFCalendar> getCrfCalendars() {
-        return crfCalendars;
-    }
-
-    public void addCrfCalendar(CRFCalendar crfCalendar) {
-        if (crfCalendar != null) {
-            crfCalendar.setCrf(this);
-            crfCalendars.add(crfCalendar);
-        }
-    }
-
+ 
     /**
      * Removes the crf page by page number.
      *
@@ -793,16 +780,19 @@ public class CRF extends BaseVersionable {
 
     }
 
-    public List<CRFCycleDefinition> getCrfCycleDefinitions() {
-        Collections.sort(crfCycleDefinitions, new CrfCycleDefinitionOrderComparator());
-        return crfCycleDefinitions;
+
+    public void addFormArmSchedule(Arm arm) {
+        FormArmSchedule formArmSchedule = new FormArmSchedule();
+        formArmSchedule.setArm(arm);
+        formArmSchedule.setCrf(this);
+        formArmSchedules.add(formArmSchedule);
     }
 
-    public void addCrfCycleDefinition(CRFCycleDefinition crfCycleDefinition) {
-        if (crfCycleDefinition != null) {
-            crfCycleDefinition.setCrf(this);
-            crfCycleDefinitions.add(crfCycleDefinition);
-        }
+    public List<FormArmSchedule> getFormArmSchedules() {
+        return formArmSchedules;
     }
 
+    public void setFormArmSchedules(List<FormArmSchedule> formArmSchedules) {
+        this.formArmSchedules = formArmSchedules;
+    }
 }

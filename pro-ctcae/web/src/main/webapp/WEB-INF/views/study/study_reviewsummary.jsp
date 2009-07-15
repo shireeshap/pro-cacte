@@ -108,23 +108,35 @@
                                 </div>
                             </c:if>
                         </c:forEach>
-
                     </td>
-
-
                     <td style="border-left:none;">
-
-
                     </td>
                 </tr>
-
-
             </table>
-
         </div>
-
-
     </chrome:division>
+
+        <chrome:division title="study.section.study_arms">
+            <div align="left" style="margin-left: 50px">
+                <table width="55%" class="tablecontent">
+                    <tr id="sa-table-head" class="amendment-table-head">
+                        <th width="95%" class="tableHeader"><spring:message code='study.label.arm.title' text=''/></th>
+                        <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+                    </tr>
+                    <tr>
+                        <td style="border-right:none;">
+                            <c:forEach items="${command.study.arms}" var="arm">
+                                <div class="row">
+                                 ${arm.title}
+                                </div>
+                            </c:forEach>
+                        </td>
+                        <td style="border-left:none;">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </chrome:division>
 
 </jsp:attribute>
 </tags:tabForm>

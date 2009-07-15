@@ -22,7 +22,6 @@ import java.util.List;
 @Entity
 @Table(name = "CRF_CYCLE_DEFINITIONS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_definitions_id")})
-
 public class CRFCycleDefinition extends BasePersistable {
 
     /**
@@ -56,13 +55,15 @@ public class CRFCycleDefinition extends BasePersistable {
     /**
      * The crf.
      */
-    @JoinColumn(name = "crf_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne
-    private CRF crf;
 
     @OneToMany(mappedBy = "crfCycleDefinition", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<CRFCycle> crfCycles = new ArrayList<CRFCycle>();
+
+    @JoinColumn(name = "form_arm_schedules_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    private FormArmSchedule formArmSchedule;
+
 
     public Integer getOrder() {
         return order;
@@ -104,13 +105,6 @@ public class CRFCycleDefinition extends BasePersistable {
         this.cycleName = cycleName;
     }
 
-    public CRF getCrf() {
-        return crf;
-    }
-
-    public void setCrf(CRF crf) {
-        this.crf = crf;
-    }
 
     public String getCycleLengthUnit() {
         return cycleLengthUnit;
@@ -120,32 +114,6 @@ public class CRFCycleDefinition extends BasePersistable {
         this.cycleLengthUnit = cycleLengthUnit;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CRFCycleDefinition)) return false;
-
-        CRFCycleDefinition that = (CRFCycleDefinition) o;
-
-        if (crf != null ? !crf.equals(that.crf) : that.crf != null) return false;
-        if (cycleLength != null ? !cycleLength.equals(that.cycleLength) : that.cycleLength != null) return false;
-        if (cycleLengthUnit != null ? !cycleLengthUnit.equals(that.cycleLengthUnit) : that.cycleLengthUnit != null)
-            return false;
-        if (cycleName != null ? !cycleName.equals(that.cycleName) : that.cycleName != null) return false;
-        if (repeatTimes != null ? !repeatTimes.equals(that.repeatTimes) : that.repeatTimes != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = cycleLength != null ? cycleLength.hashCode() : 0;
-        result = 31 * result + (cycleName != null ? cycleName.hashCode() : 0);
-        result = 31 * result + (cycleLengthUnit != null ? cycleLengthUnit.hashCode() : 0);
-        result = 31 * result + (repeatTimes != null ? repeatTimes.hashCode() : 0);
-        result = 31 * result + (crf != null ? crf.hashCode() : 0);
-        return result;
-    }
 
     public List<CRFCycle> getCrfCycles() {
         Collections.sort(crfCycles, new CrfCycleOrderComparator());
@@ -165,5 +133,45 @@ public class CRFCycleDefinition extends BasePersistable {
 
     public void setRepeatTimes(String repeatTimes) {
         this.repeatTimes = repeatTimes;
+    }
+
+    public FormArmSchedule getFormArmSchedule() {
+        return formArmSchedule;
+    }
+
+    public void setFormArmSchedule(FormArmSchedule formArmSchedule) {
+        this.formArmSchedule = formArmSchedule;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CRFCycleDefinition that = (CRFCycleDefinition) o;
+
+        if (crfCycles != null ? !crfCycles.equals(that.crfCycles) : that.crfCycles != null) return false;
+        if (cycleLength != null ? !cycleLength.equals(that.cycleLength) : that.cycleLength != null) return false;
+        if (cycleLengthUnit != null ? !cycleLengthUnit.equals(that.cycleLengthUnit) : that.cycleLengthUnit != null)
+            return false;
+        if (cycleName != null ? !cycleName.equals(that.cycleName) : that.cycleName != null) return false;
+        if (formArmSchedule != null ? !formArmSchedule.equals(that.formArmSchedule) : that.formArmSchedule != null)
+            return false;
+        if (order != null ? !order.equals(that.order) : that.order != null) return false;
+        if (repeatTimes != null ? !repeatTimes.equals(that.repeatTimes) : that.repeatTimes != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = cycleLength != null ? cycleLength.hashCode() : 0;
+        result = 31 * result + (cycleName != null ? cycleName.hashCode() : 0);
+        result = 31 * result + (cycleLengthUnit != null ? cycleLengthUnit.hashCode() : 0);
+        result = 31 * result + (repeatTimes != null ? repeatTimes.hashCode() : 0);
+        result = 31 * result + (order != null ? order.hashCode() : 0);
+        result = 31 * result + (crfCycles != null ? crfCycles.hashCode() : 0);
+        result = 31 * result + (formArmSchedule != null ? formArmSchedule.hashCode() : 0);
+        return result;
     }
 }

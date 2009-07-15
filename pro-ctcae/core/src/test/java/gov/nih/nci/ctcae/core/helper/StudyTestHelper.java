@@ -63,6 +63,16 @@ public class StudyTestHelper {
         study.setLeadStudySite(ls);
         sSiteMskcc = ls;
 
+        Arm arm1 = new Arm();
+        arm1.setTitle("test arm 1");
+        arm1.setDescription("desc 1");
+        study.addArm(arm1);
+
+        Arm arm2 = new Arm();
+        arm2.setTitle("test arm 2");
+        arm2.setDescription("desc 2");
+        study.addArm(arm2);
+
     }
 
     private static void secondTab_StudySites(Study study) {

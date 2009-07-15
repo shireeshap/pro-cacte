@@ -66,6 +66,8 @@
         <value>gov.nih.nci.ctcae.core.domain.MeddraValidValue</value>
         <value>gov.nih.nci.ctcae.core.domain.Notification</value>
         <value>gov.nih.nci.ctcae.core.domain.UserNotification</value>
+        <value>gov.nih.nci.ctcae.core.domain.FormArmSchedule</value>
+        <value>gov.nih.nci.ctcae.core.domain.Arm</value>
 
 
     </util:list>

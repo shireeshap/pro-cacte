@@ -35,6 +35,7 @@ public class AddCrfScheduleControllerTest extends WebTestCase {
         request.getSession().setAttribute(ScheduleCrfController.class.getName() + ".FORM." + "command", studyParticipantCommand);
         expect(participantSchedule.getCalendar()).andReturn(calendar);
         expect(studyParticipantCommand.getParticipantSchedules()).andReturn(l);
+
     }
 
     public void testController() throws Exception {

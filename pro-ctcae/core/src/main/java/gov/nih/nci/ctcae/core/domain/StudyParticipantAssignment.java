@@ -74,6 +74,10 @@ public class StudyParticipantAssignment extends BaseVersionable {
     @Transient
     private List<StudyParticipantClinicalStaff> siteCRAs;
 
+    @ManyToOne
+    @JoinColumn(name = "arm_id", nullable = false)
+    private Arm arm;
+
 
     /**
      * Instantiates a new study participant assignment.
@@ -333,6 +337,14 @@ public class StudyParticipantAssignment extends BaseVersionable {
 
     public void setOffTreatmentDate(Date offTreatmentDate) {
         this.offTreatmentDate = offTreatmentDate;
+    }
+
+    public Arm getArm() {
+        return arm;
+    }
+
+    public void setArm(Arm arm) {
+        this.arm = arm;
     }
 }
 

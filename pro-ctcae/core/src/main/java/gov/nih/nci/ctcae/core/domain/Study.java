@@ -85,13 +85,13 @@ public class Study extends BasePersistable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyOrganization> studyOrganizations = new LinkedList<StudyOrganization>();
 
+    @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<Arm> arms = new LinkedList<Arm>();
+
 
     public List<CRF> getCrfs() {
         return crfs;
-    }
-
-    public void setCrfs(List<CRF> crfs) {
-        this.crfs = crfs;
     }
 
     /**
@@ -496,4 +496,14 @@ public class Study extends BasePersistable {
     }
 
 
+    public List<Arm> getArms() {
+        return arms;
+    }
+
+    public void addArm(Arm arm) {
+        if(arm != null) {
+        arm.setStudy(this);
+        arms.add(arm);
+        }
+    }
 }

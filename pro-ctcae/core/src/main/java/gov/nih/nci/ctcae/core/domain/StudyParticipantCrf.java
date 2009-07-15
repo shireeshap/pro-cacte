@@ -241,29 +241,31 @@ public class StudyParticipantCrf extends BaseVersionable {
         Date calendarStartDate = getStartDate();
         ProCtcAECalendar proCtcAECalendar = new ProCtcAECalendar();
 
-        for (CRFCalendar crfCalendar : crf.getCrfCalendars()) {
-            if (!StringUtils.isBlank(crfCalendar.getRepeatEveryAmount())) {
-                proCtcAECalendar.setGeneralScheduleParameters(crfCalendar, calendarStartDate);
-                createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.GENERAL);
-            }
-        }
-        int cycleNumber = 1;
-        for (CRFCycleDefinition crfCycleDefinition : crf.getCrfCycleDefinitions()) {
-            if (crfCycleDefinition.getCrfCycles() != null) {
-                for (CRFCycle crfCycle : crfCycleDefinition.getCrfCycles()) {
-                    Integer cycleLength = crfCycleDefinition.getCycleLength();
-                    String cycleDays = crfCycle.getCycleDays();
-                    String cycleLengthUnit = crfCycleDefinition.getCycleLengthUnit();
-                    proCtcAECalendar.setCycleParameters(cycleLength, cycleDays, 1, cycleLengthUnit, calendarStartDate, cycleNumber);
-                    createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
-                    Calendar c = ProCtcAECalendar.getCalendarForDate(calendarStartDate);
-                    ProCtcAECalendar.incrementCalendar(c, cycleLength, cycleLengthUnit);
-                    calendarStartDate = c.getTime();
-                    cycleNumber++;
+        for (FormArmSchedule formArmSchedule : crf.getFormArmSchedules()) {
+            for (CRFCalendar crfCalendar : formArmSchedule.getCrfCalendars()) {
+                if (!StringUtils.isBlank(crfCalendar.getRepeatEveryAmount())) {
+                    proCtcAECalendar.setGeneralScheduleParameters(crfCalendar, calendarStartDate);
+                    createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.GENERAL);
                 }
             }
-        }
+            int cycleNumber = 1;
+            for (CRFCycleDefinition crfCycleDefinition : formArmSchedule.getCrfCycleDefinitions()) {
+                if (crfCycleDefinition.getCrfCycles() != null) {
+                    for (CRFCycle crfCycle : crfCycleDefinition.getCrfCycles()) {
+                        Integer cycleLength = crfCycleDefinition.getCycleLength();
+                        String cycleDays = crfCycle.getCycleDays();
+                        String cycleLengthUnit = crfCycleDefinition.getCycleLengthUnit();
+                        proCtcAECalendar.setCycleParameters(cycleLength, cycleDays, 1, cycleLengthUnit, calendarStartDate, cycleNumber);
+                        createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
+                        Calendar c = ProCtcAECalendar.getCalendarForDate(calendarStartDate);
+                        ProCtcAECalendar.incrementCalendar(c, cycleLength, cycleLengthUnit);
+                        calendarStartDate = c.getTime();
+                        cycleNumber++;
+                    }
+                }
+            }
 
+        }
     }
 
     private void createBaseLineSchedule() {

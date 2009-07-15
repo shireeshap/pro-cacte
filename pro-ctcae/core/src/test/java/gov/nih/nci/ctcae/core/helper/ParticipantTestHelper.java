@@ -150,6 +150,7 @@ public class ParticipantTestHelper {
         StudyParticipantAssignment spa = new StudyParticipantAssignment();
         spa.setStudyParticipantIdentifier("1234");
         spa.setStudySite(studySite);
+        spa.setArm(studySite.getStudy().getArms().get(0));
         participant.addStudyParticipantAssignment(spa);
     }
 

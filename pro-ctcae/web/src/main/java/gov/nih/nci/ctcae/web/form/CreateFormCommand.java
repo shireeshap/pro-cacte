@@ -301,29 +301,29 @@ public class CreateFormCommand implements Serializable {
 
     public void createCycles(HttpServletRequest request) {
         int cycleDefinitionIndex = -1;
-        for (CRFCycleDefinition crfCycleDefinition : crf.getCrfCycleDefinitions()) {
-            cycleDefinitionIndex++;
-            crfCycleDefinition.getCrfCycles().clear();
-            String repeat = crfCycleDefinition.getRepeatTimes();
-            if (org.apache.commons.lang.StringUtils.isNumeric(repeat) || ("-1").equals(repeat)) {
-                int repeattimes = Integer.parseInt(repeat);
-                boolean isIndefinite = false;
-                if (repeattimes == -1) {
-                    repeattimes = 100;
-                    isIndefinite = true;
-                }
-                for (int i = 0; i < repeattimes; i++) {
-                    CRFCycle crfCycle = new CRFCycle();
-                    if (isIndefinite) {
-                        crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + 0));
-                    } else {
-                        crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + i));
-                    }
-                    crfCycle.setOrder(i);
-                    crfCycleDefinition.addCrfCycle(crfCycle);
-                }
-            }
-        }
+//        for (CRFCycleDefinition crfCycleDefinition : crf.getCrfCycleDefinitions()) {
+//            cycleDefinitionIndex++;
+//            crfCycleDefinition.getCrfCycles().clear();
+//            String repeat = crfCycleDefinition.getRepeatTimes();
+//            if (org.apache.commons.lang.StringUtils.isNumeric(repeat) || ("-1").equals(repeat)) {
+//                int repeattimes = Integer.parseInt(repeat);
+//                boolean isIndefinite = false;
+//                if (repeattimes == -1) {
+//                    repeattimes = 100;
+//                    isIndefinite = true;
+//                }
+//                for (int i = 0; i < repeattimes; i++) {
+//                    CRFCycle crfCycle = new CRFCycle();
+//                    if (isIndefinite) {
+//                        crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + 0));
+//                    } else {
+//                        crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + i));
+//                    }
+//                    crfCycle.setOrder(i);
+//                    crfCycleDefinition.addCrfCycle(crfCycle);
+//                }
+//            }
+//        }
     }
 
 

@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.Arm;
 import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.ServletException;
@@ -23,6 +24,9 @@ public class EditStudyController extends StudyController {
         Integer studyId = ServletRequestUtils.getRequiredIntParameter(request, STUDY_ID);
 
         Study study = studyRepository.findById(Integer.valueOf(studyId));
+        for(Arm arm :study.getArms()){
+            arm.getTitle();
+        }
         StudyCommand studyCommand = new StudyCommand(study);
 
 

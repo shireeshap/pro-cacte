@@ -47,7 +47,7 @@ public class ControllersUtils {
      */
     public static StudyCommand getStudyCommand(HttpServletRequest request) {
         StudyCommand studyCommand = (StudyCommand)
-                request.getSession().getAttribute(StudyController.class.getName() + ".FORM." + "command");
+                request.getSession().getAttribute(StudyController.class.getName() + ".FORM.command");
         return studyCommand;
     }
 

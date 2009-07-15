@@ -61,6 +61,8 @@ pro-ctcae/core/src/main/db/migrate/002_elaboration_1/028_update_sp_crf_sch_added
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/029_update_sp_crf_added_questions.groovy -text
 pro-ctcae/core/src/main/db/migrate/002_elaboration_1/030_update_sp_crf_sch_added_questions.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/001_create_notifications_table.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/002_create_study_arms.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/003_update_form_cycle_definitions.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
@@ -70,6 +72,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/dao/LowLevelTermDao.java -te
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/dao/MedDRADao.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/dao/MeddraVersionDao.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/dao/ProCtcDao.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Arm.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BasePersistable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/BaseVersionable.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRF.java -text
@@ -90,6 +93,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcCategory.java -tex
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CtcTerm.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DataCoordinatingCenter.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/DisplayOrderComparator.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/FormArmSchedule.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/FundingSponsor.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/Gender.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/LeadStudySite.java -text
@@ -255,6 +259,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/AbstractTestCase.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/CsvImporterIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/SetupStatusIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/TestBean.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/ArmIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFIntegrationTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFPageTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/domain/CRFTest.java -text
@@ -493,6 +498,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/RemoveAlertController.ja
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilter.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyArmController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyComponentController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudySiteController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/CreateStudyController.java -text
@@ -592,6 +598,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneCrfPage.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneCrfPageItem.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneCrfPageItemProperties.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneOrganization.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/oneStudyArm.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/pageHelp.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/panelBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/parsedStylesheetLink.tag -text
@@ -720,6 +727,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/security/signUp.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/setup/confirmSetup.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/setup/setup.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/deleteClinicalStaffAssignmentConfirmationCheck.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudyArmSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudySiteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/studyOrganizationClinicalStaffSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/confirmStudy.jsp -text
