@@ -27,10 +27,10 @@ public class StudyParticipantCrfScheduleTest extends TestCase {
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         Date d = new Date();
         studyParticipantCrfSchedule.setId(1);
+        studyParticipantCrfSchedule.setStudyParticipantCrf(new StudyParticipantCrf());
         studyParticipantCrfSchedule.setDueDate(d);
         studyParticipantCrfSchedule.setStartDate(d);
         studyParticipantCrfSchedule.setStatus(CrfStatus.INPROGRESS);
-        studyParticipantCrfSchedule.setStudyParticipantCrf(new StudyParticipantCrf());
         studyParticipantCrfSchedule.addStudyParticipantCrfItem(null);
 
         assertEquals(0, studyParticipantCrfSchedule.getStudyParticipantCrfItems().size());
@@ -46,12 +46,14 @@ public class StudyParticipantCrfScheduleTest extends TestCase {
 
     }
 
-    public void testEqulasHashCode() {
+    public void testEqualsHashCode() {
         studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         StudyParticipantCrfSchedule studyParticipantCrfSchedule2 = new StudyParticipantCrfSchedule();
         Date d = new Date();
         StudyParticipantCrfItem studyParticipantCrfItem = new StudyParticipantCrfItem();
         StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
+        studyParticipantCrfSchedule.setStudyParticipantCrf(studyParticipantCrf);
+        studyParticipantCrfSchedule2.setStudyParticipantCrf(studyParticipantCrf);
 
         assertEquals(studyParticipantCrfSchedule.hashCode(), studyParticipantCrfSchedule2.hashCode());
         assertEquals(studyParticipantCrfSchedule, studyParticipantCrfSchedule2);
@@ -76,9 +78,6 @@ public class StudyParticipantCrfScheduleTest extends TestCase {
         assertEquals(studyParticipantCrfSchedule, studyParticipantCrfSchedule2);
 
 
-        studyParticipantCrfSchedule.setStudyParticipantCrf(studyParticipantCrf);
-        assertFalse(studyParticipantCrfSchedule.equals(studyParticipantCrfSchedule2));
-        studyParticipantCrfSchedule2.setStudyParticipantCrf(studyParticipantCrf);
         assertEquals(studyParticipantCrfSchedule.hashCode(), studyParticipantCrfSchedule2.hashCode());
         assertEquals(studyParticipantCrfSchedule, studyParticipantCrfSchedule2);
 

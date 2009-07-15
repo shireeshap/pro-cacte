@@ -44,6 +44,7 @@ public class ParticipantScheduleTest extends TestDataManager {
             }
         }
         Calendar c = Calendar.getInstance();
+        assert startDate != null;
         c.setTimeInMillis(startDate.getTime());
         ps.removeSchedule(c);
         assertEquals(a - 1, spc.getStudyParticipantCrfSchedules().size());
@@ -85,24 +86,26 @@ public class ParticipantScheduleTest extends TestDataManager {
             i++;
         }
 
-        int scheduledStatus = spc.getStudyParticipantCrfSchedulesByStatus(CrfStatus.SCHEDULED).size();
         int allStatus = spc.getStudyParticipantCrfSchedules().size();
         Date d = null;
         boolean nextDate = false;
+        int b = 0;
 
         for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
-            if (a.getStatus().equals(CrfStatus.SCHEDULED) && !nextDate) {
-                nextDate = true;
-                continue;
-            }
-            if (nextDate) {
-                d = a.getStartDate();
-                break;
+            if (a.getStatus().equals(CrfStatus.SCHEDULED)) {
+                if (!nextDate) {
+                    nextDate = true;
+                } else {
+                    if (d == null) {
+                        d = a.getStartDate();
+                    }
+                    b++;
+                }
             }
         }
         cal.setTime(d);
         ps.deleteFutureSchedules(cal);
-        assertEquals(allStatus - scheduledStatus + 1, spc.getStudyParticipantCrfSchedules().size());
+        assertEquals(allStatus - b, spc.getStudyParticipantCrfSchedules().size());
 
     }
 }

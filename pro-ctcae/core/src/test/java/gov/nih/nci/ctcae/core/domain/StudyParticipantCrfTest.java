@@ -53,8 +53,8 @@ public class StudyParticipantCrfTest extends TestDataManager {
         List<StudyParticipantCrfSchedule> schedulesC = studyParticipantCrf.getStudyParticipantCrfSchedulesByStatus(CrfStatus.COMPLETED);
         assertNotNull(schedulesS);
         assertNotNull(schedulesC);
-        assertEquals(5, schedulesC.size());
-        assertEquals(9, schedulesS.size());
+        assertEquals(4, schedulesC.size());
+        assertEquals(10, schedulesS.size());
     }
 
 
