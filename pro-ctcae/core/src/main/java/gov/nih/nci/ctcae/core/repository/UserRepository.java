@@ -45,7 +45,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         List<User> users = new ArrayList<User>(find(userQuery));
 
         if (users.isEmpty() || users.size() > 1) {
-            String errorMessage = String.format("user %s not found", userName);
+            String errorMessage = String.format("User %s not found", userName);
             throw new UsernameNotFoundException(errorMessage);
         }
         User user = users.get(0);
