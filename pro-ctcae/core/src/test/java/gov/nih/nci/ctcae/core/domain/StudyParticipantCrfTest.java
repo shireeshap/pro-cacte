@@ -54,7 +54,7 @@ public class StudyParticipantCrfTest extends TestDataManager {
         assertNotNull(schedulesS);
         assertNotNull(schedulesC);
         assertEquals(4, schedulesC.size());
-        assertEquals(10, schedulesS.size());
+        assertEquals(11, schedulesS.size());
     }
 
 
