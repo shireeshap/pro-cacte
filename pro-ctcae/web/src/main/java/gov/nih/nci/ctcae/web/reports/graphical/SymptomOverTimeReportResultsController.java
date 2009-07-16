@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.query.reports.ReportParticipantCountQuery;
 import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeWorstResponsesQuery;
+import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
@@ -30,8 +31,12 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String group = request.getParameter("group");
+        String filter = request.getParameter("filter");
         if (StringUtils.isBlank(group)) {
             group = "cycle";
+        }
+        if (!StringUtils.isBlank(filter)) {
+            group = filter;
         }
         ReportParticipantCountQuery cquery = new ReportParticipantCountQuery();
         parseRequestParametersAndFormQuery(request, cquery);
@@ -47,10 +52,12 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
 
         ModelAndView modelAndView = new ModelAndView("reports/symptomovertimecharts");
 
+        String queryString = ControllersUtils.removeParameterFromQueryString(request.getQueryString(),"group");
+
         SymptomOverTimeWorstResponsesQuery query = new SymptomOverTimeWorstResponsesQuery(group);
         parseRequestParametersAndFormQuery(request, query);
         List worstResponses = genericRepository.find(query);
-        JFreeChart worstResponseChart = getWorstResponseChart(worstResponses, group, totalParticipants.intValue(), selectedAttributes, request.getQueryString());
+        JFreeChart worstResponseChart = getWorstResponseChart(worstResponses, group, totalParticipants.intValue(), selectedAttributes, queryString);
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
         String worstReponseFileName = ServletUtilities.saveChartAsPNG(worstResponseChart, 700, 400, info, null);
         String worstReponseImageMap = ChartUtilities.getImageMap(worstReponseFileName, info);
@@ -64,7 +71,7 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
             parseRequestParametersAndFormQuery(request, query);
             query.filterBySingleAttribute(ProCtcQuestionType.getByDisplayName(attribute));
             worstResponses = genericRepository.find(query);
-            JFreeChart stackedBarChart = getStackedBarChart(worstResponses, group, request.getQueryString(), attribute);
+            JFreeChart stackedBarChart = getStackedBarChart(worstResponses, group, queryString, attribute);
 
             String stackedBarFileName = ServletUtilities.saveChartAsPNG(stackedBarChart, 700, 400, info, null);
             String stackedBarImageMap = ChartUtilities.getImageMap(stackedBarFileName, info);

@@ -56,7 +56,6 @@ public class ControllersUtilsTest extends WebTestCase {
         basicFormController.setStudyRepository(studyRepository);
 
 
-
     }
 
 
@@ -101,5 +100,16 @@ public class ControllersUtilsTest extends WebTestCase {
         Object command = ControllersUtils.getStudyCommand(request);
         assertNotNull("command must present in session", command);
         assertTrue(command instanceof StudyCommand);
+    }
+
+    public void testRemoveParameterFromQueryString() {
+        String queryString = "subview=subview&study=1&crf=1&symptom=2&filter=week&filterVal=1&studySite=&attributes=&group=cycle&att=Severity&grade=4&period=Week 1";
+        queryString = ControllersUtils.removeParameterFromQueryString(queryString, "group");
+        assertEquals("subview=subview&study=1&crf=1&symptom=2&filter=week&filterVal=1&studySite=&attributes=&att=Severity&grade=4&period=Week 1", queryString);
+
+
+        queryString = "subview=subview&study=1&crf=1&symptom=2&filter=week&filterVal=1&studySite=&attributes=&group=cycle";
+        queryString = ControllersUtils.removeParameterFromQueryString(queryString, "group");
+        assertEquals("subview=subview&study=1&crf=1&symptom=2&filter=week&filterVal=1&studySite=&attributes=", queryString);
     }
 }
