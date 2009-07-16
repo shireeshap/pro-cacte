@@ -85,11 +85,10 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
     private JFreeChart getStackedBarChart(List worstResponses, String group, String queryString, String attribute) {
 
         TreeMap<String, TreeMap<Integer, Integer>> results = new TreeMap<String, TreeMap<Integer, Integer>>();
-        Integer smallest = getSmallest(worstResponses, 3);
         for (Object obj : worstResponses) {
             Object[] a = (Object[]) obj;
             Integer grade = (Integer) a[0];
-            String period = getNewPeriod(a[3], smallest, group);
+            String period = (String) a[3];
             TreeMap<Integer, Integer> map = results.get(period);
             if (map == null) {
                 map = new TreeMap<Integer, Integer>();
@@ -106,7 +105,7 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         String title = "";
         String rangeAxisLabel = group + " [N]";
         String domainAxisLabel = "%";
-        SymptomOverTimeStackedBarChartGenerator chartGenerator = new SymptomOverTimeStackedBarChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString + "&sum=" + smallest + "&att=" + attribute);
+        SymptomOverTimeStackedBarChartGenerator chartGenerator = new SymptomOverTimeStackedBarChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString + "&att=" + attribute);
         return chartGenerator.getChart(results);
     }
 
@@ -116,13 +115,12 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         String domainAxisLabel = group + "#";
 
         TreeMap<String, TreeMap<String, ArrayList<Integer>>> results = new TreeMap<String, TreeMap<String, ArrayList<Integer>>>();
-        Integer smallest = getSmallest(worstResponses, 3);
 
         for (Object obj : worstResponses) {
             Object[] a = (Object[]) obj;
             Integer level = (Integer) a[0];
             String attribute = ((ProCtcQuestionType) a[1]).getDisplayName();
-            String period = getNewPeriod(a[3], smallest, group);
+            String period = (String) a[3];
             TreeMap<String, ArrayList<Integer>> map = results.get(attribute);
             selectedAttributes.add(attribute);
             if (map == null) {
@@ -155,29 +153,10 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
 
 
         String rangeAxisLabel = "Average Worst Response (p=" + totalParticipants + ")";
-        SymptomOverTimeWorstResponsesChartGenerator chartGenerator = new SymptomOverTimeWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString + "&sum=" + smallest);
+        SymptomOverTimeWorstResponsesChartGenerator chartGenerator = new SymptomOverTimeWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString);
         return chartGenerator.getChart(out);
 
     }
 
 
-    private Integer getSmallest(List worstResponses, int i) {
-        Integer smallest = -1;
-        for (Object obj : worstResponses) {
-            Object[] a = (Object[]) obj;
-            String period = (String) a[i];
-            Integer p = Integer.parseInt(period.substring(period.indexOf(' ') + 1));
-            if (smallest < 0 || p < smallest) {
-                smallest = p;
-            }
-        }
-        return smallest;
-    }
-
-    private String getNewPeriod(Object objPeriod, Integer smallest, String group) {
-        String period = (String) objPeriod;
-        Integer p = Integer.parseInt(period.substring(period.indexOf(' ') + 1));
-        period = StringUtils.capitalize(group) + " " + (p - smallest + 1);
-        return period;
-    }
 }

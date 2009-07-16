@@ -35,6 +35,7 @@ public abstract class AbstractReportResultsController extends AbstractController
         String visitRange = request.getParameter("visitRange");
         String attribute = request.getParameter("att");
         String period = request.getParameter("period");
+        String filter = request.getParameter("filter");
 
         if (!StringUtils.isBlank(attribute)) {
             attributes = attribute;
@@ -69,10 +70,47 @@ public abstract class AbstractReportResultsController extends AbstractController
             Integer colInt = Integer.parseInt(period.substring(period.indexOf(' ') + 1));
             query.filterByPeriod(periodType, colInt);
         }
+        if (!StringUtils.isBlank(filter)) {
+            try {
+                String filterValue = request.getParameter("filterVal");
+                filterValue = StringUtils.deleteWhitespace(filterValue);
+                ArrayList<Integer> l = new ArrayList<Integer>();
+                if (filterValue.indexOf('-') > 0) {
+                    Integer start = Integer.parseInt(filterValue.substring(0, filterValue.indexOf('-')));
+                    Integer end = Integer.parseInt(filterValue.substring(filterValue.indexOf('-') + 1));
+                    for (int i = start; i <= end; i++) {
+                        l.add(i);
+                    }
+                } else {
+                    if (filterValue.indexOf(',') > 0) {
+                        StringTokenizer st = new StringTokenizer(filterValue, ",");
+                        while (st.hasMoreTokens()) {
+                            Integer a = Integer.valueOf(st.nextToken());
+                            l.add(a);
+                        }
+                    } else {
+                        if (StringUtils.isNumeric(filterValue)) {
+                            Integer a = Integer.valueOf(filterValue);
+                            l.add(a);
+                        }
+                    }
+                }
+                if (l.size() > 0) {
+                    query.filterByPeriod(filter, l);
+                }
+            } catch (Exception
+                    e) {
+                logger.error(e);
+            }
+        }
+
+
     }
 
     @Required
-    public void setGenericRepository(GenericRepository genericRepository) {
+    public void setGenericRepository
+            (GenericRepository
+                    genericRepository) {
         this.genericRepository = genericRepository;
     }
 

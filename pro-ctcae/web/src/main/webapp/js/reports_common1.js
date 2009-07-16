@@ -4,6 +4,7 @@ var displayDate = true;
 var displayParticipants = false;
 var selectedCrf = '';
 var displayParticipant = false;
+var displayFilterBy = false;
 
 function createStudyAutoCompleter() {
     var sac = new studyAutoCompleter('study');
@@ -24,6 +25,9 @@ function acCreateStudyMonitor(mode) {
             acPostSelect(mode, selectedChoice);
             displayForms();
             displaySites();
+            if (displayFilterBy) {
+                $('filterByDiv').show();
+            }
             $('search').show();
             //            fnDisplayParticipants();
         },
@@ -103,10 +107,14 @@ function customVisit(showVisit) {
 }
 function performValidations() {
     hasError = false;
+    var j = 0;
     var arr = new Array();
-    arr[0] = 'form';
+    arr[j++] = 'form';
     if (displaySymptom) {
-        arr[1] = 'proCtcTermsSelect';
+        arr[j++] = 'proCtcTermsSelect';
+    }
+    if (displayFilterBy) {
+        arr[j++] = 'filterByValue';
     }
     for (var i = 0; i < arr.length; i++) {
         validateField(arr[i]);
@@ -116,18 +124,19 @@ function performValidations() {
     }
     return true;
 }
+
+function isVisible(obj) {
+    return obj.style.display != 'none';
+}
 function validateField(id) {
     var obj = $(id);
-    if (obj) {
+    if (obj && isVisible(obj)) {
         if (obj.value == '') {
             hasError = true;
             showError(obj);
         } else {
             removeError(obj);
         }
-    } else {
-        hasError = true;
-        showError(obj);
     }
 }
 
@@ -252,6 +261,10 @@ function getQueryString(attributes, igroup) {
         if ($('symptom') != null) {
             queryString += "&symptom=" + $('symptom').value;
         }
+    }
+    if (displayFilterBy) {
+        queryString += "&filter=" + $('filterBy').value;
+        queryString += "&filterVal=" + $('filterByValue').value;
     }
     queryString += "&studySite=" + $('studySite').value;
     queryString += "&attributes=" + attributes;

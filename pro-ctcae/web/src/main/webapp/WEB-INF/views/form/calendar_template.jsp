@@ -58,11 +58,6 @@
         cursor: pointer;
     }
 
-    /*.selected_day:hover {*/
-    /*background-color: #cccccc;*/
-    /*cursor: pointer;*/
-    /*}*/
-
     .top-border {
         border-top: #0000cc solid 1px;
     }

@@ -4,6 +4,10 @@
     <c:choose>
     <c:when test="${selected eq 'symptomOverTime'}">
     var displaySymptom = true;
+    var displayFilterBy = true;
+    </c:when>
+    <c:when test="${selected eq 'symptomSummary'}">
+    var displayFilterBy = true;
     </c:when>
     </c:choose>
 </script>

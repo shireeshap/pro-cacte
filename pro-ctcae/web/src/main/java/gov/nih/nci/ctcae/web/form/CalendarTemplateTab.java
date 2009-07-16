@@ -1,8 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.core.domain.CRFCalendar;
-import gov.nih.nci.ctcae.core.domain.CRFCycleDefinition;
-import gov.nih.nci.ctcae.core.domain.Privilege;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.apache.commons.lang.StringUtils;
@@ -43,7 +41,14 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
 
-        
+//        CRF crf = command.getCrf();
+//        ifcrf.getFormArmSchedules();
+//
+//        List<Arm> arms = command.getCrf().getStudy().getArms();
+//        command.
+//        for(Arm arm : arms){
+//            if(ar)
+//        }
 //        List<CRFCalendar> crfCalendars = command.getCrf().getCrfCalendars();
 //
 //        if (crfCalendars == null || crfCalendars.size() == 0) {

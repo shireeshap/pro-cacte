@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.query.AbstractQuery;
 
 import java.util.Date;
 import java.util.Collection;
+import java.util.List;
 
 //
 /**
@@ -75,6 +76,20 @@ public abstract class AbstractReportQuery extends AbstractQuery {
             andWhere("spci.studyParticipantCrfSchedule.cycleNumber = :periodValue");
         }
         setParameter("periodValue", periodValue);
+
+    }
+
+    public void filterByPeriod(String periodType, List<Integer> periodValues) {
+        if ("week".equals(periodType.toLowerCase())) {
+            andWhere("spci.studyParticipantCrfSchedule.weekInStudy in (:periodValues)");
+        }
+        if ("month".equals(periodType.toLowerCase())) {
+            andWhere("spci.studyParticipantCrfSchedule.monthInStudy in (:periodValues)");
+        }
+        if ("cycle".equals(periodType.toLowerCase())) {
+            andWhere("spci.studyParticipantCrfSchedule.cycleNumber in (:periodValues)");
+        }
+        setParameterList("periodValues", periodValues);
 
     }
 }

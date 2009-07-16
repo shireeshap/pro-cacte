@@ -33,6 +33,17 @@
             }
                     )
         }
+
+        function showText(obj) {
+            var val = obj.value;
+            if (val == '') {
+                $('filterByValue').hide();
+                $('filterByValueHelp').hide();
+            } else {
+                $('filterByValue').show();
+                $('filterByValueHelp').show();
+            }
+        }
     </script>
 </head>
 <body>
@@ -143,7 +154,21 @@
                 </c:if>
             </c:otherwise>
         </c:choose>
-
+        <div class="row" id="filterByDiv" style="display:none">
+            <div class="label"><tags:message code="reports.label.FilterBy"/></div>
+            <div class="value">
+                <select id="filterBy" title="Filter By" onchange="showText(this);">
+                    <option value="">None</option>
+                    <option value="cycle">Cycle</option>
+                    <option value="week">Week</option>
+                    <option value="month">Month</option>
+                </select>
+                <input type="text" name="filterByValue" id="filterByValue" style="display:none" size="8" title="Filter By"/>
+                <div style="font-size:11px;display:none" id="filterByValueHelp"> (You can either specify a range of values using dash, for ex. 2-5, or separate
+                    values using comma, for ex. 1,5,8)
+                </div>
+            </div>
+        </div>
         <div id="search" class="row" style="display:none">
             <div class="value">
                 <tags:button color="blue" value="Search" onclick="resetPopUpFlagAndCallResults();" size="big"
