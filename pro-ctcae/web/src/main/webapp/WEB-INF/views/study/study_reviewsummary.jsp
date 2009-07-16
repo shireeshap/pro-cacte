@@ -120,20 +120,31 @@
             <div align="left" style="margin-left: 50px">
                 <table width="55%" class="tablecontent">
                     <tr id="sa-table-head" class="amendment-table-head">
-                        <th width="95%" class="tableHeader"><spring:message code='study.label.arm.title' text=''/></th>
-                        <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+                        <th width="50%" class="tableHeader"><spring:message code='study.label.arm.name' text=''/></th>
+                        <th width="50%" class="tableHeader" style=" background-color: none"><spring:message
+                                code='study.label.arm.desc' text=''/></th>
+
                     </tr>
+
+
+                    <c:forEach items="${command.study.arms}" var="arm">
                     <tr>
                         <td style="border-right:none;">
-                            <c:forEach items="${command.study.arms}" var="arm">
-                                <div class="row">
-                                 ${arm.title}
-                                </div>
-                            </c:forEach>
+                            <div class="row">
+                                    ${arm.title}
+                            </div>
                         </td>
-                        <td style="border-left:none;">
+                        <td >
+                            <div class="row">
+                                    ${arm.description}
+                            </div>
                         </td>
-                    </tr>
+                     </tr>
+                     </c:forEach>
+                   
+                    <%--<td style="border-left:none;">--%>
+                    <%--</td>--%>
+                   
                 </table>
             </div>
         </chrome:division>

@@ -108,11 +108,17 @@ public class ParticipantCommand {
         this.studySites = studySites;
     }
 
-    public StudyParticipantAssignment createStudyParticipantAssignment(StudySite studySite, String studyParticipantIdentifier) {
+    public StudyParticipantAssignment createStudyParticipantAssignment(StudySite studySite, String studyParticipantIdentifier, String armId) {
 
         StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
         studyParticipantAssignment.setStudySite(studySite);
         studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
+        for(Arm arm : studySite.getStudy().getArms()){
+            if (arm.getId().equals(Integer.parseInt(armId))){
+                studyParticipantAssignment.setArm(arm);
+            }
+        }
+
         for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyParticipantAssignment.getStudySite().getStudyOrganizationClinicalStaffs()) {
             if (studyOrganizationClinicalStaff.getRole().equals(Role.SITE_PI) || studyOrganizationClinicalStaff.getRole().equals(Role.SITE_CRA)) {
                 StudyParticipantClinicalStaff studyParticipantClinicalStaff = new StudyParticipantClinicalStaff();
@@ -155,7 +161,7 @@ public class ParticipantCommand {
             participant.removeAllStudyParticipantAssignments();
             for (StudySite studySite : getStudySites()) {
                 setSiteName(studySite.getOrganization().getName());
-                StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignment(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()));
+                StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignment(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()), request.getParameter("arm_" + studySite.getId()));
                 assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request);
             }
         } else {

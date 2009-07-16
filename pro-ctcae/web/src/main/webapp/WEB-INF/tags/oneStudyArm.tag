@@ -7,12 +7,12 @@
 
 <tr id="${inputName}-row">
     <td style="border-right:none;">
-        <tags:renderText propertyName="study.arms[${index}].title" displayName="Title" required="true"
-                         size="30" noForm="true" propertyValue="${arm.title}"/>
+        <tags:renderText propertyName="study.arms[${index}].title" displayName="Name" required="true"
+                         size="20" noForm="true" propertyValue="${arm.title}"/>
     </td>
     <td>
         <tags:renderText propertyName="study.arms[${index}].description" displayName="Description"
-                        size="70" noForm="true" propertyValue="${arm.description}"/>
+                        size="80" noForm="true" propertyValue="${arm.description}"/>
     </td>
     <%--<td style="border-left:none;"></td>--%>
 </tr>
