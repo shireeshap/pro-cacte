@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
 
     private StudyRepository studyRepository;
+    private CRFRepository crfRepository;
 
     /**
      * Instantiates a new calendar template tab.
@@ -52,7 +54,12 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
                 }
             }
             command.setSelectedFormArmSchedule(crf.getFormArmSchedules().get(0));
+            command.setNewSelectedFormArmSchedule(crf.getFormArmSchedules().get(0));
+            command.setCrf(crfRepository.save(command.getCrf()));
+        } else {
+            command.setSelectedFormArmSchedule(command.getNewSelectedFormArmSchedule());
         }
+
     }
 
     public Map<String, Object> referenceData(CreateFormCommand command) {
@@ -92,11 +99,12 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
         super.postProcess(request, command, errors);
     }
 
-    public StudyRepository getStudyRepository() {
-        return studyRepository;
-    }
 
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
+    }
+
+    public void setCrfRepository(CRFRepository crfRepository) {
+        this.crfRepository = crfRepository;
     }
 }

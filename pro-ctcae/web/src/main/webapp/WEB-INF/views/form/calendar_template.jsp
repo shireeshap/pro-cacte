@@ -431,10 +431,12 @@ function changePlannedRep(cycleDefinitionIndex, value) {
     showCyclesForDefinition(cycleDefinitionIndex, false);
 }
 function changeArm() {
-    $('_target').name = '_target1';
+    var a = $('_target').name;
+    var b = a.substr(7);
+    var c = b - 1;
+    $('_target').name = '_target' + c;
     $('command').submit();
 }
-
 </script>
 </head>
 <body>
@@ -444,8 +446,8 @@ function changeArm() {
 <form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
     <div style="padding-left:3px;">
         <b><spring:message code="form.calendar.arm"></spring:message></b>
-        <form:select path="selectedFormArmSchedule" items="${command.crf.formArmSchedules}" itemLabel="arm.title"
-                     itemValue="arm.id" onchange="changeArm(this);"/>
+        <form:select path="newSelectedFormArmSchedule" items="${command.crf.formArmSchedules}" itemLabel="arm.title"
+                     itemValue="id" onchange="changeArm();"/>
         <br/>&nbsp;
     </div>
     <chrome:box title="form.calendar.genericschedule" autopad="true">

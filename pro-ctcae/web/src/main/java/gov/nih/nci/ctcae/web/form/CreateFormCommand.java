@@ -62,6 +62,7 @@ public class CreateFormCommand implements Serializable {
     private List<ProCtcAERule> formOrStudySiteRules;
     private String readonlyview = "true";
     private FormArmSchedule selectedFormArmSchedule;
+    private FormArmSchedule newSelectedFormArmSchedule;
 
     public FormArmSchedule getSelectedFormArmSchedule() {
         return selectedFormArmSchedule;
@@ -69,6 +70,14 @@ public class CreateFormCommand implements Serializable {
 
     public void setSelectedFormArmSchedule(FormArmSchedule selectedFormArmSchedule) {
         this.selectedFormArmSchedule = selectedFormArmSchedule;
+    }
+
+    public FormArmSchedule getNewSelectedFormArmSchedule() {
+        return newSelectedFormArmSchedule;
+    }
+
+    public void setNewSelectedFormArmSchedule(FormArmSchedule newSelectedFormArmSchedule) {
+        this.newSelectedFormArmSchedule = newSelectedFormArmSchedule;
     }
 
     public String getReadonlyview() {
