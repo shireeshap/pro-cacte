@@ -243,7 +243,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 
         for (FormArmSchedule formArmSchedule : crf.getFormArmSchedules()) {
             for (CRFCalendar crfCalendar : formArmSchedule.getCrfCalendars()) {
-                if (!StringUtils.isBlank(crfCalendar.getRepeatEveryAmount())) {
+                if (!StringUtils.isBlank(crfCalendar.getRepeatEveryValue())) {
                     proCtcAECalendar.setGeneralScheduleParameters(crfCalendar, calendarStartDate);
                     createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.GENERAL);
                 }

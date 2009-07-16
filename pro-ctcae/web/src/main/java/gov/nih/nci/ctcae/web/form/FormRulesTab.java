@@ -1,7 +1,6 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.core.rules.ProCtcAEFactResolver;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
@@ -19,8 +18,6 @@ import java.util.Map;
  */
 public class FormRulesTab extends SecuredTab<CreateFormCommand> {
 
-    private ProCtcAERulesService proCtcAERulesService;
-
     /**
      * Instantiates a new calendar template tab.
      */
@@ -37,7 +34,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
      */
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
-        command.initializeRulesForForm(proCtcAERulesService);
+        command.initializeRulesForForm();
     }
 
     public Map<String, Object> referenceData(CreateFormCommand command) {
@@ -60,12 +57,8 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
         try {
             command.processRulesForForm(request);
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         super.postProcess(request, command, errors);
-    }
-
-    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
-        this.proCtcAERulesService = proCtcAERulesService;
     }
 }

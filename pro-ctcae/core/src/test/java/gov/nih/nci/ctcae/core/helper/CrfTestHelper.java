@@ -5,14 +5,12 @@ import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import java.util.ArrayList;
 
 import com.semanticbits.rules.brxml.RuleSet;
@@ -94,11 +92,11 @@ public class CrfTestHelper {
     private static void thirdTab_ScheduleTemplate(CRF crf) {
         for (FormArmSchedule formArmSchedule : crf.getFormArmSchedules()) {
             CRFCalendar calendar = new CRFCalendar();
-            calendar.setRepeatEveryAmount("2");
+            calendar.setRepeatEveryValue("2");
             calendar.setRepeatEveryUnit("Days");
-            calendar.setDueDateAmount("24");
+            calendar.setDueDateValue("24");
             calendar.setDueDateUnit("Hours");
-            calendar.setRepeatUntilAmount("2");
+            calendar.setRepeatUntilValue("2");
             calendar.setRepeatUntilUnit("Number");
 
             formArmSchedule.addCrfCalendar(calendar);

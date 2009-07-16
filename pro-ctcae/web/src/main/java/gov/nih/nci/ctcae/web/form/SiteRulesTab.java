@@ -3,8 +3,6 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
-import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
-import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.core.rules.ProCtcAEFactResolver;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
@@ -26,8 +24,6 @@ import java.util.Map;
  */
 public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
 
-    private ProCtcAERulesService proCtcAERulesService;
-    private ClinicalStaffRepository clinicalStaffRepository;
 
     /**
      * Instantiates a new calendar template tab.
@@ -49,7 +45,6 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         User loggedInUser = (User) auth.getPrincipal();
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
         clinicalStaffQuery.filterByUserId(loggedInUser.getId());
-        ClinicalStaff clinicalStaff = (ClinicalStaff) clinicalStaffRepository.findSingle(clinicalStaffQuery);
 
         StudyOrganization myOrg = null;
 
@@ -66,7 +61,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
             throw new CtcAeSystemException(String.format("Unable to locate study site for user - %s", loggedInUser.getUsername()));
         }
         command.setMyOrg(myOrg);
-        command.initializeRulesForSite(proCtcAERulesService);
+        command.initializeRulesForSite();
     }
 
     public Map<String, Object> referenceData(CreateFormCommand command) {
@@ -99,11 +94,4 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         super.postProcess(request, command, errors);
     }
 
-    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
-        this.proCtcAERulesService = proCtcAERulesService;
-    }
-
-    public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
-        this.clinicalStaffRepository = clinicalStaffRepository;
-    }
 }

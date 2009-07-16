@@ -95,8 +95,6 @@ public class CRF extends BaseVersionable {
     private List<CRFPage> crfPages = new LinkedList<CRFPage>();
 
 
-
-
     /**
      * The study.
      */
@@ -120,7 +118,7 @@ public class CRF extends BaseVersionable {
     @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<FormArmSchedule> formArmSchedules = new LinkedList<FormArmSchedule>();
-    
+
 
     /**
      * Gets the recall period.
@@ -433,7 +431,7 @@ public class CRF extends BaseVersionable {
         return sortedCrfPages;
     }
 
- 
+
     /**
      * Removes the crf page by page number.
      *
@@ -781,11 +779,12 @@ public class CRF extends BaseVersionable {
     }
 
 
-    public void addFormArmSchedule(Arm arm) {
+    public FormArmSchedule addFormArmSchedule(Arm arm) {
         FormArmSchedule formArmSchedule = new FormArmSchedule();
         formArmSchedule.setArm(arm);
         formArmSchedule.setCrf(this);
         formArmSchedules.add(formArmSchedule);
+        return formArmSchedule;
     }
 
     public List<FormArmSchedule> getFormArmSchedules() {
@@ -794,5 +793,14 @@ public class CRF extends BaseVersionable {
 
     public void setFormArmSchedules(List<FormArmSchedule> formArmSchedules) {
         this.formArmSchedules = formArmSchedules;
+    }
+
+    public FormArmSchedule getFormArmScheduleForArm(Arm arm) {
+        for (FormArmSchedule formArmSchedule : getFormArmSchedules()) {
+            if (formArmSchedule.getArm().equals(arm)) {
+                return formArmSchedule;
+            }
+        }
+        return null;
     }
 }

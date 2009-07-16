@@ -180,6 +180,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/ReportParticip
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/SymptomOverTimeWorstResponsesQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/query/reports/SymptomSummaryWorstResponsesQuery.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/CtcTermRepository.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/FormArmScheduleRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/GenericRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/HibernateGenericRepository.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/repository/MeddraRepository.java -text

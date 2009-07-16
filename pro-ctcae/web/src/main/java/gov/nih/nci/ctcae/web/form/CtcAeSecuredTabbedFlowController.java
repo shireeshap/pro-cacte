@@ -5,7 +5,6 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.*;
-import gov.nih.nci.ctcae.core.repository.secured.*;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository;
@@ -36,7 +35,8 @@ import java.util.Date;
  * @author Saurabh Agrawal
  * @since Nov 5, 2008
  */
-public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends AbstractTabbedFlowFormController<C> {
+@SuppressWarnings({"deprecation"})
+public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbedFlowFormController<C> {
 
     protected ClinicalStaffRepository clinicalStaffRepository;
     protected StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
@@ -70,6 +70,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
      */
     private WebControllerValidator webControllerValidator;
 
+    private FormArmScheduleRepository formArmScheduleRepository;
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.BaseCommandController#initBinder(javax.servlet.http.HttpServletRequest, org.springframework.web.bind.ServletRequestDataBinder)
      */
@@ -77,7 +78,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
 
-        binder.registerCustomEditor(Date.class, controllerTools.getDateEditor(true));
+        binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.registerCustomEditor(Study.class, new RepositoryBasedEditor(studyRepository, Study.class));
         binder.registerCustomEditor(Organization.class, new RepositoryBasedEditor(organizationRepository, Organization.class));
@@ -89,6 +90,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
         binder.registerCustomEditor(StudyParticipantAssignment.class, new RepositoryBasedEditor(studyParticipantAssignmentRepository, StudyParticipantAssignment.class));
         binder.registerCustomEditor(StudyOrganization.class, new RepositoryBasedEditor(studyOrganizationRepository, StudyOrganization.class));
         binder.registerCustomEditor(StudyOrganizationClinicalStaff.class, new RepositoryBasedEditor(studyOrganizationClinicalStaffRepository, StudyOrganizationClinicalStaff.class));
+        binder.registerCustomEditor(FormArmSchedule.class, new RepositoryBasedEditor(formArmScheduleRepository, FormArmSchedule.class));
     }
 
     /* (non-Javadoc)
@@ -258,5 +260,10 @@ public abstract class CtcAeSecuredTabbedFlowController<C extends Object> extends
     @Required
     public void setStudyOrganizationClinicalStaffRepository(StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository) {
         this.studyOrganizationClinicalStaffRepository = studyOrganizationClinicalStaffRepository;
+    }
+
+    @Required
+    public void setFormArmScheduleRepository(FormArmScheduleRepository formArmScheduleRepository) {
+        this.formArmScheduleRepository = formArmScheduleRepository;
     }
 }

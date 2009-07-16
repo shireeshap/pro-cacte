@@ -139,7 +139,7 @@
         <tags:renderAutocompleter propertyName="study"
                                   displayName="Study"
                                   required="true"
-                                  size="80"
+                                  size="100"
                                   noForm="true"/>
 
         <c:if test="${crfs ne null}">

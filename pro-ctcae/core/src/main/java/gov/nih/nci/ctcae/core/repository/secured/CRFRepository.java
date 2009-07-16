@@ -165,7 +165,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
 
         for (FormArmSchedule formArmSchedule : crf.getFormArmSchedules()) {
             for (CRFCalendar crfCalendar : formArmSchedule.getCrfCalendars()) {
-                crfCalendar.getDueDateAmount();
+                crfCalendar.getDueDateValue();
             }
             for (CRFCycleDefinition crfCycleDefinition : formArmSchedule.getCrfCycleDefinitions()) {
                 crfCycleDefinition.getCrfCycles();

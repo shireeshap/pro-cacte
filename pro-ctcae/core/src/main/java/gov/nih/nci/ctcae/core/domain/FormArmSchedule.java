@@ -88,8 +88,9 @@ public class FormArmSchedule extends BasePersistable {
         return crfCalendars;
     }
 
-    public void setFormCalendars(List<CRFCalendar> crfCalendars) {
-        this.crfCalendars = crfCalendars;
+    public void addFormCalendar(CRFCalendar crfCalendar) {
+        crfCalendar.setFormArmSchedule(this);
+        crfCalendars.add(crfCalendar);      
     }
 
 

@@ -32,19 +32,19 @@ public class CRFCalendar extends BasePersistable {
     private String repeatEveryUnit;
 
     @Column(name = "repeat_every_amount")
-    private String repeatEveryAmount;
+    private String repeatEveryValue;
 
     @Column(name = "due_date_unit")
     private String dueDateUnit;
 
     @Column(name = "due_date_amount")
-    private String dueDateAmount;
+    private String dueDateValue;
 
     @Column(name = "repeat_until_unit")
     private String repeatUntilUnit;
 
     @Column(name = "repeat_until_amount")
-    private String repeatUntilAmount;
+    private String repeatUntilValue;
 
     @JoinColumn(name = "form_arm_schedules_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
@@ -81,12 +81,12 @@ public class CRFCalendar extends BasePersistable {
         this.repeatEveryUnit = repeatEveryUnit;
     }
 
-    public String getRepeatEveryAmount() {
-        return repeatEveryAmount;
+    public String getRepeatEveryValue() {
+        return repeatEveryValue;
     }
 
-    public void setRepeatEveryAmount(String repeatEveryAmount) {
-        this.repeatEveryAmount = repeatEveryAmount;
+    public void setRepeatEveryValue(String repeatEveryValue) {
+        this.repeatEveryValue = repeatEveryValue;
     }
 
     public String getDueDateUnit() {
@@ -97,12 +97,12 @@ public class CRFCalendar extends BasePersistable {
         this.dueDateUnit = dueDateUnit;
     }
 
-    public String getDueDateAmount() {
-        return dueDateAmount;
+    public String getDueDateValue() {
+        return dueDateValue;
     }
 
-    public void setDueDateAmount(String dueDateAmount) {
-        this.dueDateAmount = dueDateAmount;
+    public void setDueDateValue(String dueDateValue) {
+        this.dueDateValue = dueDateValue;
     }
 
     public String getRepeatUntilUnit() {
@@ -113,12 +113,12 @@ public class CRFCalendar extends BasePersistable {
         this.repeatUntilUnit = repeatUntilUnit;
     }
 
-    public String getRepeatUntilAmount() {
-        return repeatUntilAmount;
+    public String getRepeatUntilValue() {
+        return repeatUntilValue;
     }
 
-    public void setRepeatUntilAmount(String repeatUntilAmount) {
-        this.repeatUntilAmount = repeatUntilAmount;
+    public void setRepeatUntilValue(String repeatUntilValue) {
+        this.repeatUntilValue = repeatUntilValue;
     }
 
     @Override
@@ -128,14 +128,14 @@ public class CRFCalendar extends BasePersistable {
 
         CRFCalendar that = (CRFCalendar) o;
 
-        if (dueDateAmount != null ? !dueDateAmount.equals(that.dueDateAmount) : that.dueDateAmount != null)
+        if (dueDateValue != null ? !dueDateValue.equals(that.dueDateValue) : that.dueDateValue != null)
             return false;
         if (dueDateUnit != null ? !dueDateUnit.equals(that.dueDateUnit) : that.dueDateUnit != null) return false;
-        if (repeatEveryAmount != null ? !repeatEveryAmount.equals(that.repeatEveryAmount) : that.repeatEveryAmount != null)
+        if (repeatEveryValue != null ? !repeatEveryValue.equals(that.repeatEveryValue) : that.repeatEveryValue != null)
             return false;
         if (repeatEveryUnit != null ? !repeatEveryUnit.equals(that.repeatEveryUnit) : that.repeatEveryUnit != null)
             return false;
-        if (repeatUntilAmount != null ? !repeatUntilAmount.equals(that.repeatUntilAmount) : that.repeatUntilAmount != null)
+        if (repeatUntilValue != null ? !repeatUntilValue.equals(that.repeatUntilValue) : that.repeatUntilValue != null)
             return false;
         if (repeatUntilUnit != null ? !repeatUntilUnit.equals(that.repeatUntilUnit) : that.repeatUntilUnit != null)
             return false;
@@ -146,11 +146,11 @@ public class CRFCalendar extends BasePersistable {
     @Override
     public int hashCode() {
         int result = repeatEveryUnit != null ? repeatEveryUnit.hashCode() : 0;
-        result = 31 * result + (repeatEveryAmount != null ? repeatEveryAmount.hashCode() : 0);
+        result = 31 * result + (repeatEveryValue != null ? repeatEveryValue.hashCode() : 0);
         result = 31 * result + (dueDateUnit != null ? dueDateUnit.hashCode() : 0);
-        result = 31 * result + (dueDateAmount != null ? dueDateAmount.hashCode() : 0);
+        result = 31 * result + (dueDateValue != null ? dueDateValue.hashCode() : 0);
         result = 31 * result + (repeatUntilUnit != null ? repeatUntilUnit.hashCode() : 0);
-        result = 31 * result + (repeatUntilAmount != null ? repeatUntilAmount.hashCode() : 0);
+        result = 31 * result + (repeatUntilValue != null ? repeatUntilValue.hashCode() : 0);
         return result;
     }
 

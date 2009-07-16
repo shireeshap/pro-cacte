@@ -61,6 +61,15 @@ public class CreateFormCommand implements Serializable {
 
     private List<ProCtcAERule> formOrStudySiteRules;
     private String readonlyview = "true";
+    private FormArmSchedule selectedFormArmSchedule;
+
+    public FormArmSchedule getSelectedFormArmSchedule() {
+        return selectedFormArmSchedule;
+    }
+
+    public void setSelectedFormArmSchedule(FormArmSchedule selectedFormArmSchedule) {
+        this.selectedFormArmSchedule = selectedFormArmSchedule;
+    }
 
     public String getReadonlyview() {
         return readonlyview;
@@ -245,11 +254,7 @@ public class CreateFormCommand implements Serializable {
      * @return the object
      */
     public Object addProCtcTerm(ProCtcTerm proCtcTerm) {
-
-        Object object = crf.addProCtcTerm(proCtcTerm);
-        return object;
-
-
+        return crf.addProCtcTerm(proCtcTerm);
     }
 
     /**
@@ -286,9 +291,7 @@ public class CreateFormCommand implements Serializable {
      * @return
      */
     public List<Integer> getSelectedProCtcTerms() {
-
-        List<Integer> selectedProCtcTerms = new ArrayList<Integer>();
-        return selectedProCtcTerms;
+        return new ArrayList<Integer>();
     }
 
     public String getCrfCycleDefinitionIndexToRemove() {
@@ -301,29 +304,29 @@ public class CreateFormCommand implements Serializable {
 
     public void createCycles(HttpServletRequest request) {
         int cycleDefinitionIndex = -1;
-//        for (CRFCycleDefinition crfCycleDefinition : crf.getCrfCycleDefinitions()) {
-//            cycleDefinitionIndex++;
-//            crfCycleDefinition.getCrfCycles().clear();
-//            String repeat = crfCycleDefinition.getRepeatTimes();
-//            if (org.apache.commons.lang.StringUtils.isNumeric(repeat) || ("-1").equals(repeat)) {
-//                int repeattimes = Integer.parseInt(repeat);
-//                boolean isIndefinite = false;
-//                if (repeattimes == -1) {
-//                    repeattimes = 100;
-//                    isIndefinite = true;
-//                }
-//                for (int i = 0; i < repeattimes; i++) {
-//                    CRFCycle crfCycle = new CRFCycle();
-//                    if (isIndefinite) {
-//                        crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + 0));
-//                    } else {
-//                        crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + i));
-//                    }
-//                    crfCycle.setOrder(i);
-//                    crfCycleDefinition.addCrfCycle(crfCycle);
-//                }
-//            }
-//        }
+        for (CRFCycleDefinition crfCycleDefinition : getSelectedFormArmSchedule().getCrfCycleDefinitions()) {
+            cycleDefinitionIndex++;
+            crfCycleDefinition.getCrfCycles().clear();
+            String repeat = crfCycleDefinition.getRepeatTimes();
+            if (org.apache.commons.lang.StringUtils.isNumeric(repeat) || ("-1").equals(repeat)) {
+                int repeattimes = Integer.parseInt(repeat);
+                boolean isIndefinite = false;
+                if (repeattimes == -1) {
+                    repeattimes = 100;
+                    isIndefinite = true;
+                }
+                for (int i = 0; i < repeattimes; i++) {
+                    CRFCycle crfCycle = new CRFCycle();
+                    if (isIndefinite) {
+                        crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + 0));
+                    } else {
+                        crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + i));
+                    }
+                    crfCycle.setOrder(i);
+                    crfCycleDefinition.addCrfCycle(crfCycle);
+                }
+            }
+        }
     }
 
 
@@ -357,8 +360,8 @@ public class CreateFormCommand implements Serializable {
     }
 
 
-    public void initializeRulesForForm(ProCtcAERulesService proCtcAERulesService) {
-        RuleSet ruleSet = proCtcAERulesService.getExistingRuleSetForCrf(crf);
+    public void initializeRulesForForm() {
+        RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrf(crf);
         initializeRules(ruleSet);
     }
 
@@ -407,8 +410,8 @@ public class CreateFormCommand implements Serializable {
 
     }
 
-    public void initializeRulesForSite(ProCtcAERulesService proCtcAERulesService) {
-        RuleSet ruleSet = proCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, myOrg);
+    public void initializeRulesForSite() {
+        RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, myOrg);
         initializeRules(ruleSet);
     }
 }

@@ -43,14 +43,13 @@
     </c:otherwise>
 </c:choose>
 
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="createForm" hideErrorDetails="true"
-              boxClass="small">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="createForm" hideErrorDetails="true">
     <jsp:attribute name="singleFields">
         <c:choose>
             <c:when test="${command.crf.crfVersion eq 1.0}">
                 <p><tags:instructions code="instruction_select_study"/></p>
                 <tags:renderAutocompleter propertyName="crf.study" required="true" displayName="form.label.study"
-                                          size="60"/>
+                                          size="100"/>
                 <p id="crf.study-selected" style="display: none">
                     You have selected the study <span id="crf.study-selected-name"></span>.
                 </p>

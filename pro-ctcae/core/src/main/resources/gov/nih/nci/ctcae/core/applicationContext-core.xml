@@ -255,6 +255,10 @@
           class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository"
           p:genericRepository-ref="genericRepository">
     </bean>
+    <bean id="formArmScheduleRepository"
+          class="gov.nih.nci.ctcae.core.repository.FormArmScheduleRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
 
     <bean id="meddraValidValueRepository"
           class="gov.nih.nci.ctcae.core.repository.MeddraValidValueRepository"

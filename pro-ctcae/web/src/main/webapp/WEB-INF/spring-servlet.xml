@@ -167,6 +167,7 @@
     <bean id="formController" class="gov.nih.nci.ctcae.web.form.FormController" abstract="true"
           parent="securedTabbedFlowFormController">
         <property name="crfRepository" ref="crfRepository"/>
+        <property name="formArmScheduleRepository" ref="formArmScheduleRepository"/>
     </bean>
 
 
@@ -265,8 +266,8 @@
         <property name="studyRepository" ref="studyRepository"/>
     </bean>
     <bean name="/study/addStudyArm" id="addStudyArmController"
-             class="gov.nih.nci.ctcae.web.study.AddStudyArmController">
-       </bean>
+          class="gov.nih.nci.ctcae.web.study.AddStudyArmController">
+    </bean>
 
     <bean name="/admin/clinicalStaff/addClinicalStaffComponent" id="addClinicalStaffComponentController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.AddClinicalStaffComponentController">
@@ -477,6 +478,7 @@
         <property name="privilegeAuthorizationCheck" ref="privilegeAuthorizationCheck"/>
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
         <property name="studyOrganizationClinicalStaffRepository" ref="studyOrganizationClinicalStaffRepository"/>
+        <property name="formArmScheduleRepository" ref="formArmScheduleRepository"/>
     </bean>
 
 
