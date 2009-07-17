@@ -134,8 +134,8 @@
                </table>
            </div>
        </chrome:division>
-        <div align="right" style="padding-right:3em">
-            <tags:button color="blue" markupWithTag="a" onclick="javascript:addStudyArm()" size="small"
+        <div align="left" style="padding-left:4em">
+            <tags:button color="blue" icon="add" markupWithTag="a" onclick="javascript:addStudyArm()" size="small"
                          value="study.button.add_study_arm"/></div>
 </jsp:attribute>
 
