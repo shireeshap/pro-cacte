@@ -82,7 +82,7 @@
                         <div class="row">
                             <div class="label"><tags:message code="reports.label.form"/></div>
                             <div class="value">
-                                <select onchange="javascript:displaySymptoms(this.value)" name="form">
+                                <select onchange="javascript:displaySymptoms(this.value)" name="form" id="form">
                                     <option value="">Please select</option>
                                     <option value="-1">All</option>
                                     <c:forEach items="${crfs}" var="crf">
