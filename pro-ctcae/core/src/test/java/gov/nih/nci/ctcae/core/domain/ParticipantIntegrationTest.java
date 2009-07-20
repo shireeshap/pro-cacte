@@ -32,6 +32,7 @@ public class ParticipantIntegrationTest extends TestDataManager {
         StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
         studyParticipantAssignment.setStudySite(StudyTestHelper.getDefaultStudy().getLeadStudySite());
         studyParticipantAssignment.setStudyParticipantIdentifier("abc");
+        studyParticipantAssignment.setArm(StudyTestHelper.getDefaultStudy().getArms().get(0));
         participant.addStudyParticipantAssignment(studyParticipantAssignment);
         participant = participantRepository.save(participant);
     }
