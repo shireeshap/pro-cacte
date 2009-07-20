@@ -16,7 +16,7 @@ import java.util.Collection;
 
 public class ParticipantIntegrationTest extends TestDataManager {
 
-    private Participant participant, inValidParticipant;
+    private Participant participant;
 
 
     private void saveParticipant() {
@@ -45,7 +45,7 @@ public class ParticipantIntegrationTest extends TestDataManager {
     }
 
     public void testValidationExceptionForSavingInValidParticipant() {
-        inValidParticipant = new Participant();
+        Participant inValidParticipant = new Participant();
 
         try {
             inValidParticipant = participantRepository.save(inValidParticipant);
