@@ -66,7 +66,7 @@
         <echo message="${datasource.password}"/>
         <sql driver="${datasource.driver}" userid="${datasource.username}" password="${datasource.password}"
              url="${datasource.url}"
-             classpathref="main.classpath" onerror="halt" autocommit="true">
+             classpathref="main.classpath" onerror="stop" autocommit="true">
             DROP DATABASE "${database.name}";
             CREATE DATABASE "${database.name}";
         </sql>
