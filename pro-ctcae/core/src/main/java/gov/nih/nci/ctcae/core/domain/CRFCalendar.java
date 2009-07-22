@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.apache.commons.lang.StringUtils;
 
 import javax.persistence.*;
 
@@ -160,5 +161,16 @@ public class CRFCalendar extends BasePersistable {
 
     public void setFormArmSchedule(FormArmSchedule formArmSchedule) {
         this.formArmSchedule = formArmSchedule;
+    }
+
+    public boolean isValid() {
+        return !StringUtils.isBlank(getRepeatEveryUnit())
+                && !StringUtils.isBlank(getRepeatEveryValue())
+                && !StringUtils.isBlank(getDueDateUnit())
+                && !StringUtils.isBlank(getDueDateValue())
+                && !StringUtils.isBlank(getRepeatUntilUnit())
+                && !StringUtils.isBlank(getRepeatUntilValue())
+                && formArmSchedule != null;
+
     }
 }
