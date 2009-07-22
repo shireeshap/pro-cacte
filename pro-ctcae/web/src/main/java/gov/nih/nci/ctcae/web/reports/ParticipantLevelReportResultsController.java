@@ -20,7 +20,7 @@ import java.util.*;
 public class ParticipantLevelReportResultsController extends AbstractController {
 
     GenericRepository genericRepository;
-    
+
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
@@ -30,7 +30,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         List<String> dates = new ArrayList<String>();
 
         List<StudyParticipantCrfSchedule> filteredSchedules = getFilteredSchedules(list, request);
-        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = getCareResults(dates, filteredSchedules);
+        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = getCareResults(dates, filteredSchedules, request);
 
 
         modelAndView.addObject("resultsMap", results);
@@ -44,7 +44,7 @@ public class ParticipantLevelReportResultsController extends AbstractController 
     }
 
 
-    private TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> getCareResults(List<String> dates, List<StudyParticipantCrfSchedule> schedules) {
+    private TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> getCareResults(List<String> dates, List<StudyParticipantCrfSchedule> schedules, HttpServletRequest request) {
 
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = new TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
         HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults = new HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>();
@@ -54,6 +54,10 @@ public class ParticipantLevelReportResultsController extends AbstractController 
             String displayDate = DateUtils.format(studyParticipantCrfSchedule.getStartDate());
             if (studyParticipantCrfSchedule.getCycleNumber() != null) {
                 displayDate += " (C" + studyParticipantCrfSchedule.getCycleNumber() + ", D" + studyParticipantCrfSchedule.getCycleDay() + ")";
+            }
+            if (studyParticipantCrfSchedule.isBaseline()) {
+                displayDate += "<br/>(Baseline)";
+                request.getSession().setAttribute("baselineDate", DateUtils.format(studyParticipantCrfSchedule.getStartDate()));
             }
             dates.add(displayDate);
 
@@ -125,9 +129,9 @@ public class ParticipantLevelReportResultsController extends AbstractController 
         } else {
             if ("currentPrev".equals(visitRange)) {
                 if (list.size() > 0) {
-                    filtered.add(list.get(list.size()-1));
+                    filtered.add(list.get(list.size() - 1));
                     if (list.size() > 1) {
-                        filtered.add(list.get(list.size()-2));
+                        filtered.add(list.get(list.size() - 2));
                     }
                 }
             } else {

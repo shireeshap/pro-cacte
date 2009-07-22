@@ -1,32 +1,35 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.block.EmptyBlock;
+import org.jfree.chart.block.BorderArrangement;
+import org.jfree.chart.block.BlockContainer;
+import org.jfree.chart.title.CompositeTitle;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.labels.AbstractCategoryItemLabelGenerator;
-import org.jfree.chart.labels.CategoryItemLabelGenerator;
-import org.jfree.chart.labels.ItemLabelAnchor;
-import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.labels.*;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.TextAnchor;
+import org.jfree.ui.RectangleEdge;
+import org.jfree.ui.RectangleInsets;
 
 import java.awt.*;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.TreeMap;
 
@@ -39,7 +42,7 @@ public class ParticipantLevelChartGenerator {
 
     ArrayList<String> typesInSymptom = new ArrayList<String>();
 
-    public JFreeChart getChartForSymptom(TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results, ArrayList<String> dates, Integer inputSymptomId, ArrayList<String> arrSelectedTypes) {
+    public JFreeChart getChartForSymptom(TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results, ArrayList<String> dates, Integer inputSymptomId, ArrayList<String> arrSelectedTypes, String baselineDate) {
         ProCtcTerm selectedTerm = null;
         HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart = null;
         for (ProCtcTerm proCtcTerm : results.keySet()) {
@@ -49,9 +52,9 @@ public class ParticipantLevelChartGenerator {
                 break;
             }
         }
-        CategoryDataset dataset = createDataset(dataForChart, dates, arrSelectedTypes);
-        JFreeChart chart = createChart(dataset, selectedTerm);
-        return chart;
+        DefaultCategoryDataset baselineDataSet = new DefaultCategoryDataset();
+        CategoryDataset primaryDataSet = createDataset(dataForChart, dates, arrSelectedTypes, baselineDate, baselineDataSet);
+        return createChart(primaryDataSet, selectedTerm, baselineDataSet);
     }
 
     /**
@@ -60,22 +63,39 @@ public class ParticipantLevelChartGenerator {
      * @param dataForChart
      * @param dates
      * @param arrSelectedTypes
+     * @param baselineDate
+     * @param baselineDataSet
      * @return the category dataset
      */
-    private CategoryDataset createDataset(HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart, ArrayList<String> dates, ArrayList<String> arrSelectedTypes) {
+    private CategoryDataset createDataset(HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> dataForChart, ArrayList<String> dates, ArrayList<String> arrSelectedTypes, String baselineDate, DefaultCategoryDataset baselineDataSet) {
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         int i = 0;
+        HashMap<String, Integer> baselineValues = new HashMap<String, Integer>();
+        for (String date : dates) {
+            if (date.indexOf(baselineDate) > -1) {
+                for (ProCtcQuestion proCtcQuestion : dataForChart.keySet()) {
+                    ArrayList<ProCtcValidValue> proCtcValidValues = dataForChart.get(proCtcQuestion);
+                    ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
+                    String questionType = proCtcQuestion.getProCtcQuestionType().getDisplayName();
+                    baselineValues.put(questionType, proCtcValidValue.getDisplayOrder());
+                }
+            }
+            i++;
+        }
+
+        i = 0;
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (String date : dates) {
             for (ProCtcQuestion proCtcQuestion : dataForChart.keySet()) {
                 ArrayList<ProCtcValidValue> proCtcValidValues = dataForChart.get(proCtcQuestion);
                 ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
                 String questionType = proCtcQuestion.getProCtcQuestionType().getDisplayName();
-                if (arrSelectedTypes == null) {
-                    dataset.addValue(proCtcValidValue.getDisplayOrder(), questionType, date);
-                } else {
-                    if (arrSelectedTypes.contains(questionType)) {
+                if (date.indexOf(baselineDate) == -1) {
+                    if (arrSelectedTypes == null || arrSelectedTypes.contains(questionType)) {
                         dataset.addValue(proCtcValidValue.getDisplayOrder(), questionType, date);
+                        if (baselineValues.get(questionType) != null) {
+                            baselineDataSet.addValue(baselineValues.get(questionType), questionType, date);
+                        }
                     }
                 }
                 if (!typesInSymptom.contains(questionType)) {
@@ -91,68 +111,84 @@ public class ParticipantLevelChartGenerator {
     /**
      * Creates the chart.
      *
-     * @param dataset      the dataset
+     * @param dataset         the dataset
      * @param selectedTerm
+     * @param baselineDataSet
      * @return the j free chart
      */
 
-    private JFreeChart createChart(CategoryDataset dataset, ProCtcTerm selectedTerm) {
+    private JFreeChart createChart(CategoryDataset dataset, ProCtcTerm selectedTerm, DefaultCategoryDataset baselineDataSet) {
 
         String title = "";
         if (selectedTerm != null) {
             title = selectedTerm.getTerm();
         }
-        JFreeChart chart = ChartFactory.createBarChart(
-                title,       // chart title
-                "Date",               // domain axis label
-                "Value",                  // range axis label
-                dataset,                  // data
-                PlotOrientation.VERTICAL, // orientation
-                true,                     // include legend
-                true,                     // tooltips?
-                false                     // URLs?
+        JFreeChart chart = ChartFactory.createBarChart3D(
+                title,
+                "Date",
+                "Response",
+                dataset,
+                PlotOrientation.VERTICAL,
+                false,
+                true,
+                false
         );
 
+        CategoryPlot plot = chart.getCategoryPlot();
+        plot.setDomainGridlinePaint(Color.gray);
+        plot.setDomainGridlinesVisible(true);
+        plot.setRangeGridlinePaint(Color.gray);
         chart.setBackgroundPaint(Color.white);
 
-        CategoryPlot plot = (CategoryPlot) chart.getPlot();
-        plot.setBackgroundPaint(Color.lightGray);
-        plot.setDomainGridlinePaint(Color.white);
-        plot.setDomainGridlinesVisible(true);
-        plot.setRangeGridlinePaint(Color.white);
+        plot.setDataset(1, baselineDataSet);
+        plot.mapDatasetToRangeAxis(1, 1);
+        LineAndShapeRenderer baselineRendrer = new LineAndShapeRenderer();
+        plot.setRenderer(1, baselineRendrer);
+        plot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+        Range range = new Range(0, 5);
 
-
-        // set the range axis to display integers only...
         final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        Range range = new Range(0, 4);
+
+        final ValueAxis baselineAxis = new NumberAxis("Baseline");
+        baselineAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        plot.setRangeAxis(1, baselineAxis);
+
         rangeAxis.setRange(range);
-        // disable bar outlines...
+        baselineAxis.setRange(range);
+
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
         renderer.setDrawBarOutline(false);
         renderer.setItemMargin(0.05);
 
         CategoryItemRenderer categoryItemRenderer = plot.getRenderer();
         categoryItemRenderer.setBaseItemLabelsVisible(true);
-        // set up gradient paints for series...
 
-        categoryItemRenderer.setSeriesPaint(0, Color.blue);
-        categoryItemRenderer.setSeriesPaint(1, Color.green);
-        categoryItemRenderer.setSeriesPaint(2, Color.red);
-        categoryItemRenderer.setSeriesPaint(3, Color.cyan);
-        categoryItemRenderer.setSeriesPaint(4, Color.orange);
         ItemLabelPosition itemLabelPosition = new ItemLabelPosition(ItemLabelAnchor.INSIDE12, TextAnchor.CENTER_RIGHT, TextAnchor.CENTER_RIGHT, -Math.PI / 2.0);
-
+        LabelGenerator lg = new LabelGenerator();
         for (int i = 0; i < 5; i++) {
             categoryItemRenderer.setSeriesItemLabelsVisible(i, true);
-            categoryItemRenderer.setSeriesItemLabelGenerator(i, new LabelGenerator());
+            categoryItemRenderer.setSeriesItemLabelGenerator(i, lg);
+            renderer.setSeriesItemLabelFont(i, new Font(null, Font.BOLD, 12));
+            renderer.setSeriesItemLabelPaint(i, Color.BLACK);
             categoryItemRenderer.setSeriesPositiveItemLabelPosition(i, itemLabelPosition);
-            categoryItemRenderer.setSeriesItemLabelPaint(i, Color.white);
         }
-        CategoryAxis domainAxis = plot.getDomainAxis();
-        domainAxis.setCategoryLabelPositions(
-                CategoryLabelPositions.createUpRotationLabelPositions(
-                        Math.PI / 6.0));
+
+        LegendTitle legend1 = new LegendTitle(plot.getRenderer(0));
+        legend1.setMargin(new RectangleInsets(2, 2, 2, 2));
+        legend1.setBorder(1, 1, 1, 1);
+
+        LegendTitle legend2 = new LegendTitle(plot.getRenderer(1));
+        legend2.setMargin(new RectangleInsets(2, 2, 2, 2));
+        legend2.setBorder(1, 1, 1, 1);
+
+        BlockContainer container = new BlockContainer(new BorderArrangement());
+        container.add(legend1, RectangleEdge.LEFT);
+        container.add(legend2, RectangleEdge.RIGHT);
+        container.add(new EmptyBlock(2000, 0));
+        CompositeTitle legends = new CompositeTitle(container);
+        legends.setPosition(RectangleEdge.BOTTOM);
+        chart.addSubtitle(legends);
 
         return chart;
 
@@ -165,23 +201,13 @@ public class ParticipantLevelChartGenerator {
             super("", NumberFormat.getInstance());
         }
 
-        /**
-         * Generates a label for the specified item. The label is typically a
-         * formatted version of the data value, but any text can be used.
-         *
-         * @param dataset  the dataset (<code>null</code> not permitted).
-         * @param series   the series index (zero-based).
-         * @param category the category index (zero-based).
-         * @return the label (possibly <code>null</code>).
-         */
         public String generateLabel(CategoryDataset dataset,
                                     int series,
                                     int category) {
             String questionType = typesInSymptom.get(series);
             ProCtcQuestionType proCtcQuestionType = ProCtcQuestionType.getByCode(questionType);
             Number value = dataset.getValue(series, category);
-            String label = proCtcQuestionType.getValidValues()[value.intValue()];
-            return label;
+            return proCtcQuestionType.getValidValues()[value.intValue()];
         }
     }
 }

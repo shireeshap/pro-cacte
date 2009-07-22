@@ -30,6 +30,8 @@ public class ParticipantLevelReportTest extends WebTestCase {
         Calendar calendar = ProCtcAECalendar.getCalendarForDate(new Date());
         calendar.add(Calendar.DATE, 10);
         dates.add(DateUtils.format(calendar.getTime()));
+        request.getSession().setAttribute("baselineDate", DateUtils.format(calendar.getTime()));
+        
         calendar.add(Calendar.DATE, 10);
         dates.add(DateUtils.format(calendar.getTime()));
         calendar.add(Calendar.DATE, 10);

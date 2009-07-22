@@ -25,6 +25,7 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
 
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
         ArrayList<String> dates = (ArrayList<String>) request.getSession().getAttribute("sessionDates");
+        String baselineDate = (String) request.getSession().getAttribute("baselineDate");
         Participant participant = (Participant) request.getSession().getAttribute("participant");
         Study study = (Study) request.getSession().getAttribute("study");
         CRF crf = (CRF) request.getSession().getAttribute("crf");
@@ -119,7 +120,7 @@ public class ParticipantLevelReportPdfView extends AbstractPdfView {
             PdfContentByte cb = pdfWriter.getDirectContent();
             PdfTemplate tp = cb.createTemplate(width, height);
             Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());
-            JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, proCtcTerm.getId(), null);
+            JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, proCtcTerm.getId(), null, baselineDate);
             Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height - 20);
             chart.draw(g2, r2D);
             g2.dispose();

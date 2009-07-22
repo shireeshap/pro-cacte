@@ -78,7 +78,7 @@
                     </td>
                     <c:forEach items="${attribute.value}" var="count">
                         <td class="${bottom}">
-                                ${count.value} (<fmt:formatNumber pattern="0.00" value="${(count.value*100)/total}"/>)
+                                ${count.value} (<fmt:formatNumber pattern="0.0" value="${(count.value*100)/total}"/>)
                         </td>
                     </c:forEach>
                     <c:if test="${fn:length(attribute.value)<5}">

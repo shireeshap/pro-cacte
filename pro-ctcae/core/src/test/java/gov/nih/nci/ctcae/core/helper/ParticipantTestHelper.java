@@ -43,9 +43,9 @@ public class ParticipantTestHelper {
         completeParticipantSchedule(jack, ss1, false);
         completeParticipantSchedule(kate, ss1, false);
         completeParticipantSchedule(sayid, ss1, false);
-        completeParticipantSchedule(sun, ss1, false);
-        completeParticipantSchedule(miles, ss1, false);
-        completeParticipantSchedule(jim, ss1, false);
+//        completeParticipantSchedule(sun, ss1, false);
+//        completeParticipantSchedule(miles, ss1, false);
+//        completeParticipantSchedule(jim, ss1, false);
 
         StudySite ss2 = StudyTestHelper.getDefaultStudy().getStudySites().get(1);
         Participant james = createParticipant("James", "Sawyer", "2-1", ss2);
@@ -60,9 +60,9 @@ public class ParticipantTestHelper {
         completeParticipantSchedule(charles, ss2, false);
         completeParticipantSchedule(hugo, ss2, false);
         completeParticipantSchedule(daniel, ss2, false);
-        completeParticipantSchedule(ben, ss2, false);
-        completeParticipantSchedule(desmond, ss2, false);
-        completeParticipantSchedule(juliet, ss2, false);
+//        completeParticipantSchedule(ben, ss2, false);
+//        completeParticipantSchedule(desmond, ss2, false);
+//        completeParticipantSchedule(juliet, ss2, false);
 
         completeParticipantSchedule(findParticpantByUserName("Charlie.Boon"), StudyTestHelper.getDefaultStudy().getLeadStudySite(), false);
         createNotifications(StudyTestHelper.getDefaultStudy().getCrfs().get(0));
@@ -75,23 +75,21 @@ public class ParticipantTestHelper {
         StudyParticipantCrf studyParticipantCrf = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
         for (int i = 0; i < 5; i++) {
             StudyParticipantCrfSchedule schedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(i);
-            if (!schedule.isBaseline()) {
-                for (StudyParticipantCrfItem studyParticipantCrfItem : schedule.getStudyParticipantCrfItems()) {
-                    List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
+            for (StudyParticipantCrfItem studyParticipantCrfItem : schedule.getStudyParticipantCrfItems()) {
+                List<ProCtcValidValue> validValues = (List<ProCtcValidValue>) studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getValidValues();
 //                    studyParticipantCrfItem.setProCtcValidValue(validValues.get(i % validValues.size()));
-                    if (i == 0) {
-                        studyParticipantCrfItem.setProCtcValidValue(validValues.get(validValues.size() - 1));
-                    } else {
-                        studyParticipantCrfItem.setProCtcValidValue(validValues.get(random.nextInt(validValues.size())));
-                    }
-
+                if (i == 0) {
+                    studyParticipantCrfItem.setProCtcValidValue(validValues.get(validValues.size() - 1));
+                } else {
+                    studyParticipantCrfItem.setProCtcValidValue(validValues.get(random.nextInt(validValues.size())));
                 }
-                schedule.setStatus(CrfStatus.COMPLETED);
-                genericRepository.save(schedule);
-                if (executeRule) {
-                    if (!emailSent) {
-                        emailSent = NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
-                    }
+
+            }
+            schedule.setStatus(CrfStatus.COMPLETED);
+            genericRepository.save(schedule);
+            if (executeRule) {
+                if (!emailSent) {
+                    emailSent = NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
                 }
             }
         }
