@@ -30,7 +30,7 @@ public class ParticipantTestHelper {
 
     public static void createDefaultParticipants() throws ParseException {
 
-        StudySite ss1 = StudyTestHelper.getDefaultStudy().getStudySites().get(0);
+        StudySite ss1 = StudyTestHelper.getDefaultStudy().getLeadStudySite();
         Participant john = createParticipant("John", "Locke", "1-1", ss1);
         Participant jack = createParticipant("Jack", "Shephard", "1-2", ss1);
         Participant kate = createParticipant("Kate", "Austen", "1-3", ss1);
@@ -47,7 +47,7 @@ public class ParticipantTestHelper {
 //        completeParticipantSchedule(miles, ss1, false);
 //        completeParticipantSchedule(jim, ss1, false);
 
-        StudySite ss2 = StudyTestHelper.getDefaultStudy().getStudySites().get(1);
+        StudySite ss2 = StudyTestHelper.getDefaultStudy().getNonLeadStudySites().get(1);
         Participant james = createParticipant("James", "Sawyer", "2-1", ss2);
         Participant charles = createParticipant("Charles", "Widmore", "2-2", ss2);
         Participant hugo = createParticipant("Hugo", "Hurley", "2-3", ss2);

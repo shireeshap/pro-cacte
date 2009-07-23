@@ -204,4 +204,6 @@ public class StudyTestHelper {
         addOrUpdateStudyOrganizationClinicalStaff("DOPLAND", Role.PI, study2.getLeadStudySite());
         studyRepository.save(study2);
     }
+
+
 }

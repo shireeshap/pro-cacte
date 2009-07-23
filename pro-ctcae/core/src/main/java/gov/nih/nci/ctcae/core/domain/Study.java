@@ -119,6 +119,16 @@ public class Study extends BasePersistable {
         return studySites;
     }
 
+    public List<StudySite> getNonLeadStudySites() {
+        List<StudySite> studySites = new LinkedList<StudySite>();
+        for (StudyOrganization studyOrganization : getStudyOrganizations()) {
+            if ((studyOrganization instanceof StudySite) && !(studyOrganization instanceof LeadStudySite)) {
+                studySites.add((StudySite) studyOrganization);
+            }
+        }
+        return studySites;
+    }
+
     /**
      * Gets the study funding sponsor.
      *
@@ -501,9 +511,9 @@ public class Study extends BasePersistable {
     }
 
     public void addArm(Arm arm) {
-        if(arm != null) {
-        arm.setStudy(this);
-        arms.add(arm);
+        if (arm != null) {
+            arm.setStudy(this);
+            arms.add(arm);
         }
     }
 }
