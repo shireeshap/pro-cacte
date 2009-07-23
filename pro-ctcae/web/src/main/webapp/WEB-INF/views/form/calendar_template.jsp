@@ -98,7 +98,6 @@
     }
 </style>
 <script type="text/javascript">
-var totalCalendars = 0;
 var repeatvalues = new Array();
 function changeinput(obj, index, value) {
     if (obj.value == 'Indefinitely') {
@@ -124,10 +123,8 @@ function changeinput(obj, index, value) {
 function none() {
 }
 Event.observe(window, "load", function () {
-    for (var i = 0; i < totalCalendars; i++) {
-        var item = document.getElementsByName('selectedFormArmSchedule.crfCalendars[' + i + '].repeatUntilUnit')[0];
-        changeinput(item, i, repeatvalues[i]);
-    }
+    var item = document.getElementsByName('selectedFormArmSchedule.crfCalendars[0].repeatUntilUnit')[0];
+    changeinput(item, 0, '${command.selectedFormArmSchedule.crfCalendars[0].repeatUntilValue}');
 })
 
 function addCycle() {
@@ -410,13 +407,8 @@ function deleteCycleDefinition(cycleIndex) {
 function deleteCycleConfirm(crfCycleIndex) {
     closeWindow();
     $('crfCycleIndexToRemove').value = crfCycleIndex;
-    submitScheduleTemplateTabPage();
+    refreshPage();
 
-}
-function submitScheduleTemplateTabPage() {
-    $('_target').name = "_target" + 2;
-    //    $("_finish").name = "_nofinish";
-    $('command').submit();
 }
 
 function changePlannedRep(cycleDefinitionIndex, value) {
@@ -430,12 +422,18 @@ function changePlannedRep(cycleDefinitionIndex, value) {
 
     showCyclesForDefinition(cycleDefinitionIndex, false);
 }
-function changeArm() {
+function refreshPage() {
     var a = $('_target').name;
     var b = a.substr(7);
     var c = b - 1;
     $('_target').name = '_target' + c;
     $('command').submit();
+}
+
+function showSchedule(scheduleType) {
+    $('calendarBasedDiv').hide();
+    $('cycleBasedDiv').hide();
+    $(scheduleType + 'Div').show();
 }
 </script>
 </head>
@@ -444,13 +442,31 @@ function changeArm() {
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
 <form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
-    <div style="padding-left:3px;">
-        <b><spring:message code="form.calendar.arm"></spring:message></b>
-        <form:select path="newSelectedFormArmSchedule" items="${command.crf.formArmSchedules}" itemLabel="arm.title"
-                     itemValue="id" onchange="changeArm();"/>
-        <br/>&nbsp;
+<chrome:box title="form.tab.calendar_template">
+    <div class="row">
+        <div class="label"><spring:message code="form.calendar.arm"></spring:message></div>
+        <div class="value">
+            <form:select path="newSelectedFormArmSchedule" items="${command.crf.formArmSchedules}"
+                         itemLabel="arm.title" itemValue="id" onchange="refreshPage();"/>
+        </div>
     </div>
-    <chrome:box title="form.calendar.genericschedule" autopad="true">
+    <div class="row">
+        <div class="label"><spring:message code="form.calendar.scheduletype"></spring:message></div>
+        <div class="value">
+            <input type="radio" name="scheduleType" value="calendarBased" onclick="showSchedule(this.value)"
+                   style="margin:3px"
+                   <c:if test="${selectedFormArmSchedule.crfCalendars[0].valid}">checked</c:if>/>
+            <spring:message code="form.calendar.genericschedule"/>
+            <input type="radio" name="scheduleType" value="cycleBased" onclick="showSchedule(this.value)"
+                   style="margin:3px"
+                   <c:if test="${fn:length(selectedFormArmSchedule.crfCycleDefinitions)gt 0}">checked</c:if>/>
+            <spring:message code="form.calendar.cyclebasedschedule"/>
+        </div>
+    </div>
+</chrome:box>
+<div id="calendarBasedDiv"
+     <c:if test="${not selectedFormArmSchedule.crfCalendars[0].valid}">style="display:none"</c:if>>
+    <chrome:box title="form.calendar.genericschedule">
         <table class="top-widget" width="100%">
             <tr id="repeatprops">
                 <td width="1%">
@@ -484,7 +500,7 @@ function changeArm() {
                     </div>
                     <div id="div_number_0" style="display:none;">
                         <input size="3" id="crfCalendar_number_0.repeatUntilValue"
-                               name="crfCalendar_number_0.repeatUntilAmount"
+                               name="crfCalendar_number_0.repeatUntilValue"
                                type="text">
                     </div>
                     <input type="hidden"
@@ -495,10 +511,12 @@ function changeArm() {
 
             </tr>
         </table>
+        <br/>
     </chrome:box>
-</jsp:attribute>
-    <jsp:attribute name="repeatingFields">
-    <chrome:box title="form.calendar.cyclenbasedschedule" autopad="true">
+</div>
+<div id="cycleBasedDiv"
+     <c:if test="${fn:length(selectedFormArmSchedule.crfCycleDefinitions) eq 0}">style="display:none;"</c:if>>
+    <chrome:box title="form.calendar.cyclebasedschedule">
         <table class="top-widget" width="100%">
             <tr>
                 <td>
@@ -510,32 +528,34 @@ function changeArm() {
                     </c:forEach>
                     <div id="hiddenDiv"></div>
                     <chrome:division title=" "/>
-                    <div style="width:6.5em;">
+                    <div style="width:4.5em;">
                         <tags:button color="blue" size="small" markupWithTag="a" onclick="javascript:addCycle()"
                                      value="form.schedule.add_cycle" icon="add"/>
                     </div>
                 </td>
             </tr>
         </table>
+        <br/>
     </chrome:box>
-        <div id="hidden_inputs_div">
-            <c:forEach items="${selectedFormArmSchedule.crfCycleDefinitions}" var="crfCycleDefinition"
-                       varStatus="status">
-                <c:if test="${not empty crfCycleDefinition}">
-                    <div id="hidden_inputs_div_${status.index}">
-                        <c:forEach items="${crfCycleDefinition.crfCycles}" var="crfCycle" varStatus="cyclestatus">
-                            <input type="hidden" name='selecteddays_${status.index}_${cyclestatus.index}'
-                                   id='selecteddays_${status.index}_${cyclestatus.index}'
-                                   value="${crfCycle.cycleDays}"/>
-                        </c:forEach>
-                    </div>
-                    <script type="text/javascript">
-                        showCyclesForDefinition(${status.index}, true);
-                    </script>
-                </c:if>
-            </c:forEach>
-        </div>
-    </jsp:attribute>
+</div>
+<div id="hidden_inputs_div">
+    <c:forEach items="${selectedFormArmSchedule.crfCycleDefinitions}" var="crfCycleDefinition"
+               varStatus="status">
+        <c:if test="${not empty crfCycleDefinition}">
+            <div id="hidden_inputs_div_${status.index}">
+                <c:forEach items="${crfCycleDefinition.crfCycles}" var="crfCycle" varStatus="cyclestatus">
+                    <input type="hidden" name='selecteddays_${status.index}_${cyclestatus.index}'
+                           id='selecteddays_${status.index}_${cyclestatus.index}'
+                           value="${crfCycle.cycleDays}"/>
+                </c:forEach>
+            </div>
+            <script type="text/javascript">
+                showCyclesForDefinition(${status.index}, true);
+            </script>
+        </c:if>
+    </c:forEach>
+</div>
+</jsp:attribute>
 </tags:tabForm>
 </body>
 </html>

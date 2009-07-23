@@ -331,6 +331,9 @@ public class CreateFormCommand implements Serializable {
                     } else {
                         crfCycle.setCycleDays(request.getParameter("selecteddays_" + cycleDefinitionIndex + "_" + i));
                     }
+                    if (StringUtils.isBlank(crfCycle.getCycleDays())) {
+                        crfCycle.setCycleDays(",");
+                    }
                     crfCycle.setOrder(i);
                     crfCycleDefinition.addCrfCycle(crfCycle);
                 }

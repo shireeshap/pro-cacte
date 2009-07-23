@@ -73,30 +73,40 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
         return map;
     }
 
-    @Override
-    public void onBind(HttpServletRequest request, CreateFormCommand command, Errors errors) {
-        super.onBind(request, command, errors);
-        FormArmSchedule formArmSchedule = command.getSelectedFormArmSchedule();
-        CRFCalendar crfCalendar = formArmSchedule.getCrfCalendars().get(0);
-        if ("Number".equals(crfCalendar.getRepeatUntilUnit())) {
-            crfCalendar.setRepeatUntilValue(request.getParameter("crfCalendar_number_0.repeatUntilAmount"));
-        }
-        if ("Date".equals(crfCalendar.getRepeatUntilUnit())) {
-            crfCalendar.setRepeatUntilValue(request.getParameter("crfCalendar_date_0.repeatUntilAmount"));
-        }
-    }
-
 
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
-        if (!StringUtils.isBlank(command.getCrfCycleDefinitionIndexToRemove())) {
-            Integer crfCycleDefinitionIndex = Integer.valueOf(command.getCrfCycleDefinitionIndexToRemove());
-            CRFCycleDefinition crfCycleDefinition = command.getSelectedFormArmSchedule().getCrfCycleDefinitions().get(crfCycleDefinitionIndex);
-            command.getSelectedFormArmSchedule().getCrfCycleDefinitions().remove(crfCycleDefinition);
-            command.setCrfCycleDefinitionIndexToRemove("");
+
+        String scheduleType = request.getParameter("scheduleType");
+        if (!StringUtils.isBlank(scheduleType)) {
+            FormArmSchedule formArmSchedule = command.getSelectedFormArmSchedule();
+            CRFCalendar crfCalendar = formArmSchedule.getCrfCalendars().get(0);
+            if ("calendarBased".equals(scheduleType)) {
+                formArmSchedule.getCrfCycleDefinitions().clear();
+                if ("Number".equals(crfCalendar.getRepeatUntilUnit())) {
+                    crfCalendar.setRepeatUntilValue(request.getParameter("crfCalendar_number_0.repeatUntilValue"));
+                }
+                if ("Date".equals(crfCalendar.getRepeatUntilUnit())) {
+                    crfCalendar.setRepeatUntilValue(request.getParameter("crfCalendar_date_0.repeatUntilValue"));
+                }
+                if ("Indefinitely".equals(crfCalendar.getRepeatUntilUnit())) {
+                    crfCalendar.setRepeatUntilValue("" + 100);
+                }
+            }
+            if ("cycleBased".equals(scheduleType)) {
+                crfCalendar.makeInvalid();
+                command.createCycles(request);
+                if (!StringUtils.isBlank(command.getCrfCycleDefinitionIndexToRemove())) {
+                    Integer crfCycleDefinitionIndex = Integer.valueOf(command.getCrfCycleDefinitionIndexToRemove());
+                    CRFCycleDefinition crfCycleDefinition = command.getSelectedFormArmSchedule().getCrfCycleDefinitions().get(crfCycleDefinitionIndex);
+                    command.getSelectedFormArmSchedule().getCrfCycleDefinitions().remove(crfCycleDefinition);
+                    command.setCrfCycleDefinitionIndexToRemove("");
+                }
+            }
         }
-        command.createCycles(request);
+
         super.postProcess(request, command, errors);
+
     }
 
 

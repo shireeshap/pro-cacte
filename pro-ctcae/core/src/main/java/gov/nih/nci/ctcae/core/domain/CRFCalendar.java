@@ -173,4 +173,13 @@ public class CRFCalendar extends BasePersistable {
                 && formArmSchedule != null;
 
     }
+
+    public void makeInvalid() {
+        setRepeatEveryUnit("");
+        setRepeatEveryValue("");
+        setDueDateUnit("");
+        setDueDateValue("");
+        setRepeatUntilUnit("");
+        setRepeatUntilValue("");
+    }
 }
