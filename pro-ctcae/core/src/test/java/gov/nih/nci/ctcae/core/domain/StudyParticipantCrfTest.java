@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.core.domain;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 
 import java.util.List;
 
@@ -46,8 +47,8 @@ public class StudyParticipantCrfTest extends TestDataManager {
     }
 
     public void testGetCrfByStatus() {
-        Study s = StudyTestHelper.getDefaultStudy();
-        StudyParticipantCrf studyParticipantCrf = s.getLeadStudySite().getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
+        Participant participant = ParticipantTestHelper.getDefaultParticipant();
+        StudyParticipantCrf studyParticipantCrf = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
         studyParticipantCrf = genericRepository.findById(StudyParticipantCrf.class, studyParticipantCrf.getId());
         List<StudyParticipantCrfSchedule> schedulesS = studyParticipantCrf.getStudyParticipantCrfSchedulesByStatus(CrfStatus.SCHEDULED);
         List<StudyParticipantCrfSchedule> schedulesC = studyParticipantCrf.getStudyParticipantCrfSchedulesByStatus(CrfStatus.COMPLETED);
