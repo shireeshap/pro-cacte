@@ -47,7 +47,7 @@ public class ParticipantTestHelper {
 //        completeParticipantSchedule(miles, ss1, false);
 //        completeParticipantSchedule(jim, ss1, false);
 
-        StudySite ss2 = StudyTestHelper.getDefaultStudy().getNonLeadStudySites().get(1);
+        StudySite ss2 = StudyTestHelper.getDefaultStudy().getNonLeadStudySites().get(0);
         Participant james = createParticipant("James", "Sawyer", "2-1", ss2);
         Participant charles = createParticipant("Charles", "Widmore", "2-2", ss2);
         Participant hugo = createParticipant("Hugo", "Hurley", "2-3", ss2);
