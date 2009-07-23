@@ -7,7 +7,7 @@
 
 <tr id="${inputName}-row">
     <td style="border-right:none;">
-        <tags:renderText propertyName="study.arms[${index}].title" displayName="Name" required="true"
+        <tags:renderText propertyName="study.arms[${index}].title" displayName="Name"
                          size="20" noForm="true" propertyValue="${arm.title}"/>
     </td>
     <td>

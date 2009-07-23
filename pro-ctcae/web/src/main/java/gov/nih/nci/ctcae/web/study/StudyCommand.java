@@ -35,8 +35,6 @@ public class StudyCommand {
     public StudyCommand() {
         super();
         this.study = new Study();
-        Arm arm = new Arm();
-        study.addArm(arm);
         study.setStudySponsor(new StudySponsor());
         study.setDataCoordinatingCenter(new DataCoordinatingCenter());
         study.setFundingSponsor(new FundingSponsor());
