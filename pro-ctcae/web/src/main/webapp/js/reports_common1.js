@@ -70,8 +70,9 @@ function updateFormDropDown(crfs) {
         displaySymptoms(value['id']);
     } else {
         var select = populate('formTitle', crfs, 'title', 'id', selectedCrf, 'Form');
-        if (displaySymptom) {
-            select.onchange = function() {
+        select.onchange = function() {
+            $('form').value = this.value;
+            if (displaySymptom) {
                 displaySymptoms(this.value);
             }
         }
