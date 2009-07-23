@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         super();
         setCommandClass(StudyParticipantCrfSchedule.class);
         setFormView("participant/inputParticipantResponses");
-        setSuccessView("/participant/monitorForm");
+        setSuccessView("/participant/inputParticipantResponses");
         setBindOnNewForm(true);
         setSessionForm(true);
     }
@@ -49,7 +50,8 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = (StudyParticipantCrfSchedule) oCommand;
         studyParticipantCrfSchedule.setStatus(CrfStatus.COMPLETED);
         studyParticipantCrfScheduleRepository.save(studyParticipantCrfSchedule);
-        ModelAndView modelAndView = new ModelAndView(getSuccessView());
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("enterResponses?id=" + studyParticipantCrfSchedule.getId()));
+        modelAndView.addObject("successMessage","true");
         return modelAndView;
     }
 
