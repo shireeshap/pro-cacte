@@ -1,10 +1,7 @@
 package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.ctcae.core.domain.Participant;
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.helper.Fixture;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
@@ -56,7 +53,6 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
     }
 
     private ParticipantCommand firstTab_ParticipantDetails() throws Exception {
-
         ModelAndView mv = controller.handleRequest(request, response);
         Map m = mv.getModel();
         assertNotNull(m.get("genders"));
@@ -75,6 +71,8 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
         studySite.add(ls);
         pc.setStudySites(studySite);
         request.setParameter("participantStudyIdentifier_" + ls.getId(), "123");
+        Arm arm = StudyTestHelper.getDefaultStudy().getArms().get(0);
+        request.setParameter("arm_" + ls.getId(), "" + arm.getId());
         pc.setParticipant(p);
 
         request.setMethod("POST");
@@ -95,12 +93,13 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
         StudyParticipantAssignment spa = savedParticipant.getStudyParticipantAssignments().get(0);
         assertEquals("123", spa.getStudyParticipantIdentifier());
         assertEquals(1, spa.getStudyParticipantCrfs().size());
-        assertTrue(13< spa.getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().size());
+        assertEquals(15 , spa.getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().size());
         assertEquals("participant/participant_clinical_staff", mv.getViewName());
         assertEquals(2, spa.getStudyParticipantClinicalStaffs().size());
         m = mv.getModel();
         assertNotNull(m.get("studyParticipantAssignments"));
         assertNotNull(m.get("notifyOptions"));
+        assertEquals(arm, savedParticipant.getStudyParticipantAssignments().get(0).getArm());
 
         return pc;
 
