@@ -23,8 +23,8 @@ public class ParticipantLevelReportIntegrationTest extends AbstractWebTestCase {
         Study study = StudyTestHelper.getDefaultStudy();
         CRF crf = study.getCrfs().get(0);
         StudySite studySite = study.getLeadStudySite();
-        StudyParticipantCrf studyParticipantCrf = studySite.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
-        Participant participant = studyParticipantCrf.getStudyParticipantAssignment().getParticipant();
+        Participant participant = ParticipantTestHelper.getDefaultParticipant();
+        StudyParticipantCrf studyParticipantCrf = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
         controller = new ParticipantLevelReportResultsController();
         schedules = studyParticipantCrf.getStudyParticipantCrfSchedulesByStatus(CrfStatus.COMPLETED);
 
@@ -76,7 +76,7 @@ public class ParticipantLevelReportIntegrationTest extends AbstractWebTestCase {
         assertEquals("reports/participantLevelReportResults", modelAndView.getViewName());
         Map map = modelAndView.getModel();
         List<String> dates = (List<String>) map.get("dates");
-        assertEquals(4, dates.size());
+        assertEquals(5, dates.size());
     }
 
     public void testController_WithId() throws Exception {
