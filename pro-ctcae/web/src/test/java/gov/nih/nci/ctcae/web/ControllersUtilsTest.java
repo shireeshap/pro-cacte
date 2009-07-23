@@ -111,5 +111,9 @@ public class ControllersUtilsTest extends WebTestCase {
         queryString = "subview=subview&study=1&crf=1&symptom=2&filter=week&filterVal=1&studySite=&attributes=&group=cycle";
         queryString = ControllersUtils.removeParameterFromQueryString(queryString, "group");
         assertEquals("subview=subview&study=1&crf=1&symptom=2&filter=week&filterVal=1&studySite=&attributes=", queryString);
+
+        queryString = null;
+        queryString = ControllersUtils.removeParameterFromQueryString(queryString, "group");
+        assertNull(queryString);
     }
 }

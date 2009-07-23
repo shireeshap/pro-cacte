@@ -70,16 +70,19 @@ public class ControllersUtils {
 
 
     public static String removeParameterFromQueryString(String queryString, String parameterName) {
-        String param = "&" + parameterName + "=";
-        if (queryString.indexOf(param) > -1) {
-            String a = queryString.substring(0, queryString.indexOf(param));
-            String b = queryString.substring(queryString.indexOf(param) + param.length());
-            if (b.indexOf("&") > -1) {
-                b = b.substring(b.indexOf("&"));
-            } else {
-                b = "";
+        if (!StringUtils.isBlank(queryString)) {
+            String param = "&" + parameterName + "=";
+            if (queryString.indexOf(param) > -1) {
+                String a = queryString.substring(0, queryString.indexOf(param));
+                String b = queryString.substring(queryString.indexOf(param) + param.length());
+                if (b.indexOf("&") > -1) {
+                    b = b.substring(b.indexOf("&"));
+                } else {
+                    b = "";
+                }
+                queryString = a + b;
             }
-            queryString = a + b;
+
         }
         return queryString;
     }
