@@ -255,15 +255,7 @@ public class StudyParticipantCrf extends BaseVersionable {
                         for (CRFCycle crfCycle : crfCycleDefinition.getCrfCycles()) {
                             Integer cycleLength = crfCycleDefinition.getCycleLength();
                             String cycleDays = crfCycle.getCycleDays();
-                            boolean validCycleDays = true;
-                            String[] cycleDaysArr = cycleDays.split(",");
-                            for (String cycleDay : cycleDaysArr) {
-                                if (StringUtils.isBlank(cycleDay) || !StringUtils.isNumeric(cycleDay)) {
-                                    validCycleDays = false;
-                                    break;
-                                }
-                            }
-                            if (!validCycleDays) {
+                            if (!validCycleDays(cycleDays)) {
                                 continue;
                             }
                             String cycleLengthUnit = crfCycleDefinition.getCycleLengthUnit();
@@ -279,6 +271,25 @@ public class StudyParticipantCrf extends BaseVersionable {
             }
 
         }
+    }
+
+    private boolean validCycleDays(String cycleDays) {
+        boolean validCycleDays = true;
+        if (StringUtils.isBlank(cycleDays)) {
+            return false;
+        }
+        String[] cycleDaysArr = cycleDays.split(",");
+        if (cycleDaysArr.length == 0) {
+            return false;
+        }
+        for (int i = 1; i < cycleDaysArr.length; i++) {
+            String cycleDay = cycleDaysArr[i];
+            if (StringUtils.isBlank(cycleDay) || !StringUtils.isNumeric(cycleDay)) {
+                validCycleDays = false;
+                break;
+            }
+        }
+        return validCycleDays;
     }
 
     private void createBaseLineSchedule() {

@@ -117,6 +117,16 @@ public class CrfTestHelper {
             cycle2.setCycleDays(",3,8,11");
             defA.addCrfCycle(cycle2);
 
+            CRFCycle cycle5 = new CRFCycle();
+            cycle5.setOrder(2);
+            cycle5.setCycleDays(",");
+            defA.addCrfCycle(cycle5);
+
+            CRFCycle cycle6 = new CRFCycle();
+            cycle6.setOrder(3);
+            cycle6.setCycleDays("");
+            defA.addCrfCycle(cycle6);
+
             formArmSchedule.addCrfCycleDefinition(defA);
 
             CRFCycleDefinition defB = new CRFCycleDefinition();
@@ -134,6 +144,7 @@ public class CrfTestHelper {
             cycle4.setOrder(1);
             cycle4.setCycleDays(",5,11,19");
             defB.addCrfCycle(cycle4);
+
 
             formArmSchedule.addCrfCycleDefinition(defB);
         }
