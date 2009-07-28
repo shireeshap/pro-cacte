@@ -4,7 +4,7 @@ class CreateStudyArms extends  edu.northwestern.bioinformatics.bering.Migration 
         t.addColumn("title", "string", nullable: false)
         t.addColumn("description", "string", nullable: true)
         t.addColumn("study_id", "integer", nullable: false)
-        t.addColumn("defaultArm", "boolean", nullable: false)
+        t.addColumn("default_arm", "boolean", nullable: false)
         t.addVersionColumn()
      }
      execute('ALTER TABLE ARMS ADD CONSTRAINT fk_sa_study FOREIGN KEY (study_id) REFERENCES  STUDIES')
