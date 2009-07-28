@@ -12,7 +12,15 @@
     </td>
     <td>
         <tags:renderText propertyName="study.arms[${index}].description" displayName="Description"
-                        size="80" noForm="true" propertyValue="${arm.description}"/>
+                        size="70" noForm="true" propertyValue="${arm.description}"/>
+    </td>
+    <td style="border-left:none;">
+
+        <a id="del"
+           href="javascript:deleteArm('${index}');">
+            <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
+                 style="vertical-align:middle">
+        </a>
     </td>
     <%--<td style="border-left:none;"></td>--%>
 </tr>

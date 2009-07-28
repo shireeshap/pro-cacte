@@ -8,6 +8,7 @@ import gov.nih.nci.ctcae.web.security.SecuredTab;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
+import org.apache.commons.lang.StringUtils;
 
 //
 /**
@@ -34,12 +35,21 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, StudyCommand studyCommand, Errors errors) {
         super.postProcess(httpServletRequest, studyCommand, errors);
-        if (studyCommand.getStudy().getArms().size() == 0) {
-            Study study = studyCommand.getStudy();
-            Arm arm = new Arm();
-            arm.setTitle("Default Arm");
-            arm.setDescription("This is a default arm on the study.");
-            study.addArm(arm);
+
+
+        if (!StringUtils.isBlank(studyCommand.getArmIndexToRemove())) {
+            Integer armIndex = Integer.valueOf(studyCommand.getArmIndexToRemove());
+            Arm arm = studyCommand.getStudy().getArms().get(armIndex);
+            studyCommand.getStudy().getArms().remove(arm);
+            studyCommand.setArmIndexToRemove("");
+        } else {
+            if (studyCommand.getStudy().getArms().size() == 0) {
+                Study study = studyCommand.getStudy();
+                Arm arm = new Arm();
+                arm.setTitle("Default Arm");
+                arm.setDescription("This is a default arm on the study.");
+                study.addArm(arm);
+            }
         }
 
     }

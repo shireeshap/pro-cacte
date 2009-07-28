@@ -29,6 +29,8 @@ public class StudyCommand {
 
     private List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = new ArrayList<StudyOrganizationClinicalStaff>();
 
+    private String armIndexToRemove;
+
     /**
      * Instantiates a new study command.
      */
@@ -158,6 +160,14 @@ public class StudyCommand {
 
     public void setSelectedStudySite(StudySite selectedStudySite) {
         this.selectedStudySite = selectedStudySite;
+    }
+
+    public String getArmIndexToRemove() {
+        return armIndexToRemove;
+    }
+
+    public void setArmIndexToRemove(String armIndexToRemove) {
+        this.armIndexToRemove = armIndexToRemove;
     }
 }
 

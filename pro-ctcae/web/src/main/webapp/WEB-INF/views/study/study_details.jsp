@@ -36,6 +36,18 @@
 
         }
 
+        function deleteArm(armIndex) {
+            $('armIndexToRemove').value = armIndex;
+            refreshPage();
+        }
+
+        function refreshPage() {
+            var a = $('_target').name;
+            var b = a.substr(7);
+            var c = b - 1;
+            $('_target').name = '_target' + c;
+            $('command').submit();
+        }
 
         Event.observe(window, "load", function() {
             acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
@@ -137,6 +149,7 @@
         <div align="left" style="padding-left:4em">
             <tags:button color="blue" icon="add" markupWithTag="a" onclick="javascript:addStudyArm()" size="small"
                          value="study.button.add_study_arm"/></div>
+       <form:hidden path="armIndexToRemove" id="armIndexToRemove" />
 </jsp:attribute>
 
 </tags:tabForm>
