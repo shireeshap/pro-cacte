@@ -31,13 +31,13 @@ public class ParticipantTestHelper {
     public static void createDefaultParticipants() throws ParseException {
 
         StudySite ss1 = StudyTestHelper.getDefaultStudy().getLeadStudySite();
-        Participant john = createParticipant("John", "Locke", "1-1", ss1);
-        Participant jack = createParticipant("Jack", "Shephard", "1-2", ss1);
-        Participant kate = createParticipant("Kate", "Austen", "1-3", ss1);
-        Participant sayid = createParticipant("Sayid", "Jarrah", "1-4", ss1);
-        Participant sun = createParticipant("Sun", "Kwon", "1-5", ss1);
-        Participant miles = createParticipant("Miles", "Straume", "1-6", ss1);
-        Participant jim = createParticipant("Jim", "Kwon", "1-7", ss1);
+        Participant john = createParticipant("John", "Locke", "1-1", ss1, 0);
+        Participant jack = createParticipant("Jack", "Shephard", "1-2", ss1, 0);
+        Participant kate = createParticipant("Kate", "Austen", "1-3", ss1, 0);
+        Participant sayid = createParticipant("Sayid", "Jarrah", "1-4", ss1, 0);
+        Participant sun = createParticipant("Sun", "Kwon", "1-5", ss1, 0);
+        Participant miles = createParticipant("Miles", "Straume", "1-6", ss1, 0);
+        Participant jim = createParticipant("Jim", "Kwon", "1-7", ss1, 0);
 
         completeParticipantSchedule(john, ss1, true);
         completeParticipantSchedule(jack, ss1, false);
@@ -48,13 +48,13 @@ public class ParticipantTestHelper {
 //        completeParticipantSchedule(jim, ss1, false);
 
         StudySite ss2 = StudyTestHelper.getDefaultStudy().getNonLeadStudySites().get(0);
-        Participant james = createParticipant("James", "Sawyer", "2-1", ss2);
-        Participant charles = createParticipant("Charles", "Widmore", "2-2", ss2);
-        Participant hugo = createParticipant("Hugo", "Hurley", "2-3", ss2);
-        Participant daniel = createParticipant("Daniel", "Faraday", "2-4", ss2);
-        Participant ben = createParticipant("Ben", "Linus", "2-5", ss2);
-        Participant desmond = createParticipant("Desmond", "Hume", "2-6", ss2);
-        Participant juliet = createParticipant("Juliet", "Burke", "2-7", ss2);
+        Participant james = createParticipant("James", "Sawyer", "2-1", ss2, 1);
+        Participant charles = createParticipant("Charles", "Widmore", "2-2", ss2, 1);
+        Participant hugo = createParticipant("Hugo", "Hurley", "2-3", ss2, 1);
+        Participant daniel = createParticipant("Daniel", "Faraday", "2-4", ss2, 1);
+        Participant ben = createParticipant("Ben", "Linus", "2-5", ss2, 1);
+        Participant desmond = createParticipant("Desmond", "Hume", "2-6", ss2, 1);
+        Participant juliet = createParticipant("Juliet", "Burke", "2-7", ss2, 1);
 
         completeParticipantSchedule(james, ss2, false);
         completeParticipantSchedule(charles, ss2, false);
@@ -103,10 +103,10 @@ public class ParticipantTestHelper {
         }
     }
 
-    public static Participant createParticipant(String firstName, String lastName, String assignedIdentifier, StudySite studySite) throws ParseException {
+    public static Participant createParticipant(String firstName, String lastName, String assignedIdentifier, StudySite studySite, int armIndex) throws ParseException {
 
         Participant participant = new Participant();
-        firstTab_ParticipantDetails(participant, firstName, lastName, assignedIdentifier, studySite);
+        firstTab_ParticipantDetails(participant, firstName, lastName, assignedIdentifier, studySite, armIndex);
         participant = participantRepository.save(participant);
         secondTab_ParticipantClinicalStaff(participant, studySite);
         participant = participantRepository.save(participant);
@@ -115,7 +115,7 @@ public class ParticipantTestHelper {
         return participant;
     }
 
-    private static void firstTab_ParticipantDetails(Participant participant, String firstName, String lastName, String assignedIdentifier, StudySite studySite) {
+    private static void firstTab_ParticipantDetails(Participant participant, String firstName, String lastName, String assignedIdentifier, StudySite studySite, int armIndex) {
         participant.setFirstName(firstName);
         participant.setLastName(lastName);
         participant.setBirthDate(new Date());
@@ -124,7 +124,7 @@ public class ParticipantTestHelper {
         participant.setEmailAddress(firstName + "." + lastName + "@demo.com");
         participant.setPhoneNumber("212-311-3442");
         addUserToParticipant(participant);
-        addStudyAssignmentToParticipant(participant, studySite);
+        addStudyAssignmentToParticipant(participant, studySite, armIndex);
     }
 
 
@@ -152,11 +152,11 @@ public class ParticipantTestHelper {
         return null;
     }
 
-    private static void addStudyAssignmentToParticipant(Participant participant, StudySite studySite) {
+    private static void addStudyAssignmentToParticipant(Participant participant, StudySite studySite, int armIndex) {
         StudyParticipantAssignment spa = new StudyParticipantAssignment();
         spa.setStudyParticipantIdentifier("1234");
         spa.setStudySite(studySite);
-        spa.setArm(studySite.getStudy().getArms().get(0));
+        spa.setArm(studySite.getStudy().getArms().get(armIndex));
         participant.addStudyParticipantAssignment(spa);
     }
 
