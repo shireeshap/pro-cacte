@@ -511,13 +511,13 @@ public class Study extends BasePersistable {
     }
 
     public List<Arm> getNonDefaultArms() {
-        List<Arm> arms = new ArrayList<Arm>();
-        for (Arm arm : arms) {
+        List<Arm> ndarms = new ArrayList<Arm>();
+        for (Arm arm : getArms()) {
             if (!arm.isDefaultArm()) {
-                arms.add(arm);
+                ndarms.add(arm);
             }
         }
-        return arms;
+        return ndarms;
     }
 
     public void addArm(Arm arm) {
