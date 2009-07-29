@@ -315,4 +315,8 @@ public class StudyParticipantCrf extends BaseVersionable {
         }
         return null;
     }
+
+    public List<CRFCycleDefinition> getCrfCycleDefinitions() {
+        return crf.getFormArmScheduleForArm(studyParticipantAssignment.getArm()).getCrfCycleDefinitions();
+    }
 }

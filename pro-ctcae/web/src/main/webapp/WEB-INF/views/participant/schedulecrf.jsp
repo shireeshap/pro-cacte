@@ -512,7 +512,7 @@ function buildTable(index, days, repeat) {
                     <div align="left">
                         <b>Start date: <tags:formatDate value="${participantCrf.startDate}"/> </b>
                         <table class="top-widget" cellspacing="0" align="center">
-                            <c:forEach items="${participantCrf.crf.crfCycleDefinitions}" var="crfCycleDefinition"
+                            <c:forEach items="${participantCrf.crfCycleDefinitions}" var="crfCycleDefinition"
                                        varStatus="statuscycledefinition">
                                 <tr>
                                     <td>
