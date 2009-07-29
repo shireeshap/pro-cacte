@@ -1,9 +1,6 @@
 package gov.nih.nci.ctcae.core.repository.secured;
 
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
-import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;
@@ -13,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 
 //
 /**
@@ -45,6 +43,18 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Study save(Study study) {
+        List<StudySite> studySitesToRemove = new ArrayList<StudySite>();
+        for (StudySite studySite : study.getStudySites()) {
+            if (studySite.getOrganization().equals(study.getLeadStudySite().getOrganization())) {
+                if (!(studySite instanceof LeadStudySite)) {
+                    studySitesToRemove.add(studySite);
+                }
+            }
+        }
+        for (StudySite studySite : studySitesToRemove) {
+            study.removeStudySite(studySite);
+        }
+
         Study savedStudy = genericRepository.save(study);
         initialzeStudy(savedStudy);
         return savedStudy;

@@ -128,6 +128,7 @@
                                   displayName="study.label.study_lead_site"
                                   required="true" help="true" size="50"/>
          <br>
+       
        <chrome:division title="study.section.study_arms">
            <p><tags:instructions code="study.study_arms.top"/></p>
 
@@ -139,7 +140,7 @@
                        <th width="50%" class="tableHeader">&nbsp;</th>
 
                    </tr>
-                   <c:forEach items="${command.study.arms}" var="arm" varStatus="status">
+                   <c:forEach items="${command.study.nonDefaultArms}" var="arm" varStatus="status">
                        <tags:oneStudyArm index="${status.index}" arm="${arm}"/>
                    </c:forEach>
                    <tr id="hiddenDiv" align="center"></tr>

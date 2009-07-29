@@ -100,7 +100,7 @@
 
                 <tr>
 
-                    <td style="border-right:none;">
+                    <td style="border-right:none;"> 
                         <c:forEach items="${command.study.studySites}" var="studySite">
                             <c:if test="${studySite ne command.study.leadStudySite}">
                                 <div class="row">
@@ -128,23 +128,25 @@
 
 
                     <c:forEach items="${command.study.arms}" var="arm">
-                    <tr>
-                        <td style="border-right:none;">
-                            <div class="row">
-                                    ${arm.title}
-                            </div>
-                        </td>
-                        <td >
-                            <div class="row">
-                                    ${arm.description}
-                            </div>
-                        </td>
-                     </tr>
-                     </c:forEach>
-                   
-                    <%--<td style="border-left:none;">--%>
-                    <%--</td>--%>
-                   
+                        <c:if test="${arm.defaultArm eq 'false'}">
+                            <tr>
+                                <td style="border-right:none;">
+                                    <div class="row">
+                                            ${arm.title}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                            ${arm.description}
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+
+                        <%--<td style="border-left:none;">--%>
+                        <%--</td>--%>
+
                 </table>
             </div>
         </chrome:division>

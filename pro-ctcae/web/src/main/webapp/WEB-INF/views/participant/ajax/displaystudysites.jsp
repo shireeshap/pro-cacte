@@ -2,6 +2,8 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <style type="text/css">
     .tableHeader {
         background-color: #2B4186;
@@ -27,6 +29,7 @@
         vertical-align: top;
         border-bottom: 1px solid #999999;
         border-left: 1px solid #999999;
+        padding-left: 5px;
     }
 </style>
 <table cellpadding="0" width="100%">
@@ -78,7 +81,7 @@
         <td colspan="4">
             <table class="widget" cellspacing="0">
                 <tr>
-                    <td class="data" width="50%" align="left" colspan="3">
+                    <td class="data" align="left" colspan="3">
                         <span class="required-indicator">*</span><b> Participant study identifier </b>
                         <input type="text" name="participantStudyIdentifier_${studysite.id}"
                                value="${studyParticipantAssignment.studyParticipantIdentifier}"
@@ -86,7 +89,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="data" width="50%" align="left">
+                    <td class="data" align="left">
                         <b>&nbsp;&nbsp;<spring:message
                                 code="study.label.arm"/>: </b> ${studyParticipantAssignment.arm.title}
                     </td>
@@ -95,23 +98,18 @@
                                 code="study.label.arm.desc"/>: </b> ${studyParticipantAssignment.arm.description}
                     </td>
                 </tr>
-                <tr id="forms_${studysite.id}">
-
-                    <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="spacrf"
-                               varStatus="spacrfstatus">
-                <tr>
-                    <td class="data" width="50%" align="left">
-                        &nbsp;&nbsp;<b><spring:message code="form.tab.form"/>: </b>${spacrf.crf.title}
-                    </td>
-                    <td class="data" align="left">
-                        &nbsp; <b><spring:message code="participant.label.startdate"/></b><tags:formatDate
-                            value="${spacrf.startDate}"/>
-                    </td>
-
-                </tr>
+                <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="spacrf"
+                           varStatus="spacrfstatus">
+                    <tr>
+                        <td class="data" align="left">
+                            <b><spring:message code="form.tab.form"/>: </b>${spacrf.crf.title}
+                        </td>
+                        <td class="data" align="left">
+                            &nbsp; <b><spring:message code="participant.label.startdate"/></b><tags:formatDate
+                                value="${spacrf.startDate}"/>
+                        </td>
+                    </tr>
                 </c:forEach>
-
-                </tr>
             </table>
         </td>
     </tr>
@@ -123,83 +121,64 @@
                 <c:set var="hasforms" value="true"/>
             </c:if>
         </c:forEach>
-
         <tr>
             <td>
                 <input type="radio" name="studySites" value="${studysite.id}"
                        onclick="javascript:showForms(this, '${studysite.id}')"/>
-
             </td>
             <td>
-                [${studysite.study.assignedIdentifier}] ${studysite.study.shortTitle}
+                    ${studysite.study.displayName}
             </td>
-                <%--<td>--%>
-                <%--<input type="text" name="participantStudyIdentifier_${studysite.id}" value=""--%>
-                <%--class="validate-NOTEMPTY">--%>
-                <%--</td>--%>
         </tr>
-        <tr id="arms_${studysite.id}" style="display:none">
+        <tr id="subform_${studysite.id}" style="display:none">
             <td>
                 &nbsp;
             </td>
-            <td colspan="4">
-
+            <td>
                 <table class="widget" cellspacing="0">
                     <tr>
-                        <td class="data" width="50%" align="left" colspan="3">
+                        <td class="data">
                             <span class="required-indicator">*</span><b> Participant study identifier </b>
                             <input type="text" name="participantStudyIdentifier_${studysite.id}"
-                                   value="${studyParticipantAssignment.studyParticipantIdentifier}">
-                                   <%--class="validate-NOTEMPTY">--%>
+                                   value="${studyParticipantAssignment.studyParticipantIdentifier}"
+                                   title="identifier"
+                                   id="participantStudyIdentifier_${studysite.id}"/>
+                        </td>
+                        <td class="data">
+                            <c:if test="${fn:length(studysite.study.nonDefaultArms) > 0}">
+                                <b><span class="required-indicator">*</span><spring:message code="study.label.arm"/></b>
+                                <select name="arm_${studysite.id}" title="arm"
+                                        id="arm_${studysite.id}">
+                                    <option value="">Please select</option>
+                                    <c:forEach items="${studysite.study.nonDefaultArms}" var="arm">
+                                        <option value="${arm.id}">${arm.title}</option>
+                                    </c:forEach>
+                                </select>
+                            </c:if>
                         </td>
                     </tr>
-                    <c:forEach items="${studysite.study.arms}" var="arm">
-                        <tr>
-                            <td class="data" width="40%" align="left">
-                                <input name="arm_${studysite.id}" type="radio" value="${arm.id}"/>
-                                 <b>&nbsp;&nbsp;<spring:message
-                                code="study.label.arm"/>:</b> ${arm.title}
-                            </td>
-                            <td class="data" width="50%" align="left">
-                                <b>&nbsp;&nbsp;<spring:message
-                                code="study.label.arm.desc"/>:</b> ${arm.description}
-                            </td>
-                        </tr>
-                        <tr></tr>
-                    </c:forEach>
                     <c:if test="${hasforms eq 'true'}">
-            <c:set var="hasforms" value="false"/>
-            <tr id="forms_${studysite.id}" style="display:none">
-                <%--<td>--%>
-                    <%--&nbsp;--%>
-                <%--</td>--%>
-                <%--<td colspan="4">--%>
-                    <%--<table class="widget" cellspacing="0">--%>
+                        <c:set var="hasforms" value="false"/>
                         <c:forEach items="${studysite.study.crfs}" var="crf">
                             <c:if test="${crf.status eq 'Released' and crf.nextVersionId eq null}">
                                 <tr>
-                                    <td class="data" width="50%" align="left">
-                                        <b>&nbsp;&nbsp;<spring:message
-                                code="form.tab.form"/>:</b>&nbsp;&nbsp;${crf.title}
+                                    <td class="data">
+                                        <b><spring:message
+                                                code="form.tab.form"/>:</b>&nbsp;&nbsp;${crf.title}
                                     </td>
-                                    <td class="data" align="center">
+                                    <td class="data">
                                         <b><spring:message code="participant.label.startdate"/></b>
                                         <tags:renderDate
                                                 propertyName="form_date_${crf.id}"
                                                 doNotshowLabel="true"
                                                 noForm="true" dateValue="<%= new Date()%>"/>
                                     </td>
-
                                 </tr>
                             </c:if>
                         </c:forEach>
-                    <%--</table>--%>
-                <%--</td>--%>
-            </tr>
-        </c:if>
+                    </c:if>
                 </table>
             </td>
         </tr>
-
     </c:forEach>
 </table>

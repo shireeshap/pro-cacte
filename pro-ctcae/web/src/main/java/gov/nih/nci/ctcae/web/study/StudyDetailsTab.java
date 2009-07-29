@@ -48,9 +48,17 @@ public class StudyDetailsTab extends SecuredTab<StudyCommand> {
                 Arm arm = new Arm();
                 arm.setTitle("Default Arm");
                 arm.setDescription("This is a default arm on the study.");
+                arm.setDefaultArm(true);
                 study.addArm(arm);
+            } else {
+                if (studyCommand.getStudy().getNonDefaultArms().size() > 0) {
+                    for (Arm arm : studyCommand.getStudy().getArms()) {
+                        if (arm.isDefaultArm()) {
+                            studyCommand.getStudy().getArms().remove(arm);
+                        }
+                    }
+                }
             }
         }
-
     }
 }

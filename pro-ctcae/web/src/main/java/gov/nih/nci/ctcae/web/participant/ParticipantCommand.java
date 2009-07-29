@@ -113,9 +113,14 @@ public class ParticipantCommand {
         StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
         studyParticipantAssignment.setStudySite(studySite);
         studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantIdentifier);
-        for(Arm arm : studySite.getStudy().getArms()){
-            if (arm.getId().equals(Integer.parseInt(armId))){
-                studyParticipantAssignment.setArm(arm);
+
+        for (Arm arm : studySite.getStudy().getArms()) {
+            if (StringUtils.isBlank(armId)) {
+                studyParticipantAssignment.setArm(studySite.getStudy().getArms().get(0));
+            } else {
+                if (arm.getId().equals(Integer.parseInt(armId))) {
+                    studyParticipantAssignment.setArm(arm);
+                }
             }
         }
 
@@ -161,6 +166,7 @@ public class ParticipantCommand {
             participant.removeAllStudyParticipantAssignments();
             for (StudySite studySite : getStudySites()) {
                 setSiteName(studySite.getOrganization().getName());
+
                 StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignment(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()), request.getParameter("arm_" + studySite.getId()));
                 assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request);
             }

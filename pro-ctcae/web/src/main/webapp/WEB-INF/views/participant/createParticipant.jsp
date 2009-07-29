@@ -44,14 +44,17 @@
         function showForms(obj, id) {
             var sites = document.getElementsByName('studySites');
             for (var i = 0; i < sites.length; i++) {
-                $('forms_' + sites[i].value).hide();
-                $('arms_' + sites[i].value).hide();
+                $('subform_' + sites[i].value).hide();
+                $('participantStudyIdentifier_' + sites[i].value).removeClassName("validate-NOTEMPTY");
+                try {
+                    $('arm_' + sites[i].value).removeClassName("validate-NOTEMPTY");
+                } catch(e) {
+                }
             }
-            var row = $('forms_' + id);
-            var row1 = $('arms_' + id);
+            $('subform_' + id).show();
+            $('participantStudyIdentifier_' + id).addClassName("validate-NOTEMPTY");
             try {
-                row.show();
-                row1.show();
+                $('arm_' + id).addClassName("validate-NOTEMPTY");
             } catch(e) {
             }
             AE.registerCalendarPopups();

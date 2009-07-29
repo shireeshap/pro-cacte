@@ -445,7 +445,11 @@ function showSchedule(scheduleType) {
 <jsp:attribute name="singleFields">
 <form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
 <chrome:box title="form.tab.calendar_template">
-    <div class="row">
+    <c:if test="${fn:length(command.crf.formArmSchedules) eq 1 && command.crf.formArmSchedules[0].arm.defaultArm eq 'true' }">
+        <c:set var="styleHidden" value="style='display:none'"/>
+    </c:if>
+    
+    <div class="row" ${styleHidden}>
         <div class="label"><spring:message code="form.calendar.arm"></spring:message></div>
         <div class="value">
             <form:select path="newSelectedFormArmSchedule" items="${command.crf.formArmSchedules}"
