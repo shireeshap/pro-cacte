@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.web.reports.graphical.SymptomOverTimeReportResultsContr
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.Arm;
 
 import java.util.Map;
 import java.util.HashSet;
@@ -35,6 +36,53 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         request.setParameter("symptom", symptomId.toString());
         request.setParameter("attributes", ",Severity,Frequency");
         request.setParameter("group", "cycle");
+        request.setMethod("GET");
+
+        ModelAndView modelAndView = controller.handleRequest(request, response);
+        Map m = modelAndView.getModel();
+        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
+//        showCharts(worstResponseChart, m);
+    }
+
+    public void testReportControllerArm() throws Exception {
+
+        Study study = StudyTestHelper.getDefaultStudy();
+        String arms = "";
+        for (Arm arm : study.getArms()) {
+            arms += arm.getId() + ",";
+        }
+        CRF crf = study.getCrfs().get(0);
+        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+
+        SymptomOverTimeReportResultsController controller = new SymptomOverTimeReportResultsController();
+        controller.setGenericRepository(genericRepository);
+        request.setParameter("crf", crf.getId().toString());
+        request.setParameter("symptom", symptomId.toString());
+        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("group", "cycle");
+        request.setParameter("arms", arms);
+        request.setMethod("GET");
+
+        ModelAndView modelAndView = controller.handleRequest(request, response);
+        Map m = modelAndView.getModel();
+        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
+        showCharts(worstResponseChart, m);
+    }
+
+    public void testReportControllerSingleArm() throws Exception {
+
+        Study study = StudyTestHelper.getDefaultStudy();
+        String arms = study.getArms().get(0).getId() + ",";
+        CRF crf = study.getCrfs().get(0);
+        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+
+        SymptomOverTimeReportResultsController controller = new SymptomOverTimeReportResultsController();
+        controller.setGenericRepository(genericRepository);
+        request.setParameter("crf", crf.getId().toString());
+        request.setParameter("symptom", symptomId.toString());
+        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("group", "cycle");
+        request.setParameter("arms", arms);
         request.setMethod("GET");
 
         ModelAndView modelAndView = controller.handleRequest(request, response);

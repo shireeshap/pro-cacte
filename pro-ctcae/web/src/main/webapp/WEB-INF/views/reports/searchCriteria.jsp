@@ -14,13 +14,13 @@
     <tags:includeScriptaculous/>
     <script type="text/javascript">
         var showResultsInPopUpFlag = false;
-        function reportResults(attributes, group) {
+        function reportResults(attributes, group, arms) {
             if (!performValidations()) {
                 return;
             }
             showIndicator();
             var request = new Ajax.Request("${url}", {
-                parameters:getQueryString(attributes, group),
+                parameters:getQueryString(attributes, group, arms),
                 onComplete:function(transport) {
                     if (showResultsInPopUpFlag) {
                         showResultsInPopUp(transport);
@@ -162,8 +162,11 @@
                     <option value="week">Week</option>
                     <option value="month">Month</option>
                 </select>
-                <input type="text" name="filterByValue" id="filterByValue" style="display:none" size="8" title="Filter By"/>
-                <div style="font-size:11px;display:none" id="filterByValueHelp"> (You can either specify a range of values using dash, for ex. 2-5, or separate
+                <input type="text" name="filterByValue" id="filterByValue" style="display:none" size="8"
+                       title="Filter By"/>
+
+                <div style="font-size:11px;display:none" id="filterByValueHelp"> (You can either specify a range of
+                    values using dash, for ex. 2-5, or separate
                     values using comma, for ex. 1,5,8)
                 </div>
             </div>

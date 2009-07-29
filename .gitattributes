@@ -490,6 +490,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/AbstractRepo
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomOverTimeReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomOverTimeStackedBarChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomOverTimeWorstResponsesChartGenerator.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomOverTimeWorstResponsesLineChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomSummaryReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomSummaryWorstResponsesChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/SecuredTab.java -text
@@ -716,6 +717,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsRep
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantLevelReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantLevelReportResults.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantreportcharts.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/reportDetails.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/reportDetails_participantItems.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/searchCriteria.jsp -text
@@ -1214,6 +1216,7 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelGraphicalRep
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/SymptomOverTimeReportTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/SymptomOverTimeWorstResponsesQueryTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/SymptomSummaryReportTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/setup/RemoveAlertControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilterTest.java -text

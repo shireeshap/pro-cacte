@@ -12,7 +12,7 @@
 </head>
 <body>
 <chrome:box title="Report">
-    <a href="javascript:reportResults('','${group}');" style="margin-left:2em;" class="link">Back to chart</a>
+    <a href="javascript:reportResults('','${group}','${arms}');" style="margin-left:2em;" class="link">Back to chart</a>
     <br/>
     <br/>
     <chrome:division title="${title}"/>

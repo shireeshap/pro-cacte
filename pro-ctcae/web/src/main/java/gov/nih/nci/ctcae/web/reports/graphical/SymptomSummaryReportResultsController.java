@@ -28,30 +28,25 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ReportParticipantCountQuery participantCount = new ReportParticipantCountQuery();
-        parseRequestParametersAndFormQuery(request, participantCount);
-        List list = genericRepository.find(participantCount);
-        int totalParticipant = ((Long) list.get(0)).intValue();
+        int totalParticipant = getParticipantCount(request).intValue();
 
         SymptomSummaryWorstResponsesQuery query = new SymptomSummaryWorstResponsesQuery();
         parseRequestParametersAndFormQuery(request, query);
         List queryResults = genericRepository.find(query);
         String symptom = request.getParameter("symptom");
+        ModelAndView modelAndView = null;
         if (StringUtils.isBlank(symptom)) {
-            return generateTablularReport(queryResults, totalParticipant);
+            modelAndView = generateTablularReport(queryResults, totalParticipant);
         } else {
-            return generateGraphicalReport(queryResults, symptom, request.getQueryString(), totalParticipant);
+            modelAndView = generateGraphicalReport(queryResults, symptom, request.getQueryString(), totalParticipant);
+            addAllAttributesToModelAndView(request, modelAndView);
         }
+        return modelAndView;
     }
 
     private ModelAndView generateGraphicalReport(List queryResults, String symptom, String queryString, int totalParticipant) throws IOException, ParseException {
-        HashSet<String> allAttributes = new HashSet<String>();
         HashSet<String> selectedAttributes = new HashSet<String>();
         ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, Integer.parseInt(symptom));
-        for (ProCtcQuestion question : proCtcTerm.getProCtcQuestions()) {
-            allAttributes.add(question.getProCtcQuestionType().getDisplayName());
-        }
-
         JFreeChart worstResponseChart = getWorstResponseChart(queryResults, totalParticipant, proCtcTerm, selectedAttributes, queryString);
 
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
@@ -61,9 +56,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         modelAndView.addObject("worstResponseChartFileName", worstResponseChartFileName);
         modelAndView.addObject("worstResponseChartImageMap", worstResponseChartImageMap);
         modelAndView.addObject("worstResponseChart", worstResponseChart);
-        modelAndView.addObject("allAttributes", allAttributes);
         modelAndView.addObject("selectedAttributes", selectedAttributes);
-        modelAndView.addObject("symptom", proCtcTerm.getTerm());
         return modelAndView;
     }
 
@@ -98,7 +91,6 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
 
 
     private JFreeChart getWorstResponseChart(List queryResults, int totalParticipant, ProCtcTerm proCtcTerm, HashSet<String> selectedAttributes, String queryString) throws ParseException {
-//        String title = "Participant reported responses for symptom " + symptom + " (Worst responses)";
         String title = "";
         String domainAxisLabel = "Response Grade";
         String rangeAxisLabel = "Number of participants (" + totalParticipant + ")";

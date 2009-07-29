@@ -4,10 +4,11 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <chrome:box title="Report">
+    <c:set var="colNum" value="1"/>
     <table>
         <tr>
             <td>
-                <b>Group by:</b>
+                <b>Group by </b>
                 <select id="groupby" onchange="reportResults();">
                     <option <c:if test="${group=='cycle'}">selected</c:if>>Cycle</option>
                     <option <c:if test="${group=='week'}">selected</c:if>>Week</option>
@@ -15,8 +16,9 @@
                 </select>
             </td>
             <c:if test="${fn:length(allAttributes)>1}">
+                <c:set var="colNum" value="2"/>
                 <td>
-                    <b>&nbsp;&nbsp;&nbsp;&nbsp;Display:</b>&nbsp;<c:forEach items="${allAttributes}" var="attribute">
+                    <b>&nbsp;&nbsp;&nbsp;&nbsp;Display </b>&nbsp;<c:forEach items="${allAttributes}" var="attribute">
                     <input type="checkbox"
                            <c:if test="${fn:contains(selectedAttributes,attribute)}">checked="true"</c:if>
                            name="attribute"
@@ -27,7 +29,18 @@
                 </td>
             </c:if>
         </tr>
-    </table>                                             
+        <c:if test="${fn:length(arms)>1}">
+            <tr>
+                <td colspan="${colNum}"><b>Arms to compare </b>
+                    <c:forEach items="${arms}" var="arm">
+                        <input type="checkbox" name="arm" value="${arm.id}"
+                               <c:if test="${fn:contains(selectedArms,arm.id)}">checked="true"</c:if>
+                               onclick="reportResults();"/>${arm.title}
+                    </c:forEach>
+                </td>
+            </tr>
+        </c:if>
+    </table>
 
     </div>
     ${worstResponseChartImageMap}
@@ -42,6 +55,7 @@
     <c:forEach items="${selectedAttributes}" var="attribute">
         <chrome:division title="${attribute}"/>
         <br/>
+
         <div align="center">
             <c:choose>
                 <c:when test="${attribute eq 'Frequency'}">

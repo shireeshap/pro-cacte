@@ -29,6 +29,11 @@ public abstract class AbstractReportQuery extends AbstractQuery {
         setParameter("symptom", id);
     }
 
+    public void filterBySymptom(final String term) {
+        andWhere("spci.proCtcValidValue.proCtcQuestion.proCtcTerm.term = :term");
+        setParameter("term", term);
+    }
+
     public void filterByAttributes(final Collection<ProCtcQuestionType> attributes) {
         andWhere("spci.proCtcValidValue.proCtcQuestion.proCtcQuestionType in ( :attributesList)");
         setParameterList("attributesList", attributes);
@@ -90,6 +95,12 @@ public abstract class AbstractReportQuery extends AbstractQuery {
             andWhere("spci.studyParticipantCrfSchedule.cycleNumber in (:periodValues)");
         }
         setParameterList("periodValues", periodValues);
+
+    }
+
+    public void filterByArm(Integer id) {
+        andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.arm.id=:armId");
+        setParameter("armId", id);
 
     }
 }

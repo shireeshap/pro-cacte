@@ -18,6 +18,8 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import gov.nih.nci.ctcae.web.ControllersUtils;
+
 /**
  * User: Harsh
  * Date: Apr 24, 2009
@@ -25,7 +27,7 @@ import java.text.NumberFormat;
  */
 public abstract class AbstractChartGenerator {
 
-    private String title;
+    protected String title;
     private Integer total;
     protected String rangeAxisLabel;
     protected String domainAxisLabel;
@@ -139,8 +141,15 @@ public abstract class AbstractChartGenerator {
                 url.append("&period=").append(categoryVal);
             }
             if ("SYMPTOM_OVER_TIME_STACKED_BAR_CHART".equals(reportType)) {
-                url.append("&grade=").append(seriesVal);
-                url.append("&period=").append(categoryVal.substring(0, categoryVal.indexOf("[") - 1));
+                url.append("&grade=").append(seriesVal.substring(seriesVal.indexOf(" - ") + 3));
+                if (categoryVal.indexOf("[") != -1) {
+                    url.append("&period=").append(categoryVal.substring(0, categoryVal.indexOf("[") - 1));
+                } else {
+                    url.append("&period=").append(categoryVal);
+                    url = new StringBuffer(ControllersUtils.removeParameterFromQueryString(url.toString(), "arms"));
+                    String arm = seriesVal.substring(0, seriesVal.indexOf(" - "));
+                    url.append("&arms=" + arm + ",");
+                }
             }
             url.append("')");
             return url.toString();

@@ -249,7 +249,7 @@ function updateChart(chkbox, popup) {
     reportResults(selectedAttributes);
 }
 
-function getQueryString(attributes, igroup) {
+function getQueryString(attributes, igroup, iarms) {
     if (typeof(attributes) == 'undefined') {
         attributes = '';
     }
@@ -278,7 +278,23 @@ function getQueryString(attributes, igroup) {
         group = igroup;
     }
     queryString += "&group=" + group;
+    if (typeof(iarms) == 'undefined' || iarms == '') {
+        queryString += "&arms=" + getSelectedArms();
+    } else {
+        queryString += "&arms=" + iarms;
+    }
     return queryString;
+}
+
+function getSelectedArms() {
+    var c_value = "";
+    var arms = document.getElementsByName('arm');
+    for (var i = 0; i < arms.length; i++) {
+        if (arms[i].checked) {
+            c_value = c_value + arms[i].value + ",";
+        }
+    }
+    return c_value;
 }
 function showItems(Id, grade, att, period) {
     var request = new Ajax.Request("/proctcae/pages/reports/getParticipantItems", {

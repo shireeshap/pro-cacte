@@ -26,13 +26,13 @@
         studySiteMandatory = true;
         function initializeFields() {
         <c:if test="${study ne null}">
-            <%--initializeAutoCompleter('study', '${study.displayName}', ${study.id});--%>
-            <%--displayForms(${crf.id});--%>
-            <%--displaySites();--%>
-            <%--initializeAutoCompleter('studySite', '${studySite.displayName}', ${studySite.id});--%>
-            <%--fnDisplayParticipants();--%>
-            <%--initializeAutoCompleter('participant', '${participant.displayName}', ${participant.id});--%>
-            <%--setTimeout("participantCareResults();", 2000);--%>
+        <%--initializeAutoCompleter('study', '${study.displayName}', ${study.id});--%>
+        <%--displayForms(${crf.id});--%>
+        <%--displaySites();--%>
+        <%--initializeAutoCompleter('studySite', '${studySite.displayName}', ${studySite.id});--%>
+        <%--fnDisplayParticipants();--%>
+        <%--initializeAutoCompleter('participant', '${participant.displayName}', ${participant.id});--%>
+        <%--setTimeout("participantCareResults();", 2000);--%>
         </c:if>
         }
         function participantCareResults(format, symptomId, selectedTypes) {
@@ -68,10 +68,16 @@
                 if (typeof(selectedTypes) == 'undefined') {
                     selectedTypes = '';
                 }
-                var url = "<c:url value='/pages/reports/participantCareResultsGraph'/>" + "?symptomId=" + symptomId +
-                          "&selectedTypes=" + selectedTypes +
-                          "&subview=subview";
-                $('graph').src = url;
+                showIndicator();
+                var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResultsGraph"/>", {
+                    parameters:"symptomId=" + symptomId + "&selectedTypes=" + selectedTypes +
+                               "&subview=subview",
+                    onComplete:function(transport) {
+                        showConfirmationWindow(transport, 850, 570);
+                        hideIndicator();
+                    },
+                    method:'get'
+                })
             }
         }
 
@@ -89,18 +95,10 @@
             $('careResultsGraph').hide();
         }
         function getChart(symptomId) {
-            var obj = document.getElementsByName('div_questiontype');
-            for (var i = 0; i < obj.length; i++) {
-                obj[i].hide();
-            }
-            var obj1 = document.getElementsByName('questiontype_' + symptomId);
-            if (obj1.length > 1) {
-                $('div_questiontype_' + symptomId).show();
-            }
             participantCareResults('graphical', symptomId);
         }
         function updateChart(chkbox, symptomId) {
-            var obj = document.getElementsByName('questiontype_' + symptomId);
+            var obj = document.getElementsByName('attribute');
             var selectedTypes = '';
             for (var i = 0; i < obj.length; i++) {
                 if (obj[i].checked) {
