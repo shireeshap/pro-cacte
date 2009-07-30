@@ -166,9 +166,12 @@ public abstract class AbstractReportResultsController extends AbstractController
         modelAndView.addObject("allAttributes", allAttributes);
     }
 
-    public final Long getParticipantCount(HttpServletRequest request) throws ParseException {
+    public final Long getParticipantCount(HttpServletRequest request, Arm arm) throws ParseException {
         ReportParticipantCountQuery cquery = new ReportParticipantCountQuery();
         parseRequestParametersAndFormQuery(request, cquery);
+        if (arm != null) {
+            cquery.filterByArm(arm.getId());
+        }
         List list = genericRepository.find(cquery);
         return (Long) list.get(0);
     }

@@ -35,7 +35,7 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
     Color level4 = new Color(255, 54, 54);
 
     public SymptomOverTimeStackedBarChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, String queryString) {
-        super(title, domainAxisLabel, rangeAxisLabel, true, -1, queryString, "SYMPTOM_OVER_TIME_STACKED_BAR_CHART");
+        super(title, domainAxisLabel, rangeAxisLabel, true, -1, queryString, "SYMPTOM_OVER_TIME_STACKED_BAR_CHART", false);
     }
 
     public CategoryDataset createDataSet(Object results) {

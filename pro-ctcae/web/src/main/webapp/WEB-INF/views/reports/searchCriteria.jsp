@@ -14,13 +14,13 @@
     <tags:includeScriptaculous/>
     <script type="text/javascript">
         var showResultsInPopUpFlag = false;
-        function reportResults(attributes, group, arms) {
+        function reportResults(group, arms) {
             if (!performValidations()) {
                 return;
             }
             showIndicator();
             var request = new Ajax.Request("${url}", {
-                parameters:getQueryString(attributes, group, arms),
+                parameters:getQueryString(group, arms),
                 onComplete:function(transport) {
                     if (showResultsInPopUpFlag) {
                         showResultsInPopUp(transport);

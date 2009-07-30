@@ -233,7 +233,7 @@ function addPleaseSelect(select) {
     option.value = '';
     select.appendChild(option);
 }
-function updateChart(chkbox, popup) {
+function getSelectedAttributes() {
     var obj = document.getElementsByName('attribute');
     var selectedAttributes = '';
     for (var i = 0; i < obj.length; i++) {
@@ -241,18 +241,18 @@ function updateChart(chkbox, popup) {
             selectedAttributes = selectedAttributes + ',' + obj[i].value;
         }
     }
-    if (selectedAttributes == '') {
+    return selectedAttributes;
+}
+function updateChart(chkbox) {
+    if (getSelectedAttributes() == '') {
         alert('Please select at least one question type.');
         chkbox.checked = true;
         return;
     }
-    reportResults(selectedAttributes);
+    reportResults();
 }
 
-function getQueryString(attributes, igroup, iarms) {
-    if (typeof(attributes) == 'undefined') {
-        attributes = '';
-    }
+function getQueryString(igroup, iarms) {
     var queryString = 'subview=subview';
     queryString += "&study=" + $('study').value;
     queryString += "&crf=" + $('form').value;
@@ -268,7 +268,7 @@ function getQueryString(attributes, igroup, iarms) {
         queryString += "&filterVal=" + $('filterByValue').value;
     }
     queryString += "&studySite=" + $('studySite').value;
-    queryString += "&attributes=" + attributes;
+    queryString += "&attributes=" + getSelectedAttributes();
     var group = 'cycle';
     if (typeof(igroup) == 'undefined' || igroup == '') {
         if ($('groupby') != null) {
@@ -288,7 +288,11 @@ function getQueryString(attributes, igroup, iarms) {
 
 function getSelectedArms() {
     var c_value = "";
-    var arms = document.getElementsByName('arm');
+    if (showResultsInPopUpFlag) {
+        var arms = document.getElementsByName('armPop');
+    } else {
+        var arms = document.getElementsByName('arm');
+    }
     for (var i = 0; i < arms.length; i++) {
         if (arms[i].checked) {
             c_value = c_value + arms[i].value + ",";

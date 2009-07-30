@@ -130,9 +130,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         frame.pack();
         RefineryUtilities.centerFrameOnScreen(frame);
         frame.setVisible(true);
-        while (frame.isVisible()) {
-            Thread.sleep(2000);
-        }
+        Thread.sleep(5000);
     }
 
 }

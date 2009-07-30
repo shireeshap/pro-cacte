@@ -23,7 +23,7 @@
                            <c:if test="${fn:contains(selectedAttributes,attribute)}">checked="true"</c:if>
                            name="attribute"
                            value="${attribute}"
-                           onclick="updateChart(this,'${group}');">${attribute}&nbsp;&nbsp;
+                           onclick="updateChart(this);">${attribute}&nbsp;&nbsp;
                 </c:forEach>
                     <br/>
                 </td>

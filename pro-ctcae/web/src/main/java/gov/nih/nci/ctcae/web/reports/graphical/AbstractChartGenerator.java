@@ -10,11 +10,13 @@ import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.ui.TextAnchor;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -26,7 +28,7 @@ import gov.nih.nci.ctcae.web.ControllersUtils;
  * Time: 2:42:11 PM
  */
 public abstract class AbstractChartGenerator {
-
+    private boolean isLineChart = false;
     protected String title;
     private Integer total;
     protected String rangeAxisLabel;
@@ -35,17 +37,17 @@ public abstract class AbstractChartGenerator {
     private String queryString;
     private String reportType;
 
-    public AbstractChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, String queryString, String reportType) {
+    public AbstractChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, String queryString, String reportType, boolean isLineChart) {
         this.title = title;
         this.rangeAxisLabel = rangeAxisLabel;
         this.domainAxisLabel = domainAxisLabel;
         this.queryString = queryString;
+        this.isLineChart = isLineChart;
         this.reportType = reportType;
-
     }
 
-    public AbstractChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, boolean showPercentage, Integer total, String queryString, String reportType) {
-        this(title, domainAxisLabel, rangeAxisLabel, queryString, reportType);
+    public AbstractChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, boolean showPercentage, Integer total, String queryString, String reportType, boolean isLineChart) {
+        this(title, domainAxisLabel, rangeAxisLabel, queryString, reportType, isLineChart);
         this.title = title;
         this.showPercentage = showPercentage;
         this.total = total;
@@ -58,26 +60,56 @@ public abstract class AbstractChartGenerator {
     }
 
     protected JFreeChart createChart(CategoryDataset dataset) {
-        JFreeChart chart = ChartFactory.createBarChart3D(
-                title,                      // chart title
-                domainAxisLabel,           // domain axis label
-                rangeAxisLabel,                      // range axis label
-                dataset,                    // data
-                PlotOrientation.VERTICAL,   // orientation
-                true,                       // include legend
-                true,                       // tooltips?
-                false                       // URLs?
-        );
+        if (isLineChart) {
+            JFreeChart chart = ChartFactory.createLineChart(
+                    title,                      // chart title
+                    domainAxisLabel,           // domain axis label
+                    rangeAxisLabel,                      // range axis label
+                    dataset,                    // data
+                    PlotOrientation.VERTICAL,   // orientation
+                    true,                       // include legend
+                    true,                       // tooltips?
+                    false                       // URLs?
+            );
+            formatLineChart(dataset, chart);
+            return chart;
+        } else {
+            JFreeChart chart = ChartFactory.createBarChart3D(
+                    title,                      // chart title
+                    domainAxisLabel,           // domain axis label
+                    rangeAxisLabel,                      // range axis label
+                    dataset,                    // data
+                    PlotOrientation.VERTICAL,   // orientation
+                    true,                       // include legend
+                    true,                       // tooltips?
+                    false                       // URLs?
+            );
 
-        formatChart(dataset, chart);
+            formatChart(dataset, chart);
 
-        return chart;
+            return chart;
+        }
+
+    }
+
+    protected void formatLineChart(CategoryDataset dataset, JFreeChart chart) {
+        chart.setBackgroundPaint(Color.white);
+        CategoryPlot plot = chart.getCategoryPlot();
+        plot.setDomainGridlinePaint(Color.gray);
+        plot.setDomainGridlinesVisible(true);
+        plot.setRangeGridlinePaint(Color.gray);
+        LineAndShapeRenderer renderer
+                = (LineAndShapeRenderer) plot.getRenderer();
+        for (int i = 0; i < dataset.getRowCount(); i++) {
+            renderer.setSeriesShapesVisible(i, true);
+        }
+        renderer.setDrawOutlines(true);
+        renderer.setUseFillPaint(true);
 
     }
 
     protected void formatChart(CategoryDataset dataset, JFreeChart chart) {
         chart.setBackgroundPaint(Color.white);
-
         CategoryPlot plot = chart.getCategoryPlot();
         plot.setDomainGridlinePaint(Color.gray);
         plot.setDomainGridlinesVisible(true);
@@ -148,7 +180,7 @@ public abstract class AbstractChartGenerator {
                     url.append("&period=").append(categoryVal);
                     url = new StringBuffer(ControllersUtils.removeParameterFromQueryString(url.toString(), "arms"));
                     String arm = seriesVal.substring(0, seriesVal.indexOf(" - "));
-                    url.append("&arms=" + arm + ",");
+                    url.append("&arms=").append(arm).append(",");
                 }
             }
             url.append("')");

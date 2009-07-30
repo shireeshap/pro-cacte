@@ -37,6 +37,19 @@
     }
 </style>
 <chrome:box title="Report">
+    <table>
+        <c:if test="${fn:length(arms)>1}">
+            <tr>
+                <td><b>Arm </b>
+                    <c:forEach items="${arms}" var="arm">
+                        <input type="checkbox" name="arm" value="${arm.id}"
+                               <c:if test="${fn:contains(selectedArms,arm.id)}">checked="true"</c:if>
+                               onclick="reportResults();"/>${arm.title}
+                    </c:forEach>
+                </td>
+            </tr>
+        </c:if>
+    </table>
     <chrome:division title="Maximum Grade per Patient"/>
     <table class="report" cellspacing="0" align="center">
         <tr>
@@ -64,30 +77,40 @@
                 <td class="bottom header">N(%)</td>
             </c:forEach>
         </tr>
-        <c:forEach items="${results}" var="symptom">
-            <c:set var="bottom" value="bottom"/>
-            <c:forEach items="${symptom.value}" var="attribute">
+        <c:forEach items="${results}" var="armData">
+            <c:if test="${armData.key ne ''}">
                 <tr>
-                    <td class="left ${bottom}">
-                        <a href="javascript:showChartInPopup(${symptom.key.id})" class="link">
-                                ${symptom.key.term} - ${attribute.key}
-                        </a>
+                    <td colspan="7" class="left bottom header">
+                        Arm: ${armData.key}
                     </td>
-                    <td class="${bottom}">
-                            ${total}
-                    </td>
-                    <c:forEach items="${attribute.value}" var="count">
-                        <td class="${bottom}">
-                                ${count.value} (<fmt:formatNumber pattern="0.0" value="${(count.value*100)/total}"/>)
-                        </td>
-                    </c:forEach>
-                    <c:if test="${fn:length(attribute.value)<5}">
-                        <td class="${bottom}">--</td>
-                        <td class="${bottom}">--</td>
-                        <td class="${bottom}">--</td>
-                    </c:if>
-                    <c:set var="bottom" value=""/>
                 </tr>
+            </c:if>
+            <c:forEach items="${armData.value[1]}" var="symptom">
+                <c:set var="bottom" value="bottom"/>
+                <c:set var="total" value="${armData.value[0]}"/>
+                <c:forEach items="${symptom.value}" var="attribute">
+                    <tr>
+                        <td class="left ${bottom}">
+                            <a href="javascript:showChartInPopup(${symptom.key.id})" class="link">
+                                    ${symptom.key.term} - ${attribute.key}
+                            </a>
+                        </td>
+                        <td class="${bottom}">
+                                ${total}
+                        </td>
+                        <c:forEach items="${attribute.value}" var="count">
+                            <td class="${bottom}">
+                                    ${count.value} (<fmt:formatNumber pattern="0.0" value="${(count.value*100)/total}"/>)
+                            </td>
+                        </c:forEach>
+                        <c:if test="${fn:length(attribute.value)<5}">
+                            <td class="${bottom}">--</td>
+                            <td class="${bottom}">--</td>
+                            <td class="${bottom}">--</td>
+                        </c:if>
+                        <c:set var="bottom" value=""/>
+                    </tr>
+                </c:forEach>
             </c:forEach>
         </c:forEach>
     </table>

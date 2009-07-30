@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.core.helper.CrfTestHelper;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Persistable;
+import gov.nih.nci.ctcae.core.domain.Arm;
 import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryWorstResponsesQuery;
 
 import java.util.*;
@@ -43,8 +44,59 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         Map m = modelAndView.getModel();
         assertNotNull(m.get("worstResponseChartFileName"));
         assertNotNull(m.get("worstResponseChartImageMap"));
-//        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
-//        showCharts( worstResponseChart);
+        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
+//        showCharts(worstResponseChart);
+
+
+    }
+
+    public void testControllerWithSingleArm() throws Exception {
+
+        Study study = StudyTestHelper.getDefaultStudy();
+        CRF crf = study.getCrfs().get(0);
+        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+
+        SymptomSummaryReportResultsController controller = new SymptomSummaryReportResultsController();
+        controller.setGenericRepository(genericRepository);
+        request.setParameter("crf", crf.getId().toString());
+        request.setParameter("symptom", symptomId.toString());
+        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("arms", study.getArms().get(0).getId() + ",");
+        request.setMethod("GET");
+
+        ModelAndView modelAndView = controller.handleRequest(request, response);
+        Map m = modelAndView.getModel();
+        assertNotNull(m.get("worstResponseChartFileName"));
+        assertNotNull(m.get("worstResponseChartImageMap"));
+        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
+//        showCharts(worstResponseChart);
+
+
+    }
+
+    public void testControllerWithMultipleArms() throws Exception {
+
+        Study study = StudyTestHelper.getDefaultStudy();
+        CRF crf = study.getCrfs().get(0);
+        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+        String arms = "";
+        for (Arm arm : study.getArms()) {
+            arms += arm.getId() + ",";
+        }
+        SymptomSummaryReportResultsController controller = new SymptomSummaryReportResultsController();
+        controller.setGenericRepository(genericRepository);
+        request.setParameter("crf", crf.getId().toString());
+        request.setParameter("symptom", symptomId.toString());
+        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("arms", arms);
+        request.setMethod("GET");
+
+        ModelAndView modelAndView = controller.handleRequest(request, response);
+        Map m = modelAndView.getModel();
+        assertNotNull(m.get("worstResponseChartFileName"));
+        assertNotNull(m.get("worstResponseChartImageMap"));
+        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
+        showCharts(worstResponseChart);
 
 
     }
@@ -62,7 +114,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
         assertNotNull(m.get("results"));
-        assertEquals("reports/symptomsummarytable",modelAndView.getViewName());
+        assertEquals("reports/symptomsummarytable", modelAndView.getViewName());
 
     }
 
@@ -75,9 +127,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         frame.pack();
         RefineryUtilities.centerFrameOnScreen(frame);
         frame.setVisible(true);
-        while (frame.isVisible()) {
-            Thread.sleep(2000);
-        }
+        Thread.sleep(5000);
     }
 
     public void testQuery() {

@@ -490,7 +490,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/AbstractRepo
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomOverTimeReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomOverTimeStackedBarChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomOverTimeWorstResponsesChartGenerator.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomOverTimeWorstResponsesLineChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomSummaryReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/SymptomSummaryWorstResponsesChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/SecuredTab.java -text

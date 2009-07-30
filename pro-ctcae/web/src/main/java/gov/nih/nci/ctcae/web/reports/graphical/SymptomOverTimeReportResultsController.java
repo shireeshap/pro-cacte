@@ -37,7 +37,7 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
             group = filter;
         }
         ModelAndView modelAndView = new ModelAndView("reports/symptomovertimecharts");
-        Long totalParticipants = getParticipantCount(request);
+        Long totalParticipants = getParticipantCount(request, null);
         HashSet<String> selectedAttributes = new HashSet<String>();
         HashSet<Integer> selectedArms = getSelectedArms(request);
         String queryString = ControllersUtils.removeParameterFromQueryString(request.getQueryString(), "group");
@@ -133,12 +133,7 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         String title = "";
         String domainAxisLabel = group + "#";
         String rangeAxisLabel = "Average Worst Response (p=" + totalParticipants + ")";
-        AbstractChartGenerator chartGenerator;
-        if (selectedArms.size() > 1) {
-            chartGenerator = new SymptomOverTimeWorstResponsesLineChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString);
-        } else {
-            chartGenerator = new SymptomOverTimeWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString);
-        }
+        SymptomOverTimeWorstResponsesChartGenerator chartGenerator = new SymptomOverTimeWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString, selectedArms.size() > 1);
         return chartGenerator.getChart(out);
 
     }

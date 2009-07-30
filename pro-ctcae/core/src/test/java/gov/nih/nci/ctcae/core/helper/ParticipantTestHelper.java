@@ -78,7 +78,7 @@ public class ParticipantTestHelper {
         for (int i = 0; i < 5; i++) {
             StudyParticipantCrfSchedule schedule = studyParticipantCrf.getStudyParticipantCrfSchedules().get(i);
             if (!schedule.isBaseline() && !maxDone) {
-                doMax = true;
+//                doMax = true;
                 maxDone = true;
             } else {
                 doMax = false;
