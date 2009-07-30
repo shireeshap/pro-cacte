@@ -4,7 +4,6 @@ import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
 import org.apache.commons.lang.StringUtils;
-import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.servlet.ServletUtilities;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
-// TODO: Auto-generated Javadoc
 /**
  * User: Harsh
  * Date: Jan 8, 2009
@@ -43,7 +41,7 @@ public class ParticipantLevelGraphicalReportController extends ParticipantLevelR
             }
         }
         if (arrSelectedTypes.size() == 0) {
-            allAttributes.addAll(allAttributes);
+            arrSelectedTypes.addAll(allAttributes);
         }
         ParticipantLevelChartGenerator chartGenerator = new ParticipantLevelChartGenerator();
         TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> results = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) request.getSession().getAttribute("sessionResultsMap");
