@@ -59,7 +59,9 @@ public class ReportDetailsController extends AbstractReportResultsController {
         model.put("grade", request.getParameter("grade"));
         model.put("sum", request.getParameter("sum"));
         model.put("title", title);
-        model.put("group", period.substring(0,period.indexOf(" ")).toLowerCase());
+        if (!StringUtils.isBlank(period)) {
+            model.put("group", period.substring(0, period.indexOf(" ")).toLowerCase());
+        }
         model.put("arms", request.getParameter("arms"));
         return new ModelAndView("reports/reportDetails", model);
     }

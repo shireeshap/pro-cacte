@@ -58,7 +58,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
             if (selectedArms.size() == 1 || arm == null) {
                 totalParticipant = numOfParticipantsOnArm;
             }
-            doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, queryResults, arm, results, true);
+            doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, queryResults, arm, results, selectedArms.size()>1);
         }
         JFreeChart worstResponseChart = getWorstResponseChart(results, totalParticipant, queryString, selectedArms);
 

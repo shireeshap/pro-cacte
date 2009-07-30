@@ -15,13 +15,14 @@
 
         td.header-top {
             text-align: left;
-            padding-left: 2em;
+            padding-left: 2px;
             white-space:nowrap;
+
         }
 
         td.data {
             text-align: left;
-            padding-left: 2em;
+            padding-left: 2px;
         }
     </style>
 </head>
@@ -57,9 +58,9 @@
         <td class="data shaded">
                 ${schedule.studyParticipantCrf.studyParticipantAssignment.studySite.displayName}
         </td>
-        <td align="right" width="80%" class="shaded">
+        <td align="right" class="shaded">
             <div id="img_${status.index}_${pid}" class="indIcon"
-                 onmouseover="showPopUpMenu('${status.index}_${pid}','${participant.id}','${schedule.id}',-130,-135)">
+                 onmouseover="showPopUpMenu('${status.index}_${pid}','${participant.id}','${schedule.id}',-210,-225)">
                 <img src="../../images/menu.png" alt="" align="left"/>
             </div>
         </td>
