@@ -91,7 +91,7 @@ public class ParticipantLevelChartGenerator {
                 ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
                 String questionType = proCtcQuestion.getProCtcQuestionType().getDisplayName();
                 if (date.indexOf(baselineDate) == -1) {
-                    if (arrSelectedTypes == null || arrSelectedTypes.contains(questionType)) {
+                    if (arrSelectedTypes == null || arrSelectedTypes.size() == 0 || arrSelectedTypes.contains(questionType)) {
                         dataset.addValue(proCtcValidValue.getDisplayOrder(), questionType, date);
                         if (baselineValues.get(questionType) != null) {
                             baselineDataSet.addValue(baselineValues.get(questionType), questionType, date);
