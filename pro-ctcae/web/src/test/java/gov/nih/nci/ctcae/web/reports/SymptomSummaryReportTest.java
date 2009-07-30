@@ -96,7 +96,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         assertNotNull(m.get("worstResponseChartFileName"));
         assertNotNull(m.get("worstResponseChartImageMap"));
         JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
-        showCharts(worstResponseChart);
+//        showCharts(worstResponseChart);
 
 
     }
