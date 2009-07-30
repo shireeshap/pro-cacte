@@ -147,6 +147,7 @@ public class ParticipantLevelChartGenerator {
         plot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         Range range = new Range(0, 5);
 
+
         final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
@@ -166,12 +167,15 @@ public class ParticipantLevelChartGenerator {
 
         ItemLabelPosition itemLabelPosition = new ItemLabelPosition(ItemLabelAnchor.INSIDE12, TextAnchor.CENTER_RIGHT, TextAnchor.CENTER_RIGHT, -Math.PI / 2.0);
         LabelGenerator lg = new LabelGenerator();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < dataset.getRowCount(); i++) {
             categoryItemRenderer.setSeriesItemLabelsVisible(i, true);
             categoryItemRenderer.setSeriesItemLabelGenerator(i, lg);
             renderer.setSeriesItemLabelFont(i, new Font(null, Font.BOLD, 12));
             renderer.setSeriesItemLabelPaint(i, Color.BLACK);
             categoryItemRenderer.setSeriesPositiveItemLabelPosition(i, itemLabelPosition);
+            baselineRendrer.setSeriesShapesVisible(i, true);
+            baselineRendrer.setSeriesStroke(i, new BasicStroke(2.0f));
+            baselineRendrer.setSeriesOutlineStroke(i, new BasicStroke(2.0f));
         }
 
         LegendTitle legend1 = new LegendTitle(plot.getRenderer(0));

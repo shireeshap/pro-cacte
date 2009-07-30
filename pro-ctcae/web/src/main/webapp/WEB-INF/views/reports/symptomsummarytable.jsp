@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="reports" tagdir="/WEB-INF/tags/reports" %>
 <style type="text/css">
     table.report {
         width: 90%;
@@ -38,17 +39,7 @@
 </style>
 <chrome:box title="Report">
     <table>
-        <c:if test="${fn:length(arms)>1}">
-            <tr>
-                <td><b>Arm </b>
-                    <c:forEach items="${arms}" var="arm">
-                        <input type="checkbox" name="arm" value="${arm.id}"
-                               <c:if test="${fn:contains(selectedArms,arm.id)}">checked="true"</c:if>
-                               onclick="reportResults();"/>${arm.title}
-                    </c:forEach>
-                </td>
-            </tr>
-        </c:if>
+        <reports:displayarms arms="${arms}" selectedArms="${selectedArms}" resetPopUp="true"/>
     </table>
     <chrome:division title="Maximum Grade per Patient"/>
     <table class="report" cellspacing="0" align="center">

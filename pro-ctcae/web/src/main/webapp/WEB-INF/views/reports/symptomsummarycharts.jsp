@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="reports" tagdir="/WEB-INF/tags/reports" %>
 
 <chrome:box title="Report">
     <table>
@@ -18,17 +19,7 @@
                 </td>
             </tr>
         </c:if>
-        <c:if test="${fn:length(arms)>1}">
-            <tr>
-                <td colspan="${colNum}"><b>Arms </b>
-                    <c:forEach items="${arms}" var="arm">
-                        <input type="checkbox" name="armPop" value="${arm.id}"
-                               <c:if test="${fn:contains(selectedArms,arm.id)}">checked="true"</c:if>
-                               onclick="reportResults();"/>${arm.title}
-                    </c:forEach>
-                </td>
-            </tr>
-        </c:if>
+        <reports:displayarms arms="${arms}" selectedArms="${selectedArms}" name="armPop"/>
     </table>
     <br/>
     <br/>

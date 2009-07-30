@@ -623,6 +623,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderSelect.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderSelectForDomainObject.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderText.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/renderTextArea.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/reports/displayarms.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/reports/reportSpecificJS.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/reports/thirdlevelmenu.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/requiredIndicator.tag -text
