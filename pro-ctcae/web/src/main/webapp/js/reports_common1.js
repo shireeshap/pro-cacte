@@ -290,6 +290,9 @@ function getSelectedArms() {
     var c_value = "";
     if (showResultsInPopUpFlag) {
         var arms = document.getElementsByName('armPop');
+        if (arms.length == 0) {
+            var arms = document.getElementsByName('arm');
+        }
     } else {
         var arms = document.getElementsByName('arm');
     }
