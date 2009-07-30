@@ -60,7 +60,7 @@
         </td>
         <td align="right" class="shaded">
             <div id="img_${status.index}_${pid}" class="indIcon"
-                 onmouseover="showPopUpMenu('${status.index}_${pid}','${participant.id}','${schedule.id}',-210,-225)">
+                 onmouseover="showPopUpMenu('${status.index}_${pid}','${participant.id}','${schedule.id}',-180,-135)">
                 <img src="../../images/menu.png" alt="" align="left"/>
             </div>
         </td>
