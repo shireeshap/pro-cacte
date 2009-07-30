@@ -47,7 +47,7 @@ public class CrfTestHelper {
         crfRepository.save(crf);
         fourthTab_Notifications(crf);
         crfRepository.save(crf);
-        ParticipantTestHelper.createParticipant("Charlie", "Boon", "1-4", crf.getStudy().getLeadStudySite(),0);
+        ParticipantTestHelper.createParticipant("Charlie", "Boon", "1-4", crf.getStudy().getLeadStudySite(), 0);
         crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), 2));
         crf = crfRepository.updateStatusToReleased(crf);
         createSecondaryForms();
@@ -59,6 +59,7 @@ public class CrfTestHelper {
         crf.setTitle("PRO Form 2");
         firstTab_SelectStudy(crf, StudyTestHelper.getSecondaryStudy());
         secondTab_FormBuilder(crf);
+
         crfRepository.save(crf);
         crf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), 3));
         crf = crfRepository.updateStatusToReleased(crf);
@@ -87,6 +88,7 @@ public class CrfTestHelper {
         for (int i = 0; i < numberOfSymptoms; i++) {
             crf.addProCtcTerm(proCtcTerms.get(i));
         }
+        crf.updateCrfPageInstructions();
     }
 
     private static void thirdTab_ScheduleTemplate(CRF crf) {
