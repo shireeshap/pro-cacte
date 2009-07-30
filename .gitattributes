@@ -434,6 +434,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SiteRulesTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/VersionFormController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ViewFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/login/LoginController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/meddra/ImportMeddraController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/meddra/MeddraAjaxFacade.java -text
@@ -687,6 +688,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/form/showVersionForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/site_rules.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/submitForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/versionForm.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/form/viewForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/home.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/meddra/meddra_import.jsp -text
@@ -748,6 +750,7 @@ pro-ctcae/web/src/main/webapp/css/buttons.css -text
 pro-ctcae/web/src/main/webapp/css/calendar/calendar-blue.css -text
 pro-ctcae/web/src/main/webapp/css/common-search.css -text
 pro-ctcae/web/src/main/webapp/css/common.css -text
+pro-ctcae/web/src/main/webapp/css/cycledefinitions.css -text
 pro-ctcae/web/src/main/webapp/css/debug.css -text
 pro-ctcae/web/src/main/webapp/css/extremecomponents.css -text
 pro-ctcae/web/src/main/webapp/css/fields.css -text
@@ -1108,6 +1111,7 @@ pro-ctcae/web/src/main/webapp/js/common-scriptaculous.js -text
 pro-ctcae/web/src/main/webapp/js/common.js -text
 pro-ctcae/web/src/main/webapp/js/common_help.js -text
 pro-ctcae/web/src/main/webapp/js/commons-validation.js -text
+pro-ctcae/web/src/main/webapp/js/cycledefinitions.js -text
 pro-ctcae/web/src/main/webapp/js/date.js -text
 pro-ctcae/web/src/main/webapp/js/dropdown_menu.js -text
 pro-ctcae/web/src/main/webapp/js/extremecomponents.js -text

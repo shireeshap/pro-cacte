@@ -221,8 +221,13 @@
     <bean name="/form/copyForm" id="copyFormController"
           class="gov.nih.nci.ctcae.web.form.CopyFormController">
         <property name="crfRepository" ref="crfRepository"/>
-
     </bean>
+
+    <bean name="/form/viewForm" id="viewFormController"
+          class="gov.nih.nci.ctcae.web.form.ViewFormController">
+        <property name="crfRepository" ref="crfRepository"/>
+    </bean>
+
     <bean name="/form/deleteForm" id="deleteFormController"
           class="gov.nih.nci.ctcae.web.form.DeleteFormController" parent="ctcaeSimpleFormController">
         <property name="crfRepository" ref="crfRepository"/>

@@ -120,7 +120,12 @@
             <proctcae:urlAuthorize url="/pages/form/editForm">
                 html += '<a href="editForm?crfId=' + cid + '" class="link">Edit form</a><br>';
             </proctcae:urlAuthorize>
+
             }
+        <proctcae:urlAuthorize url="/pages/form/viewForm">
+            html += '<a href="viewForm?crfId=' + cid + '" class="link">View form</a><br>';
+        </proctcae:urlAuthorize>
+
             Element.show($("dropnoteDiv"));
             $("dropnoteDiv").style.left = (findPosX($("img_" + cid)) + x) + 'px';
             $("dropnoteDiv").style.top = (findPosY($("img_" + cid)) + y) + 'px';

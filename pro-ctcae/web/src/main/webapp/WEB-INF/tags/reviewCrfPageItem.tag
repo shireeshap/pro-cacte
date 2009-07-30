@@ -33,7 +33,7 @@
           <jsp:attribute name="content">
 
               <div id="${displayOrder}"
-                    class="sortableSpan">${displayOrder}</div>
+                   class="sortableSpan">${displayOrder}</div>
               <c:if test="${crfPageItem.responseRequired == true}">
                   <span class="required-indicator">*</span>
               </c:if>
@@ -58,8 +58,6 @@
               </c:choose>
 
               <div id="horizontalCrfItems_${crfPageItem.proCtcQuestion.id}" style="${horizontalCrfItemsStyle}">
-                  <br>
-                  <br>
                   <c:forEach items="${crfPageItem.proCtcQuestion.validValues}" var="validValue"
                              varStatus="status">
                       <input type="radio" disabled="true"> ${validValue.value}
@@ -74,10 +72,6 @@
               </div>
 
 			  <c:if test="${not empty crfPageItem.crfPageItemDisplayRules }">
-
-                  <br>
-                  <br>
-
                   <div id="conditions_${crfPageItem.proCtcQuestion.id}">
                       <tags:instructions code="instruction_conditional_question"/>
 
@@ -94,18 +88,11 @@
                               <tags:conditions crfPageItemDisplayRules="${crfPageItem.crfPageItemDisplayRules}"
                                                selectedQuestionId="${crfPageItem.proCtcQuestion.id}"
                                                showDelete="false"></tags:conditions>
-
-
                               <tr id="conditions_${crfPageItem.proCtcQuestion.id}"></tr>
-
                           </table>
-
                       </div>
-
                   </div>
               </c:if>
-
-
           </jsp:attribute>
         </chrome:summary>
     </tags:formbuilderBox></div>
