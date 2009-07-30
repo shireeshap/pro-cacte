@@ -141,7 +141,7 @@
 <div id="notifications" style="display:none;" class="formpages">
     <c:forEach items="${rules}" var="proCtcAeRule" varStatus="status">
         <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}" isSite="true"
-                       siteReadOnlyView="${readonlyview}"/>
+                       siteReadOnlyView="true"/>
     </c:forEach>
 
 </div>
