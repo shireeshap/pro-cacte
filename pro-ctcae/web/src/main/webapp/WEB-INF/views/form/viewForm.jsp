@@ -84,7 +84,7 @@
 <table>
     <tr>
         <td>
-            <a href="javascript:showTab('questions')" class="link" id="questionsLink">Items</a> |
+            <a href="javascript:showTab('questions')" class="linkselected" id="questionsLink">Items</a> |
         </td>
         <td>
             <a href="javascript:showTab('schedules')" class="link" id="schedulesLink">Schedules</a> |
