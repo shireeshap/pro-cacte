@@ -102,6 +102,8 @@ public abstract class AbstractChartGenerator {
                 = (LineAndShapeRenderer) plot.getRenderer();
         for (int i = 0; i < dataset.getRowCount(); i++) {
             renderer.setSeriesShapesVisible(i, true);
+            renderer.setSeriesStroke(i, new BasicStroke(2.0f));
+            renderer.setSeriesOutlineStroke(i, new BasicStroke(2.0f));
         }
         renderer.setDrawOutlines(true);
         renderer.setUseFillPaint(true);

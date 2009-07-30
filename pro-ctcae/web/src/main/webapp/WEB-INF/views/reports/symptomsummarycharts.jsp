@@ -20,7 +20,7 @@
         </c:if>
         <c:if test="${fn:length(arms)>1}">
             <tr>
-                <td colspan="${colNum}"><b>Arms to compare </b>
+                <td colspan="${colNum}"><b>Arms </b>
                     <c:forEach items="${arms}" var="arm">
                         <input type="checkbox" name="armPop" value="${arm.id}"
                                <c:if test="${fn:contains(selectedArms,arm.id)}">checked="true"</c:if>
