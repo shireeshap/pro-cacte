@@ -119,7 +119,7 @@
             </c:when>
             <c:otherwise>
                 <div class="row" id="divSymptomsRow" style="display:none">
-                    <div class="label"><tags:message code="reports.label.symptoms"/></div>
+                    <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.symptoms"/></div>
                     <div class="value" id="proCtcTerms"></div>
                 </div>
             </c:otherwise>
