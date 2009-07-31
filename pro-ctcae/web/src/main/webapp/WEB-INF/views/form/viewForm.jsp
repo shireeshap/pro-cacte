@@ -115,7 +115,7 @@
     </table>
 </div>
 <div id="schedules" style="display:none;">
-    <c:forEach items="${crf.formArmSchedules}" var="formArmSchedule">
+    <c:forEach items="${crf.formArmSchedules}" var="formArmSchedule" varStatus="status">
         <div class="formpages">
             <chrome:division title="Arm: ${formArmSchedule.arm.title}"/>
             <table class="top-widget" cellspacing="0" align="center">
@@ -127,9 +127,9 @@
                                     cycleDefinitionIndex="${statuscycledefinition.index}"
                                     crfCycleDefinition="${crfCycleDefinition}"
                                     readonly="true"
-                                    crfIndex="0"/>
+                                    crfIndex="${status.index}"/>
                             <script type="text/javascript">
-                                showCyclesForDefinition('0_${statuscycledefinition.index}', ${crfCycleDefinition.cycleLength}, '${crfCycleDefinition.cycleLengthUnit}', '${crfCycleDefinition.repeatTimes}');
+                                showCyclesForDefinition('${status.index}_${statuscycledefinition.index}', ${crfCycleDefinition.cycleLength}, '${crfCycleDefinition.cycleLengthUnit}', '${crfCycleDefinition.repeatTimes}');
                             </script>
                         </td>
                     </tr>
