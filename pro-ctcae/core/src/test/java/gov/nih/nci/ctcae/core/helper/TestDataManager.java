@@ -226,7 +226,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         commitAndStartNewTransaction();
         long end = System.currentTimeMillis();
         System.out.println("  ProctcTerms loaded (" + (end - start) / 1000 + " seconds)");
-        //createTestData();
+        createTestData();
     }
 
     private void deleteProCtcTerms() {
