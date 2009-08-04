@@ -49,18 +49,27 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
     private ModelAndView generateGraphicalReport(HttpServletRequest request, String symptom, String queryString, HashSet<Integer> selectedArms) throws IOException, ParseException {
         HashSet<String> selectedAttributes = new HashSet<String>();
         ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, Integer.parseInt(symptom));
-        TreeMap<String, TreeMap<Integer, Integer>> results = new TreeMap<String, TreeMap<Integer, Integer>>();
-        int totalParticipant = -1;
+        TreeMap<String, TreeMap<String, Integer>> results = new TreeMap<String, TreeMap<String, Integer>>();
+        String countString = "";
+        if (selectedArms.size() > 1) {
+            for (Integer armid : selectedArms) {
+                Arm arm = genericRepository.findById(Arm.class, armid);
+                if (arm != null) {
+                    int numOfParticipantsOnArm = getParticipantCount(request, arm).intValue();
+                    countString += "\n[" + arm.getTitle() + ": N=" + numOfParticipantsOnArm + "]";
+                }
+
+            }
+        } else {
+            int numOfParticipantsOnArm = getParticipantCount(request, null).intValue();
+            countString = "" + numOfParticipantsOnArm;
+        }
         for (Integer armid : selectedArms) {
             Arm arm = genericRepository.findById(Arm.class, armid);
             List queryResults = getQueryResults(request, arm);
-            int numOfParticipantsOnArm = getParticipantCount(request, arm).intValue();
-            if (selectedArms.size() == 1 || arm == null) {
-                totalParticipant = numOfParticipantsOnArm;
-            }
-            doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, queryResults, arm, results, selectedArms.size()>1);
+            doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, queryResults, arm, results, selectedArms.size() > 1);
         }
-        JFreeChart worstResponseChart = getWorstResponseChart(results, totalParticipant, queryString, selectedArms);
+        JFreeChart worstResponseChart = getWorstResponseChart(results, queryString, selectedArms.size() > 1, countString);
 
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
         String worstResponseChartFileName = ServletUtilities.saveChartAsPNG(worstResponseChart, 700, 400, info, null);
@@ -72,6 +81,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         modelAndView.addObject("selectedAttributes", selectedAttributes);
         return modelAndView;
     }
+
 
     private List getQueryResults(HttpServletRequest request, Arm arm) throws ParseException {
         SymptomSummaryWorstResponsesQuery query = new SymptomSummaryWorstResponsesQuery();
@@ -90,12 +100,12 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
             Arm arm = genericRepository.findById(Arm.class, armid);
             HashMap<String, ArrayList<Object[]>> symptomMap = getRecordsForAllSymptoms(request, arm);
             int numOfParticipantsOnArm = getParticipantCount(request, arm).intValue();
-            TreeMap<ProCtcTerm, TreeMap<String, TreeMap<Integer, Integer>>> output = new TreeMap<ProCtcTerm, TreeMap<String, TreeMap<Integer, Integer>>>(new ProCtcTermComparator());
+            TreeMap<ProCtcTerm, TreeMap<String, TreeMap<String, Integer>>> output = new TreeMap<ProCtcTerm, TreeMap<String, TreeMap<String, Integer>>>(new ProCtcTermComparator());
             for (String symptom : symptomMap.keySet()) {
                 ProCtcTermQuery query = new ProCtcTermQuery();
                 query.filterByTerm(symptom);
                 ProCtcTerm proCtcTerm = genericRepository.findSingle(query);
-                TreeMap<String, TreeMap<Integer, Integer>> map = new TreeMap<String, TreeMap<Integer, Integer>>();
+                TreeMap<String, TreeMap<String, Integer>> map = new TreeMap<String, TreeMap<String, Integer>>();
                 doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, symptomMap.get(symptom), arm, map, false);
                 output.put(proCtcTerm, map);
             }
@@ -131,31 +141,33 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
     }
 
 
-    private JFreeChart getWorstResponseChart(TreeMap<String, TreeMap<Integer, Integer>> results, int totalParticipant, String queryString, HashSet<Integer> selectedArms) throws ParseException {
+    private JFreeChart getWorstResponseChart(TreeMap<String, TreeMap<String, Integer>> results, String queryString, boolean multipleArms, String countString) throws ParseException {
         String title = "";
         String domainAxisLabel = "Response Grade";
-        String rangeAxisLabel = "Number of participants";
-        if (totalParticipant != -1) {
-            rangeAxisLabel += " (" + totalParticipant + ")";
-        }
+        String rangeAxisLabel = "Number of participants ";
+        int totalParticipant = -1;
+        if (!multipleArms) {
+            totalParticipant = Integer.parseInt(countString);
+            rangeAxisLabel = rangeAxisLabel + "[N=" + countString + "]";
 
-        SymptomSummaryWorstResponsesChartGenerator generator = new SymptomSummaryWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString, selectedArms.size() > 1, totalParticipant);
+        }
+        SymptomSummaryWorstResponsesChartGenerator generator = new SymptomSummaryWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString, multipleArms, totalParticipant, countString);
         return generator.getChart(results);
     }
 
-    private void doCalculationsForOneSymptom(ProCtcTerm proCtcTerm, HashSet<String> selectedAttributes, List worstResponses, Arm arm, TreeMap<String, TreeMap<Integer, Integer>> results, boolean prependArmName) {
+    private void doCalculationsForOneSymptom(ProCtcTerm proCtcTerm, HashSet<String> selectedAttributes, List worstResponses, Arm arm, TreeMap<String, TreeMap<String, Integer>> results, boolean multipleArms) {
         for (Object obj : worstResponses) {
             Object[] a = (Object[]) obj;
-            Integer level = (Integer) a[0];
+            String level = a[0].toString();
             ProCtcQuestionType qType = (ProCtcQuestionType) a[2];
             String attribute = (qType).getDisplayName();
-            if (arm != null && prependArmName) {
+            if (arm != null && multipleArms) {
                 attribute = arm.getTitle() + "-" + attribute;
             }
-            TreeMap<Integer, Integer> map = results.get(attribute);
+            TreeMap<String, Integer> map = results.get(attribute);
             selectedAttributes.add(attribute);
             if (map == null) {
-                map = new TreeMap<Integer, Integer>();
+                map = new TreeMap<String, Integer>();
                 addEmptyValues(map, proCtcTerm, qType);
                 results.put(attribute, map);
             }
@@ -169,11 +181,11 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
     }
 
 
-    private void addEmptyValues(TreeMap<Integer, Integer> map, ProCtcTerm proCtcTerm, ProCtcQuestionType qType) {
+    private void addEmptyValues(TreeMap<String, Integer> map, ProCtcTerm proCtcTerm, ProCtcQuestionType qType) {
         for (ProCtcQuestion q : proCtcTerm.getProCtcQuestions()) {
             if (q.getProCtcQuestionType().equals(qType)) {
                 for (ProCtcValidValue validValue : q.getValidValues()) {
-                    map.put(validValue.getDisplayOrder(), 0);
+                    map.put(validValue.getDisplayOrder().toString(), 0);
                 }
             }
         }

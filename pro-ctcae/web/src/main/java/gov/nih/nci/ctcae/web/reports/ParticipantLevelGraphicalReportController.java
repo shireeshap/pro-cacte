@@ -51,7 +51,7 @@ public class ParticipantLevelGraphicalReportController extends ParticipantLevelR
         JFreeChart chart = chartGenerator.getChartForSymptom(results, dates, inputSymptomId, arrSelectedTypes, baselineDate);
 
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-        String worstResponseChartFileName = ServletUtilities.saveChartAsPNG(chart, 700, 400, info, null);
+        String worstResponseChartFileName = ServletUtilities.saveChartAsPNG(chart, 700, 450, info, null);
         ModelAndView modelAndView = new ModelAndView("reports/participantreportcharts");
         modelAndView.addObject("participantReportChartFileName", worstResponseChartFileName);
         modelAndView.addObject("participantReportChart", chart);

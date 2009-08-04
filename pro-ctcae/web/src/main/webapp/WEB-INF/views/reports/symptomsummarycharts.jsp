@@ -29,7 +29,7 @@
     <br/>
 
     <div align="center">
-        <img src="../../servlet/DisplayChart?filename=${worstResponseChartFileName}" width=700 height=400 border=0
+        <img src="../../servlet/DisplayChart?filename=${worstResponseChartFileName}" border=0
              usemap="#${worstResponseChartFileName}"/>
     </div>
     <br/>

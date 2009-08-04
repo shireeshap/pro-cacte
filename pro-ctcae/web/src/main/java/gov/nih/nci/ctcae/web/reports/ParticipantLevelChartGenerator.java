@@ -13,6 +13,8 @@ import org.jfree.chart.title.CompositeTitle;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.labels.*;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
@@ -26,6 +28,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.TextAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
+import org.apache.commons.lang.StringUtils;
 
 import java.awt.*;
 import java.text.NumberFormat;
@@ -39,6 +42,22 @@ import java.util.TreeMap;
  * Time: 2:42:11 PM
  */
 public class ParticipantLevelChartGenerator {
+    Color[] attributeColors = new Color[5];
+
+    public ParticipantLevelChartGenerator() {
+        Color c1 = new Color(255, 102, 102);
+        Color c2 = new Color(102, 255, 102);
+        Color c3 = new Color(255, 153, 51);
+        Color c4 = new Color(0, 204, 204);
+        Color c5 = new Color(255, 0, 255);
+
+        attributeColors[0] = c1;
+        attributeColors[1] = c2;
+        attributeColors[2] = c3;
+        attributeColors[3] = c4;
+        attributeColors[4] = c5;
+    }
+
 
     ArrayList<String> typesInSymptom = new ArrayList<String>();
 
@@ -90,12 +109,16 @@ public class ParticipantLevelChartGenerator {
                 ArrayList<ProCtcValidValue> proCtcValidValues = dataForChart.get(proCtcQuestion);
                 ProCtcValidValue proCtcValidValue = proCtcValidValues.get(i);
                 String questionType = proCtcQuestion.getProCtcQuestionType().getDisplayName();
+                if (date.indexOf(baselineDate) > -1) {
+                    date = StringUtils.replace(date, "<br/>", "");
+                }
                 if (arrSelectedTypes == null || arrSelectedTypes.size() == 0 || arrSelectedTypes.contains(questionType)) {
                     dataset.addValue(proCtcValidValue.getDisplayOrder(), questionType, date);
                     if (baselineValues.get(questionType) != null) {
                         baselineDataSet.addValue(baselineValues.get(questionType), questionType, date);
                     }
                 }
+
                 if (!typesInSymptom.contains(questionType)) {
                     typesInSymptom.add(questionType);
                 }
@@ -170,27 +193,24 @@ public class ParticipantLevelChartGenerator {
             categoryItemRenderer.setSeriesItemLabelGenerator(i, lg);
             renderer.setSeriesItemLabelFont(i, new Font(null, Font.BOLD, 12));
             renderer.setSeriesItemLabelPaint(i, Color.BLACK);
+            renderer.setSeriesPaint(i, attributeColors[i]);
             categoryItemRenderer.setSeriesPositiveItemLabelPosition(i, itemLabelPosition);
             baselineRendrer.setSeriesShapesVisible(i, true);
             baselineRendrer.setSeriesStroke(i, new BasicStroke(2.0f));
             baselineRendrer.setSeriesOutlineStroke(i, new BasicStroke(2.0f));
+            baselineRendrer.setSeriesPaint(i, attributeColors[i]);
         }
 
         LegendTitle legend1 = new LegendTitle(plot.getRenderer(0));
         legend1.setMargin(new RectangleInsets(2, 2, 2, 2));
         legend1.setBorder(1, 1, 1, 1);
-
-        LegendTitle legend2 = new LegendTitle(plot.getRenderer(1));
-        legend2.setMargin(new RectangleInsets(2, 2, 2, 2));
-        legend2.setBorder(1, 1, 1, 1);
-
         BlockContainer container = new BlockContainer(new BorderArrangement());
         container.add(legend1, RectangleEdge.LEFT);
-        container.add(legend2, RectangleEdge.RIGHT);
-        container.add(new EmptyBlock(2000, 0));
         CompositeTitle legends = new CompositeTitle(container);
         legends.setPosition(RectangleEdge.BOTTOM);
         chart.addSubtitle(legends);
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_90);
 
         return chart;
 

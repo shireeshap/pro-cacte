@@ -28,7 +28,7 @@ import gov.nih.nci.ctcae.web.ControllersUtils;
  * Time: 2:42:11 PM
  */
 public abstract class AbstractChartGenerator {
-    private boolean isLineChart = false;
+    protected boolean isLineChart = false;
     protected String title;
     private Integer total;
     protected String rangeAxisLabel;
@@ -104,6 +104,7 @@ public abstract class AbstractChartGenerator {
             renderer.setSeriesShapesVisible(i, true);
             renderer.setSeriesStroke(i, new BasicStroke(2.0f));
             renderer.setSeriesOutlineStroke(i, new BasicStroke(2.0f));
+            renderer.setSeriesLinesVisible(i,false);
         }
         renderer.setDrawOutlines(true);
         renderer.setUseFillPaint(true);

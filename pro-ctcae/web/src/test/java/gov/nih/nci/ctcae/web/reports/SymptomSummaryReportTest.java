@@ -45,7 +45,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         assertNotNull(m.get("worstResponseChartFileName"));
         assertNotNull(m.get("worstResponseChartImageMap"));
         JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
-//        showCharts(worstResponseChart);
+        showCharts(worstResponseChart);
 
 
     }
@@ -69,7 +69,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         assertNotNull(m.get("worstResponseChartFileName"));
         assertNotNull(m.get("worstResponseChartImageMap"));
         JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
-//        showCharts(worstResponseChart);
+        showCharts(worstResponseChart);
 
 
     }
@@ -96,8 +96,8 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         assertNotNull(m.get("worstResponseChartFileName"));
         assertNotNull(m.get("worstResponseChartImageMap"));
         JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
-//        showCharts(worstResponseChart);
-
+        showCharts(worstResponseChart);
+                                         
 
     }
 
@@ -127,7 +127,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         frame.pack();
         RefineryUtilities.centerFrameOnScreen(frame);
         frame.setVisible(true);
-        Thread.sleep(5000);
+        Thread.sleep(20000);
     }
 
     public void testQuery() {

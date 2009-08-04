@@ -19,7 +19,7 @@
     <br/>
 
     <div align="center">
-        <img src="../../servlet/DisplayChart?filename=${participantReportChartFileName}" width=700 height=400 border=0/>
+        <img src="../../servlet/DisplayChart?filename=${participantReportChartFileName}" border=0/>
     </div>
     <br/>
 </chrome:box>

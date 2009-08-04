@@ -16,12 +16,14 @@ public class ParticipantLevelReportIntegrationTest extends AbstractWebTestCase {
 
     ParticipantLevelReportResultsController controller;
     List<StudyParticipantCrfSchedule> schedules;
+    Study study ;
+    CRF crf ;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
         super.onSetUpInTransaction();
-        Study study = StudyTestHelper.getDefaultStudy();
-        CRF crf = study.getCrfs().get(0);
+        study = StudyTestHelper.getDefaultStudy();
+        crf = study.getCrfs().get(0);
         StudySite studySite = study.getLeadStudySite();
         Participant participant = ParticipantTestHelper.getDefaultParticipant();
         StudyParticipantCrf studyParticipantCrf = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
