@@ -15,31 +15,6 @@
     <tags:includePrototypeWindow/>
     <tags:stylesheetLink name="cycledefinitions"/>
     <tags:javascriptLink name="cycledefinitions"/>
-    <style type="text/css">
-        .link {
-            font-family: Verdana, Arial, Helvetica, sans-serif;
-            font-size: 13px;
-            font-weight: normal;
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        .link:hover {
-            color: #ff3333;
-        }
-
-        .linkselected {
-            font-family: Verdana, Arial, Helvetica, sans-serif;
-            font-size: 13px;
-            font-weight: normal;
-            padding-left: 10px;
-            padding-right: 10px;
-            text-decoration: none;
-            font-weight: bold;
-            cursor:default;
-        }
-
-    </style>
     <script type="text/javascript">
         function registerme(a) {
         }
@@ -56,14 +31,12 @@
             for (var i = 0; i < tabnames.length; i++) {
                 var thisTab = tabnames[i];
                 var thisTabLink = thisTab + 'Link';
-                $(thisTabLink).removeClassName('linkselected');
-                $(thisTabLink).removeClassName('link');
+                document.getElementsByName(thisTabLink)[0].removeClassName('selected');
                 if (thisTab == tabname) {
                     $(thisTab).show();
-                    $(thisTabLink).addClassName('linkselected')
+                    document.getElementsByName(thisTabLink)[0].addClassName('selected')
                 } else {
                     $(thisTab).hide();
-                    $(thisTabLink).addClassName('link')
                 }
             }
         }
@@ -71,8 +44,7 @@
 
 </head>
 <body>
-
-
+<tags:view_form_thirdlevelmenu/>
 <div class="instructions">
     <div class="summarylabel"><tags:message code='form.label.study'/></div>
     <div class="summaryvalue">${crf.study.displayName}</div>
@@ -81,19 +53,6 @@
     <div class="summarylabel"><tags:message code='form.label.title'/></div>
     <div class="summaryvalue">${crf.title}</div>
 </div>
-<table>
-    <tr>
-        <td>
-            <a href="javascript:showTab('questions')" class="linkselected" id="questionsLink">Items</a> |
-        </td>
-        <td>
-            <a href="javascript:showTab('schedules')" class="link" id="schedulesLink">Schedules</a> |
-        </td>
-        <td>
-            <a href="javascript:showTab('notifications')" class="link" id="notificationsLink">Notifications</a>
-        </td>
-    </tr>
-</table>
 <div id="questions" style="display:block;">
     <table id="formbuilderTable">
         <tr>

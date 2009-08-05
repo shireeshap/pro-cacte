@@ -83,7 +83,7 @@ public class SymptomOverTimeReportResultsController extends AbstractReportResult
         }
 
         String title = "";
-        String rangeAxisLabel = group + " [N]";
+        String rangeAxisLabel = group + "#";
         String domainAxisLabel = "%";
         SymptomOverTimeStackedBarChartGenerator chartGenerator = new SymptomOverTimeStackedBarChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString + "&att=" + attribute);
         chartGenerator.setGenericRepository(genericRepository);
