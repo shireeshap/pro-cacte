@@ -30,6 +30,7 @@ public class StudyCommand {
     private List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = new ArrayList<StudyOrganizationClinicalStaff>();
 
     private String armIndexToRemove;
+    private boolean activeDefaultArm = false;
 
     /**
      * Instantiates a new study command.
@@ -168,6 +169,18 @@ public class StudyCommand {
 
     public void setArmIndexToRemove(String armIndexToRemove) {
         this.armIndexToRemove = armIndexToRemove;
+    }
+
+    public boolean isActiveDefaultArm() {
+        return activeDefaultArm;
+    }
+
+    public boolean getActiveDefaultArm() {
+        return activeDefaultArm;
+    }
+
+    public void setActiveDefaultArm(boolean activeDefaultArm) {
+        this.activeDefaultArm = activeDefaultArm;
     }
 }
 

@@ -7,6 +7,7 @@ import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.persistence.Transient;
 
 //
 /**
@@ -24,12 +25,14 @@ public class EditStudyController extends StudyController {
         Integer studyId = ServletRequestUtils.getRequiredIntParameter(request, STUDY_ID);
 
         Study study = studyRepository.findById(Integer.valueOf(studyId));
-        for(Arm arm :study.getArms()){
-            arm.getTitle();
-        }
         StudyCommand studyCommand = new StudyCommand(study);
 
-
+        for (Arm arm : study.getArms()) {
+            arm = genericRepository.findById(Arm.class, arm.getId());
+            if (arm.isDefaultArm() && (arm.getStudyParticipantAssignments().size() > 0 || arm.getFormArmSchedules().size() > 0)) {
+                studyCommand.setActiveDefaultArm(true);
+            }
+        }
         return studyCommand;
     }
 

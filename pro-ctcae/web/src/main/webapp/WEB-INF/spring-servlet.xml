@@ -260,10 +260,12 @@
     <bean name="/study/createStudy" id="createStudyController"
           class="gov.nih.nci.ctcae.web.study.CreateStudyController" parent="securedTabbedFlowFormController">
         <property name="studyRepository" ref="studyRepository"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
     <bean name="/study/editStudy" id="editStudyController"
           class="gov.nih.nci.ctcae.web.study.EditStudyController" parent="studyController">
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
     <bean name="/study/addStudySite" id="addStudySiteController"

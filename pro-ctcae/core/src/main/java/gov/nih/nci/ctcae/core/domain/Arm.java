@@ -2,8 +2,11 @@ package gov.nih.nci.ctcae.core.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.LinkedList;
 
 /**
  * @author Mehul Gulati
@@ -31,6 +34,15 @@ public class Arm extends BasePersistable {
 
     @Column(name = "DEFAULT_ARM", nullable = false)
     private boolean defaultArm = false;
+
+    @OneToMany(mappedBy = "arm", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyParticipantAssignment> studyParticipantAssignments = new LinkedList<StudyParticipantAssignment>();
+
+    @OneToMany(mappedBy = "arm", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<FormArmSchedule> formArmSchedules = new LinkedList<FormArmSchedule>();
+
 
     public Integer getId() {
         return id;
@@ -95,4 +107,22 @@ public class Arm extends BasePersistable {
     public void setDefaultArm(boolean defaultArm) {
         this.defaultArm = defaultArm;
     }
+
+    public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
+        return studyParticipantAssignments;
+    }
+
+    public void setStudyParticipantAssignments(List<StudyParticipantAssignment> studyParticipantAssignments) {
+        this.studyParticipantAssignments = studyParticipantAssignments;
+    }
+
+    public List<FormArmSchedule> getFormArmSchedules() {
+        return formArmSchedules;
+    }
+
+    public void setFormArmSchedules(List<FormArmSchedule> formArmSchedules) {
+        this.formArmSchedules = formArmSchedules;
+    }
+
+    
 }

@@ -128,29 +128,30 @@
                                   displayName="study.label.study_lead_site"
                                   required="true" help="true" size="50"/>
          <br>
-       
-       <chrome:division title="study.section.study_arms">
-           <p><tags:instructions code="study.study_arms.top"/></p>
+      <c:if test="${not command.activeDefaultArm}">
+          <chrome:division title="study.section.study_arms">
+              <p><tags:instructions code="study.study_arms.top"/></p>
 
-           <div align="left" style="margin-left: 50px">
-               <table width="95%" class="tablecontent" id="studyArmTable">
-                   <tr id="sa-table-head" class="amendment-table-head">
-                       <th width="50%" class="tableHeader"><tags:requiredIndicator/><spring:message
-                               code='study.label.arms' text=''/></th>
-                       <th width="50%" class="tableHeader">&nbsp;</th>
+              <div align="left" style="margin-left: 50px">
+                  <table width="95%" class="tablecontent" id="studyArmTable">
+                      <tr id="sa-table-head" class="amendment-table-head">
+                          <th width="50%" class="tableHeader"><tags:requiredIndicator/><spring:message
+                                  code='study.label.arms' text=''/></th>
+                          <th width="50%" class="tableHeader">&nbsp;</th>
 
-                   </tr>
-                   <c:forEach items="${command.study.nonDefaultArms}" var="arm" varStatus="status">
-                       <tags:oneStudyArm index="${status.index}" arm="${arm}"/>
-                   </c:forEach>
-                   <tr id="hiddenDiv" align="center"></tr>
-               </table>
-           </div>
-       </chrome:division>
-        <div align="left" style="padding-left:4em">
-            <tags:button color="blue" icon="add" markupWithTag="a" onclick="javascript:addStudyArm()" size="small"
-                         value="study.button.add_study_arm"/></div>
-       <form:hidden path="armIndexToRemove" id="armIndexToRemove" />
+                      </tr>
+                      <c:forEach items="${command.study.nonDefaultArms}" var="arm" varStatus="status">
+                          <tags:oneStudyArm index="${status.index}" arm="${arm}"/>
+                      </c:forEach>
+                      <tr id="hiddenDiv" align="center"></tr>
+                  </table>
+              </div>
+          </chrome:division>
+          <div align="left" style="padding-left:4em">
+              <tags:button color="blue" icon="add" markupWithTag="a" onclick="javascript:addStudyArm()" size="small"
+                           value="study.button.add_study_arm"/></div>
+          <form:hidden path="armIndexToRemove" id="armIndexToRemove"/>
+      </c:if>
 </jsp:attribute>
 
 </tags:tabForm>
