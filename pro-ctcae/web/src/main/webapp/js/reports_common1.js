@@ -279,13 +279,33 @@ function getQueryString(igroup, iarms) {
     }
     queryString += "&group=" + group;
     if (typeof(iarms) == 'undefined' || iarms == '') {
-        queryString += "&arms=" + getSelectedArms();
+        var arms = getSelectedArms();
+        if ($('chartTypeDiv') != null) {
+            var armsArr = arms.split(',');
+            if (armsArr.size() > 2) {
+                $('chartTypeDiv').show()
+                queryString += "&chartType=" + getCheckedChartType();
+            } else {
+                $('chartTypeDiv').hide()
+            }
+        }
+        queryString += "&arms=" + arms;
+
     } else {
         queryString += "&arms=" + iarms;
     }
+
     return queryString;
 }
 
+function getCheckedChartType() {
+    var chartTypes = document.getElementsByName('chartType');
+    for (var i = 0; i < chartTypes.length; i++) {
+        if (chartTypes[i].checked) {
+            return chartTypes[i].value;
+        }
+    }
+}
 function getSelectedArms() {
     var c_value = "";
     if (showResultsInPopUpFlag) {

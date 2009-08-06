@@ -14,6 +14,7 @@
     <c:set var="javascript" value="resetPopUpFlagAndCallResults();"/>
 </c:if>
 <c:if test="${fn:length(arms)>1}">
+    <c:set var="numOfSelectedArms" value="0"/>
     <tr>
         <td colspan="${colNum}"><b>Arms </b>
             <c:forEach items="${arms}" var="arm">
@@ -21,11 +22,22 @@
                 <c:forEach items="${selectedArms}" var="selectedArm">
                     <c:if test="${selectedArm eq arm.id}">
                         <c:set var="checked" value="checked='true'"/>
+                        <c:set var="numOfSelectedArms" value="${numOfSelectedArms+1}"/>
                     </c:if>
                 </c:forEach>
                 <input type="checkbox" name="${name}" value="${arm.id}" ${checked}
                        onclick="${javascript}"/>${arm.title}
             </c:forEach>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="chartTypeDiv" <c:if test="${numOfSelectedArms < 2}"> style="display:none"</c:if>>
+                <b>Chart type:</b>
+                <input type="radio" name="chartType" value="bar" onclick="javascript:reportResults();" checked="true">Bar
+                chart
+                <input type="radio" name="chartType" value="line" onclick="javascript:reportResults();">Scatter chart
+            </div>
         </td>
     </tr>
 </c:if>

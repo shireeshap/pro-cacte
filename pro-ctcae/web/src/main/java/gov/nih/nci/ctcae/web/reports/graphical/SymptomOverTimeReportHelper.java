@@ -28,10 +28,17 @@ public class SymptomOverTimeReportHelper {
         }
         String queryString = ControllersUtils.removeParameterFromQueryString(request.getQueryString(), "group");
         HashSet<Integer> selectedArms = ReportResultsHelper.getSelectedArms(request);
-        HashMap<String, JFreeChart> normalBarCharts = getNormalBarCharts(request, queryString, group, selectedArms);
-        HashMap<String, JFreeChart> stackedBarCharts = getStackedBarCharts(request, queryString, group, selectedArms, selectedAttributes);
+        String chartType = request.getParameter("chartType");
         ArrayList<HashMap<String, JFreeChart>> charts = new ArrayList<HashMap<String, JFreeChart>>();
-        charts.add(normalBarCharts);
+        if ("line".equals(chartType)) {
+            HashMap<String, JFreeChart> lineChart = getLineChart(request, queryString, group, selectedArms);
+            charts.add(lineChart);
+        } else {
+            HashMap<String, JFreeChart> normalBarCharts = getNormalBarCharts(request, queryString, group, selectedArms);
+            charts.add(normalBarCharts);
+        }
+
+        HashMap<String, JFreeChart> stackedBarCharts = getStackedBarCharts(request, queryString, group, selectedArms, selectedAttributes);
         charts.add(stackedBarCharts);
 
         modelAndView.addObject("group", group);
@@ -39,6 +46,38 @@ public class SymptomOverTimeReportHelper {
 
         return charts;
     }
+
+    private HashMap<String, JFreeChart> getLineChart(HttpServletRequest request, String queryString, String group, HashSet<Integer> selectedArms) throws ParseException {
+        List dataForArm = getResponsesForMultipleArms(request, group, selectedArms);
+        TreeMap<String, TreeMap<String, ArrayList<Integer>>> avgDataForNormalBarChart = getAvgDataForNormalBarChart(dataForArm);
+        String title = "";
+        String domainAxisLabel = group + "#";
+        String rangeAxisLabel = "Average Worst Response";
+        SymptomOverTimeWorstResponsesChartGenerator chartGenerator = new SymptomOverTimeWorstResponsesChartGenerator(title, domainAxisLabel, rangeAxisLabel, queryString, true);
+        JFreeChart chart = chartGenerator.getChart(avgDataForNormalBarChart);
+        HashMap<String, JFreeChart> chartMap = new HashMap<String, JFreeChart>();
+        chartMap.put("Average participant reported Worst Responses vs. Time (Multiple Arms", chart);
+        return chartMap;
+    }
+
+    private List getResponsesForMultipleArms(HttpServletRequest request, String group, HashSet<Integer> selectedArms) throws ParseException {
+        List worstResponses = new ArrayList();
+        for (Integer armid : selectedArms) {
+            Arm arm = genericRepository.findById(Arm.class, armid);
+            SymptomOverTimeWorstResponsesQuery query = new SymptomOverTimeWorstResponsesQuery(group);
+            ReportResultsHelper.parseRequestParametersAndFormQuery(request, query);
+            query.filterByArm(arm);
+            List armWorstResponses = genericRepository.find(query);
+            for (Object obj : armWorstResponses) {
+                Object[] a = (Object[]) obj;
+                String attribute = ((ProCtcQuestionType) a[1]).getDisplayName();
+                a[1] = attribute + "-" + arm.getTitle();
+                worstResponses.add(a);
+            }
+        }
+        return worstResponses;
+    }
+
 
     private HashMap<String, JFreeChart> getNormalBarCharts(HttpServletRequest request, String queryString, String group, HashSet<Integer> selectedArms) throws ParseException {
         HashMap<String, JFreeChart> normalBarCharts = new HashMap<String, JFreeChart>();

@@ -16,7 +16,6 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.ui.TextAnchor;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -28,7 +27,7 @@ import gov.nih.nci.ctcae.web.ControllersUtils;
  * Time: 2:42:11 PM
  */
 public abstract class AbstractChartGenerator {
-    protected boolean isLineChart = false;
+    protected boolean multipleArms = false;
     protected String title;
     private Integer total;
     protected String rangeAxisLabel;
@@ -42,7 +41,7 @@ public abstract class AbstractChartGenerator {
         this.rangeAxisLabel = rangeAxisLabel;
         this.domainAxisLabel = domainAxisLabel;
         this.queryString = queryString;
-        this.isLineChart = isLineChart;
+        this.multipleArms = isLineChart;
         this.reportType = reportType;
     }
 
@@ -60,7 +59,7 @@ public abstract class AbstractChartGenerator {
     }
 
     protected JFreeChart createChart(CategoryDataset dataset) {
-        if (isLineChart) {
+        if (multipleArms) {
             JFreeChart chart = ChartFactory.createLineChart(
                     title,                      // chart title
                     domainAxisLabel,           // domain axis label

@@ -7,16 +7,23 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.SubCategoryAxis;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.GroupedStackedBarRenderer;
+import org.jfree.chart.renderer.category.CategoryItemRendererState;
 import org.jfree.data.KeyToGroupMap;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.TextAnchor;
+import org.jfree.ui.RectangleEdge;
+import org.jfree.text.TextUtilities;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -83,7 +90,7 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
         );
         CategoryPlot plot = chart.getCategoryPlot();
         if (selectedArms.size() > 1) {
-            GroupedStackedBarRenderer renderer = new GroupedStackedBarRenderer();
+            GroupedStackedBarRenderer renderer = new ExtendedGroupedStackedBarRendered();
             KeyToGroupMap map = null;
             SubCategoryAxis domainAxis = new SubCategoryAxis(rangeAxisLabel);
             domainAxis.setCategoryMargin(0.10);
@@ -132,5 +139,74 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
 
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
+    }
+
+    class ExtendedGroupedStackedBarRendered extends GroupedStackedBarRenderer {
+        @Override
+        public void drawItem(Graphics2D graphics2D, CategoryItemRendererState state, Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis, ValueAxis rangeAxis, CategoryDataset dataset, int row, int column, int pass) {
+            super.drawItem(graphics2D, state, dataArea, plot, domainAxis, rangeAxis, dataset, row, column, pass);
+//            Number dataValue = dataset.getValue(row, column);
+//            if (dataValue == null) {
+//                return;
+//            }
+//
+//            double value = dataValue.doubleValue();
+//
+//            PlotOrientation orientation = plot.getOrientation();
+//            double barW0 = domainAxis.getCategoryMiddle(column, getColumnCount(),
+//                    dataArea, plot.getDomainAxisEdge()) - state.getBarWidth() / 2.0;
+//
+//            double positiveBase = 0.0;
+//            double negativeBase = 0.0;
+//
+//            for (int i = 0; i < row; i++) {
+//                Number v = dataset.getValue(i, column);
+//                if (v != null) {
+//                    double d = v.doubleValue();
+//                    if (d > 0) {
+//                        positiveBase = positiveBase + d;
+//                    } else {
+//                        negativeBase = negativeBase + d;
+//                    }
+//                }
+//            }
+//
+//            double translatedBase;
+//            double translatedValue;
+//            RectangleEdge location = plot.getRangeAxisEdge();
+//            if (value > 0.0) {
+//                translatedBase = rangeAxis.valueToJava2D(positiveBase, dataArea,
+//                        location);
+//                translatedValue = rangeAxis.valueToJava2D(positiveBase + value,
+//                        dataArea, location);
+//            } else {
+//                translatedBase = rangeAxis.valueToJava2D(negativeBase, dataArea,
+//                        location);
+//                translatedValue = rangeAxis.valueToJava2D(negativeBase + value,
+//                        dataArea, location);
+//            }
+//            double barL0 = Math.min(translatedBase, translatedValue);
+//            double barLength = Math.max(Math.abs(translatedValue - translatedBase),
+//                    getMinimumBarLength());
+//            Rectangle2D bar = new Rectangle2D.Double(barW0, barL0, state.getBarWidth(),
+//                    barLength);
+//
+//            String armidGrade = (String) dataset.getRowKey(row);
+//            String period = (String) dataset.getColumnKey(column);
+//            String armId = armidGrade.substring(0, armidGrade.indexOf(" -"));
+//            String n = armPeriodCount.get(armId + " - " + period);
+////            float labelX = 0f;
+////            float labelY = 0f;
+////            categoryItemRendererState.
+//            float labelX = (float) bar.getCenterX();
+//            float labelY = (float) bar.getMinY() - 4.0f;
+//            TextAnchor labelAnchor = TextAnchor.BOTTOM_CENTER;
+//            graphics2D.setPaint(Color.black);
+//            TextUtilities.drawRotatedString(
+//                    n, graphics2D, labelX,
+//                    labelY, labelAnchor, 0.0, TextAnchor.CENTER);
+////            TextUtilities.drawRotatedString(n, graphics2D, -Math.PI / 2, labelX, labelY);
+
+        }
     }
 }

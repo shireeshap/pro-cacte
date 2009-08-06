@@ -68,6 +68,32 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         showCharts(charts);
     }
 
+    public void testReportControllerMultipleArmsLineChart() throws Exception {
+
+        Study study = StudyTestHelper.getDefaultStudy();
+        String arms = "";
+        for (Arm arm : study.getArms()) {
+            arms += arm.getId() + ",";
+        }
+        CRF crf = study.getCrfs().get(0);
+        Integer symptomId = crf.getAllCrfPageItems().get(13).getProCtcQuestion().getProCtcTerm().getId();
+
+        SymptomOverTimeReportResultsController controller = new SymptomOverTimeReportResultsController();
+        controller.setGenericRepository(genericRepository);
+        request.setParameter("crf", crf.getId().toString());
+        request.setParameter("symptom", symptomId.toString());
+        request.setParameter("attributes", ",Severity,Frequency");
+        request.setParameter("group", "cycle");
+        request.setParameter("arms", arms);
+        request.setParameter("chartType", "line");
+        request.setMethod("GET");
+
+        ModelAndView modelAndView = controller.handleRequest(request, response);
+        Map m = modelAndView.getModel();
+        ArrayList<Object[]> charts = (ArrayList<Object[]>) m.get("results");
+        showCharts(charts);
+    }
+
     public void testReportControllerSingleArm() throws Exception {
 
         Study study = StudyTestHelper.getDefaultStudy();

@@ -27,7 +27,11 @@ public class SymptomOverTimeWorstResponsesChartGenerator extends AbstractChartGe
                 ArrayList<Integer> grades = periodMap.get(period);
                 float average = calculateListAverage(grades);
                 int n = grades.size();
-                dataset.addValue(average, attribute, period + "[N=" + n + "]");
+                if (multipleArms) {
+                    dataset.addValue(average, attribute, period);
+                } else {
+                    dataset.addValue(average, attribute, period + "[N=" + n + "]");
+                }
             }
         }
         return dataset;
