@@ -49,23 +49,46 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
     private ModelAndView generateGraphicalReport(HttpServletRequest request, String symptom, String queryString, HashSet<Integer> selectedArms) throws IOException, ParseException {
         HashSet<String> selectedAttributes = new HashSet<String>();
         ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, Integer.parseInt(symptom));
-        TreeMap<String, TreeMap<String, Integer>> results = new TreeMap<String, TreeMap<String, Integer>>();
-        String countString = getCountString(request, selectedArms);
-        for (Integer armid : selectedArms) {
-            Arm arm = genericRepository.findById(Arm.class, armid);
-            List queryResults = getQueryResults(request, arm);
-            doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, queryResults, arm, results, selectedArms.size() > 1);
-        }
-        JFreeChart worstResponseChart = getWorstResponseChart(results, queryString, selectedArms.size() > 1, countString);
-
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-        String worstResponseChartFileName = ServletUtilities.saveChartAsPNG(worstResponseChart, 700, 400, info, null);
-        String worstResponseChartImageMap = ChartUtilities.getImageMap(worstResponseChartFileName, info);
+        TreeMap<String, TreeMap<String, Integer>> results = new TreeMap<String, TreeMap<String, Integer>>();
+
+        String chartType = request.getParameter("chartType");
+        ArrayList<Object[]> charts = new ArrayList<Object[]>();
+        if ("line".equals(chartType)) {
+            String countString = getCountString(request, selectedArms);
+            for (Integer armid : selectedArms) {
+                Arm arm = genericRepository.findById(Arm.class, armid);
+                List queryResults = getQueryResults(request, arm);
+                doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, queryResults, arm, results, selectedArms.size() > 1);
+            }
+            JFreeChart chart = getWorstResponseChart(results, queryString, selectedArms.size() > 1, countString);
+            String fileName = ServletUtilities.saveChartAsPNG(chart, 700, 400, info, null);
+            String imageMap = ChartUtilities.getImageMap(fileName, info);
+            Object[] chartInfo = new Object[]{"", fileName, imageMap, chart};
+            charts.add(chartInfo);
+        } else {
+            for (Integer armid : selectedArms) {
+                HashSet<Integer> temp = new HashSet<Integer>();
+                temp.add(armid);
+                String countString = getCountString(request, temp);
+                Arm arm = genericRepository.findById(Arm.class, armid);
+                String title = "";
+                if (arm != null) {
+                    title = " - " + arm.getTitle();
+                }
+                List queryResults = getQueryResults(request, arm);
+                doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, queryResults, arm, results, false);
+                JFreeChart chart = getWorstResponseChart(results, queryString, false, countString);
+                String fileName = ServletUtilities.saveChartAsPNG(chart, 700, 400, info, null);
+                String imageMap = ChartUtilities.getImageMap(fileName, info);
+                Object[] chartInfo = new Object[]{title, fileName, imageMap, chart};
+                charts.add(chartInfo);
+            }
+        }
         ModelAndView modelAndView = new ModelAndView("reports/symptomsummarycharts");
-        modelAndView.addObject("worstResponseChartFileName", worstResponseChartFileName);
-        modelAndView.addObject("worstResponseChartImageMap", worstResponseChartImageMap);
-        modelAndView.addObject("worstResponseChart", worstResponseChart);
         modelAndView.addObject("selectedAttributes", selectedAttributes);
+        modelAndView.addObject("results", charts);
+        modelAndView.addObject("chartType", chartType);
         return modelAndView;
     }
 

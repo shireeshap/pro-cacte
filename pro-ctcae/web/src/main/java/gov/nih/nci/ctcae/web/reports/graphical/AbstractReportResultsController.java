@@ -73,7 +73,9 @@ public abstract class AbstractReportResultsController extends AbstractController
                 }
             }
         } else {
-            countString = "" + getParticipantCount(request, null).intValue();
+            Integer armid = selectedArms.iterator().next();
+            Arm arm = genericRepository.findById(Arm.class, armid);
+            countString = "" + getParticipantCount(request, arm).intValue();
         }
         return countString;
     }

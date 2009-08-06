@@ -23,14 +23,25 @@
     </table>
     <br/>
     <br/>
+    <c:forEach items="${results}" var="charts">
+        ${charts[2]}
+        <chrome:division title="Participant reported worst responses for ${symptom} symptom ${charts[0]}"/>
+        <br/>
 
-    ${worstResponseChartImageMap}
-    <chrome:division title="Participant reported responses for ${symptom} symptom (Worst responses)"/>
-    <br/>
+        <div align="center">
+            <img src="../../servlet/DisplayChart?filename=${charts[1]}" border=0
+                 usemap="#${charts[1]}"/>
+        </div>
+        <br/>
+    </c:forEach>
 
-    <div align="center">
-        <img src="../../servlet/DisplayChart?filename=${worstResponseChartFileName}" border=0
-             usemap="#${worstResponseChartFileName}"/>
-    </div>
-    <br/>
+    <%--${worstResponseChartImageMap}--%>
+    <%--<chrome:division title="Participant reported worst responses for ${symptom} symptom"/>--%>
+    <%--<br/>--%>
+
+    <%--<div align="center">--%>
+        <%--<img src="../../servlet/DisplayChart?filename=${worstResponseChartFileName}" border=0--%>
+             <%--usemap="#${worstResponseChartFileName}"/>--%>
+    <%--</div>--%>
+    <%--<br/>--%>
 </chrome:box>
