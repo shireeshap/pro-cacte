@@ -512,6 +512,9 @@
     <bean id="notNullValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.NotNullValidator">
     </bean>
+    <bean id="reportResultsHelper" class="gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
 
 
 </beans>

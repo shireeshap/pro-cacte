@@ -1,14 +1,11 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
-import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
-import gov.nih.nci.ctcae.core.helper.CrfTestHelper;
 import gov.nih.nci.ctcae.core.query.reports.SymptomOverTimeWorstResponsesQuery;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * @author Harsh Agarwal
@@ -21,7 +18,7 @@ public class SymptomOverTimeWorstResponsesQueryTest extends AbstractWebTestCase 
         SymptomOverTimeWorstResponsesQuery query = new SymptomOverTimeWorstResponsesQuery("cycle");
         CRF crf = StudyTestHelper.getDefaultStudy().getCrfs().get(0);
         query.filterByCrf(crf.getId());
-        query.filterByArm(crf.getStudy().getArms().get(0).getId());
+        query.filterByArm(crf.getStudy().getArms().get(0));
         query.filterBySymptom("Acne");
 
         List list = genericRepository.find(query);

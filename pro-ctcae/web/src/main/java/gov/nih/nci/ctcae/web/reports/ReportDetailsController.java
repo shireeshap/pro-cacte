@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.reports;
 import gov.nih.nci.ctcae.core.query.WorstResponsesDetailsQuery;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.web.reports.graphical.AbstractReportResultsController;
+import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,7 +25,7 @@ public class ReportDetailsController extends AbstractReportResultsController {
         TreeMap<Participant, Integer> results = new TreeMap<Participant, Integer>(new ParticipantNameComparator());
 
         WorstResponsesDetailsQuery query = new WorstResponsesDetailsQuery();
-        parseRequestParametersAndFormQuery(request, query);
+        ReportResultsHelper.parseRequestParametersAndFormQuery(request, query);
         List list = genericRepository.find(query);
         String gradeIn = request.getParameter("grade");
         Integer gradeInt = -1;

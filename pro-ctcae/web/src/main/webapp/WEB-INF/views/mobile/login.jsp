@@ -64,13 +64,6 @@
                 <tags:button value="Log in" color="blue"/>
             </div>
         </div>
-
-
-        <div class="row">
-            <div class="forgot">
-                <a href='<c:url value="/public/resetPassword" />'>Forgot Password?</a>
-            </div>
-        </div>
     </form>
 </chrome:box>
 </body>

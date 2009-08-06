@@ -37,8 +37,7 @@
         }
 
         .submit {
-            float: right;
-            /*margin-top: 1em;*/
+            float: right; /*margin-top: 1em;*/
         }
 
         .forgot {
@@ -85,22 +84,19 @@
             </div>
         </div>
         <div class="row">
-            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this);">&nbsp;Use virtual keyboard
+            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this);">&nbsp;Use virtual
+            keyboard
         </div>
         <div class="row">
             <div class="submit">
                 <tags:button value="Log in" color="blue"/>
             </div>
         </div>
-
-
-        <div class="row">
-            <div class="forgot">
-                <a href='<c:url value="/public/resetPassword" />'>Forgot Password?</a>
-            </div>
-        </div>
-
-
+            <%--<div class="row">--%>
+            <%--<div class="forgot">--%>
+            <%--<a href='<c:url value="/public/resetPassword" />'>Forgot Password?</a>--%>
+            <%--</div>--%>
+            <%--</div>--%>
     </form>
 </chrome:box>
 <div id="keyboardDiv"></div>

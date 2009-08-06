@@ -33,56 +33,67 @@
         <reports:displayarms arms="${arms}" selectedArms="${selectedArms}"/>
     </table>
 
-    </div>
-    ${worstResponseChartImageMap}
-    <chrome:division title="Average Participant Reported Responses vs. Time for ${symptom} symptom ( Worst responses)"/>
-    <br/>
-
-    <div align="center">
-        <img src="../../servlet/DisplayChart?filename=${worstResponseChartFileName}"  border=0
-             usemap="#${worstResponseChartFileName}"/>
-    </div>
-    <br/>
-    <c:forEach items="${selectedAttributes}" var="attribute">
-        <chrome:division title="${attribute}"/>
+    <c:forEach items="${results}" var="charts">
+        ${charts[2]}
+        <chrome:division title="${charts[0]}"/>
         <br/>
-
         <div align="center">
-            <c:choose>
-                <c:when test="${attribute eq 'Frequency'}">
-                    ${FrequencyStackedBarChartImageMap}
-                    <img src="../../servlet/DisplayChart?filename=${FrequencyStackedBarChartFileName}" width="700"
-                         height="400"
-                         border="0" usemap="#${FrequencyStackedBarChartFileName}"/>
-                </c:when>
-                <c:when test="${attribute eq 'Severity'}">
-                    ${SeverityStackedBarChartImageMap}
-                    <img src="../../servlet/DisplayChart?filename=${SeverityStackedBarChartFileName}" width="700"
-                         height="400"
-                         border="0" usemap="#${SeverityStackedBarChartFileName}"/>
-                </c:when>
-                <c:when test="${attribute eq 'Interference'}">
-                    ${InterferenceStackedBarChartImageMap}
-                    <img src="../../servlet/DisplayChart?filename=${InterferenceStackedBarChartFileName}" width="700"
-                         height="400"
-                         border="0" usemap="#${InterferenceStackedBarChartFileName}"/>
-                </c:when>
-                <c:when test="${attribute eq 'Present/Not present'}">
-                    ${PresentNotpresentStackedBarChartImageMap}
-                    <img src="../../servlet/DisplayChart?filename=${PresentNotpresentStackedBarChartFileName}"
-                         width="700" height="400"
-                         border="0" usemap="#${PresentNotpresentStackedBarChartFileName}"/>
-                </c:when>
-                <c:when test="${attribute eq 'Amount'}">
-                    ${AmountStackedBarChartImageMap}
-                    <img src="../../servlet/DisplayChart?filename=${AmountStackedBarChartFileName}" width="700"
-                         height="400"
-                         border="0" usemap="#${AmountStackedBarChartFileName}"/>
-                </c:when>
-            </c:choose>
-                <%--usemap="#${stackedBarChartFileName}"/>--%>
+            <img src="../../servlet/DisplayChart?filename=${charts[1]}" border=0
+                 usemap="#${charts[1]}"/>
         </div>
         <br/>
-
     </c:forEach>
+
+
+    <%--${worstResponseChartImageMap}--%>
+    <%--<chrome:division title="Average Participant Reported Responses vs. Time for ${symptom} symptom ( Worst responses)"/>--%>
+    <%--<br/>--%>
+
+    <%--<div align="center">--%>
+    <%--<img src="../../servlet/DisplayChart?filename=${worstResponseChartFileName}"  border=0--%>
+    <%--usemap="#${worstResponseChartFileName}"/>--%>
+    <%--</div>--%>
+    <%--<br/>--%>
+    <%--<c:forEach items="${selectedAttributes}" var="attribute">--%>
+    <%--<chrome:division title="${attribute}"/>--%>
+    <%--<br/>--%>
+
+    <%--<div align="center">--%>
+    <%--<c:choose>--%>
+    <%--<c:when test="${attribute eq 'Frequency'}">--%>
+    <%--${FrequencyStackedBarChartImageMap}--%>
+    <%--<img src="../../servlet/DisplayChart?filename=${FrequencyStackedBarChartFileName}" width="700"--%>
+    <%--height="400"--%>
+    <%--border="0" usemap="#${FrequencyStackedBarChartFileName}"/>--%>
+    <%--</c:when>--%>
+    <%--<c:when test="${attribute eq 'Severity'}">--%>
+    <%--${SeverityStackedBarChartImageMap}--%>
+    <%--<img src="../../servlet/DisplayChart?filename=${SeverityStackedBarChartFileName}" width="700"--%>
+    <%--height="400"--%>
+    <%--border="0" usemap="#${SeverityStackedBarChartFileName}"/>--%>
+    <%--</c:when>--%>
+    <%--<c:when test="${attribute eq 'Interference'}">--%>
+    <%--${InterferenceStackedBarChartImageMap}--%>
+    <%--<img src="../../servlet/DisplayChart?filename=${InterferenceStackedBarChartFileName}" width="700"--%>
+    <%--height="400"--%>
+    <%--border="0" usemap="#${InterferenceStackedBarChartFileName}"/>--%>
+    <%--</c:when>--%>
+    <%--<c:when test="${attribute eq 'Present/Not present'}">--%>
+    <%--${PresentNotpresentStackedBarChartImageMap}--%>
+    <%--<img src="../../servlet/DisplayChart?filename=${PresentNotpresentStackedBarChartFileName}"--%>
+    <%--width="700" height="400"--%>
+    <%--border="0" usemap="#${PresentNotpresentStackedBarChartFileName}"/>--%>
+    <%--</c:when>--%>
+    <%--<c:when test="${attribute eq 'Amount'}">--%>
+    <%--${AmountStackedBarChartImageMap}--%>
+    <%--<img src="../../servlet/DisplayChart?filename=${AmountStackedBarChartFileName}" width="700"--%>
+    <%--height="400"--%>
+    <%--border="0" usemap="#${AmountStackedBarChartFileName}"/>--%>
+    <%--</c:when>--%>
+    <%--</c:choose>--%>
+    <%--usemap="#${stackedBarChartFileName}"/>--%>
+    <%--</div>--%>
+    <%--<br/>--%>
+
+    <%--</c:forEach>--%>
 </chrome:box>

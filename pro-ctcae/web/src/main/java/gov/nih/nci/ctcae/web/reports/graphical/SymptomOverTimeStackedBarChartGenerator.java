@@ -1,25 +1,26 @@
 package gov.nih.nci.ctcae.web.reports.graphical;
 
+import gov.nih.nci.ctcae.core.domain.Arm;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.LegendItem;
+import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.SubCategoryAxis;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.Plot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.GroupedStackedBarRenderer;
+import org.jfree.data.KeyToGroupMap;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.KeyToGroupMap;
 
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.util.*;
-
-import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import gov.nih.nci.ctcae.core.domain.Arm;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.TreeMap;
 
 /**
  * User: Harsh
@@ -33,6 +34,7 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
     Color level2 = new Color(244, 187, 89);
     Color level3 = new Color(235, 122, 107);
     Color level4 = new Color(255, 54, 54);
+    private HashMap<String, String> armPeriodCount = new HashMap<String, String>();
 
     public SymptomOverTimeStackedBarChartGenerator(String title, String domainAxisLabel, String rangeAxisLabel, String queryString) {
         super(title, domainAxisLabel, rangeAxisLabel, true, -1, queryString, "SYMPTOM_OVER_TIME_STACKED_BAR_CHART", false);
@@ -54,6 +56,7 @@ public class SymptomOverTimeStackedBarChartGenerator extends AbstractChartGenera
                     Float percentage = new Float(df.format(map.get(grade) * 100 / sum));
                     if (data.keySet().size() > 1) {
                         dataset.addValue(percentage, armid + " - " + grade, period);
+                        armPeriodCount.put(armid + " - " + period, "[N=" + sum + "]");
                     } else {
                         dataset.addValue(percentage, armid + " - " + grade, period + " [N=" + sum + "]");
                     }

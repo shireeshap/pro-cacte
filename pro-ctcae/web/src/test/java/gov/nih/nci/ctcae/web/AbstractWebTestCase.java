@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
@@ -25,5 +26,6 @@ public abstract class AbstractWebTestCase extends TestDataManager {
         request.setSession(session);
         response = new MockHttpServletResponse();
         controllerTools = new ControllerTools();
+        new ReportResultsHelper().setGenericRepository(genericRepository);
     }
 }

@@ -6,6 +6,8 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringUtils;
+
 //
 /**
  * The Enum ProCtcQuestionType.
@@ -94,10 +96,11 @@ public enum ProCtcQuestionType implements CodedEnum<String> {
      * @return the by display name
      */
     public static ProCtcQuestionType getByDisplayName(String displayName) {
-        for (ProCtcQuestionType proCtcQuestionType : ProCtcQuestionType.values()) {
-
-            if (proCtcQuestionType.getDisplayName().equals(displayName)) {
-                return proCtcQuestionType;
+        if (!StringUtils.isBlank(displayName)) {
+            for (ProCtcQuestionType proCtcQuestionType : ProCtcQuestionType.values()) {
+                if (proCtcQuestionType.getDisplayName().equals(displayName)) {
+                    return proCtcQuestionType;
+                }
             }
         }
         return null;

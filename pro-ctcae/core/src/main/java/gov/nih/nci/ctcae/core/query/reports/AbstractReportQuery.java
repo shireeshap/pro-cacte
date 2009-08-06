@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.query.reports;
 
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
+import gov.nih.nci.ctcae.core.domain.Arm;
 import gov.nih.nci.ctcae.core.query.AbstractQuery;
 
 import java.util.Date;
@@ -25,8 +26,10 @@ public abstract class AbstractReportQuery extends AbstractQuery {
 
 
     public void filterBySymptomId(final Integer id) {
-        andWhere("spci.proCtcValidValue.proCtcQuestion.proCtcTerm.id = :symptom");
-        setParameter("symptom", id);
+        if (id != null) {
+            andWhere("spci.proCtcValidValue.proCtcQuestion.proCtcTerm.id = :symptom");
+            setParameter("symptom", id);
+        }
     }
 
     public void filterBySymptom(final String term) {
@@ -35,13 +38,17 @@ public abstract class AbstractReportQuery extends AbstractQuery {
     }
 
     public void filterByAttributes(final Collection<ProCtcQuestionType> attributes) {
-        andWhere("spci.proCtcValidValue.proCtcQuestion.proCtcQuestionType in ( :attributesList)");
-        setParameterList("attributesList", attributes);
+        if (attributes != null && attributes.size() > 0) {
+            andWhere("spci.proCtcValidValue.proCtcQuestion.proCtcQuestionType in ( :attributesList)");
+            setParameterList("attributesList", attributes);
+        }
     }
 
     public void filterBySingleAttribute(final ProCtcQuestionType attribute) {
-        andWhere("spci.proCtcValidValue.proCtcQuestion.proCtcQuestionType =  :attribute");
-        setParameter("attribute", attribute);
+        if (attribute != null) {
+            andWhere("spci.proCtcValidValue.proCtcQuestion.proCtcQuestionType =  :attribute");
+            setParameter("attribute", attribute);
+        }
     }
 
     public void filterByScheduleStartDate(Date startDate, Date endDate) {
@@ -56,8 +63,10 @@ public abstract class AbstractReportQuery extends AbstractQuery {
     }
 
     public void filterByStudySite(Integer id) {
-        andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.studySite.id=:studySiteId");
-        setParameter("studySiteId", id);
+        if (id != null) {
+            andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.studySite.id=:studySiteId");
+            setParameter("studySiteId", id);
+        }
     }
 
     public void filterByParticipantId(Integer id) {
@@ -98,9 +107,10 @@ public abstract class AbstractReportQuery extends AbstractQuery {
 
     }
 
-    public void filterByArm(Integer id) {
-        andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.arm.id=:armId");
-        setParameter("armId", id);
-
+    public void filterByArm(Arm arm) {
+        if (arm != null) {
+            andWhere("spci.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.arm.id=:armId");
+            setParameter("armId", arm.getId());
+        }
     }
 }

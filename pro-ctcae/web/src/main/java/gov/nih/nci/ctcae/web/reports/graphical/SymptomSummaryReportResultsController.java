@@ -27,7 +27,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        HashSet<Integer> selectedArms = getSelectedArms(request);
+        HashSet<Integer> selectedArms = ReportResultsHelper.getSelectedArms(request);
         if (selectedArms.size() == 0) {
             selectedArms.add(-1);
         }
@@ -50,20 +50,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         HashSet<String> selectedAttributes = new HashSet<String>();
         ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, Integer.parseInt(symptom));
         TreeMap<String, TreeMap<String, Integer>> results = new TreeMap<String, TreeMap<String, Integer>>();
-        String countString = "";
-        if (selectedArms.size() > 1) {
-            for (Integer armid : selectedArms) {
-                Arm arm = genericRepository.findById(Arm.class, armid);
-                if (arm != null) {
-                    int numOfParticipantsOnArm = getParticipantCount(request, arm).intValue();
-                    countString += "\n[" + arm.getTitle() + ": N=" + numOfParticipantsOnArm + "]";
-                }
-
-            }
-        } else {
-            int numOfParticipantsOnArm = getParticipantCount(request, null).intValue();
-            countString = "" + numOfParticipantsOnArm;
-        }
+        String countString = getCountString(request, selectedArms);
         for (Integer armid : selectedArms) {
             Arm arm = genericRepository.findById(Arm.class, armid);
             List queryResults = getQueryResults(request, arm);
@@ -85,10 +72,8 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
 
     private List getQueryResults(HttpServletRequest request, Arm arm) throws ParseException {
         SymptomSummaryWorstResponsesQuery query = new SymptomSummaryWorstResponsesQuery();
-        parseRequestParametersAndFormQuery(request, query);
-        if (arm != null) {
-            query.filterByArm(arm.getId());
-        }
+        ReportResultsHelper.parseRequestParametersAndFormQuery(request, query);
+        query.filterByArm(arm);
         return genericRepository.find(query);
     }
 

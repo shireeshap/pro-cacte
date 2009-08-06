@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.reports;
 import gov.nih.nci.ctcae.core.query.StudyParticipantCrfItemQuery;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem;
 import gov.nih.nci.ctcae.web.reports.graphical.AbstractReportResultsController;
+import gov.nih.nci.ctcae.web.reports.graphical.ReportResultsHelper;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +24,7 @@ public class GetParticipantCrfItemsController extends AbstractReportResultsContr
         Integer pId = Integer.valueOf(request.getParameter("pid"));
         Integer grade = Integer.parseInt(request.getParameter("grade"));
         StudyParticipantCrfItemQuery query = new StudyParticipantCrfItemQuery();
-        parseRequestParametersAndFormQuery(request, query);
+        ReportResultsHelper.parseRequestParametersAndFormQuery(request, query);
         query.filterByParticipantId(pId);
         query.filterByResponse(grade);
         List list = genericRepository.find(query);
