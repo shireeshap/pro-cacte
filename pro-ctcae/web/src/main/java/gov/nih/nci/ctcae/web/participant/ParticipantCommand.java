@@ -36,6 +36,8 @@ public class ParticipantCommand {
 
     private String notificationIndexToRemove;
 
+    private String mode;
+
     /**
      * Instantiates a new participant command.
      */
@@ -208,5 +210,13 @@ public class ParticipantCommand {
                 studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantClinicalStaff);
             }
         }
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 }

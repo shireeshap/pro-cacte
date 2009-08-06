@@ -292,6 +292,7 @@
           class="gov.nih.nci.ctcae.web.participant.ParticipantController" parent="securedTabbedFlowFormController">
         <property name="participantRepository" ref="participantRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
+        <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
     </bean>
 
     <bean name="/participant/search" id="searchParticipantController"

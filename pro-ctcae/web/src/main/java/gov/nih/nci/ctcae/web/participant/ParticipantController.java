@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import gov.nih.nci.cabig.ctms.tools.DataSourceSelfDiscoveringPropertiesFactoryBean;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Properties;
 
 //
 /**
@@ -28,6 +30,9 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
      * The participant repository.
      */
     protected ParticipantRepository participantRepository;
+
+
+    private Properties proCtcAEProperties;
 
 
     private static final String PARTICIPANT_ID = "id";
@@ -93,6 +98,8 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
                 command.setSiteName(siteName);
             }
         }
+        String mode = proCtcAEProperties.getProperty("mode.identifier");
+        command.setMode(mode);
         return command;
     }
 
@@ -119,4 +126,10 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     protected boolean shouldSave(HttpServletRequest request, ParticipantCommand command, Tab tab) {
         return true;
     }
+
+    @Required
+    public void setProCtcAEProperties(Properties proCtcAEProperties) {
+        this.proCtcAEProperties = proCtcAEProperties;
+    }
+
 }

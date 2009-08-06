@@ -78,6 +78,14 @@
 <%--<chrome:flashMessage flashMessage="participant.flash.save"></chrome:flashMessage>--%>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
    <jsp:attribute name="singleFields">
+       <c:choose>
+           <c:when test="${command.mode eq 'Y'}">
+               <c:set var="required" value="false"/>
+           </c:when>
+           <c:otherwise>
+               <c:set var="required" value="true"/>
+           </c:otherwise>
+       </c:choose>
            <chrome:division title="participant.label.site">
                <c:choose>
                    <c:when test="${not empty command.participant.studyParticipantAssignments}">
@@ -99,6 +107,7 @@
            <chrome:division title="participant.label.demographic_information">
 
                <table border="0" style="width:100%">
+
                    <tr>
                        <td>
                            <tags:renderText propertyName="participant.firstName"
@@ -113,12 +122,12 @@
                        <td>
                            <tags:renderDate propertyName="participant.birthDate"
                                             displayName="participant.label.date_of_birth"
-                                            required="true"/>
+                                            required="${required}"/>
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
-                                              required="true" options="${genders}"/>
+                                              required="${required}" options="${genders}"/>
                            <tags:renderText propertyName="participant.assignedIdentifier"
                                             displayName="participant.label.participant_identifier"
-                                            required="true"/>
+                                            required="${required}"/>
                        </td>
                    </tr>
                </table>
@@ -135,7 +144,7 @@
                        <td>
                            <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
                                                   displayName="participant.label.phone"
-                                                  required="true"/>
+                                                  required="${required}"/>
                        </td>
                    </tr>
                </table>
