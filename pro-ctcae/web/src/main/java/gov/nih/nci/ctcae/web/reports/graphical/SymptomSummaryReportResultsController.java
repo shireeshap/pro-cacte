@@ -50,11 +50,10 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
         HashSet<String> selectedAttributes = new HashSet<String>();
         ProCtcTerm proCtcTerm = genericRepository.findById(ProCtcTerm.class, Integer.parseInt(symptom));
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-        TreeMap<String, TreeMap<String, Integer>> results = new TreeMap<String, TreeMap<String, Integer>>();
-
         String chartType = request.getParameter("chartType");
         ArrayList<Object[]> charts = new ArrayList<Object[]>();
         if ("line".equals(chartType)) {
+            TreeMap<String, TreeMap<String, Integer>> results = new TreeMap<String, TreeMap<String, Integer>>();
             String countString = getCountString(request, selectedArms);
             for (Integer armid : selectedArms) {
                 Arm arm = genericRepository.findById(Arm.class, armid);
@@ -68,6 +67,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
             charts.add(chartInfo);
         } else {
             for (Integer armid : selectedArms) {
+                TreeMap<String, TreeMap<String, Integer>> results = new TreeMap<String, TreeMap<String, Integer>>();
                 HashSet<Integer> temp = new HashSet<Integer>();
                 temp.add(armid);
                 String countString = getCountString(request, temp);
