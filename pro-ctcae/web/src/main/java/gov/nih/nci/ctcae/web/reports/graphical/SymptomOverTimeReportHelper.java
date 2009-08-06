@@ -43,6 +43,7 @@ public class SymptomOverTimeReportHelper {
 
         modelAndView.addObject("group", group);
         modelAndView.addObject("selectedArms", selectedArms);
+        modelAndView.addObject("chartType", chartType);
 
         return charts;
     }

@@ -34,9 +34,11 @@
         <td>
             <div id="chartTypeDiv" <c:if test="${numOfSelectedArms < 2}"> style="display:none"</c:if>>
                 <b>Chart type:</b>
-                <input type="radio" name="chartType" value="bar" onclick="javascript:reportResults();" checked="true">Bar
+                <input type="radio" name="chartType" value="bar" onclick="javascript:reportResults();"
+                       <c:if test="${chartType ne 'line'}">checked="true"</c:if>>Bar
                 chart
-                <input type="radio" name="chartType" value="line" onclick="javascript:reportResults();">Scatter chart
+                <input type="radio" name="chartType" value="line" onclick="javascript:reportResults();"
+                       <c:if test="${chartType eq 'line'}">checked="true"</c:if>>Scatter chart
             </div>
         </td>
     </tr>
