@@ -60,7 +60,7 @@ public class ParticipantLevelGraphicalReportTest extends ParticipantLevelReportI
         frame.add(chartPanel1);
         frame.pack();
         RefineryUtilities.centerFrameOnScreen(frame);
-        frame.setVisible(true);
+//        frame.setVisible(true);
         Thread.sleep(20000);
     }
 
