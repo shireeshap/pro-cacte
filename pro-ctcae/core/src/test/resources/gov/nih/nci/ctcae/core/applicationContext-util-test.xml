@@ -6,16 +6,18 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.1.xsd">
 
 
+    <bean id="proCtcAeProperties" class="gov.nih.nci.cabig.ctms.tools.DataSourceSelfDiscoveringPropertiesFactoryBean">
+        <property name="databaseConfigurationName">
+            <value>test-db</value>
+        </property>
+        <property name="applicationDirectoryName">
+            <value>proctcae</value>
+        </property>
+    </bean>
+
     <bean id="mainPropertyConfigurer" class="gov.nih.nci.cabig.ctms.tools.spring.PropertyPlaceholderConfigurer">
-        <property name="properties">
-            <bean class="gov.nih.nci.cabig.ctms.tools.DataSourceSelfDiscoveringPropertiesFactoryBean">
-                <property name="databaseConfigurationName">
-                    <value>test-db</value>
-                </property>
-                <property name="applicationDirectoryName">
-                    <value>proctcae</value>
-                </property>
-            </bean>
+        <property name="properties" ref="proCtcAeProperties">
+
         </property>
         <property name="useNullForUnresolvablePlaceholders">
             <value>true</value>

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * @author Harsh Agarwal
@@ -33,6 +34,7 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
         controller.setParticipantRepository(participantRepository);
         controller.setStudyOrganizationRepository(studyOrganizationRepository);
         controller.setWebControllerValidator(new WebControllerValidatorImpl());
+        controller.setProCtcAEProperties(new Properties());
         List<Tab<ParticipantCommand>> tabs = controller.getFlow().getTabs();
         for (Tab tab : tabs) {
             if (tab instanceof ParticipantDetailsTab) {

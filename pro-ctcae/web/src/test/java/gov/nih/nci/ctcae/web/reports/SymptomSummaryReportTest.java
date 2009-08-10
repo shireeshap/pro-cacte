@@ -65,8 +65,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
 
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
-        assertNotNull(m.get("worstResponseChartFileName"));
-        assertNotNull(m.get("worstResponseChartImageMap"));
+        assertNotNull(m.get("results"));
         JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
         showCharts(worstResponseChart);
 
@@ -92,8 +91,7 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
 
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
-        assertNotNull(m.get("worstResponseChartFileName"));
-        assertNotNull(m.get("worstResponseChartImageMap"));
+        assertNotNull(m.get("results"));
         JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
         showCharts(worstResponseChart);
                                          

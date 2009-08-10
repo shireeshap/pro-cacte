@@ -22,7 +22,7 @@ public class SymptomOverTimeWorstResponsesQueryTest extends AbstractWebTestCase 
         query.filterBySymptom("Acne");
 
         List list = genericRepository.find(query);
-        assertEquals(17, list.size());
+        assertEquals(9, list.size());
 
     }
 
