@@ -2,6 +2,7 @@
 <%@ attribute name="name" %>
 <%@ attribute name="id" %>
 <%@ attribute name="dateValue" type="java.util.Date" %>
+<%@ attribute name="maxLength" %>
 
 <%@ attribute name="cols" %>
 <%@ attribute name="rows" %>
@@ -41,12 +42,12 @@
         <c:choose>
             <c:when test="${noForm}">
                 <input name="${propertyName}" type="text" size="${empty size ? attributes.size : size}" title="${title}"
-                       class="${cssClass}" value="${propertyValue}"/>
+                       class="${cssClass}" value="${propertyValue}" maxlength="${maxLength}"/>
             </c:when>
             <c:otherwise>
                 <form:input path="${propertyName}" disabled="${disabled}" size="${empty size ? attributes.size : size}"
                             title="${title}"
-                            cssClass="${cssClass}"/>
+                            cssClass="${cssClass}" maxlength="${maxLength}"/>
             </c:otherwise>
 
         </c:choose>

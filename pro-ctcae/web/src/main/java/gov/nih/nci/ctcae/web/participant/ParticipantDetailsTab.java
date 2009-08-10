@@ -46,7 +46,6 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
     @Override
     public void validate(ParticipantCommand command, Errors errors) {
-        super.validate(command, errors);
         if (command.getStudySites() == null ||
                 command.getStudySites().size() == 0) {
             if (command.getParticipant().getStudyParticipantAssignments() == null ||

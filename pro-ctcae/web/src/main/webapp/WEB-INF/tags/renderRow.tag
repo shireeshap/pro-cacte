@@ -8,6 +8,8 @@
 <%@attribute name="showIndicator" type="java.lang.Boolean" %>
 <%@ attribute name="rows" %>
 <%@ attribute name="disabled" %>
+<%@ attribute name="maxLength" %>
+
 <%--
     Can render field or a 'label or value'. The preference is given to label, and value attributes, if they are present the field is kind of ignored.
 --%>
@@ -53,7 +55,7 @@
                            propertyValue="${propertyValue}"
                            doNotShowFormat="${doNotShowFormat}" id="${id}" name="${name}" rows="${rows}"
                            onchange="${onchange}" doNotshowClear="${doNotshowClear}" showIndicator="${showIndicator}"
-                           itemLabel="${itemLabel}" disabled="${disabled}"/>
+                           itemLabel="${itemLabel}" disabled="${disabled}" maxLength="${maxLength}"/>
     </c:when>
     <c:otherwise>
         <div class="row ${cssClass}" id="${propertyName}-row" <c:if test="${not empty style}">style="${style}"</c:if>>
@@ -83,7 +85,7 @@
                                        propertyValue="${propertyValue}"
                                        doNotShowFormat="${doNotShowFormat}" id="${id}" name="${name}" rows="${rows}"
                                        onchange="${onchange}" doNotshowClear="${doNotshowClear}"
-                                       showIndicator="${showIndicator}" itemLabel="${itemLabel}"  disabled="${disabled}"/>
+                                       showIndicator="${showIndicator}" itemLabel="${itemLabel}"  disabled="${disabled}" maxLength="${maxLength}"/>
                 </c:otherwise>
             </c:choose>
                     <%--<tags:extraParams extraParam="${field.attributes.extraParams}"/>--%>

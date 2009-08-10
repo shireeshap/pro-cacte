@@ -39,7 +39,7 @@ class CreateParticipants extends edu.northwestern.bioinformatics.bering.Migratio
       t.addColumn('first_name', 'string', nullable: false)
       t.addColumn('last_name', 'string', nullable: false)
       t.addColumn('middle_name', 'string', nullable: true)
-      t.addColumn('mrn_identifier', 'string', nullable: false);
+      t.addColumn('mrn_identifier', 'string', nullable: true);
       t.addColumn('user_id', 'integer', nullable: false)
     }
 

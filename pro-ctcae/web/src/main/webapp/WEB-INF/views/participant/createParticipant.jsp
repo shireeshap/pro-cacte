@@ -81,9 +81,11 @@
        <c:choose>
            <c:when test="${command.mode eq 'Y'}">
                <c:set var="required" value="false"/>
+               <c:set var="maxLength" value="1"/>
            </c:when>
            <c:otherwise>
                <c:set var="required" value="true"/>
+               <c:set var="maxLength" value="1"/>
            </c:otherwise>
        </c:choose>
            <chrome:division title="participant.label.site">
@@ -112,17 +114,16 @@
                        <td>
                            <tags:renderText propertyName="participant.firstName"
                                             displayName="participant.label.first_name"
-                                            required="true"/>
+                                            required="true" maxLength="${maxLength}"/>
                            <tags:renderText propertyName="participant.middleName"
-                                            displayName="participant.label.middle_name"/>
+                                            displayName="participant.label.middle_name" maxLength="${maxLength}"/>
                            <tags:renderText propertyName="participant.lastName"
                                             displayName="participant.label.last_name"
-                                            required="true"/>
+                                            required="true" maxLength="${maxLength}"/>
                        </td>
                        <td>
                            <tags:renderDate propertyName="participant.birthDate"
-                                            displayName="participant.label.date_of_birth"
-                                            required="${required}"/>
+                                            displayName="participant.label.date_of_birth"/>
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
                                               required="${required}" options="${genders}"/>
                            <tags:renderText propertyName="participant.assignedIdentifier"
