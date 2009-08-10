@@ -36,8 +36,12 @@ public class PersistableIntegrationTestCase extends TestDataManager {
 
         classesToIgnore.add(StudyOrganization.class.getName());
         classesToIgnore.add(CRFPage.class.getName());
+        classesToIgnore.add(MeddraVersion.class.getName());
+        classesToIgnore.add(StudyParticipantCrf.class.getName());
 
         collectionObjectClassesToIgnore.add(StudyOrganization.class.getName());
+        collectionObjectClassesToIgnore.add(MeddraVersion.class.getName());
+        collectionObjectClassesToIgnore.add(StudyParticipantCrf.class.getName());
 
     }
 

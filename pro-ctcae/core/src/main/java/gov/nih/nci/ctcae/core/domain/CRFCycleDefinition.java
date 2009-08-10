@@ -150,7 +150,6 @@ public class CRFCycleDefinition extends BasePersistable {
 
         CRFCycleDefinition that = (CRFCycleDefinition) o;
 
-        if (crfCycles != null ? !crfCycles.equals(that.crfCycles) : that.crfCycles != null) return false;
         if (cycleLength != null ? !cycleLength.equals(that.cycleLength) : that.cycleLength != null) return false;
         if (cycleLengthUnit != null ? !cycleLengthUnit.equals(that.cycleLengthUnit) : that.cycleLengthUnit != null)
             return false;
@@ -170,7 +169,6 @@ public class CRFCycleDefinition extends BasePersistable {
         result = 31 * result + (cycleLengthUnit != null ? cycleLengthUnit.hashCode() : 0);
         result = 31 * result + (repeatTimes != null ? repeatTimes.hashCode() : 0);
         result = 31 * result + (order != null ? order.hashCode() : 0);
-        result = 31 * result + (crfCycles != null ? crfCycles.hashCode() : 0);
         result = 31 * result + (formArmSchedule != null ? formArmSchedule.hashCode() : 0);
         return result;
     }

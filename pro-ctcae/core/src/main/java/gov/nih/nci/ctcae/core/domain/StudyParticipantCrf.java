@@ -194,28 +194,7 @@ public class StudyParticipantCrf extends BaseVersionable {
         studyParticipantCrfAddedQuestions.remove(studyParticipantCrfAddedQuestion);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        StudyParticipantCrf that = (StudyParticipantCrf) o;
-
-        if (crf != null ? !crf.equals(that.crf) : that.crf != null) return false;
-        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
-        if (studyParticipantAssignment != null ? !studyParticipantAssignment.equals(that.studyParticipantAssignment) : that.studyParticipantAssignment != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = crf != null ? crf.hashCode() : 0;
-        result = 31 * result + (studyParticipantAssignment != null ? studyParticipantAssignment.hashCode() : 0);
-        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
-        return result;
-    }
 
     public Date getStartDate() {
         return startDate;
@@ -316,7 +295,32 @@ public class StudyParticipantCrf extends BaseVersionable {
         return null;
     }
 
+    @Transient
     public List<CRFCycleDefinition> getCrfCycleDefinitions() {
         return crf.getFormArmScheduleForArm(studyParticipantAssignment.getArm()).getCrfCycleDefinitions();
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StudyParticipantCrf that = (StudyParticipantCrf) o;
+
+        if (crf != null ? !crf.equals(that.crf) : that.crf != null) return false;
+        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+        if (studyParticipantAssignment != null ? !studyParticipantAssignment.equals(that.studyParticipantAssignment) : that.studyParticipantAssignment != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = crf != null ? crf.hashCode() : 0;
+        result = 31 * result + (studyParticipantAssignment != null ? studyParticipantAssignment.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        return result;
     }
 }

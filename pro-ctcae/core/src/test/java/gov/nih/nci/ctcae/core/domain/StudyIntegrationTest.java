@@ -36,8 +36,8 @@ public class StudyIntegrationTest extends TestDataManager {
         saveStudy();
 
         assertNotNull(studyWithStudyOrganizations.getId());
-        assertEquals("must not create multiple study coordinating center", Integer.valueOf(5), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
-        assertEquals("must not create multiple funding sponsor", Integer.valueOf(5), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+        assertEquals("must not create multiple study coordinating center", Integer.valueOf(4), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+        assertEquals("must not create multiple funding sponsor", Integer.valueOf(4), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
 
     }
@@ -110,7 +110,7 @@ public class StudyIntegrationTest extends TestDataManager {
         assertNotNull("must save funding sponsor", studyWithStudyOrganizations.getStudySponsor());
         assertNotNull(studyWithStudyOrganizations.getStudySponsor().getId());
         assertEquals(nci, studyWithStudyOrganizations.getStudySponsor().getOrganization());
-        assertEquals("must not create multiple funding sponsor", Integer.valueOf(5), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+        assertEquals("must not create multiple funding sponsor", Integer.valueOf(4), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
     }
 
@@ -121,7 +121,7 @@ public class StudyIntegrationTest extends TestDataManager {
 
         assertNotNull(studyWithStudyOrganizations.getDataCoordinatingCenter().getId());
         assertEquals(nci, studyWithStudyOrganizations.getDataCoordinatingCenter().getOrganization());
-        assertEquals("must not create multiple study coordinating center", Integer.valueOf(5), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+        assertEquals("must not create multiple study coordinating center", Integer.valueOf(4), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
     }
 
@@ -133,7 +133,7 @@ public class StudyIntegrationTest extends TestDataManager {
         studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
         assertNotNull(studyWithStudyOrganizations.getDataCoordinatingCenter().getId());
         assertEquals(duke, studyWithStudyOrganizations.getDataCoordinatingCenter().getOrganization());
-        assertEquals("must not create multiple study coordinating center", Integer.valueOf(5), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+        assertEquals("must not create multiple study coordinating center", Integer.valueOf(4), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
 
     }
@@ -147,14 +147,14 @@ public class StudyIntegrationTest extends TestDataManager {
         studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
         assertNotNull(studyWithStudyOrganizations.getStudySponsor().getId());
         assertEquals(duke, studyWithStudyOrganizations.getStudySponsor().getOrganization());
-        assertEquals("must not create multiple study funding sponsor", Integer.valueOf(5), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
+        assertEquals("must not create multiple study funding sponsor", Integer.valueOf(4), Integer.valueOf(studyWithStudyOrganizations.getStudyOrganizations().size()));
 
 
     }
 
     public void testAddStudySiteInCreateStudy() {
         assertFalse("must save study site", studyWithStudyOrganizations.getStudySites().isEmpty());
-        assertEquals(Integer.valueOf(2), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+        assertEquals(Integer.valueOf(1), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
         StudyOrganization studyOrganization = studyWithStudyOrganizations.getStudySites().get(0);
         assertNotNull(studyOrganization.getId());
         assertEquals(nci, studyOrganization.getOrganization());
@@ -166,7 +166,7 @@ public class StudyIntegrationTest extends TestDataManager {
         studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
         assertNotNull(studyWithStudyOrganizations.getId());
         assertFalse("must save study site", studyWithStudyOrganizations.getStudySites().isEmpty());
-        assertEquals(Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+        assertEquals(Integer.valueOf(1), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
         StudyOrganization studyOrganization = studyWithStudyOrganizations.getStudySites().get(0);
         assertNotNull(studyOrganization.getId());
         assertEquals(nci, studyOrganization.getOrganization());
@@ -180,13 +180,13 @@ public class StudyIntegrationTest extends TestDataManager {
         studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
         assertNotNull(studyWithStudyOrganizations.getId());
         assertFalse("must save study site", studyWithStudyOrganizations.getStudySites().isEmpty());
-        assertEquals(Integer.valueOf(3), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+        assertEquals(Integer.valueOf(1), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
         assertNotNull(studyWithStudyOrganizations.getStudySites().get(0).getId());
 
         studyWithStudyOrganizations.removeStudySite(studyWithStudyOrganizations.getStudySites().get(0));
         studyWithStudyOrganizations = studyRepository.save(studyWithStudyOrganizations);
         assertNotNull(studyWithStudyOrganizations.getId());
-        assertEquals("must remove study site", Integer.valueOf(2), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
+        assertEquals("must remove study site", Integer.valueOf(0), Integer.valueOf(studyWithStudyOrganizations.getStudySites().size()));
 
 
     }

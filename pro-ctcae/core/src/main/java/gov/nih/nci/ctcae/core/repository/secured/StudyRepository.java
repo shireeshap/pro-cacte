@@ -43,6 +43,14 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Study save(Study study) {
+        removeLeadStudySiteFromStudySites(study);
+        Study savedStudy = genericRepository.save(study);
+        initialzeStudy(savedStudy);
+        return savedStudy;
+
+    }
+
+    private void removeLeadStudySiteFromStudySites(Study study) {
         List<StudySite> studySitesToRemove = new ArrayList<StudySite>();
         for (StudySite studySite : study.getStudySites()) {
             if (studySite.getOrganization().equals(study.getLeadStudySite().getOrganization())) {
@@ -54,12 +62,6 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
         for (StudySite studySite : studySitesToRemove) {
             study.removeStudySite(studySite);
         }
-
-        Study savedStudy = genericRepository.save(study);
-        initialzeStudy(savedStudy);
-        return savedStudy;
-
-
     }
 
     public Study findById(Integer id) {

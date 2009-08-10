@@ -133,6 +133,17 @@ public class UserNotification extends BaseVersionable {
         this.uuid = uuid;
     }
 
+
+
+    public StudyParticipantCrfSchedule getStudyParticipantCrfSchedule() {
+
+        return studyParticipantCrfSchedule;
+    }
+
+    public void setStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+        this.studyParticipantCrfSchedule = studyParticipantCrfSchedule;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -142,11 +153,12 @@ public class UserNotification extends BaseVersionable {
 
         if (isNew != that.isNew) return false;
         if (markDelete != that.markDelete) return false;
-        if (!notification.equals(that.notification)) return false;
-        if (!participant.equals(that.participant)) return false;
-        if (!study.equals(that.study)) return false;
-        if (!studyParticipantCrfSchedule.equals(that.studyParticipantCrfSchedule)) return false;
-        if (!user.equals(that.user)) return false;
+        if (notification != null ? !notification.equals(that.notification) : that.notification != null) return false;
+        if (participant != null ? !participant.equals(that.participant) : that.participant != null) return false;
+        if (study != null ? !study.equals(that.study) : that.study != null) return false;
+        if (studyParticipantCrfSchedule != null ? !studyParticipantCrfSchedule.equals(that.studyParticipantCrfSchedule) : that.studyParticipantCrfSchedule != null)
+            return false;
+        if (user != null ? !user.equals(that.user) : that.user != null) return false;
         if (uuid != null ? !uuid.equals(that.uuid) : that.uuid != null) return false;
 
         return true;
@@ -157,20 +169,11 @@ public class UserNotification extends BaseVersionable {
         int result = (isNew ? 1 : 0);
         result = 31 * result + (markDelete ? 1 : 0);
         result = 31 * result + (uuid != null ? uuid.hashCode() : 0);
-        result = 31 * result + user.hashCode();
-        result = 31 * result + notification.hashCode();
-        result = 31 * result + study.hashCode();
-        result = 31 * result + participant.hashCode();
-        result = 31 * result + studyParticipantCrfSchedule.hashCode();
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (notification != null ? notification.hashCode() : 0);
+        result = 31 * result + (study != null ? study.hashCode() : 0);
+        result = 31 * result + (participant != null ? participant.hashCode() : 0);
+        result = 31 * result + (studyParticipantCrfSchedule != null ? studyParticipantCrfSchedule.hashCode() : 0);
         return result;
-    }
-
-    public StudyParticipantCrfSchedule getStudyParticipantCrfSchedule() {
-
-        return studyParticipantCrfSchedule;
-    }
-
-    public void setStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-        this.studyParticipantCrfSchedule = studyParticipantCrfSchedule;
     }
 }

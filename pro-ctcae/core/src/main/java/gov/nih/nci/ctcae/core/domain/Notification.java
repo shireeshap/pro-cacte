@@ -79,16 +79,16 @@ public class Notification extends BaseVersionable {
 
         Notification that = (Notification) o;
 
-        if (!date.equals(that.date)) return false;
-        if (!text.equals(that.text)) return false;
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        if (text != null ? !text.equals(that.text) : that.text != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = text.hashCode();
-        result = 31 * result + date.hashCode();
+        int result = text != null ? text.hashCode() : 0;
+        result = 31 * result + (date != null ? date.hashCode() : 0);
         return result;
     }
 }
