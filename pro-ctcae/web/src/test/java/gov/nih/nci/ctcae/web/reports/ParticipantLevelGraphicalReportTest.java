@@ -1,23 +1,13 @@
 package gov.nih.nci.ctcae.web.reports;
 
-import gov.nih.nci.ctcae.web.AbstractWebTestCase;
-import gov.nih.nci.ctcae.web.reports.graphical.SymptomSummaryReportResultsController;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
-import gov.nih.nci.ctcae.core.helper.CrfTestHelper;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Persistable;
-import gov.nih.nci.ctcae.core.domain.Arm;
 import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryWorstResponsesQuery;
 
 import java.util.*;
 import java.util.List;
-import java.awt.*;
 
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.ui.RefineryUtilities;
-import org.jfree.ui.ApplicationFrame;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
