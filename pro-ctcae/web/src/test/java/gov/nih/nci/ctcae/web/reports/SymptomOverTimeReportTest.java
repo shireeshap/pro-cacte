@@ -6,13 +6,8 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import gov.nih.nci.ctcae.web.reports.graphical.SymptomOverTimeReportResultsController;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -40,7 +35,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
         ArrayList<Object[]> charts = (ArrayList<Object[]>) m.get("results");
-        showCharts(charts);
+        GraphicalReportTestHelper.showCharts(charts);
     }
 
     public void testReportControllerMultipleArms() throws Exception {
@@ -65,7 +60,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
         ArrayList<Object[]> charts = (ArrayList<Object[]>) m.get("results");
-        showCharts(charts);
+        GraphicalReportTestHelper.showCharts(charts);
     }
 
     public void testReportControllerMultipleArmsLineChart() throws Exception {
@@ -91,7 +86,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
         ArrayList<Object[]> charts = (ArrayList<Object[]>) m.get("results");
-        showCharts(charts);
+        GraphicalReportTestHelper.showCharts(charts);
     }
 
     public void testReportControllerSingleArm() throws Exception {
@@ -113,7 +108,7 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
         ArrayList<Object[]> charts = (ArrayList<Object[]>) m.get("results");
-        showCharts(charts);
+        GraphicalReportTestHelper.showCharts(charts);
     }
 
     public void testReportDetailsController() throws Exception {
@@ -134,22 +129,9 @@ public class SymptomOverTimeReportTest extends AbstractWebTestCase {
         request.setParameter("sum", "2");
         request.setMethod("GET");
 
-        ModelAndView modelAndView = controller.handleRequest(request, response);
+//        ModelAndView modelAndView = controller.handleRequest(request, response);
+        controller.handleRequest(request, response);
     }
 
-    private void showCharts(ArrayList<Object[]> charts) throws InterruptedException {
-        ApplicationFrame frame = new ApplicationFrame("MyFrame");
-        frame.setLayout(new FlowLayout());
-        for (Object[] chartArr : charts) {
-            JFreeChart chart = (JFreeChart) chartArr[3];
-            ChartPanel chartPanel = new ChartPanel(chart, false);
-            chartPanel.setPreferredSize(new Dimension(500, 270));
-            frame.add(chartPanel);
-        }
-        frame.pack();
-        RefineryUtilities.centerFrameOnScreen(frame);
-//        frame.setVisible(true);
-//        Thread.sleep(20000);
-    }
 
 }

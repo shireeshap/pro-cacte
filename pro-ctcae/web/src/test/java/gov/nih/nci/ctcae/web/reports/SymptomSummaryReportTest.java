@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.reports;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import gov.nih.nci.ctcae.web.reports.graphical.SymptomSummaryReportResultsController;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
-import gov.nih.nci.ctcae.core.helper.CrfTestHelper;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Persistable;
@@ -12,12 +11,6 @@ import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryWorstResponsesQuery;
 
 import java.util.*;
 import java.util.List;
-import java.awt.*;
-
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.ui.RefineryUtilities;
-import org.jfree.ui.ApplicationFrame;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -43,8 +36,8 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
         assertNotNull(m.get("results"));
-        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
-        showCharts(worstResponseChart);
+        ArrayList<Object[]> charts = (ArrayList<Object[]>) m.get("results");
+        GraphicalReportTestHelper.showCharts(charts);
 
 
     }
@@ -66,10 +59,8 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
         assertNotNull(m.get("results"));
-        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
-        showCharts(worstResponseChart);
-
-
+        ArrayList<Object[]> charts = (ArrayList<Object[]>) m.get("results");
+        GraphicalReportTestHelper.showCharts(charts);
     }
 
     public void testControllerWithMultipleArms() throws Exception {
@@ -92,10 +83,8 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         ModelAndView modelAndView = controller.handleRequest(request, response);
         Map m = modelAndView.getModel();
         assertNotNull(m.get("results"));
-        JFreeChart worstResponseChart = (JFreeChart) m.get("worstResponseChart");
-        showCharts(worstResponseChart);
-                                         
-
+        ArrayList<Object[]> charts = (ArrayList<Object[]>) m.get("results");
+        GraphicalReportTestHelper.showCharts(charts);
     }
 
     public void testController_table() throws Exception {
@@ -113,18 +102,6 @@ public class SymptomSummaryReportTest extends AbstractWebTestCase {
         assertNotNull(m.get("results"));
         assertEquals("reports/symptomsummarytable", modelAndView.getViewName());
 
-    }
-
-    private void showCharts(JFreeChart worstResponseChart) throws InterruptedException {
-        ChartPanel chartPanel1 = new ChartPanel(worstResponseChart, false);
-        chartPanel1.setPreferredSize(new Dimension(500, 270));
-        ApplicationFrame frame = new ApplicationFrame("MyFrame");
-        frame.setLayout(new GridLayout(1, 1));
-        frame.add(chartPanel1);
-        frame.pack();
-        RefineryUtilities.centerFrameOnScreen(frame);
-//        frame.setVisible(true);
-//        Thread.sleep(20000);
     }
 
     public void testQuery() {

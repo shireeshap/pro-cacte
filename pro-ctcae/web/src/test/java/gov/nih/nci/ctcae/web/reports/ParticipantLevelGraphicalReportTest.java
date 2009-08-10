@@ -46,22 +46,9 @@ public class ParticipantLevelGraphicalReportTest extends ParticipantLevelReportI
         assertNotNull(m.get("participantReportChartFileName"));
         assertNotNull(m.get("participantReportChart"));
         JFreeChart participantReportChart = (JFreeChart) m.get("participantReportChart");
-        showCharts(participantReportChart);
+        GraphicalReportTestHelper.showCharts(participantReportChart);
 
 
-    }
-
-
-    private void showCharts(JFreeChart worstResponseChart) throws InterruptedException {
-        ChartPanel chartPanel1 = new ChartPanel(worstResponseChart, false);
-        chartPanel1.setPreferredSize(new Dimension(500, 270));
-        ApplicationFrame frame = new ApplicationFrame("MyFrame");
-        frame.setLayout(new GridLayout(1, 1));
-        frame.add(chartPanel1);
-        frame.pack();
-        RefineryUtilities.centerFrameOnScreen(frame);
-//        frame.setVisible(true);
-        Thread.sleep(20000);
     }
 
     public void testQuery() {
