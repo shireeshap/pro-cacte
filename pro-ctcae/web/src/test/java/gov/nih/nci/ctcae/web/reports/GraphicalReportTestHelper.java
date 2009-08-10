@@ -36,6 +36,7 @@ public class GraphicalReportTestHelper {
         ArrayList<Object[]> charts = new ArrayList<Object[]>();
         Object[] obj = new Object[4];
         obj[3] = chart;
+        charts.add(obj);
         showCharts(charts);
 
     }
