@@ -16,7 +16,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "CRF_CALENDARS")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_pages_id")})
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_calendars_id")})
 
 public class CRFCalendar extends BasePersistable {
 

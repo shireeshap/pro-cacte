@@ -21,7 +21,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "CRF_CYCLE_DEFINITIONS")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_crf_definitions_id")})
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "SEQ_CRF_CYCLE_DEFINITIONS_ID")})
 public class CRFCycleDefinition extends BasePersistable {
 
     /**

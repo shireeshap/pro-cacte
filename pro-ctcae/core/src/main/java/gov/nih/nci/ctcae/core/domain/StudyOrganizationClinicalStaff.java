@@ -16,7 +16,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "STUDY_ORG_CLINICAL_STAFFS")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "so_clinical_staffs_id_seq")})
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "SEQ_STUDY_ORG_CLINICAL_STAF_ID")})
 public class StudyOrganizationClinicalStaff extends BasePersistable {
 
     @Id
