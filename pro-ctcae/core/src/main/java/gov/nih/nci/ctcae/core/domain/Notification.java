@@ -26,10 +26,10 @@ public class Notification extends BaseVersionable {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "text", nullable = false)
+    @Column(name = "notification_text", nullable = false)
     private String text;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "notification_date", nullable = false)
     private Date date;
 
 

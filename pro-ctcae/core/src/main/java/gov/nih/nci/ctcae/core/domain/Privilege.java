@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "PRIVILEGES")
+@Table(name = "PROCTCAE_PRIVILEGES")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
         @Parameter(name = "sequence", value = "seq_privileges_id")})
 public class Privilege extends BasePersistable {

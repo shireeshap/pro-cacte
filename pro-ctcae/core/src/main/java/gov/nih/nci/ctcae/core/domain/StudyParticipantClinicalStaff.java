@@ -13,7 +13,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "STUDY_PARTICIPANT_CLINICAL_STAFFS")
+@Table(name = "STUDY_PAR_CLINICAL_STAFFS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "sp_clinical_staffs_id_seq")})
 public class StudyParticipantClinicalStaff extends BasePersistable {
 

@@ -1,9 +1,9 @@
 class CreateotificationsTable extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
         createTable("notifications") { t ->
-            t.addColumn("text", "string", nullable: false)
-            t.addColumn("date", "timestamp", nullable: false)
             t.addVersionColumn()
+            t.addColumn("notification_text", "string", nullable: false)
+            t.addColumn("notification_date", "timestamp", nullable: false)
         }
 
         createTable("user_notifications") { t ->

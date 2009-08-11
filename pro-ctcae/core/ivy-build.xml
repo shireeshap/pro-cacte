@@ -41,12 +41,11 @@
     </target>
 
 
-
     <!-- ========================================================================
-            target: find-admin-datasource
-                Will check the datsource properties identified by -Ddb=xxx, in USER_HOME/.proctcae/
-                if not available there, it will search in /etc/proctcae/
-        ============================================================================= -->
+       target: find-admin-datasource
+           Will check the datsource properties identified by -Ddb=xxx, in USER_HOME/.proctcae/
+           if not available there, it will search in /etc/proctcae/
+   ============================================================================= -->
     <target name="find-admin-datasource" unless="adminDsFile.loaded"
             description="Loads the admin datasource properties">
         <echo message="databaseConfigurationName : ${databaseConfigurationName}-admin"/>
@@ -69,6 +68,25 @@
              classpathref="main.classpath" onerror="stop" autocommit="true">
             DROP DATABASE "${database.name}";
             CREATE DATABASE "${database.name}";
+        </sql>
+    </target>
+
+    <target name="recreate-db-oracle" description="drop the database and create new database"
+            depends="find-admin-datasource">
+        <property file="${adminDsFile}"/>
+        <echo message="${datasource.driver}"/>
+        <echo message="${datasource.url}"/>
+        <echo message="${datasource.username}"/>
+        <echo message="${datasource.password}"/>
+        <sql driver="${datasource.driver}" userid="${datasource.username}" password="${datasource.password}"
+             url="${datasource.url}"
+             classpathref="main.classpath" onerror="continue" autocommit="true">
+            drop user ${schema.name} cascade;
+            CREATE USER "${schema.name}" PROFILE "DEFAULT" IDENTIFIED BY "${schema.name}" DEFAULT TABLESPACE
+            "PROCTCAE_DATA" TEMPORARY TABLESPACE "TEMP" QUOTA UNLIMITED ON "PROCTCAE_DATA" QUOTA UNLIMITED ON
+            "PROCTCAE_INDEX" ACCOUNT UNLOCK;
+            GRANT "PROCTCAE_ROLE" TO "${schema.name}";
+            GRANT "CONNECT" TO "${schema.name}";
         </sql>
     </target>
 

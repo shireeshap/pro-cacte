@@ -14,11 +14,7 @@ class CreateParticipants extends edu.northwestern.bioinformatics.bering.Migratio
         t.addColumn('enabled', 'boolean', nullable: false)
 
       }
-
-
-
       execute("ALTER TABLE USERS ADD CONSTRAINT un_user_name UNIQUE (user_name)")
-
 
       createTable("USER_ROLES") {t ->
         t.addVersionColumn()
@@ -26,29 +22,24 @@ class CreateParticipants extends edu.northwestern.bioinformatics.bering.Migratio
         t.addColumn('user_id', 'integer', nullable: false)
 
       }
-
-      execute('ALTER TABLE USER_ROLES ADD CONSTRAINT fk_user_uid FOREIGN KEY (user_id) REFERENCES USERS')
+      execute('ALTER TABLE USER_ROLES ADD CONSTRAINT fk_user_role_uid FOREIGN KEY (user_id) REFERENCES USERS')
 
   
-    createTable("PARTICIPANTS") {t ->
-      t.addVersionColumn()
-
-      t.addColumn('birth_date', 'date', nullable: true)
-      t.addColumn('gender', 'string', nullable: true)
-      t.addColumn('maiden_name', 'string', nullable: true)
-      t.addColumn('first_name', 'string', nullable: false)
-      t.addColumn('last_name', 'string', nullable: false)
-      t.addColumn('middle_name', 'string', nullable: true)
-      t.addColumn('mrn_identifier', 'string', nullable: true);
-      t.addColumn('user_id', 'integer', nullable: false)
-    }
-
-    execute('ALTER TABLE PARTICIPANTS ADD CONSTRAINT fk_user_uid FOREIGN KEY (user_id) REFERENCES USERS')
-
-    execute('CREATE INDEX participants_flname_idx ON participants (first_name)')
-    execute('CREATE INDEX participants_flname_idx2 ON participants (last_name)')
-
-    execute('CREATE INDEX participants_eg_idx2 ON participants (gender)')
+      createTable("PARTICIPANTS") {t ->
+       t.addVersionColumn()
+       t.addColumn('birth_date', 'date', nullable: true)
+       t.addColumn('gender', 'string', nullable: true)
+       t.addColumn('maiden_name', 'string', nullable: true)
+       t.addColumn('first_name', 'string', nullable: false)
+       t.addColumn('last_name', 'string', nullable: false)
+       t.addColumn('middle_name', 'string', nullable: true)
+       t.addColumn('mrn_identifier', 'string', nullable: false);
+       t.addColumn('user_id', 'integer', nullable: false)
+      }
+    execute('ALTER TABLE PARTICIPANTS ADD CONSTRAINT fk_participant_uid FOREIGN KEY (user_id) REFERENCES USERS')
+    execute('CREATE INDEX participants_fname_idx ON participants (first_name)')
+    execute('CREATE INDEX participants_lname_idx ON participants (last_name)')
+    execute('CREATE INDEX participants_gender_idx ON participants (gender)')
 
     createTable("STUDY_PARTICIPANT_ASSIGNMENTS") {t ->
       t.addVersionColumn()
