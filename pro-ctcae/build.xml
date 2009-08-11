@@ -133,19 +133,19 @@
             <property name="resolve.to.dir" value="${user.home}/ivylibs"/>
         </subant>
         <!--<taskdef name="eclipseClasspath" classname="com.semanticbits.ctms.ant.BuildPathGenerator">-->
-            <!--<classpath>-->
-                <!--<path>-->
-                    <!--<fileset dir="${user.home}/ivylibs">-->
-                        <!--<include name="*.jar"/>-->
-                    <!--</fileset>-->
-                <!--</path>-->
-            <!--</classpath>-->
+        <!--<classpath>-->
+        <!--<path>-->
+        <!--<fileset dir="${user.home}/ivylibs">-->
+        <!--<include name="*.jar"/>-->
+        <!--</fileset>-->
+        <!--</path>-->
+        <!--</classpath>-->
         <!--</taskdef>-->
 
         <!--<eclipseClasspath templatefile=".classpath.tmpl" destinationfile=".classpath"-->
-                          <!--srcpattern="src/main/java,src/main/resources,src/test/java,src/test/resources,build/generated-sources/xjc"-->
-                          <!--excludes="**/*ctcae-*.jar" ivylibdir="${user.home}/ivylibs"-->
-                          <!--modulerefs="build-path">-->
+        <!--srcpattern="src/main/java,src/main/resources,src/test/java,src/test/resources,build/generated-sources/xjc"-->
+        <!--excludes="**/*ctcae-*.jar" ivylibdir="${user.home}/ivylibs"-->
+        <!--modulerefs="build-path">-->
         <!--</eclipseClasspath>-->
     </target>
     <!-- =================================
@@ -287,6 +287,4 @@
             <property name="db" value="test-db-oracle"/>
         </subant>
     </target>
-
-
 </project>
