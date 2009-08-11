@@ -413,8 +413,8 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         jdbcTemplate.execute("delete from crf_cycle_definitions");
         jdbcTemplate.execute("delete from form_arm_schedules");
         jdbcTemplate.execute("delete from crfs");
-        jdbcTemplate.execute("delete from study_participant_clinical_staffs");
-        jdbcTemplate.execute("delete from study_organization_clinical_staffs");
+        jdbcTemplate.execute("delete from study_par_clinical_staffs");
+        jdbcTemplate.execute("delete from study_org_clinical_staffs");
         jdbcTemplate.execute("delete from study_participant_assignments");
         jdbcTemplate.execute("delete from study_organizations");
         jdbcTemplate.execute("delete from arms");

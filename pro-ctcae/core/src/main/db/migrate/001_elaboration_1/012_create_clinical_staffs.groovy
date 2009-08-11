@@ -63,8 +63,8 @@ class CreateClinicalStaffs extends edu.northwestern.bioinformatics.bering.Migrat
 
 
   void down() {
-    dropTable("STUDY_PARTICIPANT_CLINICAL_STAFFS")
-    dropTable("STUDY_ORGANIZATION_CLINICAL_STAFFS")
+    dropTable("STUDY_PAR_CLINICAL_STAFFS")
+    dropTable("STUDY_ORG_CLINICAL_STAFFS")
 
     dropTable("ORGANIZATION_CLINICAL_STAFFS")
 
