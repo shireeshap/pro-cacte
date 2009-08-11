@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "PROCTCAE_PRIVILEGES")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
-        @Parameter(name = "sequence", value = "seq_privileges_id")})
+        @Parameter(name = "sequence", value = "SEQ_PROCTCAE_PRIVILEGES_ID")})
 public class Privilege extends BasePersistable {
 
     public static final String PRIVILEGE_CREATE_FORM = "PRIVILEGE_CREATE_FORM";
