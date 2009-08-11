@@ -41,6 +41,8 @@ public class ParticipantRepository implements Repository<Participant, Participan
             studyOrganization.getStudy();
             studyOrganization.getOrganization();
             studyParticipantAssignment.getParticipant();
+            studyParticipantAssignment.getStudyParticipantCrfs();
+            studyParticipantAssignment.getStudyParticipantClinicalStaffs();
         }
     }
 
@@ -61,10 +63,8 @@ public class ParticipantRepository implements Repository<Participant, Participan
             throw new CtcAeSystemException("can not save participant without user");
         }
 
-        for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
-            studyParticipantAssignment.getStudyParticipantCrfs();
-            studyParticipantAssignment.getStudyParticipantClinicalStaffs();
-        }
+        initialzeParticipant(participant);
+
         participant.getUser().setConfirmPassword(participant.getUser().getPassword());
         return participant;
     }
