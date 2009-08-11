@@ -15,7 +15,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "QUESTION_DISPLAY_RULES")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_question_display_rule")})
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "SEQ_QUESTION_DISPLAY_RULES_ID")})
 public class ProCtcQuestionDisplayRule extends BasePersistable {
 
     /**
