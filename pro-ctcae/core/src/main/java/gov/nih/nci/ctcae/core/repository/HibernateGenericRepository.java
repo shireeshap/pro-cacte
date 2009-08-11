@@ -44,9 +44,7 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
             getHibernateTemplate().saveOrUpdate(persistable);
         }
         getHibernateTemplate().flush();
-        
         return persistable;
-
     }
 
 
