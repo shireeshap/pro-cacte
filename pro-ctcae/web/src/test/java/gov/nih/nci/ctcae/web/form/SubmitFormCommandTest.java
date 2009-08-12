@@ -41,7 +41,7 @@ public class SubmitFormCommandTest extends AbstractWebTestCase {
         sfc = new SubmitFormCommand();
         sfc.setGenericRepository(genericRepository);
 
-        spcs = genericRepository.findById(StudyParticipantCrfSchedule.class, (Integer) l.get(0).getValue(0));
+        spcs = genericRepository.findById(StudyParticipantCrfSchedule.class, ((Number) l.get(0).getValue(0)).intValue());
     }
 
     public void testSetSchedule() throws ParseException {
