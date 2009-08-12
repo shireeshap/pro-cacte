@@ -55,7 +55,7 @@
     <bean id="meddraDao"
           class="gov.nih.nci.ctcae.core.dao.MedDRADao">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
-        <property name="properties" ref="propertiesFileLoader"/>
+        <property name="properties" ref="proCtcAeProperties"/>
     </bean>
     <bean id="lowLevelTermDao"
           class="gov.nih.nci.ctcae.core.dao.LowLevelTermDao">
