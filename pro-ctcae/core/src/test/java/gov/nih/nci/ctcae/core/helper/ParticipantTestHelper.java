@@ -158,6 +158,7 @@ public class ParticipantTestHelper {
         spa.setStudySite(studySite);
         spa.setArm(studySite.getStudy().getArms().get(armIndex));
         participant.addStudyParticipantAssignment(spa);
+        studySite.getStudyParticipantAssignments().add(spa);
     }
 
     private static void assignCrfToParticipantAndCreateSchedules(Participant participant, StudySite studySite) throws ParseException {
