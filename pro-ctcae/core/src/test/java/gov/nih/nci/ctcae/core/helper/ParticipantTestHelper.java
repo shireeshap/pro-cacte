@@ -18,6 +18,7 @@ public class ParticipantTestHelper {
 
     private static ParticipantRepository participantRepository;
     private static GenericRepository genericRepository;
+   
 
     private ParticipantTestHelper() {
     }
@@ -158,7 +159,6 @@ public class ParticipantTestHelper {
         spa.setStudySite(studySite);
         spa.setArm(studySite.getStudy().getArms().get(armIndex));
         participant.addStudyParticipantAssignment(spa);
-        studySite.getStudyParticipantAssignments().add(spa);
     }
 
     private static void assignCrfToParticipantAndCreateSchedules(Participant participant, StudySite studySite) throws ParseException {
@@ -233,6 +233,7 @@ public class ParticipantTestHelper {
         notification.addUserNotification(userNotification);
         genericRepository.save(notification);
     }
+
 
 
 }

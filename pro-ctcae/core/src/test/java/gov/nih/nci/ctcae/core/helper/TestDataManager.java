@@ -106,6 +106,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     protected void createTestData() throws Exception {
         System.out.println("  Creating data...");
         long start = System.currentTimeMillis();
+        CrfTestHelper.setTestDataManager(this);
         login(SYSTEM_ADMIN);
         createClinicalStaff();
         createStudy();
@@ -198,7 +199,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
 //        login(user.getUsername());
 //    }
 
-    protected void commitAndStartNewTransaction() {
+    public void commitAndStartNewTransaction() {
         setComplete();
         endTransaction();
         startNewTransaction();
