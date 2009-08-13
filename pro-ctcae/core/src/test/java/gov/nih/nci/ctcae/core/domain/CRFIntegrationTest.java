@@ -226,7 +226,7 @@ public class CRFIntegrationTest extends TestDataManager {
         spc = genericRepository.save(spc);
 
         commitAndStartNewTransaction();
-        assertEquals(16, spc.getStudyParticipantCrfSchedules().size());
+        assertEquals(15, spc.getStudyParticipantCrfSchedules().size());
         int numOfSPCs = crf.getStudyParticipantCrfs().size();
 
         CRF versionedCrf = crfRepository.versionCrf(crf);

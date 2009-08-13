@@ -140,27 +140,24 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
     public void delete(CRF crf) {
         if (crf != null) {
             if (!crf.isReleased()) {
-                if (crf.getParentCrf() != null) {
-                    CRF parentCrf = crf.getParentCrf();
-                    if (crf.getChildCrf() != null) {
-                        parentCrf.setChildCrf(crf.getChildCrf());
-                    } else {
-                        parentCrf.setChildCrf(null);
-                    }
-                    save(parentCrf);
+                CRF parentCrf = crf.getParentCrf();
+                if (parentCrf != null) {
+                    parentCrf.setChildCrf(crf.getChildCrf());
+                    genericRepository.save(parentCrf);
+                    parentCrf = findById(parentCrf.getId());
                 }
 
-                if (crf.getChildCrf() != null) {
-                    CRF childCrf = crf.getChildCrf();
-                    if (crf.getParentCrf() != null) {
-                        childCrf.setParentCrf(crf.getParentCrf());
-                    } else {
-                        childCrf.setParentCrf(null);
-                    }
-                    save(childCrf);
+                CRF childCrf = crf.getChildCrf();
+                if (childCrf != null) {
+                    childCrf.setParentCrf(crf.getParentCrf());
+                    genericRepository.save(childCrf);
+                    childCrf = findById(childCrf.getId());
                 }
+                crf.setParentCrf(null);
+                crf.setChildCrf(null);
                 crf.getStudyParticipantCrfs().clear();
                 crf = genericRepository.save(crf);
+                crf = findById(crf.getId());
                 genericRepository.delete(crf);
             } else {
                 throw new CtcAeSystemException("Released CRF can not be deleted");
