@@ -250,7 +250,7 @@ public class CRFIntegrationTest extends TestDataManager {
         }
         assertNotNull(vSpc);
         assertEquals(1, vSpc.getStudyParticipantCrfAddedQuestions().size());
-
+        deleteTestData();
     }
 
 
