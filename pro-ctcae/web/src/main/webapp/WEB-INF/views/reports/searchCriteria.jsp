@@ -80,7 +80,7 @@
                     </c:when>
                     <c:otherwise>
                         <div class="row">
-                            <div class="label"><tags:message code="reports.label.form"/></div>
+                            <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.form"/></div>
                             <div class="value">
                                 <select onchange="javascript:displaySymptoms(this.value)" name="form" id="form">
                                     <option value="">Please select</option>
@@ -96,7 +96,7 @@
             </c:when>
             <c:otherwise>
                 <div class="row" id="divFormRow" style="display:none">
-                    <div class="label"><tags:message code="reports.label.form"/></div>
+                    <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.form"/></div>
                     <div class="value" id="formTitle"></div>
                     <input type="hidden" name="form" id="form" value="" title="Form"/>
                 </div>
