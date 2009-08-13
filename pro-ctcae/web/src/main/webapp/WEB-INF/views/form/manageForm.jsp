@@ -197,7 +197,7 @@
                     </div>
                 </td>
                 <td class="data">
-                    <c:if test="${crf.parentVersionId ne null}">
+                    <c:if test="${crf.parentCrf ne null}">
                         <a href="javascript:showVersionForm('${crf.id}')"><img id="crfVersionShowImage_${crf.id}"
                                                                                src="../../images/arrow-right.png"
                                                                                style=""/></a>

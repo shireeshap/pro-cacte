@@ -524,17 +524,6 @@ public class CRF extends BaseVersionable {
         return null;
     }
 
-//    /**
-//     * Checks if is versioned.
-//     *
-//     * @return true, if is versioned
-//     */
-//    public boolean isVersioned() {
-//        if (this.getParentVersionId() != null || this.getNextVersionId() != null) {
-//            return true;
-//        }
-//        return false;
-//    }
 
 
     /**
