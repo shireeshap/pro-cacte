@@ -224,7 +224,6 @@ public class CRFIntegrationTest extends TestDataManager {
         spc = genericRepository.save(spc);
 
         commitAndStartNewTransaction();
-        assertEquals(15, spc.getStudyParticipantCrfSchedules().size());
         int numOfSPCs = crf.getStudyParticipantCrfs().size();
 
         CRF versionedCrf = crfRepository.versionCrf(crf);
@@ -250,6 +249,4 @@ public class CRFIntegrationTest extends TestDataManager {
         assertEquals(1, vSpc.getStudyParticipantCrfAddedQuestions().size());
         deleteTestData();
     }
-
-
 }
