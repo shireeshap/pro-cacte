@@ -1,13 +1,12 @@
 package gov.nih.nci.ctcae.core.domain;
 
 
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
-import gov.nih.nci.ctcae.core.helper.TestDataManager;
-import gov.nih.nci.ctcae.core.helper.CrfTestHelper;
 import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
+import gov.nih.nci.ctcae.core.helper.TestDataManager;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 import java.text.ParseException;
 import java.util.*;
@@ -20,7 +19,6 @@ public class CRFIntegrationTest extends TestDataManager {
 
     private CRF crf, inValidCRF;
     private String title = "Cancer CRF" + UUID.randomUUID().toString();
-    private Study study;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
@@ -31,7 +29,7 @@ public class CRFIntegrationTest extends TestDataManager {
 
     private void saveCrf() {
 
-        study = new Study();
+        Study study = new Study();
         study.setShortTitle("study short title");
         study.setLongTitle("study long title");
         study.setAssignedIdentifier("assigned identifier");
