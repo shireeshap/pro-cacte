@@ -117,7 +117,7 @@
     </c:forEach>
     <c:forEach items="${unselectedstudysites}" var="studysite">
         <c:forEach items="${studysite.study.crfs}" var="crf">
-            <c:if test="${crf.status eq 'Released' and crf.nextVersionId eq null}">
+            <c:if test="${crf.status eq 'Released' and crf.childCrf eq null}">
                 <c:set var="hasforms" value="true"/>
             </c:if>
         </c:forEach>
@@ -160,7 +160,7 @@
                     <c:if test="${hasforms eq 'true'}">
                         <c:set var="hasforms" value="false"/>
                         <c:forEach items="${studysite.study.crfs}" var="crf">
-                            <c:if test="${crf.status eq 'Released' and crf.nextVersionId eq null}">
+                            <c:if test="${crf.status eq 'Released' and crf.childCrf eq null}">
                                 <tr>
                                     <td class="data">
                                         <b><spring:message
