@@ -192,6 +192,7 @@ public class CRFIntegrationTest extends TestDataManager {
     }
 
     public void testVersionForm() throws ParseException {
+        deleteAndCreateTestData();
         Study study = StudyTestHelper.getDefaultStudy();
         List<CRF> crfsToRemove = new ArrayList<CRF>();
         for (CRF crf : study.getCrfs()) {
@@ -210,9 +211,6 @@ public class CRFIntegrationTest extends TestDataManager {
         CRFPage lastPage = crf.getCrfPagesSortedByPageNumber().get(crf.getCrfPagesSortedByPageNumber().size() - 1);
         Integer lastPageNumber = lastPage.getPageNumber();
 
-        for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
-            studyParticipantCrf.createSchedules();
-        }
         StudyParticipantCrf spc = crf.getStudyParticipantCrfs().get(0);
         spc.getStudyParticipantCrfAddedQuestions().clear();
         spc.addStudyParticipantCrfAddedQuestion(lastPage.getCrfPageItems().get(0).getProCtcQuestion(), lastPageNumber + 1);
@@ -247,6 +245,6 @@ public class CRFIntegrationTest extends TestDataManager {
         }
         assertNotNull(vSpc);
         assertEquals(1, vSpc.getStudyParticipantCrfAddedQuestions().size());
-        deleteTestData();
+        deleteAndCreateTestData();
     }
 }
