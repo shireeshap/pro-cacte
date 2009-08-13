@@ -140,15 +140,24 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
     public void delete(CRF crf) {
         if (crf != null) {
             if (!crf.isReleased()) {
-                crf.setChildCrf(null);
-                CRF parentCrf = crf.getParentCrf();
-                if (parentCrf != null) {
-                    crf.setParentCrf(null);
-                    parentCrf.setChildCrf(null);
-                    parentCrf = genericRepository.save(parentCrf);
-                    crf = genericRepository.save(crf);
-                    parentCrf = findById(parentCrf.getId());
-                    crf = findById(crf.getId());
+                if (crf.getParentCrf() != null) {
+                    CRF parentCrf = crf.getParentCrf();
+                    if (crf.getChildCrf() != null) {
+                        parentCrf.setChildCrf(crf.getChildCrf());
+                    } else {
+                        parentCrf.setChildCrf(null);
+                    }
+                    save(parentCrf);
+                }
+
+                if (crf.getChildCrf() != null) {
+                    CRF childCrf = crf.getChildCrf();
+                    if (crf.getParentCrf() != null) {
+                        childCrf.setParentCrf(crf.getParentCrf());
+                    } else {
+                        childCrf.setParentCrf(null);
+                    }
+                    save(childCrf);
                 }
                 crf.getStudyParticipantCrfs().clear();
                 crf = genericRepository.save(crf);

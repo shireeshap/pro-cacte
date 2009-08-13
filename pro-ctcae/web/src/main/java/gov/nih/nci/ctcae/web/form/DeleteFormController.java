@@ -53,28 +53,6 @@ public class DeleteFormController extends CtcAeSimpleFormController {
 
         CRF crf = (CRF) command;
         Integer studyId = crf.getStudy().getId();
-
-        if (crf.getParentVersionId() != null) {
-            Integer parentId = crf.getParentVersionId();
-            CRF parentCrf = crfRepository.findById(parentId);
-            if (crf.getNextVersionId() != null) {
-                parentCrf.setNextVersionId(crf.getNextVersionId());
-            } else {
-                parentCrf.setNextVersionId(null);
-            }
-            crfRepository.save(parentCrf);
-        }
-
-        if (crf.getNextVersionId() != null) {
-            Integer nextVersionId = crf.getNextVersionId();
-            CRF childCrf = crfRepository.findById(nextVersionId);
-            if (crf.getParentVersionId() != null) {
-                childCrf.setParentVersionId(crf.getParentVersionId());
-            } else {
-                childCrf.setParentVersionId(null);
-            }
-            crfRepository.save(childCrf);
-        }
         crfRepository.delete(crf);
         RedirectView redirectView = new RedirectView("manageForm?studyId=" + studyId);
 
