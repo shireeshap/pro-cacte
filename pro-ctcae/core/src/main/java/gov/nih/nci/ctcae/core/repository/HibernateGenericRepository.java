@@ -55,8 +55,10 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
         if (persistable != null) {
             if (persistable.isPersisted()) {
                 Persistable entityToRemove = (Persistable) getHibernateTemplate().get(persistable.getClass(), persistable.getId());
-                getHibernateTemplate().delete(entityToRemove);
-                getHibernateTemplate().flush();
+                if (entityToRemove != null) {
+                    getHibernateTemplate().delete(entityToRemove);
+                    getHibernateTemplate().flush();
+                }
             }
         }
     }
@@ -118,5 +120,9 @@ public class HibernateGenericRepository<T extends Persistable> extends Hibernate
     @Required
     public void setBeanValidator(BeanValidator beanValidator) {
         this.beanValidator = beanValidator;
+    }
+
+    public void flush() {
+        getHibernateTemplate().flush();
     }
 }

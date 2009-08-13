@@ -82,7 +82,6 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
      */
     @OneToMany(mappedBy = "studyParticipantCrfSchedule", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-
     private List<StudyParticipantCrfItem> studyParticipantCrfItems = new ArrayList<StudyParticipantCrfItem>();
 
     /**
@@ -248,20 +247,6 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         return studyParticipantCrfScheduleAddedQuestions;
     }
 
-    /**
-     * Adds the study participant crf schedule added question.
-     *
-     * @param studyParticipantCrfScheduleAddedQuestion
-     *         the study participant crf schedule added question
-     */
-    public void addStudyParticipantCrfScheduleAddedQuestion(StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion) {
-        if (studyParticipantCrfScheduleAddedQuestion != null) {
-            studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfSchedule(this);
-            studyParticipantCrfScheduleAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
-
-        }
-    }
-
     public boolean isHoliday() {
         return holiday;
     }
@@ -345,5 +330,16 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
     public void setBaseline(boolean baseline) {
         this.baseline = baseline;
+    }
+
+    public StudyParticipantCrfScheduleAddedQuestion addStudyParticipantCrfScheduleAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
+        StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
+        studyParticipantCrfScheduleAddedQuestion.setProCtcQuestion(studyParticipantCrfAddedQuestion.getProCtcQuestion());
+        studyParticipantCrfScheduleAddedQuestion.setMeddraQuestion(studyParticipantCrfAddedQuestion.getMeddraQuestion());
+        studyParticipantCrfScheduleAddedQuestion.setPageNumber(studyParticipantCrfAddedQuestion.getPageNumber());
+        studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+        studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfSchedule(this);
+        studyParticipantCrfScheduleAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
+        return studyParticipantCrfScheduleAddedQuestion;
     }
 }

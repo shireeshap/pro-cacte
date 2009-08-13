@@ -65,113 +65,21 @@ public class SubmitFormCommand implements Serializable {
         return symptoms.size();
     }
 
-    private StudyParticipantCrfSchedule findLatestCrfAndCreateSchedule(StudyParticipantCrfSchedule spcs) {
-        studyParticipantCrfSchedule = spcs;
-        if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
-            CRF latestEffectiveCrf = findLatestCrfForSchedule(studyParticipantCrfSchedule);
-            if (!originalCrfEqualsToLatestCrf(studyParticipantCrfSchedule, latestEffectiveCrf)) {
-                StudyParticipantCrfSchedule newSchedule = createScheduleForNewStudyParticipantCrf(latestEffectiveCrf);
-                addParticipantAddedQuestionsToNewSchedule(latestEffectiveCrf, newSchedule.getStudyParticipantCrf());
-                if (newSchedule != null) {
-                    genericRepository.delete(studyParticipantCrfSchedule);
-                    genericRepository.save(newSchedule.getStudyParticipantCrf());
-                    studyParticipantCrfSchedule = newSchedule;
-                }
-            }
-            createInstanceOfAddedQuestions();
-            genericRepository.save(studyParticipantCrfSchedule);
-        }
-        return studyParticipantCrfSchedule;
-    }
-
-
     private void createInstanceOfAddedQuestions() {
         studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
-        if (studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions().size() > 0) {
+        StudyParticipantCrf studyParticipantCrf = studyParticipantCrfSchedule.getStudyParticipantCrf();
+        if (studyParticipantCrf.getStudyParticipantCrfAddedQuestions().size() > 0) {
             if (studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions().size() == 0) {
                 for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
-                    StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
-                    studyParticipantCrfScheduleAddedQuestion.setProCtcQuestion(studyParticipantCrfAddedQuestion.getProCtcQuestion());
-                    studyParticipantCrfScheduleAddedQuestion.setPageNumber(studyParticipantCrfAddedQuestion.getPageNumber());
-                    studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
-                    studyParticipantCrfScheduleAddedQuestion.setMeddraQuestion(studyParticipantCrfAddedQuestion.getMeddraQuestion());
-                    studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfScheduleAddedQuestion);
+                    studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfAddedQuestion);
                 }
-            }
-        }
-
-    }
-
-    private CRF findLatestCrfForSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-        CRF originalCrf = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf();
-        Date today = new Date();
-        CRF latestEffectiveCrf = originalCrf;
-        Integer nextVersionId = latestEffectiveCrf.getNextVersionId();
-        while (nextVersionId != null) {
-            CRF nextCrf = genericRepository.findById(CRF.class, nextVersionId);
-            if (nextCrf.getStatus().equals(CrfStatus.RELEASED) && today.after(nextCrf.getEffectiveStartDate())) {
-                latestEffectiveCrf = nextCrf;
-            }
-            nextVersionId = nextCrf.getNextVersionId();
-        }
-        return latestEffectiveCrf;
-    }
-
-    private boolean originalCrfEqualsToLatestCrf(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF latestEffectiveCrf) {
-        return studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getId().equals(latestEffectiveCrf.getId());
-    }
-
-    private StudyParticipantCrfSchedule createScheduleForNewStudyParticipantCrf(CRF latestEffectiveCrf) {
-        studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
-        StudyParticipantAssignment studyParticipantAssignment = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment();
-        for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-            if (studyParticipantCrf.getCrf().equals(latestEffectiveCrf)) {
-                StudyParticipantCrfSchedule newSchedule = new StudyParticipantCrfSchedule();
-                studyParticipantCrf.addStudyParticipantCrfSchedule(newSchedule);
-                newSchedule.setStartDate(studyParticipantCrfSchedule.getStartDate());
-                newSchedule.setDueDate(studyParticipantCrfSchedule.getDueDate());
-                newSchedule.setStatus(CrfStatus.SCHEDULED);
-                newSchedule.setBaseline(studyParticipantCrfSchedule.isBaseline());
-                return newSchedule;
-            }
-        }
-        return null;
-    }
-
-    private void addParticipantAddedQuestionsToNewSchedule(CRF latestEffectiveCrf, StudyParticipantCrf studyParticipantCrf) {
-        Hashtable<String, Integer> symptomPage = new Hashtable<String, Integer>();
-        int i = 0;
-        for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
-            boolean isAlreadyPresent = false;
-            for (CRFPage crfPage : latestEffectiveCrf.getCrfPagesSortedByPageNumber()) {
-                for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-                    if (crfPageItem.getProCtcQuestion().getId().equals(studyParticipantCrfAddedQuestion.getProCtcQuestion().getId())) {
-                        isAlreadyPresent = true;
-                        break;
-                    }
-                }
-            }
-            if (!isAlreadyPresent) {
-                StudyParticipantCrfAddedQuestion newStudyParticipantCrfAddedQuestion = studyParticipantCrfAddedQuestion.copy();
-                int myPageNumber;
-                if (symptomPage.containsKey(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm())) {
-                    myPageNumber = symptomPage.get(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
-                } else {
-                    myPageNumber = latestEffectiveCrf.getCrfPagesSortedByPageNumber().size() + i;
-                    symptomPage.put(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm(), myPageNumber);
-                }
-                newStudyParticipantCrfAddedQuestion.setPageNumber(myPageNumber);
-                i++;
-                studyParticipantCrf.addStudyParticipantCrfAddedQuestion(newStudyParticipantCrfAddedQuestion);
             }
         }
     }
 
 
     public void deleteQuestions() {
-
         if (questionsToBeDeleted != null && questionsToBeDeleted.size() > 0) {
-
             studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
             int myPageNumber = -1;
             for (String id : questionsToBeDeleted) {
@@ -212,8 +120,9 @@ public class SubmitFormCommand implements Serializable {
                     }
                 }
             }
+            questionsToBeDeleted.clear();
         }
-        questionsToBeDeleted.clear();
+
     }
 
     public void addQuestionToDeleteList(String questionid) {
@@ -243,23 +152,11 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public void addProCtcQuestion(ProCtcTerm proCtcTerm, int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-        List<ProCtcQuestion> questions = proCtcTerm.getProCtcQuestions();
-        for (ProCtcQuestion question : questions) {
-
-            StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = new StudyParticipantCrfAddedQuestion();
-            studyParticipantCrfAddedQuestion.setProCtcQuestion(question);
-            studyParticipantCrfAddedQuestion.setPageNumber(pageNumber);
-            studyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
-            genericRepository.save(studyParticipantCrfAddedQuestion);
-
-            StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
-            studyParticipantCrfScheduleAddedQuestion.setProCtcQuestion(question);
-            studyParticipantCrfScheduleAddedQuestion.setPageNumber(pageNumber);
-            studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
-            studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfScheduleAddedQuestion);
-            genericRepository.save(studyParticipantCrfScheduleAddedQuestion);
+        for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
+            AddParticipantSelectedQuestion(pageNumber, studyParticipantCrf, studyParticipantCrfSchedule, proCtcQuestion);
         }
     }
+
 
     public void addMeddraQuestion(LowLevelTerm lowLevelTerm, int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
         List<MeddraQuestion> meddraQuestions = lowLevelTerm.getMeddraQuestions();
@@ -269,19 +166,14 @@ public class SubmitFormCommand implements Serializable {
         } else {
             meddraQuestion = createMeddraQuestion(lowLevelTerm);
         }
-        StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = new StudyParticipantCrfAddedQuestion();
-        studyParticipantCrfAddedQuestion.setMeddraQuestion(meddraQuestion);
-        studyParticipantCrfAddedQuestion.setPageNumber(pageNumber);
-        studyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+        AddParticipantSelectedQuestion(pageNumber, studyParticipantCrf, studyParticipantCrfSchedule, meddraQuestion);
+    }
+
+    private void AddParticipantSelectedQuestion(int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule, Question question) {
+        StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = studyParticipantCrf.addStudyParticipantCrfAddedQuestion(question, pageNumber);
         genericRepository.save(studyParticipantCrfAddedQuestion);
-
-        StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
-        studyParticipantCrfScheduleAddedQuestion.setMeddraQuestion(meddraQuestion);
-        studyParticipantCrfScheduleAddedQuestion.setPageNumber(pageNumber);
-        studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
-        studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfScheduleAddedQuestion);
+        StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfAddedQuestion);
         genericRepository.save(studyParticipantCrfScheduleAddedQuestion);
-
     }
 
     private MeddraQuestion createMeddraQuestion(LowLevelTerm lowLevelTerm) {
@@ -368,7 +260,9 @@ public class SubmitFormCommand implements Serializable {
 
 
     public void setStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-        this.studyParticipantCrfSchedule = findLatestCrfAndCreateSchedule(studyParticipantCrfSchedule);
+        this.studyParticipantCrfSchedule = studyParticipantCrfSchedule;
+        createInstanceOfAddedQuestions();
+        genericRepository.save(studyParticipantCrfSchedule);
     }
 
     public int getCurrentPageIndex() {

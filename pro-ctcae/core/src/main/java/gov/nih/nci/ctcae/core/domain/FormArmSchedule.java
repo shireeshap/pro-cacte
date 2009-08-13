@@ -38,8 +38,8 @@ public class FormArmSchedule extends BasePersistable {
     private List<CRFCalendar> crfCalendars = new LinkedList<CRFCalendar>();
 
     @OneToMany(mappedBy = "formArmSchedule", fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})    
-    private List<CRFCycleDefinition> crfCycleDefinitions = new ArrayList<CRFCycleDefinition>();    
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<CRFCycleDefinition> crfCycleDefinitions = new ArrayList<CRFCycleDefinition>();
 
     public Integer getId() {
         return id;
@@ -58,7 +58,7 @@ public class FormArmSchedule extends BasePersistable {
         this.arm = arm;
     }
 
-     public List<CRFCycleDefinition> getCrfCycleDefinitions() {
+    public List<CRFCycleDefinition> getCrfCycleDefinitions() {
         Collections.sort(crfCycleDefinitions, new CrfCycleDefinitionOrderComparator());
         return crfCycleDefinitions;
     }
@@ -90,7 +90,7 @@ public class FormArmSchedule extends BasePersistable {
 
     public void addFormCalendar(CRFCalendar crfCalendar) {
         crfCalendar.setFormArmSchedule(this);
-        crfCalendars.add(crfCalendar);      
+        crfCalendars.add(crfCalendar);
     }
 
 
@@ -112,5 +112,17 @@ public class FormArmSchedule extends BasePersistable {
         int result = crf != null ? crf.hashCode() : 0;
         result = 31 * result + (arm != null ? arm.hashCode() : 0);
         return result;
+    }
+
+    public FormArmSchedule copy() {
+        FormArmSchedule formArmSchedule = new FormArmSchedule();
+        formArmSchedule.setArm(arm);
+        for (CRFCycleDefinition crfCycleDefinition : formArmSchedule.getCrfCycleDefinitions()) {
+            formArmSchedule.addCrfCycleDefinition(crfCycleDefinition.copy());
+        }
+        for (CRFCalendar crfCalendar : formArmSchedule.getCrfCalendars()) {
+            formArmSchedule.addCrfCalendar(crfCalendar.copy());
+        }
+        return formArmSchedule;
     }
 }

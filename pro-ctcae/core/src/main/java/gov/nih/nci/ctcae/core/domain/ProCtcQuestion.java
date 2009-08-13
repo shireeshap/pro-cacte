@@ -21,7 +21,7 @@ import java.util.Collections;
 @Entity
 @Table(name = "PRO_CTC_QUESTIONS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_questions_id")})
-public class ProCtcQuestion extends BasePersistable {
+public class ProCtcQuestion extends Question {
 
     /**
      * The id.

@@ -44,22 +44,6 @@ public class SubmitFormCommandTest extends AbstractWebTestCase {
         spcs = genericRepository.findById(StudyParticipantCrfSchedule.class, ((Number) l.get(0).getValue(0)).intValue());
     }
 
-    public void testSetSchedule() throws ParseException {
-        sfc.setStudyParticipantCrfSchedule(spcs);
-        assertEquals(spcs, sfc.getStudyParticipantCrfSchedule());
-
-        CRF crf = spcs.getStudyParticipantCrf().getCrf();
-        CRF versionedCrf = crfRepository.versionCrf(crf);
-        versionedCrf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), -10));
-        versionedCrf = crfRepository.updateStatusToReleased(versionedCrf);
-        commitAndStartNewTransaction();
-
-        sfc.setStudyParticipantCrfSchedule(spcs);
-        assertNotSame(sfc.getStudyParticipantCrfSchedule(), spcs);
-        assertEquals(versionedCrf, sfc.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getCrf());
-        assertNull(genericRepository.findById(StudyParticipantCrfSchedule.class, spcs.getId()));
-
-    }
 
     public void testAddParticipantAddedQuestions() {
         assertEquals(0, spcs.getStudyParticipantCrfScheduleAddedQuestions().size());

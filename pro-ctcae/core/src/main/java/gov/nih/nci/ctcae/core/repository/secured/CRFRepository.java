@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Hashtable;
 
 //
 /**
@@ -46,42 +47,84 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public CRF updateStatusToReleased(CRF crf) throws ParseException {
         crf.setStatus(CrfStatus.RELEASED);
+        createSchedulesForExistingParticipants(crf);
+        return save(crf);
+    }
+
+    private void createSchedulesForExistingParticipants(CRF crf) throws ParseException {
         Study study = studyRepository.findById(crf.getStudy().getId());
         for (StudySite studySite : study.getStudySites()) {
             for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
-                StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
-                studyParticipantCrf.setStartDate(crf.getEffectiveStartDate());
-                crf.addStudyParticipantCrf(studyParticipantCrf);
-                studyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
+                StudyParticipantCrf studyParticipantCrf = removeOldStudyParticipantCrfsAndCreateNew(crf, studyParticipantAssignment);
+                studyParticipantCrf.createSchedules();
             }
         }
-        CRF savedCrf = save(crf);
-        generateSchedules(savedCrf);
-        return save(savedCrf);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void generateSchedules(CRF crf) throws ParseException {
-        for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
-            studyParticipantCrf.createSchedules();
+    private StudyParticipantCrf removeOldStudyParticipantCrfsAndCreateNew(CRF crf, StudyParticipantAssignment studyParticipantAssignment) {
+        StudyParticipantCrf newStudyParticipantCrf = new StudyParticipantCrf();
+        newStudyParticipantCrf.setStartDate(crf.getEffectiveStartDate());
+        newStudyParticipantCrf.setStudyParticipantAssignment(studyParticipantAssignment);
+        crf.addStudyParticipantCrf(newStudyParticipantCrf);
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
+            if (isOlderVersionStudyParticipantCrf(crf, studyParticipantCrf)) {
+                studyParticipantCrf.removeCrfSchedules(CrfStatus.SCHEDULED);
+                addParticipantAddedQuestionsToStudyParticipantCrf(crf, studyParticipantCrf, newStudyParticipantCrf);
+                genericRepository.save(studyParticipantCrf);
+            }
+        }
+        return newStudyParticipantCrf;
+    }
+
+    private void addParticipantAddedQuestionsToStudyParticipantCrf(CRF crf, StudyParticipantCrf oldStudyParticipantCrf, StudyParticipantCrf newStudyParticipantCrf) {
+        Hashtable<String, Integer> symptomPage = new Hashtable<String, Integer>();
+        int i = 0;
+        for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : oldStudyParticipantCrf.getStudyParticipantCrfAddedQuestions()) {
+            boolean isAlreadyPresent = false;
+            for (CRFPage crfPage : crf.getCrfPagesSortedByPageNumber()) {
+                for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                    if (crfPageItem.getProCtcQuestion().equals(studyParticipantCrfAddedQuestion.getProCtcQuestion())) {
+                        isAlreadyPresent = true;
+                        break;
+                    }
+                }
+            }
+            if (!isAlreadyPresent) {
+                int myPageNumber;
+                if (symptomPage.containsKey(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm())) {
+                    myPageNumber = symptomPage.get(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
+                } else {
+                    myPageNumber = crf.getCrfPagesSortedByPageNumber().size() + i;
+                    symptomPage.put(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm(), myPageNumber);
+                }
+                i++;
+                newStudyParticipantCrf.addStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion.getProCtcQuestion(), myPageNumber);
+            }
         }
     }
 
+    private boolean isOlderVersionStudyParticipantCrf(CRF crf, StudyParticipantCrf studyParticipantCrf) {
+        CRF parent = crf;
+        while (parent.getParentCrf() != null) {
+            parent = parent.getParentCrf();
+            if (studyParticipantCrf.getCrf().equals(parent)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /* (non-Javadoc)
     * @see gov.nih.nci.ctcae.core.repository.AbstractRepository#save(gov.nih.nci.ctcae.core.domain.Persistable)
     */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public CRF save(CRF crf) {
-        CRF tmp = null;
-        if (crf.getParentVersionId() != null) {
-            tmp = findById(crf.getParentVersionId());
-            while (tmp.getParentVersionId() != null) {
-                tmp = findById(tmp.getParentVersionId());
-            }
+        CRF tmp = crf;
+        while (tmp.getParentCrf() != null) {
+            tmp = tmp.getParentCrf();
         }
 
-        if (tmp != null && (!tmp.getId().equals(crf.getId()))) {
+        if (!tmp.equals(crf)) {
             if (!tmp.getTitle().equals(crf.getTitle())) {
                 throw (new CtcAeSystemException("You can not update the title if crf is versioned"));
             }
@@ -97,6 +140,18 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
     public void delete(CRF crf) {
         if (crf != null) {
             if (!crf.isReleased()) {
+                crf.setChildCrf(null);
+                CRF parentCrf = crf.getParentCrf();
+                if (parentCrf != null) {
+                    crf.setParentCrf(null);
+                    parentCrf.setChildCrf(null);
+                    parentCrf = genericRepository.save(parentCrf);
+                    crf = genericRepository.save(crf);
+                    parentCrf = findById(parentCrf.getId());
+                    crf = findById(crf.getId());
+                }
+                crf.getStudyParticipantCrfs().clear();
+                crf = genericRepository.save(crf);
                 genericRepository.delete(crf);
             } else {
                 throw new CtcAeSystemException("Released CRF can not be deleted");
@@ -118,17 +173,16 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
 
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public CRF versionCrf(CRF crf) {
+    public CRF
+    versionCrf(CRF crf) {
         crf = findById(crf.getId());
-        Integer parentVersionId = crf.getId();
         String newVersion = "" + (new Float(crf.getCrfVersion()) + 1);
         CRF copiedCRF = crf.copy();
         copiedCRF.setTitle(crf.getTitle());
         copiedCRF.setCrfVersion(newVersion);
-        copiedCRF.setParentVersionId(parentVersionId);
-        genericRepository.save(copiedCRF);
-        Integer nextVersionId = copiedCRF.getId();
-        crf.setNextVersionId(nextVersionId);
+        copiedCRF.setParentCrf(crf);
+        copiedCRF = genericRepository.save(copiedCRF);
+        crf.setChildCrf(copiedCRF);
         crf = genericRepository.save(crf);
         return copiedCRF;
     }

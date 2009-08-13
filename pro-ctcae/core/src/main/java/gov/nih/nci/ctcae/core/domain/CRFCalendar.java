@@ -182,4 +182,15 @@ public class CRFCalendar extends BasePersistable {
         setRepeatUntilUnit("");
         setRepeatUntilValue("");
     }
+
+    public CRFCalendar copy() {
+        CRFCalendar crfCalendar = new CRFCalendar();
+        crfCalendar.setDueDateUnit(dueDateUnit);
+        crfCalendar.setDueDateValue(dueDateValue);
+        crfCalendar.setRepeatEveryUnit(repeatEveryUnit);
+        crfCalendar.setRepeatEveryValue(repeatEveryValue);
+        crfCalendar.setRepeatUntilUnit(repeatUntilUnit);
+        crfCalendar.setRepeatUntilValue(repeatUntilValue);
+        return crfCalendar;
+    }
 }

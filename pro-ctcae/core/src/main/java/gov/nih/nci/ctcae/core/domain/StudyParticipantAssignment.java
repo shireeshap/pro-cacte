@@ -346,5 +346,6 @@ public class StudyParticipantAssignment extends BaseVersionable {
     public void setArm(Arm arm) {
         this.arm = arm;
     }
+
 }
 

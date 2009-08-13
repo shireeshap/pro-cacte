@@ -172,19 +172,6 @@ public class StudyParticipantCrf extends BaseVersionable {
     }
 
     /**
-     * Adds the study participant crf added question.
-     *
-     * @param studyParticipantCrfAddedQuestion
-     *         the study participant crf added question
-     */
-    public void addStudyParticipantCrfAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
-        if (studyParticipantCrfAddedQuestion != null) {
-            studyParticipantCrfAddedQuestion.setStudyParticipantCrf(this);
-            studyParticipantCrfAddedQuestions.add(studyParticipantCrfAddedQuestion);
-        }
-    }
-
-    /**
      * Removes the study participant crf added question.
      *
      * @param studyParticipantCrfAddedQuestion
@@ -193,7 +180,6 @@ public class StudyParticipantCrf extends BaseVersionable {
     public void removeStudyParticipantCrfAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
         studyParticipantCrfAddedQuestions.remove(studyParticipantCrfAddedQuestion);
     }
-
 
 
     public Date getStartDate() {
@@ -322,5 +308,31 @@ public class StudyParticipantCrf extends BaseVersionable {
         result = 31 * result + (studyParticipantAssignment != null ? studyParticipantAssignment.hashCode() : 0);
         result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         return result;
+    }
+
+    public void removeCrfSchedules(CrfStatus status) {
+        List<StudyParticipantCrfSchedule> l = new ArrayList<StudyParticipantCrfSchedule>();
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrfSchedules) {
+            if (status.equals(studyParticipantCrfSchedule.getStatus())) {
+                l.add(studyParticipantCrfSchedule);
+            }
+        }
+        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : l) {
+            removeCrfSchedule(studyParticipantCrfSchedule);
+        }
+    }
+
+    public StudyParticipantCrfAddedQuestion addStudyParticipantCrfAddedQuestion(Question question, int pageNumber) {
+        StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = new StudyParticipantCrfAddedQuestion();
+        if (question instanceof ProCtcQuestion) {
+            studyParticipantCrfAddedQuestion.setProCtcQuestion((ProCtcQuestion) question);
+        }
+        if (question instanceof MeddraQuestion) {
+            studyParticipantCrfAddedQuestion.setMeddraQuestion((MeddraQuestion) question);
+        }
+        studyParticipantCrfAddedQuestion.setPageNumber(pageNumber);
+        studyParticipantCrfAddedQuestion.setStudyParticipantCrf(this);
+        studyParticipantCrfAddedQuestions.add(studyParticipantCrfAddedQuestion);
+        return studyParticipantCrfAddedQuestion;
     }
 }

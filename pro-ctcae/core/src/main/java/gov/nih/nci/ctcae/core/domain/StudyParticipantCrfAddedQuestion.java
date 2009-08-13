@@ -135,18 +135,7 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
         this.pageNumber = pageNumber;
     }
 
-    /**
-     * Gets the copy.
-     *
-     * @return the copy
-     */
-    public StudyParticipantCrfAddedQuestion copy() {
-        StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = new StudyParticipantCrfAddedQuestion();
-        studyParticipantCrfAddedQuestion.setPageNumber(pageNumber);
-        studyParticipantCrfAddedQuestion.setStudyParticipantCrf(studyParticipantCrf);
-        studyParticipantCrfAddedQuestion.setProCtcQuestion(proCtcQuestion);
-        return studyParticipantCrfAddedQuestion;
-    }
+  
 
     /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)

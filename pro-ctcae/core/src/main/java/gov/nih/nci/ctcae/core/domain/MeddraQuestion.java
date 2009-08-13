@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "MEDDRA_QUESTIONS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
     @Parameter(name = "sequence", value = "seq_meddra_questions_id")})
-public class MeddraQuestion extends BasePersistable {
+public class MeddraQuestion extends Question {
 
     @Id
     @GeneratedValue(generator = "id-generator")

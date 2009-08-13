@@ -75,17 +75,22 @@ public class CRF extends BaseVersionable {
     @Column(name = "effective_end_date", nullable = true)
     private Date effectiveEndDate;
 
-    /**
-     * The next version id.
-     */
-    @Column(name = "next_version_id", nullable = true)
-    private Integer nextVersionId;
+    @JoinColumn(name = "next_version_id", referencedColumnName = "id", nullable = true)
+    @OneToOne
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private CRF childCrf;
+
+    @JoinColumn(name = "parent_version_id", referencedColumnName = "id", nullable = true)
+    @OneToOne
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private CRF parentCrf;
 
     /**
-     * The parent version id.
+     * The study participant crfs.
      */
-    @Column(name = "parent_version_id", nullable = true)
-    private Integer parentVersionId;
+    @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
 
     /**
      * The crf pages.
@@ -139,19 +144,11 @@ public class CRF extends BaseVersionable {
     }
 
     /**
-     * The study participant crfs.
-     */
-    @OneToMany(mappedBy = "crf", fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-
-    private Collection<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
-
-    /**
      * Gets the study participant crfs.
      *
      * @return the study participant crfs
      */
-    public Collection<StudyParticipantCrf> getStudyParticipantCrfs() {
+    public List<StudyParticipantCrf> getStudyParticipantCrfs() {
         return studyParticipantCrfs;
     }
 
@@ -298,9 +295,6 @@ public class CRF extends BaseVersionable {
             return false;
         if (effectiveStartDate != null ? !DateUtils.format(effectiveStartDate).equals(DateUtils.format(crf.effectiveStartDate)) : crf.effectiveStartDate != null)
             return false;
-        if (nextVersionId != null ? !nextVersionId.equals(crf.nextVersionId) : crf.nextVersionId != null) return false;
-        if (parentVersionId != null ? !parentVersionId.equals(crf.parentVersionId) : crf.parentVersionId != null)
-            return false;
         if (status != crf.status) return false;
         if (study != null ? !study.equals(crf.study) : crf.study != null) return false;
         if (title != null ? !title.equals(crf.title) : crf.title != null) return false;
@@ -319,8 +313,6 @@ public class CRF extends BaseVersionable {
         result = 31 * result + (crfVersion != null ? crfVersion.hashCode() : 0);
         result = 31 * result + (effectiveStartDate != null ? effectiveStartDate.hashCode() : 0);
         result = 31 * result + (effectiveEndDate != null ? effectiveEndDate.hashCode() : 0);
-        result = 31 * result + (nextVersionId != null ? nextVersionId.hashCode() : 0);
-        result = 31 * result + (parentVersionId != null ? parentVersionId.hashCode() : 0);
         result = 31 * result + (study != null ? study.hashCode() : 0);
         return result;
     }
@@ -378,46 +370,6 @@ public class CRF extends BaseVersionable {
         this.effectiveEndDate = effectiveEndDate;
     }
 
-    /**
-     * Gets the next version id.
-     *
-     * @return the next version id
-     */
-    public Integer getNextVersionId() {
-        return nextVersionId;
-    }
-
-    /**
-     * Sets the next version id.
-     *
-     * @param nextVersionId the new next version id
-     */
-    public void setNextVersionId(Integer nextVersionId) {
-        this.nextVersionId = nextVersionId;
-    }
-
-    /**
-     * Gets the parent version id.
-     *
-     * @return the parent version id
-     */
-    public Integer getParentVersionId() {
-        return parentVersionId;
-    }
-
-    /**
-     * Sets the parent version id.
-     *
-     * @param parentVersionId the new parent version id
-     */
-    public void setParentVersionId(Integer parentVersionId) {
-        this.parentVersionId = parentVersionId;
-    }
-
-
-//    public List<CRFPage> getCrfPages() {
-//        return crfPages;
-//    }
 
     /**
      * Gets the crf pages sorted by page number.
@@ -484,10 +436,17 @@ public class CRF extends BaseVersionable {
         for (CRFPage crfPage : crfPages) {
             copiedCrf.addCrfPage(crfPage.copy());
         }
-
+        for (FormArmSchedule formArmSchedule : formArmSchedules) {
+            copiedCrf.addFormArmSchedule(formArmSchedule.copy());
+        }
         return copiedCrf;
 
 
+    }
+
+    private void addFormArmSchedule(FormArmSchedule formArmSchedule) {
+        formArmSchedule.setCrf(this);
+        formArmSchedules.add(formArmSchedule);
     }
 
 
@@ -565,17 +524,17 @@ public class CRF extends BaseVersionable {
         return null;
     }
 
-    /**
-     * Checks if is versioned.
-     *
-     * @return true, if is versioned
-     */
-    public boolean isVersioned() {
-        if (this.getParentVersionId() != null || this.getNextVersionId() != null) {
-            return true;
-        }
-        return false;
-    }
+//    /**
+//     * Checks if is versioned.
+//     *
+//     * @return true, if is versioned
+//     */
+//    public boolean isVersioned() {
+//        if (this.getParentVersionId() != null || this.getNextVersionId() != null) {
+//            return true;
+//        }
+//        return false;
+//    }
 
 
     /**
@@ -667,23 +626,18 @@ public class CRF extends BaseVersionable {
      */
     public Object addProCtcTerm(ProCtcTerm proCtcTerm) {
         //first check if pro ctc term exists
-
         if (!getAdvance()) {
             CRFPage crfPage = getCrfPageByProCtcTerm(proCtcTerm);
-
             if (crfPage == null) {
                 crfPage = new CRFPage();
                 addCrfPage(crfPage);
                 crfPage.addProCtcTerm(proCtcTerm);
                 return crfPage;
             } else {
-
-                List<CrfPageItem> addedCrfPageItems = crfPage.addProCtcTerm(proCtcTerm);
-                return addedCrfPageItems;
+                return crfPage.addProCtcTerm(proCtcTerm);
             }
         }
         return null;
-
     }
 
     /**
@@ -802,5 +756,21 @@ public class CRF extends BaseVersionable {
             }
         }
         return null;
+    }
+
+    public CRF getChildCrf() {
+        return childCrf;
+    }
+
+    public CRF getParentCrf() {
+        return parentCrf;
+    }
+
+    public void setChildCrf(CRF childCrf) {
+        this.childCrf = childCrf;
+    }
+
+    public void setParentCrf(CRF parentCrf) {
+        this.parentCrf = parentCrf;
     }
 }

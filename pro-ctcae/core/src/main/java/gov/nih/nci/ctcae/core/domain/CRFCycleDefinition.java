@@ -172,4 +172,14 @@ public class CRFCycleDefinition extends BasePersistable {
         result = 31 * result + (formArmSchedule != null ? formArmSchedule.hashCode() : 0);
         return result;
     }
+
+    public CRFCycleDefinition copy() {
+        CRFCycleDefinition crfCycleDefinition = new CRFCycleDefinition();
+        crfCycleDefinition.setCycleLength(cycleLength);
+        crfCycleDefinition.setCycleLengthUnit(cycleLengthUnit);
+        crfCycleDefinition.setCycleName(cycleName);
+        crfCycleDefinition.setOrder(order);
+        crfCycleDefinition.setRepeatTimes(repeatTimes);
+        return crfCycleDefinition;
+    }
 }

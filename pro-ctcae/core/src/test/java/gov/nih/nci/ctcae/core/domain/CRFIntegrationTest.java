@@ -3,11 +3,14 @@ package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
+import gov.nih.nci.ctcae.core.helper.CrfTestHelper;
+import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.query.CRFQuery;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 import java.text.ParseException;
-import java.util.Collection;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Harsh Agarwal
@@ -188,6 +191,66 @@ public class CRFIntegrationTest extends TestDataManager {
             fail("Expected CtcAeSystemException because formVersion is null");
         } catch (CtcAeSystemException e) {
         }
+    }
+
+    public void testVersionForm() throws ParseException {
+        Study study = StudyTestHelper.getDefaultStudy();
+        List<CRF> crfsToRemove = new ArrayList<CRF>();
+        for (CRF crf : study.getCrfs()) {
+            if (!crf.getCrfVersion().equals("1.0")) {
+                crf.setStatus(CrfStatus.DRAFT);
+                crfsToRemove.add(crf);
+            }
+        }
+
+        study.getCrfs().removeAll(crfsToRemove);
+        for (CRF crf : crfsToRemove) {
+            crfRepository.delete(crf);
+        }
+        studyRepository.save(study);
+        CRF crf = study.getCrfs().get(0);
+        CRFPage lastPage = crf.getCrfPagesSortedByPageNumber().get(crf.getCrfPagesSortedByPageNumber().size() - 1);
+        Integer lastPageNumber = lastPage.getPageNumber();
+
+        for (StudyParticipantCrf studyParticipantCrf : crf.getStudyParticipantCrfs()) {
+            studyParticipantCrf.createSchedules();
+        }
+        StudyParticipantCrf spc = crf.getStudyParticipantCrfs().get(0);
+        spc.getStudyParticipantCrfAddedQuestions().clear();
+        spc.addStudyParticipantCrfAddedQuestion(lastPage.getCrfPageItems().get(0).getProCtcQuestion(), lastPageNumber + 1);
+        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+        proCtcTermQuery.filterByTerm("Tremor, shaking");
+        ProCtcTerm proCtcTerm = genericRepository.findSingle(proCtcTermQuery);
+
+        spc.addStudyParticipantCrfAddedQuestion(proCtcTerm.getProCtcQuestions().get(0), lastPageNumber + 2);
+        spc = genericRepository.save(spc);
+
+        commitAndStartNewTransaction();
+        assertEquals(16, spc.getStudyParticipantCrfSchedules().size());
+        int numOfSPCs = crf.getStudyParticipantCrfs().size();
+
+        CRF versionedCrf = crfRepository.versionCrf(crf);
+        assertEquals("2.0", versionedCrf.getCrfVersion());
+        versionedCrf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), -10));
+        versionedCrf = crfRepository.updateStatusToReleased(versionedCrf);
+        commitAndStartNewTransaction();
+
+        spc = genericRepository.findById(StudyParticipantCrf.class, spc.getId());
+        assertEquals(5, spc.getStudyParticipantCrfSchedules().size());
+        assertEquals(numOfSPCs, spc.getCrf().getStudyParticipantCrfs().size());
+        assertEquals(numOfSPCs, crf.getStudyParticipantCrfs().size());
+
+        StudyParticipantCrf vSpc = null;
+        StudyParticipantAssignment studyParticipantAssignment = spc.getStudyParticipantAssignment();
+        for (StudyParticipantCrf studyParticipantCrf : versionedCrf.getStudyParticipantCrfs()) {
+            if (studyParticipantCrf.getStudyParticipantAssignment().equals(studyParticipantAssignment)) {
+                vSpc = studyParticipantCrf;
+                break;
+            }
+        }
+        assertNotNull(vSpc);
+        assertEquals(1, vSpc.getStudyParticipantCrfAddedQuestions().size());
+
     }
 
 

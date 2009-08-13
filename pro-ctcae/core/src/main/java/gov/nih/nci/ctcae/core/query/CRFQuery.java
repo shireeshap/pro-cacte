@@ -107,7 +107,7 @@ public class CRFQuery extends AbstractQuery {
      * Filter by null next version id.
      */
     public void filterByNullNextVersionId() {
-        andWhere("o.nextVersionId is null");
+        andWhere("o.childCrf.id is null");
     }
 
     /**
