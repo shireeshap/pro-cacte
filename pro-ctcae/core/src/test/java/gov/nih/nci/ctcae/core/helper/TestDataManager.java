@@ -86,6 +86,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         if (!isTestDataPresent()) {
             deleteAndCreateTestData();
         }
+        commitAndStartNewTransaction();
     }
 
     protected void deleteAndCreateTestData() {
