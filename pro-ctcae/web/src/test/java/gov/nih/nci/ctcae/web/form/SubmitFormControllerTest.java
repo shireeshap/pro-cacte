@@ -23,7 +23,7 @@ public class SubmitFormControllerTest extends AbstractWebTestCase {
         controller = new SubmitFormController();
         controller.setGenericRepository(genericRepository);
         controller.setWebControllerValidator(new WebControllerValidatorImpl());
-        l = jdbcTemplate.queryForList("select s.id from sp_crf_schedules s");
+        l = jdbcTemplate.queryForList("select s.id from sp_crf_schedules s where s.status='SCHEDULED'");
     }
 
     public void testController() throws Exception {
