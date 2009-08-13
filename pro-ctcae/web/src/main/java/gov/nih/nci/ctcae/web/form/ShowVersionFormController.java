@@ -44,9 +44,8 @@ public class ShowVersionFormController extends AbstractController {
         List<CRF> crfCollection = new ArrayList();
 
         CRF crf = crfRepository.findById(Integer.valueOf(crfId));
-        while (crf.getParentVersionId() != null) {
-            crf = crfRepository.findById(crf.getParentVersionId());
-            crfCollection.add(crf);
+        while (crf.getParentCrf() != null) {
+            crfCollection.add(crf.getParentCrf());
         }
 
         modelAndView.getModel().put("crfs", crfCollection);
