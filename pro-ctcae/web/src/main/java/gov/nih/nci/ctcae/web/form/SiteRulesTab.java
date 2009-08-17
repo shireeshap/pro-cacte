@@ -4,6 +4,7 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.rules.ProCtcAEFactResolver;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.security.Authentication;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.semanticbits.rules.brxml.RuleSet;
 
 //
 /**
@@ -29,7 +32,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
      * Instantiates a new calendar template tab.
      */
     public SiteRulesTab() {
-        super("form.tab.site_rules", "form.tab.site_rules", "form/site_rules");
+        super("form.tab.site_rules", "form.tab.site_rules", "form/form_rules");
     }
 
     public String getRequiredPrivilege() {
@@ -71,6 +74,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         map.put("comparisonOptions", ListValues.getComparisonOptions());
         map.put("comparisonValues", ProCtcAEFactResolver.getComparisonValues(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
+        map.put("isSite", "true");
         return map;
     }
 
@@ -83,9 +87,12 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         try {
             if ("true".equals(command.getReadonlyview())) {
+                RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrfAndSite(command.getCrf(), command.getMyOrg(), true);
+                command.setRuleSet(ruleSet);
                 command.setReadonlyview("false");
             } else {
                 command.processRulesForSite(request);
+                command.setReadonlyview("true");
             }
         } catch (Exception e) {
             e.printStackTrace();

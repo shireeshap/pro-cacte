@@ -28,11 +28,11 @@ public class NotificationsEvaluationService {
     private static GenericRepository genericRepository;
 
 
-    public static boolean executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) {
+    public static boolean executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) throws Exception {
         ArrayList<String[]> criticalSymptoms = new ArrayList<String[]>();
         HashSet<String> emails = new HashSet<String>();
         HashSet<User> users = new HashSet<User>();
-        RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, studySite);
+        RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrfAndSite(crf, studySite, false);
         if (ruleSet == null) {
             return false;
         }

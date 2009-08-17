@@ -35,6 +35,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
         command.initializeRulesForForm();
+        command.setReadonlyview("false");
     }
 
     public Map<String, Object> referenceData(CreateFormCommand command) {
@@ -44,6 +45,7 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
         map.put("comparisonOptions", ListValues.getComparisonOptions());
         map.put("comparisonValues", ProCtcAEFactResolver.getComparisonValues(command.getCrf()));
         map.put("notifications", ListValues.getNotificationOptions());
+        map.put("isSite", "false");
         return map;
     }
 

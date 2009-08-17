@@ -18,6 +18,7 @@ import java.util.List;
  */
 public class ProCtcAERule {
 
+    private String ruleId;
     private List<String> symptoms;
     private List<String> questiontypes;
     private List<String> operators;
@@ -83,7 +84,7 @@ public class ProCtcAERule {
 
     public static ProCtcAERule getProCtcAERule(Rule rule) {
         ProCtcAERule proCtcAERule = new ProCtcAERule();
-
+        proCtcAERule.setRuleId(rule.getId());
         for (RuleAttribute ruleAttribute : rule.getRuleAttribute()) {
             if (ruleAttribute.getName().equals("override")) {
                 proCtcAERule.setOverride(ruleAttribute.getValue());
@@ -139,5 +140,13 @@ public class ProCtcAERule {
             }
         }
         return list;
+    }
+
+    public String getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
     }
 }

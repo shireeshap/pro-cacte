@@ -1,8 +1,5 @@
 package gov.nih.nci.ctcae.core.rules;
 
-import com.semanticbits.rules.api.BusinessRulesExecutionService;
-import com.semanticbits.rules.api.RuleAuthoringService;
-import com.semanticbits.rules.api.RulesEngineService;
 import com.semanticbits.rules.brxml.*;
 import com.semanticbits.rules.objectgraph.FactResolver;
 import com.semanticbits.rules.utils.RuleUtil;
@@ -13,6 +10,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * User: Harsh
@@ -27,31 +25,47 @@ public class ProCtcAERulesService {
     static BusinessRulesExecutionServiceImpl ruleExecutionService;
     static RepositoryServiceImpl repositoryService;
 
-    public static RuleSet getExistingRuleSetForCrf(CRF crf) {
+    public static RuleSet getRuleSetForCrf(CRF crf, boolean createNewIfNull) {
         String packageName = getPackageNameForCrf(crf);
-        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, true);
+        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, false);
+        if (ruleSet == null) {
+            if (createNewIfNull) {
+                ruleSet = createRuleSetForCrf(crf, packageName);
+            }
+        }
         logout();
         return ruleSet;
     }
 
 
-    public static void createRule(Rule rule) {
-        ruleAuthoringService.createRule(rule);
-        logout();
-    }
-
-    public static Rule createRule(RuleSet ruleSet, String ruleName, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {
+    public static Rule createRule(RuleSet ruleSet, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {
         Rule rule = new Rule();
 
         MetaData metaData = new MetaData();
-        metaData.setName(ruleName);
+        metaData.setName("Rule_" + UUID.randomUUID().toString());
         metaData.setPackageName(ruleSet.getName());
         metaData.setDescription("");
         rule.setMetaData(metaData);
+        setRuleProperties(rule, symptoms, questiontypes, operators, values, notifications, override);
+        ruleSet.getRule().add(rule);
+        ruleAuthoringService.createRule(rule);
+        logout();
+        return rule;
+    }
 
+    public static Rule updateRule(String ruleId, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {
+        Rule rule = ruleAuthoringService.getRule(ruleId);
+        setRuleProperties(rule, symptoms, questiontypes, operators, values, notifications, override);
+        ruleAuthoringService.updateRule(rule);
+        logout();
+        return rule;
+    }
+
+
+    private static void setRuleProperties(Rule rule, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {
         RuleAttribute ruleAttribute = new RuleAttribute();
         ruleAttribute.setName("override");
-        ruleAttribute.setValue(StringUtils.isBlank(override) ? "N" : "Y");
+        ruleAttribute.setValue("Y".equals(override) ? "Y" : "N");
         List<RuleAttribute> l = new ArrayList<RuleAttribute>();
         l.add(ruleAttribute);
         rule.setRuleAttribute(l);
@@ -68,32 +82,39 @@ public class ProCtcAERulesService {
         }
         rule.setCondition(condition);
         rule.setAction(notifications);
-        ruleSet.getRule().add(rule);
-        createRule(rule);
-        return rule;
     }
 
-    public static RuleSet deleteExistingAndGetNewRuleSetForSite(CRF crf, StudyOrganization myOrg) throws Exception {
-        deleteExistingRuleSetForCrfAndSite(crf, myOrg);
-        String packageName = getPackageNameForCrfAndSite(crf, myOrg);
-        RuleSet site = createRuleSetForCrfAndSite(crf, myOrg, packageName);
-        logout();
-        return site;
-    }
 
-    public static RuleSet getExistingRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg) {
+    public static RuleSet getRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg, boolean createNewIfNull) {
         String packageName = getPackageNameForCrfAndSite(crf, myOrg);
         RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, false);
         if (ruleSet == null) {
-            ruleSet = getExistingRuleSetForCrf(crf);
+            RuleSet crfRuleSet = getRuleSetForCrf(crf, false);
+            if (createNewIfNull) {
+                ruleSet = createRuleSetForCrfAndSite(crf, myOrg, getPackageNameForCrfAndSite(crf, myOrg));
+                copyRulesFromCrfRuleSet(crfRuleSet, ruleSet);
+            } else {
+                return crfRuleSet;
+            }
         }
         logout();
         return ruleSet;
 
     }
 
+    private static void copyRulesFromCrfRuleSet(RuleSet crfRuleSet, RuleSet ruleSet) {
+        for (Rule rule : crfRuleSet.getRule()) {
+            ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
+            createRule(ruleSet, proCtcAERule.getSymptoms(), proCtcAERule.getQuestiontypes(), proCtcAERule.getOperators(), proCtcAERule.getValues(), proCtcAERule.getNotifications(), proCtcAERule.getOverride());
+        }
+    }
+
     public static boolean isSiteLevelRuleSet(RuleSet ruleSet) {
         return ruleSet.getName().startsWith(RuleSetType.STUDY_SITE_LEVEL.getPackagePrefix());
+    }
+
+    public static boolean isFormLevelRuleSet(RuleSet ruleSet) {
+        return ruleSet.getName().startsWith(RuleSetType.FORM_LEVEL.getPackagePrefix());
     }
 
     public static List<Object> fireRules(List<Object> inputObjects, String bindURI) {
@@ -206,7 +227,7 @@ public class ProCtcAERulesService {
     }
 
     public static void deleteExistingRuleSetForCrf(CRF crf) throws Exception {
-        RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrf(crf);
+        RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf, false);
         if (ruleSet != null) {
             rulesEngineService.deleteRuleSet(ruleSet.getName());
         }
@@ -214,34 +235,37 @@ public class ProCtcAERulesService {
     }
 
     private static RuleSet createRuleSetForCrf(CRF crf, String packageName) {
-        RuleSet ruleSet = new RuleSet();
-        ruleSet.setName(packageName);
-        ruleSet.setStatus(RuleStatus.DRAFT.getDisplayName());
-        ruleSet.setDescription("RuleSet for Study: " + crf.getStudy().getShortTitle() + ", CRF: " + crf.getTitle());
-        ruleSet.setSubject("Form Rules||" + crf.getStudy().getShortTitle() + "||" + crf.getTitle());
-        ruleSet.setCoverage("Not Enabled");
-        List<String> imports = new ArrayList<String>();
-        imports.add("gov.nih.nci.ctcae.core.domain.*");
-        ruleSet.setImport(imports);
-        ruleAuthoringService.createRuleSet(ruleSet);
+        String description = "RuleSet for Study: " + crf.getStudy().getShortTitle() + ", CRF: " + crf.getTitle();
+        String subject = "Form Rules||" + crf.getStudy().getShortTitle() + "||" + crf.getTitle();
+        RuleSet ruleSet = createRuleSet(packageName, description, subject);
         logout();
         return ruleSet;
     }
 
     private static RuleSet createRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg, String packageName) {
-        RuleSet ruleSet = new RuleSet();
-        ruleSet.setName(packageName);
-        ruleSet.setStatus(RuleStatus.DRAFT.getDisplayName());
-        ruleSet.setDescription("RuleSet for Study: " + crf.getStudy().getShortTitle() + ", CRF: " + crf.getTitle() + ", Study Site: " + myOrg.getDisplayName());
-        ruleSet.setSubject("Form Rules||" + crf.getStudy().getShortTitle() + "||" + crf.getTitle() + "||" + myOrg.getDisplayName());
-        ruleSet.setCoverage("Not Enabled");
-        ruleAuthoringService.createRuleSet(ruleSet);
+        String description = "RuleSet for Study: " + crf.getStudy().getShortTitle() + ", CRF: " + crf.getTitle() + ", Study Site: " + myOrg.getDisplayName();
+        String subject = "Form Rules||" + crf.getStudy().getShortTitle() + "||" + crf.getTitle() + "||" + myOrg.getDisplayName();
+        RuleSet ruleSet = createRuleSet(packageName, description, subject);
         logout();
         return ruleSet;
     }
 
-    private static void deleteExistingRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg) throws Exception {
-        RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, myOrg);
+    private static RuleSet createRuleSet(String packageName, String description, String subject) {
+        RuleSet ruleSet = new RuleSet();
+        ruleSet.setName(packageName);
+        ruleSet.setStatus(RuleStatus.DRAFT.getDisplayName());
+        ruleSet.setDescription(description);
+        ruleSet.setSubject(subject);
+        ruleSet.setCoverage("Not Enabled");
+        List<String> imports = new ArrayList<String>();
+        imports.add("gov.nih.nci.ctcae.core.domain.*");
+        ruleSet.setImport(imports);
+        ruleAuthoringService.createRuleSet(ruleSet);
+        return ruleSet;
+    }
+
+    public static void deleteExistingRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg) throws Exception {
+        RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrfAndSite(crf, myOrg, false);
         if (ruleSet != null) {
             if (isSiteLevelRuleSet(ruleSet)) {
                 rulesEngineService.deleteRuleSet(ruleSet.getName());
@@ -272,10 +296,24 @@ public class ProCtcAERulesService {
 
     @Required
     public void setRepositoryService(RepositoryServiceImpl repositoryService) {
-        this.repositoryService = repositoryService;
+        ProCtcAERulesService.repositoryService = repositoryService;
     }
 
     public static void logout() {
         repositoryService.logout();
+    }
+
+
+    public static void deleteRule(String ruleId, RuleSet ruleSet) throws Exception {
+        rulesEngineService.unDeployRuleSet(ruleSet);
+        Rule rule = ruleAuthoringService.getRule(ruleId);
+        rulesEngineService.deleteRule(ruleSet.getName(), rule.getMetaData().getName());
+        ruleSet.getRule().remove(rule);
+        deployRuleSet(ruleSet);
+        logout();
+    }
+
+    public static RuleAuthoringServiceImpl getRuleAuthoringService() {
+        return ruleAuthoringService;
     }
 }

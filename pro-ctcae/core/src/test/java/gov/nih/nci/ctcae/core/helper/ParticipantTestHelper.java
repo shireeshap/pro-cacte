@@ -29,7 +29,7 @@ public class ParticipantTestHelper {
         NotificationsEvaluationService.setGenericRepository(genericRepository);
     }
 
-    public static void createDefaultParticipants() throws ParseException {
+    public static void createDefaultParticipants() throws Exception {
 
         StudySite ss1 = StudyTestHelper.getDefaultStudy().getLeadStudySite();
         Participant john = createParticipant("John", "Locke", "1-1", ss1, 0);
@@ -70,7 +70,7 @@ public class ParticipantTestHelper {
 
     }
 
-    private static void completeParticipantSchedule(Participant participant, StudySite ss1, boolean executeRule) {
+    private static void completeParticipantSchedule(Participant participant, StudySite ss1, boolean executeRule) throws Exception {
         boolean emailSent = false;
         Random random = new Random();
         StudyParticipantCrf studyParticipantCrf = participant.getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);

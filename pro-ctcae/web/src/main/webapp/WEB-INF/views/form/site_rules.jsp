@@ -12,11 +12,10 @@
 
         var rules = new Array();
         function registerme(ruleindex) {
-            var index = rules.length;
-            rules[index] = new Array();
-            rules[index]['symptom'] = 0;
-            rules[index]['condition'] = 0;
-            rules[index]['notification'] = 0;
+            rules[ruleindex] = new Array();
+            rules[ruleindex]['symptom'] = 0;
+            rules[ruleindex]['condition'] = 0;
+            rules[ruleindex]['notification'] = 0;
         }
         function addRule() {
             var request = new Ajax.Request("<c:url value="/pages/form/addFormRule"/>", {
@@ -176,7 +175,6 @@
         }
         function editRules() {
             $('_target').name = "_target" + 0;
-            //            $("_finish").name = "_nofinish";
             $('command').submit();
         }
     </script>
@@ -203,7 +201,6 @@
 <c:set var="readonlyview" value="${command.readonlyview}"/>
 <tags:tabForm tab="${tab}" flow="${flow}" doNotShowSave="${readonlyview}" notDisplayInBox="true">
     <jsp:attribute name="repeatingFields">
-        <%--<input type="hidden" name="_finish" id="_finish">--%>
         <input type="hidden" name="readonlyview" value="${readonlyview}"/>
         <c:forEach items="${command.formOrStudySiteRules}" var="proCtcAeRule" varStatus="status">
             <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}" isSite="true"
@@ -211,7 +208,7 @@
         </c:forEach>
         <div id="hiddenDiv"></div>
             <c:if test="${!readonlyview}">
-                <div align="right">
+                <div align="left">
                     <tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()"
                                  value="form.rules.add_rule"
                                  icon="add"/>

@@ -1,11 +1,16 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
+import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +29,7 @@ public class DeleteFormController extends CtcAeSimpleFormController {
      * The crf repository.
      */
     private CRFRepository crfRepository;
+    private StudyRepository studyRepository;
 
     /**
      * Instantiates a new delete form controller.
@@ -54,6 +60,11 @@ public class DeleteFormController extends CtcAeSimpleFormController {
         CRF crf = (CRF) command;
         Integer studyId = crf.getStudy().getId();
         crfRepository.delete(crf);
+        ProCtcAERulesService.deleteExistingRuleSetForCrf(crf);
+        Study study = studyRepository.findById(studyId);
+        for (StudySite studySite : study.getStudySites()) {
+            ProCtcAERulesService.deleteExistingRuleSetForCrfAndSite(crf, studySite);
+        }
         RedirectView redirectView = new RedirectView("manageForm?studyId=" + studyId);
 
         return new ModelAndView(redirectView);
@@ -66,5 +77,10 @@ public class DeleteFormController extends CtcAeSimpleFormController {
      */
     public void setCrfRepository(CRFRepository crfRepository) {
         this.crfRepository = crfRepository;
+    }
+
+    @Required
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
     }
 }

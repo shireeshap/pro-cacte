@@ -231,6 +231,7 @@
     <bean name="/form/deleteForm" id="deleteFormController"
           class="gov.nih.nci.ctcae.web.form.DeleteFormController" parent="ctcaeSimpleFormController">
         <property name="crfRepository" ref="crfRepository"/>
+        <property name="studyRepository" ref="studyRepository"/>
 
     </bean>
     <bean name="/form/versionForm" id="versionFormController"

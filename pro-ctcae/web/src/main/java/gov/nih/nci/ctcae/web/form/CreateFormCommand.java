@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 //
 /**
@@ -63,6 +64,15 @@ public class CreateFormCommand implements Serializable {
     private String readonlyview = "true";
     private FormArmSchedule selectedFormArmSchedule;
     private FormArmSchedule newSelectedFormArmSchedule;
+    private RuleSet ruleSet;
+
+    public RuleSet getRuleSet() {
+        return ruleSet;
+    }
+
+    public void setRuleSet(RuleSet ruleSet) {
+        this.ruleSet = ruleSet;
+    }
 
     public FormArmSchedule getSelectedFormArmSchedule() {
         return selectedFormArmSchedule;
@@ -358,6 +368,7 @@ public class CreateFormCommand implements Serializable {
     }
 
     public void initializeRules(RuleSet ruleSet) {
+        setRuleSet(ruleSet);
         formOrStudySiteRules = new ArrayList<ProCtcAERule>();
         if (ruleSet != null) {
             for (Rule rule : ruleSet.getRule()) {
@@ -373,57 +384,54 @@ public class CreateFormCommand implements Serializable {
 
 
     public void initializeRulesForForm() {
-        RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrf(crf);
+        RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf, true);
         initializeRules(ruleSet);
     }
 
     public void processRulesForSite(HttpServletRequest request) throws Exception {
-        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForSite(crf, myOrg);
         processRules(request, ruleSet);
     }
 
     public void processRulesForForm(HttpServletRequest request) throws Exception {
-        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
+        RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf, false);
         processRules(request, ruleSet);
     }
 
 
     private void processRules(HttpServletRequest request, RuleSet ruleSet) throws Exception {
+        updateExistingRules(request);
+        deleteRules(request, ruleSet);
+        ProCtcAERulesService.deployRuleSet(ruleSet);
+    }
+
+    private void deleteRules(HttpServletRequest request, RuleSet ruleSet) throws Exception {
+        String rulesToDelete = request.getParameter("rulesToDelete");
+        StringTokenizer st = new StringTokenizer(rulesToDelete, ",");
+        while (st.hasMoreTokens()) {
+            String ruleId = st.nextToken();
+            if (!StringUtils.isBlank(ruleId)) {
+                ProCtcAERulesService.deleteRule(ruleId, ruleSet);
+            }
+        }
+    }
+
+    private void updateExistingRules(HttpServletRequest request) {
         String[] rules = request.getParameterValues("rule");
         if (rules != null) {
-            for (String ruleIndexOnScreen : rules) {
-                List<String> symptoms = getListForRule(ruleIndexOnScreen, request, "symptoms");
-                List<String> questiontypes = getListForRule(ruleIndexOnScreen, request, "questiontypes");
-                List<String> operators = getListForRule(ruleIndexOnScreen, request, "operators");
-                List<String> values = getListForRule(ruleIndexOnScreen, request, "values");
-                List<String> notifications = getListForRule(ruleIndexOnScreen, request, "notifications");
-                String override = request.getParameter("override_" + ruleIndexOnScreen);
-                String ruleName = "Rule " + ruleIndexOnScreen;
-                Rule rule = ProCtcAERulesService.createRule(ruleSet, ruleName, symptoms, questiontypes, operators, values, notifications, override);
-                if (ProCtcAERulesService.isSiteLevelRuleSet(ruleSet)) {
-                    addRuleToSiteRules(crf, rule);
-                }
+            for (String ruleId : rules) {
+                List<String> symptoms = getListForRule(ruleId, request, "symptoms");
+                List<String> questiontypes = getListForRule(ruleId, request, "questiontypes");
+                List<String> operators = getListForRule(ruleId, request, "operators");
+                List<String> values = getListForRule(ruleId, request, "values");
+                List<String> notifications = getListForRule(ruleId, request, "notifications");
+                String override = request.getParameter("override_" + ruleId);
+                ProCtcAERulesService.updateRule(ruleId, symptoms, questiontypes, operators, values, notifications, override);
             }
-            ProCtcAERulesService.deployRuleSet(ruleSet);
         }
     }
 
-    private void addRuleToSiteRules(CRF crf, Rule rule) {
-
-        for (StudySite studySite : crf.getStudy().getStudySites()) {
-            RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, studySite);
-            if (ProCtcAERulesService.isSiteLevelRuleSet(ruleSet)) {
-                rule.getMetaData().setName(rule.getMetaData().getName() + "_studysite");
-                rule.getMetaData().setPackageName(ruleSet.getName());
-                ruleSet.getRule().add(rule);
-                ProCtcAERulesService.createRule(rule);
-            }
-        }
-
-    }
-
-    public void initializeRulesForSite() {
-        RuleSet ruleSet = ProCtcAERulesService.getExistingRuleSetForCrfAndSite(crf, myOrg);
+    public void initializeRulesForSite()  {
+        RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrfAndSite(crf, myOrg, false);
         initializeRules(ruleSet);
     }
 }

@@ -153,7 +153,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         commitAndStartNewTransaction();
     }
 
-    private void createParticipants() throws ParseException {
+    private void createParticipants() throws Exception {
         ParticipantTestHelper.createDefaultParticipants();
         commitAndStartNewTransaction();
     }

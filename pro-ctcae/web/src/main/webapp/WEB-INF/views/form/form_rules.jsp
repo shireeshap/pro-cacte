@@ -12,11 +12,10 @@
 
         var rules = new Array();
         function registerme(ruleindex) {
-            var index = rules.length;
-            rules[index] = new Array();
-            rules[index]['symptom'] = 0;
-            rules[index]['condition'] = 0;
-            rules[index]['notification'] = 0;
+            rules[ruleindex] = new Array();
+            rules[ruleindex]['symptom'] = 0;
+            rules[ruleindex]['condition'] = 0;
+            rules[ruleindex]['notification'] = 0;
         }
         function addRule() {
             var request = new Ajax.Request("<c:url value="/pages/form/addFormRule"/>", {
@@ -177,6 +176,11 @@
 
         function deleteRule(ruleIndex) {
             $('rule_div_' + ruleIndex).remove();
+            $('rulesToDelete').value += ruleIndex + ",";
+        }
+        function editRules() {
+            $('_target').name = "_target" + 0;
+            $('command').submit();
         }
 
     </script>
@@ -199,19 +203,33 @@
     <tags:button icon="x" color="red" size="small" markupWithTag="a" value="" id="templateButton_remove"/>
     <tags:renderSelect options="${notifications}" noForm="true" id="templateSelect_notifications"/>
 </div>
-
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
+<c:set var="readonlyview" value="${command.readonlyview}"/>
+<tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true" doNotShowSave="${readonlyview}">
     <jsp:attribute name="repeatingFields">
-        <input type="hidden" name="_finish" value="true" id="_finish">
+        <c:if test="${!isSite}">
+            <input type="hidden" name="_finish" value="true" id="_finish">
+        </c:if>
+        <input type="hidden" name="rulesToDelete" id="rulesToDelete" value="">
+        <input type="hidden" name="readonlyview" value="${readonlyview}"/>
         <c:forEach items="${command.formOrStudySiteRules}" var="proCtcAeRule" varStatus="status">
-            <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}"/>
+            <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}" siteReadOnlyView="${readonlyview}"
+                           isSite="${isSite}"/>
         </c:forEach>
-
         <div id="hiddenDiv"></div>
-		<div style="margin-bottom:25px; margin-left:60px;">
-            <tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()" value="form.rules.add_rule" size="small"
-                         icon="add"/>
-        </div>
+        <c:if test="${!readonlyview}">
+            <div align="left">
+                <tags:button color="blue" markupWithTag="a" onclick="javascript:addRule()"
+                             value="form.rules.add_rule"
+                             icon="add"/>
+            </div>
+        </c:if>
+        <c:if test="${readonlyview}">
+            <div align="right">
+                <tags:button color="blue" markupWithTag="a" onclick="javascript:editRules()"
+                             value="form.rules.edit_rules"
+                             icon="edit"/>
+            </div>
+        </c:if>
     </jsp:attribute>
 </tags:tabForm>
 

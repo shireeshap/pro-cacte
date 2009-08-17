@@ -2,11 +2,21 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERule;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.StudySite;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.semanticbits.rules.brxml.RuleSet;
+import com.semanticbits.rules.brxml.Rule;
+
+import java.util.ArrayList;
 
 //
 /**
@@ -19,7 +29,9 @@ public class AddFormRuleController extends AbstractController {
 
         ModelAndView modelAndView = new ModelAndView("form/ajax/formRule");
         CreateFormCommand command = ControllersUtils.getFormCommand(request);
-        ProCtcAERule proCtcAERule = new ProCtcAERule();
+        RuleSet ruleSet = command.getRuleSet();
+        Rule rule = ProCtcAERulesService.createRule(ruleSet, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), "");
+        ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
         command.getFormOrStudySiteRules().add(proCtcAERule);
         modelAndView.addObject("proCtcAERule", proCtcAERule);
         modelAndView.addObject("ruleIndex", command.getFormOrStudySiteRules().size() - 1);

@@ -39,6 +39,7 @@ public class UniqueTitleForCrfValidator extends AbstractValidator<UniqueTitleFor
             query.filterByTitleExactMatch((String) value);
             query.filterByNotHavingCrfId(crfBean.getId());
             query.filterByCrfVersion(crfBean.getCrfVersion());
+            query.filterByStudyId(crfBean.getStudy().getId());
             List<CRF> crfs = new ArrayList<CRF>(crfRepository.find(query));
             return (crfs == null || crfs.isEmpty()) ? true : false;
         }

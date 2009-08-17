@@ -5,14 +5,12 @@ import gov.nih.nci.ctcae.core.helper.StudyTestHelper;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
-import org.springframework.beans.factory.annotation.Required;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.semanticbits.rules.brxml.RuleSet;
-import com.semanticbits.rules.utils.RepositoryCleaner;
+import com.semanticbits.rules.brxml.Rule;
 
 /**
  * User: Harsh
@@ -20,17 +18,14 @@ import com.semanticbits.rules.utils.RepositoryCleaner;
  * Time: 11:26:16 AM
  */
 public class ProCtcAERulesServiceTest extends TestDataManager {
-    public void testDummy() {
-
-    }
 
     CRF crf;
     Study study;
-    List<String> symptoms = new ArrayList<String>();
-    List<String> questiontypes = new ArrayList<String>();
-    List<String> operators = new ArrayList<String>();
-    List<String> values = new ArrayList<String>();
-    List<String> notifications = new ArrayList<String>();
+    List<String> symptoms;
+    List<String> questiontypes;
+    List<String> operators;
+    List<String> values;
+    List<String> notifications;
 
 
     @Override
@@ -40,22 +35,14 @@ public class ProCtcAERulesServiceTest extends TestDataManager {
             study = StudyTestHelper.getDefaultStudy();
             crf = study.getCrfs().get(0);
         }
+        symptoms = new ArrayList<String>();
+        questiontypes = new ArrayList<String>();
+        operators = new ArrayList<String>();
+        values = new ArrayList<String>();
+        notifications = new ArrayList<String>();
     }
 
-    public void testGetExistingRuleSetForCrf() throws Exception {
-        ProCtcAERulesService.deleteExistingRuleSetForCrf(crf);
-        assertNull(ProCtcAERulesService.getExistingRuleSetForCrf(crf));
-    }
-
-    public void testDeleteExistingAndGetNewRuleSetForCrf() throws Exception {
-        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
-        assertNotNull(ruleSet);
-        assertEquals("gov.nih.nci.ctcae.rules.form.study_" + study.getId() + ".form_" + crf.getId(), ruleSet.getName());
-    }
-
-    public void testCreateRule() throws Exception {
-        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
-
+    private void populateConditionData() {
         symptoms.add("Migrane");
         symptoms.add("Pain");
 
@@ -69,12 +56,60 @@ public class ProCtcAERulesServiceTest extends TestDataManager {
 
         notifications.add("Nurse");
         notifications.add("Physician");
-        assertEquals(0, ruleSet.getRule().size());
 
-        ProCtcAERulesService.createRule(ruleSet, "My Test Rule", symptoms, questiontypes, operators, values, notifications, "Y");
+    }
+
+    public void testGetExistingRuleSetForCrf() throws Exception {
+        ProCtcAERulesService.deleteExistingRuleSetForCrf(crf);
+        assertNull(ProCtcAERulesService.getRuleSetForCrf(crf, false));
+    }
+
+    public void testDeleteExistingAndGetNewRuleSetForCrf() throws Exception {
+        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
+        assertNotNull(ruleSet);
+        assertEquals("gov.nih.nci.ctcae.rules.form.study_" + study.getId() + ".form_" + crf.getId(), ruleSet.getName());
+    }
+
+    public void testCreateRule() throws Exception {
+        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
+        assertEquals(0, ruleSet.getRule().size());
+        populateConditionData();
+        ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y");
         ProCtcAERulesService.deployRuleSet(ruleSet);
         assertEquals(1, ruleSet.getRule().size());
     }
 
+    public void testUpdateRule() throws Exception {
+        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
+        assertEquals(0, ruleSet.getRule().size());
+        Rule rule = ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y");
+        assertEquals(1, ruleSet.getRule().size());
+        ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
+        assertEquals(0, proCtcAERule.getSymptoms().size());
 
+        populateConditionData();
+        rule = ProCtcAERulesService.updateRule(rule.getId(), symptoms, questiontypes, operators, values, notifications, "Y");
+        proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
+        assertEquals(2, proCtcAERule.getSymptoms().size());
+    }
+
+    public void testDeleteRule() throws Exception {
+        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
+        assertEquals(0, ruleSet.getRule().size());
+        populateConditionData();
+        Rule rule = ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y");
+        ProCtcAERulesService.deployRuleSet(ruleSet);
+        assertEquals(1, ruleSet.getRule().size());
+        String ruleId = rule.getId();
+
+        ProCtcAERulesService.deleteRule(rule.getId(), ruleSet);
+        ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf,false);
+        assertEquals(0, ruleSet.getRule().size());
+        try {
+            ProCtcAERulesService.getRuleAuthoringService().getRule(ruleId);
+            fail("Should not find rule");
+        } catch (Exception ex) {
+
+        }
+    }
 }

@@ -16,7 +16,7 @@ class CreateCRF extends edu.northwestern.bioinformatics.bering.Migration {
 
     }
 
-    execute("ALTER TABLE CRFS ADD CONSTRAINT un_crfs_title UNIQUE (title, crf_version)")
+    execute("ALTER TABLE CRFS ADD CONSTRAINT un_crfs_title UNIQUE (title, crf_version,study_id)")
 	execute('ALTER TABLE CRFS ADD CONSTRAINT fk_crfs_crf_id FOREIGN KEY (next_version_id) REFERENCES CRFS')
     execute('ALTER TABLE CRFS ADD CONSTRAINT fk_prev_crfs_crf_id FOREIGN KEY (parent_version_id) REFERENCES CRFS')
 	execute('ALTER TABLE CRFS ADD CONSTRAINT fk_crf_study FOREIGN KEY (study_id) REFERENCES STUDIES')
