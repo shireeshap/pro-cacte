@@ -2,10 +2,9 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
-import gov.nih.nci.ctcae.core.query.UserQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
-import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueUserNameValidator;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.apache.commons.lang.StringUtils;
@@ -29,7 +28,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
      */
     protected CRFRepository crfRepository;
     private StudyOrganizationRepository studyOrganizationRepository;
-    private UserRepository userRepository;
+    private UniqueUserNameValidator uniqueUserNameValidator;
 
     /**
      * Instantiates a new participant details tab.
@@ -55,20 +54,12 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
         User user = command.getParticipant().getUser();
-        if (user.getId() == null) {
-            UserQuery userQuery = new UserQuery();
-            userQuery.filterByUserName(user.getUsername());
-            List<User> users = new ArrayList<User>(userRepository.find(userQuery));
-            if (users.size() > 0) {
-                errors.rejectValue("participant.user.username", "participant.user.user_exists", "participant.user.user_exists");
-            }
+        if (!uniqueUserNameValidator.validate(user)) {
+            errors.rejectValue("participant.user.username", "user.user_exists", "user.user_exists");
         }
-
         if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword())) {
             errors.rejectValue("participant.user.confirmPassword", "participant.user.confirm_password", "participant.user.confirm_password");
         }
-
-
     }
 
     public Map<String, Object> referenceData(ParticipantCommand command) {
@@ -94,8 +85,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
 
-        ListValues listValues = new ListValues();
-        referenceData.put("genders", listValues.getGenderType());
+        referenceData.put("genders", ListValues.getGenderType());
         referenceData.put("organizationsHavingStudySite", ListValues.getOrganizationsHavingStudySite(organizationsHavingStudySite));
         return referenceData;
     }
@@ -125,9 +115,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         this.studyOrganizationRepository = studyOrganizationRepository;
     }
 
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public void setUniqueUserNameValidator(UniqueUserNameValidator uniqueUserNameValidator) {
+        this.uniqueUserNameValidator = uniqueUserNameValidator;
     }
-
-
 }

@@ -104,7 +104,7 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
                 }
             }
         }
-
+        command.setCrf(crfRepository.save(command.getCrf()));
         super.postProcess(request, command, errors);
 
     }

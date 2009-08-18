@@ -239,6 +239,8 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/Unique
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueObjectInCollectionValidator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueTitleForCrf.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueTitleForCrfValidator.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueUserName.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/UniqueUserNameValidator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/Validator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/ValidatorClass.java -text
 pro-ctcae/core/src/main/resources/META-INF/log4j.properties -text

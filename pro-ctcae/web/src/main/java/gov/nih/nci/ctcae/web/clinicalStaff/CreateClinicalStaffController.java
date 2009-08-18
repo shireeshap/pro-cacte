@@ -3,10 +3,12 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueUserNameValidator;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.Errors;
+import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +30,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
      */
     private ClinicalStaffRepository clinicalStaffRepository;
     protected final String CLINICAL_STAFF_ID = "clinicalStaffId";
-
+    private UniqueUserNameValidator uniqueUserNameValidator;
 
     /**
      * Instantiates a new creates the clinical staff controller.
@@ -60,8 +62,6 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, org.springframework.validation.BindException errors) throws Exception {
 
         ClinicalStaffCommand clinicalStaffCommand = (ClinicalStaffCommand) oCommand;
-        User user = clinicalStaffCommand.getClinicalStaff().getUser();
-
         clinicalStaffCommand.apply();
 
         if (!StringUtils.isBlank(request.getParameter("showForm"))) {
@@ -70,17 +70,8 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             }
             ModelAndView modelAndView = super.showForm(request, response, errors);
             return modelAndView;
-
-        } else if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword())) {
-            errors.rejectValue("clinicalStaff.user.confirmPassword", "clinicalStaff.user.confirm_password", "clinicalStaff.user.confirm_password");
-
-            ModelAndView modelAndView = super.showForm(request, response, errors);
-            return modelAndView;
-
         } else {
-
             save(clinicalStaffCommand);
-
             ModelAndView modelAndView = new ModelAndView(getSuccessView());
             modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
             return modelAndView;
@@ -90,7 +81,6 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     }
 
     private boolean shouldSave(HttpServletRequest request, ClinicalStaffCommand clinicalStaffCommand) {
-
         return StringUtils.isBlank(request.getParameter(CLINICAL_STAFF_ID)) ? false : true;
 
     }
@@ -122,6 +112,22 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     }
 
 
+    @Override
+    protected void onBindAndValidate(HttpServletRequest request, Object o, BindException e) throws Exception {
+        super.onBindAndValidate(request, o, e);
+        ClinicalStaffCommand command = (ClinicalStaffCommand) o;
+        User user = command.getClinicalStaff().getUser();
+        user.setUsername(command.getClinicalStaff().getEmailAddress());
+        if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword())) {
+            e.rejectValue("clinicalStaff.user.confirmPassword", "user.confirm_password", "user.confirm_password");
+        }
+        if (!uniqueUserNameValidator.validate(user)) {
+            e.rejectValue("clinicalStaff.user.username", "user.user_exists", "user.user_exists");
+        }
+
+
+    }
+
     /**
      * Sets the clinical staff repository.
      *
@@ -130,5 +136,10 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Required
     public void setClinicalStaffRepository(ClinicalStaffRepository clinicalStaffRepository) {
         this.clinicalStaffRepository = clinicalStaffRepository;
+    }
+
+    @Required
+    public void setUniqueUserNameValidator(UniqueUserNameValidator uniqueUserNameValidator) {
+        this.uniqueUserNameValidator = uniqueUserNameValidator;
     }
 }

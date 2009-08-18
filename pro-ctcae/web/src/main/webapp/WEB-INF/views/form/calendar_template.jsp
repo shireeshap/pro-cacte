@@ -424,13 +424,6 @@ function changePlannedRep(cycleDefinitionIndex, value) {
 
     showCyclesForDefinition(cycleDefinitionIndex, false);
 }
-function refreshPage() {
-    var a = $('_target').name;
-    var b = a.substr(7);
-    var c = b - 1;
-    $('_target').name = '_target' + c;
-    $('command').submit();
-}
 
 function showSchedule(scheduleType) {
     $('calendarBasedDiv').hide();

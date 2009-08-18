@@ -336,6 +336,7 @@
     <bean name="/admin/clinicalStaff/createClinicalStaff" id="createClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.CreateClinicalStaffController" parent="ctcaeSimpleFormController">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
+        <property name="uniqueUserNameValidator" ref="uniqueUserNameValidator"/>
     </bean>
     <bean name="/admin/clinicalStaff/searchClinicalStaff" id="searchClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.SearchClinicalStaffController">
@@ -503,6 +504,11 @@
     <bean id="uniqueTitleForCrfValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator">
         <property name="crfRepository" ref="crfRepository"/>
+    </bean>
+
+    <bean id="uniqueUserNameValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UniqueUserNameValidator">
+        <property name="userRepository" ref="userRepository"/>
     </bean>
 
     <bean id="uniqueObjectInCollectionValidator"

@@ -587,10 +587,7 @@
     function deleteQuestionConfirm(questionId, proCtcTermId) {
         closeWindow();
         $('questionIdToRemove').value = questionId;
-        $('_target').name = '_target1';
-
-        $('command').submit();
-
+        refreshPage();
     }
 
 
@@ -629,8 +626,7 @@
     function deleteCrfPageConfirm(selectedCrfPageNumber) {
         closeWindow();
         $('crfPageNumberToRemove').value = selectedCrfPageNumber;
-        $('_target').name = '_target1';
-        $('command').submit();
+        refreshPage();
 
     }
 
@@ -801,7 +797,7 @@
         height: 0px;
         padding-top: 41px;
         width: 145px;
-        background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
+        background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
         overflow: hidden;
     }
 
@@ -813,7 +809,7 @@
         height: 0px;
         padding-top: 41px;
         width: 138px;
-        background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
+        background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
         overflow: hidden;
         background-position: -145px 0;
     }
@@ -826,7 +822,7 @@
         height: 0px;
         padding-top: 41px;
         width: 160px;
-        background-image: url( ../../images/blue/formbuilder_4thlvl_btns.png );
+        background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
         overflow: hidden;
         background-position: -283px 0;
     }
@@ -876,7 +872,7 @@
         font-weight: bold;
         text-decoration: none;
         cursor: default;
-        font-style:italic;
+        font-style: italic;
     }
 
     /* The hint to Hide and Show */
@@ -890,7 +886,7 @@
         border: 1px solid #c93;
         padding: 10px 12px;
         opacity: .95;
-        background: #ffc url( ../images/pointer.gif ) no-repeat -10px 5px;
+        background: #ffc url(../images/pointer.gif) no-repeat -10px 5px;
     }
 
     td.help-values {
@@ -906,9 +902,9 @@
         border-collapse: collapse;
     }
 
-    #currentPreference{
-        font-style:italic;
-        font-size:12px;
+    #currentPreference {
+        font-style: italic;
+        font-size: 12px;
     }
 
 </style>

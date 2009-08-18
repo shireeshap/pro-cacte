@@ -503,3 +503,10 @@ function reOrderQuestionNumber() {
 
 
 }
+function refreshPage() {
+    var a = $('_target').name;
+    var b = a.substr(7);
+    var c = b - 1;
+    $('_target').name = '_target' + c;
+    $('command').submit();
+}
