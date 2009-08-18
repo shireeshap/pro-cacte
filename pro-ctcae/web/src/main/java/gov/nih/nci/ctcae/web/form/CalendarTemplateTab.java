@@ -53,9 +53,10 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
                     formArmSchedule.addCrfCalendar(crfCalendar);
                 }
             }
-            command.setSelectedFormArmSchedule(crf.getFormArmSchedules().get(0));
-            command.setNewSelectedFormArmSchedule(crf.getFormArmSchedules().get(0));
-            command.setCrf(crfRepository.save(command.getCrf()));
+            CRF savedCrf = crfRepository.save(command.getCrf());
+            command.setCrf(savedCrf);
+            command.setSelectedFormArmSchedule(savedCrf.getFormArmSchedules().get(0));
+            command.setNewSelectedFormArmSchedule(savedCrf.getFormArmSchedules().get(0));
         } else {
             command.setSelectedFormArmSchedule(command.getNewSelectedFormArmSchedule());
         }

@@ -251,6 +251,7 @@ function showConfirmationWindow(transport, width, height, top, left) {
         win.setHTMLContent(transport.responseText);
         win.refresh();
     }
+    AE.registerCalendarPopups();
     return win;
 }
 function closeWindow() {
