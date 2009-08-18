@@ -12,7 +12,7 @@
 
     table.report td {
         border-left: 1px #cccccc solid;
-        border-top: 1px #cccccc solid;
+        border-top: 1px #eee solid;
         text-align: center;
         padding: 2px 5px;
 
@@ -24,7 +24,7 @@
     }
 
     table.report td.bottom {
-        border-top: 1px black solid;
+        border-top: 2px #666 solid;
     }
 
     table.report td.header {

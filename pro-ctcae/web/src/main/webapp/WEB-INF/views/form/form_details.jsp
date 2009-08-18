@@ -1076,7 +1076,7 @@
                 <tr>
                     <td id="formbuilderTable-TL"></td>
                     <td id="formbuilderTable-T"></td>
-                    <td id="setformbuilderTable-TR"></td>
+                    <td id="formbuilderTable-TR"></td>
                 </tr>
                 <tr>
                     <td id="formbuilderTable-L"></td>

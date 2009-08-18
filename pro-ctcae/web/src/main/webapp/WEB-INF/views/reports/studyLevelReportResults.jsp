@@ -53,15 +53,17 @@
                 <img src="/proctcae/images/table/xls.gif" alt="xls"/>
             </a>
         </div>
-        <div id="careResultsTable">
+        
             <c:forEach items="${organizationTable.value}" var="participantTable">
                 <chrome:division
                         title="Participant: ${participantTable.key.displayName}"/>
+				<div id="careResultsTable">		
                 ${participantTable.value}
                 <br/>
+				</div>
             </c:forEach>
 
-        </div>
+        
     </chrome:box>
 </c:forEach>
 </body>

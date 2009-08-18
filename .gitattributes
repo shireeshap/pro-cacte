@@ -901,9 +901,11 @@ pro-ctcae/web/src/main/webapp/images/blue/icons/listNotificationController_icon.
 pro-ctcae/web/src/main/webapp/images/blue/icons/listRuleController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/manageFormController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/monitorFormController_icon.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/participantCareMonitorController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/participantController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/passwordPolicyConfigurationController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/reportController_icon.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/reportSearchCriteriaController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/routineReportController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/scheduleCrfController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/searchClinicalStaffController_icon.png -text

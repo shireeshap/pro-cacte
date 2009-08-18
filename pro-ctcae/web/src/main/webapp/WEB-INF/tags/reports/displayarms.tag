@@ -15,8 +15,9 @@
 </c:if>
 <c:if test="${fn:length(arms)>1}">
     <c:set var="numOfSelectedArms" value="0"/>
-    <tr>
-        <td colspan="${colNum}"><b>Arms </b>
+   <div class="row">
+   	<div class="label">Arms</div> 
+	<div class="value">
             <c:forEach items="${arms}" var="arm">
                 <c:set var="checked" value=""/>
                 <c:forEach items="${selectedArms}" var="selectedArm">
@@ -25,11 +26,12 @@
                         <c:set var="numOfSelectedArms" value="${numOfSelectedArms+1}"/>
                     </c:if>
                 </c:forEach>
+				<div>
                 <input type="checkbox" name="${name}" value="${arm.id}" ${checked}
-                       onclick="${javascript}"/>${arm.title}
+                       onclick="${javascript}"/> ${arm.title}
+				</div>
             </c:forEach>
-        </td>
-    </tr>
+     </div>
     <tr>
         <td>
             <div id="chartTypeDiv" <c:if test="${numOfSelectedArms < 2}"> style="display:none"</c:if>>

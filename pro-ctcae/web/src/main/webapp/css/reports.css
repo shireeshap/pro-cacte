@@ -47,9 +47,8 @@ td.help-values {
 }
 
 td.actual-question {
-    background-color: #009999;
+    background-color: #ccc;
     text-align: center;
-    color: white;
     white-space: nowrap;
 }
 
@@ -83,14 +82,8 @@ td.displayOrder2 {
     background-color: white;
 }
 
-td.displayOrder3 {
-    background-color: red;
-    color: black;
-}
-
-td.displayOrder4 {
-    background-color: red;
-    color: black;
+td.displayOrder3, td.displayOrder4 {
+    background-color: #ffc3c3;
 }
 
 .link {

@@ -1,3 +1,7 @@
+/* Hack for buttons inside tables getting unwanted borders */
+.tablecontent td button td {
+	border:none;
+}
 /* Begin omnipotent-button type="button" core CSS*/
 button.omnipotent-button, a.omnipotent-button {
 	behavior: url('/proctcae/js/button-pseudoclass-IE-hack.htc');
