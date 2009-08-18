@@ -29,6 +29,9 @@ public class UniqueTitleForCrfValidatorTest extends AbstractTestCase {
 		crfRepository = registerMockFor(CRFRepository.class);
 		validator.setCrfRepository(crfRepository);
 		crf = new CRF();
+        Study study = new Study();
+        study.setId(1);
+        crf.setStudy(study);
 	}
 
 	public void testValidateUniqueIdentifier() {
