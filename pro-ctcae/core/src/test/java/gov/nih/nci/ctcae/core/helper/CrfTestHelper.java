@@ -23,7 +23,6 @@ import com.semanticbits.rules.brxml.RuleSet;
 public class CrfTestHelper {
 
     private static final int numberOfSymptoms = 10;
-    private static List<ProCtcTerm> proCtcTerms;
     private static final String formTitle = "PRO Form 1";
     private static CRFRepository crfRepository;
     private static ProCtcTermRepository proCtcTermRepository;
@@ -85,7 +84,7 @@ public class CrfTestHelper {
     private static void secondTab_FormBuilder(CRF crf) {
         ProCtcTermQuery query = new ProCtcTermQuery();
         query.filterByCtcTermHavingQuestionsOnly();
-        proCtcTerms = (List<ProCtcTerm>) proCtcTermRepository.find(query);
+        List<ProCtcTerm> proCtcTerms = (List<ProCtcTerm>) proCtcTermRepository.find(query);
         crf.setCrfVersion("1.0");
         for (int i = 0; i < numberOfSymptoms; i++) {
             crf.addProCtcTerm(proCtcTerms.get(i));
