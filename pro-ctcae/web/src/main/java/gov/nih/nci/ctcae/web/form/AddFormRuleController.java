@@ -30,12 +30,17 @@ public class AddFormRuleController extends AbstractController {
         ModelAndView modelAndView = new ModelAndView("form/ajax/formRule");
         CreateFormCommand command = ControllersUtils.getFormCommand(request);
         RuleSet ruleSet = command.getRuleSet();
-        Rule rule = ProCtcAERulesService.createRule(ruleSet, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), "");
+        String isSite = request.getParameter("isSite");
+        String override = "N";
+        if ("true".equals(isSite)) {
+            override = "Y";
+        }
+        Rule rule = ProCtcAERulesService.createRule(ruleSet, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), override);
         ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
         command.getFormOrStudySiteRules().add(proCtcAERule);
         modelAndView.addObject("proCtcAERule", proCtcAERule);
         modelAndView.addObject("ruleIndex", command.getFormOrStudySiteRules().size() - 1);
-        modelAndView.addObject("isSite", request.getParameter("isSite"));
+        modelAndView.addObject("isSite", isSite);
 
         return modelAndView;
     }

@@ -399,6 +399,7 @@ public class CreateFormCommand implements Serializable {
 
 
     private void processRules(HttpServletRequest request, RuleSet ruleSet) throws Exception {
+        ProCtcAERulesService.deployRuleSet(ruleSet);
         updateExistingRules(request);
         deleteRules(request, ruleSet);
         ProCtcAERulesService.deployRuleSet(ruleSet);
@@ -419,6 +420,10 @@ public class CreateFormCommand implements Serializable {
         String[] rules = request.getParameterValues("rule");
         if (rules != null) {
             for (String ruleId : rules) {
+                String updateRule = request.getParameter("update_" + ruleId);
+                if ("N".equals(updateRule)) {
+                    continue;
+                }
                 List<String> symptoms = getListForRule(ruleId, request, "symptoms");
                 List<String> questiontypes = getListForRule(ruleId, request, "questiontypes");
                 List<String> operators = getListForRule(ruleId, request, "operators");
@@ -430,7 +435,7 @@ public class CreateFormCommand implements Serializable {
         }
     }
 
-    public void initializeRulesForSite()  {
+    public void initializeRulesForSite() {
         RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrfAndSite(crf, myOrg, false);
         initializeRules(ruleSet);
     }

@@ -79,8 +79,9 @@
                 </div>
                 <br/>
                 <c:choose>
+
                     <c:when test="${isSite}">
-                        <input type="hidden" name="override_${ruleId}" value="'Y"/>
+                        <input type="hidden" name="override_${ruleId}" value="Y"/>
                     </c:when>
                     <c:otherwise>
                         &nbsp;&nbsp;&nbsp;<input type="checkbox" name="override_${ruleId}" value="Y" <c:if

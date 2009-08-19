@@ -13,7 +13,8 @@
         <%--<c:set var="Customizable" value="(Customizable)"/>--%>
     </c:if>
     <chrome:box title="Rule ${ruleIndex + 1} ${Customizable}">
-        <input type="hidden" name="rule" value="${ruleIndex}"/>
+        <input type="hidden" name="rule" value="${proCtcAeRule.ruleId}"/>
+        <input type="hidden" name="update_${proCtcAeRule.ruleId}" value="N"/>
         <table>
             <tr>
                 <td style="vertical-align:top">
