@@ -18,7 +18,6 @@ public abstract class BaseVersionable extends BasePersistable {
     @Version
     private Integer version = 0;
 
-    ///CLOVER:OFF
     /**
      * Gets the version.
      *
@@ -27,7 +26,6 @@ public abstract class BaseVersionable extends BasePersistable {
     public Integer getVersion() {
         return version;
     }
-    ///CLOVER:ON
 
 
 }

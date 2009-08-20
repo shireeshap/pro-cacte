@@ -123,6 +123,7 @@
         <dependency org="jfree" name="jfreechart" rev="1.0.9" force="true"/>
 
         <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.1.6" conf="build->default"/>
+        <dependency org="cobertura" name="cobertura" rev="1.8" conf="test->default(*)"/>
 
     </dependencies>
 </ivy-module>

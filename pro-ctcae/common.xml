@@ -3,10 +3,11 @@
 
     <property environment="env"/>
     <property name="default.datasource" value="datasource"/>
-
-    <!-- Ivy jar location -->
-    <!--property name="ivy.jar.dir" value="${user.home}/.ivy2/jars" />
-          <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" /-->
+    <property file="build.properties"/>
+    <path id="ivy.lib.path">
+        <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+    </path>
+    <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
 
     <condition property="ivy.available">
         <available file="${ivy.jar.file}"/>
@@ -71,9 +72,9 @@
         <attribute name="resolveId"/>
         <sequential>
             <ivy:resolve file="${ivy.file}" conf="@{confs}" resolveid="@{resolveId}" haltonfailure="false"
-                         settingsRef="proctcae.ivy.instance"/>
+                         settingsRef="ivy.instance"/>
             <ivy:retrieve pattern="@{libDir}/[artifact]-[revision].[ext]" resolveid="@{resolveId}" haltonfailure="false"
-                          settingsRef="proctcae.ivy.instance"/>
+                          settingsRef="ivy.instance"/>
         </sequential>
     </macrodef>
 
@@ -95,7 +96,7 @@
                          status="@{status}"
                          forcedeliver="true"
                          pubdate="${now}"
-                         overwrite="true" settingsRef="proctcae.ivy.instance"/>
+                         overwrite="true" settingsRef="ivy.instance"/>
         </sequential>
     </macrodef>
 
@@ -184,6 +185,7 @@
         <echo message="Executing ${ant.project.name} : init.test"/>
         <mkdir dir="${test.classes.dir}"/>
         <mkdir dir="${test.lib.dir}"/>
+        <mkdir dir="${instrumented.classes.dir}"/>
         <property name="no.init.test" value="true"/>
     </target>
 
@@ -221,22 +223,12 @@
               =======================================================-->
     <target name="load-online-settings" if="online">
         <echo message="Going for online settings"/>
-        <path id="ivy.lib.path">
-            <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
-        </path>
-        <taskdef resource="org/apache/ivy/ant/antlib.xml"
-                 uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
-        <ivy:settings file="${proj.root.dir}/ivysettings.xml" id="proctcae.ivy.instance"/>
+        <ivy:settings file="${proj.root.dir}/ivysettings.xml" id="ivy.instance"/>
         <property name="loaded.ivy.settings" value="true"/>
     </target>
     <target name="load-offline-settings" unless="loaded.ivy.settings">
         <echo message="Going for offline settings"/>
-        <path id="ivy.lib.path">
-            <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
-        </path>
-        <taskdef resource="org/apache/ivy/ant/antlib.xml"
-                 uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
-        <ivy:settings file="${proj.root.dir}/ivysettings-offline.xml" id="proctcae.ivy.instance"/>
+        <ivy:settings file="${proj.root.dir}/ivysettings-offline.xml" id="ivy.instance"/>
     </target>
     <target name="load-ivy" depends="download-ivy,download-jsch, load-online-settings, load-offline-settings"
             unless="ivy.loaded">
@@ -257,9 +249,7 @@
 
         <echo message="Executing ${ant.project.name} : resolve with confs : ${configs}"/>
         <ivyResolve confs="${configs}" libdir="${to.dir}" resolveid="[org]-[module]"/>
-
         <property name="already.resolved" value="true"/>
-
     </target>
 
 
@@ -282,22 +272,6 @@
         <ivy:report todir="${build.dir}/dependency-reports"/>
     </target>
 
-    <!-- ===============================================================
-                   target: compile-clover
-                  ============================================================= -->
-
-    <target name="compile-clover" depends="resolve,with.clover" description=" compile the project">
-        <echo message="Executing in ${ant.project.name}"/>
-        <copy-resources src="${main.src.resources}" dest="${classes.dir}" filter="true"/>
-
-
-        <javac srcdir="${main.src}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" source="1.5"
-               target="1.5">
-            <classpath>
-                <pathelement path="${clover.jar}"/>
-            </classpath>
-        </javac>
-    </target>
 
     <!-- ===============================================================
          target: compile
@@ -337,10 +311,11 @@
         <property name="module.version.prefix" value="${proctcae.version}"/>
 
         <!-- asks to ivy an available version number -->
-        <ivy:info file="${ivy.file}" settingsRef="proctcae.ivy.instance"/>
+        <ivy:info file="${ivy.file}" settingsRef="ivy.instance"/>
         <ivy:buildnumber
                 organisation="${ivy.organisation}" module="${ivy.module}"
-                revision="${module.version.prefix}" defaultBuildNumber="1" revSep="." settingsRef="proctcae.ivy.instance"/>
+                revision="${module.version.prefix}" defaultBuildNumber="1" revSep="."
+                settingsRef="ivy.instance"/>
     </target>
 
     <!-- =====================================================================
@@ -390,14 +365,6 @@
         <echo message="Executing in ${ant.project.name}"/>
         <makeJar dir="${dist.dir}" dir.classes="${classes.dir}" file.name="${jar.file}"/>
     </target>
-    <!-- =================================
-               target: clover-jar
-              ================================= -->
-    <target name="clover-jar" depends="module-specific-flow, compile-clover, version"
-            description="--> make a jar file for this project">
-        <echo message="Executing in ${ant.project.name}"/>
-        <makeJar dir="${dist.dir}" dir.classes="${classes.dir}" file.name="${jar.file}"/>
-    </target>
 
     <!-- =================================
                target: jar-test
@@ -437,82 +404,6 @@
                 />
         <echo message="project ${ant.project.name} published locally with version ${version}"/>
     </target>
-
-    <!-- =================================
-               target: publish-clover
-              ================================= -->
-    <target name="publish-local-clover"
-            depends="clean-dist, init, local-version, clover-jar,clover-clean, jar-test, debug-info,test-report"
-            description="--> publish this project in the local ivy repository">
-        <echo message="Executing in ${ant.project.name}"/>
-        <ivyPublish artifactspattern="${dist.dir}/[artifact].[ext]"
-                    resolver="proctcae-local"
-                    pubrevision="${version}"
-                    status="integration"
-                />
-        <echo message="project ${ant.project.name} published locally with version ${version}"/>
-    </target>
-
-
-    <!-- ================================================
-             target: clover
-        ===================================================== -->
-    <property name="clover.jar" location="../${CLOVER_HOME}/lib/clover.jar"/>
-
-    <taskdef resource="cloverlib.xml" classpath="${clover.jar}"/>
-
-
-    <target name="with.clover">
-        <clover-setup flushpolicy="interval" flushinterval="5000">
-        </clover-setup>
-
-    </target>
-    <target name="clover-clean">
-        <clover-clean initString="mergedcoverage.db" verbose="true" keepdb="false">
-        </clover-clean>
-
-    </target>
-
-    <target name="merge-clover">
-
-        <clover-merge initString="mergedcoverage.db">
-            <cloverDb initString="commons/.clover/clover2_4_0.db"/>
-            <cloverDb initString="core/.clover/clover2_4_0.db"/>
-            <cloverDb initString="web/.clover/clover2_4_0.db"/>
-        </clover-merge>
-
-    </target>
-
-    <target name="clover.report" depends="merge-clover">
-        <clover-html-report outdir="../${clover.dir}" initstring="mergedcoverage.db"/>
-    </target>
-
-    <target name="clover.xml" depends="merge-clover">
-
-        <clover-report>
-            <current outfile="../clover.xml">
-                <format type="xml"/>
-            </current>
-        </clover-report>
-    </target>
-
-    <target name="coverageAlert" depends="coverage.check"
-            if="coverage_check_failure">
-
-        <clover-pdf-report outfile="coverage.pdf"/>
-
-        <mail from="nightlybuild@somewhere.not"
-              tolist="team@somewhere.not"
-              subject="coverage criteria not met"
-              message="${coverage_check_failure}"
-              files="coverage.pdf"/>
-    </target>
-
-    <target name="coverage.check" depends="with.clover">
-        <clover-check target="${clover.coverage}%"
-                      failureProperty="coverage_check_failure"/>
-    </target>
-
 
     <!-- ====================================================
                target: clean-lib
@@ -584,19 +475,12 @@
         <echo message="deleting reports"/>
         <!--<delete includeemptydirs="true" dir="../${reports.dir}"/>-->
     </target>
-    <target name="clean-clover" description="--> clean the test report dir">
-        <echo message="deleting clover"/>
-        <delete includeemptydirs="true" dir="../clover-db"/>
-        <delete includeemptydirs="true" dir=".clover"/>
-        <delete includeemptydirs="true" file="coverage.db"/>
-        <delete includeemptydirs="true" file="clover.xml"/>
-    </target>
 
     <!-- =================================
          target: clean
         ================================= -->
     <target name="clean" depends="clean-classes, clean-classes-test, clean-generated-src, clean-dist, clean-lib,
-    			clean-lib-test, clean-test-results,clean-test-reports,clean-reports,clean-clover"
+    			clean-lib-test, clean-test-results,clean-test-reports,clean-reports"
             description="--> clean the project">
         <delete dir="${main.src}" includes="**/*.class"/>
         <delete dir="${test.src}" includes="**/*.class"/>
@@ -622,39 +506,10 @@
     </condition>
 
 
-    <target name="test" if="run.test" depends="clean-test-results, compile-test,resolve-test"
-            description="Runs the testcases">
-        <echo message="Executing in ${ant.project.name}"/>
-        <echo
-                message="Test results dir: ${test.results.dir}, with pattern ${testPattern} and classes from ${test.classes.dir}"/>
-        <mkdir dir="${test.results.dir}"/>
-
-        <echo message="clover path is ${clover.jar}"></echo>
-
-        <junit printsummary="withOutAndErr" errorproperty="test.failed" failureproperty="test.failed"
-               showoutput="true" maxmemory="1024m" fork="true" forkmode="once" timeout="600000" filtertrace="off">
-
-            <classpath refid="test.run.classpath"/>
-            <classpath>
-                <pathelement path="${clover.jar}"/>
-            </classpath>
-
-            <formatter type="plain"/>
-            <formatter type="xml"/>
-            <batchtest fork="yes" todir="${test.results.dir}">
-                <fileset dir="${test.classes.dir}">
-                    <include name="${testPattern}"/>
-                    <exclude name="${selenium-testPattern}"/>
-                </fileset>
-            </batchtest>
-        </junit>
-    </target>
-
-
     <!-- ==============================================================
-            target: test-report
-        ============================================================== -->
-    <target name="test-report" if="run.test" depends="test">
+       target: test-report
+   ============================================================== -->
+    <target name="test-report" if="run.test" depends="test, cobertura-report">
         <echo message="Executing in ${ant.project.name}"/>
         <mkdir dir="${test.reports.dir}"/>
         <junitreport todir="${test.reports.dir}">
@@ -711,5 +566,60 @@
         <property name="dsFile.loaded" value="true"/>
     </target>
 
+    <!-- =================================
+          target: clean-cobertura-dir
+         ================================= -->
+    <target name="clean-cobertura-dir" description="--> clean the cobertura report dir">
+        <echo message="Executing in ${ant.project.name}"/>
+        <delete includeemptydirs="true" dir="${cobertura.dir}"/>
+    </target>
+    <!-- ==============================================================
+                    target: cobertura-report
+            ============================================================== -->
+    <target name="cobertura-report" if="run.test" description="-> Will create the corbetura coverage report">
+        <cobertura-report format="html" destdir="${cobertura.dir}" srcdir="${main.src}"
+                          datafile="${cobertura.dir}/cobertura.ser"/>
+        <cobertura-report format="xml" destdir="${cobertura.dir}/xmlreport" srcdir="${main.src}"
+                          datafile="${cobertura.dir}/cobertura.ser"/>
+    </target>
+
+    <!-- ==============================================================
+                target: corbetura-init
+            ============================================================== -->
+    <target name="cobertura-init" if="run.test" depends="clean-cobertura-dir">
+        <ivy:cachepath pathid="cobertura.classpath"/>
+        <echo message="${test.lib.dir}/cobertura-1.8.jar"/>
+        <mkdir dir="${cobertura.dir}"/>
+        <mkdir dir="${cobertura.dir}/xmlreport"/>
+        <taskdef resource="tasks.properties" classpathref="cobertura.classpath"/>
+        <cobertura-instrument todir="${instrumented.classes.dir}" datafile="${cobertura.dir}/cobertura.ser">
+            <fileset dir="${classes.dir}">
+                <include name="**/*.class"/>
+                <exclude name="**/ConverterResearchStaff.class"/>
+            </fileset>
+        </cobertura-instrument>
+    </target>
+    <target name="test" if="run.test" depends="clean-test-results, compile-test,resolve-test, cobertura-init"
+            description="Runs the testcases">
+        <echo message="Executing in ${ant.project.name}"/>
+        <echo
+                message="Test results dir: ${test.results.dir}, with pattern ${testPattern} and classes from ${test.classes.dir}"/>
+        <mkdir dir="${test.results.dir}"/>
+
+        <junit printsummary="withOutAndErr" errorproperty="test.failed" failureproperty="test.failed"
+               showoutput="true" maxmemory="1024m" fork="true" forkmode="once" timeout="600000" filtertrace="off">
+            <classpath location="${instrumented.classes.dir}"/>
+            <classpath refid="test.run.classpath"/>
+            <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.dir}/cobertura.ser"/>
+            <formatter type="plain"/>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="${test.results.dir}">
+                <fileset dir="${test.classes.dir}">
+                    <include name="${testPattern}"/>
+                    <exclude name="${selenium-testPattern}"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
 
 </project>

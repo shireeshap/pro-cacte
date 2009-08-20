@@ -17,9 +17,9 @@
     <target name="resolve-dist" depends="load-ivy"
             description="--> resolve and retrieve dist conf dependencies with ivy">
         <echo message="Executing ${ant.project.name} : resolve-dist on conf : ${webConf}"/>
-        <ivy:resolve file="${ivy.file}" conf="${webConf}" haltonfailure="false" settingsRef="proctcae.ivy.instance"/>
+        <ivy:resolve file="${ivy.file}" conf="${webConf}" haltonfailure="false" settingsRef="ivy.instance"/>
         <ivy:retrieve pattern="${war.dir}/WEB-INF/lib/[artifact]-[revision].[ext]" haltonfailure="false"
-                      settingsRef="proctcae.ivy.instance"/>
+                      settingsRef="ivy.instance"/>
     </target>
 
     <!-- ==================================================================
@@ -39,11 +39,12 @@
      =============================================================-->
     <target name="clean-war">
         <delete dir="${dist.dir}/${war.filename}"/>
-        <deltree dir="${war.dir}"/>
+        <delete dir="${war.dir}"/>
     </target>
 
 
-    <target name="war" depends="clean-war, init-war, resolve-dist">
+    <target name="war" depends="clean-war, init-war">
+    <!--<target name="war" depends="clean-war, init-war, resolve-dist">-->
         <copy-resources src="${classes.dir}" dest="${war.dir}/WEB-INF/classes" filter="false"/>
         <copy-resources src="${main.src}/../webapp" dest="${war.dir}" filter="false"/>
 
@@ -61,9 +62,6 @@
         <echo message="Executing jar in ${ant.project.name}"/>
     </target>
 
-    <target name="clover-jar" depends="common.clover-jar, war">
-        <echo message="Executing jar in ${ant.project.name}"/>
-    </target>
     <target name="clean" depends="common.clean, clean-war, undeploy-proctcae">
 
     </target>
@@ -140,15 +138,10 @@
                 message="Test results dir: ${test.results.dir}, with pattern ${selenium-testPattern} and classes from ${test.classes.dir}"/>
         <mkdir dir="${test.results.dir}"/>
 
-        <echo message="clover path is ${clover.jar}"></echo>
-
         <junit printsummary="yes" errorproperty="test.failed" failureproperty="test.failed"
                showoutput="true" fork="true" forkmode="once" maxmemory="1024m" timeout="600000">
 
             <classpath refid="test.run.classpath"/>
-            <classpath>
-                <pathelement path="${clover.jar}"/>
-            </classpath>
 
             <formatter type="plain"/>
             <formatter type="xml"/>
@@ -180,7 +173,6 @@
     <target name="stop-server" description="description" depends="find-datasource">
         <echo message="shutdown failed" file="selenium-shutdown-result.txt"/>
         <property file="${dsFile}"/>
-
         <get src="http://localhost:4444/selenium-server/driver/?cmd=shutDown"
              dest="selenium-shutdown-result.txt"
              ignoreerrors="true"/>

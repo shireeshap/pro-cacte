@@ -23,16 +23,6 @@
             description="compile, jar and publish all projects in the right order, publishes them into local repository">
         <subant target="publish-local" buildpathref="build-path"/>
     </target>
-    <!-- ==================================================================
-              target : publish-clover
-          ====================================================================== -->
-    <target name="publish-clover" depends="buildlist, clean-all, clean-repo"
-            description="compile, jar and publish all projects in the right order, publishes them into local repository">
-        <subant target="publish-local-clover" buildpathref="build-path"/>
-        <subant target="clover.report" buildpathref="build-path"/>
-        <subant target="clover.xml" buildpathref="build-path"/>
-        <subant target="coverageAlert" buildpathref="build-path"/>
-    </target>
 
     <!-- =================================================================== -->
     <!-- Target for automated build  								         -->
@@ -79,7 +69,7 @@
               target : clean-pmd
           ====================================================================== -->
     <target name="clean-pmd" description="cleans the pmd report directory ">
-        <delete dir="${pmd.report.dir}"/>
+        <delete dir="${pmd.dir}"/>
     </target>
 
     <!-- ==================================================================
@@ -241,18 +231,6 @@
             <link href="http://java.sun.com/j2ee/1.4/docs/api/"/>
 
         </javadoc>
-
-
-        <!--<javadoc packagenames="${javadoc.package.names}" sourcepath="${src.java}" destdir="${javadoc}" author="true"-->
-        <!--version="false" use="true"-->
-        <!--windowtitle="${ant.project.name} Application API" doctitle="${ant.project.name} Application API"-->
-        <!--bottom="Copyright &#169; 2007 ${company.name}. All Rights Reserved." classpath="${master.class.path}">-->
-        <!--<tag name="todo" scope="all" description="To do:"/>-->
-        <!--<link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>-->
-        <!--<link href="http://java.sun.com/j2ee/1.4/docs/api/"/>-->
-        <!--</javadoc>-->
-
-
     </target>
     <!-- ==========================================================
                   target : recreate-db-hudson
@@ -287,4 +265,25 @@
             <property name="db" value="test-db-oracle"/>
         </subant>
     </target>
+
+    <target name="coverage-report" depends="load-ivy,clean-cobertura-dir" description="--> Generates the cobertura report">
+        <ivy:resolve inline="true" organisation="cobertura" module="cobertura" revision="1.8"/>
+        <ivy:cachepath pathid="cobertura.classpath"/>
+        <mkdir dir="${cobertura.dir}"/>
+        <taskdef resource="tasks.properties" classpathref="cobertura.classpath"/>
+        <cobertura-merge datafile="${cobertura.dir}/cobertura.ser">
+            <fileset dir="." includes="**/cobertura.ser"/>
+        </cobertura-merge>
+        <echo>================================================================</echo>
+        <echo>Code Coverage Report available at</echo>
+        <echo>${cobertura.dir}/index.html</echo>
+        <echo>================================================================</echo>
+        <cobertura-report format="xml" destdir="${cobertura.dir}"
+                          datafile="${cobertura.dir}/cobertura.ser">
+            <fileset dir=".">
+                <include name="**/src/main/java/**/*.java"/>
+            </fileset>
+        </cobertura-report>
+    </target>
+
 </project>
