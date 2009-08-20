@@ -52,40 +52,21 @@
         Event.observe(window, "load", function() {
             acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
             acCreate(new siteAutoComplter('study.fundingSponsor.organization'))
-            acCreate(new siteAutoComplter('study.studySponsor.organization'))
             acCreate(new siteAutoComplter('study.leadStudySite.organization'))
-
-
-        <c:if test="${command.study.studySponsor ne null}">
-            initializeAutoCompleter('study.studySponsor.organization',
-                    '${command.study.studySponsor.organization.displayName}', '${command.study.studySponsor.organization.id}')
-
-
-        </c:if>
 
         <c:if test="${command.study.dataCoordinatingCenter ne null}">
             initializeAutoCompleter('study.dataCoordinatingCenter.organization',
                     '${command.study.dataCoordinatingCenter.organization.displayName}', '${command.study.dataCoordinatingCenter.organization.id}')
-
-
         </c:if>
         <c:if test="${command.study.fundingSponsor ne null}">
             initializeAutoCompleter('study.fundingSponsor.organization',
                     '${command.study.fundingSponsor.organization.displayName}', '${command.study.fundingSponsor.organization.id}')
-
-
         </c:if>
         <c:if test="${command.study.leadStudySite ne null}">
             initializeAutoCompleter('study.leadStudySite.organization',
                     '${command.study.leadStudySite.organization.displayName}', '${command.study.leadStudySite.organization.id}')
-
-
         </c:if>
-
-
             initSearchField()
-
-
         })
 
 
@@ -112,14 +93,16 @@
 
         <tags:renderTextArea propertyName="study.description" displayName="study.label.description"
                              required="false" help="true" cols="47"/>
+       
+       <div class="row">
+           <div class="label"><tags:message code='study.label.study_sponsor'/></div>
+           <div class="value">${command.study.studySponsor.organization.displayName} </div>
+       </div>
 
         <tags:renderAutocompleter propertyName="study.dataCoordinatingCenter.organization"
                                   displayName="study.label.study_coordinating_center"
                                   required="true" help="true" size="50"/>
 
-        <tags:renderAutocompleter propertyName="study.studySponsor.organization"
-                                  displayName="study.label.study_sponsor"
-                                  required="true" help="true" size="50"/>
         <tags:renderAutocompleter propertyName="study.fundingSponsor.organization"
                                   displayName="study.label.study_funding_sponsor"
                                   required="true" help="true" size="50"/>

@@ -71,12 +71,12 @@
                 <div class="value">${command.study.description} </div>
             </div>
             <div class="row">
-                <div class="label"><tags:message code='study.label.study_coordinating_center'/></div>
-                <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
-            </div>
-            <div class="row">
                 <div class="label"><tags:message code='study.label.study_sponsor'/></div>
                 <div class="value">${command.study.studySponsor.organization.displayName} </div>
+            </div>
+            <div class="row">
+                <div class="label"><tags:message code='study.label.study_coordinating_center'/></div>
+                <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
             </div>
             <div class="row">
                 <div class="label"><tags:message code='study.label.study_funding_sponsor'/></div>
@@ -100,7 +100,7 @@
 
                 <tr>
 
-                    <td style="border-right:none;"> 
+                    <td style="border-right:none;">
                         <c:forEach items="${command.study.studySites}" var="studySite">
                             <c:if test="${studySite ne command.study.leadStudySite}">
                                 <div class="row">

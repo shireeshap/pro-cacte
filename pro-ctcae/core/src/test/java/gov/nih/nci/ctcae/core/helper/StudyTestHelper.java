@@ -110,7 +110,11 @@ public class StudyTestHelper {
     }
 
     private static void addCCA() {
-        addOrUpdateStudyOrganizationClinicalStaff("CCCA", Role.CCA, sSiteDuke);
+        OrganizationClinicalStaff staff = ClinicalStaffTestHelper.findOrganizationClinicalStaffByNciIdentifier("CCCA");
+        UserRole userRole = new UserRole();
+        userRole.setRole(Role.CCA);
+        staff.getClinicalStaff().getUser().addUserRole(userRole);
+
     }
 
     private static void deleteStudies() {

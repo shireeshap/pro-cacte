@@ -94,10 +94,6 @@
 
     <chrome:box title="">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
-        <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
-            <input type="hidden" name="cca" value="true" id="cca"/>
-        </proctcae:urlAuthorize>
-
         <input type="hidden" id="showForm" name="showForm" value=""/>
         <form:hidden path="organizationClinicalStaffIndexToRemove" id="organizationClinicalStaffIndexToRemove"/>
 
@@ -105,7 +101,7 @@
         <chrome:division title="clinicalStaff.division.user_account">
             <tags:renderEmail propertyName="clinicalStaff.emailAddress"
                               displayName="clinicalStaff.label.email_address"
-                              required="true" help="true"/>
+                              required="true" help="true" size="40"/>
 
             <tags:renderPassword propertyName="clinicalStaff.user.password"
                                  displayName="clinicalStaff.label.password"
@@ -147,6 +143,10 @@
                     </td>
                 </tr>
             </table>
+            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
+                <input type="checkbox" name="cca" value="true"
+                       id="cca"/> This clinical staff is a Coordinating Center Administrator
+            </proctcae:urlAuthorize>
         </chrome:division>
         <chrome:division title="clinicalStaff.division.sites">
 
@@ -163,12 +163,9 @@
                                         &nbsp;</th>
 
                                 </tr>
-
-
                                 <c:forEach items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}"
                                            var="organizationClinicalStaff"
                                            varStatus="status">
-
                                     <administration:organizationClinicalStaff
                                             organizationClinicalStaff="${organizationClinicalStaff}"
                                             organizationClinicalStaffIndex="${status.index}"/>
@@ -191,7 +188,7 @@
 
         </chrome:division>
     </chrome:box>
-    <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save" /></div>
+    <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
     <%--<tags:tabControls willSave="true"/>--%>
 </form:form>
 

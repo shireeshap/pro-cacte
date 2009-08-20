@@ -46,9 +46,6 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedInUser = (User) auth.getPrincipal();
-        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
-        clinicalStaffQuery.filterByUserId(loggedInUser.getId());
-
         StudyOrganization myOrg = null;
 
         List<StudyOrganizationClinicalStaff> siteLevelUsers = new ArrayList<StudyOrganizationClinicalStaff>();

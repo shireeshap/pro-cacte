@@ -62,10 +62,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
         }
 
-        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
-        clinicalStaffQuery.filterByUserId(user.getId());
-        ClinicalStaff clinicalStaff = (ClinicalStaff) genericRepository.findSingle(clinicalStaffQuery);
-
+        ClinicalStaff clinicalStaff = getClinicalStaffForUser(user);
 
         if (clinicalStaff != null) {
 
@@ -129,6 +126,13 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         grantedAuthorities.addAll(instanceGrantedAuthorities);
         user.setGrantedAuthorities(grantedAuthorities.toArray(new GrantedAuthority[]{}));
         return user;
+    }
+
+    public ClinicalStaff getClinicalStaffForUser(User user) {
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+        clinicalStaffQuery.filterByUserName(user.getUsername());
+        ClinicalStaff clinicalStaff = (ClinicalStaff) genericRepository.findSingle(clinicalStaffQuery);
+        return clinicalStaff;
     }
 
     public User findById(Integer id) {

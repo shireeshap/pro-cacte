@@ -51,9 +51,8 @@ public class Organization extends BaseVersionable {
      * @return the display name
      */
     public String getDisplayName() {
-        return getName()
-                + (getNciInstituteCode() == null ? "" : " ( "
-                + getNciInstituteCode() + " )");
+        return (getNciInstituteCode() == null ? "" : "( "
+                + getNciInstituteCode() + " ) ") + getName();
     }
 
     /* (non-Javadoc)
@@ -143,8 +142,8 @@ public class Organization extends BaseVersionable {
     /* (non-Javadoc)
       * @see java.lang.Object#toString()
       */
-	@Override
-	public String toString() {
-		return getDisplayName();
-	}
+    @Override
+    public String toString() {
+        return getDisplayName();
+    }
 }

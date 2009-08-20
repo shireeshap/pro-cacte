@@ -16,10 +16,10 @@ import java.lang.annotation.Target;
  * @since Oct 27, 2008
  */
 @Documented
-@ValidatorClass(UniqueUserNameValidator.class)
+@ValidatorClass(UserNameAndPasswordValidator.class)
 @Target({METHOD, FIELD, ElementType.PARAMETER})
 @Retention(RUNTIME)
-public @interface UniqueUserName {
+public @interface UserNameAndPassword {
 
     /**
      * Max.

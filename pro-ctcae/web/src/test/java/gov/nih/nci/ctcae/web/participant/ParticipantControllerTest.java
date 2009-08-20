@@ -41,7 +41,7 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
                 ParticipantDetailsTab pdt = (ParticipantDetailsTab) tab;
                 pdt.setCrfRepository(crfRepository);
                 pdt.setStudyOrganizationRepository(studyOrganizationRepository);
-                pdt.setUniqueUserNameValidator(uniqueUserNameValidator);
+                pdt.setUniqueUserNameValidator(userNameAndPasswordValidator);
             }
         }
         request.setMethod("GET");

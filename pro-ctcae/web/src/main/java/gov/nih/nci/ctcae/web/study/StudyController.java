@@ -5,6 +5,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.domain.Arm;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
@@ -25,7 +26,7 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
      */
     protected StudyRepository studyRepository;
     protected GenericRepository genericRepository;
-
+    protected UserRepository userRepository;
     public StudyController() {
         super();
         setCommandClass(StudyCommand.class);
@@ -94,5 +95,10 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
+    }
+
+    @Required
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }

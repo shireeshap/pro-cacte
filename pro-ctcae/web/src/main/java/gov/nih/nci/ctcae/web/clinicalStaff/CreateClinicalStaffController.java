@@ -3,7 +3,7 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
-import gov.nih.nci.ctcae.core.validation.annotation.UniqueUserNameValidator;
+import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -30,7 +30,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
      */
     private ClinicalStaffRepository clinicalStaffRepository;
     protected final String CLINICAL_STAFF_ID = "clinicalStaffId";
-    private UniqueUserNameValidator uniqueUserNameValidator;
+    private UserNameAndPasswordValidator userNameAndPasswordValidator;
 
     /**
      * Instantiates a new creates the clinical staff controller.
@@ -118,14 +118,9 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         ClinicalStaffCommand command = (ClinicalStaffCommand) o;
         User user = command.getClinicalStaff().getUser();
         user.setUsername(command.getClinicalStaff().getEmailAddress());
-        if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword())) {
-            e.rejectValue("clinicalStaff.user.confirmPassword", "user.confirm_password", "user.confirm_password");
+        if (!userNameAndPasswordValidator.validate(user)) {
+            e.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
         }
-        if (!uniqueUserNameValidator.validate(user)) {
-            e.rejectValue("clinicalStaff.user.username", "user.user_exists", "user.user_exists");
-        }
-
-
     }
 
     /**
@@ -139,7 +134,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     }
 
     @Required
-    public void setUniqueUserNameValidator(UniqueUserNameValidator uniqueUserNameValidator) {
-        this.uniqueUserNameValidator = uniqueUserNameValidator;
+    public void setUserNameAndPasswordValidator(UserNameAndPasswordValidator userNameAndPasswordValidator) {
+        this.userNameAndPasswordValidator = userNameAndPasswordValidator;
     }
 }

@@ -10,7 +10,7 @@ import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.core.security.PrivilegeAuthorizationCheck;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
-import gov.nih.nci.ctcae.core.validation.annotation.UniqueUserNameValidator;
+import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
@@ -45,7 +45,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
     public static StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
     public static GenericRepository genericRepository;
     public static ProCtcAERulesService proCtcAERulesService;
-    public static UniqueUserNameValidator uniqueUserNameValidator;
+    public static UserNameAndPasswordValidator userNameAndPasswordValidator;
 
     protected String codeBase;
     private static final String[] context = new String[]{

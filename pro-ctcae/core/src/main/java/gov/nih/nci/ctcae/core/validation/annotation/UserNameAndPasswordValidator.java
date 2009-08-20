@@ -1,14 +1,11 @@
 package gov.nih.nci.ctcae.core.validation.annotation;
 
-import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.User;
-import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.query.UserQuery;
-import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Required;
+import org.apache.commons.lang.StringUtils;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -19,7 +16,7 @@ import java.util.ArrayList;
  * @author Vinay Kumar
  * @since Oct 27, 2008
  */
-public class UniqueUserNameValidator extends AbstractValidator<UniqueUserName> {
+public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndPassword> {
 
     /**
      * The message.
@@ -38,11 +35,39 @@ public class UniqueUserNameValidator extends AbstractValidator<UniqueUserName> {
         if (value instanceof User) {
             User user = (User) value;
             if (user.getId() == null) {
-                UserQuery userQuery = new UserQuery();
-                userQuery.filterByUserName(user.getUsername());
-                List<User> users = new ArrayList<User>(userRepository.find(userQuery));
-                return (users == null || users.isEmpty()) ? true : false;
+                if (!validateUniqueName(user)) return false;
+                if (!validatePasswordPolicy(user)) return false;
+                if (!validatePasswordAndConfirmPassword(user)) return false;
             }
+        }
+        return true;
+    }
+
+    private boolean validateUniqueName(User user) {
+        UserQuery userQuery = new UserQuery();
+        userQuery.filterByUserName(user.getUsername());
+        List<User> users = new ArrayList<User>(userRepository.find(userQuery));
+        if ((users == null || users.isEmpty())) {
+            return true;
+        } else {
+            message = "user.user_exists";
+            return false;
+        }
+    }
+
+    private boolean validatePasswordPolicy(User user) {
+        String password = user.getPassword();
+        if (password == null || password.length() < 6) {
+            message = "user.password_length";
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validatePasswordAndConfirmPassword(User user) {
+        if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword())) {
+            message = "user.confirm_password";
+            return false;
         }
         return true;
     }
@@ -50,7 +75,7 @@ public class UniqueUserNameValidator extends AbstractValidator<UniqueUserName> {
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.validation.annotation.Validator#initialize(java.lang.annotation.Annotation)
      */
-    public void initialize(UniqueUserName parameters) {
+    public void initialize(UserNameAndPassword parameters) {
         message = parameters.message();
     }
 

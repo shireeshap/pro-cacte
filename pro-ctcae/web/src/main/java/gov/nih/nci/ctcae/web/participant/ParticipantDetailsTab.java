@@ -4,7 +4,7 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
-import gov.nih.nci.ctcae.core.validation.annotation.UniqueUserNameValidator;
+import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.apache.commons.lang.StringUtils;
@@ -28,7 +28,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
      */
     protected CRFRepository crfRepository;
     private StudyOrganizationRepository studyOrganizationRepository;
-    private UniqueUserNameValidator uniqueUserNameValidator;
+    private UserNameAndPasswordValidator userNameAndPasswordValidator;
 
     /**
      * Instantiates a new participant details tab.
@@ -54,11 +54,8 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
             }
         }
         User user = command.getParticipant().getUser();
-        if (!uniqueUserNameValidator.validate(user)) {
-            errors.rejectValue("participant.user.username", "user.user_exists", "user.user_exists");
-        }
-        if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword())) {
-            errors.rejectValue("participant.user.confirmPassword", "participant.user.confirm_password", "participant.user.confirm_password");
+        if (!userNameAndPasswordValidator.validate(user)) {
+            errors.rejectValue("participant.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
         }
     }
 
@@ -115,7 +112,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
         this.studyOrganizationRepository = studyOrganizationRepository;
     }
 
-    public void setUniqueUserNameValidator(UniqueUserNameValidator uniqueUserNameValidator) {
-        this.uniqueUserNameValidator = uniqueUserNameValidator;
+    public void setUserNameAndPasswordValidator(UserNameAndPasswordValidator userNameAndPasswordValidator) {
+        this.userNameAndPasswordValidator = userNameAndPasswordValidator;
     }
 }

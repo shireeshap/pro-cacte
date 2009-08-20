@@ -15,7 +15,7 @@
 
         <tags:renderAutocompleter propertyName="${propertyName}" required="true"
                                   displayName="clinicalStaff.division.site"
-                                  doNotshowLabel="true" noForm="true"/>
+                                  doNotshowLabel="true" noForm="true" size="80"/>
 
     </td>
 
