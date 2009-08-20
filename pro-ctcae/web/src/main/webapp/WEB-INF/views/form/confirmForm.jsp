@@ -25,55 +25,37 @@
 </head>
 <body>
 <chrome:flashMessage flashMessage="form.save.confirmation"></chrome:flashMessage>
-
 <tags:button color="blue" markupWithTag="a" icon="window" value="Release Form"
              onclick="javascript:releaseForm('${crf.id}')"></tags:button>
 <br>
-<br>
-
 <div class="instructions">
     <div class="summarylabel"><tags:message code='form.label.study'/></div>
     <div class="summaryvalue">${crf.study.displayName}</div>
 </div>
-
-
 <div class="instructions">
 
     <div class="summarylabel"><tags:message code='form.label.title'/></div>
     <div class="summaryvalue">${crf.title}</div>
 </div>
-<br>
-
 <table id="formbuilderTable">
     <tr>
         <td id="left">
-            <div class="instructions">
-                <div class="summarylabel"><tags:message code='form.label.questions'/></div>
-            </div>
-
             <c:forEach items="${crf.crfPagesSortedByPageNumber}" var="crfPage">
-
                 <div class="formpages">
-                    <div class="formpageheader">
-                            ${crfPage.description}
-                    </div>
+                    <div class="formpageheader">${crfPage.description}</div>
+                    <br/>
                     <tags:recallPeriodFormatter desc="${crfPage.instructions}"/>
                     <br>
-
                     <c:forEach items="${crfPage.crfPageItems}" var="crfPageItem">
                         <tags:reviewCrfPageItem crfPageItem="${crfPageItem}" showInstructions="true"
                                                 displayOrder="${crfPageItem.displayOrder}"></tags:reviewCrfPageItem>
                     </c:forEach>
                     <br>
-
                 </div>
             </c:forEach>
-
         </td>
     </tr>
-
 </table>
-
 <br>
 <br>
 

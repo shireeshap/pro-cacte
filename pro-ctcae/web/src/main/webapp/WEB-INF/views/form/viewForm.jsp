@@ -21,6 +21,7 @@
         Event.observe(window, "load", function () {
             addRemoveConditionalTriggeringDisplayToQuestion();
             reOrderQuestionNumber();
+            showTab('questions')
         })
         var tabnames = new Array();
         tabnames[0] = 'questions';
@@ -59,6 +60,8 @@
             <td id="left">
                 <c:forEach items="${crf.crfPagesSortedByPageNumber}" var="crfPage">
                     <div class="formpages">
+                        <div class="formpageheader">${crfPage.description}</div>
+                        <br/>
                         <tags:recallPeriodFormatter desc="${crfPage.instructions}"/>
                         <br>
                         <c:forEach items="${crfPage.crfPageItems}" var="crfPageItem">
