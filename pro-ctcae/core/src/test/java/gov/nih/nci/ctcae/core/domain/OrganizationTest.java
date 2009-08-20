@@ -29,7 +29,7 @@ public class OrganizationTest extends TestCase {
 		organization.setName("National Cancer Institute");
 		organization.setNciInstituteCode("NCI");
 
-		assertEquals("National Cancer Institute ( NCI )", organization.toString());
+		assertEquals("( NCI ) National Cancer Institute", organization.toString());
 	}
 
 	public void testGetDisplayName() {
@@ -38,7 +38,7 @@ public class OrganizationTest extends TestCase {
 
 		assertEquals("National Cancer Institute", organization.getDisplayName());
 		organization.setNciInstituteCode("NCI");
-		assertEquals("National Cancer Institute ( NCI )", organization.getDisplayName());
+		assertEquals("( NCI ) National Cancer Institute", organization.getDisplayName());
 
 	}
 
