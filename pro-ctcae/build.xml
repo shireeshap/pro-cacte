@@ -266,7 +266,8 @@
         </subant>
     </target>
 
-    <target name="coverage-report" depends="buildlist,clean-cobertura-dir" description="--> Generates the cobertura report">
+    <target name="coverage-report" depends="buildlist,clean-cobertura-dir"
+            description="--> Generates the cobertura report">
         <subant target="test-report" buildpathref="build-path"/>
         <ivy:cachepath pathid="cobertura.classpath"/>
         <mkdir dir="${cobertura.dir}"/>
@@ -274,16 +275,22 @@
         <cobertura-merge datafile="${cobertura.dir}/cobertura.ser">
             <fileset dir="." includes="**/cobertura.ser"/>
         </cobertura-merge>
-        <echo>================================================================</echo>
-        <echo>Code Coverage Report available at</echo>
-        <echo>${cobertura.dir}/index.html</echo>
-        <echo>================================================================</echo>
         <cobertura-report format="xml" destdir="${cobertura.dir}"
                           datafile="${cobertura.dir}/cobertura.ser">
             <fileset dir=".">
                 <include name="**/src/main/java/**/*.java"/>
             </fileset>
         </cobertura-report>
+        <cobertura-report format="html" destdir="${cobertura.dir}"
+                          datafile="${cobertura.dir}/cobertura.ser">
+            <fileset dir=".">
+                <include name="**/src/main/java/**/*.java"/>
+            </fileset>
+        </cobertura-report>
+        <echo>================================================================</echo>
+        <echo>Code Coverage Report available at</echo>
+        <echo>${cobertura.dir}/index.html</echo>
+        <echo>================================================================</echo>
     </target>
 
 </project>

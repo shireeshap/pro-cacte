@@ -36,19 +36,19 @@
 
         <!-- build only dependencies -->
         <!--<dependency org="javax.servlet" name="servlet-api" rev="latest.integration" conf="compile->default"/>-->
-        <dependency org="com.lucidtechnics" name="hannibal" rev="beta-0.10" conf="compile->default">
-            <artifact name="hannibal" type="jar"
-                      url="http://hannibalcodegenerator.googlecode.com/files/hannibal-beta-0.11-core.jar"/>
-        </dependency>
+        <!--<dependency org="com.lucidtechnics" name="hannibal" rev="beta-0.10" conf="compile->default">-->
+            <!--<artifact name="hannibal" type="jar"-->
+                      <!--url="http://hannibalcodegenerator.googlecode.com/files/hannibal-beta-0.11-core.jar"/>-->
+        <!--</dependency>-->
 
         <!-- runtime dependencies -->
-        <dependency org="org.slf4j" name="slf4j-api" rev="latest.integration" conf="runtime->default"/>
-        <dependency org="ch.qos.logback" name="logback-classic" rev="latest.integration" conf="runtime->default"/>
-        <dependency org="ch.qos.logback" name="logback-core" rev="latest.integration" conf="runtime->default"/>
+        <!--<dependency org="org.slf4j" name="slf4j-api" rev="latest.integration" conf="runtime->default"/>-->
+        <!--<dependency org="ch.qos.logback" name="logback-classic" rev="latest.integration" conf="runtime->default"/>-->
+        <!--<dependency org="ch.qos.logback" name="logback-core" rev="latest.integration" conf="runtime->default"/>-->
 
         <!-- test dependencies -->
-        <dependency org="junit" name="junit" rev="latest.integration" conf="test->default"/>
-        <dependency org="org.apache.ant" name="ant" rev="1.7.0" conf="test->default"/>
+        <!--<dependency org="junit" name="junit" rev="latest.integration" conf="test->default"/>-->
+        <!--<dependency org="org.apache.ant" name="ant" rev="1.7.0" conf="test->default"/>-->
 
         <!-- PMD -->
         <!--<dependency org="pmd" name="pmd" rev="4.2" conf="pmd->default"/>-->
@@ -91,6 +91,7 @@
         <!--<dependency org="org.mortbay.jetty" name="jsp-2.1" rev="6.1.9" conf="jetty->default"/>-->
         <!--<dependency org="org.mortbay.jetty" name="servlet-api-2.5" rev="6.1.9" conf="jetty->default"/>-->
         <!--<dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.0.6" conf="compile->default"/>-->
-
+        <dependency org="cobertura" name="cobertura" rev="1.8" conf="test->default(*)"/>
+        
     </dependencies>
 </ivy-module>
