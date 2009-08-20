@@ -266,8 +266,8 @@
         </subant>
     </target>
 
-    <target name="coverage-report" depends="load-ivy,clean-cobertura-dir" description="--> Generates the cobertura report">
-        <ivy:resolve inline="true" organisation="cobertura" module="cobertura" revision="1.8"/>
+    <target name="coverage-report" depends="buildlist,clean-cobertura-dir" description="--> Generates the cobertura report">
+        <subant target="test-report" buildpathref="build-path"/>
         <ivy:cachepath pathid="cobertura.classpath"/>
         <mkdir dir="${cobertura.dir}"/>
         <taskdef resource="tasks.properties" classpathref="cobertura.classpath"/>
