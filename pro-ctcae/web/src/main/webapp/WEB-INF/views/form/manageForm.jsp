@@ -24,10 +24,13 @@
         .even {
             background-color: #ffffff;
         }
+		a.fg-button {
+		    float:right;
+		}
     </style>
 
     <script type="text/javascript">
-        Event.observe(window, "load", function () {
+        Event.observe(window, "load", function () {	
             var sac = new studyAutoCompleter('study');
             acCreateStudy(sac);
 
@@ -36,8 +39,7 @@
                     '${study.displayName}', '${study.id}')
         </c:if>
             initSearchField();
-
-        })
+        });
 
 
         function buildTable() {
@@ -98,40 +100,49 @@
             });
         }
         function showPopUpMenu(cid, x, y, status) {
-            var html = '';
-            if (status == 'Released') {
-            <proctcae:urlAuthorize url="/pages/form/versionForm">
-                html += '<a href="javascript:versionForm(' + cid + ')" class="link">Create new version</a><br>';
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-                html += '<a href="../participant/schedulecrf?crfId=' + cid + '" class="link">Schedule form</a><br>';
-            </proctcae:urlAuthorize>
-            }
-        <proctcae:urlAuthorize url="/pages/participant/copyForm">
-            html += '<a href="copyForm?crfId=' + cid + '" class="link">Copy form</a><br>';
-        </proctcae:urlAuthorize>
-            if (status == 'Draft') {
-            <proctcae:urlAuthorize url="/pages/form/releaseForm">
-                html += '<a href="javascript:releaseForm(' + cid + ')" class="link">Release form</a><br>';
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/form/deleteForm">
-                html += '<a href="javascript:deleteForm(' + cid + ')" class="link">Delete form</a><br>';
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/form/editForm">
-                html += '<a href="editForm?crfId=' + cid + '" class="link">Edit form</a><br>';
-            </proctcae:urlAuthorize>
+	            var html = '<div id="search-engines"><ul>';
+	            if (status == 'Released') {
+	            <proctcae:urlAuthorize url="/pages/form/versionForm">
+	                html += '<li><a href="#" onclick="javascript:versionForm(' + cid + ')">Create new version</a></li>';
+	            </proctcae:urlAuthorize>
+	            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+	                html += '<li><a href="#" onclick="location.href=\'../participant/schedulecrf?crfId=' + cid + '\'">Schedule form</a></li>';
+	            </proctcae:urlAuthorize>
+	            }
+	        <proctcae:urlAuthorize url="/pages/participant/copyForm">
+	            html += '<li><a href="#" onclick="location.href=\'copyForm?crfId=' + cid + '\'">Copy form</a></li>';
+	        </proctcae:urlAuthorize>
+	            if (status == 'Draft') {
+	            <proctcae:urlAuthorize url="/pages/form/releaseForm">
+	                html += '<li><a href="#" onclick="javascript:releaseForm(' + cid + ')">Release form</a></li>';
+	            </proctcae:urlAuthorize>
+	            <proctcae:urlAuthorize url="/pages/form/deleteForm">
+	                html += '<li><a href="#" onclick="javascript:deleteForm(' + cid + ')">Delete form</a></li>';
+	            </proctcae:urlAuthorize>
+	            <proctcae:urlAuthorize url="/pages/form/editForm">
+	                html += '<li><a href="#" onclick="location.href=\'editForm?crfId=' + cid + '\'">Edit form</a></li>';
+	            </proctcae:urlAuthorize>
+	
+	            }
+	        <proctcae:urlAuthorize url="/pages/form/viewForm">
+	            html += '<li><a href="#" onclick="location.href=\'viewForm?crfId=' + cid + '\'">View form</a></li>';
+	        </proctcae:urlAuthorize>
+			html += '</ul></div>';
+				jQuery('#crfActions' + cid).menu({
+	                content: html,
+	                maxHeight: 180,
+	                positionOpts: {
+						directionV: 'down',
+						posX: 'left',
+						posY: 'bottom',
+						offsetX: 0,
+						offsetY: 0,
+					},
+	                showSpeed: 300
+	            });
 
-            }
-        <proctcae:urlAuthorize url="/pages/form/viewForm">
-            html += '<a href="viewForm?crfId=' + cid + '" class="link">View form</a><br>';
-        </proctcae:urlAuthorize>
-
-            Element.show($("dropnoteDiv"));
-            $("dropnoteDiv").style.left = (findPosX($("img_" + cid)) + x) + 'px';
-            $("dropnoteDiv").style.top = (findPosY($("img_" + cid)) + y) + 'px';
-            $("dropnoteinnerDiv").innerHTML = html;
-        }
-
+	        }
+		
 
     </script>
 
@@ -188,13 +199,13 @@
             </td>
         </tr>
         <c:forEach items="${crfs}" var="crf" varStatus="status">
-            <tr id="details_row_${crf.id}" onmouseover="highlightrow('${crf.id}');"
-                onmouseout="removehighlight('${crf.id}');">
+            <tr id="details_row_${crf.id}">
                 <td align="right">
-                    <div id="img_${crf.id}" class="indIcon"
-                         onclick="showPopUpMenu('${crf.id}',-105,-130,'${crf.status}')">
-                        <img src="../../images/menu.png" alt=""/>
-                    </div>
+                    
+						<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="crfActions${crf.id}"><span class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
+					<script>showPopUpMenu('${crf.id}',-105,-130,'${crf.status}');</script>
+                    
+					
                 </td>
                 <td class="data">
                     <c:if test="${crf.parentCrf ne null}">
