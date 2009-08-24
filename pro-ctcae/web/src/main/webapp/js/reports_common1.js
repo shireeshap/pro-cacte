@@ -142,8 +142,15 @@ function validateField(id) {
 }
 
 function showResults(transport) {
+    var items = $('reportOuterDiv').childElements();
+    var len = items.length;
+    for (var i = 0; i < len; i++) {
+        if (items[i].id != 'reportInnerDiv') {
+            items[i].remove();
+        }
+    }
     $('reportOuterDiv').show();
-    $('reportInnerDiv').innerHTML = transport.responseText;
+    new Insertion.After('reportInnerDiv', transport.responseText);
 }
 
 

@@ -25,11 +25,13 @@
             <c:forEach items="${results}" var="lineitem" varStatus="status">
         <tr id="details_row_${status.index}" onmouseover="highlightrow('${status.index}');"
             onmouseout="removehighlight('${status.index}');">
-            <td align="right">
-                <div id="img_${status.index}" class="indIcon"
-                     onclick="showPopUpMenu('${status.index}','${participant.id}','${schedule.id}',-105,-130,getLinksHtml('${lineitem[0]}'))">
-                    <img src="../../images/menu.png" alt=""/>
-                </div>
+            <td align="right" style="margin-left:10px;">
+                <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+                   id="menuActions${status.index}"><span
+                        class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
+                <script>
+                    showPopUpMenu('${status.index}', '${participant.id}', '${status.index}', getLinksHtml('${lineitem[0]}'));
+                </script>
             </td>
             <td class="data">
                     ${lineitem[0]}
@@ -42,10 +44,6 @@
     </table>
     <br/>
 </chrome:box>
-<div id="dropnoteDiv" class="ddnotediv shadowB" style="display:none;left:0;top:0">
-    <div id="dropnoteinnerDiv" class="shadowr">
-    </div>
-</div>
 </body>
 </html>
 

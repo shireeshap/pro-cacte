@@ -16,7 +16,7 @@
         td.header-top {
             text-align: left;
             padding-left: 2px;
-            white-space:nowrap;
+            white-space: nowrap;
 
         }
 
@@ -30,6 +30,7 @@
 <tr name="childTableRow_${pid}">
     <td></td>
     <td></td>
+    <td class="header-top"></td>
     <td class="header-top">
         Worst Response
     </td>
@@ -39,7 +40,6 @@
     <td class="header-top">
         Study site
     </td>
-    <td class="header-top"></td>
 </tr>
 <c:forEach items="${results}" var="studyParticipantCrfItem" varStatus="status">
     <c:set var="schedule" value="${studyParticipantCrfItem.studyParticipantCrfSchedule}"/>
@@ -48,6 +48,12 @@
         onmouseout="removehighlight('${status.index}_${pid}');" name="childTableRow_${pid}">
         <td></td>
         <td></td>
+        <td align="right" class="shaded">
+            <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+               id="menuActions${schedule.id}"><span
+                    class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
+            <script>showPopUpMenu('${status.index}_${pid}', '${participant.id}', '${schedule.id}');</script>
+        </td>
         <td class="data shaded">
                 ${studyParticipantCrfItem.proCtcValidValue.value}
         </td>
@@ -57,12 +63,6 @@
         </td>
         <td class="data shaded">
                 ${schedule.studyParticipantCrf.studyParticipantAssignment.studySite.displayName}
-        </td>
-        <td align="right" class="shaded">
-            <div id="img_${status.index}_${pid}" class="indIcon"
-                 onmouseover="showPopUpMenu('${status.index}_${pid}','${participant.id}','${schedule.id}',-180,-135)">
-                <img src="../../images/menu.png" alt="" align="left"/>
-            </div>
         </td>
     </tr>
 </c:forEach>

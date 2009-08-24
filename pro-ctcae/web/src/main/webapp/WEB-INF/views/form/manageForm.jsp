@@ -15,7 +15,6 @@
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:includeScriptaculous/>
     <tags:stylesheetLink name="table_menu"/>
-    <tags:javascriptLink name="table_menu"/>
 
     <tags:includePrototypeWindow/>
     <tags:dwrJavascriptLink objects="crf"/>
@@ -24,13 +23,14 @@
         .even {
             background-color: #ffffff;
         }
-		a.fg-button {
-		    float:right;
-		}
+
+        a.fg-button {
+            float: right;
+        }
     </style>
 
     <script type="text/javascript">
-        Event.observe(window, "load", function () {	
+        Event.observe(window, "load", function () {
             var sac = new studyAutoCompleter('study');
             acCreateStudy(sac);
 
@@ -99,50 +99,50 @@
                 item.remove();
             });
         }
-        function showPopUpMenu(cid, x, y, status) {
-	            var html = '<div id="search-engines"><ul>';
-	            if (status == 'Released') {
-	            <proctcae:urlAuthorize url="/pages/form/versionForm">
-	                html += '<li><a href="#" onclick="javascript:versionForm(' + cid + ')">Create new version</a></li>';
-	            </proctcae:urlAuthorize>
-	            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-	                html += '<li><a href="#" onclick="location.href=\'../participant/schedulecrf?crfId=' + cid + '\'">Schedule form</a></li>';
-	            </proctcae:urlAuthorize>
-	            }
-	        <proctcae:urlAuthorize url="/pages/participant/copyForm">
-	            html += '<li><a href="#" onclick="location.href=\'copyForm?crfId=' + cid + '\'">Copy form</a></li>';
-	        </proctcae:urlAuthorize>
-	            if (status == 'Draft') {
-	            <proctcae:urlAuthorize url="/pages/form/releaseForm">
-	                html += '<li><a href="#" onclick="javascript:releaseForm(' + cid + ')">Release form</a></li>';
-	            </proctcae:urlAuthorize>
-	            <proctcae:urlAuthorize url="/pages/form/deleteForm">
-	                html += '<li><a href="#" onclick="javascript:deleteForm(' + cid + ')">Delete form</a></li>';
-	            </proctcae:urlAuthorize>
-	            <proctcae:urlAuthorize url="/pages/form/editForm">
-	                html += '<li><a href="#" onclick="location.href=\'editForm?crfId=' + cid + '\'">Edit form</a></li>';
-	            </proctcae:urlAuthorize>
-	
-	            }
-	        <proctcae:urlAuthorize url="/pages/form/viewForm">
-	            html += '<li><a href="#" onclick="location.href=\'viewForm?crfId=' + cid + '\'">View form</a></li>';
-	        </proctcae:urlAuthorize>
-			html += '</ul></div>';
-				jQuery('#crfActions' + cid).menu({
-	                content: html,
-	                maxHeight: 180,
-	                positionOpts: {
-						directionV: 'down',
-						posX: 'left',
-						posY: 'bottom',
-						offsetX: 0,
-						offsetY: 0,
-					},
-	                showSpeed: 300
-	            });
+        function showPopUpMenu(cid, status) {
+            var html = '<div id="search-engines"><ul>';
+            if (status == 'Released') {
+            <proctcae:urlAuthorize url="/pages/form/versionForm">
+                html += '<li><a href="#" onclick="javascript:versionForm(' + cid + ')">Create new version</a></li>';
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+                html += '<li><a href="#" onclick="location.href=\'../participant/schedulecrf?crfId=' + cid + '\'">Schedule form</a></li>';
+            </proctcae:urlAuthorize>
+            }
+        <proctcae:urlAuthorize url="/pages/participant/copyForm">
+            html += '<li><a href="#" onclick="location.href=\'copyForm?crfId=' + cid + '\'">Copy form</a></li>';
+        </proctcae:urlAuthorize>
+            if (status == 'Draft') {
+            <proctcae:urlAuthorize url="/pages/form/releaseForm">
+                html += '<li><a href="#" onclick="javascript:releaseForm(' + cid + ')">Release form</a></li>';
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/form/deleteForm">
+                html += '<li><a href="#" onclick="javascript:deleteForm(' + cid + ')">Delete form</a></li>';
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/form/editForm">
+                html += '<li><a href="#" onclick="location.href=\'editForm?crfId=' + cid + '\'">Edit form</a></li>';
+            </proctcae:urlAuthorize>
 
-	        }
-		
+            }
+        <proctcae:urlAuthorize url="/pages/form/viewForm">
+            html += '<li><a href="#" onclick="location.href=\'viewForm?crfId=' + cid + '\'">View form</a></li>';
+        </proctcae:urlAuthorize>
+            html += '</ul></div>';
+            jQuery('#crfActions' + cid).menu({
+                content: html,
+                maxHeight: 180,
+                positionOpts: {
+                    directionV: 'down',
+                    posX: 'left',
+                    posY: 'bottom',
+                    offsetX: 0,
+                    offsetY: 0,
+                },
+                showSpeed: 300
+            });
+
+        }
+
 
     </script>
 
@@ -191,9 +191,6 @@
             <td class="header-top">
                 Effective Date
             </td>
-                <%--<td class="header-top">--%>
-                <%--Expiration Date--%>
-                <%--</td>--%>
             <td class="header-top">
                 Status
             </td>
@@ -201,11 +198,9 @@
         <c:forEach items="${crfs}" var="crf" varStatus="status">
             <tr id="details_row_${crf.id}">
                 <td align="right">
-                    
-						<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="crfActions${crf.id}"><span class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
-					<script>showPopUpMenu('${crf.id}',-105,-130,'${crf.status}');</script>
-                    
-					
+                    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+                       id="crfActions${crf.id}"><span class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
+                    <script>showPopUpMenu('${crf.id}', '${crf.status}');</script>
                 </td>
                 <td class="data">
                     <c:if test="${crf.parentCrf ne null}">
@@ -226,9 +221,6 @@
                 <td class="data">
                     <tags:formatDate value="${crf.effectiveStartDate}"/>
                 </td>
-                    <%--<td class="data">--%>
-                    <%--<tags:formatDate value="${crf.effectiveEndDate}"/>--%>
-                    <%--</td>--%>
                 <td class="data">
                         ${crf.status}
                 </td>
@@ -236,9 +228,5 @@
         </c:forEach>
     </table>
 </c:if>
-<div id="dropnoteDiv" class="ddnotediv shadowB" style="display:none;left:0;top:0">
-    <div id="dropnoteinnerDiv" class="shadowr">
-    </div>
-</div>
 
 </body>

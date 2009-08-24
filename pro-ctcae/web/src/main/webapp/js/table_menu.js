@@ -1,13 +1,13 @@
 function highlightrow(index) {
     $('details_row_' + index).className = 'highlight';
-    $('img_' + index).style.visibility = 'visible';
+//    $('img_' + index).style.visibility = 'visible';
 }
 
 function removehighlight(index)
 {
     var rEle = $('details_row_' + index);
     rEle.className = '';
-    $('img_' + index).style.visibility = 'hidden';
+//    $('img_' + index).style.visibility = 'hidden';
     if ($("dropnoteDiv")) {
         Element.hide($("dropnoteDiv"));
         $("dropnoteDiv").onmouseover = function() {
@@ -23,17 +23,27 @@ function removehighlight(index)
     }
 }
 
-function showPopUpMenu(index, pid, sid, x, y, ihtml) {
-    var html = '';
+function showPopUpMenu(index, pid, sid, ihtml) {
+    var html = '<div id="search-engines"><ul>';
     if (typeof(ihtml) == 'undefined' || ihtml == '') {
-        html = '<a href="../participant/create?id=' + pid + '" class="link">View participant</a><br/><a href="javascript:showResponses(' + sid + ');" class="link">View all responses</a>';
+        html += '<li><a href="#" onclick="location.href=\'../participant/create?id=' + pid + '\'">View participant</a></li>';
+        html += '<li><a href="#" onclick="javascript:showResponses(' + sid + ')">View all responses</a></li>';
     } else {
-        html = ihtml
+        html += ihtml
     }
-    Element.show($("dropnoteDiv"));
-    $("dropnoteDiv").style.left = (findPosX($("img_" + index)) + x) + 'px';
-    $("dropnoteDiv").style.top = (findPosY($("img_" + index)) + y) + 'px';
-    $("dropnoteinnerDiv").innerHTML = html;
+    html += '</ul></div>';
+    jQuery('#menuActions' + sid).menu({
+        content: html,
+        maxHeight: 180,
+        positionOpts: {
+            directionV: 'down',
+            posX: 'left',
+            posY: 'bottom',
+            offsetX: 0,
+            offsetY: 0
+        },
+        showSpeed: 300
+    });
 }
 
 function findPosX(obj) {
@@ -63,4 +73,7 @@ function findPosY(obj) {
         }
     }
     return Y;
+}
+function getLinksHtml(symptom) {
+    return '<li><a href="#" onclick="javascript:showResponseDetails(\'' + symptom + '\')">View participant responses</a></li>';
 }

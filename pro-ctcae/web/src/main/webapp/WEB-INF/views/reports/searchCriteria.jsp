@@ -181,9 +181,7 @@
     </div>
 </chrome:box>
 <div id="reportOuterDiv" style="display:none;">
-    <div>
-        <div id="reportInnerDiv"/>
-    </div>
+    <div id="reportInnerDiv"/>
 </div>
 
 </body>

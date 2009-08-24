@@ -684,7 +684,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/searchParticipant.jsp -t
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/selectstudyparticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/showCompletedCrf.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsDetails.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantLevelReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantLevelReportResults.jsp -text
