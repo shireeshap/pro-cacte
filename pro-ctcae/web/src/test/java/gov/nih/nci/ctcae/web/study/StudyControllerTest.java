@@ -1,6 +1,10 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.Organization;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
@@ -8,9 +12,12 @@ import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import org.springframework.security.ConfigAttributeDefinition;
+import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * @author Vinay Kumar
@@ -30,8 +37,18 @@ public class StudyControllerTest extends WebTestCase {
         controller.setStudyRepository(studyRepository);
         controller.setWebControllerValidator(validator);
         controller.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
-
+        UserRepository userRepository = registerMockFor(UserRepository.class);
+        controller.setUserRepository(userRepository);
+        UsernamePasswordAuthenticationToken token = registerMockFor(UsernamePasswordAuthenticationToken.class);
+        SecurityContextHolder.getContext().setAuthentication(token);
         study = new Study();
+        User user = new User();
+        expect(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).andReturn(user).anyTimes();
+        ClinicalStaff clinicalStaff = registerMockFor(ClinicalStaff.class);
+        expect(userRepository.getClinicalStaffForUser(user)).andReturn(clinicalStaff);
+        ArrayList<Organization> organizations = new ArrayList<Organization>();
+        organizations.add(new Organization());
+        expect(clinicalStaff.getOrganizationsWithCCARole()).andReturn(organizations);
     }
 
     public void testGetRequest() throws Exception {
