@@ -1,29 +1,30 @@
 package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.web.ControllersUtils;
-import gov.nih.nci.ctcae.web.WebTestCase;
+import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import org.springframework.web.servlet.ModelAndView;
+import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertEqualArrays;
 
 /**
  * @author Vinay Kumar
  * @since Oct 18, 2008
  */
-public class AddStudySiteControllerTest extends WebTestCase {
+public class AddStudySiteControllerTest extends AbstractWebTestCase {
 
     private AddStudySiteController controller;
 
     private StudyController studyController;
 
     @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void onSetUpInTransaction() throws Exception {
+        super.onSetUpInTransaction();
         controller = new AddStudySiteController();
         studyController = new CreateStudyController();
         studyController.setStudyRepository(studyRepository);
         studyController.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
         controller.setStudyRepository(studyRepository);
-
-
+        studyController.setUserRepository(userRepository);
+        request.setMethod("GET");
     }
 
     public void testSupportedMethod() {
@@ -31,17 +32,13 @@ public class AddStudySiteControllerTest extends WebTestCase {
     }
 
     public void testHandleRequest() throws Exception {
-        replayMocks();
+
+        login("cca.cca@demo.com");
         studyController.handleRequest(request, response);
-        verifyMocks();
-        resetMocks();
         StudyCommand command = ControllersUtils.getStudyCommand(request);
         assertNotNull("command must present in session", command);
         studyRepository.addStudySite(command.getStudy());
-        replayMocks();
         ModelAndView modelAndView = controller.handleRequestInternal(request, response);
         assertNotNull("index must be present", modelAndView.getModelMap().get("index"));
-
-        verifyMocks();
     }
 }
