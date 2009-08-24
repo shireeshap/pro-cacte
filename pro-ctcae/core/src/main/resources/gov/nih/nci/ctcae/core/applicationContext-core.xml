@@ -174,7 +174,7 @@
 
     <tx:annotation-driven proxy-target-class="true"/>
 
-    <bean id="genericRepository" class="gov.nih.nci.ctcae.core.repository.HibernateGenericRepository" >
+    <bean id="genericRepository" class="gov.nih.nci.ctcae.core.repository.HibernateGenericRepository">
         <property name="hibernateTemplate" ref="hibernateTemplate"/>
         <property name="beanValidator" ref="beanValidator"/>
     </bean>
@@ -283,5 +283,10 @@
     <bean id="beanValidator" class="gov.nih.nci.ctcae.core.validation.BeanValidator">
         <constructor-arg ref="domainClasses"/>
     </bean>
+    <bean id="userNameAndPasswordValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator">
+        <property name="userRepository" ref="userRepository"/>
+    </bean>
+
 
 </beans>

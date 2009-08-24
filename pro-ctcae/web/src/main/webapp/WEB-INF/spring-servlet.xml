@@ -508,11 +508,6 @@
         <property name="crfRepository" ref="crfRepository"/>
     </bean>
 
-    <bean id="userNameAndPasswordValidator"
-          class="gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator">
-        <property name="userRepository" ref="userRepository"/>
-    </bean>
-
     <bean id="uniqueObjectInCollectionValidator"
           class="gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollectionValidator">
     </bean>

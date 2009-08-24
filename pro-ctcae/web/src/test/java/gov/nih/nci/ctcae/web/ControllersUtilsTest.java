@@ -13,6 +13,9 @@ import gov.nih.nci.ctcae.web.study.StudyCommand;
 import gov.nih.nci.ctcae.web.study.StudyController;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import org.omg.IOP.ServiceContextHolder;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.Authentication;
 
 /**
  * @author Vinay Kumar
@@ -95,7 +98,7 @@ public class ControllersUtilsTest extends WebTestCase {
 
     public void testCommandInGetRequestOfCreateStudy() throws Exception {
         replayMocks();
-        studyController.handleRequest(request, response);
+        request.getSession().setAttribute(StudyController.class.getName() + ".FORM.command", new StudyCommand());
         verifyMocks();
         Object command = ControllersUtils.getStudyCommand(request);
         assertNotNull("command must present in session", command);

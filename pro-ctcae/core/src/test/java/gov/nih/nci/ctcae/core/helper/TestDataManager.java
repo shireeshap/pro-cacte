@@ -124,7 +124,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         System.out.println("  Data created (" + (end - start) / 1000 + " seconds)");
     }
 
-    protected void deleteAdminUser(){
+    protected void deleteAdminUser() {
         UserQuery uq = new UserQuery();
         uq.filterByUserName(SYSTEM_ADMIN);
         userRepository.delete(userRepository.findSingle(uq));
@@ -375,7 +375,12 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         TestDataManager.proCtcAERulesService = proCtcAERulesService;
     }
 
-//    private void deleteUsingHibernate(){
+    @Required
+    public void setUserNameAndPasswordValidator(UserNameAndPasswordValidator userNameAndPasswordValidator) {
+        TestDataManager.userNameAndPasswordValidator = userNameAndPasswordValidator;
+    }
+
+    //    private void deleteUsingHibernate(){
 //                 StudyQuery query = new StudyQuery();
 //        List<Study> studies = (List) studyRepository.find(query);
 //        for (Study study : studies) {
