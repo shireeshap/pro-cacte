@@ -41,6 +41,18 @@
         hideProCtcTermLinkFromForm('${selectedProCtcTerms}')
     </c:forEach>
     </c:if>
+    jQuery('#displayPrefsMenu').menu({
+        content: jQuery('#displayOptionsMenu').html(),
+		width:200,
+        positionOpts: {
+            directionV: 'down',
+            posX: 'left',
+            posY: 'bottom',
+            offsetX: 0,
+            offsetY: 0,
+        },
+        showSpeed: 300
+    });
     })
 
     Event.observe(window, "load", function () {
@@ -719,8 +731,8 @@
     }
 
     function showHideCtcTerm(action, text) {
-        $('currentPreference').innerHTML = text;
-        hide('preferencevalues');
+        $('displayPrefsMenu').innerHTML = '<span class="ui-icon ui-icon-triangle-1-s"></span>' + text;
+		jQuery('.displayPrefsCheck').css('visibility', 'hidden');
         removeClassFromHyperlink();
         showHideCtcTermA('right', 'hide');
         showHideCtcTermA('middle', 'hide');
@@ -730,18 +742,21 @@
         if (action == 'append') {
             showHideCtcTermA('middle', 'show');
             showHideCtcTermA('right', 'show');
+			jQuery('.participantFirst-check').css('visibility', 'visible');
         }
         if (action == 'prepend') {
             showHideCtcTermA('left', 'show');
             showHideCtcTermA('rightpro', 'show');
+			jQuery('.ctcaeFirst-check').css('visibility', 'visible');
         }
         if (action == 'noctcterm') {
             showHideCtcTermA('middle', 'show');
+			jQuery('.participantOnly-check').css('visibility', 'visible');
         }
         if (action == 'onlyctcterm') {
             showHideCtcTermA('only', 'show');
+			jQuery('.ctcaeOnly-check').css('visibility', 'visible');
         }
-        $('a_' + action).addClassName('nolink_hyperlink');
     }
     function removeClassFromHyperlink() {
         $('a_append').removeClassName('nolink_hyperlink');
@@ -906,7 +921,10 @@
         font-style: italic;
         font-size: 12px;
     }
-
+	.fg-menu a span {
+		float:left;
+		margin-right:5px;
+	}
 </style>
 
 </head>
@@ -918,57 +936,23 @@
         <div class="summarylabel"><tags:message code='form.label.study'/></div>
         <div class="summaryvalue">${command.crf.study.displayName}</div>
     </div>
-
-    <table width="0%" border="0">
-        <tr>
-            <td>
-                <tags:button value="Preferences" color="blue" size="small"
-                             onclick="javascript:setVisible('preferencevalues')"
-                             markupWithTag="a"/>
-            </td>
-            <td>
-                <span id="currentPreference">Showing both [ with CTCAE term first ]</span>
-            </td>
-        </tr>
-    </table>
-
-<span id="preferencevalues" class="hint" style="display: none;">
-<table class="widget" cellspacing="0" width="100%" align="center">
-    <tr>
-        <td align="right">
-            <a href="javascript:hide('preferencevalues');">X</a>
-        </td>
-    </tr>
-    <tr>
-        <td class="help-values">
-            <a href="javascript:showHideCtcTerm('noctcterm','Showing participant term only')" id="a_noctcterm">
-                Show only participant term
-            </a>
-        </td>
-    <tr>
-        <td class="help-values">
-            <a href="javascript:showHideCtcTerm('onlyctcterm','Showing CTCAE term only')" id="a_onlyctcterm">
-                Show only CTCAE term
-            </a>
-        </td>
-    </tr>
-
-    <tr>
-        <td class="help-values">
-            <a href="javascript:showHideCtcTerm('append','Showing both [with participant term first]')" id="a_append">
-                Show both [ with participant term first ]
-            </a>
-        </td>
-    </tr>
-    <tr>
-        <td class="help-values">
-            <a href="javascript:showHideCtcTerm('prepend','Showing both [with CTCAE term first]')" id="a_prepend"
-               class="nolink_hyperlink">Show both [ with CTCAE term first ]
-            </a>
-        </td>
-    </tr>
-</table>
-</span>
+    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="displayPrefsMenu" style="margin-left:11px"><span class="ui-icon ui-icon-triangle-1-s"></span>Display Preferences</a>
+    <div id="displayOptionsMenu" class="hidden">
+        <ul>
+            <li>
+                <a href="#" onclick="showHideCtcTerm('noctcterm','Showing participant term only')" id="a_noctcterm"><span class="ui-icon ui-icon-check displayPrefsCheck participantOnly-check" style="visibility:hidden;"></span>Participant term only</a>
+            </li>
+            <li>
+                <a href="#" onclick="showHideCtcTerm('onlyctcterm','Showing CTCAE term only')" id="a_onlyctcterm"><span class="ui-icon ui-icon-check displayPrefsCheck ctcaeOnly-check" style="visibility:hidden;"></span>CTCAE term only</a>
+            </li>
+            <li>
+                <a href="#" onclick="showHideCtcTerm('append','Showing both (participant term first)')" id="a_append"><span class="ui-icon ui-icon-check displayPrefsCheck participantFirst-check" style="visibility:hidden;"></span>Both (participant term first)</a>
+            </li>
+            <li>
+                <a href="#" onclick="showHideCtcTerm('prepend','Showing both (CTCAE term first)')" id="a_prepend"><span class="ui-icon ui-icon-check displayPrefsCheck ctcaeFirst-check"></span>Both (CTCAE term first)</a>
+            </li>
+        </ul>
+    </div>
 <table id="formbuilderTable" border="0">
     <tr>
         <td id="left">
