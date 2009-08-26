@@ -89,7 +89,7 @@
         </div>
         <div class="row">
             <div class="submit">
-                <tags:button value="Log in" color="blue"/>
+                <tags:button type="submit" value="Log in" color="blue"/>
             </div>
         </div>
             <%--<div class="row">--%>
