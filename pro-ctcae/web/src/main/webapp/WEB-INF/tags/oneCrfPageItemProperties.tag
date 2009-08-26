@@ -75,14 +75,7 @@
             </select>
         </div>
         <br>
-        <input type="button" value="Add Conditions" onClick="javascript:addConditionalQuestion('${crfPageItem.proCtcQuestion.id}',
-			$F('selectedCrfPageItems_${crfPageItem.proCtcQuestion.id}'))" class="button"/>
-
-
-        <%--<div id="previewQuestion" class="review">--%>
-        <%--<tags:questionReview crfItem="${crfItem}" showInstructions="false" displayOrder="${crfItem.displayOrder}"/>--%>
-        <%--<br>--%>
-        <%--<br>--%>
-        <%--</div>--%>
+        <tags:button type="button" icon="add" value="Add Conditions" color="blue" onclick="javascript:addConditionalQuestion('${crfPageItem.proCtcQuestion.id}',
+			$F('selectedCrfPageItems_${crfPageItem.proCtcQuestion.id}'))"/>
     </div>
 </div>
