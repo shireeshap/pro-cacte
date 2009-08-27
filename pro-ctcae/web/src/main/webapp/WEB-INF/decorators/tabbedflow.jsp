@@ -12,10 +12,9 @@
 <!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-
+	<standard:head/>
     <title>ProCtcAE ||<tags:message code="${flow.name}"/> ||<tags:message code="${tab.longTitle}"/></title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <standard:head/>
 
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:javascriptLink name="tabbedflow"/>
