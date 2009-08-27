@@ -44,13 +44,7 @@
     jQuery('#displayPrefsMenu').menu({
         content: jQuery('#displayOptionsMenu').html(),
 		width:200,
-        positionOpts: {
-            directionV: 'down',
-            posX: 'left',
-            posY: 'bottom',
-            offsetX: 0,
-            offsetY: 0,
-        },
+        positionOpts:{directionV: 'down',posX: 'left',posY: 'bottom',offsetX: 0,offsetY: 0},
         showSpeed: 300
     });
     })
@@ -799,47 +793,48 @@
     }
 
     #form-tabs {
-        left: 5px;
-        position: relative;
-        top: 0px;
+		margin-top:4px;
     }
 
     #firstlevelnav_1 {
-        position: absolute;
         left: 0;
         top: 3px;
         display: block;
-        height: 0px;
-        padding-top: 41px;
+ 		font-size:0;
+		text-indent:-9999px;
+        padding-top: 40px;
         width: 145px;
         background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
         overflow: hidden;
+		background-repeat:no-repeat;
     }
 
     #firstlevelnav_2 {
-        position: absolute;
         left: 145px;
         top: 3px;
         display: block;
-        height: 0px;
-        padding-top: 41px;
+		font-size:0;
+		text-indent:-9999px;
+        padding-top: 40px;
         width: 138px;
         background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
         overflow: hidden;
         background-position: -145px 0;
+		background-repeat:no-repeat;
     }
 
     #firstlevelnav_3 {
-        position: absolute;
         left: 283px;
         top: 3px;
         display: block;
-        height: 0px;
-        padding-top: 41px;
+		font-size:0;
+		text-indent:-9999px;
+        padding-top: 40px;
         width: 160px;
         background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
         overflow: hidden;
         background-position: -283px 0;
+		background-repeat:no-repeat;
     }
 
     .leftBox {
@@ -847,7 +842,6 @@
         background-color: #e7eaf3;
         margin-right: 3px;
         margin-top: 44px;
-        position: relative;
     }
 
     #firstlevelnav_1.selected_4thlvl {
@@ -925,8 +919,27 @@
 		float:left;
 		margin-right:5px;
 	}
+	* {
+		zoom:1;
+	}
 </style>
-
+<!--[if IE]>
+<style>
+	.leftBox {
+        margin-top: -1px;
+    }
+	#formbuilderTable-TL, #formbuilderTable-T, #formbuilderTable-TR {
+		height:5px;
+	}
+</style>
+<![endif]-->
+<!--[if IE 7]>
+<style>
+	#formbuilderTable-TL, #formbuilderTable-T, #formbuilderTable-TR {
+		height:15px;
+	}
+</style>
+<![endif]-->
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
@@ -1065,7 +1078,7 @@
                 <tr>
                     <td id="formbuilderTable-L"></td>
                     <td id="formbuilderTable-M">
-                        <div style="width:105%; position:relative; top:-20px; left:-20px;">
+                        <div style="position:relative; top:-20px; left:-20px;">
                             <c:choose>
                                 <c:when test="${command.crf.crfVersion eq 1.0}">
 
