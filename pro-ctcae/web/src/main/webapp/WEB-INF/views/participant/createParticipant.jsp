@@ -73,6 +73,34 @@
         }
 
     </script>
+	<style type="text/css">
+    .tableHeader {
+        background-color: #2B4186;
+        background-image: url(/proctcae/images/blue/eXtableheader_bg.png);
+        background-position: center top;
+        background-repeat: repeat-x;
+        color: white;
+        font-size: 13px;
+        font-weight: bold;
+        margin: 0;
+        padding: 4px 3px;
+        text-align: left;
+    }
+
+    table.widget {
+        width: 100%;
+        background-color: #e9e8e8;
+        border-top: 1px solid #999999;
+        border-right: 1px solid #999999;
+    }
+
+    td.data {
+        vertical-align: top;
+        border-bottom: 1px solid #999999;
+        border-left: 1px solid #999999;
+        padding-left: 5px;
+    }
+</style>
 </head>
 <body>
 <%--<chrome:flashMessage flashMessage="participant.flash.save"></chrome:flashMessage>--%>

@@ -13,24 +13,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
-        .label {
-            width: 15em;
-            padding: 1px;
-            margin-right: 0.8em;
-        }
-
-        div.row div.label {
-            width: 15em;
-            padding: 1px;
-            margin-left: 0.5em;
-        }
-
-        div.row div.value {
-            white-space: normal;
-            width: 100em;
-
-        }
-
         #studyDetails td.label {
             font-weight: bold;
             float: left;
@@ -52,7 +34,6 @@
         </c:if>
 
     <chrome:division>
-        <div class="leftpanel">
             <div class="row">
                 <div class="label"><tags:message code='study.label.assigned_identifier'/></div>
                 <div class="value">${command.study.assignedIdentifier} </div>
@@ -86,7 +67,6 @@
                 <div class="label"><tags:message code='study.label.study_lead_site'/></div>
                 <div class="value">${command.study.leadStudySite.organization.displayName} </div>
             </div>
-        </div>
     </chrome:division>
     <chrome:division title="study.section.study_sites">
 
