@@ -343,7 +343,7 @@
 
         $('questionsIds').value = questionsId;
         $('totalQuestions').value = i;
-        $('totalQuestionDivision').innerHTML = i;
+        $('totalQuestionDivision').innerHTML = i + '<!--[if IE]>&nbsp;<![endif]-->';
         if (i == 1) {
             $('plural1').innerHTML = 'is';
             $('plural2').innerHTML = '';
@@ -922,6 +922,9 @@
 	* {
 		zoom:1;
 	}
+	ul.tree .formbuilderboxContent li {
+		background:none;
+	}
 </style>
 <!--[if IE]>
 <style>
@@ -933,13 +936,7 @@
 	}
 </style>
 <![endif]-->
-<!--[if IE 7]>
-<style>
-	#formbuilderTable-TL, #formbuilderTable-T, #formbuilderTable-TR {
-		height:15px;
-	}
-</style>
-<![endif]-->
+
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
@@ -1069,13 +1066,13 @@
 
                 <%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
                 <%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>
-            <table style="border-collapse:collapse; height:800px;width:100%;">
-                <tr>
+            <table style="border-collapse:collapse; width:100%;">
+                <tr style="height:5px;" height="5">
                     <td id="formbuilderTable-TL"></td>
-                    <td id="formbuilderTable-T"></td>
+                    <td id="formbuilderTable-T"><div style="height:31px;visibility:hidden;">spacer</div></td>
                     <td id="formbuilderTable-TR"></td>
                 </tr>
-                <tr>
+                <tr style="height:750px;">
                     <td id="formbuilderTable-L"></td>
                     <td id="formbuilderTable-M">
                         <div style="position:relative; top:-20px; left:-20px;">
@@ -1090,12 +1087,18 @@
 
                             <form:hidden path="crf.title" id="formTitle"/>
 
-                                        <span class="formbuildersubHeader">There <span id="plural1">are</span> <span
-                                                id="totalQuestionDivision"><c:choose>
-                                            <c:when test="${totalQuestions}">${totalQuestions}</c:when>
-                                            <c:otherwise>0</c:otherwise>
-                                        </c:choose>
-										</span> question<span id="plural2">s</span> in this form.</span>
+                            <span class="formbuildersubHeader">There <span id="plural1">are</span>
+								<span id="totalQuestionDivision">
+                                    <c:choose>
+                                        <c:when test="${totalQuestions}">
+                                            ${totalQuestions}
+                                        </c:when>
+                                        <c:otherwise>
+                                            0<!--[if IE]>&nbsp;<![endif]-->
+                                        </c:otherwise>
+                                    </c:choose>
+                                </span>
+								question<span id="plural2">s</span> in this form.</span>
 
 
                             <form:hidden path="questionsIds" id="questionsIds"/>
