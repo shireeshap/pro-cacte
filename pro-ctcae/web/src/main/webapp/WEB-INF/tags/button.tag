@@ -22,16 +22,14 @@
 	<c:if test="${not empty disabled && markupWithTag!='a'}">
 		disabled="${disabled}"
 	</c:if>
-	<c:if test="${not empty href}">
-    	href="${href}"
-	</c:if>
+	
 	<c:if test="${not empty id}">
 		id="${id}" 
 	</c:if>
 	<c:if test="${not empty onclick}">
     	onclick="${onclick}"
 	</c:if>>
-	<table>
+	<table <c:if test="${not empty href}">onclick="location.href='${href}';"</c:if>>
 		<tr>
 			<td class="l"></td>
 			<td class="m">

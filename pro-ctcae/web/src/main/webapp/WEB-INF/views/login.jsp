@@ -47,11 +47,16 @@
 		* {
 			zoom:1;
 		}
+		
+
+    </style>
+<!--[if IE]>
+	<style>
 		div.row div.value {
 			margin-left:7px;
 		}
-
-    </style>
+	</style>
+<![endif]-->
 </head>
 <body>
 <chrome:box title="Please log in" autopad="true">

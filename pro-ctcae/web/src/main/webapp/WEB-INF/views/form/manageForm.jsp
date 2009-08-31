@@ -27,8 +27,17 @@
         a.fg-button {
             float: right;
         }
+		* {
+			zoom:1;
+		}
     </style>
-
+<!--[if IE]>
+	<style>
+		div.row div.value {
+			margin-left:7px;
+		}
+	</style>
+<![endif]-->
     <script type="text/javascript">
         Event.observe(window, "load", function () {
             var sac = new studyAutoCompleter('study');
@@ -150,7 +159,7 @@
 <body>
 <chrome:box title="form.box.select_study" id="study-entry">
     <div align="left" style="margin-left: 50px">
-        <p><tags:instructions code="instruction_select_study"/></p>
+        <tags:instructions code="instruction_select_study"/>
 
         <tags:renderAutocompleter propertyName="study"
                                   displayName="Study"
