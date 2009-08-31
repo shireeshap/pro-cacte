@@ -29,14 +29,13 @@ Click on cancel button to cancel it or click on delete button to delete this que
 
 
 <div class="flow-buttons">
-
-    <input type="button" id="flow-update" class="next" value="<tags:message code="label.delete"/>"
-           alt="Delete" onclick="deleteQuestionConfirm('${questionId}','${proCtcTermId}')"/>
-
-
-    <input type="button" id="flow-cancel" class="previous ibutton" value="<tags:message code="label.cancel"/>"
-           alt="Cancel" onclick="closeWindow()"/>
-
+    <span class="next">
+        <tags:button id="flow-update" color="red" icon="check" value="Delete"
+                     onclick="deleteQuestionConfirm('${questionId}','${proCtcTermId}')"/>
+    </span>
+  <span class="previous ibutton">
+      <tags:button onclick="closeWindow()" color="blue" value="Cancel" markupWithTag="a" icon="x"/>
+  </span>
 
     </chrome:division>
     </chrome:box>

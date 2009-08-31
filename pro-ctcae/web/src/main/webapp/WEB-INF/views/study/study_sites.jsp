@@ -86,7 +86,7 @@
             <div align="left" style="margin-left: 50px">
                 <table width="55%" class="tablecontent" style="display:none;" id="studySiteTable">
                     <tr id="ss-table-head" class="amendment-table-head">
-                        <th width="95%" class="tableHeader"><tags:requiredIndicator/><spring:message
+                        <th width="95%" class="tableHeader"><spring:message
                                 code='study.label.sites' text=''/></th>
                         <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 

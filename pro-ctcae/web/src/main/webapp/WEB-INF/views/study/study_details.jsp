@@ -118,7 +118,7 @@
               <div align="left" style="margin-left: 50px">
                   <table width="95%" class="tablecontent" id="studyArmTable">
                       <tr id="sa-table-head" class="amendment-table-head">
-                          <th width="50%" class="tableHeader"><tags:requiredIndicator/><spring:message
+                          <th width="50%" class="tableHeader"><spring:message
                                   code='study.label.arms' text=''/></th>
                           <th width="50%" class="tableHeader">&nbsp;</th>
 

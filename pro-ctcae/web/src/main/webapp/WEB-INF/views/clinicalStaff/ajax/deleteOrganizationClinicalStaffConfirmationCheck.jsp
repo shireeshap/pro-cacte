@@ -17,18 +17,17 @@
 </p>
 
 </div>
-<br>
 
 
 <div class="flow-buttons">
 
-    <input type="button" id="flow-update" class="next" value="<tags:message code="label.delete"/>"
-           alt="Delete" onclick="deleteSiteConfirm('${organizationClinicalStaffIndex}')"/>
-
-
-    <input type="button" id="flow-cancel" class="previous ibutton" value="<tags:message code="label.cancel"/>"
-           alt="Cancel" onclick="closeWindow()"/>
-
+        <span class="next">
+        <tags:button id="flow-update" color="red" icon="check" value="Delete"
+                     onclick="deleteSiteConfirm('${organizationClinicalStaffIndex}')"/>
+        </span>
+        <span class="previous ibutton">
+        <tags:button onclick="closeWindow()" color="blue" value="Cancel" markupWithTag="a" icon="x"/>
+        </span>
 
     </chrome:division>
     </chrome:box>
