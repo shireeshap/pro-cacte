@@ -136,7 +136,7 @@
                     posX: 'left',
                     posY: 'bottom',
                     offsetX: 0,
-                    offsetY: 0,
+                    offsetY: 0
                 },
                 showSpeed: 300
             });
