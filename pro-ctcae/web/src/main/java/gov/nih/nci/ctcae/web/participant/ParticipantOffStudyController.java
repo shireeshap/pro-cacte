@@ -37,7 +37,7 @@ public class ParticipantOffStudyController extends CtcAeSimpleFormController {
 
         String spaId = request.getParameter("id");
         StudyParticipantAssignment studyParticipantAssignment = studyParticipantAssignmentRepository.findById(Integer.parseInt(spaId));
-        studyParticipantAssignment.setOffTreatmentDate(new Date());
+//        studyParticipantAssignment.setOffTreatmentDate(new Date());
         return studyParticipantAssignment;
     }
 
@@ -45,8 +45,8 @@ public class ParticipantOffStudyController extends CtcAeSimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
         StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
-        studyParticipantAssignment = studyParticipantAssignmentRepository.findById(studyParticipantAssignment.getId());
         studyParticipantAssignmentRepository.save(studyParticipantAssignment);
+        studyParticipantAssignment = studyParticipantAssignmentRepository.findById(studyParticipantAssignment.getId());
 
         for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
             for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
