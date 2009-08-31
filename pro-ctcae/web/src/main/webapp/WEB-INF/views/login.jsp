@@ -44,6 +44,12 @@
             float: left;
             margin-top: 1em;
         }
+		* {
+			zoom:1;
+		}
+		div.row div.value {
+			margin-left:7px;
+		}
 
     </style>
 </head>
@@ -79,8 +85,8 @@
             <div class="label">
                 Password
             </div>
-            <div class="value">
-                <input type="password" name="j_password" id="password" onclick="attachKeyBoard($('password'));"/>
+            <div class="value" style="text-align:left; padding:0;">
+                <input type="password" name="j_password" id="password" onclick="attachKeyBoard($('password'));" style="margin-left:0;"/>
             </div>
         </div>
         <div class="row">

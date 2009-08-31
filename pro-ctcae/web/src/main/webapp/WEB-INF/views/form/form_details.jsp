@@ -781,7 +781,7 @@
 <style type="text/css">
 
     .makeDraggable {
-        cursor: move;
+        cursor: pointer;
         position: relative;
     }
 
