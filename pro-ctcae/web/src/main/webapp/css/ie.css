@@ -31,3 +31,12 @@ button.omnipotent-button {
 button.omnipotent-button.small {
 	margin:0;
 }
+body #keyboardInputMaster tbody tr td div#keyboardInputLayout table tbody tr td.last {
+    width: auto;
+}
+body #keyboardInputMaster {
+	width:100%;
+}
+body #keyboardInputMaster tbody tr td div#keyboardInputLayout table {
+	height:50px;
+}
