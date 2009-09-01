@@ -954,7 +954,6 @@ function VKI_buildKeyboardInputs() {
      *
      */
     this.VKI_close = VKI_close = function() {
-        if (this.VKI_visible) {
             try {
                 this.VKI_keyboard.parentNode.removeChild(this.VKI_keyboard);
                 if (this.VKI_isIE6) this.VKI_iframe.parentNode.removeChild(this.VKI_iframe);
@@ -962,7 +961,6 @@ function VKI_buildKeyboardInputs() {
             }
             this.VKI_target.focus();
             this.VKI_target = this.VKI_visible = false;
-        }
     };
 }
 ;
