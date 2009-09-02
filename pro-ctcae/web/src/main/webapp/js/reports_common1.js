@@ -216,8 +216,10 @@ function populate(divid, values, itext, ivalue, selectedValue, title) {
         var value = values[i];
         var option = new Element('OPTION', {});
         if (typeof(itext) != 'undefined') {
+            option.label = value[itext];
             option.text = value[itext];
         } else {
+            option.label = value;
             option.text = value;
         }
         if (typeof(ivalue) != 'undefined') {
@@ -236,7 +238,8 @@ function populate(divid, values, itext, ivalue, selectedValue, title) {
 }
 function addPleaseSelect(select) {
     var option = new Element('OPTION', {});
-    option.text = 'Please select';
+    option.label = 'Please select';
+    option.text= 'Please select';
     option.value = '';
     select.appendChild(option);
 }

@@ -38,6 +38,7 @@ function displayForms(crfid) {
 function populate(ele, values, itext, ivalue, selectedValue) {
     var option = new Element('OPTION', {});
     option.text = 'Please select';
+    option.label = 'Please select';
     option.value = '';
     ele.appendChild(option);
     for (var i = 0; i < values.length; i++) {
@@ -45,8 +46,10 @@ function populate(ele, values, itext, ivalue, selectedValue) {
         var option = new Element('OPTION', {});
         if (typeof(itext) != 'undefined') {
             option.text = value[itext];
+            option.label = value[itext];
         } else {
             option.text = value;
+            option.label = value;
         }
         if (typeof(ivalue) != 'undefined') {
             option.value = value[ivalue];
