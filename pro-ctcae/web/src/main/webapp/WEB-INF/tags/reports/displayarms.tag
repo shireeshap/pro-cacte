@@ -13,11 +13,12 @@
 <c:if test="${resetPopUp == 'true'}">
     <c:set var="javascript" value="resetPopUpFlagAndCallResults();"/>
 </c:if>
-<c:if test="${fn:length(arms)>1}">
-    <c:set var="numOfSelectedArms" value="0"/>
-   <div class="row">
-   	<div class="label">Arms</div> 
-	<div class="value">
+
+<c:set var="numOfSelectedArms" value="0"/>
+<td>
+    <div class="row">
+        <div class="label">Arms</div>
+        <div class="value">
             <c:forEach items="${arms}" var="arm">
                 <c:set var="checked" value=""/>
                 <c:forEach items="${selectedArms}" var="selectedArm">
@@ -26,22 +27,23 @@
                         <c:set var="numOfSelectedArms" value="${numOfSelectedArms+1}"/>
                     </c:if>
                 </c:forEach>
-				<div>
-                <input type="checkbox" name="${name}" value="${arm.id}" ${checked}
-                       onclick="${javascript}"/> ${arm.title}
-				</div>
+                <div>
+                    <input type="checkbox" name="${name}" value="${arm.id}" ${checked}
+                           onclick="${javascript}"/> ${arm.title}
+                </div>
             </c:forEach>
-     </div>
-    <tr>
-        <td>
-            <div id="chartTypeDiv" <c:if test="${numOfSelectedArms < 2}"> style="display:none"</c:if>>
-                <b>Chart type:</b>
-                <input type="radio" name="chartType" value="bar" onclick="javascript:reportResults();"
-                       <c:if test="${chartType ne 'line'}">checked="true"</c:if>>Bar
-                chart
-                <input type="radio" name="chartType" value="line" onclick="javascript:reportResults();"
-                       <c:if test="${chartType eq 'line'}">checked="true"</c:if>>Scatter chart
-            </div>
-        </td>
-    </tr>
-</c:if>
+        </div>
+    </div>
+</td>
+<td style="vertical-align:top;">
+    <div id="chartTypeDiv" <c:if test="${numOfSelectedArms < 2}"> style="display:none"</c:if> class="row">
+        <div class="label">Chart type:</div>
+        <div class="value">
+            <input type="radio" name="chartType" value="bar" onclick="javascript:reportResults();"
+                   <c:if test="${chartType ne 'line'}">checked="true"</c:if>>Bar
+            chart
+            <input type="radio" name="chartType" value="line" onclick="javascript:reportResults();"
+                   <c:if test="${chartType eq 'line'}">checked="true"</c:if>>Scatter chart
+        </div>
+    </div>
+</td>

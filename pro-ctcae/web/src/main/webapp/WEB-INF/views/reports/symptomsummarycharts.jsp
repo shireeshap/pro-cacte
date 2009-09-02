@@ -6,23 +6,30 @@
 
 <chrome:box title="Report">
     <table>
-        <c:if test="${fn:length(allAttributes)>1}">
+        <c:if test="${fn:length(arms)>1}">
             <tr>
-                <td>
-                    <b>Display </b>&nbsp;<c:forEach items="${allAttributes}" var="attribute">
-                    <input type="checkbox"
-                           <c:if test="${fn:contains(selectedAttributes,attribute)}">checked="true"</c:if>
-                           name="attribute"
-                           value="${attribute}"
-                           onclick="updateChart(this);">${attribute}&nbsp;&nbsp;
-                </c:forEach>
-                </td>
+                <reports:displayarms arms="${arms}" selectedArms="${selectedArms}" name="armPop"/>
             </tr>
         </c:if>
-        <reports:displayarms arms="${arms}" selectedArms="${selectedArms}" name="armPop"/>
+        <tr>
+            <td colspan="2">
+                <c:if test="${fn:length(allAttributes)>1}">
+                    <div class="row">
+                        <div class="label">Display</div>
+                        <div class="value">
+                            <c:forEach items="${allAttributes}" var="attribute">
+                                <input type="checkbox"
+                                       <c:if test="${fn:contains(selectedAttributes,attribute)}">checked="true"</c:if>
+                                       name="attribute"
+                                       value="${attribute}"
+                                       onclick="updateChart(this);">${attribute}&nbsp;&nbsp;
+                            </c:forEach>
+                        </div>
+                    </div>
+                </c:if>
+            </td>
+        </tr>
     </table>
-    <br/>
-    <br/>
     <c:forEach items="${results}" var="charts">
         ${charts[2]}
         <chrome:division title="Participant reported worst responses for ${symptom} symptom ${charts[0]}"/>
