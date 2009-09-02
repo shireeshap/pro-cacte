@@ -15,7 +15,7 @@
             <chrome:division>
                 <div id="releaseForm">
                     <p>
-                        You are about to delete<strong>${crf.title}</strong>.
+                        You are about to delete <strong>${command.title}</strong>.
                     </p>
                     <p>
                         You cannot reverse this step.

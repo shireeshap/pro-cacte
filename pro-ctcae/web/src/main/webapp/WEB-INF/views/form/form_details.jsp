@@ -41,12 +41,12 @@
         hideProCtcTermLinkFromForm('${selectedProCtcTerms}')
     </c:forEach>
     </c:if>
-    jQuery('#displayPrefsMenu').menu({
-        content: jQuery('#displayOptionsMenu').html(),
-		width:200,
-        positionOpts:{directionV: 'down',posX: 'left',posY: 'bottom',offsetX: 0,offsetY: 0},
-        showSpeed: 300
-    });
+        jQuery('#displayPrefsMenu').menu({
+            content: jQuery('#displayOptionsMenu').html(),
+            width:200,
+            positionOpts:{directionV: 'down',posX: 'left',posY: 'bottom',offsetX: 0,offsetY: 0},
+            showSpeed: 300
+        });
     })
 
     Event.observe(window, "load", function () {
@@ -198,9 +198,9 @@
         $('questionBank').show();
         hideQuestionSettings();
         hideFormSettings();
-        $("firstlevelnav_1").addClassName('selected_4thlvl')
-        $("firstlevelnav_3").removeClassName('selected_4thlvl')
-        $("firstlevelnav_2").removeClassName('selected_4thlvl')
+        $("firstlevelnav_1").addClassName('selected_4thlvl');
+        $("firstlevelnav_3").removeClassName('selected_4thlvl');
+        $("firstlevelnav_2").removeClassName('selected_4thlvl');
 
     }
     function showQuestionSettings() {
@@ -208,7 +208,7 @@
 
         if ($$('div.sortable').size() != 0) {
             var firstQuestion = $$('div.sortable')[1].id;
-            var questionId = firstQuestion.substr(9, firstQuestion.length)
+            var questionId = firstQuestion.substr(9, firstQuestion.length);
             showCrfItemProperties(questionId);
         }
     }
@@ -216,19 +216,25 @@
         hideQuestionBank();
         hideCrfItemProperties();
         hideFormSettings();
-        $("firstlevelnav_2").addClassName('selected_4thlvl')
-        $("firstlevelnav_3").removeClassName('selected_4thlvl')
-        $("firstlevelnav_1").removeClassName('selected_4thlvl')
+        $("firstlevelnav_2").addClassName('selected_4thlvl');
+        $("firstlevelnav_3").removeClassName('selected_4thlvl');
+        $("firstlevelnav_1").removeClassName('selected_4thlvl');
 
 
     }
     function hideQuestionSettings() {
         hideCrfItemProperties();
     }
+    function hideChildren(id) {
+        var childnodes = $(id).childNodes;
+        for (var i = 0; i < childnodes.length; i++) {
+            if (typeof(childnodes[i].id) != 'undefined') {
+                $(childnodes[i]).hide();
+            }
+        }
+    }
     function hideCrfItemProperties() {
-        $$('div.questionProperties').each(function (item) {
-            item.hide();
-        })
+        hideChildren('questionProperties');
     }
 
     function addEditingDisplayToQuestion(questionId) {
@@ -253,7 +259,7 @@
     function showCrfItemPropertiesTab(questionId) {
         if (questionId != '') {
 
-            showQuestionSettingsTab()
+            showQuestionSettingsTab();
             showCrfItemProperties(questionId);
         }
     }
@@ -726,7 +732,7 @@
 
     function showHideCtcTerm(action, text) {
         $('displayPrefsMenu').innerHTML = '<span class="ui-icon ui-icon-triangle-1-s"></span>' + text;
-		jQuery('.displayPrefsCheck').css('visibility', 'hidden');
+        jQuery('.displayPrefsCheck').css('visibility', 'hidden');
         removeClassFromHyperlink();
         showHideCtcTermA('right', 'hide');
         showHideCtcTermA('middle', 'hide');
@@ -736,20 +742,20 @@
         if (action == 'append') {
             showHideCtcTermA('middle', 'show');
             showHideCtcTermA('right', 'show');
-			jQuery('.participantFirst-check').css('visibility', 'visible');
+            jQuery('.participantFirst-check').css('visibility', 'visible');
         }
         if (action == 'prepend') {
             showHideCtcTermA('left', 'show');
             showHideCtcTermA('rightpro', 'show');
-			jQuery('.ctcaeFirst-check').css('visibility', 'visible');
+            jQuery('.ctcaeFirst-check').css('visibility', 'visible');
         }
         if (action == 'noctcterm') {
             showHideCtcTermA('middle', 'show');
-			jQuery('.participantOnly-check').css('visibility', 'visible');
+            jQuery('.participantOnly-check').css('visibility', 'visible');
         }
         if (action == 'onlyctcterm') {
             showHideCtcTermA('only', 'show');
-			jQuery('.ctcaeOnly-check').css('visibility', 'visible');
+            jQuery('.ctcaeOnly-check').css('visibility', 'visible');
         }
     }
     function removeClassFromHyperlink() {
@@ -793,48 +799,48 @@
     }
 
     #form-tabs {
-		margin-top:4px;
+        margin-top: 4px;
     }
 
     #firstlevelnav_1 {
         left: 0;
         top: 3px;
         display: block;
- 		font-size:0;
-		text-indent:-9999px;
+        font-size: 0;
+        text-indent: -9999px;
         padding-top: 40px;
         width: 145px;
         background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
         overflow: hidden;
-		background-repeat:no-repeat;
+        background-repeat: no-repeat;
     }
 
     #firstlevelnav_2 {
         left: 145px;
         top: 3px;
         display: block;
-		font-size:0;
-		text-indent:-9999px;
+        font-size: 0;
+        text-indent: -9999px;
         padding-top: 40px;
         width: 138px;
         background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
         overflow: hidden;
         background-position: -145px 0;
-		background-repeat:no-repeat;
+        background-repeat: no-repeat;
     }
 
     #firstlevelnav_3 {
         left: 283px;
         top: 3px;
         display: block;
-		font-size:0;
-		text-indent:-9999px;
+        font-size: 0;
+        text-indent: -9999px;
         padding-top: 40px;
         width: 160px;
         background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
         overflow: hidden;
         background-position: -283px 0;
-		background-repeat:no-repeat;
+        background-repeat: no-repeat;
     }
 
     .leftBox {
@@ -915,25 +921,29 @@
         font-style: italic;
         font-size: 12px;
     }
-	.fg-menu a span {
-		float:left;
-		margin-right:5px;
-	}
-	* {
-		zoom:1;
-	}
-	ul.tree .formbuilderboxContent li {
-		background:none;
-	}
+
+    .fg-menu a span {
+        float: left;
+        margin-right: 5px;
+    }
+
+    * {
+        zoom: 1;
+    }
+
+    ul.tree .formbuilderboxContent li {
+        background: none;
+    }
 </style>
 <!--[if IE]>
 <style>
-	.leftBox {
+    .leftBox {
         margin-top: -1px;
     }
-	#formbuilderTable-TL, #formbuilderTable-T, #formbuilderTable-TR {
-		height:5px;
-	}
+
+    #formbuilderTable-TL, #formbuilderTable-T, #formbuilderTable-TR {
+        height: 5px;
+    }
 </style>
 <![endif]-->
 
@@ -946,20 +956,28 @@
         <div class="summarylabel"><tags:message code='form.label.study'/></div>
         <div class="summaryvalue">${command.crf.study.displayName}</div>
     </div>
-    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="displayPrefsMenu" style="margin-left:11px"><span class="ui-icon ui-icon-triangle-1-s"></span>Display Preferences</a>
+    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="displayPrefsMenu"
+       style="margin-left:11px"><span class="ui-icon ui-icon-triangle-1-s"></span>Display Preferences</a>
     <div id="displayOptionsMenu" class="hidden">
         <ul>
             <li>
-                <a href="#" onclick="showHideCtcTerm('noctcterm','Showing participant term only')" id="a_noctcterm"><span class="ui-icon ui-icon-check displayPrefsCheck participantOnly-check" style="visibility:hidden;"></span>Participant term only</a>
+                <a href="#" onclick="showHideCtcTerm('noctcterm','Showing participant term only')"
+                   id="a_noctcterm"><span class="ui-icon ui-icon-check displayPrefsCheck participantOnly-check"
+                                          style="visibility:hidden;"></span>Participant term only</a>
             </li>
             <li>
-                <a href="#" onclick="showHideCtcTerm('onlyctcterm','Showing CTCAE term only')" id="a_onlyctcterm"><span class="ui-icon ui-icon-check displayPrefsCheck ctcaeOnly-check" style="visibility:hidden;"></span>CTCAE term only</a>
+                <a href="#" onclick="showHideCtcTerm('onlyctcterm','Showing CTCAE term only')" id="a_onlyctcterm"><span
+                        class="ui-icon ui-icon-check displayPrefsCheck ctcaeOnly-check"
+                        style="visibility:hidden;"></span>CTCAE term only</a>
             </li>
             <li>
-                <a href="#" onclick="showHideCtcTerm('append','Showing both (participant term first)')" id="a_append"><span class="ui-icon ui-icon-check displayPrefsCheck participantFirst-check" style="visibility:hidden;"></span>Both (participant term first)</a>
+                <a href="#" onclick="showHideCtcTerm('append','Showing both (participant term first)')"
+                   id="a_append"><span class="ui-icon ui-icon-check displayPrefsCheck participantFirst-check"
+                                       style="visibility:hidden;"></span>Both (participant term first)</a>
             </li>
             <li>
-                <a href="#" onclick="showHideCtcTerm('prepend','Showing both (CTCAE term first)')" id="a_prepend"><span class="ui-icon ui-icon-check displayPrefsCheck ctcaeFirst-check"></span>Both (CTCAE term first)</a>
+                <a href="#" onclick="showHideCtcTerm('prepend','Showing both (CTCAE term first)')" id="a_prepend"><span
+                        class="ui-icon ui-icon-check displayPrefsCheck ctcaeFirst-check"></span>Both (CTCAE term first)</a>
             </li>
         </ul>
     </div>
@@ -1069,7 +1087,9 @@
             <table style="border-collapse:collapse; width:100%;">
                 <tr style="height:5px;" height="5">
                     <td id="formbuilderTable-TL"></td>
-                    <td id="formbuilderTable-T"><div style="height:31px;visibility:hidden;">spacer</div></td>
+                    <td id="formbuilderTable-T">
+                        <div style="height:31px;visibility:hidden;">spacer</div>
+                    </td>
                     <td id="formbuilderTable-TR"></td>
                 </tr>
                 <tr style="height:750px;">
