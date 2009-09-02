@@ -7,19 +7,20 @@ function applyCalendar(index, direction) {
 var checkStatus = true;
 function initializeCalendar(index) {
     document.body.style.cursor = 'wait';
-    var items = document.getElementsByName(index + '_schedule_div');
+    var items = document.getElementsByClassName(index + '_schedule_div');
     for (var i = 0; i < items.length; i++) {
-        try {
+        var ele = $(index + '_schedule_' + (i + 1));
+        if (ele != null) {
             Droppables.add(index + '_schedule_' + (i + 1), {hoverclass: 'hoverActive', onDrop: moveItem});
-        } catch(err) {
         }
     }
 
-    items = document.getElementsByName(index + '_temp_div');
+    items = document.getElementsByClassName(index + '_temp_div');
     var j = items.length;
     while (j > 0) {
-        var item = items[0];
+        var item = items[j - 1];
         var date = item.id.substring(item.id.indexOf('_', 2) + 1);
+        item.removeClassName(index + '_temp_div');
         item.addClassName('blue');
         if (item.innerHTML.indexOf('In-progress') != -1) {
             item.style.background = '#ff9900';
@@ -28,7 +29,6 @@ function initializeCalendar(index) {
             item.style.background = '#00cc00';
         }
         if (item.title == 'true') {
-//            item.style.background = '#006666';
             item.style.background = 'red';
         }
         new Draggable(item, {revert:true});
@@ -37,7 +37,7 @@ function initializeCalendar(index) {
         j--;
     }
 
-    items = document.getElementsByName(index + '_temp_div');
+    items = document.getElementsByClassName(index + '_temp_div');
     for (var i = 0; i < items.length; i++) {
         var item = items[i];
         var date = item.id.substring(item.id.indexOf('_', 2) + 1);
@@ -60,21 +60,23 @@ function moveItem(draggable, droparea) {
         }
         checkStatus = true;
         droparea.innerHTML = '';
+        //        alert(draggable.parentNode);
         draggable.parentNode.removeChild(draggable);
         droparea.appendChild(draggable);
-        var olddate = draggable.id.substring(draggable.id.indexOf('_', 2) + 1);
-        if (olddate != '') {
-            var newdate = droparea.id.substring(droparea.id.indexOf('_', 2) + 1);
-            droparea.addClassName('blue');
-            if (droparea.id != (index + '_schedule_' + olddate)) {
-                $(index + '_schedule_' + olddate).removeClassName('blue');
-            }
-            if (newdate != olddate) {
-                showMoveWindow(olddate, newdate, index);
-            }
-        }
+        //        var olddate = draggable.id.substring(draggable.id.indexOf('_', 2) + 1);
+        //        if (olddate != '') {
+        //            var newdate = droparea.id.substring(droparea.id.indexOf('_', 2) + 1);
+        //            droparea.addClassName('blue');
+        //            if (droparea.id != (index + '_schedule_' + olddate)) {
+        //                $(index + '_schedule_' + olddate).removeClassName('blue');
+        //            }
+        //            if (newdate != olddate) {
+        //                showMoveWindow(olddate, newdate, index);
+        //            }
+        //        }
     } catch(err) {
-        getCalendar(index, "dir=refresh");
+        alert(err.description);
+        //        getCalendar(index, "dir=refresh");
     }
 }
 
@@ -199,9 +201,11 @@ function showCyclesForDefinition(cycleDefinitionIndex, cycleLength, cycleLengthU
 
 function emptyTable(index) {
     var tbody = $('cycle_table_' + index).getElementsByTagName("TBODY")[0];
-    var children = tbody.childElements();
-    for (i = 0; i < children.length; i++) {
-        $(children[i]).remove();
+    var children = tbody.childNodes;
+    for (var i = 0; i < children.length; i++) {
+        if (children[i].nodeType == 1) {
+            $(children[i]).remove();
+        }
     }
     return tbody;
 }

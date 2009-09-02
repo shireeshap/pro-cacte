@@ -4,6 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="report" tagdir="/WEB-INF/tags/reports" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <html>
 <head>
     <tags:dwrJavascriptLink objects="crf"/>
@@ -49,6 +51,7 @@
 <body>
 <report:thirdlevelmenu selected="${param['rt']}"/>
 <report:reportSpecificJS selected="${param['rt']}"/>
+<tags:instructions code="${param['rt']}Instructions"/>
 <chrome:box title="participant.label.search_criteria">
     <div align="left" style="margin-left: 50px">
         <c:choose>

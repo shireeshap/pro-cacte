@@ -35,11 +35,10 @@
                     <c:choose>
                         <c:when test="${day eq ''}">
                             <div id="${index}_schedule_${day}"
-                                 name="${index}_schedule_div" height="50px">&nbsp;</div>
+                                 class="${index}_schedule_div" height="50px">&nbsp;</div>
                         </c:when>
                         <c:otherwise>
-                            <div id="${index}_schedule_${day}"
-                                 name="${index}_schedule_div" class="passive"
+                            <div id="${index}_schedule_${day}" class="${index}_schedule_div passive"
                                  ondblclick="javascript:selectDate(this, '(Scheduled)','${index}');">&nbsp;</div>
 
                         </c:otherwise>

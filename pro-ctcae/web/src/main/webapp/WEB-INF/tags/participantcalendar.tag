@@ -6,7 +6,7 @@
 
 <c:forEach items="${schedule.currentMonthSchedules}" var="studyParticipantCrfSchedule">
     <div id="${index}_temp_<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />"
-         name="${index}_temp_div" title="${studyParticipantCrfSchedule.holiday}">
+         class="${index}_temp_div" title="${studyParticipantCrfSchedule.holiday}">
         <c:if test="${studyParticipantCrfSchedule.status eq 'Scheduled'}">
             <img height="13" width="12"
                  alt="remove"
@@ -51,10 +51,10 @@
                     <c:choose>
                         <c:when test="${day eq ''}">
                             <div id="${index}_schedule_${day}"
-                                 name="${index}_schedule_div" height="50px">&nbsp;</div>
+                                 class="${index}_schedule_div" height="50px">&nbsp;</div>
                         </c:when>
                         <c:otherwise>
-                            <div id="${index}_schedule_${day}" name="${index}_schedule_div" class="passive"
+                            <div id="${index}_schedule_${day}" class="${index}_schedule_div passive"
                                  onclick="showAddWindow('${day}','${index}');">
                             </div>
                         </c:otherwise>

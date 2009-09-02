@@ -47,6 +47,9 @@
         }
 
     </script>
+    <style type="text/css">
+        /** {zoom:1;}*/
+    </style>
 </head>
 <body>
 
