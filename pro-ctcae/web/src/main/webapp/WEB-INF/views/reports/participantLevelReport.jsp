@@ -120,6 +120,7 @@
     </script>
 </head>
 <body>
+<tags:instructions code="participantReportInstructions"/>
 <chrome:box title="participant.label.search_criteria">
     <div align="left" style="margin-left: 50px">
         <tags:renderAutocompleter propertyName="study"
