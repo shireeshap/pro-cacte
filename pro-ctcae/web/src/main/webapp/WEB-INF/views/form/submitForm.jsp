@@ -14,9 +14,10 @@
         div.row div.value {
             white-space: normal;
         }
-		.formbuilderBox {
-			padding-left:2px;
-		}
+
+        .formbuilderBox {
+            padding-left: 2px;
+        }
 
         .label {
             font-weight: bold;
@@ -57,7 +58,6 @@
 
         function gonext(crfitemindex, index, column) {
             var x = document.getElementsByName('response' + crfitemindex);
-            var c = document.getElementsByName('column_' + crfitemindex);
             x[index].checked = true;
             responses[x[index].value] = 'Y';
             column.onmouseout = function() {
@@ -66,11 +66,16 @@
             document.myForm.elements[elementName].value = x[index].value;
             for (var i = 0; i < x.length; i++) {
                 if (i != index) {
-                    responses[x[i].value] = 'N';
-                    c[i].className = 'norm';
-                    c[i].onmouseout = function() {
-                        this.className = 'norm'
-                    };
+                    try {
+                        var c = document.getElementById(i + '_column_' + crfitemindex);
+                        responses[x[i].value] = 'N';
+                        c.className = 'norm';
+                        c.onmouseout = function() {
+                            this.className = 'norm'
+                        };
+                    } catch(err) {
+                        alert(err.description);
+                    }
                 }
             }
             evaluateAllQuestions();
@@ -149,7 +154,8 @@
     <div class="currentPagediv">
         Progress:
     </div>
-    <div class="label" style="margin-bottom:10px;"><tags:recallPeriodFormatter desc="Please think back ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.recallPeriod}"/></div>
+    <div class="label" style="margin-bottom:10px;"><tags:recallPeriodFormatter
+            desc="Please think back ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.recallPeriod}"/></div>
     <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfItems}" var="participantCrfItem"
                varStatus="crfitemstatus">
         <tags:formbuilderBox id="question_${participantCrfItem.crfPageItem.id}" style="display:none">
@@ -228,13 +234,15 @@
         <tr>
             <td align="left" width="50%">
                 <c:if test="${command.currentPageIndex gt 1}">
-						   <tags:button color="blue" icon="back" onclick="document.myForm.direction.value='back'" type="submit" value="Back" />
+                    <tags:button color="blue" icon="back" onclick="document.myForm.direction.value='back'" type="submit"
+                                 value="Back"/>
                 </c:if>
             </td>
             <td align="right" width="50%">
                 <c:choose>
                     <c:when test="${command.currentPageIndex le command.totalPages}">
-                    	<tags:button color="green" icon="next" onclick="document.myForm.direction.value='continue'" type="submit" value="Continue" />
+                        <tags:button color="green" icon="next" onclick="document.myForm.direction.value='continue'"
+                                     type="submit" value="Continue"/>
                     </c:when>
                 </c:choose>
             </td>

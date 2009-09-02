@@ -15,7 +15,7 @@
     <c:when test="${currentId eq selectedId}">
         <td class="over" onmouseover="javascript:this.className='over';"
             onclick="gonext('${crfitemindex}','${index}',this,'${displayOrder}','${participantCrfItemId}','${questionDisplayOrder}')"
-            name="column_${crfitemindex}" style="${cssstyle}">
+            id="${index}_column_${crfitemindex}" style="${cssstyle}">
             <div class="label">
                 <input type="radio"
                        name="response${crfitemindex}"
@@ -27,7 +27,7 @@
         <td class="norm" onmouseover="javascript:this.className='over';"
             onmouseout="javascript:this.className='norm';"
             onclick="gonext('${crfitemindex}','${index}',this,'${displayOrder}','${participantCrfItemId}','${questionDisplayOrder}')"
-            name="column_${crfitemindex}"  style="${cssstyle}">
+            id="${index}_column_${crfitemindex}"  style="${cssstyle}">
             <div class="label">
                 <input type="radio"
                        name="response${crfitemindex}"
