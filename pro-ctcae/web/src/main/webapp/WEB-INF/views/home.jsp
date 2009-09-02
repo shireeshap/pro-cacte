@@ -110,8 +110,8 @@
                                 <tr id="tr_${usernotification.id}"
                                     <c:if test="${usernotification.new}">class="bold"</c:if>>
                                     <td class="data">
-                                        <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
-                                            <a href="reports/participantCareMonitor?sid=${usernotification.studyParticipantCrfSchedule.id}"
+                                        <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                                            <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
                                                class="link">${usernotification.participant.displayName}</a>
                                         </proctcae:urlAuthorize>
                                     </td>
@@ -209,8 +209,8 @@
                     <c:forEach items="${overdue}" var="schedule">
                         <tr>
                             <td class="data">
-                                <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
-                                    <a href="reports/participantCareMonitor?sid=${schedule.id}"
+                                <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                                    <a href="reports/participantReport?sid=${schedule.id}"
                                        class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
                                 </proctcae:urlAuthorize>
                             </td>
@@ -278,8 +278,8 @@
                         <c:forEach items="${upcoming}" var="schedule">
                             <tr>
                                 <td class="data">
-                                    <proctcae:urlAuthorize url="/pages/reports/participantCareMonitor">
-                                        <a href="reports/participantCareMonitor?sid=${schedule.id}"
+                                    <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                                        <a href="reports/participantReport?sid=${schedule.id}"
                                            class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
                                     </proctcae:urlAuthorize>
                                 </td>
