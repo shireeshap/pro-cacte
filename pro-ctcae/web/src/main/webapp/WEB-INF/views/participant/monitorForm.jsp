@@ -102,10 +102,16 @@ function updateFormDropDown(crfs) {
     $('displayFormStatusDiv').hide();
     var formDropDown = new Element('SELECT', {'id':'formSelect'})
 
+    if (crfs.length > 1) {
+        var option = new Element('OPTION', {'label':'Please select','value':''});
+        option.text='Please select';
+        formDropDown.appendChild(option);
+    }
     for (var i = 0; i < crfs.length; i++) {
         var crf = crfs[i];
         var option = new Element('OPTION', {});
         option.text = crf.title;
+        option.label = crf.title;
         option.value = crf.id;
         formDropDown.appendChild(option);
     }
