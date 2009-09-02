@@ -364,7 +364,7 @@ function showDetails(params) {
             if (showResultsInPopUpFlag) {
                 showResultsInPopUp(transport);
             } else {
-                $('reportInnerDiv').innerHTML = transport.responseText;
+                showResults(transport);
             }
             hideIndicator();
         },
