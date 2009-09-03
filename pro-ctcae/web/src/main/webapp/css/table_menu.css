@@ -21,7 +21,7 @@ table.widget {
     width: 100%;
 }
 
-.highlight td {
+.highlight td, .highlight td.data {
     background-color: #6666ff;
     color: white;
 }
