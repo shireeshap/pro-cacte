@@ -24,7 +24,10 @@ public class ReportResultsHelper {
     }
 
     public static HashSet<Integer> getSelectedArms(HttpServletRequest request) {
-        String arms = request.getParameter("arms");
+        String arms = request.getParameter("arm");
+        if (StringUtils.isBlank(arms) || "-1".equals(arms)) {
+            arms = request.getParameter("arms");
+        }
         HashSet<Integer> selectedArms = new HashSet<Integer>();
         if (!StringUtils.isBlank(arms)) {
             String[] armArr = arms.split(",");

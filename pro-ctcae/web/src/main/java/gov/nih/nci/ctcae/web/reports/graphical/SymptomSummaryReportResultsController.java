@@ -77,6 +77,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
                     title = " - " + arm.getTitle();
                 }
                 List queryResults = getQueryResults(request, arm);
+                queryString = queryString + "&arm=" + armid;
                 doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, queryResults, arm, results, false);
                 JFreeChart chart = getWorstResponseChart(results, queryString, false, countString);
                 String fileName = ServletUtilities.saveChartAsPNG(chart, 700, 400, info, null);
