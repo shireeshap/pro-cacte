@@ -13,23 +13,6 @@
 <html>
 <head>
     <tags:includeVirtualKeyboard/>
-    <script type="text/javascript">
-
-        function showVirtualKeyBoard(elem) {
-            if (elem.checked) {
-                VKI_attach($('username'));
-            } else {
-                VKI_close();
-            }
-        }
-
-        function attachKeyBoard(elem) {
-            if ($('usevirtualkeyboard').checked) {
-                if (elem)
-                    VKI_attach(elem);
-            }
-        }
-    </script>
     <style type="text/css">
         .box {
             width: 35em;
@@ -95,19 +78,14 @@
             </div>
         </div>
         <div class="row">
-            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this);">&nbsp;Use virtual
+            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this,'username');">&nbsp;Use virtual
             keyboard
         </div>
         <div class="row">
             <div class="submit">
                 <tags:button type="submit" value="Log in" color="blue"/>
             </div>
-        </div>
-            <%--<div class="row">--%>
-            <%--<div class="forgot">--%>
-            <%--<a href='<c:url value="/public/resetPassword" />'>Forgot Password?</a>--%>
-            <%--</div>--%>
-            <%--</div>--%>
+        </div>                                           
     </form>
 </chrome:box>
 <div id="keyboardDiv"></div>

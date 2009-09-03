@@ -23,15 +23,6 @@
             font-size: 15px;
             vertical-align: top;
         }
-
-        /*.blue {*/
-        /*background-color: #4545c3;*/
-        /*}*/
-
-        /*.norm {*/
-        /*background-color: white;*/
-        /*}*/
-
     </style>
     <tags:includeScriptaculous/>
     <tags:dwrJavascriptLink objects="scheduleCrf"/>
@@ -74,32 +65,31 @@
         function addCheckbox(selectedChoice) {
             if (nextColumnIndex % 3 == 0) {
                 var tbody = document.getElementById('mytable').getElementsByTagName("TBODY")[0];
-
                 var row = document.createElement("TR")
 
                 var td1 = document.createElement("TD")
                 td1.id = 'td_' + nextColumnIndex + '_a';
-                td1.addClassName('label');
+                $(td1).addClassName('label');
 
                 var td2 = document.createElement("TD")
                 td2.id = 'td_' + nextColumnIndex + '_b';
-                td2.addClassName('label');
+                $(td2).addClassName('label');
 
                 var td3 = document.createElement("TD")
                 td3.id = 'td_' + (nextColumnIndex + 1) + '_a';
-                td3.addClassName('label');
+                $(td3).addClassName('label');
 
                 var td4 = document.createElement("TD")
                 td4.id = 'td_' + (nextColumnIndex + 1) + '_b';
-                td4.addClassName('label');
+                $(td4).addClassName('label');
 
                 var td5 = document.createElement("TD")
                 td5.id = 'td_' + (nextColumnIndex + 2) + '_a';
-                td5.addClassName('label');
+                $(td5).addClassName('label');
 
                 var td6 = document.createElement("TD")
                 td6.id = 'td_' + (nextColumnIndex + 2) + '_b';
-                td6.addClassName('label');
+                $(td6).addClassName('label');
 
                 row.appendChild(td1);
                 row.appendChild(td2);
@@ -116,12 +106,12 @@
             chkbox.type = "checkbox";
             chkbox.name = 'symptomsByParticipants';
             chkbox.value = selectedChoice;
-            chkbox.checked = true;
             chkbox.id = nextColumnIndex
             chkbox.onchange = function() {
                 changeClass(chkbox, chkbox.id);
             }
             tda.appendChild(chkbox);
+            chkbox.checked = true;
             var div = document.createElement('div');
             div.setAttribute('id', 'div_' + nextColumnIndex);
             div.appendChild(document.createTextNode(selectedChoice));
@@ -135,7 +125,8 @@
                     mode.populator, {
                 valueSelector: mode.valueSelector,
                 afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-                    acPostSelect(mode, selectedChoice)
+                    acPostSelect(mode, selectedChoice);
+                    showVirtualKeyBoard($('usevirtualkeyboard'),'participantquestion-input');
                 },
                 indicator: mode.basename + "-indicator"
             })
@@ -147,20 +138,21 @@
 
         Event.observe(window, "load", function() {
             acCreate(participantQuestionAutocompleterProps)
-            initSearchField()
+            initSearchField();
         })
 
 
         function changeClass(obj, index) {
             var div = $('div_' + index);
             if (obj.checked) {
-                div.removeClassName("norm");
-                div.addClassName('over');
+                $(div).removeClassName("norm");
+                $(div).addClassName('over');
             } else {
                 div.removeClassName("over");
                 div.addClassName("norm");
             }
         }
+
     </script>
 </head>
 <body>
@@ -201,12 +193,13 @@
         </table>
 
         <br/>
-        <br/>
 
         <p>
             <b><tags:message code="participant.form.typesymptom"/></b>
         </p>
 
+        <div id="keyboardDiv"></div>
+        <br/>
         <input type="text" id="participantquestion-input" value="" class="autocomplete"
                size="60"/>
         <img src="/proctcae/images/blue/clear-left-button.png"
@@ -214,9 +207,13 @@
              style="vertical-align:top;cursor:pointer"/>
         <tags:indicator id="participantquestion-indicator"/>
         <div id="participantquestion-choices" class="autocomplete"></div>
-        
-        <br/>&nbsp;<br/>
+        <div class="row">
+            <input id='usevirtualkeyboard' type="checkbox"
+                   onclick="showVirtualKeyBoard(this,'participantquestion-input');">&nbsp;Use virtual
+            keyboard
+        </div>
     </chrome:box>
+
     <table width="100%">
         <input type="hidden" name="direction"/>
         <tr>
