@@ -91,20 +91,21 @@ function displayForms() {
 }
 
 function clearDiv(divid) {
-    var children = $(divid).childElements();
-    for (i = 0; i < children.length; i++) {
-        $(children[i]).remove();
+    var div = $(divid);
+    var formDropDown = $('formSelect');
+    if (formDropDown != null) {
+        div.removeChild(formDropDown);
     }
 }
 
 function updateFormDropDown(crfs) {
-    //clearDiv('formDropDown');
+    clearDiv('formDropDown');
     $('displayFormStatusDiv').hide();
     var formDropDown = new Element('SELECT', {'id':'formSelect'})
 
     if (crfs.length > 1) {
         var option = new Element('OPTION', {'label':'Please select','value':''});
-        option.text='Please select';
+        option.text = 'Please select';
         formDropDown.appendChild(option);
     }
     for (var i = 0; i < crfs.length; i++) {
