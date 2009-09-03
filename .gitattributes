@@ -513,6 +513,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/sitemesh.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/special-views.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/spring-servlet.xml -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/administration/organizationClinicalStaff.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/ajaxstandardparams.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/attribute.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/autocompleter.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/blue/body.tag -text
