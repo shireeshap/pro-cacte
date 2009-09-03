@@ -8,9 +8,6 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
-<head>
-    <tags:stylesheetLink name="reports"/>
-</head>
 <body>
 <span id="attribute-help-content" class="hint" style="display: none;">
     <table class="widget" cellspacing="0" width="100%" align="center">

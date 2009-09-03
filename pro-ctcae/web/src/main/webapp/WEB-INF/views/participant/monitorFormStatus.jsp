@@ -8,61 +8,6 @@
 
 
 <html>
-<head>
-    <tags:stylesheetLink name="table_menu"/>
-    <style type="text/css">
-        table.widget {
-            border-left: 1px solid #C3D9FF;
-            border-bottom: 1px solid #C3D9FF;
-            width: 100%;
-            font-size: small;
-        }
-
-        td.data {
-            border-bottom: 1px solid #77a9ff;
-            border-right: 1px solid #77a9ff;
-            font-size: small;
-            white-space: nowrap;
-            text-align: center;
-
-        }
-
-        td.OffStudy {
-            background-color: #666666;
-        }
-
-        td.data-left {
-            border-bottom: 1px solid #77a9ff;
-            border-left: 1px solid #77a9ff;
-            border-right: 1px solid #77a9ff;
-            font-weight: bold;
-            white-space: nowrap;
-            background-color: #cccccc;
-            text-align: left;
-            padding-left:5px;
-        }
-
-        td.header-top {
-            border-top: 1px solid #77a9ff;
-            border-bottom: 1px solid #77a9ff;
-            border-right: 1px solid #77a9ff;
-            font-weight: bold;
-            text-align: center;
-            background-color: #cccccc;
-        }
-
-        #formStatusTable {
-        /*text-align: center;*/
-            overflow-x: scroll;
-        }
-
-        a.nolink {
-            text-decoration: none;
-            cursor: default;
-        }
-
-    </style>
-</head>
 <body>
 
 <div id="formStatusTable">
@@ -121,24 +66,22 @@
                             <c:set var="todaysdate" value="<%= new Date()%>"/>
                             <a class="nolink"
                                title="Cycle ${studyParticipantCrfSchedule.cycleNumber}, Day ${studyParticipantCrfSchedule.cycleDay}">
-                                <c:choose>
-                                <c:when test="${todaysdate > studyParticipantCrfSchedule.dueDate && (studyParticipantCrfSchedule.status eq 'Scheduled' || studyParticipantCrfSchedule.status eq 'In-progress')}">
-                                    <img src="../../images/blue/Past-due.png"/>
-                                </c:when>
-                                <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'OffStudy'}">
-                                </c:when>
-                                <c:when test="${studyParticipantCrfSchedule.status eq 'Scheduled'}">
-                                <div id="img_${status.index}" 
-                                     onclick="showPopUpMenu('${status.index}', '${studyParticipantCrfSchedule.id}',-105,-130)">
-                                    <img src="../../images/blue/Scheduled.png"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                    <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
-                                    </c:otherwise>
-                                    </c:choose>
-
-                                    </c:otherwise>
-                                    </c:choose>
+                               <c:choose>
+                                   <c:when test="${todaysdate > studyParticipantCrfSchedule.dueDate && (studyParticipantCrfSchedule.status eq 'Scheduled' || studyParticipantCrfSchedule.status eq 'In-progress')}">
+                                       <img src="../../images/blue/Past-due.png"/>
+                                   </c:when>
+                                   <c:when test="${studyParticipantCrfSchedule.status.displayName eq 'OffStudy'}">
+                                   </c:when>
+                                   <c:when test="${studyParticipantCrfSchedule.status eq 'Scheduled'}">
+                                       <div id="img_${status.index}" onclick="showPopUpMenu('${status.index}', '${studyParticipantCrfSchedule.id}',-105,-130)">
+                                       <img src="../../images/blue/Scheduled.png"/>
+                                   </c:when>
+                                   <c:otherwise>
+                                       <img src="../../images/blue/${studyParticipantCrfSchedule.status.displayName}.png"/>
+                                   </c:otherwise>
+                               </c:choose>
+                               </c:otherwise>
+                               </c:choose>
                             </a>
                         </td>
                     </c:forEach>

@@ -5,7 +5,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
-    <tags:stylesheetLink name="reports"/>
+    
 </head>
 <body>
 <span id="attribute-help-content" class="hint" style="display: none;">

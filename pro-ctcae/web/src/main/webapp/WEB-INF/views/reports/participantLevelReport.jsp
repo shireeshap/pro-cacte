@@ -15,6 +15,7 @@
 
 <html>
 <head>
+	<tags:stylesheetLink name="reports"/>
     <tags:dwrJavascriptLink objects="crf"/>
     <tags:dwrJavascriptLink objects="participant"/>
     <tags:includePrototypeWindow/>

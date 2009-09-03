@@ -21,12 +21,11 @@
                     <b><authz:authentication property="name"></authz:authentication></b>
                 </div>
             </proctcae:urlAuthorize>
-
-            <ctcae:publicAuthorize>
-                <a href="<c:url value="/public/login"/>">Log in</a>
-
-            </ctcae:publicAuthorize>
-
+			<%--
+	            <ctcae:publicAuthorize>
+	                <a href="<c:url value="/public/login"/>">Log in</a>
+	            </ctcae:publicAuthorize>
+			--%>
             <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
                 <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>">Log out</a>
             </proctcae:urlAuthorize>

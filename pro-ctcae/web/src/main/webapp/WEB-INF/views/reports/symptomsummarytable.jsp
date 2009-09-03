@@ -4,39 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="reports" tagdir="/WEB-INF/tags/reports" %>
-<style type="text/css">
-    table.report {
-        width: 90%;
-        border: 1px #999999 solid;
-    }
-
-    table.report td {
-        border-left: 1px #cccccc solid;
-        border-top: 1px #eee solid;
-        text-align: center;
-        padding: 2px 5px;
-
-    }
-
-    table.report td.right {
-        text-align: right;
-        padding-left: 5px;
-    }
-
-    table.report td.bottom {
-        border-top: 2px #666 solid;
-    }
-
-    table.report td.header {
-        background-color: #cccccc;
-        font-weight: bold;
-    }
-
-    table.report td.left {
-        text-align: left;
-        padding-right: 5px;
-    }
-</style>
 <chrome:box title="Report">
     <table>
         <reports:displayarms arms="${arms}" selectedArms="${selectedArms}" resetPopUp="true"/>
