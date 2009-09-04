@@ -315,6 +315,7 @@ function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
         if (cycleIndex < repeat - 2) {
             allOption.text = 'All';
             allOption.label = 'All';
+            allOption.value= 'All';
             multiselect.appendChild(allOption);
         }
 
@@ -330,7 +331,7 @@ function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
         }
 
         multiselect.onclick = function() {
-            if (this.value == '') {
+            if (this.value == 'All') {
                 applyDaysToCycle($('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value, cycleDefinitionIndex, followingCycles);
             } else {
                 applyDaysToCycle($('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value, cycleDefinitionIndex, this.value);
