@@ -16,6 +16,8 @@
     <tags:includePrototypeWindow/>
     <tags:stylesheetLink name="cycledefinitions"/>
     <tags:javascriptLink name="cycledefinitions"/>
+    <script type="text/javascript"
+            src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&2.7.0/build/dragdrop/dragdrop-min.js"></script>
     <script type="text/javascript">
         function addRemoveSchedule(index, date, action) {
             document.body.style.cursor = 'wait';

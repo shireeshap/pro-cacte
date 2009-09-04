@@ -1,5 +1,3 @@
-
-
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -179,7 +177,7 @@ function createHiddenDivs(index) {
         $('hidden_inputs_div').appendChild(hidden_div);
     } else {
         var children = hidden_div.childElements();
-        for (i = 0; i < children.length; i++) {
+        for (var i = 0; i < children.length; i++) {
             $(children[i]).remove();
         }
     }
@@ -187,8 +185,8 @@ function createHiddenDivs(index) {
 
 function emptyTable(index) {
     var tbody = $('cycle_table_' + index).getElementsByTagName("TBODY")[0];
-    var children = tbody.childElements();
-    for (i = 0; i < children.length; i++) {
+    var children = $(tbody).childElements();
+    for (var i = 0; i < children.length; i++) {
         $(children[i]).remove();
     }
     return tbody;
@@ -270,7 +268,6 @@ function buildTable(index, days, repeat, pageload) {
 }
 
 function applyDaysToCycle(days, cycleDefinitionIndex, cycleIndexes) {
-
     var cycles = cycleIndexes.split(',');
     for (var j = 0; j < cycles.length; j++) {
         var cycleIndex = cycles[j];
@@ -278,11 +275,14 @@ function applyDaysToCycle(days, cycleDefinitionIndex, cycleIndexes) {
             resetCycle(cycleDefinitionIndex, cycleIndex);
             var temp = new Array();
             temp = days.split(",");
-
             for (var i = 1; i < temp.length; i++) {
                 var currentday = temp[i];
                 var obj = $('div_' + cycleDefinitionIndex + '_' + cycleIndex + '_' + currentday);
-                dayOnClick(obj, cycleDefinitionIndex, cycleIndex, currentday);
+                try {
+                    dayOnClick(obj, cycleDefinitionIndex, cycleIndex, currentday);
+                } catch(err) {
+                    alert(err.description);
+                }
             }
         }
     }
@@ -314,6 +314,7 @@ function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
 
         if (cycleIndex < repeat - 2) {
             allOption.text = 'All';
+            allOption.label = 'All';
             multiselect.appendChild(allOption);
         }
 
@@ -321,20 +322,21 @@ function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
             if (i > cycleIndex) {
                 var option = new Element('OPTION', {});
                 option.text = 'Cycle ' + (i + 1);
+                option.label = 'Cycle ' + (i + 1);
                 option.value = i;
-                option.onclick = function() {
-                    applyDaysToCycle($('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value, cycleDefinitionIndex, this.value);
-                };
                 multiselect.appendChild(option);
                 followingCycles = followingCycles + ',' + i;
             }
         }
 
-        if (followingCycles != '') {
-            allOption.onclick = function() {
+        multiselect.onclick = function() {
+            if (this.value == '') {
                 applyDaysToCycle($('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value, cycleDefinitionIndex, followingCycles);
-            };
+            } else {
+                applyDaysToCycle($('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value, cycleDefinitionIndex, this.value);
+            }
         }
+
         var row = new Element('TR');
         var td = new Element('TD');
         td.colSpan = 2;
@@ -352,6 +354,8 @@ function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
         row.appendChild(td);
         tbody.appendChild(row);
     }
+
+
 }
 
 function dayOnClick(obj, cycleDefinitionIndex, cycleIndex, currentday) {
@@ -375,7 +379,6 @@ function selectday(obj, cycleDefinitionIndex, cycleIndex, currentday) {
 }
 
 function updateDisplayedDays(cycleDefinitionIndex, cycleIndex, currentday, action) {
-
     var objinput = $('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex);
     if (action == 'del') {
         var temp = new Array();
@@ -389,9 +392,12 @@ function updateDisplayedDays(cycleDefinitionIndex, cycleIndex, currentday, actio
     var arr = new Array();
     arr = objinput.value.split(",");
     arr.sort(sortfunction);
+
 }
 
 function sortfunction(val1, val2) {
+    if (val1 == '')val1 = 0;
+    if (val2 == '')val2 = 0;
     return(parseInt(val1) - parseInt(val2));
 }
 
@@ -441,7 +447,7 @@ function showSchedule(scheduleType) {
     <c:if test="${fn:length(command.crf.formArmSchedules) eq 1 && command.crf.formArmSchedules[0].arm.defaultArm eq 'true' }">
         <c:set var="styleHidden" value="style='display:none'"/>
     </c:if>
-    
+
     <div class="row" ${styleHidden}>
         <div class="label"><spring:message code="form.calendar.arm"></spring:message></div>
         <div class="value">
