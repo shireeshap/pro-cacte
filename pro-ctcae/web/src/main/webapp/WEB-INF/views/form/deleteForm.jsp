@@ -27,7 +27,7 @@
                 	<tags:button onclick="closeWindow()" color="blue" value="Cancel" markupWithTag="a" icon="x"/>
 				</span>
 				<span class="next">
-					<tags:button id="flow-update" color="red" icon="check" value="Delete"/>
+					<tags:button type="submit" id="flow-update" color="red" icon="check" value="Delete"/>
 				</span>
             </chrome:division>
         </chrome:box>
