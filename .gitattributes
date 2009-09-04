@@ -671,7 +671,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/notificationClinica
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/confirmParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/confirmschedule.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/createParticipant.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/editParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/inputParticipantResponses.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/monitorForm.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/monitorFormStatus.jsp -text

@@ -73,6 +73,15 @@
 
         }
 
+        function showpassword(show) {
+            if (show) {
+                $('passwordfields').show();
+                $('resetpass').innerHTML = '<a href="javascript:showpassword(false);">Hide password</a>';
+            } else {
+                $('passwordfields').hide();
+                $('resetpass').innerHTML = '<a href="javascript:showpassword(true);">Reset password</a>';
+            }
+        }
     </script>
     <style type="text/css">
         .tableHeader {
@@ -140,7 +149,7 @@
                <table border="0" style="width:100%">
 
                    <tr>
-                       <td>
+                       <td width="50%">
                            <tags:renderText propertyName="participant.firstName"
                                             displayName="participant.label.first_name"
                                             required="true" maxLength="${maxLength}"/>
@@ -150,7 +159,7 @@
                                             displayName="participant.label.last_name"
                                             required="true" maxLength="${maxLength}"/>
                        </td>
-                       <td>
+                       <td width="50%">
                            <tags:renderDate propertyName="participant.birthDate"
                                             displayName="participant.label.date_of_birth"/>
                            <tags:renderSelect propertyName="participant.gender" displayName="participant.label.gender"
@@ -166,12 +175,12 @@
 
                <table border="0" style="width:100%">
                    <tr>
-                       <td>
+                       <td width="50%">
                            <tags:renderEmail propertyName="participant.emailAddress"
                                              displayName="participant.label.email_address"
                                              required="false" size="35"/>
                        </td>
-                       <td>
+                       <td width="50%">
                            <tags:renderPhoneOrFax propertyName="participant.phoneNumber"
                                                   displayName="participant.label.phone"
                                                   required="${required}"/>
@@ -180,21 +189,36 @@
                </table>
            </chrome:division>
        <chrome:division title="participant.label.logininfo">
-           <tags:renderText propertyName="participant.user.username"
-                            displayName="participant.label.username"
-                            required="true"/>
+           <table cellpadding="0" cellspacing="0">
+               <tr>
+                   <td>
+                       <tags:renderText propertyName="participant.user.username"
+                                        displayName="participant.label.username"
+                                        required="true"/>
 
-           <tags:renderPassword required="true" propertyName="participant.user.password"
-                                displayName="participant.label.password"/>
-           <tags:renderPassword required="true" propertyName="participant.user.confirmPassword"
-                                displayName="participant.label.confirmpassword"/>
+                   </td>
+                   <td>
+                       <c:if test="${not empty command.participant.user.password}">
+                           <c:set var="style" value="display:none"/>
+                           <div id="resetpass" class="label">
+                               <a href="javascript:showpassword(true);">Reset password</a></div>
+                       </c:if>
+                   </td>
+               </tr>
+           </table>
+           <div id="passwordfields" style="${style}">
+               <tags:renderPassword required="true" propertyName="participant.user.password"
+                                    displayName="participant.label.password"/>
+               <tags:renderPassword required="true" propertyName="participant.user.confirmPassword"
+                                    displayName="participant.label.confirmpassword"/>
+           </div>
        </chrome:division>
-           <chrome:division title="participant.label.studies"/>
+    <chrome:division title="participant.label.studies"/>
 
-           <chrome:division id="single-fields">
-               <div id="studysitestable"/>
-           </chrome:division>
-   </jsp:attribute>
+    <chrome:division id="single-fields">
+        <div id="studysitestable"/>
+    </chrome:division>
+</jsp:attribute>
 </tags:tabForm>
 </body>
 </html>

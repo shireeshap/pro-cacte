@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.reports.graphical;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.reports.SymptomSummaryWorstResponsesQuery;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.web.ControllersUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartRenderingInfo;
@@ -77,7 +78,7 @@ public class SymptomSummaryReportResultsController extends AbstractReportResults
                     title = " - " + arm.getTitle();
                 }
                 List queryResults = getQueryResults(request, arm);
-                queryString = queryString + "&arm=" + armid;
+                queryString = ControllersUtils.removeParameterFromQueryString(queryString, "arm") + "&arm=" + armid;
                 doCalculationsForOneSymptom(proCtcTerm, selectedAttributes, queryResults, arm, results, false);
                 JFreeChart chart = getWorstResponseChart(results, queryString, false, countString);
                 String fileName = ServletUtilities.saveChartAsPNG(chart, 700, 400, info, null);

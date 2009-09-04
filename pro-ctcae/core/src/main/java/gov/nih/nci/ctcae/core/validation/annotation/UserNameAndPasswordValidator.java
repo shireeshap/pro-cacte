@@ -36,9 +36,9 @@ public class UserNameAndPasswordValidator extends AbstractValidator<UserNameAndP
             User user = (User) value;
             if (user.getId() == null) {
                 if (!validateUniqueName(user)) return false;
-                if (!validatePasswordPolicy(user)) return false;
-                if (!validatePasswordAndConfirmPassword(user)) return false;
             }
+            if (!validatePasswordPolicy(user)) return false;
+            if (!validatePasswordAndConfirmPassword(user)) return false;
         }
         return true;
     }

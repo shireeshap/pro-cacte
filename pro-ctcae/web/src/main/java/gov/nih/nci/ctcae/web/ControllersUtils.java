@@ -72,7 +72,7 @@ public class ControllersUtils {
     public static String removeParameterFromQueryString(String queryString, String parameterName) {
         if (!StringUtils.isBlank(queryString)) {
             String param = "&" + parameterName + "=";
-            if (queryString.indexOf(param) > -1) {
+            while (queryString.indexOf(param) > -1) {
                 String a = queryString.substring(0, queryString.indexOf(param));
                 String b = queryString.substring(queryString.indexOf(param) + param.length());
                 if (b.indexOf("&") > -1) {
