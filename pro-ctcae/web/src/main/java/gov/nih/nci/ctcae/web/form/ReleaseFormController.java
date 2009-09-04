@@ -59,9 +59,7 @@ public class ReleaseFormController extends CtcAeSimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
         CRF crf = (CRF) command;
-        Date effectiveStarDate = crf.getEffectiveStartDate();
-        crf = crfRepository.findById(crf.getId());
-        crf.setEffectiveStartDate(effectiveStarDate);
+        crf = crfRepository.save(crf);
         crfRepository.updateStatusToReleased(crf);
 
         RedirectView redirectView = new RedirectView("manageForm?studyId=" + crf.getStudy().getId());

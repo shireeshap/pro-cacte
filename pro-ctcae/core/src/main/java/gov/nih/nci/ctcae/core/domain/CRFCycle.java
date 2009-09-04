@@ -38,7 +38,7 @@ public class CRFCycle extends BasePersistable {
     @Column(name = "cycle_days")
     private String cycleDays;
 
-    @Column(name="cycle_order", nullable = false)
+    @Column(name = "cycle_order", nullable = false)
     private Integer order;
     /**
      * The crf definition.
@@ -46,7 +46,6 @@ public class CRFCycle extends BasePersistable {
     @JoinColumn(name = "cycle_definition_id", referencedColumnName = "id", nullable = false)
     @ManyToOne
     private CRFCycleDefinition crfCycleDefinition;
-
 
 
     /**
@@ -111,4 +110,10 @@ public class CRFCycle extends BasePersistable {
         this.order = order;
     }
 
+    public CRFCycle copy() {
+        CRFCycle crfCycle = new CRFCycle();
+        crfCycle.setCycleDays(cycleDays);
+        crfCycle.setOrder(order);
+        return crfCycle;
+    }
 }
