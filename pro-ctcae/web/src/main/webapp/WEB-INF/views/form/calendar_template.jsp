@@ -281,7 +281,6 @@ function applyDaysToCycle(days, cycleDefinitionIndex, cycleIndexes) {
                 try {
                     dayOnClick(obj, cycleDefinitionIndex, cycleIndex, currentday);
                 } catch(err) {
-                    alert(err.description);
                 }
             }
         }
