@@ -180,6 +180,9 @@ public class CRFCycleDefinition extends BasePersistable {
         crfCycleDefinition.setCycleName(cycleName);
         crfCycleDefinition.setOrder(order);
         crfCycleDefinition.setRepeatTimes(repeatTimes);
+        for (CRFCycle crfCycle : getCrfCycles()) {
+            crfCycleDefinition.addCrfCycle(crfCycle.copy());
+        }
         return crfCycleDefinition;
     }
 }
