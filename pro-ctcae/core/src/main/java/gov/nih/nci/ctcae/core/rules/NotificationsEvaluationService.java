@@ -239,10 +239,10 @@ public class NotificationsEvaluationService {
         addRow(emailContent, "Participant contact phone: ", (participant.getPhoneNumber() == null ? "Not specified" : participant.getPhoneNumber()));
         addRow(emailContent, "Study site: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite().getDisplayName());
         addRow(emailContent, "Study: ", studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getStudy().getDisplayName());
-        StudyParticipantClinicalStaff rn = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getResearchNurse();
-        addRow(emailContent, "Research nurse: ", rn == null ? "Not assigned" : rn.getStudyOrganizationClinicalStaff().getDisplayName());
-        StudyParticipantClinicalStaff tp = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getTreatingPhysician();
-        addRow(emailContent, "Treating physician: ", tp == null ? "Not assigned" : tp.getStudyOrganizationClinicalStaff().getDisplayName());
+        StudyOrganizationClinicalStaff rn = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getResearchNurse().getStudyOrganizationClinicalStaff();
+        addRow(emailContent, "Research nurse: ", rn == null ? "Not assigned" : rn.getDisplayName());
+        StudyOrganizationClinicalStaff tp = studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getTreatingPhysician().getStudyOrganizationClinicalStaff();
+        addRow(emailContent, "Treating physician: ", tp == null ? "Not assigned" : tp.getDisplayName());
         emailContent.append("</table>");
         emailContent.append("<br>This notification was triggered by following responses: <br><br>");
 
