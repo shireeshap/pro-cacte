@@ -49,7 +49,7 @@
                             <div height="50px">&nbsp;</div>
                         </c:when>
                         <c:otherwise>
-                            <div id="${index}_schedule_${day}" class="passive">
+                            <div id="${index}_schedule_${day}" class="passive" style="text-align:center;">
                             </div>
                             <script type="text/javascript">
                                 calendarArr[${index}]['${day}'] = '${day}';

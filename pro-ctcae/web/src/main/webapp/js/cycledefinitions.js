@@ -29,7 +29,7 @@ function initializeCalendar(index) {
                 var item = $(div_id);
                 item.addClassName('blue');
                 item.removeClassName('passive');
-                item.innerHTML = status;
+                item.innerHTML = '<br/>' + status;
                 if (status == 'In-progress') {
                     item.style.background = '#ff9900';
                 }
@@ -40,8 +40,8 @@ function initializeCalendar(index) {
                     item.style.background = 'red';
                 }
                 if (status == 'Scheduled') {
-                    var delIcon = '<img height="13" width="12" src="/proctcae/images/blank.gif" class="removebutton" align="right"' +
-                                  'onclick="showDeleteWindow(' + i + ', ' + index + ');"/><br/>';
+                    var delIcon = '<div style="float:right"><img height="13" width="12" src="/proctcae/images/blank.gif" class="removebutton" ' +
+                                  'onclick="showDeleteWindow(' + i + ', ' + index + ');"/></div>';
                     item.innerHTML = delIcon + item.innerHTML;
 
                     myCalendar[i] = new YAHOO.util.DD(div_id);
