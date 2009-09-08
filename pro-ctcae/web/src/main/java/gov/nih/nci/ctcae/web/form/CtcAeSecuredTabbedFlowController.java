@@ -78,7 +78,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
 
-        binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
+        binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(false));
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.registerCustomEditor(Study.class, new RepositoryBasedEditor(studyRepository, Study.class));
         binder.registerCustomEditor(Organization.class, new RepositoryBasedEditor(organizationRepository, Organization.class));
