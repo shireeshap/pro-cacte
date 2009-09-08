@@ -2,84 +2,133 @@ function applyCalendar(index, direction) {
     document.body.style.cursor = 'wait';
     getCalendar(index, "dir=" + direction);
 }
+var calendarArr = new Array();
+var scheduleArr = new Array();
 
 
 var checkStatus = true;
+function isundefined(el) {
+    return typeof(el) == 'undefined';
+}
+function getDate(item) {
+    return item.id.substring(item.id.indexOf('_', 2) + 1);
+}
+function getIndex(item) {
+    return item.id.substring(0, item.id.indexOf('_'));
+}
 function initializeCalendar(index) {
+    var myCalendar = calendarArr[index];
+    var mySchedules = scheduleArr[index];
+
     document.body.style.cursor = 'wait';
-    var items = document.getElementsByClassName(index + '_schedule_div');
-    for (var i = 0; i < items.length; i++) {
-        var ele = $(index + '_schedule_' + (i + 1));
-        if (ele != null) {
-            Droppables.add(index + '_schedule_' + (i + 1), {hoverclass: 'hoverActive', onDrop: moveItem});
+    for (var i = 0; i < myCalendar.length; i++) {
+        if (!isundefined(myCalendar[i])) {
+            var div_id = index + '_schedule_' + i;
+            if (!isundefined(mySchedules[i])) {
+                var status = mySchedules[i];
+                var item = $(div_id);
+                item.addClassName('blue');
+                item.removeClassName('passive');
+                item.innerHTML = status;
+                if (status == 'In-progress') {
+                    item.style.background = '#ff9900';
+                }
+                if (status == 'Completed') {
+                    item.style.background = '#00cc00';
+                }
+                if (item.title == 'true') {
+                    item.style.background = 'red';
+                }
+                if (status == 'Scheduled') {
+                    myCalendar[i] = new YAHOO.util.DD(div_id);
+                }
+            } else {
+                myCalendar[i] = new YAHOO.util.DDTarget(div_id);
+                Event.observe(div_id, "click", function() {
+                    showAddWindow(getDate(this), getIndex(this));
+                })
+            }
         }
     }
+    //    var items = document.getElementsByClassName(index + '_schedule_div');
+    //    for (var i = 0; i < items.length; i++) {
+    //        var item = items[i];
+    //        calendar[item.id] = new YAHOO.util.DDTarget(item.id);
+    //    }
+    //
+    //    items = document.getElementsByClassName(index + '_temp_div');
+    //    for (var i = 0; i < items.length; i++) {
+    //        var item = items[i];
+    //        schedules[item.id] = ;
+    //        item.removeClassName(index + '_temp_div');
+    //        var date = item.id.substring(item.id.indexOf('_', 2) + 1);
+    //        checkStatus = false;
+    ////        moveItem(schedules[item.id], $(index + '_schedule_' + date));
+    //    }
 
-    items = document.getElementsByClassName(index + '_temp_div');
-    var j = items.length;
-    while (j > 0) {
-        var item = items[j - 1];
-        var date = item.id.substring(item.id.indexOf('_', 2) + 1);
-        item.removeClassName(index + '_temp_div');
-        item.addClassName('blue');
-        if (item.innerHTML.indexOf('In-progress') != -1) {
-            item.style.background = '#ff9900';
-        }
-        if (item.innerHTML.indexOf('Completed') != -1) {
-            item.style.background = '#00cc00';
-        }
-        if (item.title == 'true') {
-            item.style.background = 'red';
-        }
-        new Draggable(item, {revert:true});
-        checkStatus = false;
-        moveItem(item, $(index + '_schedule_' + date));
-        j--;
-    }
+    //    var j = items.length;
+    //    while (j > 0) {
+    //        var item = items[j - 1];
+    //        j--;
+    //}
 
-    items = document.getElementsByClassName(index + '_temp_div');
-    for (var i = 0; i < items.length; i++) {
-        var item = items[i];
-        var date = item.id.substring(item.id.indexOf('_', 2) + 1);
-        $(index + '_schedule_' + date).onclick = function() {
-        };
-    }
+    //    items = document.getElementsByClassName(index + '_temp_div');
+    //    for (var i = 0; i < items.length; i++) {
+    //        var item = items[i];
+    //        var date = ;
+    //        $(index + '_schedule_' + date).onclick = function() {
+    //        };
+    //    }
     document.body.style.cursor = 'default';
 }
 
 
-function moveItem(draggable, droparea) {
-    try {
-        droparea.onclick = function() {
-        };
-        var index = draggable.id.substring(0, draggable.id.indexOf('_'));
-        if (checkStatus) {
-            if (draggable.innerHTML.indexOf('Scheduled') == -1) {
-                return;
-            }
-        }
-        checkStatus = true;
-        droparea.innerHTML = '';
-        //        alert(draggable.parentNode);
-        draggable.parentNode.removeChild(draggable);
-        droparea.appendChild(draggable);
-        //        var olddate = draggable.id.substring(draggable.id.indexOf('_', 2) + 1);
-        //        if (olddate != '') {
-        //            var newdate = droparea.id.substring(droparea.id.indexOf('_', 2) + 1);
-        //            droparea.addClassName('blue');
-        //            if (droparea.id != (index + '_schedule_' + olddate)) {
-        //                $(index + '_schedule_' + olddate).removeClassName('blue');
-        //            }
-        //            if (newdate != olddate) {
-        //                showMoveWindow(olddate, newdate, index);
-        //            }
-        //        }
-    } catch(err) {
-        alert(err.description);
-        //        getCalendar(index, "dir=refresh");
+//function moveItem(draggable, droparea) {
+//    try {
+//        droparea.onclick = function() {
+//        };
+//        var index = draggable.id.substring(0, draggable.id.indexOf('_'));
+//        if (checkStatus) {
+//            if (draggable.innerHTML.indexOf('Scheduled') == -1) {
+//                return;
+//            }
+//        }
+//        checkStatus = true;
+//        droparea.innerHTML = '';
+//        //        alert(draggable.parentNode);
+//        draggable.parentNode.removeChild(draggable);
+//        droparea.appendChild(draggable);
+//        //        var olddate = draggable.id.substring(draggable.id.indexOf('_', 2) + 1);
+//        //        if (olddate != '') {
+//        //            var newdate = droparea.id.substring(droparea.id.indexOf('_', 2) + 1);
+//        //            droparea.addClassName('blue');
+//        //            if (droparea.id != (index + '_schedule_' + olddate)) {
+//        //                $(index + '_schedule_' + olddate).removeClassName('blue');
+//        //            }
+//        //            if (newdate != olddate) {
+//        //                showMoveWindow(olddate, newdate, index);
+//        //            }
+//        //        }
+//    } catch(err) {
+//        alert(err.description);
+//        //        getCalendar(index, "dir=refresh");
+//    }
+//}
+
+function showWindow(htmlcontent) {
+    var win = Windows.getFocusedWindow();
+    if (win == null) {
+        win = new Window({ id: '100' , className: "alphacube", closable : false, minimizable : false, maximizable :
+                false, title: "", height:70, width: 600, left: (screen.width / 2) - 300, top: document.viewport.getScrollOffsets()[1] + (250)});
+        win.setDestroyOnClose();
+        win.setHTMLContent(htmlcontent);
+        win.show(true)
+
+    } else {
+        win.setHTMLContent(htmlcontent);
+        win.refresh();
     }
 }
-
 function showMoveWindow(olddate, newdate, index) {
     olddate = parseInt(olddate);
     newdate = parseInt(newdate);
@@ -99,18 +148,8 @@ function showMoveWindow(olddate, newdate, index) {
                       ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All following" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'moveallfuture\'' +
                       ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="Cancel" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'cancel\'' +
                       ')"/></td></tr></table>';
-    var win = Windows.getFocusedWindow();
-    if (win == null) {
-        win = new Window({ id: '100' , className: "alphacube", closable : false, minimizable : false, maximizable :
-                false, title: "", height:70, width: 600, left: (screen.width / 2) - 300, top: document.viewport.getScrollOffsets()[1] + (250)});
-        win.setDestroyOnClose();
-        win.setHTMLContent(htmlcontent);
-        win.show(true)
 
-    } else {
-        win.setHTMLContent(htmlcontent);
-        win.refresh();
-    }
+    showWindow(htmlcontent);
 }
 
 function showDeleteWindow(date, index) {
@@ -122,18 +161,7 @@ function showDeleteWindow(date, index) {
                       ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All following" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'delallfuture\'' +
                       ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="Cancel" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'cancel\'' +
                       ')"/></td></tr></table>';
-    var win = Windows.getFocusedWindow();
-    if (win == null) {
-        win = new Window({ id: '100' , className: "alphacube", closable : false, minimizable : false, maximizable :
-                false, title: "", height:70, width: 600, left: (screen.width / 2) - 300, top: document.viewport.getScrollOffsets()[1] + (250)});
-        win.setDestroyOnClose();
-        win.setHTMLContent(htmlcontent);
-        win.show(true)
-
-    } else {
-        win.setHTMLContent(htmlcontent);
-        win.refresh();
-    }
+    showWindow(htmlcontent);
 }
 
 function showAddWindow(date, index) {
@@ -143,18 +171,7 @@ function showAddWindow(date, index) {
                       '<tr><td align="center"><input type="button" value="Yes" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'add\'' +
                       ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="Cancel" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'cancel\'' +
                       ')"/></td></tr></table>';
-    var win = Windows.getFocusedWindow();
-    if (win == null) {
-        win = new Window({ id: '100' , className: "alphacube", closable : false, minimizable : false, maximizable :
-                false, title: "", height:70, width: 260, left: (screen.width / 2) - 130, top: document.viewport.getScrollOffsets()[1] + (250)});
-        win.setDestroyOnClose();
-        win.setHTMLContent(htmlcontent);
-        win.show(true)
-
-    } else {
-        win.setHTMLContent(htmlcontent);
-        win.refresh();
-    }
+    showWindow(htmlcontent);
 }
 
 

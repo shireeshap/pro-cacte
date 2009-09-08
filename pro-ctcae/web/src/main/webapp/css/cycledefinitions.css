@@ -56,7 +56,6 @@ td.data {
 .blue {
     background-color: #0051fc;
     height: 50px;
-    width: 50px;
     text-align: center;
     color: #FFFFFF;
     cursor: pointer;
@@ -72,7 +71,6 @@ td.data {
 
 .passive {
     height: 50px;
-    width: 50px;
 }
 
 .passive:hover {
@@ -81,7 +79,7 @@ td.data {
 }
 
 img.navBack {
-    background-image: url(/proctcae/images/combined_v5.gif);
+    background-image: url( /proctcae/images/combined_v5.gif );
     background-position: -148px -17px;
     padding-left: 2px;
     padding-right: 0;
@@ -89,7 +87,7 @@ img.navBack {
 }
 
 img.removebutton {
-    background-image: url(/proctcae/images/combined_v5.gif);
+    background-image: url( /proctcae/images/combined_v5.gif );
     background-position: -0px -50px;
     padding-left: 2px;
     padding-right: 0;
@@ -97,7 +95,7 @@ img.removebutton {
 }
 
 img.navForward {
-    background-image: url(/proctcae/images/combined_v5.gif);
+    background-image: url( /proctcae/images/combined_v5.gif );
     background-position: -148px 0;
     padding-left: 2px;
     padding-right: 2px;

@@ -29,7 +29,7 @@
                     onComplete:function(transport) {
                         getCalendar(index, "dir=refresh");
                     },
-                    parameters:"subview=subview&index=" + index + "&date=" + date + "&action=" + action,
+                    parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&date=" + date + "&action=" + action,
                     method:'get'
                 })
             }
@@ -39,25 +39,31 @@
             document.body.style.cursor = 'wait';
             var request = new Ajax.Request("<c:url value="/pages/participant/displaycalendar"/>", {
                 onComplete:function(transport) {
-                    var response = transport.responseText;
-                    $("calendar_" + index).innerHTML = response;
-                    initializeCalendar(index);
+                    showCalendar(index, transport);
                 },
-                parameters:"subview=subview&index=" + index + "&" + parameters,
+                parameters:<tags:ajaxstandardparams/> +"&index=" + index + "&" + parameters,
                 method:'get'
             })
         }
 
+        function showCalendar(index, transport) {
+            var items = $('calendar_' + index + '_outer').childElements();
+            var len = items.length;
+            for (var i = 0; i < len; i++) {
+                if (items[i].id != 'calendar_' + index + '_inner') {
+                    items[i].remove();
+                }
+            }
+            new Insertion.After('calendar_' + index + '_inner', transport.responseText);
+        }
+
     </script>
-    <style type="text/css">
-        /** {zoom:1;}*/
-    </style>
 </head>
 <body>
 
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="myForm">
     <jsp:attribute name="singleFields">
-        
+
         <input type="hidden" name="_finish" value="true"/>
 
             <c:forEach items="${command.participantSchedules}" var="participantSchedule" varStatus="status">
@@ -85,13 +91,11 @@
                                 <td>
                                     <br/>
                                     <chrome:division title=" "/>
-                                    <div id="calendar_${status.index}">
+                                    <div id="calendar_${status.index}_outer">
+                                        <div id="calendar_${status.index}_inner"></div>
                                         <tags:participantcalendar schedule="${participantSchedule}"
                                                                   index="${status.index}"/>
-                                        <script type="text/javascript">
-                                            initializeCalendar('${status.index}');
-                                        </script>
-
+                                        
                                     </div>
                                 </td>
                             </tr>

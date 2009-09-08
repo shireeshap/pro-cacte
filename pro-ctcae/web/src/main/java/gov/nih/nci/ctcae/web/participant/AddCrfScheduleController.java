@@ -21,7 +21,6 @@ import java.util.GregorianCalendar;
  */
 public class AddCrfScheduleController extends AbstractController {
 
-    private CRFRepository crfRepository;
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -89,16 +88,5 @@ public class AddCrfScheduleController extends AbstractController {
         super();
         setSupportedMethods(new String[]{"GET"});
 
-    }
-
-    /**
-     * Sets the finder repository.
-     *
-     * @param crfRepository the new finder repository
-     */
-    @Required
-
-    public void setCrfRepository(CRFRepository crfRepository) {
-        this.crfRepository = crfRepository;
     }
 }

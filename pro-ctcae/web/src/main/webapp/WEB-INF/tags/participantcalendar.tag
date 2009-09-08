@@ -4,21 +4,17 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:forEach items="${schedule.currentMonthSchedules}" var="studyParticipantCrfSchedule">
-    <div id="${index}_temp_<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />"
-         class="${index}_temp_div" title="${studyParticipantCrfSchedule.holiday}">
-        <c:if test="${studyParticipantCrfSchedule.status eq 'Scheduled'}">
-            <img height="13" width="12"
-                 alt="remove"
-                 src="/proctcae/images/blank.gif"
-                 class="removebutton" align="right"
-                 onclick="showDeleteWindow('<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d" />','${index}');"/>
-        </c:if>
-            <br/>
-            &nbsp;${studyParticipantCrfSchedule.status}
-    </div>
+<script type="text/javascript">
+    calendarArr[${index}] = new Array();
+    scheduleArr[${index}] = new Array();
+</script>
+
+<c:forEach items="${schedule.currentMonthSchedules}" var="studyParticipantCrfSchedule" varStatus="status">
+    <script type="text/javascript">
+        scheduleArr[${index}]['<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d"/>'] = '${studyParticipantCrfSchedule.status}';
+    </script>
 </c:forEach>
-<table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
+<table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
     <tr class="header">
         <td colspan="7" align="left" style="border-bottom:1px solid #77a9ff; font-size:small; color:#000000; ">
             <img height="17" width="29"
@@ -50,13 +46,14 @@
                     <div class="grey">${day}&nbsp;&nbsp;</div>
                     <c:choose>
                         <c:when test="${day eq ''}">
-                            <div id="${index}_schedule_${day}"
-                                 class="${index}_schedule_div" height="50px">&nbsp;</div>
+                            <div height="50px">&nbsp;</div>
                         </c:when>
                         <c:otherwise>
-                            <div id="${index}_schedule_${day}" class="${index}_schedule_div passive"
-                                 onclick="showAddWindow('${day}','${index}');">
+                            <div id="${index}_schedule_${day}" class="passive">
                             </div>
+                            <script type="text/javascript">
+                                calendarArr[${index}]['${day}'] = '${day}';
+                            </script>
                         </c:otherwise>
                     </c:choose>
                 </td>
@@ -64,3 +61,6 @@
         </tr>
     </c:forEach>
 </table>
+<script type="text/javascript">
+    initializeCalendar('${index}');
+</script>
