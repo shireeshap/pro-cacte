@@ -40,6 +40,10 @@ function initializeCalendar(index) {
                     item.style.background = 'red';
                 }
                 if (status == 'Scheduled') {
+                    var delIcon = '<img height="13" width="12" src="/proctcae/images/blank.gif" class="removebutton" align="right"' +
+                                  'onclick="showDeleteWindow(' + i + ', ' + index + ');"/><br/>';
+                    item.innerHTML = delIcon + item.innerHTML;
+
                     myCalendar[i] = new YAHOO.util.DD(div_id);
                 }
             } else {
