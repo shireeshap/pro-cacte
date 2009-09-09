@@ -1089,6 +1089,7 @@ pro-ctcae/web/src/main/webapp/images/table/xls.gif -text
 pro-ctcae/web/src/main/webapp/images/window_icon.png -text
 pro-ctcae/web/src/main/webapp/index.jsp -text
 pro-ctcae/web/src/main/webapp/js/D2H_ctxt.js -text
+pro-ctcae/web/src/main/webapp/js/ajax_common.js -text
 pro-ctcae/web/src/main/webapp/js/button-pseudoclass-IE-hack.htc -text
 pro-ctcae/web/src/main/webapp/js/calendar.js -text
 pro-ctcae/web/src/main/webapp/js/calendar/calendar-setup.js -text

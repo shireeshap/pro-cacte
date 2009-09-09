@@ -33,6 +33,7 @@
 <tags:dwrJavascriptLink objects="study"/>
 
 <tags:javascriptLink name="common"/>
+<tags:javascriptLink name="ajax_common"/>
 <tags:javascriptLink name="validation"/>
 <tags:javascriptLink name="commons-validation"/>
 <tags:javascriptLink name="date"/>
