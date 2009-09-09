@@ -22,14 +22,12 @@
 
             var response = transport.responseText;
             new Insertion.Before("hiddenDiv", response);
-
-
         }
+
         function addStudyArm() {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyArm"/>", {
                 onComplete:addStudyArmDiv,
-                parameters:"subview=subview&",
-
+                parameters:<tags:ajaxstandardparams/>,
                 method:'get'
             })
 
