@@ -1100,7 +1100,7 @@ pro-ctcae/web/src/main/webapp/js/common-scriptaculous.js -text
 pro-ctcae/web/src/main/webapp/js/common.js -text
 pro-ctcae/web/src/main/webapp/js/common_help.js -text
 pro-ctcae/web/src/main/webapp/js/commons-validation.js -text
-pro-ctcae/web/src/main/webapp/js/cycledefinitions.js -text
+pro-ctcae/web/src/main/webapp/js/cycledefinitions_new.js -text
 pro-ctcae/web/src/main/webapp/js/date.js -text
 pro-ctcae/web/src/main/webapp/js/dropdown_menu.js -text
 pro-ctcae/web/src/main/webapp/js/extremecomponents.js -text
