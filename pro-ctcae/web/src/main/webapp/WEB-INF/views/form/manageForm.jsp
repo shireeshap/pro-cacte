@@ -27,17 +27,18 @@
         a.fg-button {
             float: right;
         }
-		* {
-			zoom:1;
-		}
+
+        * {
+            zoom: 1;
+        }
     </style>
-<!--[if IE]>
-	<style>
-		div.row div.value {
-			margin-left:7px;
-		}
-	</style>
-<![endif]-->
+    <!--[if IE]>
+        <style>
+            div.row div.value {
+                margin-left:7px;
+            }
+        </style>
+    <![endif]-->
     <script type="text/javascript">
         Event.observe(window, "load", function () {
             var sac = new studyAutoCompleter('study');
@@ -72,7 +73,7 @@
 
         function deleteForm(crfId) {
             var request = new Ajax.Request("<c:url value="/pages/form/deleteForm"/>", {
-                parameters:"crfId=" + crfId + "&subview=subview",
+                parameters:<tags:ajaxstandardparams/>+"&crfId=" + crfId ,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport);
                 },
@@ -82,7 +83,7 @@
 
         function versionForm(crfId) {
             var request = new Ajax.Request("<c:url value="/pages/form/versionForm"/>", {
-                parameters:"crfId=" + crfId + "&subview=subview",
+                parameters:<tags:ajaxstandardparams/>+"&crfId=" + crfId ,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport);
                 },
@@ -91,7 +92,7 @@
         }
         function showVersionForm(crfId) {
             var request = new Ajax.Request("<c:url value="/pages/form/showVersionForm"/>", {
-                parameters:"crfId=" + crfId + "&subview=subview",
+                parameters:<tags:ajaxstandardparams/>+"&crfId=" + crfId,
                 onComplete:function(transport) {
                     var response = transport.responseText;
                     new Insertion.After('details_row_' + crfId, response);

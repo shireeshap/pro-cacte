@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AddStudyComponentController extends AbstractController {
 
 
-    public static final String COMPONENT_TYPE = "componentTyep";
+    public static final String COMPONENT_TYPE = "componentType";
     protected final static String STUDY_SITE_ID = "studySiteId";
 
     protected final static String STUDY_ORGANIZATION_CLINICAL_STAFF = "studyOrganizationClinicalStaff";
@@ -39,9 +39,9 @@ public class AddStudyComponentController extends AbstractController {
         StudyCommand studyCommand = ControllersUtils.getStudyCommand(request);
 
 
-        String componentTyep = request.getParameter(COMPONENT_TYPE);
+        String componentType = request.getParameter(COMPONENT_TYPE);
 
-        if (StringUtils.equals(componentTyep, STUDY_ORGANIZATION_CLINICAL_STAFF)) {
+        if (StringUtils.equals(componentType, STUDY_ORGANIZATION_CLINICAL_STAFF)) {
             String roleString = ServletRequestUtils.getRequiredStringParameter(request, ROLE);
             Role role = Role.getByCode(roleString);
 

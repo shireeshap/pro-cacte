@@ -194,8 +194,9 @@ function fnDisplayParticipants() {
     }
 }
 function showResponses(id) {
+
     var request = new Ajax.Request("../participant/showCompletedCrf", {
-        parameters:"id=" + id + "&subview=subview",
+        parameters:getStandardParamForAjax() + "&id=" + id ,
         onComplete:function(transport) {
             showConfirmationWindow(transport, 700, 500);
         },
@@ -239,7 +240,7 @@ function populate(divid, values, itext, ivalue, selectedValue, title) {
 function addPleaseSelect(select) {
     var option = new Element('OPTION', {});
     option.label = 'Please select';
-    option.text= 'Please select';
+    option.text = 'Please select';
     option.value = '';
     select.appendChild(option);
 }
@@ -263,7 +264,7 @@ function updateChart(chkbox) {
 }
 
 function getQueryString(igroup, iarms) {
-    var queryString = 'subview=subview';
+    var queryString = getStandardParamForAjax();
     queryString += "&study=" + $('study').value;
     queryString += "&crf=" + $('form').value;
     if (displaySymptom) {

@@ -15,7 +15,7 @@
 
 <html>
 <head>
-	<tags:stylesheetLink name="reports"/>
+    <tags:stylesheetLink name="reports"/>
     <tags:dwrJavascriptLink objects="crf"/>
     <tags:dwrJavascriptLink objects="participant"/>
     <tags:includePrototypeWindow/>
@@ -27,13 +27,13 @@
         studySiteMandatory = true;
         function initializeFields() {
         <c:if test="${study ne null}">
-        initializeAutoCompleter('study', '${study.displayName}', ${study.id});
-        displayForms(${crf.id});
-        displaySites();
-        initializeAutoCompleter('studySite', '${studySite.displayName}', ${studySite.id});
-        fnDisplayParticipants();
-        initializeAutoCompleter('participant', '${participant.displayName}', ${participant.id});
-        setTimeout("participantCareResults();", 2000);
+            initializeAutoCompleter('study', '${study.displayName}', ${study.id});
+            displayForms(${crf.id});
+            displaySites();
+            initializeAutoCompleter('studySite', '${studySite.displayName}', ${studySite.id});
+            fnDisplayParticipants();
+            initializeAutoCompleter('participant', '${participant.displayName}', ${participant.id});
+            setTimeout("participantCareResults();", 2000);
         </c:if>
         }
         function participantCareResults(format, symptomId, selectedTypes) {
@@ -54,10 +54,10 @@
             if (format == 'tabular') {
                 showIndicator();
                 var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResults"/>", {
-                    parameters:"studyId=" + studyId + "&crfId=" + crfId +
+                    parameters:<tags:ajaxstandardparams/>+"&studyId=" + studyId + "&crfId=" + crfId +
                                "&studySiteId=" + studySiteId + "&participantId=" + participantId +
-                               "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate + "&endDate=" + endDate +
-                               "&subview=subview",
+                               "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate + "&endDate=" + endDate
+                    ,
                     onComplete:function(transport) {
                         showResultsTable(transport);
                         hideIndicator();
@@ -71,8 +71,7 @@
                 }
                 showIndicator();
                 var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResultsGraph"/>", {
-                    parameters:"symptomId=" + symptomId + "&selectedTypes=" + selectedTypes +
-                               "&subview=subview",
+                    parameters:<tags:ajaxstandardparams/>+"&symptomId=" + symptomId + "&selectedTypes=" + selectedTypes ,
                     onComplete:function(transport) {
                         showConfirmationWindow(transport, 850, 570);
                         hideIndicator();

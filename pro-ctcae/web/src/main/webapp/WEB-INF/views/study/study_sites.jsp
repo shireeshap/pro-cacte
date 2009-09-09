@@ -29,7 +29,7 @@
         function addStudySite() {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudySite"/>", {
                 onComplete:addStudySiteDiv,
-                parameters:"subview=subview&",
+                parameters:<tags:ajaxstandardparams/>+,
 
                 method:'get'
             })

@@ -27,7 +27,7 @@
         function addStudyArm() {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudyArm"/>", {
                 onComplete:addStudyArmDiv,
-                parameters:<tags:ajaxstandardparams/>,
+                parameters:<tags:ajaxstandardparams/>+"&componentType=site",
                 method:'get'
             })
 

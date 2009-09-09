@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AddClinicalStaffComponentController extends AbstractController {
 
     public static final String SITE_COMPONENT_TYPE = "site";
-    public static final String COMPONENT_TYPE = "componentTyep";
+    public static final String COMPONENT_TYPE = "componentType";
     protected final String CLINICAL_STAFF_ASSIGNMENT_INDEX = "clinicalStaffAssignmentIndex";
 
     /* (non-Javadoc)
@@ -31,9 +31,9 @@ public class AddClinicalStaffComponentController extends AbstractController {
         ClinicalStaffCommand clinicalStaffCommand = ClinicalStaffControllerUtils.getClinicalStaffCommand(request);
         ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
 
-        String componentTyep = request.getParameter(COMPONENT_TYPE);
+        String componentType = request.getParameter(COMPONENT_TYPE);
 
-        if (StringUtils.equals(componentTyep, SITE_COMPONENT_TYPE)) {
+        if (StringUtils.equals(componentType, SITE_COMPONENT_TYPE)) {
             OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
             clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
 

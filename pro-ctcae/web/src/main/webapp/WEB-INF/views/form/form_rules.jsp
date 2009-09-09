@@ -20,7 +20,7 @@
         function addRule() {
             var request = new Ajax.Request("<c:url value="/pages/form/addFormRule"/>", {
                 onComplete:addRuleDiv,
-                parameters:"subview=subview&isSite=${isSite}",
+                parameters:<tags:ajaxstandardparams/>+"&isSite=${isSite}",
                 method:'get'
             })
         }

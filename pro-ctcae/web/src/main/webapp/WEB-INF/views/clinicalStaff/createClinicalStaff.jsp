@@ -36,7 +36,7 @@
         function addSite() {
             var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/addClinicalStaffComponent"/>", {
                 onComplete:addSiteDiv,
-                parameters:"subview=subview&componentTyep=site",
+                parameters:<tags:ajaxstandardparams/>+"&componentType=site",
                 method:'get'
             })
         }
@@ -45,7 +45,7 @@
         function deleteSite(organizationClinicalStaffIndex) {
 
             var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-                parameters:"confirmationType=deleteOrganizationClinicalStaff&subview=subview&organizationClinicalStaffIndex=" + organizationClinicalStaffIndex,
+                parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteOrganizationClinicalStaff&organizationClinicalStaffIndex=" + organizationClinicalStaffIndex,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport);
 

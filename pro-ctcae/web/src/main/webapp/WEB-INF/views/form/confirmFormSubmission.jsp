@@ -27,17 +27,6 @@
 
     </style>
 
-    <%--<script type="text/javascript">--%>
-    <%--function responseReport(id) {--%>
-    <%--var request = new Ajax.Request("<c:url value="/pages/participant/responseReport"/>", {--%>
-    <%--parameters:"id=" + id + "&subview=subview",--%>
-    <%--onComplete:function(transport) {--%>
-    <%--showConfirmationWindow(transport, 1000, 500);--%>
-    <%--},--%>
-    <%--method:'get'--%>
-    <%--})--%>
-    <%--}--%>
-    <%--</script>--%>
 </head>
 <body>
 <chrome:flashMessage flashMessage="${command.flashMessage}"></chrome:flashMessage>

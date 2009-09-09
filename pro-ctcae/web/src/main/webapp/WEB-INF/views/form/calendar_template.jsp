@@ -130,7 +130,7 @@ Event.observe(window, "load", function () {
 function addCycle() {
     var request = new Ajax.Request("<c:url value="/pages/form/addFormScheduleCycle"/>", {
         onComplete:addCycleDiv,
-        parameters:"subview=subview",
+        parameters:<tags:ajaxstandardparams/>,
         method:'get'
     })
 }
@@ -314,7 +314,7 @@ function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
         if (cycleIndex < repeat - 2) {
             allOption.text = 'All';
             allOption.label = 'All';
-            allOption.value= 'All';
+            allOption.value = 'All';
             multiselect.appendChild(allOption);
         }
 
@@ -403,8 +403,7 @@ function sortfunction(val1, val2) {
 
 function deleteCycleDefinition(cycleIndex) {
     var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-        parameters:"confirmationType=deleteCrfCycle&subview=subview&crfCycleIndex="
-                + cycleIndex,
+        parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrfCycle&crfCycleIndex=" + cycleIndex,
         onComplete:function(transport) {
             showConfirmationWindow(transport, 530, 150);
         } ,

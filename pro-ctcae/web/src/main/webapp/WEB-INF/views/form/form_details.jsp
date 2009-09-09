@@ -164,7 +164,7 @@
 
 
         var request = new Ajax.Request("<c:url value="/pages/form/addConditionalQuestion"/>", {
-            parameters:"questionId=" + questionId + "&subview=subview&selectedValidValues=" + selectedValidValues,
+            parameters:<tags:ajaxstandardparams/>+"&questionId=" + questionId + "&selectedValidValues=" + selectedValidValues,
             onComplete:function(transport) {
                 var response = transport.responseText;
 
@@ -181,7 +181,7 @@
 
 
         var request = new Ajax.Request("<c:url value="/pages/form/removeConditions"/>", {
-            parameters:"questionId=" + questionId + "&subview=subview&proCtcValidValueId=" + proCtcValidValueId,
+            parameters:<tags:ajaxstandardparams/>+"&questionId=" + questionId + "&proCtcValidValueId=" + proCtcValidValueId,
             onComplete:function(transport) {
                 var inputName = 'conditionalQuestion_' + questionId + '_' + proCtcValidValueId;
                 $(inputName + '-row').remove();
@@ -305,7 +305,7 @@
     }
     function addProCtcTermForCrfPage(proCtcTermId, crfPageNumber) {
         var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
-            parameters:"proCtcTermId=" + proCtcTermId + "&subview=subview&crfPageNumber=" + crfPageNumber + "&componentType=proCtcTerm",
+            parameters:<tags:ajaxstandardparams/>+"&proCtcTermId=" + proCtcTermId + "&crfPageNumber=" + crfPageNumber + "&componentType=proCtcTerm",
             onComplete:function(transport) {
 
 
@@ -362,7 +362,7 @@
 
     function updateConditions() {
         var request = new Ajax.Request("<c:url value="/pages/form/allConditions"/>", {
-            parameters:"&subview=subview&questionsIds=" + $('questionsIds').value,
+            parameters:<tags:ajaxstandardparams/>+"&questionsIds=" + $('questionsIds').value,
             onComplete:function(transport) {
                 $$('select.selectedCrfPageItems').each(function (item) {
                     item.innerHTML = transport.responseText
@@ -554,7 +554,7 @@
 <script type="text/javascript">
     function deleteCrfPage(selectedCrfPageNumber) {
         var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-            parameters:"confirmationType=deleteCrf&subview=subview&selectedCrfPageNumber=" + selectedCrfPageNumber,
+            parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrf&selectedCrfPageNumber=" + selectedCrfPageNumber,
             onComplete:function(transport) {
                 var isAnyConditionalTriggeringQuestion = false;
                 var crfPageItems = $$('#form-pages_' + selectedCrfPageNumber + ' div.sortable');
@@ -583,7 +583,7 @@
     function deleteQuestion(questionId, proCtcTermId) {
 
         var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-            parameters:"confirmationType=deleteQuestion&subview=subview&questionId=" + questionId + "&proCtcTermId=" + proCtcTermId,
+            parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteQuestion&questionId=" + questionId + "&proCtcTermId=" + proCtcTermId,
             onComplete:function(transport) {
 
                 showConfirmationWindow(transport);
@@ -704,7 +704,7 @@
     function addCtcCategory(ctcCategoryId) {
 
         var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
-            parameters:"subview=subview&ctcCategoryId=" + ctcCategoryId + "&componentType=ctcCategory",
+            parameters:<tags:ajaxstandardparams/>+"&ctcCategoryId=" + ctcCategoryId + "&componentType=ctcCategory",
             onComplete:function(transport) {
 
                 var response = transport.responseText;

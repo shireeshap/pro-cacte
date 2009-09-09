@@ -40,7 +40,7 @@
     <script type="text/javascript">
         function showMessage(id) {
             var request = new Ajax.Request("<c:url value="/pages/home/notificationdetails"/>", {
-                parameters:"id=" + id + "&subview=subview",
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id ,
                 onComplete:function(transport) {
                     $('tr_' + id).removeClassName('bold');
                     showConfirmationWindow(transport, 700, 500);
@@ -50,7 +50,7 @@
         }
         function completedForm(id) {
             var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
-                parameters:"id=" + id + "&subview=subview",
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id ,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 700, 500);
                 },
@@ -61,7 +61,7 @@
         function deleteMsg(id, uuid) {
             if (uuid != '') {
                 var request = new Ajax.Request("<c:url value="/public/removealert"/>", {
-                    parameters:"uuid=" + uuid + "&subview=subview",
+                    parameters:<tags:ajaxstandardparams/>+"&uuid=" + uuid,
                     onComplete:function(transport) {
                         $('tr_' + id).remove();
                     },

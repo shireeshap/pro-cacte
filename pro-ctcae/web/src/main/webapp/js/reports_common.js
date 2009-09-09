@@ -227,7 +227,7 @@ function fnDisplayParticipants() {
 }
 function showResponses(id) {
     var request = new Ajax.Request("../participant/showCompletedCrf", {
-        parameters:"id=" + id + "&subview=subview",
+        parameters:getStandardParamForAjax() + "&id=" + id  ,
         onComplete:function(transport) {
             showConfirmationWindow(transport, 700, 500);
         },

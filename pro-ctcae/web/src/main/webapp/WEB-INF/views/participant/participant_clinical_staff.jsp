@@ -52,7 +52,7 @@
             $('notificationtable_' + index).show();
             var request = new Ajax.Request("<c:url value="/pages/participant/addNotificationClinicalStaff"/>", {
                 onComplete:addNotificationClinicalStaffDiv,
-                parameters:"subview=subview&index=" + index,
+                parameters:<tags:ajaxstandardparams/>+"&index=" + index,
                 method:'get'
             })
         }
@@ -65,7 +65,7 @@
 
         function deleteNotification(spaIndex, notificationIndex) {
             var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-                parameters:"confirmationType=deleteNotificationClinicalStaff&subview=subview&spaIndex="
+                parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteNotificationClinicalStaff&spaIndex="
                         + spaIndex + "&notificationIndex=" + notificationIndex,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 530, 150);
@@ -114,131 +114,131 @@
 <c:if test="${studyParticipantAssignment.id eq command.selectedStudyParticipantAssignment.id}">
 
 <div class="row">
-<chrome:box title="participant.label.researchstaff">
-    <chrome:division title="participant.label.sitepi"/>
-<div align="left" style="margin-left: 50px">
-    <table class="tablecontent" width="40%">
-        <tr>
-            <th class="tableHeader" width="70%">
-                <tags:message code="participant.label.name"/>
-            </th class="tableHeader">
-            <th width=30%>
-                <tags:message code="participant.label.notification"/>
-            </th>
-        </tr>
-        <c:forEach items="${studyParticipantAssignment.sitePIs}" var="sitePI" varStatus="pistatus">
+    <chrome:box title="participant.label.researchstaff">
+        <chrome:division title="participant.label.sitepi"/>
+    <div align="left" style="margin-left: 50px">
+        <table class="tablecontent" width="40%">
             <tr>
-                <td>
-                        ${sitePI.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
-                </td>
-                <td>
-                    <tags:renderSelect
-                            propertyName="participant.studyParticipantAssignments[${status.index}].sitePIs[${pistatus.index}].notify"
-                            required="true" options="${notifyOptions}" doNotshowLabel="true"/>
+                <th class="tableHeader" width="70%">
+                    <tags:message code="participant.label.name"/>
+                </th class="tableHeader">
+                <th width=30%>
+                    <tags:message code="participant.label.notification"/>
+                </th>
+            </tr>
+            <c:forEach items="${studyParticipantAssignment.sitePIs}" var="sitePI" varStatus="pistatus">
+                <tr>
+                    <td>
+                            ${sitePI.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
+                    </td>
+                    <td>
+                        <tags:renderSelect
+                                propertyName="participant.studyParticipantAssignments[${status.index}].sitePIs[${pistatus.index}].notify"
+                                required="true" options="${notifyOptions}" doNotshowLabel="true"/>
 
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
-</div>
-<br>
-    <chrome:division title="participant.label.sitecra"/>
-<div align="left" style="margin-left: 50px">
-    <table class="tablecontent" width="40%">
-        <tr>
-            <th class="tableHeader" width="70%">
-                <tags:message code="participant.label.name"/>
-            </th class="tableHeader">
-            <th width=30%>
-                <tags:message code="participant.label.notification"/>
-            </th>
-        </tr>
-        <c:forEach items="${studyParticipantAssignment.siteCRAs}" var="siteCRA" varStatus="crastatus">
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+    <br>
+        <chrome:division title="participant.label.sitecra"/>
+    <div align="left" style="margin-left: 50px">
+        <table class="tablecontent" width="40%">
             <tr>
-                <td>
-                        ${siteCRA.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
-                </td>
-                <td>
-                    <tags:renderSelect
-                            propertyName="participant.studyParticipantAssignments[${status.index}].siteCRAs[${crastatus.index}].notify"
-                            required="true" options="${notifyOptions}" doNotshowLabel="true"/>
-                </td>
+                <th class="tableHeader" width="70%">
+                    <tags:message code="participant.label.name"/>
+                </th class="tableHeader">
+                <th width=30%>
+                    <tags:message code="participant.label.notification"/>
+                </th>
             </tr>
-        </c:forEach>
-    </table>
-</div>
-<br>
-</chrome:box>
-<chrome:box title="participant.label.clinicalstaff">
-    <chrome:division title="participant.primaryclinicalstaff"/>
-<table>
-    <tr>
-        <td>
-            <tags:renderAutocompleter
-                    propertyName="participant.studyParticipantAssignments[${status.index}].treatingPhysician.studyOrganizationClinicalStaff"
-                    displayName="participant.label.clinical.staff.treatingphysician" noForm="true"
-                    required="true"
-                    propertyValue="${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
-        </td>
-        <td>
-            <b>&nbsp;&nbsp;&nbsp;<spring:message code="participant.label.notification"/> </b><tags:renderSelect
-                propertyName="participant.studyParticipantAssignments[${status.index}].treatingPhysician.notify"
-                displayName="participant.label.notification"
-                required="true" options="${notifyOptions}" doNotshowLabel="true"/>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <tags:renderAutocompleter
-                    propertyName="participant.studyParticipantAssignments[${status.index}].researchNurse.studyOrganizationClinicalStaff"
-                    displayName="participant.label.clinical.staff.researchnurse" noForm="true"
-                    required="true"
-                    propertyValue="${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
-        </td>
-        <td>
-            <b>&nbsp;&nbsp;&nbsp;<spring:message code="participant.label.notification"/> </b><tags:renderSelect
-                propertyName="participant.studyParticipantAssignments[${status.index}].researchNurse.notify"
-                displayName="participant.label.notification"
-                required="true" options="${notifyOptions}" doNotshowLabel="true"/>
-        </td>
-    </tr>
-</table>
-<br>
-</chrome:box>
-<chrome:box title="participant.label.otherstaff">
-<div align="left" style="margin-left: 50px">
-    <table width="90%" class="tablecontent"
-           id="notificationtable_${status.index}">
-        <tr id="ss-table-head" class="amendment-table-head">
-            <th width="45%" class="tableHeader">
-                <spring:message code='participant.label.name' text=''/>
-            </th>
-            <th width="15%" class="tableHeader">
-                <spring:message code='participant.label.notification' text=''/>
-            </th>
-            <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+            <c:forEach items="${studyParticipantAssignment.siteCRAs}" var="siteCRA" varStatus="crastatus">
+                <tr>
+                    <td>
+                            ${siteCRA.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
+                    </td>
+                    <td>
+                        <tags:renderSelect
+                                propertyName="participant.studyParticipantAssignments[${status.index}].siteCRAs[${crastatus.index}].notify"
+                                required="true" options="${notifyOptions}" doNotshowLabel="true"/>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+    <br>
+    </chrome:box>
+    <chrome:box title="participant.label.clinicalstaff">
+        <chrome:division title="participant.primaryclinicalstaff"/>
+    <table>
+        <tr>
+            <td>
+                <tags:renderAutocompleter
+                        propertyName="participant.studyParticipantAssignments[${status.index}].treatingPhysician.studyOrganizationClinicalStaff"
+                        displayName="participant.label.clinical.staff.treatingphysician" noForm="true"
+                        required="true"
+                        propertyValue="${studyParticipantAssignment.treatingPhysician ne null ? studyParticipantAssignment.treatingPhysician.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
+            </td>
+            <td>
+                <b>&nbsp;&nbsp;&nbsp;<spring:message code="participant.label.notification"/> </b><tags:renderSelect
+                    propertyName="participant.studyParticipantAssignments[${status.index}].treatingPhysician.notify"
+                    displayName="participant.label.notification"
+                    required="true" options="${notifyOptions}" doNotshowLabel="true"/>
+            </td>
         </tr>
-        <c:forEach items="${studyParticipantAssignment.notificationClinicalStaff}"
-                   var="clinicalStaff"
-                   varStatus="notificationstatus">
-            <tags:notificationClinicalStaff index="${status.index}"
-                                            notificationindex="${notificationstatus.index}"
-                                            clinicalStaff="${clinicalStaff}"
-                                            studySiteId="${studyParticipantAssignment.studySite.id}"
-                                            notify="${clinicalStaff.notify}"
-                                            notifyOptions="${notifyOptions}"
-                                            role="${clinicalStaff.studyOrganizationClinicalStaff.role}"></tags:notificationClinicalStaff>
-        </c:forEach>
-        <tr id="hiddenDiv" align="center"></tr>
+        <tr>
+            <td>
+                <tags:renderAutocompleter
+                        propertyName="participant.studyParticipantAssignments[${status.index}].researchNurse.studyOrganizationClinicalStaff"
+                        displayName="participant.label.clinical.staff.researchnurse" noForm="true"
+                        required="true"
+                        propertyValue="${studyParticipantAssignment.researchNurse ne null ? studyParticipantAssignment.researchNurse.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName:''}"/>
+            </td>
+            <td>
+                <b>&nbsp;&nbsp;&nbsp;<spring:message code="participant.label.notification"/> </b><tags:renderSelect
+                    propertyName="participant.studyParticipantAssignments[${status.index}].researchNurse.notify"
+                    displayName="participant.label.notification"
+                    required="true" options="${notifyOptions}" doNotshowLabel="true"/>
+            </td>
+        </tr>
     </table>
-    <tags:button value="Add" color="blue" type="button"  size="small"
-                 onclick="javascript:addNotificationClinicalStaff('${status.index}');return false;" icon="add"/>
-</div>
-<br>
-</chrome:box>
-</c:if>
-</c:forEach>
-</jsp:attribute>
-</tags:tabForm>
+    <br>
+    </chrome:box>
+    <chrome:box title="participant.label.otherstaff">
+    <div align="left" style="margin-left: 50px">
+        <table width="90%" class="tablecontent"
+               id="notificationtable_${status.index}">
+            <tr id="ss-table-head" class="amendment-table-head">
+                <th width="45%" class="tableHeader">
+                    <spring:message code='participant.label.name' text=''/>
+                </th>
+                <th width="15%" class="tableHeader">
+                    <spring:message code='participant.label.notification' text=''/>
+                </th>
+                <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
+            </tr>
+            <c:forEach items="${studyParticipantAssignment.notificationClinicalStaff}"
+                       var="clinicalStaff"
+                       varStatus="notificationstatus">
+                <tags:notificationClinicalStaff index="${status.index}"
+                                                notificationindex="${notificationstatus.index}"
+                                                clinicalStaff="${clinicalStaff}"
+                                                studySiteId="${studyParticipantAssignment.studySite.id}"
+                                                notify="${clinicalStaff.notify}"
+                                                notifyOptions="${notifyOptions}"
+                                                role="${clinicalStaff.studyOrganizationClinicalStaff.role}"></tags:notificationClinicalStaff>
+            </c:forEach>
+            <tr id="hiddenDiv" align="center"></tr>
+        </table>
+        <tags:button value="Add" color="blue" type="button" size="small"
+                     onclick="javascript:addNotificationClinicalStaff('${status.index}');return false;" icon="add"/>
+    </div>
+    <br>
+    </chrome:box>
+    </c:if>
+    </c:forEach>
+    </jsp:attribute>
+    </tags:tabForm>
 </body>
 </html>

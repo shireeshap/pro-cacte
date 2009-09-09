@@ -6,7 +6,7 @@
     function releaseForm(crfId) {
 
         var request = new Ajax.Request("<c:url value="/pages/form/releaseForm"/>", {
-            parameters:"crfId=" + crfId + "&subview=subview",
+            parameters:<tags:ajaxstandardparams/>+"&crfId=" + crfId,
             onComplete:function(transport) {
                 showConfirmationWindow(transport, 650, 280);
             },

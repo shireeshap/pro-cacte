@@ -34,7 +34,7 @@ function showPopUpMenu(index, sid, x, y) {
 
 function completedForm(id) {
     var request = new Ajax.Request("<c:url value="/pages/participant/showCompletedCrf"/>", {
-        parameters:"id=" + id + "&subview=subview",
+        parameters:<tags:ajaxstandardparams/>+"&id=" + id ,
         onComplete:function(transport) {
             showConfirmationWindow(transport, 700, 500);
         },
@@ -214,7 +214,7 @@ function formStatus(period) {
 
     showIndicator();
     var request = new Ajax.Request("<c:url value="/pages/participant/monitorFormStatus"/>", {
-        parameters:"studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev + "&direction=" + direction + "&view=" + view + "&subview=subview",
+        parameters:<tags:ajaxstandardparams/>+"&studyId=" + studyId + "&crfId=" + crfId + "&studySiteId=" + studySiteId + "&participantId=" + participantId + "&dateRange=" + dateRange + "&stDate=" + stDate + "&endDate=" + endDate + "&status=" + status + "&pgStartDateNext=" + pgStartDateNext + "&pgStartDatePrev=" + pgStartDatePrev + "&direction=" + direction + "&view=" + view ,
         onComplete:function(transport) {
             showStatusTable(transport);
             hideIndicator();
@@ -242,14 +242,14 @@ function hideIndicator() {
     table.content {
         font-size: 10pt; /*width: 100%;*/
     }
-    
+
     table.widget {
         border-left: 1px solid #C3D9FF;
         border-bottom: 1px solid #C3D9FF;
         width: 100%;
         font-size: small;
     }
-    
+
     td.data {
         border-bottom: 1px solid #77a9ff;
         border-right: 1px solid #77a9ff;
@@ -257,11 +257,11 @@ function hideIndicator() {
         white-space: nowrap;
         text-align: center;
     }
-    
+
     td.OffStudy {
         background-color: #666666;
     }
-    
+
     td.data-left {
         border-bottom: 1px solid #77a9ff;
         border-left: 1px solid #77a9ff;
@@ -272,7 +272,7 @@ function hideIndicator() {
         text-align: left;
         padding-left: 5px;
     }
-    
+
     td.header-top {
         border-top: 1px solid #77a9ff;
         border-bottom: 1px solid #77a9ff;
@@ -281,12 +281,12 @@ function hideIndicator() {
         text-align: center;
         background-color: #cccccc;
     }
-    
+
     #formStatusTable {
-        /*text-align: center;*/
+    /*text-align: center;*/
         overflow-x: scroll;
     }
-    
+
     a.nolink {
         text-decoration: none;
         cursor: default;

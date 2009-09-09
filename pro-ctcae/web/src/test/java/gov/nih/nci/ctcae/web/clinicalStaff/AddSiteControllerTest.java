@@ -37,7 +37,7 @@ public class AddSiteControllerTest extends WebTestCase {
 
     public void testHandleRequest() throws Exception {
         request.setMethod("GET");
-        request.addParameter("componentTyep", "site");
+        request.addParameter("componentType", "site");
 
         createClinicalStaffController.handleRequest(request, response);
         Object command = ClinicalStaffControllerUtils.getClinicalStaffCommand(request);

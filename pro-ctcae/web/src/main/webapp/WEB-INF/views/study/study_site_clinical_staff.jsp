@@ -46,7 +46,7 @@
                     new Insertion.Before("hiddenDivForStudySite_" + studySiteId + "_Role_" + role, response);
 
                 },
-                parameters:"subview=subview&componentTyep=studyOrganizationClinicalStaff&studySiteId=" + studySiteId + "&role=" + role,
+                parameters:<tags:ajaxstandardparams/>+"&componentType=studyOrganizationClinicalStaff&studySiteId=" + studySiteId + "&role=" + role,
                 method:'get'
             })
 

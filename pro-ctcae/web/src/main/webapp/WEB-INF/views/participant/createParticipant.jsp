@@ -63,7 +63,7 @@
 
         function participantOffStudy(id) {
             var request = new Ajax.Request("<c:url value="/pages/participant/participantOffStudy"/>", {
-                parameters:"id=" + id + "&subview=subview",
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id  ,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 600, 350);
                 },
