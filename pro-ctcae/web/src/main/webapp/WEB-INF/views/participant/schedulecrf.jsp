@@ -20,7 +20,6 @@
             src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&2.7.0/build/dragdrop/dragdrop-min.js"></script>
     <script type="text/javascript">
         function addRemoveSchedule(index, date, action) {
-            document.body.style.cursor = 'wait';
             closeWindow();
             if (action == 'cancel') {
                 getCalendar(index, "dir=refresh");
@@ -36,7 +35,6 @@
         }
 
         function getCalendar(index, parameters) {
-            document.body.style.cursor = 'wait';
             var request = new Ajax.Request("<c:url value="/pages/participant/displaycalendar"/>", {
                 onComplete:function(transport) {
                     showCalendar(index, transport);
@@ -95,7 +93,7 @@
                                         <div id="calendar_${status.index}_inner"></div>
                                         <tags:participantcalendar schedule="${participantSchedule}"
                                                                   index="${status.index}"/>
-                                        
+
                                     </div>
                                 </td>
                             </tr>

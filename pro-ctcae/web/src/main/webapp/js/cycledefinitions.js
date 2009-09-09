@@ -1,5 +1,4 @@
 function applyCalendar(index, direction) {
-    document.body.style.cursor = 'wait';
     getCalendar(index, "dir=" + direction);
 }
 var calendarArr = new Array();
@@ -16,11 +15,11 @@ function getDate(item) {
 function getIndex(item) {
     return item.id.substring(0, item.id.indexOf('_'));
 }
+
 function initializeCalendar(index) {
+    initialize();
     var myCalendar = calendarArr[index];
     var mySchedules = scheduleArr[index];
-
-    document.body.style.cursor = 'wait';
     for (var i = 0; i < myCalendar.length; i++) {
         if (!isundefined(myCalendar[i])) {
             var div_id = index + '_schedule_' + i;
@@ -43,81 +42,79 @@ function initializeCalendar(index) {
                     var delIcon = '<div style="float:right"><img height="13" width="12" src="/proctcae/images/blank.gif" class="removebutton" ' +
                                   'onclick="showDeleteWindow(' + i + ', ' + index + ');"/></div>';
                     item.innerHTML = delIcon + item.innerHTML;
-
-                    myCalendar[i] = new YAHOO.util.DD(div_id);
+                    myCalendar[i] = new YAHOO.example.DDPlayer(div_id, 'date');
                 }
             } else {
-                myCalendar[i] = new YAHOO.util.DDTarget(div_id);
+                myCalendar[i] = new YAHOO.util.DDTarget(div_id, 'date');
                 Event.observe(div_id, "click", function() {
                     showAddWindow(getDate(this), getIndex(this));
                 })
             }
         }
     }
-    //    var items = document.getElementsByClassName(index + '_schedule_div');
-    //    for (var i = 0; i < items.length; i++) {
-    //        var item = items[i];
-    //        calendar[item.id] = new YAHOO.util.DDTarget(item.id);
-    //    }
-    //
-    //    items = document.getElementsByClassName(index + '_temp_div');
-    //    for (var i = 0; i < items.length; i++) {
-    //        var item = items[i];
-    //        schedules[item.id] = ;
-    //        item.removeClassName(index + '_temp_div');
-    //        var date = item.id.substring(item.id.indexOf('_', 2) + 1);
-    //        checkStatus = false;
-    ////        moveItem(schedules[item.id], $(index + '_schedule_' + date));
-    //    }
-
-    //    var j = items.length;
-    //    while (j > 0) {
-    //        var item = items[j - 1];
-    //        j--;
-    //}
-
-    //    items = document.getElementsByClassName(index + '_temp_div');
-    //    for (var i = 0; i < items.length; i++) {
-    //        var item = items[i];
-    //        var date = ;
-    //        $(index + '_schedule_' + date).onclick = function() {
-    //        };
-    //    }
-    document.body.style.cursor = 'default';
 }
 
+function initialize() {
+    YAHOO.example.DDPlayer = function(id, sGroup, config) {
+        YAHOO.example.DDPlayer.superclass.constructor.apply(this, arguments);
+        this.initPlayer(id, sGroup, config);
+    };
+    YAHOO.extend(YAHOO.example.DDPlayer, YAHOO.util.DDProxy, {
+        TYPE: "DDPlayer",
+        initPlayer: function(id, sGroup, config) {
+            if (!id) {
+                return;
+            }
 
-//function moveItem(draggable, droparea) {
-//    try {
-//        droparea.onclick = function() {
-//        };
-//        var index = draggable.id.substring(0, draggable.id.indexOf('_'));
-//        if (checkStatus) {
-//            if (draggable.innerHTML.indexOf('Scheduled') == -1) {
-//                return;
-//            }
-//        }
-//        checkStatus = true;
-//        droparea.innerHTML = '';
-//        //        alert(draggable.parentNode);
-//        draggable.parentNode.removeChild(draggable);
-//        droparea.appendChild(draggable);
-//        //        var olddate = draggable.id.substring(draggable.id.indexOf('_', 2) + 1);
-//        //        if (olddate != '') {
-//        //            var newdate = droparea.id.substring(droparea.id.indexOf('_', 2) + 1);
-//        //            droparea.addClassName('blue');
-//        //            if (droparea.id != (index + '_schedule_' + olddate)) {
-//        //                $(index + '_schedule_' + olddate).removeClassName('blue');
-//        //            }
-//        //            if (newdate != olddate) {
-//        //                showMoveWindow(olddate, newdate, index);
-//        //            }
-//        //        }
-//    } catch(err) {
-//        alert(err.description);
-//        //        getCalendar(index, "dir=refresh");
-//    }
-//}
+            var el = this.getDragEl()
+            YAHOO.util.Dom.setStyle(el, "borderColor", "transparent");
+            YAHOO.util.Dom.setStyle(el, "opacity", 0.76);
+            this.isTarget = false;
+            this.originalStyles = [];
+            this.type = YAHOO.example.DDPlayer.TYPE;
+            this.slot = null;
+            this.startPos = YAHOO.util.Dom.getXY(this.getEl());
+        },
+
+        startDrag: function(x, y) {
+            var Dom = YAHOO.util.Dom;
+            var dragEl = this.getDragEl();
+            var clickEl = this.getEl();
+            dragEl.innerHTML = clickEl.innerHTML;
+            dragEl.className = clickEl.className;
+            Dom.setStyle(dragEl, "color", Dom.getStyle(clickEl, "color"));
+            Dom.setStyle(dragEl, "backgroundColor", Dom.getStyle(clickEl, "backgroundColor"));
+            Dom.setStyle(clickEl, "opacity", 0.5);
+        },
+        endDrag: function(e) {
+            YAHOO.util.Dom.setStyle(this.getEl(), "opacity", 1);
+        },
+
+        onDragDrop: function(e, id) {
+            var oDD;
+
+            if ("string" == typeof id) {
+                oDD = YAHOO.util.DDM.getDDById(id);
+            } else {
+                oDD = YAHOO.util.DDM.getBestMatch(id);
+            }
+            var el = this.getEl();
+            if (oDD.player) {
+                YAHOO.util.Dom.setXY(el, this.startPos);
+            } else {
+                var olddate = getDate(this);
+                var newdate = getDate(oDD);
+                var index = getIndex(this);
+                YAHOO.util.DDM.moveToEl(el, oDD.getEl());
+                showMoveWindow(olddate, newdate, index);
+            }
+        },
+        onDragOver: function(e, id) {
+        },
+        onDrag: function(e, id) {
+        }
+    });
+}
 
 function showWindow(htmlcontent) {
     var win = Windows.getFocusedWindow();
@@ -133,6 +130,7 @@ function showWindow(htmlcontent) {
         win.refresh();
     }
 }
+
 function showMoveWindow(olddate, newdate, index) {
     olddate = parseInt(olddate);
     newdate = parseInt(newdate);
@@ -180,7 +178,6 @@ function showAddWindow(date, index) {
 
 
 function selectDate(obj, text, index) {
-    document.body.style.cursor = 'wait';
     addRemoveSchedule(index, date, 'add');
 }
 
@@ -201,7 +198,9 @@ function calculateDays(days_unit, days_amount) {
     var days = days_amount * multiplier;
     return days;
 }
+
 var isIndefinite = false;
+
 function showCyclesForDefinition(cycleDefinitionIndex, cycleLength, cycleLengthUnit, repeat) {
     var days_amount = cycleLength;
     var days_unit = cycleLengthUnit;
@@ -230,6 +229,7 @@ function emptyTable(index) {
     }
     return tbody;
 }
+
 function addFirstColumn(row, rownumber, cycleNumber) {
     var td = new Element('TD');
     if (rownumber == 0) {
@@ -251,6 +251,7 @@ function addEmptyRow(tbody) {
     row.appendChild(td);
     tbody.appendChild(row);
 }
+
 function addCycleDayColumn(currentday, tbody, row, cycleDefinitionIndex, cycleIndex) {
     var selecteddays = $('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value + ',';
     var td = new Element('TD');
@@ -271,6 +272,7 @@ function addCycleDayColumn(currentday, tbody, row, cycleDefinitionIndex, cycleIn
     row.appendChild(td);
     tbody.appendChild(row);
 }
+
 function buildTable(index, days, repeat) {
     var tbody = emptyTable(index);
     var daysPerLine = 21;
