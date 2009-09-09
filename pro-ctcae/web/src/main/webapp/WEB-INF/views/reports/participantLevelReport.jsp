@@ -56,8 +56,7 @@
                 var request = new Ajax.Request("<c:url value="/pages/reports/participantCareResults"/>", {
                     parameters:<tags:ajaxstandardparams/>+"&studyId=" + studyId + "&crfId=" + crfId +
                                "&studySiteId=" + studySiteId + "&participantId=" + participantId +
-                               "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate + "&endDate=" + endDate
-                    ,
+                               "&visitRange=" + visitRange + "&forVisits=" + forVisits + "&startDate=" + stDate + "&endDate=" + endDate,
                     onComplete:function(transport) {
                         showResultsTable(transport);
                         hideIndicator();

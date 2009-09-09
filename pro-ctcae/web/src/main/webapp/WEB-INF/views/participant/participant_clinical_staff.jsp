@@ -65,8 +65,7 @@
 
         function deleteNotification(spaIndex, notificationIndex) {
             var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteNotificationClinicalStaff&spaIndex="
-                        + spaIndex + "&notificationIndex=" + notificationIndex,
+                parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteNotificationClinicalStaff&spaIndex=" + spaIndex + "&notificationIndex=" + notificationIndex,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 530, 150);
                 } ,
