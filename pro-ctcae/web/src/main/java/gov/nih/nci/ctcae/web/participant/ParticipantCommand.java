@@ -144,21 +144,21 @@ public class ParticipantCommand {
         for (CRF crf : study.getCrfs()) {
             crf = crfRepository.findById(crf.getId());
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
-                StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
-                String sDate = request.getParameter("form_date_" + crf.getId());
-                if (!StringUtils.isBlank(sDate)) {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                    studyParticipantCrf.setStartDate(simpleDateFormat.parse(sDate));
-                } else {
-                    studyParticipantCrf.setStartDate(crf.getEffectiveStartDate());
+                if (crf.getChildCrf() == null || crf.getChildCrf().getStatus().equals(CrfStatus.DRAFT)) {
+                    StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
+                    String sDate = request.getParameter("form_date_" + crf.getId());
+                    if (!StringUtils.isBlank(sDate)) {
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                        studyParticipantCrf.setStartDate(simpleDateFormat.parse(sDate));
+                    } else {
+                        studyParticipantCrf.setStartDate(crf.getEffectiveStartDate());
+                    }
+                    studyParticipantCrf.setCrf(crf);
+                    studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
+                    studyParticipantCrf.createSchedules();
                 }
-                studyParticipantCrf.setCrf(crf);
-                studyParticipantAssignment.addStudyParticipantCrf(studyParticipantCrf);
-                studyParticipantCrf.createSchedules();
             }
         }
-
-
     }
 
     public void apply(CRFRepository crfRepository, HttpServletRequest request) throws ParseException {

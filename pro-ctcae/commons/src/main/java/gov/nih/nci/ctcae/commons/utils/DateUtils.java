@@ -20,9 +20,7 @@ public class DateUtils extends edu.nwu.bioinformatics.commons.DateUtils {
     protected static final Log logger = LogFactory.getLog(DateUtils.class);
 
     public static Date parseDate(String dateString) throws ParseException {
-
-        return dateFormat.parse(dateString);
-
+        return dateFormat.parse(dateString.trim());
     }
 
     public static int compareDate(Date d1, Date d2) {
