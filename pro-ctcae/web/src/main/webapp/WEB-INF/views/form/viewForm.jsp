@@ -29,13 +29,22 @@
         tabnames[2] = 'notifications';
 
         function showTab(tabname) {
+            var ul = document.getElementById('menu');
+            var li = $(ul).childElements();
+            for (var i = 0; i < li.length; i++) {
+                $(li[i]).removeClassName('selected');
+            }
+            var selectLink = tabname + 'Link';
+            for (var i = 0; i < li.length; i++) {
+                if (li[i].name == selectLink) {
+                    $(li[i]).addClassName('selected');
+                }
+            }
             for (var i = 0; i < tabnames.length; i++) {
                 var thisTab = tabnames[i];
                 var thisTabLink = thisTab + 'Link';
-                document.getElementsByName(thisTabLink)[0].removeClassName('selected');
                 if (thisTab == tabname) {
                     $(thisTab).show();
-                    document.getElementsByName(thisTabLink)[0].addClassName('selected')
                 } else {
                     $(thisTab).hide();
                 }

@@ -3,7 +3,7 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <div class="tabpane">
     <div class="workflow-tabs2">
-        <ul id="" class="tabs autoclear">
+        <ul id="menu" class="tabs autoclear">
             <li id="thirdlevelnav-x" class="tab" name='questionsLink'>
                 <div>
                     <a href="javascript:showTab('questions')"><tags:message code="form.tab.form_details"/></a>
