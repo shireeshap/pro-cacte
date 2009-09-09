@@ -36,7 +36,7 @@
             }
             var selectLink = tabname + 'Link';
             for (var i = 0; i < li.length; i++) {
-                if (li[i].name == selectLink) {
+                if (li[i].title == selectLink) {
                     $(li[i]).addClassName('selected');
                 }
             }
