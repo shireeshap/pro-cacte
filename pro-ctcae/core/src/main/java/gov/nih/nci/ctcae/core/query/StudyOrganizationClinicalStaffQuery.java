@@ -1,8 +1,10 @@
 package gov.nih.nci.ctcae.core.query;
 
 import gov.nih.nci.ctcae.core.domain.Role;
+import gov.nih.nci.ctcae.core.domain.RoleStatus;
 
 import java.util.Collection;
+import java.util.Date;
 
 //
 /**
@@ -26,6 +28,8 @@ public class StudyOrganizationClinicalStaffQuery extends AbstractQuery {
     private static String NCI_IDENTIFIER = "nciIdentifier";
 
     private static String ROLE = "role";
+    private static String ROLE_STATUS = "roleStatus";
+    private static String TODAYS_DATE = "todaysDate";
 
 
     public StudyOrganizationClinicalStaffQuery() {
@@ -58,5 +62,12 @@ public class StudyOrganizationClinicalStaffQuery extends AbstractQuery {
         setParameterList(ROLE, roles);
     }
 
+
+    public void filterByActiveStatus() {
+        andWhere("socs.roleStatus in ( :" + ROLE_STATUS + ")");
+        setParameter(ROLE_STATUS, RoleStatus.ACTIVE);
+        andWhere("socs.statusDate <= :" + TODAYS_DATE);
+        setParameter(TODAYS_DATE, new Date());
+    }
 
 }

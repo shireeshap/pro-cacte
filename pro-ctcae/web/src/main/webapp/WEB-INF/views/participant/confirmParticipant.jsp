@@ -45,7 +45,7 @@
     <br>
     <chrome:division title="participant.label.demographic_information"/>
 
-    <table border="0" style="width:100%">
+    <table border="0" width="100%">
         <tr>
             <td>
                 <div class="row">
@@ -88,7 +88,7 @@
         <chrome:box title="${studyParticipantAssignment.studySite.study.shortTitle}" message="false">
             <chrome:division title="participant.label.sitepi"/>
             <div align="left" style="margin-left: 50px">
-                <table class="tablecontent" width="40%">
+                <table class="tablecontent">
                     <tr>
                         <th class="tableHeader" width="70%">
                             <tags:message code="participant.label.name"/>
@@ -113,7 +113,7 @@
             <br>
             <chrome:division title="participant.label.sitecra"/>
             <div align="left" style="margin-left: 50px">
-                <table class="tablecontent" width="40%">
+                <table class="tablecontent">
                     <tr>
                         <th class="tableHeader" width="70%">
                             <tags:message code="participant.label.name"/>
@@ -134,7 +134,7 @@
                     </c:forEach>
                 </table>
                 <br>
-                <table width="50%">
+                <table>
                     <tr>
                         <td width="70%">
                             <b><spring:message
@@ -160,14 +160,11 @@
             <br>
 
             <div align="left" style="margin-left: 50px">
-                <table width="90%" class="tablecontent"
+                <table class="tablecontent"
                        id="notificationtable_${status.index}">
                     <tr id="ss-table-head" class="amendment-table-head">
                         <th width="55%" class="tableHeader">
                             <spring:message code='participant.label.name' text=''/>
-                        </th>
-                        <th width="20%" class="tableHeader">
-                            <spring:message code='participant.label.role' text=''/>
                         </th>
                         <th width="20%%" class="tableHeader">
                             <spring:message code='participant.label.notification' text=''/>
@@ -178,9 +175,6 @@
                         <tr>
                             <td>
                                     ${clinicalStaff.studyOrganizationClinicalStaff.organizationClinicalStaff.clinicalStaff.displayName}
-                            </td>
-                            <td>
-                                    ${clinicalStaff.studyOrganizationClinicalStaff.role}
                             </td>
                             <td>
                                     ${clinicalStaff.notify?'Yes':'No'}

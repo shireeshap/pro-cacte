@@ -91,4 +91,6 @@ public class ClinicalStaffRepository implements Repository<ClinicalStaff, Clinic
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
+
+ 
 }

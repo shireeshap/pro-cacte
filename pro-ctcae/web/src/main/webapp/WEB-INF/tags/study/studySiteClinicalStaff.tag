@@ -2,22 +2,29 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@attribute name="studyOrganizationClinicalStaff" type="gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff"
              required="true" %>
 
 <%@attribute name="studyOrganizationClinicalStaffIndex" type="java.lang.Integer" required="true" %>
 <%@attribute name="roleStatusOptions" required="true" type="java.util.List" %>
+<%@attribute name="readOnly" required="false" type="java.lang.Boolean" %>
 
 <c:set var="propertyName"
-       value="studyOrganizationClinicalStaffs[${studyOrganizationClinicalStaffIndex}]"></c:set>
+       value="studyOrganizationClinicalStaffs[${studyOrganizationClinicalStaffIndex}]"/>
 
 
-<tr id="${propertyName}-row">
+<tr id="row-${studyOrganizationClinicalStaffIndex}">
     <td style="border-right:none;" width="50%">
-        <tags:renderAutocompleter propertyName="${propertyName}.organizationClinicalStaff"
-                                  displayName="study.label.clinical.staff" noForm="true" required="true"
-                                  doNotshowLabel="true" size="40" doNotshowClear="true"/>
+        <c:choose>
+            <c:when test="${readOnly}">
+                ${studyOrganizationClinicalStaff.organizationClinicalStaff.displayName}
+            </c:when>
+            <c:otherwise>
+                <tags:renderAutocompleter propertyName="${propertyName}.organizationClinicalStaff"
+                                          displayName="study.label.clinical.staff" noForm="true" required="true"
+                                          doNotshowLabel="true" size="40" doNotshowClear="true"/>
+            </c:otherwise>
+        </c:choose>
     </td>
 
     <td style="border-right:none;" width="15%">
@@ -29,8 +36,6 @@
                            displayName="clinicalStaff.label.role.status"/>
     </td>
     <td style="border-right:none;" width="30%">
-
-
         <tags:renderDate propertyName="${propertyName}.statusDate"
                          displayName="clinicalStaff.label.role.status.date"
                          required="true" noForm="true"
@@ -38,14 +43,14 @@
                          doNotShowFormat="true" doNotshowLabel="true" size="10"/>
 
     </td>
-
     <td style="border-left:none;" width="5%">
-
-        <%--<a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"--%>
-        <%--href="javascript:deleteSiteRole('${studyOrganizationClinicalStaffIndex}','${index}');">--%>
-        <%--<img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"--%>
-        <%--style="vertical-align:middle">--%>
-        <%--</a>--%>
+        <c:if test="${not readOnly}">
+            <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
+               href="javascript:deleteSiteRole('${studyOrganizationClinicalStaffIndex}');">
+                <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
+                     style="vertical-align:middle;text-align:left">
+            </a>
+        </c:if>
     </td>
 
 </tr>

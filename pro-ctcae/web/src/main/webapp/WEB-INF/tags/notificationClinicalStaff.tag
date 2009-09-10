@@ -13,7 +13,7 @@
     acCreate(new studyOrganizationClinicalStaffForRoleAutoCompleter(baseNameNotification_${index}_${notificationindex}, '${studySiteId}', 'TREATING_PHYSICIAN|NURSE'));
     initSearchField()
 </script>
-<tr id="${inputName}-row">
+<tr id="row-${index}-${notificationindex}">
     <td style="border-right:none;">
         <tags:renderAutocompleter
                 propertyName="participant.studyParticipantAssignments[${index}].notificationClinicalStaff[${notificationindex}].studyOrganizationClinicalStaff"

@@ -31,6 +31,7 @@ public class StudyCommand {
 
     private String armIndexToRemove;
     private boolean activeDefaultArm = false;
+    private Organization defaultOrganization;
 
     /**
      * Instantiates a new study command.
@@ -181,6 +182,14 @@ public class StudyCommand {
 
     public void setActiveDefaultArm(boolean activeDefaultArm) {
         this.activeDefaultArm = activeDefaultArm;
+    }
+
+    public void setDefaultOrganization(Organization organization) {
+        this.defaultOrganization = organization;
+    }
+
+    public Organization getDefaultOrganization() {
+        return defaultOrganization;
     }
 }
 

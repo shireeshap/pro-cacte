@@ -32,7 +32,7 @@
           p:proCtcValidValueRepository-ref="proCtcValidValueRepository"
           p:organizationRepository-ref="organizationRepository"
           p:controllerTools-ref="controllerToolsMobile" p:studyOrganizationRepository-ref="studyOrganizationRepository"
-          >
+            >
         <property name="webControllerValidator" ref="webControllerValidatorMobile"/>
     </bean>
 
@@ -56,7 +56,7 @@
           class="gov.nih.nci.ctcae.web.participant.ParticipantInboxController"
           parent="ctcaeSimpleFormControllerMobile">
         <property name="formView" value="mobile/inbox"/>
-        <property name="participantRepository" ref="participantRepository"/>
+        <property name="userRepository" ref="userRepository"/>
     </bean>
 
     <bean name="/accessDenied" id="accessDeniedController"

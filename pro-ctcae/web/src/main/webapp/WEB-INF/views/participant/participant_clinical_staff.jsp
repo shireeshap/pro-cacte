@@ -58,34 +58,19 @@
         }
 
         function addNotificationClinicalStaffDiv(transport) {
-
             var response = transport.responseText;
             new Insertion.Before("hiddenDiv", response);
         }
 
-        function deleteNotification(spaIndex, notificationIndex) {
-            var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteNotificationClinicalStaff&spaIndex=" + spaIndex + "&notificationIndex=" + notificationIndex,
+        function deleteNotification(index, notificationIndex) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/addNotificationClinicalStaff"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&notificationIndex=" + notificationIndex+ "&action=delete",
                 onComplete:function(transport) {
-                    showConfirmationWindow(transport, 530, 150);
+                    $('row-' + index + '-' + notificationIndex).remove();
                 } ,
                 method:'get'
             });
         }
-
-        function deleteNotificationConfirm(spaIndex, notificationIndex) {
-            closeWindow();
-            $('notificationIndexToRemove').value = spaIndex + '~' + notificationIndex;
-            submitClinicalStaffTabPage();
-
-        }
-        function submitClinicalStaffTabPage() {
-            $('_target').name = "_target" + 1;
-            $('_finish').name = "_nofinish";
-            $('command').submit();
-        }
-
-
     </script>
     <style type="text/css">
         div.row div.label {
@@ -103,7 +88,6 @@
 <jsp:attribute name="repeatingFields">
 
 <input type="hidden" name="_finish" value="true" id="_finish"/>
-<form:hidden path="notificationIndexToRemove" id="notificationIndexToRemove"/>
 <tags:renderSelectForDomainObject displayName="participant.label.study" options="${studyParticipantAssignments}"
                                   propertyName="selectedStudyParticipantAssignment" required="true"
                                   onchange="submitClinicalStaffTabPage()"

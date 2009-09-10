@@ -42,7 +42,7 @@
                                 <study:studySiteClinicalStaff
                                         studyOrganizationClinicalStaff="${studyOrganizationClinicalStaff}"
                                         studyOrganizationClinicalStaffIndex="${status.index}"
-                                        roleStatusOptions="${roleStatusOptions}"/>
+                                        roleStatusOptions="${roleStatusOptions}" readOnly="true"/>
                             </c:if>
 
                         </c:if>
@@ -61,10 +61,6 @@
                 <tags:button value="Add" color="blue" type="button" size="small"
                              onclick="javascript:addClinicalStaff(${studySiteId},'${role}');return false;" icon="add"/>
             </div>
-
-            <%--<input type="button" value="<tags:message code="study.button.add.clinical.staff"/>"--%>
-            <%--onclick="javascript:addClinicalStaff(${studySiteId},'${role}')">--%>
-
         </td>
     </tr>
 

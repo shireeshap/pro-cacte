@@ -34,9 +34,10 @@ public class ParticipantCommand {
      */
     private String siteName;
 
-    private String notificationIndexToRemove;
 
     private String mode;
+
+    private List<StudyParticipantClinicalStaff> notificationStaffToRemove = new ArrayList<StudyParticipantClinicalStaff>();
 
     /**
      * Instantiates a new participant command.
@@ -182,13 +183,6 @@ public class ParticipantCommand {
         }
     }
 
-    public String getNotificationIndexToRemove() {
-        return notificationIndexToRemove;
-    }
-
-    public void setNotificationIndexToRemove(String notificationIndexToRemove) {
-        this.notificationIndexToRemove = notificationIndexToRemove;
-    }
 
     public StudyParticipantAssignment getSelectedStudyParticipantAssignment() {
         List<StudyParticipantAssignment> studyParticipantAssignments = participant.getStudyParticipantAssignments();
@@ -209,6 +203,11 @@ public class ParticipantCommand {
             for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantAssignment.getNotificationClinicalStaff()) {
                 studyParticipantAssignment.addStudyParticipantClinicalStaff(studyParticipantClinicalStaff);
             }
+
+            for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : notificationStaffToRemove) {
+                studyParticipantAssignment.getStudyParticipantClinicalStaffs().remove(studyParticipantClinicalStaff);
+            }
+            notificationStaffToRemove.clear();
         }
     }
 
@@ -218,5 +217,9 @@ public class ParticipantCommand {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public void addNotificationStaffToRemove(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
+        notificationStaffToRemove.add(studyParticipantClinicalStaff);
     }
 }

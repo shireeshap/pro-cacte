@@ -112,4 +112,5 @@ public class ParticipantRepository implements Repository<Participant, Participan
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
 }

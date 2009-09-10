@@ -267,7 +267,7 @@
 
 
     <bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository"
-          p:genericRepository-ref="genericRepository">
+          p:genericRepository-ref="genericRepository" >
         <property name="passwordEncoder" ref="passwordEncoder"/>
         <property name="saltSource" ref="reflectionSaltSource"/>
     </bean>

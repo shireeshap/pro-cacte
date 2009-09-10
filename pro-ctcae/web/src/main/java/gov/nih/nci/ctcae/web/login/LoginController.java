@@ -59,11 +59,9 @@ public class LoginController extends AbstractController {
         }
 
         ModelAndView mv = new ModelAndView("home");
-
-        ClinicalStaffQuery query = new ClinicalStaffQuery();
-        query.filterByUserName(user.getUsername());
-        ClinicalStaff clinicalStaff = clinicalStaffRepository.findSingle(query);
         user = userRepository.findById(user.getId());
+        ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
+
         if (clinicalStaff == null) {
             throw new CtcAeSystemException("User must be one of these - Clinical Staff, Participant, Admin - " + user.getUsername());
         }

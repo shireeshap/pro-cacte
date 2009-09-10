@@ -5,8 +5,10 @@ import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -23,7 +25,7 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
     /**
      * The participant repository.
      */
-    private ParticipantRepository participantRepository;
+    private UserRepository userRepository;
 
     /**
      * Instantiates a new participant inbox controller.
@@ -41,9 +43,7 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ParticipantQuery query = new ParticipantQuery();
-        query.filterByUsername(user.getUsername());
-        List<Participant> participants = (List<Participant>) participantRepository.find(query);
+        List<Participant> participants = (List<Participant>) userRepository.findParticipantForUser(user);
         if (participants == null || participants.size() != 1) {
             throw new CtcAeSystemException("Can not find participant for username " + user.getUsername());
         }
@@ -51,12 +51,8 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
     }
 
 
-    /**
-     * Sets the participant repository.
-     *
-     * @param participantRepository the new participant repository
-     */
-    public void setParticipantRepository(ParticipantRepository participantRepository) {
-        this.participantRepository = participantRepository;
+    @Required
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }

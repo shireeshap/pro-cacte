@@ -664,7 +664,6 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/login.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/meddra/meddra_import.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/mobile/inbox.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/mobile/login.jsp -text
-pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/deleteNotificationClinicalStaffConfirmationCheck.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/displaycalendar.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/displaystudysites.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/ajax/notificationClinicalStaff.jsp -text

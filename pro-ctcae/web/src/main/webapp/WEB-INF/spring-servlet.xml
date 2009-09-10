@@ -256,19 +256,16 @@
     <bean id="studyController"
           class="gov.nih.nci.ctcae.web.study.StudyController" parent="securedTabbedFlowFormController" abstract="true">
         <property name="studyRepository" ref="studyRepository"/>
+        <property name="genericRepository" ref="genericRepository"/>
+        <property name="userRepository" ref="userRepository"/>
     </bean>
 
     <bean name="/study/createStudy" id="createStudyController"
-          class="gov.nih.nci.ctcae.web.study.CreateStudyController" parent="securedTabbedFlowFormController">
-        <property name="studyRepository" ref="studyRepository"/>
-        <property name="genericRepository" ref="genericRepository"/>
-        <property name="userRepository" ref="userRepository"/>
+          class="gov.nih.nci.ctcae.web.study.CreateStudyController" parent="studyController">
     </bean>
 
     <bean name="/study/editStudy" id="editStudyController"
           class="gov.nih.nci.ctcae.web.study.EditStudyController" parent="studyController">
-        <property name="genericRepository" ref="genericRepository"/>
-        <property name="userRepository" ref="userRepository"/>
     </bean>
 
     <bean name="/study/addStudySite" id="addStudySiteController"
@@ -308,8 +305,8 @@
 
     <bean name="/participant/participantInbox" id="participantInboxController"
           class="gov.nih.nci.ctcae.web.participant.ParticipantInboxController" parent="ctcaeSimpleFormController">
-        <property name="participantRepository" ref="participantRepository"/>
         <property name="formView" value="participant/participantInbox"/>
+        <property name="userRepository" ref="userRepository"/>
     </bean>
 
     <!--<bean name="/participant/showParticipantScheduleTable" id="showParticipantScheduleController"-->
@@ -375,8 +372,8 @@
     </bean>
     <bean name="/participant/responseReport" id="participantResponseReportController"
           class="gov.nih.nci.ctcae.web.participant.ParticipantResponseReportController">
-        <property name="participantRepository" ref="participantRepository"/>
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
+        <property name="userRepository" ref="userRepository"/>
     </bean>
     <bean name="/reports/participantCarePdf" id="participantCarePdfController"
           class="gov.nih.nci.ctcae.web.reports.ParticipantLevelReportPdfController">

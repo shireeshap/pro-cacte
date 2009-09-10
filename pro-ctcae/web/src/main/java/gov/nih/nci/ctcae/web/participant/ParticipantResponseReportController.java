@@ -5,10 +5,12 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import org.springframework.security.AccessDeniedException;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,14 +23,12 @@ import java.util.*;
 
 public class ParticipantResponseReportController extends AbstractController {
 
-    ParticipantRepository participantRepository;
+    UserRepository userRepository;
     StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository;
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ParticipantQuery query = new ParticipantQuery();
-        query.filterByUsername(user.getUsername());
-        List<Participant> participants = (List<Participant>) participantRepository.find(query);
+        List<Participant> participants = (List<Participant>) userRepository.findParticipantForUser(user);
         if (participants == null || participants.size() != 1) {
             throw new CtcAeSystemException("Can not find participant for username " + user.getUsername());
         }
@@ -87,8 +87,9 @@ public class ParticipantResponseReportController extends AbstractController {
         return modelAndView;
     }
 
-    public void setParticipantRepository(ParticipantRepository participantRepository) {
-        this.participantRepository = participantRepository;
+    @Required
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public void setStudyParticipantCrfScheduleRepository(StudyParticipantCrfScheduleRepository studyParticipantCrfScheduleRepository) {

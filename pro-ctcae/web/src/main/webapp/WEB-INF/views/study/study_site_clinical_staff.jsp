@@ -40,25 +40,31 @@
         })
 
         function addClinicalStaff(studySiteId, role) {
-            var request = new Ajax.Request("<c:url value="/pages//study/addStudyComponent"/>", {
+            var request = new Ajax.Request("<c:url value="/pages/study/addStudyComponent"/>", {
                 onComplete:function(transport) {
                     var response = transport.responseText;
                     new Insertion.Before("hiddenDivForStudySite_" + studySiteId + "_Role_" + role, response);
-
+                    AE.registerCalendarPopups();
                 },
                 parameters:<tags:ajaxstandardparams/>+"&componentType=studyOrganizationClinicalStaff&studySiteId=" + studySiteId + "&role=" + role,
                 method:'get'
             })
-
         }
 
+        function deleteSiteRole(studyOrganizationClinicalStaffIndex) {
+            var request = new Ajax.Request("<c:url value="/pages/study/addStudyComponent"/>", {
+                onComplete:function(transport) {
+                    $('row-' + studyOrganizationClinicalStaffIndex).remove();
+                },
+                parameters:<tags:ajaxstandardparams/>+"&componentType=studyOrganizationClinicalStaff&studyOrganizationClinicalStaffIndex=" + studyOrganizationClinicalStaffIndex + "&action=delete",
+                method:'get'
+            })
+        }
 
         function changeStudySite() {
             $('_target').name = '_target1';
             $('command').submit();
         }
-
-
     </script>
 
     <style type="text/css">

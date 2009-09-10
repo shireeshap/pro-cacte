@@ -1,19 +1,20 @@
 package gov.nih.nci.ctcae.web.study;
 
-import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.domain.Role;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
-import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
+import org.springframework.security.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Map;
+import java.util.List;
 
 /**
  * @author Vinay Kumar
@@ -24,6 +25,7 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
     private StudyRepository studyRepository;
 
     private StudyOrganizationRepository studyOrganizationRepository;
+    private UserRepository userRepository;
 
     public StudySiteClinicalStaffTab() {
         super("study.tab.study_site_clinical_staff", "study.tab.study_site_clinical_staff", "study/study_site_clinical_staff");
@@ -33,7 +35,9 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
     @Override
     public void onDisplay(HttpServletRequest request, StudyCommand command) {
         super.onDisplay(request, command);
-
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
+        command.setDefaultOrganization(clinicalStaff.getOrganizationClinicalStaffs().get(0).getOrganization());
 
     }
 
@@ -46,12 +50,15 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
         query.filterByStudyId(command.getStudy().getId());
         query.filterByStudySiteAndLeadSiteOnly();
 
-        Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
+        List<StudyOrganization> studySites = (List<StudyOrganization>) studyOrganizationRepository.find(query);
         if (!studySites.isEmpty() && command.getSelectedStudySite() == null) {
             command.setSelectedStudySite((StudySite) studySites.iterator().next());
+            for (StudyOrganization studySite : studySites) {
+                if (studySite.getOrganization().equals(command.getDefaultOrganization())) {
+                    command.setSelectedStudySite((StudySite) studySite);
+                }
+            }
         }
-
-
         referenceData.put("studySites", studySites);
         referenceData.put("roleStatusOptions", ListValues.getRoleStatusType());
         referenceData.put("leadCRA", command.getStudy().getStudyOrganizationClinicalStaffByRole(Role.LEAD_CRA));
@@ -81,4 +88,7 @@ public class StudySiteClinicalStaffTab extends SecuredTab<StudyCommand> {
         this.studyOrganizationRepository = studyOrganizationRepository;
     }
 
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 }

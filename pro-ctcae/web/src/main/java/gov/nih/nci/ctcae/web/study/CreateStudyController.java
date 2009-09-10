@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.web.study;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.StudySponsor;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 
 import javax.servlet.ServletException;
@@ -27,7 +26,7 @@ public class CreateStudyController extends StudyController {
 
         StudyCommand studyCommand = new StudyCommand();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ClinicalStaff clinicalStaff = userRepository.getClinicalStaffForUser(user);
+        ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
         if (clinicalStaff != null) {
             List<Organization> organizationsWithCCARole = clinicalStaff.getOrganizationsWithCCARole();
             if (organizationsWithCCARole == null || organizationsWithCCARole.size() != 1) {

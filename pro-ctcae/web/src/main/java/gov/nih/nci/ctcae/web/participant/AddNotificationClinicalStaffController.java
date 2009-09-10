@@ -7,6 +7,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 //
 /**
@@ -21,6 +22,15 @@ public class AddNotificationClinicalStaffController extends AbstractController {
     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
+        String action = request.getParameter("action");
+        if ("delete".equals(action)) {
+            deleteNotificationClinicalStaff(request);
+            return null;
+        }
+        return addNotificationClinicalStaff(request);
+    }
+
+    private ModelAndView addNotificationClinicalStaff(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("participant/ajax/notificationClinicalStaff");
         Integer studyParticipantAssignmentIndex = Integer.parseInt(request.getParameter("index"));
         ParticipantCommand command = ParticipantControllerUtils.getParticipantCommand(request);
@@ -32,6 +42,14 @@ public class AddNotificationClinicalStaffController extends AbstractController {
         modelAndView.addObject("studySiteId", command.getParticipant().getStudyParticipantAssignments().get(studyParticipantAssignmentIndex).getStudySite().getId());
         modelAndView.addObject("notifyOptions", ListValues.getNotificationRequired());
         return modelAndView;
+    }
+
+    private void deleteNotificationClinicalStaff(HttpServletRequest request) {
+        Integer notificationClinicalStaffIndex = Integer.parseInt(request.getParameter("notificationIndex"));
+        Integer studyParticipantAssignmentIndex = Integer.parseInt(request.getParameter("index"));
+        ParticipantCommand command = ParticipantControllerUtils.getParticipantCommand(request);
+        StudyParticipantClinicalStaff studyParticipantClinicalStaff = command.getParticipant().getStudyParticipantAssignments().get(studyParticipantAssignmentIndex).getNotificationClinicalStaff().get(notificationClinicalStaffIndex);
+        command.addNotificationStaffToRemove(studyParticipantClinicalStaff);
     }
 
 

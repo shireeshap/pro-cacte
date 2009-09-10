@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.exception.UsernameAlreadyExistsException;
 import gov.nih.nci.ctcae.core.query.*;
 import gov.nih.nci.ctcae.core.security.DomainObjectPrivilegeGenerator;
+import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,7 +63,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
         }
 
-        ClinicalStaff clinicalStaff = getClinicalStaffForUser(user);
+        ClinicalStaff clinicalStaff = findClinicalStaffForUser(user);
 
         if (clinicalStaff != null) {
 
@@ -82,6 +83,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
                 throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
             }
             studyOrganizationClinicalStaffQuery.filterByClinicalStaffId(clinicalStaff.getId());
+            studyOrganizationClinicalStaffQuery.filterByActiveStatus();
             List<StudyOrganizationClinicalStaff> StudyOrganizationClinicalStaffs = genericRepository.find(studyOrganizationClinicalStaffQuery);
 
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : StudyOrganizationClinicalStaffs) {
@@ -97,10 +99,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         }
 
         //check for participant
-
-        ParticipantQuery query = new ParticipantQuery();
-        query.filterByUsername(user.getUsername());
-        Participant participant = (Participant) genericRepository.findSingle(query);
+        Participant participant = (Participant) findParticipantForUser(user);
         if (participant != null) {
             Set<String> privileges = privilegeGenerator.generatePrivilege(participant);
             for (String privilege : privileges) {
@@ -128,12 +127,6 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         return user;
     }
 
-    public ClinicalStaff getClinicalStaffForUser(User user) {
-        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
-        clinicalStaffQuery.filterByUserName(user.getUsername());
-        ClinicalStaff clinicalStaff = (ClinicalStaff) genericRepository.findSingle(clinicalStaffQuery);
-        return clinicalStaff;
-    }
 
     public User findById(Integer id) {
         return genericRepository.findById(User.class, id);
@@ -201,6 +194,19 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             return passwordEncoder.encodePassword(user.getPassword(), salt);
         }
         return null;
+    }
+
+    public ClinicalStaff findClinicalStaffForUser(User user) {
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+        clinicalStaffQuery.filterByUserName(user.getUsername());
+        return genericRepository.findSingle(clinicalStaffQuery);
+
+    }
+
+    public Participant findParticipantForUser(User user) {
+        ParticipantQuery query = new ParticipantQuery();
+        query.filterByUsername(user.getUsername());
+        return genericRepository.findSingle(query);
     }
 
     @Required

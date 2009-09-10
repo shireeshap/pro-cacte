@@ -31,7 +31,7 @@
                     var response = transport.responseText;
                     $("studysitestable").innerHTML = response;
                 },
-                parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId,
+                parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId+ "&id=${param['id']}",
                 method:'get'
             })
         }

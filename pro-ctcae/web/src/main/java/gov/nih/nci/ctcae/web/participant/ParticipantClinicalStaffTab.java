@@ -30,19 +30,7 @@ public class ParticipantClinicalStaffTab extends SecuredTab<ParticipantCommand> 
 
     @Override
     public void postProcess(HttpServletRequest request, ParticipantCommand command, Errors errors) {
-        if (!StringUtils.isBlank(command.getNotificationIndexToRemove())) {
-            String nToRemove = command.getNotificationIndexToRemove();
-            String spaIndex = nToRemove.substring(0, nToRemove.indexOf("~"));
-            String notificationIndex = nToRemove.substring(nToRemove.indexOf("~") + 1);
-            Integer spaIndexInt = Integer.valueOf(spaIndex);
-            Integer notificationIndexInt = Integer.valueOf(notificationIndex);
-            StudyParticipantClinicalStaff studyParticipantClinicalStaff = command.getParticipant().getStudyParticipantAssignments().get(spaIndexInt).getNotificationClinicalStaff().get(notificationIndexInt);
-            command.getParticipant().getStudyParticipantAssignments().get(spaIndexInt).getStudyParticipantClinicalStaffs().remove(studyParticipantClinicalStaff);
-            command.getParticipant().getStudyParticipantAssignments().get(spaIndexInt).getNotificationClinicalStaff().remove(studyParticipantClinicalStaff);
-            command.setNotificationIndexToRemove("");
-        } else {
-            command.assignStaff();
-        }
+        command.assignStaff();
     }
 
     @Override

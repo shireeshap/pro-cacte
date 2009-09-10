@@ -67,7 +67,7 @@
 <body>
 <div align="right"><a href="../participant/participantInbox">Inbox</a></div>
 <chrome:box
-        title="Report - ${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName} [${schedule.studyParticipantCrf.studyParticipantAssignment.participant.assignedIdentifier}]">
+        title="Report - ${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}">
     <div id="careResultsTable">
         <table class="widget" cellspacing="0">
             <col/>

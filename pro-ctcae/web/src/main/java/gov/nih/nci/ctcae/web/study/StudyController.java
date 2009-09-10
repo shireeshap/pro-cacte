@@ -4,10 +4,9 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
-import gov.nih.nci.ctcae.core.domain.Arm;
-import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -27,6 +26,7 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
     protected StudyRepository studyRepository;
     protected GenericRepository genericRepository;
     protected UserRepository userRepository;
+
     public StudyController() {
         super();
         setCommandClass(StudyCommand.class);
@@ -43,7 +43,6 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
         flow.addTab(new StudySitesTab());
         flow.addTab(new StudyClinicalStaffTab());
         flow.addTab(new StudySiteClinicalStaffTab());
-
         flow.addTab(new EmptyStudyTab("study.tab.overview", "study.tab.overview", "study/study_reviewsummary"));
 
     }
@@ -63,9 +62,7 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
 
         studyCommand.setStudy(studyRepository.save(studyCommand.getStudy()));
 
-        ModelAndView mv = new ModelAndView("study/confirmStudy", errors.getModel());
-
-        return mv;
+        return new ModelAndView("study/confirmStudy", errors.getModel());
     }
 
     @Override
@@ -88,10 +85,11 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, StudyCommand command, Tab tab) {
-        return !(tab instanceof EmptyStudyTab) ? true : false;
+        return !(tab instanceof EmptyStudyTab);
 
 
     }
+
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;

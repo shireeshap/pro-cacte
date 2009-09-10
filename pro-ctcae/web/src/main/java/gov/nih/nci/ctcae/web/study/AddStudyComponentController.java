@@ -7,6 +7,7 @@ import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.web.ListValues;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -35,9 +36,20 @@ public class AddStudyComponentController extends AbstractController {
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
+        String action = request.getParameter("action");
         ModelAndView modelAndView = null;
-        StudyCommand studyCommand = ControllersUtils.getStudyCommand(request);
 
+        if ("delete".equals(action)) {
+            deleteComponent(request);
+        } else {
+            modelAndView = addComponent(request);
+        }
+        return modelAndView;
+
+    }
+
+    private ModelAndView addComponent(HttpServletRequest request) throws ServletRequestBindingException {
+        StudyCommand studyCommand = ControllersUtils.getStudyCommand(request);
 
         String componentType = request.getParameter(COMPONENT_TYPE);
 
@@ -54,14 +66,25 @@ public class AddStudyComponentController extends AbstractController {
 
             studyCommand.addStudyOrganizationClinicalStaff(studyOrganizationClinicalStaff);
 
-            int studyOrganizationClinicalStaffIndex=studyCommand.getStudyOrganizationClinicalStaffs().size()-1;
-            modelAndView = new ModelAndView("study/ajax/studyOrganizationClinicalStaffSection");
+            int studyOrganizationClinicalStaffIndex = studyCommand.getStudyOrganizationClinicalStaffs().size() - 1;
+            ModelAndView modelAndView = new ModelAndView("study/ajax/studyOrganizationClinicalStaffSection");
             modelAndView.addObject("roleStatusOptions", ListValues.getRoleStatusType());
             modelAndView.addObject("studyOrganizationClinicalStaff", studyOrganizationClinicalStaff);
             modelAndView.addObject("studyOrganizationClinicalStaffIndex", studyOrganizationClinicalStaffIndex);
-
+            return modelAndView;
         }
-        return modelAndView;
+        return null;
+    }
+
+    private void deleteComponent(HttpServletRequest request) {
+        String componentType = request.getParameter(COMPONENT_TYPE);
+
+        if (StringUtils.equals(componentType, STUDY_ORGANIZATION_CLINICAL_STAFF)) {
+            String studyOrganizationClinicalStaffIndex = request.getParameter("studyOrganizationClinicalStaffIndex");
+            Integer index = Integer.parseInt(studyOrganizationClinicalStaffIndex);
+            StudyCommand studyCommand = ControllersUtils.getStudyCommand(request);
+            studyCommand.getStudyOrganizationClinicalStaffs().set(index, null);
+        }
     }
 
 
