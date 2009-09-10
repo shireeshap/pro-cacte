@@ -350,10 +350,17 @@ function showItems(Id, grade, att, period) {
 function hideItems(Id) {
     $('pShowImage_' + Id).show();
     $('pHideImage_' + Id).hide();
-    var items = document.getElementsByName('childTableRow_' + Id);
-    var len = items.length;
-    for (var i = 0; i < len; i++) {
-        items[0].remove();
+    var items = document.getElementsByTagName('tr');
+    var delItems = new Array();
+    var j = 0;
+    for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        if (item.title == 'childTableRow_' + Id) {
+            delItems[j++] = $(item);
+        }
+    }
+    for (var k = 0; k < delItems.length; k++) {
+        $(delItems[k]).remove();
     }
 }
 

@@ -27,7 +27,7 @@
     </style>
 </head>
 <body>
-<tr name="childTableRow_${pid}">
+<tr title="childTableRow_${pid}">
     <td></td>
     <td></td>
     <td class="header-top"></td>
@@ -45,7 +45,7 @@
     <c:set var="schedule" value="${studyParticipantCrfItem.studyParticipantCrfSchedule}"/>
     <c:set var="participant" value="${schedule.studyParticipantCrf.studyParticipantAssignment.participant}"/>
     <tr id="details_row_${status.index}_${pid}" onmouseover="highlightrow('${status.index}_${pid}');"
-        onmouseout="removehighlight('${status.index}_${pid}');" name="childTableRow_${pid}">
+        onmouseout="removehighlight('${status.index}_${pid}');" title="childTableRow_${pid}">
         <td></td>
         <td></td>
         <td align="right" class="shaded">
