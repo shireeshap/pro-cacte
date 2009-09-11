@@ -9,7 +9,7 @@
 <c:set var="propertyName"
        value="clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization"></c:set>
 
-<tr id="${propertyName}-row">
+<tr id="row-${organizationClinicalStaffIndex}">
     <td style="border-right:none;">
 
 
@@ -20,12 +20,13 @@
     </td>
 
     <td style="border-left:none;">
-
-        <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-           href="javascript:deleteSite('${organizationClinicalStaffIndex}');">
-            <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
-                 style="vertical-align:middle">
-        </a>
+        <c:if test="${organizationClinicalStaffIndex !='0'}">
+            <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
+               href="javascript:deleteSite('${organizationClinicalStaffIndex}');">
+                <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
+                     style="vertical-align:middle">
+            </a>
+        </c:if>
     </td>
 
 

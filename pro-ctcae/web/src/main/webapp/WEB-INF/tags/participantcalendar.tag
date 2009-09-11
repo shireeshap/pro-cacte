@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script type="text/javascript">
     calendarArr[${index}] = new Array();
     scheduleArr[${index}] = new Array();
@@ -14,6 +14,9 @@
         scheduleArr[${index}]['<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d"/>'] = '${studyParticipantCrfSchedule.status}';
     </script>
 </c:forEach>
+
+<div style="font-size:10px" align="center"><spring:message code="schedulecrf.instructions"/></div>
+<br/>
 <table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
     <tr class="header">
         <td colspan="7" align="left" style="border-bottom:1px solid #77a9ff; font-size:small; color:#000000; ">

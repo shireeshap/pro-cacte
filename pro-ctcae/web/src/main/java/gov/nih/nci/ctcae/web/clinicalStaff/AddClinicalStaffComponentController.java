@@ -27,24 +27,32 @@ public class AddClinicalStaffComponentController extends AbstractController {
     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-        ModelAndView modelAndView = null;
+        String action = request.getParameter("action");
         ClinicalStaffCommand clinicalStaffCommand = ClinicalStaffControllerUtils.getClinicalStaffCommand(request);
         ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
 
-        String componentType = request.getParameter(COMPONENT_TYPE);
 
-        if (StringUtils.equals(componentType, SITE_COMPONENT_TYPE)) {
-            OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
-            clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
-
-            int organizationClinicalStaffIndex = clinicalStaff.getOrganizationClinicalStaffs().size() - 1;
-
-            modelAndView = new ModelAndView("clinicalStaff/organizationClinicalStaffSection");
-            modelAndView.addObject("organizationClinicalStaffIndex", organizationClinicalStaffIndex);
-            modelAndView.addObject("organizationClinicalStaff", organizationClinicalStaff);
+        if ("delete".equals(action)) {
+            deleteComponent(clinicalStaffCommand, request);
+            return null;
         }
+        ModelAndView modelAndView = null;
+
+        OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
+        clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
+
+        int organizationClinicalStaffIndex = clinicalStaff.getOrganizationClinicalStaffs().size() - 1;
+
+        modelAndView = new ModelAndView("clinicalStaff/organizationClinicalStaffSection");
+        modelAndView.addObject("organizationClinicalStaffIndex", organizationClinicalStaffIndex);
+        modelAndView.addObject("organizationClinicalStaff", organizationClinicalStaff);
 
         return modelAndView;
+    }
+
+    private void deleteComponent(ClinicalStaffCommand clinicalStaffCommand, HttpServletRequest request) {
+        Integer organizationClinicalStaffIndex = Integer.parseInt(request.getParameter("organizationClinicalStaffIndex"));
+        clinicalStaffCommand.getIndexesToRemove().add(organizationClinicalStaffIndex);
     }
 
     public AddClinicalStaffComponentController() {

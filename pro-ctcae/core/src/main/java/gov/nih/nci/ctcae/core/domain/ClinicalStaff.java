@@ -182,7 +182,6 @@ public class ClinicalStaff extends Person {
      *
      * @return the site clinical staffs
      */
-    @UniqueObjectInCollection(message = "Duplicate Site")
     public List<OrganizationClinicalStaff> getOrganizationClinicalStaffs() {
         return organizationClinicalStaffs;
     }

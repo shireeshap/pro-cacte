@@ -34,7 +34,7 @@ public class StudyParticipantClinicalStaff extends BasePersistable {
     private boolean isPrimary = false;
 
     @Column(name = "notify")
-    private boolean notify = false;
+    private boolean notify = true;
 
     @Override
     public boolean equals(Object o) {

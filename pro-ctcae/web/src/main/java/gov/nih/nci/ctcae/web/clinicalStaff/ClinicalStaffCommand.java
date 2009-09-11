@@ -2,6 +2,9 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.*;
 
+import java.util.List;
+import java.util.ArrayList;
+
 //
 /**
  * The Class ClinicalStaffCommand.
@@ -17,10 +20,7 @@ public class ClinicalStaffCommand {
     private ClinicalStaff clinicalStaff;
 
     private Boolean cca = false;
-
-
-    private String organizationClinicalStaffIndexToRemove = "";
-
+    private List<Integer> indexesToRemove = new ArrayList<Integer>();
 
     /**
      * Instantiates a new clinical staff command.
@@ -50,28 +50,13 @@ public class ClinicalStaffCommand {
         this.clinicalStaff = clinicalStaff;
     }
 
-
-    public String getOrganizationClinicalStaffIndexToRemove() {
-        return organizationClinicalStaffIndexToRemove;
-    }
-
-    public void setOrganizationClinicalStaffIndexToRemove(String organizationClinicalStaffIndexToRemove) {
-        this.organizationClinicalStaffIndexToRemove = organizationClinicalStaffIndexToRemove;
-    }
-
-
     public void apply() {
-
-        if (!org.apache.commons.lang.StringUtils.isBlank(getOrganizationClinicalStaffIndexToRemove())) {
-            Integer organizationClinicalStaffIndex = Integer.valueOf(organizationClinicalStaffIndexToRemove);
-            this.getClinicalStaff().removeOrganizationClinicalStaff(organizationClinicalStaffIndex);
-        }
-        setOrganizationClinicalStaffIndexToRemove("");
         if (getCca()) {
             UserRole userRole = new UserRole();
             userRole.setRole(Role.CCA);
             getClinicalStaff().getUser().addUserRole(userRole);
         }
+        indexesToRemove.clear();
 
     }
 
@@ -81,5 +66,9 @@ public class ClinicalStaffCommand {
 
     public void setCca(Boolean cca) {
         this.cca = cca;
+    }
+
+    public List<Integer> getIndexesToRemove() {
+        return indexesToRemove;
     }
 }

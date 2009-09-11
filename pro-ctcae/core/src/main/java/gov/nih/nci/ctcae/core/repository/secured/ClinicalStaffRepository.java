@@ -78,6 +78,7 @@ public class ClinicalStaffRepository implements Repository<ClinicalStaff, Clinic
             query.filterByRole(roles);
         }
         query.filterByStudyOrganization(studyOrganizationId);
+        query.filterByActiveStatus();
         return genericRepository.find(query);
     }
 

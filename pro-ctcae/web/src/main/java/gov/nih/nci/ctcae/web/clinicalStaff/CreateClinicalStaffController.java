@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 //
 /**
@@ -114,13 +117,27 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
 
     @Override
     protected void onBindAndValidate(HttpServletRequest request, Object o, BindException e) throws Exception {
-        super.onBindAndValidate(request, o, e);
         ClinicalStaffCommand command = (ClinicalStaffCommand) o;
+        removeDeletedOrganizationalClinicalStaff(command);
+        super.onBindAndValidate(request, o, e);
+
         User user = command.getClinicalStaff().getUser();
         user.setUsername(command.getClinicalStaff().getEmailAddress());
         if (!userNameAndPasswordValidator.validate(user)) {
             e.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
         }
+    }
+
+    private void removeDeletedOrganizationalClinicalStaff(ClinicalStaffCommand command) {
+        ClinicalStaff clinicalStaff = command.getClinicalStaff();
+        List<OrganizationClinicalStaff> ocsToRemove = new ArrayList<OrganizationClinicalStaff>();
+        for (Integer index : command.getIndexesToRemove()) {
+            ocsToRemove.add(clinicalStaff.getOrganizationClinicalStaffs().get(index));
+        }
+        for (OrganizationClinicalStaff organizationClinicalStaff : ocsToRemove) {
+            clinicalStaff.getOrganizationClinicalStaffs().remove(organizationClinicalStaff);
+        }
+        command.getIndexesToRemove().clear();
     }
 
     /**

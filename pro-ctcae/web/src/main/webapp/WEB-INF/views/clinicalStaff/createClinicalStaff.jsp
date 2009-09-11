@@ -43,26 +43,14 @@
 
 
         function deleteSite(organizationClinicalStaffIndex) {
-
-            var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteOrganizationClinicalStaff&organizationClinicalStaffIndex=" + organizationClinicalStaffIndex,
+            var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/addClinicalStaffComponent"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&action=delete&organizationClinicalStaffIndex=" + organizationClinicalStaffIndex,
                 onComplete:function(transport) {
-                    showConfirmationWindow(transport);
-
+                    $('row-' + organizationClinicalStaffIndex).remove();
                 } ,
                 method:'get'
             });
-
-
         }
-        function deleteSiteConfirm(organizationClinicalStaffIndex) {
-            closeWindow();
-            $('showForm').value = true;
-            $('organizationClinicalStaffIndexToRemove').value = organizationClinicalStaffIndex;
-            $('clinicalStaffCommand').submit();
-
-        }
-
     </script>
 
 </head>
@@ -95,8 +83,6 @@
     <chrome:box title="">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
         <input type="hidden" id="showForm" name="showForm" value=""/>
-        <form:hidden path="organizationClinicalStaffIndexToRemove" id="organizationClinicalStaffIndexToRemove"/>
-
         <p><tags:instructions code="clinicalStaff.clinicalStaff_details.top"/></p>
         <chrome:division title="clinicalStaff.division.user_account">
             <tags:renderEmail propertyName="clinicalStaff.emailAddress"

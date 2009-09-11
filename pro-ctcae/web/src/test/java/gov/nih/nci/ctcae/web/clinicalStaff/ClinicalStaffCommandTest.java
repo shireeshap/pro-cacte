@@ -47,7 +47,6 @@ public class ClinicalStaffCommandTest extends WebTestCase {
         clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff3);
         assertEquals("must be 4 clinical staff sites", 4, clinicalStaff.getOrganizationClinicalStaffs().size());
 
-        clinicalStaffCommand.setOrganizationClinicalStaffIndexToRemove(String.valueOf(2));
 
         clinicalStaffCommand.apply();
 
