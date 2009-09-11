@@ -51,6 +51,16 @@
                 method:'get'
             });
         }
+        function showpassword(show) {
+            if (show) {
+                $('passwordfields').show();
+                $('resetpass').innerHTML = '<a href="javascript:showpassword(false);">Hide password</a>';
+            } else {
+                $('passwordfields').hide();
+                $('resetpass').innerHTML = '<a href="javascript:showpassword(true);">Reset password</a>';
+            }
+        }
+
     </script>
 
 </head>
@@ -83,20 +93,34 @@
     <chrome:box title="">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
         <input type="hidden" id="showForm" name="showForm" value=""/>
+
         <p><tags:instructions code="clinicalStaff.clinicalStaff_details.top"/></p>
         <chrome:division title="clinicalStaff.division.user_account">
-            <tags:renderEmail propertyName="clinicalStaff.emailAddress"
-                              displayName="clinicalStaff.label.email_address"
-                              required="true" help="true" size="40"/>
+            <table cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <tags:renderEmail propertyName="clinicalStaff.emailAddress"
+                                          displayName="clinicalStaff.label.email_address"
+                                          required="true" size="40"/>
+                    </td>
+                    <td>
+                        <c:if test="${not empty clinicalStaffCommand.clinicalStaff.user.password}">
+                            <c:set var="style" value="display:none"/>
+                            <div id="resetpass" class="label">
+                                &nbsp;<a href="javascript:showpassword(true);">Reset password</a></div>
+                        </c:if>
+                    </td>
+                </tr>
+            </table>
+            <div id="passwordfields" style="${style}">
+                <tags:renderPassword propertyName="clinicalStaff.user.password"
+                                     displayName="clinicalStaff.label.password"
+                                     required="true"/>
 
-            <tags:renderPassword propertyName="clinicalStaff.user.password"
-                                 displayName="clinicalStaff.label.password"
-                                 required="true"/>
-
-            <tags:renderPassword propertyName="clinicalStaff.user.confirmPassword"
-                                 displayName="Confirm Password"
-                                 required="true"/>
-
+                <tags:renderPassword propertyName="clinicalStaff.user.confirmPassword"
+                                     displayName="clinicalStaff.label.confirm_password"
+                                     required="true"/>
+            </div>
         </chrome:division>
         <chrome:division title="clinicalStaff.division.details">
             <table>
@@ -154,7 +178,8 @@
                                            varStatus="status">
                                     <administration:organizationClinicalStaff
                                             organizationClinicalStaff="${organizationClinicalStaff}"
-                                            organizationClinicalStaffIndex="${status.index}"/>
+                                            organizationClinicalStaffIndex="${status.index}"
+                                            readOnly="true"/>
                                 </c:forEach>
 
                                 <tr id="hiddenDiv" align="center"></tr>
@@ -163,7 +188,6 @@
                     </td>
                     <td valign="top">
                         <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/addClinicalStaffComponent">
-
                             <tags:button color="blue" markupWithTag="a" icon="add" value="clinicalStaff.button.add.site"
                                          onclick="javascript:addSite()"></tags:button>
                         </proctcae:urlAuthorize>
@@ -175,7 +199,6 @@
         </chrome:division>
     </chrome:box>
     <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
-    <%--<tags:tabControls willSave="true"/>--%>
 </form:form>
 
 </body>

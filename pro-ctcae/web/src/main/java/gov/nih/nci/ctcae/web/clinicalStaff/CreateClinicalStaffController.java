@@ -108,6 +108,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         if (clinicalStaffId != null) {
             ClinicalStaff clinicalStaff = clinicalStaffRepository.findById(new Integer(clinicalStaffId));
             clinicalStaffCommand.setClinicalStaff(clinicalStaff);
+            clinicalStaff.getUser().setConfirmPassword(clinicalStaff.getUser().getPassword());
         }
 
         return clinicalStaffCommand;
@@ -120,6 +121,10 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         ClinicalStaffCommand command = (ClinicalStaffCommand) o;
         removeDeletedOrganizationalClinicalStaff(command);
         super.onBindAndValidate(request, o, e);
+
+        if (command.getClinicalStaff().getOrganizationClinicalStaffs().size() == 0) {
+            e.rejectValue("clinicalStaff.organizationClinicalStaffs", "clinicalStaff.no_organization", "clinicalStaff.no_organization");
+        }
 
         User user = command.getClinicalStaff().getUser();
         user.setUsername(command.getClinicalStaff().getEmailAddress());

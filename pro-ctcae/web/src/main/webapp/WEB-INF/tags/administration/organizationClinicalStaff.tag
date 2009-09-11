@@ -5,28 +5,33 @@
 <%@attribute name="organizationClinicalStaff" type="gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff"
              required="true" %>
 <%@attribute name="organizationClinicalStaffIndex" type="java.lang.Integer" required="true" %>
+<%@attribute name="readOnly" type="java.lang.Boolean" required="false" %>
 
 <c:set var="propertyName"
        value="clinicalStaff.organizationClinicalStaffs[${organizationClinicalStaffIndex}].organization"></c:set>
 
 <tr id="row-${organizationClinicalStaffIndex}">
     <td style="border-right:none;">
+        <c:choose>
+            <c:when test="${readOnly}">
+                ${organizationClinicalStaff.organization.displayName}
+            </c:when>
+            <c:otherwise>
+                <tags:renderAutocompleter propertyName="${propertyName}" required="true"
+                                          displayName="clinicalStaff.division.site"
+                                          doNotshowLabel="true" noForm="true" size="80"/>
+            </c:otherwise>
+        </c:choose>
 
-
-        <tags:renderAutocompleter propertyName="${propertyName}" required="true"
-                                  displayName="clinicalStaff.division.site"
-                                  doNotshowLabel="true" noForm="true" size="80"/>
 
     </td>
 
     <td style="border-left:none;">
-        <c:if test="${organizationClinicalStaffIndex !='0'}">
-            <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-               href="javascript:deleteSite('${organizationClinicalStaffIndex}');">
-                <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
-                     style="vertical-align:middle">
-            </a>
-        </c:if>
+        <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
+           href="javascript:deleteSite('${organizationClinicalStaffIndex}');">
+            <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
+                 style="vertical-align:middle">
+        </a>
     </td>
 
 

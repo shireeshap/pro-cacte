@@ -25,13 +25,15 @@ public class AddStudySiteController extends AbstractController {
     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
     */
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-
-        ModelAndView modelAndView = new ModelAndView("study/ajax/oneStudySiteSection");
-
-
         StudyCommand studyCommand = ControllersUtils.getStudyCommand(request);
 
-
+        String action = request.getParameter("action");
+        if ("delete".equals(action)) {
+            Integer siteIndexToRemove = Integer.parseInt(request.getParameter("siteIndexToRemove"));
+            studyCommand.getSiteIndexesToRemove().add(siteIndexToRemove);
+            return null;
+        }
+        ModelAndView modelAndView = new ModelAndView("study/ajax/oneStudySiteSection");
         Study study = studyCommand.getStudy();
         studyRepository.addStudySite(study);
 

@@ -23,8 +23,6 @@
 
             var response = transport.responseText;
             new Insertion.Before("hiddenDiv", response);
-
-
         }
         function addStudySite() {
             var request = new Ajax.Request("<c:url value="/pages/study/addStudySite"/>", {
@@ -33,41 +31,23 @@
 
                 method:'get'
             })
-
-
         }
+        function deleteStudySite(index) {
+            var request = new Ajax.Request("<c:url value="/pages/study/addStudySite"/>", {
+                onComplete:function(transport) {
+                    $('row-' + index).remove();
+                },
+                parameters:<tags:ajaxstandardparams/>+"&action=delete&siteIndexToRemove=" + index,
 
-        function fireDelete(index, divToRemove) {
-            if ($('objectsIdsToRemove').value != '') {
-                $('objectsIdsToRemove').value = $('objectsIdsToRemove').value + "," + index;
-            }
-            else {
-                $('objectsIdsToRemove').value = index;
-            }
-
-            $(divToRemove).remove();
-
+                method:'get'
+            })
         }
-
 
         Event.observe(window, "load", function() {
-
-
-        <c:forEach  items="${command.study.studySites}" var="studySite" varStatus="status">
-            var siteBaseName = 'study.studySites[${status.index}].organization'
-            acCreate(new siteAutoComplter(siteBaseName))
-            initializeAutoCompleter(siteBaseName, '${studySite.organization.displayName}', '${studySite.organization.id}');
-        </c:forEach>
         <c:if test="${not empty command.study.studySites}">
             $('studySiteTable').show()
-
         </c:if>
-            initSearchField()
-
-
         })
-
-
     </script>
 
 
@@ -81,10 +61,8 @@
         <chrome:division>
             <p><tags:instructions code="study.study_sites.top"/></p>
 
-            <input type="hidden" value="" id="objectsIdsToRemove" name="objectsIdsToRemove"/>
-
             <div align="left" style="margin-left: 50px">
-                <table width="55%" class="tablecontent" style="display:none;" id="studySiteTable">
+                <table width="75%" class="tablecontent" style="display:none;" id="studySiteTable">
                     <tr id="ss-table-head" class="amendment-table-head">
                         <th width="95%" class="tableHeader"><spring:message
                                 code='study.label.sites' text=''/></th>
@@ -92,20 +70,13 @@
 
                     </tr>
                     <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
-                        <c:choose>
-                            <c:when test="${studySite eq command.study.leadStudySite}">
-                                <tags:oneOrganization index="${status.index}"
-                                                      inputName="study.studySites[${status.index}].organization"
-                                                      title="Study Site" displayError="true"
-                                                      required="true" isLeadSite="true"></tags:oneOrganization>
-                            </c:when>
-                            <c:otherwise>
-                                <tags:oneOrganization index="${status.index}"
-                                                      inputName="study.studySites[${status.index}].organization"
-                                                      title="Study Site" displayError="true"
-                                                      required="true"></tags:oneOrganization>
-                            </c:otherwise>
-                        </c:choose>
+                        <c:if test="${not (studySite eq command.study.leadStudySite)}">
+                            <tags:oneOrganization index="${status.index}"
+                                                  inputName="study.studySites[${status.index}].organization"
+                                                  title="Study Site" displayError="true"
+                                                  required="true" readOnly="true"
+                                                  studySite="${studySite}"/>
+                        </c:if>
                     </c:forEach>
 
                     <tr id="hiddenDiv" align="center"></tr>
@@ -118,7 +89,6 @@
 
         </chrome:division>
             <div class="local-buttons">
-
                 <tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
                              value="study.button.add_study_site"/>
             </div>
@@ -126,7 +96,6 @@
                   <br>
         <br>
                   <br>
-                            
     </jsp:attribute>
 
 </tags:tabForm>

@@ -201,7 +201,7 @@
                        <c:if test="${not empty command.participant.user.password}">
                            <c:set var="style" value="display:none"/>
                            <div id="resetpass" class="label">
-                               <a href="javascript:showpassword(true);">Reset password</a></div>
+                               &nbsp;<a href="javascript:showpassword(true);">Reset password</a></div>
                        </c:if>
                    </td>
                </tr>

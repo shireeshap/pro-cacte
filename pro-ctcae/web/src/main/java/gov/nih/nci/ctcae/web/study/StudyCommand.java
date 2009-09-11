@@ -33,6 +33,9 @@ public class StudyCommand {
     private boolean activeDefaultArm = false;
     private Organization defaultOrganization;
 
+
+    private List<Integer> siteIndexesToRemove = new ArrayList<Integer>();
+
     /**
      * Instantiates a new study command.
      */
@@ -191,6 +194,11 @@ public class StudyCommand {
     public Organization getDefaultOrganization() {
         return defaultOrganization;
     }
+
+    public List<Integer> getSiteIndexesToRemove() {
+        return siteIndexesToRemove;
+    }
+
 }
 
 
