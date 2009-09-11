@@ -45,7 +45,7 @@ public class StudyControllerTest extends WebTestCase {
         User user = new User();
         expect(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).andReturn(user).anyTimes();
         ClinicalStaff clinicalStaff = registerMockFor(ClinicalStaff.class);
-        expect(userRepository.getClinicalStaffForUser(user)).andReturn(clinicalStaff);
+        expect(userRepository.findClinicalStaffForUser(user)).andReturn(clinicalStaff);
         ArrayList<Organization> organizations = new ArrayList<Organization>();
         organizations.add(new Organization());
         expect(clinicalStaff.getOrganizationsWithCCARole()).andReturn(organizations);

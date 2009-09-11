@@ -15,7 +15,6 @@ public class ParticipantInboxControllerTest extends AbstractWebTestCase {
         login(ParticipantTestHelper.getDefaultParticipant().getUser().getUsername());
         ParticipantInboxController controller = new ParticipantInboxController();
         request.setMethod("GET");
-        controller.setParticipantRepository(participantRepository);
         controller.handleRequest(request, response);
         assertEquals(gov.nih.nci.ctcae.core.domain.Participant.class, controller.getCommandClass());
     }
@@ -23,7 +22,6 @@ public class ParticipantInboxControllerTest extends AbstractWebTestCase {
     public void testControllerClinicalStaff() throws Exception {
         ParticipantInboxController controller = new ParticipantInboxController();
         request.setMethod("GET");
-        controller.setParticipantRepository(participantRepository);
 
         login(ClinicalStaffTestHelper.getDefaultClinicalStaff().getUser().getUsername());
         try {
