@@ -43,11 +43,11 @@ public class ParticipantInboxController extends CtcAeSimpleFormController {
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Participant> participants = (List<Participant>) userRepository.findParticipantForUser(user);
-        if (participants == null || participants.size() != 1) {
+        Participant participant = userRepository.findParticipantForUser(user);
+        if (participant == null) {
             throw new CtcAeSystemException("Can not find participant for username " + user.getUsername());
         }
-        return participants.get(0);
+        return participant;
     }
 
 
