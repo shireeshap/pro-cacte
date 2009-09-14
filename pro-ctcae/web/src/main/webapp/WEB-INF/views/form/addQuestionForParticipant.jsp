@@ -175,7 +175,7 @@
                                 <c:if test="${displaySymptoms[i + (numrows+1)*j] ne null}">
                                     <input type="checkbox" name="symptomsByParticipants"
                                            value="${displaySymptoms[i + (numrows+1)*j]}"
-                                           onchange="javascript:changeClass(this,'${i + (numrows+1)*j}');"
+                                           onclick="javascript:changeClass(this,'${i + (numrows+1)*j}');"
                                            id="${i + (numrows+1)*j}"/>
                                 </c:if>
                             </td>
