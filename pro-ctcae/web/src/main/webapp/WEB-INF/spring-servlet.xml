@@ -102,7 +102,7 @@
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="participant.tab.enter_participant"
-                                  p:linkName="participantController"/>
+                                  p:linkName="createParticipantController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="participant.tab.search_participant"
                                   p:linkName="searchParticipantController"/>
@@ -110,8 +110,6 @@
                                   p:displayName="participant.tab.schedule_form" p:linkName="scheduleCrfController"/>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
                                   p:displayName="participant.tab.monitor_form" p:linkName="monitorFormController"/>
-                            <!--<bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"-->
-                            <!--p:displayName="participant.tab.participant_schedules" p:linkName="showParticipantSchedulesController"/>-->
 
                         </list>
                     </property>
@@ -288,12 +286,18 @@
           class="gov.nih.nci.ctcae.web.study.AddStudyComponentController">
     </bean>
 
-    <bean name="/participant/create" id="participantController"
-          class="gov.nih.nci.ctcae.web.participant.ParticipantController" parent="securedTabbedFlowFormController">
+    <bean name="participantController" class="gov.nih.nci.ctcae.web.participant.ParticipantController"
+          parent="securedTabbedFlowFormController">
         <property name="participantRepository" ref="participantRepository"/>
         <property name="organizationRepository" ref="organizationRepository"/>
         <property name="proCtcAEProperties" ref="proCtcAeProperties"/>
+        <property name="userRepository" ref="userRepository"/>
     </bean>
+
+    <bean name="/participant/create" id="createParticipantController"
+          class="gov.nih.nci.ctcae.web.participant.CreateParticipantController" parent="participantController"/>
+    <bean name="/participant/edit" id="editParticipantController"
+          class="gov.nih.nci.ctcae.web.participant.EditParticipantController" parent="participantController"/>
 
     <bean name="/participant/search" id="searchParticipantController"
           class="gov.nih.nci.ctcae.web.participant.SearchParticipantController">
@@ -335,6 +339,7 @@
           class="gov.nih.nci.ctcae.web.clinicalStaff.CreateClinicalStaffController" parent="ctcaeSimpleFormController">
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
         <property name="userNameAndPasswordValidator" ref="userNameAndPasswordValidator"/>
+        <property name="genericRepository" ref="genericRepository"/>
     </bean>
     <bean name="/admin/clinicalStaff/searchClinicalStaff" id="searchClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.SearchClinicalStaffController">
@@ -408,6 +413,7 @@
     <bean name="/participant/displaystudysites" id="displayStudySitesController"
           class="gov.nih.nci.ctcae.web.participant.DisplayStudySitesController">
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
+        <property name="participantRepository" ref="participantRepository"/>
     </bean>
     <bean name="/reports/participantCareResultsGraph" id="participantCareResultsGraph"
           class="gov.nih.nci.ctcae.web.reports.ParticipantLevelGraphicalReportController"

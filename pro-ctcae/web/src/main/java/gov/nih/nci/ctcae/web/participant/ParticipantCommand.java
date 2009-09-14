@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 //
 /**
@@ -38,6 +40,8 @@ public class ParticipantCommand {
     private String mode;
 
     private List<StudyParticipantClinicalStaff> notificationStaffToRemove = new ArrayList<StudyParticipantClinicalStaff>();
+    private Set<Organization> clinicalStaffOrgs = new HashSet<Organization>();
+    private boolean readOnly = false;
 
     /**
      * Instantiates a new participant command.
@@ -221,5 +225,17 @@ public class ParticipantCommand {
 
     public void addNotificationStaffToRemove(StudyParticipantClinicalStaff studyParticipantClinicalStaff) {
         notificationStaffToRemove.add(studyParticipantClinicalStaff);
+    }
+
+    public Set<Organization> getClinicalStaffOrgs() {
+        return clinicalStaffOrgs;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
     }
 }

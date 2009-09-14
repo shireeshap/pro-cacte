@@ -2,11 +2,14 @@ package gov.nih.nci.ctcae.web.participant;
 
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
+import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +25,7 @@ import java.util.List;
 public class DisplayStudySitesController extends AbstractController {
 
     private StudyOrganizationRepository studyOrganizationRepository;
+    private ParticipantRepository participantRepository;
 
 
     /* (non-Javadoc)
@@ -30,26 +34,29 @@ public class DisplayStudySitesController extends AbstractController {
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = new ModelAndView("participant/ajax/displaystudysites");
         Integer organizationId = Integer.parseInt(request.getParameter("organizationId"));
-
         StudyOrganizationQuery query = new StudyOrganizationQuery();
         query.filterByOrganizationId(organizationId);
         query.filterByStudySiteAndLeadSiteOnly();
-
-
         Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
 
-        List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
-        ParticipantCommand command = ParticipantControllerUtils.getParticipantCommand(request);
+        String participantId = request.getParameter("id");
+        if (!StringUtils.isBlank(participantId)) {
+            List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
+            Participant participant = participantRepository.findById(Integer.parseInt(participantId));
 
-        for (StudyParticipantAssignment studyParticipantAssignment : command.getParticipant().getStudyParticipantAssignments()) {
-            StudyOrganization studySite = studyParticipantAssignment.getStudySite();
-            studySites.remove(studySite);
-            studySite.getStudy().getCrfs();
-            studySite.getStudy().getStudySponsor();
-            studyParticipantAssignments.add(studyParticipantAssignment);
+            for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
+                StudyOrganization studySite = studyParticipantAssignment.getStudySite();
+                studySites.remove(studySite);
+                studySite.getStudy().getCrfs();
+                studySite.getStudy().getStudySponsor();
+                studyParticipantAssignments.add(studyParticipantAssignment);
+            }
+            modelAndView.addObject("studyparticipantassignments", studyParticipantAssignments);
         }
+
+
         modelAndView.addObject("unselectedstudysites", studySites);
-        modelAndView.addObject("studyparticipantassignments", studyParticipantAssignments);
+
 
         return modelAndView;
     }
@@ -65,5 +72,10 @@ public class DisplayStudySitesController extends AbstractController {
 
     public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
         this.studyOrganizationRepository = studyOrganizationRepository;
+    }
+
+    @Required
+    public void setParticipantRepository(ParticipantRepository participantRepository) {
+        this.participantRepository = participantRepository;
     }
 }

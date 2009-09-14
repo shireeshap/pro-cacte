@@ -408,8 +408,10 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/meddra/MeddraAjaxFacade.java -
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddNotificationClinicalStaffController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/CreateParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayCalendarController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/DisplayStudySitesController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/EditParticipantController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/EnterParticipantResponsesController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormStatusController.java -text

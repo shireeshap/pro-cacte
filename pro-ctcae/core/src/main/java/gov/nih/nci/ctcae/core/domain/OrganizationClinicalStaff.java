@@ -2,8 +2,11 @@ package gov.nih.nci.ctcae.core.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.ArrayList;
 
 //
 /**
@@ -30,6 +33,11 @@ public class OrganizationClinicalStaff extends BasePersistable {
     @JoinColumn(name = "clinical_staff_id", referencedColumnName = "id")
     @ManyToOne
     private ClinicalStaff clinicalStaff;
+
+
+    @OneToMany(mappedBy = "organizationClinicalStaff", fetch = FetchType.LAZY)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaff = new ArrayList<StudyOrganizationClinicalStaff>();
 
     @Transient
     private String displayName;
@@ -124,6 +132,10 @@ public class OrganizationClinicalStaff extends BasePersistable {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaff() {
+        return studyOrganizationClinicalStaff;
     }
 }
 

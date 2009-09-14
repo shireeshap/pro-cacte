@@ -3,7 +3,9 @@ package gov.nih.nci.ctcae.web.clinicalStaff;
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
 import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.apache.commons.lang.StringUtils;
@@ -34,6 +36,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     private ClinicalStaffRepository clinicalStaffRepository;
     protected final String CLINICAL_STAFF_ID = "clinicalStaffId";
     private UserNameAndPasswordValidator userNameAndPasswordValidator;
+    private GenericRepository genericRepository;
 
     /**
      * Instantiates a new creates the clinical staff controller.
@@ -119,7 +122,7 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Override
     protected void onBindAndValidate(HttpServletRequest request, Object o, BindException e) throws Exception {
         ClinicalStaffCommand command = (ClinicalStaffCommand) o;
-        removeDeletedOrganizationalClinicalStaff(command);
+        removeDeletedOrganizationalClinicalStaff(command, e);
         super.onBindAndValidate(request, o, e);
 
         if (command.getClinicalStaff().getOrganizationClinicalStaffs().size() == 0) {
@@ -133,14 +136,19 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         }
     }
 
-    private void removeDeletedOrganizationalClinicalStaff(ClinicalStaffCommand command) {
+    private void removeDeletedOrganizationalClinicalStaff(ClinicalStaffCommand command, BindException e) {
         ClinicalStaff clinicalStaff = command.getClinicalStaff();
         List<OrganizationClinicalStaff> ocsToRemove = new ArrayList<OrganizationClinicalStaff>();
         for (Integer index : command.getIndexesToRemove()) {
             ocsToRemove.add(clinicalStaff.getOrganizationClinicalStaffs().get(index));
         }
         for (OrganizationClinicalStaff organizationClinicalStaff : ocsToRemove) {
-            clinicalStaff.getOrganizationClinicalStaffs().remove(organizationClinicalStaff);
+            OrganizationClinicalStaff temp = genericRepository.findById(OrganizationClinicalStaff.class, organizationClinicalStaff.getId());
+            if (temp.getStudyOrganizationClinicalStaff().size() > 0) {
+                e.reject("NON_EMPTY_SITE", "Cannot delete site " + organizationClinicalStaff.getOrganization().getDisplayName() + ". Clinical staff is assigned to some study on this site.");
+            } else {
+                clinicalStaff.getOrganizationClinicalStaffs().remove(organizationClinicalStaff);
+            }
         }
         command.getIndexesToRemove().clear();
     }
@@ -158,5 +166,10 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
     @Required
     public void setUserNameAndPasswordValidator(UserNameAndPasswordValidator userNameAndPasswordValidator) {
         this.userNameAndPasswordValidator = userNameAndPasswordValidator;
+    }
+
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
     }
 }

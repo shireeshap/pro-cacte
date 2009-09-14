@@ -9,6 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -31,7 +32,7 @@
                     var response = transport.responseText;
                     $("studysitestable").innerHTML = response;
                 },
-                parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId+ "&id=${param['id']}",
+                parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId + "&id=${param['id']}",
                 method:'get'
             })
         }
@@ -138,8 +139,21 @@
                        </div>
                    </c:when>
                    <c:otherwise>
-                       <tags:renderSelect propertyName="organizationId" displayName="participant.label.site"
-                                          required="true" options="${organizationsHavingStudySite}"/>
+                       <c:choose>
+                           <c:when test="${fn:length(organizationsHavingStudySite) eq 2}">
+                               <div class="row">
+                                   <div class="label"><spring:message code="participant.label.site"/>:</div>
+                                   <div class="value">${organizationsHavingStudySite[1].desc}
+                                       <input type="hidden" name="organizationId" id="organizationId"
+                                              value="${organizationsHavingStudySite[1].code}"/>
+                                   </div>
+                               </div>
+                           </c:when>
+                           <c:otherwise>
+                               <tags:renderSelect propertyName="organizationId" displayName="participant.label.site"
+                                                  required="true" options="${organizationsHavingStudySite}"/>
+                           </c:otherwise>
+                       </c:choose>
                    </c:otherwise>
                </c:choose>
            </chrome:division>

@@ -3,14 +3,14 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.cabig.ctms.tools.DataSourceSelfDiscoveringPropertiesFactoryBean;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.context.SecurityContextHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,12 +30,8 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
      * The participant repository.
      */
     protected ParticipantRepository participantRepository;
-
-
-    private Properties proCtcAEProperties;
-
-
-    private static final String PARTICIPANT_ID = "id";
+    protected UserRepository userRepository;
+    protected Properties proCtcAEProperties;
 
     /**
      * Instantiates a new participant controller.
@@ -74,33 +70,19 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
     */
     @Override
     protected Object formBackingObject(final HttpServletRequest request) throws ServletException {
-        String id = request.getParameter(PARTICIPANT_ID);
-
         ParticipantCommand command = new ParticipantCommand();
-        if (!StringUtils.isBlank(id)) {
-            Participant participant = participantRepository.findById(Integer.valueOf(id));
-            participant.getUser().setConfirmPassword(participant.getUser().getPassword());
-            for (UserRole userRole : participant.getUser().getUserRoles()) {
-                userRole.getId();
-            }
-            for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {
-                StudyOrganization studySite = studyParticipantAssignment.getStudySite();
-                studySite.getStudy().getCrfs();
-                studySite.getStudy().getStudySponsor();
-            }
-
-            command.setParticipant(participant);
-
-            if (participant.getStudyParticipantAssignments().size() > 0) {
-                Organization studyOrganization = participant.getStudyParticipantAssignments().get(0).getStudySite().getOrganization();
-                String siteName = studyOrganization.getName();
-                command.setOrganizationId(studyOrganization.getId());
-                command.setSiteName(siteName);
-            }
-        }
+        populateOrganizationsForUser(command);
         String mode = proCtcAEProperties.getProperty("mode.identifier");
         command.setMode(mode);
         return command;
+    }
+
+    protected final void populateOrganizationsForUser(ParticipantCommand command) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
+        for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
+            command.getClinicalStaffOrgs().add(organizationClinicalStaff.getOrganization());
+        }
     }
 
 
@@ -110,8 +92,7 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
      * @param participantRepository the new participant repository
      */
     @Required
-    public void setParticipantRepository(
-            ParticipantRepository participantRepository) {
+    public void setParticipantRepository(ParticipantRepository participantRepository) {
         this.participantRepository = participantRepository;
     }
 
@@ -120,7 +101,6 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         command.setParticipant(participantRepository.save(command.getParticipant()));
 
     }
-
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, ParticipantCommand command, Tab tab) {
@@ -132,4 +112,8 @@ public class ParticipantController extends CtcAeSecuredTabbedFlowController<Part
         this.proCtcAEProperties = proCtcAEProperties;
     }
 
+    @Required
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 }

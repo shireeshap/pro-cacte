@@ -43,20 +43,14 @@
                  var firstName = $F('firstName')
                  var lastName = $F('lastName')
                  var identifier = $F('identifier')
-
-            //     alert(lastName);
-
                  if (firstName == '' && lastName == '' && identifier == '') {
                      $('error').innerHTML = "<font color='#FF0000'>Provide at least one value in the search field</font>"  ;
 
                  } else {
                      $('error').innerHTML = ""
                      $('bigSearch').show()
-                     //		//showing indicator and hiding pervious results. (#10826)
                      $('indicator').className = '';
-                     //	$('assembler_table').hide();  //do not hide the results..becz filter string get disappear
                      var parameterMap = getParameterMap(form);
-                 //   investigator.searchInvestigator(parameterMap, showTable);
                     participant.searchParticipant(parameterMap, firstName, lastName, identifier, showTable);
                  }
              }

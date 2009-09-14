@@ -144,11 +144,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
     @Override
     public Flow<C> getFlow(C command) {
         Flow<C> cFlow = super.getFlow(command);
-
-
         return getSecuredFlow(cFlow);
-
-
     }
 
     private Flow<C> getSecuredFlow(Flow<C> flow) {

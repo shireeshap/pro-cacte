@@ -7,9 +7,7 @@ import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
-
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.util.*;
@@ -43,6 +41,7 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
     }
 
+
     @Override
     public void validate(ParticipantCommand command, Errors errors) {
         if (command.getStudySites() == null ||
@@ -61,16 +60,15 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
 
     public Map<String, Object> referenceData(ParticipantCommand command) {
         HashMap<String, Object> referenceData = new HashMap<String, Object>();
-
-
         StudyOrganizationQuery query = new StudyOrganizationQuery();
         query.filterByStudySiteAndLeadSiteOnly();
         Collection<StudyOrganization> studySites = studyOrganizationRepository.find(query);
 
-        List<Organization> organizationsHavingStudySite = new ArrayList();
+        Set<Organization> organizationsHavingStudySite = new HashSet<Organization>();
         for (StudyOrganization studySite : studySites) {
-            if (!organizationsHavingStudySite.contains(studySite.getOrganization())) {
-                organizationsHavingStudySite.add(studySite.getOrganization());
+            Organization o = studySite.getOrganization();
+            if (command.getClinicalStaffOrgs().contains(o)) {
+                organizationsHavingStudySite.add(o);
             }
         }
 
@@ -115,4 +113,5 @@ public class ParticipantDetailsTab extends SecuredTab<ParticipantCommand> {
     public void setUserNameAndPasswordValidator(UserNameAndPasswordValidator userNameAndPasswordValidator) {
         this.userNameAndPasswordValidator = userNameAndPasswordValidator;
     }
+
 }

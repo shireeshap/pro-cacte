@@ -28,7 +28,6 @@ public class ClinicalStaffCommand {
     public ClinicalStaffCommand() {
         super();
         clinicalStaff = new ClinicalStaff();
-        clinicalStaff.addOrganizationClinicalStaff(new OrganizationClinicalStaff());
         clinicalStaff.setUser(new User());
     }
 
