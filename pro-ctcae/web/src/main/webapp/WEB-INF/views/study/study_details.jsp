@@ -30,12 +30,14 @@
                 parameters:<tags:ajaxstandardparams/>+"&componentType=site",
                 method:'get'
             })
-
-
         }
 
         function deleteArm(armIndex) {
             $('armIndexToRemove').value = armIndex;
+            var ele = document.getElementsByName('study.arms['+armIndex+'].title')[0];
+            if (ele.value == '') {
+                ele.value = ".";
+            }
             refreshPage();
         }
 

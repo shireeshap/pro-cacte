@@ -128,7 +128,7 @@
                                   size="100"
                                   noForm="true"/>
         <div id="formDropDownDiv" style="display:none;" class="row">
-            <div class="label">Form</div>
+            <div class="label"><tags:requiredIndicator/>Form</div>
             <div class="value" id="formDropDown"></div>
         </div>
         <div id="studySiteAutoCompleterDiv" style="display:none">

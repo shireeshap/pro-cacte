@@ -152,8 +152,11 @@ function formStatus(period) {
 
     var stDate = $('startDate').value;
     var endDate = $('endDate').value;
+    var crfSelect = $('formSelect');
+    var crfId = crfSelect.options[crfSelect.selectedIndex].value;
+
+    var error = false;
     if (dateRange == 'custom') {
-        var error = false;
         if (stDate == '') {
             error = true;
             showError($('startDate'));
@@ -166,13 +169,16 @@ function formStatus(period) {
         } else {
             removeError($('endDate'));
         }
-        if (error) {
-            return;
-        }
     }
-
-    var crfSelect = $('formSelect');
-    var crfId = crfSelect.options[crfSelect.selectedIndex].value;
+    if (crfId == '') {
+        error = true;
+        showError($('formSelect'));
+    } else {
+        removeError($('formSelect'));
+    }
+    if (error) {
+        return;
+    }
 
 
     var studySiteId = $('studySite').value;
@@ -302,7 +308,7 @@ function hideIndicator() {
                                   size="100"
                                   noForm="true"/>
         <div id="formDropDownDiv" style="display:none;" class="row">
-            <div class="label">Form</div>
+            <div class="label"><tags:requiredIndicator/>Form</div>
             <div class="value" id="formDropDown"></div>
         </div>
 
