@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.ClinicalStaff;
+import gov.nih.nci.ctcae.core.domain.User;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import org.apache.commons.lang.StringUtils;
@@ -25,9 +26,9 @@ public class CreateClinicalStaffControllerTest extends WebTestCase {
         clinicalStaffCommand = (ClinicalStaffCommand) createClinicalStaffController.formBackingObject(request);
         clinicalStaffRepository = registerMockFor(ClinicalStaffRepository.class);
         clinicalStaffCommand.setClinicalStaff(clinicalStaff);
+        clinicalStaff = new ClinicalStaff();
+        clinicalStaff.setUser(new User());
         createClinicalStaffController.setClinicalStaffRepository(clinicalStaffRepository);
-        //  createClinicalStaffController.onSubmit(null, null, clinicalStaffCommand, null);
-        //   MockHttpServletRequest r = new MockHttpServletRequest();
     }
 
     public void testConstructor() {
