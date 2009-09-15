@@ -150,7 +150,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         questionsAndAnswers.add(questionAnswer);
     }
 
-    public HashMap<String, List<List>> getSymptomItems() {
+    public HashMap getSymptomItems() {
         HashMap<String, List<List>> symptomMap = new HashMap<String, List<List>>();
         for (StudyParticipantCrfItem studyParticipantCrfItem : getStudyParticipantCrfItems()) {
             String symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getTerm();
