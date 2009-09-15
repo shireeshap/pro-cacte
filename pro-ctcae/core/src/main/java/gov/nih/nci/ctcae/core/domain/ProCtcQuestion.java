@@ -31,11 +31,6 @@ public class ProCtcQuestion extends Question {
     @Column(name = "id")
     private Integer id;
 
-    /**
-     * The question text.
-     */
-    @Column(name = "question_text", nullable = false)
-    private String questionText;
 
     /**
      * The pro ctc question type.
@@ -107,14 +102,6 @@ public class ProCtcQuestion extends Question {
         this.id = id;
     }
 
-    /**
-     * Gets the question text.
-     *
-     * @return the question text
-     */
-    public String getQuestionText() {
-        return questionText;
-    }
 
     /**
      * Gets the display order.
@@ -135,14 +122,6 @@ public class ProCtcQuestion extends Question {
     }
 
 
-    /**
-     * Sets the question text.
-     *
-     * @param questionText the new question text
-     */
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
-    }
 
     /**
      * Gets the valid values.

@@ -28,8 +28,6 @@ public class MeddraQuestion extends Question {
     @ManyToOne
     private LowLevelTerm lowLevelTerm;
 
-    @Column(name = "question_text", nullable = false)
-    private String questionText;
 
     @Column(name = "question_type", nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -54,14 +52,6 @@ public class MeddraQuestion extends Question {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getQuestionText() {
-        return questionText;
-    }
-
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
     }
 
     public ProCtcQuestionType getProCtcQuestionType() {
