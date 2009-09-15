@@ -1166,7 +1166,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/SeleniumProperties.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/WebTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/AddSiteControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffAjaxFacadeIntegrationTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffControllerUtilsTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalStaffControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffControllerTest.java -text
