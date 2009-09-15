@@ -10,34 +10,16 @@
             <td><br/></td>
         </tr>
         <tr style="background-color:#cccccc;">
-            <td colspan="5">
-                <b>${symptom.key.term} </b>
-            </td>
+            <td><b>${symptom.key} </b></td>
         </tr>
         <c:forEach items="${symptom.value}" var="items">
             <tr>
-                <td colspan="5">
-                    <b>${myindex}. ${items[0].crfPageItem.proCtcQuestion.questionText}</b>
-                </td>
+                <td><b>${myindex}. ${items[0]}</b></td>
             </tr>
             <tr>
-
-                <td>
-                    Answer: <u><i>${items[0].proCtcValidValue.value}</i></u>
-                </td>
-
+                <td>Answer: <u><i>${items[1]}</i></u></td>
             </tr>
             <c:set var="myindex" value="${myindex + 1}"/>
         </c:forEach>
     </c:forEach>
 </table>
-<c:forEach items="${completedSchedule.studyParticipantCrfScheduleAddedQuestions}" var="spCrfAddedQuestion">
-    <c:if test="${spCrfAddedQuestion.proCtcQuestion.questionText ne null}">
-        <chrome:box>
-            <b>${myindex}. ${spCrfAddedQuestion.proCtcQuestion.questionText}</b>
-            <br/>
-            Answer: <u><i>${spCrfAddedQuestion.proCtcValidValue.value}</i></u>
-            <c:set var="myindex" value="${myindex + 1}"/>
-        </chrome:box>
-    </c:if>
-</c:forEach>

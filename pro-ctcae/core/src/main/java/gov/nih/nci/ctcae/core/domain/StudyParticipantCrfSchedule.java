@@ -136,25 +136,50 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         }
     }
 
-    public HashMap<ProCtcTerm, ArrayList<ArrayList>> getSymptomItems() {
-        HashMap<ProCtcTerm, ArrayList<ArrayList>> symptomMap = new HashMap();
-        ArrayList<ArrayList> spCrfItems;
-        Integer counter = 0;
+    public HashMap<String, ArrayList<String[]>> getSymptomItems() {
+        HashMap<String, ArrayList<String[]>> symptomMap = new HashMap();
         for (StudyParticipantCrfItem studyParticipantCrfItem : getStudyParticipantCrfItems()) {
-            ArrayList itemCounter = new ArrayList();
-            ProCtcTerm symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm();
-            if (symptomMap.containsKey(symptom)) {
-                spCrfItems = symptomMap.get(symptom);
-            } else {
-                spCrfItems = new ArrayList();
-                symptomMap.put(symptom, spCrfItems);
+            String symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getTerm();
+            String question = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getQuestionText();
+            String answer = studyParticipantCrfItem.getProCtcValidValue().getValue();
+            addQuestionAnswerToMap(symptomMap, symptom, question, answer);
+
+        }
+        for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfScheduleAddedQuestions) {
+            Question q = studyParticipantCrfScheduleAddedQuestion.proCtcOrMeddraQuestion();
+            String symptom = "";
+            String question = "";
+            String answer = "";
+            if (q instanceof ProCtcQuestion) {
+                ProCtcQuestion pq = (ProCtcQuestion) q;
+                symptom = pq.getProCtcTerm().getTerm();
+                question = pq.getQuestionText();
+                answer = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getValue();
             }
-            itemCounter.add(studyParticipantCrfItem);
-            itemCounter.add(counter);
-            spCrfItems.add(itemCounter);
-            counter++;
+            if (q instanceof MeddraQuestion) {
+                MeddraQuestion mq = (MeddraQuestion) q;
+                symptom = mq.getLowLevelTerm().getFullName();
+                question = mq.getQuestionText();
+                answer = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue().getValue();
+            }
+
+            addQuestionAnswerToMap(symptomMap, symptom, question, answer);
         }
         return symptomMap;
+    }
+
+    private void addQuestionAnswerToMap(HashMap<String, ArrayList<String[]>> symptomMap, String symptom, String question, String answer) {
+        ArrayList<String[]> questionsAndAnswers;
+        String[] questionAnswer = new String[2];
+        questionAnswer[0] = question;
+        questionAnswer[1] = answer;
+        if (symptomMap.containsKey(symptom)) {
+            questionsAndAnswers = symptomMap.get(symptom);
+        } else {
+            questionsAndAnswers = new ArrayList<String[]>();
+            symptomMap.put(symptom, questionsAndAnswers);
+        }
+        questionsAndAnswers.add(questionAnswer);
     }
 
     /**
