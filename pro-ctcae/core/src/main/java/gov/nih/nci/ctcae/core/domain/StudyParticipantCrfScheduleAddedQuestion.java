@@ -198,13 +198,4 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
         this.meddraValidValue = meddraValidValue;
     }
 
-    public Question proCtcOrMeddraQuestion() {
-        if (proCtcQuestion != null) {
-            return proCtcQuestion;
-        }
-        if (meddraQuestion != null) {
-            return meddraQuestion;
-        }
-        return null;
-    }
 }
