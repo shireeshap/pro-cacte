@@ -155,7 +155,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         for (StudyParticipantCrfItem studyParticipantCrfItem : getStudyParticipantCrfItems()) {
             String symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getTerm();
             String question = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getQuestionText();
-            String answer = studyParticipantCrfItem.getProCtcValidValue().getValue();
+            String answer = studyParticipantCrfItem.getProCtcValidValue() == null ? "" : studyParticipantCrfItem.getProCtcValidValue().getValue();
             mapQuestionAndAnswer(symptomMap, symptom, question, answer);
         }
         for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfScheduleAddedQuestions) {
@@ -165,11 +165,11 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             String answer = "";
             if (q instanceof ProCtcQuestion) {
                 symptom = ((ProCtcQuestion) q).getProCtcTerm().getTerm();
-                answer = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getValue();
+                answer = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getValue();
             }
             if (q instanceof MeddraQuestion) {
                 symptom = ((MeddraQuestion) q).getLowLevelTerm().getFullName();
-                answer = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue().getValue();
+                answer = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue() == null ? "" : studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue().getValue();
             }
             mapQuestionAndAnswer(symptomMap, symptom, question, answer);
         }
