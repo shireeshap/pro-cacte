@@ -16,11 +16,11 @@ import java.io.FileOutputStream;
 
 public class ShowParticipantScheduleControllerTest extends AbstractWebTestCase {
 
-//    ShowParticipantScheduleController controller;
+//    ShowParticipantScheduleController createParticipantController;
 //
 //    public void testController() throws Exception {
-//        controller = new ShowParticipantScheduleController();
-//        controller.setStudyRepository(studyRepository);
+//        createParticipantController = new ShowParticipantScheduleController();
+//        createParticipantController.setStudyRepository(studyRepository);
 //        Study s = StudyTestHelper.getDefaultStudy();
 //        Integer studyId = s.getId();
 //        StudySite ss = s.getLeadStudySite();
@@ -33,7 +33,7 @@ public class ShowParticipantScheduleControllerTest extends AbstractWebTestCase {
 //        request.setParameter("participantId", participantId.toString());
 //        request.setParameter("crfId", crfId.toString());
 //
-//        ModelAndView mv = controller.handleRequestInternal(request, response);
+//        ModelAndView mv = createParticipantController.handleRequestInternal(request, response);
 //        Map m = mv.getModel();
 //        assertNotNull(m.get("scheduledCrfs"));
 //    }

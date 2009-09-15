@@ -22,21 +22,21 @@ import java.util.Properties;
  * @since June 10, 2009
  */
 public class ParticipantControllerTest extends AbstractWebTestCase {
-    ParticipantController controller;
+    CreateParticipantController createParticipantController;
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
 
         super.onSetUpInTransaction();
         login(StudyTestHelper.getLeadSite_SitePI().getUser().getUsername());
-        controller = new ParticipantController();
-        controller.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
-        controller.setParticipantRepository(participantRepository);
-        controller.setStudyOrganizationRepository(studyOrganizationRepository);
-        controller.setWebControllerValidator(new WebControllerValidatorImpl());
-        controller.setProCtcAEProperties(new Properties());
-        controller.setUserRepository(userRepository);
-        List<Tab<ParticipantCommand>> tabs = controller.getFlow().getTabs();
+        createParticipantController = new CreateParticipantController();
+        createParticipantController.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
+        createParticipantController.setParticipantRepository(participantRepository);
+        createParticipantController.setStudyOrganizationRepository(studyOrganizationRepository);
+        createParticipantController.setWebControllerValidator(new WebControllerValidatorImpl());
+        createParticipantController.setProCtcAEProperties(new Properties());
+        createParticipantController.setUserRepository(userRepository);
+        List<Tab<ParticipantCommand>> tabs = createParticipantController.getFlow().getTabs();
         for (Tab tab : tabs) {
             if (tab instanceof ParticipantDetailsTab) {
                 ParticipantDetailsTab pdt = (ParticipantDetailsTab) tab;
@@ -56,7 +56,7 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
     }
 
     private ParticipantCommand firstTab_ParticipantDetails() throws Exception {
-        ModelAndView mv = controller.handleRequest(request, response);
+        ModelAndView mv = createParticipantController.handleRequest(request, response);
         Map m = mv.getModel();
         assertNotNull(m.get("genders"));
         assertNotNull(m.get("organizationsHavingStudySite"));
@@ -80,7 +80,7 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
 
         request.setMethod("POST");
         request.setParameter("_target1", "");
-        mv = controller.handleRequest(request, response);
+        mv = createParticipantController.handleRequest(request, response);
         commitAndStartNewTransaction();
 
         pc = (ParticipantCommand) mv.getModel().get("command");
@@ -96,7 +96,7 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
         StudyParticipantAssignment spa = savedParticipant.getStudyParticipantAssignments().get(0);
         assertEquals("123", spa.getStudyParticipantIdentifier());
         assertEquals(1, spa.getStudyParticipantCrfs().size());
-        assertEquals(15 , spa.getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().size());
+        assertEquals(15, spa.getStudyParticipantCrfs().get(0).getStudyParticipantCrfSchedules().size());
         assertEquals("participant/participant_clinical_staff", mv.getViewName());
         assertEquals(2, spa.getStudyParticipantClinicalStaffs().size());
         m = mv.getModel();
@@ -138,7 +138,7 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
 
         request.setMethod("POST");
         request.setParameter("_finish", "");
-        ModelAndView mv = controller.handleRequest(request, response);
+        ModelAndView mv = createParticipantController.handleRequest(request, response);
         commitAndStartNewTransaction();
 
         pc = (ParticipantCommand) mv.getModel().get("command");
@@ -157,14 +157,15 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
     }
 
     public void testEditParticipant() throws Exception {
+        EditParticipantController editParticipantController = new EditParticipantController();
+        editParticipantController.setPrivilegeAuthorizationCheck(privilegeAuthorizationCheck);
+        editParticipantController.setParticipantRepository(participantRepository);
+        editParticipantController.setStudyOrganizationRepository(studyOrganizationRepository);
+        editParticipantController.setWebControllerValidator(new WebControllerValidatorImpl());
+        editParticipantController.setProCtcAEProperties(new Properties());
+        editParticipantController.setUserRepository(userRepository);
         request.setParameter("id", ParticipantTestHelper.getDefaultParticipant().getId().toString());
-        ModelAndView mv = controller.handleRequest(request, response);
-        Map m = mv.getModel();
-        assertNotNull(m.get("genders"));
-        assertNotNull(m.get("organizationsHavingStudySite"));
-        List<ListValues> ss = (List<ListValues>) m.get("organizationsHavingStudySite");
-        assertEquals(2, ss.size());
-
+        ModelAndView mv = editParticipantController.handleRequest(request, response);
         ParticipantCommand pc = (ParticipantCommand) mv.getModel().get("command");
         assertNotNull(pc);
         assertNotNull(pc.getParticipant().getId());
