@@ -41,47 +41,8 @@ public class ParticipantResponseReportController extends AbstractController {
             throw (new AccessDeniedException("Participant does not have access to this form"));
         }
 
-        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = new TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>(new ProCtcTermComparator());
-        HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>> careResults;
-        List dates = new ArrayList<Date>();
 
-        for (StudyParticipantCrfSchedule mySch : spcs.getStudyParticipantCrf().getStudyParticipantCrfSchedules()) {
-            if (mySch.getStatus().equals(CrfStatus.COMPLETED)) {
-                dates.add(mySch.getStartDate());
-                for (StudyParticipantCrfItem studyParticipantCrfItem : mySch.getStudyParticipantCrfItems()) {
-                    ProCtcQuestion proCtcQuestion = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion();
-                    ProCtcTerm symptom = proCtcQuestion.getProCtcTerm();
-                    ProCtcValidValue value = studyParticipantCrfItem.getProCtcValidValue();
-                    ArrayList<ProCtcValidValue> validValue;
-
-                    if (symptomMap.containsKey(symptom)) {
-                        careResults = symptomMap.get(symptom);
-                    } else {
-                        careResults = new HashMap();
-                        symptomMap.put(symptom, careResults);
-                    }
-
-                    if (careResults.containsKey(proCtcQuestion)) {
-                        validValue = careResults.get(proCtcQuestion);
-                    } else {
-                        validValue = new ArrayList<ProCtcValidValue>();
-                        careResults.put(proCtcQuestion, validValue);
-                    }
-                    if (value == null) {
-                        ProCtcValidValue myProCtcValidValue = new ProCtcValidValue();
-                        myProCtcValidValue.setProCtcQuestion(proCtcQuestion);
-                        myProCtcValidValue.setDisplayOrder(0);
-                        validValue.add(myProCtcValidValue);
-                    } else {
-                        validValue.add(value);
-                    }
-                }
-            }
-        }
-        modelAndView.addObject("resultsMap", symptomMap);
-        modelAndView.addObject("dates", dates);
-        modelAndView.addObject("schedule", spcs);
-        modelAndView.addObject("questionTypes", ProCtcQuestionType.getAllDisplayTypes());
+        modelAndView.addObject("completedSchedule", spcs);
 
         return modelAndView;
     }
