@@ -146,23 +146,22 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
         }
         for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfScheduleAddedQuestions) {
-            Question q = studyParticipantCrfScheduleAddedQuestion.proCtcOrMeddraQuestion();
+
             String symptom = "";
             String question = "";
             String answer = "";
-            if (q instanceof ProCtcQuestion) {
-                ProCtcQuestion pq = (ProCtcQuestion) q;
-                symptom = pq.getProCtcTerm().getTerm();
-                question = pq.getQuestionText();
+            ProCtcQuestion proCtcQuestion = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion();
+
+            if (proCtcQuestion == null) {
+                MeddraQuestion meddraQuestion = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion();
+                symptom = meddraQuestion.getLowLevelTerm().getFullName();
+                question = meddraQuestion.getQuestionText();
+                answer = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue().getValue();
+            } else {
+                symptom = proCtcQuestion.getProCtcTerm().getTerm();
+                question = proCtcQuestion.getQuestionText();
                 answer = studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue().getValue();
             }
-            if (q instanceof MeddraQuestion) {
-                MeddraQuestion mq = (MeddraQuestion) q;
-                symptom = mq.getLowLevelTerm().getFullName();
-                question = mq.getQuestionText();
-                answer = studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue().getValue();
-            }
-
             addQuestionAnswerToMap(symptomMap, symptom, question, answer);
         }
         return symptomMap;
