@@ -35,6 +35,7 @@ public class ParticipantControllerTest extends AbstractWebTestCase {
         controller.setStudyOrganizationRepository(studyOrganizationRepository);
         controller.setWebControllerValidator(new WebControllerValidatorImpl());
         controller.setProCtcAEProperties(new Properties());
+        controller.setUserRepository(userRepository);
         List<Tab<ParticipantCommand>> tabs = controller.getFlow().getTabs();
         for (Tab tab : tabs) {
             if (tab instanceof ParticipantDetailsTab) {

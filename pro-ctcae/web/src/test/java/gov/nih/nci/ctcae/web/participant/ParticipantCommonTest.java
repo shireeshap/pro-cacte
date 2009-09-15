@@ -76,14 +76,8 @@ public class ParticipantCommonTest extends AbstractWebTestCase {
         ModelAndView mv = controller.handleRequest(request, response);
 
         Map m = mv.getModel();
-        TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>> symptomMap = (TreeMap<ProCtcTerm, HashMap<ProCtcQuestion, ArrayList<ProCtcValidValue>>>) m.get("resultsMap");
-        List dates = (List<Date>) m.get("dates");
-
-        assertEquals(10, symptomMap.keySet().size());
-        assertEquals(spc.getStudyParticipantCrfSchedulesByStatus(CrfStatus.COMPLETED).size(), dates.size());
-
-        assertNotNull(m.get("schedule"));
-        assertNotNull(m.get("questionTypes"));
+        StudyParticipantCrfSchedule completedSchedule = (StudyParticipantCrfSchedule) m.get("completedSchedule");
+        assertNotNull(completedSchedule);
 
     }
 
