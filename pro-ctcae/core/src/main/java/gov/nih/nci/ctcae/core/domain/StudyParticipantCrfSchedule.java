@@ -136,7 +136,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         }
     }
 
-    private void mapQuestionAndAnswer(HashMap<String, List<List>> symptomMap, String symptom, String question, String answer) {
+    private void mapQuestionAndAnswer(Map<String, List<List>> symptomMap, String symptom, String question, String answer) {
         List<List> questionsAndAnswers;
         List questionAnswer = new ArrayList();
         questionAnswer.add(question);
@@ -150,15 +150,15 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         questionsAndAnswers.add(questionAnswer);
     }
 
-    public HashMap getSymptomItems() {
-        HashMap<String, List<List>> symptomMap = new HashMap<String, List<List>>();
+    public Map getSymptomItems() {
+        Map<String, List<List>> symptomMap = new LinkedHashMap<String, List<List>>();
         for (StudyParticipantCrfItem studyParticipantCrfItem : getStudyParticipantCrfItems()) {
             String symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getTerm();
             String question = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getQuestionText();
             String answer = studyParticipantCrfItem.getProCtcValidValue() == null ? "" : studyParticipantCrfItem.getProCtcValidValue().getValue();
             mapQuestionAndAnswer(symptomMap, symptom, question, answer);
         }
-        for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfScheduleAddedQuestions) {
+        for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : getStudyParticipantCrfScheduleAddedQuestions()) {
             Question q = studyParticipantCrfScheduleAddedQuestion.getProCtcOrMeddraQuestion();
             String symptom = "";
             String question = q.getQuestionText();
