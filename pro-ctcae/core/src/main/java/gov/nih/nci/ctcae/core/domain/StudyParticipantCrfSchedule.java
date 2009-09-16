@@ -136,7 +136,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         }
     }
 
-    private void mapQuestionAndAnswer(Map<String, List<List>> symptomMap, String symptom, String question, String answer) {
+    private void mapQuestionAndAnswer(HashMap<String, List<List>> symptomMap, String symptom, String question, String answer) {
         List<List> questionsAndAnswers;
         List questionAnswer = new ArrayList();
         questionAnswer.add(question);
@@ -150,8 +150,8 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         questionsAndAnswers.add(questionAnswer);
     }
 
-    public Map getSymptomItems() {
-        Map<String, List<List>> symptomMap = new LinkedHashMap<String, List<List>>();
+    public HashMap getSymptomItems() {
+        HashMap<String, List<List>> symptomMap = new HashMap<String, List<List>>();
         for (StudyParticipantCrfItem studyParticipantCrfItem : getStudyParticipantCrfItems()) {
             String symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getTerm();
             String question = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getQuestionText();

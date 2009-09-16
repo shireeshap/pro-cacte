@@ -74,7 +74,6 @@
                             this.className = 'norm'
                         };
                     } catch(err) {
-                        alert(err.description);
                     }
                 }
             }
@@ -95,11 +94,11 @@
         }
         function clearResponse(questionid) {
             var x = document.getElementsByName('response' + questionIndexes[questionid]);
-            var c = document.getElementsByName('column_' + questionIndexes[questionid]);
             for (var i = 0; i < x.length; i++) {
+                var c = document.getElementById(i + '_column_' + questionIndexes[questionid]);
                 x[i].checked = false;
-                c[i].className = 'norm';
-                c[i].onmouseout = function() {
+                c.className = 'norm';
+                c.onmouseout = function() {
                     this.className = 'norm'
                 };
                 responses[x[i].value] = 'N';

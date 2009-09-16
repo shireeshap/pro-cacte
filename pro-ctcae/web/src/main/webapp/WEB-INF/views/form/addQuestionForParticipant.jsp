@@ -126,13 +126,9 @@
                 valueSelector: mode.valueSelector,
                 afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
                     acPostSelect(mode, selectedChoice);
-                    showVirtualKeyBoard($('usevirtualkeyboard'),'participantquestion-input');
+                    showVirtualKeyBoard($('usevirtualkeyboard'), 'participantquestion-input');
                 },
                 indicator: mode.basename + "-indicator"
-            })
-            Event.observe(mode.basename + "-clear", "click", function() {
-                $(mode.basename + "-input").value = "";
-                initSearchField();
             })
         }
 

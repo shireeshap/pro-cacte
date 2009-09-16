@@ -143,7 +143,7 @@ public class SubmitFormCommand implements Serializable {
         for (StudyParticipantCrfItem s : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
             proCtcTerms.remove(s.getCrfPageItem().getProCtcQuestion().getProCtcTerm());
         }
-        for (StudyParticipantCrfAddedQuestion s : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
+        for (StudyParticipantCrfScheduleAddedQuestion s : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
             if (s.getProCtcQuestion() != null) {
                 proCtcTerms.remove(s.getProCtcQuestion().getProCtcTerm());
             }
@@ -151,14 +151,14 @@ public class SubmitFormCommand implements Serializable {
         sortedSymptoms = proCtcTerms;
     }
 
-    public void addProCtcQuestion(ProCtcTerm proCtcTerm, int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+    private void addProCtcQuestion(ProCtcTerm proCtcTerm, int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
         for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
             AddParticipantSelectedQuestion(pageNumber, studyParticipantCrf, studyParticipantCrfSchedule, proCtcQuestion);
         }
     }
 
 
-    public void addMeddraQuestion(LowLevelTerm lowLevelTerm, int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+    private void addMeddraQuestion(LowLevelTerm lowLevelTerm, int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
         List<MeddraQuestion> meddraQuestions = lowLevelTerm.getMeddraQuestions();
         MeddraQuestion meddraQuestion;
         if (meddraQuestions.size() > 0) {
@@ -195,28 +195,26 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public void addParticipantAddedQuestions(String[] selectedSymptoms) {
-        int pageNumber = totalPages;
         StudyParticipantCrf studyParticipantCrf = studyParticipantCrfSchedule.getStudyParticipantCrf();
         for (String symptom : selectedSymptoms) {
-
             ProCtcTerm proCtcTerm = findProCtcTermBySymptom(symptom);
             if (proCtcTerm != null) {
-                addProCtcQuestion(proCtcTerm, pageNumber, studyParticipantCrf, studyParticipantCrfSchedule);
+                addProCtcQuestion(proCtcTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
             } else {
                 LowLevelTerm lowLevelTerm = findMeddraTerm(symptom);
                 CtcTerm ctcTerm = findCtcTerm(lowLevelTerm.getMeddraCode());
                 if (ctcTerm == null) {
-                    addMeddraQuestion(lowLevelTerm, pageNumber, studyParticipantCrf, studyParticipantCrfSchedule);
+                    addMeddraQuestion(lowLevelTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
                 } else {
                     proCtcTerm = findProCtcTermByCtcTermId(ctcTerm.getId());
                     if (proCtcTerm == null) {
-                        addMeddraQuestion(lowLevelTerm, pageNumber, studyParticipantCrf, studyParticipantCrfSchedule);
+                        addMeddraQuestion(lowLevelTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
                     } else {
-                        addProCtcQuestion(proCtcTerm, pageNumber, studyParticipantCrf, studyParticipantCrfSchedule);
+                        addProCtcQuestion(proCtcTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
                     }
                 }
             }
-            pageNumber++;
+            totalPages++;
         }
     }
 

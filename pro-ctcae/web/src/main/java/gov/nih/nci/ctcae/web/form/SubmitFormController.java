@@ -106,9 +106,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             }
         }
 
-        if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages() + 1)
-
-        {
+        if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages() + 1){
             mv = showForm(request, errors, getReviewView());
             return mv;
         }
