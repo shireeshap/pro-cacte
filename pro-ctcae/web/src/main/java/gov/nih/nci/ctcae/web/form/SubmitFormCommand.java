@@ -86,7 +86,7 @@ public class SubmitFormCommand implements Serializable {
                 if (!StringUtils.isBlank(id)) {
                     StudyParticipantCrfScheduleAddedQuestion spcsaq = genericRepository.findById(StudyParticipantCrfScheduleAddedQuestion.class, new Integer(id));
                     if (spcsaq != null) {
-                        StudyParticipantCrfAddedQuestion s = spcsaq.getStudyParticipantCrfAddedQuestion();
+                        StudyParticipantCrfAddedQuestion s = genericRepository.findById(StudyParticipantCrfAddedQuestion.class, spcsaq.getStudyParticipantCrfAddedQuestionId());
                         if (s != null) {
                             myPageNumber = s.getPageNumber();
                             if (s.getProCtcQuestion().getDisplayOrder() != 1) {

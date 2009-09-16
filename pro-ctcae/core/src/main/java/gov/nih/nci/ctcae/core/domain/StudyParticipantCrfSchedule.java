@@ -356,7 +356,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         studyParticipantCrfScheduleAddedQuestion.setProCtcQuestion(studyParticipantCrfAddedQuestion.getProCtcQuestion());
         studyParticipantCrfScheduleAddedQuestion.setMeddraQuestion(studyParticipantCrfAddedQuestion.getMeddraQuestion());
         studyParticipantCrfScheduleAddedQuestion.setPageNumber(studyParticipantCrfAddedQuestion.getPageNumber());
-        studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+        studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestionId(studyParticipantCrfAddedQuestion.getId());
         studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfSchedule(this);
         studyParticipantCrfScheduleAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
         return studyParticipantCrfScheduleAddedQuestion;

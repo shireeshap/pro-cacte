@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "SP_CRF_ADDED_QUESTIONS")
 
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
-    @Parameter(name = "sequence", value = "seq_sp_crf_added_questions_id")})
+        @Parameter(name = "sequence", value = "seq_sp_crf_added_questions_id")})
 public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
 
     /**
@@ -54,11 +54,6 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
     @JoinColumn(name = "meddra_question_id", referencedColumnName = "id")
     @ManyToOne
     private MeddraQuestion meddraQuestion;
-
-
-    @OneToMany(mappedBy = "studyParticipantCrfAddedQuestion")
-    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<StudyParticipantCrfScheduleAddedQuestion> studyParticipantCrfScheduleAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
 
     /**
      * Instantiates a new study participant crf added question.
@@ -135,11 +130,10 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
         this.pageNumber = pageNumber;
     }
 
-  
 
     /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+    * @see java.lang.Object#equals(java.lang.Object)
+    */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -165,10 +159,6 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
         result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
         result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
         return result;
-    }
-
-    public List<StudyParticipantCrfScheduleAddedQuestion> getStudyParticipantCrfScheduleAddedQuestions() {
-        return studyParticipantCrfScheduleAddedQuestions;
     }
 
     public MeddraQuestion getMeddraQuestion() {

@@ -55,10 +55,6 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
     @ManyToOne
     private ProCtcQuestion proCtcQuestion;
 
-    @JoinColumn(name = "sp_crf_add_ques_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne
-    private StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion;
-
     @JoinColumn(name = "meddra_question_id", referencedColumnName = "id")
     @ManyToOne
     private MeddraQuestion meddraQuestion;
@@ -67,6 +63,8 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
     @ManyToOne
     private MeddraValidValue meddraValidValue;
 
+    @Column(name = "spc_added_question_id")
+    private Integer studyParticipantCrfAddedQuestionId;
 
     /**
      * Instantiates a new study participant crf schedule added question.
@@ -142,28 +140,25 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
         this.proCtcQuestion = proCtcQuestion;
     }
 
-    public StudyParticipantCrfAddedQuestion getStudyParticipantCrfAddedQuestion() {
-
-        return studyParticipantCrfAddedQuestion;
-    }
-
-    public void setStudyParticipantCrfAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
-        this.studyParticipantCrfAddedQuestion = studyParticipantCrfAddedQuestion;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof StudyParticipantCrfScheduleAddedQuestion)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         StudyParticipantCrfScheduleAddedQuestion that = (StudyParticipantCrfScheduleAddedQuestion) o;
 
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (meddraQuestion != null ? !meddraQuestion.equals(that.meddraQuestion) : that.meddraQuestion != null)
+            return false;
+        if (meddraValidValue != null ? !meddraValidValue.equals(that.meddraValidValue) : that.meddraValidValue != null)
+            return false;
         if (pageNumber != null ? !pageNumber.equals(that.pageNumber) : that.pageNumber != null) return false;
         if (proCtcQuestion != null ? !proCtcQuestion.equals(that.proCtcQuestion) : that.proCtcQuestion != null)
             return false;
         if (proCtcValidValue != null ? !proCtcValidValue.equals(that.proCtcValidValue) : that.proCtcValidValue != null)
             return false;
-        if (studyParticipantCrfAddedQuestion != null ? !studyParticipantCrfAddedQuestion.equals(that.studyParticipantCrfAddedQuestion) : that.studyParticipantCrfAddedQuestion != null)
+        if (studyParticipantCrfAddedQuestionId != null ? !studyParticipantCrfAddedQuestionId.equals(that.studyParticipantCrfAddedQuestionId) : that.studyParticipantCrfAddedQuestionId != null)
             return false;
         if (studyParticipantCrfSchedule != null ? !studyParticipantCrfSchedule.equals(that.studyParticipantCrfSchedule) : that.studyParticipantCrfSchedule != null)
             return false;
@@ -173,14 +168,16 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
 
     @Override
     public int hashCode() {
-        int result = studyParticipantCrfSchedule != null ? studyParticipantCrfSchedule.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (studyParticipantCrfSchedule != null ? studyParticipantCrfSchedule.hashCode() : 0);
         result = 31 * result + (proCtcValidValue != null ? proCtcValidValue.hashCode() : 0);
         result = 31 * result + (pageNumber != null ? pageNumber.hashCode() : 0);
         result = 31 * result + (proCtcQuestion != null ? proCtcQuestion.hashCode() : 0);
-        result = 31 * result + (studyParticipantCrfAddedQuestion != null ? studyParticipantCrfAddedQuestion.hashCode() : 0);
+        result = 31 * result + (meddraQuestion != null ? meddraQuestion.hashCode() : 0);
+        result = 31 * result + (meddraValidValue != null ? meddraValidValue.hashCode() : 0);
+        result = 31 * result + (studyParticipantCrfAddedQuestionId != null ? studyParticipantCrfAddedQuestionId.hashCode() : 0);
         return result;
     }
-
 
     public MeddraQuestion getMeddraQuestion() {
         return meddraQuestion;
@@ -208,4 +205,11 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
         return null;
     }
 
+    public Integer getStudyParticipantCrfAddedQuestionId() {
+        return studyParticipantCrfAddedQuestionId;
+    }
+
+    public void setStudyParticipantCrfAddedQuestionId(Integer studyParticipantCrfAddedQuestionId) {
+        this.studyParticipantCrfAddedQuestionId = studyParticipantCrfAddedQuestionId;
+    }
 }

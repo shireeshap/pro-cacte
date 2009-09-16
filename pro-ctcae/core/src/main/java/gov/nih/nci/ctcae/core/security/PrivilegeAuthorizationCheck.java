@@ -36,11 +36,11 @@ public class PrivilegeAuthorizationCheck {
                 accessDecisionManager.decide(authentication, null, configAttributeDefinition);
                 return true;
             } catch (AccessDeniedException e) {
-                logger.error(String.format("user %s does not have permission  %s", authentication.getName(),
+                logger.debug(String.format("user %s does not have permission  %s", authentication.getName(),
                         configAttributeDefinition.getConfigAttributes()));
             }
         } else {
-            logger.error(String.format("returning false because permission %s is null",
+            logger.debug(String.format("returning false because permission %s is null",
                     configAttributeDefinition.getConfigAttributes()));
         }
 

@@ -43,11 +43,11 @@ public class UrlAuthorizationCheck implements ApplicationContextAware {
             if (privilegeAuthorizationCheck.authorize(configAttributeDefinition)) {
                 return true;
             } else {
-                logger.error(String.format("user %s can not access url:%s because required permission is %s", authentication.getName(),
+                logger.debug(String.format("user %s can not access url:%s because required permission is %s", authentication.getName(),
                         url, configAttributeDefinition.getConfigAttributes()));
             }
         } else {
-            logger.error(String.format("user %s can not access url:%s because no security have been applied for this url", authentication.getName(), url));
+            logger.debug(String.format("user %s can not access url:%s because no security have been applied for this url", authentication.getName(), url));
         }
 
         return false;
