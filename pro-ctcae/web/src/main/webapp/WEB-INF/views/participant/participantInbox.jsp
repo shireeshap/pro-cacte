@@ -107,9 +107,9 @@
                                 ${studyParticipantCrfSchedule.status}
                         </td>
                         <td>
-                            <c:if test="${not studyParticipantCrfSchedule.baseline}">
-                                <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
-                            </c:if>
+                                <%--<c:if test="${not studyParticipantCrfSchedule.baseline}">--%>
+                            <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
+                                <%--</c:if>--%>
                         </td>
                     </tr>
                 </c:if>
