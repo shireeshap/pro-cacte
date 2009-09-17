@@ -12,7 +12,7 @@ public class ParticipantAddedQuestionsReportQuery extends AbstractQuery {
     /**
      * The query string.
      */
-    private static String queryString = "SELECT spcaq.proCtcQuestion.proCtcTerm.term, count(distinct spcaq.studyParticipantCrf.studyParticipantAssignment.participant.id)  from StudyParticipantCrfAddedQuestion spcaq group by spcaq.proCtcQuestion.proCtcTerm.term order by spcaq.proCtcQuestion.proCtcTerm.term";
+    private static String queryString = "SELECT spcsaq.proCtcQuestion.proCtcTerm.term, count(distinct spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.id)  from StudyParticipantCrfScheduleAddedQuestion spcsaq group by spcsaq.proCtcQuestion.proCtcTerm.term order by spcsaq.proCtcQuestion.proCtcTerm.term";
 
     public ParticipantAddedQuestionsReportQuery(String query) {
         super(query);
@@ -23,17 +23,17 @@ public class ParticipantAddedQuestionsReportQuery extends AbstractQuery {
     }
 
     public void filterByCrf(Integer crfId) {
-        andWhere("spcaq.studyParticipantCrf.crf.id=:crfId");
+        andWhere("spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.crf.id=:crfId");
         setParameter("crfId", crfId);
     }
 
     public void filterByStudySite(Integer id) {
-        andWhere("spcaq.studyParticipantCrf.studyParticipantAssignment.studySite.id=:studySiteId");
+        andWhere("spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.studySite.id=:studySiteId");
         setParameter("studySiteId", id);
     }
 
     public void filterBySymptom(String symptom) {
-        andWhere("spcaq.proCtcQuestion.proCtcTerm.term=:symptom");
+        andWhere("spcsaq.proCtcQuestion.proCtcTerm.term=:symptom");
         setParameter("symptom", symptom);
     }
 }

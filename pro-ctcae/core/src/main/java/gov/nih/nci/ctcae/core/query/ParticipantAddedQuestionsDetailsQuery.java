@@ -12,9 +12,9 @@ public class ParticipantAddedQuestionsDetailsQuery extends ParticipantAddedQuest
     /**
      * The query string.
      */
-    private static String queryString = "SELECT spcaq , spcaq.studyParticipantCrfScheduleAddedQuestions from StudyParticipantCrfAddedQuestion spcaq " +
-            "order by spcaq.studyParticipantCrf.studyParticipantAssignment.participant.lastName "+
-            ", spcaq.studyParticipantCrf.studyParticipantAssignment.participant.firstName ";
+    private static String queryString = "SELECT spcsaq  from StudyParticipantCrfScheduleAddedQuestion spcsaq " +
+            "order by spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.lastName " +
+            ", spcsaq.studyParticipantCrfSchedule.studyParticipantCrf.studyParticipantAssignment.participant.firstName ";
 
     public ParticipantAddedQuestionsDetailsQuery() {
         super(queryString);

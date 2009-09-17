@@ -34,8 +34,7 @@ public class ParticipantAddedQuestionsReportDetailsController extends Participan
         for (Object obj : l) {
             Object[] o = (Object[]) obj;
 
-            StudyParticipantCrfAddedQuestion q = (StudyParticipantCrfAddedQuestion) o[0];
-            StudyParticipantCrfScheduleAddedQuestion sq = (StudyParticipantCrfScheduleAddedQuestion) o[1];
+            StudyParticipantCrfScheduleAddedQuestion sq = (StudyParticipantCrfScheduleAddedQuestion) o[0];
 
             Participant p = sq.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();
             List<String[]> ls;
