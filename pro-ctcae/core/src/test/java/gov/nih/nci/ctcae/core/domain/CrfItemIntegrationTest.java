@@ -133,20 +133,7 @@ public class CrfItemIntegrationTest extends TestDataManager {
     }
 
 
-    public void testDeleteCrfPageItemDisplayRule() {
-        crf = saveCrfItemWithDisplayRule();
-        crfPageItem = crfPage.getCrfPageItems().iterator().next();
 
-        assertNotNull(crfPageItem.getId());
-        Integer id = crfPageItem.getCrfPageItemDisplayRules().iterator().next().getProCtcValidValue().getId();
-        assertNotNull(id);
-
-        crfPageItem.removeCrfPageItemDisplayRulesByProCtcValidValueIds(String.valueOf(id));
-        crf = crfRepository.save(crf);
-        crfPageItem = crfPage.getCrfPageItems().iterator().next();
-        assertNotNull(crfPageItem.getId());
-        assertTrue("must remove crf item display rule", crfPageItem.getCrfPageItemDisplayRules().isEmpty());
-    }
 
 
     public void testSavingNullCrfItem() {

@@ -304,21 +304,6 @@ public class CrfPageItem extends BasePersistable {
 
 
     /**
-     * Removes the crf page item display rules by pro ctc valid value ids.
-     *
-     * @param objectsIdsToRemove the objects ids to remove
-     */
-    public void removeCrfPageItemDisplayRulesByProCtcValidValueIds(final String objectsIdsToRemove) {
-        Set<String> ids = org.springframework.util.StringUtils.commaDelimitedListToSet(objectsIdsToRemove);
-        final Set<Integer> proCtcValidValues = new HashSet();
-        for (String id : ids) {
-            proCtcValidValues.add(Integer.valueOf(id));
-        }
-        removeCrfPageItemDisplayRulesByIds(proCtcValidValues);
-
-    }
-
-    /**
      * Removes the crf page item display rules by ids.
      *
      * @param proCtcValidValues the pro ctc valid values
@@ -391,6 +376,7 @@ public class CrfPageItem extends BasePersistable {
      * @return the list< crf page item display rule>
      */
     public List<CrfPageItemDisplayRule> addCrfPageItemDisplayRules(final List<ProCtcValidValue> proCtcValidValues) {
+        getCrfPageItemDisplayRules().clear();
         final List<CrfPageItemDisplayRule> addedCrfPageItemDisplayRules = new ArrayList<CrfPageItemDisplayRule>();
         for (ProCtcValidValue proCtcValidValue : proCtcValidValues) {
             CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();

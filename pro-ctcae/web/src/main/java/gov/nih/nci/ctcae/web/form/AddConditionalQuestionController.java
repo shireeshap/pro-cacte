@@ -62,10 +62,12 @@ public class AddConditionalQuestionController extends AbstractController {
 
         List<ProCtcValidValue> proCtcValidValues = new ArrayList<ProCtcValidValue>();
         for (String id : selectedValidValuesIds) {
-            ProCtcValidValue proCtcValidValue = proCtcValidValueRepository.findById(Integer.valueOf(id));
-            CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();
-            crfPageItemDisplayRule.setProCtcValidValue(proCtcValidValue);
-            proCtcValidValues.add(proCtcValidValue);
+            if (!org.apache.commons.lang.StringUtils.isBlank(id)) {
+                ProCtcValidValue proCtcValidValue = proCtcValidValueRepository.findById(Integer.valueOf(id));
+                CrfPageItemDisplayRule crfPageItemDisplayRule = new CrfPageItemDisplayRule();
+                crfPageItemDisplayRule.setProCtcValidValue(proCtcValidValue);
+                proCtcValidValues.add(proCtcValidValue);
+            }
 
         }
         List<CrfPageItemDisplayRule> addedCrfPageItemDisplayRules = crfPageItem.addCrfPageItemDisplayRules(proCtcValidValues);

@@ -211,10 +211,6 @@
         <property name="proCtcValidValueRepository" ref="proCtcValidValueRepository"/>
     </bean>
 
-    <bean name="/form/removeConditions" id="removeConditionsController"
-          class="gov.nih.nci.ctcae.web.form.RemoveConditionsController">
-        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
-    </bean>
 
     <bean name="/form/copyForm" id="copyFormController"
           class="gov.nih.nci.ctcae.web.form.CopyFormController">

@@ -393,7 +393,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/FormRulesTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ManageFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ReleaseFormController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/RemoveConditionsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SelectStudyForFormTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SetNameController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ShowVersionFormController.java -text
@@ -1182,7 +1181,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/DeleteFormControllerTest.
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/EditFormControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/FormDetailsTabTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/ReleaseFormControllerTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/RemoveConditionsControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SetNameControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormControllerTest.java -text

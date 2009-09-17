@@ -126,23 +126,7 @@ public class CrfItemTest extends TestCase {
 
 
 
-    public void testRemoveCrfPageItemDisplayRules() {
 
-        crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule1);
-        crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule2);
-        crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule3);
-        crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule4);
-        crfPageItem.addCrfPageItemDisplayRules(crfPageItemDisplayRule5);
-        assertEquals("must be 5 rules", 5, crfPageItem.getCrfPageItemDisplayRules().size());
-
-        crfPageItem.removeCrfPageItemDisplayRulesByProCtcValidValueIds("-1,-5,-2,4");
-
-        assertEquals("must remove 3 rules", 2, crfPageItem.getCrfPageItemDisplayRules().size());
-
-        assertTrue("must preseve the order of rules", crfPageItem.getCrfPageItemDisplayRules().contains(crfPageItemDisplayRule3));
-        assertTrue("must preseve the order of  rules", crfPageItem.getCrfPageItemDisplayRules().contains(crfPageItemDisplayRule5));
-
-    }
 
     public void testAddCrfPageItemDisplayRules() {
         assertTrue("must not have any display rules", crfPageItem.getCrfPageItemDisplayRules().isEmpty());

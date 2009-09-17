@@ -127,480 +127,402 @@
 <script type="text/javascript">
 
 
-    function selectPage(pageIndex) {
+function selectPage(pageIndex) {
 
-    <c:if test="${command.crf.advance}">
-        unselectAllSelectedPage();
-        $('form-pages_' + pageIndex).addClassName('formpagesselected')
-        $('form-pages-image_' + pageIndex).show();
-    </c:if>
-    }
-    function unselectAllSelectedPage() {
-        $$('div.formpagesselected').each(function(item) {
-            var pageIndex = item.id.substr(11, item.id.length);
+<c:if test="${command.crf.advance}">
+    unselectAllSelectedPage();
+    $('form-pages_' + pageIndex).addClassName('formpagesselected')
+    $('form-pages-image_' + pageIndex).show();
+</c:if>
+}
+function unselectAllSelectedPage() {
+    $$('div.formpagesselected').each(function(item) {
+        var pageIndex = item.id.substr(11, item.id.length);
 
-            unselectPage(pageIndex)
-        })
-    }
-    function unselectPage(pageIndex) {
-        $('form-pages_' + pageIndex).removeClassName('formpagesselected')
-        $('form-pages-image_' + pageIndex).hide();
+        unselectPage(pageIndex)
+    })
+}
+function unselectPage(pageIndex) {
+    $('form-pages_' + pageIndex).removeClassName('formpagesselected')
+    $('form-pages-image_' + pageIndex).hide();
+}
+
+function updateSelectedCrfItems(questionId) {
+    var selectedCrfPageItems = $('selectedCrfPageItems_' + questionId)
+    if (selectedCrfPageItems != null) {
+        $$('select.selectedCrfPageItems').each(function (item) {
+            item.innerHTML = selectedCrfPageItems.innerHTML;
+        });
     }
 
-    function updateSelectedCrfItems(questionId) {
-        var selectedCrfPageItems = $('selectedCrfPageItems_' + questionId)
-        if (selectedCrfPageItems != null) {
-            $$('select.selectedCrfPageItems').each(function (item) {
-                item.innerHTML = selectedCrfPageItems.innerHTML;
-            });
+}
+function addConditionalQuestion(questionId) {
+    var selectedValidValues = '';
+    var sValidValues = document.getElementsByClassName('condition_validvalue_' + questionId);
+    for (var i = 0; i < sValidValues.length; i++) {
+        var obj = $(sValidValues[i]);
+        if (obj.checked) {
+            selectedValidValues += obj.value + ',';
         }
-
     }
 
+    var request = new Ajax.Request("<c:url value="/pages/form/addConditionalQuestion"/>", {
+        parameters:<tags:ajaxstandardparams/>+"&questionId=" + questionId + "&selectedValidValues=" + selectedValidValues,
+        onComplete:function(transport) {
+            var response = transport.responseText;
 
-</script>
-<script type="text/javascript">
-    function addConditionalQuestion(questionId, selectedValidValues) {
-
-
-        var request = new Ajax.Request("<c:url value="/pages/form/addConditionalQuestion"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&questionId=" + questionId + "&selectedValidValues=" + selectedValidValues,
-            onComplete:function(transport) {
-                var response = transport.responseText;
-
-                new Insertion.Before("conditions_" + questionId, response)
-                addRemoveConditionalTriggeringDisplayToQuestion();
-            },
-            method:'get'
-        })
+            new Insertion.Before("conditions_" + questionId, response)
+            addRemoveConditionalTriggeringDisplayToQuestion();
+        },
+        method:'get'
+    })
 
 
+}
+
+function showForm() {
+    $('questionBank').show();
+    hideQuestionSettings();
+    hideFormSettings();
+    $("firstlevelnav_1").addClassName('selected_4thlvl');
+    $("firstlevelnav_3").removeClassName('selected_4thlvl');
+    $("firstlevelnav_2").removeClassName('selected_4thlvl');
+
+}
+function showQuestionSettings() {
+    showQuestionSettingsTab();
+
+    if ($$('div.sortable').size() != 0) {
+        var firstQuestion = $$('div.sortable')[1].id;
+        var questionId = firstQuestion.substr(9, firstQuestion.length);
+        showCrfItemProperties(questionId);
     }
-
-    function deleteConditions(questionId, proCtcValidValueId) {
-
-
-        var request = new Ajax.Request("<c:url value="/pages/form/removeConditions"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&questionId=" + questionId + "&proCtcValidValueId=" + proCtcValidValueId,
-            onComplete:function(transport) {
-                var inputName = 'conditionalQuestion_' + questionId + '_' + proCtcValidValueId;
-                $(inputName + '-row').remove();
-                addRemoveConditionalTriggeringDisplayToQuestion();
-            },
-            method:'get'
-        })
+}
+function showQuestionSettingsTab() {
+    hideQuestionBank();
+    hideCrfItemProperties();
+    hideFormSettings();
+    $("firstlevelnav_2").addClassName('selected_4thlvl');
+    $("firstlevelnav_3").removeClassName('selected_4thlvl');
+    $("firstlevelnav_1").removeClassName('selected_4thlvl');
 
 
+}
+function hideQuestionSettings() {
+    hideCrfItemProperties();
+}
+function hideChildren(id) {
+    var childnodes = $(id).childNodes;
+    for (var i = 0; i < childnodes.length; i++) {
+        if (typeof(childnodes[i].id) != 'undefined') {
+            $(childnodes[i]).hide();
+        }
     }
+}
+function hideCrfItemProperties() {
+    hideChildren('questionProperties');
+}
 
+function addEditingDisplayToQuestion(questionId) {
+    removeEditingDisplayFromQuestions();
+    $('sortable_' + questionId).addClassName('editing');
 
-    function showForm() {
-        $('questionBank').show();
-        hideQuestionSettings();
-        hideFormSettings();
-        $("firstlevelnav_1").addClassName('selected_4thlvl');
-        $("firstlevelnav_3").removeClassName('selected_4thlvl');
-        $("firstlevelnav_2").removeClassName('selected_4thlvl');
-
+}
+function removeEditingDisplayFromQuestions() {
+    $$('div.editing').each(function (item) {
+        item.removeClassName('editing');
+    })
+}
+function addCrfItemPropertiesHtml(questionId) {
+    var response = $('questionPropertiesDiv_' + questionId).innerHTML;
+    if (response != '') {
+        $('questionPropertiesDiv_' + questionId).innerHTML = '';
+        new Insertion.Before("questionProperties0", response);
     }
-    function showQuestionSettings() {
+}
+function showCrfItemPropertiesTab(questionId) {
+    if (questionId != '') {
+
         showQuestionSettingsTab();
-
-        if ($$('div.sortable').size() != 0) {
-            var firstQuestion = $$('div.sortable')[1].id;
-            var questionId = firstQuestion.substr(9, firstQuestion.length);
-            showCrfItemProperties(questionId);
-        }
+        showCrfItemProperties(questionId);
     }
-    function showQuestionSettingsTab() {
-        hideQuestionBank();
-        hideCrfItemProperties();
-        hideFormSettings();
-        $("firstlevelnav_2").addClassName('selected_4thlvl');
-        $("firstlevelnav_3").removeClassName('selected_4thlvl');
-        $("firstlevelnav_1").removeClassName('selected_4thlvl');
+}
+function hideQuestionBank() {
+    $('questionBank').hide();
+}
+function showFormSettings() {
+    $("firstlevelnav_3").addClassName("selected_4thlvl");
+    $("firstlevelnav_2").removeClassName('selected_4thlvl');
+    $("firstlevelnav_1").removeClassName('selected_4thlvl');
+    hideQuestionBank();
+    hideQuestionSettings();
+    $('formSettings').show();
+}
+function hideFormSettings() {
+    $('formSettings').hide();
+}
 
+function addCrfPageItemDiv(response, crfPageNumber) {
+    var children = $('sortablePage_' + crfPageNumber).childElements();
+    new Insertion.After(children[children.length - 1].id, response);
+    updateQuestionsId();
+    updateCrfPageNumberAndShowHideUpDownLink();
 
+}
+function addProctcTerm(proCtcTermId) {
+    var crfPageNumber = ''
+    var obj = document.getElementsByName("question_forterm_" + proCtcTermId);
+    for (var i = 0; i < obj.length; i++) {
+        obj[i].hide();
     }
-    function hideQuestionSettings() {
-        hideCrfItemProperties();
-    }
-    function hideChildren(id) {
-        var childnodes = $(id).childNodes;
-        for (var i = 0; i < childnodes.length; i++) {
-            if (typeof(childnodes[i].id) != 'undefined') {
-                $(childnodes[i]).hide();
+    getCrfPageNumbersForProCtcTerm(proCtcTermId).each(function(item) {
+        crfPageNumber = item;
+    })
+
+    addProCtcTermForCrfPage(proCtcTermId, crfPageNumber);
+}
+function addProCtcTermForCrfPage(proCtcTermId, crfPageNumber) {
+    var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
+        parameters:<tags:ajaxstandardparams/>+"&proCtcTermId=" + proCtcTermId + "&crfPageNumber=" + crfPageNumber + "&componentType=proCtcTerm",
+        onComplete:function(transport) {
+            var response = transport.responseText;
+            if (crfPageNumber == '') {
+                addCrfPageDiv(transport);
+            } else {
+                addCrfPageItemDiv(response, crfPageNumber)
+                hideQuestionsFromForm();
+                postProcessFormChanges();
+                updateConditions();
             }
-        }
-    }
-    function hideCrfItemProperties() {
-        hideChildren('questionProperties');
-    }
+        },
+        method:'get'
+    })
+    hideProCtcTermLinkFromForm(proCtcTermId);
+}
 
-    function addEditingDisplayToQuestion(questionId) {
-        removeEditingDisplayFromQuestions();
-        $('sortable_' + questionId).addClassName('editing');
-
-    }
-    function removeEditingDisplayFromQuestions() {
-        $$('div.editing').each(function (item) {
-            item.removeClassName('editing');
-        })
-    }
-    function addCrfItemPropertiesHtml(questionId) {
-
-        var response = $('questionPropertiesDiv_' + questionId).innerHTML;
-
-        if (response != '') {
-            $('questionPropertiesDiv_' + questionId).innerHTML = '';
-            new Insertion.Before("questionProperties0", response);
-        }
-    }
-    function showCrfItemPropertiesTab(questionId) {
-        if (questionId != '') {
-
-            showQuestionSettingsTab();
-            showCrfItemProperties(questionId);
-        }
-    }
-    function hideQuestionBank() {
-        $('questionBank').hide();
-    }
-    function showFormSettings() {
-        $("firstlevelnav_3").addClassName("selected_4thlvl");
-        $("firstlevelnav_2").removeClassName('selected_4thlvl');
-        $("firstlevelnav_1").removeClassName('selected_4thlvl');
-        hideQuestionBank();
-        hideQuestionSettings();
-        $('formSettings').show();
-    }
-    function hideFormSettings() {
-        $('formSettings').hide();
-    }
-
-
-</script>
-<script type="text/javascript">
-
-    function addCrfPageItemDiv(response, crfPageNumber) {
-        var children = $('sortablePage_' + crfPageNumber).childElements();
-        new Insertion.After(children[children.length - 1].id, response);
-        updateQuestionsId();
-        updateCrfPageNumberAndShowHideUpDownLink();
-
-    }
-    function addProctcTerm(proCtcTermId) {
-        var crfPageNumber = ''
-        var obj = document.getElementsByName("question_forterm_" + proCtcTermId);
-        for (var i = 0; i < obj.length; i++) {
-            obj[i].hide();
-        }
-    <c:if test="${!command.crf.advance}">
-        getCrfPageNumbersForProCtcTerm(proCtcTermId).each(function(item) {
-            crfPageNumber = item;
-        })
-
-    </c:if>
-        addProCtcTermForCrfPage(proCtcTermId, crfPageNumber);
-    }
-    function addProCtcTermForCrfPage(proCtcTermId, crfPageNumber) {
-        var request = new Ajax.Request("<c:url value="/pages/form/addCrfComponent"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&proCtcTermId=" + proCtcTermId + "&crfPageNumber=" + crfPageNumber + "&componentType=proCtcTerm",
-            onComplete:function(transport) {
-
-
-                var response = transport.responseText;
-                if (crfPageNumber == '') {
-                    addCrfPageDiv(transport);
-
-
-                } else {
-                    addCrfPageItemDiv(response, crfPageNumber)
-                    hideQuestionsFromForm();
-                    postProcessFormChanges();
-                    updateConditions();
-
-                }
-
-            },
-            method:'get'
-        })
-        hideProCtcTermLinkFromForm(proCtcTermId);
-    }
-</script>
-<script type="text/javascript">
-
-
-    function updateQuestionsId() {
-        var questionsId = '';
-        var i = 0;
-        $$("div.sortable").each(function (item) {
-            var id = item.id;
-            if (!id.include('dummySortable_')) {
-                var questionId = id.substr(9, id.length)
-                if (questionsId == '') {
-                    questionsId = questionId;
-                } else {
-                    questionsId = questionsId + ',' + questionId;
-                }
-                i = i + 1
+function updateQuestionsId() {
+    var questionsId = '';
+    var i = 0;
+    $$("div.sortable").each(function (item) {
+        var id = item.id;
+        if (!id.include('dummySortable_')) {
+            var questionId = id.substr(9, id.length)
+            if (questionsId == '') {
+                questionsId = questionId;
+            } else {
+                questionsId = questionsId + ',' + questionId;
             }
-        });
+            i = i + 1
+        }
+    });
 
-        $('questionsIds').value = questionsId;
-        $('totalQuestions').value = i;
-        $('totalQuestionDivision').innerHTML = i + '<!--[if IE]>&nbsp;<![endif]-->';
-        if (i == 1) {
-            $('plural1').innerHTML = 'is';
-            $('plural2').innerHTML = '';
+    $('questionsIds').value = questionsId;
+    $('totalQuestions').value = i;
+    $('totalQuestionDivision').innerHTML = i + '<!--[if IE]>&nbsp;<![endif]-->';
+    if (i == 1) {
+        $('plural1').innerHTML = 'is';
+        $('plural2').innerHTML = '';
+    } else {
+        $('plural1').innerHTML = 'are';
+        $('plural2').innerHTML = 's';
+    }
+
+}
+
+function updateConditions() {
+    var request = new Ajax.Request("<c:url value="/pages/form/allConditions"/>", {
+        parameters:<tags:ajaxstandardparams/>+"&questionsIds=" + $('questionsIds').value,
+        onComplete:function(transport) {
+            $$('select.selectedCrfPageItems').each(function (item) {
+                item.innerHTML = transport.responseText
+            })
+            var questionId = '';
+            $$('div.editing').each(function (item) {
+                var id = item.id
+                questionId = id.substr(9, id.length);
+            })
+            showCrfItemPropertiesTab(questionId);
+        } ,
+        method:'get'
+    });
+
+}
+
+function updateCrfPageNumberAndShowHideUpDownLink() {
+    var crfPageNumbers = '';
+    var formPages = $$('div.formpages');
+    var i = 0;
+    formPages.each(function (item) {
+
+        var index = item.id.substr(11, item.id.length);
+
+        if (crfPageNumbers == '') {
+            crfPageNumbers = index;
         } else {
-            $('plural1').innerHTML = 'are';
-            $('plural2').innerHTML = 's';
+            crfPageNumbers = crfPageNumbers + ',' + index;
+        }
+        if (i == 0) {
+            $('crfPageUpLink_' + index).hide();
+            $('crfPagDownLink_' + index).show();
+        } else if (i == formPages.length - 1)
+        {
+            $('crfPagDownLink_' + index).hide();
+            $('crfPageUpLink_' + index).show();
+        } else {
+            $('crfPageUpLink_' + index).show();
+            $('crfPagDownLink_' + index).show();
+
         }
 
-    }
+        i++;
+    });
 
-    function updateConditions() {
-        var request = new Ajax.Request("<c:url value="/pages/form/allConditions"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&questionsIds=" + $('questionsIds').value,
-            onComplete:function(transport) {
-                $$('select.selectedCrfPageItems').each(function (item) {
-                    item.innerHTML = transport.responseText
-                })
-                var questionId = '';
-                $$('div.editing').each(function (item) {
-                    var id = item.id
-                    questionId = id.substr(9, id.length);
-                })
-                showCrfItemPropertiesTab(questionId);
-            } ,
-            method:'get'
-        });
+    $('crfPageNumbers').value = crfPageNumbers;
+}
 
-    }
+function moveCrfPageUp(selectedCrfPageNumber) {
 
-</script>
-<script type="text/javascript">
+    var formPages = $$('div.formpages');
 
-    function updateCrfPageNumberAndShowHideUpDownLink() {
-        var crfPageNumbers = '';
-        var formPages = $$('div.formpages');
-        var i = 0;
-        formPages.each(function (item) {
-
-            var index = item.id.substr(11, item.id.length);
-
-            if (crfPageNumbers == '') {
-                crfPageNumbers = index;
-            } else {
-                crfPageNumbers = crfPageNumbers + ',' + index;
-            }
-            if (i == 0) {
-                $('crfPageUpLink_' + index).hide();
-                $('crfPagDownLink_' + index).show();
-            } else if (i == formPages.length - 1)
-            {
-                $('crfPagDownLink_' + index).hide();
-                $('crfPageUpLink_' + index).show();
-            } else {
-                $('crfPageUpLink_' + index).show();
-                $('crfPagDownLink_' + index).show();
-
-            }
-
-            i++;
-        });
-
-        $('crfPageNumbers').value = crfPageNumbers;
+    var sortableDivs = [];
+    var i = 0;
+    var previousCrfPage = '';
+    formPages.each(function(item) {
 
 
-    }
+        if (item.id == 'form-pages_' + selectedCrfPageNumber) {
 
-    function moveCrfPageUp(selectedCrfPageNumber) {
+            previousCrfPage = formPages[i - 1];
 
-        var formPages = $$('div.formpages');
-
-        var sortableDivs = [];
-        var i = 0;
-        var previousCrfPage = '';
-        formPages.each(function(item) {
-
-
-            if (item.id == 'form-pages_' + selectedCrfPageNumber) {
-
-                previousCrfPage = formPages[i - 1];
-
-            }
-
-            i++;
-
-
-        });
-        if (previousCrfPage != '') {
-            Element.insert(previousCrfPage, {before:$('form-pages_' + selectedCrfPageNumber)})
-
-            updateCrfPageNumberAndShowHideUpDownLink();
-            postProcessFormChanges()
-            updateConditions();
         }
+
+        i++;
+
+
+    });
+    if (previousCrfPage != '') {
+        Element.insert(previousCrfPage, {before:$('form-pages_' + selectedCrfPageNumber)})
+
+        updateCrfPageNumberAndShowHideUpDownLink();
+        postProcessFormChanges()
+        updateConditions();
     }
-    function moveCrfPageDown(selectedCrfPageNumber) {
+}
+function moveCrfPageDown(selectedCrfPageNumber) {
 
-        var formPages = $$('div.formpages');
+    var formPages = $$('div.formpages');
 
-        var sortableDivs = [];
-        var i = 0;
-        var nextCrfPage = '';
-        formPages.each(function(item) {
-
-
-            if (item.id == 'form-pages_' + selectedCrfPageNumber) {
-
-                nextCrfPage = formPages[i + 1];
-
-            }
-
-            i++;
+    var sortableDivs = [];
+    var i = 0;
+    var nextCrfPage = '';
+    formPages.each(function(item) {
 
 
-        });
-        if (nextCrfPage != '') {
-            Element.insert(nextCrfPage, {after:$('form-pages_' + selectedCrfPageNumber)})
+        if (item.id == 'form-pages_' + selectedCrfPageNumber) {
 
-            updateCrfPageNumberAndShowHideUpDownLink();
-            postProcessFormChanges();
-            updateConditions();
+            nextCrfPage = formPages[i + 1];
+
         }
-    }
 
-</script>
-<script type="text/javascript">
-    function showCrfItemProperties(selectedQuestionId) {
-        addCrfItemPropertiesHtml(selectedQuestionId);
-        var questionIdsOfConditionsToDisplay = []
-        var addQuestionIdOfConditionsToDisplay = true
-        $$("div.sortable").each(function (item) {
-            var id = item.id;
-            if (!id.include('dummySortable_')) {
-                var questionId = id.substr(9, id.length)
-                if (questionId == selectedQuestionId) {
-                    addQuestionIdOfConditionsToDisplay = false;
-                }
-                if (addQuestionIdOfConditionsToDisplay) {
-                    questionIdsOfConditionsToDisplay.push(questionId)
-                }
+        i++;
+
+
+    });
+    if (nextCrfPage != '') {
+        Element.insert(nextCrfPage, {after:$('form-pages_' + selectedCrfPageNumber)})
+
+        updateCrfPageNumberAndShowHideUpDownLink();
+        postProcessFormChanges();
+        updateConditions();
+    }
+}
+
+function showCrfItemProperties(selectedQuestionId) {
+    addCrfItemPropertiesHtml(selectedQuestionId);
+    var questionIdsOfConditionsToDisplay = []
+    var addQuestionIdOfConditionsToDisplay = true
+    $$("div.sortable").each(function (item) {
+        var id = item.id;
+        if (!id.include('dummySortable_')) {
+            var questionId = id.substr(9, id.length)
+            if (questionId == selectedQuestionId) {
+                addQuestionIdOfConditionsToDisplay = false;
             }
-        });
-        //hide all conditions
-        var allConditions = $$('optgroup.conditions');
-        allConditions.each(function(item) {
-            item.hide();
-        })
-
-        $('questionProperties_' + selectedQuestionId).show();
-
-        questionIdsOfConditionsToDisplay.each(function(item) {
-            $$('#condition_' + item + '.conditions').each(function(condition) {
-                condition.show();
-            });
-
-        })
-
-
-        addEditingDisplayToQuestion(selectedQuestionId);
-        var yPosition = parseInt($('sortable_' + selectedQuestionId).cumulativeOffset()[1]) - parseInt($('questionProperties_' + selectedQuestionId).cumulativeOffset()[1]) - 71;
-        new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
-
-    }
-</script>
-<script type="text/javascript">
-    function shrinkQuestionBank() {
-        Effect.SlideUp('left', {
-            scaleX:true,
-            scaleY:false
-        });
-        $('shrinkQuestionBankUrl').hide();
-        $('expandQuestionBankUrl').show();
-    }
-    function expandQuestionBank() {
-        Effect.SlideDown('left', {
-            scaleX:true,
-            scaleY:false
-        });
-
-        $('shrinkQuestionBankUrl').show();
-        $('expandQuestionBankUrl').hide();
-    }
-    function shrinkForm() {
-        Effect.SlideUp('right', {
-            scaleX:true,
-            scaleY:false
-        });
-        $('shrinkFormUrl').hide();
-        $('expandFormUrl').show();
-    }
-    function expandForm() {
-        Effect.SlideDown('right', {
-            scaleX:true,
-            scaleY:false
-        });
-
-        $('shrinkFormUrl').show();
-        $('expandFormUrl').hide();
+            if (addQuestionIdOfConditionsToDisplay) {
+                questionIdsOfConditionsToDisplay.push(questionId)
+            }
+        }
+    });
+    //hide all conditions
+    var allConditions = document.getElementsByClassName("conditions");
+    for (var i = 0; i < allConditions.length; i++) {
+        $(allConditions[i]).hide();
     }
 
+    $('questionProperties_' + selectedQuestionId).show();
 
-</script>
-<script type="text/javascript">
-    function deleteCrfPage(selectedCrfPageNumber) {
-        var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrf&selectedCrfPageNumber=" + selectedCrfPageNumber,
-            onComplete:function(transport) {
-                var isAnyConditionalTriggeringQuestion = false;
-                var crfPageItems = $$('#form-pages_' + selectedCrfPageNumber + ' div.sortable');
-                crfPageItems.each(function (item) {
-                    var id = item.id;
-                    if (!id.include('dummySortable_')) {
-                        var conditionalTriggeredQuestionId = id.substr(9, id.length);
-                        var conditions = $$('tr.conditionalTriggering_' + conditionalTriggeredQuestionId);
-                        conditions.each(function(item) {
-                            isAnyConditionalTriggeringQuestion = true;
-                        })
-                    }
+    questionIdsOfConditionsToDisplay.each(function(item) {
+        var conditions = document.getElementsByClassName("condition_" + item);
+        for (var i = 0; i < conditions.length; i++) {
+            $(conditions [i]).show();
+        }
+    });
 
-                })
-                showConfirmationWindow(transport);
-                if (isAnyConditionalTriggeringQuestion) {
-                    $('conditionsWarningForCrfPage_' + selectedCrfPageNumber).show();
 
+    addEditingDisplayToQuestion(selectedQuestionId);
+    var yPosition = parseInt($('sortable_' + selectedQuestionId).cumulativeOffset()[1]) - parseInt($('questionProperties_' + selectedQuestionId).cumulativeOffset()[1]) - 71;
+//    new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
+
+}
+function deleteCrfPage(selectedCrfPageNumber) {
+    var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
+        parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrf&selectedCrfPageNumber=" + selectedCrfPageNumber,
+        onComplete:function(transport) {
+            var isAnyConditionalTriggeringQuestion = false;
+            var crfPageItems = $$('#form-pages_' + selectedCrfPageNumber + ' div.sortable');
+            crfPageItems.each(function (item) {
+                var id = item.id;
+                if (!id.include('dummySortable_')) {
+                    var conditionalTriggeredQuestionId = id.substr(9, id.length);
+                    var conditions = $$('tr.conditionalTriggering_' + conditionalTriggeredQuestionId);
+                    conditions.each(function(item) {
+                        isAnyConditionalTriggeringQuestion = true;
+                    })
                 }
-            },
 
-            method:'get'
-        });
+            })
+            showConfirmationWindow(transport);
+            if (isAnyConditionalTriggeringQuestion) {
+                $('conditionsWarningForCrfPage_' + selectedCrfPageNumber).show();
 
-    }
-    function deleteQuestion(questionId, proCtcTermId) {
+            }
+        },
 
-        var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-            parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteQuestion&questionId=" + questionId + "&proCtcTermId=" + proCtcTermId,
-            onComplete:function(transport) {
+        method:'get'
+    });
 
-                showConfirmationWindow(transport);
-                if ($$("#sortable_" + questionId + '.conditional-triggering').length > 0) {
-                    $('conditionsWarning_' + questionId).show();
-                }
-            } ,
-            method:'get'
-        });
+}
+function deleteQuestion(questionId, proCtcTermId) {
+
+    var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
+        parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteQuestion&questionId=" + questionId + "&proCtcTermId=" + proCtcTermId,
+        onComplete:function(transport) {
+
+            showConfirmationWindow(transport);
+            if ($$("#sortable_" + questionId + '.conditional-triggering').length > 0) {
+                $('conditionsWarning_' + questionId).show();
+            }
+        } ,
+        method:'get'
+    });
 
 
-    }
-    function deleteQuestionConfirm(questionId, proCtcTermId) {
-        closeWindow();
-        $('questionIdToRemove').value = questionId;
-        refreshPage();
-    }
+}
+function deleteQuestionConfirm(questionId, proCtcTermId) {
+    closeWindow();
+    $('questionIdToRemove').value = questionId;
+    refreshPage();
+}
 
 
 </script>
@@ -1078,12 +1000,6 @@
             </div>
         </td>
         <td id="right">
-                <%--<a id="shrinkFormUrl" href="javascript:shrinkForm()"><img--%>
-                <%--src="<tags:imageUrl name="blue/minimize-right.png" />" style="float:left"--%>
-                <%--alt="Minimize"/></a>--%>
-
-                <%--<a id="reviewAllLink" href="javascript:reviewCompleteForm()">Review</a>--%>
-                <%--<a id="reviewLink" href="javascript:playForm()">Play</a>--%>
             <table style="border-collapse:collapse; width:100%;">
                 <tr style="height:5px;" height="5">
                     <td id="formbuilderTable-TL"></td>

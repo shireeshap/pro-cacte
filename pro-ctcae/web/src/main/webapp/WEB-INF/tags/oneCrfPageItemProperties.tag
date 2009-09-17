@@ -1,3 +1,4 @@
+<%@ tag import="gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule" %>
 <%@ attribute name="crfPageItem" type="gov.nih.nci.ctcae.core.domain.CrfPageItem" required="true" %>
 <%@ attribute name="crfPageNumber" required="true" %>
 
@@ -10,12 +11,14 @@
          class="questionProperties leftBox">
         <span class="propertiesHeader"><tags:message code="crfItem.label.properties"/> </span>
 
-        <tags:renderTextArea
-                propertyName="crf.crfPagesSortedByPageNumber[${crfPageNumber}].crfPageItems[${index}].instructions"
-                displayName="crfItem.label.instructions"
-                noForm="true"
-                propertyValue="${crfPageItem.instructions}"/>
-
+        <div align="left" style="margin-left: 50px;display:none">
+            <table width="95%" class="tablecontent"
+                   id="conditionsTable_${crfPageItem.proCtcQuestion.id}" style="display:none;">
+                <tags:conditions crfPageItemDisplayRules="${crfPageItem.crfPageItemDisplayRules}"
+                                 selectedQuestionId="${crfPageItem.proCtcQuestion.id}"></tags:conditions>
+                <tr id="conditions_${crfPageItem.proCtcQuestion.id}"></tr>
+            </table>
+        </div>
         <tags:renderRadio
                 propertyName="crf.crfPagesSortedByPageNumber[${crfPageNumber}].crfPageItems[${index}].responseRequired"
                 displayName="crfItem.label.response_required"
@@ -29,53 +32,44 @@
                 noForm="true">
 
         </tags:renderRadio>
-
-
-        <span class="propertiesHeader"><tags:message code="form.conditional_question"/> </span>
-        <tags:instructions code="instruction_conditional_question"/>
-
-        <div align="left" style="margin-left: 50px">
-            <table width="95%" class="tablecontent"
-                   id="conditionsTable_${crfPageItem.proCtcQuestion.id}" style="display:none;">
-                <tr id="ss-table-head" class="amendment-table-head">
-                    <th width="95%" class="tableHeader"><tags:message
-                            code='crfItem.label.conditions'/></th>
-                    <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
-
-                </tr>
-
-                <tags:conditions crfPageItemDisplayRules="${crfPageItem.crfPageItemDisplayRules}"
-                                 selectedQuestionId="${crfPageItem.proCtcQuestion.id}"
-                                 showDelete="true"></tags:conditions>
-
-
-                <tr id="conditions_${crfPageItem.proCtcQuestion.id}"></tr>
-
-            </table>
-
-        </div>
+        <tags:message code="instruction_conditional_question"/>
         <br>
         <br>
 
         <div>
-            <select name="switchTriggerSelect" id="selectedCrfPageItems_${crfPageItem.proCtcQuestion.id}"
-                    multiple=""
-                    size="20" class="selectedCrfPageItems">
-                <option value=""></option>
+            <table width="100%">
                 <c:forEach items="${selectedCrfPageItems}" var="selectedCrfPageItem" varStatus="status">
-
-                    <optgroup label="${status.index+1} ${selectedCrfPageItem.proCtcQuestion.questionText}"
-                              id="condition_${selectedCrfPageItem.proCtcQuestion.id}" class="conditions">
+                    <tr class="conditions condition_${selectedCrfPageItem.proCtcQuestion.id}">
+                        <td colspan="5">
+                            <b>${status.index+1}. ${selectedCrfPageItem.proCtcQuestion.proCtcTerm.term}-${selectedCrfPageItem.proCtcQuestion.proCtcQuestionType}</b>
+                        </td>
+                    </tr>
+                    <tr class="conditions condition_${selectedCrfPageItem.proCtcQuestion.id}">
                         <c:forEach items="${selectedCrfPageItem.proCtcQuestion.validValues}" var="validValue">
-                            <option value="${validValue.id}">${validValue.value}</option>
+                            <c:set var="ruleExists" value="false"/>
+                            <c:forEach items="${crfPageItem.crfPageItemDisplayRules}" var="displayRule">
+                                <c:if test="${not ruleExists}">
+                                    <c:if test="${displayRule.proCtcValidValue.id eq validValue.id}">
+                                        <c:set var="ruleExists" value="true"/>
+                                    </c:if>
+                                </c:if>
+                            </c:forEach>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${ruleExists}">
+                                        <input type="checkbox" value="${validValue.id}" checked class="condition_validvalue_${crfPageItem.proCtcQuestion.id}">${validValue.value}
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="checkbox" value="${validValue.id}" class="condition_validvalue_${crfPageItem.proCtcQuestion.id}">${validValue.value}
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                         </c:forEach>
-                    </optgroup>
-
+                    </tr>
                 </c:forEach>
-            </select>
+            </table>
         </div>
         <br>
-        <tags:button type="button" icon="add" value="Add Conditions" color="blue" onclick="javascript:addConditionalQuestion('${crfPageItem.proCtcQuestion.id}',
-			$F('selectedCrfPageItems_${crfPageItem.proCtcQuestion.id}'))"/>
+        <tags:button type="button" icon="add" value="Apply" color="blue" onclick="javascript:addConditionalQuestion('${crfPageItem.proCtcQuestion.id}')"/>
     </div>
 </div>

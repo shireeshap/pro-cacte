@@ -20,7 +20,6 @@
         <intercept-url pattern="/pages/form/allConditions" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/addCrfComponent" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/addConditionalQuestion" access="PRIVILEGE_CREATE_FORM"/>
-        <intercept-url pattern="/pages/form/removeConditions" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/addFormScheduleCycle" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/setName" access="PRIVILEGE_CREATE_FORM"/>
         <intercept-url pattern="/pages/form/manageForm" access="PRIVILEGE_SEARCH_FORM"/>

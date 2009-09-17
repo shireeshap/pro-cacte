@@ -525,7 +525,6 @@ public class CRF extends BaseVersionable {
     }
 
 
-
     /**
      * Gets the all crf page items.
      *
@@ -582,8 +581,6 @@ public class CRF extends BaseVersionable {
         //now remove the  display rules
         for (CrfPageItem crfPageItem : getAllCrfPageItems()) {
             crfPageItem.removeCrfPageItemDisplayRulesByIds(proCtcValidValues);
-
-
         }
 
     }
