@@ -13,9 +13,6 @@
 
     }
 </script>
-<tags:renderTextArea propertyName="crf.description"
-                     displayName="form.label.description" cols="35"/>
-
 <div id="crf.recallPeriod-row" class="row">
     <div class="label">
         <label for="crf.recallPeriod-row"><tags:message code="recall.period"/>
