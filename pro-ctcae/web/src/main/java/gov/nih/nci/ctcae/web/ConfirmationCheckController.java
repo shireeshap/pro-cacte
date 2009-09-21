@@ -40,6 +40,7 @@ public class ConfirmationCheckController extends AbstractController {
             modelAndView = new ModelAndView("form/ajax/deleteCrfConfirmationCheck");
             Map map = new HashMap();
             map.put("selectedCrfPageNumber", request.getParameter("selectedCrfPageNumber"));
+            map.put("crfPageDescription", request.getParameter("description"));
             modelAndView.addAllObjects(map);
         } else if (StringUtils.equals(confirmationType, DELETE_QUESTION_CONFIRMATION_TYPE)) {
             modelAndView = new ModelAndView("form/ajax/deleteQuestionConfirmationCheck");

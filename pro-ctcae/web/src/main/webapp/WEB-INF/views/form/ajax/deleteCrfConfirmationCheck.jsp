@@ -14,18 +14,18 @@
 <chrome:box title="form.label.delete_page">
 <chrome:division>
 <p>
-    <strong>This will delete all changes that you made to this page.</strong>.
-    <br/>
-</p>
+    <strong>Do you really want to delete all questions for ${crfPageDescription} symptom?  </strong>
+        <br/>
+    </p>
 
 
 <p>
     <strong id="conditionsWarningForCrfPage_${selectedCrfPageNumber}" style="display:none"><tags:message
             code="form.label.delete_conditional_triggering_question_instruction"/></strong>
-</p>
+    <tags:message code="form.label.delete_crf_page_instruction_more1"/>
 
-Click on cancel button to cancel it or click on delete button to delete this page.
 
+ </p>
 
 </div>
 <br>

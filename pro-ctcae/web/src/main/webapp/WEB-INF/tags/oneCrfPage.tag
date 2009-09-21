@@ -45,7 +45,7 @@
                    id="crfPagDownLink_${crfPageNumber}">
                     <img src="<tags:imageUrl name="blue/down.png"/>" alt="Down"/>
                 </a>
-                <a href="javascript:deleteCrfPage('${crfPageNumber}');">
+                <a href="javascript:deleteCrfPage('${crfPageNumber}','${crfPage.description}');">
                     <img src="<tags:imageUrl name="checkno.gif"/>" alt="Delete"/>
                 </a>
             </div>

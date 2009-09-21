@@ -474,9 +474,9 @@ function showCrfItemProperties(selectedQuestionId) {
 //    new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
 
 }
-function deleteCrfPage(selectedCrfPageNumber) {
+function deleteCrfPage(selectedCrfPageNumber, crfPageDescription) {
     var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrf&selectedCrfPageNumber=" + selectedCrfPageNumber,
+        parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteCrf&selectedCrfPageNumber=" + selectedCrfPageNumber + "&description=" + crfPageDescription,
         onComplete:function(transport) {
             var isAnyConditionalTriggeringQuestion = false;
             var crfPageItems = $$('#form-pages_' + selectedCrfPageNumber + ' div.sortable');
