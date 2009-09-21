@@ -470,8 +470,8 @@ function showCrfItemProperties(selectedQuestionId) {
 
 
     addEditingDisplayToQuestion(selectedQuestionId);
-//    var yPosition = parseInt($('sortable_' + selectedQuestionId).cumulativeOffset()[1]) - parseInt($('questionProperties_' + selectedQuestionId).cumulativeOffset()[1]) - 71;
-//    new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
+    //    var yPosition = parseInt($('sortable_' + selectedQuestionId).cumulativeOffset()[1]) - parseInt($('questionProperties_' + selectedQuestionId).cumulativeOffset()[1]) - 71;
+    //    new Effect.Move($('questionProperties_' + selectedQuestionId), { y: yPosition, mode: 'relative' });
 
 }
 function deleteCrfPage(selectedCrfPageNumber, crfPageDescription) {
@@ -866,6 +866,9 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
     #formbuilderTable-TL, #formbuilderTable-T, #formbuilderTable-TR {
         height: 5px;
     }
+    .header {
+        display:none;
+    }
 </style>
 <![endif]-->
 
@@ -873,6 +876,9 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
+<div style="float:right; margin-right:10px">
+    <tags:button type="submit" icon="save" color="green" id="flow-next" value="Save"/>
+</div>
 
     <div class="instructions">
         <div class="summarylabel"><tags:message code='form.label.study'/></div>
