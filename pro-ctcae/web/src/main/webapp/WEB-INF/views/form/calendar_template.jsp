@@ -450,8 +450,14 @@ function showSchedule(scheduleType) {
     <div class="row" ${styleHidden}>
         <div class="label"><spring:message code="form.calendar.arm"></spring:message></div>
         <div class="value">
-            <form:select path="newSelectedFormArmSchedule" items="${command.crf.formArmSchedules}"
-                         itemLabel="arm.title" itemValue="id" onchange="refreshPage();"/>
+            <%--<form:select path="newSelectedFormArmSchedule" items="${command.crf.formArmSchedules}"--%>
+                         <%--itemLabel="arm.title" itemValue="id" onchange="refreshPage();"/>--%>
+            <select id="newSelectedFormArmSchedule" name="newSelectedFormArmSchedule" onchange="refreshPage();">
+                <option value="-1">All</option>
+                <c:forEach items="${command.crf.formArmSchedules}" var="formArmSchedule">
+                    <option value="${formArmSchedule.id}">${formArmSchedule.arm.title}</option>
+                </c:forEach>
+            </select>
         </div>
     </div>
     <div class="row">
