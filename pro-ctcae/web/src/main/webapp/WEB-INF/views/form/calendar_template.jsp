@@ -435,6 +435,9 @@ function showSchedule(scheduleType) {
     $('cycleBasedDiv').hide();
     $(scheduleType + 'Div').show();
 }
+function refreshPageLocal() {
+    refreshPage();
+}
 </script>
 </head>
 <body>
@@ -450,12 +453,20 @@ function showSchedule(scheduleType) {
     <div class="row" ${styleHidden}>
         <div class="label"><spring:message code="form.calendar.arm"></spring:message></div>
         <div class="value">
-            <%--<form:select path="newSelectedFormArmSchedule" items="${command.crf.formArmSchedules}"--%>
-                         <%--itemLabel="arm.title" itemValue="id" onchange="refreshPage();"/>--%>
-            <select id="newSelectedFormArmSchedule" name="newSelectedFormArmSchedule" onchange="refreshPage();">
-                <option value="-1">All</option>
+            <input type="hidden" id="allArms" name="allArms" value=""/>
+            <select id="newSelectedFormArmSchedule" name="newSelectedFormArmSchedule" onchange="refreshPageLocal();">
+                <option value="${command.selectedFormArmSchedule.id}">All</option>
                 <c:forEach items="${command.crf.formArmSchedules}" var="formArmSchedule">
-                    <option value="${formArmSchedule.id}">${formArmSchedule.arm.title}</option>
+                    <c:choose>
+                        <c:when test="${command.selectedFormArmSchedule.id eq formArmSchedule.id}">
+                            <option value="${formArmSchedule.id}"
+                                    selected="selected">${formArmSchedule.arm.title}</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="${formArmSchedule.id}">${formArmSchedule.arm.title}</option>
+                        </c:otherwise>
+                    </c:choose>
+
                 </c:forEach>
             </select>
         </div>

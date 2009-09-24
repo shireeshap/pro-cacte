@@ -42,81 +42,57 @@ public class SubmitFormController extends CtcAeSimpleFormController {
      */
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
+        String skip = "&skip=";
+        if (submitFormCommand.getDirection().equals("back")) {
+            skip = skip + "y";
+        }
         if ("save".equals(submitFormCommand.getDirection())) {
             submitFormCommand.deleteQuestions();
             submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.COMPLETED);
-            StudyParticipantCrfSchedule s = initialize(submitFormCommand.getStudyParticipantCrfSchedule());
-            NotificationsEvaluationService.setGenericRepository(genericRepository);
-            NotificationsEvaluationService.executeRules(s, s.getStudyParticipantCrf().getCrf(), s.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
+            submitFormCommand.setFlashMessage("You have successfully submitted the form.");
         } else {
+            submitFormCommand.addQuestionToDeleteList(request.getParameter("deletedQuestions"));
             submitFormCommand.getStudyParticipantCrfSchedule().setStatus(CrfStatus.INPROGRESS);
         }
-        submitFormCommand.addQuestionToDeleteList(request.getParameter("deletedQuestions"));
-        genericRepository.save(submitFormCommand.getStudyParticipantCrfSchedule());
-        submitFormCommand.setStudyParticipantCrfSchedule(genericRepository.findById(StudyParticipantCrfSchedule.class, submitFormCommand.getStudyParticipantCrfSchedule().getId()));
-        return showForm(request, response, errors);
-    }
+        StudyParticipantCrfSchedule savedStudyParticipantCrfSchedule = genericRepository.save(submitFormCommand.getStudyParticipantCrfSchedule());
 
-    private StudyParticipantCrfSchedule initialize(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
-        StudyParticipantCrfSchedule s = genericRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
-        for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : s.getStudyParticipantCrf().getStudyParticipantAssignment().getStudyParticipantClinicalStaffs()) {
-            studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff();
+        if ("save".equals(submitFormCommand.getDirection())) {
+            initialize(savedStudyParticipantCrfSchedule, submitFormCommand);
+            NotificationsEvaluationService.setGenericRepository(genericRepository);
+            NotificationsEvaluationService.executeRules(savedStudyParticipantCrfSchedule, savedStudyParticipantCrfSchedule.getStudyParticipantCrf().getCrf(), savedStudyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
         }
-        for (CRFPage crfPage : s.getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber()) {
-            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-                crfPageItem.getProCtcQuestion();
-            }
-        }
-        return s;
+
+        request.getSession().setAttribute(SubmitFormController.class.getName() + ".FORM." + "command", submitFormCommand);
+        return new ModelAndView(new RedirectView("submit?id=" + savedStudyParticipantCrfSchedule.getId() + "&p=" + submitFormCommand.getCurrentPageIndex() + skip));
     }
 
     /* (non-Javadoc)
-     * @see org.springframework.web.servlet.mvc.SimpleFormController#showForm(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.validation.BindException)
-     */
-
+    * @see org.springframework.web.servlet.mvc.SimpleFormController#showForm(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.validation.BindException)
+    */
     @Override
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) errors.getTarget();
         ModelAndView mv = null;
+        String pageIndex = request.getParameter("p");
 
+        if (StringUtils.isBlank(pageIndex)) {
+            pageIndex = "1";
+        }
+        submitFormCommand.setCurrentPageIndex(Integer.parseInt(pageIndex));
         if (CrfStatus.COMPLETED.equals(submitFormCommand.getStudyParticipantCrfSchedule().getStatus())) {
-            if ("save".equals(submitFormCommand.getDirection())) {
-                submitFormCommand.setFlashMessage("You have successfully submitted the form.");
-            } else {
-                submitFormCommand.setFlashMessage("You have already submitted the form.");
-            }
-            mv = showForm(request, errors, getSuccessView());
-            return mv;
+            return showForm(request, errors, getSuccessView());
         }
-
-        if (!StringUtils.isBlank((String) request.getSession().getAttribute("gotopage"))) {
-            submitFormCommand.setCurrentPageIndex(Integer.parseInt((String) request.getSession().getAttribute("gotopage")));
-            request.getSession().removeAttribute("gotopage");
-        }
-
-        if (submitFormCommand.getCurrentPageIndex() == submitFormCommand.getTotalPages() + 1) {
-            if (StringUtils.isBlank((String) request.getSession().getAttribute("skipaddquestion"))) {
-                mv = showForm(request, errors, getReviewView());
-                mv.setView(new RedirectView("addquestion"));
-                return mv;
-            } else {
-                submitFormCommand.setCurrentPageIndex(submitFormCommand.getCurrentPageIndex() + 1);
-                request.getSession().removeAttribute("skipaddquestion");
-            }
-        }
-
-        if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getTotalPages() + 1){
+        if (submitFormCommand.getCurrentPageIndex() == submitFormCommand.getAddQuestionPageIndex() && (!"y".equals(request.getParameter("skip")))) {
             mv = showForm(request, errors, getReviewView());
+            mv.setView(new RedirectView("addquestion"));
             return mv;
         }
-
+        if (submitFormCommand.getCurrentPageIndex() >= submitFormCommand.getTotalPages() + 1) {
+            return showForm(request, errors, getReviewView());
+        }
         if (submitFormCommand.getCurrentPageIndex() >= submitFormCommand.getParticipantAddedQuestionIndex()) {
-            for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfScheduleAddedQuestions()) {
-                studyParticipantCrfScheduleAddedQuestion.getProCtcValidValue();
-                studyParticipantCrfScheduleAddedQuestion.getMeddraValidValue();
-            }
-
             for (StudyParticipantCrfScheduleAddedQuestion cQ : submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfScheduleAddedQuestions()) {
                 if (cQ.getPageNumber() + 1 == submitFormCommand.getCurrentPageIndex()) {
                     if (cQ.getProCtcQuestion() != null) {
@@ -131,7 +107,6 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         } else {
             mv = showForm(request, errors, getFormView());
         }
-
         return mv;
     }
 
@@ -140,20 +115,19 @@ public class SubmitFormController extends CtcAeSimpleFormController {
      */
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
-
+        SubmitFormCommand submitFormCommand = (SubmitFormCommand)
+                request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
         String crfScheduleId = request.getParameter("id");
-        SubmitFormCommand submitFormCommand = new SubmitFormCommand();
-        Set<String> questionsToBeDeleted = (Set<String>) request.getSession().getAttribute("questionstobedeletedlist");
-        if (questionsToBeDeleted != null) {
-            submitFormCommand.setQuestionsToBeDeleted(questionsToBeDeleted);
+        if (submitFormCommand == null || !crfScheduleId.equals(submitFormCommand.getStudyParticipantCrfSchedule().getId().toString())) {
+            submitFormCommand = new SubmitFormCommand();
+            if (!StringUtils.isBlank(crfScheduleId)) {
+                StudyParticipantCrfSchedule studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(crfScheduleId));
+                submitFormCommand.setGenericRepository(genericRepository);
+                submitFormCommand.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+                submitFormCommand.initialize();
+            }
         }
-
-        if (!StringUtils.isBlank(crfScheduleId)) {
-            StudyParticipantCrfSchedule studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(crfScheduleId));
-            submitFormCommand.setGenericRepository(genericRepository);
-            submitFormCommand.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
-            submitFormCommand.initialize();
-        }
+        initialize(submitFormCommand.getStudyParticipantCrfSchedule(), submitFormCommand);
         return submitFormCommand;
     }
 
@@ -197,6 +171,26 @@ public class SubmitFormController extends CtcAeSimpleFormController {
 
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
+    }
+
+    private void initialize(StudyParticipantCrfSchedule studyParticipantCrfSchedule, SubmitFormCommand submitFormCommand) {
+        studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
+        for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudyParticipantClinicalStaffs()) {
+            studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff();
+        }
+        for (CRFPage crfPage : studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber()) {
+            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                crfPageItem.getProCtcQuestion();
+            }
+        }
+        for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
+            ProCtcQuestion proCtcQuestion = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion();
+            if (proCtcQuestion != null) {
+                proCtcQuestion.getProCtcQuestionDisplayRules();
+            }
+        }
+        submitFormCommand.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+
     }
 }
 

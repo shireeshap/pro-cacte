@@ -30,43 +30,21 @@ public class SubmitFormCommand implements Serializable {
     private String flashMessage;
     private String deletedQuestions;
     private int participantAddedQuestionIndex = 0;
+    private int addQuestionPageIndex = 0;
     private Set<String> questionsToBeDeleted = new HashSet<String>();
     private ArrayList<ProCtcTerm> sortedSymptoms;
 
     public void initialize() {
-        setDisplayRules();
+        createInstanceOfAddedQuestions();
+        displayRules = studyParticipantCrfSchedule.getDisplayRules();
         currentPageIndex = 1;
         totalPages = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber().size();
         participantAddedQuestionIndex = totalPages + 1;
-        totalPages = totalPages + getNumberOfParticipantAddedSymptoms();
-    }
-
-    private void setDisplayRules() {
-        for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-            CrfPageItem crfPageItem = studyParticipantCrfItem.getCrfPageItem();
-            String displayRule = "";
-            for (CrfPageItemDisplayRule crfPageItemDisplayRule : crfPageItem.getCrfPageItemDisplayRules()) {
-                displayRule = displayRule + "~" + crfPageItemDisplayRule.getProCtcValidValue().getId();
-            }
-            displayRules.put(crfPageItem.getId(), displayRule);
-        }
-    }
-
-    private int getNumberOfParticipantAddedSymptoms() {
-        HashSet symptoms = new HashSet();
-        for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
-            if (studyParticipantCrfAddedQuestion.getProCtcQuestion() != null) {
-                symptoms.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
-            }
-            if (studyParticipantCrfAddedQuestion.getMeddraQuestion() != null) {
-                symptoms.add(studyParticipantCrfAddedQuestion.getMeddraQuestion().getLowLevelTerm().getMeddraTerm());
-            }
-        }
-        return symptoms.size();
+        totalPages = totalPages + studyParticipantCrfSchedule.getParticipantAddedSymptoms().size();
+        addQuestionPageIndex = totalPages + 1;
     }
 
     private void createInstanceOfAddedQuestions() {
-        studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
         StudyParticipantCrf studyParticipantCrf = studyParticipantCrfSchedule.getStudyParticipantCrf();
         if (studyParticipantCrf.getStudyParticipantCrfAddedQuestions().size() > 0) {
             if (studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions().size() == 0) {
@@ -76,7 +54,6 @@ public class SubmitFormCommand implements Serializable {
             }
         }
     }
-
 
     public void deleteQuestions() {
         if (questionsToBeDeleted != null && questionsToBeDeleted.size() > 0) {
@@ -259,8 +236,6 @@ public class SubmitFormCommand implements Serializable {
 
     public void setStudyParticipantCrfSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
         this.studyParticipantCrfSchedule = studyParticipantCrfSchedule;
-        createInstanceOfAddedQuestions();
-        genericRepository.save(studyParticipantCrfSchedule);
     }
 
     public int getCurrentPageIndex() {
@@ -279,6 +254,7 @@ public class SubmitFormCommand implements Serializable {
 
     public void setCurrentPageIndex(int currentPageIndex) {
         this.currentPageIndex = currentPageIndex;
+        direction = "";
     }
 
 
@@ -359,6 +335,10 @@ public class SubmitFormCommand implements Serializable {
 
     public void setQuestionsToBeDeleted(Set<String> questionsToBeDeleted) {
         this.questionsToBeDeleted = questionsToBeDeleted;
+    }
+
+    public int getAddQuestionPageIndex() {
+        return addQuestionPageIndex;
     }
 
 }

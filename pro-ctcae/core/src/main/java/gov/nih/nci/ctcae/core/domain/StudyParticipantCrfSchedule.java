@@ -361,4 +361,32 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         studyParticipantCrfScheduleAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
         return studyParticipantCrfScheduleAddedQuestion;
     }
+
+    public Hashtable<Integer, String> getDisplayRules() {
+        Hashtable<Integer, String> displayRules = new Hashtable<Integer, String>();
+        for (StudyParticipantCrfItem studyParticipantCrfItem : getStudyParticipantCrfItems()) {
+            CrfPageItem crfPageItem = studyParticipantCrfItem.getCrfPageItem();
+            String displayRule = "";
+            for (CrfPageItemDisplayRule crfPageItemDisplayRule : crfPageItem.getCrfPageItemDisplayRules()) {
+                displayRule = displayRule + "~" + crfPageItemDisplayRule.getProCtcValidValue().getId();
+            }
+            displayRules.put(crfPageItem.getId(), displayRule);
+        }
+        return displayRules;
+    }
+
+    public Set getParticipantAddedSymptoms() {
+        HashSet symptoms = new HashSet();
+        for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
+            if (studyParticipantCrfAddedQuestion.getProCtcQuestion() != null) {
+                symptoms.add(studyParticipantCrfAddedQuestion.getProCtcQuestion().getProCtcTerm().getTerm());
+            }
+            if (studyParticipantCrfAddedQuestion.getMeddraQuestion() != null) {
+                symptoms.add(studyParticipantCrfAddedQuestion.getMeddraQuestion().getLowLevelTerm().getMeddraTerm());
+            }
+        }
+        return symptoms;
+    }
+
+
 }

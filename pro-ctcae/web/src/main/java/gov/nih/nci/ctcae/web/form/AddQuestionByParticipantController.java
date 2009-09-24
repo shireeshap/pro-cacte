@@ -30,24 +30,29 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         setFormView("form/addQuestionForParticipant");
         setSuccessView("form/confirmFormSubmission");
         setReviewView("form/reviewFormSubmission");
+
     }
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
         int pageNumber = ((SubmitFormCommand) command).getTotalPages();
-        request.getSession().setAttribute("questionstobedeletedlist", ((SubmitFormCommand) command).getQuestionsToBeDeleted());
         if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
-            request.getSession().setAttribute("gotopage", "" + (pageNumber + 1));
-            request.getSession().setAttribute("skipaddquestion", "true");
             String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
             if (selectedSymptoms != null) {
                 ((SubmitFormCommand) command).addParticipantAddedQuestions(selectedSymptoms);
+                ((SubmitFormCommand) command).setTotalPages(pageNumber + selectedSymptoms.length);
             }
+            pageNumber++;
         } else {
-            request.getSession().setAttribute("gotopage", "" + pageNumber);
+            if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
+                pageNumber--;
+            }
         }
-        return new ModelAndView(new RedirectView("submit?id=" + ((SubmitFormCommand) command).getStudyParticipantCrfSchedule().getId()));
+        ModelAndView mv = showForm(request, errors, "abc");
+        request.getSession().setAttribute(SubmitFormController.class.getName() + ".FORM." + "command", command);
+        mv.setView(new RedirectView("submit?id=" + ((SubmitFormCommand) command).getStudyParticipantCrfSchedule().getId() + "&skip=y&p=" + pageNumber ));
+        return mv;
     }
 
 
@@ -71,6 +76,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
     public void setReviewView(String reviewView) {
         this.reviewView = reviewView;
     }
+
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
