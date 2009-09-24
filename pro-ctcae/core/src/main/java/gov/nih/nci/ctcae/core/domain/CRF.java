@@ -759,4 +759,14 @@ public class CRF extends BaseVersionable {
     public void setParentCrf(CRF parentCrf) {
         this.parentCrf = parentCrf;
     }
+
+    public Set<String> getAllProCtcTermsInCrf() {
+        Set<String> proCtcTerms = new LinkedHashSet<String>();
+        for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
+            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                proCtcTerms.add(crfPageItem.getProCtcQuestion().getProCtcTerm().getTerm());
+            }
+        }
+        return proCtcTerms;
+    }
 }

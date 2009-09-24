@@ -38,7 +38,7 @@
                         </c:forEach>
                     </div>
                 </div>
-                <chrome:division title="Conditions"/>
+                <chrome:division title="Attributes"/>
 
                 <div class="row">
                     <div class="value">

@@ -111,7 +111,6 @@
 
         function addCondition(ruleindex, questiontype, operator, value) {
 
-            //            alert(ruleindex + ',' + questiontype + ',' + operator + ',' + value);
             var props = new Array();
             props[0] = 'If';
             props[1] = 'And';

@@ -12,9 +12,7 @@ import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 //
 /**
@@ -386,6 +384,12 @@ public class CreateFormCommand implements Serializable {
         if (ruleSet != null) {
             for (Rule rule : ruleSet.getRule()) {
                 ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
+                ArrayList<String> allSymptoms = new ArrayList<String>(crf.getAllProCtcTermsInCrf());
+                if (allSymptoms.equals(proCtcAERule.getSymptoms())) {
+                    List<String> symptoms = new ArrayList<String>();
+                    symptoms.add("Allsymptoms");
+                    proCtcAERule.setSymptoms(symptoms);
+                }
                 formOrStudySiteRules.add(proCtcAERule);
             }
         }
@@ -398,7 +402,36 @@ public class CreateFormCommand implements Serializable {
 
     public void initializeRulesForForm() {
         RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf, true);
+        createDefaultRules(crf, ruleSet);
         initializeRules(ruleSet);
+    }
+
+    private void createDefaultRules(CRF crf, RuleSet ruleSet) {
+        if (ruleSet.getRule().size() == 0) {
+            Set<String> allProCtcTermsInCrf = crf.getAllProCtcTermsInCrf();
+            ArrayList<String> symptoms = new ArrayList(allProCtcTermsInCrf);
+            ArrayList<String> questiontypes = new ArrayList<String>();
+            ArrayList<String> operators = new ArrayList<String>();
+            ArrayList<String> values = new ArrayList<String>();
+
+            questiontypes.add(ProCtcQuestionType.SEVERITY.getDisplayName());
+            operators.add(">=");
+            values.add("3");
+
+            questiontypes.add(ProCtcQuestionType.INTERFERENCE.getDisplayName());
+            operators.add(">=");
+            values.add("3");
+
+            questiontypes.add(ProCtcQuestionType.FREQUENCY.getDisplayName());
+            operators.add(">=");
+            values.add("3");
+
+            ArrayList<String> notifications = new ArrayList<String>();
+            notifications.add("SiteCRA");
+            notifications.add("SitePI");
+            ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y");
+
+        }
     }
 
     public void processRulesForSite(HttpServletRequest request) throws Exception {
@@ -438,6 +471,13 @@ public class CreateFormCommand implements Serializable {
                     continue;
                 }
                 List<String> symptoms = getListForRule(ruleId, request, "symptoms");
+                for (String symptom : symptoms) {
+                    if (symptom.equals("Allsymptoms")) {
+                        symptoms = new ArrayList<String>(crf.getAllProCtcTermsInCrf());
+                        break;
+                    }
+                }
+
                 List<String> questiontypes = getListForRule(ruleId, request, "questiontypes");
                 List<String> operators = getListForRule(ruleId, request, "operators");
                 List<String> values = getListForRule(ruleId, request, "values");

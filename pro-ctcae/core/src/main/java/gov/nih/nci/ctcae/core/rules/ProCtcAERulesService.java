@@ -20,10 +20,10 @@ import java.util.UUID;
 public class ProCtcAERulesService {
 
 
-    static RuleAuthoringServiceImpl ruleAuthoringService;
-    static RulesEngineServiceImpl rulesEngineService;
-    static BusinessRulesExecutionServiceImpl ruleExecutionService;
-    static RepositoryServiceImpl repositoryService;
+    public static RuleAuthoringServiceImpl ruleAuthoringService;
+    public static RulesEngineServiceImpl rulesEngineService;
+    public static BusinessRulesExecutionServiceImpl ruleExecutionService;
+    public static RepositoryServiceImpl repositoryService;
 
     public static RuleSet getRuleSetForCrf(CRF crf, boolean createNewIfNull) {
         String packageName = getPackageNameForCrf(crf);

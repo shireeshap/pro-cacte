@@ -7,6 +7,7 @@ import com.semanticbits.rules.brxml.RuleAttribute;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestionType;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.CRF;
 
 import java.util.ArrayList;
 import java.util.List;
