@@ -75,7 +75,6 @@ public class ProCtcAERulesServiceTest extends TestDataManager {
         assertEquals(0, ruleSet.getRule().size());
         populateConditionData();
         ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y");
-        ProCtcAERulesService.rulesEngineService.exportRule(ruleSet.getName(), "c:\\Users\\Harsh\\");
         ProCtcAERulesService.deployRuleSet(ruleSet);
         assertEquals(1, ruleSet.getRule().size());
     }
