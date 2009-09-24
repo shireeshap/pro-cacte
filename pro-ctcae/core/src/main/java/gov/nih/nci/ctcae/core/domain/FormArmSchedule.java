@@ -117,12 +117,18 @@ public class FormArmSchedule extends BasePersistable {
     public FormArmSchedule copy() {
         FormArmSchedule formArmSchedule = new FormArmSchedule();
         formArmSchedule.setArm(arm);
+        copySchedulesInto(formArmSchedule);
+        return formArmSchedule;
+    }
+
+    public void copySchedulesInto(FormArmSchedule formArmScheduleToGetCopy) {
+        formArmScheduleToGetCopy.getCrfCycleDefinitions().clear();
+        formArmScheduleToGetCopy.getCrfCalendars().clear();
         for (CRFCycleDefinition crfCycleDefinition : getCrfCycleDefinitions()) {
-            formArmSchedule.addCrfCycleDefinition(crfCycleDefinition.copy());
+            formArmScheduleToGetCopy.addCrfCycleDefinition(crfCycleDefinition.copy());
         }
         for (CRFCalendar crfCalendar : getCrfCalendars()) {
-            formArmSchedule.addCrfCalendar(crfCalendar.copy());
+            formArmScheduleToGetCopy.addCrfCalendar(crfCalendar.copy());
         }
-        return formArmSchedule;
     }
 }

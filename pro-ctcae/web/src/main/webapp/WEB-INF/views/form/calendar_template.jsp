@@ -436,6 +436,13 @@ function showSchedule(scheduleType) {
     $(scheduleType + 'Div').show();
 }
 function refreshPageLocal() {
+    var x = $('newSelectedFormArmSchedule').selectedIndex;
+    var selectedText = $('newSelectedFormArmSchedule')[x].text;
+    if (selectedText == 'All') {
+        $('allArms').value = 'true';
+    } else {
+        $('allArms').value = 'false';
+    }
     refreshPage();
 }
 </script>
@@ -453,12 +460,20 @@ function refreshPageLocal() {
     <div class="row" ${styleHidden}>
         <div class="label"><spring:message code="form.calendar.arm"></spring:message></div>
         <div class="value">
-            <input type="hidden" id="allArms" name="allArms" value=""/>
+            <input type="hidden" id="allArms" name="allArms" value="${command.allArms}"/>
             <select id="newSelectedFormArmSchedule" name="newSelectedFormArmSchedule" onchange="refreshPageLocal();">
-                <option value="${command.selectedFormArmSchedule.id}">All</option>
+                <c:choose>
+                    <c:when test="${command.allArms}">
+                        <option value="${command.selectedFormArmSchedule.id}" selected="selected">All</option>
+                    </c:when>
+                    <c:otherwise>
+                        <option value="${command.selectedFormArmSchedule.id}">All</option>
+                    </c:otherwise>
+                </c:choose>
+
                 <c:forEach items="${command.crf.formArmSchedules}" var="formArmSchedule">
                     <c:choose>
-                        <c:when test="${command.selectedFormArmSchedule.id eq formArmSchedule.id}">
+                        <c:when test="${command.selectedFormArmSchedule.id eq formArmSchedule.id && not command.allArms}">
                             <option value="${formArmSchedule.id}"
                                     selected="selected">${formArmSchedule.arm.title}</option>
                         </c:when>

@@ -43,6 +43,7 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
         if (command.getSelectedFormArmSchedule() == null) {
+            command.setAllArms(true);
             CRF crf = command.getCrf();
             Study study = studyRepository.findById(crf.getStudy().getId());
             List<Arm> arms = study.getArms();
@@ -105,6 +106,14 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
                     command.setCrfCycleDefinitionIndexToRemove("");
                 }
             }
+            if (command.getAllArms()) {
+                for (FormArmSchedule fas : command.getCrf().getFormArmSchedules()) {
+                    if (!fas.equals(formArmSchedule)) {
+                        formArmSchedule.copySchedulesInto(fas);
+                    }
+                }
+            }
+
         }
         command.setCrf(crfRepository.save(command.getCrf()));
         super.postProcess(request, command, errors);

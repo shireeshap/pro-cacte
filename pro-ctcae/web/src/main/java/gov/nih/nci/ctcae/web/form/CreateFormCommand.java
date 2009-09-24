@@ -65,6 +65,19 @@ public class CreateFormCommand implements Serializable {
     private FormArmSchedule selectedFormArmSchedule;
     private FormArmSchedule newSelectedFormArmSchedule;
     private RuleSet ruleSet;
+    private boolean allArms;
+
+    public boolean isAllArms() {
+        return allArms;
+    }
+
+    public void setAllArms(boolean allArms) {
+        this.allArms = allArms;
+    }
+
+    public boolean getAllArms() {
+        return allArms;
+    }
 
     public RuleSet getRuleSet() {
         return ruleSet;
