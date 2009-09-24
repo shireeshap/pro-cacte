@@ -1,11 +1,14 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@attribute name="proCtcAeRule" type="gov.nih.nci.ctcae.core.rules.ProCtcAERule" required="true" %>
 <%@attribute name="ruleIndex" required="true" %>
 <%@attribute name="isNew" %>
 <%@attribute name="isSite" %>
 <%@attribute name="siteReadOnlyView" %>
+<%@attribute name="notifications" type="java.util.List" %>
+
 <c:set var="ruleId" value="${proCtcAeRule.ruleId}"/>
 <div id="rule_div_${ruleId}">
     <script type="text/javascript">
@@ -17,7 +20,6 @@
         </c:when>
         <c:otherwise>
             <chrome:box title="Rule ${ruleIndex+1} " enableDelete="true" deleteParams="deleteRule('${ruleId}');">
-                <%--<chrome:box title="Rule ${ruleIndex + 1} " enableDelete="true" deleteParams="deleteRule(${ruleId});">--%>
                 <input type="hidden" name="rule" value="${ruleId}"/>
                 <chrome:division title="Symptoms"/>
                 <div class="row">
@@ -61,20 +63,16 @@
                 <chrome:division title="Notifications"/>
                 <div class="row">
                     <div class="value">
-                        <table>
-                            <tr id="notificationDiv_${ruleId}">
-                                <td></td>
-                                <td><tags:button icon="add" color="blue" value="Add" size="small"
-                                                 onclick="addNotification('${ruleId}')" markupWithTag="a"/>
-                                </td>
-                            </tr>
-                        </table>
-                        <c:forEach items="${proCtcAeRule.notifications}" var="notification">
-                            <script type="text/javascript">
-                                addNotification('${ruleId}', '${notification}');
-                            </script>
+                        <c:forEach items="${notifications}" var="notification">
+                            <c:set var="selected" value=""/>
+                            <c:forEach items="${proCtcAeRule.notifications}" var="notify">
+                                <c:if test="${notification.code eq notify}">
+                                    <c:set var="selected" value="checked"/>
+                                </c:if>
+                            </c:forEach>
+                            <input type="checkbox" name="notifications_${ruleId}" value="${notification.code}"
+                                   ${selected}/>${notification.desc}
                         </c:forEach>
-
                     </div>
                 </div>
                 <br/>

@@ -365,15 +365,21 @@ public class CreateFormCommand implements Serializable {
 
     private List<String> getListForRule(String ruleIndex, HttpServletRequest request, String listType) {
         List<String> list = new ArrayList<String>();
-        int index = 0;
-        while (true) {
-            String parameterName = listType + "_" + ruleIndex + "_" + index;
-            String parameterValue = request.getParameter(parameterName);
-            if (!StringUtils.isBlank(parameterValue)) {
-                list.add(parameterValue);
-                index++;
-            } else {
-                return list;
+        if (listType.equals("notifications")) {
+            String[] strings = request.getParameterValues(listType + "_" + ruleIndex);
+            list = Arrays.asList(strings);
+            return list;
+        } else {
+            int index = 0;
+            while (true) {
+                String parameterName = listType + "_" + ruleIndex + "_" + index;
+                String parameterValue = request.getParameter(parameterName);
+                if (!StringUtils.isBlank(parameterValue)) {
+                    list.add(parameterValue);
+                    index++;
+                } else {
+                    return list;
+                }
             }
         }
     }

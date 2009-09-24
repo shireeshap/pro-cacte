@@ -99,15 +99,6 @@
             var select = $('symptoms_' + ruleindex + '_' + index);
             setSelectValue(select, value);
         }
-        function addNotification(ruleindex, value) {
-            var props = new Array();
-            props[0] = 'Notify ';
-            props[1] = '';
-            props[2] = 'notifications';
-            var index = addFields(ruleindex, 'notification', props);
-            var select = $('notifications_' + ruleindex + '_' + index);
-            setSelectValue(select, value);
-        }
 
         function addCondition(ruleindex, questiontype, operator, value) {
 
@@ -154,7 +145,6 @@
         function initializeRule(ruleindex) {
             addSymptom(ruleindex);
             addCondition(ruleindex);
-            addNotification(ruleindex);
         }
 
         function changeoptions(obj) {
@@ -212,7 +202,7 @@
         <input type="hidden" name="readonlyview" value="${readonlyview}"/>
         <c:forEach items="${command.formOrStudySiteRules}" var="proCtcAeRule" varStatus="status">
             <tags:formRule proCtcAeRule="${proCtcAeRule}" ruleIndex="${status.index}" siteReadOnlyView="${readonlyview}"
-                           isSite="${isSite}"/>
+                           isSite="${isSite}" notifications="${notifications}"/>
         </c:forEach>
         <div id="hiddenDiv"></div>
         <c:if test="${!readonlyview}">
