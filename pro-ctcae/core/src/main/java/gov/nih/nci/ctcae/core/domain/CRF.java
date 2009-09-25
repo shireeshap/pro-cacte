@@ -774,7 +774,11 @@ public class CRF extends BaseVersionable {
         Set<String> questionTypes = new LinkedHashSet<String>();
         for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
             for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
-                questionTypes.add(crfPageItem.getProCtcQuestion().getProCtcQuestionType().getDisplayName());
+                ProCtcQuestionType questionType = crfPageItem.getProCtcQuestion().getProCtcQuestionType();
+                if (questionType.equals(ProCtcQuestionType.SEVERITY)
+                        || questionType.equals(ProCtcQuestionType.INTERFERENCE)
+                        || questionType.equals(ProCtcQuestionType.FREQUENCY))
+                    questionTypes.add(questionType.getDisplayName());
             }
         }
         return questionTypes;

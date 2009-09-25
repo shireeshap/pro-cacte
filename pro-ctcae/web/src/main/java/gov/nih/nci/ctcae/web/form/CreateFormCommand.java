@@ -434,10 +434,7 @@ public class CreateFormCommand implements Serializable {
         ArrayList<String> values = new ArrayList<String>();
 
         for (String questionType : questiontypes) {
-            if (questionType.equals(ProCtcQuestionType.SEVERITY.getDisplayName())
-                    || questionType.equals(ProCtcQuestionType.INTERFERENCE.getDisplayName())
-                    || questionType.equals(ProCtcQuestionType.FREQUENCY.getDisplayName()))
-                operators.add(">=");
+            operators.add(">=");
             values.add("3");
         }
 
