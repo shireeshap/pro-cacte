@@ -172,7 +172,10 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     protected boolean shouldSave(HttpServletRequest request, CreateFormCommand command, Tab tab) {
 
         if (tab instanceof FormDetailsTab) {
-            return true;
+            if (StringUtils.isBlank(request.getParameter("crfPageNumberToRemove"))
+                    || StringUtils.isBlank(request.getParameter("questionIdToRemove"))) {
+                return true;
+            }
         }
         if (tab instanceof CalendarTemplateTab) {
             return true;

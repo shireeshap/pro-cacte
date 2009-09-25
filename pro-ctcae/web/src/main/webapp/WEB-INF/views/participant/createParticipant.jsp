@@ -114,7 +114,6 @@
     </style>
 </head>
 <body>
-<%--<chrome:flashMessage flashMessage="participant.flash.save"></chrome:flashMessage>--%>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
    <jsp:attribute name="singleFields">
        <c:choose>

@@ -37,8 +37,6 @@
 
 </head>
 <body>
-<chrome:flashMessage flashMessage="study.save.confirmation"></chrome:flashMessage>
-
 <chrome:box title="study.tab.study_details">
 
     <chrome:division>

@@ -152,7 +152,6 @@
     </script>
 </head>
 <body>
-<chrome:flashMessage flashMessage="${command.flashMessage}"></chrome:flashMessage>
 <form:form method="post" name="myForm">
     <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.title}"
                 autopad="true" message="false">

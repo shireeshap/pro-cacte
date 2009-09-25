@@ -64,7 +64,7 @@
 
         function deleteNotification(index, notificationIndex) {
             var request = new Ajax.Request("<c:url value="/pages/participant/addNotificationClinicalStaff"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&notificationIndex=" + notificationIndex+ "&action=delete",
+                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&notificationIndex=" + notificationIndex + "&action=delete",
                 onComplete:function(transport) {
                     $('row-' + index + '-' + notificationIndex).remove();
                 } ,
@@ -83,7 +83,6 @@
     </style>
 </head>
 <body>
-<%--<chrome:flashMessage flashMessage="participant.flash.save"></chrome:flashMessage>--%>
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="repeatingFields">
 

@@ -51,8 +51,6 @@
         </ul>
     </div>
 </div>
-<chrome:flashMessage flashMessage="The Clinical Staff was saved successfully"></chrome:flashMessage>
-
 <chrome:box title="Confirmation">
 
     <table border="0" style="width:100%">

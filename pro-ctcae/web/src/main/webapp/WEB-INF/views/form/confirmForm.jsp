@@ -24,7 +24,6 @@
 
 </head>
 <body>
-<chrome:flashMessage flashMessage="form.save.confirmation"></chrome:flashMessage>
 <tags:button color="blue" markupWithTag="a" icon="window" value="Release Form"
              onclick="javascript:releaseForm('${crf.id}')"></tags:button>
 <br>

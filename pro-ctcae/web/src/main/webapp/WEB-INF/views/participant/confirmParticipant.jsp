@@ -35,8 +35,6 @@
 
 </head>
 <body>
-<chrome:flashMessage flashMessage="participant.flash.save"></chrome:flashMessage>
-
 <chrome:box title="participant.label.confirmation">
 
 <chrome:division title="participant.label.site">

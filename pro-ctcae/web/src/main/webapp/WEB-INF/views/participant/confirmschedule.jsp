@@ -41,7 +41,6 @@
 
 </head>
 <body>
-<chrome:flashMessage flashMessage="schedulecrf.flash.saved"></chrome:flashMessage>
 <chrome:box title="schedulecrf.label.confirmation">
 
     <div class="row">

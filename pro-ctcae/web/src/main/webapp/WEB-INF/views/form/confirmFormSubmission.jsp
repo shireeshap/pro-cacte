@@ -29,10 +29,7 @@
 
 </head>
 <body>
-<chrome:flashMessage flashMessage="${command.flashMessage}"></chrome:flashMessage>
-
 <chrome:box title="Confirmation" autopad="true">
-
     <table>
         <tr>
             <td class="label">

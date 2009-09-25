@@ -71,9 +71,10 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
     private WebControllerValidator webControllerValidator;
 
     private FormArmScheduleRepository formArmScheduleRepository;
+
     /* (non-Javadoc)
-     * @see org.springframework.web.servlet.mvc.BaseCommandController#initBinder(javax.servlet.http.HttpServletRequest, org.springframework.web.bind.ServletRequestDataBinder)
-     */
+    * @see org.springframework.web.servlet.mvc.BaseCommandController#initBinder(javax.servlet.http.HttpServletRequest, org.springframework.web.bind.ServletRequestDataBinder)
+    */
     @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
@@ -112,7 +113,9 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
         super.postProcessPage(request, oCommand, errors, page);
         if (!errors.hasErrors() && shouldSave(request, command, getTab(command, page))) {
             save(command);
-            request.setAttribute("flashMessage", "save.confirmation");
+            if (request.getParameter("_target" + page) != null) {
+                request.setAttribute("flashMessage", "save.confirmation");
+            }
         }
     }
 
