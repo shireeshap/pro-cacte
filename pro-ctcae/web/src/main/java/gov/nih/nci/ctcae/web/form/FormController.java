@@ -173,7 +173,7 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
 
         if (tab instanceof FormDetailsTab) {
             if (StringUtils.isBlank(request.getParameter("crfPageNumberToRemove"))
-                    || StringUtils.isBlank(request.getParameter("questionIdToRemove"))) {
+                    && StringUtils.isBlank(request.getParameter("questionIdToRemove"))) {
                 return true;
             }
         }
