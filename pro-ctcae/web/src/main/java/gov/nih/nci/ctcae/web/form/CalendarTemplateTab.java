@@ -107,8 +107,8 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
                 }
                 for (CRFCycleDefinition invalidCrfCycleDefinition : command.getInvalidCycleDefinitions()) {
                     command.getSelectedFormArmSchedule().getCrfCycleDefinitions().remove(invalidCrfCycleDefinition);
-                    command.getInvalidCycleDefinitions().clear();
                 }
+                command.getInvalidCycleDefinitions().clear();
             }
             if (command.getAllArms()) {
                 for (FormArmSchedule fas : command.getCrf().getFormArmSchedules()) {
