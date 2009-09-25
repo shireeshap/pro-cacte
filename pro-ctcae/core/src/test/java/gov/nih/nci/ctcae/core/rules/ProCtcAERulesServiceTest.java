@@ -74,7 +74,7 @@ public class ProCtcAERulesServiceTest extends TestDataManager {
         RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
         assertEquals(0, ruleSet.getRule().size());
         populateConditionData();
-        ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y");
+        ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", false);
         ProCtcAERulesService.deployRuleSet(ruleSet);
         assertEquals(1, ruleSet.getRule().size());
     }
@@ -82,7 +82,7 @@ public class ProCtcAERulesServiceTest extends TestDataManager {
     public void testUpdateRule() throws Exception {
         RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
         assertEquals(0, ruleSet.getRule().size());
-        Rule rule = ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y");
+        Rule rule = ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", false);
         assertEquals(1, ruleSet.getRule().size());
         ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
         assertEquals(0, proCtcAERule.getSymptoms().size());
@@ -97,7 +97,7 @@ public class ProCtcAERulesServiceTest extends TestDataManager {
         RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
         assertEquals(0, ruleSet.getRule().size());
         populateConditionData();
-        Rule rule = ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y");
+        Rule rule = ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", false);
         ProCtcAERulesService.deployRuleSet(ruleSet);
         assertEquals(1, ruleSet.getRule().size());
         String ruleId = rule.getId();

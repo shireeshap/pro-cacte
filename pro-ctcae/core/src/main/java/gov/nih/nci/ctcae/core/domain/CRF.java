@@ -769,4 +769,14 @@ public class CRF extends BaseVersionable {
         }
         return proCtcTerms;
     }
+
+    public Set<String> getAllQuestionTypes() {
+        Set<String> questionTypes = new LinkedHashSet<String>();
+        for (CRFPage crfPage : getCrfPagesSortedByPageNumber()) {
+            for (CrfPageItem crfPageItem : crfPage.getCrfPageItems()) {
+                questionTypes.add(crfPageItem.getProCtcQuestion().getProCtcQuestionType().getDisplayName());
+            }
+        }
+        return questionTypes;
+    }
 }

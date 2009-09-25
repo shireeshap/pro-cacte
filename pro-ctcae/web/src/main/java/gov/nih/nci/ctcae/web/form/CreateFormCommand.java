@@ -408,37 +408,47 @@ public class CreateFormCommand implements Serializable {
 
     public void initializeRulesForForm() {
         RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf, true);
-        createDefaultRules(crf, ruleSet);
+        createDefaultRule(crf, ruleSet);
+        ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf, true);
         initializeRules(ruleSet);
     }
 
-    private void createDefaultRules(CRF crf, RuleSet ruleSet) {
-        if (ruleSet.getRule().size() == 0) {
-            Set<String> allProCtcTermsInCrf = crf.getAllProCtcTermsInCrf();
-            ArrayList<String> symptoms = new ArrayList(allProCtcTermsInCrf);
-            ArrayList<String> questiontypes = new ArrayList<String>();
-            ArrayList<String> operators = new ArrayList<String>();
-            ArrayList<String> values = new ArrayList<String>();
-
-            questiontypes.add(ProCtcQuestionType.SEVERITY.getDisplayName());
-            operators.add(">=");
-            values.add("3");
-
-            questiontypes.add(ProCtcQuestionType.INTERFERENCE.getDisplayName());
-            operators.add(">=");
-            values.add("3");
-
-            questiontypes.add(ProCtcQuestionType.FREQUENCY.getDisplayName());
-            operators.add(">=");
-            values.add("3");
-
-            ArrayList<String> notifications = new ArrayList<String>();
-            notifications.add("SiteCRA");
-            notifications.add("SitePI");
-            ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y");
-
+    private void createDefaultRule(CRF crf, RuleSet ruleSet) {
+        Rule defaultrule = null;
+        for (Rule rule : ruleSet.getRule()) {
+            if (rule.getMetaData().getName().endsWith("_default_rule")) {
+                defaultrule = rule;
+            }
         }
+        if (defaultrule != null) {
+            try {
+                ProCtcAERulesService.deleteRule(defaultrule.getId(), ruleSet);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Set<String> allProCtcTermsInCrf = crf.getAllProCtcTermsInCrf();
+        ArrayList<String> symptoms = new ArrayList(allProCtcTermsInCrf);
+        ArrayList<String> questiontypes = new ArrayList<String>(crf.getAllQuestionTypes());
+        ArrayList<String> operators = new ArrayList<String>();
+        ArrayList<String> values = new ArrayList<String>();
+
+        for (String questionType : questiontypes) {
+            if (questionType.equals(ProCtcQuestionType.SEVERITY.getDisplayName())
+                    || questionType.equals(ProCtcQuestionType.INTERFERENCE.getDisplayName())
+                    || questionType.equals(ProCtcQuestionType.FREQUENCY.getDisplayName()))
+                operators.add(">=");
+            values.add("3");
+        }
+
+        ArrayList<String> notifications = new ArrayList<String>();
+        notifications.add("SiteCRA");
+        notifications.add("SitePI");
+        ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", true);
+
+
     }
+
 
     public void processRulesForSite(HttpServletRequest request) throws Exception {
         processRules(request, ruleSet);

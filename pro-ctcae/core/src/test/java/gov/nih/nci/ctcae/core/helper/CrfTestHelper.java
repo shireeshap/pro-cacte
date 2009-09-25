@@ -184,7 +184,7 @@ public class CrfTestHelper {
         notifications.add("SitePI");
         notifications.add("LeadCRA");
 
-        ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y");
+        ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", false);
         ProCtcAERulesService.deployRuleSet(ruleSet);
     }
 

@@ -3,12 +3,8 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERule;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
-import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
-import gov.nih.nci.ctcae.core.domain.Study;
-import gov.nih.nci.ctcae.core.domain.StudySite;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
-import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +31,7 @@ public class AddFormRuleController extends AbstractController {
         if ("true".equals(isSite)) {
             override = "Y";
         }
-        Rule rule = ProCtcAERulesService.createRule(ruleSet, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), override);
+        Rule rule = ProCtcAERulesService.createRule(ruleSet, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), override, false);
         ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
         command.getFormOrStudySiteRules().add(proCtcAERule);
         modelAndView.addObject("proCtcAERule", proCtcAERule);

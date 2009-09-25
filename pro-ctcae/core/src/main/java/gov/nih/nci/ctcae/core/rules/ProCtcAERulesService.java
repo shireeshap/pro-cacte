@@ -5,7 +5,6 @@ import com.semanticbits.rules.objectgraph.FactResolver;
 import com.semanticbits.rules.utils.RuleUtil;
 import com.semanticbits.rules.impl.*;
 import gov.nih.nci.ctcae.core.domain.*;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.ArrayList;
@@ -38,11 +37,16 @@ public class ProCtcAERulesService {
     }
 
 
-    public static Rule createRule(RuleSet ruleSet, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {
+    public static Rule createRule(RuleSet ruleSet, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override, boolean defaultRule) {
         Rule rule = new Rule();
 
         MetaData metaData = new MetaData();
-        metaData.setName("Rule_" + UUID.randomUUID().toString());
+        String ruleName = "Rule_" + UUID.randomUUID().toString();
+        if (defaultRule) {
+            metaData.setName(ruleName + "_default_rule");
+        } else {
+            metaData.setName(ruleName);
+        }
         metaData.setPackageName(ruleSet.getName());
         metaData.setDescription("");
         rule.setMetaData(metaData);
@@ -105,7 +109,7 @@ public class ProCtcAERulesService {
     private static void copyRulesFromCrfRuleSet(RuleSet crfRuleSet, RuleSet ruleSet) {
         for (Rule rule : crfRuleSet.getRule()) {
             ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
-            createRule(ruleSet, proCtcAERule.getSymptoms(), proCtcAERule.getQuestiontypes(), proCtcAERule.getOperators(), proCtcAERule.getValues(), proCtcAERule.getNotifications(), proCtcAERule.getOverride());
+            createRule(ruleSet, proCtcAERule.getSymptoms(), proCtcAERule.getQuestiontypes(), proCtcAERule.getOperators(), proCtcAERule.getValues(), proCtcAERule.getNotifications(), proCtcAERule.getOverride(), false);
         }
     }
 
