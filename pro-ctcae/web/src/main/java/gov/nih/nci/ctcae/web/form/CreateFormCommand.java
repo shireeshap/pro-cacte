@@ -439,8 +439,10 @@ public class CreateFormCommand implements Serializable {
         }
 
         ArrayList<String> notifications = new ArrayList<String>();
+        notifications.add("PrimaryNurse");
         notifications.add("SiteCRA");
-        notifications.add("SitePI");
+        notifications.add("PrimaryPhysician");
+        notifications.add("LeadCRA");
         ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", true);
 
 
