@@ -11,10 +11,10 @@
 
 <body>
 
-<chrome:box title="form.label.delete_page">
+<chrome:box title="">
 <chrome:division>
 <p>
-    <strong>Do you really want to delete all questions for ${crfPageDescription} symptom?  </strong>
+    <strong>Do you really want to delete all ${crfPageDescription} questions?  </strong>
         <br/>
     </p>
 
@@ -22,8 +22,7 @@
 <p>
     <strong id="conditionsWarningForCrfPage_${selectedCrfPageNumber}" style="display:none"><tags:message
             code="form.label.delete_conditional_triggering_question_instruction"/></strong>
-    <tags:message code="form.label.delete_crf_page_instruction_more1"/>
-
+    
 
  </p>
 

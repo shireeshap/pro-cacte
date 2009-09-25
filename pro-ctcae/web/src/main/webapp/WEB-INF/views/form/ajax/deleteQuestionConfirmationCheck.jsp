@@ -16,13 +16,6 @@
     <br/>
 </p>
 
-<p>
-    <strong id="conditionsWarning_${questionId}" style="display:none"><tags:message
-            code="form.label.delete_conditional_triggering_question_instruction"/></strong>
-
-   <tags:message code="form.label.delete_question_instruction_more"/>
-
-   </p>
 </div>
 <br>
 
