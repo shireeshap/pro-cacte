@@ -47,8 +47,9 @@
             <input id="cycle_length_${cycleDefinitionIndex}" type="text" size="2"
                    value="${crfCycleDefinition.cycleLength}"
                    name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].cycleLength"
-                   class="validate-NUMERIC"
-                   onchange="javascript:showCyclesForDefinition(${cycleDefinitionIndex}, false);"/>
+                   class="validate-NOTEMPTY&&validate-NUMERIC"
+                   onchange="javascript:showCyclesForDefinition(${cycleDefinitionIndex}, false);"
+                   title="Cycle Length"/>
             <tags:renderSelect
                     propertyName="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].cycleLengthUnit"
                     noForm="true"
@@ -72,7 +73,9 @@
             <input id="cycle_repeat_${cycleDefinitionIndex}" type="text" size="2"
                    value="${crfCycleDefinition.repeatTimes}"
                    name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].repeatTimes"
-                   onchange="javascript:showCyclesForDefinition(${cycleDefinitionIndex}, false);"/>
+                   onchange="javascript:showCyclesForDefinition(${cycleDefinitionIndex}, false);"
+                   class="validate-NOTEMPTY&&validate-NUMERIC"
+                   title="Planned Repetitions"/>
            <font size="1"> <tags:message code="form.generate.schedule"/>  </font>
 
             <div id="div_cycle_selectdays_${cycleDefinitionIndex}" style="display:none;">
