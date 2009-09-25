@@ -175,6 +175,7 @@
     </script>
 </head>
 <body>
+<tags:instructions code="form.notification.instructions"/>
 <div id="templateSelects" style="display:none">
     <tags:renderSelect options="${crfSymptoms}" noForm="true" id="templateSelect_symptoms"/>
     <tags:renderSelect options="${questionTypes}" noForm="true" id="templateSelect_questiontypes"

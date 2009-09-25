@@ -1,6 +1,7 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%@attribute name="cycleDefinitionIndex" type="java.lang.Short" required="true" %>
 <%@attribute name="crfCycleDefinition" type="gov.nih.nci.ctcae.core.domain.CRFCycleDefinition" required="true" %>
@@ -72,6 +73,7 @@
                    value="${crfCycleDefinition.repeatTimes}"
                    name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].repeatTimes"
                    onchange="javascript:showCyclesForDefinition(${cycleDefinitionIndex}, false);"/>
+           <font size="1"> <tags:message code="form.generate.schedule"/>  </font>
 
             <div id="div_cycle_selectdays_${cycleDefinitionIndex}" style="display:none;">
                 <b><tags:message code="form.schedule.select_cycle_days"/></b>
