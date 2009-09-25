@@ -9,6 +9,7 @@ import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -64,6 +65,7 @@ public class CreateFormCommand implements Serializable {
     private FormArmSchedule newSelectedFormArmSchedule;
     private RuleSet ruleSet;
     private boolean allArms;
+    private List<CRFCycleDefinition> invalidCycleDefinitions = new ArrayList<CRFCycleDefinition>();
 
     public boolean isAllArms() {
         return allArms;
@@ -335,6 +337,10 @@ public class CreateFormCommand implements Serializable {
     public void createCycles(HttpServletRequest request) {
         int cycleDefinitionIndex = -1;
         for (CRFCycleDefinition crfCycleDefinition : getSelectedFormArmSchedule().getCrfCycleDefinitions()) {
+            if (crfCycleDefinition.getCycleLength() == null && StringUtils.isBlank(crfCycleDefinition.getRepeatTimes())) {
+                invalidCycleDefinitions.add(crfCycleDefinition);
+                break;
+            }
             cycleDefinitionIndex++;
             crfCycleDefinition.getCrfCycles().clear();
             String repeat = crfCycleDefinition.getRepeatTimes();
@@ -506,5 +512,9 @@ public class CreateFormCommand implements Serializable {
     public void initializeRulesForSite() {
         RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrfAndSite(crf, myOrg, false);
         initializeRules(ruleSet);
+    }
+
+    public List<CRFCycleDefinition> getInvalidCycleDefinitions() {
+        return invalidCycleDefinitions;
     }
 }

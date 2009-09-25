@@ -47,7 +47,7 @@
             <input id="cycle_length_${cycleDefinitionIndex}" type="text" size="2"
                    value="${crfCycleDefinition.cycleLength}"
                    name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].cycleLength"
-                   class="validate-NOTEMPTY&&validate-NUMERIC"
+                   class="validate-NUMERIC"
                    title="Cycle Length"/>
             <tags:renderSelect
                     propertyName="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].cycleLengthUnit"
@@ -71,7 +71,7 @@
             <input id="cycle_repeat_${cycleDefinitionIndex}" type="text" size="2"
                    value="${crfCycleDefinition.repeatTimes}"
                    name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].repeatTimes"
-                   class="validate-NOTEMPTY&&validate-NUMERIC"
+                   class="validate-NUMERIC"
                    title="Planned Repetitions"/>
             <tags:button value="Apply" color="blue" size="small"
                          onclick="javascript:showCyclesForDefinition(${cycleDefinitionIndex}, false);"/>

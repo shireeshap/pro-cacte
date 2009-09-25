@@ -105,6 +105,10 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
                     command.getSelectedFormArmSchedule().getCrfCycleDefinitions().remove(crfCycleDefinition);
                     command.setCrfCycleDefinitionIndexToRemove("");
                 }
+                for (CRFCycleDefinition invalidCrfCycleDefinition : command.getInvalidCycleDefinitions()) {
+                    command.getSelectedFormArmSchedule().getCrfCycleDefinitions().remove(invalidCrfCycleDefinition);
+                    command.getInvalidCycleDefinitions().clear();
+                }
             }
             if (command.getAllArms()) {
                 for (FormArmSchedule fas : command.getCrf().getFormArmSchedules()) {
@@ -128,4 +132,5 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
     public void setCrfRepository(CRFRepository crfRepository) {
         this.crfRepository = crfRepository;
     }
+
 }
