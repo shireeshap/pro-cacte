@@ -30,13 +30,6 @@
         reOrderQuestionNumber()
 
         hideQuestionsFromForm();
-        hideProCtcTermFromForm();
-
-    <c:forEach items="${command.crf.crfPagesSortedByPageNumber}" var="crfPage" varStatus="status">
-        var crfPageNumber = '${status.index}';
-        crfPageItemEditor(crfPageNumber);
-    </c:forEach>
-
     <c:forEach items="${selectedProCtcTerms}" var="selectedProCtcTerms" varStatus="status">
         hideProCtcTermLinkFromForm('${selectedProCtcTerms}')
     </c:forEach>
@@ -89,16 +82,6 @@
             }
 
         })
-
-    }
-    function hideProCtcTermFromForm() {
-        //        $$("div.selectedProCtcTerm").each(function (item) {
-        //
-        //            var proCtcTermId = getProCtcTermId(item.id);
-        //
-        //
-        //        })
-
 
     }
 
@@ -154,29 +137,6 @@ function updateSelectedCrfItems(questionId) {
             item.innerHTML = selectedCrfPageItems.innerHTML;
         });
     }
-
-}
-function addConditionalQuestion(questionId) {
-    var selectedValidValues = '';
-    var sValidValues = document.getElementsByClassName('condition_validvalue_' + questionId);
-    for (var i = 0; i < sValidValues.length; i++) {
-        var obj = $(sValidValues[i]);
-        if (obj.checked) {
-            selectedValidValues += obj.value + ',';
-        }
-    }
-
-    var request = new Ajax.Request("<c:url value="/pages/form/addConditionalQuestion"/>", {
-        parameters:<tags:ajaxstandardparams/>+"&questionId=" + questionId + "&selectedValidValues=" + selectedValidValues,
-        onComplete:function(transport) {
-            var response = transport.responseText;
-
-            new Insertion.Before("conditions_" + questionId, response)
-            addRemoveConditionalTriggeringDisplayToQuestion();
-        },
-        method:'get'
-    })
-
 
 }
 
@@ -507,7 +467,6 @@ function deleteQuestion(questionId, proCtcTermId) {
     var request = new Ajax.Request("<c:url value="/pages/confirmationCheck"/>", {
         parameters:<tags:ajaxstandardparams/>+"&confirmationType=deleteQuestion&questionId=" + questionId + "&proCtcTermId=" + proCtcTermId,
         onComplete:function(transport) {
-
             showConfirmationWindow(transport);
             if ($$("#sortable_" + questionId + '.conditional-triggering').length > 0) {
                 $('conditionsWarning_' + questionId).show();
@@ -578,45 +537,12 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         var formPages = $$('div.formpages');
         var item = formPages[formPages.length - 1];
         var crfPageNumber = item.id.substr(11, item.id.length);
-        crfPageItemEditor(crfPageNumber);
         hideQuestionsFromForm();
 
         postProcessFormChanges();
         updateConditions();
 
 
-    }
-    function crfPageItemEditor(crfPageNumber) {
-        var description = 'crf.crfPagesSortedByPageNumber[' + crfPageNumber + '].description';
-        var descriptionProperty = description + '-property';
-
-        var formNameInPlaceEdit = new Ajax.InPlaceEditor(descriptionProperty, '/proctcae/pages/form/setName', {
-            rows:1,
-            cancelControl:false,
-            okControl:false,
-            size:18,
-            submitOnBlur:true,
-            onEnterEditMode:function() {
-                if ($(descriptionProperty).innerHTML == 'Click here to name') {
-                    $(descriptionProperty).innerHTML = ''
-
-                }
-
-            }  ,
-            onComplete:function(transport) {
-                $(descriptionProperty).innerHTML = transport.responseText;
-                $(description).value = transport.responseText;
-                if ($(descriptionProperty).value == '') {
-                    $(descriptionProperty).innerHTML = 'Click here to name';
-
-                }
-
-
-            },
-            callback:function(form, value) {
-                return 'crfTitle=' + encodeURIComponent(value)
-            }
-        });
     }
 </script>
 
@@ -857,21 +783,6 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         background: none;
     }
 </style>
-<!--[if IE]>
-<style>
-    .leftBox {
-        margin-top: -1px;
-    }
-
-    #formbuilderTable-TL, #formbuilderTable-T, #formbuilderTable-TR {
-        height: 5px;
-    }
-    .header {
-        display:none;
-    }
-</style>
-<![endif]-->
-
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">

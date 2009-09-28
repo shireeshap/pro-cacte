@@ -41,7 +41,6 @@ public class EnterParticipantResponsesController extends CtcAeSimpleFormControll
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
         if (!StringUtils.isBlank(id)) {
         studyParticipantCrfSchedule = studyParticipantCrfScheduleRepository.findById(Integer.parseInt(id));
-//            HashMap<ProCtcTerm, ArrayList<StudyParticipantCrfItem>> symptomMap = studyParticipantCrfSchedule.getSymptomItems();
         }
         return studyParticipantCrfSchedule;
     }

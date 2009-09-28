@@ -388,5 +388,81 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         return symptoms;
     }
 
+    public Map getCrfItemsBySymptom() {
+        HashMap<ProCtcTerm, ArrayList<ArrayList>> symptomMap = new HashMap();
+        ArrayList<ArrayList> spCrfItems;
+        Integer counter = 0;
+        for (StudyParticipantCrfItem studyParticipantCrfItem : getStudyParticipantCrfItems()) {
+            ArrayList itemCounter = new ArrayList();
+            ProCtcTerm symptom = studyParticipantCrfItem.getCrfPageItem().getProCtcQuestion().getProCtcTerm();
+            if (symptomMap.containsKey(symptom)) {
+                spCrfItems = symptomMap.get(symptom);
+            } else {
+                spCrfItems = new ArrayList();
+                symptomMap.put(symptom, spCrfItems);
+            }
+            itemCounter.add(studyParticipantCrfItem);
+            itemCounter.add(counter);
+            spCrfItems.add(itemCounter);
+            counter++;
+        }
+        return symptomMap;
+    }
+
+    public void addParticipantAddedQuestions() {
+        if (getStudyParticipantCrfScheduleAddedQuestions().size() == 0) {
+            for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrf.getStudyParticipantCrfAddedQuestions()) {
+                addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfAddedQuestion);
+            }
+        }
+    }
+
+    public Map getParticipantAddedProCtcQuestionsBySymptom() {
+        HashMap<ProCtcTerm, List<List>> symptomMap = new HashMap();
+        addParticipantAddedQuestions();
+        List<List> studyParticipantCrfScheduleAddedQuestions;
+        Integer counter = 0;
+        for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : getStudyParticipantCrfScheduleAddedQuestions()) {
+            ArrayList itemCounter = new ArrayList();
+            if (studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion() != null) {
+                ProCtcTerm symptom = studyParticipantCrfScheduleAddedQuestion.getProCtcQuestion().getProCtcTerm();
+                if (symptomMap.containsKey(symptom)) {
+                    studyParticipantCrfScheduleAddedQuestions = symptomMap.get(symptom);
+                } else {
+                    studyParticipantCrfScheduleAddedQuestions = new ArrayList();
+                    symptomMap.put(symptom, studyParticipantCrfScheduleAddedQuestions);
+                }
+                itemCounter.add(studyParticipantCrfScheduleAddedQuestion);
+                itemCounter.add(counter);
+                studyParticipantCrfScheduleAddedQuestions.add(itemCounter);
+                counter++;
+            }
+        }
+        return symptomMap;
+    }
+
+    public Map getParticipantAddedMeddraQuestionsBySymptom() {
+        addParticipantAddedQuestions();
+        HashMap<String, List<List>> symptomMap = new HashMap();
+        List<List> studyParticipantCrfScheduleAddedQuestions;
+        Integer counter = 0;
+        for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : getStudyParticipantCrfScheduleAddedQuestions()) {
+            ArrayList itemCounter = new ArrayList();
+            if (studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion() != null) {
+                String symptom = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getFullName();
+                if (symptomMap.containsKey(symptom)) {
+                    studyParticipantCrfScheduleAddedQuestions = symptomMap.get(symptom);
+                } else {
+                    studyParticipantCrfScheduleAddedQuestions = new ArrayList();
+                    symptomMap.put(symptom, studyParticipantCrfScheduleAddedQuestions);
+                }
+                itemCounter.add(studyParticipantCrfScheduleAddedQuestion);
+                itemCounter.add(counter);
+                studyParticipantCrfScheduleAddedQuestions.add(itemCounter);
+                counter++;
+            }
+        }
+        return symptomMap;
+    }
 
 }

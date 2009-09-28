@@ -43,41 +43,53 @@
         <chrome:division title="${cycleTitle}" enableDelete="true"
                          deleteParams="deleteCycleDefinition('${cycleDefinitionIndex}')">
 
-            <b><tags:message code="form.schedule.cycle_length"/></b>
-            <input id="cycle_length_${cycleDefinitionIndex}" type="text" size="2"
-                   value="${crfCycleDefinition.cycleLength}"
-                   name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].cycleLength"
-                   class="validate-NUMERIC"
-                   title="Cycle Length"/>
-            <tags:renderSelect
-                    propertyName="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].cycleLengthUnit"
-                    noForm="true"
-                    options="${cyclelengthunits}" doNotshowLabel="true"
-                    propertyValue="${crfCycleDefinition.cycleLengthUnit}"/>
-            &nbsp;&nbsp;
-            <b><tags:message code="form.schedule.repeat"/></b>
-            <c:choose>
-                <c:when test="${crfCycleDefinition.repeatTimes eq '-1'}">
-                    <tags:renderSelect noForm="true" options="${repeatOptions}" doNotshowLabel="true"
-                                       onchange="javascript:changePlannedRep('${cycleDefinitionIndex}',this.value);"
-                                       propertyValue="-1" propertyName="select_repeat_${cycleDefinitionIndex}"/>
-                </c:when>
-                <c:otherwise>
-                    <tags:renderSelect noForm="true" options="${repeatOptions}" doNotshowLabel="true"
-                                       onchange="javascript:changePlannedRep('${cycleDefinitionIndex}',this.value);"
-                                       propertyValue="-2" propertyName="select_repeat_${cycleDefinitionIndex}"/>
-                </c:otherwise>
-            </c:choose>
-            <input id="cycle_repeat_${cycleDefinitionIndex}" type="text" size="2"
-                   value="${crfCycleDefinition.repeatTimes}"
-                   name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].repeatTimes"
-                   class="validate-NUMERIC"
-                   title="Planned Repetitions"/>
-            <tags:button value="Apply" color="blue" size="small"
-                         onclick="javascript:showCyclesForDefinition(${cycleDefinitionIndex}, false);"/>
+            <table>
+                <tr>
+                    <td>
+                        <b><tags:message code="form.schedule.cycle_length"/></b>
+                        <input id="cycle_length_${cycleDefinitionIndex}" type="text" size="2"
+                               value="${crfCycleDefinition.cycleLength}"
+                               name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].cycleLength"
+                               class="validate-NUMERIC"
+                               title="Cycle Length"/>
+                        <tags:renderSelect
+                                propertyName="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].cycleLengthUnit"
+                                noForm="true"
+                                options="${cyclelengthunits}" doNotshowLabel="true"
+                                propertyValue="${crfCycleDefinition.cycleLengthUnit}"/>
+                        &nbsp;&nbsp;
+                        <b><tags:message code="form.schedule.repeat"/></b>
+                        <c:choose>
+                            <c:when test="${crfCycleDefinition.repeatTimes eq '-1'}">
+                                <tags:renderSelect noForm="true" options="${repeatOptions}" doNotshowLabel="true"
+                                                   onchange="javascript:changePlannedRep('${cycleDefinitionIndex}',this.value);"
+                                                   propertyValue="-1"
+                                                   propertyName="select_repeat_${cycleDefinitionIndex}"/>
+                            </c:when>
+                            <c:otherwise>
+                                <tags:renderSelect noForm="true" options="${repeatOptions}" doNotshowLabel="true"
+                                                   onchange="javascript:changePlannedRep('${cycleDefinitionIndex}',this.value);"
+                                                   propertyValue="-2"
+                                                   propertyName="select_repeat_${cycleDefinitionIndex}"/>
+                            </c:otherwise>
+                        </c:choose>
+                        <input id="cycle_repeat_${cycleDefinitionIndex}" type="text" size="2"
+                               value="${crfCycleDefinition.repeatTimes}"
+                               name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].repeatTimes"
+                               class="validate-NUMERIC"
+                               title="Planned Repetitions"/>
+                    </td>
+                    <td>
+                        <tags:button value="Apply" color="blue" size="small"
+                                     onclick="javascript:showCyclesForDefinition(${cycleDefinitionIndex}, false);"
+                                     markupWithTag="a"/>
+                    </td>
+                </tr>
+            </table>
 
             <div id="div_cycle_selectdays_${cycleDefinitionIndex}" style="display:none;">
-                <b><tags:message code="form.schedule.select_cycle_days"/></b>
+                <br/>
+                <tags:instructions code="form.schedule.select_cycle_days"/>
             </div>
 
             <div id="div_cycle_table_${cycleDefinitionIndex}" style="display:none;">

@@ -372,7 +372,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalSt
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AbstractCrfController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddConditionalQuestionController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddCrfComponentController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddFormRuleController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/AddFormScheduleCycleController.java -text
@@ -1170,7 +1169,6 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalSt
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditorTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditorTest.java -text
-pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddConditionalQuestionControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AddCrfComponentControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/AllConditionsControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/form/BasicFormControllerTest.java -text

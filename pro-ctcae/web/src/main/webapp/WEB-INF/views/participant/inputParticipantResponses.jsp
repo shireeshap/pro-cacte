@@ -27,7 +27,7 @@
         <div id="inputResponses">
             <table width="100%" cellpadding="3px" cellspacing="0px" border="0">
                 <c:set var="myindex" value="1"/>
-                <c:forEach items="${command.symptomItems}" var="symptom">
+                <c:forEach items="${command.crfItemsBySymptom}" var="symptom">
                     <tr>
                         <td><br/></td>
                     </tr>
@@ -67,6 +67,87 @@
                         <c:set var="myindex" value="${myindex + 1}"/>
                     </c:forEach>
                 </c:forEach>
+                <c:forEach items="${command.participantAddedProCtcQuestionsBySymptom}" var="symptom">
+                    <tr>
+                        <td><br/></td>
+                    </tr>
+                    <tr style="background-color:#cccccc;">
+                        <td colspan="5">
+                            <b>${symptom.key.term} </b>
+                        </td>
+                    </tr>
+                    <c:forEach items="${symptom.value}" var="items">
+                        <tr>
+                            <td colspan="5">
+                                <b>${myindex}. ${items[0].proCtcQuestion.questionText}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <c:forEach items="${items[0].proCtcQuestion.validValues}" var="validValue">
+                                <c:choose>
+                                    <c:when test="${items[0].proCtcValidValue ne null && items[0].proCtcValidValue.displayOrder eq validValue.displayOrder}">
+
+                                        <td>
+                                            <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].proCtcValidValue"
+                                                   type="radio"
+                                                   value="${validValue.id}" checked> ${validValue} &nbsp;&nbsp;
+                                        </td>
+                                    </c:when>
+                                    <c:otherwise>
+
+                                        <td>
+                                            <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].proCtcValidValue"
+                                                   type="radio"
+                                                   value="${validValue.id}"> ${validValue} &nbsp;&nbsp;
+                                        </td>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </tr>
+                        <c:set var="myindex" value="${myindex + 1}"/>
+                    </c:forEach>
+                </c:forEach>
+                <c:forEach items="${command.participantAddedMeddraQuestionsBySymptom}" var="symptom">
+                    <tr>
+                        <td><br/></td>
+                    </tr>
+                    <tr style="background-color:#cccccc;">
+                        <td colspan="5">
+                            <b>${symptom.key.term} </b>
+                        </td>
+                    </tr>
+                    <c:forEach items="${symptom.value}" var="items">
+                        <tr>
+                            <td colspan="5">
+                                <b>${myindex}. ${items[0].meddraQuestion.questionText}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <c:forEach items="${items[0].meddraQuestion.validValues}" var="validValue">
+                                <c:choose>
+                                    <c:when test="${items[0].meddraValidValue ne null && items[0].meddraValidValue.displayOrder eq validValue.displayOrder}">
+
+                                        <td>
+                                            <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].meddraValidValue"
+                                                   type="radio"
+                                                   value="${validValue.id}" checked> ${validValue} &nbsp;&nbsp;
+                                        </td>
+                                    </c:when>
+                                    <c:otherwise>
+
+                                        <td>
+                                            <input name="studyParticipantCrfScheduleAddedQuestions[${items[1]}].meddraValidValue"
+                                                   type="radio"
+                                                   value="${validValue.id}"> ${validValue} &nbsp;&nbsp;
+                                        </td>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </tr>
+                        <c:set var="myindex" value="${myindex + 1}"/>
+                    </c:forEach>
+                </c:forEach>
+
 
             </table>
         </div>

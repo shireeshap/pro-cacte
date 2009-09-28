@@ -35,24 +35,13 @@ public class SubmitFormCommand implements Serializable {
     private ArrayList<ProCtcTerm> sortedSymptoms;
 
     public void initialize() {
-        createInstanceOfAddedQuestions();
+        studyParticipantCrfSchedule.addParticipantAddedQuestions();
         displayRules = studyParticipantCrfSchedule.getDisplayRules();
         currentPageIndex = 1;
         totalPages = studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getCrfPagesSortedByPageNumber().size();
         participantAddedQuestionIndex = totalPages + 1;
         totalPages = totalPages + studyParticipantCrfSchedule.getParticipantAddedSymptoms().size();
         addQuestionPageIndex = totalPages + 1;
-    }
-
-    private void createInstanceOfAddedQuestions() {
-        StudyParticipantCrf studyParticipantCrf = studyParticipantCrfSchedule.getStudyParticipantCrf();
-        if (studyParticipantCrf.getStudyParticipantCrfAddedQuestions().size() > 0) {
-            if (studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions().size() == 0) {
-                for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
-                    studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfAddedQuestion);
-                }
-            }
-        }
     }
 
     public void deleteQuestions() {

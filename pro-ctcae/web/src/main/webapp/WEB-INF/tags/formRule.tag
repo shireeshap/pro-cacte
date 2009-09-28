@@ -71,7 +71,7 @@
                                 </c:if>
                             </c:forEach>
                             <input type="checkbox" name="notifications_${ruleId}" value="${notification.code}"
-                                   ${selected}/>${notification.desc}
+                                ${selected}/>${notification.desc}
                         </c:forEach>
                     </div>
                 </div>
@@ -82,9 +82,15 @@
                         <input type="hidden" name="override_${ruleId}" value="Y"/>
                     </c:when>
                     <c:otherwise>
-                        &nbsp;&nbsp;&nbsp;<input type="checkbox" name="override_${ruleId}" value="Y" <c:if
-                            test="${proCtcAeRule.override=='Y'}"> checked </c:if> />
-                        <b>Can be overridden at site level</b>
+                        <b>Can these settings be overwritten at the local site level?</b>
+                        <select name="override_${ruleId}">
+                            <option value="Y" <c:if
+                                    test="${proCtcAeRule.override=='Y'}"> selected </c:if> >Yes
+                            </option>
+                            <option value="N" <c:if
+                                    test="${proCtcAeRule.override!='Y'}"> selected </c:if>>No
+                            </option>
+                        </select>
                     </c:otherwise>
                 </c:choose>
             </chrome:box>

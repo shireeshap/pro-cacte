@@ -22,18 +22,10 @@
             <img src="<tags:imageUrl name="arrow.png"/>" style="position:absolute; left:-22px;"/>
         </a>
 
-
-        <%--<span class="formbuilderHeader" id="crf.crfPages[${index}].description-property">${crfPage.description}Page${index}</span>--%>
-
-        <c:set var="crfPageTitle" value="${empty crfPage.description ?'Optional page title':crfPage.description}"/>
-
+        <c:set var="crfPageTitle" value="${empty crfPage.description ?'':crfPage.description}"/>
 
         <span id="crf.crfPagesSortedByPageNumber[${crfPageNumber}].description-property"
               class="crfPageTitle">${crfPageTitle}</span>
-
-        <input id="crf.crfPagesSortedByPageNumber[${crfPageNumber}].description" type="hidden" size="30"
-               value="${crfPage.description}"
-               name="crf.crfPagesSortedByPageNumber[${crfPageNumber}].description" class="autocomplete crfPageTitle"/>
 
         <div class="formbuilderBoxControls">
             <div class="formbuilderBoxControls-left">

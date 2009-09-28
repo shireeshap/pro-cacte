@@ -175,7 +175,17 @@
     </script>
 </head>
 <body>
+<div class="instructions">
+    <div class="summarylabel"><tags:message code='form.label.study'/></div>
+    <div class="summaryvalue">${command.crf.study.displayName}</div>
+</div>
+<div class="instructions">
+    <div class="summarylabel"><tags:message code='form.tab.form'/></div>
+    <div class="summaryvalue">${command.crf.title}</div>
+</div>
+
 <tags:instructions code="form.notification.instructions"/>
+
 <div id="templateSelects" style="display:none">
     <tags:renderSelect options="${crfSymptoms}" noForm="true" id="templateSelect_symptoms"/>
     <tags:renderSelect options="${questionTypes}" noForm="true" id="templateSelect_questiontypes"

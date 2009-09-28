@@ -205,13 +205,6 @@
           class="gov.nih.nci.ctcae.web.form.AddQuestionByParticipantController" parent="ctcaeSimpleFormController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
-    <bean name="/form/addConditionalQuestion" id="addConditionalQuestionController"
-          class="gov.nih.nci.ctcae.web.form.AddConditionalQuestionController">
-        <property name="proCtcQuestionRepository" ref="proCtcQuestionRepository"/>
-        <property name="proCtcValidValueRepository" ref="proCtcValidValueRepository"/>
-    </bean>
-
-
     <bean name="/form/copyForm" id="copyFormController"
           class="gov.nih.nci.ctcae.web.form.CopyFormController">
         <property name="crfRepository" ref="crfRepository"/>

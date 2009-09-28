@@ -420,19 +420,27 @@ public class CreateFormCommand implements Serializable {
     }
 
     private void createDefaultRule(CRF crf, RuleSet ruleSet) {
-        Rule defaultrule = null;
+
+        List<String> notifications = new ArrayList<String>();
+        notifications.add("PrimaryNurse");
+        notifications.add("SiteCRA");
+        notifications.add("PrimaryPhysician");
+        notifications.add("LeadCRA");
+
+        String overwrite = "Y";
         for (Rule rule : ruleSet.getRule()) {
             if (rule.getMetaData().getName().endsWith("_default_rule")) {
-                defaultrule = rule;
+                try {
+                    ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
+                    notifications = proCtcAERule.getNotifications();
+                    overwrite = proCtcAERule.getOverride();
+                    ProCtcAERulesService.deleteRule(rule.getId(), ruleSet);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
-        if (defaultrule != null) {
-            try {
-                ProCtcAERulesService.deleteRule(defaultrule.getId(), ruleSet);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+
         Set<String> allProCtcTermsInCrf = crf.getAllProCtcTermsInCrf();
         ArrayList<String> symptoms = new ArrayList(allProCtcTermsInCrf);
         ArrayList<String> questiontypes = new ArrayList<String>(crf.getAllQuestionTypes());
@@ -443,15 +451,7 @@ public class CreateFormCommand implements Serializable {
             operators.add(">=");
             values.add("3");
         }
-
-        ArrayList<String> notifications = new ArrayList<String>();
-        notifications.add("PrimaryNurse");
-        notifications.add("SiteCRA");
-        notifications.add("PrimaryPhysician");
-        notifications.add("LeadCRA");
-        ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", true);
-
-
+        ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, overwrite, true);
     }
 
 

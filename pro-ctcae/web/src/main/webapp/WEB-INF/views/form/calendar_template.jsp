@@ -449,6 +449,15 @@ function refreshPageLocal() {
 </head>
 <body>
 <c:set var="selectedFormArmSchedule" value="${command.selectedFormArmSchedule}"/>
+<div class="instructions">
+    <div class="summarylabel"><tags:message code='form.label.study'/></div>
+    <div class="summaryvalue">${command.crf.study.displayName}</div>
+</div>
+<div class="instructions">
+    <div class="summarylabel"><tags:message code='form.tab.form'/></div>
+    <div class="summaryvalue">${command.crf.title}</div>
+</div>
+
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
 <form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
