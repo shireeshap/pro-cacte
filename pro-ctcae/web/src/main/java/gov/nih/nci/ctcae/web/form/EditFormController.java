@@ -5,6 +5,8 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.web.participant.ParticipantCommand;
+import gov.nih.nci.ctcae.web.participant.ParticipantReviewTab;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 
@@ -51,22 +53,6 @@ public class EditFormController extends FormController {
 
     }
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.web.form.FormController#formBackingObject(javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        CreateFormCommand command = (CreateFormCommand) super.formBackingObject(request);
-        CRF crf = command.getCrf();
-        if (CrfStatus.DRAFT.equals(crf.getStatus())) {
-            return command;
-        }
-
-        throw new CtcAeSystemException("You can not only edit DRAFT forms. The status of this form is:" + crf.getStatus());
-
-
-    }
-
 
     @Override
     protected boolean shouldSave(final HttpServletRequest request, final CreateFormCommand command, final Tab tab) {
@@ -81,5 +67,18 @@ public class EditFormController extends FormController {
     protected int getInitialPage(HttpServletRequest request) {
         return 0;
     }
+
+    @Override
+    public Flow<CreateFormCommand> getFlow(CreateFormCommand command) {
+        if (command.getCrf().getStatus().equals(CrfStatus.RELEASED)) {
+            Flow flow = new Flow("Edit Rules");
+            flow.addTab(new FormRulesTab());
+            flow.addTab(new SiteRulesTab());
+            return getSecuredFlow(flow);
+        } else {
+            return super.getFlow(command);
+        }
+    }
+
 
 }

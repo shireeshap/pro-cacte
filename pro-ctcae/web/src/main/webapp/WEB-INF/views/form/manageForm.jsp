@@ -118,6 +118,9 @@
             <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
                 html += '<li><a href="#" onclick="location.href=\'../participant/schedulecrf?crfId=' + cid + '\'">Schedule form</a></li>';
             </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/form/editForm">
+                html += '<li><a href="#" onclick="location.href=\'editForm?crfId=' + cid + '\'">Edit rules</a></li>';
+            </proctcae:urlAuthorize>
             }
         <proctcae:urlAuthorize url="/pages/participant/copyForm">
             html += '<li><a href="#" onclick="location.href=\'copyForm?crfId=' + cid + '\'">Copy form</a></li>';

@@ -78,21 +78,6 @@ public class EditFormControllerTest extends WebTestCase {
 
     }
 
-    public void testMustNotEditNonDraftForm() throws Exception {
-        crf.setStatus(CrfStatus.RELEASED);
-        request.setMethod("GET");
-        request.addParameter("crfId", "1");
-        expect(crfRepository.findById(Integer.valueOf(1))).andReturn(crf);
-        replayMocks();
-        try {
-            controller.handleRequest(request, response);
-            fail("You can not only edit DRAFT forms.");
-        } catch (CtcAeSystemException e) {
-
-        }
-        verifyMocks();
-
-    }
 
     public void testProcessFinish() throws Exception {
 

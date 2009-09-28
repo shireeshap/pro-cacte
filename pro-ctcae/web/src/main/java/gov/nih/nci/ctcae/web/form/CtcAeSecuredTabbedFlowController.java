@@ -150,7 +150,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
         return getSecuredFlow(cFlow);
     }
 
-    private Flow<C> getSecuredFlow(Flow<C> flow) {
+    protected Flow<C> getSecuredFlow(Flow<C> flow) {
 
         Flow securedFlow = new Flow(flow.getName());
 
