@@ -37,17 +37,6 @@ public class EditFormController extends FormController {
     @Override
     protected Map referenceData(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception {
 
-        if (!StringUtils.isBlank(request.getParameter("showFormDetails")) && !StringUtils.isBlank(request.getParameter("crfId"))) {
-            if (request.getAttribute("flashMessage") == null) {
-                request.setAttribute("flashMessage", "form.version.success");
-            }
-        }
-
-        if (!StringUtils.isBlank(request.getParameter("copyForm")) && !StringUtils.isBlank(request.getParameter("crfId"))) {
-            if (request.getAttribute("flashMessage") == null) {
-                request.setAttribute("flashMessage", "form.copy.success");
-            }
-        }
         return super.referenceData(request, oCommand, errors, page);
 
 
