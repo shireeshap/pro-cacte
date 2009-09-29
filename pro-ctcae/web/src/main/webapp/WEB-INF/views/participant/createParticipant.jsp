@@ -83,6 +83,15 @@
                 $('resetpass').innerHTML = '<a href="javascript:showpassword(true);">Reset password</a>';
             }
         }
+
+        function validateAndSubmit(date, form) {
+            if (date == '') {
+                alert('Please provide a valid date');
+                return;
+            }
+            form.submit();
+        }
+
     </script>
     <style type="text/css">
         .tableHeader {

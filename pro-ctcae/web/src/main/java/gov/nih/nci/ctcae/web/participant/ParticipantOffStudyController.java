@@ -57,7 +57,7 @@ public class ParticipantOffStudyController extends CtcAeSimpleFormController {
             }
         }
 
-        RedirectView redirectView = new RedirectView("create?id=" + studyParticipantAssignment.getParticipant().getId());
+        RedirectView redirectView = new RedirectView("edit?id=" + studyParticipantAssignment.getParticipant().getId());
         return new ModelAndView(redirectView);
     }
 
