@@ -148,7 +148,7 @@ public class ProCtcAERulesService {
     }
 
     private static String getPackageNameForCrf(CRF crf) {
-        return RuleUtil.getPackageName(RuleSetType.FORM_LEVEL.getPackagePrefix(), "Study_" + crf.getStudy().getId().toString(), "Form_" + crf.getId().toString());
+        return RuleUtil.getPackageName(RuleSetType.FORM_LEVEL.getPackagePrefix(), "Study_" + crf.getStudy().getId().toString(), "Form_" + crf.getId());
     }
 
     private static Column getColumnForValidValue(String questionType, String operator, String value, int index) {

@@ -42,6 +42,9 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
      */
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
+        if(command.getCrf().getTitle() == null){
+            command.getCrf().setTitle(command.getUniqueTitleForCrf());
+        }
         if (command.getSelectedFormArmSchedule() == null) {
             command.setAllArms(true);
             CRF crf = command.getCrf();

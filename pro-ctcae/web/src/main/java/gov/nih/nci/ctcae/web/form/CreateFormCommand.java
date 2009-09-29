@@ -526,4 +526,8 @@ public class CreateFormCommand implements Serializable {
     public List<CRFCycleDefinition> getInvalidCycleDefinitions() {
         return invalidCycleDefinitions;
     }
+
+    public String getUniqueTitleForCrf() {
+        return "Untitled_" + UUID.randomUUID();
+    }
 }

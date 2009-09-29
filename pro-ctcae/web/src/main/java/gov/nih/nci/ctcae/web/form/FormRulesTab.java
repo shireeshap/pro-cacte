@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.rules.ProCtcAEFactResolver;
+import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
@@ -17,6 +18,8 @@ import java.util.Map;
  * @since Nov 3, 2008
  */
 public class FormRulesTab extends SecuredTab<CreateFormCommand> {
+
+    private CRFRepository crfRepository;
 
     /**
      * Instantiates a new calendar template tab.
@@ -34,6 +37,12 @@ public class FormRulesTab extends SecuredTab<CreateFormCommand> {
      */
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
+        if (command.getCrf().getTitle() == null) {
+            command.getCrf().setTitle(command.getUniqueTitleForCrf());
+        }
+        if (!command.getCrf().isPersisted()) {
+            crfRepository.save(command.getCrf());
+        }
         command.initializeRulesForForm();
         command.setReadonlyview("false");
     }
