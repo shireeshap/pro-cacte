@@ -121,6 +121,9 @@
             <proctcae:urlAuthorize url="/pages/form/editForm">
                 html += '<li><a href="#" onclick="location.href=\'editForm?crfId=' + cid + '\'">Edit rules</a></li>';
             </proctcae:urlAuthorize>
+                <proctcae:urlAuthorize url="/pages/form/viewForm">
+            html += '<li><a href="#" onclick="location.href=\'viewForm?crfId=' + cid + '\'">View form</a></li>';
+        </proctcae:urlAuthorize>
             }
         <proctcae:urlAuthorize url="/pages/participant/copyForm">
             html += '<li><a href="#" onclick="location.href=\'copyForm?crfId=' + cid + '\'">Copy form</a></li>';
@@ -137,9 +140,7 @@
             </proctcae:urlAuthorize>
 
             }
-        <proctcae:urlAuthorize url="/pages/form/viewForm">
-            html += '<li><a href="#" onclick="location.href=\'viewForm?crfId=' + cid + '\'">View form</a></li>';
-        </proctcae:urlAuthorize>
+
             html += '</ul></div>';
             jQuery('#crfActions' + cid).menu({
                 content: html,
