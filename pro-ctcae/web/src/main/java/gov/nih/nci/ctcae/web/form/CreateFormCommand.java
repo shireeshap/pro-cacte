@@ -413,34 +413,43 @@ public class CreateFormCommand implements Serializable {
 
 
     public void initializeRulesForForm() {
+        boolean firstTimeRuleCreation = ProCtcAERulesService.ruleSetExists(crf);
         RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf, true);
-        createDefaultRule(crf, ruleSet);
+
+        createDefaultRule(crf, ruleSet, firstTimeRuleCreation);
         ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf, true);
         initializeRules(ruleSet);
     }
 
-    private void createDefaultRule(CRF crf, RuleSet ruleSet) {
+    private void createDefaultRule(CRF crf, RuleSet ruleSet, boolean firstTimeRuleCreation) {
 
         List<String> notifications = new ArrayList<String>();
         notifications.add("PrimaryNurse");
         notifications.add("SiteCRA");
         notifications.add("PrimaryPhysician");
         notifications.add("LeadCRA");
-
         String overwrite = "Y";
-        for (Rule rule : ruleSet.getRule()) {
-            if (rule.getMetaData().getName().endsWith("_default_rule")) {
-                try {
-                    ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
-                    notifications = proCtcAERule.getNotifications();
-                    overwrite = proCtcAERule.getOverride();
-                    ProCtcAERulesService.deleteRule(rule.getId(), ruleSet);
-                } catch (Exception e) {
-                    e.printStackTrace();
+
+        if (firstTimeRuleCreation) {
+            createDefaultRule(crf, ruleSet, notifications, overwrite);
+        } else {
+            for (Rule rule : ruleSet.getRule()) {
+                if (rule.getMetaData().getName().endsWith("_default_rule")) {
+                    try {
+                        ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
+                        notifications = proCtcAERule.getNotifications();
+                        overwrite = proCtcAERule.getOverride();
+                        ProCtcAERulesService.deleteRule(rule.getId(), ruleSet);
+                        createDefaultRule(crf, ruleSet, notifications, overwrite);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
+    }
 
+    private void createDefaultRule(CRF crf, RuleSet ruleSet, List<String> notifications, String overwrite) {
         Set<String> allProCtcTermsInCrf = crf.getAllProCtcTermsInCrf();
         ArrayList<String> symptoms = new ArrayList(allProCtcTermsInCrf);
         ArrayList<String> questiontypes = new ArrayList<String>(crf.getAllQuestionTypes());

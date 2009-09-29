@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.web.ControllersUtils;
+import gov.nih.nci.ctcae.web.ListValues;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERule;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,6 +38,7 @@ public class AddFormRuleController extends AbstractController {
         modelAndView.addObject("proCtcAERule", proCtcAERule);
         modelAndView.addObject("ruleIndex", command.getFormOrStudySiteRules().size() - 1);
         modelAndView.addObject("isSite", isSite);
+        modelAndView.addObject("notifications", ListValues.getNotificationOptions());
 
         return modelAndView;
     }

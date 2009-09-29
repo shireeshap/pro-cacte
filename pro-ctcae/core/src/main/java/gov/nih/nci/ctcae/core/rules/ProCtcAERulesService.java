@@ -36,6 +36,11 @@ public class ProCtcAERulesService {
         return ruleSet;
     }
 
+    public static boolean ruleSetExists(CRF crf) {
+        String packageName = getPackageNameForCrf(crf);
+        RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, false);
+        return ruleSet != null;
+    }
 
     public static Rule createRule(RuleSet ruleSet, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override, boolean defaultRule) {
         Rule rule = new Rule();
