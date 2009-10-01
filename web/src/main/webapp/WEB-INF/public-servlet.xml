@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+    <bean id="loginViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass">
+            <value>org.springframework.web.servlet.view.InternalResourceView</value>
+        </property>
+        <property name="prefix">
+            <value>/WEB-INF/views/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+
+    <bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="location">
+            <value>/WEB-INF/special-views.xml</value>
+        </property>
+    </bean>
+
+    <bean id="publicHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+    </bean>
+
+
+    <bean name="/welcome" id="welcomeController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>internal-welcome</value>
+        </property>
+    </bean>
+
+    <bean name="/login" id="loginController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>login</value>
+        </property>
+    </bean>
+    <bean name="/accessDenied" id="accessDeniedController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>accessDenied</value>
+        </property>
+    </bean>
+
+
+    <bean name="/css/*"
+          class="org.springframework.web.servlet.mvc.UrlFilenameViewController">
+        <property name="prefix" value="css/"></property>
+        <property name="suffix">
+            <value>.css</value>
+        </property>
+    </bean>
+
+    <bean name="/user/emailSent" id="emailSentController" autowire="byType"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>user/emailSent</value>
+        </property>
+    </bean>
+    <bean name="/removealert" id="removeAlertController"
+          class="gov.nih.nci.ctcae.web.setup.RemoveAlertController">
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+</beans>
