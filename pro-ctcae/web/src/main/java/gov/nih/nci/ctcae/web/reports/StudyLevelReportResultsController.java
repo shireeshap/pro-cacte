@@ -211,7 +211,7 @@ public class StudyLevelReportResultsController extends AbstractController {
         }
         String colSpanStr = "";
         if (colSpan > 1) {
-            colSpanStr = "\"colspan=" + colSpan + "\"";
+            colSpanStr = "colspan=\"" + colSpan + "\"";
         }
         table.append("<td ").append(colSpanStr).append(" class=\"").append(style).append("\">").append(text).append("</td>");
     }
