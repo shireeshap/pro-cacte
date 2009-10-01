@@ -52,7 +52,7 @@
             $('notificationtable_' + index).show();
             var request = new Ajax.Request("<c:url value="/pages/participant/addNotificationClinicalStaff"/>", {
                 onComplete:addNotificationClinicalStaffDiv,
-                parameters:<tags:ajaxstandardparams/>+"&index=" + index,
+                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&id=" + gup('id'),
                 method:'get'
             })
         }
@@ -70,6 +70,16 @@
                 } ,
                 method:'get'
             });
+        }
+        function gup(name) {
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regexS = "[\\?&]" + name + "=([^&#]*)";
+            var regex = new RegExp(regexS);
+            var results = regex.exec(window.location.href);
+            if (results == null)
+                return "";
+            else
+                return results[1];
         }
     </script>
     <style type="text/css">

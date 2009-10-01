@@ -207,7 +207,7 @@
             </td>
             <td>
                 <div class="row">
-                    <div class="label"><spring:message code="participant.label.notification"/>:</div>
+                    <div class="label"><spring:message code="participant.label.notification"/></div>
                     <div class="value">
                             ${studyParticipantAssignment.researchNurse.notify?'Yes':'No'}</div>
                 </div>
