@@ -58,12 +58,14 @@
     </script>
 </head>
 <body>
+<div class="row">
+    <div class="label_nomargin"><spring:message code="schedulecrf.label.participant"/>:&nbsp;</div>
+    <div class="value_nomargin">${command.participant.displayName}</div>
+</div>
 
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="myForm">
     <jsp:attribute name="singleFields">
-
         <input type="hidden" name="_finish" value="true"/>
-
             <c:forEach items="${command.participantSchedules}" var="participantSchedule" varStatus="status">
                 <c:set var="participantCrf" value="${participantSchedule.studyParticipantCrf}"/>
                 <chrome:division title="${participantCrf.crf.title} (${participantCrf.crf.crfVersion})" message="false">
