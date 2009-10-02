@@ -62,6 +62,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             initialize(savedStudyParticipantCrfSchedule, submitFormCommand);
             NotificationsEvaluationService.setGenericRepository(genericRepository);
             NotificationsEvaluationService.executeRules(savedStudyParticipantCrfSchedule, savedStudyParticipantCrfSchedule.getStudyParticipantCrf().getCrf(), savedStudyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
+            submitFormCommand.markAllPastDueSchedulesAsCancelled();
         }
 
         request.getSession().setAttribute(SubmitFormController.class.getName() + ".FORM." + "command", submitFormCommand);

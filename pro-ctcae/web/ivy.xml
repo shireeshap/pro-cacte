@@ -124,6 +124,7 @@
 
         <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.1.6" conf="build->default"/>
         <dependency org="cobertura" name="cobertura" rev="1.8" conf="test->default(*)"/>
+        <dependency org="opensymphony" name="quartz-all" rev="1.6.0" conf="build->default(*)"/>
 
     </dependencies>
 </ivy-module>

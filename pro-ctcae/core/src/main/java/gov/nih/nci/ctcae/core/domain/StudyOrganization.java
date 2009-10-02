@@ -9,6 +9,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 //
 /**
@@ -175,7 +176,7 @@ public abstract class StudyOrganization extends BasePersistable {
     }
 
     public String getDisplayName() {
-        if(StringUtils.isBlank(displayName)){
+        if (StringUtils.isBlank(displayName)) {
             displayName = organization.getName();
         }
         return displayName;
@@ -183,5 +184,15 @@ public abstract class StudyOrganization extends BasePersistable {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public List<StudyOrganizationClinicalStaff> getStudyOrganizationClinicalStaffByRole(Role role) {
+        Date today = new Date();
+        List<StudyOrganizationClinicalStaff> l = new ArrayList<StudyOrganizationClinicalStaff>();
+        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : studyOrganizationClinicalStaffs) {
+            if (studyOrganizationClinicalStaff.getRole().equals(role) && studyOrganizationClinicalStaff.getRoleStatus().equals(RoleStatus.ACTIVE) && studyOrganizationClinicalStaff.getStatusDate().before(today))
+                l.add(studyOrganizationClinicalStaff);
+        }
+        return l;
     }
 }

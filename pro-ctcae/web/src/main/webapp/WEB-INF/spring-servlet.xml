@@ -512,5 +512,26 @@
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
 
+    <bean name="pastDueSchedulesReminderEmailBean" class="gov.nih.nci.ctcae.web.batch.PastDueSchedulesReminderEmail">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="pastDueSchedulesReminderEmailJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="pastDueSchedulesReminderEmailBean"/>
+        <property name="targetMethod" value="generateEmailReports"/>
+    </bean>
+
+    <bean id="nightlyTrigger" class="gov.nih.nci.ctcae.web.batch.NightlyTriggerBean">
+        <property name="jobDetail" ref="pastDueSchedulesReminderEmailJob"/>
+    </bean>
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="nightlyTrigger"/>
+            </list>
+        </property>
+    </bean>
+
 
 </beans>

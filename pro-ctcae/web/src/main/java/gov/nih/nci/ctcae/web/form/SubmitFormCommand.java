@@ -330,4 +330,15 @@ public class SubmitFormCommand implements Serializable {
         return addQuestionPageIndex;
     }
 
+    public void markAllPastDueSchedulesAsCancelled() {
+        Date today = new Date();
+        for (StudyParticipantCrfSchedule spcs : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfSchedules()) {
+            if (spcs.getDueDate().before(today)) {
+                if (spcs.getStatus().equals(CrfStatus.SCHEDULED) || spcs.getStatus().equals(CrfStatus.INPROGRESS) || spcs.getStatus().equals(CrfStatus.PASTDUE)) {
+                    spcs.setStatus(CrfStatus.CANCELLED);
+                }
+            }
+        }
+
+    }
 }
