@@ -313,10 +313,17 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
 
         StudyParticipantCrfSchedule that = (StudyParticipantCrfSchedule) o;
 
+        if (baseline != that.baseline) return false;
+        if (holiday != that.holiday) return false;
+        if (cycleDay != null ? !cycleDay.equals(that.cycleDay) : that.cycleDay != null) return false;
+        if (cycleNumber != null ? !cycleNumber.equals(that.cycleNumber) : that.cycleNumber != null) return false;
         if (dueDate != null ? !dueDate.equals(that.dueDate) : that.dueDate != null) return false;
+        if (monthInStudy != null ? !monthInStudy.equals(that.monthInStudy) : that.monthInStudy != null) return false;
         if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+        if (status != that.status) return false;
         if (studyParticipantCrf != null ? !studyParticipantCrf.equals(that.studyParticipantCrf) : that.studyParticipantCrf != null)
             return false;
+        if (weekInStudy != null ? !weekInStudy.equals(that.weekInStudy) : that.weekInStudy != null) return false;
 
         return true;
     }
@@ -325,6 +332,13 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     public int hashCode() {
         int result = startDate != null ? startDate.hashCode() : 0;
         result = 31 * result + (dueDate != null ? dueDate.hashCode() : 0);
+        result = 31 * result + (holiday ? 1 : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (cycleNumber != null ? cycleNumber.hashCode() : 0);
+        result = 31 * result + (cycleDay != null ? cycleDay.hashCode() : 0);
+        result = 31 * result + (weekInStudy != null ? weekInStudy.hashCode() : 0);
+        result = 31 * result + (monthInStudy != null ? monthInStudy.hashCode() : 0);
+        result = 31 * result + (baseline ? 1 : 0);
         result = 31 * result + (studyParticipantCrf != null ? studyParticipantCrf.hashCode() : 0);
         return result;
     }
