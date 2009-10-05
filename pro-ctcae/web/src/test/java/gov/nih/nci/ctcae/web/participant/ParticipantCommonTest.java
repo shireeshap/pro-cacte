@@ -24,10 +24,16 @@ public class ParticipantCommonTest extends AbstractWebTestCase {
 
     public void testParticipantControllerUtils_GetParticipantCommand() {
         ParticipantCommand pc = new ParticipantCommand();
-        String attribute = ParticipantController.class.getName() + ".FORM." + "command";
+        String attribute = CreateParticipantController.class.getName() + ".FORM." + "command";
         request.getSession().setAttribute(attribute, pc);
         ParticipantCommand pc1 = ParticipantControllerUtils.getParticipantCommand(request);
         assertEquals(pc, pc1);
+        ParticipantCommand pc2 = new ParticipantCommand();
+        attribute = EditParticipantController.class.getName() + ".FORM." + "command";
+        request.setParameter("id","1");
+        request.getSession().setAttribute(attribute, pc2);
+        pc1 = ParticipantControllerUtils.getParticipantCommand(request);
+        assertEquals(pc2, pc1);
     }
 
     public void testParticipantReviewTab_GetRequiredPrivilege() {
