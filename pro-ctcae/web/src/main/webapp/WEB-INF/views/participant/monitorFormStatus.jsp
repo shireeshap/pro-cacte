@@ -10,7 +10,6 @@
 
 <html>
 <body>
-
 <div id="formStatusTable">
     <table>
         <tr>
@@ -19,6 +18,7 @@
             </td>
         </tr>
     </table>
+    <tags:instructions code="participant.monitor.results.instructions"/>
     <c:forEach items="${crfStatusMap}" var="siteCrfStatus">
         <chrome:division title="${siteCrfStatus.key.organization.name}"/>
         <c:choose>

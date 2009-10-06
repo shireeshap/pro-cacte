@@ -5,6 +5,7 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="reports" tagdir="/WEB-INF/tags/reports" %>
 <chrome:box title="Report">
+    <tags:instructions code="reports.symptom.summary.results.instructions"/>
     <table>
         <reports:displayarms arms="${arms}" selectedArms="${selectedArms}" resetPopUp="true"/>
     </table>

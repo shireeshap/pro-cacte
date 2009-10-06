@@ -300,6 +300,7 @@ function hideIndicator() {
 </style>
 </head>
 <body>
+<tags:instructions code="participant.monitor.instructions"/>
 <chrome:box title="participant.label.search_criteria">
     <div align="left" style="margin-left: 50px">
         <tags:renderAutocompleter propertyName="study"

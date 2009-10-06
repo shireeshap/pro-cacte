@@ -5,6 +5,7 @@
 <%@taglib prefix="reports" tagdir="/WEB-INF/tags/reports" %>
 
 <chrome:box title="Report">
+    <tags:instructions code="reports.symptomovertime.results.instructions"/>
     <table>
         <c:if test="${fn:length(arms)>1}">
             <tr>
