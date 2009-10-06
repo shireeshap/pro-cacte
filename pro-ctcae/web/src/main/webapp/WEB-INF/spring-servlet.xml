@@ -190,9 +190,6 @@
     </bean>
 
 
-    <bean name="/form/setName" id="setNameController"
-          class="gov.nih.nci.ctcae.web.form.SetNameController">
-    </bean>
     <bean name="/confirmationCheck" id="confirmationController"
           class="gov.nih.nci.ctcae.web.ConfirmationCheckController">
     </bean>
