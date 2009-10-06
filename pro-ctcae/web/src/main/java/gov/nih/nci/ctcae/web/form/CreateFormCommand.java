@@ -337,7 +337,7 @@ public class CreateFormCommand implements Serializable {
     public void createCycles(HttpServletRequest request) {
         int cycleDefinitionIndex = -1;
         for (CRFCycleDefinition crfCycleDefinition : getSelectedFormArmSchedule().getCrfCycleDefinitions()) {
-            if (crfCycleDefinition.getCycleLength() == null && StringUtils.isBlank(crfCycleDefinition.getRepeatTimes())) {
+            if (crfCycleDefinition.getCycleLength() == null || StringUtils.isBlank(crfCycleDefinition.getRepeatTimes())) {
                 invalidCycleDefinitions.add(crfCycleDefinition);
                 break;
             }
@@ -429,23 +429,27 @@ public class CreateFormCommand implements Serializable {
         notifications.add("PrimaryPhysician");
         notifications.add("LeadCRA");
         String overwrite = "Y";
-
+        Rule defaultRule = null;
         if (firstTimeRuleCreation) {
             createDefaultRule(crf, ruleSet, notifications, overwrite);
         } else {
             for (Rule rule : ruleSet.getRule()) {
                 if (rule.getMetaData().getName().endsWith("_default_rule")) {
-                    try {
-                        ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
-                        notifications = proCtcAERule.getNotifications();
-                        overwrite = proCtcAERule.getOverride();
-                        ProCtcAERulesService.deleteRule(rule.getId(), ruleSet);
-                        createDefaultRule(crf, ruleSet, notifications, overwrite);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
+                    notifications = proCtcAERule.getNotifications();
+                    overwrite = proCtcAERule.getOverride();
+                    defaultRule = rule;
+                    break;
                 }
             }
+            if (defaultRule != null) {
+                try {
+                    ProCtcAERulesService.deleteRule(defaultRule.getId(), ruleSet);
+                    createDefaultRule(crf, ruleSet, notifications, overwrite);
+                } catch (Exception e) {
+                }
+            }
+
         }
     }
 

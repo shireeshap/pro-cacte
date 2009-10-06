@@ -42,7 +42,7 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
      */
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
-        if(command.getCrf().getTitle() == null){
+        if (command.getCrf().getTitle() == null) {
             command.getCrf().setTitle(command.getUniqueTitleForCrf());
         }
         if (command.getSelectedFormArmSchedule() == null) {
@@ -63,7 +63,10 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
             command.setSelectedFormArmSchedule(savedCrf.getFormArmSchedules().get(0));
             command.setNewSelectedFormArmSchedule(savedCrf.getFormArmSchedules().get(0));
         } else {
-            command.setSelectedFormArmSchedule(command.getNewSelectedFormArmSchedule());
+            if (command.getNewSelectedFormArmSchedule() != null) {
+                command.setSelectedFormArmSchedule(command.getNewSelectedFormArmSchedule());
+                command.setNewSelectedFormArmSchedule(null);
+            }
         }
 
     }
@@ -119,6 +122,7 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
                         formArmSchedule.copySchedulesInto(fas);
                     }
                 }
+                command.setNewSelectedFormArmSchedule(command.getSelectedFormArmSchedule());
             }
 
         }
