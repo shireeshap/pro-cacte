@@ -124,6 +124,8 @@ public class CRF extends BaseVersionable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<FormArmSchedule> formArmSchedules = new LinkedList<FormArmSchedule>();
 
+    @Column(name = "activity_date", nullable = true)
+    private Date activityDate;
 
     /**
      * Gets the recall period.
@@ -782,5 +784,13 @@ public class CRF extends BaseVersionable {
             }
         }
         return questionTypes;
+    }
+
+    public Date getActivityDate() {
+        return activityDate;
+    }
+
+    public void setActivityDate(Date activityDate) {
+        this.activityDate = activityDate;
     }
 }

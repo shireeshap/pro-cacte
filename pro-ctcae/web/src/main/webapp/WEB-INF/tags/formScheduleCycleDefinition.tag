@@ -80,7 +80,7 @@
                                title="Planned Repetitions"/>
                     </td>
                     <td>
-                        <tags:button value="Apply" color="blue" size="small"
+                        <tags:button value="Generate" color="blue" size="small"
                                      onclick="javascript:showCyclesForDefinition(${cycleDefinitionIndex}, false);"
                                      markupWithTag="a"/>
                     </td>

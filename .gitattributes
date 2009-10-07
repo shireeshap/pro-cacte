@@ -79,6 +79,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFCycle.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFCycleDefinition.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CRFPage.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/ClinicalStaff.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfActivityDateComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfCreationMode.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfCycleDefinitionOrderComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/CrfCycleOrderComparator.java -text
@@ -547,6 +548,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/errors.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowControls.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowSaveButton.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/form.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/formActionMenu.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formBuilder.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formRule.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/formScheduleCycleDefinition.tag -text

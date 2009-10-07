@@ -12,6 +12,7 @@
 
 <head>
     <tags:formBuilder/>
+    <tags:formActionMenu/>
     <tags:stylesheetLink name="tabbedflow"/>
     <tags:includeScriptaculous/>
     <tags:stylesheetLink name="table_menu"/>
@@ -71,25 +72,7 @@
 
         }
 
-        function deleteForm(crfId) {
-            var request = new Ajax.Request("<c:url value="/pages/form/deleteForm"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&crfId=" + crfId ,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport);
-                },
-                method:'get'
-            })
-        }
 
-        function versionForm(crfId) {
-            var request = new Ajax.Request("<c:url value="/pages/form/versionForm"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&crfId=" + crfId ,
-                onComplete:function(transport) {
-                    showConfirmationWindow(transport);
-                },
-                method:'get'
-            })
-        }
         function showVersionForm(crfId) {
             var request = new Ajax.Request("<c:url value="/pages/form/showVersionForm"/>", {
                 parameters:<tags:ajaxstandardparams/>+"&crfId=" + crfId,
@@ -108,53 +91,6 @@
             $$('tr.childTableRow_' + crfId).each(function(item) {
                 item.remove();
             });
-        }
-        function showPopUpMenu(cid, status) {
-            var html = '<div id="search-engines"><ul>';
-            if (status == 'Released') {
-            <proctcae:urlAuthorize url="/pages/form/versionForm">
-                html += '<li><a href="#" onclick="javascript:versionForm(' + cid + ')">Create new version</a></li>';
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-                html += '<li><a href="#" onclick="location.href=\'../participant/schedulecrf?crfId=' + cid + '\'">Schedule form</a></li>';
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/form/editForm">
-                html += '<li><a href="#" onclick="location.href=\'editForm?crfId=' + cid + '\'">Edit rules</a></li>';
-            </proctcae:urlAuthorize>
-                <proctcae:urlAuthorize url="/pages/form/viewForm">
-            html += '<li><a href="#" onclick="location.href=\'viewForm?crfId=' + cid + '\'">View form</a></li>';
-        </proctcae:urlAuthorize>
-            }
-        <proctcae:urlAuthorize url="/pages/participant/copyForm">
-            html += '<li><a href="#" onclick="location.href=\'copyForm?crfId=' + cid + '\'">Copy form</a></li>';
-        </proctcae:urlAuthorize>
-            if (status == 'Draft') {
-            <proctcae:urlAuthorize url="/pages/form/releaseForm">
-                html += '<li><a href="#" onclick="javascript:releaseForm(' + cid + ')">Release form</a></li>';
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/form/deleteForm">
-                html += '<li><a href="#" onclick="javascript:deleteForm(' + cid + ')">Delete form</a></li>';
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/form/editForm">
-                html += '<li><a href="#" onclick="location.href=\'editForm?crfId=' + cid + '\'">Edit form</a></li>';
-            </proctcae:urlAuthorize>
-
-            }
-
-            html += '</ul></div>';
-            jQuery('#crfActions' + cid).menu({
-                content: html,
-                maxHeight: 180,
-                positionOpts: {
-                    directionV: 'down',
-                    posX: 'left',
-                    posY: 'bottom',
-                    offsetX: 0,
-                    offsetY: 0
-                },
-                showSpeed: 300
-            });
-
         }
 
 

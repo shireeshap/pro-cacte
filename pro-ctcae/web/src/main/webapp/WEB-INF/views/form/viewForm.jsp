@@ -11,7 +11,6 @@
 
 <head>
 
-    <tags:formBuilder/>
     <tags:includePrototypeWindow/>
     <tags:stylesheetLink name="cycledefinitions"/>
     <tags:javascriptLink name="cycledefinitions"/>

@@ -19,10 +19,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 /**
  * @author Vinay Kumar
@@ -61,14 +58,62 @@ public class LoginController extends AbstractController {
         ModelAndView mv = new ModelAndView("home");
         user = userRepository.findById(user.getId());
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
-
         if (clinicalStaff == null) {
             throw new CtcAeSystemException("User must be one of these - Clinical Staff, Participant, Admin - " + user.getUsername());
         }
 
+        Date today = new Date();
+        boolean siteLevelRole = false;
+        boolean studyLevelRole = false;
+        List<CRF> topLevelCrfs = new ArrayList<CRF>();
+        List<Study> studyWithoutForm = new ArrayList<Study>();
+        for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
+            for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaff.getStudyOrganizationClinicalStaff()) {
+                if (studyOrganizationClinicalStaff.getRoleStatus().equals(RoleStatus.ACTIVE) && studyOrganizationClinicalStaff.getStatusDate().before(today)) {
+                    Role role = studyOrganizationClinicalStaff.getRole();
+                    if (role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI)) {
+                        siteLevelRole = true;
+                    }
+                    if (role.equals(Role.LEAD_CRA) || role.equals(Role.PI)) {
+                        studyLevelRole = true;
+                        Study study = studyOrganizationClinicalStaff.getStudyOrganization().getStudy();
+                        List<CRF> crfs = study.getCrfs();
+                        if (crfs.size() == 0) {
+                            studyWithoutForm.add(study);
+                        } else {
+                            for (CRF crf : crfs) {
+                                if (crf.getChildCrf() == null) {
+                                    topLevelCrfs.add(crf);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (studyLevelRole) {
+            Collections.sort(topLevelCrfs, new CrfActivityDateComparator());
+            List<CRF> recentCrfs = new ArrayList<CRF>();
+            if (topLevelCrfs.size() > 10) {
+                for (int i = 0; i < 10; i++) {
+                    recentCrfs.add(topLevelCrfs.get(i));
+                }
+            } else {
+                recentCrfs = topLevelCrfs;
+            }
+            mv.addObject("recentCrfs", topLevelCrfs);
+            mv.addObject("studyWithoutForm", studyWithoutForm);
+        }
+        mv.addObject("siteLevelRole", siteLevelRole);
+        mv.addObject("studyLevelRole", studyLevelRole);
         mv.addObject("notifications", getNotifications(user));
-        mv.addObject("overdue", getOverdueAndUpcomingSchedules(clinicalStaff).get(0));
-        mv.addObject("upcoming", getOverdueAndUpcomingSchedules(clinicalStaff).get(1));
+
+        if (siteLevelRole) {
+            List<List<StudyParticipantCrfSchedule>> schedules = getOverdueAndUpcomingSchedules(clinicalStaff);
+            mv.addObject("overdue", schedules.get(0));
+            mv.addObject("upcoming", schedules.get(1));
+        }
         return mv;
     }
 

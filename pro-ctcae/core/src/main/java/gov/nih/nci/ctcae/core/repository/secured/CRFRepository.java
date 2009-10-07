@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Hashtable;
+import java.util.Date;
 
 //
 /**
@@ -129,7 +130,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
                 throw (new CtcAeSystemException("You can not update the title if crf is versioned"));
             }
         }
-
+        crf.setActivityDate(new Date());
         crf = genericRepository.save(crf);
         initializeCollections(crf);
         return crf;
@@ -187,9 +188,9 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
         copiedCRF.setTitle(crf.getTitle());
         copiedCRF.setCrfVersion(newVersion);
         copiedCRF.setParentCrf(crf);
-        copiedCRF = genericRepository.save(copiedCRF);
+        copiedCRF = save(copiedCRF);
         crf.setChildCrf(copiedCRF);
-        crf = genericRepository.save(crf);
+        crf = save(crf);
         return copiedCRF;
     }
 
@@ -197,7 +198,7 @@ public class CRFRepository implements Repository<CRF, CRFQuery> {
     public CRF copy(CRF crf) {
         CRF copiedCrf = crf.copy();
         copiedCrf.setCrfVersion("1.0");
-        return genericRepository.save(copiedCrf);
+        return save(copiedCrf);
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
