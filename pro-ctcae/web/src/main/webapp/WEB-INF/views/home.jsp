@@ -205,7 +205,7 @@
 <c:if test="${studyLevelRole}">
     <tr>
         <td>
-            <chrome:box title="Recent Forms">
+            <chrome:box title="Forms">
                 <table class="widget" cellpadding="3px;">
                     <tr>
                         <td class="header-top">
@@ -246,7 +246,7 @@
             </chrome:box>
         </td>
         <td>
-            <chrome:box title="Studies without form">
+            <chrome:box title="Studies">
                 <table width="100%">
                     <c:forEach items="${studyWithoutForm}" var="study">
                             <tr>
