@@ -50,7 +50,7 @@ public class ParticipantQuery extends AbstractQuery {
      * @param firstName the first name
      */
     public void filterByParticipantFirstName(final String firstName) {
-        String searchString = "%" + firstName.toLowerCase() + "%";
+        String searchString = firstName.toLowerCase() ;
         andWhere("lower(p.firstName) LIKE :" + FIRST_NAME);
         setParameter(FIRST_NAME, searchString);
     }
@@ -61,7 +61,7 @@ public class ParticipantQuery extends AbstractQuery {
      * @param lastName the last name
      */
     public void filterByParticipantLastName(final String lastName) {
-        String searchString = "%" + lastName.toLowerCase() + "%";
+        String searchString = lastName.toLowerCase();
         andWhere("lower(p.lastName) LIKE :" + LAST_NAME);
         setParameter(LAST_NAME, searchString);
     }
@@ -72,7 +72,7 @@ public class ParticipantQuery extends AbstractQuery {
      * @param identifier the identifier
      */
     public void filterByParticipantIdentifier(final String identifier) {
-        String searchString = "%" + identifier.toLowerCase() + "%";
+        String searchString = identifier.toLowerCase() ;
         andWhere("lower(p.assignedIdentifier) LIKE :" + IDENTIFIER);
         setParameter(IDENTIFIER, searchString);
     }

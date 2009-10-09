@@ -95,8 +95,8 @@ public class LoginController extends AbstractController {
         if (studyLevelRole) {
             Collections.sort(topLevelCrfs, new CrfActivityDateComparator());
             List<CRF> recentCrfs = new ArrayList<CRF>();
-            if (topLevelCrfs.size() > 10) {
-                for (int i = 0; i < 10; i++) {
+            if (topLevelCrfs.size() > 5) {
+                for (int i = 0; i < 5; i++) {
                     recentCrfs.add(topLevelCrfs.get(i));
                 }
             } else {

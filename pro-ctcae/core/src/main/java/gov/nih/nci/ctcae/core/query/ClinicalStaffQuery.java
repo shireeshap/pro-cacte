@@ -47,18 +47,9 @@ public class ClinicalStaffQuery extends AbstractQuery {
      * @param firstName the first name
      */
     public void filterByClinicalStaffFirstName(final String firstName) {
-        String searchString = "%" + firstName.toLowerCase() + "%";
+        String searchString = firstName.toLowerCase();
         andWhere("lower(cs.firstName) LIKE :" + FIRST_NAME);
         setParameter(FIRST_NAME, searchString);
-    }
-
-    public void filterByFirstNameOrLastNameOrNciIdentifier(final String searchText) {
-        String searchString = "%" + searchText.toLowerCase() + "%";
-        andWhere(String.format("(lower(cs.firstName) LIKE :%s or lower(cs.lastName) LIKE :%s or lower(cs.nciIdentifier) LIKE :%s)",
-                FIRST_NAME, LAST_NAME, NCI_IDENTIFIER));
-        setParameter(FIRST_NAME, searchString);
-        setParameter(LAST_NAME, searchString);
-        setParameter(NCI_IDENTIFIER, searchString);
     }
 
     /**
@@ -67,7 +58,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
      * @param lastName the last name
      */
     public void filterByClinicalStaffLastName(final String lastName) {
-        String searchString = "%" + lastName.toLowerCase() + "%";
+        String searchString = lastName.toLowerCase() ;
         andWhere("lower(cs.lastName) LIKE :" + LAST_NAME);
         setParameter(LAST_NAME, searchString);
     }
@@ -88,7 +79,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
      * @param nciIdentifier the nci identifier
      */
     public void filterByNciIdentifier(final String nciIdentifier) {
-        String searchString = "%" + nciIdentifier.toLowerCase() + "%";
+        String searchString =  nciIdentifier.toLowerCase() ;
         andWhere("lower(cs.nciIdentifier) LIKE :" + NCI_IDENTIFIER);
         setParameter(NCI_IDENTIFIER, searchString);
     }
