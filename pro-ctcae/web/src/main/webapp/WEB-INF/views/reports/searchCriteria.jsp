@@ -209,8 +209,8 @@
             </div>
         </div>
         <div id="search" class="row" style="display:none">
-            <div class="value">
-                <tags:button color="blue" value="Search" onclick="resetPopUpFlagAndCallResults();" size="big"
+            <div style="margin-left:9em">
+                <tags:button color="blue" value="Generate Report" onclick="resetPopUpFlagAndCallResults();" size="small"
                              icon="search"/>
                 <tags:indicator id="indicator"/>
             </div>

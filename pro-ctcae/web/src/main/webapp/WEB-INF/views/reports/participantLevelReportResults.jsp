@@ -33,6 +33,7 @@
     </table>
 </span>
 <chrome:box title="Report - ${participant.displayName}">
+    <tags:instructions code="participant.report.result.instructions"/>
     <div align="right">
         <a href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank">
             <img src="/proctcae/images/table/pdf.gif" alt="pdf"/>

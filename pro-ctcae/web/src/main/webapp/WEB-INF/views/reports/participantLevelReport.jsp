@@ -180,8 +180,9 @@
         </div>
 
         <div id="search" style="display:none" class="row">
-            <div class="value"><tags:button color="blue" value="Search"
-                                            onclick="participantCareResults('tabular')" size="big"
+
+            <div style="margin-left:9em"><tags:button color="blue" value="Generate Report"
+                                            onclick="participantCareResults('tabular')" size="small"
                                             icon="search"/>
                 <tags:indicator id="indicator"/>
             </div>
