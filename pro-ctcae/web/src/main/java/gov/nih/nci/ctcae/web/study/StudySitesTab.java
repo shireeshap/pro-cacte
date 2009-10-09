@@ -41,10 +41,12 @@ public class StudySitesTab extends SecuredTab<StudyCommand> {
         }
         for (StudySite studySite : studySitesToRemove) {
             StudySite tempStudySite = genericRepository.findById(StudySite.class, studySite.getId());
-            if (tempStudySite.getStudyParticipantAssignments().size() > 0 || tempStudySite.getStudyOrganizationClinicalStaffs().size() > 0) {
-                errors.reject("NON_EMPTY_STUDY_SITE", "Cannot delete site " + studySite.getDisplayName() + " as there are participants and clinical staff assigned to it.");
-            } else {
-                command.getStudy().getStudyOrganizations().remove(studySite);
+            if (tempStudySite != null) {
+                if (tempStudySite.getStudyParticipantAssignments().size() > 0 || tempStudySite.getStudyOrganizationClinicalStaffs().size() > 0) {
+                    errors.reject("NON_EMPTY_STUDY_SITE", "Cannot delete site " + studySite.getDisplayName() + " as there are participants and clinical staff assigned to it.");
+                } else {
+                    command.getStudy().getStudyOrganizations().remove(studySite);
+                }
             }
         }
         command.getSiteIndexesToRemove().clear();
