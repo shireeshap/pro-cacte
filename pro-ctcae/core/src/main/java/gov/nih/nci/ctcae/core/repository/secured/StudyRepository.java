@@ -53,9 +53,11 @@ public class StudyRepository implements Repository<Study, StudyQuery> {
     private void removeLeadStudySiteFromStudySites(Study study) {
         List<StudySite> studySitesToRemove = new ArrayList<StudySite>();
         for (StudySite studySite : study.getStudySites()) {
-            if (studySite.getOrganization().equals(study.getLeadStudySite().getOrganization())) {
-                if (!(studySite instanceof LeadStudySite)) {
-                    studySitesToRemove.add(studySite);
+            if (studySite != null && studySite.getOrganization() != null) {
+                if (studySite.getOrganization().equals(study.getLeadStudySite().getOrganization())) {
+                    if (!(studySite instanceof LeadStudySite)) {
+                        studySitesToRemove.add(studySite);
+                    }
                 }
             }
         }
