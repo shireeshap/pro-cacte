@@ -86,7 +86,7 @@
 <report:thirdlevelmenu selected="${param['rt']}"/>
 <report:reportSpecificJS selected="${param['rt']}"/>
 <tags:instructions code="${param['rt']}Instructions"/>
-<chrome:box title="participant.label.search_criteria">
+<chrome:box title="report.label.search_criteria">
     <div align="left" style="margin-left: 50px">
         <c:choose>
             <c:when test="${study ne null}">
