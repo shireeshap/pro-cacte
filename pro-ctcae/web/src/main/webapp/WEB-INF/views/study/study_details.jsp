@@ -82,17 +82,17 @@
         <p><tags:instructions code="study.study_details.top"/></p>
 
         <tags:renderText propertyName="study.assignedIdentifier" displayName="study.label.assigned_identifier"
-                         required="true" help="true" size="50"/>
+                         required="true" size="50"/>
 
         <tags:renderText propertyName="study.shortTitle" displayName="study.label.short_title"
-                         required="true" help="true" size="50"/>
+                         required="true" size="50"/>
 
         <tags:renderTextArea propertyName="study.longTitle" displayName="study.label.long_title"
-                             required="true" help="true" cols="47"/>
+                             required="true" cols="47"/>
 
 
         <tags:renderTextArea propertyName="study.description" displayName="study.label.description"
-                             required="false" help="true" cols="47"/>
+                             required="false" cols="47"/>
        
        <div class="row">
            <div class="label"><tags:message code='study.label.study_sponsor'/></div>
@@ -101,15 +101,15 @@
 
         <tags:renderAutocompleter propertyName="study.dataCoordinatingCenter.organization"
                                   displayName="study.label.study_coordinating_center"
-                                  required="true" help="true" size="50"/>
+                                  required="true" size="50"/>
 
         <tags:renderAutocompleter propertyName="study.fundingSponsor.organization"
                                   displayName="study.label.study_funding_sponsor"
-                                  required="true" help="true" size="50"/>
+                                  required="true" size="50"/>
 
         <tags:renderAutocompleter propertyName="study.leadStudySite.organization"
                                   displayName="study.label.study_lead_site"
-                                  required="true" help="true" size="50"/>
+                                  required="true" size="50"/>
          <br>
       <c:if test="${not command.activeDefaultArm}">
           <chrome:division title="study.section.study_arms">

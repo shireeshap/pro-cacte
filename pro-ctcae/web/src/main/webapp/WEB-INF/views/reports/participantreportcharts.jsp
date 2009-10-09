@@ -4,6 +4,7 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <chrome:box title="Report">
+    <tags:instructions code="participant.report.graph.instructions"/>
     <c:if test="${fn:length(allAttributes)>1}">
         &nbsp;&nbsp;<b>Display:</b>&nbsp;<c:forEach items="${allAttributes}" var="attribute">
         <input type="checkbox"
