@@ -156,7 +156,10 @@
             <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
                 <input type="checkbox" name="cca" value="true"
                        id="cca"/> This clinical staff is a Coordinating Center Administrator
+                <br>
             </proctcae:urlAuthorize>
+            <input type="checkbox" name="email" value="true"
+                   id="email"/> Send email to the user with username and password details
         </chrome:division>
         <chrome:division title="clinicalStaff.division.sites">
 

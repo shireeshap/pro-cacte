@@ -77,9 +77,13 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             ModelAndView modelAndView = super.showForm(request, response, errors);
             return modelAndView;
         } else {
+            String clearCasePassword = clinicalStaffCommand.getClinicalStaff().getUser().getPassword();
             save(clinicalStaffCommand);
             ModelAndView modelAndView = new ModelAndView(getSuccessView());
             modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
+
+            clinicalStaffCommand.sendEmailWithUsernamePasswordDetails(clearCasePassword);
+
             return modelAndView;
         }
 

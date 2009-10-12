@@ -1,9 +1,17 @@
 package gov.nih.nci.ctcae.web.clinicalStaff;
 
 import gov.nih.nci.ctcae.core.domain.*;
+import gov.nih.nci.ctcae.core.rules.JavaMailSender;
 
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.AddressException;
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.IOException;
+
+import org.springframework.mail.javamail.MimeMessageHelper;
 
 //
 /**
@@ -21,6 +29,19 @@ public class ClinicalStaffCommand {
 
     private Boolean cca = false;
     private List<Integer> indexesToRemove = new ArrayList<Integer>();
+    private Boolean email = false;
+
+    public Boolean isEmail() {
+        return email;
+    }
+
+    public Boolean getEmail() {
+        return email;
+    }
+
+    public void setEmail(Boolean email) {
+        this.email = email;
+    }
 
     /**
      * Instantiates a new clinical staff command.
@@ -69,5 +90,26 @@ public class ClinicalStaffCommand {
 
     public List<Integer> getIndexesToRemove() {
         return indexesToRemove;
+    }
+
+    public void sendEmailWithUsernamePasswordDetails(String clearCasePassword) {
+        try {
+            if (getEmail()) {
+                String content = "You have been successfully registered as a clinical staff on PRO-CTCAE system.<br> Below are your login details:<br> Username: " + clinicalStaff.getEmailAddress() + "<br> Password: " + clearCasePassword;
+                JavaMailSender javaMailSender = new JavaMailSender();
+                MimeMessage message = javaMailSender.createMimeMessage();
+                message.setSubject("PRO-CTCAE Registration");
+                message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
+                MimeMessageHelper helper = new MimeMessageHelper(message, true);
+                helper.setTo(clinicalStaff.getEmailAddress());
+                helper.setText(content, javaMailSender.isHtml());
+                javaMailSender.send(message);
+
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }
