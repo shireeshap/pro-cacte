@@ -2,6 +2,8 @@ package gov.nih.nci.ctcae.web.study;
 
 import gov.nih.nci.ctcae.core.domain.Privilege;
 import gov.nih.nci.ctcae.core.domain.StudySite;
+import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.LeadStudySite;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.springframework.validation.Errors;
@@ -53,6 +55,15 @@ public class StudySitesTab extends SecuredTab<StudyCommand> {
             }
         }
         command.getSiteIndexesToRemove().clear();
+
+        for (StudyOrganization studyOrganization : command.getStudy().getStudyOrganizations()) {
+            if ((studyOrganization instanceof StudySite) && !(studyOrganization instanceof LeadStudySite)) {
+                if (studyOrganization.getOrganization().equals(command.getStudy().getLeadStudySite().getOrganization())) {
+                    errors.reject("LEAD_STUDY_SITE", "Cannot add study site " + studyOrganization.getOrganization() + ". It is the lead site on this study.");
+                }
+            }
+        }
+
     }
 
     /* (non-Javadoc)

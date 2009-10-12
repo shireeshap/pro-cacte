@@ -54,6 +54,14 @@
             }
         }
 
+        function navigate(e) {
+            if (event.keyCode == 13)  //enter pressed
+                doSend();
+        }
+        document.onkeypress = navigate;
+        function doSend() {
+            buildTable('assembler');
+        }
 
     </script>
 </head>
@@ -82,8 +90,6 @@
         <div style="padding-left:132px">
         <tags:button color="blue" icon="search" size="big" type="button" onclick="buildTable('assembler');" value='Search'/>
             </div>
-        <%--<input class='ibutton' type='button' id="searchButton" onclick="buildTable('assembler');"--%>
-               <!--value='Search' title='Search Study'/>-->
         <tags:indicator id="indicator"/>
     </div>
 </chrome:box>

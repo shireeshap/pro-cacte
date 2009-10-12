@@ -14,40 +14,40 @@
     <tags:stylesheetLink name="table_menu"/>
     <tags:includePrototypeWindow/>
     <tags:includeScriptaculous/>
-	<tags:stylesheetLink name="reports"/>
-	<style type="text/css">
-    table.report {
-        width: 90%;
-        border: 1px #999999 solid;
-    }
+    <tags:stylesheetLink name="reports"/>
+    <style type="text/css">
+        table.report {
+            width: 90%;
+            border: 1px #999999 solid;
+        }
 
-    table.report td {
-        border-left: 1px #cccccc solid;
-        border-top: 1px #eee solid;
-        text-align: center;
-        padding: 2px 5px;
+        table.report td {
+            border-left: 1px #cccccc solid;
+            border-top: 1px #eee solid;
+            text-align: center;
+            padding: 2px 5px;
 
-    }
+        }
 
-    table.report td.right {
-        text-align: right;
-        padding-left: 5px;
-    }
+        table.report td.right {
+            text-align: right;
+            padding-left: 5px;
+        }
 
-    table.report td.bottom {
-        border-top: 2px #666 solid;
-    }
+        table.report td.bottom {
+            border-top: 2px #666 solid;
+        }
 
-    table.report td.header {
-        background-color: #cccccc;
-        font-weight: bold;
-    }
+        table.report td.header {
+            background-color: #cccccc;
+            font-weight: bold;
+        }
 
-    table.report td.left {
-        text-align: left;
-        padding-right: 5px;
-    }
-</style>
+        table.report td.left {
+            text-align: left;
+            padding-right: 5px;
+        }
+    </style>
     <script type="text/javascript">
         var showResultsInPopUpFlag = false;
         function reportResults(group, arms) {

@@ -708,6 +708,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/studyOrganizationClinical
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/confirmStudy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/searchStudy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_clinical_staff.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_confirmation.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_details.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_reviewsummary.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_site_clinical_staff.jsp -text

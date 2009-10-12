@@ -43,7 +43,7 @@ public class StudyController extends CtcAeSecuredTabbedFlowController<StudyComma
         flow.addTab(new StudySitesTab());
         flow.addTab(new StudyClinicalStaffTab());
         flow.addTab(new StudySiteClinicalStaffTab());
-        flow.addTab(new EmptyStudyTab("study.tab.overview", "study.tab.overview", "study/study_reviewsummary"));
+        flow.addTab(new EmptyStudyTab("study.tab.overview", "study.tab.overview", "study/study_confirmation"));
 
     }
 
