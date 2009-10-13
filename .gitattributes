@@ -1,4 +1,5 @@
 * text=auto !eol
+pro-ctcae/all.bat -text
 pro-ctcae/build.properties -text
 pro-ctcae/build.xml -text
 pro-ctcae/buildWeb.sh -text
@@ -345,12 +346,14 @@ pro-ctcae/datasource.properties -text
 pro-ctcae/ivy.xml -text
 pro-ctcae/ivysettings-offline.xml -text
 pro-ctcae/ivysettings.xml -text
+pro-ctcae/recreate-db-populate-data.bat -text
 pro-ctcae/tools/checkstyle/checkstyle-frames-errors.xsl -text
 pro-ctcae/tools/checkstyle/checkstyle-frames.xsl -text
 pro-ctcae/tools/checkstyle/checkstyle_checks.xml -text
 pro-ctcae/tools/checkstyle/sun_checks.xml -text
 pro-ctcae/tools/pmd/pmdRuleset.xml -text
 pro-ctcae/tools/selenium/selenium-server.jar -text
+pro-ctcae/web.bat -text
 pro-ctcae/web/ivy-build.xml -text
 pro-ctcae/web/ivy.xml -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/AbstractTableModel.java -text
