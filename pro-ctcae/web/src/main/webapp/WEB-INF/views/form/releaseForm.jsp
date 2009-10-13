@@ -12,7 +12,7 @@
 <script type="text/javascript">
     alert('1');
 </script>
-<body>
+<div style="width:650px;">
 <form:form method="post">
     <c:choose>
         <c:when test="${command.released}">
@@ -32,13 +32,13 @@
         </c:when>
         <c:otherwise>
             <div id="releaseForm">
-                <div style="border:1px solid #ccc; height:55px; padding:9px; margin-bottom:10px;">
+                <div style="border:1px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
                     <img src="<chrome:imageUrl name="../blue/stop_sign_small.png" />" alt="Stop!"
                          style="float:left; margin-right:15px; margin-left:50px;"/>
 
                     <div style="font-size:20px; margin-bottom:5px;">Are you sure you are ready to release this form?
                     </div>
-                    <div>Releasing a form is irreversible, you will no longer be able to edit this form.</div>
+                    <div>Releasing a form is irreversible, you will no longer be able to edit this form.<br> However you can create a new version in the future.</div>
                 </div>
                 You are about to release
 
@@ -69,4 +69,4 @@
     </c:choose>
 
 </form:form>
-</body>
+</div>

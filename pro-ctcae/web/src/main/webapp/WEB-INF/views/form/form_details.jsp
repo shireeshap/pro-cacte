@@ -741,6 +741,16 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         background: none;
     }
 </style>
+<!--[if lte IE 7]>
+<style>
+	#main{
+		top:95px;
+	}
+	#questionBank, .questionProperties, #formSettings, .leftBox {
+	margin-top:-1px;
+}
+</style>
+<![endif]-->
 </head>
 <body>
 

@@ -9,19 +9,19 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<body>
+<div style="width:590px;">
     <form:form method="post">
         <chrome:box title="form.label.version_form">
             <chrome:division>
                 <div id="versionForm">
-                    <p>
-                        You are about to version<strong>${crf.title}</strong>.
-                    </p>
-                    <p>
-                        You cannot reverse this step. Do you want to continue?
-                    </p>
+                	<p>
+                		Versioning a form creates a copy of this form that you can edit.
+                	</p>
+					<p>
+						Are you sure you want to version this form?
+					</p>
                 </div>
-                <br>
+
                 <div class="flow-buttons content autoclear">
                     <span class="prev">
                     	<tags:button type="button" id="flow-cancel" cssClass="previous ibutton" value="Cancel" color="blue" icon="x" onclick="closeWindow()"/>
@@ -33,4 +33,4 @@
             </chrome:division>
         </chrome:box>
     </form:form>
-</body>
+</div>

@@ -155,7 +155,7 @@ a img {
 }
 
 #all {
-    width: 980px;
+    width: 979px;
     margin: 0px auto;
     text-align: left;
     position: relative;
@@ -586,7 +586,7 @@ ul.tabs li {
 }
 
 #taskbar a:active {
-    color: #ffe9a5;
+    color: #E4E9F6;
     background-image: url(../images/blue/secondlevelnav_hover.png);
     background-repeat: no-repeat;
 }
@@ -970,6 +970,7 @@ img.indicator {
 
 #formbuilderTable #left {
     vertical-align: top;
+	width:540px;
 }
 
 #formbuilderTable #right {
@@ -977,7 +978,7 @@ img.indicator {
     padding: 0px;
     position: relative;
     height: 100%;
-    width: 50%;
+    width: 406px;
 }
 
 #formbuilderTable-TL {
@@ -988,7 +989,7 @@ img.indicator {
 }
 
 #formbuilderTable-T {
-    height: 33px;
+    height: 31px;
     background-image: url(/proctcae/images/blue/form_table/T.png);
     background-repeat: repeat-x;
 }
