@@ -84,6 +84,7 @@ public class NotificationsEvaluationService {
                             if (!StringUtils.isBlank(result.getMessage())) {
                                 String recipients = result.getMessage();
                                 logger.debug("Send email to " + recipients);
+                                System.out.println("Send email to " + recipients);
                                 getRecipients(users, emails, recipients, studyParticipantCrfSchedule);
                                 criticalSymptoms.addAll(temp);
                             }
