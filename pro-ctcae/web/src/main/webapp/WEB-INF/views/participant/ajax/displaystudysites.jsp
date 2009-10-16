@@ -107,6 +107,8 @@
                             </td>
                             <td class="data">
                                 <c:if test="${fn:length(studysite.study.nonDefaultArms) > 0}">
+                                    <c:choose>
+                                        <c:when test="${fn:length(studysite.study.nonDefaultArms) > 1}">
                                     <b><span class="required-indicator">*</span><spring:message code="study.label.arm"/></b>
                                     <select name="arm_${studysite.id}" title="arm"
                                             id="arm_${studysite.id}">
@@ -115,6 +117,11 @@
                                             <option value="${arm.id}">${arm.title}</option>
                                         </c:forEach>
                                     </select>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="hidden" name="arm_${studysite.id}" value="${studysite.study.nonDefaultArms[0].id}"> ${studysite.study.nonDefaultArms[0].title}
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:if>
                             </td>
                         </tr>

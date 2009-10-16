@@ -33,6 +33,8 @@
     </table>
 </span>
 <chrome:box title="Report - ${participant.displayName}">
+    <c:choose>
+        <c:when test="${fn:length(dates) > 0}">
     <tags:instructions code="participant.report.result.instructions"/>
     <div align="right">
         <a href="<c:url value='/pages/reports/participantCarePdf'/>" target="_blank">
@@ -73,6 +75,11 @@
         </c:forEach>
         </c:forEach>
     </table>
+        </c:when>
+        <c:otherwise>
+            There's no data for this participant.
+        </c:otherwise>
+    </c:choose>
 </chrome:box>
 </body>
 </html>

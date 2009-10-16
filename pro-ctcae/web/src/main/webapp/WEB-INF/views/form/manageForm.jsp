@@ -125,6 +125,7 @@
                     </td>
                 </tr>
             </table>
+          <%--<tags:instructions code="form.manage.instructions"/>--%>
         </proctcae:urlAuthorize>
     </div>
     <br/>

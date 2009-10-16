@@ -182,7 +182,7 @@
         <div id="search" style="display:none" class="row">
 
             <div style="margin-left:9em"><tags:button color="blue" value="Generate Report"
-                                            onclick="participantCareResults('tabular')" size="small"
+                                            onclick="participantCareResults('tabular')" size="big"
                                             icon="search"/>
                 <tags:indicator id="indicator"/>
             </div>
