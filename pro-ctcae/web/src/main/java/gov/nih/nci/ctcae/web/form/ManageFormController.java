@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.web.study.StudyAjaxFacade;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.ModelAndView;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 //
 /**
@@ -21,6 +23,7 @@ public class ManageFormController extends AbstractController {
 
     private StudyRepository studyRepository;
     private CrfAjaxFacade crfAjaxFacade;
+    private StudyAjaxFacade studyAjaxFacade;
 
     /**
      * Instantiates a new manage form controller.
@@ -37,13 +40,19 @@ public class ManageFormController extends AbstractController {
 
 
         ModelAndView modelAndView = new ModelAndView("form/manageForm");
+        Study study = null;
         String studyId = request.getParameter("studyId");
         if (!StringUtils.isBlank(studyId)) {
-            Study study = studyRepository.findById(Integer.parseInt(studyId));
-            if (study != null) {
-                modelAndView.getModel().put("study", study);
-                modelAndView.getModel().put("crfs", crfAjaxFacade.searchCrf(Integer.parseInt(studyId)));
+            study = studyRepository.findById(Integer.parseInt(studyId));
+        } else {
+            List<Study> studies = studyAjaxFacade.matchStudy("%");
+            if (studies.size() == 1) {
+                study = studies.get(0);
             }
+        }
+        if (study != null) {
+            modelAndView.getModel().put("study", study);
+            modelAndView.getModel().put("crfs", crfAjaxFacade.searchCrf(Integer.parseInt(studyId)));
         }
         return modelAndView;
     }
@@ -62,5 +71,10 @@ public class ManageFormController extends AbstractController {
     @Required
     public void setCrfAjaxFacade(CrfAjaxFacade crfAjaxFacade) {
         this.crfAjaxFacade = crfAjaxFacade;
+    }
+
+    @Required
+    public void setStudyAjaxFacade(StudyAjaxFacade studyAjaxFacade) {
+        this.studyAjaxFacade = studyAjaxFacade;
     }
 }
