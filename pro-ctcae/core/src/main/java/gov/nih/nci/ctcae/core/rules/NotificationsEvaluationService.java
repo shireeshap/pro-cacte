@@ -25,14 +25,14 @@ public class NotificationsEvaluationService {
 
     private static JavaMailSender javaMailSender;
     protected static final Log logger = LogFactory.getLog(NotificationsEvaluationService.class);
-    private static GenericRepository genericRepository;
+    private GenericRepository genericRepository;
+    private ProCtcAERulesService proCtcAERulesService;
 
-
-    public static boolean executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) throws Exception {
+    public boolean executeRules(StudyParticipantCrfSchedule studyParticipantCrfSchedule, CRF crf, StudyOrganization studySite) throws Exception {
         ArrayList<String[]> criticalSymptoms = new ArrayList<String[]>();
         HashSet<String> emails = new HashSet<String>();
         HashSet<User> users = new HashSet<User>();
-        RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrfAndSite(crf, studySite, false);
+        RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrfAndSite(crf, studySite, false);
         if (ruleSet == null) {
             return false;
         }
@@ -76,7 +76,7 @@ public class NotificationsEvaluationService {
                 inputObjects.add(crf);
 
                 try {
-                    List<Object> outputObjects = ProCtcAERulesService.fireRules(inputObjects, ruleSet.getName());
+                    List<Object> outputObjects = proCtcAERulesService.fireRules(inputObjects, ruleSet.getName());
 
                     for (Object o : outputObjects) {
                         if (o instanceof RuleEvaluationResult) {
@@ -311,7 +311,11 @@ public class NotificationsEvaluationService {
         }
     }
 
-    public static void setGenericRepository(GenericRepository inGenericRepository) {
+    public void setGenericRepository(GenericRepository inGenericRepository) {
         genericRepository = inGenericRepository;
+    }
+
+    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
+        this.proCtcAERulesService = proCtcAERulesService;
     }
 }

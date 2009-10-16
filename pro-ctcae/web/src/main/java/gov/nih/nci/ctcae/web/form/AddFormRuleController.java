@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.rules.ProCtcAERule;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
  */
 public class AddFormRuleController extends AbstractController {
 
+    private ProCtcAERulesService proCtcAERulesService;
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
@@ -32,7 +34,7 @@ public class AddFormRuleController extends AbstractController {
         if ("true".equals(isSite)) {
             override = "Y";
         }
-        Rule rule = ProCtcAERulesService.createRule(ruleSet, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), override, false);
+        Rule rule = proCtcAERulesService.createRule(ruleSet, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), override, false);
         ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
         command.getFormOrStudySiteRules().add(proCtcAERule);
         modelAndView.addObject("proCtcAERule", proCtcAERule);
@@ -41,5 +43,10 @@ public class AddFormRuleController extends AbstractController {
         modelAndView.addObject("notifications", ListValues.getNotificationOptions());
 
         return modelAndView;
+    }
+
+    @Required
+    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
+        this.proCtcAERulesService = proCtcAERulesService;
     }
 }

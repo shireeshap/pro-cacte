@@ -60,53 +60,53 @@ public class ProCtcAERulesServiceTest extends TestDataManager {
     }
 
     public void testGetExistingRuleSetForCrf() throws Exception {
-        ProCtcAERulesService.deleteExistingRuleSetForCrf(crf);
-        assertNull(ProCtcAERulesService.getRuleSetForCrf(crf, false));
+        proCtcAERulesService.deleteExistingRuleSetForCrf(crf);
+        assertNull(proCtcAERulesService.getRuleSetForCrf(crf, false));
     }
 
     public void testDeleteExistingAndGetNewRuleSetForCrf() throws Exception {
-        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
+        RuleSet ruleSet = proCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
         assertNotNull(ruleSet);
         assertEquals("gov.nih.nci.ctcae.rules.form.study_" + study.getId() + ".form_" + crf.getId(), ruleSet.getName());
     }
 
     public void testCreateRule() throws Exception {
-        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
+        RuleSet ruleSet = proCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
         assertEquals(0, ruleSet.getRule().size());
         populateConditionData();
-        ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", false);
-        ProCtcAERulesService.deployRuleSet(ruleSet);
+        proCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", false);
+        proCtcAERulesService.deployRuleSet(ruleSet);
         assertEquals(1, ruleSet.getRule().size());
     }
 
     public void testUpdateRule() throws Exception {
-        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
+        RuleSet ruleSet = proCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
         assertEquals(0, ruleSet.getRule().size());
-        Rule rule = ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", false);
+        Rule rule = proCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", false);
         assertEquals(1, ruleSet.getRule().size());
         ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
         assertEquals(0, proCtcAERule.getSymptoms().size());
 
         populateConditionData();
-        rule = ProCtcAERulesService.updateRule(rule.getId(), symptoms, questiontypes, operators, values, notifications, "Y");
+        rule = proCtcAERulesService.updateRule(rule.getId(), symptoms, questiontypes, operators, values, notifications, "Y");
         proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
         assertEquals(2, proCtcAERule.getSymptoms().size());
     }
 
     public void testDeleteRule() throws Exception {
-        RuleSet ruleSet = ProCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
+        RuleSet ruleSet = proCtcAERulesService.deleteExistingAndGetNewRuleSetForCrf(crf);
         assertEquals(0, ruleSet.getRule().size());
         populateConditionData();
-        Rule rule = ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", false);
-        ProCtcAERulesService.deployRuleSet(ruleSet);
+        Rule rule = proCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, "Y", false);
+        proCtcAERulesService.deployRuleSet(ruleSet);
         assertEquals(1, ruleSet.getRule().size());
         String ruleId = rule.getId();
 
-        ProCtcAERulesService.deleteRule(rule.getId(), ruleSet);
-        ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf,false);
+        proCtcAERulesService.deleteRule(rule.getId(), ruleSet);
+        ruleSet = proCtcAERulesService.getRuleSetForCrf(crf, false);
         assertEquals(0, ruleSet.getRule().size());
         try {
-            ProCtcAERulesService.getRuleAuthoringService().getRule(ruleId);
+            proCtcAERulesService.getRuleAuthoringService().getRule(ruleId);
             fail("Should not find rule");
         } catch (Exception ex) {
 

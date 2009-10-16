@@ -197,6 +197,7 @@
     <bean name="/form/submit" id="submitFormController"
           class="gov.nih.nci.ctcae.web.form.SubmitFormController" parent="ctcaeSimpleFormController">
         <property name="genericRepository" ref="genericRepository"/>
+        <property name="proCtcAERulesService" ref="proCtcAERulesService"/>
     </bean>
 
     <bean name="/form/addquestion" id="addQuestionByParticipantController"
@@ -217,6 +218,7 @@
           class="gov.nih.nci.ctcae.web.form.DeleteFormController" parent="ctcaeSimpleFormController">
         <property name="crfRepository" ref="crfRepository"/>
         <property name="studyRepository" ref="studyRepository"/>
+        <property name="proCtcAERulesService" ref="proCtcAERulesService"/>
 
     </bean>
     <bean name="/form/versionForm" id="versionFormController"
@@ -234,6 +236,7 @@
     </bean>
     <bean name="/form/addFormRule" id="addFormRuleController"
           class="gov.nih.nci.ctcae.web.form.AddFormRuleController">
+        <property name="proCtcAERulesService" ref="proCtcAERulesService"/>
     </bean>
 
 

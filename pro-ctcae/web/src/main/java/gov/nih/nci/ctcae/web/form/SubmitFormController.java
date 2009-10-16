@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.CtcAeSimpleFormController;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -24,6 +25,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
 
     private String reviewView;
     private GenericRepository genericRepository;
+    private ProCtcAERulesService proCtcAERulesService;
 
     /**
      * Instantiates a new submit form controller.
@@ -60,8 +62,10 @@ public class SubmitFormController extends CtcAeSimpleFormController {
 
         if ("save".equals(submitFormCommand.getDirection())) {
             initialize(savedStudyParticipantCrfSchedule, submitFormCommand);
-            NotificationsEvaluationService.setGenericRepository(genericRepository);
-            NotificationsEvaluationService.executeRules(savedStudyParticipantCrfSchedule, savedStudyParticipantCrfSchedule.getStudyParticipantCrf().getCrf(), savedStudyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
+            NotificationsEvaluationService notificationsEvaluationService = new NotificationsEvaluationService();
+            notificationsEvaluationService.setGenericRepository(genericRepository);
+            notificationsEvaluationService.setProCtcAERulesService(proCtcAERulesService);
+            notificationsEvaluationService.executeRules(savedStudyParticipantCrfSchedule, savedStudyParticipantCrfSchedule.getStudyParticipantCrf().getCrf(), savedStudyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
             submitFormCommand.markAllPastDueSchedulesAsCancelled();
         }
 
@@ -192,6 +196,11 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         }
         submitFormCommand.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
 
+    }
+
+    @Required
+    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
+        this.proCtcAERulesService = proCtcAERulesService;
     }
 }
 

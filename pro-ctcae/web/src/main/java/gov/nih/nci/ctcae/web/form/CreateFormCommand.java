@@ -66,6 +66,7 @@ public class CreateFormCommand implements Serializable {
     private RuleSet ruleSet;
     private boolean allArms;
     private List<CRFCycleDefinition> invalidCycleDefinitions = new ArrayList<CRFCycleDefinition>();
+    private ProCtcAERulesService proCtcAERulesService;
 
     public boolean isAllArms() {
         return allArms;
@@ -413,11 +414,11 @@ public class CreateFormCommand implements Serializable {
 
 
     public void initializeRulesForForm() {
-        boolean firstTimeRuleCreation = !ProCtcAERulesService.ruleSetExists(crf);
-        RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf, true);
+        boolean firstTimeRuleCreation = !proCtcAERulesService.ruleSetExists(crf);
+        RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrf(crf, true);
 
         createDefaultRule(crf, ruleSet, firstTimeRuleCreation);
-        ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf, true);
+        ruleSet = proCtcAERulesService.getRuleSetForCrf(crf, true);
         initializeRules(ruleSet);
     }
 
@@ -444,7 +445,7 @@ public class CreateFormCommand implements Serializable {
             }
             if (defaultRule != null) {
                 try {
-                    ProCtcAERulesService.deleteRule(defaultRule.getId(), ruleSet);
+                    proCtcAERulesService.deleteRule(defaultRule.getId(), ruleSet);
                     createDefaultRule(crf, ruleSet, notifications, overwrite);
                 } catch (Exception e) {
                 }
@@ -464,7 +465,7 @@ public class CreateFormCommand implements Serializable {
             operators.add(">=");
             values.add("3");
         }
-        ProCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, overwrite, true);
+        proCtcAERulesService.createRule(ruleSet, symptoms, questiontypes, operators, values, notifications, overwrite, true);
     }
 
 
@@ -473,16 +474,16 @@ public class CreateFormCommand implements Serializable {
     }
 
     public void processRulesForForm(HttpServletRequest request) throws Exception {
-        RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrf(crf, false);
+        RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrf(crf, false);
         processRules(request, ruleSet);
     }
 
 
     private void processRules(HttpServletRequest request, RuleSet ruleSet) throws Exception {
-        ProCtcAERulesService.deployRuleSet(ruleSet);
+        proCtcAERulesService.deployRuleSet(ruleSet);
         updateExistingRules(request);
         deleteRules(request, ruleSet);
-        ProCtcAERulesService.deployRuleSet(ruleSet);
+        proCtcAERulesService.deployRuleSet(ruleSet);
     }
 
     private void deleteRules(HttpServletRequest request, RuleSet ruleSet) throws Exception {
@@ -491,7 +492,7 @@ public class CreateFormCommand implements Serializable {
         while (st.hasMoreTokens()) {
             String ruleId = st.nextToken();
             if (!StringUtils.isBlank(ruleId)) {
-                ProCtcAERulesService.deleteRule(ruleId, ruleSet);
+                proCtcAERulesService.deleteRule(ruleId, ruleSet);
             }
         }
     }
@@ -517,13 +518,13 @@ public class CreateFormCommand implements Serializable {
                 List<String> values = getListForRule(ruleId, request, "values");
                 List<String> notifications = getListForRule(ruleId, request, "notifications");
                 String override = request.getParameter("override_" + ruleId);
-                ProCtcAERulesService.updateRule(ruleId, symptoms, questiontypes, operators, values, notifications, override);
+                proCtcAERulesService.updateRule(ruleId, symptoms, questiontypes, operators, values, notifications, override);
             }
         }
     }
 
     public void initializeRulesForSite() {
-        RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrfAndSite(crf, myOrg, false);
+        RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrfAndSite(crf, myOrg, false);
         initializeRules(ruleSet);
     }
 
@@ -533,5 +534,9 @@ public class CreateFormCommand implements Serializable {
 
     public String getUniqueTitleForCrf() {
         return "Untitled_" + UUID.randomUUID();
+    }
+
+    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
+        this.proCtcAERulesService = proCtcAERulesService;
     }
 }

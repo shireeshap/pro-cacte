@@ -26,7 +26,7 @@ import com.semanticbits.rules.brxml.RuleSet;
  * @since Nov 3, 2008
  */
 public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
-
+    private ProCtcAERulesService proCtcAERulesService;
 
     /**
      * Instantiates a new calendar template tab.
@@ -44,6 +44,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
      */
     @Override
     public void onDisplay(HttpServletRequest request, CreateFormCommand command) {
+        command.setProCtcAERulesService(proCtcAERulesService);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedInUser = (User) auth.getPrincipal();
         StudyOrganization myOrg = null;
@@ -84,7 +85,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         try {
             if ("true".equals(command.getReadonlyview())) {
-                RuleSet ruleSet = ProCtcAERulesService.getRuleSetForCrfAndSite(command.getCrf(), command.getMyOrg(), true);
+                RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrfAndSite(command.getCrf(), command.getMyOrg(), true);
                 command.setRuleSet(ruleSet);
                 command.setReadonlyview("false");
             } else {
@@ -98,4 +99,7 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         super.postProcess(request, command, errors);
     }
 
+    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
+        this.proCtcAERulesService = proCtcAERulesService;
+    }
 }

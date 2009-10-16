@@ -18,7 +18,8 @@ public class ParticipantTestHelper {
 
     private static ParticipantRepository participantRepository;
     private static GenericRepository genericRepository;
-   
+    private static NotificationsEvaluationService notificationsEvaluationService;
+
 
     private ParticipantTestHelper() {
     }
@@ -26,7 +27,8 @@ public class ParticipantTestHelper {
     public static void initialize() {
         participantRepository = TestDataManager.participantRepository;
         genericRepository = TestDataManager.genericRepository;
-        NotificationsEvaluationService.setGenericRepository(genericRepository);
+        notificationsEvaluationService.setGenericRepository(genericRepository);
+        notificationsEvaluationService.setProCtcAERulesService(TestDataManager.proCtcAERulesService);
     }
 
     public static void createDefaultParticipants() throws Exception {
@@ -98,7 +100,7 @@ public class ParticipantTestHelper {
             genericRepository.save(schedule);
             if (executeRule) {
                 if (!emailSent) {
-                    emailSent = NotificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
+                    emailSent = notificationsEvaluationService.executeRules(schedule, ss1.getStudy().getCrfs().get(0), ss1);
                 }
             }
         }
@@ -233,7 +235,6 @@ public class ParticipantTestHelper {
         notification.addUserNotification(userNotification);
         genericRepository.save(notification);
     }
-
 
 
 }
