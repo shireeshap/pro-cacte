@@ -51,6 +51,7 @@
         <convert converter="primitive" match="java.lang.Float"/>
         <convert converter="primitive" match="java.lang.Double"/>
         <convert converter="primitive" match="java.lang.Character"/>
+        <convert converter="bean" match="java.lang.Class"/>
         <convert converter="null" match="void"/>
         <convert converter="primitive" match="boolean"/>
         <convert converter="primitive" match="byte"/>
