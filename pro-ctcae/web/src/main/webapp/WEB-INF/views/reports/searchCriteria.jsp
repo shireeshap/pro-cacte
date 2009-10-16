@@ -112,7 +112,7 @@
                         <div class="row">
                             <div class="label"><tags:message code="reports.label.form"/></div>
                             <div class="value">${crfs[0].title}</div>
-                            <input type="hidden" name="form" id="form" value="${crf.id}" title="Form"/>
+                            <input type="hidden" name="form" id="form" value="${crfs[0].id}" title="Form"/>
                         </div>
                     </c:when>
                     <c:otherwise>
