@@ -151,6 +151,7 @@
     <bean name="/form/manageForm" id="manageFormController" class="gov.nih.nci.ctcae.web.form.ManageFormController">
         <property name="studyRepository" ref="studyRepository"/>
         <property name="crfAjaxFacade" ref="crfAjaxFacade"/>
+        <property name="studyAjaxFacade" ref="studyAjaxFacade"/>
     </bean>
 
 
