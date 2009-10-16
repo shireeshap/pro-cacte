@@ -6,10 +6,7 @@ import org.hibernate.annotations.Parameter;
 import org.apache.commons.lang.StringUtils;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Calendar;
+import java.util.*;
 import java.text.ParseException;
 
 //
@@ -133,6 +130,7 @@ public class StudyParticipantCrf extends BaseVersionable {
      * @return the study participant crf schedules
      */
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules() {
+        Collections.sort(studyParticipantCrfSchedules, new StudyParticipantCrfScheduleStartDateComparator());
         return studyParticipantCrfSchedules;
     }
 
