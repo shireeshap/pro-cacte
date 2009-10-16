@@ -37,7 +37,7 @@
 </td>
 <td style="vertical-align:top;">
     <div id="chartTypeDiv" <c:if test="${numOfSelectedArms < 2}"> style="display:none"</c:if> class="row">
-        <div class="label">Chart type:</div>
+        <div class="label">Chart type</div>
         <div class="value">
             <input type="radio" name="chartType" value="bar" onclick="javascript:reportResults();"
                    <c:if test="${chartType ne 'line'}">checked="true"</c:if>>Bar
