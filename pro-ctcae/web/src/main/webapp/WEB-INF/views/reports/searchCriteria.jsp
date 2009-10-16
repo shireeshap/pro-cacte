@@ -140,7 +140,7 @@
             </c:otherwise>
         </c:choose>
         <c:choose>
-            <c:when test="${proctcterms ne null}">
+            <c:when test="${proctcterms ne null && param['rt'] eq 'symptomOverTime'}">
                 <div class="row">
                     <div class="label"><tags:message code="reports.label.symptoms"/></div>
                     <div class="value">
