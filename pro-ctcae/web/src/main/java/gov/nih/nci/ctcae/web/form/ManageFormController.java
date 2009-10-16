@@ -52,7 +52,7 @@ public class ManageFormController extends AbstractController {
         }
         if (study != null) {
             modelAndView.getModel().put("study", study);
-            modelAndView.getModel().put("crfs", crfAjaxFacade.searchCrf(Integer.parseInt(studyId)));
+            modelAndView.getModel().put("crfs", crfAjaxFacade.searchCrf(study.getId()));
         }
         return modelAndView;
     }
