@@ -15,7 +15,8 @@
     </script>
 </c:forEach>
 
-<div style="font-size:10px" align="center"><spring:message code="schedulecrf.instructions"/></div>
+<tags:instructions code="schedulecrf.instructions"/>
+
 <br/>
 <table class="widget" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
     <tr class="header">
