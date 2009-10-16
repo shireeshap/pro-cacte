@@ -297,6 +297,8 @@ public class NotificationsEvaluationService {
             if (javaMailSender == null) {
                 javaMailSender = new JavaMailSender();
             }
+            logger.debug("Sending emails to " + to);
+            System.out.println("Sending emails to " + to);
             MimeMessage message = javaMailSender.createMimeMessage();
             message.setSubject(subject);
             message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
