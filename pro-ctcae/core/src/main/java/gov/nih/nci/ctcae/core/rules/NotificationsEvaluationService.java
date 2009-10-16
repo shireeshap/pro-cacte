@@ -83,8 +83,7 @@ public class NotificationsEvaluationService {
                             RuleEvaluationResult result = (RuleEvaluationResult) o;
                             if (!StringUtils.isBlank(result.getMessage())) {
                                 String recipients = result.getMessage();
-                                logger.debug("Send email to " + recipients);
-                                System.out.println("Send email to " + recipients);
+                                logger.info("Send email to " + recipients);
                                 getRecipients(users, emails, recipients, studyParticipantCrfSchedule);
                                 criticalSymptoms.addAll(temp);
                             }
@@ -298,8 +297,7 @@ public class NotificationsEvaluationService {
             if (javaMailSender == null) {
                 javaMailSender = new JavaMailSender();
             }
-            logger.debug("Sending emails to " + to);
-            System.out.println("Sending emails to " + to);
+            logger.info("Sending emails to " + Arrays.toString(to));
             MimeMessage message = javaMailSender.createMimeMessage();
             message.setSubject(subject);
             message.setFrom(new InternetAddress(javaMailSender.getFromAddress()));
