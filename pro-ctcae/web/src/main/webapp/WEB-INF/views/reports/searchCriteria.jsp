@@ -145,8 +145,7 @@
                     <div class="label"><tags:message code="reports.label.symptoms"/></div>
                     <div class="value">
                         <select id="proCtcTermsSelect" title="symptom">
-                                <%--<select multiple size="4">--%>
-                            <option value="All">All</option>
+                            <option value="">Please select</option>
                             <c:forEach items="${proctcterms}" var="proctcterm">
                                 <option value="${proctcterm.id}">${proctcterm.term}</option>
                             </c:forEach>
@@ -208,7 +207,7 @@
                 </div>
             </div>
         </div>
-        <div id="search" class="row" >
+        <div id="search" class="row">
             <div style="margin-left:9em">
                 <tags:button color="blue" value="Generate Report" onclick="resetPopUpFlagAndCallResults();" size="small"
                              icon="search"/>
