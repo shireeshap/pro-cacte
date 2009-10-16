@@ -24,7 +24,7 @@ public class ProCtcAERulesService {
     public BusinessRulesExecutionServiceImpl ruleExecutionService;
     public RepositoryServiceImpl repositoryService;
 
-    public RuleSet getRuleSetForCrf(CRF crf, boolean createNewIfNull) {
+    public synchronized RuleSet getRuleSetForCrf(CRF crf, boolean createNewIfNull) {
         String packageName = getPackageNameForCrf(crf);
         RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, false);
         if (ruleSet == null) {
@@ -42,7 +42,7 @@ public class ProCtcAERulesService {
         return ruleSet != null;
     }
 
-    public Rule createRule(RuleSet ruleSet, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override, boolean defaultRule) {
+    public synchronized Rule createRule(RuleSet ruleSet, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override, boolean defaultRule) {
         Rule rule = new Rule();
 
         MetaData metaData = new MetaData();
@@ -62,7 +62,7 @@ public class ProCtcAERulesService {
         return rule;
     }
 
-    public Rule updateRule(String ruleId, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {
+    public synchronized Rule updateRule(String ruleId, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {
         Rule rule = ruleAuthoringService.getRule(ruleId);
         setRuleProperties(rule, symptoms, questiontypes, operators, values, notifications, override);
         ruleAuthoringService.updateRule(rule);
@@ -71,7 +71,7 @@ public class ProCtcAERulesService {
     }
 
 
-    private void setRuleProperties(Rule rule, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {
+    private synchronized void setRuleProperties(Rule rule, List<String> symptoms, List<String> questiontypes, List<String> operators, List<String> values, List<String> notifications, String override) {
         RuleAttribute ruleAttribute = new RuleAttribute();
         ruleAttribute.setName("override");
         ruleAttribute.setValue("Y".equals(override) ? "Y" : "N");
@@ -94,7 +94,7 @@ public class ProCtcAERulesService {
     }
 
 
-    public RuleSet getRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg, boolean createNewIfNull) {
+    public synchronized RuleSet getRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg, boolean createNewIfNull) {
         String packageName = getPackageNameForCrfAndSite(crf, myOrg);
         RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, false);
         if (ruleSet == null) {
@@ -111,22 +111,22 @@ public class ProCtcAERulesService {
 
     }
 
-    private void copyRulesFromCrfRuleSet(RuleSet crfRuleSet, RuleSet ruleSet) {
+    private synchronized void copyRulesFromCrfRuleSet(RuleSet crfRuleSet, RuleSet ruleSet) {
         for (Rule rule : crfRuleSet.getRule()) {
             ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
             createRule(ruleSet, proCtcAERule.getSymptoms(), proCtcAERule.getQuestiontypes(), proCtcAERule.getOperators(), proCtcAERule.getValues(), proCtcAERule.getNotifications(), proCtcAERule.getOverride(), false);
         }
     }
 
-    public boolean isSiteLevelRuleSet(RuleSet ruleSet) {
+    public synchronized boolean isSiteLevelRuleSet(RuleSet ruleSet) {
         return ruleSet.getName().startsWith(RuleSetType.STUDY_SITE_LEVEL.getPackagePrefix());
     }
 
-    public boolean isFormLevelRuleSet(RuleSet ruleSet) {
+    public synchronized boolean isFormLevelRuleSet(RuleSet ruleSet) {
         return ruleSet.getName().startsWith(RuleSetType.FORM_LEVEL.getPackagePrefix());
     }
 
-    public List<Object> fireRules(List<Object> inputObjects, String bindURI) {
+    public synchronized List<Object> fireRules(List<Object> inputObjects, String bindURI) {
 
         List<Object> outputObjects;
         outputObjects = ruleExecutionService.fireRules(bindURI, inputObjects);
@@ -134,12 +134,12 @@ public class ProCtcAERulesService {
         return outputObjects;
     }
 
-    public void deployRuleSet(RuleSet ruleSet) throws Exception {
+    public synchronized void deployRuleSet(RuleSet ruleSet) throws Exception {
         rulesEngineService.deployRuleSet(ruleSet);
         logout();
     }
 
-    public RuleSet deleteExistingAndGetNewRuleSetForCrf(CRF crf) throws Exception {
+    public synchronized RuleSet deleteExistingAndGetNewRuleSetForCrf(CRF crf) throws Exception {
         deleteExistingRuleSetForCrf(crf);
         String packageName = getPackageNameForCrf(crf);
         RuleSet ruleSet = createRuleSetForCrf(crf, packageName);
@@ -147,11 +147,11 @@ public class ProCtcAERulesService {
         return ruleSet;
     }
 
-    private String getPackageNameForCrf(CRF crf) {
+    private synchronized String getPackageNameForCrf(CRF crf) {
         return RuleUtil.getPackageName(RuleSetType.FORM_LEVEL.getPackagePrefix(), "Study_" + crf.getStudy().getId().toString(), "Form_" + crf.getId());
     }
 
-    private Column getColumnForValidValue(String questionType, String operator, String value, int index) {
+    private synchronized Column getColumnForValidValue(String questionType, String operator, String value, int index) {
         String id = "proCtcValidValue" + index;
         String idQt = "proCtcQuestionType" + index;
         Column column = new Column();
@@ -172,7 +172,7 @@ public class ProCtcAERulesService {
         return column;
     }
 
-    private Column getColumnForQuestionType(String questiontype, int index) {
+    private synchronized Column getColumnForQuestionType(String questiontype, int index) {
         String id = "proCtcQuestionType" + index;
         Column column = new Column();
         column.setObjectType(ProCtcQuestionType.class.getName());
@@ -193,7 +193,7 @@ public class ProCtcAERulesService {
     }
 
 
-    private Column getColumnForSymptoms(List<String> symptoms) {
+    private synchronized Column getColumnForSymptoms(List<String> symptoms) {
         Column column = new Column();
         column.setObjectType(ProCtcTerm.class.getName());
         column.setIdentifier("proCtcTerm");
@@ -214,28 +214,28 @@ public class ProCtcAERulesService {
         return column;
     }
 
-    private Column getColumnForFactResolver() {
+    private synchronized Column getColumnForFactResolver() {
         Column column = new Column();
         column.setObjectType(FactResolver.class.getName());
         column.setIdentifier("factResolver");
         return column;
     }
 
-    private Column getColumnForProCtcAEFactResolver() {
+    private synchronized Column getColumnForProCtcAEFactResolver() {
         Column column = new Column();
         column.setObjectType(ProCtcAEFactResolver.class.getName());
         column.setIdentifier("proCtcAEFactResolver");
         return column;
     }
 
-    private Column getColumnForCRF() {
+    private synchronized Column getColumnForCRF() {
         Column column = new Column();
         column.setObjectType(CRF.class.getName());
         column.setIdentifier("crf");
         return column;
     }
 
-    public void deleteExistingRuleSetForCrf(CRF crf) throws Exception {
+    public synchronized void deleteExistingRuleSetForCrf(CRF crf) throws Exception {
         RuleSet ruleSet = getRuleSetForCrf(crf, false);
         if (ruleSet != null) {
             rulesEngineService.deleteRuleSet(ruleSet.getName());
@@ -243,7 +243,7 @@ public class ProCtcAERulesService {
         logout();
     }
 
-    private RuleSet createRuleSetForCrf(CRF crf, String packageName) {
+    private synchronized RuleSet createRuleSetForCrf(CRF crf, String packageName) {
         String description = "RuleSet for Study: " + crf.getStudy().getShortTitle() + ", CRF: " + crf.getTitle();
         String subject = "Form Rules||" + crf.getStudy().getShortTitle() + "||" + crf.getTitle();
         RuleSet ruleSet = createRuleSet(packageName, description, subject);
@@ -251,7 +251,7 @@ public class ProCtcAERulesService {
         return ruleSet;
     }
 
-    private RuleSet createRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg, String packageName) {
+    private synchronized RuleSet createRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg, String packageName) {
         String description = "RuleSet for Study: " + crf.getStudy().getShortTitle() + ", CRF: " + crf.getTitle() + ", Study Site: " + myOrg.getDisplayName();
         String subject = "Form Rules||" + crf.getStudy().getShortTitle() + "||" + crf.getTitle() + "||" + myOrg.getDisplayName();
         RuleSet ruleSet = createRuleSet(packageName, description, subject);
@@ -259,7 +259,7 @@ public class ProCtcAERulesService {
         return ruleSet;
     }
 
-    private RuleSet createRuleSet(String packageName, String description, String subject) {
+    private synchronized RuleSet createRuleSet(String packageName, String description, String subject) {
         RuleSet ruleSet = new RuleSet();
         ruleSet.setName(packageName);
         ruleSet.setStatus(RuleStatus.DRAFT.getDisplayName());
@@ -273,7 +273,7 @@ public class ProCtcAERulesService {
         return ruleSet;
     }
 
-    public void deleteExistingRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg) throws Exception {
+    public synchronized void deleteExistingRuleSetForCrfAndSite(CRF crf, StudyOrganization myOrg) throws Exception {
         RuleSet ruleSet = getRuleSetForCrfAndSite(crf, myOrg, false);
         if (ruleSet != null) {
             if (isSiteLevelRuleSet(ruleSet)) {
@@ -284,7 +284,7 @@ public class ProCtcAERulesService {
     }
 
 
-    private String getPackageNameForCrfAndSite(CRF crf, StudyOrganization myOrg) {
+    private synchronized String getPackageNameForCrfAndSite(CRF crf, StudyOrganization myOrg) {
         return RuleUtil.getPackageName(RuleSetType.STUDY_SITE_LEVEL.getPackagePrefix(), "Study_" + crf.getStudy().getId().toString(), "Form_" + crf.getId().toString() + ".StudySite_" + myOrg.getId().toString());
     }
 
@@ -308,12 +308,12 @@ public class ProCtcAERulesService {
         this.repositoryService = repositoryService;
     }
 
-    public void logout() {
+    public synchronized void logout() {
         repositoryService.logout();
     }
 
 
-    public void deleteRule(String ruleId, RuleSet ruleSet) throws Exception {
+    public synchronized void deleteRule(String ruleId, RuleSet ruleSet) throws Exception {
         rulesEngineService.unDeployRuleSet(ruleSet);
         Rule rule = ruleAuthoringService.getRule(ruleId);
         rulesEngineService.deleteRule(ruleSet.getName(), rule.getMetaData().getName());
