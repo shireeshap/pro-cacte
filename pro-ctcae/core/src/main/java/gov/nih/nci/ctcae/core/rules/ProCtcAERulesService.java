@@ -36,7 +36,7 @@ public class ProCtcAERulesService {
         return ruleSet;
     }
 
-    public boolean ruleSetExists(CRF crf) {
+    public synchronized boolean ruleSetExists(CRF crf) {
         String packageName = getPackageNameForCrf(crf);
         RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, false);
         return ruleSet != null;
