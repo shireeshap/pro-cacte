@@ -64,12 +64,12 @@
           autowire-candidate="false">
         <property name="proxyTargetClass" value="true"/>
         <property name="transactionManager" ref="transactionManager"/>
-        <property name="transactionAttributes">
-            <props>
-                <prop key="save*">PROPAGATION_REQUIRED</prop>
-                <prop key="*">PROPAGATION_REQUIRED, readOnly</prop>
-            </props>
-        </property>
+        <!--<property name="transactionAttributes">-->
+            <!--<props>-->
+                <!--<prop key="save*">PROPAGATION_REQUIRED</prop>-->
+                <!--<prop key="*">PROPAGATION_REQUIRED, readOnly</prop>-->
+            <!--</props>-->
+        <!--</property>-->
     </bean>
 
     <bean id="jcrTemplate" class="org.springmodules.jcr.JcrTemplate">
