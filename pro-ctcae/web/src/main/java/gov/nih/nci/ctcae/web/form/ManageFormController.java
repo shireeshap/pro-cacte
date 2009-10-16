@@ -42,13 +42,13 @@ public class ManageFormController extends AbstractController {
         ModelAndView modelAndView = new ModelAndView("form/manageForm");
         Study study = null;
         String studyId = request.getParameter("studyId");
-        if (!StringUtils.isBlank(studyId)) {
-            study = studyRepository.findById(Integer.parseInt(studyId));
-        } else {
+        if (StringUtils.isBlank(studyId)) {
             List<Study> studies = studyAjaxFacade.matchStudy("%");
             if (studies.size() == 1) {
                 study = studies.get(0);
             }
+        } else {
+            study = studyRepository.findById(Integer.parseInt(studyId));
         }
         if (study != null) {
             modelAndView.getModel().put("study", study);
