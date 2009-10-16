@@ -83,7 +83,7 @@ public class NotificationsEvaluationService {
                             RuleEvaluationResult result = (RuleEvaluationResult) o;
                             if (!StringUtils.isBlank(result.getMessage())) {
                                 String recipients = result.getMessage();
-                                logger.info("Send email to " + recipients);
+                                logger.debug("Send email to " + recipients);
                                 getRecipients(users, emails, recipients, studyParticipantCrfSchedule);
                                 criticalSymptoms.addAll(temp);
                             }
