@@ -33,9 +33,6 @@
     <logger name="org.hibernate">
         <level value="ERROR"/>
     </logger>
-    <logger name="org.directwebremoting">
-        <level value="DEBUG"/>
-    </logger>
 
     <root>
         <priority value="error"/>
