@@ -52,7 +52,7 @@
     </bean>
 
 
-    <bean id="transactionManager"
+    <bean id="rulesTransactionManager"
           class="org.springmodules.jcr.jackrabbit.LocalTransactionManager">
         <property name="sessionFactory" ref="jcrSessionFactory"/>
     </bean>
@@ -63,13 +63,13 @@
           class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
           autowire-candidate="false">
         <property name="proxyTargetClass" value="true"/>
-        <property name="transactionManager" ref="transactionManager"/>
-        <!--<property name="transactionAttributes">-->
-            <!--<props>-->
-                <!--<prop key="save*">PROPAGATION_REQUIRED</prop>-->
-                <!--<prop key="*">PROPAGATION_REQUIRED, readOnly</prop>-->
-            <!--</props>-->
-        <!--</property>-->
+        <property name="transactionManager" ref="rulesTransactionManager"/>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="save*">PROPAGATION_REQUIRED</prop>
+                <prop key="*">PROPAGATION_REQUIRED, readOnly</prop>
+            </props>
+        </property>
     </bean>
 
     <bean id="jcrTemplate" class="org.springmodules.jcr.JcrTemplate">
@@ -80,8 +80,8 @@
 
     <bean id="jcrService"
           class="com.semanticbits.rules.impl.RepositoryServiceImpl">
-        <property name="jcrTemplate" ref="jcrTemplate"/>
         <property name="repository" ref="repository"/>
+        <property name="template" ref="jcrTemplate"/>
     </bean>
 
 </beans>

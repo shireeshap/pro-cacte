@@ -37,6 +37,7 @@ public class ProCtcAERulesService {
     }
 
     public synchronized boolean ruleSetExists(CRF crf) {
+        System.out.println("gg-"+this);
         String packageName = getPackageNameForCrf(crf);
         RuleSet ruleSet = ruleAuthoringService.getRuleSet(packageName, false);
         return ruleSet != null;
