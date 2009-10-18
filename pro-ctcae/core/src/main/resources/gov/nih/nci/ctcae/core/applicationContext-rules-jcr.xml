@@ -53,7 +53,7 @@
 
 
     <bean id="rulesTransactionManager"
-          class="org.springmodules.jcr.jackrabbit.LocalTransactionManager">
+          class="org.springmodules.jcr.jackrabbit.LocalTransactionManager" autowire-candidate="false">
         <property name="sessionFactory" ref="jcrSessionFactory"/>
     </bean>
 
