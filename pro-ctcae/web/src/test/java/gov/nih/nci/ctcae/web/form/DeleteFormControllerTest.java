@@ -68,6 +68,7 @@ public class DeleteFormControllerTest extends WebTestCase {
 
     public void testPostRequest() throws Exception {
         ProCtcAERulesService proCtcAERulesService = new ProCtcAERulesService();
+        controller.setProCtcAERulesService(proCtcAERulesService);
         RuleAuthoringServiceImpl ruleAuthoringService = registerMockFor(RuleAuthoringServiceImpl.class);
         RulesEngineServiceImpl rulesEngineService = registerMockFor(RulesEngineServiceImpl.class);
         RepositoryServiceImpl repositoryService = registerMockFor(RepositoryServiceImpl.class);

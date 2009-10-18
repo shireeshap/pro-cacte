@@ -19,17 +19,21 @@ public class ManageFormControllerTest extends WebTestCase {
     private ManageFormController controller;
     private Study study;
     CrfAjaxFacade crfAjaxFacade;
+    StudyAjaxFacade studyAjaxFacade;
 
 
     @Override
     protected void setUp() throws Exception {
         crfAjaxFacade = registerMockFor(CrfAjaxFacade.class);
+        studyAjaxFacade = registerMockFor(StudyAjaxFacade.class);
         super.setUp();
         controller = new ManageFormController();
         controller.setStudyRepository(studyRepository);
         controller.setCrfAjaxFacade(crfAjaxFacade);
+        controller.setStudyAjaxFacade(studyAjaxFacade);
 
         study = new Study();
+        study.setId(1);
         request.setMethod("GET");
 
     }
@@ -40,8 +44,10 @@ public class ManageFormControllerTest extends WebTestCase {
 
     public void testHandleRequestIfNoCRF() throws Exception {
 
-
+        expect(studyAjaxFacade.matchStudy("%")).andReturn(new ArrayList<Study>());
+        replayMocks();
         ModelAndView modelAndView = controller.handleRequest(request, response);
+        verifyMocks();
         assertNotNull(modelAndView);
         assertTrue("moel must be empty", modelAndView.getModel().keySet().isEmpty());
 
