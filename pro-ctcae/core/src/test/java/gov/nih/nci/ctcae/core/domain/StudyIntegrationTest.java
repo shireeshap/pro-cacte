@@ -249,7 +249,7 @@ public class StudyIntegrationTest extends TestDataManager {
         for (Study study : studies)
 
         {
-            assertTrue(study.getShortTitle().toLowerCase().contains("short"));
+            assertTrue(study.getShortTitle().toLowerCase().contains("phase"));
         }
 
     }
