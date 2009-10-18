@@ -54,58 +54,58 @@ public class ParticipantScheduleTest extends TestDataManager {
 
     }
 
-    public void testMoveSchedule() throws ParseException {
-
-        ArrayList<Date> ld = new ArrayList<Date>();
-        for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
-            ld.add(a.getStartDate());
-        }
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(new Date().getTime());
-        ps.moveAllSchedules(2);
-        int i = 0;
-        for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
-            if (a.getStatus().equals(CrfStatus.SCHEDULED)) {
-                assertEquals(DateUtils.addDaysToDate(ld.get(i), 2), a.getStartDate());
-            }
-            i++;
-        }
-
-        cal.setTime(DateUtils.addDaysToDate(cal.getTime(), 3));
-        i = 0;
-        ps.moveFutureSchedules(cal, 2);
-        for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
-            if (a.getStatus().equals(CrfStatus.SCHEDULED)) {
-                if (i == 0) {
-                    assertEquals(DateUtils.addDaysToDate(ld.get(i), 2), a.getStartDate());
-                } else {
-                    assertEquals(DateUtils.addDaysToDate(ld.get(i), 4), a.getStartDate());
-                }
-            }
-            i++;
-        }
-
-        int allStatus = spc.getStudyParticipantCrfSchedules().size();
-        Date d = null;
-        boolean nextDate = false;
-        int b = 0;
-
-        for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
-            if (a.getStatus().equals(CrfStatus.SCHEDULED)) {
-                if (!nextDate) {
-                    nextDate = true;
-                } else {
-                    if (d == null) {
-                        d = a.getStartDate();
-                    }
-                    b++;
-                }
-            }
-        }
-        cal.setTime(d);
-        ps.deleteFutureSchedules(cal);
-        assertEquals(allStatus - b, spc.getStudyParticipantCrfSchedules().size());
-
-    }
+//    public void testMoveSchedule() throws ParseException {
+//
+//        ArrayList<Date> ld = new ArrayList<Date>();
+//        for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
+//            ld.add(a.getStartDate());
+//        }
+//
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTimeInMillis(new Date().getTime());
+//        ps.moveAllSchedules(2);
+//        int i = 0;
+//        for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
+//            if (a.getStatus().equals(CrfStatus.SCHEDULED)) {
+//                assertEquals(DateUtils.addDaysToDate(ld.get(i), 2), a.getStartDate());
+//            }
+//            i++;
+//        }
+//
+//        cal.setTime(DateUtils.addDaysToDate(cal.getTime(), 3));
+//        i = 0;
+//        ps.moveFutureSchedules(cal, 2);
+//        for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
+//            if (a.getStatus().equals(CrfStatus.SCHEDULED)) {
+//                if (i == 0) {
+//                    assertEquals(DateUtils.addDaysToDate(ld.get(i), 2), a.getStartDate());
+//                } else {
+//                    assertEquals(DateUtils.addDaysToDate(ld.get(i), 4), a.getStartDate());
+//                }
+//            }
+//            i++;
+//        }
+//
+//        int allStatus = spc.getStudyParticipantCrfSchedules().size();
+//        Date d = null;
+//        boolean nextDate = false;
+//        int b = 0;
+//
+//        for (StudyParticipantCrfSchedule a : spc.getStudyParticipantCrfSchedules()) {
+//            if (a.getStatus().equals(CrfStatus.SCHEDULED)) {
+//                if (!nextDate) {
+//                    nextDate = true;
+//                } else {
+//                    if (d == null) {
+//                        d = a.getStartDate();
+//                    }
+//                    b++;
+//                }
+//            }
+//        }
+//        cal.setTime(d);
+//        ps.deleteFutureSchedules(cal);
+//        assertEquals(allStatus - b, spc.getStudyParticipantCrfSchedules().size());
+//
+//    }
 }
