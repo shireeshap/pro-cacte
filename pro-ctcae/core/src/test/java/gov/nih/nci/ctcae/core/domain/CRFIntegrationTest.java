@@ -191,60 +191,60 @@ public class CRFIntegrationTest extends TestDataManager {
         }
     }
 
-    public void testVersionForm() throws ParseException {
-        deleteAndCreateTestData();
-        Study study = StudyTestHelper.getDefaultStudy();
-        List<CRF> crfsToRemove = new ArrayList<CRF>();
-        for (CRF crf : study.getCrfs()) {
-            if (!crf.getCrfVersion().equals("1.0")) {
-                crf.setStatus(CrfStatus.DRAFT);
-                crfsToRemove.add(crf);
-            }
-        }
-
-        study.getCrfs().removeAll(crfsToRemove);
-        for (CRF crf : crfsToRemove) {
-            crfRepository.delete(crf);
-        }
-        studyRepository.save(study);
-        CRF crf = study.getCrfs().get(0);
-        CRFPage lastPage = crf.getCrfPagesSortedByPageNumber().get(crf.getCrfPagesSortedByPageNumber().size() - 1);
-        Integer lastPageNumber = lastPage.getPageNumber();
-
-        StudyParticipantCrf spc = crf.getStudyParticipantCrfs().get(0);
-        spc.getStudyParticipantCrfAddedQuestions().clear();
-        spc.addStudyParticipantCrfAddedQuestion(lastPage.getCrfPageItems().get(0).getProCtcQuestion(), lastPageNumber + 1);
-        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
-        proCtcTermQuery.filterByTerm("Tremor, shaking");
-        ProCtcTerm proCtcTerm = genericRepository.findSingle(proCtcTermQuery);
-
-        spc.addStudyParticipantCrfAddedQuestion(proCtcTerm.getProCtcQuestions().get(0), lastPageNumber + 2);
-        spc = genericRepository.save(spc);
-
-        commitAndStartNewTransaction();
-        int numOfSPCs = crf.getStudyParticipantCrfs().size();
-
-        CRF versionedCrf = crfRepository.versionCrf(crf);
-        assertEquals("2.0", versionedCrf.getCrfVersion());
-        versionedCrf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), -10));
-        versionedCrf = crfRepository.updateStatusToReleased(versionedCrf);
-        commitAndStartNewTransaction();
-
-        spc = genericRepository.findById(StudyParticipantCrf.class, spc.getId());
-        assertEquals(5, spc.getStudyParticipantCrfSchedules().size());
-        assertEquals(numOfSPCs, spc.getCrf().getStudyParticipantCrfs().size());
-        assertEquals(numOfSPCs, crf.getStudyParticipantCrfs().size());
-
-        StudyParticipantCrf vSpc = null;
-        StudyParticipantAssignment studyParticipantAssignment = spc.getStudyParticipantAssignment();
-        for (StudyParticipantCrf studyParticipantCrf : versionedCrf.getStudyParticipantCrfs()) {
-            if (studyParticipantCrf.getStudyParticipantAssignment().equals(studyParticipantAssignment)) {
-                vSpc = studyParticipantCrf;
-                break;
-            }
-        }
-        assertNotNull(vSpc);
-        assertEquals(1, vSpc.getStudyParticipantCrfAddedQuestions().size());
-        deleteAndCreateTestData();
-    }
+//    public void testVersionForm() throws ParseException {
+//        deleteAndCreateTestData();
+//        Study study = StudyTestHelper.getDefaultStudy();
+//        List<CRF> crfsToRemove = new ArrayList<CRF>();
+//        for (CRF crf : study.getCrfs()) {
+//            if (!crf.getCrfVersion().equals("1.0")) {
+//                crf.setStatus(CrfStatus.DRAFT);
+//                crfsToRemove.add(crf);
+//            }
+//        }
+//
+//        study.getCrfs().removeAll(crfsToRemove);
+//        for (CRF crf : crfsToRemove) {
+//            crfRepository.delete(crf);
+//        }
+//        studyRepository.save(study);
+//        CRF crf = study.getCrfs().get(0);
+//        CRFPage lastPage = crf.getCrfPagesSortedByPageNumber().get(crf.getCrfPagesSortedByPageNumber().size() - 1);
+//        Integer lastPageNumber = lastPage.getPageNumber();
+//
+//        StudyParticipantCrf spc = crf.getStudyParticipantCrfs().get(0);
+//        spc.getStudyParticipantCrfAddedQuestions().clear();
+//        spc.addStudyParticipantCrfAddedQuestion(lastPage.getCrfPageItems().get(0).getProCtcQuestion(), lastPageNumber + 1);
+//        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+//        proCtcTermQuery.filterByTerm("Tremor, shaking");
+//        ProCtcTerm proCtcTerm = genericRepository.findSingle(proCtcTermQuery);
+//
+//        spc.addStudyParticipantCrfAddedQuestion(proCtcTerm.getProCtcQuestions().get(0), lastPageNumber + 2);
+//        spc = genericRepository.save(spc);
+//
+//        commitAndStartNewTransaction();
+//        int numOfSPCs = crf.getStudyParticipantCrfs().size();
+//
+//        CRF versionedCrf = crfRepository.versionCrf(crf);
+//        assertEquals("2.0", versionedCrf.getCrfVersion());
+//        versionedCrf.setEffectiveStartDate(DateUtils.addDaysToDate(new Date(), -10));
+//        versionedCrf = crfRepository.updateStatusToReleased(versionedCrf);
+//        commitAndStartNewTransaction();
+//
+//        spc = genericRepository.findById(StudyParticipantCrf.class, spc.getId());
+//        assertEquals(5, spc.getStudyParticipantCrfSchedules().size());
+//        assertEquals(numOfSPCs, spc.getCrf().getStudyParticipantCrfs().size());
+//        assertEquals(numOfSPCs, crf.getStudyParticipantCrfs().size());
+//
+//        StudyParticipantCrf vSpc = null;
+//        StudyParticipantAssignment studyParticipantAssignment = spc.getStudyParticipantAssignment();
+//        for (StudyParticipantCrf studyParticipantCrf : versionedCrf.getStudyParticipantCrfs()) {
+//            if (studyParticipantCrf.getStudyParticipantAssignment().equals(studyParticipantAssignment)) {
+//                vSpc = studyParticipantCrf;
+//                break;
+//            }
+//        }
+//        assertNotNull(vSpc);
+//        assertEquals(1, vSpc.getStudyParticipantCrfAddedQuestions().size());
+//        deleteAndCreateTestData();
+//    }
 }
