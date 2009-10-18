@@ -237,11 +237,11 @@ public class StudyIntegrationTest extends TestDataManager {
     public void testFindByName() {
 
         StudyQuery studyQuery = new StudyQuery();
-        studyQuery.filterStudiesByShortTitle("short");
+        studyQuery.filterStudiesByShortTitle("short%");
 
         Collection<? extends Study> studies = studyRepository.find(studyQuery);
         assertFalse(studies.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower(studies.short_title ) like '%short%'");
+        int size = jdbcTemplate.queryForInt("select count(*) from studies studies where lower(studies.short_title ) like 'short%'");
 
         assertEquals(size, studies.size());
 

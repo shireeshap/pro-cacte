@@ -56,7 +56,7 @@ public class StudyQueryTest extends TestCase {
                 studyQuery.getQueryString());
         assertEquals("wrong number of parameters", studyQuery.getParameterMap().size(), 1);
         assertTrue("missing parameter name", studyQuery.getParameterMap().containsKey("shortTitle"));
-        assertEquals("wrong parameter value", studyQuery.getParameterMap().get("shortTitle"), "%dow%");
+        assertEquals("wrong parameter value", studyQuery.getParameterMap().get("shortTitle"), "dow");
     }
 
     public void testFilterBySite() throws Exception {

@@ -79,13 +79,13 @@ public class ParticipantIntegrationTest extends TestDataManager {
         saveParticipant();
 
         ParticipantQuery participantQuery = new ParticipantQuery();
-        participantQuery.filterByParticipantFirstName("J");
+        participantQuery.filterByParticipantFirstName("J%");
 
         Collection<? extends Participant> participants = participantRepository
                 .find(participantQuery);
         assertFalse(participants.isEmpty());
         int size = jdbcTemplate
-                .queryForInt("select count(*) from participants participants where lower(participants.first_name ) like '%j%'");
+                .queryForInt("select count(*) from participants participants where lower(participants.first_name ) like 'j%'");
 
         assertEquals(size, participants.size());
 
@@ -99,13 +99,13 @@ public class ParticipantIntegrationTest extends TestDataManager {
         saveParticipant();
 
         ParticipantQuery participantQuery = new ParticipantQuery();
-        participantQuery.filterByParticipantLastName("D");
+        participantQuery.filterByParticipantLastName("D%");
 
         Collection<? extends Participant> participants = participantRepository
                 .find(participantQuery);
         assertFalse(participants.isEmpty());
         int size = jdbcTemplate
-                .queryForInt("select count(*) from participants participants where lower(participants.last_name ) like '%d%'");
+                .queryForInt("select count(*) from participants participants where lower(participants.last_name ) like 'd%'");
 
         assertEquals(size, participants.size());
 

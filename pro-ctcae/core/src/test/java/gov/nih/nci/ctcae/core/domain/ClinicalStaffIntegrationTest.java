@@ -67,11 +67,11 @@ public class ClinicalStaffIntegrationTest extends TestDataManager {
         saveClinicalStaff();
 
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
-        clinicalStaffQuery.filterByClinicalStaffFirstName("J");
+        clinicalStaffQuery.filterByClinicalStaffFirstName("J%");
 
         Collection<? extends ClinicalStaff> clinicalStaffs = clinicalStaffRepository.find(clinicalStaffQuery);
         assertFalse(clinicalStaffs.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from clinical_Staffs clinicalStaffs where lower(clinicalStaffs.first_name ) like '%j%'");
+        int size = jdbcTemplate.queryForInt("select count(*) from clinical_Staffs clinicalStaffs where lower(clinicalStaffs.first_name ) like 'j%'");
         assertEquals(size, clinicalStaffs.size());
 
         for (ClinicalStaff clinicalStaff : clinicalStaffs) {
@@ -79,15 +79,16 @@ public class ClinicalStaffIntegrationTest extends TestDataManager {
         }
     }
 
+    
     public void testFindByLastName() {
         saveClinicalStaff();
 
         ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
-        clinicalStaffQuery.filterByClinicalStaffLastName("D");
+        clinicalStaffQuery.filterByClinicalStaffLastName("D%");
 
         Collection<? extends ClinicalStaff> clinicalStaffs = clinicalStaffRepository.find(clinicalStaffQuery);
         assertFalse(clinicalStaffs.isEmpty());
-        int size = jdbcTemplate.queryForInt("select count(*) from clinical_Staffs clinicalStaffs where lower(clinicalStaffs.last_name ) like '%d%'");
+        int size = jdbcTemplate.queryForInt("select count(*) from clinical_Staffs clinicalStaffs where lower(clinicalStaffs.last_name ) like 'd%'");
         assertEquals(size, clinicalStaffs.size());
 
         for (ClinicalStaff clinicalStaff : clinicalStaffs) {

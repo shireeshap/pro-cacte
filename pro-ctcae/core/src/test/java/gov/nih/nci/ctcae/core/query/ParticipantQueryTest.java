@@ -22,7 +22,7 @@ public class ParticipantQueryTest extends TestCase {
                 participantQuery.getQueryString());
         assertEquals("wrong number of parameters", participantQuery.getParameterMap().size(), 1);
         assertTrue("missing parameter name", participantQuery.getParameterMap().containsKey("firstName"));
-        assertEquals("wrong parameter value", participantQuery.getParameterMap().get("firstName"), "%john%");
+        assertEquals("wrong parameter value", participantQuery.getParameterMap().get("firstName"), "john");
     }
 
     public void testFilterByParticipantIdentifier() throws Exception {
@@ -32,7 +32,7 @@ public class ParticipantQueryTest extends TestCase {
                 participantQuery.getQueryString());
         assertEquals("wrong number of parameters", participantQuery.getParameterMap().size(), 1);
         assertTrue("missing parameter name", participantQuery.getParameterMap().containsKey("assignedIdentifier"));
-        assertEquals("wrong parameter value", participantQuery.getParameterMap().get("assignedIdentifier"), "%id001%");
+        assertEquals("wrong parameter value", participantQuery.getParameterMap().get("assignedIdentifier"), "id001");
     }
     public void testFilterByStudyI() throws Exception {
         ParticipantQuery participantQuery = new ParticipantQuery();
@@ -57,7 +57,7 @@ public class ParticipantQueryTest extends TestCase {
                 participantQuery.getQueryString());
         assertEquals("wrong number of parameters", participantQuery.getParameterMap().size(), 1);
         assertTrue("missing parameter name", participantQuery.getParameterMap().containsKey("lastName"));
-        assertEquals("wrong parameter value", participantQuery.getParameterMap().get("lastName"), "%dow%");
+        assertEquals("wrong parameter value", participantQuery.getParameterMap().get("lastName"), "dow");
     }
 
     public void testFilterByFullName() throws Exception {
