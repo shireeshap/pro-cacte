@@ -54,7 +54,7 @@ public class StudyAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCa
 
     public void testSearchStudiesByShortTitle() {
         type = "shortTitle";
-        text = "short";
+        text = "%short%";
 
         String table = studyAjaxFacade.searchStudies(parameterMap, type, text, request);
         assertNotNull(table);
@@ -65,7 +65,7 @@ public class StudyAjaxFacadeIntegrationTest extends AbstractWebIntegrationTestCa
 
     public void testSearchStudiesByIdentifier() {
         type = "assignedIdentifier";
-        text = "identifier";
+        text = "%identifier%";
 
         String table = studyAjaxFacade.searchStudies(parameterMap, type, text, request);
         assertNotNull(table);

@@ -29,7 +29,7 @@ public class ClinicalStaffAjaxFacadeIntegrationTest extends AbstractWebIntegrati
     public void testSearchClinicalStaffByFirstName() {
         ClinicalStaff cs = ClinicalStaffTestHelper.getDefaultClinicalStaff();
 
-        String table = clinicalStaffAjaxFacade.searchClinicalStaff(parameterMap, cs.getFirstName().substring(1,3), cs.getLastName().substring(1,3), "", request);
+        String table = clinicalStaffAjaxFacade.searchClinicalStaff(parameterMap, cs.getFirstName(), cs.getLastName(), "", request);
         assertNotNull(table);
         assertTrue("must find atleast clinical staff matching with first name", table.contains(cs.getFirstName()));
         assertTrue("must find atleast clinical staff matching with last name", table.contains(cs.getLastName()));

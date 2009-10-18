@@ -23,17 +23,17 @@ public class ParticipantAjaxFacadeTest extends AbstractWebTestCase {
         ParticipantAjaxFacade facade = new ParticipantAjaxFacade();
         facade.setParticipantRepository(participantRepository);
 
-        String table = facade.searchParticipant(parameterMap, p.getFirstName().substring(1, 3), p.getLastName().substring(1, 3), p.getAssignedIdentifier(), request);
+        String table = facade.searchParticipant(parameterMap, p.getFirstName(), p.getLastName(), p.getAssignedIdentifier(), request);
         assertNotNull(table);
         assertTrue("must find participant", table.contains(p.getFirstName()));
         assertTrue("must find participant", table.contains(p.getLastName()));
 
-        table = facade.searchParticipant(parameterMap, "", p.getLastName().substring(1, 3), "", request);
+        table = facade.searchParticipant(parameterMap, "", p.getLastName(), "", request);
         assertNotNull(table);
         assertTrue("must find participant", table.contains(p.getFirstName()));
         assertTrue("must find participant", table.contains(p.getLastName()));
 
-        table = facade.searchParticipant(parameterMap, p.getFirstName().substring(1, 3), "", "", request);
+        table = facade.searchParticipant(parameterMap, p.getFirstName(), "", "", request);
         assertNotNull(table);
         assertTrue("must find participant", table.contains(p.getFirstName()));
         assertTrue("must find participant", table.contains(p.getLastName()));
