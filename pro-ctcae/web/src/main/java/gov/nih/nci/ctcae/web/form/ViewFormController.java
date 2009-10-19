@@ -2,12 +2,14 @@ package gov.nih.nci.ctcae.web.form;
 
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 
 /**
  * @author Mehul Gulati
@@ -16,6 +18,7 @@ import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 public class ViewFormController extends AbstractController {
 
     private CRFRepository crfRepository;
+    private ProCtcAERulesService proCtcAERulesService;
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
@@ -23,6 +26,7 @@ public class ViewFormController extends AbstractController {
         CRF crf = crfRepository.findById(Integer.parseInt(crfId));
         CreateFormCommand command = new CreateFormCommand();
         command.setCrf(crf);
+        command.setProCtcAERulesService(proCtcAERulesService);
         command.initializeRulesForForm();
         ModelAndView modelAndView = new ModelAndView("form/viewForm");
         modelAndView.addObject("crf", crf);
@@ -32,5 +36,10 @@ public class ViewFormController extends AbstractController {
 
     public void setCrfRepository(CRFRepository crfRepository) {
         this.crfRepository = crfRepository;
+    }
+
+    @Required
+    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
+        this.proCtcAERulesService = proCtcAERulesService;
     }
 }
