@@ -130,6 +130,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
                 submitFormCommand.setGenericRepository(genericRepository);
                 submitFormCommand.setStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
                 submitFormCommand.initialize();
+                submitFormCommand.setStudyParticipantCrfSchedule(genericRepository.save(submitFormCommand.getStudyParticipantCrfSchedule()));
             }
         }
         initialize(submitFormCommand.getStudyParticipantCrfSchedule(), submitFormCommand);
