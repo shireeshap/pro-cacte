@@ -212,6 +212,7 @@
     <bean name="/form/viewForm" id="viewFormController"
           class="gov.nih.nci.ctcae.web.form.ViewFormController">
         <property name="crfRepository" ref="crfRepository"/>
+        <property name="proCtcAERulesService" ref="proCtcAERulesService"/>
     </bean>
 
     <bean name="/form/deleteForm" id="deleteFormController"
