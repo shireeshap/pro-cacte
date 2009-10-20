@@ -104,7 +104,7 @@
 
             var props = new Array();
             props[0] = 'If';
-            props[1] = 'And';
+            props[1] = 'Or';
             props[2] = 'questiontypes';
             props[3] = 'operators';
             props[4] = 'values_%questiontypes';
