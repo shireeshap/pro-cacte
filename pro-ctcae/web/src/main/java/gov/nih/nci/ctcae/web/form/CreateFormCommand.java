@@ -414,7 +414,6 @@ public class CreateFormCommand implements Serializable {
 
 
     public void initializeRulesForForm() {
-        logger.debug("CFC-" + proCtcAERulesService);
         boolean firstTimeRuleCreation = !proCtcAERulesService.ruleSetExists(crf);
         RuleSet ruleSet = proCtcAERulesService.getRuleSetForCrf(crf, true);
 
