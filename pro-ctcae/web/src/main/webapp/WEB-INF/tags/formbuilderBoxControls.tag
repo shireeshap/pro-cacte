@@ -6,16 +6,16 @@
 <%@attribute name="delete" %>
 <%@attribute name="properties" %>
 <c:if test="${(properties) || (add) || (delete)}">
-    <div class="formbuilderBoxControls">
-        <div class="formbuilderBoxControls-left">
-            <c:if test="${delete}">
-                <a href="javascript:deleteQuestion('${proCtcQuestionId}','${proCtcTermId}');">
-                    <img src="<tags:imageUrl name="checkno.gif"/>" alt="Delete"/>
-                </a>
+    <%--<div class="formbuilderBoxControls">--%>
+        <%--<div class="formbuilderBoxControls-left">--%>
+            <%--<c:if test="${delete}">--%>
+                <%--<a href="javascript:deleteQuestion('${proCtcQuestionId}','${proCtcTermId}');">--%>
+                    <%--<img src="<tags:imageUrl name="checkno.gif"/>" alt="Delete"/>--%>
+                <%--</a>--%>
 
 
-            </c:if>
-        </div>
-        <div class="formbuilderBoxControls-right"></div>
-    </div>
+            <%--</c:if>--%>
+        <%--</div>--%>
+        <%--<div class="formbuilderBoxControls-right"></div>--%>
+    <%--</div>--%>
 </c:if>
