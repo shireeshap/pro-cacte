@@ -229,10 +229,23 @@
                </tr>
            </table>
            <div id="passwordfields" style="${style}">
-               <tags:renderPassword required="true" propertyName="participant.user.password"
-                                    displayName="participant.label.password"/>
-               <tags:renderPassword required="true" propertyName="participant.user.confirmPassword"
-                                    displayName="participant.label.confirmpassword"/>
+               <table border="0" cellpadding="0" cellspacing="0">
+                   <tr>
+                       <td>
+
+                           <tags:renderPassword required="true" propertyName="participant.user.password"
+                                                displayName="participant.label.password"/>
+                       </td>
+                   <td>(The password must be atleast 6 characters)</td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <tags:renderPassword required="true" propertyName="participant.user.confirmPassword"
+                                                displayName="participant.label.confirmpassword"/>
+                       </td>
+                   </tr>
+               </table>
+
            </div>
        </chrome:division>
     <chrome:division title="participant.label.studies"/>
