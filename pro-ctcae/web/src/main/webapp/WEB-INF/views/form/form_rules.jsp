@@ -90,15 +90,6 @@
             }
 
         }
-        function addSymptom(ruleindex, value) {
-            var props = new Array();
-            props[0] = 'For symptom';
-            props[1] = 'Or';
-            props[2] = 'symptoms';
-            var index = addFields(ruleindex, 'symptom', props);
-            var select = $('symptoms_' + ruleindex + '_' + index);
-            setSelectValue(select, value);
-        }
 
         function addCondition(ruleindex, questiontype, operator, value) {
 
@@ -143,7 +134,6 @@
         }
 
         function initializeRule(ruleindex) {
-            addSymptom(ruleindex);
             addCondition(ruleindex);
         }
 
@@ -187,7 +177,6 @@
 <tags:instructions code="form.notification.instructions"/>
 
 <div id="templateSelects" style="display:none">
-    <tags:renderSelect options="${crfSymptoms}" noForm="true" id="templateSelect_symptoms"/>
     <tags:renderSelect options="${questionTypes}" noForm="true" id="templateSelect_questiontypes"
                        onchange="changeoptions(this);"/>
     <tags:renderSelect options="${comparisonOptions}" noForm="true" id="templateSelect_operators"/>

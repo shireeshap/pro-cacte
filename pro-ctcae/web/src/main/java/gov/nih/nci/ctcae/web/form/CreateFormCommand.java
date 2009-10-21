@@ -372,9 +372,11 @@ public class CreateFormCommand implements Serializable {
 
     private List<String> getListForRule(String ruleIndex, HttpServletRequest request, String listType) {
         List<String> list = new ArrayList<String>();
-        if (listType.equals("notifications")) {
+        if (listType.equals("notifications") || listType.equals("symptoms")) {
             String[] strings = request.getParameterValues(listType + "_" + ruleIndex);
-            list = Arrays.asList(strings);
+            if (strings != null) {
+                list = Arrays.asList(strings);
+            }
             return list;
         } else {
             int index = 0;
@@ -397,12 +399,6 @@ public class CreateFormCommand implements Serializable {
         if (ruleSet != null) {
             for (Rule rule : ruleSet.getRule()) {
                 ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
-                ArrayList<String> allSymptoms = new ArrayList<String>(crf.getAllProCtcTermsInCrf());
-                if (allSymptoms.equals(proCtcAERule.getSymptoms())) {
-                    List<String> symptoms = new ArrayList<String>();
-                    symptoms.add("Allsymptoms");
-                    proCtcAERule.setSymptoms(symptoms);
-                }
                 formOrStudySiteRules.add(proCtcAERule);
             }
         }
@@ -430,27 +426,8 @@ public class CreateFormCommand implements Serializable {
         notifications.add("PrimaryPhysician");
         notifications.add("LeadCRA");
         String overwrite = "Y";
-        Rule defaultRule = null;
         if (firstTimeRuleCreation) {
             createDefaultRule(crf, ruleSet, notifications, overwrite);
-        } else {
-            for (Rule rule : ruleSet.getRule()) {
-                if (rule.getMetaData().getName().endsWith("_default_rule")) {
-                    ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
-                    notifications = proCtcAERule.getNotifications();
-                    overwrite = proCtcAERule.getOverride();
-                    defaultRule = rule;
-                    break;
-                }
-            }
-            if (defaultRule != null) {
-                try {
-                    proCtcAERulesService.deleteRule(defaultRule.getId(), ruleSet);
-                    createDefaultRule(crf, ruleSet, notifications, overwrite);
-                } catch (Exception e) {
-                }
-            }
-
         }
     }
 
@@ -506,13 +483,6 @@ public class CreateFormCommand implements Serializable {
                     continue;
                 }
                 List<String> symptoms = getListForRule(ruleId, request, "symptoms");
-                for (String symptom : symptoms) {
-                    if (symptom.equals("Allsymptoms")) {
-                        symptoms = new ArrayList<String>(crf.getAllProCtcTermsInCrf());
-                        break;
-                    }
-                }
-
                 List<String> questiontypes = getListForRule(ruleId, request, "questiontypes");
                 List<String> operators = getListForRule(ruleId, request, "operators");
                 List<String> values = getListForRule(ruleId, request, "values");

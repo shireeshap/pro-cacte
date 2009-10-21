@@ -99,7 +99,7 @@
         <c:set var="numberofalerts" scope="page" value="${numberofalerts + 1}"/>
     </c:if>
 </c:forEach>
-<c:set var="dl" value="12"/>
+<c:set var="dl" value="1200"/>
 <table cellpadding="0" cellspacing="0" width="100%" class="outer">
 <tr>
     <td>

@@ -269,20 +269,18 @@ public class ListValues {
     }
 
 
-    public static List<ListValues> getSymptomsForCRF(CRF crf) {
-        List<ListValues> col = new ArrayList<ListValues>();
-        ListValues lov = new ListValues("Allsymptoms", "All symptoms");
-        col.add(lov);
+    public static List<String> getSymptomsForCRF(CRF crf) {
+        List<String> allSymptoms = new ArrayList<String>();
         HashSet proCtcTerms = new HashSet();
         for (CrfPageItem crfPageItem : crf.getAllCrfPageItems()) {
             proCtcTerms.add(crfPageItem.getProCtcQuestion().getProCtcTerm());
         }
         for (Object proCtcTerm1 : proCtcTerms) {
             ProCtcTerm proCtcTerm = (ProCtcTerm) proCtcTerm1;
-            lov = new ListValues(proCtcTerm.getTerm(), proCtcTerm.getTerm());
-            col.add(lov);
+            allSymptoms.add(proCtcTerm.getTerm());
         }
-        return col;
+        Collections.sort(allSymptoms);
+        return allSymptoms;
     }
 
     public static List<ListValues> getQuestionTypes(CRF crf) {

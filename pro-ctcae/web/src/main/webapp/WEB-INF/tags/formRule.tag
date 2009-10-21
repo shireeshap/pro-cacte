@@ -25,19 +25,27 @@
                 <div class="row">
                     <div class="value">
                         <table>
-                            <tr id="symptomDiv_${ruleId}">
-                                <td></td>
-                                <td>
-                                    <tags:button icon="add" color="blue" value="Add" size="small"
-                                                 onclick="addSymptom('${ruleId}')" markupWithTag="a"/>
-                                </td>
-                            </tr>
+                            <c:forEach items="${crfSymptoms}" var="symptom" varStatus="status">
+                                <c:set var="checked" value=""/>
+                                <c:forEach items="${proCtcAeRule.symptoms}" var="mysym">
+                                    <c:if test="${mysym eq symptom}">
+                                        <c:set var="checked" value="checked"/>
+                                    </c:if>
+                                </c:forEach>
+                                <c:choose>
+                                    <c:when test="${status.index%2 == 0}">
+                                        <tr>
+                                        <td><input type="checkbox" name="symptoms_${ruleId}"
+                                                   value="${symptom}" ${checked}>${symptom}</td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td><input type="checkbox" name="symptoms_${ruleId}"
+                                                   value="${symptom}" ${checked}>${symptom}</td>
+                                        </tr>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
                         </table>
-                        <c:forEach items="${proCtcAeRule.symptoms}" var="symptom">
-                            <script type="text/javascript">
-                                addSymptom('${ruleId}', '${symptom}');
-                            </script>
-                        </c:forEach>
                     </div>
                 </div>
                 <chrome:division title="Attributes"/>
@@ -72,6 +80,7 @@
                             </c:forEach>
                             <input type="checkbox" name="notifications_${ruleId}" value="${notification.code}"
                                 ${selected}/>${notification.desc}
+                            <br/>
                         </c:forEach>
                     </div>
                 </div>
