@@ -17,7 +17,9 @@
         body {
             font-family: Arial;
         }
-
+		* {
+			zoom:1;
+		}
         .label {
             font-weight: bold;
             font-size: 15px;

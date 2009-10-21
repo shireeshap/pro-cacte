@@ -9,7 +9,7 @@
 <div id="questionPropertiesDiv_${crfPageItem.proCtcQuestion.id}">
     <div id="questionProperties_${crfPageItem.proCtcQuestion.id}" style="display:none;"
          class="questionProperties leftBox">
-        <span class="propertiesHeader"><tags:message code="crfItem.label.properties"/> </span>
+        <tags:instructions code="form.label.question_properties.instructions"/>
 
         <div align="left" style="margin-left: 50px;display:none">
             <table width="95%" class="tablecontent"

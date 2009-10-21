@@ -771,9 +771,10 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         <tags:button type="submit" icon="Save & Continue" color="green" id="flow-next" value="Save & Continue"/>
     </div>
 
-    <tags:instructions code="form.label.instructions"/>
-    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="displayPrefsMenu"
+    
+	<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="displayPrefsMenu"
        style="margin-left:11px"><span class="ui-icon ui-icon-triangle-1-s"></span>Display Preferences</a>
+    <br style="clear:both;">
 
     <div id="displayOptionsMenu" class="hidden">
         <ul>
@@ -823,6 +824,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
 
                 <div id="questionBank" class="leftBox">
+                	<tags:instructions code="form.label.question_bank.instructions"/>
                     <c:if test="${advance}">
                         <a id="newPageBtn" href="javascript:addCrfPage()"><img
                                 src="<tags:imageUrl name="blue/new_page_button.png" />"
@@ -894,6 +896,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                 </div>
 
                 <div id="formSettings" class="leftBox" style="display:none;">
+					<tags:instructions code="form.label.recall_period.instructions"/>
                     <tags:formSettings crf="${command.crf}"></tags:formSettings>
                 </div>
             </td>
