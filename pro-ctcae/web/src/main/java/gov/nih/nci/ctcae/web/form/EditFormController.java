@@ -5,10 +5,13 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
+import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.web.participant.ParticipantCommand;
 import gov.nih.nci.ctcae.web.participant.ParticipantReviewTab;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -61,8 +64,13 @@ public class EditFormController extends FormController {
     public Flow<CreateFormCommand> getFlow(CreateFormCommand command) {
         if (command.getCrf().getStatus().equals(CrfStatus.RELEASED)) {
             Flow flow = new Flow("Edit Rules");
-            flow.addTab(new FormRulesTab());
-            flow.addTab(new SiteRulesTab());
+            FormRulesTab formRulesTab = new FormRulesTab();
+            formRulesTab.setCrfRepository(crfRepository);
+            formRulesTab.setProCtcAERulesService(proCtcAERulesService);
+            flow.addTab(formRulesTab);
+            SiteRulesTab siteRulesTab = new SiteRulesTab();
+            siteRulesTab.setProCtcAERulesService(proCtcAERulesService);
+            flow.addTab(siteRulesTab);
             return getSecuredFlow(flow);
         } else {
             return super.getFlow(command);

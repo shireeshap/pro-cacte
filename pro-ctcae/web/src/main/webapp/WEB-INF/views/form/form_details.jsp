@@ -762,10 +762,22 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         <div class="summarylabel"><spring:message code="form.label.study"/></div>
         <div class="summaryvalue">${command.crf.study.displayName}</div>
     </div>
-    <div class="instructions">
-        <div class="summarylabel"><tags:requiredIndicator/>&nbsp;<spring:message code="form.label.title"/></div>
-        <div style="margin-left:3em"><input type="text" name="crf.title" value="${command.crf.title}" size="80"/></div>
-    </div>
+    <c:choose>
+        <c:when test="${command.crf.crfVersion eq 1.0}">
+            <div class="instructions">
+                <div class="summarylabel"><tags:requiredIndicator/>&nbsp;<spring:message code="form.label.title"/></div>
+                <div style="margin-left:3em">
+                    <input type="text" name="crf.title" value="${command.crf.title}" size="80"/>
+                </div>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="instructions">
+                <div class="summarylabel"><spring:message code="form.label.title"/></div>
+                <div class="summaryvalue">${command.crf.title}</div>
+            </div>
+        </c:otherwise>
+    </c:choose>
     <div/>
     <div style="float:right;">
         <tags:button type="submit" icon="Save & Continue" color="green" id="flow-next" value="Save & Continue"/>
@@ -824,7 +836,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
 
                 <div id="questionBank" class="leftBox">
-                	<tags:instructions code="form.label.question_bank.instructions"/>
+                    <tags:instructions code="form.label.question_bank.instructions"/>
                     <c:if test="${advance}">
                         <a id="newPageBtn" href="javascript:addCrfPage()"><img
                                 src="<tags:imageUrl name="blue/new_page_button.png" />"
@@ -896,7 +908,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                 </div>
 
                 <div id="formSettings" class="leftBox" style="display:none;">
-					<tags:instructions code="form.label.recall_period.instructions"/>
+                    <tags:instructions code="form.label.recall_period.instructions"/>
                     <tags:formSettings crf="${command.crf}"></tags:formSettings>
                 </div>
             </td>

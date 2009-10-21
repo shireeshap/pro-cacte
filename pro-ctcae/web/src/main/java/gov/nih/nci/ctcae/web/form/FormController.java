@@ -6,6 +6,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -29,7 +30,8 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     /**
      * The crf repository.
      */
-    private CRFRepository crfRepository;
+    protected CRFRepository crfRepository;
+    protected ProCtcAERulesService proCtcAERulesService;
 
     /**
      * /**
@@ -167,6 +169,10 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
         this.crfRepository = crfRepository;
     }
 
+    @Required
+    public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
+        this.proCtcAERulesService = proCtcAERulesService;
+    }
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, CreateFormCommand command, Tab tab) {

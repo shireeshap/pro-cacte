@@ -208,7 +208,7 @@
             <chrome:box title="My Forms">
                 <table class="widget" cellpadding="3px;">
                     <tr>
-                        <td class="header-top">
+                        <td class="header-top" style="text-align:left">
                             Title
                         </td>
                         <td class="header-top">
@@ -220,7 +220,7 @@
                     </tr>
                     <c:forEach items="${recentCrfs}" var="crf">
                         <tr>
-                            <td class="data">
+                            <td class="data"  style="text-align:left">
                                 <c:choose>
                                     <c:when test="${fn:length(crf.title) > dl}">
                                         <div title="${crf.title}"> ${fn:substring(crf.title,0,dl)}...</div>
