@@ -74,7 +74,7 @@ public class LoginController extends AbstractController {
                     if (role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI)) {
                         siteLevelRole = true;
                     }
-                    if (role.equals(Role.LEAD_CRA) || role.equals(Role.PI)) {
+                    if (role.equals(Role.LEAD_CRA) || role.equals(Role.PI)|| role.equals(Role.ODC)) {
                         studyLevelRole = true;
                         Study study = studyOrganizationClinicalStaff.getStudyOrganization().getStudy();
                         List<CRF> crfs = study.getCrfs();

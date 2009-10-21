@@ -457,7 +457,27 @@ function refreshPageLocal() {
     <div class="summarylabel"><tags:message code='form.tab.form'/></div>
     <div class="summaryvalue">${command.crf.title}</div>
 </div>
-
+<c:if test="${not (fn:length(command.crf.formArmSchedules) eq 1 && command.crf.formArmSchedules[0].arm.defaultArm eq 'true')}">
+    <div class="instructions">
+        <div class="summarylabel"><tags:message code='form.tab.arms'/></div>
+        <div class="summaryvalue">
+            <table>
+                <tr>
+                    <td><b>Title</b></td>
+                    <td></td>
+                    <td><b>Description</b></td>
+                </tr>
+                <c:forEach items="${command.crf.formArmSchedules}" var="formArmSchedule">
+                    <tr>
+                        <td>${formArmSchedule.arm.title}</td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>${formArmSchedule.arm.description}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+    </div>
+</c:if>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
 <form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
