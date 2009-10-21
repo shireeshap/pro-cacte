@@ -86,7 +86,6 @@ function selectPage(pageIndex) {
 function unselectAllSelectedPage() {
     $$('div.formpagesselected').each(function(item) {
         var pageIndex = item.id.substr(11, item.id.length);
-
         unselectPage(pageIndex)
     })
 }
@@ -111,7 +110,7 @@ function showForm() {
     hideFormSettings();
     $("firstlevelnav_1").addClassName('selected_4thlvl');
     $("firstlevelnav_2").removeClassName('selected_4thlvl');
-
+    removeEditingDisplayFromQuestions();
 }
 function showQuestionSettings() {
     showQuestionSettingsTab();
