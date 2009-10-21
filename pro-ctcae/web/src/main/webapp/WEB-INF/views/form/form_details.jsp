@@ -86,6 +86,7 @@ function selectPage(pageIndex) {
 function unselectAllSelectedPage() {
     $$('div.formpagesselected').each(function(item) {
         var pageIndex = item.id.substr(11, item.id.length);
+
         unselectPage(pageIndex)
     })
 }
@@ -107,7 +108,6 @@ function updateSelectedCrfItems(questionId) {
 function showForm() {
     $('questionBank').show();
     hideQuestionSettings();
-    hideFormSettings();
     $("firstlevelnav_1").addClassName('selected_4thlvl');
     $("firstlevelnav_2").removeClassName('selected_4thlvl');
     removeEditingDisplayFromQuestions();
@@ -124,7 +124,6 @@ function showQuestionSettings() {
 function showQuestionSettingsTab() {
     hideQuestionBank();
     hideCrfItemProperties();
-    hideFormSettings();
     $("firstlevelnav_2").addClassName('selected_4thlvl');
     $("firstlevelnav_1").removeClassName('selected_4thlvl');
 
@@ -172,9 +171,12 @@ function showCrfItemPropertiesTab(questionId) {
 function hideQuestionBank() {
     $('questionBank').hide();
 }
-
-function hideFormSettings() {
-    $('formSettings').hide();
+function showFormSettings() {
+    $("firstlevelnav_2").removeClassName('selected_4thlvl');
+    $("firstlevelnav_1").removeClassName('selected_4thlvl');
+    hideQuestionBank();
+    hideQuestionSettings();
+    $('formSettings').show();
 }
 
 function addCrfPageItemDiv(response, crfPageNumber) {
@@ -625,6 +627,20 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         background-repeat: no-repeat;
     }
 
+    #firstlevelnav_3 {
+        left: 283px;
+        top: 3px;
+        display: block;
+        font-size: 0;
+        text-indent: -9999px;
+        padding-top: 40px;
+        width: 160px;
+        background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
+        overflow: hidden;
+        background-position: -283px 0;
+        background-repeat: no-repeat;
+    }
+
     .leftBox {
         padding: 10px;
         background-color: #e7eaf3;
@@ -638,6 +654,10 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
     #firstlevelnav_2.selected_4thlvl {
         background-position: -145px -41px;
+    }
+
+    #firstlevelnav_3.selected_4thlvl {
+        background-position: -283px -41px;
     }
 
     .propertiesHeader {
@@ -728,7 +748,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-    
+
     <div style="float:left"/>
     <div class="instructions">
         <div class="summarylabel"><spring:message code="form.label.study"/></div>
@@ -738,7 +758,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         <c:when test="${command.crf.crfVersion eq 1.0}">
             <div class="instructions">
                 <div class="summarylabel"><tags:requiredIndicator/>&nbsp;<spring:message code="form.label.title"/></div>
-                <div style="margin-left:4em">
+                <div style="margin-left:3em">
                     <input type="text" name="crf.title" value="${command.crf.title}" size="80"/>
                 </div>
             </div>
@@ -750,13 +770,13 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
             </div>
         </c:otherwise>
     </c:choose>
-    <tags:formSettings crf="${command.crf}"></tags:formSettings>
+        <tags:formSettings crf="${command.crf}"></tags:formSettings>
     <div/>
     <div style="float:right;">
         <tags:button type="submit" icon="Save & Continue" color="green" id="flow-next" value="Save & Continue"/>
     </div>
 
-    
+
 	<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="displayPrefsMenu"
        style="margin-left:11px"><span class="ui-icon ui-icon-triangle-1-s"></span>Display Preferences</a>
     <br style="clear:both;">
@@ -801,10 +821,6 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                             <tags:message code="form.question_settings"/> |</a>
                     </li>
 
-                        <%--<li class="">--%>
-                        <%--<a id="firstlevelnav_3" href="javascript:showFormSettings()">--%>
-                        <%--<tags:message code='form.form_settings'/> </a>--%>
-                        <%--</li>--%>
                 </ul>
 
 
@@ -879,6 +895,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                 <div id="questionProperties">
                     <div id="questionProperties0" style="display:none;"></div>
                 </div>
+
             </td>
             <td id="right">
                 <table style="border-collapse:collapse; width:100%;">
