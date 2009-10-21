@@ -21,12 +21,31 @@
         })
 
     </script>
+    <style type="text/css">
+        * {
+            zoom: 1
+        }
+    </style>
 
 </head>
 <body>
-<tags:button color="blue" markupWithTag="a" icon="window" value="Release Form"
-             onclick="javascript:releaseForm('${crf.id}')"></tags:button>
+<table width="100%">
+    <tr>
+        <td>
+            <tags:button color="blue" markupWithTag="a" icon="window" value="Release Form"
+                         onclick="javascript:releaseForm('${crf.id}')"/>
+        </td>
+        <td>
+            <div style="float:right;">
+                <tags:button color="blue" markupWithTag="a" value="Finish" href="/proctcae/pages/form/manageForm"/>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
 <br>
+
 <div class="instructions">
     <div class="summarylabel"><tags:message code='form.label.study'/></div>
     <div class="summaryvalue">${crf.study.displayName}</div>
@@ -55,6 +74,8 @@
         </td>
     </tr>
 </table>
+
+
 <br>
 <br>
 
