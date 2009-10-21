@@ -359,6 +359,11 @@ function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
 }
 
 function dayOnClick(obj, cycleDefinitionIndex, cycleIndex, currentday) {
+    var list = $('multiselect_' + cycleDefinitionIndex + '_' + cycleIndex);
+    try {
+        list.selectedIndex = -1;
+    } catch(err) {
+    }
     if ($(obj).hasClassName('selected_day')) {
         unselectday(obj, cycleDefinitionIndex, cycleIndex, currentday);
     } else {
@@ -423,10 +428,11 @@ function changePlannedRep(cycleDefinitionIndex, value) {
         $('cycle_repeat_' + cycleDefinitionIndex).value = -1;
         $('cycle_repeat_' + cycleDefinitionIndex).hide();
     } else {
-        $('cycle_repeat_' + cycleDefinitionIndex).value = 0;
+        if ($('cycle_repeat_' + cycleDefinitionIndex).value == -1) {
+            $('cycle_repeat_' + cycleDefinitionIndex).value = '';
+        }
         $('cycle_repeat_' + cycleDefinitionIndex).show();
     }
-
     showCyclesForDefinition(cycleDefinitionIndex, false);
 }
 

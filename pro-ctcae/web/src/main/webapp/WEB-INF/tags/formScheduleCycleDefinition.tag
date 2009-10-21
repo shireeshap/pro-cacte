@@ -76,7 +76,7 @@
                         <input id="cycle_repeat_${cycleDefinitionIndex}" type="text" size="2"
                                value="${crfCycleDefinition.repeatTimes}"
                                name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].repeatTimes"
-                               class="validate-NUMERIC"
+                               <%--class="validate-NUMERIC"--%>
                                title="Planned Repetitions"/>
                     </td>
                     <td>
@@ -101,4 +101,6 @@
     </c:otherwise>
 </c:choose>
 <br/>
-
+<script type="text/javascript">
+    changePlannedRep('${cycleDefinitionIndex}','${crfCycleDefinition.repeatTimes}');
+</script>

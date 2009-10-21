@@ -176,8 +176,7 @@ public class ListValues {
         for (RecallPeriod recallPeriod : RecallPeriod.values()) {
             valuesList.add(new ListValues(recallPeriod.getDisplayName(), recallPeriod.getDisplayName()));
         }
-
-
+        valuesList.add(new ListValues("other", "other"));
         return valuesList;
     }
 

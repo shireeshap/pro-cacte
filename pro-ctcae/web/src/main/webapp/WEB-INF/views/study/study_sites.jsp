@@ -90,7 +90,7 @@
         </chrome:division>
             <div class="local-buttons">
                 <tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
-                             value="study.button.add_study_site"/>
+                             value="study.button.add_study_site" icon="add"/>
             </div>
         <br>
                   <br>

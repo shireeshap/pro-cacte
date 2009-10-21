@@ -110,7 +110,6 @@ function showForm() {
     hideQuestionSettings();
     hideFormSettings();
     $("firstlevelnav_1").addClassName('selected_4thlvl');
-    $("firstlevelnav_3").removeClassName('selected_4thlvl');
     $("firstlevelnav_2").removeClassName('selected_4thlvl');
 
 }
@@ -128,7 +127,6 @@ function showQuestionSettingsTab() {
     hideCrfItemProperties();
     hideFormSettings();
     $("firstlevelnav_2").addClassName('selected_4thlvl');
-    $("firstlevelnav_3").removeClassName('selected_4thlvl');
     $("firstlevelnav_1").removeClassName('selected_4thlvl');
 
 
@@ -175,14 +173,7 @@ function showCrfItemPropertiesTab(questionId) {
 function hideQuestionBank() {
     $('questionBank').hide();
 }
-function showFormSettings() {
-    $("firstlevelnav_3").addClassName("selected_4thlvl");
-    $("firstlevelnav_2").removeClassName('selected_4thlvl');
-    $("firstlevelnav_1").removeClassName('selected_4thlvl');
-    hideQuestionBank();
-    hideQuestionSettings();
-    $('formSettings').show();
-}
+
 function hideFormSettings() {
     $('formSettings').hide();
 }
@@ -635,20 +626,6 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         background-repeat: no-repeat;
     }
 
-    #firstlevelnav_3 {
-        left: 283px;
-        top: 3px;
-        display: block;
-        font-size: 0;
-        text-indent: -9999px;
-        padding-top: 40px;
-        width: 160px;
-        background-image: url(../../images/blue/formbuilder_4thlvl_btns.png);
-        overflow: hidden;
-        background-position: -283px 0;
-        background-repeat: no-repeat;
-    }
-
     .leftBox {
         padding: 10px;
         background-color: #e7eaf3;
@@ -662,10 +639,6 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
     #firstlevelnav_2.selected_4thlvl {
         background-position: -145px -41px;
-    }
-
-    #firstlevelnav_3.selected_4thlvl {
-        background-position: -283px -41px;
     }
 
     .propertiesHeader {
@@ -766,7 +739,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         <c:when test="${command.crf.crfVersion eq 1.0}">
             <div class="instructions">
                 <div class="summarylabel"><tags:requiredIndicator/>&nbsp;<spring:message code="form.label.title"/></div>
-                <div style="margin-left:3em">
+                <div style="margin-left:4em">
                     <input type="text" name="crf.title" value="${command.crf.title}" size="80"/>
                 </div>
             </div>
@@ -778,6 +751,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
             </div>
         </c:otherwise>
     </c:choose>
+    <tags:formSettings crf="${command.crf}"></tags:formSettings>
     <div/>
     <div style="float:right;">
         <tags:button type="submit" icon="Save & Continue" color="green" id="flow-next" value="Save & Continue"/>
@@ -828,10 +802,10 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
                             <tags:message code="form.question_settings"/> |</a>
                     </li>
 
-                    <li class="">
-                        <a id="firstlevelnav_3" href="javascript:showFormSettings()">
-                            <tags:message code='form.form_settings'/> </a>
-                    </li>
+                        <%--<li class="">--%>
+                        <%--<a id="firstlevelnav_3" href="javascript:showFormSettings()">--%>
+                        <%--<tags:message code='form.form_settings'/> </a>--%>
+                        <%--</li>--%>
                 </ul>
 
 
@@ -905,11 +879,6 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
                 <div id="questionProperties">
                     <div id="questionProperties0" style="display:none;"></div>
-                </div>
-
-                <div id="formSettings" class="leftBox" style="display:none;">
-                    <tags:instructions code="form.label.recall_period.instructions"/>
-                    <tags:formSettings crf="${command.crf}"></tags:formSettings>
                 </div>
             </td>
             <td id="right">

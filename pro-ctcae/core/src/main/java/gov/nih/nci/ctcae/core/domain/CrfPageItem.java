@@ -62,7 +62,7 @@ public class CrfPageItem extends BasePersistable {
      * The response required.
      */
     @Column(name = "response_required")
-    private Boolean responseRequired = Boolean.FALSE;
+    private Boolean responseRequired = Boolean.TRUE;
 
     /**
      * The instructions.
