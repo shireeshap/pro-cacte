@@ -5,6 +5,7 @@
 
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
 <%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
@@ -159,7 +160,7 @@
                                              required="true"/>
                         </td>
                         <td>
-                            <c:if test="${not empty clinicalStaffCommand.clinicalStaff.user.password}">
+                            <c:if test="${not empty clinicalStaffCommand.clinicalStaff.user.password && fn:length(messages)==0}">
                                 <c:set var="style" value="display:none"/>
                                 <div id="resetpass" class="label">
                                     &nbsp;<a href="javascript:showpassword(true);">Reset password</a></div>
