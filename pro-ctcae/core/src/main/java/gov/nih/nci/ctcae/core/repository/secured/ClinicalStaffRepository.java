@@ -30,16 +30,10 @@ public class ClinicalStaffRepository implements Repository<ClinicalStaff, Clinic
     public ClinicalStaff save(ClinicalStaff clinicalStaff) {
         User user = clinicalStaff.getUser();
         if (user != null) {
-            user.setUsername(clinicalStaff.getEmailAddress());
             user = userRepository.save(user);
-            clinicalStaff = genericRepository.save(clinicalStaff);
-            return clinicalStaff;
-
-        } else {
-            throw new CtcAeSystemException("can not save clinical staff without user");
         }
-
-
+        clinicalStaff = genericRepository.save(clinicalStaff);
+        return clinicalStaff;
     }
 
     public void delete(ClinicalStaff clinicalStaff) {
@@ -93,5 +87,5 @@ public class ClinicalStaffRepository implements Repository<ClinicalStaff, Clinic
         this.genericRepository = genericRepository;
     }
 
- 
+
 }

@@ -1,4 +1,4 @@
-class CreateotificationsTable extends edu.northwestern.bioinformatics.bering.Migration {
+class CreateNotificationsTable extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
         createTable("notifications") { t ->
             t.addVersionColumn()
@@ -10,11 +10,11 @@ class CreateotificationsTable extends edu.northwestern.bioinformatics.bering.Mig
             t.addColumn("notification_id", "integer", nullable: false)
             t.addColumn("user_id", "integer", nullable: false)
             t.addColumn("study_id", "integer", nullable: false)
-            t.addColumn("participant_id", "integer", nullable: false)
+            t.addColumn("participant_id", "integer", nullable: true)
             t.addColumn("is_new", "boolean", nullable: false)
             t.addColumn("mark_delete", "boolean", nullable: false)
             t.addColumn("uuid", "string", nullable: true)
-            t.addColumn("spc_schedule_id", "integer", nullable: false)
+            t.addColumn("spc_schedule_id", "integer", nullable: true)
             
             t.addVersionColumn()
         }

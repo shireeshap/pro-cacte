@@ -58,7 +58,7 @@ public class ClinicalStaff extends Person {
 
 
     @OneToOne
-    @JoinColumn(referencedColumnName = "id", name = "user_id", nullable = false)
+    @JoinColumn(referencedColumnName = "id", name = "user_id", nullable = true)
     private User user;
 
 

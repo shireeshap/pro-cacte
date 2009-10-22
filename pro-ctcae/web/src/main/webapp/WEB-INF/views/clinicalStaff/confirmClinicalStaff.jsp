@@ -52,46 +52,65 @@
     </div>
 </div>
 <chrome:box title="Confirmation">
+    <chrome:division title="clinicalStaff.division.details">
+        <table border="0" style="width:100%">
+            <tr>
+                <td>
 
-    <table border="0" style="width:100%">
-        <tr>
-            <td>
+                    <div class="row">
+                        <div class="label">First name</div>
+                        <div class="value">${clinicalStaffCommand.clinicalStaff.firstName} </div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Middle name</div>
+                        <div class="value">${clinicalStaffCommand.clinicalStaff.middleName} </div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Last name</div>
+                        <div class="value">${clinicalStaffCommand.clinicalStaff.lastName} </div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Clinical Staff identifier</div>
+                        <div class="value">${clinicalStaffCommand.clinicalStaff.nciIdentifier} </div>
+                    </div>
+                </td>
+                <td style="vertical-align:top">
+                    <div class="row">
+                        <div class="label">Email address</div>
+                        <div class="value">${clinicalStaffCommand.clinicalStaff.emailAddress} </div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Phone</div>
+                        <div class="value">${clinicalStaffCommand.clinicalStaff.phoneNumber} </div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Fax</div>
+                        <div class="value">${clinicalStaffCommand.clinicalStaff.faxNumber} </div>
+                    </div>
 
-                <div class="row">
-                    <div class="label">First name</div>
-                    <div class="value">${clinicalStaffCommand.clinicalStaff.firstName} </div>
-                </div>
-                <div class="row">
-                    <div class="label">Middle name</div>
-                    <div class="value">${clinicalStaffCommand.clinicalStaff.middleName} </div>
-                </div>
-                <div class="row">
-                    <div class="label">Last name</div>
-                    <div class="value">${clinicalStaffCommand.clinicalStaff.lastName} </div>
-                </div>
-                <div class="row">
-                    <div class="label">Clinical Staff identifier</div>
-                    <div class="value">${clinicalStaffCommand.clinicalStaff.nciIdentifier} </div>
-                </div>
-            </td>
-            <td style="vertical-align:top">
-                <div class="row">
-                    <div class="label">Email address</div>
-                    <div class="value">${clinicalStaffCommand.clinicalStaff.emailAddress} </div>
-                </div>
-                <div class="row">
-                    <div class="label">Phone</div>
-                    <div class="value">${clinicalStaffCommand.clinicalStaff.phoneNumber} </div>
-                </div>
-                <div class="row">
-                    <div class="label">Fax</div>
-                    <div class="value">${clinicalStaffCommand.clinicalStaff.faxNumber} </div>
-                </div>
+                </td>
+            </tr>
+        </table>
+    </chrome:division>
+    <c:if test="${clinicalStaffCommand.clinicalStaff.user.username ne null}">
+        <chrome:division title="clinicalStaff.division.user_account">
+            <table border="0" style="width:100%">
+                <tr>
+                    <td>
 
-            </td>
-        </tr>
-    </table>
-
+                        <div class="row">
+                            <div class="label">Username</div>
+                            <div class="value">${clinicalStaffCommand.clinicalStaff.user.username} </div>
+                        </div>
+                        <div class="row">
+                            <div class="label">Password</div>
+                            <div class="value">******</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </chrome:division>
+    </c:if>
     <chrome:division title="clinicalStaff.division.sites">
 
         <div align="left" style="margin-left: 50px">

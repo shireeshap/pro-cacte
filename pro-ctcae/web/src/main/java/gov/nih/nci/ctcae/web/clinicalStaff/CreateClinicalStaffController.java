@@ -69,38 +69,17 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
 
         ClinicalStaffCommand clinicalStaffCommand = (ClinicalStaffCommand) oCommand;
         clinicalStaffCommand.apply();
-
-        if (!StringUtils.isBlank(request.getParameter("showForm"))) {
-            if (shouldSave(request, clinicalStaffCommand)) {
-                save(clinicalStaffCommand);
-            }
-            ModelAndView modelAndView = super.showForm(request, response, errors);
-            return modelAndView;
-        } else {
-            String clearCasePassword = clinicalStaffCommand.getClinicalStaff().getUser().getPassword();
-            save(clinicalStaffCommand);
-            ModelAndView modelAndView = new ModelAndView(getSuccessView());
-            modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
-
-            clinicalStaffCommand.sendEmailWithUsernamePasswordDetails(clearCasePassword);
-
-            return modelAndView;
-        }
-
-
-    }
-
-    private boolean shouldSave(HttpServletRequest request, ClinicalStaffCommand clinicalStaffCommand) {
-        return StringUtils.isBlank(request.getParameter(CLINICAL_STAFF_ID)) ? false : true;
-
+        save(clinicalStaffCommand);
+        ModelAndView modelAndView = new ModelAndView(getSuccessView());
+        modelAndView.addObject("clinicalStaffCommand", clinicalStaffCommand);
+        clinicalStaffCommand.sendEmailWithUsernamePasswordDetails();
+        return modelAndView;
     }
 
     private void save(ClinicalStaffCommand clinicalStaffCommand) {
         ClinicalStaff clinicalStaff = clinicalStaffCommand.getClinicalStaff();
-
         clinicalStaff = clinicalStaffRepository.save(clinicalStaff);
         clinicalStaffCommand.setClinicalStaff(clinicalStaff);
-
     }
 
     /* (non-Javadoc)
@@ -111,15 +90,16 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             throws Exception {
         String clinicalStaffId = request.getParameter(CLINICAL_STAFF_ID);
         ClinicalStaffCommand clinicalStaffCommand = new ClinicalStaffCommand();
-
         if (clinicalStaffId != null) {
             ClinicalStaff clinicalStaff = clinicalStaffRepository.findById(new Integer(clinicalStaffId));
             clinicalStaffCommand.setClinicalStaff(clinicalStaff);
-            clinicalStaff.getUser().setConfirmPassword(clinicalStaff.getUser().getPassword());
+            if (clinicalStaff.getUser() == null) {
+                clinicalStaff.setUser(new User());
+            } else {
+                clinicalStaff.getUser().setConfirmPassword(clinicalStaff.getUser().getPassword());
+            }
         }
-
         return clinicalStaffCommand;
-
     }
 
 
@@ -133,10 +113,11 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             e.rejectValue("clinicalStaff.organizationClinicalStaffs", "clinicalStaff.no_organization", "clinicalStaff.no_organization");
         }
 
-        User user = command.getClinicalStaff().getUser();
-        user.setUsername(command.getClinicalStaff().getEmailAddress());
-        if (!userNameAndPasswordValidator.validate(user)) {
-            e.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+        if (command.getUserAccount()) {
+            User user = command.getClinicalStaff().getUser();
+            if (!userNameAndPasswordValidator.validate(user)) {
+                e.rejectValue("clinicalStaff.user.username", userNameAndPasswordValidator.message(), userNameAndPasswordValidator.message());
+            }
         }
     }
 

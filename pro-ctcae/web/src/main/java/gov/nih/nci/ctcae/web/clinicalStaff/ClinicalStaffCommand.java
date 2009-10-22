@@ -30,6 +30,8 @@ public class ClinicalStaffCommand {
     private Boolean cca = false;
     private List<Integer> indexesToRemove = new ArrayList<Integer>();
     private Boolean email = false;
+    private Boolean userAccount = false;
+    private String clearCasePassword;
 
     public Boolean isEmail() {
         return email;
@@ -41,6 +43,18 @@ public class ClinicalStaffCommand {
 
     public void setEmail(Boolean email) {
         this.email = email;
+    }
+
+    public Boolean isUserAccount() {
+        return userAccount;
+    }
+
+    public Boolean getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(Boolean userAccount) {
+        this.userAccount = userAccount;
     }
 
     /**
@@ -71,13 +85,17 @@ public class ClinicalStaffCommand {
     }
 
     public void apply() {
-        if (getCca()) {
-            UserRole userRole = new UserRole();
-            userRole.setRole(Role.CCA);
-            getClinicalStaff().getUser().addUserRole(userRole);
+        if (getUserAccount()) {
+            clearCasePassword = getClinicalStaff().getUser().getPassword();
+            if (getCca()) {
+                UserRole userRole = new UserRole();
+                userRole.setRole(Role.CCA);
+                getClinicalStaff().getUser().addUserRole(userRole);
+            }
+        } else {
+            getClinicalStaff().setUser(null);
         }
         indexesToRemove.clear();
-
     }
 
     public Boolean getCca() {
@@ -92,7 +110,7 @@ public class ClinicalStaffCommand {
         return indexesToRemove;
     }
 
-    public void sendEmailWithUsernamePasswordDetails(String clearCasePassword) {
+    public void sendEmailWithUsernamePasswordDetails() {
         try {
             if (getEmail()) {
                 String content = "You have been successfully registered as a clinical staff on PRO-CTCAE system.<br> Below are your login details:<br> Username: " + clinicalStaff.getEmailAddress() + "<br> Password: " + clearCasePassword;

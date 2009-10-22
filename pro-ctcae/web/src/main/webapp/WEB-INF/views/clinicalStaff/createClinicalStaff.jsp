@@ -61,6 +61,20 @@
             }
         }
 
+        function showOrHideUserAccountDetails(value) {
+            if (value) {
+                $('div_useraccount_details').show();
+                $('clinicalStaff.user.username').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                $('clinicalStaff.user.password').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                $('clinicalStaff.user.confirmPassword').addClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+            } else {
+                $('div_useraccount_details').hide();
+                $('clinicalStaff.user.username').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                $('clinicalStaff.user.password').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+                $('clinicalStaff.user.confirmPassword').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
+            }
+        }
+
     </script>
 
 </head>
@@ -89,44 +103,17 @@
 </div>
 
 <form:form method="post" commandName="clinicalStaffCommand">
-
+    <c:set var="hasUserAccount"
+           value="${clinicalStaffCommand.clinicalStaff.user.username ne null}"/>
     <chrome:box title="">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
         <input type="hidden" id="showForm" name="showForm" value=""/>
 
         <p><tags:instructions code="clinicalStaff.clinicalStaff_details.top"/></p>
-        <chrome:division title="clinicalStaff.division.user_account">
-            <table cellpadding="0" cellspacing="0">
-                <tr>
-                    <td>
-                        <tags:renderEmail propertyName="clinicalStaff.emailAddress"
-                                          displayName="clinicalStaff.label.email_address"
-                                          required="true" size="40"/>
-                    </td>
-                    <td>
-                        <c:if test="${not empty clinicalStaffCommand.clinicalStaff.user.password}">
-                            <c:set var="style" value="display:none"/>
-                            <div id="resetpass" class="label">
-                                &nbsp;<a href="javascript:showpassword(true);">Reset password</a></div>
-                        </c:if>
-                    </td>
-                </tr>
-            </table>
-            <div id="passwordfields" style="${style}">
-                <tags:renderPassword propertyName="clinicalStaff.user.password"
-                                     displayName="clinicalStaff.label.password"
-                                     required="true"/>
-
-                <tags:renderPassword propertyName="clinicalStaff.user.confirmPassword"
-                                     displayName="clinicalStaff.label.confirm_password"
-                                     required="true"/>
-            </div>
-        </chrome:division>
         <chrome:division title="clinicalStaff.division.details">
-            <table>
+            <table width="100%">
                 <tr>
                     <td>
-
                         <tags:renderText propertyName="clinicalStaff.firstName"
                                          displayName="clinicalStaff.label.first_name"
                                          required="true"/>
@@ -135,34 +122,70 @@
                         <tags:renderText propertyName="clinicalStaff.lastName"
                                          displayName="clinicalStaff.label.last_name"
                                          required="true"/>
-
                     </td>
                     <td style="vertical-align:top">
-
                         <tags:renderText propertyName="clinicalStaff.nciIdentifier"
                                          displayName="clinicalStaff.label.identifier"
                                          required="true"/>
-
                         <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber"
                                                displayName="clinicalStaff.label.phone"
                                                required="true"/>
-                        <tags:renderPhoneOrFax propertyName="clinicalStaff.faxNumber"
-                                               displayName="clinicalStaff.label.fax"/>
-
-
+                        <tags:renderEmail propertyName="clinicalStaff.emailAddress"
+                                          displayName="clinicalStaff.label.email_address"
+                                          required="true" size="40"/>
                     </td>
                 </tr>
             </table>
-            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
-                <input type="checkbox" name="cca" value="true"
-                       id="cca"/> This clinical staff is a Coordinating Center Administrator
-                <br>
-            </proctcae:urlAuthorize>
-            <input type="checkbox" name="email" value="true"
-                   id="email"/> Send email to the user with username and password details
+            <c:choose>
+                <c:when test="${hasUserAccount}">
+                    <input type="hidden" name="userAccount" value="true" id="hasUserAccount"/>
+                    <c:set var="useraccountdetailsstyle" value=""/>
+                </c:when>
+                <c:otherwise>
+                    <input type="checkbox" name="userAccount" value="true"
+                           id="hasUserAccount"
+                           onclick="showOrHideUserAccountDetails(this.checked)"/> Create a user account for this clinical staff
+                    <c:set var="useraccountdetailsstyle" value="display:none"/>
+                </c:otherwise>
+            </c:choose>
         </chrome:division>
-        <chrome:division title="clinicalStaff.division.sites">
+        <div id="div_useraccount_details" style="${useraccountdetailsstyle}">
+            <chrome:division title="clinicalStaff.division.user_account">
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>
+                            <tags:renderText propertyName="clinicalStaff.user.username"
+                                             displayName="participant.label.username"
+                                             required="true"/>
+                        </td>
+                        <td>
+                            <c:if test="${not empty clinicalStaffCommand.clinicalStaff.user.password}">
+                                <c:set var="style" value="display:none"/>
+                                <div id="resetpass" class="label">
+                                    &nbsp;<a href="javascript:showpassword(true);">Reset password</a></div>
+                            </c:if>
+                        </td>
+                    </tr>
+                </table>
+                <div id="passwordfields" style="${style}">
+                    <tags:renderPassword propertyName="clinicalStaff.user.password"
+                                         displayName="clinicalStaff.label.password"
+                                         required="true"/>
 
+                    <tags:renderPassword propertyName="clinicalStaff.user.confirmPassword"
+                                         displayName="clinicalStaff.label.confirm_password"
+                                         required="true"/>
+                </div>
+                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
+                    <input type="checkbox" name="cca" value="true"
+                           id="cca"/> This clinical staff is a Coordinating Center Administrator
+                    <br>
+                </proctcae:urlAuthorize>
+                <input type="checkbox" name="email" value="true"
+                       id="email"/> Send email to the user with username and password details
+            </chrome:division>
+        </div>
+        <chrome:division title="clinicalStaff.division.sites">
             <table cellspacing="0" width="90%">
                 <tr>
                     <td>
@@ -203,6 +226,10 @@
     </chrome:box>
     <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
 </form:form>
-
+<c:if test="${not hasUserAccount}">
+    <script type="text/javascript">
+        showOrHideUserAccountDetails(false);
+    </script>
+</c:if>
 </body>
 </html>
