@@ -242,6 +242,9 @@
     <br/>
 </c:forEach>
 </chrome:box>
+<div style="float:right; padding-right:5px">
+                <tags:button color="blue" markupWithTag="a" value="Finish" href="/proctcae"/>
+            </div>
 
 </body>
 </html>

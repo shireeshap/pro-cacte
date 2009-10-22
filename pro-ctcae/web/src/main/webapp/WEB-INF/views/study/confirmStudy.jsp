@@ -34,9 +34,16 @@
             padding: 1px;
         }
     </style>
+    <style type="text/css">
+            * {
+                zoom: 1
+            }
+        </style>
+    
 
 </head>
 <body>
+
 <chrome:box title="study.tab.study_details">
 
     <chrome:division>
@@ -100,7 +107,6 @@
             </table>
 
         </div>
-
 
     </chrome:division>
 
