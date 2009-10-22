@@ -132,10 +132,10 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
             if (temp != null) {
                 if (temp.getStudyOrganizationClinicalStaff().size() > 0) {
                     e.reject("NON_EMPTY_SITE", "Cannot delete site " + organizationClinicalStaff.getOrganization().getDisplayName() + ". Clinical staff is assigned to some study on this site.");
-                } else {
-                    clinicalStaff.getOrganizationClinicalStaffs().remove(organizationClinicalStaff);
+                    return;
                 }
             }
+            clinicalStaff.getOrganizationClinicalStaffs().remove(organizationClinicalStaff);
         }
         command.getIndexesToRemove().clear();
     }
