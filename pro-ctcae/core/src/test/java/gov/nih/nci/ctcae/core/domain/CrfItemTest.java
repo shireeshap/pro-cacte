@@ -55,7 +55,7 @@ public class CrfItemTest extends TestCase {
 
     public void testConstructor() {
         assertEquals(Integer.valueOf(0), crfPageItem.getDisplayOrder());
-        assertFalse("must not require response", crfPageItem.getResponseRequired());
+        assertTrue("must require response", crfPageItem.getResponseRequired());
     }
 
     public void testGetterAndSetter() {
@@ -81,6 +81,7 @@ public class CrfItemTest extends TestCase {
         assertFalse(crfPageItem.equals(anothercrfPageItem));
 
         anothercrfPageItem = new CrfPageItem();
+        anothercrfPageItem.setResponseRequired(Boolean.FALSE);
         assertEquals(anothercrfPageItem, crfPageItem);
         assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
 
