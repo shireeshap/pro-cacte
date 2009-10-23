@@ -505,9 +505,14 @@ function reOrderQuestionNumber() {
 
 }
 function refreshPage() {
-    var a = $('_target').name;
-    var b = a.substr(7);
-    var c = b - 1;
-    $('_target').name = '_target' + c;
-    $('command').submit();
+    try {
+        var currentPage = $('_page').value;
+        $('_target').name = '_target' + currentPage;
+        $('command').submit();
+    } catch(err) {
+        var a = $('_target').name;
+        var b = a.substr(7);
+        var c = b - 1;
+        $('_target').name = '_target' + c;
+    }
 }

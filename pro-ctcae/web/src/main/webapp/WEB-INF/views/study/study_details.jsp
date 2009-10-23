@@ -42,10 +42,8 @@
         }
 
         function refreshPage() {
-            var a = $('_target').name;
-            var b = a.substr(7);
-            var c = b - 1;
-            $('_target').name = '_target' + c;
+            var currentPage = $('_page').value;
+            $('_target').name = '_target' + currentPage;
             $('command').submit();
         }
 
