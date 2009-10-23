@@ -39,7 +39,7 @@
                                 <b>If</b>
                             </c:when>
                             <c:otherwise>
-                                <b>And</b>
+                                <b>Or</b>
                             </c:otherwise>
                         </c:choose>
 
