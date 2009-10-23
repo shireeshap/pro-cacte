@@ -49,6 +49,10 @@
             zoom: 1;
         }
 
+        #alertsdiv {
+            overflow-x: scroll;
+            width: 600px;
+        }
 
     </style>
     <!--[if IE]>
@@ -102,75 +106,78 @@
 <c:set var="dl" value="1200"/>
 <table cellpadding="0" cellspacing="0" width="100%" class="outer">
 <tr>
-    <td>
+    <td width="50%">
         <chrome:box title="Alerts">
             <c:choose>
                 <c:when test="${empty numberofalerts}">
                     <div style="margin-left:15px;">You have no alerts.</div>
                 </c:when>
                 <c:otherwise>
-                    <table class="widget" cellpadding="3px;">
-                        <tr>
-                            <td class="header-top">
-                                Participant
-                            </td>
-                            <td class="header-top">
-                                Study
-                            </td>
-                            <td class="header-top">
-                                Date
-                            </td>
-                            <td class="header-top">
-                                Message
-                            </td>
-                            <td class="header-top">
-                            </td>
-                        </tr>
-                        <c:forEach items="${notifications}" var="usernotification">
-                            <c:if test="${!usernotification.markDelete}">
-                                <tr id="tr_${usernotification.id}"
-                                    <c:if test="${usernotification.new}">class="bold"</c:if>>
-                                    <td class="data">
-                                        <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                                            <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
-                                               class="link">${usernotification.participant.displayName}</a>
-                                        </proctcae:urlAuthorize>
-                                    </td>
-                                    <td class="data">
-                                        <c:choose>
-                                            <c:when test="${fn:length(usernotification.study.shortTitle) > dl}">
-                                                <div title="${usernotification.study.shortTitle}"> ${fn:substring(usernotification.study.shortTitle,0,dl)}...</div>
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${usernotification.study.shortTitle}
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
-                                    <td class="data">
-                                        <a class="link"
-                                           href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
-                                                value="${usernotification.notification.date}"/></a>
-                                    </td>
-                                    <td class="data">
-                                        <a class="link"
-                                           href="javascript:showMessage('${usernotification.id}');">This is
-                                            an
-                                            auto..</a>
-                                    </td>
-                                    <td>
-                                        <a href="javascript:deleteMsg('${usernotification.id}','${usernotification.uuid}');"
-                                           class="delete">x</a>
-                                    </td>
-                                </tr>
-                            </c:if>
-                        </c:forEach>
-                    </table>
+                    <div id="alertsdiv">
+                        <table class="widget" cellpadding="3px;">
+                            <tr>
+                                <td class="header-top">
+                                    Participant
+                                </td>
+                                <td class="header-top">
+                                    Study
+                                </td>
+                                <td class="header-top">
+                                    Date
+                                </td>
+                                <td class="header-top">
+                                    Message
+                                </td>
+                                <td class="header-top">
+                                </td>
+                            </tr>
+                            <c:forEach items="${notifications}" var="usernotification">
+                                <c:if test="${!usernotification.markDelete}">
+                                    <tr id="tr_${usernotification.id}"
+                                        <c:if test="${usernotification.new}">class="bold"</c:if>>
+                                        <td class="data">
+                                            <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                                                <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
+                                                   class="link">${usernotification.participant.displayName}</a>
+                                            </proctcae:urlAuthorize>
+                                        </td>
+                                        <td class="data">
+                                            <c:choose>
+                                                <c:when test="${fn:length(usernotification.study.shortTitle) > dl}">
+                                                    <div title="${usernotification.study.shortTitle}"> ${fn:substring(usernotification.study.shortTitle,0,dl)}...</div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${usernotification.study.shortTitle}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td class="data">
+                                            <a class="link"
+                                               href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
+                                                    value="${usernotification.notification.date}"/></a>
+                                        </td>
+                                        <td class="data">
+                                            <a class="link"
+                                               href="javascript:showMessage('${usernotification.id}');">This is
+                                                an
+                                                auto..</a>
+                                        </td>
+                                        <td>
+                                            <a href="javascript:deleteMsg('${usernotification.id}','${usernotification.uuid}');"
+                                               class="delete">x</a>
+                                        </td>
+                                    </tr>
+                                </c:if>
+                            </c:forEach>
+                        </table>
+                        <br/>
+                    </div>
                 </c:otherwise>
             </c:choose>
             <br/>
         </chrome:box>
     </td>
-    <td>
+    <td width="50%">
         <chrome:box title="Quick Links">
             <proctcae:urlAuthorize url="/pages/participant/create">
                 <div class="quicklink">
@@ -220,7 +227,7 @@
                     </tr>
                     <c:forEach items="${recentCrfs}" var="crf">
                         <tr>
-                            <td class="data"  style="text-align:left">
+                            <td class="data" style="text-align:left">
                                 <c:choose>
                                     <c:when test="${fn:length(crf.title) > dl}">
                                         <div title="${crf.title}"> ${fn:substring(crf.title,0,dl)}...</div>
@@ -249,24 +256,24 @@
             <chrome:box title="My Studies">
                 <table width="100%">
                     <c:forEach items="${studyWithoutForm}" var="study">
-                            <tr>
-                                <td style="border-bottom: 1px solid #cccccc;padding-left:10px">
-                                    <c:choose>
-                                        <c:when test="${fn:length(study.shortTitle) > dl}">
-                                            <div title="${study.shortTitle}"> ${fn:substring(study.shortTitle,0,dl)}...</div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            ${study.shortTitle}
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                                <td style="border-bottom: 1px solid #cccccc;">
-                                    <proctcae:urlAuthorize url="/pages/form/basicForm">
+                        <tr>
+                            <td style="border-bottom: 1px solid #cccccc;padding-left:10px">
+                                <c:choose>
+                                    <c:when test="${fn:length(study.shortTitle) > dl}">
+                                        <div title="${study.shortTitle}"> ${fn:substring(study.shortTitle,0,dl)}...</div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${study.shortTitle}
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td style="border-bottom: 1px solid #cccccc;">
+                                <proctcae:urlAuthorize url="/pages/form/basicForm">
 
-                                        <a class="link" href="form/basicForm?studyId=${study.id}">Create Form</a>
-                                    </proctcae:urlAuthorize>
-                                </td>
-                            </tr>
+                                    <a class="link" href="form/basicForm?studyId=${study.id}">Create Form</a>
+                                </proctcae:urlAuthorize>
+                            </td>
+                        </tr>
                     </c:forEach>
                 </table>
                 <br/>
