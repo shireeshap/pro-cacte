@@ -81,7 +81,6 @@ public class CrfItemTest extends TestCase {
         assertFalse(crfPageItem.equals(anothercrfPageItem));
 
         anothercrfPageItem = new CrfPageItem();
-        anothercrfPageItem.setResponseRequired(Boolean.FALSE);
         assertEquals(anothercrfPageItem, crfPageItem);
         assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
 
@@ -106,6 +105,7 @@ public class CrfItemTest extends TestCase {
         assertEquals(anothercrfPageItem, crfPageItem);
 
         crfPageItem.setResponseRequired(Boolean.TRUE);
+        anothercrfPageItem.setResponseRequired(Boolean.FALSE);
         assertFalse(crfPageItem.equals(anothercrfPageItem));
         anothercrfPageItem.setResponseRequired(Boolean.TRUE);
         assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
