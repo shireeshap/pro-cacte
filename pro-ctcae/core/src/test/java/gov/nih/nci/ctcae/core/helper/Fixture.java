@@ -116,6 +116,7 @@ public class Fixture {
     private static void addUserToClinicalStaff(ClinicalStaff clinicalStaff) {
         clinicalStaff.setUser(new User());
         clinicalStaff.getUser().setPassword(DEFAULT_PASSWORD);
+        clinicalStaff.getUser().setUsername(clinicalStaff.getEmailAddress());
     }
 
     private static void addUserToParticipant(Participant participant) {

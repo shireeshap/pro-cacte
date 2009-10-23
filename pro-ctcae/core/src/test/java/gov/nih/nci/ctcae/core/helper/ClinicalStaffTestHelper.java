@@ -21,7 +21,7 @@ public class ClinicalStaffTestHelper {
 
     private ClinicalStaffTestHelper() {
 
-    }
+    }                                                                 
 
     public static void initialize() {
         organizationClinicalStaffRepository = TestDataManager.organizationClinicalStaffRepository;
