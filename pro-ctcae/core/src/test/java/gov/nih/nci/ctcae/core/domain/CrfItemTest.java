@@ -122,7 +122,7 @@ public class CrfItemTest extends TestCase {
         anothercrfPageItem.setCrfItemAllignment(CrfItemAllignment.VERTICAL);
         assertEquals(anothercrfPageItem.hashCode(), crfPageItem.hashCode());
         assertEquals(anothercrfPageItem, crfPageItem);
-
+                                                         
     }
 
 

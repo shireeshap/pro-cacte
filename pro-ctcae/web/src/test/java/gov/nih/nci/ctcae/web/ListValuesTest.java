@@ -71,7 +71,7 @@ public class ListValuesTest extends TestCase {
 
         List lv = ListValues.getSymptomsForCRF(crf);
 
-        assertEquals(3, lv.size());
+        assertEquals(2, lv.size());
 
 
     }
