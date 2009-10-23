@@ -81,6 +81,7 @@ public class ClinicalStaffTestHelper {
     private static void addUserToClinicalStaff(ClinicalStaff clinicalStaff) {
         clinicalStaff.setUser(new User());
         clinicalStaff.getUser().setPassword(TestDataManager.DEFAULT_PASSWORD);
+        clinicalStaff.getUser().setUsername(clinicalStaff.getEmailAddress());
     }
 
     public static ClinicalStaff getDefaultClinicalStaff() {
