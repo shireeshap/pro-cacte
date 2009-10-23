@@ -7,10 +7,9 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-
-import org.acegisecurity.context.SecurityContextHolder;
-
 import java.util.List;
+
+import org.springframework.security.context.SecurityContextHolder;
 
 //
 /**
