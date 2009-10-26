@@ -19,7 +19,11 @@ public class DisplayOrderComparator implements Comparator {
      * @return the int
      */
     private int compareCrfPageItem(CrfPageItem object, CrfPageItem object1) {
-        return object.getDisplayOrder().compareTo(object1.getDisplayOrder());
+        if (object.getCrfPage().getPageNumber() == object1.getCrfPage().getPageNumber()) {
+            return object.getDisplayOrder().compareTo(object1.getDisplayOrder());
+        } else {
+            return object.getCrfPage().getPageNumber().compareTo(object1.getCrfPage().getPageNumber());
+        }
 
     }
 

@@ -220,11 +220,6 @@
                         </c:forEach>
                     </c:otherwise>
                 </c:choose>
-                <tr>
-                    <td>
-                        <chrome:division title=" " message="false"/>
-                    </td>
-                </tr>
             </table>
         </tags:formbuilderBox>
     </c:forEach>
