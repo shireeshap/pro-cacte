@@ -14,6 +14,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 //
 /**
@@ -148,19 +150,28 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
         StudyParticipantCrfSchedule studyParticipantCrfSchedule = submitFormCommand.getStudyParticipantCrfSchedule();
         if ("continue".equals(submitFormCommand.getDirection())) {
-            for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
-                if (studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber() == submitFormCommand.getCurrentPageIndex() - 2) {
-                    if (studyParticipantCrfItem.getCrfPageItem().getResponseRequired()) {
-                        if (studyParticipantCrfItem.getProCtcValidValue() == null) {
-                            errors.reject(
-                                    "answer", "Please select an answer for question " + studyParticipantCrfItem.getCrfPageItem().getDisplayOrder() + ".");
-                            submitFormCommand.setCurrentPageIndex(submitFormCommand.getCurrentPageIndex() - 1);
-                            return;
-                        }
-                    }
+            List<StudyParticipantCrfItem> mandatoryQs = getMandatoryQuestionsForPage(studyParticipantCrfSchedule, submitFormCommand.getCurrentPageIndex() - 2);
+            for (StudyParticipantCrfItem studyParticipantCrfItem : mandatoryQs) {
+                if (studyParticipantCrfItem.getProCtcValidValue() == null) {
+                    errors.reject(
+                            "answer", "Please select an answer for question " + studyParticipantCrfItem.getCrfPageItem().getDisplayOrder() + ".");
+                    submitFormCommand.setCurrentPageIndex(submitFormCommand.getCurrentPageIndex() - 1);
+                    return;
                 }
             }
         }
+    }
+
+    private List<StudyParticipantCrfItem> getMandatoryQuestionsForPage(StudyParticipantCrfSchedule studyParticipantCrfSchedule, int pageNumber) {
+        List<StudyParticipantCrfItem> out = new ArrayList<StudyParticipantCrfItem>();
+        for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+            if (studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber() == pageNumber) {
+                if (studyParticipantCrfItem.getCrfPageItem().getResponseRequired()) {
+                    out.add(studyParticipantCrfItem);
+                }
+            }
+        }
+        return out;
     }
 
 
