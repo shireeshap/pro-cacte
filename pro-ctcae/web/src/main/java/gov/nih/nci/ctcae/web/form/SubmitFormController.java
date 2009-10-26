@@ -146,7 +146,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         super.onBindAndValidate(request, command, errors);
 
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) command;
-        StudyParticipantCrfSchedule studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, submitFormCommand.getStudyParticipantCrfSchedule().getId());
+        StudyParticipantCrfSchedule studyParticipantCrfSchedule = submitFormCommand.getStudyParticipantCrfSchedule();
         if ("continue".equals(submitFormCommand.getDirection())) {
             for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
                 if (studyParticipantCrfItem.getCrfPageItem().getCrfPage().getPageNumber() == submitFormCommand.getCurrentPageIndex() - 2) {
