@@ -280,7 +280,12 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     @Transient
     public List<CRFCycleDefinition> getCrfCycleDefinitions() {
-        return crf.getFormArmScheduleForArm(studyParticipantAssignment.getArm()).getCrfCycleDefinitions();
+        FormArmSchedule armScheduleForArm = crf.getFormArmScheduleForArm(studyParticipantAssignment.getArm());
+        if (armScheduleForArm == null) {
+            return new ArrayList();
+        } else {
+            return armScheduleForArm.getCrfCycleDefinitions();
+        }
     }
 
 
