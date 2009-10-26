@@ -69,25 +69,20 @@
                         <div class="label">Last name</div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.lastName} </div>
                     </div>
-                    <div class="row">
-                        <div class="label">Clinical Staff identifier</div>
-                        <div class="value">${clinicalStaffCommand.clinicalStaff.nciIdentifier} </div>
-                    </div>
                 </td>
                 <td style="vertical-align:top">
                     <div class="row">
-                        <div class="label">Email address</div>
-                        <div class="value">${clinicalStaffCommand.clinicalStaff.emailAddress} </div>
+                        <div class="label">Clinical Staff identifier</div>
+                        <div class="value">${clinicalStaffCommand.clinicalStaff.nciIdentifier} </div>
                     </div>
                     <div class="row">
                         <div class="label">Phone</div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.phoneNumber} </div>
                     </div>
                     <div class="row">
-                        <div class="label">Fax</div>
-                        <div class="value">${clinicalStaffCommand.clinicalStaff.faxNumber} </div>
+                        <div class="label">Email address</div>
+                        <div class="value">${clinicalStaffCommand.clinicalStaff.emailAddress} </div>
                     </div>
-
                 </td>
             </tr>
         </table>
