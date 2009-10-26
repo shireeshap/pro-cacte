@@ -293,6 +293,7 @@ function resetCycle(cycleDefinitionIndex, cycleIndex) {
         var obj = $('div_' + cycleDefinitionIndex + '_' + cycleIndex + '_' + (i + 1));
         unselectday(obj, cycleDefinitionIndex, cycleIndex, i);
     }
+    $('selecteddays_' + cycleDefinitionIndex + '_' + cycleIndex).value = '';
 }
 
 function addMultiSelect(tbody, cycleDefinitionIndex, cycleIndex) {
@@ -394,10 +395,13 @@ function updateDisplayedDays(cycleDefinitionIndex, cycleIndex, currentday, actio
     if (action == 'add') {
         objinput.value = objinput.value + ',' + parseInt(currentday);
     }
+    objinput.value = unique(objinput.value.split(",")).toString();
+    if (objinput.value.charAt(0) != ',') {
+        objinput.value = ',' + objinput.value;
+    }
     var arr = new Array();
     arr = objinput.value.split(",");
     arr.sort(sortfunction);
-
 }
 
 function sortfunction(val1, val2) {
@@ -451,6 +455,21 @@ function refreshPageLocal() {
     }
     refreshPage();
 }
+function unique(arrayName)
+{
+    var newArray = new Array();
+    label:for (var i = 0; i < arrayName.length; i++)
+    {
+        for (var j = 0; j < newArray.length; j++)
+        {
+            if (newArray[j] == arrayName[i])
+                continue label;
+        }
+        newArray[newArray.length] = arrayName[i];
+    }
+    return newArray;
+}
+
 </script>
 </head>
 <body>
