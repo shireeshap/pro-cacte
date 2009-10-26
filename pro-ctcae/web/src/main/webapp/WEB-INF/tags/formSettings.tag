@@ -27,26 +27,20 @@
         <c:set var="style" value="margin:3px;display:none"/>
     </c:if>
 </c:forEach>
-<div class="instructions">
-    <div class="summarylabel"><tags:requiredIndicator/><tags:message code="recall.period"/></div>
-    <div class="summaryvalue">
-        <select onchange="javascript:selectRecallPeriod(this.value)">
-            <c:forEach items="${recallPeriods}" var="recallPeriod">
-                <c:choose>
-                    <c:when test="${(recallPeriod.desc eq crf.recallPeriod) or (recallPeriod.code eq 'other' and isOther eq 'true')}">
-                        <option value="${recallPeriod.code}" selected>${recallPeriod.desc}</option>
-                    </c:when>
-                    <c:otherwise>
-                        <option value="${recallPeriod.code}">${recallPeriod.desc}</option>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-        </select>
-        <input type="text" name="crf.recallPeriod" id="recallPeriodOtherSpecifyInput" value="${crf.recallPeriod}"
-               style="${style}" class="validate-NOTEMPTY" title="Recall period"/>
-
-    </div>
-</div>
-
-
-
+<td><tags:requiredIndicator/><b><tags:message code="recall.period"/></b></td>
+<td>
+    <select onchange="javascript:selectRecallPeriod(this.value)">
+        <c:forEach items="${recallPeriods}" var="recallPeriod">
+            <c:choose>
+                <c:when test="${(recallPeriod.desc eq crf.recallPeriod) or (recallPeriod.code eq 'other' and isOther eq 'true')}">
+                    <option value="${recallPeriod.code}" selected>${recallPeriod.desc}</option>
+                </c:when>
+                <c:otherwise>
+                    <option value="${recallPeriod.code}">${recallPeriod.desc}</option>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+    </select>
+    <input type="text" name="crf.recallPeriod" id="recallPeriodOtherSpecifyInput" value="${crf.recallPeriod}"
+           style="${style}" class="validate-NOTEMPTY" title="Recall period"/>
+</td>

@@ -49,44 +49,56 @@
                     </div>
                 </div>
                 <chrome:division title="Attributes"/>
-
-                <div class="row">
-                    <div class="value">
-                        <table>
-                            <tr id="conditionDiv_${ruleId}">
-                                <td></td>
-                                <td colspan="3"><tags:button icon="add" color="blue" value="Add" size="small"
-                                                             onclick="addCondition('${ruleId}')"
-                                                             markupWithTag="a"/>
-                                </td>
-                            </tr>
-                        </table>
-                        <c:forEach items="${proCtcAeRule.questiontypes}" var="questiontype" varStatus="status">
-                            <script type="text/javascript">
-                                addCondition('${ruleId}', '${questiontype}', '${proCtcAeRule.operators[status.index]}', '${proCtcAeRule.values[status.index]}');
-                            </script>
-                        </c:forEach>
-                    </div>
-                </div>
+                <%--<div class="row">--%>
+                <%--<div class="value">--%>
+                <table>
+                    <tr id="conditionDiv_${ruleId}">
+                        <td></td>
+                        <td colspan="3"><tags:button icon="add" color="blue" value="Add" size="small"
+                                                     onclick="addCondition('${ruleId}')"
+                                                     markupWithTag="a"/>
+                        </td>
+                    </tr>
+                </table>
+                <c:forEach items="${proCtcAeRule.questiontypes}" var="questiontype" varStatus="status">
+                    <script type="text/javascript">
+                        addCondition('${ruleId}', '${questiontype}', '${proCtcAeRule.operators[status.index]}', '${proCtcAeRule.values[status.index]}');
+                    </script>
+                </c:forEach>
+                <%--</div>--%>
+                <%--</div>--%>
                 <chrome:division title="Notifications"/>
                 <div class="row">
                     <div class="value">
-                        <c:forEach items="${notifications}" var="notification">
-                            <c:set var="selected" value=""/>
-                            <c:forEach items="${proCtcAeRule.notifications}" var="notify">
-                                <c:if test="${notification.code eq notify}">
-                                    <c:set var="selected" value="checked"/>
-                                </c:if>
+                        <table>
+                            <c:forEach items="${notifications}" var="notification" varStatus="status">
+                                <c:set var="selected" value=""/>
+                                <c:forEach items="${proCtcAeRule.notifications}" var="notify">
+                                    <c:if test="${notification.code eq notify}">
+                                        <c:set var="selected" value="checked"/>
+                                    </c:if>
+                                </c:forEach>
+                                <c:choose>
+                                    <c:when test="${status.index%2 == 0}">
+                                        <tr>
+                                        <td>
+                                            <input type="checkbox" name="notifications_${ruleId}"
+                                                   value="${notification.code}"
+                                                ${selected}/>${notification.desc}</td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td><input type="checkbox" name="notifications_${ruleId}"
+                                                   value="${notification.code}"
+                                            ${selected}/>${notification.desc}</td>
+                                        </tr>
+                                    </c:otherwise>
+                                </c:choose>
                             </c:forEach>
-                            <input type="checkbox" name="notifications_${ruleId}" value="${notification.code}"
-                                ${selected}/>${notification.desc}
-                            <br/>
-                        </c:forEach>
+                        </table>
                     </div>
                 </div>
                 <br/>
                 <c:choose>
-
                     <c:when test="${isSite}">
                         <input type="hidden" name="override_${ruleId}" value="Y"/>
                     </c:when>
