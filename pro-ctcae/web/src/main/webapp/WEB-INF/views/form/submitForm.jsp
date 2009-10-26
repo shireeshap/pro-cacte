@@ -57,6 +57,7 @@
         </c:forEach>
 
         function gonext(crfitemindex, index, column) {
+            alert(crfitemindex + ',' + index + ',' + column);
             var x = document.getElementsByName('response' + crfitemindex);
             x[index].checked = true;
             responses[x[index].value] = 'Y';
