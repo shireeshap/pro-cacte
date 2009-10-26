@@ -51,7 +51,7 @@
 
         #alertsdiv {
             overflow-x: scroll;
-            width: 600px;
+            width: 450px;
         }
 
     </style>
