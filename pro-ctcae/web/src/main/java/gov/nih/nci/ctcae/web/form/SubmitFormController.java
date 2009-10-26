@@ -153,7 +153,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
             for (StudyParticipantCrfItem studyParticipantCrfItem : mandatoryQs) {
                 if (studyParticipantCrfItem.getProCtcValidValue() == null) {
                     errors.reject(
-                            "answer", "Please select an answer for question " + studyParticipantCrfItem.getCrfPageItem().getDisplayOrder() + ".");
+                            "answer", "Please select an answer for question " + (studyParticipantCrfItem.getCrfPageItem().getDisplayOrder() + 1) + ".");
                     submitFormCommand.setCurrentPageIndex(submitFormCommand.getCurrentPageIndex() - 1);
                     return;
                 }
