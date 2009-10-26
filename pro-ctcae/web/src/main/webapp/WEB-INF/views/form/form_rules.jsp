@@ -165,21 +165,25 @@
     </script>
 </head>
 <body>
-<div class="instructions">
-    <div class="summarylabel"><tags:message code='form.label.study'/></div>
-    <div class="summaryvalue">${command.crf.study.displayName}</div>
-</div>
-<div class="instructions">
-    <div class="summarylabel"><tags:message code='form.tab.form'/></div>
-    <div class="summaryvalue">${command.crf.title}</div>
-</div>
-
-<tags:instructions code="form.notification.instructions"/>
+<table>
+    <tr>
+        <td style="text-align:right;font-weight:bold;"><tags:message code='form.label.study'/></td>
+        <td style="padding-left:10px;">${command.crf.study.displayName}</td>
+    </tr>
+    <tr>
+        <td style="text-align:right;font-weight:bold;"><tags:message code='form.tab.form'/></td>
+        <td style="padding-left:10px;">${command.crf.title}</td>
+    </tr>
+    <tr>
+        <td style="text-align:right;font-weight:bold;">Instructions</td>
+        <td style="padding-left:10px;"><tags:message code='form.notification.instructions'/></td>
+    </tr>
+</table>
 
 <div id="templateSelects" style="display:none">
     <tags:renderSelect options="${questionTypes}" noForm="true" id="templateSelect_questiontypes"
                        onchange="changeoptions(this);"/>
-    <tags:renderSelect options="${comparisonOptions}" noForm="true" id="templateSelect_operators"/>
+    <tags:renderSelect options="${comparisonOptions}" noForm="true" id="templateSelect_operators" required="true"/>
     <c:forEach items="${comparisonValues}" var="cOptions">
         <c:if test="${not empty cOptions.value}">
             <select id="templateSelect_values_${cOptions.key}">

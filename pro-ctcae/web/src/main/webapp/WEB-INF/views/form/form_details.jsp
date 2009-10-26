@@ -755,22 +755,23 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 
 <tags:tabForm tab="${tab}" flow="${flow}" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
-<div style="float:right;"><tags:button type="submit" icon="Save & Continue" color="green" id="flow-next" value="Save & Continue"/></div>
+<div style="float:right;"><tags:button type="submit" icon="Save & Continue" color="green" id="flow-next"
+                                       value="Save & Continue"/></div>
 <div class="division"><h3>Basic form details</h3></div>
 <table>
     <tr>
-        <td>&nbsp;&nbsp;<b><spring:message code="form.label.study"/></b></td>
-        <td>${command.crf.study.displayName}</td>
+        <td style="text-align:right;font-weight:bold;">&nbsp;&nbsp;<b><spring:message code="form.label.study"/></b></td>
+        <td style="padding-left:10px;">${command.crf.study.displayName}</td>
     </tr>
     <tr>
         <c:choose>
             <c:when test="${command.crf.crfVersion eq 1.0}">
-                <td><tags:requiredIndicator/>&nbsp;<b><spring:message code="form.label.title"/></b></td>
-                <td><input type="text" name="crf.title" value="${command.crf.title}" size="80"/></td>
+                <td style="text-align:right;font-weight:bold;"><tags:requiredIndicator/><b><spring:message code="form.label.title"/></b></td>
+                <td style="padding-left:10px;"><input type="text" name="crf.title" value="${command.crf.title}" size="80"/></td>
             </c:when>
             <c:otherwise>
-                <td>&nbsp;&nbsp;<b><spring:message code="form.label.title"/></b></td>
-                <td>${command.crf.title}</td>
+                <td style="text-align:right;font-weight:bold;">&nbsp;&nbsp;<b><spring:message code="form.label.title"/></b></td>
+                <td style="padding-left:10px;">${command.crf.title}</td>
             </c:otherwise>
         </c:choose>
     </tr>
@@ -778,7 +779,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         <tags:formSettings crf="${command.crf}"></tags:formSettings>
     </tr>
 </table>
-<div class="division"><h3>Item bank</h3></div>
+<div class="division"><h3>Select symptoms</h3></div>
 <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="displayPrefsMenu"
    style="margin-left:11px"><span class="ui-icon ui-icon-triangle-1-s"></span>Display Preferences</a>
 

@@ -27,8 +27,8 @@
         <c:set var="style" value="margin:3px;display:none"/>
     </c:if>
 </c:forEach>
-<td><tags:requiredIndicator/><b><tags:message code="recall.period"/></b></td>
-<td>
+<td style="text-align:right;font-weight:bold;"><tags:requiredIndicator/><b><tags:message code="recall.period"/></b></td>
+<td style="padding-left:10px;">
     <select onchange="javascript:selectRecallPeriod(this.value)">
         <c:forEach items="${recallPeriods}" var="recallPeriod">
             <c:choose>

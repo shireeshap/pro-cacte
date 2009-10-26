@@ -187,10 +187,11 @@
             </chrome:division>
         </div>
         <chrome:division title="clinicalStaff.division.sites">
-            <table cellspacing="0" width="90%">
-                <tr>
-                    <td>
-                        <div align="left" style="margin-left: 145px">
+            <div align="left" style="margin-left: 145px">
+                <table cellspacing="0" width="90%">
+                    <tr>
+                        <td>
+
                             <table width="90%" class="tablecontent">
                                 <tr id="ss-table-head" class="amendment-table-head">
                                     <th width="95%" class="tableHeader">
@@ -211,18 +212,19 @@
 
                                 <tr id="hiddenDiv" align="center"></tr>
                             </table>
-                        </div>
-                    </td>
-                    <td valign="top">
-                        <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/addClinicalStaffComponent">
-                            <tags:button color="blue" markupWithTag="a" icon="add" value="clinicalStaff.button.add.site"
-                                         onclick="javascript:addSite()"></tags:button>
-                        </proctcae:urlAuthorize>
-                    </td>
-                </tr>
-            </table>
-
-
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/addClinicalStaffComponent">
+                                <tags:button color="blue" markupWithTag="a" icon="add"
+                                             value="clinicalStaff.button.add.site"
+                                             onclick="javascript:addSite()" size="small"></tags:button>
+                            </proctcae:urlAuthorize>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </chrome:division>
     </chrome:box>
     <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>

@@ -15,6 +15,7 @@ import com.semanticbits.rules.brxml.RuleSet;
 import com.semanticbits.rules.brxml.Rule;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //
 /**
@@ -34,7 +35,13 @@ public class AddFormRuleController extends AbstractController {
         if ("true".equals(isSite)) {
             override = "Y";
         }
-        Rule rule = proCtcAERulesService.createRule(ruleSet, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), override, false);
+        List<String> notifications = new ArrayList<String>();
+        notifications.add("PrimaryNurse");
+        notifications.add("SiteCRA");
+        notifications.add("PrimaryPhysician");
+        notifications.add("LeadCRA");
+
+        Rule rule = proCtcAERulesService.createRule(ruleSet, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), notifications, override, false);
         ProCtcAERule proCtcAERule = ProCtcAERule.getProCtcAERule(rule);
         command.getFormOrStudySiteRules().add(proCtcAERule);
         modelAndView.addObject("proCtcAERule", proCtcAERule);

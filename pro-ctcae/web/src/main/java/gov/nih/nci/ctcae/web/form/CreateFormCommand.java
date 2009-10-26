@@ -340,7 +340,7 @@ public class CreateFormCommand implements Serializable {
         for (CRFCycleDefinition crfCycleDefinition : getSelectedFormArmSchedule().getCrfCycleDefinitions()) {
             if (crfCycleDefinition.getCycleLength() == null || StringUtils.isBlank(crfCycleDefinition.getRepeatTimes())) {
                 invalidCycleDefinitions.add(crfCycleDefinition);
-                break;
+                continue;
             }
             cycleDefinitionIndex++;
             crfCycleDefinition.getCrfCycles().clear();

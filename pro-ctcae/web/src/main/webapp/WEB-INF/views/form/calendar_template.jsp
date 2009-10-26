@@ -455,35 +455,38 @@ function refreshPageLocal() {
 </head>
 <body>
 <c:set var="selectedFormArmSchedule" value="${command.selectedFormArmSchedule}"/>
-<div class="instructions">
-    <div class="summarylabel"><tags:message code='form.label.study'/></div>
-    <div class="summaryvalue">${command.crf.study.displayName}</div>
-</div>
-<div class="instructions">
-    <div class="summarylabel"><tags:message code='form.tab.form'/></div>
-    <div class="summaryvalue">${command.crf.title}</div>
-</div>
-<c:if test="${not (fn:length(command.crf.formArmSchedules) eq 1 && command.crf.formArmSchedules[0].arm.defaultArm eq 'true')}">
-    <div class="instructions">
-        <div class="summarylabel"><tags:message code='form.tab.arms'/></div>
-        <div class="summaryvalue">
-            <table>
-                <tr>
-                    <td><b>Title</b></td>
-                    <td></td>
-                    <td><b>Description</b></td>
-                </tr>
-                <c:forEach items="${command.crf.formArmSchedules}" var="formArmSchedule">
+<table>
+    <tr>
+        <td style="text-align:right;font-weight:bold;"><tags:message code='form.label.study'/></td>
+        <td style="padding-left:10px;">${command.crf.study.displayName}</td>
+    </tr>
+    <tr>
+        <td style="text-align:right;font-weight:bold;"><tags:message code='form.tab.form'/></td>
+        <td style="padding-left:10px;">${command.crf.title}</td>
+    </tr>
+    <c:if test="${not (fn:length(command.crf.formArmSchedules) eq 1 && command.crf.formArmSchedules[0].arm.defaultArm eq 'true')}">
+        <tr>
+            <td style="text-align:right;font-weight:bold;vertical-align:top"><tags:message code='form.tab.arms'/></td>
+            <td style="padding-left:10px;">
+                <table>
                     <tr>
-                        <td>${formArmSchedule.arm.title}</td>
-                        <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td>${formArmSchedule.arm.description}</td>
+                        <td><b>Title</b></td>
+                        <td></td>
+                        <td><b>Description</b></td>
                     </tr>
-                </c:forEach>
-            </table>
-        </div>
-    </div>
-</c:if>
+                    <c:forEach items="${command.crf.formArmSchedules}" var="formArmSchedule">
+                        <tr>
+                            <td>${formArmSchedule.arm.title}</td>
+                            <td>&nbsp;&nbsp;&nbsp;</td>
+                            <td>${formArmSchedule.arm.description}</td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </td>
+        </tr>
+    </c:if>
+    </tr>
+</table>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true" notDisplayInBox="true">
 <jsp:attribute name="singleFields">
 <form:hidden path="crfCycleDefinitionIndexToRemove" id="crfCycleIndexToRemove"/>
