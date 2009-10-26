@@ -11,7 +11,7 @@
 
 <c:forEach items="${schedule.currentMonthSchedules}" var="studyParticipantCrfSchedule" varStatus="status">
     <script type="text/javascript">
-        scheduleArr[${index}]['<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d"/>'] = '${studyParticipantCrfSchedule.status}';
+        scheduleArr[${index}]['<fmt:formatDate value="${studyParticipantCrfSchedule.startDate}" pattern="d"/>'] = '${studyParticipantCrfSchedule.status}~${studyParticipantCrfSchedule.baseline}';
     </script>
 </c:forEach>
 

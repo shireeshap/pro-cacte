@@ -23,12 +23,17 @@ function initializeCalendar(index) {
     for (var i = 0; i < myCalendar.length; i++) {
         if (!isundefined(myCalendar[i])) {
             var div_id = index + '_schedule_' + i;
-            if (!isundefined(mySchedules[i])) {
-                var status = mySchedules[i];
+            var myschedule = mySchedules[i];
+            if (!isundefined(myschedule)) {
+                var status = myschedule.substring(0, myschedule.indexOf('~'));
+                var baseline = myschedule.substring(myschedule.indexOf('~') + 1);
                 var item = $(div_id);
                 item.addClassName('blue');
                 item.removeClassName('passive');
                 item.innerHTML = '<br/>' + status;
+                if (baseline == 'true') {
+                    item.innerHTML = item.innerHTML + '<br/>(baseline)';
+                }
                 if (status == 'In-progress') {
                     item.style.background = '#ff9900';
                 }
@@ -38,7 +43,7 @@ function initializeCalendar(index) {
                 if (item.title == 'true') {
                     item.style.background = 'red';
                 }
-                if (status == 'Scheduled') {
+                if (status == 'Scheduled' && baseline != 'true') {
                     var delIcon = '<div style="float:right"><img height="13" width="12" src="/proctcae/images/blank.gif" class="removebutton" ' +
                                   'onclick="showDeleteWindow(' + i + ', ' + index + ');"/></div>';
                     item.innerHTML = delIcon + item.innerHTML;
