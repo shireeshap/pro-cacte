@@ -79,13 +79,10 @@
                         </c:if>
                     </c:forEach>
                     <tr id="hiddenDiv" align="center"></tr>
-                    <tr>
-                        <td colspan="2">
-                            <tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
-                                         value="study.button.add_study_site" icon="add" size="small"/>
-                        </td>
-                    </tr>
                 </table>
+                <br/>
+                <tags:button color="blue" markupWithTag="a" onclick="javascript:addStudySite()"
+                             value="study.button.add_study_site" icon="add" size="small"/>
             </div>
         </chrome:division>
     </jsp:attribute>
