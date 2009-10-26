@@ -206,7 +206,7 @@
                                     <administration:organizationClinicalStaff
                                             organizationClinicalStaff="${organizationClinicalStaff}"
                                             organizationClinicalStaffIndex="${status.index}"
-                                            readOnly="true"/>
+                                            readOnly="${organizationClinicalStaff.organization ne null}"/>
                                 </c:forEach>
 
                                 <tr id="hiddenDiv" align="center"></tr>

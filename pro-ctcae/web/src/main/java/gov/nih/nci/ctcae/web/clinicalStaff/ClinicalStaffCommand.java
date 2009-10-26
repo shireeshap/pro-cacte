@@ -63,6 +63,8 @@ public class ClinicalStaffCommand {
     public ClinicalStaffCommand() {
         super();
         clinicalStaff = new ClinicalStaff();
+        OrganizationClinicalStaff organizationClinicalStaff = new OrganizationClinicalStaff();
+        clinicalStaff.addOrganizationClinicalStaff(organizationClinicalStaff);
         clinicalStaff.setUser(new User());
     }
 
@@ -113,7 +115,7 @@ public class ClinicalStaffCommand {
     public void sendEmailWithUsernamePasswordDetails() {
         try {
             if (getEmail()) {
-                String content = "You have been successfully registered as a clinical staff on PRO-CTCAE system.<br> Below are your login details:<br> Username: " + clinicalStaff.getEmailAddress() + "<br> Password: " + clearCasePassword;
+                String content = "You have been successfully registered as a clinical staff on PRO-CTCAE system.<br> Below are your login details:<br> Username: " + clinicalStaff.getUser().getUsername() + "<br> Password: " + clearCasePassword;
                 JavaMailSender javaMailSender = new JavaMailSender();
                 MimeMessage message = javaMailSender.createMimeMessage();
                 message.setSubject("PRO-CTCAE Registration");
