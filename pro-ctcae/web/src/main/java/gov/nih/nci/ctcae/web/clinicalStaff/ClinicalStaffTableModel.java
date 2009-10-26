@@ -94,7 +94,7 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
      */
     private void addNciIdentifier(TableModel model) {
         Column columnNciIdentifier = model.getColumnInstance();
-        columnNciIdentifier.setTitle("NCI institue code");
+        columnNciIdentifier.setTitle("Identifier");
         columnNciIdentifier.setProperty("nciIdentifier");
         columnNciIdentifier.setSortable(Boolean.TRUE);
 
