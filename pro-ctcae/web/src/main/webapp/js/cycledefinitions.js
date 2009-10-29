@@ -31,6 +31,7 @@ function initializeCalendar(index) {
                 item.addClassName('blue');
                 item.removeClassName('passive');
                 item.innerHTML = '<br/>' + status;
+                item.style.cursor = 'default';
                 if (baseline == 'true') {
                     item.innerHTML = item.innerHTML + '<br/>(baseline)';
                 }
@@ -40,10 +41,11 @@ function initializeCalendar(index) {
                 if (status == 'Completed') {
                     item.style.background = '#00cc00';
                 }
-                if (item.title == 'true') {
+                if (status == 'Past-due') {
                     item.style.background = 'red';
                 }
                 if (status == 'Scheduled' && baseline != 'true') {
+                    item.style.cursor = 'pointer';
                     var delIcon = '<div style="float:right"><img height="13" width="12" src="/proctcae/images/blank.gif" class="removebutton" ' +
                                   'onclick="showDeleteWindow(' + i + ', ' + index + ');"/></div>';
                     item.innerHTML = delIcon + item.innerHTML;

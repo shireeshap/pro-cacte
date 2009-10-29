@@ -32,9 +32,7 @@ public class ParticipantAddedQuestionsReportDetailsController extends Participan
         HashMap<Participant, List<String[]>> results = new HashMap<Participant, List<String[]>>();
 
         for (Object obj : l) {
-            Object[] o = (Object[]) obj;
-
-            StudyParticipantCrfScheduleAddedQuestion sq = (StudyParticipantCrfScheduleAddedQuestion) o[0];
+            StudyParticipantCrfScheduleAddedQuestion sq = (StudyParticipantCrfScheduleAddedQuestion) obj;
 
             Participant p = sq.getStudyParticipantCrfSchedule().getStudyParticipantCrf().getStudyParticipantAssignment().getParticipant();
             List<String[]> ls;

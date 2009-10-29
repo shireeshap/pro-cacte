@@ -1,13 +1,13 @@
 function highlightrow(index) {
     $('details_row_' + index).className = 'highlight';
-//    $('img_' + index).style.visibility = 'visible';
+    //    $('img_' + index).style.visibility = 'visible';
 }
 
 function removehighlight(index)
 {
     var rEle = $('details_row_' + index);
     rEle.className = '';
-//    $('img_' + index).style.visibility = 'hidden';
+    //    $('img_' + index).style.visibility = 'hidden';
     if ($("dropnoteDiv")) {
         Element.hide($("dropnoteDiv"));
         $("dropnoteDiv").onmouseover = function() {
@@ -21,6 +21,15 @@ function removehighlight(index)
             Element.hide($("dropnoteDiv"));
         };
     }
+}
+function showResponseDetails(symptom) {
+    var request = new Ajax.Request("participantAddedQuestionsDetails", {
+        parameters:getStandardParamForAjax() + "&symptom=" + symptom + "&crf=" + $('form').value + "&studySite=" + $('studySite').value  ,
+        onComplete:function(transport) {
+            showConfirmationWindow(transport, 700, 500);
+        },
+        method:'get'
+    })
 }
 
 function showPopUpMenu(index, pid, sid, ihtml) {
