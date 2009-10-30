@@ -79,8 +79,16 @@ public class EditFormController extends FormController {
 
         Flow flow = new Flow("Edit Form");
         if (command.getCrf().getStatus().equals(CrfStatus.DRAFT)) {
-            flow.addTab(new FormDetailsTab());
-            flow.addTab(new CalendarTemplateTab());
+            FormDetailsTab formDetailsTab = new FormDetailsTab();
+            formDetailsTab.setNotEmptyValidator(notEmptyValidator);
+            formDetailsTab.setUniqueTitleForCrfValidator(uniqueTitleForCrfValidator);
+            formDetailsTab.setProCtcQuestionRepository(proCtcQuestionRepository);
+            formDetailsTab.setProCtcTermRepository(proCtcTermRepository);
+            flow.addTab(formDetailsTab);
+            CalendarTemplateTab calendarTemplateTab = new CalendarTemplateTab();
+            calendarTemplateTab.setCrfRepository(crfRepository);
+            calendarTemplateTab.setStudyRepository(studyRepository);
+            flow.addTab(calendarTemplateTab);
         }
 
         if (myOrgStudyLevel != null) {
