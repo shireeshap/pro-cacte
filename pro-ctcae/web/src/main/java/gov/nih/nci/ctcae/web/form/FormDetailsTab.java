@@ -101,13 +101,7 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
     }
 
 
-    /**
-     * Sets the pro ctc term repository.
-     *
-     * @param proCtcTermRepository the new pro ctc term repository
-     */
-
-
+    
     @Override
     public void postProcess(HttpServletRequest request, CreateFormCommand command, Errors errors) {
         super.postProcess(request, command, errors);
@@ -155,4 +149,5 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
     }
 
 
+    
 }
