@@ -6,7 +6,10 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.CrfCreationMode;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
+import gov.nih.nci.ctcae.core.validation.annotation.UniqueTitleForCrfValidator;
+import gov.nih.nci.ctcae.core.validation.annotation.NotEmptyValidator;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -32,6 +35,9 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
      */
     protected CRFRepository crfRepository;
     protected ProCtcAERulesService proCtcAERulesService;
+    protected ProCtcTermRepository proCtcTermRepository;
+    protected UniqueTitleForCrfValidator uniqueTitleForCrfValidator;
+    protected NotEmptyValidator notEmptyValidator;
 
     /**
      * /**
@@ -172,6 +178,21 @@ public abstract class FormController extends CtcAeSecuredTabbedFlowController<Cr
     @Required
     public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
         this.proCtcAERulesService = proCtcAERulesService;
+    }
+
+    @Required
+    public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+        this.proCtcTermRepository = proCtcTermRepository;
+    }
+
+    @Required
+    public void setUniqueTitleForCrfValidator(UniqueTitleForCrfValidator uniqueTitleForCrfValidator) {
+        this.uniqueTitleForCrfValidator = uniqueTitleForCrfValidator;
+    }
+
+    @Required
+    public void setNotEmptyValidator(NotEmptyValidator notEmptyValidator) {
+        this.notEmptyValidator = notEmptyValidator;
     }
 
     @Override

@@ -168,6 +168,9 @@
         <property name="crfRepository" ref="crfRepository"/>
         <property name="formArmScheduleRepository" ref="formArmScheduleRepository"/>
         <property name="proCtcAERulesService" ref="proCtcAERulesService"/>
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
+        <property name="uniqueTitleForCrfValidator" ref="uniqueTitleForCrfValidator"/>
+        <property name="notEmptyValidator" ref="notEmptyValidator"/>
     </bean>
 
 
