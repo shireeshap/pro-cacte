@@ -10,6 +10,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.Errors;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -508,5 +510,20 @@ public class CreateFormCommand implements Serializable {
 
     public void setProCtcAERulesService(ProCtcAERulesService proCtcAERulesService) {
         this.proCtcAERulesService = proCtcAERulesService;
+    }
+
+    public StudyOrganization getOrganizationForUser(User loggedInUser, List<Role> roles) {
+        StudyOrganization myOrg = null;
+
+        List<StudyOrganizationClinicalStaff> roleUsers = new ArrayList<StudyOrganizationClinicalStaff>();
+        for (Role role : roles) {
+            roleUsers.addAll(getCrf().getStudy().getStudySiteLevelStudyOrganizationClinicalStaffsByRole(role));
+        }
+        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : roleUsers) {
+            if (studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff().getUser().equals(loggedInUser)) {
+                myOrg = studyOrganizationClinicalStaff.getStudyOrganization();
+            }
+        }
+        return myOrg;
     }
 }

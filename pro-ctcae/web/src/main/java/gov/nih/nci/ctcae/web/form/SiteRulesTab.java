@@ -47,17 +47,10 @@ public class SiteRulesTab extends SecuredTab<CreateFormCommand> {
         command.setProCtcAERulesService(proCtcAERulesService);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedInUser = (User) auth.getPrincipal();
-        StudyOrganization myOrg = null;
-
-        List<StudyOrganizationClinicalStaff> siteLevelUsers = new ArrayList<StudyOrganizationClinicalStaff>();
-        siteLevelUsers.addAll(command.getCrf().getStudy().getStudySiteLevelStudyOrganizationClinicalStaffsByRole(Role.SITE_PI));
-        siteLevelUsers.addAll(command.getCrf().getStudy().getStudySiteLevelStudyOrganizationClinicalStaffsByRole(Role.SITE_CRA));
-        for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : siteLevelUsers) {
-            if (studyOrganizationClinicalStaff.getOrganizationClinicalStaff().getClinicalStaff().getUser().equals(loggedInUser)) {
-                myOrg = studyOrganizationClinicalStaff.getStudyOrganization();
-            }
-        }
-
+        List<Role> roles= new ArrayList<Role>();
+        roles.add(Role.SITE_CRA);
+        roles.add(Role.SITE_PI);
+        StudyOrganization myOrg = command.getOrganizationForUser(loggedInUser, roles);
         if (myOrg == null) {
             throw new CtcAeSystemException(String.format("Unable to locate study site for user - %s", loggedInUser.getUsername()));
         }
