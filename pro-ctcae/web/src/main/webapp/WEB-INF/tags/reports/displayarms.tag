@@ -5,6 +5,7 @@
 <%@attribute name="selectedArms" required="true" type="java.util.HashSet" %>
 <%@attribute name="name" %>
 <%@attribute name="resetPopUp" %>
+<%@attribute name="showChartType" %>
 
 <c:if test="${name eq null}">
     <c:set var="name" value="arm"/>
@@ -35,15 +36,17 @@
         </div>
     </div>
 </td>
-<td style="vertical-align:top;">
-    <div id="chartTypeDiv" <c:if test="${numOfSelectedArms < 2}"> style="display:none"</c:if> class="row">
-        <div class="label">Chart type</div>
-        <div class="value">
-            <input type="radio" name="chartType" value="bar" onclick="javascript:reportResults();"
-                   <c:if test="${chartType ne 'line'}">checked="true"</c:if>>Bar
-            chart
-            <input type="radio" name="chartType" value="line" onclick="javascript:reportResults();"
-                   <c:if test="${chartType eq 'line'}">checked="true"</c:if>>Scatter chart
+<c:if test="${showChartType ne 'false'}">
+    <td style="vertical-align:top;">
+        <div id="chartTypeDiv" <c:if test="${numOfSelectedArms < 2}"> style="display:none"</c:if> class="row">
+            <div class="label">Chart type</div>
+            <div class="value">
+                <input type="radio" name="chartType" value="bar" onclick="javascript:reportResults();"
+                       <c:if test="${chartType ne 'line'}">checked="true"</c:if>>Bar
+                chart
+                <input type="radio" name="chartType" value="line" onclick="javascript:reportResults();"
+                       <c:if test="${chartType eq 'line'}">checked="true"</c:if>>Scatter chart
+            </div>
         </div>
-    </div>
-</td>
+    </td>
+</c:if>
