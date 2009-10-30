@@ -78,7 +78,7 @@ public class EditFormController extends FormController {
         StudyOrganization myOrgSiteLevel = command.getOrganizationForUser(loggedInUser, roles);
 
         Flow flow = new Flow("Edit Form");
-        if (!command.getCrf().getStatus().equals(CrfStatus.DRAFT)) {
+        if (command.getCrf().getStatus().equals(CrfStatus.DRAFT)) {
             flow.addTab(new FormDetailsTab());
             flow.addTab(new CalendarTemplateTab());
         }
