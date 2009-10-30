@@ -36,7 +36,6 @@
         </div>
     </div>
 </td>
-${showChartType}
 <c:if test="${showChartType ne 'false'}">
     <td style="vertical-align:top;">
         <div id="chartTypeDiv" <c:if test="${numOfSelectedArms < 2}"> style="display:none"</c:if> class="row">

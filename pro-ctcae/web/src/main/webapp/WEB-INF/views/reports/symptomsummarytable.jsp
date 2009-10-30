@@ -7,7 +7,7 @@
 <chrome:box title="Report">
     <tags:instructions code="reports.symptom.summary.results.instructions"/>
     <table>
-        <reports:displayarms arms="${arms}" selectedArms="${selectedArms}" resetPopUp="true"/>
+        <reports:displayarms arms="${arms}" selectedArms="${selectedArms}" resetPopUp="true" showChartType="false"/>
     </table>
     <chrome:division title="Maximum Grade per Patient"/>
     <table class="report" cellspacing="0" align="center">
