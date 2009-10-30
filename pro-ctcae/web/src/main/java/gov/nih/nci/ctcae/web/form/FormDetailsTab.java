@@ -106,9 +106,6 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
      *
      * @param proCtcTermRepository the new pro ctc term repository
      */
-    public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
-        this.proCtcTermRepository = proCtcTermRepository;
-    }
 
 
     @Override
@@ -142,19 +139,20 @@ public class FormDetailsTab extends SecuredTab<CreateFormCommand> {
         this.notEmptyValidator = notEmptyValidator;
     }
 
-    /**
-     * Sets the unique title for crf validator.
-     *
-     * @param uniqueTitleForCrfValidator the new unique title for crf validator
-     */
     @Required
     public void setUniqueTitleForCrfValidator(final UniqueTitleForCrfValidator uniqueTitleForCrfValidator) {
         this.uniqueTitleForCrfValidator = uniqueTitleForCrfValidator;
     }
 
+    @Required
     public void setProCtcQuestionRepository(ProCtcQuestionRepository proCtcQuestionRepository) {
         this.proCtcQuestionRepository = proCtcQuestionRepository;
     }
 
-    
+    @Required
+    public void setProCtcTermRepository(ProCtcTermRepository proCtcTermRepository) {
+        this.proCtcTermRepository = proCtcTermRepository;
+    }
+
+
 }
