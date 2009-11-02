@@ -135,7 +135,7 @@
                                 <c:if test="${!usernotification.markDelete}">
                                     <tr id="tr_${usernotification.id}"
                                         <c:if test="${usernotification.new}">class="bold"</c:if>>
-                                        <td class="data">
+                                        <td class="data" style="text-align:left">
                                             <proctcae:urlAuthorize url="/pages/reports/participantReport">
                                                 <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
                                                    class="link">${usernotification.participant.displayName}</a>
@@ -186,7 +186,7 @@
             </proctcae:urlAuthorize>
             <proctcae:urlAuthorize url="/pages/study/createStudy">
                 <div class="quicklink">
-                    <a class="link" href="study/createStudy">Enter Study</a>
+                    <a class="link" href="study/createStudy">Create Study</a>
                 </div>
             </proctcae:urlAuthorize>
             <proctcae:urlAuthorize url="/pages/study/searchStudy">
@@ -316,8 +316,8 @@
                             <c:forEach items="${overdue}" var="schedule">
                                 <tr>
                                     <td class="data" style="text-align:left">
-                                        <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                                            <a href="reports/participantReport?sid=${schedule.id}"
+                                        <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+                                            <a href="participant/schedulecrf?sid=${schedule.id}"
                                                class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
                                         </proctcae:urlAuthorize>
                                     </td>
@@ -387,8 +387,8 @@
                                 <c:forEach items="${upcoming}" var="schedule">
                                     <tr>
                                         <td class="data"  style="text-align:left">
-                                            <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                                                <a href="reports/participantReport?sid=${schedule.id}"
+                                            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+                                                <a href="participant/schedulecrf?sid=${schedule.id}"
                                                    class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
                                             </proctcae:urlAuthorize>
                                         </td>

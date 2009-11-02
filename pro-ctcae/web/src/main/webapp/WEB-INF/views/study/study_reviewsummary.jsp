@@ -33,40 +33,40 @@
             <input type="hidden" name="_finish" value="true"/>
         </c:if>
 
-    <chrome:division>
-            <div class="row">
-                <div class="label"><tags:message code='study.label.assigned_identifier'/></div>
-                <div class="value">${command.study.assignedIdentifier} </div>
-            </div>
-            <div class="row">
-                <div class="label"><tags:message code='study.label.short_title'/></div>
-                <div class="value">${command.study.shortTitle} </div>
-            </div>
-            <div class="row">
-                <div class="label"><tags:message code='study.label.long_title'/></div>
-                <div class="value">${command.study.longTitle} </div>
-            </div>
+    <chrome:division title="study.tab.study_details">
+        <div class="row">
+            <div class="label"><tags:message code='study.label.assigned_identifier'/></div>
+            <div class="value">${command.study.assignedIdentifier} </div>
+        </div>
+        <div class="row">
+            <div class="label"><tags:message code='study.label.short_title'/></div>
+            <div class="value">${command.study.shortTitle} </div>
+        </div>
+        <div class="row">
+            <div class="label"><tags:message code='study.label.long_title'/></div>
+            <div class="value">${command.study.longTitle} </div>
+        </div>
 
-            <div class="row">
-                <div class="label"><tags:message code='study.label.description'/></div>
-                <div class="value">${command.study.description} </div>
-            </div>
-            <div class="row">
-                <div class="label"><tags:message code='study.label.study_sponsor'/></div>
-                <div class="value">${command.study.studySponsor.organization.displayName} </div>
-            </div>
-            <div class="row">
-                <div class="label"><tags:message code='study.label.study_coordinating_center'/></div>
-                <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
-            </div>
-            <div class="row">
-                <div class="label"><tags:message code='study.label.study_funding_sponsor'/></div>
-                <div class="value">${command.study.fundingSponsor.organization.displayName} </div>
-            </div>
-            <div class="row">
-                <div class="label"><tags:message code='study.label.study_lead_site'/></div>
-                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
-            </div>
+        <div class="row">
+            <div class="label"><tags:message code='study.label.description'/></div>
+            <div class="value">${command.study.description} </div>
+        </div>
+        <div class="row">
+            <div class="label"><tags:message code='study.label.study_sponsor'/></div>
+            <div class="value">${command.study.studySponsor.organization.displayName} </div>
+        </div>
+        <div class="row">
+            <div class="label"><tags:message code='study.label.study_coordinating_center'/></div>
+            <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
+        </div>
+        <div class="row">
+            <div class="label"><tags:message code='study.label.study_funding_sponsor'/></div>
+            <div class="value">${command.study.fundingSponsor.organization.displayName} </div>
+        </div>
+        <div class="row">
+            <div class="label"><tags:message code='study.label.study_lead_site'/></div>
+            <div class="value">${command.study.leadStudySite.organization.displayName} </div>
+        </div>
     </chrome:division>
     <chrome:division title="study.section.study_sites">
 
@@ -75,9 +75,7 @@
                 <tr id="ss-table-head" class="amendment-table-head">
                     <th width="95%" class="tableHeader"><spring:message code='study.label.sites' text=''/></th>
                     <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
-
                 </tr>
-
                 <tr>
 
                     <td style="border-right:none;">
@@ -95,41 +93,36 @@
             </table>
         </div>
     </chrome:division>
-
-        <chrome:division title="study.section.study_arms">
-            <div align="left" style="margin-left: 50px">
-                <table width="55%" class="tablecontent">
-                    <tr id="sa-table-head" class="amendment-table-head">
-                        <th width="50%" class="tableHeader"><spring:message code='study.label.arm.name' text=''/></th>
-                        <th width="50%" class="tableHeader" style=" background-color: none"><spring:message
-                                code='study.label.arm.desc' text=''/></th>
-
-                    </tr>
-
-
-                    <c:forEach items="${command.study.arms}" var="arm">
-                        <c:if test="${arm.defaultArm eq 'false'}">
-                            <tr>
-                                <td style="border-right:none;">
-                                    <div class="row">
-                                            ${arm.title}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="row">
-                                            ${arm.description}
-                                    </div>
-                                </td>
-                            </tr>
-                        </c:if>
-                    </c:forEach>
-
-                        <%--<td style="border-left:none;">--%>
-                        <%--</td>--%>
-
-                </table>
-            </div>
-        </chrome:division>
+    <chrome:division title="study.section.study_arms">
+        <div align="left" style="margin-left: 50px">
+            <table width="55%" class="tablecontent">
+                <tr id="sa-table-head" class="amendment-table-head">
+                    <th width="50%" class="tableHeader"><spring:message code='study.label.arm.name' text=''/></th>
+                    <th width="50%" class="tableHeader" style=" background-color: none"><spring:message
+                            code='study.label.arm.desc' text=''/></th>
+                </tr>
+                <c:forEach items="${command.study.arms}" var="arm">
+                    <c:if test="${arm.defaultArm eq 'false'}">
+                        <tr>
+                            <td style="border-right:none;">
+                                <div class="row">
+                                        ${arm.title}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="row">
+                                        ${arm.description}
+                                </div>
+                            </td>
+                        </tr>
+                    </c:if>
+                </c:forEach>
+            </table>
+        </div>
+    </chrome:division>
+    <chrome:division title="study.tab.clinical_staff">
+        
+    </chrome:division>
 
 </jsp:attribute>
 </tags:tabForm>

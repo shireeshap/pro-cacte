@@ -63,6 +63,8 @@ pro-ctcae/core/src/main/db/migrate/003_elaboration_1/001_create_notifications_ta
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/002_create_study_arms.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/003_update_form_cycle_definitions.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/004_update_clinical_staff.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/005_add_roles_privileges.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/006_alter_clinical_staff.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
@@ -438,7 +440,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormController.java
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/VersionFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ViewFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/login/LoginController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/meddra/ImportMeddraController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/meddra/MeddraAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacade.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleController.java -text
@@ -503,7 +504,6 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/SecuredTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationCheck.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/security/UrlAuthorizationTag.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/RemoveAlertController.java -text
-pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilter.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyArmController.java -text

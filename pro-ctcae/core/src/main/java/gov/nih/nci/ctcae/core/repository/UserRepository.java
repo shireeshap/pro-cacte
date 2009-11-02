@@ -99,7 +99,7 @@ public class UserRepository implements UserDetailsService, Repository<User, User
         }
 
         //check for participant
-        Participant participant = (Participant) findParticipantForUser(user);
+        Participant participant = findParticipantForUser(user);
         if (participant != null) {
             Set<String> privileges = privilegeGenerator.generatePrivilege(participant);
             for (String privilege : privileges) {

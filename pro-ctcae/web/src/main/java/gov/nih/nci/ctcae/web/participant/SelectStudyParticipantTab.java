@@ -85,4 +85,5 @@ public class SelectStudyParticipantTab extends SecuredTab<StudyParticipantComman
     public void setCrfRepository(CRFRepository crfRepository) {
         this.crfRepository = crfRepository;
     }
+
 }

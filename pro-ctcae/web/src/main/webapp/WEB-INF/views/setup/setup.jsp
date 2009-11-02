@@ -1,50 +1,61 @@
-<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
+<%@taglib prefix="administration" tagdir="/WEB-INF/tags/administration" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <html>
 <body>
+
 <form:form method="post">
-
-    <chrome:box title="Create the first administrative account" id="setup-input" cssClass="paired">
-        <chrome:division>
-            <p class="instructions">
-                Every ProCtcAe instance needs at least one System Administrator. The sysadmin creates users and
-                grants them privileges in ProCtcAe. He or she also performs basic configuration of the application.
-                Since you're filling out this form, the sysadmin's probably you. Please select a username and
-                enter a secure password. You'll be able to change the password later, but not the username.
-            </p>
-        </chrome:division>
-        <h3>Enter sysadmin info</h3>
+    <chrome:box title="Create the first administrative account" id="setup-input">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
-
-        <chrome:division title="">
-            <tags:renderEmail propertyName="user.username"
-                              displayName="clinicalStaff.label.email_address"
-                              required="true" help="true"/>
-
-            <tags:renderPassword propertyName="user.password"
+        <p><tags:instructions code="clinicalStaff.sysadmin_details.top"/></p>
+        <chrome:division title="clinicalStaff.division.details">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <tags:renderText propertyName="clinicalStaff.firstName"
+                                         displayName="clinicalStaff.label.first_name"
+                                         required="true"/>
+                        <tags:renderText propertyName="clinicalStaff.middleName"
+                                         displayName="clinicalStaff.label.middle_name"/>
+                        <tags:renderText propertyName="clinicalStaff.lastName"
+                                         displayName="clinicalStaff.label.last_name"
+                                         required="true"/>
+                    </td>
+                    <td style="vertical-align:top">
+                        <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber"
+                                               displayName="clinicalStaff.label.phone"
+                                               required="true"/>
+                        <tags:renderEmail propertyName="clinicalStaff.emailAddress"
+                                          displayName="clinicalStaff.label.email_address"
+                                          required="true" size="40"/>
+                        <tags:renderText propertyName="clinicalStaff.nciIdentifier"
+                                         displayName="Identifier"/>
+                    </td>
+                </tr>
+            </table>
+        </chrome:division>
+        <chrome:division title="clinicalStaff.division.user_account">
+            <tags:renderText propertyName="clinicalStaff.user.username"
+                             displayName="participant.label.username" required="true"/>
+            <tags:renderPassword propertyName="clinicalStaff.user.password"
                                  displayName="clinicalStaff.label.password"
                                  required="true"/>
-
-            <tags:renderPassword propertyName="user.confirmPassword"
-                                 displayName="Confirm Password"
+            <tags:renderPassword propertyName="clinicalStaff.user.confirmPassword"
+                                 displayName="clinicalStaff.label.confirm_password"
                                  required="true"/>
-
+            <input type="checkbox" name="email" value="true"
+                   id="email"/> Send email to the user with username and password details
+            <br/>
         </chrome:division>
-
     </chrome:box>
-    <chrome:box title="Tips" autopad="true" id="setup-tips" cssClass="paired">
-        <ul class="tips">
-            <li>You'll be able to create more System Administrator accounts later, if you like.</li>
-            <li>You'll also be able to grant other privileges to the account you create here if
-                you need to.
-            </li>
-        </ul>
-    </chrome:box>
-    <tags:tabControls willSave="true"/>
-
+    <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
 </form:form>
-
-
 </body>
 </html>

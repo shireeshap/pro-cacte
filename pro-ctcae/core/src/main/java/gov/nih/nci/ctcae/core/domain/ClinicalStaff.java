@@ -40,7 +40,7 @@ public class ClinicalStaff extends Person {
     /**
      * The nci identifier.
      */
-    @Column(name = "nci_identifier", nullable = false)
+    @Column(name = "nci_identifier", nullable = true)
     private String nciIdentifier;
 
     /**

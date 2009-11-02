@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.setup;
 import gov.nih.nci.ctcae.core.SetupStatus;
 import gov.nih.nci.ctcae.core.domain.Role;
 import gov.nih.nci.ctcae.web.AbstractWebIntegrationTestCase;
+import gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffCommand;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidatorImpl;
 
 /**
@@ -15,10 +16,10 @@ public class SetupTest extends AbstractWebIntegrationTestCase {
 
 
     public void testCommand() {
-        SetupCommand command = new SetupCommand();
+        ClinicalStaffCommand command = new ClinicalStaffCommand();
 
-        assertNotNull(command.getUser());
-        assertEquals(Role.ADMIN, command.getUser().getUserRoles().get(0).getRole());
+        assertNotNull(command.getClinicalStaff().getUser());
+        assertEquals(Role.ADMIN, command.getClinicalStaff().getUser().getUserRoles().get(0).getRole());
     }
 
     public void testController() throws Exception {

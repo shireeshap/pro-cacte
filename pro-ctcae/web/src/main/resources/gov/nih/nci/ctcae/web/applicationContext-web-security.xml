@@ -53,7 +53,7 @@
         <intercept-url pattern="/pages/participant/monitorForm" access="PRIVILEGE_MONITOR_FORM"/>
         <intercept-url pattern="/pages/participant/schedulecrf" access="PRIVILEGE_PARTICIPANT_SCHEDULE_CRF"/>
         <intercept-url pattern="/pages/participant/monitorFormStatus" access="PRIVILEGE_MONITOR_FORM"/>
-        <intercept-url pattern="/pages/participant/offStudyDate" access="PRIVILEGE_EDIT_PARTICIPANT"/>        
+        <intercept-url pattern="/pages/participant/offStudyDate" access="PRIVILEGE_EDIT_PARTICIPANT"/>
         <intercept-url pattern="/pages/participant/showCompletedCrf" access="PRIVILEGE_MONITOR_FORM"/>
         <intercept-url pattern="/pages/participant/addCrfSchedule" access="PRIVILEGE_PARTICIPANT_ADD_CRF_SCHEDULE"/>
         <intercept-url pattern="/pages/participant/addNotificationClinicalStaff"
@@ -68,6 +68,8 @@
 
         <intercept-url pattern="/pages/admin/clinicalStaff/createCCA"
                        access="PRIVILEGE_CREATE_CCA"/>
+        <intercept-url pattern="/pages/admin/clinicalStaff/createAdmin"
+                       access="PRIVILEGE_CREATE_ADMIN"/>
 
         <intercept-url pattern="/pages/admin/clinicalStaff/addClinicalStaffComponent"
                        access="PRIVILEGE_CREATE_CLINICAL_STAFF,PRIVILEGE_EDIT_CLINICAL_STAFF"/>
@@ -81,13 +83,6 @@
         <intercept-url pattern="/pages/home" access="IS_AUTHENTICATED_FULLY"/>
         <intercept-url pattern="/pages/j_spring_security_logout" access="IS_AUTHENTICATED_FULLY"/>
         <intercept-url pattern="/pages/confirmationCheck" access="IS_AUTHENTICATED_FULLY"/>
-
-        <intercept-url pattern="/pages/admin/meddra/meddra_import"
-                       access="PRIVILEGE_CREATE_CLINICAL_STAFF"/>
-
-
-        <!--<intercept-url pattern="/pages/**" access="IS_AUTHENTICATED_ANONYMOUSLY" filters="" />-->
-
         <form-login login-page="/public/login" authentication-failure-url="/public/login?error=true"
                     default-target-url="/pages/home" login-processing-url="/pages/j_spring_security_check"/>
         <remember-me user-service-ref="userRepository"/>

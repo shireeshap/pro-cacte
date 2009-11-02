@@ -28,6 +28,7 @@ public class ClinicalStaffCommand {
     private ClinicalStaff clinicalStaff;
 
     private Boolean cca = false;
+    private Boolean admin = false;
     private List<Integer> indexesToRemove = new ArrayList<Integer>();
     private Boolean email = false;
     private Boolean userAccount = false;
@@ -108,6 +109,17 @@ public class ClinicalStaffCommand {
         this.cca = cca;
     }
 
+    public Boolean isAdmin() {
+        return admin;
+    }
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
+
     public List<Integer> getIndexesToRemove() {
         return indexesToRemove;
     }
@@ -131,5 +143,9 @@ public class ClinicalStaffCommand {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setClearCasePassword(String clearCasePassword) {
+        this.clearCasePassword = clearCasePassword;
     }
 }

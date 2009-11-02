@@ -37,9 +37,13 @@
 
 
     <bean name="/initial" id="setupController"
-          class="gov.nih.nci.ctcae.web.setup.SetupController" p:userRepository-ref="userRepository"
+          class="gov.nih.nci.ctcae.web.setup.SetupController"
           parent="ctcaeSimpleFormController"
-          p:setupStatus-ref="setupStatus"/>
+          p:setupStatus-ref="setupStatus">
+        <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
+        <property name="userNameAndPasswordValidator" ref="userNameAndPasswordValidator"/>
+        <property name="userRepository" ref="userRepository"/>
+    </bean>
 
 
     <bean id="controllerTools" class="gov.nih.nci.ctcae.web.ControllerTools">

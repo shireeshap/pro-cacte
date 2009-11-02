@@ -75,7 +75,20 @@
                 $('clinicalStaff.user.confirmPassword').removeClassName("validate-NOTEMPTY&&MAXLENGTH2000")
             }
         }
-
+        function disableCCA(obj) {
+            if (obj.checked) {
+                $('cca').disabled = true;
+            } else {
+                $('cca').disabled = false;
+            }
+        }
+        function disableAdmin(obj) {
+            if (obj.checked) {
+                $('admin').disabled = true;
+            } else {
+                $('admin').disabled = false;
+            }
+        }
     </script>
 
 </head>
@@ -125,14 +138,14 @@
                                          required="true"/>
                     </td>
                     <td style="vertical-align:top">
-                        <tags:renderText propertyName="clinicalStaff.nciIdentifier"
-                                         displayName="clinicalStaff.label.identifier"/>
                         <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber"
                                                displayName="clinicalStaff.label.phone"
                                                required="true"/>
                         <tags:renderEmail propertyName="clinicalStaff.emailAddress"
                                           displayName="clinicalStaff.label.email_address"
                                           required="true" size="40"/>
+                        <tags:renderText propertyName="clinicalStaff.nciIdentifier"
+                                         displayName="clinicalStaff.label.identifier"/>
                     </td>
                 </tr>
             </table>
@@ -158,8 +171,10 @@
                                 <c:when test="${not empty clinicalStaffCommand.clinicalStaff.user.username}">
                                     <div class="row">
                                         <div class="label"><spring:message code="participant.label.username"/></div>
-                                        <div class="value">${clinicalStaffCommand.clinicalStaff.user.username} &nbsp;</div>
-                                        <input type="hidden" id="clinicalStaff.user.username" name="clinicalStaff.user.username"
+                                        <div class="value">${clinicalStaffCommand.clinicalStaff.user.username}
+                                            &nbsp;</div>
+                                        <input type="hidden" id="clinicalStaff.user.username"
+                                               name="clinicalStaff.user.username"
                                                value="${clinicalStaffCommand.clinicalStaff.user.username}">
                                     </div>
                                 </c:when>
@@ -188,15 +203,28 @@
                                          displayName="clinicalStaff.label.confirm_password"
                                          required="true"/>
                 </div>
-                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
-                    <input type="checkbox" name="cca" value="true"
-                           id="cca"/> This clinical staff is a Coordinating Center Administrator
-                    <br>
-                </proctcae:urlAuthorize>
-                <br/>
+            </chrome:division>
+            <chrome:division title="Additional Options">
                 <input type="checkbox" name="email" value="true"
                        id="email"/> Send email to the user with username and password details
+                <br/>
+                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
+                    <input type="checkbox" name="cca" value="true"
+                           id="cca"
+                           <c:if test="${clinicalStaffCommand.cca}">checked disabled</c:if>
+                           <c:if test="${clinicalStaffCommand.admin}">disabled</c:if> onclick="disableAdmin(this);"/>
+                    This user is a <u>Coordinating Center Administrator</u>
+                </proctcae:urlAuthorize>
+                <br/>
+                <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createAdmin">
+                    <input type="checkbox" name="admin" value="true"
+                           id="admin"
+                           <c:if test="${clinicalStaffCommand.admin}">checked disabled</c:if>
+                           <c:if test="${clinicalStaffCommand.cca}">disabled</c:if> onclick="disableCCA(this);"/>
+                    This user is a <u>System Administrator</u>
+                </proctcae:urlAuthorize>
             </chrome:division>
+            <br/>
         </div>
         <chrome:division title="clinicalStaff.division.sites">
             <div align="left" style="margin-left: 145px">

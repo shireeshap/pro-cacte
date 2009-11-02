@@ -221,4 +221,13 @@ public class User extends BaseVersionable implements UserDetails {
             getUserRoles().add(userRole);
         }
     }
+
+    public boolean isAdmin() {
+        for (UserRole userRole : userRoles) {
+            if (Role.ADMIN.equals(userRole.getRole())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
