@@ -40,12 +40,12 @@
         <ul id="" class="tabs autoclear">
             <li id="thirdlevelnav" class="tab selected">
                 <div>
-                    <a href="createClinicalStaff">Create/Edit Clinical Staff</a>
+                    <a href="createClinicalStaff"><tags:message code="clinicalStaff.tab.createStaff"/></a>
                 </div>
             </li>
             <li id="thirdlevelnav" class="tab">
                 <div>
-                    <a href="searchClinicalStaff">Search Clinical Staff</a>
+                    <a href="searchClinicalStaff"><tags:message code="clinicalStaff.tab.searchStaff"/></a>
                 </div>
             </li>
         </ul>
