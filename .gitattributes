@@ -327,6 +327,7 @@ pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/OrganizationQueryTest.
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantAddedQuestionReportQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ParticipantQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/ProCtcTermQueryTest.java -text
+pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/RolePrivilegeQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyParticipantAssignmentQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/StudyQueryTest.java -text
 pro-ctcae/core/src/test/java/gov/nih/nci/ctcae/core/query/SymptomSummaryReportQueryTest.java -text

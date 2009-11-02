@@ -113,7 +113,9 @@ public class UserRepository implements UserDetailsService, Repository<User, User
             if (RolePrivilegeQuery.class.isAssignableFrom(StudyOrganizationClinicalStaffQuery.class)) {
                 throw new CtcAeSystemException("query used to retrieve user must not be secured query. ");
             }
-            rolePrivilegeQuery.filterByRoles(roles);
+            if (!user.isAdmin()) {
+                rolePrivilegeQuery.filterByRoles(roles);
+            }
             List<Privilege> privileges = genericRepository.find(rolePrivilegeQuery);
 
             for (Privilege privilege : privileges) {

@@ -34,7 +34,7 @@
 
         function deleteArm(armIndex) {
             $('armIndexToRemove').value = armIndex;
-            var ele = document.getElementsByName('study.arms['+armIndex+'].title')[0];
+            var ele = document.getElementsByName('study.arms[' + armIndex + '].title')[0];
             if (ele.value == '') {
                 ele.value = ".";
             }
@@ -92,22 +92,31 @@
         <tags:renderTextArea propertyName="study.description" displayName="study.label.description"
                              required="false" cols="47"/>
        
-       <div class="row">
-           <div class="label"><tags:message code='study.label.study_sponsor'/></div>
-           <div class="value">${command.study.studySponsor.organization.displayName} </div>
-       </div>
+       <c:choose>
+           <c:when test="${command.study.studySponsor.organization ne null}">
+               <div class="row">
+                   <div class="label"><tags:message code='study.label.study_sponsor'/></div>
+                   <div class="value">${command.study.studySponsor.organization.displayName}</div>
+               </div>
+           </c:when>
+           <c:otherwise>
+               <tags:renderAutocompleter propertyName="study.studySponsor.organization"
+                                         displayName="study.label.study_sponsor"
+                                         required="true" size="70"/>
+           </c:otherwise>
+       </c:choose>
 
         <tags:renderAutocompleter propertyName="study.dataCoordinatingCenter.organization"
                                   displayName="study.label.study_coordinating_center"
-                                  required="true" size="50"/>
+                                  required="true" size="70"/>
 
         <tags:renderAutocompleter propertyName="study.fundingSponsor.organization"
                                   displayName="study.label.study_funding_sponsor"
-                                  required="true" size="50"/>
+                                  required="true" size="70"/>
 
         <tags:renderAutocompleter propertyName="study.leadStudySite.organization"
                                   displayName="study.label.study_lead_site"
-                                  required="true" size="50"/>
+                                  required="true" size="70"/>
          <br>
       <c:if test="${not command.activeDefaultArm}">
           <chrome:division title="study.section.study_arms">

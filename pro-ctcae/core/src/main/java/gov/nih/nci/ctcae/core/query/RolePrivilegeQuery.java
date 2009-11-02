@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class RolePrivilegeQuery extends AbstractQuery {
 
-    private static String queryString = "SELECT rp.privilege from RolePrivilege rp order by rp.id";
+    private static String queryString = "SELECT distinct(rp.privilege) from RolePrivilege rp ";
 
     private static String ROLES = "roleTypes";
 

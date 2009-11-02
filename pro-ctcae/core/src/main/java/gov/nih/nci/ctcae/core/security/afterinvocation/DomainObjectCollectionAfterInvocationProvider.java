@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.security.afterinvocation;
 
 import gov.nih.nci.ctcae.core.domain.Persistable;
+import gov.nih.nci.ctcae.core.domain.User;
 import org.springframework.security.AccessDeniedException;
 import org.springframework.security.Authentication;
 import org.springframework.security.ConfigAttributeDefinition;
@@ -17,6 +18,9 @@ public class DomainObjectCollectionAfterInvocationProvider extends AbstractAfter
 
     public Object decide(Authentication authentication, Object object, ConfigAttributeDefinition config, Object returnedObject) throws AccessDeniedException {
 
+        if(((User)authentication.getPrincipal()).isAdmin()){
+            return returnedObject;
+        }
         if (returnedObject == null) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Return object is null, skipping");

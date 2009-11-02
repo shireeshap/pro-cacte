@@ -27,11 +27,13 @@ public class CreateStudyController extends StudyController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
         if (clinicalStaff != null) {
-            List<Organization> organizationsWithCCARole = clinicalStaff.getOrganizationsWithCCARole();
-            if (organizationsWithCCARole == null || organizationsWithCCARole.size() != 1) {
-                throw new CtcAeSystemException("Logged in user is either not a CCA on any organization or is a CCA on multiple organizations.");
+            if (!clinicalStaff.getUser().isAdmin()) {
+                List<Organization> organizationsWithCCARole = clinicalStaff.getOrganizationsWithCCARole();
+                if (organizationsWithCCARole == null || organizationsWithCCARole.size() != 1) {
+                    throw new CtcAeSystemException("Logged in user is either not a CCA on any organization or is a CCA on multiple organizations.");
+                }
+                studyCommand.getStudy().getStudySponsor().setOrganization(organizationsWithCCARole.get(0));
             }
-            studyCommand.getStudy().getStudySponsor().setOrganization(organizationsWithCCARole.get(0));
 
         } else {
             throw new CtcAeSystemException("Logged in user is not a valid clinical staff");
