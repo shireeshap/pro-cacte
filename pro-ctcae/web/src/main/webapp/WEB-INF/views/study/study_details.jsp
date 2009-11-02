@@ -103,6 +103,9 @@
                <tags:renderAutocompleter propertyName="study.studySponsor.organization"
                                          displayName="study.label.study_sponsor"
                                          required="true" size="70"/>
+               <script type="text/javascript">
+                   acCreate(new siteAutoComplter('study.studySponsor.organization'))
+               </script>
            </c:otherwise>
        </c:choose>
 
