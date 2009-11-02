@@ -121,7 +121,6 @@
                             <div class="value">
                                 <select onchange="javascript:displaySymptoms(this.value)" name="form" id="form">
                                     <option value="">Please select</option>
-                                    <option value="-1">All</option>
                                     <c:forEach items="${crfs}" var="crf">
                                         <option value="${crf.id}">${crf.title}</option>
                                     </c:forEach>
@@ -189,7 +188,12 @@
                 </c:if>
             </c:otherwise>
         </c:choose>
-        <div class="row" id="filterByDiv" style="display:none">
+
+        <c:set var="filterstyle" value="display:none"/>
+        <c:if test="${study ne null}">
+            <c:set var="filterstyle" value=""/>
+        </c:if>
+        <div class="row" id="filterByDiv" style="${filterstyle}">
             <div class="label"><tags:message code="reports.label.FilterBy"/></div>
             <div class="value">
                 <select id="filterBy" title="Filter By" onchange="showText(this);">
