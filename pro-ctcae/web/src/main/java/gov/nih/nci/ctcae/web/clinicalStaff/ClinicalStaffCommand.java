@@ -112,6 +112,7 @@ public class ClinicalStaffCommand {
     public Boolean isAdmin() {
         return admin;
     }
+
     public Boolean getAdmin() {
         return admin;
     }
@@ -138,10 +139,8 @@ public class ClinicalStaffCommand {
                 javaMailSender.send(message);
 
             }
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
         }
     }
 
