@@ -446,9 +446,7 @@ function showSchedule(scheduleType) {
     $(scheduleType + 'Div').show();
 }
 function refreshPageLocal() {
-    var x = $('newSelectedFormArmSchedule').selectedIndex;
-    var selectedText = $('newSelectedFormArmSchedule')[x].text;
-    if (selectedText == 'All') {
+    if ($('allArmsCheck').checked) {
         $('allArms').value = 'true';
     } else {
         $('allArms').value = 'false';
@@ -517,20 +515,10 @@ function unique(arrayName)
     <div class="row" ${styleHidden}>
         <div class="label"><spring:message code="form.calendar.arm"></spring:message></div>
         <div class="value">
-            <input type="hidden" id="allArms" name="allArms" value="${command.allArms}"/>
             <select id="newSelectedFormArmSchedule" name="newSelectedFormArmSchedule" onchange="refreshPageLocal();">
-                <c:choose>
-                    <c:when test="${command.allArms}">
-                        <option value="${command.selectedFormArmSchedule.id}" selected="selected">All</option>
-                    </c:when>
-                    <c:otherwise>
-                        <option value="${command.selectedFormArmSchedule.id}">All</option>
-                    </c:otherwise>
-                </c:choose>
-
                 <c:forEach items="${command.crf.formArmSchedules}" var="formArmSchedule">
                     <c:choose>
-                        <c:when test="${command.selectedFormArmSchedule.id eq formArmSchedule.id && not command.allArms}">
+                        <c:when test="${command.selectedFormArmSchedule.id eq formArmSchedule.id}">
                             <option value="${formArmSchedule.id}"
                                     selected="selected">${formArmSchedule.arm.title}</option>
                         </c:when>
@@ -538,9 +526,11 @@ function unique(arrayName)
                             <option value="${formArmSchedule.id}">${formArmSchedule.arm.title}</option>
                         </c:otherwise>
                     </c:choose>
-
                 </c:forEach>
             </select>
+            <input type="checkbox" id="allArmsCheck" name="allArmsCheck"
+                   <c:if test="${command.allArms}">checked</c:if>/>Apply this arm's schedule to all the arms
+            <input type="hidden" name="allArms" id="allArms"/>
         </div>
     </div>
     <div class="row">

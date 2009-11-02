@@ -122,9 +122,7 @@ public class CalendarTemplateTab extends SecuredTab<CreateFormCommand> {
                         formArmSchedule.copySchedulesInto(fas);
                     }
                 }
-                command.setNewSelectedFormArmSchedule(command.getSelectedFormArmSchedule());
             }
-
         }
         command.setCrf(crfRepository.save(command.getCrf()));
         super.postProcess(request, command, errors);
