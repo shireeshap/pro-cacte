@@ -126,8 +126,7 @@
                     </td>
                     <td style="vertical-align:top">
                         <tags:renderText propertyName="clinicalStaff.nciIdentifier"
-                                         displayName="clinicalStaff.label.identifier"
-                                         required="true"/>
+                                         displayName="clinicalStaff.label.identifier"/>
                         <tags:renderPhoneOrFax propertyName="clinicalStaff.phoneNumber"
                                                displayName="clinicalStaff.label.phone"
                                                required="true"/>
@@ -155,15 +154,27 @@
                 <table cellpadding="0" cellspacing="0">
                     <tr>
                         <td>
-                            <tags:renderText propertyName="clinicalStaff.user.username"
-                                             displayName="participant.label.username"
-                                             required="true"/>
+                            <c:choose>
+                                <c:when test="${not empty clinicalStaffCommand.clinicalStaff.user.username}">
+                                    <div class="row">
+                                        <div class="label"><spring:message code="participant.label.username"/></div>
+                                        <div class="value">${clinicalStaffCommand.clinicalStaff.user.username} &nbsp;</div>
+                                        <input type="hidden" id="clinicalStaff.user.username" name="clinicalStaff.user.username"
+                                               value="${clinicalStaffCommand.clinicalStaff.user.username}">
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <tags:renderText propertyName="clinicalStaff.user.username"
+                                                     displayName="participant.label.username"
+                                                     required="true"/>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                         <td>
-                            <c:if test="${not empty clinicalStaffCommand.clinicalStaff.user.password && fn:length(messages)==0}">
+                            <c:if test="${not empty clinicalStaffCommand.clinicalStaff.user.username && fn:length(messages)==0}">
                                 <c:set var="style" value="display:none"/>
                                 <div id="resetpass" class="label">
-                                    &nbsp;<a href="javascript:showpassword(true);">Reset password</a></div>
+                                    <a href="javascript:showpassword(true);">Reset password</a></div>
                             </c:if>
                         </td>
                     </tr>
@@ -182,6 +193,7 @@
                            id="cca"/> This clinical staff is a Coordinating Center Administrator
                     <br>
                 </proctcae:urlAuthorize>
+                <br/>
                 <input type="checkbox" name="email" value="true"
                        id="email"/> Send email to the user with username and password details
             </chrome:division>

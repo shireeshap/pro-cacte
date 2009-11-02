@@ -138,7 +138,7 @@ public class LoginController extends AbstractController {
             for (StudyParticipantAssignment studyParticipantAssignment : staff.getStudyOrganization().getStudyParticipantAssignments()) {
                 for (StudyParticipantCrf spc : studyParticipantAssignment.getStudyParticipantCrfs()) {
                     for (StudyParticipantCrfSchedule spcs : spc.getStudyParticipantCrfSchedules()) {
-                        if (today.after(spcs.getDueDate())) {
+                        if (today.after(spcs.getDueDate()) && !spcs.getStatus().equals(CrfStatus.COMPLETED)) {
                             overdue.add(spcs);
                         }
                         if (spcs.getStartDate().after(yesterday) && spcs.getStartDate().before(week)) {

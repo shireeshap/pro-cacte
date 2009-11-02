@@ -315,7 +315,7 @@
                             </tr>
                             <c:forEach items="${overdue}" var="schedule">
                                 <tr>
-                                    <td class="data">
+                                    <td class="data" style="text-align:left">
                                         <proctcae:urlAuthorize url="/pages/reports/participantReport">
                                             <a href="reports/participantReport?sid=${schedule.id}"
                                                class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
@@ -386,7 +386,7 @@
                                 </tr>
                                 <c:forEach items="${upcoming}" var="schedule">
                                     <tr>
-                                        <td class="data">
+                                        <td class="data"  style="text-align:left">
                                             <proctcae:urlAuthorize url="/pages/reports/participantReport">
                                                 <a href="reports/participantReport?sid=${schedule.id}"
                                                    class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>

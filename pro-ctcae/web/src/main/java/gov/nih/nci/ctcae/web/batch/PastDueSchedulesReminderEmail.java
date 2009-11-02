@@ -42,7 +42,7 @@ public class PastDueSchedulesReminderEmail extends HibernateDaoSupport {
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
                     for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
                         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                            if (studyParticipantCrfSchedule.getDueDate().before(today)) {
+                            if (today.after(studyParticipantCrfSchedule.getDueDate())) {
                                 if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.INPROGRESS) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)) {
                                     studyParticipantCrfSchedule.setStatus(CrfStatus.PASTDUE);
                                     for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : clinicalStaffList) {
