@@ -97,7 +97,7 @@ public class ClinicalStaffCommand {
             }
             if (getAdmin()) {
                 UserRole userRole = new UserRole();
-                userRole.setRole(Role.CCA);
+                userRole.setRole(Role.ADMIN);
                 getClinicalStaff().getUser().addUserRole(userRole);
             }
         } else {
