@@ -139,8 +139,12 @@
                                         <c:if test="${usernotification.new}">class="bold"</c:if>>
                                         <td class="data" style="text-align:left">
                                             <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                                                <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
-                                                   class="link">${usernotification.participant.displayName}</a>
+                                            <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
+                                               class="link">
+                                                </proctcae:urlAuthorize>
+                                                    ${usernotification.participant.displayName}
+                                                <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                                            </a>
                                             </proctcae:urlAuthorize>
                                         </td>
                                         <td class="data">
@@ -229,7 +233,7 @@
                         </tr>
                         <c:forEach items="${recentCrfs}" var="crf">
                             <tr>
-                                <td >
+                                <td>
                                         ${crf.title}
                                 </td>
                                 <td class="data">
@@ -253,7 +257,7 @@
         <td>
             <chrome:box title="My Studies">
                 <div id="alertsdiv">
-                    <table  class="widget">
+                    <table class="widget">
                         <tr>
                             <td class="header-top" style="text-align:left">
                                 Short Title
@@ -267,7 +271,7 @@
                                 <td style="width:70%">
                                         ${study.displayName}
                                 </td>
-                                <td >
+                                <td>
                                     <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
                                        id="studyActions${study.id}"><span
                                             class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
