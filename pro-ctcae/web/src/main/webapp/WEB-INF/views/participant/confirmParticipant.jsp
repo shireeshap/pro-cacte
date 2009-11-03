@@ -35,6 +35,7 @@
 
 </head>
 <body>
+<chrome:flashMessage flashMessage="Participant has been created successfully."/>
 <chrome:box title="participant.label.confirmation">
 
 <chrome:division title="participant.label.site">
