@@ -25,8 +25,9 @@
         * {
             zoom: 1
         }
+
         #formbuilderTable {
-            width:100%;
+            width: 100%;
         }
     </style>
 
@@ -34,21 +35,22 @@
 <body>
 <table width="100%">
     <tr>
-        <td>
+        <td width="25%">
             <c:if test="${crf.status ne 'Released'}">
-            <tags:button color="blue" markupWithTag="a" icon="window" value="Release Form"
-                         onclick="javascript:releaseForm('${crf.id}')"/>
+                <tags:button color="blue" markupWithTag="a" icon="window" value="Release Form"
+                             onclick="javascript:releaseForm('${crf.id}')"/>
             </c:if>
         </td>
         <td>
+            <chrome:flashMessage flashMessage="Form has been created successfully"/>
+        </td>
+        <td width="25%">
             <div style="float:right;">
                 <tags:button color="blue" markupWithTag="a" value="Finish" href="/proctcae/pages/form/manageForm"/>
             </div>
         </td>
     </tr>
 </table>
-
-
 <br>
 
 <div class="instructions">
