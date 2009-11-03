@@ -4,9 +4,12 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.Arm;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.validation.BindException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.persistence.Transient;
 
 //
@@ -45,5 +48,8 @@ public class EditStudyController extends StudyController {
         flow.addTab(new StudySiteClinicalStaffTab());
     }
 
-
+    @Override
+    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+        return super.processFinish(request, response, command, errors);
+    }
 }

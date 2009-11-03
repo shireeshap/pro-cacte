@@ -66,7 +66,7 @@ public class LoginController extends AbstractController {
         boolean siteLevelRole = false;
         boolean studyLevelRole = false;
         List<CRF> topLevelCrfs = new ArrayList<CRF>();
-        List<Study> studyWithoutForm = new ArrayList<Study>();
+        Set<Study> allStudies = new TreeSet<Study>(new StudyDisplayNameComparator());
         for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaff.getStudyOrganizationClinicalStaff()) {
                 if (studyOrganizationClinicalStaff.getRoleStatus().equals(RoleStatus.ACTIVE) && studyOrganizationClinicalStaff.getStatusDate().before(today)) {
@@ -74,17 +74,14 @@ public class LoginController extends AbstractController {
                     if (role.equals(Role.SITE_CRA) || role.equals(Role.SITE_PI)) {
                         siteLevelRole = true;
                     }
-                    if (role.equals(Role.LEAD_CRA) || role.equals(Role.PI)|| role.equals(Role.ODC)) {
+                    if (role.equals(Role.LEAD_CRA) || role.equals(Role.PI) || role.equals(Role.ODC)) {
                         studyLevelRole = true;
                         Study study = studyOrganizationClinicalStaff.getStudyOrganization().getStudy();
                         List<CRF> crfs = study.getCrfs();
-                        if (crfs.size() == 0) {
-                            studyWithoutForm.add(study);
-                        } else {
-                            for (CRF crf : crfs) {
-                                if (crf.getChildCrf() == null) {
-                                    topLevelCrfs.add(crf);
-                                }
+                        allStudies.add(study);
+                        for (CRF crf : crfs) {
+                            if (crf.getChildCrf() == null) {
+                                topLevelCrfs.add(crf);
                             }
                         }
                     }
@@ -103,7 +100,7 @@ public class LoginController extends AbstractController {
                 recentCrfs = topLevelCrfs;
             }
             mv.addObject("recentCrfs", topLevelCrfs);
-            mv.addObject("studyWithoutForm", studyWithoutForm);
+            mv.addObject("studyWithoutForm", allStudies);
         }
         mv.addObject("siteLevelRole", siteLevelRole);
         mv.addObject("studyLevelRole", studyLevelRole);

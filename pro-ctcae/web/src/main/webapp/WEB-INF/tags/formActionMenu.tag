@@ -67,7 +67,29 @@
             },
             showSpeed: 300
         });
+    }
+    function showPopUpMenuStudy(sid) {
+        var html = '<div id="search-engines"><ul>';
+    <proctcae:urlAuthorize url="/pages/study/editStudy">
+        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">Edit Study</a></li>';
+    </proctcae:urlAuthorize>
+    <proctcae:urlAuthorize url="/pages/form/basicForm">
+        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/basicForm"/>?studyId=' + sid + '\'">Create Form</a></li>';
+    </proctcae:urlAuthorize>
 
+        html += '</ul></div>';
+        jQuery('#studyActions' + sid).menu({
+            content: html,
+            maxHeight: 180,
+            positionOpts: {
+                directionV: 'down',
+                posX: 'left',
+                posY: 'bottom',
+                offsetX: 0,
+                offsetY: 0
+            },
+            showSpeed: 300
+        });
     }
 
 </script>

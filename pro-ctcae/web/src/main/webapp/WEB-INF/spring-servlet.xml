@@ -127,7 +127,7 @@
                 </bean>
                 <bean class="gov.nih.nci.cabig.ctms.web.chrome.Section" p:urlResolver-ref="urlResolver"
                       p:displayName="Reports"
-                      p:mainController="participantCareMonitorController" p:pathMapping="/reports/**">
+                      p:mainController="reportSearchCriteriaController" p:pathMapping="/reports/**">
                     <property name="tasks">
                         <list>
                             <bean class="gov.nih.nci.cabig.ctms.web.chrome.Task" p:urlResolver-ref="urlResolver"
@@ -541,7 +541,7 @@
         </property>
         <!-- provided by maven-buildnumber-plugin -->
         <!--<property name="timestamp">-->
-            <!--<value>@buildNumber@</value>-->
+        <!--<value>@buildNumber@</value>-->
         <!--</property>-->
     </bean>
 

@@ -51,7 +51,9 @@
 
         #alertsdiv {
             overflow-x: scroll;
-            width: 450px;
+            width: 470px;
+            overflow-y: scroll;
+            height: 300px;
         }
 
     </style>
@@ -179,11 +181,6 @@
     </td>
     <td width="50%">
         <chrome:box title="Quick Links">
-            <proctcae:urlAuthorize url="/pages/participant/create">
-                <div class="quicklink">
-                    <a class="link" href="participant/create">Enter Participant</a>
-                </div>
-            </proctcae:urlAuthorize>
             <proctcae:urlAuthorize url="/pages/study/createStudy">
                 <div class="quicklink">
                     <a class="link" href="study/createStudy">Create Study</a>
@@ -204,7 +201,11 @@
                     <a class="link" href="form/manageForm">Manage Form</a>
                 </div>
             </proctcae:urlAuthorize>
-
+            <proctcae:urlAuthorize url="/pages/participant/create">
+                <div class="quicklink">
+                    <a class="link" href="participant/create">Enter Participant</a>
+                </div>
+            </proctcae:urlAuthorize>
             <br/>
         </chrome:box>
     </td>
@@ -214,7 +215,7 @@
         <td>
             <chrome:box title="My Forms">
                 <div id="alertsdiv">
-                    <table class="widget" cellpadding="3px;">
+                    <table class="widget">
                         <tr>
                             <td class="header-top" style="text-align:left">
                                 Title
@@ -223,30 +224,24 @@
                                 Status
                             </td>
                             <td class="header-top">
-                                Actions
                             </td>
+                            <td>&nbsp;</td>
                         </tr>
                         <c:forEach items="${recentCrfs}" var="crf">
                             <tr>
-                                <td class="data" style="text-align:left">
-                                    <c:choose>
-                                        <c:when test="${fn:length(crf.title) > dl}">
-                                            <div title="${crf.title}"> ${fn:substring(crf.title,0,dl)}...</div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            ${crf.title}
-                                        </c:otherwise>
-                                    </c:choose>
+                                <td >
+                                        ${crf.title}
                                 </td>
                                 <td class="data">
                                         ${crf.status}
                                 </td>
-                                <td class="data" align="right">
+                                <td>
                                     <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
                                        id="crfActions${crf.id}"><span
                                             class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
                                     <script>showPopUpMenu('${crf.id}', '${crf.status}');</script>
                                 </td>
+                                <td>&nbsp;</td>
                             </tr>
                         </c:forEach>
                     </table>
@@ -258,25 +253,27 @@
         <td>
             <chrome:box title="My Studies">
                 <div id="alertsdiv">
-                    <table width="100%">
+                    <table  class="widget">
+                        <tr>
+                            <td class="header-top" style="text-align:left">
+                                Short Title
+                            </td>
+                            <td class="header-top">
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
                         <c:forEach items="${studyWithoutForm}" var="study">
                             <tr>
-                                <td style="border-bottom: 1px solid #cccccc;padding-left:10px">
-                                    <c:choose>
-                                        <c:when test="${fn:length(study.shortTitle) > dl}">
-                                            <div title="${study.shortTitle}"> ${fn:substring(study.shortTitle,0,dl)}...</div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            ${study.shortTitle}
-                                        </c:otherwise>
-                                    </c:choose>
+                                <td style="width:70%">
+                                        ${study.displayName}
                                 </td>
-                                <td style="border-bottom: 1px solid #cccccc;">
-                                    <proctcae:urlAuthorize url="/pages/form/basicForm">
-
-                                        <a class="link" href="form/basicForm?studyId=${study.id}">Create Form</a>
-                                    </proctcae:urlAuthorize>
+                                <td >
+                                    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+                                       id="studyActions${study.id}"><span
+                                            class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
+                                    <script>showPopUpMenuStudy('${study.id}');</script>
                                 </td>
+                                <td>&nbsp;</td>
                             </tr>
                         </c:forEach>
                     </table>
@@ -386,7 +383,7 @@
                                 </tr>
                                 <c:forEach items="${upcoming}" var="schedule">
                                     <tr>
-                                        <td class="data"  style="text-align:left">
+                                        <td class="data" style="text-align:left">
                                             <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
                                                 <a href="participant/schedulecrf?sid=${schedule.id}"
                                                    class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>

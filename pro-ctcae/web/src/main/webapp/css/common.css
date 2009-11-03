@@ -443,7 +443,7 @@ a#firstlevelnav_searchClinicalStaffController:active {
     background-image: url(../images/blue/administration_btn_selected.png);
 }
 
-a#firstlevelnav_participantCareMonitorController {
+a#firstlevelnav_reportSearchCriteriaController {
     background-image: url(../images/blue/reports_btn.png);
     width: 148px;
     height: 0px;
@@ -454,19 +454,19 @@ a#firstlevelnav_participantCareMonitorController {
     margin-left: 1px;
 }
 
-a#firstlevelnav_participantCareMonitorController:link {
+a#firstlevelnav_reportSearchCriteriaController:link {
     background-position: 0px 0px;
 }
 
-a#firstlevelnav_participantCareMonitorController:hover {
+a#firstlevelnav_reportSearchCriteriaController:hover {
     background-position: 0px -45px;
 }
 
-a#firstlevelnav_participantCareMonitorController:active {
+a#firstlevelnav_reportSearchCriteriaController:active {
     background-position: 0px -90px;
 }
 
-.selected a#firstlevelnav_participantCareMonitorController {
+.selected a#firstlevelnav_reportSearchCriteriaController {
     background-image: url(../images/blue/reports_btn_selected.png);
 }
 
