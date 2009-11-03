@@ -185,29 +185,29 @@
     </td>
     <td width="50%">
         <chrome:box title="Quick Links">
-            <proctcae:urlAuthorize url="/pages/study/createStudy">
+            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
                 <div class="quicklink">
-                    <a class="link" href="study/createStudy">Create Study</a>
-                </div>
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/study/searchStudy">
-                <div class="quicklink">
-                    <a class="link" href="study/searchStudy">Search Study</a>
+                    <a class="link" href="admin/clinicalStaff/createClinicalStaff">Add new staff profile </a>
                 </div>
             </proctcae:urlAuthorize>
             <proctcae:urlAuthorize url="/pages/form/basicForm">
                 <div class="quicklink">
-                    <a class="link" href="form/basicForm">Create Form</a>
+                    <a class="link" href="form/basicForm">Create new form</a>
                 </div>
             </proctcae:urlAuthorize>
             <proctcae:urlAuthorize url="/pages/form/manageForm">
                 <div class="quicklink">
-                    <a class="link" href="form/manageForm">Manage Form</a>
+                    <a class="link" href="form/manageForm">Manage forms</a>
                 </div>
             </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/participant/create">
+            <proctcae:urlAuthorize url="/pages/reports/report">
                 <div class="quicklink">
-                    <a class="link" href="participant/create">Enter Participant</a>
+                    <a class="link" href="reports/report">Generate study report</a>
+                </div>
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/study/searchStudy">
+                <div class="quicklink">
+                    <a class="link" href="study/searchStudy">Search for existing study</a>
                 </div>
             </proctcae:urlAuthorize>
             <br/>
