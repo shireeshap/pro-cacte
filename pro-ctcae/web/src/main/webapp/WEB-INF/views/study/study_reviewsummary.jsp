@@ -142,7 +142,10 @@
             <div class="value">${command.study.principalInvestigator.displayName} </div>
         </div>
     </chrome:division>
-    <chrome:division title="study.tab.study_site_clinical_staff" linkontitle="javascript:goTab('4');"
+    <c:set var="tabnumber" value="1"/>
+    <proctcae:urlAuthorize url="/study/editdetails"><c:set var="tabnumber" value="4"/></proctcae:urlAuthorize>
+
+    <chrome:division title="study.tab.study_site_clinical_staff" linkontitle="javascript:goTab('${tabnumber}');"
                      linkurl="/study/editsitestaff">
         <c:forEach items="${command.study.studySites}" var="studySite">
             <div align="left" style="margin-left: 100px">
