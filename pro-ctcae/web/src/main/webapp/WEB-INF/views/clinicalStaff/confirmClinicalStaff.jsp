@@ -51,7 +51,15 @@
         </ul>
     </div>
 </div>
-<chrome:flashMessage flashMessage="New staff profile has been created successfully"/>
+<c:choose>
+    <c:when test="${param['clinicalStaffId'] eq null}">
+        <chrome:flashMessage flashMessage="New staff profile has been created successfully"/>
+    </c:when>
+    <c:otherwise>
+        <chrome:flashMessage flashMessage="Staff profile has been updated successfully"/>
+    </c:otherwise>
+</c:choose>
+
 <chrome:box title="Confirmation">
     <chrome:division title="clinicalStaff.division.details">
         <table border="0" style="width:100%">
@@ -133,8 +141,18 @@
     </chrome:division>
 </chrome:box>
 <div style="float:right">
-    <tags:button value="Edit" color="green" markupWithTag="a"
-                 href="createClinicalStaff?clinicalStaffId=${clinicalStaffCommand.clinicalStaff.id}"/>
+    <table>
+        <tr>
+            <td><tags:button value="Edit" color="blue" markupWithTag="a"
+                             href="createClinicalStaff?clinicalStaffId=${clinicalStaffCommand.clinicalStaff.id}"/></td>
+            <td>
+                <tags:button value="Finish" color="blue" markupWithTag="a"
+                             href="/proctcae"/>
+            </td>
+        </tr>
+    </table>
+
+
 </div>
 </body>
 </html>
