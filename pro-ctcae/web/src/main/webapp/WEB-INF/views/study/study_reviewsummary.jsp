@@ -88,7 +88,7 @@
                 <div class="value">${command.study.leadStudySite.organization.displayName} </div>
             </div>
         </chrome:division>
-    <chrome:division title="study.section.study_arms" linkontitle="javascript:goTab('1');" linkurl="study/editdetails">
+    <chrome:division title="study.section.study_arms" linkontitle="javascript:goTab('1');" linkurl="/study/editdetails">
         <div align="left" style="margin-left: 100px">
             <table width="75%" class="tablecontent">
                 <tr id="sa-table-head" class="amendment-table-head">
@@ -107,7 +107,7 @@
             </table>
         </div>
     </chrome:division>
-    <chrome:division title="study.section.study_sites" linkontitle="javascript:goTab('2');" linkurl="study/editsites">
+    <chrome:division title="study.section.study_sites" linkontitle="javascript:goTab('2');" linkurl="/study/editsites">
         <div align="left" style="margin-left: 100px">
             <table width="75%" class="tablecontent">
                 <tr id="ss-table-head" class="amendment-table-head">
@@ -128,7 +128,7 @@
         </div>
     </chrome:division>
     <chrome:division title="study.tab.clinical_staff" linkontitle="javascript:goTab('3');"
-                     linkurl="study/editoverallstaff">
+                     linkurl="/study/editoverallstaff">
         <div class="row">
             <div class="label"><tags:message code="study.label.clinical.staff.odc"/></div>
             <div class="value">${command.study.overallDataCoordinator.displayName} </div>
