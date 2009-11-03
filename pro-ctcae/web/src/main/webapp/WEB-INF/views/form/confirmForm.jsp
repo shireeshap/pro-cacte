@@ -25,6 +25,9 @@
         * {
             zoom: 1
         }
+        #formbuilderTable {
+            width:100%;
+        }
     </style>
 
 </head>
