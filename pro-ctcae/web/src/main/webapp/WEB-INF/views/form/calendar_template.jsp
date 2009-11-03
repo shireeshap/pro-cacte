@@ -530,7 +530,7 @@ function unique(arrayName)
             </select>
             <input type="checkbox" id="allArmsCheck" name="allArmsCheck"
                    <c:if test="${command.allArms}">checked</c:if>/>Apply this arm's schedule to all the arms
-            <input type="hidden" name="allArms" id="allArms"/>
+            <input type="hidden" name="allArms" id="allArms" value="${command.allArms}"/>
         </div>
     </div>
     <div class="row">
