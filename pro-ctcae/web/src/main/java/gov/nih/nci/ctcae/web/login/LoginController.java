@@ -65,7 +65,7 @@ public class LoginController extends AbstractController {
         Date today = new Date();
         boolean siteLevelRole = false;
         boolean studyLevelRole = false;
-        List<CRF> topLevelCrfs = new ArrayList<CRF>();
+        Set<CRF> topLevelCrfs = new TreeSet<CRF>(new CrfActivityDateComparator());
         Set<Study> allStudies = new TreeSet<Study>(new StudyDisplayNameComparator());
         for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaff.getStudyOrganizationClinicalStaff()) {
@@ -90,15 +90,6 @@ public class LoginController extends AbstractController {
         }
 
         if (studyLevelRole) {
-            Collections.sort(topLevelCrfs, new CrfActivityDateComparator());
-            List<CRF> recentCrfs = new ArrayList<CRF>();
-            if (topLevelCrfs.size() > 5) {
-                for (int i = 0; i < 5; i++) {
-                    recentCrfs.add(topLevelCrfs.get(i));
-                }
-            } else {
-                recentCrfs = topLevelCrfs;
-            }
             mv.addObject("recentCrfs", topLevelCrfs);
             mv.addObject("studyWithoutForm", allStudies);
         }
