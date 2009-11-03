@@ -48,6 +48,10 @@
         }
 
         Event.observe(window, "load", function() {
+        <c:if test="${command.study.studySponsor.organization eq null}">
+            acCreate(new siteAutoComplter('study.studySponsor.organization'))
+        </c:if>
+
             acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
             acCreate(new siteAutoComplter('study.fundingSponsor.organization'))
             acCreate(new siteAutoComplter('study.leadStudySite.organization'))
@@ -103,10 +107,6 @@
                <tags:renderAutocompleter propertyName="study.studySponsor.organization"
                                          displayName="study.label.study_sponsor"
                                          required="true" size="70"/>
-
-               <script type="text/javascript">
-                   acCreate(new siteAutoComplter('study.studySponsor.organization'))
-               </script>
            </c:otherwise>
        </c:choose>
 
