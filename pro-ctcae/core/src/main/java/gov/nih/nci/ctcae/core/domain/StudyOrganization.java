@@ -195,4 +195,20 @@ public abstract class StudyOrganization extends BasePersistable {
         }
         return l;
     }
+
+    public List<StudyOrganizationClinicalStaff> getSitePIs() {
+        return getStudyOrganizationClinicalStaffByRole(Role.SITE_PI);
+    }
+
+    public List<StudyOrganizationClinicalStaff> getSiteCRAs() {
+        return getStudyOrganizationClinicalStaffByRole(Role.SITE_CRA);
+    }
+
+    public List<StudyOrganizationClinicalStaff> getResearchNurses() {
+        return getStudyOrganizationClinicalStaffByRole(Role.NURSE);
+    }
+
+    public List<StudyOrganizationClinicalStaff> getTreatingPhysicians() {
+        return getStudyOrganizationClinicalStaffByRole(Role.TREATING_PHYSICIAN);
+    }
 }

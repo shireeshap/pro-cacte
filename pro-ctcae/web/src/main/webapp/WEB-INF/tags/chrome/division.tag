@@ -10,10 +10,9 @@
 <%@attribute name="deleteParams" %>
 <%@attribute name="collapsable" required="false" %>
 <%@attribute name="message" type="java.lang.Boolean" required="false" %>
-
+<%@attribute name="linkontitle" required="false" %>
 <div class="division ${cssClass}" <tags:attribute name="id" value="${id}"/> <tags:attribute name="style"
                                                                                             value="${style}"/>>
-
     <div class="header">
         <c:if test="${not empty title}">
             <c:if test="${enableDelete || collapsable}">
@@ -23,10 +22,28 @@
                             <td width="100%">
                                 <c:choose>
                                     <c:when test="${message == true}">
-                                        ${title}
+                                        <c:choose>
+                                            <c:when test="${linkontitle ne null}">
+                                                <a href="${linkontitle}">${title}</a>
+                                                <a href="${linkontitle}">
+                                                    <img src='<tags:imageUrl name="controlPanel_pencil.png"/>'/>
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>${title}</c:otherwise>
+                                        </c:choose>
                                     </c:when>
                                     <c:otherwise>
-                                        <spring:message code='${title}' text='${title}'/>
+                                        <c:choose>
+                                            <c:when test="${linkontitle ne null}">
+                                                <a href="${linkontitle}">
+                                                    <spring:message code='${title}' text='${title}'/>
+                                                </a>
+                                                <a href="${linkontitle}">
+                                                    <img src='<tags:imageUrl name="controlPanel_pencil.png"/>'/>
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise><spring:message code='${title}' text='${title}'/></c:otherwise>
+                                        </c:choose>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
@@ -49,17 +66,33 @@
             <c:if test="${!enableDelete && !collapsable}">
                 <h3>
                     <c:choose>
-                        <c:when test="${message == false}">
-                            ${title}
+                        <c:when test="${message == true}">
+                            <c:choose>
+                                <c:when test="${linkontitle ne null}">
+                                    <a href="${linkontitle}">${title}</a>
+                                    <a href="${linkontitle}">
+                                        <img src='<tags:imageUrl name="controlPanel_pencil.png"/>'/>
+                                    </a>
+                                </c:when>
+                                <c:otherwise>${title}</c:otherwise>
+                            </c:choose>
                         </c:when>
                         <c:otherwise>
-                            <spring:message code='${title}' text='${title}'/>
+                            <c:choose>
+                                <c:when test="${linkontitle ne null}">
+                                    <a href="${linkontitle}">
+                                        <spring:message code='${title}' text='${title}'/>
+                                    </a>
+                                    <a href="${linkontitle}">
+                                        <img src='<tags:imageUrl name="controlPanel_pencil.png"/>'/>
+                                    </a>
+                                </c:when>
+                                <c:otherwise><spring:message code='${title}' text='${title}'/></c:otherwise>
+                            </c:choose>
                         </c:otherwise>
                     </c:choose>
                 </h3>
-
             </c:if>
-
         </c:if>
     </div>
 

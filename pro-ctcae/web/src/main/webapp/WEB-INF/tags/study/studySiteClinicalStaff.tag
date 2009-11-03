@@ -22,7 +22,7 @@
             <c:otherwise>
                 <tags:renderAutocompleter propertyName="${propertyName}.organizationClinicalStaff"
                                           displayName="study.label.clinical.staff" noForm="true" required="true"
-                                          doNotshowLabel="true" size="40" doNotshowClear="true"/>
+                                          doNotshowLabel="true" size="70" doNotshowClear="true"/>
             </c:otherwise>
         </c:choose>
     </td>
