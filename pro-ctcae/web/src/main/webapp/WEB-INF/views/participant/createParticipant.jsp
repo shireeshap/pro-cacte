@@ -214,10 +214,23 @@
            <table cellpadding="0" cellspacing="0">
                <tr>
                    <td>
-                       <tags:renderText propertyName="participant.user.username"
-                                        displayName="participant.label.username"
-                                        required="true"/>
-
+                       <c:choose>
+                           <c:when test="${not empty command.participant.user.username}">
+                               <div class="row">
+                                   <div class="label"><spring:message code="participant.label.username"/></div>
+                                   <div class="value">${command.participant.user.username}
+                                       &nbsp;</div>
+                                   <input type="hidden" id="participant.user.username"
+                                          name="participant.user.username"
+                                          value="${command.participant.user.username}">
+                               </div>
+                           </c:when>
+                           <c:otherwise>
+                               <tags:renderText propertyName="participant.user.username"
+                                                displayName="participant.label.username"
+                                                required="true"/>
+                           </c:otherwise>
+                       </c:choose>
                    </td>
                    <td>
                        <c:if test="${not empty command.participant.user.password}">
@@ -236,7 +249,7 @@
                            <tags:renderPassword required="true" propertyName="participant.user.password"
                                                 displayName="participant.label.password"/>
                        </td>
-                   <td>(The password must be atleast 6 characters)</td>
+                       <td>(The password must be atleast 6 characters)</td>
                    </tr>
                    <tr>
                        <td>
