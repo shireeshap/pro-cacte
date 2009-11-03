@@ -51,6 +51,7 @@
         </ul>
     </div>
 </div>
+<chrome:flashMessage flashMessage="New staff profile has been created successfully"/>
 <chrome:box title="Confirmation">
     <chrome:division title="clinicalStaff.division.details">
         <table border="0" style="width:100%">
@@ -58,30 +59,30 @@
                 <td>
 
                     <div class="row">
-                        <div class="label">First name</div>
+                        <div class="label"><spring:message code="clinicalStaff.label.first_name"/></div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.firstName} </div>
                     </div>
                     <div class="row">
-                        <div class="label">Middle name</div>
+                        <div class="label"><spring:message code="clinicalStaff.label.middle_name"/></div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.middleName} </div>
                     </div>
                     <div class="row">
-                        <div class="label">Last name</div>
+                        <div class="label"><spring:message code="clinicalStaff.label.last_name"/></div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.lastName} </div>
                     </div>
                 </td>
                 <td style="vertical-align:top">
                     <div class="row">
-                        <div class="label">Clinical Staff identifier</div>
-                        <div class="value">${clinicalStaffCommand.clinicalStaff.nciIdentifier} </div>
-                    </div>
-                    <div class="row">
-                        <div class="label">Phone</div>
+                        <div class="label"><spring:message code="clinicalStaff.label.phone"/></div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.phoneNumber} </div>
                     </div>
                     <div class="row">
-                        <div class="label">Email address</div>
+                        <div class="label"><spring:message code="clinicalStaff.label.email_address"/></div>
                         <div class="value">${clinicalStaffCommand.clinicalStaff.emailAddress} </div>
+                    </div>
+                    <div class="row">
+                        <div class="label"><spring:message code="clinicalStaff.label.identifier"/></div>
+                        <div class="value">${clinicalStaffCommand.clinicalStaff.nciIdentifier} </div>
                     </div>
                 </td>
             </tr>
@@ -94,11 +95,11 @@
                     <td>
 
                         <div class="row">
-                            <div class="label">Username</div>
+                            <div class="label"><spring:message code="participant.label.username"/></div>
                             <div class="value">${clinicalStaffCommand.clinicalStaff.user.username} </div>
                         </div>
                         <div class="row">
-                            <div class="label">Password</div>
+                            <div class="label"><spring:message code="participant.label.password"/></div>
                             <div class="value">******</div>
                         </div>
                     </td>
@@ -111,13 +112,11 @@
         <div align="left" style="margin-left: 50px">
             <table width="55%" class="tablecontent">
                 <tr id="ss-table-head" class="amendment-table-head">
-                    <th width="95%" class="tableHeader">Sites</th>
+                    <th width="95%" class="tableHeader"><spring:message code="study.label.sites"/></th>
                     <th width="5%" class="tableHeader" style=" background-color: none">&nbsp;</th>
 
                 </tr>
-
                 <tr>
-
                     <td style="border-right:none;">
                         <c:forEach items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}"
                                    var="organizationClinicalStaff">
@@ -125,24 +124,17 @@
                                     ${organizationClinicalStaff.organization.displayName}
                             </div>
                         </c:forEach>
-
                     </td>
-
-
                     <td style="border-left:none;">
-
-
                     </td>
                 </tr>
-
-
             </table>
-
         </div>
-
-
     </chrome:division>
 </chrome:box>
-
+<div style="float:right">
+    <tags:button value="Edit" color="green" markupWithTag="a"
+                 href="createClinicalStaff?clinicalStaffId=${clinicalStaffCommand.clinicalStaff.id}"/>
+</div>
 </body>
 </html>

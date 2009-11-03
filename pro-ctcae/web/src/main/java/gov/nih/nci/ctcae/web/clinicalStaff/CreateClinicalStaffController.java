@@ -92,15 +92,15 @@ public class CreateClinicalStaffController extends CtcAeSimpleFormController {
         ClinicalStaffCommand clinicalStaffCommand = new ClinicalStaffCommand();
         if (clinicalStaffId != null) {
             ClinicalStaff clinicalStaff = clinicalStaffRepository.findById(new Integer(clinicalStaffId));
-            if (clinicalStaff.getOrganizationsWithCCARole().size() > 0) {
-                clinicalStaffCommand.setCca(true);
-            }
-            clinicalStaffCommand.setAdmin(clinicalStaff.getUser().isAdmin());
             clinicalStaffCommand.setClinicalStaff(clinicalStaff);
             if (clinicalStaff.getUser() == null) {
                 clinicalStaff.setUser(new User());
             } else {
                 clinicalStaff.getUser().setConfirmPassword(clinicalStaff.getUser().getPassword());
+                if (clinicalStaff.getOrganizationsWithCCARole().size() > 0) {
+                    clinicalStaffCommand.setCca(true);
+                }
+                clinicalStaffCommand.setAdmin(clinicalStaff.getUser().isAdmin());
             }
         }
         return clinicalStaffCommand;
