@@ -76,6 +76,12 @@
     <proctcae:urlAuthorize url="/pages/form/basicForm">
         html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/basicForm"/>?studyId=' + sid + '\'">Create Form</a></li>';
     </proctcae:urlAuthorize>
+    <proctcae:urlAuthorize url="/pages/study/editStudy">
+        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=1\'">Manage Study Staff</a></li>';
+    </proctcae:urlAuthorize>
+    <proctcae:urlAuthorize url="/pages/reports/report">
+        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/reports/report?rt=overallStudy"/>&studyId=' + sid + '\'">Generate Study Report</a></li>';
+    </proctcae:urlAuthorize>
 
         html += '</ul></div>';
         jQuery('#studyActions' + sid).menu({

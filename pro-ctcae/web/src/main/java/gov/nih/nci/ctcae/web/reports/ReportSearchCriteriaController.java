@@ -17,6 +17,7 @@ import gov.nih.nci.ctcae.core.domain.Study;
 import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 
 import java.util.List;
 import java.util.Enumeration;
@@ -32,6 +33,7 @@ public class ReportSearchCriteriaController extends AbstractController {
     StudyAjaxFacade studyAjaxFacade;
     CrfAjaxFacade crfAjaxFacade;
     OrganizationAjaxFacade organizationAjaxFacade;
+    StudyRepository studyRepository;
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         cleanSession(request);
@@ -41,9 +43,17 @@ public class ReportSearchCriteriaController extends AbstractController {
             return rv;
         }
         ModelAndView modelAndView = new ModelAndView("reports/searchCriteria");
-        List<Study> studies = studyAjaxFacade.matchStudy("%");
-        if (studies.size() == 1) {
-            Study study = studies.get(0);
+        Study study = null;
+        if (!StringUtils.isBlank(request.getParameter("studyId"))) {
+            study = studyRepository.findById(Integer.parseInt(request.getParameter("studyId")));
+        } else {
+            List<Study> studies = studyAjaxFacade.matchStudy("%");
+            if (studies.size() == 1) {
+                study = studies.get(0);
+            }
+        }
+        if (study != null) {
+
             modelAndView.addObject("study", study);
 
             List<CRF> crfs = getCrfsForStudy(study);
@@ -102,6 +112,11 @@ public class ReportSearchCriteriaController extends AbstractController {
     @Required
     public void setOrganizationAjaxFacade(OrganizationAjaxFacade organizationAjaxFacade) {
         this.organizationAjaxFacade = organizationAjaxFacade;
+    }
+
+    @Required
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
     }
 
     private String getUrlForReportType(HttpServletRequest request) {

@@ -437,6 +437,7 @@
         <property name="studyAjaxFacade" ref="studyAjaxFacade"/>
         <property name="crfAjaxFacade" ref="crfAjaxFacade"/>
         <property name="organizationAjaxFacade" ref="organizationAjaxFacade"/>
+        <property name="studyRepository" ref="studyRepository"/>
     </bean>
 
 

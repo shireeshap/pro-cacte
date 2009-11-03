@@ -6,6 +6,7 @@ import gov.nih.nci.ctcae.core.domain.Arm;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.validation.BindException;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -51,5 +52,13 @@ public class EditStudyController extends StudyController {
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         return super.processFinish(request, response, command, errors);
+    }
+
+    @Override
+    protected int getInitialPage(HttpServletRequest request, Object command) {
+        if (!StringUtils.isBlank(request.getParameter("tab"))) {
+            return Integer.parseInt(request.getParameter("tab"));
+        }
+        return super.getInitialPage(request, command);    
     }
 }
