@@ -80,6 +80,11 @@
 
         <intercept-url pattern="/pages/reports/*" access="PRIVILEGE_MONITOR_FORM"/>
 
+        <intercept-url pattern="/study/editdetails" access="PRIVILEGE_CREATE_STUDY"/>
+        <intercept-url pattern="/study/editsites" access="PRIVILEGE_ADD_STUDY_SITE"/>
+        <intercept-url pattern="/study/editoverallstaff" access="PRIVILEGE_ADD_STUDY_CLINICAL_STAFF"/>
+        <intercept-url pattern="/study/editsitestaff" access="PRIVILEGE_ADD_STUDY_SITE_CLINICAL_STAFF"/>
+
         <intercept-url pattern="/pages/home" access="IS_AUTHENTICATED_FULLY"/>
         <intercept-url pattern="/pages/j_spring_security_logout" access="IS_AUTHENTICATED_FULLY"/>
         <intercept-url pattern="/pages/confirmationCheck" access="IS_AUTHENTICATED_FULLY"/>

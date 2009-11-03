@@ -48,6 +48,9 @@
         }
 
         Event.observe(window, "load", function() {
+        <%--<c:if test="${param['studyId'] ne null}">--%>
+            <%--$('_target').name = '_target0';--%>
+        <%--</c:if>--%>
         <c:if test="${command.study.studySponsor.organization eq null}">
             acCreate(new siteAutoComplter('study.studySponsor.organization'))
         </c:if>

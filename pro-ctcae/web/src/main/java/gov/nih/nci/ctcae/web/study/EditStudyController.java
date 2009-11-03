@@ -43,8 +43,6 @@ public class EditStudyController extends StudyController {
         flow.addTab(new StudySitesTab());
         flow.addTab(new StudyClinicalStaffTab());
         flow.addTab(new StudySiteClinicalStaffTab());
-
-
     }
 
 

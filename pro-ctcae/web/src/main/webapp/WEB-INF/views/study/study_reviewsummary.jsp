@@ -8,7 +8,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -51,42 +51,44 @@
 
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false">
     <jsp:attribute name="singleFields">
-    <chrome:division title="study.tab.study_details" linkontitle="javascript:goTab('1');">
-        <div class="row">
-            <div class="label"><tags:message code='study.label.assigned_identifier'/></div>
-            <div class="value">${command.study.assignedIdentifier} </div>
-        </div>
-        <div class="row">
-            <div class="label"><tags:message code='study.label.short_title'/></div>
-            <div class="value">${command.study.shortTitle} </div>
-        </div>
-        <div class="row">
-            <div class="label"><tags:message code='study.label.long_title'/></div>
-            <div class="value">${command.study.longTitle} </div>
-        </div>
 
-        <div class="row">
-            <div class="label"><tags:message code='study.label.description'/></div>
-            <div class="value">${command.study.description} </div>
-        </div>
-        <div class="row">
-            <div class="label"><tags:message code='study.label.study_sponsor'/></div>
-            <div class="value">${command.study.studySponsor.organization.displayName} </div>
-        </div>
-        <div class="row">
-            <div class="label"><tags:message code='study.label.study_coordinating_center'/></div>
-            <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
-        </div>
-        <div class="row">
-            <div class="label"><tags:message code='study.label.study_funding_sponsor'/></div>
-            <div class="value">${command.study.fundingSponsor.organization.displayName} </div>
-        </div>
-        <div class="row">
-            <div class="label"><tags:message code='study.label.study_lead_site'/></div>
-            <div class="value">${command.study.leadStudySite.organization.displayName} </div>
-        </div>
-    </chrome:division>
-    <chrome:division title="study.section.study_arms" linkontitle="javascript:goTab('1');">
+        <chrome:division title="study.tab.study_details" linkontitle="javascript:goTab('1');"
+                         linkurl="/study/editdetails">
+            <div class="row">
+                <div class="label"><tags:message code='study.label.assigned_identifier'/></div>
+                <div class="value">${command.study.assignedIdentifier} </div>
+            </div>
+            <div class="row">
+                <div class="label"><tags:message code='study.label.short_title'/></div>
+                <div class="value">${command.study.shortTitle} </div>
+            </div>
+            <div class="row">
+                <div class="label"><tags:message code='study.label.long_title'/></div>
+                <div class="value">${command.study.longTitle} </div>
+            </div>
+
+            <div class="row">
+                <div class="label"><tags:message code='study.label.description'/></div>
+                <div class="value">${command.study.description} </div>
+            </div>
+            <div class="row">
+                <div class="label"><tags:message code='study.label.study_sponsor'/></div>
+                <div class="value">${command.study.studySponsor.organization.displayName} </div>
+            </div>
+            <div class="row">
+                <div class="label"><tags:message code='study.label.study_coordinating_center'/></div>
+                <div class="value">${command.study.dataCoordinatingCenter.organization.displayName} </div>
+            </div>
+            <div class="row">
+                <div class="label"><tags:message code='study.label.study_funding_sponsor'/></div>
+                <div class="value">${command.study.fundingSponsor.organization.displayName} </div>
+            </div>
+            <div class="row">
+                <div class="label"><tags:message code='study.label.study_lead_site'/></div>
+                <div class="value">${command.study.leadStudySite.organization.displayName} </div>
+            </div>
+        </chrome:division>
+    <chrome:division title="study.section.study_arms" linkontitle="javascript:goTab('1');" linkurl="study/editdetails">
         <div align="left" style="margin-left: 100px">
             <table width="75%" class="tablecontent">
                 <tr id="sa-table-head" class="amendment-table-head">
@@ -105,7 +107,7 @@
             </table>
         </div>
     </chrome:division>
-    <chrome:division title="study.section.study_sites" linkontitle="javascript:goTab('2');">
+    <chrome:division title="study.section.study_sites" linkontitle="javascript:goTab('2');" linkurl="study/editsites">
         <div align="left" style="margin-left: 100px">
             <table width="75%" class="tablecontent">
                 <tr id="ss-table-head" class="amendment-table-head">
@@ -125,7 +127,8 @@
             </table>
         </div>
     </chrome:division>
-    <chrome:division title="study.tab.clinical_staff" linkontitle="javascript:goTab('3');">
+    <chrome:division title="study.tab.clinical_staff" linkontitle="javascript:goTab('3');"
+                     linkurl="study/editoverallstaff">
         <div class="row">
             <div class="label"><tags:message code="study.label.clinical.staff.odc"/></div>
             <div class="value">${command.study.overallDataCoordinator.displayName} </div>
@@ -139,7 +142,8 @@
             <div class="value">${command.study.principalInvestigator.displayName} </div>
         </div>
     </chrome:division>
-    <chrome:division title="study.tab.study_site_clinical_staff" linkontitle="javascript:goTab('4');">
+    <chrome:division title="study.tab.study_site_clinical_staff" linkontitle="javascript:goTab('4');"
+                     linkurl="/study/editsitestaff">
         <c:forEach items="${command.study.studySites}" var="studySite">
             <div align="left" style="margin-left: 100px">
                 <table width="75%" class="tablecontent">

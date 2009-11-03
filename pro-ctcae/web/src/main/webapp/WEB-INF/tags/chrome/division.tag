@@ -2,6 +2,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@attribute name="title" %>
 <%@attribute name="id" %>
 <%@attribute name="cssClass" %>
@@ -11,6 +12,9 @@
 <%@attribute name="collapsable" required="false" %>
 <%@attribute name="message" type="java.lang.Boolean" required="false" %>
 <%@attribute name="linkontitle" required="false" %>
+<%@attribute name="linkurl" required="false" %>
+
+<proctcae:urlAuthorize url="${linkurl}"><c:set var="showlink" value="true"/></proctcae:urlAuthorize>
 <div class="division ${cssClass}" <tags:attribute name="id" value="${id}"/> <tags:attribute name="style"
                                                                                             value="${style}"/>>
     <div class="header">
@@ -23,7 +27,7 @@
                                 <c:choose>
                                     <c:when test="${message == true}">
                                         <c:choose>
-                                            <c:when test="${linkontitle ne null}">
+                                            <c:when test="${linkontitle ne null and showlink}">
                                                 <a href="${linkontitle}">${title}</a>
                                                 <a href="${linkontitle}">
                                                     <img src='<tags:imageUrl name="controlPanel_pencil.png"/>'/>
@@ -34,7 +38,7 @@
                                     </c:when>
                                     <c:otherwise>
                                         <c:choose>
-                                            <c:when test="${linkontitle ne null}">
+                                            <c:when test="${linkontitle ne null and showlink}">
                                                 <a href="${linkontitle}">
                                                     <spring:message code='${title}' text='${title}'/>
                                                 </a>
@@ -68,7 +72,7 @@
                     <c:choose>
                         <c:when test="${message == true}">
                             <c:choose>
-                                <c:when test="${linkontitle ne null}">
+                                <c:when test="${linkontitle ne null and showlink}">
                                     <a href="${linkontitle}">${title}</a>
                                     <a href="${linkontitle}">
                                         <img src='<tags:imageUrl name="controlPanel_pencil.png"/>'/>
@@ -79,7 +83,7 @@
                         </c:when>
                         <c:otherwise>
                             <c:choose>
-                                <c:when test="${linkontitle ne null}">
+                                <c:when test="${linkontitle ne null and showlink}">
                                     <a href="${linkontitle}">
                                         <spring:message code='${title}' text='${title}'/>
                                     </a>
