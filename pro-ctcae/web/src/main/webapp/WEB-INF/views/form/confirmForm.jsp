@@ -32,8 +32,10 @@
 <table width="100%">
     <tr>
         <td>
+            <c:if test="${crf.status ne 'Released'}">
             <tags:button color="blue" markupWithTag="a" icon="window" value="Release Form"
                          onclick="javascript:releaseForm('${crf.id}')"/>
+            </c:if>
         </td>
         <td>
             <div style="float:right;">
