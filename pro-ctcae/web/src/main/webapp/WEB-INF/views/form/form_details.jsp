@@ -613,7 +613,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         background-repeat: no-repeat;
     }
 
-    #firstlevelnav_2 {
+    #firstlevelnav_3 {
         left: 145px;
         top: 3px;
         display: block;
@@ -627,7 +627,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         background-repeat: no-repeat;
     }
 
-    #firstlevelnav_3 {
+    #firstlevelnav_2 {
         left: 283px;
         top: 3px;
         display: block;
@@ -652,11 +652,11 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         background-position: 0px -41px;
     }
 
-    #firstlevelnav_2.selected_4thlvl {
+    #firstlevelnav_3.selected_4thlvl {
         background-position: -145px -41px;
     }
 
-    #firstlevelnav_3.selected_4thlvl {
+    #firstlevelnav_2.selected_4thlvl {
         background-position: -283px -41px;
     }
 
@@ -757,7 +757,6 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
 <jsp:attribute name="singleFields">
 <div style="float:right;"><tags:button type="submit" icon="Save & Continue" color="green" id="flow-next"
                                        value="Save & Continue"/></div>
-<div class="division"><h3>Basic form details</h3></div>
 <table>
     <tr>
         <td style="text-align:right;font-weight:bold;">&nbsp;&nbsp;<b><spring:message code="form.label.study"/></b></td>
@@ -779,7 +778,6 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         <tags:formSettings crf="${command.crf}"></tags:formSettings>
     </tr>
 </table>
-<div class="division"><h3>Select symptoms</h3></div>
 <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="displayPrefsMenu"
    style="margin-left:11px"><span class="ui-icon ui-icon-triangle-1-s"></span>Display Preferences</a>
 

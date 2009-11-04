@@ -26,33 +26,14 @@
             zoom: 1
         }
 
-        #formbuilderTable {
-            width: 100%;
+        .formpages {
+            width: 920px;
         }
     </style>
 
 </head>
 <body>
-<table width="100%">
-    <tr>
-        <td width="25%">
-            <c:if test="${crf.status ne 'Released'}">
-                <tags:button color="blue" markupWithTag="a" icon="window" value="Release Form"
-                             onclick="javascript:releaseForm('${crf.id}')"/>
-            </c:if>
-        </td>
-        <td>
-            <chrome:flashMessage flashMessage="Form has been created successfully"/>
-        </td>
-        <td width="25%">
-            <div style="float:right;">
-                <tags:button color="blue" markupWithTag="a" value="Finish" href="/proctcae/pages/form/manageForm"/>
-            </div>
-        </td>
-    </tr>
-</table>
-<br>
-
+<chrome:flashMessage flashMessage="Form has been created successfully"/>
 <div class="instructions">
     <div class="summarylabel"><tags:message code='form.label.study'/></div>
     <div class="summaryvalue">${crf.study.displayName}</div>
@@ -82,9 +63,14 @@
     </tr>
 </table>
 
-
-<br>
-<br>
-
-
+<div class="flow-buttons">
+    <span class="prev">
+        <c:if test="${crf.status ne 'Released'}">
+            <tags:button color="blue" markupWithTag="a" icon="window" value="Release Form" onclick="javascript:releaseForm('${crf.id}')"/>
+        </c:if>
+    </span>
+	<span class="next">
+		<tags:button color="green" markupWithTag="a" icon="check" value="Done" href="/proctcae/pages/form/manageForm"/>
+	</span>
+</div>
 </body>
