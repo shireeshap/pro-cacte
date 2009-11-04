@@ -77,6 +77,9 @@ Autocompleter.DWR.prototype = Object.extend(new Autocompleter.Base(), {
 
     // should be called by the populator (specified in the constructor)
     setChoices: function(array) {
+        if (array.length == 0) {
+            array[0] = Object.extend({ id: -1, displayName: 'No results found'});
+        }
         this.options.array = array;
         this.updateChoices(this.options.selector(this));
     },
