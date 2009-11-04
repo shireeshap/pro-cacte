@@ -190,6 +190,12 @@ Autocompleter.Base = Class.create({
     },
 
     onBlur: function(event) {
+        try {
+            if (this.baseElement.value == '') {
+                this.element.value = '';
+            }
+        } catch(e) {
+        }
         // needed to make click events working
         setTimeout(this.hide.bind(this), 250);
         this.hasFocus = false;
@@ -562,11 +568,13 @@ Ajax.InPlaceEditor = Class.create({
     },
     createForm: function() {
         var ipe = this;
+
         function addText(mode, condition) {
             var text = ipe.options['text' + mode + 'Controls'];
             if (!text || condition === false) return;
             ipe._form.appendChild(document.createTextNode(text));
         }
+
         ;
         this._form = $(document.createElement('form'));
         this._form.id = this.options.formId;
@@ -863,6 +871,7 @@ Ajax.InPlaceEditor.prototype.initialize.dealWithDeprecatedOptions = function(opt
         if (name in options || expr === undefined) return;
         options[name] = expr;
     }
+
     ;
     fallback('cancelControl', (options.cancelLink ? 'link' : (options.cancelButton ? 'button' :
                                                               options.cancelLink == options.cancelButton == false ? false : undefined)));

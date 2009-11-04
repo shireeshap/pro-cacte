@@ -58,6 +58,7 @@ Autocompleter.DWR = Class.create();
 Autocompleter.DWR.prototype = Object.extend(new Autocompleter.Base(), {
     initialize: function(element, update, populator, options) {
         this.baseInitialize(element, update, options);
+        this.baseElement = $(this.element.id.substr(0, this.element.id.indexOf('-')));
         this.options.array = new Array(0);
         this.populator = populator;
         if (this.options.afterUpdateElement) {
@@ -77,8 +78,9 @@ Autocompleter.DWR.prototype = Object.extend(new Autocompleter.Base(), {
 
     // should be called by the populator (specified in the constructor)
     setChoices: function(array) {
+        this.baseElement.value='';
         if (array.length == 0) {
-            array[0] = Object.extend({ id: -1, displayName: 'No results found'});
+            array[0] = Object.extend({ id: '', displayName: 'No results found'});
         }
         this.options.array = array;
         this.updateChoices(this.options.selector(this));

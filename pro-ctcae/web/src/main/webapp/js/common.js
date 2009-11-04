@@ -262,6 +262,9 @@ function closeWindow() {
 }
 function acPostSelect(mode, selectedChoice) {
     $(mode.basename).value = selectedChoice.id;
+    if ( selectedChoice.id == '') {
+        $(mode.basename + "-input").value = '';
+    }
 }
 function acCreate(mode) {
     return new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
