@@ -21,8 +21,8 @@
     <tags:instructions code="participant.monitor.results.instructions"/>
     <c:forEach items="${crfStatusMap}" var="siteCrfStatus">
         <chrome:division title="${siteCrfStatus.key.organization.name}"/>
-        <c:choose>
-            <c:when test="${fn:length(siteCrfStatus.value) > 0}">
+        <%--<c:choose>--%>
+            <%--<c:when test="${fn:length(siteCrfStatus.value) > 0}">--%>
                 <%--<c:forEach items="${siteCrfStatus.value}" var="crfStatus">--%>
                 <%--<c:if test="${!empty crfStatus}">--%>
                 <table class="widget" cellspacing="0">
@@ -91,11 +91,11 @@
                 </table>
                 <br/>
 
-            </c:when>
-            <c:otherwise>
-                No data found for this study site.
-            </c:otherwise>
-        </c:choose>
+            <%--</c:when>--%>
+            <%--<c:otherwise>--%>
+                <%--No data found for this study site.--%>
+            <%--</c:otherwise>--%>
+        <%--</c:choose>--%>
         <%--</c:if>--%>
         <%--</c:forEach>--%>
     </c:forEach>
