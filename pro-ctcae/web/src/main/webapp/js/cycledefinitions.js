@@ -6,8 +6,8 @@ var scheduleArr = new Array();
 
 
 var checkStatus = true;
-function isundefined(el) {
-    return typeof(el) == 'undefined';
+function isdefined(el) {
+    return !(typeof(el) == 'undefined');
 }
 function getDate(item) {
     return item.id.substring(item.id.indexOf('_', 2) + 1);
@@ -21,10 +21,10 @@ function initializeCalendar(index) {
     var myCalendar = calendarArr[index];
     var mySchedules = scheduleArr[index];
     for (var i = 0; i < myCalendar.length; i++) {
-        if (!isundefined(myCalendar[i])) {
+        if (isdefined(myCalendar[i])) {
             var div_id = index + '_schedule_' + i;
             var myschedule = mySchedules[i];
-            if (!isundefined(myschedule)) {
+            if (isdefined(myschedule)) {
                 var status = myschedule.substring(0, myschedule.indexOf('~'));
                 var baseline = myschedule.substring(myschedule.indexOf('~') + 1);
                 var item = $(div_id);
@@ -44,11 +44,13 @@ function initializeCalendar(index) {
                 if (status == 'Past-due') {
                     item.style.background = 'red';
                 }
-                if (status == 'Scheduled' && baseline != 'true') {
+                if (status == 'Scheduled' || status == 'Past-due') {
                     item.style.cursor = 'pointer';
-                    var delIcon = '<div style="float:right"><img height="13" width="12" src="/proctcae/images/blank.gif" class="removebutton" ' +
-                                  'onclick="showDeleteWindow(' + i + ', ' + index + ');"/></div>';
-                    item.innerHTML = delIcon + item.innerHTML;
+                    if (baseline != 'true') {
+                        var delIcon = '<div style="float:right"><img height="13" width="12" src="/proctcae/images/blank.gif" class="removebutton" ' +
+                                      'onclick="showDeleteWindow(' + i + ', ' + index + ');"/></div>';
+                        item.innerHTML = delIcon + item.innerHTML;
+                    }
                     myCalendar[i] = new YAHOO.example.DDPlayer(div_id, 'date');
                 }
             } else {

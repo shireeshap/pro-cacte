@@ -222,6 +222,9 @@
                     <table class="widget">
                         <tr>
                             <td class="header-top" style="text-align:left">
+                                Study Title
+                            </td>
+                            <td class="header-top" style="text-align:left">
                                 Title
                             </td>
                             <td class="header-top">
@@ -233,6 +236,9 @@
                         </tr>
                         <c:forEach items="${recentCrfs}" var="crf">
                             <tr>
+                                <td>
+                                        ${crf.study.displayName}
+                                </td>
                                 <td>
                                         ${crf.title}
                                 </td>

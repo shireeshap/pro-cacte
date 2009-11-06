@@ -5,8 +5,6 @@ import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.UserRepository;
-import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
-import gov.nih.nci.ctcae.core.query.ClinicalStaffQuery;
 import gov.nih.nci.ctcae.core.query.StudyOrganizationClinicalStaffQuery;
 import gov.nih.nci.ctcae.web.ControllersUtils;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
@@ -65,7 +63,7 @@ public class LoginController extends AbstractController {
         Date today = new Date();
         boolean siteLevelRole = false;
         boolean studyLevelRole = false;
-        Set<CRF> topLevelCrfs = new TreeSet<CRF>(new CrfActivityDateComparator());
+        Set<CRF> topLevelCrfs = new HashSet<CRF>();
         Set<Study> allStudies = new TreeSet<Study>(new StudyDisplayNameComparator());
         for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
             for (StudyOrganizationClinicalStaff studyOrganizationClinicalStaff : organizationClinicalStaff.getStudyOrganizationClinicalStaff()) {
@@ -88,6 +86,9 @@ public class LoginController extends AbstractController {
                 }
             }
         }
+
+        List sortedCrfs = new ArrayList<CRF>(topLevelCrfs);
+        Collections.sort(sortedCrfs, new CrfActivityDateComparator());
 
         if (studyLevelRole) {
             mv.addObject("recentCrfs", topLevelCrfs);

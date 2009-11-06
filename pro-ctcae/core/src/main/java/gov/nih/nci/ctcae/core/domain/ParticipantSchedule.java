@@ -149,7 +149,7 @@ public class ParticipantSchedule {
             }
         }
         if (schToRemove != null) {
-            if (schToRemove.getStatus().equals(CrfStatus.SCHEDULED)) {
+            if (schToRemove.getStatus().equals(CrfStatus.SCHEDULED) || schToRemove.getStatus().equals(CrfStatus.PASTDUE)) {
                 studyParticipantCrf.removeCrfSchedule(schToRemove);
             }
         }
@@ -173,9 +173,7 @@ public class ParticipantSchedule {
 
     public void moveAllSchedules(int offset) {
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-            if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
-                moveSingleSchedule(studyParticipantCrfSchedule, offset);
-            }
+            moveSingleSchedule(studyParticipantCrfSchedule, offset);
         }
     }
 
@@ -228,14 +226,15 @@ public class ParticipantSchedule {
     }
 
     private void moveSingleSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, int offset) {
-        Calendar c1 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getStartDate());
-        Calendar c2 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getDueDate());
-        c1.add(Calendar.DATE, offset);
-        c2.add(Calendar.DATE, offset);
+        if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)) {
+            Calendar c1 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getStartDate());
+            Calendar c2 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getDueDate());
+            c1.add(Calendar.DATE, offset);
+            c2.add(Calendar.DATE, offset);
 
-        studyParticipantCrfSchedule.setStartDate(c1.getTime());
-        studyParticipantCrfSchedule.setDueDate(c2.getTime());
-
+            studyParticipantCrfSchedule.setStartDate(c1.getTime());
+            studyParticipantCrfSchedule.setDueDate(c2.getTime());
+        }
     }
 
     /**
