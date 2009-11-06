@@ -18,20 +18,20 @@ public class CrfActivityDateComparator implements Comparator<CRF> {
     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
     */
     public int compare(CRF object, CRF object1) {
-        int compare = object.getStudy().getDisplayName().compareTo(object1.getStudy().getDisplayName());
+        Date d1 = object.getActivityDate();
+        if (d1 == null) {
+            d1 = new Date();
+        }
+        Date d2 = object1.getActivityDate();
+        if (d2 == null) {
+            d2 = new Date();
+        }
+        int compare = d1.compareTo(d2);
+
         if (compare == 0) {
             compare = object.getTitle().compareTo(object1.getTitle());
             if (compare == 0) {
-                Date d1 = object.getActivityDate();
-                if (d1 == null) {
-                    d1 = new Date();
-                }
-                Date d2 = object1.getActivityDate();
-                if (d2 == null) {
-                    d2 = new Date();
-                }
-                compare = d1.compareTo(d2);
-
+                compare = object.getStudy().getDisplayName().compareTo(object1.getStudy().getDisplayName());
             }
         }
         return compare;
