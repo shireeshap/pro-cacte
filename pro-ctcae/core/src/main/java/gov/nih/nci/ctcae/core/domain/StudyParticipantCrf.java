@@ -157,9 +157,7 @@ public class StudyParticipantCrf extends BaseVersionable {
      * @param crfSchedule the crf schedule
      */
     public void removeCrfSchedule(StudyParticipantCrfSchedule crfSchedule) {
-        if (!crfSchedule.isBaseline()) {
-            studyParticipantCrfSchedules.remove(crfSchedule);
-        }
+        studyParticipantCrfSchedules.remove(crfSchedule);
     }
 
     /**
