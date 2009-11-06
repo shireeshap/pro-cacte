@@ -41,6 +41,6 @@
             </c:choose>
         </c:forEach>
     </select>
-    <input type="text" name="crf.recallPeriod" id="recallPeriodOtherSpecifyInput" value="${crf.recallPeriod}"
+    <input type="text" name="crf.recallPeriod" id="recallPeriodOtherSpecifyInput" value="${crf.recallPeriod}" size="36"
            style="${style}" class="validate-NOTEMPTY" title="Recall period"/>
 </td>
