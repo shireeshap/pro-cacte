@@ -27,6 +27,9 @@
 	            </ctcae:publicAuthorize>
 			--%>
             <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
+                <a id="home" href="<c:url value="/"/>">Home</a>
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
                 <a id="logout" href="<c:url value="/pages/j_spring_security_logout"/>">Log out</a>
             </proctcae:urlAuthorize>
         </div>
