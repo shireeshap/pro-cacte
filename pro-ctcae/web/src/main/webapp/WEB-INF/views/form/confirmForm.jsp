@@ -70,7 +70,7 @@
         </c:if>
     </span>
 	<span class="next">
-		<tags:button color="green" markupWithTag="a" icon="check" value="Done" href="/proctcae/pages/form/manageForm"/>
+		<tags:button color="green" markupWithTag="a" icon="check" value="Save as draft" href="/proctcae"/>
 	</span>
 </div>
 </body>
