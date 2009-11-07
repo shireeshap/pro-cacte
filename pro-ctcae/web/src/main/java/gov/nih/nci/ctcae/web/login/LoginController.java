@@ -91,7 +91,7 @@ public class LoginController extends AbstractController {
         Collections.sort(sortedCrfs, new CrfActivityDateComparator());
 
         if (studyLevelRole) {
-            mv.addObject("recentCrfs", topLevelCrfs);
+            mv.addObject("recentCrfs", sortedCrfs);
             mv.addObject("studyWithoutForm", allStudies);
         }
         mv.addObject("siteLevelRole", siteLevelRole);
