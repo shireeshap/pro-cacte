@@ -19,6 +19,7 @@ public class OrganizationClinicalStaffQuery extends AbstractQuery {
     private static String LAST_NAME = "lastName";
 
     private static String NCI_IDENTIFIER = "nciIdentifier";
+    private static String FIRST_LASTNAME = "firstLastName";
 
     public OrganizationClinicalStaffQuery() {
         super(queryString);
@@ -33,11 +34,12 @@ public class OrganizationClinicalStaffQuery extends AbstractQuery {
 
     public void filterByFirstNameOrLastNameOrNciIdentifier(final String searchText) {
         String searchString = "%" + searchText.toLowerCase() + "%";
-        andWhere(String.format("(lower(scs.clinicalStaff.firstName) LIKE :%s or lower(scs.clinicalStaff.lastName) LIKE :%s or lower(scs.clinicalStaff.nciIdentifier) LIKE :%s)",
-                FIRST_NAME, LAST_NAME, NCI_IDENTIFIER));
+        andWhere(String.format("(lower(scs.clinicalStaff.firstName) LIKE :%s or lower(scs.clinicalStaff.lastName) LIKE :%s or lower(scs.clinicalStaff.nciIdentifier) LIKE :%s or lower(scs.clinicalStaff.firstName) || ' ' || lower(scs.clinicalStaff.lastName) LIKE :%s)",
+                FIRST_NAME, LAST_NAME, NCI_IDENTIFIER, FIRST_LASTNAME));
         setParameter(FIRST_NAME, searchString);
         setParameter(LAST_NAME, searchString);
         setParameter(NCI_IDENTIFIER, searchString);
+        setParameter(FIRST_LASTNAME, searchString);
     }
 
     public void filterByExactMatchNciIdentifier(final String nciIdentifier) {
