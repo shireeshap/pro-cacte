@@ -41,27 +41,49 @@
             background-color: #ffffff;
         }
 
-        a.fg-button {
-            float: right;
-        }
+       
 
         * {
             zoom: 1;
         }
 
         #alertsdiv {
-            overflow-x: scroll;
-            width: 470px;
-            overflow-y: scroll;
-            height: 300px;
+            overflow-x:hidden;
+            width: 455px;
+            overflow-y: auto;
+			max-height:400px;
         }
-
+		table.widget {
+			width:445px;
+			border:none;
+		}
+		.panel {
+			width:470px;
+			float:left;
+			margin:4px;
+			display:inline;
+		}
     </style>
     <!--[if IE]>
         <style>
             div.row div.value {
                 margin-left:7px;
             }
+			a.fg-button {
+				display:block;
+				position:static;
+				width:65px;
+				padding-right:0;
+				padding-left:0;
+			}
+			.fg-button-icon-right .ui-icon {
+				position:static;
+				float:right;
+				padding:0;
+				margin:0;
+				left:auto;
+				right;auto;
+			}
         </style>
     <![endif]-->
     <script type="text/javascript">
@@ -106,9 +128,7 @@
     </c:if>
 </c:forEach>
 <c:set var="dl" value="1200"/>
-<table cellpadding="0" cellspacing="0" width="100%" class="outer">
-<tr>
-    <td width="50%">
+	<div class="panel">
         <chrome:box title="Alerts">
             <c:choose>
                 <c:when test="${empty numberofalerts}">
@@ -182,56 +202,7 @@
             </c:choose>
             <br/>
         </chrome:box>
-    </td>
-    <td width="50%">
-        <chrome:box title="Quick Links">
-            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
-                <div class="quicklink">
-                    <a class="link" href="admin/clinicalStaff/createClinicalStaff">Add new staff profile </a>
-                </div>
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/form/basicForm">
-                <div class="quicklink">
-                    <a class="link" href="form/basicForm">Create new form</a>
-                </div>
-            </proctcae:urlAuthorize>
-            <c:if test="${siteLevelRole}">
-                <proctcae:urlAuthorize url="/pages/participant/create">
-                    <div class="quicklink">
-                        <a class="link" href="participant/create">Add new participant</a>
-                    </div>
-                </proctcae:urlAuthorize>
-                <proctcae:urlAuthorize url="/pages/study/searchStudy">
-                    <div class="quicklink">
-                        <a class="link" href="study/searchStudy">My studies</a>
-                    </div>
-                </proctcae:urlAuthorize>
-            </c:if>
-            <c:if test="${studyLevelRole}">
-                <proctcae:urlAuthorize url="/pages/form/manageForm">
-                    <div class="quicklink">
-                        <a class="link" href="form/manageForm">Manage forms</a>
-                    </div>
-                </proctcae:urlAuthorize>
-                <proctcae:urlAuthorize url="/pages/reports/report">
-                    <div class="quicklink">
-                        <a class="link" href="reports/report">Generate study report</a>
-                    </div>
-                </proctcae:urlAuthorize>
-                <proctcae:urlAuthorize url="/pages/study/searchStudy">
-                    <div class="quicklink">
-                        <a class="link" href="study/searchStudy">Search for existing study</a>
-                    </div>
-                </proctcae:urlAuthorize>
-            </c:if>
-            <br/>
-        </chrome:box>
-    </td>
-</tr>
-<c:if test="${studyLevelRole}">
-    <tr>
-        <td>
-            <chrome:box title="My Forms">
+<chrome:box title="My Forms">
                 <div id="alertsdiv">
                     <table class="widget">
                         <tr>
@@ -246,7 +217,7 @@
                             </td>
                             <td class="header-top">
                             </td>
-                            <td>&nbsp;</td>
+                            <td class="header-top">&nbsp;</td>
                         </tr>
                         <c:forEach items="${recentCrfs}" var="crf">
                             <tr>
@@ -273,8 +244,40 @@
                 </div>
 
             </chrome:box>
-        </td>
-        <td>
+
+</div>
+<c:if test="${studyLevelRole}">
+<div class="panel">
+	       <chrome:box title="Quick Links">
+            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
+                <div class="quicklink">
+                    <a class="link" href="admin/clinicalStaff/createClinicalStaff">Add new staff profile </a>
+                </div>
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/form/basicForm">
+                <div class="quicklink">
+                    <a class="link" href="form/basicForm">Create new form</a>
+                </div>
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/form/manageForm">
+                <div class="quicklink">
+                    <a class="link" href="form/manageForm">Manage forms</a>
+                </div>
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/reports/report">
+                <div class="quicklink">
+                    <a class="link" href="reports/report">Generate study report</a>
+                </div>
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/study/searchStudy">
+                <div class="quicklink">
+                    <a class="link" href="study/searchStudy">Search for existing study</a>
+                </div>
+            </proctcae:urlAuthorize>
+            <br/>
+        </chrome:box>
+            
+
             <chrome:box title="My Studies">
                 <div id="alertsdiv">
                     <table class="widget">
@@ -284,7 +287,7 @@
                             </td>
                             <td class="header-top">
                             </td>
-                            <td>&nbsp;</td>
+                            <td class="header-top">&nbsp;</td>
                         </tr>
                         <c:forEach items="${studyWithoutForm}" var="study">
                             <tr>
@@ -304,12 +307,11 @@
                     <br/>
                 </div>
             </chrome:box>
-        </td>
-    </tr>
+
 </c:if>
 <c:if test="${siteLevelRole}">
-    <tr>
-        <td><chrome:box title="Overdue forms">
+
+	<chrome:box title="Overdue forms">
             <c:choose>
                 <c:when test="${empty overdue}">
                     <div style="margin-left:15px;">You have no overdue forms.</div>
@@ -378,8 +380,7 @@
                 </c:otherwise>
             </c:choose>
         </chrome:box>
-        </td>
-        <td>
+
             <chrome:box title="Upcoming Schedule">
                 <c:choose>
                     <c:when test="${empty overdue}">
@@ -450,9 +451,8 @@
                 </c:choose>
                 <br/>
             </chrome:box>
-        </td>
-    </tr>
+</div>
+<br style="clear:both;"/>
 </c:if>
-</table>
 </body>
 </html>
