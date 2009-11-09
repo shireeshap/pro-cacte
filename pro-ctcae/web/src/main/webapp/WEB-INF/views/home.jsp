@@ -195,21 +195,35 @@
                     <a class="link" href="form/basicForm">Create new form</a>
                 </div>
             </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/form/manageForm">
-                <div class="quicklink">
-                    <a class="link" href="form/manageForm">Manage forms</a>
-                </div>
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/reports/report">
-                <div class="quicklink">
-                    <a class="link" href="reports/report">Generate study report</a>
-                </div>
-            </proctcae:urlAuthorize>
-            <proctcae:urlAuthorize url="/pages/study/searchStudy">
-                <div class="quicklink">
-                    <a class="link" href="study/searchStudy">Search for existing study</a>
-                </div>
-            </proctcae:urlAuthorize>
+            <c:if test="${siteLevelRole}">
+                <proctcae:urlAuthorize url="/pages/participant/create">
+                    <div class="quicklink">
+                        <a class="link" href="participant/create">Add new participant</a>
+                    </div>
+                </proctcae:urlAuthorize>
+                <proctcae:urlAuthorize url="/pages/study/searchStudy">
+                    <div class="quicklink">
+                        <a class="link" href="study/searchStudy">My studies</a>
+                    </div>
+                </proctcae:urlAuthorize>
+            </c:if>
+            <c:if test="${studyLevelRole}">
+                <proctcae:urlAuthorize url="/pages/form/manageForm">
+                    <div class="quicklink">
+                        <a class="link" href="form/manageForm">Manage forms</a>
+                    </div>
+                </proctcae:urlAuthorize>
+                <proctcae:urlAuthorize url="/pages/reports/report">
+                    <div class="quicklink">
+                        <a class="link" href="reports/report">Generate study report</a>
+                    </div>
+                </proctcae:urlAuthorize>
+                <proctcae:urlAuthorize url="/pages/study/searchStudy">
+                    <div class="quicklink">
+                        <a class="link" href="study/searchStudy">Search for existing study</a>
+                    </div>
+                </proctcae:urlAuthorize>
+            </c:if>
             <br/>
         </chrome:box>
     </td>

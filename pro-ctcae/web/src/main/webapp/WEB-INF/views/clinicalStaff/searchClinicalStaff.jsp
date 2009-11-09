@@ -123,6 +123,10 @@
     <chrome:box title="clinicalStaff.box.results">
         <p><tags:instructions code="study.search.results"/></p>
         <form:form id="assembler">
+            <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
+                <tags:button color="blue" markupWithTag="a" id="newFormUrl" icon="add" value="New Staff Profile"
+                             href="createClinicalStaff"/>
+            </proctcae:urlAuthorize>
             <chrome:division id="single-fields">
                 <div id="tableDiv">
                     <c:out value="${assembler}" escapeXml="false"/>
