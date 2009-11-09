@@ -44,7 +44,13 @@
         }
 
         function navigate(e) {
-            if (event.keyCode == 13)  //enter pressed
+            var mye;
+            if (e) {
+                mye = e;
+            } else {
+                mye = event;
+            }
+            if (mye.keyCode == 13)  //enter pressed
                 doSend();
         }
         document.onkeypress = navigate;

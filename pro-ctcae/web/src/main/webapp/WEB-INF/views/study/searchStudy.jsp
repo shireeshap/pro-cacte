@@ -9,6 +9,7 @@
 <%@taglib uri="http://www.extremecomponents.org" prefix="ec" %>
 <link rel="stylesheet" type="text/css"
       href="<c:url value="/css/extremecomponents.css"/>">
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -16,9 +17,9 @@
     <!--<title>Search Studies</title>-->
     <tags:javascriptLink name="extremecomponents"/>
     <tags:dwrJavascriptLink objects="study"/>
+    <tags:formActionMenu/>
     <style type="text/css">
         /* Override default lable length */
-
 
         div.row div.label {
             width: 9em;
@@ -55,7 +56,13 @@
         }
 
         function navigate(e) {
-            if (event.keyCode == 13)  //enter pressed
+            var mye;
+            if(e){
+                mye = e;
+            }else{
+                mye = event;
+            }
+            if (mye.keyCode == 13)  //enter pressed
                 doSend();
         }
         document.onkeypress = navigate;
@@ -88,8 +95,9 @@
             </div>
         </div>
         <div style="padding-left:132px">
-        <tags:button color="blue" icon="search" size="big" type="button" onclick="buildTable('assembler');" value='Search'/>
-            </div>
+            <tags:button color="blue" icon="search" size="big" type="button" onclick="buildTable('assembler');"
+                         value='Search'/>
+        </div>
         <tags:indicator id="indicator"/>
     </div>
 </chrome:box>
