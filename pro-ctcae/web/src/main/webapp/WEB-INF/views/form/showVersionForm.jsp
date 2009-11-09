@@ -15,10 +15,10 @@
 
 
 <c:forEach items="${crfs}" var="crf">
-    <tr class="even childTableRow_${parentCrfId}" >
+    <tr class="even childTableRow_${parentCrfId}">
         <td class="data"></td>
         <td class="data"></td>
-        <td class="data"><img src="../../images/arrow.png" height="13"></td>
+        <td class="data"><a href="viewForm?crfId=${crf.id}">View form</a></td>
         <td class="data shaded">${crf.crfVersion}</td>
         <td class="data shaded"><tags:formatDate value="${crf.effectiveStartDate}"/></td>
         <td class="data shaded">${crf.status}</td>
