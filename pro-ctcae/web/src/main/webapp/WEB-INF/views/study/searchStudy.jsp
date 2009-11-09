@@ -57,9 +57,9 @@
 
         function navigate(e) {
             var mye;
-            if(e){
+            if (e) {
                 mye = e;
-            }else{
+            } else {
                 mye = event;
             }
             if (mye.keyCode == 13)  //enter pressed
@@ -69,6 +69,13 @@
         function doSend() {
             buildTable('assembler');
         }
+        Event.observe(window, "load", function() {
+            $('searchText').value = '%';
+            buildTable('assembler');
+            $('searchText').value = '';
+
+        })
+
 
     </script>
 </head>
