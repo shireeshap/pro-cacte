@@ -34,24 +34,23 @@
         }
     </style>
     <script>
+        function showTableLocal(table) {
+            $('indicator').className = 'indicator'
+            $('tableDiv').insert(table);
+        }
 
         function buildTable(form) {
-
+            $('tableDiv').innerHTML='';
             var type = $F('searchType')
             var text = $F('searchText')
-
             if (text == '') {
                 $('error').innerHTML = "<font color='#FF0000'>Provide at least one character in the search field</font>";
-
             } else {
                 $('error').innerHTML = ""
                 $('bigSearch').show()
-                //		//showing indicator and hiding pervious results. (#10826)
                 $('indicator').className = '';
-                //	$('assembler_table').hide();  //do not hide the results..becz filter string get disappear
                 var parameterMap = getParameterMap(form);
-
-                study.searchStudies(parameterMap, type, text, showTable);
+                study.searchStudies(parameterMap, type, text, showTableLocal);
             }
         }
 
