@@ -161,8 +161,7 @@
     </div>
     <br>
     </chrome:box>
-    <chrome:box title="participant.label.clinicalstaff">
-        <chrome:division title="participant.primaryclinicalstaff"/>
+    <chrome:box title="participant.primaryclinicalstaff">
     <table>
         <tr>
             <td>

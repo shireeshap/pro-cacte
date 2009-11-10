@@ -23,27 +23,27 @@ public class ParticipantAjaxFacadeTest extends AbstractWebTestCase {
         ParticipantAjaxFacade facade = new ParticipantAjaxFacade();
         facade.setParticipantRepository(participantRepository);
 
-        String table = facade.searchParticipant(parameterMap, p.getFirstName(), p.getLastName(), p.getAssignedIdentifier(), request);
+        String table = facade.searchParticipant(parameterMap, p.getFirstName(), p.getLastName(), p.getAssignedIdentifier(), 1111,  request);
         assertNotNull(table);
         assertTrue("must find participant", table.contains(p.getFirstName()));
         assertTrue("must find participant", table.contains(p.getLastName()));
 
-        table = facade.searchParticipant(parameterMap, "", p.getLastName(), "", request);
+        table = facade.searchParticipant(parameterMap, "", p.getLastName(), "", 1111, request);
         assertNotNull(table);
         assertTrue("must find participant", table.contains(p.getFirstName()));
         assertTrue("must find participant", table.contains(p.getLastName()));
 
-        table = facade.searchParticipant(parameterMap, p.getFirstName(), "", "", request);
+        table = facade.searchParticipant(parameterMap, p.getFirstName(), "", "", 1111, request);
         assertNotNull(table);
         assertTrue("must find participant", table.contains(p.getFirstName()));
         assertTrue("must find participant", table.contains(p.getLastName()));
 
-        table = facade.searchParticipant(parameterMap, "", "", p.getAssignedIdentifier(), request);
+        table = facade.searchParticipant(parameterMap, "", "", p.getAssignedIdentifier(), 1111, request);
         assertNotNull(table);
         assertTrue("must find participant", table.contains(p.getFirstName()));
         assertTrue("must find participant", table.contains(p.getLastName()));
 
-        table = facade.searchParticipant(parameterMap, "XXXXXXXXXXXX", "YYYYYYYYYY", "", request);
+        table = facade.searchParticipant(parameterMap, "XXXXXXXXXXXX", "YYYYYYYYYY", "", 1111, request);
         assertNotNull(table);
         assertTrue("must not find participant", !table.contains(p.getFirstName()));
         assertTrue("must not find participant", !table.contains(p.getLastName()));

@@ -43,7 +43,8 @@
             var firstName = $F('firstName')
             var lastName = $F('lastName')
             var identifier = $F('identifier')
-            if (firstName == '' && lastName == '' && identifier == '') {
+            var study = $F('study')
+            if (firstName == '' && lastName == '' && identifier == '' && study == '') {
                 $('error').innerHTML = "<font color='#FF0000'>Provide at least one value in the search field</font>";
 
             } else {
@@ -51,15 +52,15 @@
                 $('bigSearch').show()
                 $('indicator').className = '';
                 var parameterMap = getParameterMap(form);
-                participant.searchParticipant(parameterMap, firstName, lastName, identifier, showTable);
+                participant.searchParticipant(parameterMap, firstName, lastName, identifier, study, showTable);
             }
         }
 
         function navigate(e) {
             var mye;
-            if(e){
+            if (e) {
                 mye = e;
-            }else{
+            } else {
                 mye = event;
             }
             if (mye.keyCode == 13)  //enter pressed
@@ -69,6 +70,34 @@
         function doSend() {
             buildTable('assembler');
         }
+        Event.observe(window, "load", function() {
+            $('firstName').value = '%';
+            buildTable('assembler');
+            $('firstName').value = '';
+            
+            var sac = new studyAutoCompleter('study');
+            acCreateStudy(sac);
+
+        <c:if test="${study ne null}">
+            initializeAutoCompleter('study',
+                    '${study.displayName}', '${study.id}')
+        </c:if>
+            initSearchField();
+
+        })
+
+        function acCreateStudy(mode) {
+            new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
+                    mode.populator, {
+                valueSelector: mode.valueSelector,
+                afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+                    acPostSelect(mode, selectedChoice);
+                },
+                indicator: mode.basename + "-indicator"
+            })
+
+        }
+
     </script>
 </head>
 <body>
@@ -88,6 +117,12 @@
         <div class="label"><spring:message code='participant.label.participant_identifier' text=''/></div>
         <div class="value"><input type="text" id="identifier" name="identifier" maxlength="30"/></div>
     </div>
+
+    <tags:renderAutocompleter propertyName="study"
+                              displayName="Study"
+                              required="false"
+                              size="100"
+                              noForm="true"/>
     <div id="error"></div>
     <div class="row">
         <div class="label"></div>
@@ -103,6 +138,10 @@
     <chrome:box title="Results">
         <p><tags:instructions code="study.search.results"/></p>
         <form:form id="assembler">
+            <proctcae:urlAuthorize url="/pages/admin/participant/create">
+                <tags:button color="blue" markupWithTag="a" id="newFormUrl" icon="add" value="New Participant"
+                             href="create"/>
+            </proctcae:urlAuthorize>
             <chrome:division id="single-fields">
                 <div id="tableDiv">
                     <c:out value="${assembler}" escapeXml="false"/>

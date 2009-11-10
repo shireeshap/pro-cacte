@@ -16,7 +16,7 @@
         <div id="login-action">
 
             <proctcae:urlAuthorize url="/pages/home">
-            	<a id="logo" href="/proctcae">PRO-CTCAE</a>
+            	<a id="logo" href="/proctcae" title="Home">PRO-CTCAE</a>
                 <div id="welcome-user">Welcome
                     <b><authz:authentication property="name"></authz:authentication></b>
                 </div>

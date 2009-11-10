@@ -77,6 +77,7 @@ public class ParticipantQuery extends AbstractQuery {
         setParameter(IDENTIFIER, searchString);
     }
 
+    
 
     /**
      * Filter participants with matching text.

@@ -35,10 +35,10 @@ public class ParticipantAjaxFacade {
      * @return the string
      */
     public String searchParticipant(Map parameterMap, String firstName,
-                                    String lastName, String identifier, HttpServletRequest request) {
+                                    String lastName, String identifier, Integer studyId, HttpServletRequest request) {
 
         List<Participant> participants = getObjects(firstName, lastName,
-                identifier);
+                identifier, studyId);
         ParticipantTableModel participantTableModel = new ParticipantTableModel();
         String table = participantTableModel.buildParticipantTable(
                 parameterMap, participants, request);
@@ -55,7 +55,7 @@ public class ParticipantAjaxFacade {
      * @return the objects
      */
     private List<Participant> getObjects(String firstName, String lastName,
-                                         String identifier) {
+                                         String identifier, Integer studyId) {
         ParticipantQuery participantQuery = new ParticipantQuery();
 
         if (firstName != null && !"".equals(firstName)) {
@@ -66,6 +66,9 @@ public class ParticipantAjaxFacade {
         }
         if (identifier != null && !"".equals(identifier)) {
             participantQuery.filterByParticipantIdentifier(identifier);
+        }
+        if (identifier != null && !"".equals(studyId)) {
+            participantQuery.filterByStudy(studyId);
         }
         List<Participant> participants = (List<Participant>) participantRepository
                 .find(participantQuery);

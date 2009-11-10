@@ -262,8 +262,10 @@ function closeWindow() {
 }
 function acPostSelect(mode, selectedChoice) {
     $(mode.basename).value = selectedChoice.id;
-    if ( selectedChoice.id == '') {
+    if (selectedChoice.id == '') {
         $(mode.basename + "-input").value = '';
+    } else {
+        $(mode.basename + "-input").value = selectedChoice.displayName;
     }
 }
 function acCreate(mode) {

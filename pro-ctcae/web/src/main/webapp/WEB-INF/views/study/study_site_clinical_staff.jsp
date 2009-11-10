@@ -113,7 +113,7 @@
                                                            roleStatusOptions="${roleStatusOptions}"
                                                            studyCommand="${command}"/>
                     </chrome:division>
-                </chrome:box>
+                </chrome:box>    
                 <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
                     <chrome:division title="study.label.clinical.staff.lead.treating_physican">
 
