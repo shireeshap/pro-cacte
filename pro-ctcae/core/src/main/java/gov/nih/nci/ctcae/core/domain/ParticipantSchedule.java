@@ -126,6 +126,10 @@ public class ParticipantSchedule {
                 studyParticipantCrfSchedule.setCycleDay(cycleDay);
             }
 
+            if(c.get(Calendar.DAY_OF_WEEK)==6){
+                studyParticipantCrfSchedule.setHoliday(true);
+            }
+
             return studyParticipantCrfSchedule;
         }
 

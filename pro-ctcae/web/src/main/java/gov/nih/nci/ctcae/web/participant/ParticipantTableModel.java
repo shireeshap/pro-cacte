@@ -36,6 +36,7 @@ public class ParticipantTableModel extends AbstractTableModel {
             addFirstName(model);
             addMiddleName(model);
             addLastName(model);
+            addActions(model);
 
             return model.assemble().toString();
 
@@ -44,6 +45,15 @@ public class ParticipantTableModel extends AbstractTableModel {
             throw new CtcAeSystemException(e);
 
         }
+    }
+
+    private void addActions(TableModel model) {
+        Column columnActions = model.getColumnInstance();
+        columnActions.setTitle("Actions");
+        columnActions.setSortable(Boolean.FALSE);
+        columnActions.setCell("gov.nih.nci.ctcae.web.participant.ParticipantLinkDisplayDetailsCell");
+        model.addColumn(columnActions);
+
     }
 
     /**
@@ -96,9 +106,8 @@ public class ParticipantTableModel extends AbstractTableModel {
     private void addIdentifier(TableModel model) {
         Column columnIdentifier = model.getColumnInstance();
         columnIdentifier.setTitle("MRN");
-        columnIdentifier.setProperty("identifier");
+        columnIdentifier.setProperty("assignedIdentifier");
         columnIdentifier.setSortable(Boolean.TRUE);
-        columnIdentifier.setCell("gov.nih.nci.ctcae.web.participant.ParticipantLinkDisplayDetailsCell");
         model.addColumn(columnIdentifier);
     }
 

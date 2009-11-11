@@ -6,6 +6,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <%@taglib uri="http://www.extremecomponents.org" prefix="ec" %>
 <link rel="stylesheet" type="text/css"
       href="<c:url value="/css/extremecomponents.css"/>">
@@ -37,6 +38,35 @@
     </style>
 
     <script>
+        function showPopUpMenuParticipant(pid) {
+            var html = '<div id="search-engines"><ul>';
+        <proctcae:urlAuthorize url="/pages/participant/edit">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/edit"/>?id=' + pid + '\'">Edit</a></li>';
+        </proctcae:urlAuthorize>
+        <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/schedulecrf"/>?pId=' + pid + '\'">Schedule Form</a></li>';
+        </proctcae:urlAuthorize>
+
+            html += '</ul></div>';
+            jQuery('#participantActions' + pid).menu({
+                content: html,
+                maxHeight: 180,
+                positionOpts: {
+                    directionV: 'down',
+                    posX: 'left',
+                    posY: 'bottom',
+                    offsetX: 0,
+                    offsetY: 0
+                },
+                showSpeed: 300
+            });
+        }
+
+
+        function showTableLocal(table) {
+            $('indicator').className = 'indicator';
+            $('tableDiv').insert(table);
+        }
 
         function buildTable(form) {
 
@@ -52,7 +82,7 @@
                 $('bigSearch').show()
                 $('indicator').className = '';
                 var parameterMap = getParameterMap(form);
-                participant.searchParticipant(parameterMap, firstName, lastName, identifier, study, showTable);
+                participant.searchParticipant(parameterMap, firstName, lastName, identifier, showTableLocal);
             }
         }
 
@@ -138,10 +168,6 @@
     <chrome:box title="Results">
         <p><tags:instructions code="study.search.results"/></p>
         <form:form id="assembler">
-            <proctcae:urlAuthorize url="/pages/admin/participant/create">
-                <tags:button color="blue" markupWithTag="a" id="newFormUrl" icon="add" value="New Participant"
-                             href="create"/>
-            </proctcae:urlAuthorize>
             <chrome:division id="single-fields">
                 <div id="tableDiv">
                     <c:out value="${assembler}" escapeXml="false"/>

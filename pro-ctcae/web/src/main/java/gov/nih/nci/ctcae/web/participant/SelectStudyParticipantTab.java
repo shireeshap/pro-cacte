@@ -1,12 +1,10 @@
 package gov.nih.nci.ctcae.web.participant;
 
-import gov.nih.nci.ctcae.core.domain.CRF;
-import gov.nih.nci.ctcae.core.domain.Privilege;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
-import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.StudyParticipantAssignmentQuery;
 import gov.nih.nci.ctcae.core.repository.secured.CRFRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository;
+import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.web.security.SecuredTab;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -27,6 +25,7 @@ public class SelectStudyParticipantTab extends SecuredTab<StudyParticipantComman
     private StudyParticipantAssignmentRepository studyParticipantAssignmentRepository;
 
     private CRFRepository crfRepository;
+    private ParticipantRepository participantRepository;
 
     /**
      * Instantiates a new select study participant tab.
@@ -53,6 +52,10 @@ public class SelectStudyParticipantTab extends SecuredTab<StudyParticipantComman
         if (!StringUtils.isBlank(request.getParameter("crfId")) && command.getStudy() == null) {
             CRF crf = crfRepository.findById(Integer.valueOf(request.getParameter("crfId")));
             command.setStudy(crf.getStudy());
+        }
+        if (!StringUtils.isBlank(request.getParameter("pId")) && command.getParticipant() == null) {
+            Participant participant = participantRepository.findById(Integer.valueOf(request.getParameter("pId")));
+            command.setParticipant(participant);
         }
 
     }
@@ -86,4 +89,7 @@ public class SelectStudyParticipantTab extends SecuredTab<StudyParticipantComman
         this.crfRepository = crfRepository;
     }
 
+    public void setParticipantRepository(ParticipantRepository participantRepository) {
+        this.participantRepository = participantRepository;
+    }
 }

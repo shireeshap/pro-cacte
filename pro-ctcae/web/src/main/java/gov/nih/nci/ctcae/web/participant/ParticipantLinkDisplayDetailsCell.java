@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.cell.Cell;
+import org.extremecomponents.table.cell.AbstractCell;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.view.html.ColumnBuilder;
 
@@ -18,7 +19,7 @@ import org.extremecomponents.table.view.html.ColumnBuilder;
  * @author Harsh Agarwal
  * @created Oct 23, 2008
  */
-public class ParticipantLinkDisplayDetailsCell implements Cell {
+public class ParticipantLinkDisplayDetailsCell extends AbstractCell {
     protected Log logger = LogFactory.getLog(getClass());
 
     /* (non-Javadoc)
@@ -28,29 +29,11 @@ public class ParticipantLinkDisplayDetailsCell implements Cell {
         return column.getValueAsString();
     }
 
-    /* (non-Javadoc)
-     * @see org.extremecomponents.table.cell.Cell#getHtmlDisplay(org.extremecomponents.table.core.TableModel, org.extremecomponents.table.bean.Column)
-     */
-    public String getHtmlDisplay(TableModel model, Column column) {
-        ColumnBuilder inputBuilder = new ColumnBuilder(column);
-        inputBuilder.tdStart();
-
-        try {
-            Participant bean = (Participant) model.getCurrentRowBean();
-            Integer id = bean.getId();
-            inputBuilder.getHtmlBuilder().a("edit?id=" + id);
-
-            inputBuilder.getHtmlBuilder().xclose();
-            inputBuilder.tdBody(bean.getAssignedIdentifier());
-
-        } catch (Exception e) {
-            logger.error("error while generating link " + e.getMessage(), e);
-            throw new CtcAeSystemException(e);
-
-        }
-        inputBuilder.tdEnd();
-
-        return inputBuilder.toString().trim();
+    protected String getCellValue(TableModel tableModel, Column column) {
+        Participant bean = (Participant) tableModel.getCurrentRowBean();
+        Integer id = bean.getId();
+        String cellValue = "<a class=\"fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all\" id=\"participantActions" + id.toString() + "\"><span class=\"ui-icon ui-icon-triangle-1-s\"></span>Actions</a><script>showPopUpMenuParticipant('" + id.toString() + "');</script>";
+        return cellValue;
     }
 
 }
