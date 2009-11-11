@@ -249,7 +249,7 @@
                            <tags:renderPassword required="true" propertyName="participant.user.password"
                                                 displayName="participant.label.password"/>
                        </td>
-                       <td>(The password must be atleast 6 characters)</td>
+                       <td>(The password must be at least 6 characters)</td>
                    </tr>
                    <tr>
                        <td>
