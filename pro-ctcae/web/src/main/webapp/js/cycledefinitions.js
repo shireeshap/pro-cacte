@@ -25,8 +25,13 @@ function initializeCalendar(index) {
             var div_id = index + '_schedule_' + i;
             var myschedule = mySchedules[i];
             if (isdefined(myschedule)) {
-                var status = myschedule.substring(0, myschedule.indexOf('~'));
-                var baseline = myschedule.substring(myschedule.indexOf('~') + 1);
+                var tilda = myschedule.indexOf('~');
+                var status = myschedule.substring(0, tilda);
+                var remaining = myschedule.substring(tilda + 1);
+                tilda = remaining.indexOf('~');
+                var baseline = remaining.substring(0, tilda);
+                var holiday = remaining.substring(tilda + 1);
+
                 var item = $(div_id);
                 item.addClassName('blue');
                 item.removeClassName('passive');
@@ -45,6 +50,9 @@ function initializeCalendar(index) {
                     item.style.background = 'red';
                 }
                 if (status == 'Scheduled' || status == 'Past-due') {
+                    if (holiday == 'true') {
+                        item.style.background = '#666666';
+                    }
                     item.style.cursor = 'pointer';
                     if (baseline != 'true') {
                         var delIcon = '<div style="float:right"><img height="13" width="12" src="/proctcae/images/blank.gif" class="removebutton" ' +
