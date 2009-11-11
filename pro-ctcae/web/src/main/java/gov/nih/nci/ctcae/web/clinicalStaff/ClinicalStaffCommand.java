@@ -33,6 +33,7 @@ public class ClinicalStaffCommand {
     private Boolean email = false;
     private Boolean userAccount = false;
     private String clearCasePassword;
+    private boolean validUser = true;
 
     public Boolean isEmail() {
         return email;
@@ -151,5 +152,13 @@ public class ClinicalStaffCommand {
 
     public void setClearCasePassword(String clearCasePassword) {
         this.clearCasePassword = clearCasePassword;
+    }
+
+    public void setValidUser(boolean validUser) {
+        this.validUser =  validUser;
+    }
+
+    public boolean isValidUser() {
+        return validUser;
     }
 }

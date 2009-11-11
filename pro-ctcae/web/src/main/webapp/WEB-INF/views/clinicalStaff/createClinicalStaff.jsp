@@ -168,7 +168,12 @@
                     <tr>
                         <td>
                             <c:choose>
-                                <c:when test="${not empty clinicalStaffCommand.clinicalStaff.user.username}">
+                                <c:when test="${empty param['clinicalStaffId']}">
+                                    <tags:renderText propertyName="clinicalStaff.user.username"
+                                                     displayName="participant.label.username"
+                                                     required="true"/>
+                                </c:when>
+                                <c:otherwise>
                                     <div class="row">
                                         <div class="label"><spring:message code="participant.label.username"/></div>
                                         <div class="value">${clinicalStaffCommand.clinicalStaff.user.username}
@@ -177,16 +182,11 @@
                                                name="clinicalStaff.user.username"
                                                value="${clinicalStaffCommand.clinicalStaff.user.username}">
                                     </div>
-                                </c:when>
-                                <c:otherwise>
-                                    <tags:renderText propertyName="clinicalStaff.user.username"
-                                                     displayName="participant.label.username"
-                                                     required="true"/>
                                 </c:otherwise>
                             </c:choose>
                         </td>
                         <td>
-                            <c:if test="${not empty clinicalStaffCommand.clinicalStaff.user.username && fn:length(messages)==0}">
+                            <c:if test="${not empty clinicalStaffCommand.clinicalStaff.user.username && clinicalStaffCommand.validUser}">
                                 <c:set var="style" value="display:none"/>
                                 <div id="resetpass" class="label">
                                     <a href="javascript:showpassword(true);">Reset password</a></div>
