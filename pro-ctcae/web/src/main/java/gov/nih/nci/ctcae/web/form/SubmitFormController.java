@@ -80,6 +80,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
     @Override
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) errors.getTarget();
+        initialize(submitFormCommand.getStudyParticipantCrfSchedule(), submitFormCommand);
         ModelAndView mv = null;
         String pageIndex = request.getParameter("p");
 
