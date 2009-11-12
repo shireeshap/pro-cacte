@@ -35,13 +35,12 @@ public class EnrollmentReportResultsController extends AbstractController {
         ModelAndView modelAndView = new ModelAndView("reports/enrollmentReport");
 
         String studyId = request.getParameter("study");
-        Study study = studyRepository.findById(Integer.parseInt(studyId));
+        List<StudyOrganization> studySites = studyOrganizationRepository.findByStudyId("%", Integer.parseInt(studyId));
         List<EnrollmentReportLine> enrollmentReport = new ArrayList<EnrollmentReportLine>();
-        for (StudySite studySite : study.getStudySites()) {
-            StudyOrganization studyOrganization = studyOrganizationRepository.findById(studySite.getId());
+        for (StudyOrganization studyOrganization : studySites) {
             EnrollmentReportLine enrollmentReportLine = new EnrollmentReportLine();
-            enrollmentReportLine.setStudySite((StudySite)studyOrganization);
-            List<StudyParticipantAssignment> participantAssignmentList = studySite.getStudyParticipantAssignments();
+            enrollmentReportLine.setStudySite((StudySite) studyOrganization);
+            List<StudyParticipantAssignment> participantAssignmentList = studyOrganization.getStudyParticipantAssignments();
             Collections.sort(participantAssignmentList, new StudyParticipantAssignmentComparator());
             enrollmentReportLine.setNumberOfParticipants(participantAssignmentList.size());
             enrollmentReportLine.setLastEnrollment(participantAssignmentList.get(0).getParticipant().getCreationDate());
