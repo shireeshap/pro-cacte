@@ -82,7 +82,7 @@
                 $('bigSearch').show()
                 $('indicator').className = '';
                 var parameterMap = getParameterMap(form);
-                participant.searchParticipant(parameterMap, firstName, lastName, identifier, showTableLocal);
+                participant.searchParticipant(parameterMap, firstName, lastName, identifier, study, showTableLocal);
             }
         }
 
@@ -104,7 +104,7 @@
             $('firstName').value = '%';
             buildTable('assembler');
             $('firstName').value = '';
-            
+
             var sac = new studyAutoCompleter('study');
             acCreateStudy(sac);
 

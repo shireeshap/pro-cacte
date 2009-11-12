@@ -9,9 +9,6 @@
 <%@taglib prefix="standard" tagdir="/WEB-INF/tags/standard" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<script type="text/javascript">
-    alert('1');
-</script>
 <div style="width:650px;">
 <form:form method="post">
     <c:choose>

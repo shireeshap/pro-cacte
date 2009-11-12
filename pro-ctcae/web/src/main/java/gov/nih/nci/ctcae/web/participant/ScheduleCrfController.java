@@ -76,7 +76,9 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
         if (!StringUtils.isBlank(request.getParameter("pId")) && studyParticipantCommand.getParticipant() == null) {
             Participant participant = participantRepository.findById(Integer.valueOf(request.getParameter("pId")));
             studyParticipantCommand.setParticipant(participant);
-            studyParticipantCommand.setStudy(participant.getStudyParticipantAssignments().get(0).getStudySite().getStudy());
+            StudyParticipantAssignment studyParticipantAssignment = participant.getStudyParticipantAssignments().get(0);
+            studyParticipantCommand.setStudyParticipantAssignment(studyParticipantAssignment);
+            studyParticipantCommand.setStudy(studyParticipantAssignment.getStudySite().getStudy());
         }
 
         return studyParticipantCommand;

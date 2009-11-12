@@ -27,6 +27,11 @@
                 $("studysitestable").innerHTML = '';
                 return;
             }
+            var id = '${param['id']}';
+            alert(id);
+            if(id == ''){
+                id='${command.participant.id}';                
+            }
             var request = new Ajax.Request("<c:url value="/pages/participant/displaystudysites"/>", {
                 onComplete:function(transport) {
                     var response = transport.responseText;
