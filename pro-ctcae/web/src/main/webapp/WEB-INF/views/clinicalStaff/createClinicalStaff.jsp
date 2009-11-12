@@ -119,6 +119,8 @@
 <form:form method="post" commandName="clinicalStaffCommand">
     <c:set var="hasUserAccount"
            value="${clinicalStaffCommand.clinicalStaff.user.username ne null}"/>
+    <c:set var="isEdit"
+           value="${param['clinicalStaffId'] ne null}"/>
     <chrome:box title="">
         <tags:hasErrorsMessage hideErrorDetails="false"/>
         <input type="hidden" id="showForm" name="showForm" value=""/>
@@ -150,19 +152,25 @@
                 </tr>
             </table>
             <c:choose>
-                <c:when test="${hasUserAccount}">
+                <c:when test="${isEdit && hasUserAccount}">
                     <input type="hidden" name="userAccount" value="true" id="hasUserAccount"/>
-                    <c:set var="useraccountdetailsstyle" value=""/>
+                    <c:set var="div_useraccount_details_style" value=""/>
+                </c:when>
+                <c:when test="${isEdit && not hasUserAccount}">
+                    <input type="checkbox" name="userAccount" value="true"
+                           id="hasUserAccount"
+                           onclick="showOrHideUserAccountDetails(this.checked)" /> Create a user account for this clinical staff
+                    <c:set var="div_useraccount_details_style" value="display:none"/>
                 </c:when>
                 <c:otherwise>
                     <input type="checkbox" name="userAccount" value="true"
                            id="hasUserAccount"
-                           onclick="showOrHideUserAccountDetails(this.checked)"/> Create a user account for this clinical staff
-                    <c:set var="useraccountdetailsstyle" value="display:none"/>
+                           onclick="showOrHideUserAccountDetails(this.checked)" checked/> Create a user account for this clinical staff
+                    <c:set var="div_useraccount_details_style" value=""/>
                 </c:otherwise>
             </c:choose>
         </chrome:division>
-        <div id="div_useraccount_details" style="${useraccountdetailsstyle}">
+        <div id="div_useraccount_details" style="${div_useraccount_details_style}">
             <chrome:division title="clinicalStaff.division.user_account">
                 <table cellpadding="0" cellspacing="0">
                     <tr>
@@ -206,7 +214,7 @@
             </chrome:division>
             <chrome:division title="Additional Options">
                 <input type="checkbox" name="email" value="true"
-                       id="email"/> Send email to the user with username and password details
+                       id="email" checked/> Send email to the user with username and password details
                 <br/>
                 <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createCCA">
                     <input type="checkbox" name="cca" value="true"
@@ -269,9 +277,9 @@
     </chrome:box>
     <div style="text-align:right"><tags:button type="submit" color="green" value="Save" icon="save"/></div>
 </form:form>
-<c:if test="${not hasUserAccount}">
+<c:if test="${hasUserAccount && isEdit}">
     <script type="text/javascript">
-        showOrHideUserAccountDetails(false);
+        showOrHideUserAccountDetails(true);
     </script>
 </c:if>
 </body>
