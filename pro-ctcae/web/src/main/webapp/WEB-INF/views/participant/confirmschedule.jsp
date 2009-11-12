@@ -45,7 +45,7 @@
 
     <div class="row">
         <div class="label"><spring:message code="schedulecrf.label.study"/></div>
-        <div class="value">${command.study.shortTitle} </div>
+        <div class="value" style="width:20em">${command.study.shortTitle} </div>
     </div>
     <div class="row">
         <div class="label"><spring:message code="schedulecrf.label.participant"/></div>

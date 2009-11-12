@@ -34,6 +34,9 @@ public class Participant extends Person {
     @Column(name = "birth_date", nullable = true)
     private Date birthDate;
 
+    @Column(name = "creation_date", nullable = true)
+    private Date creationDate;
+
     /**
      * The gender.
      */
@@ -88,6 +91,11 @@ public class Participant extends Person {
     @OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
+
+
+    public Participant() {
+        this.creationDate = new Date();
+    }
 
     /**
      * Gets the maiden name.
@@ -244,5 +252,13 @@ public class Participant extends Person {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

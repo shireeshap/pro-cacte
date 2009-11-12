@@ -129,7 +129,6 @@
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
    <jsp:attribute name="singleFields">
-       ffff${command.participant.id}gggg
        <c:choose>
            <c:when test="${command.mode eq 'Y'}">
                <c:set var="required" value="false"/>
