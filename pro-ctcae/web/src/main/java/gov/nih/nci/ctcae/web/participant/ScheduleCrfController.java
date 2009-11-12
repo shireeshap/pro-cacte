@@ -5,6 +5,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.StaticFlowFactory;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrf;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
+import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository;
 import gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository;
 import gov.nih.nci.ctcae.web.form.CtcAeSecuredTabbedFlowController;
@@ -72,6 +73,12 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
                 studyParticipantCommand.setStudyParticipantAssignment(studyParticipantAssignment);
             }
         }
+        if (!StringUtils.isBlank(request.getParameter("pId")) && studyParticipantCommand.getParticipant() == null) {
+            Participant participant = participantRepository.findById(Integer.valueOf(request.getParameter("pId")));
+            studyParticipantCommand.setParticipant(participant);
+            studyParticipantCommand.setStudy(participant.getStudyParticipantAssignments().get(0).getStudySite().getStudy());
+        }
+
         return studyParticipantCommand;
     }
 
@@ -111,7 +118,8 @@ public class ScheduleCrfController<C extends StudyParticipantCommand> extends Ct
 
     @Override
     protected int getInitialPage(HttpServletRequest request, Object command) {
-        if (!StringUtils.isBlank(request.getParameter("sid"))) {
+        StudyParticipantCommand studyParticipantCommand = (StudyParticipantCommand) command;
+        if (studyParticipantCommand.getStudy() != null && studyParticipantCommand.getParticipant() != null) {
             return 1;
         }
         return super.getInitialPage(request, command);

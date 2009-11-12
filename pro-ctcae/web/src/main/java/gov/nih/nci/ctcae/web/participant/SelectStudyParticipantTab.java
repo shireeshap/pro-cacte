@@ -53,10 +53,6 @@ public class SelectStudyParticipantTab extends SecuredTab<StudyParticipantComman
             CRF crf = crfRepository.findById(Integer.valueOf(request.getParameter("crfId")));
             command.setStudy(crf.getStudy());
         }
-        if (!StringUtils.isBlank(request.getParameter("pId")) && command.getParticipant() == null) {
-            Participant participant = participantRepository.findById(Integer.valueOf(request.getParameter("pId")));
-            command.setParticipant(participant);
-        }
 
     }
 
