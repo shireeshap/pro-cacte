@@ -85,11 +85,11 @@ public class EditFormController extends FormController {
             formDetailsTab.setProCtcQuestionRepository(proCtcQuestionRepository);
             formDetailsTab.setProCtcTermRepository(proCtcTermRepository);
             flow.addTab(formDetailsTab);
-            CalendarTemplateTab calendarTemplateTab = new CalendarTemplateTab();
-            calendarTemplateTab.setCrfRepository(crfRepository);
-            calendarTemplateTab.setStudyRepository(studyRepository);
-            flow.addTab(calendarTemplateTab);
         }
+        CalendarTemplateTab calendarTemplateTab = new CalendarTemplateTab();
+        calendarTemplateTab.setCrfRepository(crfRepository);
+        calendarTemplateTab.setStudyRepository(studyRepository);
+        flow.addTab(calendarTemplateTab);
 
         if (myOrgStudyLevel != null) {
             FormRulesTab formRulesTab = new FormRulesTab();

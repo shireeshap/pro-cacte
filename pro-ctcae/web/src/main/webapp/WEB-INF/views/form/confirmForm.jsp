@@ -33,7 +33,14 @@
 
 </head>
 <body>
-<chrome:flashMessage flashMessage="Form has been created successfully"/>
+<c:choose>
+    <c:when test="${param['crfId'] eq null}">
+        <chrome:flashMessage flashMessage="Form has been created successfully"/>
+    </c:when>
+    <c:otherwise>
+        <chrome:flashMessage flashMessage="Form has been saved successfully"/>
+    </c:otherwise>
+</c:choose>
 <div class="instructions">
     <div class="summarylabel"><tags:message code='form.label.study'/></div>
     <div class="summaryvalue">${crf.study.displayName}</div>
@@ -66,11 +73,12 @@
 <div class="flow-buttons">
     <span class="prev">
         <c:if test="${crf.status ne 'Released'}">
-            <tags:button color="blue" markupWithTag="a" icon="window" value="Release Form" onclick="javascript:releaseForm('${crf.id}')"/>
+            <tags:button color="blue" markupWithTag="a" icon="window" value="Release Form"
+                         onclick="javascript:releaseForm('${crf.id}')"/>
         </c:if>
     </span>
 	<span class="next">
-		<tags:button color="green" markupWithTag="a" icon="check" value="Save as draft" href="/proctcae"/>
+		<tags:button color="green" markupWithTag="a" icon="check" value="Finish" href="/proctcae"/>
 	</span>
 </div>
 </body>
