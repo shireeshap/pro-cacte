@@ -28,16 +28,15 @@
                 return;
             }
             var id = '${param['id']}';
-            alert(id);
-            if(id == ''){
-                id='${command.participant.id}';                
+            if (id == '') {
+                id = '${command.participant.id}';
             }
             var request = new Ajax.Request("<c:url value="/pages/participant/displaystudysites"/>", {
                 onComplete:function(transport) {
                     var response = transport.responseText;
                     $("studysitestable").innerHTML = response;
                 },
-                parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId + "&id=${param['id']}",
+                parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId + "&id=" + id,
                 method:'get'
             })
         }
@@ -130,6 +129,7 @@
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="true">
    <jsp:attribute name="singleFields">
+       ffff${command.participant.id}gggg
        <c:choose>
            <c:when test="${command.mode eq 'Y'}">
                <c:set var="required" value="false"/>
