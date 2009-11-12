@@ -20,7 +20,7 @@ import java.util.List;
  * @since Oct 7, 2008
  */
 
-@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 public class StudyOrganizationClinicalStaffRepository implements Repository<StudyOrganizationClinicalStaff, StudyOrganizationClinicalStaffQuery> {
     private GenericRepository genericRepository;
 
@@ -36,7 +36,7 @@ public class StudyOrganizationClinicalStaffRepository implements Repository<Stud
     }
 
     public StudyOrganizationClinicalStaff save(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {
-        throw new CtcAeSystemException("must not use this method..use ClinicalstaffRepo#save method ");
+        return genericRepository.save(studyOrganizationClinicalStaff);
     }
 
     public void delete(StudyOrganizationClinicalStaff studyOrganizationClinicalStaff) {

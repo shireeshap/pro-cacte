@@ -29,8 +29,8 @@
 	<c:if test="${not empty onclick}">
     	onclick="${onclick}"
 	</c:if>>
-	<table <c:if test="${not empty href}">onclick="location.href='${href}';"</c:if>>
-		<tr>
+	<table <c:if test="${not empty href}">onclick="location.href='${href}';"</c:if> style="border:none">
+		<tr style="border:none">
 			<td class="l"></td>
 			<td class="m">
 				<c:if test="${icon=='save'||icon=='Save'}">

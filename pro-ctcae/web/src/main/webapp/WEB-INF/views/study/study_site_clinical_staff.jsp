@@ -18,7 +18,16 @@
 
 
     <script type="text/javascript">
+        function changeStatus(status, id) {
+            var request = new Ajax.Request("<c:url value="/pages/study/changeStatus"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&id=" + id + "&status=" + status,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 650, 280);
+                },
+                method:'get'
+            })
 
+        }
         Event.observe(window, "load", function() {
         <c:forEach  items="${command.studyOrganizationClinicalStaffs}" var="studyOrganizationClinicalStaff" varStatus="status">
             var studyOrganizationClinicalStafBaseName = 'studyOrganizationClinicalStaffs[${status.index}].organizationClinicalStaff'
@@ -113,7 +122,7 @@
                                                            roleStatusOptions="${roleStatusOptions}"
                                                            studyCommand="${command}"/>
                     </chrome:division>
-                </chrome:box>    
+                </chrome:box>
                 <chrome:box title="study.tab.research_staff" id="studySiteClinicalStaff">
                     <chrome:division title="study.label.clinical.staff.lead.treating_physican">
 

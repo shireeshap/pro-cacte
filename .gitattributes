@@ -512,6 +512,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/setup/SetupOrNotFilter.java -t
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyArmController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudyComponentController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/AddStudySiteController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/ChangeStatusController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/CreateStudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/EditStudyController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/study/EmptyStudyTab.java -text
@@ -743,6 +744,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/deleteClinicalStaffAssign
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudyArmSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/oneStudySiteSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/ajax/studyOrganizationClinicalStaffSection.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/study/changeStatus.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/confirmStudy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/searchStudy.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/study/study_clinical_staff.jsp -text

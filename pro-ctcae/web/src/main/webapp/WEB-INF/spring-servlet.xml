@@ -258,6 +258,11 @@
           class="gov.nih.nci.ctcae.web.study.EditStudyController" parent="studyController">
     </bean>
 
+    <bean name="/study/changeStatus" id="changeStatusController"
+          class="gov.nih.nci.ctcae.web.study.ChangeStatusController" parent="ctcaeSimpleFormController">
+        <property name="studyOrganizationClinicalStaffRepository" ref="studyOrganizationClinicalStaffRepository"/>
+    </bean>
+
     <bean name="/study/addStudySite" id="addStudySiteController"
           class="gov.nih.nci.ctcae.web.study.AddStudySiteController">
         <property name="studyRepository" ref="studyRepository"/>

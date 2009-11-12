@@ -21,18 +21,9 @@
             <div align="left" style="margin-left: 15px">
                 <table class="tablecontent" width="100%">
                     <tr id="ss-table-head" class="amendment-table-head">
-                        <th width="50%" class="tableHeader"><tags:requiredIndicator/><tags:message
+                        <th width="60%" class="tableHeader"><tags:requiredIndicator/><tags:message
                                 code="study.label.clinical.staff"/></th>
-
-                        <th width="15%" class="tableHeader"><tags:requiredIndicator/><tags:message
-                                code="clinicalStaff.label.role.status"/></th>
-
-                        <th width="30%" class="tableHeader"><tags:requiredIndicator/><tags:message
-                                code="clinicalStaff.label.role.status.date"/></th>
-
-                        <th width="5%" class="tableHeader" style=" background-color: none">
-                            &nbsp;</th>
-
+                        <th width="40%" class="tableHeader"></th>
                     </tr>
                     <c:forEach var="studyOrganizationClinicalStaff"
                                items="${studyCommand.studyOrganizationClinicalStaffs}" varStatus="status">

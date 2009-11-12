@@ -14,7 +14,7 @@
 
 
 <tr id="row-${studyOrganizationClinicalStaffIndex}">
-    <td style="border-right:none;" width="50%">
+    <td style="border-right:none;" width="60%">
         <c:choose>
             <c:when test="${readOnly}">
                 ${studyOrganizationClinicalStaff.organizationClinicalStaff.displayName}
@@ -26,31 +26,30 @@
             </c:otherwise>
         </c:choose>
     </td>
+    <td style="border-right:none;" width="40%">
+        <c:choose>
+            <c:when test="${readOnly}">
+                <c:choose>
+                    <c:when test="${studyOrganizationClinicalStaff.roleStatus == 'Active'}">
+                        <tags:button color="blue" markupWithTag="a" value="De-activate"
+                                     onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus}','${studyOrganizationClinicalStaff.id}')"
+                                     size="small"/>
+                    </c:when>
+                    <c:otherwise>
+                        <tags:button color="blue" markupWithTag="a" value="Activate"
+                                     onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus}','${studyOrganizationClinicalStaff.id}')"
+                                     size="small"/>
+                    </c:otherwise>
+                </c:choose>
+            </c:when>
+            <c:otherwise>
+                <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
+                   href="javascript:deleteSiteRole('${studyOrganizationClinicalStaffIndex}');">
+                    <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
+                         style="vertical-align:middle;text-align:left">
+                </a>
 
-    <td style="border-right:none;" width="15%">
-        <tags:renderSelect propertyName="${propertyName}.roleStatus"
-                           options="${roleStatusOptions}"
-                           propertyValue="${studyOrganizationClinicalStaff.roleStatus}" noForm="true"
-                           doNotshowLabel="true"
-                           required="true"
-                           displayName="clinicalStaff.label.role.status"/>
+            </c:otherwise>
+        </c:choose>
     </td>
-    <td style="border-right:none;" width="30%">
-        <tags:renderDate propertyName="${propertyName}.statusDate"
-                         displayName="clinicalStaff.label.role.status.date"
-                         required="true" noForm="true"
-                         dateValue="${studyOrganizationClinicalStaff.statusDate}"
-                         doNotShowFormat="true" doNotshowLabel="true" size="10"/>
-
-    </td>
-    <td style="border-left:none;" width="5%">
-        <c:if test="${not readOnly}">
-            <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
-               href="javascript:deleteSiteRole('${studyOrganizationClinicalStaffIndex}');">
-                <img src="<chrome:imageUrl name="../checkno.gif"/>" border="0" alt="delete"
-                     style="vertical-align:middle;text-align:left">
-            </a>
-        </c:if>
-    </td>
-
 </tr>
