@@ -477,6 +477,8 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SearchParticipantC
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/SelectStudyParticipantTab.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ShowCompletedCrfController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommand.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/EnrollmentReportLine.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/EnrollmentReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/GetParticipantCrfItemsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/OrganizationNameComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ParticipantAddedQuestionsReportDetailsController.java -text
@@ -495,6 +497,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/ReportSearchCriteriaCo
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportExcelController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportExcelView.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportResultsController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/StudyParticipantAssignmentComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/AbstractChartGenerator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/AbstractReportResultsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/reports/graphical/ReportResultsHelper.java -text
@@ -725,6 +728,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/schedulecrf.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/searchParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/selectstudyparticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/showCompletedCrf.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/enrollmentReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsDetails.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantLevelReport.jsp -text

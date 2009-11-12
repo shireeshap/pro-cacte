@@ -35,6 +35,14 @@
                     </div>
                 </li>
             </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/reports/report">
+                <li id="thirdlevelnav-x" class="tab ${selected=='enrollmentReport'?'selected':''}">
+                    <div>
+                        <a href="report?rt=enrollmentReport"><tags:message
+                                code="reports.tab.enrollmentReport"/></a>
+                    </div>
+                </li>
+            </proctcae:urlAuthorize>
         </ul>
     </div>
 </div>

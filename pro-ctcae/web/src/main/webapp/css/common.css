@@ -235,7 +235,7 @@ background-position: 0px -200px;
     background-repeat: no-repeat;
     text-align: center;
     margin-right: 15px;
-    color: #333366;
+    color: #ffffff;
     font-weight: bold;
     text-decoration: none;
     font-size: 0.85em;
@@ -258,6 +258,9 @@ background-position: 0px -200px;
 }
 
 a#logout:hover {
+    text-decoration: underline;
+}
+a#home:hover {
     text-decoration: underline;
 }
 

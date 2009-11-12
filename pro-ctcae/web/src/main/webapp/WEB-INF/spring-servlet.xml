@@ -423,6 +423,12 @@
           class="gov.nih.nci.ctcae.web.reports.graphical.SymptomOverTimeReportResultsController">
         <property name="genericRepository" ref="genericRepository"/>
     </bean>
+    <bean name="/reports/enrollmentReport" id="enrollmentReportResultsController"
+          class="gov.nih.nci.ctcae.web.reports.EnrollmentReportResultsController">
+        <property name="studyRepository" ref="studyRepository"/>
+        <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
+    </bean>
+
     <bean name="/reports/reportDetails" id="symptomOverTimeReportDetailsController"
           class="gov.nih.nci.ctcae.web.reports.ReportDetailsController">
         <property name="genericRepository" ref="genericRepository"/>

@@ -1,5 +1,6 @@
 var hasError = false;
 var displaySymptom = false;
+var displayForm = true;
 var displayDate = true;
 var displayParticipants = false;
 var selectedCrf = '';
@@ -23,10 +24,12 @@ function acCreateStudyMonitor(mode) {
         afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
             $('search').hide();
             acPostSelect(mode, selectedChoice);
-            displayForms();
-            displaySites();
-            if (displayFilterBy) {
-                $('filterByDiv').show();
+            if (displayForm) {
+                displayForms();
+                displaySites();
+                if (displayFilterBy) {
+                    $('filterByDiv').show();
+                }
             }
             $('search').show();
             //            fnDisplayParticipants();
@@ -110,7 +113,9 @@ function performValidations() {
     hasError = false;
     var j = 0;
     var arr = new Array();
-    arr[j++] = 'form';
+    if (displayForm) {
+        arr[j++] = 'form';
+    }
     if (displaySymptom) {
         arr[j++] = 'proCtcTermsSelect';
     }
@@ -266,7 +271,10 @@ function updateChart(chkbox) {
 function getQueryString(igroup, iarms) {
     var queryString = getStandardParamForAjax();
     queryString += "&study=" + $('study').value;
-    queryString += "&crf=" + $('form').value;
+    if (displayForm) {
+        queryString += "&crf=" + $('form').value;
+        queryString += "&studySite=" + $('studySite').value;
+    }
     if (displaySymptom) {
         queryString += "&symptom=" + $('proCtcTermsSelect').value;
     } else {
@@ -278,7 +286,7 @@ function getQueryString(igroup, iarms) {
         queryString += "&filter=" + $('filterBy').value;
         queryString += "&filterVal=" + $('filterByValue').value;
     }
-    queryString += "&studySite=" + $('studySite').value;
+
     queryString += "&attributes=" + getSelectedAttributes();
     var group = 'cycle';
     if (typeof(igroup) == 'undefined' || igroup == '') {

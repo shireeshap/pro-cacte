@@ -9,6 +9,9 @@
     <c:when test="${selected eq 'symptomSummary'}">
     var displayFilterBy = true;
     </c:when>
+    <c:when test="${selected eq 'enrollmentReport'}">
+    var displayForm = false;
+    </c:when>
     </c:choose>
 </script>
 

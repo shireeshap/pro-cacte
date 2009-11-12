@@ -86,6 +86,11 @@
 <report:thirdlevelmenu selected="${param['rt']}"/>
 <report:reportSpecificJS selected="${param['rt']}"/>
 <tags:instructions code="${param['rt']}Instructions"/>
+<c:set var="onlyStudy" value="false"/>
+<c:if test="${param['rt'] eq 'enrollmentReport'}">
+    <c:set var="onlyStudy" value="true"/>
+</c:if>
+
 <chrome:box title="report.label.search_criteria">
     <div align="left" style="margin-left: 50px">
         <c:choose>
@@ -104,113 +109,115 @@
                 </script>
             </c:otherwise>
         </c:choose>
-
-        <c:choose>
-            <c:when test="${crfs ne null}">
-                <c:choose>
-                    <c:when test="${fn:length(crfs)==1}">
-                        <div class="row">
-                            <div class="label"><tags:message code="reports.label.form"/></div>
-                            <div class="value">${crfs[0].title}</div>
-                            <input type="hidden" name="form" id="form" value="${crfs[0].id}" title="Form"/>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="row">
-                            <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.form"/></div>
-                            <div class="value">
-                                <select onchange="javascript:displaySymptoms(this.value)" name="form" id="form">
-                                    <option value="">Please select</option>
-                                    <c:forEach items="${crfs}" var="crf">
-                                        <option value="${crf.id}">${crf.title}</option>
-                                    </c:forEach>
-                                </select>
+        <c:if test="${not onlyStudy}">
+            <c:choose>
+                <c:when test="${crfs ne null}">
+                    <c:choose>
+                        <c:when test="${fn:length(crfs)==1}">
+                            <div class="row">
+                                <div class="label"><tags:message code="reports.label.form"/></div>
+                                <div class="value">${crfs[0].title}</div>
+                                <input type="hidden" name="form" id="form" value="${crfs[0].id}" title="Form"/>
                             </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="row">
+                                <div class="label"><tags:requiredIndicator/><tags:message
+                                        code="reports.label.form"/></div>
+                                <div class="value">
+                                    <select onchange="javascript:displaySymptoms(this.value)" name="form" id="form">
+                                        <option value="">Please select</option>
+                                        <c:forEach items="${crfs}" var="crf">
+                                            <option value="${crf.id}">${crf.title}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+                <c:otherwise>
+                    <div class="row" id="divFormRow" style="display:none">
+                        <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.form"/></div>
+                        <div class="value" id="formTitle"></div>
+                        <input type="hidden" name="form" id="form" value="" title="Form"/>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+            <c:choose>
+                <c:when test="${proctcterms ne null && param['rt'] eq 'symptomOverTime'}">
+                    <div class="row">
+                        <div class="label"><tags:message code="reports.label.symptoms"/></div>
+                        <div class="value">
+                            <select id="proCtcTermsSelect" title="symptom">
+                                <option value="">Please select</option>
+                                <c:forEach items="${proctcterms}" var="proctcterm">
+                                    <option value="${proctcterm.id}">${proctcterm.term}</option>
+                                </c:forEach>
+                            </select>
                         </div>
-                    </c:otherwise>
-                </c:choose>
-            </c:when>
-            <c:otherwise>
-                <div class="row" id="divFormRow" style="display:none">
-                    <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.form"/></div>
-                    <div class="value" id="formTitle"></div>
-                    <input type="hidden" name="form" id="form" value="" title="Form"/>
-                </div>
-            </c:otherwise>
-        </c:choose>
-        <c:choose>
-            <c:when test="${proctcterms ne null && param['rt'] eq 'symptomOverTime'}">
-                <div class="row">
-                    <div class="label"><tags:message code="reports.label.symptoms"/></div>
-                    <div class="value">
-                        <select id="proCtcTermsSelect" title="symptom">
-                            <option value="">Please select</option>
-                            <c:forEach items="${proctcterms}" var="proctcterm">
-                                <option value="${proctcterm.id}">${proctcterm.term}</option>
-                            </c:forEach>
-                        </select>
                     </div>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <div class="row" id="divSymptomsRow" style="display:none">
-                    <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.symptoms"/></div>
-                    <div class="value" id="proCtcTerms"></div>
-                </div>
-            </c:otherwise>
-        </c:choose>
-        <c:choose>
-            <c:when test="${studySite ne null}">
-                <div class="row">
-                    <div class="label"><tags:message code="reports.label.site"/></div>
-                    <div class="value">${studySite.displayName}</div>
-                </div>
-                <input type="hidden" id="studySite" name="studySite" value="${studySite.id}"/>
-            </c:when>
-            <c:otherwise>
-                <div>
-                    <input type="hidden" id="studySite" name="studySite" value="" title="Study site"/>
-
-                    <div id="studySiteAutoCompleter" style="display:none">
-                        <tags:renderAutocompleter
-                                propertyName="studySite" displayName="Study site" size="60"
-                                noForm="true"/>
+                </c:when>
+                <c:otherwise>
+                    <div class="row" id="divSymptomsRow" style="display:none">
+                        <div class="label"><tags:requiredIndicator/><tags:message code="reports.label.symptoms"/></div>
+                        <div class="value" id="proCtcTerms"></div>
                     </div>
-                    <div class="row" id="divStudySiteRow" style="display:none">
+                </c:otherwise>
+            </c:choose>
+            <c:choose>
+                <c:when test="${studySite ne null}">
+                    <div class="row">
                         <div class="label"><tags:message code="reports.label.site"/></div>
-                        <div class="value" id="studySiteDisplayName"></div>
+                        <div class="value">${studySite.displayName}</div>
                     </div>
-                </div>
-                <c:if test="${study ne null}">
-                    <script type="text/javascript">
-                        displaySites();
-                    </script>
-                </c:if>
-            </c:otherwise>
-        </c:choose>
+                    <input type="hidden" id="studySite" name="studySite" value="${studySite.id}"/>
+                </c:when>
+                <c:otherwise>
+                    <div>
+                        <input type="hidden" id="studySite" name="studySite" value="" title="Study site"/>
 
-        <c:set var="filterstyle" value="display:none"/>
-        <c:if test="${study ne null}">
-            <c:set var="filterstyle" value=""/>
-        </c:if>
-        <div class="row" id="filterByDiv" style="${filterstyle}">
-            <div class="label"><tags:message code="reports.label.FilterBy"/></div>
-            <div class="value">
-                <select id="filterBy" title="Filter By" onchange="showText(this);">
-                    <option value="">None</option>
-                    <option value="cycle">Cycle</option>
-                    <option value="week">Week</option>
-                    <option value="month">Month</option>
-                </select>
-                <input type="text" name="filterByValue" id="filterByValue" style="display:none" size="8"
-                       title="Filter By"/>
+                        <div id="studySiteAutoCompleter" style="display:none">
+                            <tags:renderAutocompleter
+                                    propertyName="studySite" displayName="Study site" size="60"
+                                    noForm="true"/>
+                        </div>
+                        <div class="row" id="divStudySiteRow" style="display:none">
+                            <div class="label"><tags:message code="reports.label.site"/></div>
+                            <div class="value" id="studySiteDisplayName"></div>
+                        </div>
+                    </div>
+                    <c:if test="${study ne null}">
+                        <script type="text/javascript">
+                            displaySites();
+                        </script>
+                    </c:if>
+                </c:otherwise>
+            </c:choose>
 
-                <div style="font-size:11px;display:none" id="filterByValueHelp"> (You can either specify a range of
-                    values using dash, for ex. 2-5, or separate
-                    values using comma, for ex. 1,5,8)
+            <c:set var="filterstyle" value="display:none"/>
+            <c:if test="${study ne null}">
+                <c:set var="filterstyle" value=""/>
+            </c:if>
+            <div class="row" id="filterByDiv" style="${filterstyle}">
+                <div class="label"><tags:message code="reports.label.FilterBy"/></div>
+                <div class="value">
+                    <select id="filterBy" title="Filter By" onchange="showText(this);">
+                        <option value="">None</option>
+                        <option value="cycle">Cycle</option>
+                        <option value="week">Week</option>
+                        <option value="month">Month</option>
+                    </select>
+                    <input type="text" name="filterByValue" id="filterByValue" style="display:none" size="8"
+                           title="Filter By"/>
+
+                    <div style="font-size:11px;display:none" id="filterByValueHelp"> (You can either specify a range of
+                        values using dash, for ex. 2-5, or separate
+                        values using comma, for ex. 1,5,8)
+                    </div>
                 </div>
             </div>
-        </div>
+        </c:if>
         <div id="search" class="row">
             <div style="margin-left:9em">
                 <tags:button color="blue" value="Generate Report" onclick="resetPopUpFlagAndCallResults();" size="big"
