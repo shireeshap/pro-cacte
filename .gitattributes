@@ -588,6 +588,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/debugInfo.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/dwrJavascriptLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/enableRowDeletion.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/errors.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/floatingTaskbar.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowControls.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/flowSaveButton.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/form.tag -text
@@ -770,6 +771,7 @@ pro-ctcae/web/src/main/webapp/css/cycledefinitions.css -text
 pro-ctcae/web/src/main/webapp/css/debug.css -text
 pro-ctcae/web/src/main/webapp/css/extremecomponents.css -text
 pro-ctcae/web/src/main/webapp/css/fields.css -text
+pro-ctcae/web/src/main/webapp/css/floatingTaskbar.css -text
 pro-ctcae/web/src/main/webapp/css/hoverhelp.css -text
 pro-ctcae/web/src/main/webapp/css/ie.css -text
 pro-ctcae/web/src/main/webapp/css/jQuery-theme/fg.menu.css -text

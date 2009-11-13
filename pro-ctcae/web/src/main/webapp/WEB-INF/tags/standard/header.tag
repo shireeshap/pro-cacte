@@ -36,20 +36,13 @@
 
 
         <ul id="sections" class="tabs">
-            <c:forEach items="${sections}" var="section">
-
+            <c:forEach items="${sections}" var="section" varStatus="index">
                 <proctcae:urlAuthorize url="${section.mainUrl}">
-
                     <li class="${section == currentSection ? 'selected' : ''}">
-
-                        <a id="firstlevelnav_${section.mainController}"
+                        <a id="firstlevelnav_${section.mainController}" index="${index.index}"
                            href="<c:url value="${section.mainUrl}"/>"><spring:message code='${section.displayName}'
-                                                                                      text=''/></a>
-
                     </li>
                 </proctcae:urlAuthorize>
-
-
             </c:forEach>
         </ul>
 
@@ -69,12 +62,13 @@
                                 class="${(lengthOfTask gt 22 ? 'imagegt18' : '')}"
                                 src="/proctcae/images/blue/icons/${task.linkName}_icon.png"/><spring:message
                                 code='${task.displayName}' text=''/></a>
-
                     </proctcae:urlAuthorize>
                 </c:forEach>
             </c:if>
         </div>
-
+      <div id="floatingTaskbar" style="display:none;">
+            <tags:floatingTaskbar />
+        </div>
 
     </div>
 </div>
