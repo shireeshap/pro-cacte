@@ -8,6 +8,7 @@
 <%@ taglib prefix="security" uri='http://www.springframework.org/security/tags' %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
+<tags:stylesheetLink name="floatingTaskbar"/>
 <div id="header">
 
     <div class="background-R">
@@ -16,16 +17,17 @@
         <div id="login-action">
 
             <proctcae:urlAuthorize url="/pages/home">
-            	<a id="logo" href="/proctcae" title="Home">PRO-CTCAE</a>
+                <a id="logo" href="/proctcae" title="Home">PRO-CTCAE</a>
+
                 <div id="welcome-user">Welcome
                     <b><authz:authentication property="name"></authz:authentication></b>
                 </div>
             </proctcae:urlAuthorize>
-			<%--
-	            <ctcae:publicAuthorize>
-	                <a href="<c:url value="/public/login"/>">Log in</a>
-	            </ctcae:publicAuthorize>
-			--%>
+            <%--
+                   <ctcae:publicAuthorize>
+                       <a href="<c:url value="/public/login"/>">Log in</a>
+                   </ctcae:publicAuthorize>
+               --%>
             <proctcae:urlAuthorize url="/pages/j_spring_security_logout">
                 <a id="home" href="<c:url value="/"/>">Home</a>
             </proctcae:urlAuthorize>
@@ -40,7 +42,8 @@
                 <proctcae:urlAuthorize url="${section.mainUrl}">
                     <li class="${section == currentSection ? 'selected' : ''}">
                         <a id="firstlevelnav_${section.mainController}" index="${index.index}"
-                           href="<c:url value="${section.mainUrl}"/>"><spring:message code='${section.displayName}'
+                           href="<c:url value="${section.mainUrl}"/>">
+                            <spring:message code='${section.displayName}' text=''/></a>
                     </li>
                 </proctcae:urlAuthorize>
             </c:forEach>
@@ -62,12 +65,13 @@
                                 class="${(lengthOfTask gt 22 ? 'imagegt18' : '')}"
                                 src="/proctcae/images/blue/icons/${task.linkName}_icon.png"/><spring:message
                                 code='${task.displayName}' text=''/></a>
+
                     </proctcae:urlAuthorize>
                 </c:forEach>
             </c:if>
         </div>
-      <div id="floatingTaskbar" style="display:none;">
-            <tags:floatingTaskbar />
+        <div id="floatingTaskbar" style="display:none;">
+            <tags:floatingTaskbar/>
         </div>
 
     </div>
