@@ -29,18 +29,25 @@
     <td style="border-right:none;" width="40%">
         <c:choose>
             <c:when test="${readOnly}">
-                <c:choose>
-                    <c:when test="${studyOrganizationClinicalStaff.roleStatus == 'Active'}">
-                        <tags:button color="blue" markupWithTag="a" value="De-activate"
-                                     onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus}','${studyOrganizationClinicalStaff.id}')"
-                                     size="small"/>
-                    </c:when>
-                    <c:otherwise>
-                        <tags:button color="blue" markupWithTag="a" value="Activate"
-                                     onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus}','${studyOrganizationClinicalStaff.id}')"
-                                     size="small"/>
-                    </c:otherwise>
-                </c:choose>
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>
+                            <c:choose>
+                                <c:when test="${studyOrganizationClinicalStaff.roleStatus == 'Active'}">
+                                    <tags:button color="blue" markupWithTag="a" value="De-activate"
+                                                 onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus}','${studyOrganizationClinicalStaff.id}')"
+                                                 size="small"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <tags:button color="blue" markupWithTag="a" value="Activate"
+                                                 onclick="changeStatus('${studyOrganizationClinicalStaff.roleStatus}','${studyOrganizationClinicalStaff.id}')"
+                                                 size="small"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>Effective from <tags:formatDate value="${studyOrganizationClinicalStaff.statusDate}"/></td>
+                    </tr>
+                </table>
             </c:when>
             <c:otherwise>
                 <a id="del-${empty idSuffix ? index : idSuffix}" class="del-${cssClass}"
