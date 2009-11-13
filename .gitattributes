@@ -855,6 +855,7 @@ pro-ctcae/web/src/main/webapp/images/blue/eXtable_allAE_header_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/eXtableheader_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/edit_add.png -text
 pro-ctcae/web/src/main/webapp/images/blue/error.png -text
+pro-ctcae/web/src/main/webapp/images/blue/floatingTaskbar_BG.png -text
 pro-ctcae/web/src/main/webapp/images/blue/form_table/B.png -text
 pro-ctcae/web/src/main/webapp/images/blue/form_table/BL.png -text
 pro-ctcae/web/src/main/webapp/images/blue/form_table/BR.png -text
@@ -894,6 +895,8 @@ pro-ctcae/web/src/main/webapp/images/blue/formbuilder_4thlvl_btns.png -text
 pro-ctcae/web/src/main/webapp/images/blue/formbuilder_min-max_bg.png -text
 pro-ctcae/web/src/main/webapp/images/blue/forms_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/forms_btn_selected.png -text
+pro-ctcae/web/src/main/webapp/images/blue/ftsecondlevelnav_hover.png -text
+pro-ctcae/web/src/main/webapp/images/blue/ftsecondlevelnav_hover_gt4.png -text
 pro-ctcae/web/src/main/webapp/images/blue/go_to_manage_reports_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/header_bg.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/html_bg.png -text
@@ -962,6 +965,7 @@ pro-ctcae/web/src/main/webapp/images/blue/savecontinue_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_gt4_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_hover.png -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_hover_gt4.png -text
+pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_selected.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/secondlevelnav_selected.png -text
 pro-ctcae/web/src/main/webapp/images/blue/select_question_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/stop_sign.png -text
