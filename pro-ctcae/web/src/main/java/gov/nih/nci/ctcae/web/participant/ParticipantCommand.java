@@ -175,6 +175,11 @@ public class ParticipantCommand {
                 setSiteName(studySite.getOrganization().getName());
 
                 StudyParticipantAssignment studyParticipantAssignment = createStudyParticipantAssignment(studySite, request.getParameter("participantStudyIdentifier_" + studySite.getId()), request.getParameter("arm_" + studySite.getId()));
+                String studyStartDate = request.getParameter("study_date_" + studySite.getId());
+                if (!StringUtils.isBlank(studyStartDate)) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                    studyParticipantAssignment.setStudyStartDate(simpleDateFormat.parse(studyStartDate));
+                }
                 assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request);
             }
         } else {

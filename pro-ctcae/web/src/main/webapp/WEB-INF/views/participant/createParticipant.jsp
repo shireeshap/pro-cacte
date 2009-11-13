@@ -34,7 +34,7 @@
             var request = new Ajax.Request("<c:url value="/pages/participant/displaystudysites"/>", {
                 onComplete:function(transport) {
                     var response = transport.responseText;
-                    $("studysitestable").innerHTML = response;
+                    $("studysitestable").insert(response);
                 },
                 parameters:<tags:ajaxstandardparams/> + "&organizationId=" + organizationId + "&id=" + id,
                 method:'get'
@@ -47,6 +47,9 @@
                 getStudySites();
             })
         });
+
+
+
         function showForms(obj, id) {
             var sites = document.getElementsByName('studySites');
             for (var i = 0; i < sites.length; i++) {

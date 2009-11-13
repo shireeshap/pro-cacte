@@ -67,6 +67,7 @@ pro-ctcae/core/src/main/db/migrate/003_elaboration_1/005_add_roles_privileges.gr
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/006_alter_clinical_staff.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/007_add_report_specific_privileges.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/008_add_participant_creation_date.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/009_update_study_participant_assignment.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text

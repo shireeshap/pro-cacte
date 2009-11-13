@@ -38,6 +38,12 @@ public class StudyParticipantAssignment extends BaseVersionable {
 
     @Column(name = "off_treatment_date", nullable = true)
     private Date offTreatmentDate;
+
+    @Column(name = "study_start_date", nullable = true)
+    private Date studyStartDate;
+
+
+
     /**
      * The participant.
      */
@@ -173,6 +179,14 @@ public class StudyParticipantAssignment extends BaseVersionable {
             studyParticipantCrf.setStudyParticipantAssignment(this);
             studyParticipantCrfs.add(studyParticipantCrf);
         }
+    }
+
+    public Date getStudyStartDate() {
+        return studyStartDate;
+    }
+
+    public void setStudyStartDate(Date studyStartDate) {
+        this.studyStartDate = studyStartDate;
     }
 
 

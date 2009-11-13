@@ -4,6 +4,21 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="isEdit" value="${param['id'] eq '' ? false : true}"/>
+<script type="text/javascript">
+
+    <c:if test="${not isEdit}">
+    <c:forEach items="${unselectedstudysites}" var="studysite">
+    Event.observe($('a_${studysite.id}'), 'click', function() {
+    <c:forEach items="${studysite.study.crfs}" var="crf">
+        $('form_date_${crf.id}').value = $('study_date_${studysite.id}').value;
+    </c:forEach>
+
+    })
+
+    </c:forEach>
+    </c:if>
+
+</script>
 <table cellpadding="0" width="100%">
 
     <c:if test="${not isEdit}">
@@ -59,6 +74,13 @@
                                     code="study.label.arm"/>: </b> ${studyParticipantAssignment.arm.title}
                         </td>
                     </tr>
+                    <tr>
+                        <td class="data" colspan="2">
+                            <b><spring:message code="participant.label.startdate"/></b><tags:formatDate
+                                value="${studyParticipantAssignment.studyStartDate}"/>
+                        </td>
+                        </td>
+                    </tr>
                     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="spacrf"
                                varStatus="spacrfstatus">
                         <tr>
@@ -109,20 +131,41 @@
                                 <c:if test="${fn:length(studysite.study.nonDefaultArms) > 0}">
                                     <c:choose>
                                         <c:when test="${fn:length(studysite.study.nonDefaultArms) > 1}">
-                                    <b><span class="required-indicator">*</span><spring:message code="study.label.arm"/></b>
-                                    <select name="arm_${studysite.id}" title="arm"
-                                            id="arm_${studysite.id}">
-                                        <option value="">Please select</option>
-                                        <c:forEach items="${studysite.study.nonDefaultArms}" var="arm">
-                                            <option value="${arm.id}">${arm.title}</option>
-                                        </c:forEach>
-                                    </select>
+                                            <b><span class="required-indicator">*</span><spring:message
+                                                    code="study.label.arm"/></b>
+                                            <select name="arm_${studysite.id}" title="arm"
+                                                    id="arm_${studysite.id}">
+                                                <option value="">Please select</option>
+                                                <c:forEach items="${studysite.study.nonDefaultArms}" var="arm">
+                                                    <option value="${arm.id}">${arm.title}</option>
+                                                </c:forEach>
+                                            </select>
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="hidden" name="arm_${studysite.id}" value="${studysite.study.nonDefaultArms[0].id}"> ${studysite.study.nonDefaultArms[0].title}
+                                            <input type="hidden" name="arm_${studysite.id}"
+                                                   value="${studysite.study.nonDefaultArms[0].id}"> ${studysite.study.nonDefaultArms[0].title}
                                         </c:otherwise>
                                     </c:choose>
                                 </c:if>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data" colspan="2">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <b><spring:message code="participant.label.startdate"/></b>
+                                            <tags:renderDate
+                                                    propertyName="study_date_${studysite.id}"
+                                                    doNotshowLabel="true" required="true"
+                                                    noForm="true" dateValue="<%= new Date()%>"/>
+                                        </td>
+                                        <td>
+                                            <tags:button color="blue" size="small" markupWithTag="a"
+                                                         value="apply to all forms" icon="" id="a_${studysite.id}"/>
+                                        </td>
+                                    </tr>
+                                </table>
                             </td>
                         </tr>
                         <c:if test="${hasforms eq 'true'}">
