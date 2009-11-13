@@ -45,7 +45,7 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td>Effective from <tags:formatDate value="${studyOrganizationClinicalStaff.statusDate}"/></td>
+                        <td>Effectively ${studyOrganizationClinicalStaff.roleStatus} from <tags:formatDate value="${studyOrganizationClinicalStaff.statusDate}"/></td>
                     </tr>
                 </table>
             </c:when>
