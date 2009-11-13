@@ -192,6 +192,9 @@ public class SubmitFormController extends CtcAeSimpleFormController {
 
     private void initialize(StudyParticipantCrfSchedule studyParticipantCrfSchedule, SubmitFormCommand submitFormCommand) {
         studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
+        for (StudyParticipantCrfItem studyParticipantCrfItem : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+            studyParticipantCrfItem.getCrfPageItem();
+        }
         for (StudyParticipantClinicalStaff studyParticipantClinicalStaff : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudyParticipantClinicalStaffs()) {
             studyParticipantClinicalStaff.getStudyOrganizationClinicalStaff();
         }
