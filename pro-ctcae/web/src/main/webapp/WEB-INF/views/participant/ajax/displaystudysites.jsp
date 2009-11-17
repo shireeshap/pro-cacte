@@ -10,9 +10,10 @@
     <c:forEach items="${unselectedstudysites}" var="studysite">
     Event.observe($('a_${studysite.id}'), 'click', function() {
     <c:forEach items="${studysite.study.crfs}" var="crf">
+        <c:if test="${crf.status eq 'Released' and crf.childCrf eq null}">
         $('form_date_${crf.id}').value = $('study_date_${studysite.id}').value;
+        </c:if>
     </c:forEach>
-
     })
 
     </c:forEach>
