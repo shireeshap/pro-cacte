@@ -144,14 +144,14 @@ public class ParticipantCommand {
         return studyParticipantAssignment;
     }
 
-    public void assignCrfsToParticipant(StudyParticipantAssignment studyParticipantAssignment, CRFRepository crfRepository, HttpServletRequest request) throws ParseException {
+    public void assignCrfsToParticipant(StudyParticipantAssignment studyParticipantAssignment, CRFRepository crfRepository, HttpServletRequest request, String studyStartDate) throws ParseException {
         Study study = studyParticipantAssignment.getStudySite().getStudy();
         for (CRF crf : study.getCrfs()) {
             crf = crfRepository.findById(crf.getId());
             if (crf.getStatus().equals(CrfStatus.RELEASED)) {
                 if (crf.getChildCrf() == null || crf.getChildCrf().getStatus().equals(CrfStatus.DRAFT)) {
                     StudyParticipantCrf studyParticipantCrf = new StudyParticipantCrf();
-                    String sDate = request.getParameter("form_date_" + crf.getId());
+                    String sDate = studyStartDate;
                     if (!StringUtils.isBlank(sDate)) {
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
                         studyParticipantCrf.setStartDate(simpleDateFormat.parse(sDate));
@@ -180,7 +180,7 @@ public class ParticipantCommand {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
                     studyParticipantAssignment.setStudyStartDate(simpleDateFormat.parse(studyStartDate));
                 }
-                assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request);
+                assignCrfsToParticipant(studyParticipantAssignment, crfRepository, request, studyStartDate);
             }
         } else {
             for (StudyParticipantAssignment studyParticipantAssignment : participant.getStudyParticipantAssignments()) {

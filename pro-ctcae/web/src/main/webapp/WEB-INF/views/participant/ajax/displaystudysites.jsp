@@ -80,17 +80,13 @@
                             <b><spring:message code="participant.label.startdate"/></b><tags:formatDate
                                 value="${studyParticipantAssignment.studyStartDate}"/>
                         </td>
-                        </td>
+
                     </tr>
                     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="spacrf"
                                varStatus="spacrfstatus">
                         <tr>
-                            <td class="data" align="left">
+                            <td class="data" align="left" colspan="2">
                                 <b><spring:message code="form.tab.form"/>: </b>${spacrf.crf.title}
-                            </td>
-                            <td class="data" align="left">
-                                &nbsp; <b><spring:message code="participant.label.startdate"/></b><tags:formatDate
-                                    value="${spacrf.startDate}"/>
                             </td>
                         </tr>
                     </c:forEach>
@@ -154,18 +150,14 @@
                             <td class="data" colspan="2">
                                 <table>
                                     <tr>
-                                        <td>
+                                        <td colspan="2">
                                             <b><spring:message code="participant.label.startdate"/></b>
                                             <tags:renderDate
                                                     propertyName="study_date_${studysite.id}"
                                                     doNotshowLabel="true" required="true"
                                                     noForm="true" dateValue="<%= new Date()%>"/>
                                         </td>
-                                        <td>
-                                            <tags:button color="blue" size="small" markupWithTag="a"
-                                                         value="apply to all forms" icon="" id="a_${studysite.id}"/>
-                                        </td>
-                                    </tr>
+                                     </tr>
                                 </table>
                             </td>
                         </tr>
@@ -174,16 +166,8 @@
                             <c:forEach items="${studysite.study.crfs}" var="crf">
                                 <c:if test="${crf.status eq 'Released' and crf.childCrf eq null}">
                                     <tr>
-                                        <td class="data">
-                                            <b><spring:message
-                                                    code="form.tab.form"/>:</b>&nbsp;&nbsp;${crf.title}
-                                        </td>
-                                        <td class="data">
-                                            <b><spring:message code="participant.label.startdate"/></b>
-                                            <tags:renderDate
-                                                    propertyName="form_date_${crf.id}"
-                                                    doNotshowLabel="true"
-                                                    noForm="true" dateValue="<%= new Date()%>"/>
+                                        <td class="data" colspan="2">
+                                            <b><spring:message code="form.tab.form"/>:</b>&nbsp;&nbsp;${crf.title}
                                         </td>
                                     </tr>
                                 </c:if>
