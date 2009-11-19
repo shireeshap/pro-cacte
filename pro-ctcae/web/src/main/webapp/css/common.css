@@ -1,4 +1,5 @@
 /**** GENERAL TAG STYLE OVERRIDES */
+
 body {
     font-family: Lucida Grande, Trebuchet MS, Arial, Helvetica, sans-serif;
     font-size: 10pt;
@@ -564,13 +565,16 @@ ul.tabs li {
 }
 
 #taskbar a.lte4, #floatingTaskbar a.lte4 {
-    color: inherit;
+    color: #fff;
     text-decoration: none;
     height: 43px;
     width: 232px;
     float: left;
     padding-top: 8px;
     font-weight: bold;
+}
+#floatingTaskbar a.lte4 {
+	color:#494949;
 }
 
 #taskbar a.gt4, #floatingTaskbar a.gt4 {
@@ -585,6 +589,9 @@ ul.tabs li {
     text-indent: 10px;
     margin-top: 1px;
     margin-right: 2px;
+}
+#floatingTaskbar a.gt4 {
+	color:#494949;
 }
 
 #taskbar a.gt4:hover, #floatingTaskbar a.gt4:hover {
