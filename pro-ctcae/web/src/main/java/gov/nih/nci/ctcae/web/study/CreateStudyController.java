@@ -29,10 +29,13 @@ public class CreateStudyController extends StudyController {
         if (clinicalStaff != null) {
             if (!clinicalStaff.getUser().isAdmin()) {
                 List<Organization> organizationsWithCCARole = clinicalStaff.getOrganizationsWithCCARole();
-                if (organizationsWithCCARole == null || organizationsWithCCARole.size() != 1) {
+                if (organizationsWithCCARole == null || organizationsWithCCARole.size() == 0) {
                     throw new CtcAeSystemException("Logged in user is either not a CCA on any organization or is a CCA on multiple organizations.");
                 }
+                if (organizationsWithCCARole.size() == 1) {
                 studyCommand.getStudy().getStudySponsor().setOrganization(organizationsWithCCARole.get(0));
+                }
+                studyCommand.setOrganizationsWithCCARole(organizationsWithCCARole);
             }
 
         } else {

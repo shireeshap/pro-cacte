@@ -49,11 +49,8 @@
 
         Event.observe(window, "load", function() {
         <%--<c:if test="${param['studyId'] ne null}">--%>
-            <%--$('_target').name = '_target0';--%>
+        <%--$('_target').name = '_target0';--%>
         <%--</c:if>--%>
-        <c:if test="${command.study.studySponsor.organization eq null}">
-            acCreate(new siteAutoComplter('study.studySponsor.organization'))
-        </c:if>
 
             acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
             acCreate(new siteAutoComplter('study.fundingSponsor.organization'))
@@ -107,9 +104,17 @@
                </div>
            </c:when>
            <c:otherwise>
-               <tags:renderAutocompleter propertyName="study.studySponsor.organization"
-                                         displayName="study.label.study_sponsor"
-                                         required="true" size="70"/>
+               <div class="row">
+                   <div class="label"><tags:message code='study.label.study_sponsor'/></div>
+                   <div class="value">
+                       <select id="study.studySponsor.organization" name="study.studySponsor.organization">
+                           <option value="">Please select</option>
+                           <c:forEach items="${command.organizationsWithCCARole}" var="organization">
+                               <option value="${organization.id}">${organization.displayName}</option>
+                           </c:forEach>
+                       </select>
+                   </div>
+               </div>
            </c:otherwise>
        </c:choose>
 

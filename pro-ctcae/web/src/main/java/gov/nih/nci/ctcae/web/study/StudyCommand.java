@@ -29,6 +29,8 @@ public class StudyCommand {
 
     private List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = new ArrayList<StudyOrganizationClinicalStaff>();
 
+    List<Organization> organizationsWithCCARole = new ArrayList<Organization>();
+
     private String armIndexToRemove;
     private boolean activeDefaultArm = false;
     private Organization defaultOrganization;
@@ -54,6 +56,14 @@ public class StudyCommand {
     public StudyCommand(Study study) {
         this.study = study;
     }
+
+    public List<Organization> getOrganizationsWithCCARole() {
+          return organizationsWithCCARole;
+      }
+
+      public void setOrganizationsWithCCARole(List<Organization> organizationsWithCCARole) {
+          this.organizationsWithCCARole = organizationsWithCCARole;
+      }
 
 
     /**

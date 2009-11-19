@@ -14,7 +14,7 @@
 <html>
 <head>
 	<standard:head/>
-	<title>ProCtcAE || ${flow.name} || ${tab.longTitle}</title>
+	<title>PRO-CTCAE </title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
 	<tags:stylesheetLink name="tabbedflow"/>
