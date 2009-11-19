@@ -58,11 +58,33 @@
     </script>
 </head>
 <body>
-<div class="row">
-    <div class="label_nomargin"><spring:message code="schedulecrf.label.participant"/>:&nbsp;</div>
-    <div class="value_nomargin">${command.participant.displayName}</div>
-</div>
+<table>
+    <tr>
+        <td>
+             <div class="label_nomargin"><b>Participant:</b>&nbsp;</div>
+        </td>
+        <td>
+             <div class="value_nomargin">${command.participant.displayName}</div>
+        </td>
+    </tr>
+    <tr>
+        <td VALIGN="top">
+             <div class="label_nomargin"><b>Instructions</b></div>
+        </td>
+        <td>
+             <div class="value_nomargin"><spring:message code="participant.schedule.crf"/></div>
+        </td>
+    </tr>
+</table>
+<%--<div class="row">--%>
+    <%--<div class="label_nomargin"><spring:message code="schedulecrf.label.participant"/>:&nbsp;</div>--%>
+    <%--<div class="value_nomargin">${command.participant.displayName}</div>--%>
+<%--</div>--%>
+<%--<div class="row">--%>
 
+
+
+<%--</div>--%>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="myForm">
     <jsp:attribute name="singleFields">
         <input type="hidden" name="_finish" value="true"/>
