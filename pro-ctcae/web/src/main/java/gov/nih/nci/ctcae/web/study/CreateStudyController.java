@@ -30,7 +30,7 @@ public class CreateStudyController extends StudyController {
             if (!clinicalStaff.getUser().isAdmin()) {
                 List<Organization> organizationsWithCCARole = clinicalStaff.getOrganizationsWithCCARole();
                 if (organizationsWithCCARole == null || organizationsWithCCARole.size() == 0) {
-                    throw new CtcAeSystemException("Logged in user is either not a CCA on any organization or is a CCA on multiple organizations.");
+                    throw new CtcAeSystemException("Logged in user is not a CCA on any organization.");
                 }
                 if (organizationsWithCCARole.size() == 1) {
                 studyCommand.getStudy().getStudySponsor().setOrganization(organizationsWithCCARole.get(0));
