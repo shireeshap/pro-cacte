@@ -23,7 +23,11 @@
 
     <bean id="publicHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
     </bean>
-
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+            <property name="basename" value="/WEB-INF/message"/>
+            <property name="cacheSeconds" value="1"/>
+        </bean>
+     
 
     <bean name="/welcome" id="welcomeController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController">
@@ -44,6 +48,12 @@
             <value>accessDenied</value>
         </property>
     </bean>
+
+    <bean name="/password" id="forgotPassword"
+          class="gov.nih.nci.ctcae.web.login.ForgotPasswordController">
+        <property name="userRepository" ref="userRepository"/>
+    </bean>
+
 
 
     <bean name="/css/*"

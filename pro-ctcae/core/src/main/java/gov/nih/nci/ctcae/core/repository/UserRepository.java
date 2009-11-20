@@ -165,6 +165,13 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public User saveWithoutCheck(User user) {
+        user.setPassword(getEncodedPassword(user));
+        user = genericRepository.save(user);
+        return user;
+    }
+
     public void delete(User user) {
         genericRepository.delete(user);
     }

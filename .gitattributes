@@ -443,6 +443,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/SubmitFormController.java
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/VersionFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/form/ViewFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/login/CrfActivityDateComparator.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/login/ForgotPasswordController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/login/LoginController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/login/StudyDisplayNameComparator.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/meddra/MeddraAjaxFacade.java -text
@@ -675,6 +676,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/organizationClinicalSt
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/searchClinicalStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/drag-drop.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/dummy.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/forgotPassword.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/addQuestionForParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/addquestion.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/form/ajax/allConditions.jsp -text
@@ -730,6 +732,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/schedulecrf.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/searchParticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/selectstudyparticipant.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/participant/showCompletedCrf.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/passwordReset.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/enrollmentReport.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsDetails.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text

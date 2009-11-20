@@ -27,19 +27,20 @@
             float: left;
             margin-top: 1em;
         }
-		* {
-			zoom:1;
-		}
-		
+
+        * {
+            zoom: 1;
+        }
+
 
     </style>
-<!--[if IE]>
-	<style>
-		div.row div.value {
-			margin-left:7px;
-		}
-	</style>
-<![endif]-->
+    <!--[if IE]>
+        <style>
+            div.row div.value {
+                margin-left:7px;
+            }
+        </style>
+    <![endif]-->
 </head>
 <body>
 <chrome:box title="Please log in" autopad="true">
@@ -74,18 +75,23 @@
                 Password
             </div>
             <div class="value" style="text-align:left; padding:0;">
-                <input type="password" name="j_password" id="password" onclick="attachKeyBoard($('password'));" style="margin-left:0;"/>
+                <input type="password" name="j_password" id="password" onclick="attachKeyBoard($('password'));"
+                       style="margin-left:0;"/>
             </div>
         </div>
         <div class="row">
-            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this,'username');">&nbsp;Use virtual
+            <input id='usevirtualkeyboard' type="checkbox" onclick="showVirtualKeyBoard(this,'username');">&nbsp;Use
+            virtual
             keyboard
+        </div>
+        <div class="row">
+            <a href='<c:url value="password"/>'>Forgot password?</a>
         </div>
         <div class="row">
             <div class="submit">
                 <tags:button type="submit" value="Log in" color="blue"/>
             </div>
-        </div>                                           
+        </div>
     </form>
 </chrome:box>
 <div id="keyboardDiv"></div>
