@@ -902,6 +902,14 @@ pro-ctcae/web/src/main/webapp/images/blue/ftsecondlevelnav_hover_gt4.png -text
 pro-ctcae/web/src/main/webapp/images/blue/go_to_manage_reports_btn.png -text
 pro-ctcae/web/src/main/webapp/images/blue/header_bg.jpg -text
 pro-ctcae/web/src/main/webapp/images/blue/html_bg.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/16px/Thumbs.db -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/16px/basicFormController.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/16px/captureAdverseEventController.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/16px/createStudyController.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/16px/participantController.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/16px/reportSearchCriteriaController.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/16px/searchClinicalStaffController.png -text
+pro-ctcae/web/src/main/webapp/images/blue/icons/16px/searchStudyController.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/assignController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/assignParticipantController_icon.png -text
 pro-ctcae/web/src/main/webapp/images/blue/icons/basicFormController_icon.png -text
