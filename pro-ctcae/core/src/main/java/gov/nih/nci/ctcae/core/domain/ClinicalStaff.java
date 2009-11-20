@@ -6,9 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 //
 /**
@@ -238,7 +236,7 @@ public class ClinicalStaff extends Person {
     }
 
     public List<Organization> getOrganizationsWithCCARole() {
-        List<Organization> organizations = new ArrayList<Organization>();
+        Set<Organization> organizations = new HashSet<Organization>();
         for (OrganizationClinicalStaff organizationClinicalStaff : organizationClinicalStaffs) {
             for (UserRole userRole : organizationClinicalStaff.getClinicalStaff().getUser().getUserRoles()) {
                 if (userRole.getRole().equals(Role.CCA)) {
@@ -246,7 +244,7 @@ public class ClinicalStaff extends Person {
                 }
             }
         }
-        return organizations;
+        return new ArrayList(organizations);
     }
 
 }
