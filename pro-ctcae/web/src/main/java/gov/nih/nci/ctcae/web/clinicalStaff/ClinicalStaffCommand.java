@@ -88,18 +88,31 @@ public class ClinicalStaffCommand {
         this.clinicalStaff = clinicalStaff;
     }
 
+    private boolean userHasRole(User user, Role role) {
+        for (UserRole userRole : user.getUserRoles()) {
+            if (userRole.getRole().equals(role)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void apply() {
         if (getUserAccount()) {
             clearCasePassword = getClinicalStaff().getUser().getPassword();
             if (getCca()) {
-                UserRole userRole = new UserRole();
-                userRole.setRole(Role.CCA);
-                getClinicalStaff().getUser().addUserRole(userRole);
+                if (!userHasRole(getClinicalStaff().getUser(), Role.CCA)) {
+                    UserRole userRole = new UserRole();
+                    userRole.setRole(Role.CCA);
+                    getClinicalStaff().getUser().addUserRole(userRole);
+                }
             }
             if (getAdmin()) {
-                UserRole userRole = new UserRole();
-                userRole.setRole(Role.ADMIN);
-                getClinicalStaff().getUser().addUserRole(userRole);
+                if (!userHasRole(getClinicalStaff().getUser(), Role.ADMIN)) {
+                    UserRole userRole = new UserRole();
+                    userRole.setRole(Role.ADMIN);
+                    getClinicalStaff().getUser().addUserRole(userRole);
+                }
             }
         } else {
             getClinicalStaff().setUser(null);
@@ -155,7 +168,7 @@ public class ClinicalStaffCommand {
     }
 
     public void setValidUser(boolean validUser) {
-        this.validUser =  validUser;
+        this.validUser = validUser;
     }
 
     public boolean isValidUser() {
