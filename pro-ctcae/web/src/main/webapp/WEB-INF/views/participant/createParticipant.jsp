@@ -195,7 +195,7 @@
                                               required="${required}" options="${genders}"/>
                            <tags:renderText propertyName="participant.assignedIdentifier"
                                             displayName="participant.label.participant_identifier"
-                                            required="${required}"/>
+                                            required="false"/>
                        </td>
                    </tr>
                </table>
