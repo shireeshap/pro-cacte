@@ -40,14 +40,12 @@
             }
             
             #alertsdiv {
-                overflow-x: hidden;
                 width: 455px;
                 overflow-y: auto;
                 max-height: 400px;
             }
             
             table.widget {
-                width: 445px;
                 border: none;
             }
             
