@@ -98,4 +98,30 @@
         });
     }
 
+    function showPopUpMenuAlerts(uid, spcrfid, uuid, pid) {
+            var html = '<div id="search-engines"><ul>';
+                html += '<li><a href="#" onclick="javascript:showMessage('+ uid +')">Alert message</a></li>';
+                html += '<li><a href="#" onclick="javascript:completedForm(' + spcrfid + ')">Show all responses</a></li>';
+            <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                html += '<li><a href="#" onclick="location.href=\'<c:url value="reports/participantReport"/>?sid=' + spcrfid + '\'">Show report</a></li>';
+            </proctcae:urlAuthorize>
+        <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/schedulecrf"/>?pId=' + pid + '\'">Manage schedule</a></li>';
+        </proctcae:urlAuthorize>
+
+            html += '</ul></div>';
+            jQuery('#alertActions' + uid).menu({
+                content: html,
+                maxHeight: 180,
+                positionOpts: {
+                    directionV: 'down',
+                    posX: 'left',
+                    posY: 'bottom',
+                    offsetX: 0,
+                    offsetY: 0
+                },
+                showSpeed: 300
+            });
+        }
+    
 </script>
