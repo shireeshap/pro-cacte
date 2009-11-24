@@ -17,6 +17,7 @@
 
 </head>
 <body>
+
 <div id="completedCrfTable">
     <tags:completedSchedule completedSchedule="${completedCrf}"/>
 </div>
