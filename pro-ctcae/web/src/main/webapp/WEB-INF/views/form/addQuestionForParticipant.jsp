@@ -195,7 +195,7 @@
             <b><tags:message code="participant.form.typesymptom"/></b>
         </p>
 
-        <div id="keyboardDiv"></div>
+
         <br/>
         <input type="text" id="participantquestion-input" value="" class="autocomplete"
                size="60"/>
@@ -209,6 +209,7 @@
                    onclick="showVirtualKeyBoard(this,'participantquestion-input');">&nbsp;Use virtual
             keyboard
         </div>
+        <div id="keyboardDiv"></div>
     </chrome:box>
 
     <table width="100%">
