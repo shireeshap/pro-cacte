@@ -24,7 +24,7 @@ ${notification.notification.text}
 
 <br>
 
-<a class="link" href="javascript:completedForm('${spCrfId}');">View all responses</a>
+<a class="link" href="javascript:completedForm('${spCrfId}');">Show all responses</a>
 
 </body>
 </html>

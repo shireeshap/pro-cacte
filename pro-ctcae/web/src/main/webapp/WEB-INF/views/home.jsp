@@ -135,18 +135,14 @@
                 <table class="widget" cellpadding="3px;">
                     <tr>
                         <td class="header-top">
+                            Date
+                        </td>
+                        <td class="header-top">
                             Participant
                         </td>
                         <td class="header-top">
                             Study
                         </td>
-                        <td class="header-top">
-                            Date
-                        </td>
-                        <td class="header-top">
-                            Message
-                        </td>
-
                         <td class="header-top">
                         </td>
                         <td class="header-top">
@@ -158,6 +154,11 @@
                                     <c:if test="${usernotification.new}">
                                         class="bold"
                                     </c:if>>
+                                <td class="data">
+                                    <a class="link"
+                                       href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
+                                            value="${usernotification.notification.date}"/></a>
+                                </td>
                                 <td class="data" style="text-align:left">
                                     <proctcae:urlAuthorize url="/pages/reports/participantReport">
                                     <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
@@ -179,16 +180,6 @@
                                             ${usernotification.study.shortTitle}
                                         </c:otherwise>
                                     </c:choose>
-                                </td>
-                                <td class="data">
-                                    <a class="link"
-                                       href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
-                                            value="${usernotification.notification.date}"/></a>
-                                </td>
-                                <td class="data">
-                                    <a class="link" href="javascript:showMessage('${usernotification.id}');">This is
-                                        an
-                                        auto..</a>
                                 </td>
                                 <td>
                                     <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
