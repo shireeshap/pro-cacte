@@ -29,8 +29,7 @@
         #inboxTable {
             width: 80%;
             border: 0;
-            margin-left: 95px;
-            margin-top: 210px;
+            margin-left: 20px;
             border-collapse: collapse;
         }
 
@@ -59,7 +58,7 @@
         </c:forEach>
     </c:forEach>
 </c:forEach>
-<img style="position:absolute; top:0px; left:0px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
+<img style=" position:relative; left:-11px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
 
 <div id="inboxTitle"><span style="font-size:75px; line-height:70px;">Inbox</span><br/>
     <span style="font-size:13pt; margin-left:6px;">You have <c:choose><c:when test="${not empty numberofCrfs}"><span
@@ -67,57 +66,118 @@
             test="${numberofCrfs != 1}">s</c:if> that need<c:if
             test="${numberofCrfs == 1}">s</c:if> to be completed.</span>
 </div>
-<table id="inboxTable">
-    <tr>
-        <th>
-            <tags:message code="participant.label.title"/>
-        </th>
-        <th>
-            <tags:message code="participant.label.status"/>
-        </th>
-        <th>
-            <tags:message code="participant.label.dueDate"/>
-        </th>
-    </tr>
-    <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
-        <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
-            <c:set var="baselineCompleted" value="false"/>
-            <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
-                <c:if test="${studyParticipantCrfSchedule.baseline}">
-                    <c:if test="${studyParticipantCrfSchedule.status eq 'Completed'}">
-                        <c:set var="baselineCompleted" value="true"/>
+    <chrome:box title="Scheduled forms">
+    <table id="inboxTable">
+        <tr>
+            <th>
+                <tags:message code="participant.label.title"/>
+            </th>
+            <th>
+                <tags:message code="participant.label.scheduleDate"/>
+            </th>
+            <th>
+                <tags:message code="participant.label.dueDate"/>
+            </th>
+        </tr>
+        <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
+            <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
+                <c:set var="baselineCompleted" value="false"/>
+                <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
+                           var="studyParticipantCrfSchedule">
+                    <c:if test="${studyParticipantCrfSchedule.baseline}">
+                        <c:if test="${studyParticipantCrfSchedule.status eq 'Completed'}">
+                            <c:set var="baselineCompleted" value="true"/>
+                        </c:if>
                     </c:if>
-                </c:if>
-            </c:forEach>
-            <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
-                <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || ((studyParticipantCrfSchedule.status eq 'Scheduled' || studyParticipantCrfSchedule.status eq 'Past-due' ) &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
-                    <tr>
-                        <td>
-                            <c:choose>
-                                <c:when test="${studyParticipantCrfSchedule.baseline || baselineCompleted}">
-                                    <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}">${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}</a>
-                                    <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if>
-                                </c:when>
-                                <c:otherwise>
-                                    ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>
-                                ${studyParticipantCrfSchedule.status}
-                        </td>
-                        <td>
-                                <%--<c:if test="${not studyParticipantCrfSchedule.baseline}">--%>
-                            <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
-                                <%--</c:if>--%>
-                        </td>
-                    </tr>
-                </c:if>
+                </c:forEach>
+                <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
+                           var="studyParticipantCrfSchedule">
+                    <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
+                        <tr>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${studyParticipantCrfSchedule.baseline || baselineCompleted}">
+                                        <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}">${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}</a>
+                                        <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
+                            </td>
+                            <td>
+                                    <%--<c:if test="${not studyParticipantCrfSchedule.baseline}">--%>
+                                <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
+                                    <%--</c:if>--%>
+                            </td>
+                        </tr>
+                    </c:if>
+                </c:forEach>
             </c:forEach>
         </c:forEach>
-    </c:forEach>
-</table>
 
+    </table>
+    </chrome:box>
+
+
+<chrome:box title="Missed forms">
+    <table id="inboxTable">
+        <tr>
+            <th>
+                <tags:message code="participant.label.title"/>
+            </th>
+            <th>
+                <tags:message code="participant.label.scheduleDate"/>
+            </th>
+            <th>
+                <tags:message code="participant.label.dueDate"/>
+            </th>
+        </tr>
+        <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
+            <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
+                <c:set var="baselineCompleted" value="false"/>
+                <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
+                           var="studyParticipantCrfSchedule">
+                    <c:if test="${studyParticipantCrfSchedule.baseline}">
+                        <c:if test="${studyParticipantCrfSchedule.status eq 'Completed'}">
+                            <c:set var="baselineCompleted" value="true"/>
+                        </c:if>
+                    </c:if>
+                </c:forEach>
+                <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}"
+                           var="studyParticipantCrfSchedule">
+                    <c:if test="${studyParticipantCrfSchedule.status eq 'Past-due' &&  studyParticipantCrfSchedule.startDate <= todaysdate}">
+                        <tr>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${studyParticipantCrfSchedule.baseline || baselineCompleted}">
+                                        <a href="../../pages/form/submit?id=${studyParticipantCrfSchedule.id}">${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}</a>
+                                        <c:if test="${studyParticipantCrfSchedule.baseline}">(Baseline)</c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${studyParticipantCrfSchedule.studyParticipantCrf.crf.title}
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
+                            </td>
+                            <td>
+                                    <%--<c:if test="${not studyParticipantCrfSchedule.baseline}">--%>
+                                <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
+                                    <%--</c:if>--%>
+                            </td>
+                        </tr>
+                    </c:if>
+                </c:forEach>
+            </c:forEach>
+        </c:forEach>
+
+    </table>
+    </chrome:box>
 </body>
 
 

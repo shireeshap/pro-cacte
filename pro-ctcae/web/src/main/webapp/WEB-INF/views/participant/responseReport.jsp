@@ -11,12 +11,20 @@
 
 </head>
 <body>
-<div align="right"><a href="../participant/participantInbox">Inbox</a></div>
+         <div align="right"><a href="../participant/participantInbox">Inbox</a></div>
 <chrome:box
         title="${completedSchedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}">
+
     <table width="100%">
         <tr>
+            <td colspan="2">
+                <tags:instructions code="participant.old.responses"/>
+            </td>
+        </tr>
+        <tr>
             <td style="vertical-align:top">
+
+                <b>Scheduled dates </b>
                 <br/>
                 <c:forEach items="${completedSchedule.studyParticipantCrf.studyParticipantCrfSchedules}"
                            var="studyParticipantCrfSchedule">
