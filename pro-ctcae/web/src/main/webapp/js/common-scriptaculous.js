@@ -78,7 +78,7 @@ Autocompleter.DWR.prototype = Object.extend(new Autocompleter.Base(), {
 
     // should be called by the populator (specified in the constructor)
     setChoices: function(array) {
-        this.baseElement.value='';
+        this.baseElement.value = '';
         if (array.length == 0) {
             array[0] = Object.extend({ id: '', displayName: 'No results found'});
         }
@@ -94,21 +94,24 @@ Autocompleter.DWR.prototype = Object.extend(new Autocompleter.Base(), {
                 var entry = instance.getToken();
                 var count = 0;
                 var valueSelector = instance.options.valueSelector;
-
                 for (var i = 0; i < instance.options.array.length &&
                                 items.length < instance.options.choices; i++) {
 
                     var value = valueSelector(instance.options.array[i]);
-                    var foundPos = value.toLowerCase().indexOf(entry.toLowerCase());
-
-                    if (foundPos != -1) {
-                        items.push("<li>" + value.substr(0, foundPos)
-                                + "<strong>" + value.substr(foundPos, entry.length) + "</strong>"
-                                + value.substr(foundPos + entry.length) + "</li>");
-                    } else {
-                        items.push("<li>" + value + "</li>")
+                    try {
+                        var foundPos = value.toLowerCase().indexOf(entry.toLowerCase());
+                        if (foundPos != -1) {
+                            items.push("<li>" + value.substr(0, foundPos)
+                                    + "<strong>" + value.substr(foundPos, entry.length) + "</strong>"
+                                    + value.substr(foundPos + entry.length) + "</li>");
+                        } else {
+                            items.push("<li>" + value + "</li>")
+                        }
+                    } catch(err) {
+                        items.push("<li>" + value['displayName'] + "</li>")
                     }
                 }
+
                 return "<ul>" + items.join('') + "</ul>";
             },
             valueSelector: function(object) {

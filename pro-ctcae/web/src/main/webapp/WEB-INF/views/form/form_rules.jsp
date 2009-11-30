@@ -60,7 +60,6 @@
                     var dependsonobj = $(dependsonstr + '_' + ruleindex + '_' + index);
                     var dependsonval = dependsonobj.options[dependsonobj.selectedIndex].value;
                     var select = getCopyOfSelect($('templateSelect_' + temp + '_' + dependsonval), temp + '_' + ruleindex + '_' + index);
-                    //                    alert('templateSelect_' + temp + '_' + dependsonval + ',' + temp + '_' + ruleindex + '_' + index);
 
                 }
                 tr.appendChild(getColumnFor(select, false));
@@ -82,7 +81,6 @@
                 return;
             }
             for (var i = 0; i < opts.length; i++) {
-                //                alert(',' + opts[i].value + ',' + cleanValue + ',' + (opts[i].value == cleanValue));
                 if (opts[i].value == cleanValue) {
                     opts[i].selected = true;
                     return;

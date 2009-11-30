@@ -17,9 +17,11 @@
         body {
             font-family: Arial;
         }
-		* {
-			zoom:1;
-		}
+
+        * {
+            zoom: 1;
+        }
+
         .label {
             font-weight: bold;
             font-size: 15px;
@@ -194,11 +196,10 @@
         <p>
             <b><tags:message code="participant.form.typesymptom"/></b>
         </p>
-
-
         <br/>
         <input type="text" id="participantquestion-input" value="" class="autocomplete"
                size="60"/>
+        <input type="hidden" id="participantquestion"/>
         <img src="/proctcae/images/blue/clear-left-button.png"
              onclick="javascript:$('participantquestion-input').clear();"
              style="vertical-align:top;cursor:pointer"/>

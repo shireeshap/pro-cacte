@@ -390,7 +390,6 @@ lightwindow.prototype = {
     //  Navigate the window
     //
     navigateWindow : function(direction) {
-        alert('saurabh')
         this._handleNavigation(false);
         if (direction == 'previous') {
             this.openWindow(this.navigationObservers.previous);

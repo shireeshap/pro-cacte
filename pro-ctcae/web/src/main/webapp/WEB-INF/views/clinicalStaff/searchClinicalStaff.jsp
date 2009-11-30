@@ -26,8 +26,6 @@
             var lastName = $F('lastName')
             var nciIdentifier = $F('nciIdentifier')
 
-            //     alert(lastName);
-
             if (firstName == '' && lastName == '' && nciIdentifier == '') {
                 $('error').innerHTML = "<font color='#FF0000'>Provide at least one value in the search field</font>";
 
