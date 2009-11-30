@@ -73,6 +73,9 @@
                 <tags:message code="participant.label.title"/>
             </th>
             <th>
+                <tags:message code="participant.label.status"/>
+            </th>
+            <th>
                 <tags:message code="participant.label.scheduleDate"/>
             </th>
             <th>
@@ -105,6 +108,9 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
+                             <td>
+                                ${studyParticipantCrfSchedule.status}
+                            </td>
                             <td>
                                 <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
                             </td>
@@ -129,6 +135,7 @@
             <th>
                 <tags:message code="participant.label.title"/>
             </th>
+
             <th>
                 <tags:message code="participant.label.scheduleDate"/>
             </th>
@@ -162,6 +169,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
+
                             <td>
                                 <tags:formatDate value="${studyParticipantCrfSchedule.startDate}"/>
                             </td>
