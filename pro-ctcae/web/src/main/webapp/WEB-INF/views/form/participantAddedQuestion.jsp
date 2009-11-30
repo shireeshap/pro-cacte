@@ -17,7 +17,6 @@
 
         .label {
             font-weight: bold;
-            float: left;
             margin-left: 0.5em;
             margin-right: 0.5em;
             padding: 1px;
