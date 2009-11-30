@@ -7,6 +7,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
+<%@ taglib prefix="proctcae" uri="http://gforge.nci.nih.gov/projects/proctcae/tags" %>
 <html>
 <head>
     <jsp:useBean id="today" class="java.util.Date"/>
@@ -55,33 +56,55 @@
             new Insertion.After('calendar_' + index + '_inner', transport.responseText);
         }
 
+        function showPopUpMenuSchedule(date, index, sid) {
+            var html = '<div id="search-engines"><ul>';
+            html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ');">Delete survey</a></li>';
+            html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ');">Move survey to other date</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + sid + '\'">Print survey</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + sid + '\'">Enter responses</a></li>';
+
+            html += '</ul></div>';
+            jQuery('#scheduleActions' + sid).menu({
+                content: html,
+                maxHeight: 180,
+                positionOpts: {
+                    directionV: 'down',
+                    posX: 'left',
+                    posY: 'bottom',
+                    offsetX: 0,
+                    offsetY: 0
+                },
+                showSpeed: 300
+            });
+        }
+
+
     </script>
 </head>
 <body>
 <table>
     <tr>
         <td>
-             <div class="label_nomargin"><b>Participant:</b>&nbsp;</div>
+            <div class="label_nomargin"><b>Participant:</b>&nbsp;</div>
         </td>
         <td>
-             <div class="value_nomargin">${command.participant.displayName}</div>
+            <div class="value_nomargin">${command.participant.displayName}</div>
         </td>
     </tr>
     <tr>
         <td VALIGN="top">
-             <div class="label_nomargin"><b>Instructions</b></div>
+            <div class="label_nomargin"><b>Instructions</b></div>
         </td>
         <td>
-             <div class="value_nomargin"><spring:message code="participant.schedule.crf"/></div>
+            <div class="value_nomargin"><spring:message code="participant.schedule.crf"/></div>
         </td>
     </tr>
 </table>
 <%--<div class="row">--%>
-    <%--<div class="label_nomargin"><spring:message code="schedulecrf.label.participant"/>:&nbsp;</div>--%>
-    <%--<div class="value_nomargin">${command.participant.displayName}</div>--%>
+<%--<div class="label_nomargin"><spring:message code="schedulecrf.label.participant"/>:&nbsp;</div>--%>
+<%--<div class="value_nomargin">${command.participant.displayName}</div>--%>
 <%--</div>--%>
 <%--<div class="row">--%>
-
 
 
 <%--</div>--%>

@@ -27,10 +27,14 @@ function initializeCalendar(index) {
             if (isdefined(myschedule)) {
                 var tilda = myschedule.indexOf('~');
                 var status = myschedule.substring(0, tilda);
-                var remaining = myschedule.substring(tilda + 1);
-                tilda = remaining.indexOf('~');
-                var baseline = remaining.substring(0, tilda);
-                var holiday = remaining.substring(tilda + 1);
+                myschedule = myschedule.substring(tilda + 1);
+                tilda = myschedule.indexOf('~');
+                var baseline = myschedule.substring(0, tilda);
+                myschedule = myschedule.substring(tilda + 1);
+                tilda = myschedule.indexOf('~');
+                var holiday = myschedule.substring(0, tilda);
+                var scheduleid = myschedule.substring(tilda + 1);
+
 
                 var item = $(div_id);
                 item.addClassName('blue');
@@ -55,9 +59,14 @@ function initializeCalendar(index) {
                     }
                     item.style.cursor = 'pointer';
                     if (baseline != 'true') {
-                        var delIcon = '<div style="float:right"><img height="13" width="12" src="/proctcae/images/blank.gif" class="removebutton" ' +
-                                      'onclick="showDeleteWindow(' + i + ', ' + index + ');"/></div>';
+                        //                        var delIcon = '<div style="float:right"><img height="13" width="12" src="/proctcae/images/blank.gif" class="removebutton" ' +
+                        //                                      'onclick="showDeleteWindow(' + i + ', ' + index + ');"/></div>';
+                        var delIcon = '<div style="float:right">' +
+                                      '<a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="scheduleActions' + scheduleid + '">' +
+                                      '<span class="ui-icon ui-icon-triangle-1-s"></span></a>' +
+                                      '</div>';
                         item.innerHTML = delIcon + item.innerHTML;
+                        showPopUpMenuSchedule(i, index, scheduleid);
                     }
                     myCalendar[i] = new YAHOO.example.DDPlayer(div_id, 'date');
                 }
