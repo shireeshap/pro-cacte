@@ -64,7 +64,7 @@
 <div id="questions" style="display:block;">
     <table id="formbuilderTable">
         <tr>
-            <td id="left">
+            <td>
                 <c:forEach items="${crf.crfPagesSortedByPageNumber}" var="crfPage">
                     <div class="formpages">
                         <div class="formpageheader">${crfPage.description}</div>
