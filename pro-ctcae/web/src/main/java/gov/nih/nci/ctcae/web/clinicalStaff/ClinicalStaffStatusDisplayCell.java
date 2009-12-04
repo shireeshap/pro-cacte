@@ -19,9 +19,11 @@ public class ClinicalStaffStatusDisplayCell extends AbstractCell {
 
     protected String getCellValue(TableModel tableModel, Column column) {
 
-        ClinicalStaff bean = (ClinicalStaff) tableModel.getCurrentRowBean();        
-
-        String cellValue = "Effectively " + bean.getStatus().getDisplayName() + " from " + bean.getFormattedDate();
+        ClinicalStaff bean = (ClinicalStaff) tableModel.getCurrentRowBean();
+        String cellValue = "Status not assigned";
+        if (bean.getStatus().getDisplayName() != null){
+          cellValue = "Effectively " + bean.getStatus().getDisplayName() + " from " + bean.getFormattedDate();
+        }
         return cellValue;
     }
 }
