@@ -36,12 +36,25 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
             addMiddleName(model);
             addLastName(model);
             addNciIdentifier(model);
+            addStatus(model);
+//            addEffectiveDate(model);
+            addActions(model);
             return model.assemble().toString();
 
         } catch (Exception e) {
             logger.error("error while generating table for clinical staff. " + e.getMessage(), e);
             throw new CtcAeSystemException(e);
         }
+    }
+
+
+    private void addActions(TableModel model) {
+        Column columnActions = model.getColumnInstance();
+        columnActions.setTitle("Actions");
+        columnActions.setSortable(Boolean.FALSE);
+        columnActions.setCell("gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffLinkDisplayDetailsCell");
+        model.addColumn(columnActions);
+
     }
 
     /**
@@ -54,7 +67,6 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
         columnFirstName.setTitle("First name");
         columnFirstName.setProperty("firstName");
         columnFirstName.setSortable(Boolean.TRUE);
-        columnFirstName.setCell("gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffLinkDisplayDetailsCell");
 
         model.addColumn(columnFirstName);
     }
@@ -100,5 +112,23 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
 
         model.addColumn(columnNciIdentifier);
     }
+
+    private void addStatus(TableModel model) {
+        Column columnStatus = model.getColumnInstance();
+        columnStatus.setTitle("Status");
+//        columnStatus.setProperty("status");
+        columnStatus.setSortable(Boolean.TRUE);
+        columnStatus.setCell("gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffStatusDisplayCell");
+        model.addColumn(columnStatus);
+    }
+
+//    private void addEffectiveDate(TableModel model) {
+//        Column columnEffectiveDate = model.getColumnInstance();
+//        columnEffectiveDate.setTitle("EffectiveDate");
+//        columnEffectiveDate.setProperty("formattedDate");
+//        columnEffectiveDate.setSortable(Boolean.TRUE);
+//
+//        model.addColumn(columnEffectiveDate);
+//    }
 
 }

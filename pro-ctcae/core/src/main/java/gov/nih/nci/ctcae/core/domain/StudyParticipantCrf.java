@@ -130,7 +130,7 @@ public class StudyParticipantCrf extends BaseVersionable {
      * @return the study participant crf schedules
      */
     public List<StudyParticipantCrfSchedule> getStudyParticipantCrfSchedules() {
-        Collections.sort(studyParticipantCrfSchedules, new StudyParticipantCrfScheduleStartDateComparator());
+        Collections.sort(studyParticipantCrfSchedules, new StudyParticipantCrfScheduleDueDateComparator());
         return studyParticipantCrfSchedules;
     }
 

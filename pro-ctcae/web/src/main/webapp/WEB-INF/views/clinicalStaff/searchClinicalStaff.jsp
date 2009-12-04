@@ -17,9 +17,45 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <tags:javascriptLink name="extremecomponents"/>
     <tags:dwrJavascriptLink objects="clinicalStaff"/>
+    <tags:includeScriptaculous/>
+    <tags:includePrototypeWindow/>
 
     <script>
+        function showPopUpMenuClinicalStaff(cid, status) {
+            var html = '<div id="search-engines"><ul>';
+        <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/clinicalStaff/createClinicalStaff"/>?clinicalStaffId=' + cid + '\'">Edit staff</a></li>';
+        </proctcae:urlAuthorize>
+            if (status == 'Active') {
+                html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Deactivate</a></li>';
+            } else {
+                html += '<li><a href="#" onclick="javascript:effectiveStaff(' + cid + ',\'' + status + '\')">Activate</a></li>';
+            }
+            html += '</ul></div>';
+            jQuery('#clinicalStaffActions' + cid).menu({
+                content: html,
+                maxHeight: 180,
+                positionOpts: {
+                    directionV: 'down',
+                    posX: 'left',
+                    posY: 'bottom',
+                    offsetX: 0,
+                    offsetY: 0
+                },
+                showSpeed: 300
+            });
+        }
 
+        function effectiveStaff(cId, status) {
+            var request = new Ajax.Request("<c:url value="/pages/admin/clinicalStaff/effectiveStaff"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&cId=" + cId + "&status=" + status,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 650, 280);
+                },
+                method:'get'
+            })
+
+        }
         function buildTable(form) {
 
             var firstName = $F('firstName')
@@ -37,8 +73,13 @@
                 //	$('assembler_table').hide();  //do not hide the results..becz filter string get disappear
                 var parameterMap = getParameterMap(form);
                 //   clinicalStaff.searchClinicalStaff(parameterMap, showTable);
-                clinicalStaff.searchClinicalStaff(parameterMap, firstName, lastName, nciIdentifier, showTable);
+                clinicalStaff.searchClinicalStaff(parameterMap, firstName, lastName, nciIdentifier, showTableLocal);
             }
+        }
+
+        function showTableLocal(table) {
+            $('indicator').className = 'indicator';
+            $('tableDiv').insert(table);
         }
 
         function navigate(e) {
@@ -55,6 +96,12 @@
         function doSend() {
             buildTable('assembler');
         }
+
+        Event.observe(window, "load", function() {
+            $('firstName').value = '%';
+            buildTable('assembler');
+            $('firstName').value = '';
+        })
 
     </script>
 

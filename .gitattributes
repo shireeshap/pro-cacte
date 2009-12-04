@@ -69,6 +69,7 @@ pro-ctcae/core/src/main/db/migrate/003_elaboration_1/007_add_report_specific_pri
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/008_add_participant_creation_date.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/009_update_study_participant_assignment.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/010_alter_participant.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/011_alter_clinical_staff.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
@@ -143,7 +144,7 @@ pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfAd
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfItem.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfSchedule.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleAddedQuestion.java -text
-pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleStartDateComparator.java -text
+pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudyParticipantCrfScheduleDueDateComparator.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySite.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySponsor.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/domain/User.java -text
@@ -409,8 +410,10 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffAja
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffCommand.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffControllerUtils.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffLinkDisplayDetailsCell.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffStatusDisplayCell.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffTableModel.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalStaffController.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/EffectiveStaffController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/NotificationDetailsController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
@@ -672,6 +675,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/view_form_thirdlevelmenu.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/accessDenied.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/confirmClinicalStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/createClinicalStaff.jsp -text
+pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/effectiveStaff.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/notification.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/organizationClinicalStaffSection.jsp -text
 pro-ctcae/web/src/main/webapp/WEB-INF/views/clinicalStaff/searchClinicalStaff.jsp -text

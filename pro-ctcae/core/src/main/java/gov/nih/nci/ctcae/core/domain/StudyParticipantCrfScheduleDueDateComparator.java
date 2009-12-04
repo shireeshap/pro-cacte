@@ -9,13 +9,16 @@ import java.util.Comparator;
  * @author Vinay Kumar
  * @since Oct 21, 2008
  */
-public class StudyParticipantCrfScheduleStartDateComparator implements Comparator<StudyParticipantCrfSchedule> {
+public class StudyParticipantCrfScheduleDueDateComparator implements Comparator<StudyParticipantCrfSchedule> {
 
     /* (non-Javadoc)
     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
     */
     public int compare(StudyParticipantCrfSchedule object, StudyParticipantCrfSchedule object1) {
-        return object.getStartDate().compareTo(object1.getStartDate());
+        if (object.getDueDate() != null && object1.getDueDate() != null) {
+            return object.getDueDate().compareTo(object1.getDueDate());
+        }
+        return 0;
 
     }
 }

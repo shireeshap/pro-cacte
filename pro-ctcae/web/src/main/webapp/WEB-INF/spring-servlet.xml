@@ -176,6 +176,11 @@
           p:crfRepository-ref="crfRepository">
     </bean>
 
+     <bean name="/admin/clinicalStaff/effectiveStaff" id="effectiveStaffController"
+          class="gov.nih.nci.ctcae.web.clinicalStaff.EffectiveStaffController" parent="ctcaeSimpleFormController"
+          p:clinicalStaffRepository-ref="clinicalStaffRepository">
+    </bean>
+
 
     <bean name="/form/allConditions" id="allConditionsController"
           class="gov.nih.nci.ctcae.web.form.AllConditionsController">

@@ -1,6 +1,7 @@
 package gov.nih.nci.ctcae.core.domain;
 
 import gov.nih.nci.ctcae.core.validation.annotation.UniqueObjectInCollection;
+import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -46,6 +47,13 @@ public class ClinicalStaff extends Person {
      */
     @Column(name = "phone_number", nullable = true)
     private String phoneNumber;
+
+    @Column(name = "cs_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private RoleStatus status = RoleStatus.ACTIVE;
+
+    @Column(name = "effective_date", nullable = true)
+    private Date effectiveDate = new Date();
 
     /**
      * The site clinical staffs.
@@ -140,7 +148,27 @@ public class ClinicalStaff extends Person {
         this.phoneNumber = phoneNumber;
     }
 
+    public RoleStatus getStatus() {
+        return status;
+    }
 
+    public void setStatus(RoleStatus status) {
+        this.status = status;
+    }
+
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public String getFormattedDate(){
+        if(effectiveDate!=null){
+            return DateUtils.format(effectiveDate);
+        }
+        return "";
+    }
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
     /* (non-Javadoc)
     * @see gov.nih.nci.ctcae.core.domain.Person#equals(java.lang.Object)
     */
