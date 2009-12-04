@@ -58,9 +58,9 @@
 
         function showPopUpMenuSchedule(date, index, sid) {
             var html = '<div id="search-engines"><ul>';
-            html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ');">Delete survey</a></li>';
-            html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ');">Move survey to other date</a></li>';
-            html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + sid + '\'">Print survey</a></li>';
+            html += '<li><a href="#" onclick="javascript:showDeleteWindow(' + date + ', ' + index + ');">Delete form</a></li>';
+            html += '<li><a href="#" onclick="javascript:showMoveWindow(' + date + ', ' + date + ', ' + index + ');">Move form to other date</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'printSchedule?id=' + sid + '\'">Print form</a></li>';
             html += '<li><a href="#" onclick="location.href=\'enterResponses?id=' + sid + '\'">Enter responses</a></li>';
 
             html += '</ul></div>';
