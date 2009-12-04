@@ -152,7 +152,11 @@
                 div.addClassName("norm");
             }
         }
-
+        function submitForm(direction) {
+            document.myForm.direction.value = direction;
+            document.myForm.submit();
+        }
+       
     </script>
 </head>
 <body>
@@ -217,11 +221,11 @@
         <input type="hidden" name="direction"/>
         <tr>
             <td align="left" width="50%">
-                <tags:button onclick="document.myForm.direction.value='back'" type="submit" icon="back" color="blue"
+                <tags:button onclick="javascript:submitForm('back')"  icon="back" color="blue"
                              value="Back"/>
             </td>
             <td align="right" width="50%">
-                <tags:button onclick="document.myForm.direction.value='continue'" type="submit" icon="continue"
+                <tags:button onclick="javascript:submitForm('continue')"  icon="continue"
                              color="green" value="Continue"/>
             </td>
         </tr>

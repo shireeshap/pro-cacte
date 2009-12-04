@@ -30,9 +30,10 @@
             text-align: right;
             margin-bottom: 15px;
         }
-		.formbuilderBox {
-			padding-left:2px;
-		}
+
+        .formbuilderBox {
+            padding-left: 2px;
+        }
     </style>
     <script type="">
 
@@ -92,7 +93,7 @@
 
 
         function evaluateAllQuestions() {
-            for (var i =0; i< pageindex.length; i++) {
+            for (var i = 0; i < pageindex.length; i++) {
                 showHideQuestion(questions[pageindex[i]]);
             }
         }
@@ -132,7 +133,11 @@
             return rulesSatisfied;
         }
 
-
+        function submitForm(direction) {
+            document.myForm.direction.value = direction;
+            document.myForm.submit();
+        }
+         
     </script>
 </head>
 <body>
@@ -152,7 +157,7 @@
                var="participantCrfItem"
                varStatus="crfitemstatus">
 
-        <c:if test="${(participantCrfItem.pageNumber + 1)  eq command.currentPageIndex}">
+        <c:if test="${(participantCrfItem.pageNumber + offset)  eq command.currentPageIndex}">
             <script type="text/javascript">
                 pageindex[i] = '${crfitemstatus.index}';
                 i++;
@@ -160,7 +165,7 @@
                 questionindexes['${participantCrfItem.meddraQuestion.id}'] = '${crfitemstatus.index}';
                 displayRules['${participantCrfItem.meddraQuestion.id}'] = '';
                 responses['${participantCrfItem.meddraValidValue.id}'] = 'Y';
-               
+
             </script>
             <tags:formbuilderBox id="question_${participantCrfItem.meddraQuestion.id}" style="display:none">
 
@@ -207,13 +212,14 @@
         <tr>
             <td align="left" width="50%">
                 <c:if test="${command.currentPageIndex gt 1}">
-                	<tags:button onclick="document.myForm.direction.value='back'" type="submit" value="Back" icon="back" color="blue" />
+                    <tags:button onclick="javascript:submitForm('back')" value="Back" icon="back" color="blue"/>
                 </c:if>
             </td>
             <td align="right" width="50%">
                 <c:choose>
                     <c:when test="${command.currentPageIndex le command.totalPages}">
-                    	<tags:button onclick="document.myForm.direction.value='continue'" type="submit" value="Continue" icon="continue" color="green" />
+                        <tags:button onclick="javascript:submitForm('continue')" type="submit" value="Continue"
+                                     icon="continue" color="green"/>
                     </c:when>
                 </c:choose>
             </td>

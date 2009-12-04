@@ -141,6 +141,11 @@
         Event.observe(window, "load", function () {
             evaluateAllQuestions();
         })
+
+        function submitForm(direction) {
+            document.myForm.direction.value = direction;
+            document.myForm.submit();
+        }
     </script>
 </head>
 <body>
@@ -153,8 +158,9 @@
         Progress:
     </div>
     <div class="label" style="margin-bottom:10px;">
-		<tags:recallPeriodFormatter desc="Please think back ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.recallPeriod}"/>
-	</div>
+        <tags:recallPeriodFormatter
+                desc="Please think back ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.recallPeriod}"/>
+    </div>
     <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfItems}" var="participantCrfItem"
                varStatus="crfitemstatus">
         <tags:formbuilderBox id="question_${participantCrfItem.crfPageItem.id}" style="display:none">
@@ -228,15 +234,13 @@
         <tr>
             <td align="left" width="50%">
                 <c:if test="${command.currentPageIndex gt 1}">
-                    <tags:button color="blue" icon="back" onclick="document.myForm.direction.value='back'" type="submit"
-                                 value="Back"/>
+                    <tags:button color="blue" icon="back" onclick="javascript:submitForm('back')" value="Back"/>
                 </c:if>
             </td>
             <td align="right" width="50%">
                 <c:choose>
                     <c:when test="${command.currentPageIndex le command.totalPages}">
-                        <tags:button color="green" icon="next" onclick="document.myForm.direction.value='continue'"
-                                     type="submit" value="Continue"/>
+                        <tags:button color="green" icon="next" onclick="javascript:submitForm('continue')" value="Continue"/>
                     </c:when>
                 </c:choose>
             </td>

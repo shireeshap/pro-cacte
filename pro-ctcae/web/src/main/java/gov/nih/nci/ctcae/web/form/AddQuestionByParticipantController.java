@@ -36,7 +36,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 
-        int pageNumber = ((SubmitFormCommand) command).getTotalPages();
+        int pageNumber = Integer.parseInt(request.getParameter("p"));
         if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
             String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
             if (selectedSymptoms != null) {
@@ -45,13 +45,13 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
             }
             pageNumber++;
         } else {
-            if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
+            if ("back".equals(((SubmitFormCommand) command).getDirection())) {
                 pageNumber--;
             }
         }
         ModelAndView mv = showForm(request, errors, "abc");
         request.getSession().setAttribute(SubmitFormController.class.getName() + ".FORM." + "command", command);
-        mv.setView(new RedirectView("submit?id=" + ((SubmitFormCommand) command).getStudyParticipantCrfSchedule().getId() + "&skip=y&p=" + pageNumber ));
+        mv.setView(new RedirectView("submit?id=" + ((SubmitFormCommand) command).getStudyParticipantCrfSchedule().getId() + "&p=" + pageNumber));
         return mv;
     }
 
