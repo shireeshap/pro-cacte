@@ -353,6 +353,7 @@
     <bean name="/participant/monitorFormStatus" id="monitorFormStatusController"
           class="gov.nih.nci.ctcae.web.participant.MonitorFormStatusController">
         <property name="studyRepository" ref="studyRepository"/>
+        <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
     </bean>
     <bean name="/participant/showCompletedCrf" id="showCompletedCrfController"
           class="gov.nih.nci.ctcae.web.participant.ShowCompletedCrfController">

@@ -3,9 +3,11 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +21,7 @@ import java.util.*;
 public class MonitorFormStatusController extends AbstractController {
 
     StudyRepository studyRepository;
+    StudyOrganizationRepository studyOrganizationRepository;
 
     protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
@@ -101,16 +104,16 @@ public class MonitorFormStatusController extends AbstractController {
         return modelAndView;
     }
 
-    private HashMap<StudySite, HashMap<Participant, StudyParticipantCrfSchedule[]>> getFormStatus(Integer studyId, Date startDate, Date endDate, String crfId, String studySiteId, String participantId, String status) {
+    private HashMap<StudyOrganization, HashMap<Participant, StudyParticipantCrfSchedule[]>> getFormStatus(Integer studyId, Date startDate, Date endDate, String crfId, String studySiteId, String participantId, String status) {
 
         int diffInDays = getDifferenceOfDates(startDate, endDate) + 1;
 
         HashMap<Participant, StudyParticipantCrfSchedule[]> crfStatus = new HashMap();
 
-        HashMap<StudySite, HashMap<Participant, StudyParticipantCrfSchedule[]>> siteCrfStatus = new HashMap<StudySite, HashMap<Participant, StudyParticipantCrfSchedule[]>>();
+        HashMap<StudyOrganization, HashMap<Participant, StudyParticipantCrfSchedule[]>> siteCrfStatus = new HashMap<StudyOrganization, HashMap<Participant, StudyParticipantCrfSchedule[]>>();
 
-        Study study = studyRepository.findById(studyId);
-        for (StudySite studySite : study.getStudySites()) {
+        List<StudyOrganization> studySites = studyOrganizationRepository.findByStudyId("%",studyId);
+        for (StudyOrganization studySite : studySites) {
             if (StringUtils.isBlank(studySiteId) || studySite.getId().equals(Integer.parseInt(studySiteId))) {
                 for (StudyParticipantAssignment studyParticipantAssignment : studySite.getStudyParticipantAssignments()) {
                     for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
@@ -186,4 +189,8 @@ public class MonitorFormStatusController extends AbstractController {
         this.studyRepository = studyRepository;
     }
 
+    @Required
+    public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
+        this.studyOrganizationRepository = studyOrganizationRepository;
+    }
 }
