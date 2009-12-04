@@ -23,7 +23,7 @@
                     <tr id="ss-table-head" class="amendment-table-head">
                         <th width="60%" class="tableHeader"><tags:requiredIndicator/><tags:message
                                 code="study.label.clinical.staff"/></th>
-                        <th width="40%" class="tableHeader"></th>
+                        <th width="40%" class="tableHeader">Action</th>
                     </tr>
                     <c:forEach var="studyOrganizationClinicalStaff"
                                items="${studyCommand.studyOrganizationClinicalStaffs}" varStatus="status">
