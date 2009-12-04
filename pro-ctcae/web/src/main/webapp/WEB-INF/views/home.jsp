@@ -145,8 +145,6 @@
                         </td>
                         <td class="header-top">
                         </td>
-                        <td class="header-top">
-                        </td>
                     </tr>
                     <c:forEach items="${notifications}" var="usernotification">
                         <c:if test="${!usernotification.markDelete}">
@@ -187,10 +185,6 @@
                                     <script>
                                         showPopUpMenuAlerts('${usernotification.id}', '${usernotification.studyParticipantCrfSchedule.id}', '${usernotification.uuid}', '${usernotification.participant.id}');
                                     </script>
-                                </td>
-                                <td>
-                                    <a href="javascript:deleteMsg('${usernotification.id}','${usernotification.uuid}');"
-                                       class="delete">x</a>
                                 </td>
                             </tr>
                         </c:if>

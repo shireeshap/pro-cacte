@@ -108,6 +108,7 @@
         <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/schedulecrf"/>?pId=' + pid + '\'">Manage schedule</a></li>';
         </proctcae:urlAuthorize>
+                html += '<li><a href="#" onclick="javascript:deleteMsg(' + uid + ',\'' + uuid + '\')">Clear</a></li>';
 
             html += '</ul></div>';
             jQuery('#alertActions' + uid).menu({
