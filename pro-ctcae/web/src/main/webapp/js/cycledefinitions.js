@@ -169,7 +169,7 @@ function showMoveWindow(olddate, newdate, index) {
         diff = newdate - olddate;
         dir = 'forward';
     }
-    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to move only this event, all events, or this and all following events by ' + diff + ' day(s)?<br></b></td></tr>' +
+    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to move only this form, all forms, or this and all following forms by ' + diff + ' day(s)?<br></b></td></tr>' +
                       '<tr><td>&nbsp;</td></tr>' +
                       '<tr><td align="center"><input type="button" value="Only this instance" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'add,del\'' +
                       ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All events" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'moveall\'' +
@@ -182,7 +182,7 @@ function showMoveWindow(olddate, newdate, index) {
 
 function showDeleteWindow(date, index) {
     date = parseInt(date);
-    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to delete only this event, all events, or this and all following events?<br></b></td></tr>' +
+    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to delete only this form, all forms, or this and all following forms?<br></b></td></tr>' +
                       '<tr><td>&nbsp;</td></tr>' +
                       '<tr><td align="center"><input type="button" value="Only this instance" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'del\'' +
                       ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All events" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'delall\'' +
@@ -194,7 +194,7 @@ function showDeleteWindow(date, index) {
 
 function showAddWindow(date, index) {
     date = parseInt(date);
-    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to add a new survey date?<br></b></td></tr>' +
+    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to add a new form date?<br></b></td></tr>' +
                       '<tr><td>&nbsp;</td></tr>' +
                       '<tr><td align="center"><input type="button" value="Yes" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'add\'' +
                       ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="Cancel" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + date + '\',\'cancel\'' +
