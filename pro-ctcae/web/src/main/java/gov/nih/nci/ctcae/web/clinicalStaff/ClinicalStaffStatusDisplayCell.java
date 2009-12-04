@@ -21,7 +21,7 @@ public class ClinicalStaffStatusDisplayCell extends AbstractCell {
 
         ClinicalStaff bean = (ClinicalStaff) tableModel.getCurrentRowBean();
         String cellValue = "Status not assigned";
-        if (bean.getStatus().getDisplayName() != null){
+        if (bean.getStatus() != null){
           cellValue = "Effectively " + bean.getStatus().getDisplayName() + " from " + bean.getFormattedDate();
         }
         return cellValue;
