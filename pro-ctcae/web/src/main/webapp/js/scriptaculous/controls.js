@@ -190,6 +190,19 @@ Autocompleter.Base = Class.create({
     },
 
     onBlur: function(event) {
+        if (Prototype.Browser.IE) {
+//            alert(event.offsetX) ;
+//            alert(event.offsetY) ;
+            if (event.offsetX < 0) {
+                //good may close
+            } else if (event.offsetY < 0) {
+                //good - may close
+            } else {
+                //prevent autocomplete close
+                event.cancelBubble = true;
+                return false;
+            }
+        }
         try {
             if (this.baseElement.value == '') {
                 this.element.value = '';
