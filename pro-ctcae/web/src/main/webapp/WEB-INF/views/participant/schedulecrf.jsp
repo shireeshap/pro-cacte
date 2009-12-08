@@ -35,6 +35,18 @@
             }
         }
 
+        function showMoveWindow(olddate, newdate, index) {
+            var request = new Ajax.Request("<c:url value="/pages/participant/moveFormSchedule"/>", {
+                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate,
+                onComplete:function(transport) {
+                    showConfirmationWindow(transport, 650, 280);
+                    AE.registerCalendarPopups();
+                },
+                method:'get'
+            })
+
+        }
+
         function getCalendar(index, parameters) {
             var request = new Ajax.Request("<c:url value="/pages/participant/displaycalendar"/>", {
                 onComplete:function(transport) {

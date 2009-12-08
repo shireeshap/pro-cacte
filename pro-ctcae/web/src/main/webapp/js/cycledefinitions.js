@@ -157,28 +157,6 @@ function showWindow(htmlcontent) {
     }
 }
 
-function showMoveWindow(olddate, newdate, index) {
-    olddate = parseInt(olddate);
-    newdate = parseInt(newdate);
-    var diff = 0;
-    var dir = '';
-    if (olddate > newdate) {
-        diff = olddate - newdate;
-        dir = 'back';
-    } else {
-        diff = newdate - olddate;
-        dir = 'forward';
-    }
-    var htmlcontent = '<table width="100%"><tr><td align="center"><b>Would you like to move only this form, all forms, or this and all following forms by ' + diff + ' day(s)?<br></b></td></tr>' +
-                      '<tr><td>&nbsp;</td></tr>' +
-                      '<tr><td align="center"><input type="button" value="Only this instance" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'add,del\'' +
-                      ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All events" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'moveall\'' +
-                      ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="All following" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'moveallfuture\'' +
-                      ')"/>&nbsp;&nbsp;&nbsp;<input type="button" value="Cancel" onclick="parent.addRemoveSchedule(\'' + index + '\',\'' + newdate + ',' + olddate + '\',\'cancel\'' +
-                      ')"/></td></tr></table>';
-
-    showWindow(htmlcontent);
-}
 
 function showDeleteWindow(date, index) {
     date = parseInt(date);

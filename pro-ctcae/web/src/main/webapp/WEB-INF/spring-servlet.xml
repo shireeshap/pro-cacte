@@ -176,7 +176,7 @@
           p:crfRepository-ref="crfRepository">
     </bean>
 
-     <bean name="/admin/clinicalStaff/effectiveStaff" id="effectiveStaffController"
+    <bean name="/admin/clinicalStaff/effectiveStaff" id="effectiveStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.EffectiveStaffController" parent="ctcaeSimpleFormController"
           p:clinicalStaffRepository-ref="clinicalStaffRepository">
     </bean>
@@ -336,6 +336,10 @@
 
     <bean name="/participant/addNotificationClinicalStaff" id="addNotificationClinicalStaff"
           class="gov.nih.nci.ctcae.web.participant.AddNotificationClinicalStaffController">
+    </bean>
+
+    <bean name="/participant/moveFormSchedule" id="moveFormSchedule"
+          class="gov.nih.nci.ctcae.web.participant.MoveFormScehduleController">
     </bean>
 
     <bean name="/admin/clinicalStaff/createClinicalStaff" id="createClinicalStaffController"
