@@ -339,7 +339,7 @@
     </bean>
 
     <bean name="/participant/moveFormSchedule" id="moveFormSchedule"
-          class="gov.nih.nci.ctcae.web.participant.MoveFormScehduleController">
+          class="gov.nih.nci.ctcae.web.participant.MoveFormController">
     </bean>
 
     <bean name="/admin/clinicalStaff/createClinicalStaff" id="createClinicalStaffController"

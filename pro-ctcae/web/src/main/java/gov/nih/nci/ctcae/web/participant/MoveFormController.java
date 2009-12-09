@@ -33,7 +33,7 @@ public class MoveFormController extends AbstractController {
         Calendar c = new GregorianCalendar();
         c.setTime(participantSchedule.getCalendar().getTime());
         c.set(Calendar.DATE, Integer.parseInt(request.getParameter("newdate")));
-        ModelAndView modelAndView = new ModelAndView("participant/moveFormSchedule");
+        ModelAndView modelAndView = new ModelAndView("participant/moveForm");
         modelAndView.addObject("index", request.getParameter("index"));
         modelAndView.addObject("olddate", request.getParameter("olddate"));
         modelAndView.addObject("newdate", c.getTime());
