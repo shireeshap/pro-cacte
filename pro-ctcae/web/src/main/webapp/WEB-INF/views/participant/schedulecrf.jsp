@@ -37,7 +37,7 @@
 
         function showMoveWindow(olddate, newdate, index) {
             var request = new Ajax.Request("<c:url value="/pages/participant/moveFormSchedule"/>", {
-                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate,
+                parameters:<tags:ajaxstandardparams/>+"&index=" + index + "&olddate=" + olddate + "&newdate=" + newdate,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 650, 280);
                     AE.registerCalendarPopups();
