@@ -70,7 +70,7 @@ public class ClinicalStaffAjaxFacade {
      */
     public String searchClinicalStaff(Map parameterMap, String firstName, String lastName, String nciIdentifier, HttpServletRequest request) {
 
-        List<ClinicalStaff> clinicalStaffs = getObjects(firstName, lastName, nciIdentifier);
+        List<ClinicalStaff> clinicalStaffs = getObjects(firstName, lastName, nciIdentifier, true);
         ClinicalStaffTableModel clinicalStaffTableModel = new ClinicalStaffTableModel();
         String table = clinicalStaffTableModel.buildClinicalStaffTable(parameterMap, clinicalStaffs, request);
         return table;
@@ -86,8 +86,8 @@ public class ClinicalStaffAjaxFacade {
      * @param nciIdentifier the nci identifier
      * @return the objects
      */
-    private List<ClinicalStaff> getObjects(String firstName, String lastName, String nciIdentifier) {
-        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery();
+    private List<ClinicalStaff> getObjects(String firstName, String lastName, String nciIdentifier, boolean showInactive) {
+        ClinicalStaffQuery clinicalStaffQuery = new ClinicalStaffQuery(showInactive);
 
         if (firstName != null && !"".equals(firstName)) {
             clinicalStaffQuery.filterByClinicalStaffFirstName(firstName);

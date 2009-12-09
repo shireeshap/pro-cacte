@@ -126,6 +126,9 @@ public class UserRepository implements UserDetailsService, Repository<User, User
 
         grantedAuthorities.addAll(instanceGrantedAuthorities);
         user.setGrantedAuthorities(grantedAuthorities.toArray(new GrantedAuthority[]{}));
+        if (clinicalStaff == null && participant == null) {
+            throw new MyException("User is inactive");
+        }
         return user;
     }
 
@@ -234,4 +237,11 @@ public class UserRepository implements UserDetailsService, Repository<User, User
     }
 
 
+}
+
+class MyException extends DataAccessException{
+
+    public MyException(String s) {
+        super(s);
+    }
 }

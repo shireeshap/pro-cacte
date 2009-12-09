@@ -1,5 +1,10 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
+import gov.nih.nci.ctcae.core.domain.RoleStatus;
+
+import java.util.Date;
+
 //
 /**
  * User: Mehul Gulati
@@ -33,12 +38,21 @@ public class ClinicalStaffQuery extends AbstractQuery {
     private String ROLES = "roles";
 
 
+
+
     /**
      * Instantiates a new clinical staff query.
      */
     public ClinicalStaffQuery() {
-
         super(queryString);
+        filterByActive();
+    }
+
+    public ClinicalStaffQuery(boolean showInactive) {
+        super(queryString);
+        if (!showInactive) {
+            filterByActive();
+        }
     }
 
     /**
@@ -58,7 +72,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
      * @param lastName the last name
      */
     public void filterByClinicalStaffLastName(final String lastName) {
-        String searchString = lastName.toLowerCase() ;
+        String searchString = lastName.toLowerCase();
         andWhere("lower(cs.lastName) LIKE :" + LAST_NAME);
         setParameter(LAST_NAME, searchString);
     }
@@ -79,7 +93,7 @@ public class ClinicalStaffQuery extends AbstractQuery {
      * @param nciIdentifier the nci identifier
      */
     public void filterByNciIdentifier(final String nciIdentifier) {
-        String searchString =  nciIdentifier.toLowerCase() ;
+        String searchString = nciIdentifier.toLowerCase();
         andWhere("lower(cs.nciIdentifier) LIKE :" + NCI_IDENTIFIER);
         setParameter(NCI_IDENTIFIER, searchString);
     }
@@ -91,5 +105,11 @@ public class ClinicalStaffQuery extends AbstractQuery {
         setParameter(ORGANIZATION_ID, organizationId);
     }
 
+    public void filterByActive() {
+        andWhere("((cs.status =:status1 and cs.effectiveDate <=:effectiveDate) or (cs.status =:status2 and cs.effectiveDate > :effectiveDate))");
+        setParameter("status1", RoleStatus.ACTIVE);
+        setParameter("status2", RoleStatus.IN_ACTIVE);
+        setParameter("effectiveDate",  new Date());
+    }
 
 }

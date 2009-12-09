@@ -51,6 +51,7 @@
                 parameters:<tags:ajaxstandardparams/>+"&cId=" + cId + "&status=" + status,
                 onComplete:function(transport) {
                     showConfirmationWindow(transport, 650, 280);
+                    AE.registerCalendarPopups();
                 },
                 method:'get'
             })

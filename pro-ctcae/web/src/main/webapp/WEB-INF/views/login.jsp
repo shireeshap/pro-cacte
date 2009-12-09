@@ -54,8 +54,9 @@
                     <p class="errors">Incorrect username and/or password. Please try again.</p>
                 </c:when>
                 <c:otherwise>
-                    <p class="errors">Your login attempt was not successful. Please try again after some time.<br/>
-                        Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p>
+                    <p class="errors">User is inactive.</p>
+                    <%--<p class="errors">Your login attempt was not successful. Please try again after some time.<br/>--%>
+                        <%--Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p>--%>
                 </c:otherwise>
             </c:choose>
         </c:if>
