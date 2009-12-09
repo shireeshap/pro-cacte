@@ -12,7 +12,7 @@
 <div style="width:650px;">
 <form:form method="post">
 
-            <div id="effectiveDate">
+            <div id="releaseForm">
                 <div style="border:0px solid #ccc; height:65px; padding:9px; margin-bottom:10px;">
 
                     <c:choose>
@@ -23,8 +23,6 @@
                             Please provide the date on which this Clinical staff will be effectively activated.
                     </c:otherwise>
                     </c:choose>
-
-
                 <tags:renderDate propertyName="effectiveDate"
                                  displayName="clinicalStaff.label.effective_date" required="true"/>
 
