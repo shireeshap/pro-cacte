@@ -462,6 +462,7 @@ pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/EnterParticipantRe
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormStatusController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/MonitorFormUtils.java -text
+pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/MoveFormController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/MoveFormScehduleController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/MoveFormScheduleController.java -text
 pro-ctcae/web/src/main/java/gov/nih/nci/ctcae/web/participant/ParticipantAjaxFacade.java -text
