@@ -1,5 +1,9 @@
 package gov.nih.nci.ctcae.core.query;
 
+import gov.nih.nci.ctcae.core.domain.RoleStatus;
+
+import java.util.Date;
+
 //
 /**
  * User: Vinay Kumar
@@ -29,6 +33,7 @@ public class OrganizationClinicalStaffQuery extends AbstractQuery {
         super(queryString);
         andWhere("scs.organization.id = :" + ORGANIZATION_ID);
         setParameter(ORGANIZATION_ID, organizationId);
+        filterByActive();
     }
 
 
@@ -45,5 +50,12 @@ public class OrganizationClinicalStaffQuery extends AbstractQuery {
     public void filterByExactMatchNciIdentifier(final String nciIdentifier) {
         andWhere(String.format("lower(scs.clinicalStaff.nciIdentifier) = :%s)", NCI_IDENTIFIER));
         setParameter(NCI_IDENTIFIER, nciIdentifier.toLowerCase());
+    }
+
+    public void filterByActive() {
+        andWhere("((scs.clinicalStaff.status =:status1 and scs.clinicalStaff.effectiveDate <=:effectiveDate) or (scs.clinicalStaff.status =:status2 and scs.clinicalStaff.effectiveDate > :effectiveDate))");
+        setParameter("status1", RoleStatus.ACTIVE);
+        setParameter("status2", RoleStatus.IN_ACTIVE);
+        setParameter("effectiveDate",  new Date());
     }
 }
