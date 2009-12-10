@@ -8,7 +8,7 @@
 
     <bean id="proCtcAeProperties" class="gov.nih.nci.cabig.ctms.tools.DataSourceSelfDiscoveringPropertiesFactoryBean">
         <property name="databaseConfigurationName">
-            <value>test-db</value>
+            <value>datasource</value>
         </property>
         <property name="applicationDirectoryName">
             <value>proctcae</value>
