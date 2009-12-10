@@ -58,7 +58,7 @@
         </c:forEach>
     </c:forEach>
 </c:forEach>
-<img style=" position:relative; left:-11px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
+<img style=" position:relative; left:-10px;" src="<tags:imageUrl name="blue/mailbox.jpg" />" alt="mailbox"/>
 
 <div id="inboxTitle"><span style="font-size:75px; line-height:70px;">Inbox</span><br/>
     <span style="font-size:13pt; margin-left:6px;">You have <c:choose><c:when test="${not empty numberofCrfs}"><span
