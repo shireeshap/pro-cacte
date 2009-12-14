@@ -70,6 +70,7 @@ pro-ctcae/core/src/main/db/migrate/003_elaboration_1/008_add_participant_creatio
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/009_update_study_participant_assignment.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/010_alter_participant.groovy -text
 pro-ctcae/core/src/main/db/migrate/003_elaboration_1/011_alter_clinical_staff.groovy -text
+pro-ctcae/core/src/main/db/migrate/003_elaboration_1/012_update_nurse_privileges.groovy -text
 pro-ctcae/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text

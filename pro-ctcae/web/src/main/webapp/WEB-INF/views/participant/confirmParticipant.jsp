@@ -243,9 +243,14 @@
     <br/>
 </c:forEach>
 </chrome:box>
+
 <div style="float:right; padding-right:5px">
-                <tags:button color="blue" markupWithTag="a" value="Finish" href="/proctcae"/>
-            </div>
+    <tags:button color="blue" markupWithTag="a" value="Finish" href="/proctcae"/>
+</div>
+<div style="float:right; padding-right:5px">
+    <tags:button value="Save & add new participant" color="blue" markupWithTag="a"
+                 href="create"/>
+</div>
 
 </body>
 </html>

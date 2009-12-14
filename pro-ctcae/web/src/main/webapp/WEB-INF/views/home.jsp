@@ -123,137 +123,20 @@
     </c:if>
 </c:forEach><c:set var="dl" value="1200"/>
 <div class="panel">
-<chrome:box title="Alerts">
-    <c:choose>
-        <c:when test="${empty numberofalerts}">
-            <div style="margin-left:15px;">
-                You have no alerts.
-            </div>
-        </c:when>
-        <c:otherwise>
-            <div id="alertsdiv">
-                <table class="widget" cellpadding="3px;">
-                    <tr>
-                        <td class="header-top">
-                            Date
-                        </td>
-                        <td class="header-top">
-                            Participant
-                        </td>
-                        <td class="header-top">
-                            Study
-                        </td>
-                        <td class="header-top">
-                        </td>
-                    </tr>
-                    <c:forEach items="${notifications}" var="usernotification">
-                        <c:if test="${!usernotification.markDelete}">
-                            <tr id="tr_${usernotification.id}"
-                                    <c:if test="${usernotification.new}">
-                                        class="bold"
-                                    </c:if>>
-                                <td class="data">
-                                    <a class="link"
-                                       href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
-                                            value="${usernotification.notification.date}"/></a>
-                                </td>
-                                <td class="data" style="text-align:left">
-                                    <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                                    <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
-                                       class="link">
-                                        </proctcae:urlAuthorize>
-                                            ${usernotification.participant.displayName}
-                                        <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                                    </a>
-                                    </proctcae:urlAuthorize>
-                                </td>
-                                <td class="data">
-                                    <c:choose>
-                                        <c:when test="${fn:length(usernotification.study.shortTitle) > dl}">
-                                            <div title="${usernotification.study.shortTitle}">
-                                                    ${fn:substring(usernotification.study.shortTitle,0,dl)}...
-                                            </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            ${usernotification.study.shortTitle}
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                                <td>
-                                    <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
-                                       id="alertActions${usernotification.id}"><span class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
-                                    <script>
-                                        showPopUpMenuAlerts('${usernotification.id}', '${usernotification.studyParticipantCrfSchedule.id}', '${usernotification.uuid}', '${usernotification.participant.id}');
-                                    </script>
-                                </td>
-                            </tr>
-                        </c:if>
-                    </c:forEach>
-                </table>
-            </div>
-        </c:otherwise>
-    </c:choose>
-</chrome:box>
-<c:if test="${studyLevelRole}">
-    <chrome:box title="My Forms">
-        <div id="alertsdiv">
-            <table class="widget">
-                <tr>
-                    <td class="header-top" style="text-align:left">
-                        Study Title
-                    </td>
-                    <td class="header-top" style="text-align:left">
-                        Title
-                    </td>
-                    <td class="header-top">
-                        Status
-                    </td>
-                    <td class="header-top">
-                    </td>
-                    <td class="header-top">
-                        &nbsp;
-                    </td>
-                </tr>
-                <c:forEach items="${recentCrfs}" var="crf">
-                    <tr>
-                        <td>
-                                ${crf.study.displayName}
-                        </td>
-                        <td>
-                                ${crf.title}
-                        </td>
-                        <td class="data">
-                                ${crf.status}
-                        </td>
-                        <td>
-                            <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
-                               id="crfActions${crf.id}"><span class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
-                            <script>
-                                showPopUpMenu('${crf.id}', '${crf.status}');
-                            </script>
-                        </td>
-                        <td>
-                            &nbsp;
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
-            <br/>
-        </div>
-    </chrome:box>
-</c:if>
-<c:if test="${siteLevelRole}">
-    <chrome:box title="Overdue forms">
+    <chrome:box title="Alerts">
         <c:choose>
-            <c:when test="${empty overdue}">
+            <c:when test="${empty numberofalerts}">
                 <div style="margin-left:15px;">
-                    You have no overdue forms.
+                    You have no alerts.
                 </div>
             </c:when>
             <c:otherwise>
                 <div id="alertsdiv">
-                    <table class="widget" cellpadding="5px;">
+                    <table class="widget" cellpadding="3px;">
                         <tr>
+                            <td class="header-top">
+                                Date
+                            </td>
                             <td class="header-top">
                                 Participant
                             </td>
@@ -261,64 +144,183 @@
                                 Study
                             </td>
                             <td class="header-top">
-                                Form
-                            </td>
-                            <td class="header-top">
-                                Start date
-                            </td>
-                            <td class="header-top">
-                                Due date
                             </td>
                         </tr>
-                        <c:forEach items="${overdue}" var="schedule">
-                            <tr>
-                                <td class="data" style="text-align:left">
-                                    <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-                                        <a href="participant/schedulecrf?sid=${schedule.id}"
-                                           class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
-                                    </proctcae:urlAuthorize>
-                                </td>
-                                <td class="data">
-                                    <c:choose>
-                                        <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
-                                            <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">
-                                                    ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...
-                                            </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            ${schedule.studyParticipantCrf.crf.study.shortTitle}
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                                <td class="data">
-                                    <c:choose>
-                                        <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
-                                            <div title="${schedule.studyParticipantCrf.crf.title}">
-                                                    ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...
-                                            </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            ${schedule.studyParticipantCrf.crf.title}
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                                <td class="data">
-                                    <tags:formatDate value="${schedule.startDate}"/>
-                                </td>
-                                <td class="data">
-                                    <tags:formatDate value="${schedule.dueDate}"/>
-                                </td>
-                                <td class="data">
-                                </td>
-                            </tr>
+                        <c:forEach items="${notifications}" var="usernotification">
+                            <c:if test="${!usernotification.markDelete}">
+                                <tr id="tr_${usernotification.id}"
+                                        <c:if test="${usernotification.new}">
+                                            class="bold"
+                                        </c:if>>
+                                    <td class="data">
+                                        <a class="link"
+                                           href="javascript:completedForm('${usernotification.studyParticipantCrfSchedule.id}');"><tags:formatDate
+                                                value="${usernotification.notification.date}"/></a>
+                                    </td>
+                                    <td class="data" style="text-align:left">
+                                        <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                                        <a href="reports/participantReport?sid=${usernotification.studyParticipantCrfSchedule.id}"
+                                           class="link">
+                                            </proctcae:urlAuthorize>
+                                                ${usernotification.participant.displayName}
+                                            <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                                        </a>
+                                        </proctcae:urlAuthorize>
+                                    </td>
+                                    <td class="data">
+                                        <c:choose>
+                                            <c:when test="${fn:length(usernotification.study.shortTitle) > dl}">
+                                                <div title="${usernotification.study.shortTitle}">
+                                                        ${fn:substring(usernotification.study.shortTitle,0,dl)}...
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${usernotification.study.shortTitle}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+                                           id="alertActions${usernotification.id}"><span
+                                                class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
+                                        <script>
+                                            showPopUpMenuAlerts('${usernotification.id}', '${usernotification.studyParticipantCrfSchedule.id}', '${usernotification.uuid}', '${usernotification.participant.id}');
+                                        </script>
+                                    </td>
+                                </tr>
+                            </c:if>
                         </c:forEach>
                     </table>
-                    <br/>
                 </div>
             </c:otherwise>
         </c:choose>
     </chrome:box>
-</c:if>
+    <c:if test="${studyLevelRole}">
+        <chrome:box title="My Forms">
+            <div id="alertsdiv">
+                <table class="widget">
+                    <tr>
+                        <td class="header-top" style="text-align:left">
+                            Study Title
+                        </td>
+                        <td class="header-top" style="text-align:left">
+                            Title
+                        </td>
+                        <td class="header-top">
+                            Status
+                        </td>
+                        <td class="header-top">
+                        </td>
+                        <td class="header-top">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <c:forEach items="${recentCrfs}" var="crf">
+                        <tr>
+                            <td>
+                                    ${crf.study.displayName}
+                            </td>
+                            <td>
+                                    ${crf.title}
+                            </td>
+                            <td class="data">
+                                    ${crf.status}
+                            </td>
+                            <td>
+                                <a class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all"
+                                   id="crfActions${crf.id}"><span
+                                        class="ui-icon ui-icon-triangle-1-s"></span>Actions</a>
+                                <script>
+                                    showPopUpMenu('${crf.id}', '${crf.status}');
+                                </script>
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <br/>
+            </div>
+        </chrome:box>
+    </c:if>
+    <c:if test="${siteLevelRole}">
+        <chrome:box title="Overdue forms">
+            <c:choose>
+                <c:when test="${empty overdue}">
+                    <div style="margin-left:15px;">
+                        You have no overdue forms.
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div id="alertsdiv">
+                        <table class="widget" cellpadding="5px;">
+                            <tr>
+                                <td class="header-top">
+                                    Participant
+                                </td>
+                                <td class="header-top">
+                                    Study
+                                </td>
+                                <td class="header-top">
+                                    Form
+                                </td>
+                                <td class="header-top">
+                                    Start date
+                                </td>
+                                <td class="header-top">
+                                    Due date
+                                </td>
+                            </tr>
+                            <c:forEach items="${overdue}" var="schedule">
+                                <tr>
+                                    <td class="data" style="text-align:left">
+                                        <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+                                            <a href="participant/schedulecrf?sid=${schedule.id}"
+                                               class="link">${schedule.studyParticipantCrf.studyParticipantAssignment.participant.displayName}</a>
+                                        </proctcae:urlAuthorize>
+                                    </td>
+                                    <td class="data">
+                                        <c:choose>
+                                            <c:when test="${fn:length(schedule.studyParticipantCrf.crf.study.shortTitle) > dl}">
+                                                <div title="${schedule.studyParticipantCrf.crf.study.shortTitle}">
+                                                        ${fn:substring(schedule.studyParticipantCrf.crf.study.shortTitle,0,dl)}...
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${schedule.studyParticipantCrf.crf.study.shortTitle}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td class="data">
+                                        <c:choose>
+                                            <c:when test="${fn:length(schedule.studyParticipantCrf.crf.title) > dl}">
+                                                <div title="${schedule.studyParticipantCrf.crf.title}">
+                                                        ${fn:substring(schedule.studyParticipantCrf.crf.title,0,dl)}...
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${schedule.studyParticipantCrf.crf.title}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td class="data">
+                                        <tags:formatDate value="${schedule.startDate}"/>
+                                    </td>
+                                    <td class="data">
+                                        <tags:formatDate value="${schedule.dueDate}"/>
+                                    </td>
+                                    <td class="data">
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                        <br/>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </chrome:box>
+    </c:if>
 </div>
 <div class="panel">
     <chrome:box title="Quick Links">
@@ -336,6 +338,22 @@
                     form</a>
             </div>
         </proctcae:urlAuthorize>
+        <c:if test="${nurseLevelRole}">
+            <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+                <div class="quicklink">
+                    <a class="link" href="/proctcae/pages/participant/schedulecrf"><img
+                            src="<chrome:imageUrl name="../blue/icons/16px/basicFormController.png"/>" alt=""/> Manage
+                        schedule</a>
+                </div>
+            </proctcae:urlAuthorize>
+            <proctcae:urlAuthorize url="/pages/reports/participantReport">
+                <div class="quicklink">
+                    <a class="link" href="/proctcae/pages/reports/participantReport"><img
+                            src="<chrome:imageUrl name="../blue/icons/16px/basicFormController.png"/>" alt=""/> View
+                        reports</a>
+                </div>
+            </proctcae:urlAuthorize>
+        </c:if>
         <c:if test="${siteLevelRole}">
             <proctcae:urlAuthorize url="/pages/participant/create">
                 <div class="quicklink">

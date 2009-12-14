@@ -143,6 +143,9 @@
 <div style="float:right">
     <table>
         <tr>
+            <td><tags:button value="Save & add new staff" color="blue" markupWithTag="a"
+                             href="createClinicalStaff"/></td>
+            <td>
             <td><tags:button value="Edit" color="blue" markupWithTag="a"
                              href="createClinicalStaff?clinicalStaffId=${clinicalStaffCommand.clinicalStaff.id}"/></td>
             <td>
