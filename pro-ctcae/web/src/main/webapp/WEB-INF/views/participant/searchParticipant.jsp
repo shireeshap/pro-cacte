@@ -70,6 +70,7 @@
 
         function buildTable(form) {
 
+             $('tableDiv').innerHTML='';
             var firstName = $F('firstName')
             var lastName = $F('lastName')
             var identifier = $F('identifier')
