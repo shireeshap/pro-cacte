@@ -70,6 +70,10 @@
     }
     function showPopUpMenuStudy(sid) {
         var html = '<div id="search-engines"><ul>';
+        <c:set var="tabVal" value="1"/>
+        <proctcae:urlAuthorize url="/pages/study/createStudy">
+        <c:set var="tabVal" value="3"/>
+        </proctcae:urlAuthorize>
     <proctcae:urlAuthorize url="/pages/study/editStudy">
         html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">Edit Study</a></li>';
     </proctcae:urlAuthorize>
@@ -77,7 +81,7 @@
         html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/basicForm"/>?studyId=' + sid + '\'">Create Form</a></li>';
     </proctcae:urlAuthorize>
     <proctcae:urlAuthorize url="/pages/study/editStudy">
-        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=1\'">Manage Study Staff</a></li>';
+        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=${tabVal}\'">Manage Study Staff</a></li>';
     </proctcae:urlAuthorize>
     <proctcae:urlAuthorize url="/pages/reports/report">
         html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/reports/report?rt=overallStudy"/>&studyId=' + sid + '\'">Generate Study Report</a></li>';
