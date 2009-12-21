@@ -4,7 +4,6 @@ pro-ctcae/build.properties -text
 pro-ctcae/build.xml -text
 pro-ctcae/buildWeb.sh -text
 pro-ctcae/common.xml -text
-pro-ctcae/commons/commons.iml -text
 pro-ctcae/commons/ivy-build.xml -text
 pro-ctcae/commons/ivy.xml -text
 pro-ctcae/commons/src/main/java/gov/nih/nci/ctcae/commons/utils/DateUtils.java -text
@@ -387,12 +386,6 @@ pro-ctcae/properties/test-db-oracle-admin.properties -text
 pro-ctcae/properties/test-db-oracle.properties -text
 pro-ctcae/properties/test-db.properties -text
 pro-ctcae/recreate-db-populate-data.bat -text
-pro-ctcae/tools/checkstyle/checkstyle-frames-errors.xsl -text
-pro-ctcae/tools/checkstyle/checkstyle-frames.xsl -text
-pro-ctcae/tools/checkstyle/checkstyle_checks.xml -text
-pro-ctcae/tools/checkstyle/sun_checks.xml -text
-pro-ctcae/tools/pmd/pmdRuleset.xml -text
-pro-ctcae/tools/selenium/selenium-server.jar -text
 pro-ctcae/web.bat -text
 pro-ctcae/web/ivy-build.xml -text
 pro-ctcae/web/ivy.xml -text
@@ -632,6 +625,7 @@ pro-ctcae/web/src/main/webapp/WEB-INF/tags/pageHelp.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/panelBox.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/parsedStylesheetLink.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/participantcalendar.tag -text
+pro-ctcae/web/src/main/webapp/WEB-INF/tags/participantcalendar1.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/printRow.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/putSpecialRequiredIndicator.tag -text
 pro-ctcae/web/src/main/webapp/WEB-INF/tags/readOnlyRule.tag -text
@@ -1160,6 +1154,7 @@ pro-ctcae/web/src/main/webapp/images/table/separator.gif -text
 pro-ctcae/web/src/main/webapp/images/table/sortAsc.gif -text
 pro-ctcae/web/src/main/webapp/images/table/sortDesc.gif -text
 pro-ctcae/web/src/main/webapp/images/table/xls.gif -text
+pro-ctcae/web/src/main/webapp/images/table/xls1.gif -text
 pro-ctcae/web/src/main/webapp/images/window_icon.png -text
 pro-ctcae/web/src/main/webapp/index.jsp -text
 pro-ctcae/web/src/main/webapp/js/D2H_ctxt.js -text
@@ -1209,6 +1204,7 @@ pro-ctcae/web/src/main/webapp/js/table_menu.js -text
 pro-ctcae/web/src/main/webapp/js/tiger-menu.js -text
 pro-ctcae/web/src/main/webapp/js/tree.js -text
 pro-ctcae/web/src/main/webapp/js/validation.js -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium.zip -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/AbstractSeleniumTestCase.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/Administration/CreateClinicalStaffSeleniumTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/selenium/Administration/SearchClinicalStaffSeleniumTest.java -text
@@ -1274,10 +1270,12 @@ pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/SelectStudyPartici
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/ShowParticipantScheduleControllerTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCommandTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/participant/StudyParticipantCrfCalendarTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ExtendedStackedBarRenderer.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/GraphicalReportTestHelper.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelGraphicalReportTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelReportIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/ParticipantLevelReportTest.java -text
+pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StackedBarChartDemo3.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportIntegrationTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/StudyLevelReportTest.java -text
 pro-ctcae/web/src/test/java/gov/nih/nci/ctcae/web/reports/SymptomOverTimeReportTest.java -text
