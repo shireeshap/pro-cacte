@@ -1,0 +1,211 @@
+4c4
+< $Id: jboss_4_0.dtd 73541 2008-05-20 22:17:16Z alex.loubyansky@jboss.com $
+---
+> $Id: jboss_4_0.dtd 1502 2009-04-06 15:51:50Z saksass $
+154,159d153
+< <!ENTITY % service-ref PUBLIC
+<    "-//JBoss//DTD Web Service Reference 4.0//EN"
+<    "http://www.jboss.org/j2ee/dtd/service-ref_4_0.dtd">
+<   
+< %service-ref;
+< 
+696a692,763
+> <!-- The service-ref element provides jboss specific deployment values to
+> the web service reference in ejb-jar.xml.
+> Example:
+>     <service-ref>
+>         <service-ref-name>OrganizationService</service-ref-name>
+>         <wsdl-override>file:/wsdlRepository/organization-service.wsdl</wsdl-override>
+>     </service-ref>
+> 
+>     <service-ref>
+>         <service-ref-name>OrganizationService</service-ref-name>
+>         <config-name>Secure Client Config</config-name>
+>         <config-file>META-INF/jbossws-client-config.xml</config-file>
+>         <port-component-ref>
+>           <service-endpoint-interface>com.dot.SEI</service-endpoint-interface>
+>           <call-property>
+>             <prop-name>X</prop-name>
+>             <prop-value>Y</prop-value>
+>           </call-property>
+>         </port-component-ref>
+>     </service-ref>
+> -->
+> <!ELEMENT service-ref (service-ref-name, config-name?, config-file?, port-component-ref*, wsdl-override?, call-property*)>
+> 
+> <!-- The service-ref-name element gives the ENC relative name used
+> in the ejb-jar.xml service-ref-name element.
+> 
+> Used in: service-ref
+> -->
+> <!ELEMENT service-ref-name (#PCDATA)>
+> 
+> <!-- The optional config-name element gives the client configuration name that must be present in
+> the configuration given by element config-file. 
+> 	
+> The default is: Standard Client
+> 
+> Used in: service-ref, webservice-description
+> -->
+> <!ELEMENT config-name (#PCDATA)>
+> 
+> <!-- The optional config-file element gives the to a URL or resource name for the client configuration.
+> The default is: META-INF/standard-jbossws-client-config.xml
+> 
+> Used in: service-ref, webservice-description
+> -->
+> <!ELEMENT config-file (#PCDATA)>
+> 
+> <!-- The port-component-ref element provides additional information about
+> the standard j2ee service-reference/port-component-ref. Currently this includes
+> properties that should be associated with the call/stub for the port.
+> 
+> Used in: service-ref
+> -->
+> <!ELEMENT port-component-ref (service-endpoint-interface?, call-property*)>
+> 
+> <!-- Fully qualified name of service endpoint interface
+> -->
+> <!ELEMENT service-endpoint-interface ( #PCDATA )>
+> 
+> <!-- Arbitrary jaxrpc property values that should be set on a Call object
+> before it's returned to the web service client. The valid properties can be any
+> properties supported by the jaxrpc Call implementation.
+> -->
+> <!ELEMENT call-property ( prop-name, prop-value )>
+> 
+> <!-- The string value of a property name
+> -->
+> <!ELEMENT prop-name (#PCDATA)>
+> 
+> <!-- The string value of a property value
+> -->
+> <!ELEMENT prop-value (#PCDATA)>
+> 
+795,802c862,863
+<   a JNDI name. Given name will be prefixed by "/HAPartition/" by the container to get
+<   the actual JNDI name of the HAPartition. 
+<   
+<   Must be set; there is no hard coded default. Can be set either in a bean's own 
+<   cluster-config element or in a container-configuration used by the bean.
+<   The standard clustered bean container configurations in conf/standardjboss.xml
+<   set this to the value of system property "jboss.partition.name", or 
+<   "DefaultPartition" if that property is not set.
+---
+>   a JNDI name. Given name will be prefixed by "/HASessionState/" by the container to get
+>   the actual JNDI name of the HAPartition. If not, jboss will assume partition-name = "DefaultPartition".
+804c865
+<   Used in: entity, session and container-configuration (in clustered-config element)
+---
+>   Used in: entity and session (in clustered-config element)
+810a872
+>   If not, jboss will assume home-load-balance-policy = "org.jboss.ha.framework.interfaces.RoundRobin".
+812,817c874
+<   Must be set; there is no hard coded default. Can be set either in a bean's own 
+<   cluster-config element or in a container-configuration used by the bean.
+<   The standard clustered bean container configurations in conf/standardjboss.xml
+<   set this to "org.jboss.ha.framework.interfaces.RoundRobin".
+< 
+<   Used in: entity, session and container-configuration (in cluster-config element)
+---
+>   Used in: entity and session (in clustered-config element)
+823,829c880,883
+<   to load balance calls in an EJB2 bean proxy. 
+<   
+<   Must be set; there is no hard coded default. Can be set either in a bean's own 
+<   cluster-config element or in a container-configuration used by the bean.
+<   The standard clustered bean container configurations in conf/standardjboss.xml
+<   set this to "org.jboss.ha.framework.interfaces.RoundRobin" for SLSBs and to
+<   "org.jboss.ha.framework.interfaces.FirstAvailable" for EB and SFSBs.
+---
+>   to load balance calls in the bean proxy.
+>   If not, jboss will assume :
+>     - for EB and SFSB : bean-load-balance-policy = "org.jboss.ha.framework.interfaces.RoundRobin"
+>     - for SLSB        : bean-load-balance-policy = "org.jboss.ha.framework.interfaces.RoundRobin"
+831c885
+<   Used in: entity, session and container-configuration (in cluster-config element)
+---
+>   Used in: entity and session (in clustered-config element)
+879,888c933,936
+<   The session-state-manager-jndi-name element indicates the name of the 
+<   HASessionState to be used by the container as a backend for EJB2 stateful 
+<   session bean management in the cluster. This *is* a JNDI name (unlike the 
+<   partition-name element). 
+<   
+<   Must be set; there is no hard coded default. Can be set either in a bean's own 
+<   cluster-config element or in a container-configuration used by the bean.
+<   The standard clustered bean container configurations in conf/standardjboss.xml
+<   set this to "/HASessionState/" plus the value of system property 
+<   "jboss.partition.name", or "DefaultPartition" if that property is not set.
+---
+>   The session-state-manager-jndi-name element indicates the name of the HASessionState to be used
+>   by the container as a backend for state session management in the cluster.
+>   This *is* a JNDI name (not like the partition-name element).
+>   If not, jboss will assume partition-name = "/HASessionState/Default".
+890c938
+<   Used in: session or container-configuration (in cluster-config element)
+---
+>   Used in: session (in clustered-config element)
+1261,1265c1309
+< <!ELEMENT interceptor ANY>
+< 
+< <!-- possible content for the TxInterceptorCMT -->
+< <!ELEMENT retry-handlers (handler+)>
+< <!ELEMENT handler (#PCDATA)>
+---
+> <!ELEMENT interceptor (#PCDATA)>
+1389c1433
+< <!ELEMENT cache-policy-conf (min-capacity? , max-capacity? , remover-period? ,
+---
+> <!ELEMENT cache-policy-conf (min-capacity , max-capacity , remover-period? ,
+1391c1435
+<  max-cache-miss-period? , min-cache-miss-period? , cache-load-factor?, flush-enabled?)>
+---
+>  max-cache-miss-period? , min-cache-miss-period? , cache-load-factor?)>
+1449,1453d1492
+<   For the NoPassivationCachePolicy. Can be true or false
+< -->
+< <!ELEMENT flush-enabled (#PCDATA)>
+< 
+< <!--
+1459,1465d1497
+<   Possible content for the cache-policy-conf-other
+< -->
+< <!ELEMENT partitions (#PCDATA)>
+< <!ELEMENT batch-commit-strategy (#PCDATA)>
+< <!ELEMENT invalidable EMPTY>
+< 
+< <!--
+1477,1478c1509,1510
+< <!ELEMENT container-pool-conf ((MinimumSize?, MaximumSize?,
+<    strictMaximumSize?, strictTimeout?) | Synchronized)>
+---
+> <!ELEMENT container-pool-conf (MinimumSize?, MaximumSize?,
+>    strictMaximumSize?, strictTimeout?)>
+1513,1520d1544
+<   Can be true or false.
+<   Used in SingletonStatelessSessionInstancePool to synchronize access to the SLSB instance.
+< 
+<   Used in: container-pool-conf
+< -->
+< <!ELEMENT Synchronized (#PCDATA)>
+< 
+< <!--
+1693a1718,1734
+> This is a valid URL pointing to a final WSDL document. It is optional.
+> If specified, the WSDL document at this URL will be used during
+> deployment instead of the WSDL document associated with the
+> service-ref in the standard deployment descriptor.
+> 
+> Examples :
+> 
+>   // available via HTTP
+>   <wsdl-override>http://localhost:8000/myservice/myport?WSDL</wsdl-override>
+> 
+>   // in a file
+>   <wsdl-override>file:/home/user1/myfinalwsdl.wsdl</wsdl-override>
+> 
+> -->
+> <!ELEMENT wsdl-override ( #PCDATA )>
+> 
+> <!--

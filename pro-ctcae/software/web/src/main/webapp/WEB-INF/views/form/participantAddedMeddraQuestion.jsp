@@ -1,0 +1,230 @@
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
+<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <style type="text/css">
+        div.row div.value {
+            white-space: normal;
+        }
+
+        .label {
+            font-weight: bold;
+            float: left;
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+            padding: 1px;
+            font-size: 20px;
+        }
+
+        .currentPagediv {
+            color: #666666;
+            font-size: 8pt;
+            padding-right: 200px;
+            text-align: right;
+            margin-bottom: 15px;
+        }
+
+        .formbuilderBox {
+            padding-left: 2px;
+        }
+    </style>
+    <script type="">
+
+        var displayRules = new Array();
+        var questions = new Array();
+        var i = 0;
+        var responses = new Array();
+        var questionindexes = new Array();
+        var pageindex = new Array();
+
+        function gonext(crfitemindex, index, column, displayOrder, participantCrfItemId, questionDisplayOrder) {
+            var x = document.getElementsByName('response' + crfitemindex);
+            var c = document.getElementsByName('column_' + crfitemindex);
+            x[index].checked = true;
+            responses[x[index].value] = 'Y';
+            column.onmouseout = function() {
+            };
+            var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[' + crfitemindex + '].meddraValidValue';
+            document.myForm.elements[elementName].value = x[index].value;
+            for (var i = 0; i < x.length; i++) {
+                if (i != index) {
+                    responses[x[i].value] = 'N';
+                    c[i].className = 'norm';
+                    c[i].onmouseout = function() {
+                        this.className = 'norm'
+                    };
+                }
+            }
+            if (questionDisplayOrder == '1') {
+                if (displayOrder == '0') {
+                    document.myForm.deletedQuestions.value = participantCrfItemId;
+                } else {
+                    document.myForm.deletedQuestions.value = '-' + participantCrfItemId;
+                }
+                evaluateAllQuestions();
+            }
+        }
+
+        function clearResponse(questionindex) {
+            var x = document.getElementsByName('response' + questionindex);
+            var c = document.getElementsByName('column_' + questionindex);
+            for (var i = 0; i < x.length; i++) {
+                x[i].checked = false;
+                c[i].className = 'norm';
+                c[i].onmouseout = function() {
+                    this.className = 'norm'
+                };
+            }
+            var elementName = 'studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[' + questionindex + '].meddraValidValue';
+            document.myForm.elements[elementName].value = '';
+        }
+
+
+        Event.observe(window, "load", function () {
+            evaluateAllQuestions();
+        })
+
+
+        function evaluateAllQuestions() {
+            for (var i = 0; i < pageindex.length; i++) {
+                showHideQuestion(questions[pageindex[i]]);
+            }
+        }
+
+
+        function showHideQuestion(questionid) {
+            if (isDisplay(questionid)) {
+                showQuestion(questionid);
+            } else {
+                hideQuestion(questionid);
+            }
+        }
+
+        function showQuestion(questionid) {
+            $("question_" + questionid).show();
+        }
+
+        function hideQuestion(questionid) {
+            $("question_" + questionid).hide();
+            clearResponse(questionindexes[questionid]);
+        }
+
+        function isDisplay(questionid) {
+            var displayRule = displayRules[questionid];
+            var rulesSatisfied = false;
+            if (displayRule == '') {
+                rulesSatisfied = true;
+            } else {
+                var myRules = displayRule.split('~');
+                for (var i = 0; i < myRules.length; i++) {
+                    if (myRules[i] != '' && responses[myRules[i]] == 'Y') {
+                        rulesSatisfied = true;
+                        break;
+                    }
+                }
+            }
+            return rulesSatisfied;
+        }
+
+        function submitForm(direction) {
+            document.myForm.direction.value = direction;
+            document.myForm.submit();
+        }
+         
+    </script>
+</head>
+<body>
+<form:form method="post" name="myForm">
+    <div class='progress-bar-outer'>
+        <div class='progress-bar-inner'></div>
+    </div>
+    <tags:hasErrorsMessage hideErrorDetails="false"/>
+    <div class="currentPagediv">
+        Progress:
+    </div>
+    <input type="hidden"
+           name="deletedQuestions"
+           value=""/>
+
+    <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions}"
+               var="participantCrfItem"
+               varStatus="crfitemstatus">
+
+        <c:if test="${(participantCrfItem.pageNumber + offset)  eq command.currentPageIndex}">
+            <script type="text/javascript">
+                pageindex[i] = '${crfitemstatus.index}';
+                i++;
+                questions['${crfitemstatus.index}'] = '${participantCrfItem.meddraQuestion.id}';
+                questionindexes['${participantCrfItem.meddraQuestion.id}'] = '${crfitemstatus.index}';
+                displayRules['${participantCrfItem.meddraQuestion.id}'] = '';
+                responses['${participantCrfItem.meddraValidValue.id}'] = 'Y';
+
+            </script>
+            <tags:formbuilderBox id="question_${participantCrfItem.meddraQuestion.id}" style="display:none">
+
+                <input type="hidden"
+                       name="studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions[${crfitemstatus.index}].meddraValidValue"
+                       value="${participantCrfItem.meddraValidValue.id}"/>
+                <table>
+                    <tr>
+                        <td colspan="2">
+                            <div class="label">
+                                    ${participantCrfItem.meddraQuestion.questionText}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="label"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <c:forEach items="${participantCrfItem.meddraQuestion.validValues}" var="validValue"
+                                   varStatus="validvaluestatus">
+                            <tags:validvalue currentId="${validValue.id}"
+                                             title="${validValue.value}"
+                                             selectedId="${participantCrfItem.meddraValidValue.id}"
+                                             crfitemindex="${crfitemstatus.index}"
+                                             index="${validvaluestatus.index}"
+                                             displayOrder="${validValue.displayOrder}"
+                                             participantCrfItemId="${participantCrfItem.id}"
+                                             questionDisplayOrder="${participantCrfItem.meddraQuestion.displayOrder}"/>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <td>
+                            <chrome:division title=" " message="false"/>
+                        </td>
+                    </tr>
+                </table>
+            </tags:formbuilderBox>
+        </c:if>
+    </c:forEach>
+    <table width="100%" style="margin-top:10px;">
+        <input type="hidden" name="direction"/>
+        <tr>
+            <td align="left" width="50%">
+                <c:if test="${command.currentPageIndex gt 1}">
+                    <tags:button onclick="javascript:submitForm('back')" value="Back" icon="back" color="blue"/>
+                </c:if>
+            </td>
+            <td align="right" width="50%">
+                <c:choose>
+                    <c:when test="${command.currentPageIndex le command.totalPages}">
+                        <tags:button onclick="javascript:submitForm('continue')" type="submit" value="Continue"
+                                     icon="continue" color="green"/>
+                    </c:when>
+                </c:choose>
+            </td>
+        </tr>
+    </table>
+</form:form>
+</body>
+</html>

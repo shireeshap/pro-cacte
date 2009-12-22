@@ -1,0 +1,109 @@
+
+validate:pre:build:
+
+clean:
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\target\dist
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\target\temp
+
+init:
+     [echo]  ______   ______   _______ 
+     [echo] (____  \ (______) (_______)
+     [echo]  ____)  ) _     _  _______ 
+     [echo] |  __  ( | |   | ||  ___  |
+     [echo] | |__)  )| |__/ / | |   | |
+     [echo] |______/ |_____/  |_|   |_|
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\dist
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\dist\exploded
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\dist\exploded\proctcae-webapp
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\dist\exploded\common
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\dist\exploded\tools
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\temp
+
+build:proctcae-api:
+
+build:proctcae:
+
+BUILD FAILED
+
+C:\Users\Harsh\workspace\pro-ctcae\software\build\build.xml:261: The following error occurred while executing this line:
+java.io.FileNotFoundException: C:\Users\Harsh\workspace\pro-ctcae\build.xml (The system cannot find the file specified)
+	at org.apache.tools.ant.ProjectHelper.addLocationToBuildException(ProjectHelper.java:508)
+	at org.apache.tools.ant.taskdefs.Ant.execute(Ant.java:369)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor9.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1337)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1306)
+	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1189)
+	at org.apache.tools.ant.Main.runBuild(Main.java:758)
+	at org.apache.tools.ant.Main.startAnt(Main.java:217)
+	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:257)
+	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:104)
+Caused by: java.io.FileNotFoundException: C:\Users\Harsh\workspace\pro-ctcae\build.xml (The system cannot find the file specified)
+	at org.apache.tools.ant.helper.ProjectHelper2.parse(ProjectHelper2.java:230)
+	at org.apache.tools.ant.helper.ProjectHelper2.parse(ProjectHelper2.java:140)
+	at org.apache.tools.ant.ProjectHelper.configureProject(ProjectHelper.java:93)
+	at org.apache.tools.ant.taskdefs.Ant.execute(Ant.java:367)
+	... 16 more
+Caused by: java.io.FileNotFoundException: C:\Users\Harsh\workspace\pro-ctcae\build.xml (The system cannot find the file specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:106)
+	at org.apache.tools.ant.helper.ProjectHelper2.parse(ProjectHelper2.java:190)
+	... 19 more
+--- Nested Exception ---
+java.io.FileNotFoundException: C:\Users\Harsh\workspace\pro-ctcae\build.xml (The system cannot find the file specified)
+	at org.apache.tools.ant.helper.ProjectHelper2.parse(ProjectHelper2.java:230)
+	at org.apache.tools.ant.helper.ProjectHelper2.parse(ProjectHelper2.java:140)
+	at org.apache.tools.ant.ProjectHelper.configureProject(ProjectHelper.java:93)
+	at org.apache.tools.ant.taskdefs.Ant.execute(Ant.java:367)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor9.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1337)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1306)
+	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1189)
+	at org.apache.tools.ant.Main.runBuild(Main.java:758)
+	at org.apache.tools.ant.Main.startAnt(Main.java:217)
+	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:257)
+	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:104)
+Caused by: java.io.FileNotFoundException: C:\Users\Harsh\workspace\pro-ctcae\build.xml (The system cannot find the file specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:106)
+	at org.apache.tools.ant.helper.ProjectHelper2.parse(ProjectHelper2.java:190)
+	... 19 more
+--- Nested Exception ---
+java.io.FileNotFoundException: C:\Users\Harsh\workspace\pro-ctcae\build.xml (The system cannot find the file specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:106)
+	at org.apache.tools.ant.helper.ProjectHelper2.parse(ProjectHelper2.java:190)
+	at org.apache.tools.ant.helper.ProjectHelper2.parse(ProjectHelper2.java:140)
+	at org.apache.tools.ant.ProjectHelper.configureProject(ProjectHelper.java:93)
+	at org.apache.tools.ant.taskdefs.Ant.execute(Ant.java:367)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor9.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1337)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1306)
+	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1189)
+	at org.apache.tools.ant.Main.runBuild(Main.java:758)
+	at org.apache.tools.ant.Main.startAnt(Main.java:217)
+	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:257)
+	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:104)

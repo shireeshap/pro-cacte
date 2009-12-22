@@ -1,0 +1,292 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+
+    <tx:annotation-driven proxy-target-class="true"/>
+
+
+    <!--  for @Repository annotation  -->
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+    <util:list id="domainClasses">
+        <value>gov.nih.nci.ctcae.core.domain.Organization</value>
+        <value>gov.nih.nci.ctcae.core.domain.ClinicalStaff</value>
+        <value>gov.nih.nci.ctcae.core.domain.CRF</value>
+        <value>gov.nih.nci.ctcae.core.domain.Ctc</value>
+        <value>gov.nih.nci.ctcae.core.domain.CRFPage</value>
+        <value>gov.nih.nci.ctcae.core.domain.CrfPageItem</value>
+        <value>gov.nih.nci.ctcae.core.domain.CrfPageItemDisplayRule</value>
+        <value>gov.nih.nci.ctcae.core.domain.CtcCategory</value>
+        <value>gov.nih.nci.ctcae.core.domain.Person</value>
+        <value>gov.nih.nci.ctcae.core.domain.Participant</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtc</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestion</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtcTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.CtcTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtcValidValue</value>
+        <value>gov.nih.nci.ctcae.core.domain.Privilege</value>
+        <value>gov.nih.nci.ctcae.core.domain.RolePrivilege</value>
+        <value>gov.nih.nci.ctcae.core.domain.OrganizationClinicalStaff</value>
+        <value>gov.nih.nci.ctcae.core.domain.Study</value>
+        <value>gov.nih.nci.ctcae.core.domain.DataCoordinatingCenter</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyOrganizationClinicalStaff</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudySponsor</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyOrganization</value>
+        <value>gov.nih.nci.ctcae.core.domain.FundingSponsor</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantAssignment</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrf</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfItem</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantClinicalStaff</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudySite</value>
+        <value>gov.nih.nci.ctcae.core.domain.LeadStudySite</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfAddedQuestion</value>
+        <value>gov.nih.nci.ctcae.core.domain.StudyParticipantCrfScheduleAddedQuestion</value>
+        <value>gov.nih.nci.ctcae.core.domain.ProCtcQuestionDisplayRule</value>
+        <value>gov.nih.nci.ctcae.core.domain.CRFCalendar</value>
+        <value>gov.nih.nci.ctcae.core.domain.CRFCycle</value>
+        <value>gov.nih.nci.ctcae.core.domain.User</value>
+        <value>gov.nih.nci.ctcae.core.domain.UserRole</value>
+        <value>gov.nih.nci.ctcae.core.domain.CRFCycleDefinition</value>
+        <value>gov.nih.nci.ctcae.core.domain.meddra.AbstractMeddraDomainObject</value>
+        <value>gov.nih.nci.ctcae.core.domain.MeddraVersion</value>
+        <value>gov.nih.nci.ctcae.core.domain.meddra.HighLevelGroupTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.meddra.HighLevelTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.meddra.PreferredTerm</value>
+        <value>gov.nih.nci.ctcae.core.domain.meddra.SystemOrganClass</value>
+        <value>gov.nih.nci.ctcae.core.domain.MeddraQuestion</value>
+        <value>gov.nih.nci.ctcae.core.domain.MeddraValidValue</value>
+        <value>gov.nih.nci.ctcae.core.domain.Notification</value>
+        <value>gov.nih.nci.ctcae.core.domain.UserNotification</value>
+        <value>gov.nih.nci.ctcae.core.domain.FormArmSchedule</value>
+        <value>gov.nih.nci.ctcae.core.domain.Arm</value>
+
+
+    </util:list>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
+          autowire="byName">
+        <property name="namingStrategy">
+            <bean class="gov.nih.nci.ctcae.core.tools.hibernate.WonderfulNamingStrategy"/>
+        </property>
+        <property name="annotatedClasses" ref="domainClasses"/>
+
+        <property name="hibernateProperties" ref="hibernateProperties"/>
+
+        <property name="entityInterceptor">
+            <!--      <bean class="edu.northwestern.bioinformatics.studycalendar.utils.GridIdentifierInterceptor" autowire="byType">
+            </bean>-->
+            <ref local="chainedInterceptor"/>
+        </property>
+    </bean>
+
+
+    <bean id="auditSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
+          autowire="byName">
+        <property name="namingStrategy">
+            <bean class="gov.nih.nci.ctcae.core.tools.hibernate.WonderfulNamingStrategy"/>
+        </property>
+        <property name="annotatedClasses">
+            <list>
+                <value>gov.nih.nci.cabig.ctms.audit.domain.DataAuditEventValue</value>
+                <value>gov.nih.nci.cabig.ctms.audit.domain.DataAuditEvent</value>
+            </list>
+        </property>
+        <property name="hibernateProperties" ref="hibernateProperties"/>
+    </bean>
+
+
+    <bean id="chainedInterceptor" class="gov.nih.nci.cabig.ctms.audit.ChainedInterceptor" autowire="byType">
+        <property name="interceptors">
+            <list>
+                <!--<ref local="gridIdentifierInterceptor"/>-->
+                <ref local="auditInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="auditInterceptor" class="gov.nih.nci.cabig.ctms.audit.AuditInterceptorImpl" autowire="byType">
+        <property name="dataAuditRepository" ref="dataAuditRepository"></property>
+        <property name="auditableEntities" ref="domainClasses"/>
+        <property name="auditAll">
+            <value>false</value>
+        </property>
+    </bean>
+
+
+    <bean id="openSessionInViewInterceptor"
+          class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor" autowire="byName">
+        <property name="singleSession">
+            <value>true</value>
+        </property>
+        <property name="flushModeName">
+            <value>FLUSH_AUTO</value>
+        </property>
+    </bean>
+
+    <bean id="auditOpenSessionInViewInterceptor"
+          class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">
+        <property name="sessionFactory">
+            <ref local="auditSessionFactory"/>
+        </property>
+        <property name="singleSession">
+            <value>true</value>
+        </property>
+        <property name="flushModeName">
+            <value>FLUSH_AUTO</value>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+          autowire="byName"/>
+
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="checkWriteOperations">
+            <value>true</value>
+        </property>
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+
+
+    <bean name="dataAuditRepository" class="gov.nih.nci.cabig.ctms.audit.dao.DataAuditRepository">
+        <property name="sessionFactory">
+            <ref local="auditSessionFactory"/>
+        </property>
+    </bean>
+
+    <bean id="auditHistoryDao" class="gov.nih.nci.cabig.ctms.audit.dao.AuditHistoryDao">
+        <property name="hibernateTemplate" ref="hibernateTemplate"/>
+    </bean>
+
+    <!--<bean id="auditHistoryRepository" class="gov.nih.nci.cabig.ctms.audit.dao.AuditHistoryRepository">-->
+    <!--<property name="auditHistoryDao" ref="auditHistoryDao"></property>-->
+    <!--</bean>-->
+
+
+    <tx:annotation-driven proxy-target-class="true"/>
+
+    <bean id="genericRepository" class="gov.nih.nci.ctcae.core.repository.HibernateGenericRepository">
+        <property name="hibernateTemplate" ref="hibernateTemplate"/>
+        <property name="beanValidator" ref="beanValidator"/>
+    </bean>
+
+    <bean id="organizationRepository" class="gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository"
+          p:genericRepository-ref="genericRepository">
+
+    </bean>
+    <bean id="participantRepository" class="gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository"
+          p:genericRepository-ref="genericRepository">
+        <property name="userRepository" ref="userRepository"/>
+    </bean>
+
+    <bean id="studyRepository" class="gov.nih.nci.ctcae.core.repository.secured.StudyRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="studyOrganizationRepository" class="gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="studyOrganizationClinicalStaffRepository"
+          class="gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationClinicalStaffRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="clinicalStaffRepository" class="gov.nih.nci.ctcae.core.repository.secured.ClinicalStaffRepository"
+          p:genericRepository-ref="genericRepository" p:userRepository-ref="userRepository">
+    </bean>
+
+    <bean id="crfRepository" class="gov.nih.nci.ctcae.core.repository.secured.CRFRepository"
+          p:genericRepository-ref="genericRepository">
+        <property name="studyRepository" ref="studyRepository"/>
+        <property name="genericRepository" ref="genericRepository"/>
+    </bean>
+
+    <bean id="proCtcTermRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcTermRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="ctcTermRepository" class="gov.nih.nci.ctcae.core.repository.CtcTermRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="meddraRepository" class="gov.nih.nci.ctcae.core.repository.MeddraRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+
+    <bean id="proCtcQuestionRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcQuestionRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="organizationClinicalStaffRepository"
+          class="gov.nih.nci.ctcae.core.repository.secured.OrganizationClinicalStaffRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="studyParticipantCrfRepository"
+          class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+
+    <bean id="proCtcValidValueRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+
+    <bean id="proCtcRepository" class="gov.nih.nci.ctcae.core.repository.ProCtcRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+
+
+    <bean id="studyParticipantAssignmentRepository"
+          class="gov.nih.nci.ctcae.core.repository.secured.StudyParticipantAssignmentRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="studyParticipantCrfScheduleAddedQuestionRepository"
+          class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleAddedQuestionRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="studyParticipantCrfAddedQuestionRepository"
+          class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfAddedQuestionRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="studyParticipantCrfScheduleRepository"
+          class="gov.nih.nci.ctcae.core.repository.StudyParticipantCrfScheduleRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+    <bean id="formArmScheduleRepository"
+          class="gov.nih.nci.ctcae.core.repository.FormArmScheduleRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+
+    <bean id="meddraValidValueRepository"
+          class="gov.nih.nci.ctcae.core.repository.MeddraValidValueRepository"
+          p:genericRepository-ref="genericRepository">
+    </bean>
+
+
+    <bean id="userRepository" class="gov.nih.nci.ctcae.core.repository.UserRepository"
+          p:genericRepository-ref="genericRepository" >
+        <property name="passwordEncoder" ref="passwordEncoder"/>
+        <property name="saltSource" ref="reflectionSaltSource"/>
+    </bean>
+
+    <bean id="passwordEncoder" class="org.springframework.security.providers.encoding.Md5PasswordEncoder">
+        <property name="encodeHashAsBase64" value="true"/>
+    </bean>
+    <bean id="reflectionSaltSource" class="org.springframework.security.providers.dao.salt.ReflectionSaltSource">
+        <property name="userPropertyToUse" value="getUsername"/>
+    </bean>
+
+
+    <bean id="beanValidator" class="gov.nih.nci.ctcae.core.validation.BeanValidator">
+        <constructor-arg ref="domainClasses"/>
+    </bean>
+    <bean id="userNameAndPasswordValidator"
+          class="gov.nih.nci.ctcae.core.validation.annotation.UserNameAndPasswordValidator">
+        <property name="userRepository" ref="userRepository"/>
+    </bean>
+
+
+</beans>

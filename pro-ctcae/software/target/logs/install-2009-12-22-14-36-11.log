@@ -1,0 +1,1495 @@
+
+validate:pre:build:
+
+clean:
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\target\dist
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\target\temp
+
+init:
+     [echo]  ______   ______   _______ 
+     [echo] (____  \ (______) (_______)
+     [echo]  ____)  ) _     _  _______ 
+     [echo] |  __  ( | |   | ||  ___  |
+     [echo] | |__)  )| |__/ / | |   | |
+     [echo] |______/ |_____/  |_|   |_|
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\dist
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\dist\exploded
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\dist\exploded\proctcae-webapp
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\dist\exploded\common
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\dist\exploded\tools
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\temp
+
+build:proctcae-api:
+
+build:proctcae:
+Trying to override old definition of datatype antlib:org.apache.ivy.ant:settings
+Trying to override old definition of task antlib:org.apache.ivy.ant:configure
+Trying to override old definition of task antlib:org.apache.ivy.ant:resolve
+Trying to override old definition of task antlib:org.apache.ivy.ant:retrieve
+Trying to override old definition of task antlib:org.apache.ivy.ant:deliver
+Trying to override old definition of task antlib:org.apache.ivy.ant:publish
+Trying to override old definition of task antlib:org.apache.ivy.ant:extract
+Trying to override old definition of task antlib:org.apache.ivy.ant:cachepath
+Trying to override old definition of task antlib:org.apache.ivy.ant:cachefileset
+Trying to override old definition of task antlib:org.apache.ivy.ant:report
+Trying to override old definition of task antlib:org.apache.ivy.ant:repreport
+Trying to override old definition of task antlib:org.apache.ivy.ant:var
+Trying to override old definition of task antlib:org.apache.ivy.ant:check
+Trying to override old definition of task antlib:org.apache.ivy.ant:artifactproperty
+Trying to override old definition of task antlib:org.apache.ivy.ant:buildlist
+Trying to override old definition of task antlib:org.apache.ivy.ant:install
+Trying to override old definition of task antlib:org.apache.ivy.ant:convertpom
+Trying to override old definition of task antlib:org.apache.ivy.ant:makepom
+Trying to override old definition of task antlib:org.apache.ivy.ant:artifactreport
+Trying to override old definition of task antlib:org.apache.ivy.ant:info
+Trying to override old definition of task antlib:org.apache.ivy.ant:addpath
+Trying to override old definition of task antlib:org.apache.ivy.ant:listmodules
+Trying to override old definition of task antlib:org.apache.ivy.ant:findrevision
+Trying to override old definition of task antlib:org.apache.ivy.ant:buildnumber
+Trying to override old definition of task antlib:org.apache.ivy.ant:cleancache
+
+download-ivy:
+
+download-jsch:
+
+load-online-settings:
+     [echo] Going for online settings
+
+load-offline-settings:
+
+load-ivy:
+
+buildlist:
+[ivy:buildlist] :: Ivy 2.1.0-rc2 - 20090704004254 :: http://ant.apache.org/ivy/ ::
+[ivy:buildlist] :: loading settings :: file = C:\Users\Harsh\workspace\pro-ctcae\software\ivysettings.xml
+     [echo] buildList : ${build-path}
+
+clean-pmd:
+
+clean-all:
+
+clean-classes:
+     [echo] Executing in proctcae-commons
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\classes
+
+clean-classes-test:
+     [echo] Executing in proctcae-commons
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\test-classes
+
+clean-generated-src:
+     [echo] Executing in proctcae-commons
+
+clean-dist:
+     [echo] Executing in proctcae-commons
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\dist
+
+clean-lib:
+     [echo] Executing in proctcae-commons
+     [echo] Executing in proctcae-commons
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\lib
+
+clean-lib-test:
+     [echo] Executing in proctcae-commons
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\testlib
+
+clean-test-results:
+     [echo] Executing in proctcae-commons
+
+clean-test-reports:
+     [echo] Executing in proctcae-commons
+
+clean-reports:
+     [echo] deleting reports
+
+clean:
+
+clean-classes:
+     [echo] Executing in proctcae-core
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\core\build\classes
+
+clean-classes-test:
+     [echo] Executing in proctcae-core
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\core\build\test-classes
+
+clean-generated-src:
+     [echo] Executing in proctcae-core
+
+clean-dist:
+     [echo] Executing in proctcae-core
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\core\build\dist
+
+clean-lib:
+     [echo] Executing in proctcae-core
+     [echo] Executing in proctcae-core
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\core\build\lib
+
+clean-lib-test:
+     [echo] Executing in proctcae-core
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\core\build\testlib
+
+clean-test-results:
+     [echo] Executing in proctcae-core
+
+clean-test-reports:
+     [echo] Executing in proctcae-core
+
+clean-reports:
+     [echo] deleting reports
+
+clean:
+
+clean-classes:
+     [echo] Executing in proctcae-web
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\web\build\classes
+
+clean-classes-test:
+     [echo] Executing in proctcae-web
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\web\build\test-classes
+
+clean-generated-src:
+     [echo] Executing in proctcae-web
+
+clean-dist:
+     [echo] Executing in proctcae-web
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\web\build\dist
+
+clean-lib:
+     [echo] Executing in proctcae-web
+     [echo] Executing in proctcae-web
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\web\build\lib
+
+clean-lib-test:
+     [echo] Executing in proctcae-web
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\web\build\testlib
+
+clean-test-results:
+     [echo] Executing in proctcae-web
+
+clean-test-reports:
+     [echo] Executing in proctcae-web
+
+clean-reports:
+     [echo] deleting reports
+
+common.clean:
+
+clean-war:
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\web\build\proctcae
+
+undeploy-proctcae:
+
+clean:
+
+clean-repo:
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\repository
+
+publish-all:
+
+clean-dist:
+     [echo] Executing in proctcae-commons
+
+create-repo:
+     [echo] create-local-repo: Creating a local repository : C:\Users\Harsh\workspace\pro-ctcae\software/repository
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\repository
+
+init:
+     [echo] Executing proctcae-commons : init
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\lib
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\classes
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\dist
+
+local-version:
+     [echo] Executing in proctcae-commons
+
+module-specific-flow:
+     [echo] overwriting commons module flow...
+
+clean-lib:
+     [echo] Executing in proctcae-commons
+     [echo] Executing in proctcae-commons
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\lib
+
+download-ivy:
+
+download-jsch:
+
+load-online-settings:
+     [echo] Going for online settings
+
+load-offline-settings:
+
+load-ivy:
+
+resolve:
+     [echo] Executing proctcae-commons : resolve with confs : default
+[ivy:resolve] :: Ivy 2.1.0-rc2 - 20090704004254 :: http://ant.apache.org/ivy/ ::
+[ivy:resolve] :: loading settings :: file = C:\Users\Harsh\workspace\pro-ctcae\software\ivysettings.xml
+[ivy:resolve] :: resolving dependencies :: gov.nih.nci.ctcae#proctcae-commons;working@Harsh-PC
+[ivy:resolve] 	confs: [default]
+[ivy:resolve] 	found com.semanticbits.ctms.ant#sbanttasks;1.0 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-testing-uctrace;0.8 in ivy-cache
+[ivy:resolve] 	found ant#ant;1.6.5 in ivy-cache
+[ivy:resolve] 	found commons-io#commons-io;1.4 in ivy-cache
+[ivy:resolve] 	found log4j#log4j;1.2.13 in ivy-cache
+[ivy:resolve] 	found commons-lang#commons-lang;2.3 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cagrid.ant#uctrace;1.0 in ivy-cache
+[ivy:resolve] 	found cobertura#cobertura;1.8 in ivy-cache
+[ivy:resolve] 	found oro#oro;2.0.8 in ivy-cache
+[ivy:resolve] 	found asm#asm;2.2.1 in ivy-cache
+[ivy:resolve] 	found commons-codec#commons-codec;1.3 in ivy-cache
+[ivy:resolve] 	found commons-logging#commons-logging;1.1 in ivy-cache
+[ivy:resolve] 	found logkit#logkit;1.0.1 in ivy-cache
+[ivy:resolve] 	found avalon-framework#avalon-framework;4.1.3 in ivy-cache
+[ivy:resolve] 	found javax.servlet#servlet-api;2.3 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-base;0.9-SNAPSHOT in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-core;0.9-SNAPSHOT in ivy-cache
+[ivy:resolve] 	found edu.northwestern.bioinformatics#core-commons;77 in ivy-cache
+[ivy:resolve] :: resolution report :: resolve 401ms :: artifacts dl 26ms
+[ivy:resolve] 	:: evicted modules:
+[ivy:resolve] 	log4j#log4j;1.2.9 by [log4j#log4j;1.2.13] in [default]
+[ivy:resolve] 	log4j#log4j;1.2.12 by [log4j#log4j;1.2.13] in [default]
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      default     |   20  |   0   |   0   |   2   ||   17  |   0   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: gov.nih.nci.ctcae#proctcae-commons
+[ivy:retrieve] 	confs: [default]
+[ivy:retrieve] 	17 artifacts copied, 0 already retrieved (2276kB/37ms)
+
+compile:
+     [echo] Executing in proctcae-commons
+    [javac] Compiling 2 source files to C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\classes
+
+ivy-new-version:
+
+version:
+     [echo] Executing in proctcae-commons
+
+jar:
+     [echo] Executing in proctcae-commons
+      [jar] Building jar: C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\dist\proctcae-commons.jar
+
+clean-lib-test:
+     [echo] Executing in proctcae-commons
+
+init.test:
+     [echo] Executing proctcae-commons : init.test
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\test-classes
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\testlib
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\commons\reports\cobertura\instrumented
+
+resolve-test:
+     [echo] Executing proctcae-commons : resolve-test
+[ivy:resolve] :: resolving dependencies :: gov.nih.nci.ctcae#proctcae-commons;working@Harsh-PC
+[ivy:resolve] 	confs: [test]
+[ivy:resolve] 	found edu.northwestern.bioinformatics#core-commons-testing;77 in ivy-cache
+[ivy:resolve] 	found org.easymock#easymockclassextension;2.2.1 in ivy-cache
+[ivy:resolve] 	found org.easymock#easymock;2.2 in ivy-cache
+[ivy:resolve] 	found cglib#cglib-nodep;2.1_3 in ivy-cache
+[ivy:resolve] 	found junit#junit;3.8.1 in ivy-cache
+[ivy:resolve] 	found cobertura#cobertura;1.8 in ivy-cache
+[ivy:resolve] 	found oro#oro;2.0.8 in ivy-cache
+[ivy:resolve] 	found asm#asm;2.2.1 in ivy-cache
+[ivy:resolve] 	found log4j#log4j;1.2.9 in ivy-cache
+[ivy:resolve] :: resolution report :: resolve 157ms :: artifacts dl 10ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|       test       |   9   |   0   |   0   |   0   ||   9   |   0   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: gov.nih.nci.ctcae#proctcae-commons
+[ivy:retrieve] 	confs: [test]
+[ivy:retrieve] 	9 artifacts copied, 0 already retrieved (1140kB/61ms)
+
+compile-test:
+     [echo] Executing in proctcae-commons
+    [javac] Compiling 2 source files to C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\test-classes
+
+jar-test:
+     [echo] Executing in proctcae-commons
+      [jar] Building jar: C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\dist\proctcae-commons-tests.jar
+
+debug-info:
+     [echo] base.dir=C:\Users\Harsh\workspace\pro-ctcae\software\commons
+     [echo] ant.file=C:\Users\Harsh\workspace\pro-ctcae\software\commons\ivy-build.xml
+     [echo] ivy.available = true
+     [echo] ant.project.name = proctcae-commons
+     [echo] module.version.target = ${module.version.target}
+     [echo] main.src = C:\Users\Harsh\workspace\pro-ctcae\software\commons/src/main/java
+     [echo] main.src.resources=C:\Users\Harsh\workspace\pro-ctcae\software\commons/src/main/resources
+     [echo] skip.test = true
+     [echo] run.test = ${run.test}
+     [echo] ant.file.common=C:\Users\Harsh\workspace\pro-ctcae\software\common.xml
+     [echo] db = ${db}
+     [echo] databaseConfigurationName = datasource
+     [echo] offline : ${env.offline}
+     [echo] online :true
+     [echo] skip.review.reports : true
+     [echo] run.review.reports : ${env.run.review.reports}
+
+clean-test-results:
+     [echo] Executing in proctcae-commons
+
+clean-cobertura-dir:
+     [echo] Executing in proctcae-commons
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\commons\reports\cobertura
+
+cobertura-init:
+
+test:
+
+cobertura-report:
+
+test-report:
+
+publish-local:
+     [echo] Executing in proctcae-commons
+:: delivering :: gov.nih.nci.ctcae#proctcae-commons;working@Harsh-PC :: 1.0-SNAPSHOT-local-20091222143619 :: integration :: Tue Dec 22 14:36:19 EST 2009
+	delivering ivy file to C:\Users\Harsh\workspace\pro-ctcae\software\commons\build\dist\ivy.xml
+:: publishing :: gov.nih.nci.ctcae#proctcae-commons
+	published proctcae-commons to C:\Users\Harsh\workspace\pro-ctcae\software/repository/gov.nih.nci.ctcae/proctcae-commons/1.0-SNAPSHOT-local-20091222143619/proctcae-commons-1.0-SNAPSHOT-local-20091222143619.jar
+	published proctcae-commons-tests to C:\Users\Harsh\workspace\pro-ctcae\software/repository/gov.nih.nci.ctcae/proctcae-commons/1.0-SNAPSHOT-local-20091222143619/proctcae-commons-tests-1.0-SNAPSHOT-local-20091222143619.jar
+	published ivy to C:\Users\Harsh\workspace\pro-ctcae\software/repository/gov.nih.nci.ctcae/proctcae-commons/ivy-1.0-SNAPSHOT-local-20091222143619.xml
+     [echo] project proctcae-commons published locally with version 1.0-SNAPSHOT-local-20091222143619
+
+clean-dist:
+     [echo] Executing in proctcae-core
+
+create-repo:
+
+init:
+     [echo] Executing proctcae-core : init
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\core\build\lib
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\core\build\classes
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\core\build\dist
+
+local-version:
+     [echo] Executing in proctcae-core
+
+clean-lib:
+     [echo] Executing in proctcae-core
+     [echo] Executing in proctcae-core
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\core\build\lib
+
+download-ivy:
+
+download-jsch:
+
+load-online-settings:
+     [echo] Going for online settings
+
+load-offline-settings:
+
+load-ivy:
+
+resolve:
+     [echo] Executing proctcae-core : resolve with confs : default
+[ivy:resolve] :: Ivy 2.1.0-rc2 - 20090704004254 :: http://ant.apache.org/ivy/ ::
+[ivy:resolve] :: loading settings :: file = C:\Users\Harsh\workspace\pro-ctcae\software\ivysettings.xml
+[ivy:resolve] :: resolving dependencies :: gov.nih.nci.ctcae#proctcae-core;1.0-SNAPSHOT
+[ivy:resolve] 	confs: [default]
+[ivy:resolve] 	found poi#poi;3.0-FINAL in ivy-cache
+[ivy:resolve] 	found org.apache.poi#poi;3.0-FINAL in ivy-cache
+[ivy:resolve] 	found commons-logging#commons-logging;1.1 in ivy-cache
+[ivy:resolve] 	found logkit#logkit;1.0.1 in ivy-cache
+[ivy:resolve] 	found avalon-framework#avalon-framework;4.1.3 in ivy-cache
+[ivy:resolve] 	found javax.servlet#servlet-api;2.3 in ivy-cache
+[ivy:resolve] 	found log4j#log4j;1.2.13 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.ctcae#proctcae-commons;1.0-SNAPSHOT-local-20091222143619 in proctcae-local
+[ivy:resolve] 	[1.0-SNAPSHOT-local-20091222143619] gov.nih.nci.ctcae#proctcae-commons;latest.integration
+[ivy:resolve] 	found com.semanticbits.ctms.ant#sbanttasks;1.0 in ivy-cache
+[ivy:resolve] 	found ant#ant;1.6.5 in ivy-cache
+[ivy:resolve] 	found commons-io#commons-io;1.4 in ivy-cache
+[ivy:resolve] 	found commons-lang#commons-lang;2.3 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cagrid.ant#uctrace;1.0 in ivy-cache
+[ivy:resolve] 	found cobertura#cobertura;1.8 in ivy-cache
+[ivy:resolve] 	found oro#oro;2.0.8 in ivy-cache
+[ivy:resolve] 	found commons-codec#commons-codec;1.3 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-base;0.9-SNAPSHOT in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-core;0.9-SNAPSHOT in ivy-cache
+[ivy:resolve] 	found edu.northwestern.bioinformatics#core-commons;77 in ivy-cache
+[ivy:resolve] 	found xerces#xercesImpl;2.8.1 in ivy-cache
+[ivy:resolve] 	found xml-apis#xml-apis;1.3.03 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring;2.5.4 in ivy-cache
+[ivy:resolve] 	found commons-logging#commons-logging;1.1.1 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-aspects;2.5.4 in ivy-cache
+[ivy:resolve] 	found aspectj#aspectjrt;1.5.4 in ivy-cache
+[ivy:resolve] 	found org.aspectj#aspectjrt;1.5.4 in ivy-cache
+[ivy:resolve] 	found aspectj#aspectjweaver;1.5.4 in ivy-cache
+[ivy:resolve] 	found org.aspectj#aspectjweaver;1.5.4 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-beans;2.5.4 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-core;2.5.4 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-agent;2.5.4 in ivy-cache
+[ivy:resolve] 	found org.springframework.security#spring-security-taglibs;2.0.4 in ivy-cache
+[ivy:resolve] 	found org.springframework.security#spring-security-core;2.0.4 in ivy-cache
+[ivy:resolve] 	found org.springframework.security#spring-security-acl;2.0.4 in ivy-cache
+[ivy:resolve] 	found org.acegisecurity#acegi-security;1.0.3 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring-remoting;1.2.8 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring-dao;1.2.8 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring-context;1.2.8 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring-aop;1.2.8 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring-webmvc;1.2.8 in maven2-http
+[ivy:resolve] 	found org.springframework#spring-web;1.2.8 in maven2-http
+[ivy:resolve] 	found org.springframework#spring-jdbc;1.2.8 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring-support;1.2.8 in proctcae-resolver
+[ivy:resolve] 	found commons-collections#commons-collections;3.2 in ivy-cache
+[ivy:resolve] 	found net.sourceforge.collections#collections-generic;4.01 in ivy-cache
+[ivy:resolve] 	found commons-beanutils#commons-beanutils;1.7.0 in ivy-cache
+[ivy:resolve] 	found org.hibernate#hibernate;3.2.1.ga in ivy-cache
+[ivy:resolve] 	found net.sf.ehcache#ehcache;1.2.3 in ivy-cache
+[ivy:resolve] 	found javax.transaction#jta;1.0.1B in ivy-cache
+[ivy:resolve] 	found asm#asm-attrs;1.5.3 in ivy-cache
+[ivy:resolve] 	found dom4j#dom4j;1.6.1 in ivy-cache
+[ivy:resolve] 	found antlr#antlr;2.7.6 in ivy-cache
+[ivy:resolve] 	found cglib#cglib;2.1_3 in ivy-cache
+[ivy:resolve] 	found cglib#cglib-nodep;2.1_3 in ivy-cache
+[ivy:resolve] 	found org.hibernate#hibernate-annotations;3.2.1.ga in ivy-cache
+[ivy:resolve] 	found javax.persistence#persistence-api;1.0 in ivy-cache
+[ivy:resolve] 	found org.hibernate#hibernate-entitymanager;3.2.1.ga in ivy-cache
+[ivy:resolve] 	found jboss#javassist;3.3.ga in ivy-cache
+[ivy:resolve] 	found jboss#jboss-archive-browsing;5.0.0alpha-200607201-119 in ivy-cache
+[ivy:resolve] 	found commons-dbcp#commons-dbcp;1.2.1 in ivy-cache
+[ivy:resolve] 	found commons-pool#commons-pool;1.2 in ivy-cache
+[ivy:resolve] 	found xml-apis#xml-apis;2.0.2 in ivy-cache
+[ivy:resolve] 	found xerces#xerces;2.0.2 in ivy-cache
+[ivy:resolve] 	found xml-resolver#xml-resolver;1.1 in ivy-cache
+[ivy:resolve] 	found postgresql#postgresql;8.2-504.jdbc3 in ivy-cache
+[ivy:resolve] 	found hsqldb#hsqldb;1.8.0.7 in ivy-cache
+[ivy:resolve] 	found oracle#ojdbc14;10.2.0.2 in ivy-cache
+[ivy:resolve] 	found asm#asm;2.2.3 in ivy-cache
+[ivy:resolve] 	found edu.northwestern.bioinformatics#bering;0.6.1 in ivy-cache
+[ivy:resolve] 	found groovy#groovy;1.0-jsr-06 in ivy-cache
+[ivy:resolve] 	found javax.mail#mail;1.4 in ivy-cache
+[ivy:resolve] 	found javax.activation#activation;1.1 in ivy-cache
+[ivy:resolve] 	found com.csvreader#csvreader;2.0 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-lang;0.9-SNAPSHOT in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-testing-uctrace;0.9-SNAPSHOT in ivy-cache
+[ivy:resolve] 	found dbunit#dbunit;2.1 in ivy-cache
+[ivy:resolve] 	found com.semanticbits.rules#semanticbits-rules;1.2.3 in proctcae-resolver
+[ivy:resolve] 	found org.springmodules#spring-modules-jcr;0.9 in proctcae-resolver
+[ivy:resolve] 	found jsr94#jsr94;1.1 in ivy-cache
+[ivy:resolve] 	found javax.xml.bind#jaxb-api;2.1 in ivy-cache
+[ivy:resolve] 	found javax.xml.bind#jsr173_api;1.0 in ivy-cache
+[ivy:resolve] 	found javax.xml.ws#jaxws-api;2.1 in ivy-cache
+[ivy:resolve] 	found jdom#jdom;1.0 in ivy-cache
+[ivy:resolve] 	found xalan#xalan;2.7.0 in ivy-cache
+[ivy:resolve] 	found org.drools#drools-core;4.0.6 in ivy-cache
+[ivy:resolve] 	found org.drools#drools-compiler;4.0.6 in ivy-cache
+[ivy:resolve] 	found org.drools#drools-jsr94;4.0.6 in ivy-cache
+[ivy:resolve] 	found org.drools#drools-decisiontables;4.0.6 in ivy-cache
+[ivy:resolve] 	found org.drools#drools-repository;4.0.6 in ivy-cache
+[ivy:resolve] 	found com.sun.xml.bind#jaxb-impl;2.1.3 in ivy-cache
+[ivy:resolve] 	found com.sun.xml.bind#jaxb-xjc;2.1.3 in proctcae-resolver
+[ivy:resolve] 	found xjc-plugin#collection-setter-injector;1.0 in ivy-cache
+[ivy:resolve] 	found org.apache.xmlgraphics#fop;0.93 in ivy-cache
+[ivy:resolve] 	found org.mvel#mvel;1.2.22-java1.5 in ivy-cache
+[ivy:resolve] 	found javax.xml.stream#stax-api;1.0-2 in ivy-cache
+[ivy:resolve] 	found org.eclipse.jdt#core;3.2.0.666 in ivy-cache
+[ivy:resolve] 	found org.antlr#antlr-runtime;3.0 in ivy-cache
+[ivy:resolve] 	found org.eclipse.jdt#core;3.2.3.v_686_R32x in ivy-cache
+[ivy:resolve] 	found janino#janino;2.5.10 in ivy-cache
+[ivy:resolve] 	found jexcelapi#jxl;2.4.2 in ivy-cache
+[ivy:resolve] 	found org.apache.jackrabbit#jackrabbit-core;1.3 in ivy-cache
+[ivy:resolve] 	found concurrent#concurrent;1.3.4 in ivy-cache
+[ivy:resolve] 	found org.apache.geronimo.specs#geronimo-jta_1.0.1B_spec;1.0.1 in ivy-cache
+[ivy:resolve] 	found javax.jcr#jcr;1.0 in ivy-cache
+[ivy:resolve] 	found org.apache.jackrabbit#jackrabbit-api;1.3 in ivy-cache
+[ivy:resolve] 	found org.apache.jackrabbit#jackrabbit-jcr-commons;1.3 in ivy-cache
+[ivy:resolve] 	found org.slf4j#slf4j-api;1.3.0 in ivy-cache
+[ivy:resolve] 	found org.apache.jackrabbit#jackrabbit-text-extractors;1.3 in ivy-cache
+[ivy:resolve] 	found pdfbox#pdfbox;0.6.4 in ivy-cache
+[ivy:resolve] 	found org.textmining#tm-extractors;0.4 in ivy-cache
+[ivy:resolve] 	found org.apache.lucene#lucene-core;2.0.0 in ivy-cache
+[ivy:resolve] 	found org.apache.derby#derby;10.2.1.6 in ivy-cache
+[ivy:resolve] 	found org.tmatesoft#svnkit;1.1.2 in ivy-cache
+[ivy:resolve] 	found ch.ethz.ganymed#ganymed-ssh2;build210 in ivy-cache
+[ivy:resolve] 	found org.slf4j#slf4j-log4j12;1.3.0 in ivy-cache
+[ivy:resolve] 	found org.apache.xmlgraphics#xmlgraphics-commons;1.1 in ivy-cache
+[ivy:resolve] 	found batik#batik-svg-dom;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-dom;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-css;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-util;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-gui-util;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-ext;1.6-1 in ivy-cache
+[ivy:resolve] 	found xml-apis#xmlParserAPIs;2.0.2 in ivy-cache
+[ivy:resolve] 	found batik#batik-xml;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-parser;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-awt-util;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-bridge;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-gvt;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-script;1.6-1 in ivy-cache
+[ivy:resolve] 	found rhino#js;1.5R4.1 in ivy-cache
+[ivy:resolve] 	found batik#batik-transcoder;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-extension;1.6-1 in ivy-cache
+[ivy:resolve] 	found org.apache.avalon.framework#avalon-framework-api;4.3.1 in ivy-cache
+[ivy:resolve] 	found org.apache.avalon.framework#avalon-framework-impl;4.3.1 in ivy-cache
+[ivy:resolve] downloading C:\Users\Harsh\workspace\pro-ctcae\software\repository\gov.nih.nci.ctcae\proctcae-commons\1.0-SNAPSHOT-local-20091222143619\proctcae-commons-1.0-SNAPSHOT-local-20091222143619.jar ...
+[ivy:resolve] .. (3kB)
+[ivy:resolve] .. (0kB)
+[ivy:resolve] 	[SUCCESSFUL ] gov.nih.nci.ctcae#proctcae-commons;1.0-SNAPSHOT-local-20091222143619!proctcae-commons.jar (9ms)
+[ivy:resolve] :: resolution report :: resolve 9369ms :: artifacts dl 189ms
+[ivy:resolve] 	:: evicted modules:
+[ivy:resolve] 	commons-logging#commons-logging;1.1 by [commons-logging#commons-logging;1.1.1] in [default]
+[ivy:resolve] 	log4j#log4j;1.2.12 by [log4j#log4j;1.2.13] in [default]
+[ivy:resolve] 	logkit#logkit;1.0.1 transitively in [default]
+[ivy:resolve] 	avalon-framework#avalon-framework;4.1.3 transitively in [default]
+[ivy:resolve] 	javax.servlet#servlet-api;2.3 transitively in [default]
+[ivy:resolve] 	gov.nih.nci.cabig.ctms#ctms-commons-testing-uctrace;0.8 by [gov.nih.nci.cabig.ctms#ctms-commons-testing-uctrace;0.9-SNAPSHOT] in [default]
+[ivy:resolve] 	asm#asm;2.2.1 by [asm#asm;2.2.3] in [default]
+[ivy:resolve] 	log4j#log4j;1.2.9 by [log4j#log4j;1.2.13] in [default]
+[ivy:resolve] 	xml-apis#xml-apis;1.3.03 by [xml-apis#xml-apis;2.0.2] in [default]
+[ivy:resolve] 	org.springframework#spring-beans;1.2.8 by [org.springframework#spring-beans;2.5.4] in [default]
+[ivy:resolve] 	commons-lang#commons-lang;2.1 by [commons-lang#commons-lang;2.3] in [default]
+[ivy:resolve] 	commons-logging#commons-logging;1.0.4 by [commons-logging#commons-logging;1.1.1] in [default]
+[ivy:resolve] 	commons-collections#commons-collections;3.1 by [commons-collections#commons-collections;3.2] in [default]
+[ivy:resolve] 	commons-logging#commons-logging;1.0.3 by [commons-logging#commons-logging;1.1.1] in [default]
+[ivy:resolve] 	commons-collections#commons-collections;2.1 by [commons-collections#commons-collections;3.2] in [default]
+[ivy:resolve] 	asm#asm;1.5.3 by [asm#asm;2.2.3] in [default]
+[ivy:resolve] 	commons-collections#commons-collections;2.1.1 by [commons-collections#commons-collections;3.2] in [default]
+[ivy:resolve] 	xerces#xercesImpl;2.0.2 by [xerces#xercesImpl;2.8.1] in [default]
+[ivy:resolve] 	commons-io#commons-io;1.3.1 by [commons-io#commons-io;1.4] in [default]
+[ivy:resolve] 	org.springframework#spring;2.0.3 by [org.springframework#spring;2.5.4] in [default]
+[ivy:resolve] 	antlr#antlr;2.7.5 by [antlr#antlr;2.7.6] in [default]
+[ivy:resolve] 	asm#asm;2.2 by [asm#asm;2.2.3] in [default]
+[ivy:resolve] 	org.springframework#spring;2.0.2 by [org.springframework#spring;2.5.4] in [default]
+[ivy:resolve] 	org.eclipse.jdt#core;3.2.0.666 by [org.eclipse.jdt#core;3.2.3.v_686_R32x] in [default]
+[ivy:resolve] 	org.mvel#mvel;1.2.24-java1.4 by [org.mvel#mvel;1.2.22-java1.5] in [default]
+[ivy:resolve] 	xml-apis#xml-apis;1.0.b2 by [xml-apis#xml-apis;2.0.2] in [default]
+[ivy:resolve] 	xerces#xercesImpl;2.4.0 by [xerces#xercesImpl;2.8.1] in [default]
+[ivy:resolve] 	poi#poi;2.5.1-final-20040804 by [poi#poi;3.0-FINAL] in [default]
+[ivy:resolve] 	poi#poi;2.5.1 by [poi#poi;3.0-FINAL] in [default]
+[ivy:resolve] 	commons-io#commons-io;1.1 by [commons-io#commons-io;1.4] in [default]
+[ivy:resolve] 	xerces#xercesImpl;2.5.0 by [xerces#xercesImpl;2.8.1] in [default]
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      default     |  161  |   1   |   1   |   31  ||  121  |   1   |
+	---------------------------------------------------------------------
+[ivy:resolve] 
+[ivy:resolve] :: problems summary ::
+[ivy:resolve] :::: WARNINGS
+[ivy:resolve] 		module not found: objectweb#asm;1.3.4
+
+[ivy:resolve] 	==== proctcae-local: tried
+
+[ivy:resolve] 	  C:\Users\Harsh\workspace\pro-ctcae\software/repository/objectweb/asm/ivy-1.3.4.xml
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  C:\Users\Harsh\workspace\pro-ctcae\software/repository/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	  C:\Users\Harsh\workspace\pro-ctcae\software/repository/objectweb/asm/1.3.4/asm.jar
+
+[ivy:resolve] 	==== ivy-cache: tried
+
+[ivy:resolve] 	  C:\Users\Harsh/.ivy2/cache/objectweb/asm/ivy-1.3.4.xml
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  C:\Users\Harsh/.ivy2/cache/objectweb/asm/jars/asm-1.3.4.jar
+
+[ivy:resolve] 	==== semanticbits-repo-http: tried
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/objectweb/asm/1.3.4/ivy.xml
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/objectweb/asm/1.3.4/asm.jar
+
+[ivy:resolve] 	==== semanticbits-grid-repo-http: tried
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/caGRID/objectweb/asm/1.3.4/ivy-1.3.4.xml
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/caGRID/objectweb/asm/1.3.4/asm.jar
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/caGRID/objectweb/asm/1.3.4/objectweb-asm-1.3.4.jar
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/caGRID/objectweb/asm/1.3.4/objectweb-asm-asm-1.3.4.jar
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/caGRID/objectweb/asm/1.3.4/asm.jar
+
+[ivy:resolve] 	==== maven2-northwestern: tried
+
+[ivy:resolve] 	  http://download.bioinformatics.northwestern.edu/download/maven2/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://download.bioinformatics.northwestern.edu/download/maven2/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== maven2-http: tried
+
+[ivy:resolve] 	  http://maven2.mirrors.skynet.be/pub/maven2/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://maven2.mirrors.skynet.be/pub/maven2/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== maven2-codehaus-mule: tried
+
+[ivy:resolve] 	  http://dist.codehaus.org/mule/dependencies/maven2/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://dist.codehaus.org/mule/dependencies/maven2/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== maven2-codehaus: tried
+
+[ivy:resolve] 	  http://repository.codehaus.org/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://repository.codehaus.org/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== maven2-centeral: tried
+
+[ivy:resolve] 	  http://repo2.maven.org/maven2/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://repo2.maven.org/maven2/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== maven2-http: tried
+
+[ivy:resolve] 	  http://repository.jboss.com/maven2/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://repository.jboss.com/maven2/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== openqa: tried
+
+[ivy:resolve] 	  http://archiva.openqa.org/repository/releases/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://archiva.openqa.org/repository/releases/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== java.net: tried
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://download.java.net/maven/1/objectweb/jars/asm-1.3.4.jar
+
+[ivy:resolve] 	==== mvn.repo: tried
+
+[ivy:resolve] 	  http://mirrors.ibiblio.org/pub/mirrors/maven2/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://mirrors.ibiblio.org/pub/mirrors/maven2/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== nexus-repo: tried
+
+[ivy:resolve] 	  https://internal.hmsinc.com/nexus/content/repositories/hms-repo/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  https://internal.hmsinc.com/nexus/content/repositories/hms-repo/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 		module not found: nekohtml#nekohtml;working@HARSH
+
+[ivy:resolve] 	==== proctcae-local: tried
+
+[ivy:resolve] 	==== ivy-cache: tried
+
+[ivy:resolve] 	==== semanticbits-repo-http: tried
+
+[ivy:resolve] 	==== semanticbits-grid-repo-http: tried
+
+[ivy:resolve] 	==== maven2-northwestern: tried
+
+[ivy:resolve] 	==== maven2-http: tried
+
+[ivy:resolve] 	==== maven2-codehaus-mule: tried
+
+[ivy:resolve] 	==== maven2-codehaus: tried
+
+[ivy:resolve] 	==== maven2-centeral: tried
+
+[ivy:resolve] 	==== maven2-http: tried
+
+[ivy:resolve] 	==== openqa: tried
+
+[ivy:resolve] 	==== java.net: tried
+
+[ivy:resolve] 	==== mvn.repo: tried
+
+[ivy:resolve] 	==== nexus-repo: tried
+
+[ivy:resolve] 		::::::::::::::::::::::::::::::::::::::::::::::
+
+[ivy:resolve] 		::          UNRESOLVED DEPENDENCIES         ::
+
+[ivy:resolve] 		::::::::::::::::::::::::::::::::::::::::::::::
+
+[ivy:resolve] 		:: objectweb#asm;1.3.4: not found
+
+[ivy:resolve] 		:: nekohtml#nekohtml;working@HARSH: not found
+
+[ivy:resolve] 		::::::::::::::::::::::::::::::::::::::::::::::
+
+
+[ivy:resolve] :::: ERRORS
+[ivy:resolve] 		proctcae-local: unhandled revision => working@HARSH
+
+[ivy:resolve] 		ivy-cache: unhandled revision => working@HARSH
+
+[ivy:resolve] 		semanticbits-repo-http: unhandled revision => working@HARSH
+
+[ivy:resolve] 		semanticbits-grid-repo-http: unhandled revision => working@HARSH
+
+[ivy:resolve] 		maven2-northwestern: unhandled revision => working@HARSH
+
+[ivy:resolve] 		maven2-http: unhandled revision => working@HARSH
+
+[ivy:resolve] 		maven2-codehaus-mule: unhandled revision => working@HARSH
+
+[ivy:resolve] 		maven2-codehaus: unhandled revision => working@HARSH
+
+[ivy:resolve] 		maven2-centeral: unhandled revision => working@HARSH
+
+[ivy:resolve] 		maven2-http: unhandled revision => working@HARSH
+
+[ivy:resolve] 		openqa: unhandled revision => working@HARSH
+
+[ivy:resolve] 		java.net: unhandled revision => working@HARSH
+
+[ivy:resolve] 		mvn.repo: unhandled revision => working@HARSH
+
+[ivy:resolve] 		nexus-repo: unhandled revision => working@HARSH
+
+[ivy:resolve] 
+:: USE VERBOSE OR DEBUG MESSAGE LEVEL FOR MORE DETAILS
+[ivy:retrieve] :: retrieving :: gov.nih.nci.ctcae#proctcae-core
+[ivy:retrieve] 	confs: [default]
+[ivy:retrieve] 	conflict on C:\Users\Harsh\workspace\pro-ctcae\software\core\build\lib\cglib-nodep-2.1_3.jar in [default]: 2.1_3 won
+[ivy:retrieve] 	120 artifacts copied, 0 already retrieved (49679kB/378ms)
+
+module-specific-flow:
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\core\build\classes\db
+     [copy] Copying 57 files to C:\Users\Harsh\workspace\pro-ctcae\software\core\build\classes\db
+
+compile:
+     [echo] Executing in proctcae-core
+     [copy] Copying 14 files to C:\Users\Harsh\workspace\pro-ctcae\software\core\build\classes
+    [javac] Compiling 180 source files to C:\Users\Harsh\workspace\pro-ctcae\software\core\build\classes
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+
+ivy-new-version:
+
+version:
+     [echo] Executing in proctcae-core
+
+jar:
+     [echo] Executing in proctcae-core
+      [jar] Building jar: C:\Users\Harsh\workspace\pro-ctcae\software\core\build\dist\proctcae-core.jar
+
+clean-lib-test:
+     [echo] Executing in proctcae-core
+
+init.test:
+     [echo] Executing proctcae-core : init.test
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\core\build\test-classes
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\core\build\testlib
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\core\reports\cobertura\instrumented
+
+resolve-test:
+     [echo] Executing proctcae-core : resolve-test
+[ivy:resolve] :: resolving dependencies :: gov.nih.nci.ctcae#proctcae-core;1.0-SNAPSHOT
+[ivy:resolve] 	confs: [test]
+[ivy:resolve] 	found dbunit#dbunit;2.1 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-test;2.5.4 in ivy-cache
+[ivy:resolve] 	found commons-logging#commons-logging;1.1.1 in ivy-cache
+[ivy:resolve] 	found junit#junit;3.8.1 in ivy-cache
+[ivy:resolve] 	found edu.northwestern.bioinformatics#core-commons-testing;77 in ivy-cache
+[ivy:resolve] 	found org.easymock#easymockclassextension;2.2.1 in ivy-cache
+[ivy:resolve] 	found org.easymock#easymock;2.2 in ivy-cache
+[ivy:resolve] 	found cglib#cglib-nodep;2.1_3 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-testing-all;0.8 in ivy-cache
+[ivy:resolve] 	found cobertura#cobertura;1.8 in ivy-cache
+[ivy:resolve] 	found oro#oro;2.0.8 in ivy-cache
+[ivy:resolve] 	found asm#asm;2.2.1 in ivy-cache
+[ivy:resolve] 	found log4j#log4j;1.2.9 in ivy-cache
+[ivy:resolve] :: resolution report :: resolve 87ms :: artifacts dl 13ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|       test       |   13  |   0   |   0   |   0   ||   13  |   0   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: gov.nih.nci.ctcae#proctcae-core
+[ivy:retrieve] 	confs: [test]
+[ivy:retrieve] 	13 artifacts copied, 0 already retrieved (1656kB/33ms)
+
+compile-test:
+     [echo] Executing in proctcae-core
+     [copy] Copying 3 files to C:\Users\Harsh\workspace\pro-ctcae\software\core\build\test-classes
+    [javac] Compiling 81 source files to C:\Users\Harsh\workspace\pro-ctcae\software\core\build\test-classes
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+
+common.jar-test:
+     [echo] Executing in proctcae-core
+      [jar] Building jar: C:\Users\Harsh\workspace\pro-ctcae\software\core\build\dist\proctcae-core-tests.jar
+
+jar-test:
+
+debug-info:
+     [echo] base.dir=C:\Users\Harsh\workspace\pro-ctcae\software\core
+     [echo] ant.file=C:\Users\Harsh\workspace\pro-ctcae\software\core\ivy-build.xml
+     [echo] ivy.available = true
+     [echo] ant.project.name = proctcae-core
+     [echo] module.version.target = ${module.version.target}
+     [echo] main.src = C:\Users\Harsh\workspace\pro-ctcae\software\core/src/main/java
+     [echo] main.src.resources=C:\Users\Harsh\workspace\pro-ctcae\software\core/src/main/resources
+     [echo] skip.test = true
+     [echo] run.test = ${run.test}
+     [echo] ant.file.common=C:\Users\Harsh\workspace\pro-ctcae\software\common.xml
+     [echo] db = ${db}
+     [echo] databaseConfigurationName = datasource
+     [echo] offline : ${env.offline}
+     [echo] online :true
+     [echo] skip.review.reports : true
+     [echo] run.review.reports : ${env.run.review.reports}
+
+clean-test-results:
+     [echo] Executing in proctcae-core
+
+clean-cobertura-dir:
+     [echo] Executing in proctcae-core
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\core\reports\cobertura
+
+cobertura-init:
+
+test:
+
+cobertura-report:
+
+test-report:
+
+publish-local:
+     [echo] Executing in proctcae-core
+:: delivering :: gov.nih.nci.ctcae#proctcae-core;1.0-SNAPSHOT :: 1.0-SNAPSHOT-local-20091222143622 :: integration :: Tue Dec 22 14:36:22 EST 2009
+	delivering ivy file to C:\Users\Harsh\workspace\pro-ctcae\software\core\build\dist\ivy.xml
+:: publishing :: gov.nih.nci.ctcae#proctcae-core
+	published proctcae-core to C:\Users\Harsh\workspace\pro-ctcae\software/repository/gov.nih.nci.ctcae/proctcae-core/1.0-SNAPSHOT-local-20091222143622/proctcae-core-1.0-SNAPSHOT-local-20091222143622.jar
+	published proctcae-core-tests to C:\Users\Harsh\workspace\pro-ctcae\software/repository/gov.nih.nci.ctcae/proctcae-core/1.0-SNAPSHOT-local-20091222143622/proctcae-core-tests-1.0-SNAPSHOT-local-20091222143622.jar
+	published ivy to C:\Users\Harsh\workspace\pro-ctcae\software/repository/gov.nih.nci.ctcae/proctcae-core/ivy-1.0-SNAPSHOT-local-20091222143622.xml
+     [echo] project proctcae-core published locally with version 1.0-SNAPSHOT-local-20091222143622
+
+clean-dist:
+     [echo] Executing in proctcae-web
+
+create-repo:
+
+init:
+     [echo] Executing proctcae-web : init
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\lib
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\classes
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\dist
+
+local-version:
+     [echo] Executing in proctcae-web
+
+module-specific-flow:
+
+clean-lib:
+     [echo] Executing in proctcae-web
+     [echo] Executing in proctcae-web
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\web\build\lib
+
+download-ivy:
+
+download-jsch:
+
+load-online-settings:
+     [echo] Going for online settings
+
+load-offline-settings:
+
+load-ivy:
+
+resolve:
+     [echo] Executing proctcae-web : resolve with confs : default
+[ivy:resolve] :: Ivy 2.1.0-rc2 - 20090704004254 :: http://ant.apache.org/ivy/ ::
+[ivy:resolve] :: loading settings :: file = C:\Users\Harsh\workspace\pro-ctcae\software\ivysettings.xml
+[ivy:resolve] :: resolving dependencies :: gov.nih.nci.ctcae#proctcae-web;working@Harsh-PC
+[ivy:resolve] 	confs: [default]
+[ivy:resolve] 	found org.apache.poi#poi;3.0-FINAL in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.ctcae#proctcae-commons;1.0-SNAPSHOT-local-20091222143619 in proctcae-local
+[ivy:resolve] 	[1.0-SNAPSHOT-local-20091222143619] gov.nih.nci.ctcae#proctcae-commons;latest.integration
+[ivy:resolve] 	found com.semanticbits.ctms.ant#sbanttasks;1.0 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-testing-uctrace;0.8 in ivy-cache
+[ivy:resolve] 	found ant#ant;1.6.5 in ivy-cache
+[ivy:resolve] 	found commons-io#commons-io;1.4 in ivy-cache
+[ivy:resolve] 	found log4j#log4j;1.2.13 in ivy-cache
+[ivy:resolve] 	found commons-lang#commons-lang;2.3 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cagrid.ant#uctrace;1.0 in ivy-cache
+[ivy:resolve] 	found cobertura#cobertura;1.8 in ivy-cache
+[ivy:resolve] 	found oro#oro;2.0.8 in ivy-cache
+[ivy:resolve] 	found asm#asm;2.2.1 in ivy-cache
+[ivy:resolve] 	found commons-codec#commons-codec;1.3 in ivy-cache
+[ivy:resolve] 	found commons-logging#commons-logging;1.1 in ivy-cache
+[ivy:resolve] 	found logkit#logkit;1.0.1 in ivy-cache
+[ivy:resolve] 	found avalon-framework#avalon-framework;4.1.3 in ivy-cache
+[ivy:resolve] 	found javax.servlet#servlet-api;2.3 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-base;0.9-SNAPSHOT in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-core;0.9-SNAPSHOT in ivy-cache
+[ivy:resolve] 	found edu.northwestern.bioinformatics#core-commons;77 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.ctcae#proctcae-core;1.0-SNAPSHOT-local-20091222143622 in proctcae-local
+[ivy:resolve] 	[1.0-SNAPSHOT-local-20091222143622] gov.nih.nci.ctcae#proctcae-core;latest.integration
+[ivy:resolve] 	found poi#poi;3.0-FINAL in ivy-cache
+[ivy:resolve] 	found xerces#xercesImpl;2.8.1 in ivy-cache
+[ivy:resolve] 	found xml-apis#xml-apis;1.3.03 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring;2.5.4 in ivy-cache
+[ivy:resolve] 	found commons-logging#commons-logging;1.1.1 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-aspects;2.5.4 in ivy-cache
+[ivy:resolve] 	found aspectj#aspectjrt;1.5.4 in ivy-cache
+[ivy:resolve] 	found org.aspectj#aspectjrt;1.5.4 in ivy-cache
+[ivy:resolve] 	found aspectj#aspectjweaver;1.5.4 in ivy-cache
+[ivy:resolve] 	found org.aspectj#aspectjweaver;1.5.4 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-beans;2.5.4 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-core;2.5.4 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-agent;2.5.4 in ivy-cache
+[ivy:resolve] 	found org.springframework.security#spring-security-taglibs;2.0.4 in ivy-cache
+[ivy:resolve] 	found org.springframework.security#spring-security-core;2.0.4 in ivy-cache
+[ivy:resolve] 	found org.springframework.security#spring-security-acl;2.0.4 in ivy-cache
+[ivy:resolve] 	found org.acegisecurity#acegi-security;1.0.3 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring-remoting;1.2.8 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring-dao;1.2.8 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring-context;1.2.8 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring-aop;1.2.8 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring-jdbc;1.2.8 in proctcae-resolver
+[ivy:resolve] 	found org.springframework#spring-support;1.2.8 in proctcae-resolver
+[ivy:resolve] 	found commons-collections#commons-collections;3.2 in ivy-cache
+[ivy:resolve] 	found net.sourceforge.collections#collections-generic;4.01 in ivy-cache
+[ivy:resolve] 	found commons-beanutils#commons-beanutils;1.7.0 in ivy-cache
+[ivy:resolve] 	found org.hibernate#hibernate;3.2.1.ga in ivy-cache
+[ivy:resolve] 	found net.sf.ehcache#ehcache;1.2.3 in ivy-cache
+[ivy:resolve] 	found javax.transaction#jta;1.0.1B in ivy-cache
+[ivy:resolve] 	found asm#asm-attrs;1.5.3 in ivy-cache
+[ivy:resolve] 	found dom4j#dom4j;1.6.1 in ivy-cache
+[ivy:resolve] 	found antlr#antlr;2.7.6 in ivy-cache
+[ivy:resolve] 	found cglib#cglib;2.1_3 in ivy-cache
+[ivy:resolve] 	found cglib#cglib-nodep;2.1_3 in ivy-cache
+[ivy:resolve] 	found org.hibernate#hibernate-annotations;3.2.1.ga in ivy-cache
+[ivy:resolve] 	found javax.persistence#persistence-api;1.0 in ivy-cache
+[ivy:resolve] 	found org.hibernate#hibernate-entitymanager;3.2.1.ga in ivy-cache
+[ivy:resolve] 	found jboss#javassist;3.3.ga in ivy-cache
+[ivy:resolve] 	found jboss#jboss-archive-browsing;5.0.0alpha-200607201-119 in ivy-cache
+[ivy:resolve] 	found commons-dbcp#commons-dbcp;1.2.1 in ivy-cache
+[ivy:resolve] 	found commons-pool#commons-pool;1.2 in ivy-cache
+[ivy:resolve] 	found xml-apis#xml-apis;2.0.2 in ivy-cache
+[ivy:resolve] 	found xerces#xerces;2.0.2 in ivy-cache
+[ivy:resolve] 	found xml-resolver#xml-resolver;1.1 in ivy-cache
+[ivy:resolve] 	found postgresql#postgresql;8.2-504.jdbc3 in ivy-cache
+[ivy:resolve] 	found hsqldb#hsqldb;1.8.0.7 in ivy-cache
+[ivy:resolve] 	found oracle#ojdbc14;10.2.0.2 in ivy-cache
+[ivy:resolve] 	found asm#asm;2.2.3 in ivy-cache
+[ivy:resolve] 	found edu.northwestern.bioinformatics#bering;0.6.1 in ivy-cache
+[ivy:resolve] 	found groovy#groovy;1.0-jsr-06 in ivy-cache
+[ivy:resolve] 	found javax.mail#mail;1.4 in ivy-cache
+[ivy:resolve] 	found javax.activation#activation;1.1 in ivy-cache
+[ivy:resolve] 	found com.csvreader#csvreader;2.0 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-lang;0.9-SNAPSHOT in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-testing-uctrace;0.9-SNAPSHOT in ivy-cache
+[ivy:resolve] 	found dbunit#dbunit;2.1 in ivy-cache
+[ivy:resolve] 	found com.semanticbits.rules#semanticbits-rules;1.2.3 in proctcae-resolver
+[ivy:resolve] 	found org.springmodules#spring-modules-jcr;0.9 in proctcae-resolver
+[ivy:resolve] 	found jsr94#jsr94;1.1 in ivy-cache
+[ivy:resolve] 	found javax.xml.bind#jaxb-api;2.1 in ivy-cache
+[ivy:resolve] 	found javax.xml.bind#jsr173_api;1.0 in ivy-cache
+[ivy:resolve] 	found javax.xml.ws#jaxws-api;2.1 in ivy-cache
+[ivy:resolve] 	found jdom#jdom;1.0 in ivy-cache
+[ivy:resolve] 	found xalan#xalan;2.7.0 in ivy-cache
+[ivy:resolve] 	found org.drools#drools-core;4.0.6 in ivy-cache
+[ivy:resolve] 	found org.drools#drools-compiler;4.0.6 in ivy-cache
+[ivy:resolve] 	found org.drools#drools-jsr94;4.0.6 in ivy-cache
+[ivy:resolve] 	found org.drools#drools-decisiontables;4.0.6 in ivy-cache
+[ivy:resolve] 	found org.drools#drools-repository;4.0.6 in ivy-cache
+[ivy:resolve] 	found com.sun.xml.bind#jaxb-impl;2.1.3 in ivy-cache
+[ivy:resolve] 	found com.sun.xml.bind#jaxb-xjc;2.1.3 in proctcae-resolver
+[ivy:resolve] 	found xjc-plugin#collection-setter-injector;1.0 in ivy-cache
+[ivy:resolve] 	found org.apache.xmlgraphics#fop;0.93 in ivy-cache
+[ivy:resolve] 	found org.mvel#mvel;1.2.22-java1.5 in ivy-cache
+[ivy:resolve] 	found javax.xml.stream#stax-api;1.0-2 in ivy-cache
+[ivy:resolve] 	found org.eclipse.jdt#core;3.2.0.666 in ivy-cache
+[ivy:resolve] 	found org.antlr#antlr-runtime;3.0 in ivy-cache
+[ivy:resolve] 	found org.eclipse.jdt#core;3.2.3.v_686_R32x in ivy-cache
+[ivy:resolve] 	found janino#janino;2.5.10 in ivy-cache
+[ivy:resolve] 	found jexcelapi#jxl;2.4.2 in ivy-cache
+[ivy:resolve] 	found org.apache.jackrabbit#jackrabbit-core;1.3 in ivy-cache
+[ivy:resolve] 	found concurrent#concurrent;1.3.4 in ivy-cache
+[ivy:resolve] 	found org.apache.geronimo.specs#geronimo-jta_1.0.1B_spec;1.0.1 in ivy-cache
+[ivy:resolve] 	found javax.jcr#jcr;1.0 in ivy-cache
+[ivy:resolve] 	found org.apache.jackrabbit#jackrabbit-api;1.3 in ivy-cache
+[ivy:resolve] 	found org.apache.jackrabbit#jackrabbit-jcr-commons;1.3 in ivy-cache
+[ivy:resolve] 	found org.slf4j#slf4j-api;1.3.0 in ivy-cache
+[ivy:resolve] 	found org.apache.jackrabbit#jackrabbit-text-extractors;1.3 in ivy-cache
+[ivy:resolve] 	found pdfbox#pdfbox;0.6.4 in ivy-cache
+[ivy:resolve] 	found org.textmining#tm-extractors;0.4 in ivy-cache
+[ivy:resolve] 	found org.apache.lucene#lucene-core;2.0.0 in ivy-cache
+[ivy:resolve] 	found org.apache.derby#derby;10.2.1.6 in ivy-cache
+[ivy:resolve] 	found org.tmatesoft#svnkit;1.1.2 in ivy-cache
+[ivy:resolve] 	found ch.ethz.ganymed#ganymed-ssh2;build210 in ivy-cache
+[ivy:resolve] 	found org.slf4j#slf4j-log4j12;1.3.0 in ivy-cache
+[ivy:resolve] 	found org.apache.xmlgraphics#xmlgraphics-commons;1.1 in ivy-cache
+[ivy:resolve] 	found batik#batik-svg-dom;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-dom;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-css;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-util;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-gui-util;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-ext;1.6-1 in ivy-cache
+[ivy:resolve] 	found xml-apis#xmlParserAPIs;2.0.2 in ivy-cache
+[ivy:resolve] 	found batik#batik-xml;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-parser;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-awt-util;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-bridge;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-gvt;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-script;1.6-1 in ivy-cache
+[ivy:resolve] 	found rhino#js;1.5R4.1 in ivy-cache
+[ivy:resolve] 	found batik#batik-transcoder;1.6-1 in ivy-cache
+[ivy:resolve] 	found batik#batik-extension;1.6-1 in ivy-cache
+[ivy:resolve] 	found org.apache.avalon.framework#avalon-framework-api;4.3.1 in ivy-cache
+[ivy:resolve] 	found org.apache.avalon.framework#avalon-framework-impl;4.3.1 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-web;2.5.4 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-context;2.5.4 in ivy-cache
+[ivy:resolve] 	found aopalliance#aopalliance;1.0 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-webmvc;2.5.4 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-context-support;2.5.4 in ivy-cache
+[ivy:resolve] 	found org.springframework.webflow#org.springframework.binding;2.0.3.RELEASE in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-beans;2.5.5 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-core;2.5.5 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-context;2.5.5 in ivy-cache
+[ivy:resolve] 	found org.springframework.webflow#org.springframework.js;2.0.3.RELEASE in ivy-cache
+[ivy:resolve] 	found org.springframework.webflow#org.springframework.webflow;2.0.3.RELEASE in ivy-cache
+[ivy:resolve] 	found ognl#ognl;2.6.7 in ivy-cache
+[ivy:resolve] 	found commons-fileupload#commons-fileupload;1.2 in ivy-cache
+[ivy:resolve] 	found commons-validator#commons-validator;1.1.4 in ivy-cache
+[ivy:resolve] 	found org.directwebremoting#dwr;2.0.rc2 in ivy-cache
+[ivy:resolve] 	found javax.servlet#servlet-api;2.4 in ivy-cache
+[ivy:resolve] 	found javax.servlet#jsp-api;2.0 in ivy-cache
+[ivy:resolve] 	found org.extremecomponents#extremecomponents;1.0.1 in ivy-cache
+[ivy:resolve] 	found displaytag#displaytag;1.1 in ivy-cache
+[ivy:resolve] 	found itext#itext;1.3 in ivy-cache
+[ivy:resolve] 	found com.lowagie#itext;1.3 in ivy-cache
+[ivy:resolve] 	found opensymphony#sitemesh;2.2.1 in ivy-cache
+[ivy:resolve] 	found org.globus#cog-axis;4.0.3-globus in ivy-cache
+[ivy:resolve] 	found org.apache.tiles#tiles-api;2.0.4 in ivy-cache
+[ivy:resolve] 	found commons-logging#commons-logging-api;1.1 in ivy-cache
+[ivy:resolve] 	found org.apache.tiles#tiles-core;2.0.4 in ivy-cache
+[ivy:resolve] 	found commons-digester#commons-digester;1.8 in ivy-cache
+[ivy:resolve] 	found org.apache.tiles#tiles-jsp;2.0.4 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-web;0.9-SNAPSHOT in ivy-cache
+[ivy:resolve] 	found javax.servlet#jstl;1.1.2 in ivy-cache
+[ivy:resolve] 	found taglibs#standard;1.1.2 in ivy-cache
+[ivy:resolve] 	found jfree#jfreechart;1.0.9 in ivy-cache
+[ivy:resolve] 	found jfree#jcommon;1.0.12 in ivy-cache
+[ivy:resolve] 	found opensymphony#quartz-all;1.6.0 in proctcae-resolver
+[ivy:resolve] downloading C:\Users\Harsh\workspace\pro-ctcae\software\repository\gov.nih.nci.ctcae\proctcae-core\1.0-SNAPSHOT-local-20091222143622\proctcae-core-1.0-SNAPSHOT-local-20091222143622.jar ...
+[ivy:resolve] ......... (496kB)
+[ivy:resolve] .. (0kB)
+[ivy:resolve] 	[SUCCESSFUL ] gov.nih.nci.ctcae#proctcae-core;1.0-SNAPSHOT-local-20091222143622!proctcae-core.jar (23ms)
+[ivy:resolve] :: resolution report :: resolve 5582ms :: artifacts dl 194ms
+[ivy:resolve] 	:: evicted modules:
+[ivy:resolve] 	gov.nih.nci.cabig.ctms#ctms-commons-testing-uctrace;0.8 by [gov.nih.nci.cabig.ctms#ctms-commons-testing-uctrace;0.9-SNAPSHOT] in [default]
+[ivy:resolve] 	asm#asm;2.2.1 by [asm#asm;2.2.3] in [default]
+[ivy:resolve] 	log4j#log4j;1.2.9 by [log4j#log4j;1.2.13] in [default]
+[ivy:resolve] 	commons-logging#commons-logging;1.1 by [commons-logging#commons-logging;1.1.1] in [default]
+[ivy:resolve] 	log4j#log4j;1.2.12 by [log4j#log4j;1.2.13] in [default]
+[ivy:resolve] 	logkit#logkit;1.0.1 transitively in [default]
+[ivy:resolve] 	avalon-framework#avalon-framework;4.1.3 transitively in [default]
+[ivy:resolve] 	javax.servlet#servlet-api;2.3 by [javax.servlet#servlet-api;2.4] in [default]
+[ivy:resolve] 	xml-apis#xml-apis;1.3.03 by [xml-apis#xml-apis;2.0.2] in [default]
+[ivy:resolve] 	org.springframework#spring-beans;2.5.4 by [org.springframework#spring-beans;2.5.5] in [default]
+[ivy:resolve] 	org.springframework#spring-core;2.5.4 by [org.springframework#spring-core;2.5.5] in [default]
+[ivy:resolve] 	org.springframework#spring-context;1.2.8 by [org.springframework#spring-context;2.5.4] in [default]
+[ivy:resolve] 	org.springframework#spring-aop;1.2.8 transitively in [default]
+[ivy:resolve] 	org.springframework#spring-beans;1.2.8 by [org.springframework#spring-beans;2.5.4] in [default]
+[ivy:resolve] 	org.springframework#spring-webmvc;1.2.8 by [org.springframework#spring-webmvc;2.5.4] in [default]
+[ivy:resolve] 	commons-lang#commons-lang;2.1 by [commons-lang#commons-lang;2.3] in [default]
+[ivy:resolve] 	commons-logging#commons-logging;1.0.4 by [commons-logging#commons-logging;1.1.1] in [default]
+[ivy:resolve] 	commons-collections#commons-collections;3.1 by [commons-collections#commons-collections;3.2] in [default]
+[ivy:resolve] 	commons-logging#commons-logging;1.0.3 by [commons-logging#commons-logging;1.1.1] in [default]
+[ivy:resolve] 	commons-collections#commons-collections;2.1 by [commons-collections#commons-collections;3.2] in [default]
+[ivy:resolve] 	asm#asm;1.5.3 by [asm#asm;2.2.3] in [default]
+[ivy:resolve] 	commons-collections#commons-collections;2.1.1 by [commons-collections#commons-collections;3.2] in [default]
+[ivy:resolve] 	xerces#xercesImpl;2.0.2 by [xerces#xercesImpl;2.8.1] in [default]
+[ivy:resolve] 	commons-io#commons-io;1.3.1 by [commons-io#commons-io;1.4] in [default]
+[ivy:resolve] 	org.springframework#spring;2.0.3 by [org.springframework#spring;2.5.4] in [default]
+[ivy:resolve] 	antlr#antlr;2.7.5 by [antlr#antlr;2.7.6] in [default]
+[ivy:resolve] 	asm#asm;2.2 by [asm#asm;2.2.3] in [default]
+[ivy:resolve] 	org.springframework#spring;2.0.2 by [org.springframework#spring;2.5.4] in [default]
+[ivy:resolve] 	org.eclipse.jdt#core;3.2.0.666 by [org.eclipse.jdt#core;3.2.3.v_686_R32x] in [default]
+[ivy:resolve] 	org.mvel#mvel;1.2.24-java1.4 by [org.mvel#mvel;1.2.22-java1.5] in [default]
+[ivy:resolve] 	xml-apis#xml-apis;1.0.b2 by [xml-apis#xml-apis;2.0.2] in [default]
+[ivy:resolve] 	xerces#xercesImpl;2.4.0 by [xerces#xercesImpl;2.8.1] in [default]
+[ivy:resolve] 	poi#poi;2.5.1-final-20040804 by [poi#poi;3.0-FINAL] in [default]
+[ivy:resolve] 	poi#poi;2.5.1 by [poi#poi;3.0-FINAL] in [default]
+[ivy:resolve] 	commons-io#commons-io;1.1 by [commons-io#commons-io;1.4] in [default]
+[ivy:resolve] 	xerces#xercesImpl;2.5.0 by [xerces#xercesImpl;2.8.1] in [default]
+[ivy:resolve] 	org.springframework#spring-context;2.5.4 by [org.springframework#spring-context;2.5.5] in [default]
+[ivy:resolve] 	org.springframework#spring-web;2.5.5 by [org.springframework#spring-web;2.5.4] in [default]
+[ivy:resolve] 	org.springframework#spring-webmvc;2.5.5 by [org.springframework#spring-webmvc;2.5.4] in [default]
+[ivy:resolve] 	commons-collections#commons-collections;3.0 by [commons-collections#commons-collections;3.2] in [default]
+[ivy:resolve] 	commons-lang#commons-lang;2.0 by [commons-lang#commons-lang;2.3] in [default]
+[ivy:resolve] 	taglibs#standard;1.0.2 by [taglibs#standard;1.1.2] in [default]
+[ivy:resolve] 	org.springframework#spring;2.0.6 by [org.springframework#spring;2.5.4] in [default]
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      default     |  201  |   2   |   1   |   43  ||  148  |   1   |
+	---------------------------------------------------------------------
+[ivy:resolve] 
+[ivy:resolve] :: problems summary ::
+[ivy:resolve] :::: WARNINGS
+[ivy:resolve] 		module not found: objectweb#asm;1.3.4
+
+[ivy:resolve] 	==== proctcae-local: tried
+
+[ivy:resolve] 	  C:\Users\Harsh\workspace\pro-ctcae\software/repository/objectweb/asm/ivy-1.3.4.xml
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  C:\Users\Harsh\workspace\pro-ctcae\software/repository/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	  C:\Users\Harsh\workspace\pro-ctcae\software/repository/objectweb/asm/1.3.4/asm.jar
+
+[ivy:resolve] 	==== ivy-cache: tried
+
+[ivy:resolve] 	  C:\Users\Harsh/.ivy2/cache/objectweb/asm/ivy-1.3.4.xml
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  C:\Users\Harsh/.ivy2/cache/objectweb/asm/jars/asm-1.3.4.jar
+
+[ivy:resolve] 	==== semanticbits-repo-http: tried
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/objectweb/asm/1.3.4/ivy.xml
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/objectweb/asm/1.3.4/asm.jar
+
+[ivy:resolve] 	==== semanticbits-grid-repo-http: tried
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/caGRID/objectweb/asm/1.3.4/ivy-1.3.4.xml
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/caGRID/objectweb/asm/1.3.4/asm.jar
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/caGRID/objectweb/asm/1.3.4/objectweb-asm-1.3.4.jar
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/caGRID/objectweb/asm/1.3.4/objectweb-asm-asm-1.3.4.jar
+
+[ivy:resolve] 	  http://repo.semanticbits.com/ivy-repo/caGRID/objectweb/asm/1.3.4/asm.jar
+
+[ivy:resolve] 	==== maven2-northwestern: tried
+
+[ivy:resolve] 	  http://download.bioinformatics.northwestern.edu/download/maven2/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://download.bioinformatics.northwestern.edu/download/maven2/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== maven2-http: tried
+
+[ivy:resolve] 	  http://maven2.mirrors.skynet.be/pub/maven2/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://maven2.mirrors.skynet.be/pub/maven2/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== maven2-codehaus-mule: tried
+
+[ivy:resolve] 	  http://dist.codehaus.org/mule/dependencies/maven2/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://dist.codehaus.org/mule/dependencies/maven2/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== maven2-codehaus: tried
+
+[ivy:resolve] 	  http://repository.codehaus.org/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://repository.codehaus.org/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== maven2-centeral: tried
+
+[ivy:resolve] 	  http://repo2.maven.org/maven2/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://repo2.maven.org/maven2/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== maven2-http: tried
+
+[ivy:resolve] 	  http://repository.jboss.com/maven2/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://repository.jboss.com/maven2/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== openqa: tried
+
+[ivy:resolve] 	  http://archiva.openqa.org/repository/releases/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://archiva.openqa.org/repository/releases/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== java.net: tried
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://download.java.net/maven/1/objectweb/jars/asm-1.3.4.jar
+
+[ivy:resolve] 	==== mvn.repo: tried
+
+[ivy:resolve] 	  http://mirrors.ibiblio.org/pub/mirrors/maven2/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  http://mirrors.ibiblio.org/pub/mirrors/maven2/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 	==== nexus-repo: tried
+
+[ivy:resolve] 	  https://internal.hmsinc.com/nexus/content/repositories/hms-repo/objectweb/asm/1.3.4/asm-1.3.4.pom
+
+[ivy:resolve] 	  -- artifact objectweb#asm;1.3.4!asm.jar:
+
+[ivy:resolve] 	  https://internal.hmsinc.com/nexus/content/repositories/hms-repo/objectweb/asm/1.3.4/asm-1.3.4.jar
+
+[ivy:resolve] 		module not found: nekohtml#nekohtml;working@HARSH
+
+[ivy:resolve] 	==== proctcae-local: tried
+
+[ivy:resolve] 	==== ivy-cache: tried
+
+[ivy:resolve] 	==== semanticbits-repo-http: tried
+
+[ivy:resolve] 	==== semanticbits-grid-repo-http: tried
+
+[ivy:resolve] 	==== maven2-northwestern: tried
+
+[ivy:resolve] 	==== maven2-http: tried
+
+[ivy:resolve] 	==== maven2-codehaus-mule: tried
+
+[ivy:resolve] 	==== maven2-codehaus: tried
+
+[ivy:resolve] 	==== maven2-centeral: tried
+
+[ivy:resolve] 	==== maven2-http: tried
+
+[ivy:resolve] 	==== openqa: tried
+
+[ivy:resolve] 	==== java.net: tried
+
+[ivy:resolve] 	==== mvn.repo: tried
+
+[ivy:resolve] 	==== nexus-repo: tried
+
+[ivy:resolve] 		::::::::::::::::::::::::::::::::::::::::::::::
+
+[ivy:resolve] 		::          UNRESOLVED DEPENDENCIES         ::
+
+[ivy:resolve] 		::::::::::::::::::::::::::::::::::::::::::::::
+
+[ivy:resolve] 		:: objectweb#asm;1.3.4: not found
+
+[ivy:resolve] 		:: nekohtml#nekohtml;working@HARSH: not found
+
+[ivy:resolve] 		::::::::::::::::::::::::::::::::::::::::::::::
+
+
+[ivy:resolve] :::: ERRORS
+[ivy:resolve] 		proctcae-local: unhandled revision => working@HARSH
+
+[ivy:resolve] 		ivy-cache: unhandled revision => working@HARSH
+
+[ivy:resolve] 		semanticbits-repo-http: unhandled revision => working@HARSH
+
+[ivy:resolve] 		semanticbits-grid-repo-http: unhandled revision => working@HARSH
+
+[ivy:resolve] 		maven2-northwestern: unhandled revision => working@HARSH
+
+[ivy:resolve] 		maven2-http: unhandled revision => working@HARSH
+
+[ivy:resolve] 		maven2-codehaus-mule: unhandled revision => working@HARSH
+
+[ivy:resolve] 		maven2-codehaus: unhandled revision => working@HARSH
+
+[ivy:resolve] 		maven2-centeral: unhandled revision => working@HARSH
+
+[ivy:resolve] 		maven2-http: unhandled revision => working@HARSH
+
+[ivy:resolve] 		openqa: unhandled revision => working@HARSH
+
+[ivy:resolve] 		java.net: unhandled revision => working@HARSH
+
+[ivy:resolve] 		mvn.repo: unhandled revision => working@HARSH
+
+[ivy:resolve] 		nexus-repo: unhandled revision => working@HARSH
+
+[ivy:resolve] 
+:: USE VERBOSE OR DEBUG MESSAGE LEVEL FOR MORE DETAILS
+[ivy:retrieve] :: retrieving :: gov.nih.nci.ctcae#proctcae-web
+[ivy:retrieve] 	confs: [default]
+[ivy:retrieve] 	conflict on C:\Users\Harsh\workspace\pro-ctcae\software\web\build\lib\cglib-nodep-2.1_3.jar in [default]: 2.1_3 won
+[ivy:retrieve] 	147 artifacts copied, 0 already retrieved (57664kB/569ms)
+
+compile:
+     [echo] Executing in proctcae-web
+     [copy] Copying 3 files to C:\Users\Harsh\workspace\pro-ctcae\software\web\build\classes
+    [javac] Compiling 150 source files to C:\Users\Harsh\workspace\pro-ctcae\software\web\build\classes
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+
+ivy-new-version:
+
+version:
+     [echo] Executing in proctcae-web
+
+common.jar:
+     [echo] Executing in proctcae-web
+      [jar] Building jar: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\dist\proctcae-web.jar
+
+clean-war:
+
+init-war:
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\proctcae
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\proctcae\WEB-INF
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\proctcae\WEB-INF\lib
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\proctcae\WEB-INF\classes
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\proctcae\WEB-INF\classes\META-INF
+
+war:
+     [copy] Copying 159 files to C:\Users\Harsh\workspace\pro-ctcae\software\web\build\proctcae\WEB-INF\classes
+     [copy] Copying 660 files to C:\Users\Harsh\workspace\pro-ctcae\software\web\build\proctcae
+      [war] Building war: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\dist\proctcae.war
+      [war] Warning: selected war files include a second WEB-INF/web.xml which will be ignored.
+The duplicate entry is at C:\Users\Harsh\workspace\pro-ctcae\software\web\src\main\webapp\WEB-INF\web.xml
+The file that will be used is C:\Users\Harsh\workspace\pro-ctcae\software\web\build\proctcae\WEB-INF\web.xml
+
+jar:
+     [echo] Executing jar in proctcae-web
+
+clean-lib-test:
+     [echo] Executing in proctcae-web
+
+init.test:
+     [echo] Executing proctcae-web : init.test
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\test-classes
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\testlib
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\web\reports\cobertura\instrumented
+
+resolve-test:
+     [echo] Executing proctcae-web : resolve-test
+[ivy:resolve] :: resolving dependencies :: gov.nih.nci.ctcae#proctcae-web;working@Harsh-PC
+[ivy:resolve] 	confs: [test]
+[ivy:resolve] 	found gov.nih.nci.ctcae#proctcae-core;1.0-SNAPSHOT-local-20091222143622 in proctcae-local
+[ivy:resolve] 	[1.0-SNAPSHOT-local-20091222143622] gov.nih.nci.ctcae#proctcae-core;latest.integration
+[ivy:resolve] 	found dbunit#dbunit;2.1 in ivy-cache
+[ivy:resolve] 	found org.springframework#spring-test;2.5.4 in ivy-cache
+[ivy:resolve] 	found commons-logging#commons-logging;1.1.1 in ivy-cache
+[ivy:resolve] 	found junit#junit;3.8.1 in ivy-cache
+[ivy:resolve] 	found edu.northwestern.bioinformatics#core-commons-testing;77 in ivy-cache
+[ivy:resolve] 	found org.easymock#easymockclassextension;2.2.1 in ivy-cache
+[ivy:resolve] 	found org.easymock#easymock;2.2 in ivy-cache
+[ivy:resolve] 	found cglib#cglib-nodep;2.1_3 in ivy-cache
+[ivy:resolve] 	found gov.nih.nci.cabig.ctms#ctms-commons-testing-all;0.8 in ivy-cache
+[ivy:resolve] 	found cobertura#cobertura;1.8 in ivy-cache
+[ivy:resolve] 	found oro#oro;2.0.8 in ivy-cache
+[ivy:resolve] 	found asm#asm;2.2.1 in ivy-cache
+[ivy:resolve] 	found log4j#log4j;1.2.9 in ivy-cache
+[ivy:resolve] 	found org.openqa.selenium.client-drivers#selenium-java-client-driver;0.9.2 in ivy-cache
+[ivy:resolve] downloading C:\Users\Harsh\workspace\pro-ctcae\software\repository\gov.nih.nci.ctcae\proctcae-core\1.0-SNAPSHOT-local-20091222143622\proctcae-core-tests-1.0-SNAPSHOT-local-20091222143622.jar ...
+[ivy:resolve] .... (146kB)
+[ivy:resolve] .. (0kB)
+[ivy:resolve] 	[SUCCESSFUL ] gov.nih.nci.ctcae#proctcae-core;1.0-SNAPSHOT-local-20091222143622!proctcae-core-tests.jar (11ms)
+[ivy:resolve] :: resolution report :: resolve 157ms :: artifacts dl 26ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|       test       |   15  |   1   |   0   |   0   ||   15  |   1   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: gov.nih.nci.ctcae#proctcae-web
+[ivy:retrieve] 	confs: [test]
+[ivy:retrieve] 	15 artifacts copied, 0 already retrieved (1824kB/27ms)
+
+compile-test:
+     [echo] Executing in proctcae-web
+     [copy] Copying 4 files to C:\Users\Harsh\workspace\pro-ctcae\software\web\build\test-classes
+    [javac] Compiling 95 source files to C:\Users\Harsh\workspace\pro-ctcae\software\web\build\test-classes
+    [javac] Note: Some input files use or override a deprecated API.
+    [javac] Note: Recompile with -Xlint:deprecation for details.
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+
+jar-test:
+     [echo] Executing in proctcae-web
+      [jar] Building jar: C:\Users\Harsh\workspace\pro-ctcae\software\web\build\dist\proctcae-web-tests.jar
+
+debug-info:
+     [echo] base.dir=C:\Users\Harsh\workspace\pro-ctcae\software\web
+     [echo] ant.file=C:\Users\Harsh\workspace\pro-ctcae\software\web\ivy-build.xml
+     [echo] ivy.available = true
+     [echo] ant.project.name = proctcae-web
+     [echo] module.version.target = ${module.version.target}
+     [echo] main.src = C:\Users\Harsh\workspace\pro-ctcae\software\web/src/main/java
+     [echo] main.src.resources=C:\Users\Harsh\workspace\pro-ctcae\software\web/src/main/resources
+     [echo] skip.test = true
+     [echo] run.test = ${run.test}
+     [echo] ant.file.common=C:\Users\Harsh\workspace\pro-ctcae\software\common.xml
+     [echo] db = ${db}
+     [echo] databaseConfigurationName = datasource
+     [echo] offline : ${env.offline}
+     [echo] online :true
+     [echo] skip.review.reports : true
+     [echo] run.review.reports : ${env.run.review.reports}
+
+clean-test-results:
+     [echo] Executing in proctcae-web
+
+clean-cobertura-dir:
+     [echo] Executing in proctcae-web
+   [delete] Deleting directory C:\Users\Harsh\workspace\pro-ctcae\software\web\reports\cobertura
+
+cobertura-init:
+
+test:
+
+cobertura-report:
+
+test-report:
+
+publish-local:
+     [echo] Executing in proctcae-web
+:: delivering :: gov.nih.nci.ctcae#proctcae-web;working@Harsh-PC :: 1.0-SNAPSHOT-local-20091222143644 :: integration :: Tue Dec 22 14:36:44 EST 2009
+	delivering ivy file to C:\Users\Harsh\workspace\pro-ctcae\software\web\build\dist\ivy.xml
+:: publishing :: gov.nih.nci.ctcae#proctcae-web
+	published proctcae-web to C:\Users\Harsh\workspace\pro-ctcae\software/repository/gov.nih.nci.ctcae/proctcae-web/1.0-SNAPSHOT-local-20091222143644/proctcae-web-1.0-SNAPSHOT-local-20091222143644.jar
+	published proctcae to C:\Users\Harsh\workspace\pro-ctcae\software/repository/gov.nih.nci.ctcae/proctcae-web/1.0-SNAPSHOT-local-20091222143644/proctcae-1.0-SNAPSHOT-local-20091222143644.war
+	published proctcae-web-tests to C:\Users\Harsh\workspace\pro-ctcae\software/repository/gov.nih.nci.ctcae/proctcae-web/1.0-SNAPSHOT-local-20091222143644/proctcae-web-tests-1.0-SNAPSHOT-local-20091222143644.jar
+	published ivy to C:\Users\Harsh\workspace\pro-ctcae\software/repository/gov.nih.nci.ctcae/proctcae-web/ivy-1.0-SNAPSHOT-local-20091222143644.xml
+     [echo] project proctcae-web published locally with version 1.0-SNAPSHOT-local-20091222143644
+     [copy] Copying 1 file to C:\Users\Harsh\workspace\pro-ctcae\software\target\dist\exploded\proctcae-webapp
+    [mkdir] Created dir: C:\Users\Harsh\workspace\pro-ctcae\software\target\dist\exploded\proctcae-templates
+     [copy] Copying 1 file to C:\Users\Harsh\workspace\pro-ctcae\software\target\dist\exploded\proctcae-templates
+
+build:all:
+
+BUILD SUCCESSFUL

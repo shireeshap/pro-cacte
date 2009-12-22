@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This applicationContext contains the definition of the default implementations
+    of the public API services.
+-->
+
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+        default-autowire="no">
+
+    <tx:annotation-driven/>
+    <bean id="ruleServiceContext" class="com.semanticbits.rules.impl.RuleServiceContext">
+        <property name="repositoryService" ref="jcrService"/>
+        <property name="ruleExecutionSetRepository" ref="ruleExecutionSetRepository"/>
+    </bean>
+
+    <bean id="ruleExecutionSetRepository" class="com.semanticbits.rules.impl.RuleExecutionSetRepositoryImpl">
+        <property name="repositoryService" ref="jcrService"/>
+    </bean>
+    <bean id="ruleAuthoringService" class="com.semanticbits.rules.impl.RuleAuthoringServiceImpl">
+        <property name="ruleServiceContext" ref="ruleServiceContext"/>
+    </bean>
+
+    <bean id="ruleDeploymentService" class="com.semanticbits.rules.impl.RuleDeploymentServiceImpl">
+        <property name="ruleServiceContext" ref="ruleServiceContext"/>
+    </bean>
+
+    <bean id="ruleExecutionService" class="com.semanticbits.rules.impl.BusinessRulesExecutionServiceImpl">
+        <property name="ruleServiceContext" ref="ruleServiceContext"/>
+    </bean>
+
+    <bean id="ruleEngineService" class="com.semanticbits.rules.impl.RulesEngineServiceImpl">
+        <property name="repositoryService" ref="jcrService"/>
+        <property name="ruleAuthoringService" ref="ruleAuthoringService"/>
+        <property name="ruleDeploymentService" ref="ruleDeploymentService"/>
+    </bean>
+    <bean id="proCtcAERulesService" class="gov.nih.nci.ctcae.core.rules.ProCtcAERulesService">
+        <property name="ruleAuthoringService" ref="ruleAuthoringService"/>
+        <property name="rulesEngineService" ref="ruleEngineService"/>
+        <property name="ruleExecutionService" ref="ruleExecutionService"/>
+        <property name="repositoryService" ref="jcrService"/>
+    </bean>
+</beans>

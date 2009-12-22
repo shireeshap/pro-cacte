@@ -1,0 +1,51 @@
+body {
+    /* Have to use _all_ relative units
+for the browser font setting to work on IE6. */
+    font-size: 80%;
+}
+
+/* Force hasLayout */
+* html div.row, * html .autoclear {
+    height: 1%
+}
+*{
+	zoom:1;
+}
+div.row div.value {
+	margin-left:7px;
+}
+p {
+	margin:0;
+	padding:0;
+}
+
+.pane {
+/* Fix the issue of summary not aligned properly */
+    clear: both;
+}
+
+div.row {
+    clear: both;
+}
+#formbuilderTable-borderTop {
+	width:100%;
+}
+.formbuildersubHeader {
+	position:relative;
+}
+button.omnipotent-button {
+	margin:0 -25px;
+} 
+button.omnipotent-button.small {
+	margin:0;
+}
+body #keyboardInputMaster tbody tr td div#keyboardInputLayout table tbody tr td.last {
+    width: auto;
+}
+body #keyboardInputMaster {
+	width:100%;
+}
+body #keyboardInputMaster tbody tr td div#keyboardInputLayout table {
+	height:50px;
+}
+
