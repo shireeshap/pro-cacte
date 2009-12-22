@@ -68,50 +68,23 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->
-	<property name="proctcae-api.base.dir" value="${software.dir}/proctcae" />
-	<property name="proctcae-webapp.base.dir" value="${software.dir}/proctcae" />
+	<property name="proctcae-webapp.base.dir" value="${software.dir}" />
 
 	<!-- Build file names relative working dir above, if the basedir of the sub-project ant script is ".." you should set the *.basdir to and the build file should include the dir and build file name from the *.base.dir -->
-	<property name="proctcae-webapp.build.file" value="build.xml" />
-	<property name="proctcae-api.build.file" value="build.xml" />
+	<property name="proctcae-webapp.build.file" value="../build.xml" />
 
 	<!-- The target name that should be called from the sub-project build file -->
-	<property name="proctcae-api.build.target" value="build:all" />
-	<property name="proctcae-webapp.build.target" value="dist" />
+	<property name="proctcae-webapp.build.target" value="publish-all" />
 
 	<!-- Maven comamnd line arguments, bda profile is inside profiles.xml that gets copied to ear folder before build to override exiting properties -->
 
-	<!-- Added to make sure that it works with both absolute and relative paths, this property is handed to sub-project scripts in absolute format. -->
-	<property name="jar-signing.keystore.abs-location" location="${jar-signing.keystore.location}"/>
-
-	<!-- Used by dist:*:prep to determin list of files to use for incremental build process.
-		Directory and files must be in svn to work.
-	-->
-	<property name="db.src.dir" value="${proctcae-webapp.base.dir}/db" />
-	<property name="db-install.src.dir" value="${db.src.dir}/db-install" />
-	<property name="db-upgrade.src.dir" value="${db.src.dir}/db-upgrade" />
 
 	<!-- Distribution Structure properties, used to copy files into the distribution area.
        		Use project.propertie relative dir names becasue they are used by install also-->
 	<property name="dist.exploded.dir" value="${dist.dir}/exploded" />
-	<property name="proctcae-api.dist.dir" value="${dist.exploded.dir}/${proctcae-api.dist.relative.dir}" />
 	<property name="proctcae-webapp.dist.dir" value="${dist.exploded.dir}/${proctcae-webapp.dist.relative.dir}" />
 	<property name="tools.dist.dir" value="${dist.exploded.dir}/${tools.dist.relative.dir}" />
 	<property name="common.dist.dir" value="${dist.exploded.dir}/${common.dist.relative.dir}" />
-	<property name="db-install.dist.dir" value="${dist.exploded.dir}/${db-install.dist.relative.dir}" />
-	<property name="db-upgrade.dist.dir" value="${dist.exploded.dir}/${db-upgrade.dist.relative.dir}" />
-
-	<!-- Selenium settings -->
-	<property name="selenium.jar" value="${lib.dir}/test-selenium/selenium-server-1.0-beta-1.jar" />
-	<property name="selenium.browser" value="*iexplore" />
-	<!--  What you would need for a ci server, recommend setting in local.properties
-	<property name="selenium.browser" value="*firefox /usr/lib64/firefox-1.5.0.12/firefox-bin"/>
-	-->
-	<property name="selenium.proxy.port" value="4444" />
-	<property name="selenium.report.dir" value="${reports.dir}/selenium" />
-	<property name="selenium.report.file" value="selenium-rpt.html" />
-	<property name="selenium.test.dir" value="${software.dir}/tests/functional/selenium" />
-	<property name="selenium.test.suite" value="${selenium.test.dir}/bdaTestSuite.html" />
 
 	<!-- Where to write files retrieved by get, into the distribution area.  The file names come from project.properties  -->
 	<property name="tomcat.dest.file" value="${download.dir}/${tomcat.binaries.file}" />
@@ -129,28 +102,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 
 
 	<!-- retrive ivy.jar.files then retrieve bda files and librarires -->
-	<condition property="commonlibrary.dir" value="">
-		<or>
-		<os family="unix" />
-			<os family="mac" />
-		</or>
-	</condition>
-
-	<condition property="commonlibrary.dir" value="c:/">
-		<os family="windows" />
-	</condition>
-
-	<condition property="local.cbiit-ivy-repo.dir" value="">
-		<or>
-		<os family="unix" />
-			<os family="mac" />
-		</or>
-	</condition>
-
-	<condition property="local.cbiit-ivy-repo.dir" value="c:/">
-		<os family="windows" />
-	</condition>
-
+	<property name="commonlibrary.dir" value="" /> 
 	<property name="bda-download.file" value="bda-ivy-2.0.0-build.xml" />
 	<!--
 	<mkdir dir="${bda-download.dir}" />
@@ -165,10 +117,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<property name="commonlibrary.dir" location="${commonlibrary.dir}" />
 		<!-- Use below for old ivy repo -->
 		<!--<property name="ivy.settings.file" value="ivy-bda-settings.xml"/>-->
-		<!-- Use below for new ivy repo -->
-		<property name="ivy.settings.file" value="cbiit-ivy-bda-settings.xml"/>
 		<property name="target.dir" location="${target.dir}"/>
-		<property name="local.cbiit-ivy-repo.dir" value="${local.cbiit-ivy-repo.dir}"/>
 	</ant>
 	
 	<!-- Paths -->
@@ -237,7 +186,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<mkdir dir="${target.dir}" />
 		<mkdir dir="${dist.dir}" />
 		<mkdir dir="${dist.exploded.dir}" />
-		<mkdir dir="${proctcae-api.dist.dir}" />
 		<mkdir dir="${proctcae-webapp.dist.dir}" />
 		<mkdir dir="${common.dist.dir}" />
 		<mkdir dir="${tools.dist.dir}" />
@@ -246,7 +194,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<mkdir dir="${pt.dir}" />
 
 		<available file="${tomcat.dest.file}" property="tomcat.tools.exists" />
-		<!-- If jboss is required to build, then check for jboss in jboss.home, then check for in jboss in working directory, if not found then download it into this that directory.  If found at any point set local.jboss.home to where it is found.  This can be passed to sub-projects so then can compile code against distribution.  This is especially important on AntHillPro server which will not have jboss present, thus will have to use a copy in the working area.  This also makes it easier to start the project, if the developer does not yet have jboss installed, build will download it and install it so build can proceed. -->
+		<!-- If jboss is required to build, then check for jboss in jboss.home, then check for in jboss in working directory, if not found then download it into this that directory.  If found at any point set local.jboss.home to where it is found.  This can be passed to sub-projects so then can compile code against distribution.  This is especially important on AntHillPro server which will not have jboss present, thus will have to use a copy in the working area.  This also makes it easier to start the project, if the developer does not yet have jboss installed, build will download it and install it so build can proceed. 
 		<if>
 			<then>
 				<if>
@@ -269,6 +217,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 
 			</then>
 		</if>
+		-->
 	</target>
 
 	<target name="ivy:clean" description="Cleans up the ivy cache of this project and all sub-projects">
@@ -293,8 +242,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		validate:pre:build,
  		clean,
  		init,
- 		keygen,
- 		build:proctcae-webapp
+ 		build:proctcae
 		" >
 	</target>
 
@@ -308,18 +256,18 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		-->
 	</target>
 
-	<target name="build:proctcae-webapp" depends="init, build:proctcae-api" description="Call webapp sub-projects build target to produce artifiacts">
+	<target name="build:proctcae" depends="init, build:proctcae-api" description="Call webapp sub-projects build target to produce artifiacts">
 		<!-- setting the property in the ant call overrides the property in the sub-project allowing the artifact to be produced where needed -->
-		<ant inheritAll="false" inheritRefs="false" antfile="${proctcae-webapp.build.file}" target="${proctcae-webapp.build.target}" dir="${proctcae-webapp.base.dir}">
-			<property name="dist.dir" value="${proctcae-webapp.dist.dir}" />
-			<property name="env.GLOBUS_LOCATION" value="${env.GLOBUS_LOCATION}"/>
-			<property name="commonlibrary.dir" value="${commonlibrary.dir}"/>
-			<property name="local.cbiit-ivy-repo.dir" value="${local.cbiit-ivy-repo.dir}"/>
-			<!-- Pass in env property file, used by jar-signing -->
-			<property name="envpropertyfile" value="${properties.file.location}"/>
-			<!-- Need absolution location, relative path would fail in sub-project since file would not exist -->
-			<property name="jar-signing.keystore.abs-location" value="${jar-signing.keystore.abs-location}"/>
+		<ant inheritAll="false" inheritRefs="false" antfile="${proctcae-webapp.build.file}" target="${proctcae-webapp.build.target}">
+			<property name="skip.test" value="true" />
 		</ant>
+		<copy file="${software.dir}/web/build/dist/proctcae.war" todir="${proctcae-webapp.dist.dir}" overwrite="true" />
+		<mkdir dir="${dist.exploded.dir}/${proctcae-templates.dist.relative.dir}"/>
+		<copy todir="${dist.exploded.dir}/${proctcae-templates.dist.relative.dir}">
+			<fileset dir="${software.dir}/templates">
+			</fileset>
+		</copy>
+
 	</target>
 
 	<target name="dist" description="Makes all distributions: installer, upgrader and source" depends="
@@ -336,9 +284,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 
 	<target name="dist:tools:retrieve" description="Downloads binary applications from commonlibrary repository" depends="
 		init,
- 		dist:tools:retrieve:tomcat,
- 		dist:tools:retrieve:sync-gts
-		" >
+ 		dist:tools:retrieve:tomcat" >
 	</target>
 
 	<target name="dist:tools:retrieve:tomcat" unless="tomcat.tools.exists" description="Downloads TOMCAT from binary repository and verifies checksum">
@@ -356,46 +302,13 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		</if>
 	</target>
 
-	<target name="dist:tools:retrieve:sync-gts"  description="Downloads JBOSS bindings filefrom binary repository and verifies checksum">
-		<if>
-			<not>
-				<available file="${download.dir}/${sync-gts.binaries.file}"/>
-			</not>
-			<then>
-				<get src="${sync-gts.src.url}" dest="${download.dir}/${sync-gts.binaries.file}" />
-			</then>
-		</if>
-		<property name="sync-gts.dist.dir" location="${dist.exploded.dir}/${sync-gts.dist.relative.dir}"/>
-		<unzip src="${download.dir}/${sync-gts.binaries.file}" dest="${sync-gts.dist.dir}"/>
-		<!--
-		<ant inheritAll="false" inheritRefs="false" 
-			antfile="build.xml"
-			target="all"
-			dir="${sync-gts.dist.dir}/syncgts"
-			/>
-		-->
-		<if>
-			<not>
-			</not>
-			<then>
-				<svn-co
-					svn.checkout.url="${cagrid-target.src.url}"
-					svn.checkout.dir="${cagrid.target.co.dir}"
-					delete="false"
-					/>
-			</then>
-		</if>
-		<copy todir="${sync-gts.dist.dir}/cagrid-target">
-		</copy>
-	</target>
-
 	<target name="dist:installer:prep" depends="
 		build:all,
  		dist:tools:retrieve
 		" description="Copies artifacts not generated by sub-project builds into the install distribution area">
 
 		<!-- Copy db-install and db-upgrade scripts from source into distribution area. The db files need to be under db-[install/upgard]/${database.type}. Because of this fact these files were not moved to the macro. -->
-		<copy todir="${db-install.dist.dir}" overwrite="true">
+<!--		<copy todir="${db-install.dist.dir}" overwrite="true">
 			<fileset dir="${db-install.src.dir}">
 				<include name="**/*" />
 			</fileset>
@@ -404,18 +317,12 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 			<fileset dir="${db-upgrade.src.dir}">
 				<include name="**/*" />
 			</fileset>
-		</copy>
+		</copy>-->
 		<dist-prep />
 		<copy todir="${tools.dist.dir}">
 			<fileset dir="${download.dir}">
 			</fileset>
 		</copy>
-		<if>
-			<equals arg1="${jar-signing.execution.time}" arg2="install"/>
-			<then>
-				<copy file="${jar-signing.keystore.abs-location}" todir="${dist.exploded.dir}"/>
-			</then>
-		</if>
 	</target>
 
 	<target name="dist:installer" depends="dist:installer:prep" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
@@ -438,11 +345,11 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	<target name="dist:upgrader:prep" depends="build:all,dist:tools:retrieve:jboss-bindings" description="Copies artifacts not generated by sub-project builds into the install distribution area">
 	-->
 		<!-- Copy db-upgrade scripts from source into distribution area. The db files need to be under db-upgrade/${database.type}. This has not been moved to the macro because the source and dest structure may not be the same and thus this would need to be custom. -->
-		<copy todir="${db-upgrade.dist.dir}" overwrite="true">
+<!--		<copy todir="${db-upgrade.dist.dir}" overwrite="true">
 			<fileset dir="${db-upgrade.src.dir}">
 				<include name="**/*" />
 			</fileset>
-		</copy>
+		</copy>-->
 		<!-- For non DAC upgrades
 		<dist-prep
 			copy.tools.flag="N"
@@ -454,12 +361,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 			copy.tools.flag="Y"
 			default.target="upgrade"
 			/>
-		<if>
-			<equals arg1="${jar-signing.execution.time}" arg2="install"/>
-			<then>
-				<copy file="${jar-signing.keystore.abs-location}" todir="${dist.exploded.dir}"/>
-			</then>
-		</if>
 	</target>
 
 	<target name="dist:upgrader" depends="dist:upgrader:prep" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
