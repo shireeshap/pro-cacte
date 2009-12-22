@@ -105,4 +105,12 @@ pro-ctcae/software/software/common/resources/security/grid-sample-cert.pem -text
 pro-ctcae/software/software/common/resources/security/grid-sample-key.pem -text
 pro-ctcae/software/software/common/resources/security/ncicb-test-ssl.keystore -text
 pro-ctcae/software/software/common/simian/simian.xsl -text
+pro-ctcae/software/software/ivy.xml -text
+pro-ctcae/software/software/ivysettings-offline.xml -text
+pro-ctcae/software/software/ivysettings.xml -text
+pro-ctcae/software/software/pro-ctcae.iml -text
+pro-ctcae/software/software/pro-ctcae.ipr -text
+pro-ctcae/software/software/pro-ctcae.iws -text
+pro-ctcae/software/software/recreate-db-populate-data.bat -text
+pro-ctcae/software/software/web.bat -text
 pro-ctcae/software/web.bat -text
