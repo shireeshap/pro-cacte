@@ -345,12 +345,6 @@ pro-ctcae/docs/web-templates/repeating-crf_mock-up/schedulecrf_files/window_ext.
 pro-ctcae/software/all.bat -text
 pro-ctcae/software/build.properties -text
 pro-ctcae/software/build.xml -text
-pro-ctcae/software/build/build.xml -text
-pro-ctcae/software/build/install.properties -text
-pro-ctcae/software/build/install.xml -text
-pro-ctcae/software/build/project.properties -text
-pro-ctcae/software/build/properties.template -text
-pro-ctcae/software/build/upgrade.properties -text
 pro-ctcae/software/buildWeb.sh -text
 pro-ctcae/software/common.xml -text
 pro-ctcae/software/commons/commons.iml -text
