@@ -28,11 +28,8 @@
         <proctcae:urlAuthorize url="/pages/form/versionForm">
             html += '<li><a href="#" onclick="javascript:versionForm(' + cid + ')">Create new version</a></li>';
         </proctcae:urlAuthorize>
-        <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/schedulecrf"/>?crfId=' + cid + '\'">Schedule form</a></li>';
-        </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/form/editForm">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/editForm"/>?crfId=' + cid + '\'">Edit notifications/schedules</a></li>';
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/editForm"/>?crfId=' + cid + '\'">Edit schedules/notifications</a></li>';
         </proctcae:urlAuthorize>
         <proctcae:urlAuthorize url="/pages/form/viewForm">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/viewForm"/>?crfId=' + cid + '\'">View form</a></li>';
