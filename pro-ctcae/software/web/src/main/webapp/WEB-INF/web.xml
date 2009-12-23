@@ -17,8 +17,9 @@
     <context-param>
         <param-name>beringContextConfigLocation</param-name>
         <param-value>
-            classpath*:gov/nih/nci/ctcae/core/applicationContext*.xml
-            classpath*:gov/nih/nci/ctcae/web/applicationContext*.xml
+            classpath*:gov/nih/nci/ctcae/core/applicationContext-datasource.xml
+            classpath*:gov/nih/nci/ctcae/core/applicationContext-core.xml
+            classpath*:gov/nih/nci/ctcae/core/applicationContext-util.xml
         </param-value>
     </context-param>
 
