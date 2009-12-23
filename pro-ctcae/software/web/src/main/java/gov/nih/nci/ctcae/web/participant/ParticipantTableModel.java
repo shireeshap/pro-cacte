@@ -32,10 +32,10 @@ public class ParticipantTableModel extends AbstractTableModel {
         try {
             TableModel model = getModel(parameterMap, request, objects);
 
-            addIdentifier(model);
-            addFirstName(model);
-            addMiddleName(model);
             addLastName(model);
+            addFirstName(model);
+            addSite(model);
+            addStudy(model);
             addActions(model);
 
             return model.assemble().toString();
@@ -109,6 +109,23 @@ public class ParticipantTableModel extends AbstractTableModel {
         columnIdentifier.setProperty("assignedIdentifier");
         columnIdentifier.setSortable(Boolean.TRUE);
         model.addColumn(columnIdentifier);
+    }
+
+    private void addSite(TableModel model) {
+           Column columnSite = model.getColumnInstance();
+           columnSite.setTitle("Site");
+           columnSite.setSortable(Boolean.TRUE);
+           columnSite.setCell("gov.nih.nci.ctcae.web.participant.ParticipantSiteDisplayCell");
+
+           model.addColumn(columnSite);
+       }
+
+    private void addStudy(TableModel model) {
+        Column columnStudy = model.getColumnInstance();
+        columnStudy.setTitle("Study");
+        columnStudy.setSortable(Boolean.TRUE);
+        columnStudy.setCell("gov.nih.nci.ctcae.web.participant.ParticipantStudyDisplayCell");
+        model.addColumn(columnStudy);
     }
 
 }
