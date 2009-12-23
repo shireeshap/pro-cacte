@@ -121,11 +121,9 @@
 
         <!-- JFree Dependency-->
         <dependency org="jfree" name="jfreechart" rev="1.0.9" force="true"/>
-
-        <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.2.3"
-                    conf="build->default;runtime->default;dist->dist;"/>
+        <dependency org="opensymphony" name="quartz-all" rev="1.6.0" />
+        <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.2.3" conf="build->default;runtime->default;dist->dist;"/>
         <dependency org="cobertura" name="cobertura" rev="1.8" conf="test->default(*)"/>
-        <dependency org="opensymphony" name="quartz-all" rev="1.6.0" conf="build->default;runtime->default;dist->dist;"/>
 
     </dependencies>
 </ivy-module>
