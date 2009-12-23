@@ -133,8 +133,8 @@
         <dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default"/>
         <dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
         <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-all" rev="0.8" conf="test->default"/>
-        <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.2.3"
-                    conf="build->default;runtime->default;dist->dist;"/>
+        <dependency org="opensymphony" name="quartz-all" rev="1.6.0" />
+        <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.2.3" conf="build->default;runtime->default;dist->dist;"/>
         <dependency org="cobertura" name="cobertura" rev="1.8" conf="test->default(*)"/>
 
     </dependencies>

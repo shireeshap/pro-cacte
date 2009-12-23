@@ -1,2 +1,8 @@
 pro-ctcae/software/commons/build
 pro-ctcae/software/commons/reports
+pro-ctcae/software/core/build
+pro-ctcae/software/core/reports
+pro-ctcae/software/repository
+pro-ctcae/software/target
+pro-ctcae/software/web/build
+pro-ctcae/software/web/reports
