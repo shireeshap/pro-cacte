@@ -32,10 +32,10 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
         try {
             TableModel model = getModel(parameterMap, request, objects);
 
+            addLastName(model);            
             addFirstName(model);
-            addMiddleName(model);
-            addLastName(model);
-            addNciIdentifier(model);
+            addSite(model);
+            addStudy(model);
             addStatus(model);
 //            addEffectiveDate(model);
             addActions(model);
@@ -70,6 +70,7 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
 
         model.addColumn(columnFirstName);
     }
+
 
     /**
      * Adds the last name.
@@ -120,6 +121,23 @@ public class ClinicalStaffTableModel extends AbstractTableModel {
         columnStatus.setSortable(Boolean.TRUE);
         columnStatus.setCell("gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffStatusDisplayCell");
         model.addColumn(columnStatus);
+    }
+
+    private void addSite(TableModel model) {
+           Column columnSite = model.getColumnInstance();
+           columnSite.setTitle("Site");
+           columnSite.setSortable(Boolean.TRUE);
+           columnSite.setCell("gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffSiteDisplayCell");
+
+           model.addColumn(columnSite);
+       }
+
+    private void addStudy(TableModel model) {
+        Column columnStudy = model.getColumnInstance();
+        columnStudy.setTitle("Study");
+        columnStudy.setSortable(Boolean.TRUE);
+        columnStudy.setCell("gov.nih.nci.ctcae.web.clinicalStaff.ClinicalStaffStudyDisplayCell");
+        model.addColumn(columnStudy);
     }
 
 //    private void addEffectiveDate(TableModel model) {

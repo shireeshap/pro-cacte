@@ -766,7 +766,9 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/Clinica
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffCommand.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffControllerUtils.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffLinkDisplayDetailsCell.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffSiteDisplayCell.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffStatusDisplayCell.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffStudyDisplayCell.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/ClinicalStaffTableModel.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/CreateClinicalStaffController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/EffectiveStaffController.java -text
