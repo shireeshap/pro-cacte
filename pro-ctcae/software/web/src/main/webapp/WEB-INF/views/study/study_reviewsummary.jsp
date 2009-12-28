@@ -42,6 +42,7 @@
     </style>
     <script type="text/javascript">
         function goTab(tabnumber) {
+
             $('_target').name = "_target" + tabnumber;
             $('command').submit();
         }
@@ -107,7 +108,10 @@
             </table>
         </div>
     </chrome:division>
-    <chrome:division title="study.section.study_sites" linkontitle="javascript:goTab('2');" linkurl="/study/editsites">
+        <c:set var="tabnumber" value="1"/>
+        <proctcae:urlAuthorize url="/pages/study/createStudy">
+                <c:set var="tabnumber" value="2"/></proctcae:urlAuthorize>                   
+    <chrome:division title="study.section.study_sites" linkontitle="javascript:goTab('${tabnumber}');" linkurl="/study/editsites">
         <div align="left" style="margin-left: 100px">
             <table width="75%" class="tablecontent">
                 <tr id="ss-table-head" class="amendment-table-head">
@@ -142,7 +146,7 @@
             <div class="value">${command.study.principalInvestigator.displayName} </div>
         </div>
     </chrome:division>
-    <c:set var="tabnumber" value="1"/>
+    <c:set var="tabnumber" value="2"/>
     <proctcae:urlAuthorize url="/study/editdetails"><c:set var="tabnumber" value="4"/></proctcae:urlAuthorize>
 
     <chrome:division title="study.tab.study_site_clinical_staff" linkontitle="javascript:goTab('${tabnumber}');"
