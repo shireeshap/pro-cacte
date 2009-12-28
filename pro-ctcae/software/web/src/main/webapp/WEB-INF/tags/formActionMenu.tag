@@ -67,7 +67,7 @@
     }
     function showPopUpMenuStudy(sid) {
         var html = '<div id="search-engines"><ul>';
-        <c:set var="tabVal" value="1"/>
+        <c:set var="tabVal" value="2"/>
         <proctcae:urlAuthorize url="/pages/study/createStudy">
         <c:set var="tabVal" value="3"/>
         </proctcae:urlAuthorize>
