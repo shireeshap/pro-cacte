@@ -58,7 +58,7 @@
 
         }
         function buildTable(form) {
-
+            $('tableDiv').innerHTML = '';
             var firstName = $F('firstName')
             var lastName = $F('lastName')
             var nciIdentifier = $F('nciIdentifier')
