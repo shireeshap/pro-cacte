@@ -71,6 +71,7 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
     private WebControllerValidator webControllerValidator;
 
     private FormArmScheduleRepository formArmScheduleRepository;
+    protected MeddraValidValueRepository meddraValidValueRepository;
 
     /* (non-Javadoc)
     * @see org.springframework.web.servlet.mvc.BaseCommandController#initBinder(javax.servlet.http.HttpServletRequest, org.springframework.web.bind.ServletRequestDataBinder)
@@ -92,6 +93,9 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
         binder.registerCustomEditor(StudyOrganization.class, new RepositoryBasedEditor(studyOrganizationRepository, StudyOrganization.class));
         binder.registerCustomEditor(StudyOrganizationClinicalStaff.class, new RepositoryBasedEditor(studyOrganizationClinicalStaffRepository, StudyOrganizationClinicalStaff.class));
         binder.registerCustomEditor(FormArmSchedule.class, new RepositoryBasedEditor(formArmScheduleRepository, FormArmSchedule.class));
+        RepositoryBasedEditor meddraValidValueEditor = new RepositoryBasedEditor(meddraValidValueRepository, MeddraValidValue.class);
+        binder.registerCustomEditor(MeddraValidValue.class, meddraValidValueEditor);
+
     }
 
     /* (non-Javadoc)
@@ -264,5 +268,10 @@ public abstract class CtcAeSecuredTabbedFlowController<C> extends AbstractTabbed
     @Required
     public void setFormArmScheduleRepository(FormArmScheduleRepository formArmScheduleRepository) {
         this.formArmScheduleRepository = formArmScheduleRepository;
+    }
+
+    @Required
+    public void setMeddraValidValueRepository(MeddraValidValueRepository meddraValidValueRepository) {
+        this.meddraValidValueRepository = meddraValidValueRepository;
     }
 }

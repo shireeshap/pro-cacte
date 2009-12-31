@@ -5,6 +5,7 @@ import gov.nih.nci.ctcae.core.domain.StudyOrganization;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,6 +30,7 @@ public class OrganizationAjaxFacade {
      */
     private OrganizationRepository organizationRepository;
     private StudyOrganizationRepository studyOrganizationRepository;
+    private GenericRepository genericRepository;
 
     /**
      * The log.
@@ -48,6 +50,16 @@ public class OrganizationAjaxFacade {
         organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
         organizationQuery.setMaximumResults(25);
         List<Organization> organizations = (List<Organization>) organizationRepository.find(organizationQuery);
+        return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
+
+    }
+
+    public List<Organization> matchOrganizationForStudySites(final String text) {
+        logger.info("in match organization method. Search string :" + text);
+        OrganizationQuery organizationQuery = new OrganizationQuery(false);
+        organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
+        organizationQuery.setMaximumResults(25);
+        List<Organization> organizations = genericRepository.find(organizationQuery);
         return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
 
     }
@@ -74,4 +86,8 @@ public class OrganizationAjaxFacade {
         this.studyOrganizationRepository= studyOrganizationRepository;
     }
 
+    @Required
+    public void setGenericRepository(GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
+    }
 }

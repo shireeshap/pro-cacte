@@ -2,8 +2,10 @@ package gov.nih.nci.ctcae.web;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
-import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
+import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationClinicalStaffRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcValidValueRepository;
+import gov.nih.nci.ctcae.core.repository.MeddraValidValueRepository;
 import gov.nih.nci.ctcae.web.editor.EnumByNameEditor;
 import gov.nih.nci.ctcae.web.editor.RepositoryBasedEditor;
 import gov.nih.nci.ctcae.web.validation.validator.WebControllerValidator;
@@ -30,7 +32,8 @@ public class CtcAeSimpleFormController extends SimpleFormController {
     protected OrganizationRepository organizationRepository;
     protected ProCtcValidValueRepository proCtcValidValueRepository;
     protected StudyOrganizationRepository studyOrganizationRepository;
-
+    protected StudyOrganizationClinicalStaffRepository studyOrganizationClinicalStaffRepository;
+    protected MeddraValidValueRepository meddraValidValueRepository;
     /**
      * The controller tools.
      */
@@ -64,12 +67,16 @@ public class CtcAeSimpleFormController extends SimpleFormController {
         RepositoryBasedEditor proCtcValidValueEditor = new RepositoryBasedEditor(proCtcValidValueRepository, ProCtcValidValue.class);
         binder.registerCustomEditor(ProCtcValidValue.class, proCtcValidValueEditor);
 
+        RepositoryBasedEditor studyOrganizationClinicalStaffEditor = new RepositoryBasedEditor(studyOrganizationClinicalStaffRepository, StudyOrganizationClinicalStaff.class);
+        binder.registerCustomEditor(StudyOrganizationClinicalStaff.class, studyOrganizationClinicalStaffEditor);
+
         binder.registerCustomEditor(StudyOrganizationRepository.class, new RepositoryBasedEditor(studyOrganizationRepository, StudyOrganization.class));
 
         binder.registerCustomEditor(Role.class, new EnumByNameEditor<Role>(Role.class));
         binder.registerCustomEditor(RoleStatus.class, new EnumByNameEditor<RoleStatus>(RoleStatus.class));
 
-
+        RepositoryBasedEditor meddraValidValueEditor = new RepositoryBasedEditor(meddraValidValueRepository, MeddraValidValue.class);
+        binder.registerCustomEditor(MeddraValidValue.class, meddraValidValueEditor);
     }
 
     /* (non-Javadoc)
@@ -124,8 +131,14 @@ public class CtcAeSimpleFormController extends SimpleFormController {
     }
 
     @Required
-
     public void setStudyOrganizationRepository(StudyOrganizationRepository studyOrganizationRepository) {
         this.studyOrganizationRepository = studyOrganizationRepository;
     }
+
+    @Required
+    public void setMeddraValidValueRepository(MeddraValidValueRepository meddraValidValueRepository) {
+        this.meddraValidValueRepository = meddraValidValueRepository;
+    }
+
+
 }

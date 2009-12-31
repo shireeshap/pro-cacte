@@ -43,6 +43,7 @@
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
         <property name="userNameAndPasswordValidator" ref="userNameAndPasswordValidator"/>
         <property name="userRepository" ref="userRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository" />
     </bean>
 
 
@@ -55,6 +56,7 @@
           p:organizationRepository-ref="organizationRepository"
           p:controllerTools-ref="controllerTools" p:studyOrganizationRepository-ref="studyOrganizationRepository">
         <property name="webControllerValidator" ref="webControllerValidator"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 
 

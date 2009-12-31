@@ -80,7 +80,15 @@ Autocompleter.DWR.prototype = Object.extend(new Autocompleter.Base(), {
     setChoices: function(array) {
         this.baseElement.value = '';
         if (array.length == 0) {
-            array[0] = Object.extend({ id: '', displayName: 'No results found'});
+            if ($(this.baseElement.id + '-add') != null) {
+                $(this.baseElement.id + '-add').show();
+            } else {
+                array[0] = Object.extend({ id: '', displayName: 'No results found'});
+            }
+        } else {
+            if ($(this.baseElement.id + '-add') != null) {
+                $(this.baseElement.id + '-add').hide();
+            }
         }
         this.options.array = array;
         this.updateChoices(this.options.selector(this));

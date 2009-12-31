@@ -30,10 +30,11 @@ public class OrganizationQuery extends SecuredQuery<Organization> {
      * Instantiates a new organization query.
      */
     public OrganizationQuery() {
+        this(true);
+    }
 
-        super(queryString);
-
-
+    public OrganizationQuery(boolean secure) {
+        super(queryString, secure);
     }
 
 

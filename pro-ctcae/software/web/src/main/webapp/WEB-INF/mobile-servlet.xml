@@ -34,6 +34,7 @@
           p:controllerTools-ref="controllerToolsMobile" p:studyOrganizationRepository-ref="studyOrganizationRepository"
             >
         <property name="webControllerValidator" ref="webControllerValidatorMobile"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 
     <bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
@@ -57,6 +58,7 @@
           parent="ctcaeSimpleFormControllerMobile">
         <property name="formView" value="mobile/inbox"/>
         <property name="userRepository" ref="userRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 
     <bean name="/accessDenied" id="accessDeniedController"

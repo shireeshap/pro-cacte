@@ -174,11 +174,13 @@
     <bean name="/form/releaseForm" id="releaseFormController"
           class="gov.nih.nci.ctcae.web.form.ReleaseFormController" parent="ctcaeSimpleFormController"
           p:crfRepository-ref="crfRepository">
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 
     <bean name="/admin/clinicalStaff/effectiveStaff" id="effectiveStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.EffectiveStaffController" parent="ctcaeSimpleFormController"
           p:clinicalStaffRepository-ref="clinicalStaffRepository">
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 
 
@@ -204,11 +206,13 @@
           class="gov.nih.nci.ctcae.web.form.SubmitFormController" parent="ctcaeSimpleFormController">
         <property name="genericRepository" ref="genericRepository"/>
         <property name="proCtcAERulesService" ref="proCtcAERulesService"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 
     <bean name="/form/addquestion" id="addQuestionByParticipantController"
           class="gov.nih.nci.ctcae.web.form.AddQuestionByParticipantController" parent="ctcaeSimpleFormController">
         <property name="genericRepository" ref="genericRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
     <bean name="/form/copyForm" id="copyFormController"
           class="gov.nih.nci.ctcae.web.form.CopyFormController">
@@ -226,11 +230,13 @@
         <property name="crfRepository" ref="crfRepository"/>
         <property name="studyRepository" ref="studyRepository"/>
         <property name="proCtcAERulesService" ref="proCtcAERulesService"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
 
     </bean>
     <bean name="/form/versionForm" id="versionFormController"
           class="gov.nih.nci.ctcae.web.form.VersionFormController" parent="ctcaeSimpleFormController">
         <property name="crfRepository" ref="crfRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
 
     </bean>
     <bean name="/form/showVersionForm" id="showVersionFormController"
@@ -266,6 +272,7 @@
     <bean name="/study/changeStatus" id="changeStatusController"
           class="gov.nih.nci.ctcae.web.study.ChangeStatusController" parent="ctcaeSimpleFormController">
         <property name="studyOrganizationClinicalStaffRepository" ref="studyOrganizationClinicalStaffRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 
     <bean name="/study/addStudySite" id="addStudySiteController"
@@ -314,6 +321,7 @@
           class="gov.nih.nci.ctcae.web.participant.ParticipantInboxController" parent="ctcaeSimpleFormController">
         <property name="formView" value="participant/participantInbox"/>
         <property name="userRepository" ref="userRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 
     <!--<bean name="/participant/showParticipantScheduleTable" id="showParticipantScheduleController"-->
@@ -328,6 +336,7 @@
           class="gov.nih.nci.ctcae.web.participant.EnterParticipantResponsesController"
           parent="ctcaeSimpleFormController">
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 
     <bean name="/participant/addCrfSchedule" id="addCrfScheduleController"
@@ -347,6 +356,7 @@
         <property name="clinicalStaffRepository" ref="clinicalStaffRepository"/>
         <property name="userNameAndPasswordValidator" ref="userNameAndPasswordValidator"/>
         <property name="genericRepository" ref="genericRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
     <bean name="/admin/clinicalStaff/searchClinicalStaff" id="searchClinicalStaffController"
           class="gov.nih.nci.ctcae.web.clinicalStaff.SearchClinicalStaffController">
@@ -368,6 +378,7 @@
           class="gov.nih.nci.ctcae.web.participant.ParticipantOffStudyController" parent="ctcaeSimpleFormController">
         <property name="studyParticipantAssignmentRepository" ref="studyParticipantAssignmentRepository"/>
         <property name="studyParticipantCrfScheduleRepository" ref="studyParticipantCrfScheduleRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 
     <bean name="/reports/participantReport" id="participantCareMonitorController"
@@ -482,6 +493,7 @@
           p:organizationRepository-ref="organizationRepository"
           p:controllerTools-ref="controllerTools"
           p:studyOrganizationRepository-ref="studyOrganizationRepository"
+          p:meddraValidValueRepository-ref="meddraValidValueRepository"
             >
         <property name="webControllerValidator" ref="webControllerValidator"/>
     </bean>
@@ -504,6 +516,7 @@
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
         <property name="studyOrganizationClinicalStaffRepository" ref="studyOrganizationClinicalStaffRepository"/>
         <property name="formArmScheduleRepository" ref="formArmScheduleRepository"/>
+        <property name="meddraValidValueRepository" ref="meddraValidValueRepository"/>
     </bean>
 
 

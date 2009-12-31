@@ -6,6 +6,8 @@ import gov.nih.nci.ctcae.core.domain.BasePersistable;
 import gov.nih.nci.ctcae.core.domain.MeddraVersion;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 
@@ -35,7 +37,13 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
 
     private MeddraVersion meddraVersion;
 
+    private Boolean participantAdded;
+
+
+    
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer getId() {
         return id;
     }
@@ -123,6 +131,15 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
 
     public void setWhoArtCode(String whoArtCode) {
         this.whoArtCode = whoArtCode;
+    }
+
+    @Column(name = "participant_added")
+    public Boolean isParticipantAdded() {
+        return participantAdded;
+    }
+
+    public void setParticipantAdded(Boolean participantAdded) {
+        this.participantAdded = participantAdded;
     }
 
     @ManyToOne

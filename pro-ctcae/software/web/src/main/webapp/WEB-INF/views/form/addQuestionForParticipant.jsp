@@ -67,6 +67,9 @@
 
 
         function addCheckbox(selectedChoice) {
+            if (selectedChoice == '') {
+                return;
+            }
             if (nextColumnIndex % 3 == 0) {
                 var tbody = document.getElementById('mytable').getElementsByTagName("TBODY")[0];
                 var row = document.createElement("TR")
@@ -156,7 +159,7 @@
             document.myForm.direction.value = direction;
             document.myForm.submit();
         }
-       
+
     </script>
 </head>
 <body>
@@ -201,6 +204,9 @@
             <b><tags:message code="participant.form.typesymptom"/></b>
         </p>
         <br/>
+
+        <div id="keyboardDiv"></div>
+        <br/>
         <input type="text" id="participantquestion-input" value="" class="autocomplete"
                size="60"/>
         <input type="hidden" id="participantquestion"/>
@@ -208,25 +214,34 @@
              onclick="javascript:$('participantquestion-input').clear();"
              style="vertical-align:top;cursor:pointer"/>
         <tags:indicator id="participantquestion-indicator"/>
+        <div id="participantquestion-add" style="display:none">
+            <tags:button onclick="javascript:addCheckbox($('participantquestion-input').value)" icon="add"
+                         size="small" color="blue" value="add" markupWithTag="a"/>
+        </div>
+
         <div id="participantquestion-choices" class="autocomplete"></div>
         <div class="row">
             <input id='usevirtualkeyboard' type="checkbox"
                    onclick="showVirtualKeyBoard(this,'participantquestion-input');">&nbsp;Use virtual
             keyboard
         </div>
-        <div id="keyboardDiv"></div>
+
+        <%--<div class="row">--%>
+        <%--<input type="text" id="textSymptom" name="textSymptom"/>--%>
+        <%--</div>--%>
+
     </chrome:box>
 
     <table width="100%">
         <input type="hidden" name="direction"/>
         <tr>
             <td align="left" width="50%">
-                <tags:button onclick="javascript:submitForm('back')"  icon="back" color="blue"
-                             value="Back"/>
+                <tags:button onclick="javascript:submitForm('back')" icon="back" color="blue"
+                             value="Back" markupWithTag="a"/>
             </td>
             <td align="right" width="50%">
-                <tags:button onclick="javascript:submitForm('continue')"  icon="continue"
-                             color="green" value="Continue"/>
+                <tags:button onclick="javascript:submitForm('continue')" icon="continue"
+                             color="green" value="Continue" markupWithTag="a"/>
             </td>
         </tr>
     </table>

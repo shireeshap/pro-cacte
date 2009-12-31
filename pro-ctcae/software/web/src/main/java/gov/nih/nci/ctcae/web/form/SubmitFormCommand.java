@@ -139,7 +139,9 @@ public class SubmitFormCommand implements Serializable {
         StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = studyParticipantCrf.addStudyParticipantCrfAddedQuestion(question, pageNumber);
         genericRepository.save(studyParticipantCrfAddedQuestion);
         StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfAddedQuestion);
-        genericRepository.save(studyParticipantCrfScheduleAddedQuestion);
+        if (studyParticipantCrfScheduleAddedQuestion != null) {
+            genericRepository.save(studyParticipantCrfScheduleAddedQuestion);
+        }
     }
 
     private MeddraQuestion createMeddraQuestion(LowLevelTerm lowLevelTerm) {
@@ -168,15 +170,23 @@ public class SubmitFormCommand implements Serializable {
                 addProCtcQuestion(proCtcTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
             } else {
                 LowLevelTerm lowLevelTerm = findMeddraTerm(symptom);
-                CtcTerm ctcTerm = findCtcTerm(lowLevelTerm.getMeddraCode());
-                if (ctcTerm == null) {
-                    addMeddraQuestion(lowLevelTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
+                if (lowLevelTerm == null) {
+                    LowLevelTerm participantAddedLlt = new LowLevelTerm();
+                    participantAddedLlt.setMeddraTerm(symptom);
+                    participantAddedLlt.setParticipantAdded(true);
+                    LowLevelTerm term = genericRepository.save(participantAddedLlt);
+                    addMeddraQuestion(term, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
                 } else {
-                    proCtcTerm = findProCtcTermByCtcTermId(ctcTerm.getId());
-                    if (proCtcTerm == null) {
+                    CtcTerm ctcTerm = findCtcTerm(lowLevelTerm.getMeddraCode());
+                    if (ctcTerm == null) {
                         addMeddraQuestion(lowLevelTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
                     } else {
-                        addProCtcQuestion(proCtcTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
+                        proCtcTerm = findProCtcTermByCtcTermId(ctcTerm.getId());
+                        if (proCtcTerm == null) {
+                            addMeddraQuestion(lowLevelTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
+                        } else {
+                            addProCtcQuestion(proCtcTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
+                        }
                     }
                 }
             }

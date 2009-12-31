@@ -285,18 +285,32 @@ Object.extend(siteAutoComplter.prototype, {
 
         this.basename = basename;
         this.populator = function(autocompleter, text) {
-            organization.matchOrganization(text, function(values) {
+            organization.matchOrganizationForStudySites(text, function(values) {
                 autocompleter.setChoices(values)
             })
         },
                 this.valueSelector = function (obj) {
                     return obj.displayName;
                 }
-
     }
-
-
 });
+
+var clinicalStaffSiteAutoComplter = Class.create();
+Object.extend(siteAutoComplter.prototype, {
+    initialize: function(basename) {
+
+        this.basename = basename;
+        this.populator = function(autocompleter, text) {
+            organization.matchOrganizationForStudySites(text, function(values) {
+                autocompleter.setChoices(values)
+            })
+        },
+                this.valueSelector = function (obj) {
+                    return obj.displayName;
+                }
+    }
+});
+
 
 var organizationClinicalStaffAutoComplter = Class.create();
 Object.extend(organizationClinicalStaffAutoComplter.prototype, {

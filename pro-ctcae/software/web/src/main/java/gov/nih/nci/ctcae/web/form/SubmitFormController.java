@@ -79,6 +79,7 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         initialize(submitFormCommand.getStudyParticipantCrfSchedule(), submitFormCommand);
         ModelAndView mv = null;
         String pageIndex = request.getParameter("p");
+        int currIndex = submitFormCommand.getCurrentPageIndex();
 
         if (StringUtils.isBlank(pageIndex)) {
             pageIndex = "1";
@@ -87,21 +88,21 @@ public class SubmitFormController extends CtcAeSimpleFormController {
         if (CrfStatus.COMPLETED.equals(submitFormCommand.getStudyParticipantCrfSchedule().getStatus())) {
             return showForm(request, errors, getSuccessView());
         }
-        if (submitFormCommand.getCurrentPageIndex() == submitFormCommand.getAddQuestionPageIndex()) {
+        if (currIndex == submitFormCommand.getAddQuestionPageIndex()) {
             mv = showForm(request, errors, getReviewView());
-            mv.setView(new RedirectView("addquestion?p="+submitFormCommand.getCurrentPageIndex()));
+            mv.setView(new RedirectView("addquestion?p=" + currIndex));
             return mv;
         }
-        if (submitFormCommand.getCurrentPageIndex() >= submitFormCommand.getTotalPages() + 1) {
+        if (currIndex >= submitFormCommand.getTotalPages() + 1) {
             return showForm(request, errors, getReviewView());
         }
-        if (submitFormCommand.getCurrentPageIndex() >= submitFormCommand.getParticipantAddedQuestionIndex()) {
+        if (currIndex >= submitFormCommand.getParticipantAddedQuestionIndex()) {
             int offset = 1;
-            if (submitFormCommand.getCurrentPageIndex() > submitFormCommand.getAddQuestionPageIndex()) {
+            if (currIndex > submitFormCommand.getAddQuestionPageIndex()) {
                 offset = 2;
             }
             for (StudyParticipantCrfScheduleAddedQuestion cQ : submitFormCommand.getStudyParticipantCrfSchedule().getStudyParticipantCrfScheduleAddedQuestions()) {
-                if (cQ.getPageNumber() + offset == submitFormCommand.getCurrentPageIndex()) {
+                if (cQ.getPageNumber() + offset == currIndex) {
                     if (cQ.getProCtcQuestion() != null) {
                         mv = showForm(request, errors, "form/participantAddedQuestion");
                     } else {

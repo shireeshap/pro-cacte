@@ -7,6 +7,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="blue" tagdir="/WEB-INF/tags/blue" %>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <style type="text/css">
@@ -16,7 +17,6 @@
 
         .label {
             font-weight: bold;
-            float: left;
             margin-left: 0.5em;
             margin-right: 0.5em;
             padding: 1px;
@@ -35,8 +35,7 @@
             padding-left: 2px;
         }
     </style>
-    <script type="">
-
+    <script type="text/javascript">
         var displayRules = new Array();
         var questions = new Array();
         var i = 0;
@@ -46,7 +45,6 @@
 
         function gonext(crfitemindex, index, column, displayOrder, participantCrfItemId, questionDisplayOrder) {
             var x = document.getElementsByName('response' + crfitemindex);
-            var c = document.getElementsByName('column_' + crfitemindex);
             x[index].checked = true;
             responses[x[index].value] = 'Y';
             column.onmouseout = function() {
@@ -55,11 +53,15 @@
             document.myForm.elements[elementName].value = x[index].value;
             for (var i = 0; i < x.length; i++) {
                 if (i != index) {
-                    responses[x[i].value] = 'N';
-                    c[i].className = 'norm';
-                    c[i].onmouseout = function() {
-                        this.className = 'norm'
-                    };
+                    try {
+                        var c = document.getElementById(i + '_column_' + crfitemindex);
+                        responses[x[i].value] = 'N';
+                        c.className = 'norm';
+                        c.onmouseout = function() {
+                            this.className = 'norm'
+                        };
+                    } catch(err) {
+                    }
                 }
             }
             if (questionDisplayOrder == '1') {
@@ -74,11 +76,11 @@
 
         function clearResponse(questionindex) {
             var x = document.getElementsByName('response' + questionindex);
-            var c = document.getElementsByName('column_' + questionindex);
             for (var i = 0; i < x.length; i++) {
+                var c = document.getElementById(i + '_column_' + questionindex);
                 x[i].checked = false;
-                c[i].className = 'norm';
-                c[i].onmouseout = function() {
+                c.className = 'norm';
+                c.onmouseout = function() {
                     this.className = 'norm'
                 };
             }
@@ -137,22 +139,21 @@
             document.myForm.direction.value = direction;
             document.myForm.submit();
         }
-         
+
     </script>
 </head>
 <body>
 <form:form method="post" name="myForm">
-    <div class='progress-bar-outer'>
-        <div class='progress-bar-inner'></div>
-    </div>
     <tags:hasErrorsMessage hideErrorDetails="false"/>
+    <div class='progress-bar-outer'>
+        <div class='progress-bar-inner' style="width: ${(command.currentPageIndex/command.totalPages)*150}px;"></div>
+    </div>
     <div class="currentPagediv">
         Progress:
     </div>
-    <input type="hidden"
-           name="deletedQuestions"
-           value=""/>
-
+    <div class="label" style="margin-bottom:10px;"><tags:recallPeriodFormatter
+            desc="Please think back ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.recallPeriod}"/></div>
+    <input type="hidden" name="deletedQuestions" value=""/>
     <c:forEach items="${command.studyParticipantCrfSchedule.studyParticipantCrfScheduleAddedQuestions}"
                var="participantCrfItem"
                varStatus="crfitemstatus">
@@ -174,7 +175,7 @@
                        value="${participantCrfItem.meddraValidValue.id}"/>
                 <table>
                     <tr>
-                        <td colspan="2">
+                        <td colspan="${fn:length(participantCrfItem.meddraQuestion.validValues)}">
                             <div class="label">
                                     ${participantCrfItem.meddraQuestion.questionText}
                             </div>
@@ -212,13 +213,14 @@
         <tr>
             <td align="left" width="50%">
                 <c:if test="${command.currentPageIndex gt 1}">
-                    <tags:button onclick="javascript:submitForm('back')" value="Back" icon="back" color="blue"/>
+                    <tags:button onclick="javascript:submitForm('back')" value="Back" icon="back"
+                                 color="blue"/>
                 </c:if>
             </td>
             <td align="right" width="50%">
                 <c:choose>
                     <c:when test="${command.currentPageIndex le command.totalPages}">
-                        <tags:button onclick="javascript:submitForm('continue')" type="submit" value="Continue"
+                        <tags:button onclick="javascript:submitForm('continue')" value="Continue"
                                      icon="continue" color="green"/>
                     </c:when>
                 </c:choose>

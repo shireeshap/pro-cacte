@@ -352,9 +352,19 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     }
 
     public StudyParticipantCrfScheduleAddedQuestion addStudyParticipantCrfScheduleAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
+        if (studyParticipantCrfAddedQuestion.getProCtcQuestion() == null && studyParticipantCrfAddedQuestion.getMeddraQuestion() == null) {
+            return null;
+        }
         StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = new StudyParticipantCrfScheduleAddedQuestion();
-        studyParticipantCrfScheduleAddedQuestion.setProCtcQuestion(studyParticipantCrfAddedQuestion.getProCtcQuestion());
-        studyParticipantCrfScheduleAddedQuestion.setMeddraQuestion(studyParticipantCrfAddedQuestion.getMeddraQuestion());
+        if (studyParticipantCrfAddedQuestion.getProCtcQuestion() != null) {
+            studyParticipantCrfScheduleAddedQuestion.setProCtcQuestion(studyParticipantCrfAddedQuestion.getProCtcQuestion());
+        }
+        if (studyParticipantCrfAddedQuestion.getMeddraQuestion() != null) {
+            studyParticipantCrfScheduleAddedQuestion.setMeddraQuestion(studyParticipantCrfAddedQuestion.getMeddraQuestion());
+            if (studyParticipantCrfAddedQuestion.getMeddraQuestion().getLowLevelTerm().isParticipantAdded()) {
+                studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().setQuestionText("LLLL");
+            }
+        }
         studyParticipantCrfScheduleAddedQuestion.setPageNumber(studyParticipantCrfAddedQuestion.getPageNumber());
         studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfAddedQuestionId(studyParticipantCrfAddedQuestion.getId());
         studyParticipantCrfScheduleAddedQuestion.setStudyParticipantCrfSchedule(this);

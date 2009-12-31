@@ -20,7 +20,7 @@ public class MeddraQuery extends AbstractQuery {
 
     public void filterMeddraWithMatchingText(String text) {
         String searchString = text != null ? "%" + text.toLowerCase() + "%" : "%";
-
+        andWhere("(llt.participantAdded IS NULL OR llt.participantAdded = FALSE)");
         andWhere(String.format("(lower(llt.meddraTerm) LIKE :%s)", MEDDRA_TERM));
         setParameter(MEDDRA_TERM, searchString);
     }

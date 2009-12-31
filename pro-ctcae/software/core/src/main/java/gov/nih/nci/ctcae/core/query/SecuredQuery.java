@@ -21,12 +21,18 @@ public abstract class SecuredQuery<T extends Persistable> extends AbstractQuery 
      * @param queryString the query string
      */
     public SecuredQuery(final String queryString) {
+        this(queryString, true);
+    }
+
+    public SecuredQuery(final String queryString, boolean secure) {
         super(queryString);
-        User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
+        if (secure) {
+            User currentLoggedInUser = ApplicationSecurityManager.getCurrentLoggedInUser();
 
-        List<Integer> objectIds = currentLoggedInUser.findAccessibleObjectIds(getPersistableClass());
+            List<Integer> objectIds = currentLoggedInUser.findAccessibleObjectIds(getPersistableClass());
 
-        filterByObjectIds(objectIds);
+            filterByObjectIds(objectIds);
+        }
 
     }
 
