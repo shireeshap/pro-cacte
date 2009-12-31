@@ -142,9 +142,13 @@
             evaluateAllQuestions();
         })
 
+        var alreadySubmitted = false;
         function submitForm(direction) {
-            document.myForm.direction.value = direction;
-            document.myForm.submit();
+            if (!alreadySubmitted) {
+                alreadySubmitted = true;
+                document.myForm.direction.value = direction;
+                document.myForm.submit();
+            }
         }
     </script>
 </head>
@@ -240,7 +244,8 @@
             <td align="right" width="50%">
                 <c:choose>
                     <c:when test="${command.currentPageIndex le command.totalPages}">
-                        <tags:button color="green" icon="next" onclick="javascript:submitForm('continue')" value="Continue"/>
+                        <tags:button color="green" icon="next" onclick="javascript:submitForm('continue')"
+                                     value="Continue"/>
                     </c:when>
                 </c:choose>
             </td>

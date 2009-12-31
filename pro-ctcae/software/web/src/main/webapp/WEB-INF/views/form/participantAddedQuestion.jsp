@@ -135,9 +135,13 @@
             return rulesSatisfied;
         }
 
+        var alreadySubmitted = false;
         function submitForm(direction) {
-            document.myForm.direction.value = direction;
-            document.myForm.submit();
+            if (!alreadySubmitted) {
+                alreadySubmitted = true;
+                document.myForm.direction.value = direction;
+                document.myForm.submit();
+            }
         }
 
     </script>
