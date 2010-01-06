@@ -40,7 +40,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
             String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
             if (selectedSymptoms != null) {
-                ((SubmitFormCommand) command).addParticipantAddedQuestions(selectedSymptoms);
+                ((SubmitFormCommand) command).addParticipantAddedQuestions(selectedSymptoms,true);
                 ((SubmitFormCommand) command).setTotalPages(pageNumber + selectedSymptoms.length);
             }
             pageNumber++;

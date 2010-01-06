@@ -119,12 +119,12 @@ public class SubmitFormCommand implements Serializable {
 
     private void addProCtcQuestion(ProCtcTerm proCtcTerm, int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
         for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
-            AddParticipantSelectedQuestion(pageNumber, studyParticipantCrf, studyParticipantCrfSchedule, proCtcQuestion);
+            AddParticipantSelectedQuestion(pageNumber, studyParticipantCrf, studyParticipantCrfSchedule, proCtcQuestion, false);
         }
     }
 
 
-    private void addMeddraQuestion(LowLevelTerm lowLevelTerm, int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule) {
+    private void addMeddraQuestion(LowLevelTerm lowLevelTerm, int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule, boolean firstTime) {
         List<MeddraQuestion> meddraQuestions = lowLevelTerm.getMeddraQuestions();
         MeddraQuestion meddraQuestion;
         if (meddraQuestions.size() > 0) {
@@ -132,13 +132,13 @@ public class SubmitFormCommand implements Serializable {
         } else {
             meddraQuestion = createMeddraQuestion(lowLevelTerm);
         }
-        AddParticipantSelectedQuestion(pageNumber, studyParticipantCrf, studyParticipantCrfSchedule, meddraQuestion);
+        AddParticipantSelectedQuestion(pageNumber, studyParticipantCrf, studyParticipantCrfSchedule, meddraQuestion, firstTime);
     }
 
-    private void AddParticipantSelectedQuestion(int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule, Question question) {
+    private void AddParticipantSelectedQuestion(int pageNumber, StudyParticipantCrf studyParticipantCrf, StudyParticipantCrfSchedule studyParticipantCrfSchedule, Question question, boolean firstTime) {
         StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = studyParticipantCrf.addStudyParticipantCrfAddedQuestion(question, pageNumber);
         genericRepository.save(studyParticipantCrfAddedQuestion);
-        StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfAddedQuestion);
+        StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = studyParticipantCrfSchedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfAddedQuestion, firstTime);
         if (studyParticipantCrfScheduleAddedQuestion != null) {
             genericRepository.save(studyParticipantCrfScheduleAddedQuestion);
         }
@@ -156,13 +156,17 @@ public class SubmitFormCommand implements Serializable {
         meddraValidValue1.setDisplayOrder(1);
         meddraQuestion.addValidValue(meddraValidValue);
         meddraQuestion.addValidValue(meddraValidValue1);
-        meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm() + "?");
+        if (meddraQuestion.getLowLevelTerm().isParticipantAdded()) {
+            meddraQuestion.setQuestionText("Please confirm that this is a " + lowLevelTerm.getMeddraTerm() + " that you have experienced " + studyParticipantCrfSchedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + ":");
+        } else {
+            meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm() + "?");
+        }
         meddraQuestion.setDisplayOrder(0);
         genericRepository.save(meddraQuestion);
         return meddraQuestion;
     }
 
-    public void addParticipantAddedQuestions(String[] selectedSymptoms) {
+    public void addParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
         StudyParticipantCrf studyParticipantCrf = studyParticipantCrfSchedule.getStudyParticipantCrf();
         for (String symptom : selectedSymptoms) {
             ProCtcTerm proCtcTerm = findProCtcTermBySymptom(symptom);
@@ -175,15 +179,15 @@ public class SubmitFormCommand implements Serializable {
                     participantAddedLlt.setMeddraTerm(symptom);
                     participantAddedLlt.setParticipantAdded(true);
                     LowLevelTerm term = genericRepository.save(participantAddedLlt);
-                    addMeddraQuestion(term, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
+                    addMeddraQuestion(term, totalPages, studyParticipantCrf, studyParticipantCrfSchedule, firstTime);
                 } else {
                     CtcTerm ctcTerm = findCtcTerm(lowLevelTerm.getMeddraCode());
                     if (ctcTerm == null) {
-                        addMeddraQuestion(lowLevelTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
+                        addMeddraQuestion(lowLevelTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule, false);
                     } else {
                         proCtcTerm = findProCtcTermByCtcTermId(ctcTerm.getId());
                         if (proCtcTerm == null) {
-                            addMeddraQuestion(lowLevelTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
+                            addMeddraQuestion(lowLevelTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule, false);
                         } else {
                             addProCtcQuestion(proCtcTerm, totalPages, studyParticipantCrf, studyParticipantCrfSchedule);
                         }

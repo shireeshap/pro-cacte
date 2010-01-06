@@ -351,7 +351,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         this.baseline = baseline;
     }
 
-    public StudyParticipantCrfScheduleAddedQuestion addStudyParticipantCrfScheduleAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion) {
+    public StudyParticipantCrfScheduleAddedQuestion addStudyParticipantCrfScheduleAddedQuestion(StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion, boolean firstTime) {
         if (studyParticipantCrfAddedQuestion.getProCtcQuestion() == null && studyParticipantCrfAddedQuestion.getMeddraQuestion() == null) {
             return null;
         }
@@ -362,7 +362,14 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         if (studyParticipantCrfAddedQuestion.getMeddraQuestion() != null) {
             studyParticipantCrfScheduleAddedQuestion.setMeddraQuestion(studyParticipantCrfAddedQuestion.getMeddraQuestion());
             if (studyParticipantCrfAddedQuestion.getMeddraQuestion().getLowLevelTerm().isParticipantAdded()) {
-                studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().setQuestionText("LLLL");
+                String meddraTerm = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getMeddraTerm();
+                String recallPeriod = getStudyParticipantCrf().getCrf().getRecallPeriod();
+                String recallPeriodFirstChar = recallPeriod.substring(0, 1).toUpperCase();
+                String recallPeriodEnd = recallPeriod.substring(1);
+                recallPeriod = recallPeriodFirstChar + recallPeriodEnd;
+                if (!firstTime) {
+                    studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().setQuestionText("The last time you used this system, you reported " + meddraTerm + ". " + recallPeriod + ", have you still had this?");
+                }
             }
         }
         studyParticipantCrfScheduleAddedQuestion.setPageNumber(studyParticipantCrfAddedQuestion.getPageNumber());
@@ -422,7 +429,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     public void addParticipantAddedQuestions() {
         if (getStudyParticipantCrfScheduleAddedQuestions().size() == 0) {
             for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrf.getStudyParticipantCrfAddedQuestions()) {
-                addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfAddedQuestion);
+                addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfAddedQuestion, false);
             }
         }
     }

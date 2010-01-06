@@ -60,13 +60,14 @@
             if (!itemfound) {
                 addCheckbox(selectedChoice);
             }
-            $("participantquestion-input").value = "";
+            $('participantquestion-input').clear();
             initSearchField();
 
         }
 
 
         function addCheckbox(selectedChoice) {
+            $('participantquestion-input').clear();
             if (selectedChoice == '') {
                 return;
             }

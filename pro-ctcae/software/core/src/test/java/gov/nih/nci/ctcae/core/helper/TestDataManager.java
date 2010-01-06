@@ -85,7 +85,6 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         DataAuditInfo.setLocal(auditInfo);
         login(SYSTEM_ADMIN);
         saveCsv(false);
-        createTestData();
         if (!isTestDataPresent()) {
             deleteAndCreateTestData();
         }
@@ -231,6 +230,9 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         commitAndStartNewTransaction();
         long end = System.currentTimeMillis();
         System.out.println("  ProctcTerms loaded (" + (end - start) / 1000 + " seconds)");
+        if (force) {
+            createTestData();
+        }
     }
 
     private void deleteProCtcTerms() {

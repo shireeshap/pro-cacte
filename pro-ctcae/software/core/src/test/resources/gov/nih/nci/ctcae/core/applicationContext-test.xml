@@ -12,10 +12,10 @@
         <constructor-arg value="${codebase.directory}"/>
 
     </bean>
-    <bean id="meddraDirectory" class="java.lang.String">
-        <constructor-arg value="${meddra.directory}"/>
+    <!--<bean id="meddraDirectory" class="java.lang.String">-->
+        <!--<constructor-arg value="${meddra.directory}"/>-->
 
-    </bean>
+    <!--</bean>-->
 
 
 </beans>

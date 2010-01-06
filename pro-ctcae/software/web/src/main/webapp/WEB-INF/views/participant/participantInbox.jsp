@@ -52,7 +52,7 @@
 <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
     <c:forEach items="${studyParticipantAssignment.studyParticipantCrfs}" var="studyParticipantCrf">
         <c:forEach items="${studyParticipantCrf.studyParticipantCrfSchedules}" var="studyParticipantCrfSchedule">
-            <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || ((studyParticipantCrfSchedule.status eq 'Scheduled' || studyParticipantCrfSchedule.status eq 'Past-due' ) &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
+            <c:if test="${studyParticipantCrfSchedule.status eq 'In-progress' || (studyParticipantCrfSchedule.status eq 'Scheduled' &&  studyParticipantCrfSchedule.startDate <= todaysdate)}">
                 <c:set var="numberofCrfs" scope="page" value="${numberofCrfs + 1}"/>
             </c:if>
         </c:forEach>

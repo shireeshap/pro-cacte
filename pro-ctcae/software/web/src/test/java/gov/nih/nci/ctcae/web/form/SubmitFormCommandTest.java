@@ -1,17 +1,13 @@
 package gov.nih.nci.ctcae.web.form;
 
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
-import gov.nih.nci.ctcae.core.domain.CRF;
 import gov.nih.nci.ctcae.core.domain.StudyParticipantCrfSchedule;
 import gov.nih.nci.ctcae.web.AbstractWebTestCase;
 import gov.nih.nci.ctcae.web.meddra.MeddraAjaxFacade;
 import org.apache.commons.collections.map.ListOrderedMap;
 import org.springframework.beans.factory.annotation.Required;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,7 +56,7 @@ public class SubmitFormCommandTest extends AbstractWebTestCase {
         symptoms[2] = "Anorexia";
         symptoms[3] = "Abscess breast";
 
-        sfc.addParticipantAddedQuestions(symptoms);
+        sfc.addParticipantAddedQuestions(symptoms, false);
         assertEquals(6, spcs.getStudyParticipantCrfScheduleAddedQuestions().size());
 
     }

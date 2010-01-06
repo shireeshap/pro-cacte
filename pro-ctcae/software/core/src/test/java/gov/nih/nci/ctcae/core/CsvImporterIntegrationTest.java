@@ -13,20 +13,21 @@ public class CsvImporterIntegrationTest extends TestDataManager {
 
     @Override
     protected void onSetUpInTransaction() throws Exception {
-        try{
-        DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
-        DataAuditInfo.setLocal(auditInfo);
-        login(SYSTEM_ADMIN);
-        }catch(Exception ex){
+
+        try {
+            DataAuditInfo auditInfo = new DataAuditInfo("admin", "localhost", new Date(), "127.0.0.0");
+            DataAuditInfo.setLocal(auditInfo);
+            login(SYSTEM_ADMIN);
+        } catch (Exception ex) {
             ex.printStackTrace();
             throw ex;
         }
     }
 
     public void testSaveCsv() throws Exception {
-        try{
-        saveCsv(true);
-        }catch(Exception ex){
+        try {
+            saveCsv(true);
+        } catch (Exception ex) {
             ex.printStackTrace();
             throw ex;
         }
