@@ -45,51 +45,56 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public void deleteQuestions() {
-        if (questionsToBeDeleted != null && questionsToBeDeleted.size() > 0) {
-            studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, studyParticipantCrfSchedule.getId());
-            int myPageNumber = -1;
-            for (String id : questionsToBeDeleted) {
-                if (!StringUtils.isBlank(id)) {
-                    StudyParticipantCrfScheduleAddedQuestion spcsaq = genericRepository.findById(StudyParticipantCrfScheduleAddedQuestion.class, new Integer(id));
-                    if (spcsaq != null) {
-                        StudyParticipantCrfAddedQuestion s = genericRepository.findById(StudyParticipantCrfAddedQuestion.class, spcsaq.getStudyParticipantCrfAddedQuestionId());
-                        if (s != null) {
-                            myPageNumber = s.getPageNumber();
-                            if (s.getProCtcQuestion().getDisplayOrder() != 1) {
-                                return;
-                            }
-                            studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(s);
-                            genericRepository.delete(s);
+        StudyParticipantCrf studyParticipantCrf = genericRepository.findById(StudyParticipantCrf.class, studyParticipantCrfSchedule.getStudyParticipantCrf().getId());
+        studyParticipantCrf.getStudyParticipantCrfAddedQuestions();
+        studyParticipantCrfSchedule.setStudyParticipantCrf(studyParticipantCrf);
+        for (StudyParticipantCrfScheduleAddedQuestion spcaq : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
+            if (spcaq.getProCtcQuestion() != null) {
+                if (spcaq.getProCtcValidValue().getDisplayOrder() == 0) {
+                    deleteQuestion(spcaq);
+                }
+            } else {
+                if (spcaq.getMeddraQuestion() != null) {
+                    if (spcaq.getMeddraValidValue().getDisplayOrder() == 0) {
+                        deleteQuestion(spcaq);
+                    }
+                }
+            }
+        }
+    }
 
-                            if (myPageNumber != -1) {
-                                List<StudyParticipantCrfAddedQuestion> l = new ArrayList<StudyParticipantCrfAddedQuestion>();
-                                for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
-                                    if (studyParticipantCrfAddedQuestion.getPageNumber() == myPageNumber) {
-                                        l.add(studyParticipantCrfAddedQuestion);
-                                    }
-                                }
+    private void deleteQuestion(StudyParticipantCrfScheduleAddedQuestion spcsaq) {
+        int myPageNumber = -1;
+        if (spcsaq != null) {
+            StudyParticipantCrfAddedQuestion spcaq = genericRepository.findById(StudyParticipantCrfAddedQuestion.class, spcsaq.getStudyParticipantCrfAddedQuestionId());
+            if (spcaq != null) {
+                myPageNumber = spcaq.getPageNumber();
+                studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(spcaq);
+//                genericRepository.delete(spcaq);
+                if (myPageNumber != -1) {
+                    List<StudyParticipantCrfAddedQuestion> l = new ArrayList<StudyParticipantCrfAddedQuestion>();
+                    for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
+                        if (studyParticipantCrfAddedQuestion.getPageNumber() == myPageNumber) {
+                            l.add(studyParticipantCrfAddedQuestion);
+                        }
+                    }
+                    for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : l) {
+                        studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+                        genericRepository.delete(studyParticipantCrfAddedQuestion);
+                    }
 
-                                for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : l) {
-                                    studyParticipantCrfSchedule.getStudyParticipantCrf().removeStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
-                                    genericRepository.delete(studyParticipantCrfAddedQuestion);
-                                }
-
-                                for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
-                                    if (studyParticipantCrfAddedQuestion.getPageNumber() > myPageNumber) {
-                                        int oldPageNumber = studyParticipantCrfAddedQuestion.getPageNumber();
-                                        studyParticipantCrfAddedQuestion.setPageNumber(oldPageNumber - 1);
-                                        genericRepository.save(studyParticipantCrfAddedQuestion);
-                                    }
-                                }
-                            }
+                    for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : studyParticipantCrfSchedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions()) {
+                        if (studyParticipantCrfAddedQuestion.getPageNumber() > myPageNumber) {
+                            int oldPageNumber = studyParticipantCrfAddedQuestion.getPageNumber();
+                            studyParticipantCrfAddedQuestion.setPageNumber(oldPageNumber - 1);
+                            genericRepository.save(studyParticipantCrfAddedQuestion);
                         }
                     }
                 }
             }
-            questionsToBeDeleted.clear();
         }
-
     }
+
 
     public void addQuestionToDeleteList(String questionid) {
         if (!StringUtils.isBlank(questionid)) {
@@ -150,10 +155,10 @@ public class SubmitFormCommand implements Serializable {
         meddraQuestion.setLowLevelTerm(lowLevelTerm);
         meddraQuestion.setProCtcQuestionType(ProCtcQuestionType.PRESENT);
         meddraValidValue.setValue("Yes");
-        meddraValidValue.setDisplayOrder(0);
+        meddraValidValue.setDisplayOrder(1);
         MeddraValidValue meddraValidValue1 = new MeddraValidValue();
         meddraValidValue1.setValue("No");
-        meddraValidValue1.setDisplayOrder(1);
+        meddraValidValue1.setDisplayOrder(0);
         meddraQuestion.addValidValue(meddraValidValue);
         meddraQuestion.addValidValue(meddraValidValue1);
         if (meddraQuestion.getLowLevelTerm().isParticipantAdded()) {
