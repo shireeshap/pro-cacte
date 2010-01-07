@@ -582,6 +582,7 @@
     <bean name="/loadProCtcTerms" id="loadProCtcTerms" class="gov.nih.nci.ctcae.web.LoadProCtcTermController">
         <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
         <property name="ctcTermRepository" ref="ctcTermRepository"/>
+        <property name="proCtcRepository" ref="proCtcRepository"/>
     </bean>
 
 

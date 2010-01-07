@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcRepository;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
+import gov.nih.nci.ctcae.core.domain.ProCtc;
 import gov.nih.nci.ctcae.core.csv.loader.CsvImporter;
 
 import java.util.Collection;
@@ -26,15 +28,17 @@ public class LoadProCtcTermController extends AbstractController {
 
     ProCtcTermRepository proCtcTermRepository;
     CtcTermRepository ctcTermRepository;
+    ProCtcRepository proCtcRepository;
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
         Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.find(proCtcTermQuery);
-//        if (proCtcTerms.size() == 0) {
+        if (proCtcTerms.size() == 0) {
             CsvImporter csvImporter = new CsvImporter();
             csvImporter.setCtcTermRepository(ctcTermRepository);
-            csvImporter.readCsv();
-//        }
+            ProCtc proctc = csvImporter.readCsv();
+            proCtcRepository.save(proctc);
+        }
         return new ModelAndView("proCtcTermsLoaded");
     }
 
@@ -46,5 +50,10 @@ public class LoadProCtcTermController extends AbstractController {
     @Required
     public void setCtcTermRepository(CtcTermRepository ctcTermRepository) {
         this.ctcTermRepository = ctcTermRepository;
+    }
+
+    @Required
+    public void setProCtcRepository(ProCtcRepository proCtcRepository) {
+        this.proCtcRepository = proCtcRepository;
     }
 }
