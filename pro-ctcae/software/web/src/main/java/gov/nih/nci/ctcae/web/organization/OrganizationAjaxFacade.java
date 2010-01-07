@@ -62,12 +62,18 @@ public class OrganizationAjaxFacade {
         if (clinicalStaff != null) {
             Set<Organization> orgSet = new HashSet<Organization>();
             for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
-                orgSet.add(organizationClinicalStaff.getOrganization());
+                Organization organization = organizationClinicalStaff.getOrganization();
+                if (organization.getDisplayName().indexOf(text) > 1) {
+                    orgSet.add(organizationClinicalStaff.getOrganization());
+                }
                 for (StudyOrganizationClinicalStaff socs : organizationClinicalStaff.getStudyOrganizationClinicalStaff()) {
                     if ((socs.getRole().equals(Role.LEAD_CRA) || socs.getRole().equals(Role.PI)) &&
                             socs.getRoleStatus().equals(RoleStatus.ACTIVE) && socs.getStatusDate().before(new Date())) {
                         for (StudyOrganization studyOrganization : socs.getStudyOrganization().getStudy().getStudyOrganizations()) {
-                            orgSet.add(studyOrganization.getOrganization());
+                            organization = studyOrganization.getOrganization();
+                            if (organization.getDisplayName().indexOf(text) > 1) {
+                                orgSet.add(studyOrganization.getOrganization());
+                            }
                         }
                     }
                 }
