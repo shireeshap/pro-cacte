@@ -225,7 +225,7 @@ public class TestDataManager extends AbstractTransactionalDataSourceSpringContex
         csvImporter.setCtcTermRepository(ctcTermRepository);
         String fileLocation = codeBase + "/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv";
         System.out.println("Codebase - " + codeBase + "; Reading csv file from  - " + fileLocation);
-        ProCtc proctc = csvImporter.readCsv(fileLocation);
+        ProCtc proctc = csvImporter.readCsv();
         proCtcRepository.save(proctc);
         commitAndStartNewTransaction();
         long end = System.currentTimeMillis();

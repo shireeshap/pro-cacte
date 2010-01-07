@@ -467,7 +467,6 @@ pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvLine.java -text
-pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/ctcae_display_rules.csv -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/LowLevelTermDao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MedDRADao.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/dao/MeddraVersionDao.java -text
@@ -646,6 +645,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotati
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/Validator.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/validation/annotation/ValidatorClass.java -text
 pro-ctcae/software/core/src/main/resources/META-INF/log4j.properties -text
+pro-ctcae/software/core/src/main/resources/ctcae_display_rules.csv -text
 pro-ctcae/software/core/src/main/resources/ehcache.xml -text
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core-security.xml -text
 pro-ctcae/software/core/src/main/resources/gov/nih/nci/ctcae/core/applicationContext-core.xml -text
@@ -761,6 +761,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ControllerTools.java 
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ControllersUtils.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/CtcAeSimpleFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/ListValues.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/LoadProCtcTermController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/OpenSessionInViewInterceptorFilter.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/NightlyTriggerBean.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/batch/PastDueSchedulesReminderEmail.java -text
@@ -1104,6 +1105,7 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/searchParticipa
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/selectstudyparticipant.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/participant/showCompletedCrf.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/passwordReset.jsp -text
+pro-ctcae/software/web/src/main/webapp/WEB-INF/views/proCtcTermsLoaded.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/enrollmentReport.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsDetails.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/reports/participantAddedQuestionsResults.jsp -text

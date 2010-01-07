@@ -5,9 +5,13 @@ import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.CtcQuery;
 import gov.nih.nci.ctcae.core.repository.CtcTermRepository;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
+import java.io.FileReader;
+import java.io.BufferedReader;
 import java.util.*;
+import java.nio.charset.Charset;
 
 
 /**
@@ -26,12 +30,11 @@ public class CsvImporter {
 
     private CtcTermRepository ctcTermRepository;
 
-    public ProCtc readCsv(final String fileLocation) throws IOException {
-
+    public ProCtc readCsv() throws IOException {
+        ClassPathResource classPathResource = new ClassPathResource("ctcae_display_rules.csv");
         HashMap<String, List<CsvLine>> hm = new HashMap<String, List<CsvLine>>();
         HashMap<String, ProCtcQuestion> firstQuestions = new HashMap<String, ProCtcQuestion>();
-
-        CsvReader reader = new CsvReader(fileLocation);
+        CsvReader reader = new CsvReader(classPathResource.getInputStream(), Charset.forName("ISO-8859-1"));
         reader.readHeaders();
         while (reader.readRecord()) {
             CsvLine csvLine = new CsvLine();
