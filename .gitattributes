@@ -352,6 +352,8 @@ pro-ctcae/software/build/project.properties -text
 pro-ctcae/software/build/properties.template -text
 pro-ctcae/software/build/upgrade-nih-ci.properties -text
 pro-ctcae/software/build/upgrade-nih-dev.properties -text
+pro-ctcae/software/build/upgrade-sb-demo.properties -text
+pro-ctcae/software/build/upgrade-sb-dev.properties -text
 pro-ctcae/software/build/upgrade.properties -text
 pro-ctcae/software/buildWeb.sh -text
 pro-ctcae/software/common.xml -text
