@@ -124,6 +124,6 @@
         <dependency org="opensymphony" name="quartz-all" rev="1.6.0" />
         <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.2.3" conf="build->default;runtime->default;dist->dist;"/>
         <dependency org="cobertura" name="cobertura" rev="1.8" conf="test->default(*)"/>
-
+        <dependency org="org.mvel" name="mvel" rev="1.2.22-java1.5" force="true"/>
     </dependencies>
 </ivy-module>
