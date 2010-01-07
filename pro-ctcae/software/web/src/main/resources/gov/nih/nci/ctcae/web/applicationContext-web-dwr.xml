@@ -13,6 +13,7 @@
         <property name="organizationRepository" ref="organizationRepository"/>
         <property name="studyOrganizationRepository" ref="studyOrganizationRepository"/>
         <property name="genericRepository" ref="genericRepository"/>
+        <property name="userRepository" ref="userRepository"/>
     </bean>
     <bean id="studyAjaxFacade"
           class="gov.nih.nci.ctcae.web.study.StudyAjaxFacade">

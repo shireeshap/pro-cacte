@@ -1,19 +1,20 @@
 package gov.nih.nci.ctcae.web.organization;
 
-import gov.nih.nci.ctcae.core.domain.Organization;
-import gov.nih.nci.ctcae.core.domain.StudyOrganization;
+import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.query.OrganizationQuery;
 import gov.nih.nci.ctcae.core.repository.secured.OrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyOrganizationRepository;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.UserRepository;
 import gov.nih.nci.ctcae.web.tools.ObjectTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.context.SecurityContextHolder;
 
-import java.util.List;
+import java.util.*;
 
 //
 /**
@@ -31,7 +32,7 @@ public class OrganizationAjaxFacade {
     private OrganizationRepository organizationRepository;
     private StudyOrganizationRepository studyOrganizationRepository;
     private GenericRepository genericRepository;
-
+    private UserRepository userRepository;
     /**
      * The log.
      */
@@ -55,11 +56,31 @@ public class OrganizationAjaxFacade {
     }
 
     public List<Organization> matchOrganizationForStudySites(final String text) {
-        logger.info("in match organization method. Search string :" + text);
-        OrganizationQuery organizationQuery = new OrganizationQuery(false);
-        organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
-        organizationQuery.setMaximumResults(25);
-        List<Organization> organizations = genericRepository.find(organizationQuery);
+        List<Organization> organizations = new ArrayList<Organization>();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
+        if (clinicalStaff != null) {
+            Set<Organization> orgSet = new HashSet<Organization>();
+            for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
+                orgSet.add(organizationClinicalStaff.getOrganization());
+                for (StudyOrganizationClinicalStaff socs : organizationClinicalStaff.getStudyOrganizationClinicalStaff()) {
+                    if ((socs.getRole().equals(Role.LEAD_CRA) || socs.getRole().equals(Role.PI)) &&
+                            socs.getRoleStatus().equals(RoleStatus.ACTIVE) && socs.getStatusDate().before(new Date())) {
+                        for (StudyOrganization studyOrganization : socs.getStudyOrganization().getStudy().getStudyOrganizations()) {
+                            orgSet.add(studyOrganization.getOrganization());
+                        }
+                    }
+                }
+            }
+            organizations = new ArrayList(orgSet);
+
+        } else {
+            logger.info("in match organization method. Search string :" + text);
+            OrganizationQuery organizationQuery = new OrganizationQuery(false);
+            organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
+            organizationQuery.setMaximumResults(25);
+            organizations = genericRepository.find(organizationQuery);
+        }
         return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
 
     }
@@ -83,11 +104,16 @@ public class OrganizationAjaxFacade {
 
     @Required
     public void setStudyOrganizationRepository(final StudyOrganizationRepository studyOrganizationRepository) {
-        this.studyOrganizationRepository= studyOrganizationRepository;
+        this.studyOrganizationRepository = studyOrganizationRepository;
     }
 
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
+    }
+
+    @Required
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }

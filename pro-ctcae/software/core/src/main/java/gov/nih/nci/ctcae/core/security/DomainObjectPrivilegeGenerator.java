@@ -106,6 +106,9 @@ public class DomainObjectPrivilegeGenerator {
             if (studyOrganizationClinicalStaff.getRole().equals(Role.LEAD_CRA) || studyOrganizationClinicalStaff.getRole().equals(Role.PI)) {
                 privileges.add(generateGroupPrivilegeForStudyOrganization(studyOrganization));
                 privileges.add(generateGroupPrivilegeForOrganizations());
+                for(StudyOrganization so :studyOrganizationClinicalStaff.getStudyOrganization().getStudy().getStudyOrganizations()){
+                    privileges.add(generatePrivilege(so.getOrganization()));    
+                }
             }
         }
         privileges.add(generatePrivilege(studyOrganization.getStudy()));
