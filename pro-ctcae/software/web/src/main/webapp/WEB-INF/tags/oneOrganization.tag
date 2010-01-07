@@ -20,7 +20,7 @@
                 <tags:renderAutocompleter propertyName="${inputName}" displayName="${title}" required="${required}"
                                           size="100" doNotshowLabel="true" noForm="true"/>
                 <script type="text/javascript">
-                    acCreate(new siteAutoComplter('${inputName}'))
+                    acCreate(new siteAutoComplter('${inputName}',true))
                     initSearchField()
                 </script>
 

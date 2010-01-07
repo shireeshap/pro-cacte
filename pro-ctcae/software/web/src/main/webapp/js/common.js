@@ -284,8 +284,8 @@ Object.extend(siteAutoComplter.prototype, {
     initialize: function(basename) {
 
         this.basename = basename;
-        this.populator = function(autocompleter, text) {
-            organization.matchOrganizationForStudySites(text, function(values) {
+        this.populator = function(autocompleter, text, showAllSites) {
+            organization.matchOrganizationForStudySites(text, showAllSites, function(values) {
                 autocompleter.setChoices(values)
             })
         },

@@ -55,11 +55,12 @@ public class OrganizationAjaxFacade {
 
     }
 
-    public List<Organization> matchOrganizationForStudySites(final String text) {
+    public List<Organization> matchOrganizationForStudySites(final String text, final boolean showAllSites) {
         List<Organization> organizations = new ArrayList<Organization>();
+
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
-        if (clinicalStaff != null) {
+        if (clinicalStaff != null && !showAllSites) {
             Set<Organization> orgSet = new HashSet<Organization>();
             for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
                 Organization organization = organizationClinicalStaff.getOrganization();
