@@ -55,12 +55,22 @@ public class OrganizationAjaxFacade {
 
     }
 
-    public List<Organization> matchOrganizationForStudySites(final String text, final boolean showAllSites) {
+    public List<Organization> matchOrganizationForStudySites(final String text) {
+        logger.info("in match organization method. Search string :" + text);
+        OrganizationQuery organizationQuery = new OrganizationQuery(false);
+        organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
+        organizationQuery.setMaximumResults(25);
+        List<Organization> organizations = genericRepository.find(organizationQuery);
+        return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
+
+    }
+
+    public List<Organization> matchOrganizationForStudySitesWithSecurity(final String text) {
         List<Organization> organizations = new ArrayList<Organization>();
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
-        if (clinicalStaff != null && !showAllSites) {
+        if (clinicalStaff != null) {
             Set<Organization> orgSet = new HashSet<Organization>();
             for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
                 Organization organization = organizationClinicalStaff.getOrganization();
@@ -80,15 +90,11 @@ public class OrganizationAjaxFacade {
                 }
             }
             organizations = new ArrayList(orgSet);
-
+            return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
         } else {
-            logger.info("in match organization method. Search string :" + text);
-            OrganizationQuery organizationQuery = new OrganizationQuery(false);
-            organizationQuery.filterByOrganizationNameOrNciInstituteCode(text);
-            organizationQuery.setMaximumResults(25);
-            organizations = genericRepository.find(organizationQuery);
+            return matchOrganizationForStudySites(text);
         }
-        return ObjectTools.reduceAll(organizations, "id", "name", "nciInstituteCode");
+
 
     }
 

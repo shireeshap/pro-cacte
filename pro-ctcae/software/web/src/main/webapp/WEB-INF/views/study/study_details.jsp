@@ -52,9 +52,9 @@
         <%--$('_target').name = '_target0';--%>
         <%--</c:if>--%>
 
-            acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization',true))
-            acCreate(new siteAutoComplter('study.fundingSponsor.organization',true))
-            acCreate(new siteAutoComplter('study.leadStudySite.organization',true))
+            acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
+            acCreate(new siteAutoComplter('study.fundingSponsor.organization'))
+            acCreate(new siteAutoComplter('study.leadStudySite.organization'))
 
         <c:if test="${command.study.dataCoordinatingCenter ne null}">
             initializeAutoCompleter('study.dataCoordinatingCenter.organization',

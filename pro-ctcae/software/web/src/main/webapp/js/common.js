@@ -281,11 +281,25 @@ function acCreate(mode) {
 }
 var siteAutoComplter = Class.create();
 Object.extend(siteAutoComplter.prototype, {
-    initialize: function(basename) {
-
+    initialize: function(basename, showAllSites) {
+        this.showAllSites = showAllSites;
         this.basename = basename;
-        this.populator = function(autocompleter, text, showAllSites) {
+        this.populator = function(autocompleter, text) {
             organization.matchOrganizationForStudySites(text, showAllSites, function(values) {
+                autocompleter.setChoices(values)
+            })
+        },
+                this.valueSelector = function (obj) {
+                    return obj.displayName;
+                }
+    }
+});
+var siteAutoComplterWithSecurity = Class.create();
+Object.extend(siteAutoComplter.prototype, {
+    initialize: function(basename) {
+        this.basename = basename;
+        this.populator = function(autocompleter, text) {
+            organization.matchOrganizationForStudySitesWithSecurity(text, function(values) {
                 autocompleter.setChoices(values)
             })
         },

@@ -22,7 +22,7 @@
         Event.observe(window, "load", function() {
         <c:forEach  items="${clinicalStaffCommand.clinicalStaff.organizationClinicalStaffs}" var="organizationClinicalStaff" varStatus="status">
             var siteBaseName = 'clinicalStaff.organizationClinicalStaffs[${status.index}].organization'
-            acCreate(new siteAutoComplter(siteBaseName,false));
+            acCreate(new siteAutoComplterWithSecurity(siteBaseName));
             initializeAutoCompleter(siteBaseName, '${organizationClinicalStaff.organization.displayName}', '${organizationClinicalStaff.organization.id}');
         </c:forEach>
             initSearchField()
