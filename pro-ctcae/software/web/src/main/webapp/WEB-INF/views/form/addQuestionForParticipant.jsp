@@ -216,7 +216,7 @@
              style="vertical-align:top;cursor:pointer"/>
         <tags:indicator id="participantquestion-indicator"/>
         <div id="participantquestion-add" style="display:none">
-            <tags:button onclick="javascript:addCheckbox($('participantquestion-input').value)" icon="add"
+            <tags:button onclick="javascript:acPostSelect(null,$('participantquestion-input').value)" icon="add"
                          size="small" color="blue" value="add" markupWithTag="a"/>
         </div>
 
