@@ -295,7 +295,7 @@ Object.extend(siteAutoComplter.prototype, {
     }
 });
 var siteAutoComplterWithSecurity = Class.create();
-Object.extend(siteAutoComplter.prototype, {
+Object.extend(siteAutoComplterWithSecurity.prototype, {
     initialize: function(basename) {
         this.basename = basename;
         this.populator = function(autocompleter, text) {
