@@ -230,4 +230,5 @@ public class User extends BaseVersionable implements UserDetails {
         }
         return false;
     }
+
 }

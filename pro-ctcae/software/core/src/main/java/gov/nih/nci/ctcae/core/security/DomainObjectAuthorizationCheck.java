@@ -1,6 +1,8 @@
 package gov.nih.nci.ctcae.core.security;
 
 import gov.nih.nci.ctcae.core.domain.Persistable;
+import gov.nih.nci.ctcae.core.domain.User;
+import gov.nih.nci.ctcae.core.domain.Organization;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -68,11 +70,19 @@ public class DomainObjectAuthorizationCheck {
                 return true;
             }
         }
+//        if (persistable.getClass().isAssignableFrom(Organization.class)) {
+//            User user = (User) authentication.getPrincipal();
+//            if (user.isLeadCRA() || user.isOverallPI()) {
+//                return true;
+//            }
+//        }
+
         return false;
     }
 
     @Required
-    public void setIgnoredClasses(List<? extends Persistable> ignoredClasses) {
+    public void setIgnoredClasses
+            (List<? extends Persistable> ignoredClasses) {
         this.ignoredClasses = ignoredClasses;
     }
 }
