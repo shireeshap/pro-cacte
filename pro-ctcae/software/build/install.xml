@@ -677,7 +677,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 			<os family="windows" />
 		</condition>
 		<replace file="${tomcat.home}/conf/proctcae/datasource.properties" token="@URL@" value="${rules.repository}" />		
-		
+		<replace file="${tomcat.home}/conf/proctcae/datasource.properties" token="@NONIDENTIFYING@" value="${mode.nonidentifying}" />		
+		<delete dir="${rules.repository}"/>
 	</target>
 		
 	<target name="install:tomcat:proctcae-webapp" description="Deploy proctcae-webapp and common libraries to tomcat installation" unless="exclude.tomcat" depends="common:init,common:tomcat:init">
