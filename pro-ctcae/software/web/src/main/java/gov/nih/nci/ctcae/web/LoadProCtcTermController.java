@@ -34,14 +34,14 @@ public class LoadProCtcTermController extends AbstractController {
         try {
             ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
             Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.find(proCtcTermQuery);
-            logger.debug("ProCtcTerms Found = " + proCtcTerms.size());
+            System.out.println("ProCtcTerms Found = " + proCtcTerms.size());
             if (proCtcTerms.size() == 0) {
-                logger.debug("Loading ProCtcTerms");
+                System.out.println("Loading ProCtcTerms");
                 CsvImporter csvImporter = new CsvImporter();
                 csvImporter.setCtcTermRepository(ctcTermRepository);
                 ProCtc proctc = csvImporter.readCsv();
                 proCtcRepository.save(proctc);
-                logger.debug("ProCtcTerms Loaded");
+                System.out.println("ProCtcTerms Loaded");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
