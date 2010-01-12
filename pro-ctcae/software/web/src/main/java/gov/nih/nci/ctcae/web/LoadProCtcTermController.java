@@ -31,13 +31,21 @@ public class LoadProCtcTermController extends AbstractController {
     ProCtcRepository proCtcRepository;
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
-        Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.find(proCtcTermQuery);
-        if (proCtcTerms.size() == 0) {
-            CsvImporter csvImporter = new CsvImporter();
-            csvImporter.setCtcTermRepository(ctcTermRepository);
-            ProCtc proctc = csvImporter.readCsv();
-            proCtcRepository.save(proctc);
+        try {
+            ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+            Collection<ProCtcTerm> proCtcTerms = proCtcTermRepository.find(proCtcTermQuery);
+            logger.debug("ProCtcTerms Found = " + proCtcTerms.size());
+            if (proCtcTerms.size() == 0) {
+                logger.debug("Loading ProCtcTerms");
+                CsvImporter csvImporter = new CsvImporter();
+                csvImporter.setCtcTermRepository(ctcTermRepository);
+                ProCtc proctc = csvImporter.readCsv();
+                proCtcRepository.save(proctc);
+                logger.debug("ProCtcTerms Loaded");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw ex;
         }
         return new ModelAndView("proCtcTermsLoaded");
     }
