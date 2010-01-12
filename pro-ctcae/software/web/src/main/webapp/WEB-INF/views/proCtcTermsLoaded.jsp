@@ -10,7 +10,7 @@
 </head>
 <body>
 <chrome:box title="Load ProCtcTerms" autopad="true">
-    ProCtcTerms loaded successfully
+    ProCtcTerms loaded successfully.
 </chrome:box>
 </body>
 </html>
