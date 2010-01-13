@@ -765,7 +765,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	<target name="upgrade:database:readers:bda" depends="upgrade:tomcat:init:prep" if="tomcat.exists">
 		<!-- write one later -->
 	</target>
-	<target name="upgrade:tomcat:readers:bda" depends="upgrade:tomcat:init:prep" if="tomcat.exists">
+	<target name="upgrade:tomcat:readers:bda" depends="upgrade:tomcat:init:prep" >
 		<!-- call your custom readers here, two properties included in these scripts that don't have readers are "fs-data.base.dir, mail.smtp.server" -->
 
 		<!-- Make sure the ${properties.file} has at least the following props -->
