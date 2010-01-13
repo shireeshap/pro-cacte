@@ -752,6 +752,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	<target name="upgrade:tomcat:init:prep" depends="upgrade:common:init:prep" unless="install.running">
 		<property name="tomcat.home" value="${application.base.path}/${tomcat.relative.path}"/>
 		<!-- Upgrades always use port configs -->
+		<echo message="TOMCAT HOME ${tomcat.home}"/>
 		<available file="${tomcat.home}" property="tomcat.exists"/>
 		<property name="read.tomcat.home" value="${tomcat.home}"/>
 	</target>
@@ -765,7 +766,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	<target name="upgrade:database:readers:bda" depends="upgrade:tomcat:init:prep" if="tomcat.exists">
 		<!-- write one later -->
 	</target>
-	<target name="upgrade:tomcat:readers:bda" depends="upgrade:tomcat:init:prep" >
+	<target name="upgrade:tomcat:readers:bda" depends="upgrade:tomcat:init:prep" if="tomcat.exists">
 		<!-- call your custom readers here, two properties included in these scripts that don't have readers are "fs-data.base.dir, mail.smtp.server" -->
 
 		<!-- Make sure the ${properties.file} has at least the following props -->
