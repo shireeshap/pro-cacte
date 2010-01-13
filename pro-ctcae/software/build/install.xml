@@ -754,6 +754,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<!-- Upgrades always use port configs -->
 		<echo message="TOMCAT HOME ${tomcat.home}"/>
 		<available file="${tomcat.home}" property="tomcat.exists"/>
+		<echo message="TOMCAT EXISTS ${tomcat.exists}"/>
 		<property name="read.tomcat.home" value="${tomcat.home}"/>
 	</target>
 
