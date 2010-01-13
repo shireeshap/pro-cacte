@@ -825,4 +825,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<generate-jar-signing-keystore
 			/>
 	</target>
+	<target name="secure:tomcat">
+	<upgrade:tomcat:readers:bda/>
+	</target>
 </project>
