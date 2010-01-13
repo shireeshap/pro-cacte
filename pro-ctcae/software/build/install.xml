@@ -752,9 +752,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	<target name="upgrade:tomcat:init:prep" depends="upgrade:common:init:prep" unless="install.running">
 		<property name="tomcat.home" value="${application.base.path}/${tomcat.relative.path}"/>
 		<!-- Upgrades always use port configs -->
-		<echo message="TOMCAT HOME ${tomcat.home}"/>
 		<available file="${tomcat.home}" property="tomcat.exists"/>
-		<echo message="TOMCAT EXISTS ${tomcat.exists}"/>
 		<property name="read.tomcat.home" value="${tomcat.home}"/>
 	</target>
 
