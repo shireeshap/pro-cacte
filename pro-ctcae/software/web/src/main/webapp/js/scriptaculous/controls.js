@@ -193,7 +193,7 @@ Autocompleter.Base = Class.create({
         if (Prototype.Browser.IE) {
 //            alert(event.offsetX) ;
 //            alert(event.offsetY) ;
-            if (event.offsetX > 318 || event.offsetX < 0) {
+            if (event.offsetX > 360 || event.offsetX < 0) {
                 //good may close
             } else if (event.offsetY > 320 || event.offsetY < 0) {
                 //good - may close

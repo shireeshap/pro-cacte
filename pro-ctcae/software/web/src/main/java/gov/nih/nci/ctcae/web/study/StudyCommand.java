@@ -27,6 +27,8 @@ public class StudyCommand {
 
     private StudyOrganizationClinicalStaff principalInvestigator;
 
+    private boolean isAdmin = false;
+
     private List<StudyOrganizationClinicalStaff> studyOrganizationClinicalStaffs = new ArrayList<StudyOrganizationClinicalStaff>();
 
     List<Organization> organizationsWithCCARole = new ArrayList<Organization>();
@@ -65,6 +67,13 @@ public class StudyCommand {
           this.organizationsWithCCARole = organizationsWithCCARole;
       }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
 
     /**
      * Sets the study.

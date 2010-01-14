@@ -52,9 +52,15 @@
         <%--$('_target').name = '_target0';--%>
         <%--</c:if>--%>
 
+            acCreate(new siteAutoComplter('study.studySponsor.organization'))
             acCreate(new siteAutoComplter('study.dataCoordinatingCenter.organization'))
             acCreate(new siteAutoComplter('study.fundingSponsor.organization'))
             acCreate(new siteAutoComplter('study.leadStudySite.organization'))
+
+            <c:if test="${command.study.studySponsor ne null}">
+            initializeAutoCompleter('study.studySponsor.organization',
+                    '${command.study.studySponsor.organization.displayName}', '${command.study.studySponsor.organization.id}')
+        </c:if>
 
         <c:if test="${command.study.dataCoordinatingCenter ne null}">
             initializeAutoCompleter('study.dataCoordinatingCenter.organization',
@@ -97,24 +103,33 @@
                              required="false" cols="47"/>
        
        <c:choose>
-           <c:when test="${command.study.studySponsor.organization ne null}">
-               <div class="row">
-                   <div class="label"><tags:message code='study.label.study_sponsor'/></div>
-                   <div class="value">${command.study.studySponsor.organization.displayName}</div>
-               </div>
+           <c:when test="${command.admin eq true}">
+               <tags:renderAutocompleter propertyName="study.studySponsor.organization"
+                                         displayName="study.label.study_sponsor"
+                                         required="true" size="70"/>
            </c:when>
            <c:otherwise>
-               <div class="row">
-                   <div class="label"><tags:message code='study.label.study_sponsor'/></div>
-                   <div class="value">
-                       <select id="study.studySponsor.organization" name="study.studySponsor.organization">
-                           <option value="">Please select</option>
-                           <c:forEach items="${command.organizationsWithCCARole}" var="organization">
-                               <option value="${organization.id}">${organization.displayName}</option>
-                           </c:forEach>
-                       </select>
-                   </div>
-               </div>
+               <c:choose>
+                   <c:when test="${command.study.studySponsor.organization ne null}">
+                       <div class="row">
+                           <div class="label"><tags:message code='study.label.study_sponsor'/></div>
+                           <div class="value">${command.study.studySponsor.organization.displayName}</div>
+                       </div>
+                   </c:when>
+                   <c:otherwise>
+                       <div class="row">
+                           <div class="label"><tags:message code='study.label.study_sponsor'/></div>
+                           <div class="value">
+                               <select id="study.studySponsor.organization" name="study.studySponsor.organization">
+                                   <option value="">Please select</option>
+                                   <c:forEach items="${command.organizationsWithCCARole}" var="organization">
+                                       <option value="${organization.id}">${organization.displayName}</option>
+                                   </c:forEach>
+                               </select>
+                           </div>
+                       </div>
+                   </c:otherwise>
+               </c:choose>
            </c:otherwise>
        </c:choose>
 

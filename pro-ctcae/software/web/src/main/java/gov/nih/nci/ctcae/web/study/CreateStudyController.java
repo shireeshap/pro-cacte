@@ -25,6 +25,10 @@ public class CreateStudyController extends StudyController {
 
         StudyCommand studyCommand = new StudyCommand();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (user.isAdmin()) {
+            studyCommand.setAdmin(true);
+        }
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
         if (clinicalStaff != null) {
             if (!clinicalStaff.getUser().isAdmin()) {
