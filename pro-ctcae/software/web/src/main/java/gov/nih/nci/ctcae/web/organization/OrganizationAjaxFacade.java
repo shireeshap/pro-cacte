@@ -69,6 +69,9 @@ public class OrganizationAjaxFacade {
         List<Organization> organizations = new ArrayList<Organization>();
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (user.isAdmin()) {
+              return matchOrganization(text);
+        }  else {
         ClinicalStaff clinicalStaff = userRepository.findClinicalStaffForUser(user);
         if (clinicalStaff != null) {
             Set<Organization> orgSet = new HashSet<Organization>();
@@ -95,7 +98,7 @@ public class OrganizationAjaxFacade {
             return matchOrganizationForStudySites(text);
         }
 
-
+        }
     }
 
     public List<StudyOrganization> matchOrganizationByStudyId(final String text, Integer studyId) {

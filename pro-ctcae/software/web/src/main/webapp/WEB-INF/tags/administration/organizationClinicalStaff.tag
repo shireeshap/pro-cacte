@@ -19,7 +19,7 @@
             <c:otherwise>
                 <tags:renderAutocompleter propertyName="${propertyName}" required="true"
                                           displayName="clinicalStaff.division.site"
-                                          doNotshowLabel="true" noForm="true" size="80"/>
+                                          doNotshowLabel="true" noForm="true" size="60"/>
             </c:otherwise>
         </c:choose>
 

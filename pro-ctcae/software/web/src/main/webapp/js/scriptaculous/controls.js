@@ -191,8 +191,8 @@ Autocompleter.Base = Class.create({
 
     onBlur: function(event) {
         if (Prototype.Browser.IE) {
-//            alert(event.offsetX) ;
-//            alert(event.offsetY) ;
+            alert(event.offsetX) ;
+            alert(event.offsetY) ;
             if (event.offsetX > 360 || event.offsetX < 0) {
                 //good may close
             } else if (event.offsetY > 320 || event.offsetY < 0) {
