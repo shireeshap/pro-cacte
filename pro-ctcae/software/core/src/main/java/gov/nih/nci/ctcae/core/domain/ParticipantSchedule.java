@@ -238,6 +238,7 @@ public class ParticipantSchedule {
 
             studyParticipantCrfSchedule.setStartDate(c1.getTime());
             studyParticipantCrfSchedule.setDueDate(c2.getTime());
+            studyParticipantCrfSchedule.setStatus(CrfStatus.SCHEDULED);
         }
     }
 

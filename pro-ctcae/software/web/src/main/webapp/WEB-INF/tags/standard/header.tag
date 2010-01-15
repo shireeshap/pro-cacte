@@ -40,6 +40,7 @@
         <ul id="sections" class="tabs">
             <c:forEach items="${sections}" var="section" varStatus="index">
                 <proctcae:urlAuthorize url="${section.mainUrl}">
+                <%--${section.mainUrl}--%>
                     <li class="${section == currentSection ? 'selected' : ''}">
                         <a id="firstlevelnav_${section.mainController}" index="${index.index}"
                            href="<c:url value="${section.mainUrl}"/>">

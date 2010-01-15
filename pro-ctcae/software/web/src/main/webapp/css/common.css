@@ -489,6 +489,32 @@ a#firstlevelnav_reportSearchCriteriaController:active {
 .selected a#firstlevelnav_reportSearchCriteriaController {
     background-image: url(../images/blue/reports_btn_selected.png);
 }
+a#firstlevelnav_participantCareMonitorController {
+    background-image: url(../images/blue/reports_btn.png);
+    width: 148px;
+    height: 0px;
+    padding: 45px 0px 0px 0px;
+    display: block;
+    float: left;
+    margin-right: 1px;
+    margin-left: 1px;
+}
+
+a#firstlevelnav_participantCareMonitorController:link {
+    background-position: 0px 0px;
+}
+
+a#firstlevelnav_participantCareMonitorController:hover, a#firstlevelnav_participantCareMonitorController.fthover {
+    background-position: 0px -45px;
+}
+
+a#firstlevelnav_participantCareMonitorController:active {
+    background-position: 0px -90px;
+}
+
+.selected a#firstlevelnav_participantCareMonitorController {
+    background-image: url(../images/blue/reports_btn_selected.png);
+}
 
 #sso-form {
     display: none
