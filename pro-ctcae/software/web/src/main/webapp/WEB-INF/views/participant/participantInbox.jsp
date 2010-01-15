@@ -66,6 +66,7 @@
             test="${numberofCrfs != 1}">s</c:if> that need<c:if
             test="${numberofCrfs == 1}">s</c:if> to be completed.</span>
 </div>
+
 <chrome:box title="Scheduled forms">
     <table id="inboxTable">
         <tr>
@@ -80,6 +81,9 @@
             </th>
             <th>
                 <tags:message code="participant.label.dueDate"/>
+            </th>
+            <th>
+
             </th>
         </tr>
         <c:forEach items="${command.studyParticipantAssignments}" var="studyParticipantAssignment">
@@ -102,6 +106,11 @@
                                     <%--<c:if test="${not studyParticipantCrfSchedule.baseline}">--%>
                                 <tags:formatDate value="${studyParticipantCrfSchedule.dueDate}"/>
                                     <%--</c:if>--%>
+                            </td>
+                            <td>
+                                <a
+                                                    href="../participant/responseReport?id=${studyParticipantCrfSchedule.id}">View old responses</a>
+
                             </td>
                         </tr>
                     </c:if>
