@@ -774,7 +774,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 			/>
 
 		<!-- Begin Tomcat readers, delete if you don't need -->
-		
+<!--		
 		<osfamily property="os.family"/>
 		<if>
 			<or>
@@ -798,7 +798,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 			copied.keystore.dir="${tomcat.ssl.keystore.dir}"
 			/>              
 		<tomcat-read-external-hostname
-			/>
+			/>-->
 		<!--
 		<grid-read-index-url
 			grid.wsrf.dir="${tomcat.home}/webapps/wsrf"
