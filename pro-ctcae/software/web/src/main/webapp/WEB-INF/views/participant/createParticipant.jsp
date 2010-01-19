@@ -139,7 +139,7 @@
            </c:when>
            <c:otherwise>
                <c:set var="required" value="true"/>
-               <c:set var="maxLength" value="20"/>
+               <c:set var="maxLength" value="40"/>
            </c:otherwise>
        </c:choose>
            <chrome:division title="participant.label.site">

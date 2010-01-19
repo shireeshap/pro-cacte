@@ -8,7 +8,6 @@
 <%@ taglib prefix="security" uri='http://www.springframework.org/security/tags' %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
-<tags:stylesheetLink name="floatingTaskbar"/>
 <div id="header">
 
     <div class="background-R">

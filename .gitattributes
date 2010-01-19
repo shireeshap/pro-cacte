@@ -783,6 +783,13 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/Notific
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/clinicalStaff/SearchClinicalStaffController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/editor/EnumByNameEditor.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/editor/RepositoryBasedEditor.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/GZIPFilter.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/GZIPResponseStream.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/GZIPResponseWrapper.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/HTMLInputFilter.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/SecurityFilter.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/SecurityRequestWrapper.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/filter/SecurityResponseWrapper.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AbstractCrfController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AddCrfComponentController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/AddFormRuleController.java -text
@@ -1168,7 +1175,6 @@ pro-ctcae/software/web/src/main/webapp/css/tabbedflow.css -text
 pro-ctcae/software/web/src/main/webapp/css/table_menu.css -text
 pro-ctcae/software/web/src/main/webapp/css/tree.css -text
 pro-ctcae/software/web/src/main/webapp/decorated-error.jsp -text
-pro-ctcae/software/web/src/main/webapp/error.jsp -text
 pro-ctcae/software/web/src/main/webapp/images/add_icon.png -text
 pro-ctcae/software/web/src/main/webapp/images/ajax-loading.gif -text
 pro-ctcae/software/web/src/main/webapp/images/allCommon-Icons.gif.png -text

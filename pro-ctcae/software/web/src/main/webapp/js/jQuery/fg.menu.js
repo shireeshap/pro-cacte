@@ -2,7 +2,6 @@
 Scripts for creating and manipulating custom menus based on standard <ul> markup
 Version: 3.0, 03.31.2009
 
-By: Maggie Costello Wachs (maggie@filamentgroup.com) and Scott Jehl (scott@filamentgroup.com)
 	http://www.filamentgroup.com
 	* reference articles: http://www.filamentgroup.com/lab/jquery_ipod_style_drilldown_menu/
 		
@@ -590,8 +589,6 @@ function fitVertical(el, topOffset){
 /*-------------------------------------------------------------------- 
  * javascript method: "pxToEm"
  * by:
-   Scott Jehl (scott@filamentgroup.com) 
-   Maggie Wachs (maggie@filamentgroup.com)
    http://www.filamentgroup.com
  *
  * Copyright (c) 2008 Filament Group

@@ -1,6 +1,5 @@
 // Form Validation Functions  v2.0
 // http://www.dithered.com/javascript/form_validation/index.html
-// code by Chris Nott (chris@dithered.com)
 // modified by Kruttik Aggarwal
 
 function validateFields(formFields) {

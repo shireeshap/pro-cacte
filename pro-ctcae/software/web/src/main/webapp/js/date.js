@@ -1,5 +1,4 @@
 // ===================================================================
-// Author: Matt Kruse <matt@mattkruse.com>
 // WWW: http://www.mattkruse.com/
 //
 // NOTICE: You may use this code for any purpose, commercial or

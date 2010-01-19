@@ -1,3 +1,4 @@
+<%@ page import="gov.nih.nci.ctcae.web.filter.SecurityRequestWrapper" %>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/page" prefix="page" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
@@ -10,6 +11,7 @@
 <%@ page language="java" %>
 
 <%
+    request = new SecurityRequestWrapper(request);
     Object statusCode = request.getAttribute("javax.servlet.error.status_code");
     Object exceptionType = request.getAttribute("javax.servlet.error.exception_type");
     Object message = request.getAttribute("javax.servlet.error.message");

@@ -488,7 +488,6 @@ Autocompleter.Local = Class.create(Autocompleter.Base, {
 });
 
 // AJAX in-place editor and collection editor
-// Full rewrite by Christophe Porteneuve <tdd@tddsworld.com> (April 2007).
 
 // Use this if you notice weird scrolling problems on some browsers,
 // the DOM might be a bit confused when this gets called so do this

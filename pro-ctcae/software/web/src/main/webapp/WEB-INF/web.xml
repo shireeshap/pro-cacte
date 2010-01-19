@@ -232,6 +232,26 @@
             <param-value>buildInfo</param-value>
         </init-param>
     </filter>
+
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>gov.nih.nci.ctcae.web.filter.SecurityFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>GZIPFilter</filter-name>
+        <filter-class>gov.nih.nci.ctcae.web.filter.GZIPFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>GZIPFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <error-page>
         <error-code>500</error-code>
         <location>/decorated-error.jsp</location>
