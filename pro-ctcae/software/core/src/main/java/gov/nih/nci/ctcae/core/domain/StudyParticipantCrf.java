@@ -222,7 +222,7 @@ public class StudyParticipantCrf extends BaseVersionable {
                                 continue;
                             }
                             String cycleLengthUnit = crfCycleDefinition.getCycleLengthUnit();
-                            proCtcAECalendar.setCycleParameters(cycleLength, cycleDays, 1, cycleLengthUnit, calendarStartDate, cycleNumber);
+                            proCtcAECalendar.setCycleParameters(cycleLength, cycleDays, 1, cycleLengthUnit, calendarStartDate, cycleNumber, crfCycleDefinition.getDueDateUnit(), crfCycleDefinition.getDueDateValue());
                             createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
                             Calendar c = ProCtcAECalendar.getCalendarForDate(calendarStartDate);
                             ProCtcAECalendar.incrementCalendar(c, cycleLength, cycleLengthUnit);

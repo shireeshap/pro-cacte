@@ -226,7 +226,7 @@ public class ProCtcAECalendar {
         if (scheduleType.equals(ParticipantSchedule.ScheduleType.CYCLE)) {
             String[] selectedDays = cycleSelectedDays.split(",");
             numberOfRepetitions = selectedDays.length * cycleRepetitionNumber;
-            dueAfterPeriodInMill = 24 * 60 * 60 * 1000;
+            dueAfterPeriodInMill = getDuePeriodInMillis(dueDateUnit, dueDateAmount);
         }
         temp = getCalendarForDate(startDate);
         calendar.set(Calendar.DATE, 1);
@@ -523,17 +523,23 @@ public class ProCtcAECalendar {
         calendar = getCalendarForDate(startDate);
     }
 
-    public void setCycleParameters(int cycleLength, String cycleSelectedDays, int cycleRepetitionNumber, String cycleLengthUnit, Date startDate, int cycleNumber) {
+    public void setCycleParameters(int cycleLength, String cycleSelectedDays, int cycleRepetitionNumber, String cycleLengthUnit, Date startDate, int cycleNumber, String dueDateUnit, String dueDateValue) {
         this.cycleLength = getDaysForUnit(cycleLength, cycleLengthUnit);
         if (!StringUtils.isBlank(cycleSelectedDays) && cycleSelectedDays.indexOf(",") == 0) {
             this.cycleSelectedDays = cycleSelectedDays.substring(1);
         } else {
             this.cycleSelectedDays = cycleSelectedDays;
         }
+        if (StringUtils.isBlank(dueDateUnit) || StringUtils.isBlank(dueDateValue)) {
+            dueDateValue = "1";
+            dueDateUnit = "Days";
+        }
         this.cycleRepetitionNumber = cycleRepetitionNumber;
         this.startDate = startDate;
         this.calendar = getCalendarForDate(startDate);
         this.cycleNumber = cycleNumber;
+        this.dueDateUnit = dueDateUnit;
+        this.dueDateAmount = Integer.parseInt(dueDateValue);
 
     }
 

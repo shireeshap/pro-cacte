@@ -467,6 +467,7 @@ pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/014_update_leadcra
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/015_insert_meddra.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/016_update_privilege_nurse.groovy -text
 pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/017_update_odc_privilege.groovy -text
+pro-ctcae/software/core/src/main/db/migrate/003_elaboration_1/018_update_crf_cycle_definition.groovy -text
 pro-ctcae/software/core/src/main/java/META-INF/MANIFEST.MF -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/SetupStatus.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/csv/loader/CsvImporter.java -text

@@ -80,6 +80,15 @@
                                title="Planned Repetitions"/>
                     </td>
                     <td>
+                        &nbsp;&nbsp;<b>Due after</b><input id="cycle_due_${cycleDefinitionIndex}" type="text" size="2"
+                               value="${crfCycleDefinition.dueDateValue}"
+                               name="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].dueDateValue"
+                               <%--class="validate-NUMERIC"--%>
+                               /> <b>Day(s)</b>
+                        <%--<tags:renderText propertyName="selectedFormArmSchedule.crfCycleDefinitions[${cycleDefinitionIndex}].dueDateValue"--%>
+                                     <%--displayName="form.calendar.dueAfter" size="2"/>--%>
+                    </td>
+                    <td>
                         <tags:button value="Generate" color="blue" size="small"
                                      onclick="javascript:showCyclesForDefinition(${cycleDefinitionIndex}, false);"
                                      markupWithTag="a"/>

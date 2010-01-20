@@ -774,6 +774,7 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
             </c:otherwise>
         </c:choose>
     </tr>
+    
     <tr>
         <tags:formSettings crf="${command.crf}"></tags:formSettings>
     </tr>

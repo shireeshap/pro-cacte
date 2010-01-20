@@ -52,6 +52,13 @@ public class CRFCycleDefinition extends BasePersistable {
 
     @Column(name = "display_order", nullable = false)
     private Integer order;
+
+    @Column(name = "due_date_unit")
+    private String dueDateUnit = "Days";
+
+    @Column(name = "due_date_amount")
+    private String dueDateValue;
+
     /**
      * The crf.
      */
@@ -185,4 +192,20 @@ public class CRFCycleDefinition extends BasePersistable {
         }
         return crfCycleDefinition;
     }
+    public String getDueDateUnit() {
+        return dueDateUnit;
+    }
+
+    public void setDueDateUnit(String dueDateUnit) {
+        this.dueDateUnit = dueDateUnit;
+    }
+
+    public String getDueDateValue() {
+        return dueDateValue;
+    }
+
+    public void setDueDateValue(String dueDateValue) {
+        this.dueDateValue = dueDateValue;
+    }
+
 }
