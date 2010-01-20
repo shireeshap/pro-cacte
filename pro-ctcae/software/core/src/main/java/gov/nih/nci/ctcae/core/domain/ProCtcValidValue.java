@@ -6,6 +6,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 
 //
+
 /**
  * The Class ProCtcValidValue.
  *
@@ -16,24 +17,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "PRO_CTC_VALID_VALUES")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_pro_ctc_valid_values_id")})
-public class ProCtcValidValue extends BasePersistable {
-
-    /**
-     * The id.
-     */
-    @Id
-    @GeneratedValue(generator = "id-generator")
-    @Column(name = "id")
-    private Integer id;
-
-    /**
-     * The value.
-     */
-    @Column(name = "value", nullable = false)
-    private String value;
-
-    @Column(name = "display_order", nullable = true)
-    private Integer displayOrder;
+public class ProCtcValidValue extends ValidValue {
 
     /**
      * The pro ctc question.
@@ -48,37 +32,6 @@ public class ProCtcValidValue extends BasePersistable {
     public ProCtcValidValue() {
     }
 
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /* (non-Javadoc)
-     * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the value.
-     *
-     * @return the value
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * Sets the value.
-     *
-     * @param value the new value
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
 
     /**
      * Gets the pro ctc question.
@@ -99,18 +52,6 @@ public class ProCtcValidValue extends BasePersistable {
         this.proCtcQuestion = proCtcQuestion;
     }
 
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return value + "";
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ProCtcValidValue)) return false;
@@ -124,9 +65,6 @@ public class ProCtcValidValue extends BasePersistable {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     public int hashCode() {
         int result;
         result = (value != null ? value.hashCode() : 0);
@@ -134,11 +72,4 @@ public class ProCtcValidValue extends BasePersistable {
         return result;
     }
 
-    public Integer getDisplayOrder() {
-        return displayOrder;
-    }
-
-    public void setDisplayOrder(Integer displayOrder) {
-        this.displayOrder = displayOrder;
-    }
 }

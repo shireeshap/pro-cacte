@@ -10,6 +10,7 @@ import java.util.*;
 import gov.nih.nci.ctcae.commons.utils.DateUtils;
 
 //
+
 /**
  * The Class StudyParticipantCrfSchedule.
  *
@@ -102,6 +103,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.domain.Persistable#getId()
      */
+
     public Integer getId() {
         return id;
     }
@@ -109,6 +111,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
     /* (non-Javadoc)
      * @see gov.nih.nci.ctcae.core.domain.Persistable#setId(java.lang.Integer)
      */
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -361,13 +364,13 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         }
         if (studyParticipantCrfAddedQuestion.getMeddraQuestion() != null) {
             studyParticipantCrfScheduleAddedQuestion.setMeddraQuestion(studyParticipantCrfAddedQuestion.getMeddraQuestion());
-            if (studyParticipantCrfAddedQuestion.getMeddraQuestion().getLowLevelTerm().isParticipantAdded()) {
-                String meddraTerm = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getMeddraTerm();
-                String recallPeriod = getStudyParticipantCrf().getCrf().getRecallPeriod();
-                String recallPeriodFirstChar = recallPeriod.substring(0, 1).toUpperCase();
-                String recallPeriodEnd = recallPeriod.substring(1);
-                recallPeriod = recallPeriodFirstChar + recallPeriodEnd;
-                if (!firstTime) {
+            if (!firstTime) {
+                if (studyParticipantCrfAddedQuestion.getMeddraQuestion().getLowLevelTerm().isParticipantAdded()) {
+                    String meddraTerm = studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().getLowLevelTerm().getMeddraTerm();
+                    String recallPeriod = getStudyParticipantCrf().getCrf().getRecallPeriod();
+                    String recallPeriodFirstChar = recallPeriod.substring(0, 1).toUpperCase();
+                    String recallPeriodEnd = recallPeriod.substring(1);
+                    recallPeriod = recallPeriodFirstChar + recallPeriodEnd;
                     studyParticipantCrfScheduleAddedQuestion.getMeddraQuestion().setQuestionText("The last time you used this system, you reported " + meddraTerm + ". " + recallPeriod + ", have you still had this?");
                 }
             }
@@ -405,8 +408,8 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
         return symptoms;
     }
 
-    public Map getCrfItemsBySymptom() {
-        HashMap<ProCtcTerm, ArrayList<ArrayList>> symptomMap = new HashMap();
+    public Map<ProCtcTerm, ArrayList<ArrayList>> getCrfItemsBySymptom() {
+        Map<ProCtcTerm, ArrayList<ArrayList>> symptomMap = new HashMap<ProCtcTerm, ArrayList<ArrayList>>();
         ArrayList<ArrayList> spCrfItems;
         Integer counter = 0;
         for (StudyParticipantCrfItem studyParticipantCrfItem : getStudyParticipantCrfItems()) {

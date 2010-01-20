@@ -7,53 +7,18 @@ import javax.persistence.*;
 
 /**
  * @author Mehul Gulati
- * Date: Jun 1, 2009
+ *         Date: Jun 1, 2009
  */
 
 @Entity
 @Table(name = "MEDDRA_VALID_VALUES")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {@Parameter(name = "sequence", value = "seq_meddra_valid_values_id")})
-public class MeddraValidValue extends BasePersistable {
+public class MeddraValidValue extends ValidValue {
 
-    @Id
-    @GeneratedValue(generator = "id-generator")
-    @Column(name = "id")
-    private Integer id;
-
-    @Column(name = "value", nullable = false)
-    private String value;
-
-    @Column(name = "display_order", nullable = true)
-    private Integer displayOrder;
 
     @JoinColumn(name = "meddra_question_id", referencedColumnName = "id")
     @ManyToOne
     private MeddraQuestion meddraQuestion;
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public Integer getDisplayOrder() {
-        return displayOrder;
-    }
-
-    public void setDisplayOrder(Integer displayOrder) {
-        this.displayOrder = displayOrder;
-    }
 
     public MeddraQuestion getMeddraQuestion() {
         return meddraQuestion;

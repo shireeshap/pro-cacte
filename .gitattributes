@@ -545,6 +545,7 @@ pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/StudySponsor
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/User.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/UserNotification.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/UserRole.java -text
+pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/ValidValue.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/meddra/AbstractMeddraDomainObject.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/meddra/HighLevelGroupTerm.java -text
 pro-ctcae/software/core/src/main/java/gov/nih/nci/ctcae/core/domain/meddra/HighLevelTerm.java -text
@@ -803,6 +804,7 @@ pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/CrfAjaxFacade.ja
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcAeSecuredTabbedFlowController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/CtcCAtegoryComparator.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/DeleteFormController.java -text
+pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/DisplayQuestion.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/EditFormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormController.java -text
 pro-ctcae/software/web/src/main/java/gov/nih/nci/ctcae/web/form/FormDetailsTab.java -text
