@@ -231,4 +231,9 @@ public class User extends BaseVersionable implements UserDetails {
         return false;
     }
 
+
+    public boolean isODCOnStudy(Study study) {
+        return this.equals(study.getOverallDataCoordinator().getOrganizationClinicalStaff().getClinicalStaff().getUser());
+
+    }
 }

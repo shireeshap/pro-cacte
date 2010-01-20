@@ -64,6 +64,7 @@ public class LoginController extends AbstractController {
         boolean siteLevelRole = false;
         boolean studyLevelRole = false;
         boolean nurseLevelRole = false;
+        boolean odc = false;
         Set<CRF> topLevelCrfs = new HashSet<CRF>();
         Set<Study> allStudies = new TreeSet<Study>(new StudyDisplayNameComparator());
         for (OrganizationClinicalStaff organizationClinicalStaff : clinicalStaff.getOrganizationClinicalStaffs()) {
@@ -76,8 +77,13 @@ public class LoginController extends AbstractController {
                     if (role.equals(Role.NURSE) || role.equals(Role.TREATING_PHYSICIAN)) {
                         nurseLevelRole = true;
                     }
-                    if (role.equals(Role.LEAD_CRA) || role.equals(Role.PI) || role.equals(Role.ODC)) {
+                    if (role.equals(Role.ODC)){
+                        odc = true;
+                    }
+                    if (role.equals(Role.LEAD_CRA) || role.equals(Role.PI)) {
                         studyLevelRole = true;
+                    }
+                    if (role.equals(Role.LEAD_CRA) || role.equals(Role.PI) || role.equals(Role.ODC)) {
                         Study study = studyOrganizationClinicalStaff.getStudyOrganization().getStudy();
                         List<CRF> crfs = study.getCrfs();
                         allStudies.add(study);
@@ -101,6 +107,7 @@ public class LoginController extends AbstractController {
         mv.addObject("siteLevelRole", siteLevelRole);
         mv.addObject("studyLevelRole", studyLevelRole);
         mv.addObject("nurseLevelRole", nurseLevelRole);
+        mv.addObject("odc", odc);
         mv.addObject("notifications", getNotifications(user));
 
         if (siteLevelRole) {

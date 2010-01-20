@@ -123,6 +123,7 @@
     </c:if>
 </c:forEach><c:set var="dl" value="1200"/>
 <div class="panel">
+    <c:if test="${studyLevelRole || siteLevelRole || nurseLevelRole}">
     <chrome:box title="Alerts">
         <c:choose>
             <c:when test="${empty numberofalerts}">
@@ -195,6 +196,7 @@
             </c:otherwise>
         </c:choose>
     </chrome:box>
+    </c:if>
     <c:if test="${studyLevelRole}">
         <chrome:box title="My Forms">
             <div id="alertsdiv">
@@ -370,7 +372,7 @@
                 </div>
             </proctcae:urlAuthorize>
         </c:if>
-        <c:if test="${studyLevelRole}">
+        <c:if test="${studyLevelRole || odc}">
             <proctcae:urlAuthorize url="/pages/form/manageForm">
                 <div class="quicklink">
                     <a class="link" href="form/manageForm"><img

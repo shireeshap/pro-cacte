@@ -65,24 +65,34 @@
             showSpeed: 300
         });
     }
-    function showPopUpMenuStudy(sid) {
+    function showPopUpMenuStudy(sid, isODC) {
+        if (typeof(isODC) == 'undefined') {
+            isODC = false;
+        }
+        alert(isODC);
         var html = '<div id="search-engines"><ul>';
-        <c:set var="tabVal" value="2"/>
-        <proctcae:urlAuthorize url="/pages/study/createStudy">
-        <c:set var="tabVal" value="3"/>
+    <c:set var="tabVal" value="2"/>
+    <proctcae:urlAuthorize url="/pages/study/createStudy">
+    <c:set var="tabVal" value="3"/>
+    </proctcae:urlAuthorize>
+        if (isODC == true) {
+        <proctcae:urlAuthorize url="/pages/study/editStudy">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">Edit/View Study</a></li>';
         </proctcae:urlAuthorize>
-    <proctcae:urlAuthorize url="/pages/study/editStudy">
-        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">Edit Study</a></li>';
-    </proctcae:urlAuthorize>
-    <proctcae:urlAuthorize url="/pages/form/basicForm">
-        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/basicForm"/>?studyId=' + sid + '\'">Create Form</a></li>';
-    </proctcae:urlAuthorize>
-    <proctcae:urlAuthorize url="/pages/study/editStudy">
-        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=${tabVal}\'">Manage Study Staff</a></li>';
-    </proctcae:urlAuthorize>
-    <proctcae:urlAuthorize url="/pages/reports/report">
-        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/reports/report?rt=overallStudy"/>&studyId=' + sid + '\'">Generate Study Report</a></li>';
-    </proctcae:urlAuthorize>
+        } else {
+        <proctcae:urlAuthorize url="/pages/study/editStudy">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '\'">Edit/View Study</a></li>';
+        </proctcae:urlAuthorize>
+        <proctcae:urlAuthorize url="/pages/form/basicForm">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/form/basicForm"/>?studyId=' + sid + '\'">Create Form</a></li>';
+        </proctcae:urlAuthorize>
+        <proctcae:urlAuthorize url="/pages/study/editStudy">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/study/editStudy"/>?studyId=' + sid + '&tab=${tabVal}\'">Manage Study Staff</a></li>';
+        </proctcae:urlAuthorize>
+        <proctcae:urlAuthorize url="/pages/reports/report">
+            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/reports/report?rt=overallStudy"/>&studyId=' + sid + '\'">Generate Study Report</a></li>';
+        </proctcae:urlAuthorize>
+        }
 
         html += '</ul></div>';
         jQuery('#studyActions' + sid).menu({
@@ -100,30 +110,30 @@
     }
 
     function showPopUpMenuAlerts(uid, spcrfid, uuid, pid) {
-            var html = '<div id="search-engines"><ul>';
-                html += '<li><a href="#" onclick="javascript:showMessage('+ uid +')">Alert message</a></li>';
-                html += '<li><a href="#" onclick="javascript:completedForm(' + spcrfid + ')">Show all responses</a></li>';
-            <proctcae:urlAuthorize url="/pages/reports/participantReport">
-                html += '<li><a href="#" onclick="location.href=\'<c:url value="reports/participantReport"/>?sid=' + spcrfid + '\'">Show report</a></li>';
-            </proctcae:urlAuthorize>
-        <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
-            html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/schedulecrf"/>?pId=' + pid + '\'">Manage schedule</a></li>';
-        </proctcae:urlAuthorize>
-                html += '<li><a href="#" onclick="javascript:deleteMsg(' + uid + ',\'' + uuid + '\')">Clear</a></li>';
+        var html = '<div id="search-engines"><ul>';
+        html += '<li><a href="#" onclick="javascript:showMessage(' + uid + ')">Alert message</a></li>';
+        html += '<li><a href="#" onclick="javascript:completedForm(' + spcrfid + ')">Show all responses</a></li>';
+    <proctcae:urlAuthorize url="/pages/reports/participantReport">
+        html += '<li><a href="#" onclick="location.href=\'<c:url value="reports/participantReport"/>?sid=' + spcrfid + '\'">Show report</a></li>';
+    </proctcae:urlAuthorize>
+    <proctcae:urlAuthorize url="/pages/participant/schedulecrf">
+        html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/participant/schedulecrf"/>?pId=' + pid + '\'">Manage schedule</a></li>';
+    </proctcae:urlAuthorize>
+        html += '<li><a href="#" onclick="javascript:deleteMsg(' + uid + ',\'' + uuid + '\')">Clear</a></li>';
 
-            html += '</ul></div>';
-            jQuery('#alertActions' + uid).menu({
-                content: html,
-                maxHeight: 180,
-                positionOpts: {
-                    directionV: 'down',
-                    posX: 'left',
-                    posY: 'bottom',
-                    offsetX: 0,
-                    offsetY: 0
-                },
-                showSpeed: 300
-            });
-        }
-    
+        html += '</ul></div>';
+        jQuery('#alertActions' + uid).menu({
+            content: html,
+            maxHeight: 180,
+            positionOpts: {
+                directionV: 'down',
+                posX: 'left',
+                posY: 'bottom',
+                offsetX: 0,
+                offsetY: 0
+            },
+            showSpeed: 300
+        });
+    }
+
 </script>
