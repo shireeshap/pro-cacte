@@ -69,7 +69,6 @@
         if (typeof(isODC) == 'undefined') {
             isODC = false;
         }
-        alert(isODC);
         var html = '<div id="search-engines"><ul>';
     <c:set var="tabVal" value="2"/>
     <proctcae:urlAuthorize url="/pages/study/createStudy">
