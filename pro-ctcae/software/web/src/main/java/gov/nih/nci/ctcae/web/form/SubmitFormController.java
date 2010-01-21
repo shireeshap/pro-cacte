@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
+import gov.nih.nci.ctcae.core.domain.CrfStatus;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,15 +35,19 @@ public class SubmitFormController extends SimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         SubmitFormCommand sCommand = (SubmitFormCommand) command;
         boolean submit = sCommand.save();
-        request.getSession().setAttribute(getFormSessionAttributeName(), command);
+        request.getSession().setAttribute(getFormSessionAttributeName(), sCommand);
         if (submit) {
-            ModelAndView modelAndView = new ModelAndView(getSuccessView());
-            modelAndView.addObject("scheduleid", sCommand.getSchedule().getId());
-            return modelAndView;
+            return showConfirmationPage(sCommand);
         } else {
             return new ModelAndView(new RedirectView("submit?id=" + sCommand.getSchedule().getId() + "&p=" + sCommand.getCurrentPageIndex()));
         }
 
+    }
+
+    private ModelAndView showConfirmationPage(SubmitFormCommand sCommand) {
+        ModelAndView modelAndView = new ModelAndView(getSuccessView());
+        modelAndView.addObject("scheduleid", sCommand.getSchedule().getId());
+        return modelAndView;
     }
 
     @Override
@@ -60,6 +65,9 @@ public class SubmitFormController extends SimpleFormController {
     @Override
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand) errors.getTarget();
+        if (CrfStatus.COMPLETED.equals(submitFormCommand.getSchedule().getStatus())) {
+            return showConfirmationPage(submitFormCommand);
+        }
         ModelAndView mv;
         submitFormCommand.setCurrentPageIndex(request.getParameter("p"));
         int currentPageIndex = submitFormCommand.getCurrentPageIndex();

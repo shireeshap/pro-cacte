@@ -13,21 +13,10 @@ import java.util.List;
 @Table(name = "meddra_llt")
 public class LowLevelTerm extends AbstractMeddraDomainObject {
 
-    private PreferredTerm preferredTerm;
 
     private List<MeddraQuestion> meddraQuestions = new ArrayList<MeddraQuestion>();
+    private Boolean participantAdded = false;
 
-
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "meddra_pt_id")
-    @Cascade(value = { CascadeType.LOCK })
-    public PreferredTerm getPreferredTerm(){
-    	return preferredTerm;
-    }
-
-    public void setPreferredTerm(PreferredTerm preferredTerm){
-    	this.preferredTerm = preferredTerm;
-    }
 
     @Transient
     public String getFullName() {
@@ -44,4 +33,17 @@ public class LowLevelTerm extends AbstractMeddraDomainObject {
     public void setMeddraQuestions(List<MeddraQuestion> meddraQuestions) {
         this.meddraQuestions = meddraQuestions;
     }
+
+    @Column(name = "participant_added")
+    public Boolean isParticipantAdded() {
+        if (participantAdded == null) {
+            return false;
+        }
+        return participantAdded;
+    }
+
+    public void setParticipantAdded(Boolean participantAdded) {
+        this.participantAdded = participantAdded;
+    }
+
 }

@@ -88,6 +88,10 @@ public class StudyParticipantCrfItem extends BaseVersionable {
         this.proCtcValidValue = proCtcValidValue;
     }
 
+    public void setValidValue(ValidValue validValue) {
+        this.proCtcValidValue = (ProCtcValidValue) validValue;
+    }
+
     /**
      * Gets the crf page item.
      *

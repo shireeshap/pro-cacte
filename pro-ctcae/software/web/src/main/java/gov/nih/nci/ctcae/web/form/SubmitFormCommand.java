@@ -373,7 +373,7 @@ public class SubmitFormCommand implements Serializable {
         } else {
             meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm() + "?");
         }
-        meddraQuestion.setDisplayOrder(0);
+        meddraQuestion.setDisplayOrder(1);
         genericRepository.save(meddraQuestion);
         return meddraQuestion;
     }

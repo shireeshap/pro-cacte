@@ -225,6 +225,15 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
         return null;
     }
 
+    public void setValidValue(ValidValue validValue) {
+        if (proCtcQuestion != null) {
+            setProCtcValidValue((ProCtcValidValue) validValue);
+        }
+        if (meddraQuestion != null) {
+            setMeddraValidValue((MeddraValidValue) validValue);
+        }
+    }
+
     public Integer getStudyParticipantCrfAddedQuestionId() {
         return studyParticipantCrfAddedQuestionId;
     }

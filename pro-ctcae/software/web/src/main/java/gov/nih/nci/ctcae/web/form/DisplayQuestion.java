@@ -68,29 +68,23 @@ public class DisplayQuestion {
     }
 
     public void setSelectedValidValueId(String selectedValidValueId) {
+        ValidValue validValue = null;
         if (!StringUtils.isBlank(selectedValidValueId)) {
             int selectedId = Integer.parseInt(selectedValidValueId);
-            ValidValue validValue = null;
             if (question instanceof ProCtcQuestion) {
                 validValue = genericRepository.findById(ProCtcValidValue.class, selectedId);
             }
             if (question instanceof MeddraQuestion) {
                 validValue = genericRepository.findById(MeddraValidValue.class, selectedId);
             }
-            if (validValue != null) {
-                if (participantAdded) {
-                    if (question instanceof ProCtcQuestion) {
-                        getStudyParticipantCrfScheduleAddedQuestion().setProCtcValidValue((ProCtcValidValue) validValue);
-                    }
-                    if (question instanceof MeddraQuestion) {
-                        getStudyParticipantCrfScheduleAddedQuestion().setMeddraValidValue((MeddraValidValue) validValue);
-                    }
-                } else {
-                    getStudyParticipantCrfItem().setProCtcValidValue((ProCtcValidValue) validValue);
-                }
-                setSelectedValidValue(validValue);
-            }
         }
+        if (participantAdded) {
+            getStudyParticipantCrfScheduleAddedQuestion().setValidValue(validValue);
+        } else {
+            getStudyParticipantCrfItem().setValidValue(validValue);
+        }
+        setSelectedValidValue(validValue);
+
     }
 
 

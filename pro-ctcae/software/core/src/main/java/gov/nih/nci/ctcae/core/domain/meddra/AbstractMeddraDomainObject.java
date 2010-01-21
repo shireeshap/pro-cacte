@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 
 @MappedSuperclass
-public class AbstractMeddraDomainObject extends BasePersistable implements DomainObject{
+public class AbstractMeddraDomainObject extends BasePersistable implements DomainObject {
 
     private Integer id;
 
@@ -37,10 +37,9 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
 
     private MeddraVersion meddraVersion;
 
-    private Boolean participantAdded;
 
 
-    
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -133,24 +132,16 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
         this.whoArtCode = whoArtCode;
     }
 
-    @Column(name = "participant_added")
-    public Boolean isParticipantAdded() {
-        return participantAdded;
-    }
-
-    public void setParticipantAdded(Boolean participantAdded) {
-        this.participantAdded = participantAdded;
-    }
 
     @ManyToOne
-    @JoinColumn(name="version_id")
-    @Cascade(value = { CascadeType.LOCK })
-    public MeddraVersion getMeddraVersion(){
-    	return meddraVersion;
+    @JoinColumn(name = "version_id")
+    @Cascade(value = {CascadeType.LOCK})
+    public MeddraVersion getMeddraVersion() {
+        return meddraVersion;
     }
 
-    public void setMeddraVersion(MeddraVersion meddraVersion){
-    	this.meddraVersion = meddraVersion;
+    public void setMeddraVersion(MeddraVersion meddraVersion) {
+        this.meddraVersion = meddraVersion;
     }
 
 

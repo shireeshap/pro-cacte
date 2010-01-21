@@ -86,7 +86,22 @@
         }
         function clearResponsesForOtherQuestions() {
             for (var i = 1; i < totalQuestionsOnPage; i++) {
-                //                $('question_' + i).hide();
+                var x = document.getElementsByName('response' + i);
+                for (var j = 0; j < x.length; j++) {
+                    try {
+                        var c = document.getElementById(j + '_column_' + i);
+                        x[j].checked = false;
+                        c.className = 'norm';
+                        c.onmouseout = function() {
+                            this.className = 'norm'
+                        };
+                        var elementName = 'currentPageQuestions[' + i + '].selectedValidValueId';
+                        document.myForm.elements[elementName].value = '';
+                    } catch(err) {
+                    }
+                }
+
+
             }
         }
 
