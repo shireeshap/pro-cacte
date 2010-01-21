@@ -3,10 +3,12 @@ package gov.nih.nci.ctcae.web.participant;
 import gov.nih.nci.ctcae.core.domain.Participant;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.Study;
+import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.query.ParticipantQuery;
 import gov.nih.nci.ctcae.core.query.StudyQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.repository.secured.ParticipantRepository;
 import gov.nih.nci.ctcae.core.repository.secured.StudyRepository;
 import gov.nih.nci.ctcae.web.form.SubmitFormCommand;
@@ -38,6 +40,7 @@ public class ScheduleCrfAjaxFacade {
      */
     private StudyRepository studyRepository;
     private GenericRepository genericRepository;
+    private ProCtcTermRepository proCtcTermRepository;
 
     /**
      * Match studies.
@@ -68,7 +71,7 @@ public class ScheduleCrfAjaxFacade {
         participantQuery.filterParticipantsWithMatchingText(text);
         participantQuery.filterByStudy(studyId);
         List<Participant> participants = (List<Participant>) participantRepository.find(participantQuery);
-        return ObjectTools.reduceAll(participants, "id", "firstName", "lastName","assignedIdentifier");
+        return ObjectTools.reduceAll(participants, "id", "firstName", "lastName", "assignedIdentifier");
     }
 
     /**
@@ -80,13 +83,13 @@ public class ScheduleCrfAjaxFacade {
     public List<String> matchSymptoms(HttpServletRequest request, String text) {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand)
                 request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
-//        List<ProCtcTerm> symptoms = submitFormCommand.getSortedSymptoms();
+        List<ProCtcTerm> symptoms = submitFormCommand.getSortedSymptoms();
         List<String> results = new ArrayList<String>();
-//        for (ProCtcTerm symptom : symptoms) {
-//            if (symptom.getTerm().toLowerCase().contains((text.toLowerCase()))) {
-//                results.add(symptom.getTerm());
-//            }
-//        }
+        for (ProCtcTerm symptom : symptoms) {
+            if (symptom.getTerm().toLowerCase().contains((text.toLowerCase()))) {
+                results.add(symptom.getTerm());
+            }
+        }
         MeddraQuery meddraQuery = new MeddraQuery(true);
         if (text != null && text.length() > 3) {
             meddraQuery.filterMeddraWithMatchingText(text);
@@ -99,14 +102,34 @@ public class ScheduleCrfAjaxFacade {
         return results;
     }
 
+    public String checkIfSymptomAlreadyExistsInForm(HttpServletRequest request, String text) {
+        SubmitFormCommand submitFormCommand = (SubmitFormCommand)
+                request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
+        ProCtcTerm proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(text);
+        if (proCtcTerm != null) {
+            if (submitFormCommand.ctcTermAlreadyExistsInForm(proCtcTerm.getCtcTerm())) {
+                return proCtcTerm.getTerm();
+            }
+        }
+        LowLevelTerm meddraTerm = proCtcTermRepository.findMeddraTermBuSymptom(text);
+        if (meddraTerm != null) {
+            if (submitFormCommand.ctcTermAlreadyExistsInForm(meddraTerm.getCtcTerm())) {
+                return meddraTerm.getMeddraTerm();
+            }
+        }
+        return "";
+    }
+
     /**
      * Sets the participant repository.
      *
      * @param participantRepository the new participant repository
      */
     @Required
-    public void setParticipantRepository(
-            ParticipantRepository participantRepository) {
+    public void setParticipantRepository
+            (
+                    ParticipantRepository
+                            participantRepository) {
         this.participantRepository = participantRepository;
     }
 
@@ -115,11 +138,24 @@ public class ScheduleCrfAjaxFacade {
      *
      * @param studyRepository the new study repository
      */
-    public void setStudyRepository(StudyRepository studyRepository) {
+    @Required
+    public void setStudyRepository
+            (StudyRepository
+                    studyRepository) {
         this.studyRepository = studyRepository;
     }
 
-    public void setGenericRepository(GenericRepository genericRepository) {
+    @Required
+    public void setGenericRepository
+            (GenericRepository
+                    genericRepository) {
         this.genericRepository = genericRepository;
+    }
+
+    @Required
+    public void setProCtcTermRepository
+            (ProCtcTermRepository
+                    proCtcTermRepository) {
+        this.proCtcTermRepository = proCtcTermRepository;
     }
 }

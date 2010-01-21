@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain.meddra;
 
 
 import gov.nih.nci.ctcae.core.domain.MeddraQuestion;
+import gov.nih.nci.ctcae.core.domain.CtcTerm;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -16,11 +17,11 @@ public class LowLevelTerm extends AbstractMeddraDomainObject {
 
     private List<MeddraQuestion> meddraQuestions = new ArrayList<MeddraQuestion>();
     private Boolean participantAdded = false;
-
+    private CtcTerm ctcTerm;
 
     @Transient
     public String getFullName() {
-        return getMeddraCode() + " - " + getMeddraTerm();
+        return getMeddraTerm();
     }
 
 
@@ -45,5 +46,16 @@ public class LowLevelTerm extends AbstractMeddraDomainObject {
     public void setParticipantAdded(Boolean participantAdded) {
         this.participantAdded = participantAdded;
     }
+
+    @JoinColumn(name = "meddra_code", referencedColumnName = "ctep_code")
+    @ManyToOne
+    public CtcTerm getCtcTerm() {
+        return ctcTerm;
+    }
+
+    public void setCtcTerm(CtcTerm ctcTerm) {
+        this.ctcTerm = ctcTerm;
+    }
+
 
 }

@@ -37,6 +37,7 @@
         <property name="participantRepository" ref="participantRepository"/>
         <property name="studyRepository" ref="studyRepository"/>
         <property name="genericRepository" ref="genericRepository"/>
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
     </bean>
     <bean id="crfAjaxFacade"
           class="gov.nih.nci.ctcae.web.form.CrfAjaxFacade">

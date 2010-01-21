@@ -3,8 +3,10 @@ package gov.nih.nci.ctcae.core.repository;
 import gov.nih.nci.ctcae.core.domain.ProCtcQuestion;
 import gov.nih.nci.ctcae.core.domain.ProCtcTerm;
 import gov.nih.nci.ctcae.core.domain.ProCtcValidValue;
+import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.exception.CtcAeSystemException;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.query.MeddraQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
 import gov.nih.nci.ctcae.core.repository.Repository;
 import org.springframework.beans.factory.annotation.Required;
@@ -60,6 +62,18 @@ public class ProCtcTermRepository implements Repository<ProCtcTerm, ProCtcTermQu
 
     }
 
+    public ProCtcTerm findProCtcTermBySymptom(String symptom) {
+        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+        proCtcTermQuery.filterByTerm(symptom);
+        return genericRepository.findSingle(proCtcTermQuery);
+    }
+
+    public LowLevelTerm findMeddraTermBuSymptom(String symptom) {
+        MeddraQuery meddraQuery = new MeddraQuery();
+        meddraQuery.filterByMeddraTerm(symptom);
+        return genericRepository.findSingle(meddraQuery);
+    }
+
 
     private void intializeTerm(final ProCtcTerm proCtcTerm) {
         if (proCtcTerm != null) {
@@ -76,4 +90,5 @@ public class ProCtcTermRepository implements Repository<ProCtcTerm, ProCtcTermQu
     public void setGenericRepository(GenericRepository genericRepository) {
         this.genericRepository = genericRepository;
     }
+
 }

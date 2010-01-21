@@ -36,7 +36,8 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
             String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
             if (selectedSymptoms != null) {
-                ((SubmitFormCommand) command).addParticipantAddedQuestions(selectedSymptoms, true);
+                SubmitFormCommand sCommand = (SubmitFormCommand) command;
+                sCommand.addParticipantAddedQuestions(selectedSymptoms, true);
             }
             pageNumber++;
         } else {
@@ -46,6 +47,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         }
         ModelAndView mv = showForm(request, errors, "");
         request.getSession().setAttribute(SubmitFormController.class.getName() + ".FORM." + "command", command);
+
         mv.setView(new RedirectView("submit?id=" + ((SubmitFormCommand) command).getSchedule().getId() + "&p=" + pageNumber));
         return mv;
     }

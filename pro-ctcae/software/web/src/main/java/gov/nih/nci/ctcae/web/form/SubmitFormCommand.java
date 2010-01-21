@@ -3,6 +3,7 @@ package gov.nih.nci.ctcae.web.form;
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
+import gov.nih.nci.ctcae.core.repository.ProCtcTermRepository;
 import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
 import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
 import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
@@ -38,10 +39,12 @@ public class SubmitFormCommand implements Serializable {
     private String flashMessage;
     private List<ProCtcTerm> sortedSymptoms = new ArrayList<ProCtcTerm>();
     private Map<String, List<DisplayQuestion>> symptomQuestionMap = new HashMap<String, List<DisplayQuestion>>();
+    private ProCtcTermRepository proCtcTermRepository;
 
-    public SubmitFormCommand(String crfScheduleId, GenericRepository genericRepository, ProCtcAERulesService proCtcAERulesService) {
+    public SubmitFormCommand(String crfScheduleId, GenericRepository genericRepository, ProCtcAERulesService proCtcAERulesService, ProCtcTermRepository proCtcTermRepository) {
         this.genericRepository = genericRepository;
         this.proCtcAERulesService = proCtcAERulesService;
+        this.proCtcTermRepository = proCtcTermRepository;
         schedule = genericRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(crfScheduleId));
         lazyInitializeSchedule();
         schedule.addParticipantAddedQuestions();
@@ -154,6 +157,8 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public boolean save() throws Exception {
+        schedule = genericRepository.save(schedule);
+        lazyInitializeSchedule();
         boolean submit = false;
         if ("save".equals(direction)) {
             deleteQuestions();
@@ -181,12 +186,9 @@ public class SubmitFormCommand implements Serializable {
     }
 
     public void deleteQuestions() {
-        StudyParticipantCrf studyParticipantCrf = genericRepository.findById(StudyParticipantCrf.class, schedule.getStudyParticipantCrf().getId());
-        studyParticipantCrf.getStudyParticipantCrfAddedQuestions();
-        schedule.setStudyParticipantCrf(studyParticipantCrf);
         for (StudyParticipantCrfScheduleAddedQuestion spcaq : schedule.getStudyParticipantCrfScheduleAddedQuestions()) {
             if (spcaq.getProCtcQuestion() != null && spcaq.getProCtcValidValue() != null) {
-                if (spcaq.getProCtcQuestion().getDisplayOrder()==1 && spcaq.getProCtcValidValue().getDisplayOrder() == 0) {
+                if (spcaq.getProCtcQuestion().getDisplayOrder() == 1 && spcaq.getProCtcValidValue().getDisplayOrder() == 0) {
                     deleteSingleQuestion(spcaq);
                 }
             } else {
@@ -197,7 +199,6 @@ public class SubmitFormCommand implements Serializable {
                 }
             }
         }
-        genericRepository.save(studyParticipantCrf);
     }
 
     private void deleteSingleQuestion(StudyParticipantCrfScheduleAddedQuestion spcsaq) {
@@ -259,15 +260,13 @@ public class SubmitFormCommand implements Serializable {
     public void addParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
         lazyInitializeSchedule();
         int questionPagesBeforeAdd = totalQuestionPages;
-
         List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
         for (String symptom : selectedSymptoms) {
-            totalQuestionPages++;
-            ProCtcTerm proCtcTerm = findProCtcTermBySymptom(symptom);
+            ProCtcTerm proCtcTerm = proCtcTermRepository.findProCtcTermBySymptom(symptom);
             if (proCtcTerm != null) {
                 addProCtcQuestion(proCtcTerm, newlyAddedQuestions);
             } else {
-                LowLevelTerm lowLevelTerm = findMeddraTerm(symptom);
+                LowLevelTerm lowLevelTerm = proCtcTermRepository.findMeddraTermBuSymptom(symptom);
                 if (lowLevelTerm == null) {
                     LowLevelTerm participantAddedLlt = new LowLevelTerm();
                     participantAddedLlt.setMeddraTerm(symptom);
@@ -275,15 +274,15 @@ public class SubmitFormCommand implements Serializable {
                     LowLevelTerm term = genericRepository.save(participantAddedLlt);
                     addMeddraQuestion(term, firstTime, newlyAddedQuestions);
                 } else {
-                    CtcTerm ctcTerm = findCtcTerm(lowLevelTerm.getMeddraCode());
+                    CtcTerm ctcTerm = lowLevelTerm.getCtcTerm();
                     if (ctcTerm == null) {
                         addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
                     } else {
-                        proCtcTerm = findProCtcTermByCtcTermId(ctcTerm.getId());
-                        if (proCtcTerm == null) {
+                        List<ProCtcTerm> proCtcTerms = ctcTerm.getProCtcTerms();
+                        if (proCtcTerms.size() == 0) {
                             addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
                         } else {
-                            addProCtcQuestion(proCtcTerm, newlyAddedQuestions);
+                            addProCtcQuestion(proCtcTerms.get(0), newlyAddedQuestions);
                         }
                     }
                 }
@@ -301,40 +300,34 @@ public class SubmitFormCommand implements Serializable {
         }
     }
 
-    private ProCtcTerm findProCtcTermBySymptom(String symptom) {
-        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
-        proCtcTermQuery.filterByTerm(symptom);
-        return genericRepository.findSingle(proCtcTermQuery);
+    public boolean ctcTermAlreadyExistsInForm(CtcTerm ctcTerm) {
+        if (ctcTerm != null) {
+            for (StudyParticipantCrfItem item : schedule.getStudyParticipantCrfItems()) {
+                if (ctcTerm.equals(item.getCrfPageItem().getProCtcQuestion().getProCtcTerm().getCtcTerm())) {
+                    return true;
+                }
+            }
+            for (StudyParticipantCrfScheduleAddedQuestion question : schedule.getStudyParticipantCrfScheduleAddedQuestions()) {
+                if (ctcTerm.equals(question.getProCtcOrMeddraQuestion().getCtcTerm())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    private ProCtcTerm findProCtcTermByCtcTermId(Integer ctcTermId) {
-        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
-        proCtcTermQuery.filterByCtcTermId(ctcTermId);
-        return genericRepository.findSingle(proCtcTermQuery);
-    }
-
-    private LowLevelTerm findMeddraTerm(String symptom) {
-        MeddraQuery meddraQuery = new MeddraQuery();
-        meddraQuery.filterByMeddraTerm(symptom);
-        return genericRepository.findSingle(meddraQuery);
-    }
-
-    private CtcTerm findCtcTerm(String ctepCode) {
-        CtcQuery ctcQuery = new CtcQuery();
-        ctcQuery.filterByCtepCode(ctepCode);
-        return genericRepository.findSingle(ctcQuery);
-
-    }
 
     private void addProCtcQuestion(ProCtcTerm proCtcTerm, List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions) {
+        totalQuestionPages++;
         for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
             StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = AddParticipantSelectedQuestion(proCtcQuestion, false);
             newlyAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
         }
     }
 
-
     private void addMeddraQuestion(LowLevelTerm lowLevelTerm, boolean firstTime, List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions) {
+
+        totalQuestionPages++;
         List<MeddraQuestion> meddraQuestions = lowLevelTerm.getMeddraQuestions();
         MeddraQuestion meddraQuestion;
         if (meddraQuestions.size() > 0) {

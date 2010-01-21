@@ -47,6 +47,10 @@
         var nextColumnIndex = 21;
 
         function acPostSelect(mode, selectedChoice) {
+//            scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
+//                alert(values);
+//            })
+
             var checkboxitems = document.getElementsByName('symptomsByParticipants');
             var itemfound = false;
             for (var i = 0; i < checkboxitems.length; i++) {
@@ -226,10 +230,6 @@
                    onclick="showVirtualKeyBoard(this,'participantquestion-input');">&nbsp;Use virtual
             keyboard
         </div>
-
-        <%--<div class="row">--%>
-        <%--<input type="text" id="textSymptom" name="textSymptom"/>--%>
-        <%--</div>--%>
 
     </chrome:box>
 

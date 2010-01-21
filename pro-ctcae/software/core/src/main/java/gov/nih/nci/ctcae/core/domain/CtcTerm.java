@@ -2,8 +2,11 @@ package gov.nih.nci.ctcae.core.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.ArrayList;
 
 //
 /**
@@ -56,6 +59,12 @@ public class CtcTerm extends BasePersistable {
      */
     @Column(name = "ctep_code")
     private String ctepCode;
+    /**
+     * The pro ctc questions.
+     */
+    @OneToMany(mappedBy = "ctcTerm")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<ProCtcTerm> proCtcTerms = new ArrayList<ProCtcTerm>();
 
 
     /**
@@ -227,5 +236,13 @@ public class CtcTerm extends BasePersistable {
         result = 31 * result + (ctepTerm != null ? ctepTerm.hashCode() : 0);
         result = 31 * result + (ctepCode != null ? ctepCode.hashCode() : 0);
         return result;
+    }
+
+    public List<ProCtcTerm> getProCtcTerms() {
+        return proCtcTerms;
+    }
+
+    public void setProCtcTerms(List<ProCtcTerm> proCtcTerms) {
+        this.proCtcTerms = proCtcTerms;
     }
 }

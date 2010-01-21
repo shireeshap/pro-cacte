@@ -17,8 +17,6 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
 
     private Integer id;
 
-    private String meddraCode;
-
     private String meddraTerm;
 
     private String costartSymbol;
@@ -36,8 +34,6 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
     private String jartCode;
 
     private MeddraVersion meddraVersion;
-
-
 
 
     @Id
@@ -105,14 +101,6 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
         this.jartCode = jartCode;
     }
 
-    @Column(name = "meddra_code")
-    public String getMeddraCode() {
-        return meddraCode;
-    }
-
-    public void setMeddraCode(String meddraCode) {
-        this.meddraCode = meddraCode;
-    }
 
     @Column(name = "meddra_term")
     public String getMeddraTerm() {
@@ -149,7 +137,6 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (meddraCode == null ? 0 : meddraCode.hashCode());
         result = prime * result + (meddraTerm == null ? 0 : meddraTerm.hashCode());
         result = prime * result + (meddraVersion == null ? 0 : meddraVersion.hashCode());
         return result;
@@ -167,13 +154,6 @@ public class AbstractMeddraDomainObject extends BasePersistable implements Domai
             return false;
         }
         final AbstractMeddraDomainObject other = (AbstractMeddraDomainObject) obj;
-        if (meddraCode == null) {
-            if (other.meddraCode != null) {
-                return false;
-            }
-        } else if (!meddraCode.equals(other.meddraCode)) {
-            return false;
-        }
         if (meddraTerm == null) {
             if (other.meddraTerm != null) {
                 return false;

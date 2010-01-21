@@ -206,6 +206,7 @@
           class="gov.nih.nci.ctcae.web.form.SubmitFormController">
         <property name="genericRepository" ref="genericRepository"/>
         <property name="proCtcAERulesService" ref="proCtcAERulesService"/>
+        <property name="proCtcTermRepository" ref="proCtcTermRepository"/>
     </bean>
 
     <bean name="/form/addquestion" id="addQuestionByParticipantController"
