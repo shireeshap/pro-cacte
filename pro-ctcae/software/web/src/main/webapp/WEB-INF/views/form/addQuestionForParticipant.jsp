@@ -47,10 +47,16 @@
         var nextColumnIndex = 21;
 
         function acPostSelect(mode, selectedChoice) {
-//            scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
-//                alert(values);
-//            })
-
+            scheduleCrf.checkIfSymptomAlreadyExistsInForm(selectedChoice, function(values) {
+                if (values != '') {
+                    var q = 'You have already answered a question for ' + values + ', are you sure that you want to also answer a question for ' + selectedChoice + '?\nPress OK to add ' + selectedChoice + ', otherwise press Cancel.';
+                    if (confirm(q)) {
+                        addSymptom(selectedChoice);
+                    }
+                }
+            })
+        }
+        function addSymptom(selectedChoice) {
             var checkboxitems = document.getElementsByName('symptomsByParticipants');
             var itemfound = false;
             for (var i = 0; i < checkboxitems.length; i++) {
@@ -68,7 +74,6 @@
             initSearchField();
 
         }
-
 
         function addCheckbox(selectedChoice) {
             $('participantquestion-input').clear();

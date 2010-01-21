@@ -68,12 +68,6 @@ public class ProCtcTermRepository implements Repository<ProCtcTerm, ProCtcTermQu
         return genericRepository.findSingle(proCtcTermQuery);
     }
 
-    public LowLevelTerm findMeddraTermBuSymptom(String symptom) {
-        MeddraQuery meddraQuery = new MeddraQuery();
-        meddraQuery.filterByMeddraTerm(symptom);
-        return genericRepository.findSingle(meddraQuery);
-    }
-
 
     private void intializeTerm(final ProCtcTerm proCtcTerm) {
         if (proCtcTerm != null) {

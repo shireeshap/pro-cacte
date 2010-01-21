@@ -257,6 +257,12 @@ public class SubmitFormCommand implements Serializable {
         return displayList;
     }
 
+    public LowLevelTerm findMeddraTermBySymptom(String symptom) {
+        MeddraQuery meddraQuery = new MeddraQuery();
+        meddraQuery.filterByMeddraTerm(symptom);
+        return genericRepository.findSingle(meddraQuery);
+    }
+
     public void addParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
         lazyInitializeSchedule();
         int questionPagesBeforeAdd = totalQuestionPages;
@@ -266,7 +272,7 @@ public class SubmitFormCommand implements Serializable {
             if (proCtcTerm != null) {
                 addProCtcQuestion(proCtcTerm, newlyAddedQuestions);
             } else {
-                LowLevelTerm lowLevelTerm = proCtcTermRepository.findMeddraTermBuSymptom(symptom);
+                LowLevelTerm lowLevelTerm = findMeddraTermBySymptom(symptom);
                 if (lowLevelTerm == null) {
                     LowLevelTerm participantAddedLlt = new LowLevelTerm();
                     participantAddedLlt.setMeddraTerm(symptom);

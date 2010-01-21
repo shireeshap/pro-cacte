@@ -91,7 +91,7 @@ public class ScheduleCrfAjaxFacade {
             }
         }
         MeddraQuery meddraQuery = new MeddraQuery(true);
-        if (text != null && text.length() > 3) {
+        if (text != null) {
             meddraQuery.filterMeddraWithMatchingText(text);
             List meddraTermsObj = genericRepository.find(meddraQuery);
             List<String> meddraTerms = (List<String>) meddraTermsObj;
@@ -111,7 +111,7 @@ public class ScheduleCrfAjaxFacade {
                 return proCtcTerm.getTerm();
             }
         }
-        LowLevelTerm meddraTerm = proCtcTermRepository.findMeddraTermBuSymptom(text);
+        LowLevelTerm meddraTerm = submitFormCommand.findMeddraTermBySymptom(text);
         if (meddraTerm != null) {
             if (submitFormCommand.ctcTermAlreadyExistsInForm(meddraTerm.getCtcTerm())) {
                 return meddraTerm.getMeddraTerm();
@@ -119,6 +119,7 @@ public class ScheduleCrfAjaxFacade {
         }
         return "";
     }
+
 
     /**
      * Sets the participant repository.
