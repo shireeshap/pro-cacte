@@ -256,10 +256,12 @@ public class StudyParticipantCrf extends BaseVersionable {
     }
 
     private void createBaseLineSchedule() {
-        ParticipantSchedule participantSchedule = new ParticipantSchedule();
-        participantSchedule.setStudyParticipantCrf(this);
-        StudyParticipantCrfSchedule studyParticipantCrfSchedule = participantSchedule.createSchedule(Calendar.getInstance(), 24 * 60 * 60 * 1000, -1, -1);
-        studyParticipantCrfSchedule.setBaseline(true);
+        if (crf.getCreateBaseline()) {
+            ParticipantSchedule participantSchedule = new ParticipantSchedule();
+            participantSchedule.setStudyParticipantCrf(this);
+            StudyParticipantCrfSchedule studyParticipantCrfSchedule = participantSchedule.createSchedule(Calendar.getInstance(), 24 * 60 * 60 * 1000, -1, -1);
+            studyParticipantCrfSchedule.setBaseline(true);
+        }
     }
 
     private void createSchedules(ProCtcAECalendar proCtcAECalendar, ParticipantSchedule.ScheduleType scheduleType) throws ParseException {

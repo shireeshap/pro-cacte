@@ -127,6 +127,24 @@ public class CRF extends BaseVersionable {
     @Column(name = "activity_date", nullable = true)
     private Date activityDate;
 
+    @Column(name = "is_baseline", nullable = true)
+    private Boolean createBaseline = false;
+
+    public Boolean isCreateBaseline() {
+        if (createBaseline == null) {
+            return false;
+        }
+        return createBaseline;
+    }
+
+    public Boolean getCreateBaseline() {
+        return isCreateBaseline();
+    }
+
+    public void setCreateBaseline(Boolean createBaseline) {
+        this.createBaseline = createBaseline;
+    }
+
     /**
      * Gets the recall period.
      *

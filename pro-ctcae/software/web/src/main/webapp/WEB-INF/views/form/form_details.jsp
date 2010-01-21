@@ -588,6 +588,8 @@ function deleteQuestionConfirm(questionId, proCtcTermId) {
         obj.style.display = 'inline';
         return false;
     }
+
+   
 </script>
 <style type="text/css">
 

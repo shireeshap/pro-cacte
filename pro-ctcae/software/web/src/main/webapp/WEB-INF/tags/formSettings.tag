@@ -18,6 +18,13 @@
         $('crf.recallperiodOther-radio').value = $('crf.recallPeriodOtherSpecifyInput').value;
 
     }
+    function baselinCheck(obj) {
+        if (obj.checked) {
+            $('crf.createBaseline').value = true;
+        } else {
+            $('crf.createBaseline').value = false;
+        }
+    }
 </script>
 <c:set var="isOther" value="true"/>
 <c:set var="style" value="margin:3px;"/>
@@ -43,4 +50,12 @@
     </select>
     <input type="text" name="crf.recallPeriod" id="recallPeriodOtherSpecifyInput" value="${crf.recallPeriod}" size="36"
            style="${style}" class="validate-NOTEMPTY" title="Recall period"/>
+</td>
+<td>
+    <c:if test="${crf.createBaseline}">
+        <c:set var="checked" value="checked='true'"/>
+    </c:if>
+    <input type="checkbox" name="baselineCheck" ${checked} onclick="javascript:baselinCheck(this);"/><b>Create
+    baseline </b>
+    <input type="hidden" name="crf.createBaseline" value="${crf.createBaseline}" id="crf.createBaseline"/>
 </td>
