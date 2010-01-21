@@ -136,6 +136,16 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
         return proCtcQuestion;
     }
 
+    public Question getProCtcOrMeddraQuestion() {
+        if (proCtcQuestion != null) {
+            return proCtcQuestion;
+        }
+        if (meddraQuestion != null) {
+            return meddraQuestion;
+        }
+        return null;
+    }
+
     public void setProCtcQuestion(ProCtcQuestion proCtcQuestion) {
         this.proCtcQuestion = proCtcQuestion;
     }
@@ -195,12 +205,22 @@ public class StudyParticipantCrfScheduleAddedQuestion extends BaseVersionable {
         this.meddraValidValue = meddraValidValue;
     }
 
-    public Question getProCtcOrMeddraQuestion() {
+    public Question getQuestion() {
         if (proCtcQuestion != null) {
             return proCtcQuestion;
         }
         if (meddraQuestion != null) {
             return meddraQuestion;
+        }
+        return null;
+    }
+
+    public ValidValue getValidValue() {
+        if (proCtcQuestion != null) {
+            return proCtcValidValue;
+        }
+        if (meddraQuestion != null) {
+            return meddraValidValue;
         }
         return null;
     }

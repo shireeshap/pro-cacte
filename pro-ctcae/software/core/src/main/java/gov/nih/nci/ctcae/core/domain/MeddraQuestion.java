@@ -8,6 +8,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 /**
  * @author Mehul Gulati
@@ -16,7 +17,7 @@ import java.util.List;
 @Entity
 @Table(name = "MEDDRA_QUESTIONS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = {
-    @Parameter(name = "sequence", value = "seq_meddra_questions_id")})
+        @Parameter(name = "sequence", value = "seq_meddra_questions_id")})
 public class MeddraQuestion extends Question {
 
     @Id
@@ -102,6 +103,7 @@ public class MeddraQuestion extends Question {
     }
 
     public List<MeddraValidValue> getValidValues() {
+        Collections.sort(validValues, new DisplayOrderComparator());
         return validValues;
     }
 

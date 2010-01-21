@@ -165,6 +165,16 @@ public class StudyParticipantCrfAddedQuestion extends BaseVersionable {
         return meddraQuestion;
     }
 
+    public Question getProCtcOrMeddraQuestion() {
+        if (proCtcQuestion != null) {
+            return proCtcQuestion;
+        }
+        if (meddraQuestion != null) {
+            return meddraQuestion;
+        }
+        return null;
+    }
+
     public void setMeddraQuestion(MeddraQuestion meddraQuestion) {
         this.meddraQuestion = meddraQuestion;
     }

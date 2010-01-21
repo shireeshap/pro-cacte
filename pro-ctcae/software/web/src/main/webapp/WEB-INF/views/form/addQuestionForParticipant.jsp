@@ -165,7 +165,7 @@
 </head>
 <body>
 <form:form method="post" name="myForm">
-    <chrome:box title="Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.title}"
+    <chrome:box title="Form: ${command.schedule.studyParticipantCrf.crf.title}"
                 autopad="true" message="false">
         <p>
             <b><tags:message code="participant.form.selectsymptom"/></b>

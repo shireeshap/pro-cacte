@@ -26,7 +26,7 @@ import java.util.Map;
  * @author , Created on July, 20th, 2007
  */
 @Repository
-@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public class HibernateGenericRepository<T extends Persistable> extends HibernateDaoSupport implements GenericRepository {
 
     private BeanValidator beanValidator;

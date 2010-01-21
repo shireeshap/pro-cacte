@@ -52,7 +52,7 @@
 <form:form method="post" name="myForm">
     <div style="clear:both;">
         <div id="left-panel">
-            <h1>Form: ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.title}</h1>
+            <h1>Form: ${command.schedule.studyParticipantCrf.crf.title}</h1>
             Thank you for completing the questionnaire. If you would like to make any changes to your answers, please
             use the back button. If you are satisfied with your answers, please press the submit button below.
             <br/>
@@ -67,11 +67,11 @@
             <tr>
                 <td align="left" width="50%">
                     <tags:button onclick="document.myForm.direction.value='back'" type="submit"
-                            value="Back" icon="back" color="blue"/>
+                                 value="Back" icon="back" color="blue"/>
                 </td>
                 <td align="right" width="50%">
                     <tags:button onclick="document.myForm.direction.value='save'" type="submit"
-                           value="Submit" icon="check" color="orange"/>
+                                 value="Submit" icon="check" color="orange"/>
                 </td>
             </tr>
         </table>

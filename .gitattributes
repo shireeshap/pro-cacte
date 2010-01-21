@@ -1083,8 +1083,6 @@ pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/deleteForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/form_details.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/form_rules.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/manageForm.jsp -text
-pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/participantAddedMeddraQuestion.jsp -text
-pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/participantAddedQuestion.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/releaseForm.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/reviewFormSubmission.jsp -text
 pro-ctcae/software/web/src/main/webapp/WEB-INF/views/form/select_study.jsp -text
@@ -1630,7 +1628,6 @@ pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/DeleteFormContro
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/EditFormControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/FormDetailsTabTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/ReleaseFormControllerTest.java -text
-pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/form/SubmitFormCommandTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/login/LoginControllerTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/organization/OrganizationAjaxFacadeIntegrationTest.java -text
 pro-ctcae/software/web/src/test/java/gov/nih/nci/ctcae/web/participant/AddCrfScheduleControllerTest.java -text

@@ -30,11 +30,67 @@
         .currentPagediv {
             color: #666666;
             font-size: 8pt;
-            padding-right: 200px;
+            padding-right: 10px;
             text-align: right;
             margin-bottom: 15px;
         }
     </style>
+    <script type="text/javascript">
+        var alreadySubmitted = false;
+        var totalQuestionsOnPage = ${fn:length(command.currentPageQuestions)};
+        function submitForm(direction) {
+            if (!alreadySubmitted) {
+                alreadySubmitted = true;
+                document.myForm.direction.value = direction;
+                document.myForm.submit();
+            }
+        }
+        function selectValidValue(column, validValueDisplayOrder, questionIndexOnPage, validValueIndexForQuestion) {
+            var x = document.getElementsByName('response' + questionIndexOnPage);
+            x[validValueIndexForQuestion].checked = true;
+            column.onmouseout = function() {
+            };
+            var elementName = 'currentPageQuestions[' + questionIndexOnPage + '].selectedValidValueId';
+            document.myForm.elements[elementName].value = x[validValueIndexForQuestion].value;
+            for (var i = 0; i < x.length; i++) {
+                if (i != validValueIndexForQuestion) {
+                    try {
+                        var c = document.getElementById(i + '_column_' + questionIndexOnPage);
+                        c.className = 'norm';
+                        c.onmouseout = function() {
+                            this.className = 'norm'
+                        };
+                    } catch(err) {
+                    }
+                }
+            }
+            if (questionIndexOnPage == 0) {
+                if (validValueDisplayOrder > 0) {
+                    showOtherQuestions();
+                } else {
+                    hideOtherQuestions();
+                    clearResponsesForOtherQuestions();
+                }
+            }
+        }
+
+        function showOtherQuestions() {
+            for (var i = 1; i < totalQuestionsOnPage; i++) {
+                $('question_' + i).show();
+            }
+        }
+        function hideOtherQuestions() {
+            for (var i = 1; i < totalQuestionsOnPage; i++) {
+                $('question_' + i).hide();
+            }
+        }
+        function clearResponsesForOtherQuestions() {
+            for (var i = 1; i < totalQuestionsOnPage; i++) {
+                //                $('question_' + i).hide();
+            }
+        }
+
+    </script>
 </head>
 <body>
 <form:form method="post" name="myForm">
@@ -47,14 +103,47 @@
     </div>
     <div class="label" style="margin-bottom:10px;">
         <tags:recallPeriodFormatter
-                desc="Please think back ${command.studyParticipantCrfSchedule.studyParticipantCrf.crf.recallPeriod}"/>
+                desc="Please think back ${command.schedule.studyParticipantCrf.crf.recallPeriod}"/>
     </div>
-    <c:forEach items="${command.displayQuestions}" var="displayQuestionList">
-        <c:forEach items="${displayQuestionList.value}" var="displayQuestion">
-            
-        </c:forEach>
+    <c:set var="showConditionalQuestions" value="false"/>
+    <c:forEach items="${command.currentPageQuestions}" var="displayQuestion" varStatus="varStatus">
+        <c:if test="${varStatus.index == 0 and displayQuestion.selectedValidValue.displayOrder > 0}">
+            <c:set var="showConditionalQuestions" value="true"/>
+        </c:if>
+        <c:if test="${!showConditionalQuestions and varStatus.index > 0}">
+            <c:set var="cssstyle" value=""/>
+            <%--<c:set var="cssstyle" value="display:none"/>--%>
+        </c:if>
+        <tags:formbuilderBox id="question_${varStatus.index}" style="${cssstyle}">
+            <c:set var="colspan" value="${fn:length(displayQuestion.validValues)}"/>
+            <input type="hidden"
+                   name="currentPageQuestions[${varStatus.index}].selectedValidValueId"
+                   value="${displayQuestion.selectedValidValue.id}"/>
+
+            <table>
+                <tr>
+                    <td colspan="${colspan}">
+                        <div class="label">
+                                ${displayQuestion.questionText}<br/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <c:forEach items="${displayQuestion.validValues}" var="validValue"
+                               varStatus="validvaluestatus">
+                        <tags:validvalue validValueId="${validValue.id}"
+                                         title="${validValue.value}"
+                                         selectedId="${displayQuestion.selectedValidValue.id}"
+                                         displayOrder="${validValue.displayOrder}"
+                                         questionIndexOnPage="${varStatus.index}"
+                                         validValueIndexForQuestion="${validvaluestatus.index}"
+                                />
+                    </c:forEach>
+                </tr>
+            </table>
+        </tags:formbuilderBox>
     </c:forEach>
-    <table width="100%" style="margin-top:10px;">
+    <table width=" 100%" style="margin-top:10px;">
         <input type="hidden" name="direction"/>
         <tr>
             <td align="left" width="50%">

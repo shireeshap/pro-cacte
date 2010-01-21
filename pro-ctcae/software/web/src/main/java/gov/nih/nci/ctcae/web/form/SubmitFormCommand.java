@@ -2,14 +2,17 @@ package gov.nih.nci.ctcae.web.form;
 
 import gov.nih.nci.ctcae.core.domain.*;
 import gov.nih.nci.ctcae.core.domain.meddra.LowLevelTerm;
-import gov.nih.nci.ctcae.core.query.CtcQuery;
-import gov.nih.nci.ctcae.core.query.MeddraQuery;
-import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
 import gov.nih.nci.ctcae.core.repository.GenericRepository;
-import org.apache.commons.lang.StringUtils;
+import gov.nih.nci.ctcae.core.rules.NotificationsEvaluationService;
+import gov.nih.nci.ctcae.core.rules.ProCtcAERulesService;
+import gov.nih.nci.ctcae.core.query.ProCtcTermQuery;
+import gov.nih.nci.ctcae.core.query.MeddraQuery;
+import gov.nih.nci.ctcae.core.query.CtcQuery;
 
 import java.io.Serializable;
 import java.util.*;
+
+import org.apache.commons.lang.StringUtils;
 
 
 //
@@ -23,43 +26,84 @@ import java.util.*;
 public class SubmitFormCommand implements Serializable {
 
     private StudyParticipantCrfSchedule schedule;
-    private Map<Integer, List<DisplayQuestion>> displayQuestions = new HashMap<Integer, List<DisplayQuestion>>();
+    private Map<Integer, List<DisplayQuestion>> displayQuestionsMap = new HashMap<Integer, List<DisplayQuestion>>();
     private int totalPages = 0;
+    private int totalQuestionPages = 0;
     private int addQuestionPageIndex = 0;
-    private int currentPageIndex = 0;
+    private int reviewPageIndex = 0;
+    private int currentPageIndex = 1;
+    private String direction = "";
+    private GenericRepository genericRepository;
+    private ProCtcAERulesService proCtcAERulesService;
+    private String flashMessage;
+    private List<ProCtcTerm> sortedSymptoms = new ArrayList<ProCtcTerm>();
+    private Map<String, List<DisplayQuestion>> symptomQuestionMap = new HashMap<String, List<DisplayQuestion>>();
 
-//    private GenericRepository genericRepository;
-
-    public SubmitFormCommand(String crfScheduleId, GenericRepository genericRepository) {
-//        this.genericRepository = genericRepository;
+    public SubmitFormCommand(String crfScheduleId, GenericRepository genericRepository, ProCtcAERulesService proCtcAERulesService) {
+        this.genericRepository = genericRepository;
+        this.proCtcAERulesService = proCtcAERulesService;
         schedule = genericRepository.findById(StudyParticipantCrfSchedule.class, Integer.parseInt(crfScheduleId));
+        lazyInitializeSchedule();
         schedule.addParticipantAddedQuestions();
         schedule = genericRepository.save(schedule);
         generateDisplayQuestionsMap();
-        totalPages = displayQuestions.keySet().size();
-        addQuestionPageIndex = totalPages + 1;
+        totalQuestionPages = displayQuestionsMap.keySet().size();
+        addQuestionPageIndex = totalQuestionPages + 1;
+        totalPages = totalQuestionPages + 1;
+        reviewPageIndex = totalQuestionPages + 2;
     }
 
     private void generateDisplayQuestionsMap() {
-        int position = 1;
+
         for (StudyParticipantCrfItem item : schedule.getStudyParticipantCrfItems()) {
-            addQuestionToDisplayMap(position, item.getCrfPageItem().getProCtcQuestion());
-            position++;
+            DisplayQuestion displayQuestion = addQuestionToSymptomMap(item.getCrfPageItem().getProCtcQuestion());
+            displayQuestion.setSelectedValidValue(item.getProCtcValidValue());
+            displayQuestion.setStudyParticipantCrfItem(item);
         }
         for (StudyParticipantCrfScheduleAddedQuestion participantQuestion : schedule.getStudyParticipantCrfScheduleAddedQuestions()) {
-            addQuestionToDisplayMap(position, participantQuestion.getProCtcOrMeddraQuestion());
-            position++;
+            addParticipantAddedQuestionToSymptomMap(participantQuestion);
+        }
+
+        int position = 1;
+        for (StudyParticipantCrfItem item : schedule.getStudyParticipantCrfItems()) {
+            int nextPos = addQuestionToDisplayMap(position, item.getCrfPageItem().getProCtcQuestion());
+            position = nextPos;
+
+        }
+        for (StudyParticipantCrfScheduleAddedQuestion participantQuestion : schedule.getStudyParticipantCrfScheduleAddedQuestions()) {
+            int nextPos = addQuestionToDisplayMap(position, participantQuestion.getQuestion());
+            position = nextPos;
         }
     }
 
-    private void addQuestionToDisplayMap(int position, Question question) {
-        DisplayQuestion displayQuestion = new DisplayQuestion();
-        displayQuestion.setQuestion(question);
-        if (!displayQuestions.containsKey(position)) {
-            displayQuestions.put(position, new ArrayList<DisplayQuestion>());
-        }
-        displayQuestions.get(position).add(displayQuestion);
+    private void addParticipantAddedQuestionToSymptomMap(StudyParticipantCrfScheduleAddedQuestion participantQuestion) {
+        DisplayQuestion displayQuestion = addQuestionToSymptomMap(participantQuestion.getQuestion());
+        displayQuestion.setSelectedValidValue(participantQuestion.getValidValue());
+        displayQuestion.setParticipantAdded(true);
+        displayQuestion.setStudyParticipantCrfScheduleAddedQuestion(participantQuestion);
     }
+
+    private int addQuestionToDisplayMap(int position, Question question) {
+        String symptom;
+        symptom = question.getQuestionSymptom();
+        if (symptomQuestionMap.containsKey(symptom)) {
+            displayQuestionsMap.put(position, symptomQuestionMap.get(symptom));
+            symptomQuestionMap.remove(symptom);
+            position = position + 1;
+        }
+        return position;
+    }
+
+    private DisplayQuestion addQuestionToSymptomMap(Question question) {
+        DisplayQuestion displayQuestion = new DisplayQuestion(genericRepository, this);
+        displayQuestion.setQuestion(question);
+        if (!symptomQuestionMap.containsKey(question.getQuestionSymptom())) {
+            symptomQuestionMap.put(question.getQuestionSymptom(), new ArrayList<DisplayQuestion>());
+        }
+        symptomQuestionMap.get(question.getQuestionSymptom()).add(displayQuestion);
+        return displayQuestion;
+    }
+
 
     public StudyParticipantCrfSchedule getSchedule() {
         return schedule;
@@ -69,7 +113,300 @@ public class SubmitFormCommand implements Serializable {
         this.schedule = schedule;
     }
 
-    public Map<Integer, List<DisplayQuestion>> getDisplayQuestions() {
-        return displayQuestions;
+    public Map<Integer, List<DisplayQuestion>> getDisplayQuestionsMap() {
+        return displayQuestionsMap;
+    }
+
+    public List<DisplayQuestion> getCurrentPageQuestions() {
+        return displayQuestionsMap.get(getCurrentPageIndex());
+    }
+
+    public int getCurrentPageIndex() {
+        if (direction.equals("back")) {
+            currentPageIndex--;
+        }
+        if (direction.equals("continue")) {
+            currentPageIndex++;
+        }
+        direction = "";
+        return currentPageIndex;
+    }
+
+    public void setCurrentPageIndex(String currentPageIndex) {
+        direction = "";
+        if (StringUtils.isBlank(currentPageIndex)) {
+            this.currentPageIndex = 1;
+        } else {
+            this.currentPageIndex = Integer.parseInt(currentPageIndex);
+        }
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public boolean save() throws Exception {
+        boolean submit = false;
+        if ("save".equals(direction)) {
+            deleteQuestions();
+            schedule.setStatus(CrfStatus.COMPLETED);
+            NotificationsEvaluationService notificationsEvaluationService = new NotificationsEvaluationService();
+            notificationsEvaluationService.setGenericRepository(genericRepository);
+            notificationsEvaluationService.setProCtcAERulesService(proCtcAERulesService);
+            notificationsEvaluationService.executeRules(schedule, schedule.getStudyParticipantCrf().getCrf(), schedule.getStudyParticipantCrf().getStudyParticipantAssignment().getStudySite());
+            setFlashMessage("You have successfully submitted the form.");
+            submit = true;
+        } else {
+            schedule.setStatus(CrfStatus.INPROGRESS);
+        }
+        schedule = genericRepository.save(schedule);
+        lazyInitializeSchedule();
+        return submit;
+    }
+
+    private void setFlashMessage(String flashMessage) {
+        this.flashMessage = flashMessage;
+    }
+
+    public String getFlashMessage() {
+        return flashMessage;
+    }
+
+    public void deleteQuestions() {
+        StudyParticipantCrf studyParticipantCrf = genericRepository.findById(StudyParticipantCrf.class, schedule.getStudyParticipantCrf().getId());
+        studyParticipantCrf.getStudyParticipantCrfAddedQuestions();
+        schedule.setStudyParticipantCrf(studyParticipantCrf);
+        for (StudyParticipantCrfScheduleAddedQuestion spcaq : schedule.getStudyParticipantCrfScheduleAddedQuestions()) {
+            if (spcaq.getProCtcQuestion() != null && spcaq.getProCtcValidValue() != null) {
+                if (spcaq.getProCtcValidValue().getDisplayOrder() == 0) {
+                    deleteSingleQuestion(spcaq);
+                }
+            } else {
+                if (spcaq.getMeddraQuestion() != null && spcaq.getMeddraValidValue() != null) {
+                    if (spcaq.getMeddraValidValue().getDisplayOrder() == 0) {
+                        deleteSingleQuestion(spcaq);
+                    }
+                }
+            }
+        }
+        genericRepository.save(studyParticipantCrf);
+    }
+
+    private void deleteSingleQuestion(StudyParticipantCrfScheduleAddedQuestion spcsaq) {
+        if (spcsaq != null) {
+            StudyParticipantCrfAddedQuestion spcaq = genericRepository.findById(StudyParticipantCrfAddedQuestion.class, spcsaq.getStudyParticipantCrfAddedQuestionId());
+            if (spcaq != null) {
+                String symptom = spcsaq.getProCtcOrMeddraQuestion().getQuestionSymptom();
+                StudyParticipantCrf spc = schedule.getStudyParticipantCrf();
+                spc.removeStudyParticipantCrfAddedQuestion(spcaq);
+                List<StudyParticipantCrfAddedQuestion> l = new ArrayList<StudyParticipantCrfAddedQuestion>();
+                for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : spc.getStudyParticipantCrfAddedQuestions()) {
+                    if (studyParticipantCrfAddedQuestion.getProCtcOrMeddraQuestion().getQuestionSymptom().equals(symptom)) {
+                        l.add(studyParticipantCrfAddedQuestion);
+                    }
+                }
+                for (StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion : l) {
+                    spc.removeStudyParticipantCrfAddedQuestion(studyParticipantCrfAddedQuestion);
+                    genericRepository.delete(studyParticipantCrfAddedQuestion);
+                }
+            }
+        }
+    }
+
+    public void computeAdditionalSymptoms(ArrayList<ProCtcTerm> proCtcTerms) {
+        StudyParticipantCrfSchedule studyParticipantCrfSchedule = genericRepository.findById(StudyParticipantCrfSchedule.class, schedule.getId());
+        for (StudyParticipantCrfItem item : studyParticipantCrfSchedule.getStudyParticipantCrfItems()) {
+            proCtcTerms.remove(item.getCrfPageItem().getProCtcQuestion().getProCtcTerm());
+        }
+        for (StudyParticipantCrfScheduleAddedQuestion participantQuestion : studyParticipantCrfSchedule.getStudyParticipantCrfScheduleAddedQuestions()) {
+            if (participantQuestion.getProCtcQuestion() != null) {
+                proCtcTerms.remove(participantQuestion.getProCtcQuestion().getProCtcTerm());
+            }
+        }
+        sortedSymptoms = proCtcTerms;
+    }
+
+    public List<ProCtcTerm> getSortedSymptoms() {
+        Collections.sort(sortedSymptoms, new ProCtcTermComparator());
+        return sortedSymptoms;
+    }
+
+
+    public List<String> getDisplaySymptoms() {
+        List<ProCtcTerm> sortedList = getSortedSymptoms();
+        List<String> displayList = new ArrayList<String>();
+        int i = 0;
+        for (ProCtcTerm symptom : sortedList) {
+            if (symptom.getTerm().length() < 35) {
+                displayList.add(symptom.getTerm());
+                i++;
+            }
+            if (i > 20) {
+                break;
+            }
+        }
+        return displayList;
+    }
+
+    public void addParticipantAddedQuestions(String[] selectedSymptoms, boolean firstTime) {
+        lazyInitializeSchedule();
+        int questionPagesBeforeAdd = totalQuestionPages;
+
+        List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions = new ArrayList<StudyParticipantCrfScheduleAddedQuestion>();
+        for (String symptom : selectedSymptoms) {
+            totalQuestionPages++;
+            ProCtcTerm proCtcTerm = findProCtcTermBySymptom(symptom);
+            if (proCtcTerm != null) {
+                addProCtcQuestion(proCtcTerm, newlyAddedQuestions);
+            } else {
+                LowLevelTerm lowLevelTerm = findMeddraTerm(symptom);
+                if (lowLevelTerm == null) {
+                    LowLevelTerm participantAddedLlt = new LowLevelTerm();
+                    participantAddedLlt.setMeddraTerm(symptom);
+                    participantAddedLlt.setParticipantAdded(true);
+                    LowLevelTerm term = genericRepository.save(participantAddedLlt);
+                    addMeddraQuestion(term, firstTime, newlyAddedQuestions);
+                } else {
+                    CtcTerm ctcTerm = findCtcTerm(lowLevelTerm.getMeddraCode());
+                    if (ctcTerm == null) {
+                        addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
+                    } else {
+                        proCtcTerm = findProCtcTermByCtcTermId(ctcTerm.getId());
+                        if (proCtcTerm == null) {
+                            addMeddraQuestion(lowLevelTerm, false, newlyAddedQuestions);
+                        } else {
+                            addProCtcQuestion(proCtcTerm, newlyAddedQuestions);
+                        }
+                    }
+                }
+            }
+        }
+        totalPages = totalQuestionPages + 1;
+        reviewPageIndex = totalQuestionPages + 2;
+        int position = questionPagesBeforeAdd + 2;
+        for (StudyParticipantCrfScheduleAddedQuestion spcsaq : newlyAddedQuestions) {
+            addParticipantAddedQuestionToSymptomMap(spcsaq);
+        }
+        for (StudyParticipantCrfScheduleAddedQuestion spcsaq : newlyAddedQuestions) {
+            int nextPos = addQuestionToDisplayMap(position, spcsaq.getProCtcOrMeddraQuestion());
+            position = nextPos;
+        }
+    }
+
+    private ProCtcTerm findProCtcTermBySymptom(String symptom) {
+        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+        proCtcTermQuery.filterByTerm(symptom);
+        return genericRepository.findSingle(proCtcTermQuery);
+    }
+
+    private ProCtcTerm findProCtcTermByCtcTermId(Integer ctcTermId) {
+        ProCtcTermQuery proCtcTermQuery = new ProCtcTermQuery();
+        proCtcTermQuery.filterByCtcTermId(ctcTermId);
+        return genericRepository.findSingle(proCtcTermQuery);
+    }
+
+    private LowLevelTerm findMeddraTerm(String symptom) {
+        MeddraQuery meddraQuery = new MeddraQuery();
+        meddraQuery.filterByMeddraTerm(symptom);
+        return genericRepository.findSingle(meddraQuery);
+    }
+
+    private CtcTerm findCtcTerm(String ctepCode) {
+        CtcQuery ctcQuery = new CtcQuery();
+        ctcQuery.filterByCtepCode(ctepCode);
+        return genericRepository.findSingle(ctcQuery);
+
+    }
+
+    private void addProCtcQuestion(ProCtcTerm proCtcTerm, List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions) {
+        for (ProCtcQuestion proCtcQuestion : proCtcTerm.getProCtcQuestions()) {
+            StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = AddParticipantSelectedQuestion(proCtcQuestion, false);
+            newlyAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
+        }
+    }
+
+
+    private void addMeddraQuestion(LowLevelTerm lowLevelTerm, boolean firstTime, List<StudyParticipantCrfScheduleAddedQuestion> newlyAddedQuestions) {
+        List<MeddraQuestion> meddraQuestions = lowLevelTerm.getMeddraQuestions();
+        MeddraQuestion meddraQuestion;
+        if (meddraQuestions.size() > 0) {
+            meddraQuestion = meddraQuestions.get(0);
+        } else {
+            meddraQuestion = createMeddraQuestion(lowLevelTerm);
+        }
+        StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = AddParticipantSelectedQuestion(meddraQuestion, firstTime);
+        newlyAddedQuestions.add(studyParticipantCrfScheduleAddedQuestion);
+    }
+
+    private StudyParticipantCrfScheduleAddedQuestion AddParticipantSelectedQuestion(Question question, boolean firstTime) {
+        StudyParticipantCrfAddedQuestion studyParticipantCrfAddedQuestion = schedule.getStudyParticipantCrf().addStudyParticipantCrfAddedQuestion(question, totalQuestionPages - 1);
+        genericRepository.save(studyParticipantCrfAddedQuestion);
+        StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion = schedule.addStudyParticipantCrfScheduleAddedQuestion(studyParticipantCrfAddedQuestion, firstTime);
+        if (studyParticipantCrfScheduleAddedQuestion != null) {
+            genericRepository.save(studyParticipantCrfScheduleAddedQuestion);
+        }
+        return studyParticipantCrfScheduleAddedQuestion;
+    }
+
+    private MeddraQuestion createMeddraQuestion(LowLevelTerm lowLevelTerm) {
+        MeddraQuestion meddraQuestion = new MeddraQuestion();
+        MeddraValidValue meddraValidValue = new MeddraValidValue();
+        meddraQuestion.setLowLevelTerm(lowLevelTerm);
+        meddraQuestion.setProCtcQuestionType(ProCtcQuestionType.PRESENT);
+        meddraValidValue.setValue("Yes");
+        meddraValidValue.setDisplayOrder(1);
+        MeddraValidValue meddraValidValue1 = new MeddraValidValue();
+        meddraValidValue1.setValue("No");
+        meddraValidValue1.setDisplayOrder(0);
+        meddraQuestion.addValidValue(meddraValidValue);
+        meddraQuestion.addValidValue(meddraValidValue1);
+        if (meddraQuestion.getLowLevelTerm().isParticipantAdded()) {
+            meddraQuestion.setQuestionText("Please confirm that this is a " + lowLevelTerm.getMeddraTerm() + " that you have experienced " + schedule.getStudyParticipantCrf().getCrf().getRecallPeriod() + ":");
+        } else {
+            meddraQuestion.setQuestionText("Did you have any " + lowLevelTerm.getMeddraTerm() + "?");
+        }
+        meddraQuestion.setDisplayOrder(0);
+        genericRepository.save(meddraQuestion);
+        return meddraQuestion;
+    }
+
+    public int getAddQuestionPageIndex() {
+        return addQuestionPageIndex;
+    }
+
+    public void setAddQuestionPageIndex(int addQuestionPageIndex) {
+        this.addQuestionPageIndex = addQuestionPageIndex;
+    }
+
+    public int getReviewPageIndex() {
+        return reviewPageIndex;
+    }
+
+    public void setReviewPageIndex(int reviewPageIndex) {
+        this.reviewPageIndex = reviewPageIndex;
+    }
+
+    public int getTotalQuestionPages() {
+        return totalQuestionPages;
+    }
+
+    public void setTotalQuestionPages(int totalQuestionPages) {
+        this.totalQuestionPages = totalQuestionPages;
+    }
+
+    public void lazyInitializeSchedule() {
+        schedule = genericRepository.findById(StudyParticipantCrfSchedule.class, schedule.getId());
+        schedule.getStudyParticipantCrfItems();
+        schedule.getStudyParticipantCrfScheduleAddedQuestions();
+        schedule.getStudyParticipantCrf();
+        schedule.getStudyParticipantCrf().getStudyParticipantCrfAddedQuestions();
     }
 }

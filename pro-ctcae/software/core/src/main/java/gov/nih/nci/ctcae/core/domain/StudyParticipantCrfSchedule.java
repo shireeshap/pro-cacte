@@ -162,7 +162,7 @@ public class StudyParticipantCrfSchedule extends BasePersistable {
             mapQuestionAndAnswer(symptomMap, symptom, question, answer);
         }
         for (StudyParticipantCrfScheduleAddedQuestion studyParticipantCrfScheduleAddedQuestion : getStudyParticipantCrfScheduleAddedQuestions()) {
-            Question q = studyParticipantCrfScheduleAddedQuestion.getProCtcOrMeddraQuestion();
+            Question q = studyParticipantCrfScheduleAddedQuestion.getQuestion();
             String symptom = "";
             String question = q.getQuestionText();
             String answer = "";

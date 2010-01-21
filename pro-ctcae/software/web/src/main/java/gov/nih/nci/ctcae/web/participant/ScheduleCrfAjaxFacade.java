@@ -80,13 +80,13 @@ public class ScheduleCrfAjaxFacade {
     public List<String> matchSymptoms(HttpServletRequest request, String text) {
         SubmitFormCommand submitFormCommand = (SubmitFormCommand)
                 request.getSession().getAttribute(SubmitFormController.class.getName() + ".FORM." + "command");
-        List<ProCtcTerm> symptoms = submitFormCommand.getSortedSymptoms();
+//        List<ProCtcTerm> symptoms = submitFormCommand.getSortedSymptoms();
         List<String> results = new ArrayList<String>();
-        for (ProCtcTerm symptom : symptoms) {
-            if (symptom.getTerm().toLowerCase().contains((text.toLowerCase()))) {
-                results.add(symptom.getTerm());
-            }
-        }
+//        for (ProCtcTerm symptom : symptoms) {
+//            if (symptom.getTerm().toLowerCase().contains((text.toLowerCase()))) {
+//                results.add(symptom.getTerm());
+//            }
+//        }
         MeddraQuery meddraQuery = new MeddraQuery(true);
         if (text != null && text.length() > 3) {
             meddraQuery.filterMeddraWithMatchingText(text);

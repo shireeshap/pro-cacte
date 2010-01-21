@@ -23,14 +23,10 @@ import java.util.List;
 public class AddQuestionByParticipantController extends CtcAeSimpleFormController {
 
     private GenericRepository genericRepository;
-    private String reviewView;
 
     public AddQuestionByParticipantController() {
         super();
         setFormView("form/addQuestionForParticipant");
-        setSuccessView("form/confirmFormSubmission");
-        setReviewView("form/reviewFormSubmission");
-
     }
 
     @Override
@@ -40,8 +36,7 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         if ("continue".equals(((SubmitFormCommand) command).getDirection())) {
             String[] selectedSymptoms = request.getParameterValues("symptomsByParticipants");
             if (selectedSymptoms != null) {
-                ((SubmitFormCommand) command).addParticipantAddedQuestions(selectedSymptoms,true);
-                ((SubmitFormCommand) command).setTotalPages(pageNumber + selectedSymptoms.length);
+                ((SubmitFormCommand) command).addParticipantAddedQuestions(selectedSymptoms, true);
             }
             pageNumber++;
         } else {
@@ -49,9 +44,9 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
                 pageNumber--;
             }
         }
-        ModelAndView mv = showForm(request, errors, "abc");
+        ModelAndView mv = showForm(request, errors, "");
         request.getSession().setAttribute(SubmitFormController.class.getName() + ".FORM." + "command", command);
-        mv.setView(new RedirectView("submit?id=" + ((SubmitFormCommand) command).getStudyParticipantCrfSchedule().getId() + "&p=" + pageNumber));
+        mv.setView(new RedirectView("submit?id=" + ((SubmitFormCommand) command).getSchedule().getId() + "&p=" + pageNumber));
         return mv;
     }
 
@@ -65,17 +60,9 @@ public class AddQuestionByParticipantController extends CtcAeSimpleFormControlle
         List l = genericRepository.find(query);
         ArrayList<ProCtcTerm> proCtcTerms = (ArrayList<ProCtcTerm>) l;
         submitFormCommand.computeAdditionalSymptoms(proCtcTerms);
-
         return submitFormCommand;
     }
 
-    public String getReviewView() {
-        return reviewView;
-    }
-
-    public void setReviewView(String reviewView) {
-        this.reviewView = reviewView;
-    }
 
     @Required
     public void setGenericRepository(GenericRepository genericRepository) {

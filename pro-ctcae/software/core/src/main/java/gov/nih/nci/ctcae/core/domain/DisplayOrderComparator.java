@@ -35,8 +35,8 @@ public class DisplayOrderComparator implements Comparator {
             return compareCrfPageItem((CrfPageItem) object, (CrfPageItem) object1);
         } else if (object instanceof CRFPage) {
             return compareCrfPage((CRFPage) object, (CRFPage) object1);
-        } else if (object instanceof ProCtcValidValue) {
-            return compareValidValue((ProCtcValidValue) object, (ProCtcValidValue) object1);
+        } else if (object instanceof ProCtcValidValue || object instanceof MeddraValidValue) {
+            return compareValidValue((ValidValue) object, (ValidValue) object1);
         } else if (object instanceof StudyParticipantCrfItem) {
             return compareCrfPageItem(((StudyParticipantCrfItem) object).getCrfPageItem(), ((StudyParticipantCrfItem) object1).getCrfPageItem());
         } else if (object instanceof StudyParticipantCrfScheduleAddedQuestion) {
@@ -73,8 +73,8 @@ public class DisplayOrderComparator implements Comparator {
         return fDisplayOrder.compareTo(sDisplayOrder);
     }
 
-    private int compareValidValue(ProCtcValidValue proCtcValidValue, ProCtcValidValue proCtcValidValue1) {
-        return proCtcValidValue.getDisplayOrder().compareTo(proCtcValidValue1.getDisplayOrder());
+    private int compareValidValue(ValidValue validValue, ValidValue validValue1) {
+        return validValue.getDisplayOrder().compareTo(validValue1.getDisplayOrder());
     }
 
     /**
