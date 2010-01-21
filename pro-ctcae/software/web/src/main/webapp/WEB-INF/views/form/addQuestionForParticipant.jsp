@@ -53,11 +53,14 @@
                     if (confirm(q)) {
                         addSymptom(selectedChoice);
                     }
+                } else {
+                    addSymptom(selectedChoice);
                 }
             })
         }
         function addSymptom(selectedChoice) {
             var checkboxitems = document.getElementsByName('symptomsByParticipants');
+            alert(checkboxitems.length);
             var itemfound = false;
             for (var i = 0; i < checkboxitems.length; i++) {
                 if (checkboxitems[i].value == selectedChoice) {
