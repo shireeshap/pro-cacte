@@ -36,7 +36,9 @@ public class SubmitFormController extends SimpleFormController {
         boolean submit = sCommand.save();
         request.getSession().setAttribute(getFormSessionAttributeName(), command);
         if (submit) {
-            return new ModelAndView(getSuccessView());
+            ModelAndView modelAndView = new ModelAndView(getSuccessView());
+            modelAndView.addObject("scheduleid", sCommand.getSchedule().getId());
+            return modelAndView;
         } else {
             return new ModelAndView(new RedirectView("submit?id=" + sCommand.getSchedule().getId() + "&p=" + sCommand.getCurrentPageIndex()));
         }

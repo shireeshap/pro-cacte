@@ -186,7 +186,7 @@ public class SubmitFormCommand implements Serializable {
         schedule.setStudyParticipantCrf(studyParticipantCrf);
         for (StudyParticipantCrfScheduleAddedQuestion spcaq : schedule.getStudyParticipantCrfScheduleAddedQuestions()) {
             if (spcaq.getProCtcQuestion() != null && spcaq.getProCtcValidValue() != null) {
-                if (spcaq.getProCtcValidValue().getDisplayOrder() == 0) {
+                if (spcaq.getProCtcQuestion().getDisplayOrder()==1 && spcaq.getProCtcValidValue().getDisplayOrder() == 0) {
                     deleteSingleQuestion(spcaq);
                 }
             } else {

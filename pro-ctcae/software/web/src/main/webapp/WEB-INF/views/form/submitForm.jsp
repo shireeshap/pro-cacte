@@ -111,8 +111,7 @@
             <c:set var="showConditionalQuestions" value="true"/>
         </c:if>
         <c:if test="${!showConditionalQuestions and varStatus.index > 0}">
-            <c:set var="cssstyle" value=""/>
-            <%--<c:set var="cssstyle" value="display:none"/>--%>
+            <c:set var="cssstyle" value="display:none"/>
         </c:if>
         <tags:formbuilderBox id="question_${varStatus.index}" style="${cssstyle}">
             <c:set var="colspan" value="${fn:length(displayQuestion.validValues)}"/>

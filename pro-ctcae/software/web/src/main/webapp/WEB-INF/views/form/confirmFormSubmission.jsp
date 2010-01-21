@@ -40,7 +40,7 @@
                 <br/>
                 <br/>
                 You can <a
-                    href="../participant/responseReport?id=${command.studyParticipantCrfSchedule.id}">click
+                    href="../participant/responseReport?id=${scheduleid}">click
                 here</a> to view your old responses.
                     <%--You can <a--%>
                     <%--href="javascript:responseReport('${command.studyParticipantCrfSchedule.id}');">click--%>
