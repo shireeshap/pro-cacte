@@ -41,10 +41,13 @@
 
     </style>
     <script type="text/javascript">
-        function goback() {
-            document.myForm.direction.value = 'back_review';
-            document.myForm.r.value = 'n';
-            document.myForm.submit();
+        var alreadySubmitted = false;
+        function submitForm(direction) {
+            if (!alreadySubmitted) {
+                alreadySubmitted = true;
+                document.myForm.direction.value = direction;
+                document.myForm.submit();
+            }
         }
     </script>
 </head>
@@ -66,12 +69,11 @@
             <input type="hidden" name="r"/>
             <tr>
                 <td align="left" width="50%">
-                    <tags:button onclick="document.myForm.direction.value='back'" type="submit"
-                                 value="Back" icon="back" color="blue"/>
+                    <tags:button color="blue" icon="back" onclick="javascript:submitForm('back')" value="Back"/>
                 </td>
                 <td align="right" width="50%">
-                    <tags:button onclick="document.myForm.direction.value='save'" type="submit"
-                                 value="Submit" icon="check" color="orange"/>
+                    <tags:button color="orange" icon="check" onclick="javascript:submitForm('save')"
+                                 value="Submit"/>
                 </td>
             </tr>
         </table>
