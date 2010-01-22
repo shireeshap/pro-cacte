@@ -143,7 +143,10 @@
 <div style="float:right">
     <table>
         <tr>
-            <td><tags:button value="Save & add new staff" color="blue" markupWithTag="a"
+            <td><tags:button value="Return to search results" color="blue" markupWithTag="a"
+                             href="searchClinicalStaff"/></td>
+            <td>
+            <td><tags:button value="Add new staff" color="blue" markupWithTag="a"
                              href="createClinicalStaff"/></td>
             <td>
             <td><tags:button value="Edit" color="blue" markupWithTag="a"

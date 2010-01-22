@@ -22,6 +22,10 @@
 
     <script>
         function showPopUpMenuClinicalStaff(cid, status) {
+            var firstName = $F('firstName')
+            var lastName = $F('lastName')
+            var nciIdentifier = $F('nciIdentifier')
+            
             var html = '<div id="search-engines"><ul>';
         <proctcae:urlAuthorize url="/pages/admin/clinicalStaff/createClinicalStaff">
             html += '<li><a href="#" onclick="location.href=\'<c:url value="/pages/admin/clinicalStaff/createClinicalStaff"/>?clinicalStaffId=' + cid + '\'">Edit staff</a></li>';
@@ -99,9 +103,10 @@
         }
 
         Event.observe(window, "load", function() {
-            $('firstName').value = '%';
+            $('firstName').value = '${firstName}';
+            $('lastName').value = '${lastName}';
+            $('nciIdentifier').value = '${nciIdentifier}';
             buildTable('assembler');
-            $('firstName').value = '';
         })
 
     </script>

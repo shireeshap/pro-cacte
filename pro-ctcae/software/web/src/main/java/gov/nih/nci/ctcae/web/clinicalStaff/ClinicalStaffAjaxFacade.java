@@ -13,10 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 
 //
 /**
@@ -72,6 +69,11 @@ public class ClinicalStaffAjaxFacade {
 
         List<ClinicalStaff> clinicalStaffs = getObjects(firstName, lastName, nciIdentifier, true);
         ClinicalStaffTableModel clinicalStaffTableModel = new ClinicalStaffTableModel();
+        Map<String, String> pMap = new HashMap<String, String>();
+        pMap.put("lastName", lastName);
+        pMap.put("firstName", firstName);
+        pMap.put("nciIdentifier", nciIdentifier);
+        request.getSession().setAttribute("ClinicalStaffSearch", pMap);
         String table = clinicalStaffTableModel.buildClinicalStaffTable(parameterMap, clinicalStaffs, request);
         return table;
 
