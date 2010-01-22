@@ -38,8 +38,8 @@
                  onmousedown="applyCalendar('${index}','next');return false;" alt="Later"
                  src="/proctcae/images/blank.gif"
                  class="navbutton navForward"/>
-            <b> <fmt:formatDate value="${schedule.calendar.time}" pattern="MMM"/> - <fmt:formatDate
-                    value="${schedule.calendar.time}" pattern="yyyy"/></b>
+            <b> <fmt:formatDate value="${schedule.proCtcAECalendar.time}" pattern="MMM"/> - <fmt:formatDate
+                    value="${schedule.proCtcAECalendar.time}" pattern="yyyy"/></b>
         </td>
     </tr>
     <tr class="header">
@@ -51,7 +51,7 @@
         <td class="header">Fri</td>
         <td class="header">Sat</td>
     </tr>
-    <c:forEach items="${schedule.calendar.htmlCalendar}" var="week">
+    <c:forEach items="${schedule.proCtcAECalendar.htmlCalendar}" var="week">
         <tr>
             <c:forEach items="${week}" var="day" varStatus="status">
                 <td class="data">

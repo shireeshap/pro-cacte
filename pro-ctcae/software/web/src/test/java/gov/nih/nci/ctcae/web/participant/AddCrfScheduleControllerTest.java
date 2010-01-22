@@ -4,7 +4,6 @@ import gov.nih.nci.ctcae.core.domain.ParticipantSchedule;
 import gov.nih.nci.ctcae.core.domain.ProCtcAECalendar;
 import gov.nih.nci.ctcae.web.WebTestCase;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,7 +32,7 @@ public class AddCrfScheduleControllerTest extends WebTestCase {
         List l = new ArrayList();
         l.add(participantSchedule);
         request.getSession().setAttribute(ScheduleCrfController.class.getName() + ".FORM." + "command", studyParticipantCommand);
-        expect(participantSchedule.getCalendar()).andReturn(calendar);
+        expect(participantSchedule.getProCtcAECalendar()).andReturn(calendar);
         expect(studyParticipantCommand.getParticipantSchedules()).andReturn(l);
 
     }

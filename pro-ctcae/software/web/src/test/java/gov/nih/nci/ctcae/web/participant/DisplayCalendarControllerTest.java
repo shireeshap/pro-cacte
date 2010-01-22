@@ -35,7 +35,7 @@ public class DisplayCalendarControllerTest extends WebTestCase {
     public void testController() throws Exception {
         reset();
         request.setParameter("dir","prev");
-        expect(participantSchedule.getCalendar()).andReturn(calendar);
+        expect(participantSchedule.getProCtcAECalendar()).andReturn(calendar);
         calendar.add(-1);
         replayMocks();
         controller.handleRequest(request, response);
@@ -43,7 +43,7 @@ public class DisplayCalendarControllerTest extends WebTestCase {
 
         reset();
         request.setParameter("dir","next");
-        expect(participantSchedule.getCalendar()).andReturn(calendar);
+        expect(participantSchedule.getProCtcAECalendar()).andReturn(calendar);
         calendar.add(1);
         replayMocks();
         controller.handleRequest(request, response);
@@ -51,7 +51,7 @@ public class DisplayCalendarControllerTest extends WebTestCase {
 
         reset();
         request.setParameter("dir","refresh");
-        expect(participantSchedule.getCalendar()).andReturn(calendar);
+        expect(participantSchedule.getProCtcAECalendar()).andReturn(calendar);
         calendar.add(0);
         replayMocks();
         controller.handleRequest(request, response);

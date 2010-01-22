@@ -28,13 +28,13 @@ public class DisplayCalendarController extends AbstractController {
         String direction = request.getParameter("dir");
 
         if (direction.equals("prev")) {
-            participantSchedule.getCalendar().add(-1);
+            participantSchedule.getProCtcAECalendar().add(-1);
         }
         if (direction.equals("next")) {
-            participantSchedule.getCalendar().add(1);
+            participantSchedule.getProCtcAECalendar().add(1);
         }
         if (direction.equals("refresh")) {
-            participantSchedule.getCalendar().add(0);
+            participantSchedule.getProCtcAECalendar().add(0);
         }
 
         modelAndView.addObject("participantSchedule", studyParticipantCommand.getParticipantSchedules().get(index));
