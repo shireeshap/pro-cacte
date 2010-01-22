@@ -16,7 +16,7 @@ public class ParticipantSchedule {
     /**
      * The calendar.
      */
-    private ProCtcAECalendar calendar;
+    private ProCtcAECalendar proCtcAECalendar;
 
     /**
      * The study participant crf.
@@ -33,7 +33,7 @@ public class ParticipantSchedule {
      */
     public ParticipantSchedule() {
         super();
-        calendar = new ProCtcAECalendar();
+        proCtcAECalendar = new ProCtcAECalendar();
     }
 
     /**
@@ -41,17 +41,17 @@ public class ParticipantSchedule {
      *
      * @return the calendar
      */
-    public ProCtcAECalendar getCalendar() {
-        return calendar;
+    public ProCtcAECalendar getProCtcAECalendar() {
+        return proCtcAECalendar;
     }
 
     /**
      * Sets the calendar.
      *
-     * @param calendar the new calendar
+     * @param proCtcAECalendar the new calendar
      */
-    public void setCalendar(ProCtcAECalendar calendar) {
-        this.calendar = calendar;
+    public void setProCtcAECalendar(ProCtcAECalendar proCtcAECalendar) {
+        this.proCtcAECalendar = proCtcAECalendar;
     }
 
 
@@ -73,7 +73,7 @@ public class ParticipantSchedule {
         List<StudyParticipantCrfSchedule> currentMonthSchedules = new ArrayList<StudyParticipantCrfSchedule>();
         for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
             Date startDate = studyParticipantCrfSchedule.getStartDate();
-            if (calendar.isDateWithinMonth(startDate)) {
+            if (proCtcAECalendar.isDateWithinMonth(startDate)) {
                 currentMonthSchedules.add(studyParticipantCrfSchedule);
             }
         }
@@ -89,14 +89,14 @@ public class ParticipantSchedule {
      * @throws ParseException the parse exception
      */
     public void createSchedules(ScheduleType scheduleType) throws ParseException {
-        calendar.prepareSchedules(scheduleType);
-        int dueAfterPeriodInMill = calendar.getDueAfterPeriodInMill();
-        while (calendar.hasMoreSchedules()) {
+        proCtcAECalendar.prepareSchedules(scheduleType);
+        int dueAfterPeriodInMill = proCtcAECalendar.getDueAfterPeriodInMill();
+        while (proCtcAECalendar.hasMoreSchedules()) {
             if (scheduleType.equals(ScheduleType.GENERAL)) {
-                createSchedule(calendar.getNextGeneralScehdule(), dueAfterPeriodInMill, -1, -1);
+                createSchedule(proCtcAECalendar.getNextGeneralScehdule(), dueAfterPeriodInMill, -1, -1);
             }
             if (scheduleType.equals(ScheduleType.CYCLE)) {
-                createSchedule(calendar.getNextCycleScehdule(), dueAfterPeriodInMill, calendar.getCycleNumber(), calendar.getCycleDay());
+                createSchedule(proCtcAECalendar.getNextCycleScehdule(), dueAfterPeriodInMill, proCtcAECalendar.getCycleNumber(), proCtcAECalendar.getCycleDay());
             }
         }
     }

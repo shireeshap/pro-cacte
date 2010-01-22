@@ -2,6 +2,7 @@ package gov.nih.nci.ctcae.core.domain;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -73,7 +74,7 @@ public class CRFCycle extends BasePersistable {
         this.cycleDays = cycleDays;
     }
 
-    public CRFCycleDefinition getCrfDefinition() {
+    public CRFCycleDefinition getCrfCycleDefinition() {
         return crfCycleDefinition;
     }
 
@@ -115,5 +116,26 @@ public class CRFCycle extends BasePersistable {
         crfCycle.setCycleDays(cycleDays);
         crfCycle.setOrder(order);
         return crfCycle;
+    }
+
+    public boolean isValid() {
+        if (StringUtils.isBlank(cycleDays)) {
+            return false;
+        }
+        String[] cycleDaysArr = cycleDays.split(",");
+        if (cycleDaysArr.length == 0) {
+            return false;
+        }
+        for (int i = 1; i < cycleDaysArr.length; i++) {
+            String cycleDay = cycleDaysArr[i];
+            if (StringUtils.isBlank(cycleDay) || !StringUtils.isNumeric(cycleDay)) {
+                return false;
+            }
+        }
+        if (crfCycleDefinition.getCycleLength() == null) {
+            return false;
+        }
+
+        return true;
     }
 }

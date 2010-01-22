@@ -112,14 +112,6 @@
         </td>
     </tr>
 </table>
-<%--<div class="row">--%>
-<%--<div class="label_nomargin"><spring:message code="schedulecrf.label.participant"/>:&nbsp;</div>--%>
-<%--<div class="value_nomargin">${command.participant.displayName}</div>--%>
-<%--</div>--%>
-<%--<div class="row">--%>
-
-
-<%--</div>--%>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="myForm">
     <jsp:attribute name="singleFields">
         <input type="hidden" name="_finish" value="true"/>

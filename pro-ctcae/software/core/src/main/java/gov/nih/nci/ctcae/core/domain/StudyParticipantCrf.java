@@ -3,7 +3,6 @@ package gov.nih.nci.ctcae.core.domain;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.apache.commons.lang.StringUtils;
 
 import javax.persistence.*;
 import java.util.*;
@@ -214,46 +213,19 @@ public class StudyParticipantCrf extends BaseVersionable {
                 }
                 int cycleNumber = 1;
                 for (CRFCycleDefinition crfCycleDefinition : formArmSchedule.getCrfCycleDefinitions()) {
-                    if (crfCycleDefinition.getCrfCycles() != null) {
-                        for (CRFCycle crfCycle : crfCycleDefinition.getCrfCycles()) {
-                            Integer cycleLength = crfCycleDefinition.getCycleLength();
-                            String cycleDays = crfCycle.getCycleDays();
-                            if (!validCycleDays(cycleDays)) {
-                                continue;
-                            }
-                            String cycleLengthUnit = crfCycleDefinition.getCycleLengthUnit();
-                            proCtcAECalendar.setCycleParameters(cycleLength, cycleDays, 1, cycleLengthUnit, calendarStartDate, cycleNumber, crfCycleDefinition.getDueDateUnit(), crfCycleDefinition.getDueDateValue());
+                    for (CRFCycle crfCycle : crfCycleDefinition.getCrfCycles()) {
+                        if (crfCycle.isValid()) {
+                            proCtcAECalendar.setCycleParameters(crfCycle, calendarStartDate, cycleNumber);
                             createSchedules(proCtcAECalendar, ParticipantSchedule.ScheduleType.CYCLE);
-                            Calendar c = ProCtcAECalendar.getCalendarForDate(calendarStartDate);
-                            ProCtcAECalendar.incrementCalendar(c, cycleLength, cycleLengthUnit);
-                            calendarStartDate = c.getTime();
+                            calendarStartDate = proCtcAECalendar.incrementCalendar().getTime();
                             cycleNumber++;
                         }
                     }
                 }
             }
-
         }
     }
 
-    private boolean validCycleDays(String cycleDays) {
-        boolean validCycleDays = true;
-        if (StringUtils.isBlank(cycleDays)) {
-            return false;
-        }
-        String[] cycleDaysArr = cycleDays.split(",");
-        if (cycleDaysArr.length == 0) {
-            return false;
-        }
-        for (int i = 1; i < cycleDaysArr.length; i++) {
-            String cycleDay = cycleDaysArr[i];
-            if (StringUtils.isBlank(cycleDay) || !StringUtils.isNumeric(cycleDay)) {
-                validCycleDays = false;
-                break;
-            }
-        }
-        return validCycleDays;
-    }
 
     private void createBaseLineSchedule() {
         if (crf.getCreateBaseline()) {
@@ -267,7 +239,7 @@ public class StudyParticipantCrf extends BaseVersionable {
     private void createSchedules(ProCtcAECalendar proCtcAECalendar, ParticipantSchedule.ScheduleType scheduleType) throws ParseException {
         ParticipantSchedule participantSchedule = new ParticipantSchedule();
         participantSchedule.setStudyParticipantCrf(this);
-        participantSchedule.setCalendar(proCtcAECalendar);
+        participantSchedule.setProCtcAECalendar(proCtcAECalendar);
         participantSchedule.createSchedules(scheduleType);
     }
 

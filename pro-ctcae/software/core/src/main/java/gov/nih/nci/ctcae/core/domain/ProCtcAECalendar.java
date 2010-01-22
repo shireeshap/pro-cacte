@@ -270,7 +270,7 @@ public class ProCtcAECalendar {
         if (!StringUtils.isBlank(cycleSelectedDays)) {
             String[] selectedDays = cycleSelectedDays.split(",");
             int index = currentIndex % selectedDays.length;
-            int add = 0;
+            int add;
             int currentday = Integer.parseInt(selectedDays[index]);
             if (index == 0) {
                 int lastday = Integer.parseInt(selectedDays[selectedDays.length - 1]);
@@ -523,29 +523,35 @@ public class ProCtcAECalendar {
         calendar = getCalendarForDate(startDate);
     }
 
-    public void setCycleParameters(int cycleLength, String cycleSelectedDays, int cycleRepetitionNumber, String cycleLengthUnit, Date startDate, int cycleNumber, String dueDateUnit, String dueDateValue) {
-        this.cycleLength = getDaysForUnit(cycleLength, cycleLengthUnit);
-        if (!StringUtils.isBlank(cycleSelectedDays) && cycleSelectedDays.indexOf(",") == 0) {
-            this.cycleSelectedDays = cycleSelectedDays.substring(1);
-        } else {
-            this.cycleSelectedDays = cycleSelectedDays;
-        }
-        if (StringUtils.isBlank(dueDateUnit) || StringUtils.isBlank(dueDateValue)) {
+    public void setCycleParameters(CRFCycle crfCycle, Date calendarStartDate, int inCycleNumber) {
+        CRFCycleDefinition cycleDefinition = crfCycle.getCrfCycleDefinition();
+        String cycleDays = crfCycle.getCycleDays();
+
+        cycleLength = getDaysForUnit(cycleDefinition.getCycleLength(), cycleDefinition.getCycleLengthUnit());
+        dueDateUnit = cycleDefinition.getDueDateUnit();
+        String dueDateValue = cycleDefinition.getDueDateValue();
+        if (StringUtils.isBlank(cycleDefinition.getDueDateUnit()) || StringUtils.isBlank(cycleDefinition.getDueDateValue())) {
             dueDateValue = "1";
             dueDateUnit = "Days";
         }
-        this.cycleRepetitionNumber = cycleRepetitionNumber;
-        this.startDate = startDate;
-        this.calendar = getCalendarForDate(startDate);
-        this.cycleNumber = cycleNumber;
-        this.dueDateUnit = dueDateUnit;
-        this.dueDateAmount = Integer.parseInt(dueDateValue);
+        dueDateAmount = Integer.parseInt(dueDateValue);
+
+        if (!StringUtils.isBlank(cycleDays) && crfCycle.getCycleDays().indexOf(",") == 0) {
+            cycleSelectedDays = crfCycle.getCycleDays().substring(1);
+        } else {
+            cycleSelectedDays = crfCycle.getCycleDays();
+        }
+
+        cycleRepetitionNumber = 1;
+        startDate = calendarStartDate;
+        calendar = getCalendarForDate(startDate);
+        cycleNumber = inCycleNumber;
 
     }
 
-    public static void incrementCalendar(Calendar c, int cycleLength, String cycleLengthUnit) {
-        int days = getDaysForUnit(cycleLength, cycleLengthUnit);
-        c.add(Calendar.DATE, days);
+    public Calendar incrementCalendar() {
+        calendar.add(Calendar.DATE, cycleLength);
+        return calendar;
     }
 
     private static int getDaysForUnit(int cycleLength, String cycleLengthUnit) {

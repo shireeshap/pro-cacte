@@ -123,6 +123,9 @@ public class CRFCycleDefinition extends BasePersistable {
 
 
     public List<CRFCycle> getCrfCycles() {
+        if (crfCycles == null) {
+            return new ArrayList<CRFCycle>();
+        }
         Collections.sort(crfCycles, new CrfCycleOrderComparator());
         return crfCycles;
     }
@@ -192,6 +195,7 @@ public class CRFCycleDefinition extends BasePersistable {
         }
         return crfCycleDefinition;
     }
+
     public String getDueDateUnit() {
         return dueDateUnit;
     }
