@@ -550,8 +550,9 @@ public class ProCtcAECalendar {
     }
 
     public Calendar incrementCalendar() {
-        calendar.add(Calendar.DATE, cycleLength);
-        return calendar;
+        Calendar temp = getCalendarForDate(startDate);
+        temp.add(Calendar.DATE, cycleLength);
+        return temp;
     }
 
     private static int getDaysForUnit(int cycleLength, String cycleLengthUnit) {
