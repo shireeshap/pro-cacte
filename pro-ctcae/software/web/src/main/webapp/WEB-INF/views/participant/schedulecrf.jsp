@@ -116,34 +116,48 @@
     <jsp:attribute name="singleFields">
         <input type="hidden" name="_finish" value="true"/>
             <c:forEach items="${command.participantSchedules}" var="participantSchedule" varStatus="status">
-                <c:set var="participantCrf" value="${participantSchedule.studyParticipantCrf}"/>
-                <chrome:division title="${participantCrf.crf.title} (${participantCrf.crf.crfVersion})" message="false">
-                    <div align="left">
-                        <b>Start date: <tags:formatDate value="${participantCrf.startDate}"/> </b>
-                        <table class="top-widget" cellspacing="0" align="center">
-                            <c:forEach items="${participantCrf.crfCycleDefinitions}" var="crfCycleDefinition"
-                                       varStatus="statuscycledefinition">
-                                <tr>
-                                    <td>
-                                        <tags:formScheduleCycleDefinition
-                                                cycleDefinitionIndex="${statuscycledefinition.index}"
-                                                crfCycleDefinition="${crfCycleDefinition}"
-                                                readonly="true"
-                                                crfIndex="${status.index}"/>
-                                        <script type="text/javascript">
-                                            showCyclesForDefinition('${status.index}_${statuscycledefinition.index}', ${crfCycleDefinition.cycleLength}, '${crfCycleDefinition.cycleLengthUnit}', '${crfCycleDefinition.repeatTimes}');
-                                        </script>
-                                    </td>
-                                </tr>
-                            </c:forEach>
+                <c:forEach items="${participantSchedule.studyParticipantCrfs}" var="participantCrf"
+                           varStatus="crfIndex">
+                    <table class="top-widget" cellspacing="0" align="center">
+                        <tr>
+                            <td>
+                                <b>${participantCrf.crf.title} (${participantCrf.crf.crfVersion})</b>
+                                <b>Start date: <tags:formatDate value="${participantCrf.startDate}"/> </b>
+
+                            </td>
+                        </tr>
+                        <c:forEach items="${participantCrf.crfCycleDefinitions}" var="crfCycleDefinition"
+                                   varStatus="statuscycledefinition">
                             <tr>
                                 <td>
-                                    <br/>
+                                    <tags:formScheduleCycleDefinition
+                                            cycleDefinitionIndex="${statuscycledefinition.index}"
+                                            crfCycleDefinition="${crfCycleDefinition}"
+                                            readonly="true"
+                                            crfIndex="${status.index}_${crfIndex.index}"/>
+                                    <script type="text/javascript">
+                                        showCyclesForDefinition('${status.index}_${crfIndex.index}_${statuscycledefinition.index}', ${crfCycleDefinition.cycleLength}, '${crfCycleDefinition.cycleLengthUnit}', '${crfCycleDefinition.repeatTimes}');
+                                    </script>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                    <br/>
+                </c:forEach>
+                <%--<c:set var="participantCrf" value="${participantSchedule.studyParticipantCrf}"/>--%>
+                <%--<chrome:division title="${participantCrf.crf.title} (${participantCrf.crf.crfVersion})" message="false">--%>
+                <chrome:division title="" message="false">
+                    <div align="left">
+                        <table class="top-widget" cellspacing="0" align="center">
+                            <tr>
+                                <td>
                                     <chrome:division title=" "/>
                                     <div id="calendar_${status.index}_outer">
                                         <div id="calendar_${status.index}_inner"></div>
                                         <tags:participantcalendar schedule="${participantSchedule}"
-                                                                  index="${status.index}"/>
+                                                                  index="0"/>
+                                            <%--<tags:participantcalendar schedule="${participantSchedule}"--%>
+                                            <%--index="${status.index}"/>--%>
 
                                     </div>
                                 </td>

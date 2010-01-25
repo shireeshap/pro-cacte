@@ -1,11 +1,9 @@
 package gov.nih.nci.ctcae.core.domain;
 
-import gov.nih.nci.ctcae.commons.utils.DateUtils;
 import gov.nih.nci.ctcae.core.helper.ParticipantTestHelper;
 import gov.nih.nci.ctcae.core.helper.TestDataManager;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +23,7 @@ public class ParticipantScheduleTest extends TestDataManager {
         super.onSetUpInTransaction();
         ps = new ParticipantSchedule();
         spc = ParticipantTestHelper.getDefaultParticipant().getStudyParticipantAssignments().get(0).getStudyParticipantCrfs().get(0);
-        ps.setStudyParticipantCrf(spc);
+        ps.addStudyParticipantCrf(spc);
 
     }
 

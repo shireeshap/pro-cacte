@@ -156,7 +156,11 @@ public class StudyParticipantCrf extends BaseVersionable {
      * @param crfSchedule the crf schedule
      */
     public void removeCrfSchedule(StudyParticipantCrfSchedule crfSchedule) {
-        studyParticipantCrfSchedules.remove(crfSchedule);
+        if (crfSchedule != null) {
+            if (!crfSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
+                studyParticipantCrfSchedules.remove(crfSchedule);
+            }
+        }
     }
 
     /**
@@ -230,7 +234,7 @@ public class StudyParticipantCrf extends BaseVersionable {
     private void createBaseLineSchedule() {
         if (crf.getCreateBaseline()) {
             ParticipantSchedule participantSchedule = new ParticipantSchedule();
-            participantSchedule.setStudyParticipantCrf(this);
+            participantSchedule.addStudyParticipantCrf(this);
             StudyParticipantCrfSchedule studyParticipantCrfSchedule = participantSchedule.createSchedule(Calendar.getInstance(), 24 * 60 * 60 * 1000, -1, -1);
             studyParticipantCrfSchedule.setBaseline(true);
         }
@@ -238,7 +242,7 @@ public class StudyParticipantCrf extends BaseVersionable {
 
     private void createSchedules(ProCtcAECalendar proCtcAECalendar, ParticipantSchedule.ScheduleType scheduleType) throws ParseException {
         ParticipantSchedule participantSchedule = new ParticipantSchedule();
-        participantSchedule.setStudyParticipantCrf(this);
+        participantSchedule.addStudyParticipantCrf(this);
         participantSchedule.setProCtcAECalendar(proCtcAECalendar);
         participantSchedule.createSchedules(scheduleType);
     }

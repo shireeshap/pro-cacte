@@ -21,7 +21,7 @@ public class ParticipantSchedule {
     /**
      * The study participant crf.
      */
-    private StudyParticipantCrf studyParticipantCrf;
+    private List<StudyParticipantCrf> studyParticipantCrfs = new ArrayList<StudyParticipantCrf>();
 
     public enum ScheduleType {
         GENERAL,
@@ -60,8 +60,8 @@ public class ParticipantSchedule {
      *
      * @param studyParticipantCrf the new study participant crf
      */
-    public void setStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
-        this.studyParticipantCrf = studyParticipantCrf;
+    public void addStudyParticipantCrf(StudyParticipantCrf studyParticipantCrf) {
+        studyParticipantCrfs.add(studyParticipantCrf);
     }
 
     /**
@@ -71,10 +71,12 @@ public class ParticipantSchedule {
      */
     public List<StudyParticipantCrfSchedule> getCurrentMonthSchedules() {
         List<StudyParticipantCrfSchedule> currentMonthSchedules = new ArrayList<StudyParticipantCrfSchedule>();
-        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-            Date startDate = studyParticipantCrfSchedule.getStartDate();
-            if (proCtcAECalendar.isDateWithinMonth(startDate)) {
-                currentMonthSchedules.add(studyParticipantCrfSchedule);
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                Date startDate = studyParticipantCrfSchedule.getStartDate();
+                if (proCtcAECalendar.isDateWithinMonth(startDate)) {
+                    currentMonthSchedules.add(studyParticipantCrfSchedule);
+                }
             }
         }
         return currentMonthSchedules;
@@ -112,25 +114,27 @@ public class ParticipantSchedule {
     public StudyParticipantCrfSchedule createSchedule(Calendar c, long dueAfterPeriodInMill, int cycleNumber, int cycleDay) {
         if (c != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-                if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
-                    return studyParticipantCrfSchedule;
+            for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+                for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                    if (sdf.format(studyParticipantCrfSchedule.getStartDate()).equals(sdf.format(c.getTime()))) {
+                        return studyParticipantCrfSchedule;
+                    }
                 }
-            }
-            StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
-            studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
-            studyParticipantCrfSchedule.setStartDate(c.getTime());
-            studyParticipantCrfSchedule.setDueDate(new Date(c.getTimeInMillis() + dueAfterPeriodInMill));
-            if (cycleNumber != -1) {
-                studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
-                studyParticipantCrfSchedule.setCycleDay(cycleDay);
-            }
+                StudyParticipantCrfSchedule studyParticipantCrfSchedule = new StudyParticipantCrfSchedule();
+                studyParticipantCrf.addStudyParticipantCrfSchedule(studyParticipantCrfSchedule);
+                studyParticipantCrfSchedule.setStartDate(c.getTime());
+                studyParticipantCrfSchedule.setDueDate(new Date(c.getTimeInMillis() + dueAfterPeriodInMill));
+                if (cycleNumber != -1) {
+                    studyParticipantCrfSchedule.setCycleNumber(cycleNumber);
+                    studyParticipantCrfSchedule.setCycleDay(cycleDay);
+                }
 
-            if(c.get(Calendar.DAY_OF_WEEK)==1){
-                studyParticipantCrfSchedule.setHoliday(true);
-            }
+                if (c.get(Calendar.DAY_OF_WEEK) == 1) {
+                    studyParticipantCrfSchedule.setHoliday(true);
+                }
 
-            return studyParticipantCrfSchedule;
+                return studyParticipantCrfSchedule;
+            }
         }
 
         return null;
@@ -144,18 +148,17 @@ public class ParticipantSchedule {
     public void removeSchedule(Calendar c) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         StudyParticipantCrfSchedule schToRemove = null;
-        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
 
-            String scheduleDate = sdf.format(studyParticipantCrfSchedule.getStartDate());
-            String calendarDate = sdf.format(c.getTime());
-            if (calendarDate.equals(scheduleDate)) {
-                schToRemove = studyParticipantCrfSchedule;
+                String scheduleDate = sdf.format(studyParticipantCrfSchedule.getStartDate());
+                String calendarDate = sdf.format(c.getTime());
+                if (calendarDate.equals(scheduleDate)) {
+                    schToRemove = studyParticipantCrfSchedule;
+                    break;
+                }
             }
-        }
-        if (schToRemove != null) {
-            if (schToRemove.getStatus().equals(CrfStatus.SCHEDULED) || schToRemove.getStatus().equals(CrfStatus.PASTDUE)) {
-                studyParticipantCrf.removeCrfSchedule(schToRemove);
-            }
+            studyParticipantCrf.removeCrfSchedule(schToRemove);
         }
     }
 
@@ -165,19 +168,21 @@ public class ParticipantSchedule {
      */
     public void removeAllSchedules() {
         List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
-        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-            if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                 schedulesToRemove.add(studyParticipantCrfSchedule);
             }
-        }
-        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove) {
-            studyParticipantCrf.removeCrfSchedule(studyParticipantCrfSchedule);
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove) {
+                studyParticipantCrf.removeCrfSchedule(studyParticipantCrfSchedule);
+            }
         }
     }
 
     public void moveAllSchedules(int offset) {
-        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-            moveSingleSchedule(studyParticipantCrfSchedule, offset);
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
+                moveSingleSchedule(studyParticipantCrfSchedule, offset);
+            }
         }
     }
 
@@ -188,9 +193,8 @@ public class ParticipantSchedule {
         int date = c.get(Calendar.DATE);
         Calendar a = new GregorianCalendar(year, month, date);
         Calendar b = new GregorianCalendar();
-
-        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-            if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                 b.setTime(studyParticipantCrfSchedule.getStartDate());
                 int mon = b.get(Calendar.MONTH);
                 int dt = b.get(Calendar.DATE);
@@ -211,8 +215,8 @@ public class ParticipantSchedule {
         Calendar a = new GregorianCalendar(year, month, date);
         Calendar b = new GregorianCalendar();
         List<StudyParticipantCrfSchedule> schedulesToRemove = new ArrayList<StudyParticipantCrfSchedule>();
-        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
-            if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED)) {
+        for (StudyParticipantCrf studyParticipantCrf : studyParticipantCrfs) {
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : studyParticipantCrf.getStudyParticipantCrfSchedules()) {
                 b.setTime(studyParticipantCrfSchedule.getStartDate());
                 int mon = b.get(Calendar.MONTH);
                 int dt = b.get(Calendar.DATE);
@@ -223,14 +227,14 @@ public class ParticipantSchedule {
                     schedulesToRemove.add(studyParticipantCrfSchedule);
                 }
             }
-        }
-        for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove) {
-            studyParticipantCrf.removeCrfSchedule(studyParticipantCrfSchedule);
+            for (StudyParticipantCrfSchedule studyParticipantCrfSchedule : schedulesToRemove) {
+                studyParticipantCrf.removeCrfSchedule(studyParticipantCrfSchedule);
+            }
         }
     }
 
     private void moveSingleSchedule(StudyParticipantCrfSchedule studyParticipantCrfSchedule, int offset) {
-        if (studyParticipantCrfSchedule.getStatus().equals(CrfStatus.SCHEDULED) || studyParticipantCrfSchedule.getStatus().equals(CrfStatus.PASTDUE)) {
+        if (!studyParticipantCrfSchedule.getStatus().equals(CrfStatus.COMPLETED)) {
             Calendar c1 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getStartDate());
             Calendar c2 = ProCtcAECalendar.getCalendarForDate(studyParticipantCrfSchedule.getDueDate());
             c1.add(Calendar.DATE, offset);
@@ -242,16 +246,17 @@ public class ParticipantSchedule {
         }
     }
 
-    /**
-     * Checks if is repeat.
-     *
-     * @return true, if is repeat
-     */
-    public boolean isRepeat() {
-        return studyParticipantCrf.getStudyParticipantCrfSchedules().size() > 1;
-    }
+//    /**
+//     * Checks if is repeat.
+//     *
+//     * @return true, if is repeat
+//     */
+//    public boolean isRepeat() {
+//        return studyParticipantCrf.getStudyParticipantCrfSchedules().size() > 1;
+//    }
 
-    public StudyParticipantCrf getStudyParticipantCrf() {
-        return studyParticipantCrf;
+    //
+    public List<StudyParticipantCrf> getStudyParticipantCrfs() {
+        return studyParticipantCrfs;
     }
 }

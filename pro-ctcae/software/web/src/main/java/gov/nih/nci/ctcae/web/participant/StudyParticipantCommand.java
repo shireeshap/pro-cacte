@@ -108,10 +108,11 @@ public class StudyParticipantCommand {
     public List<ParticipantSchedule> getParticipantSchedules() {
         if (participantSchedules == null) {
             participantSchedules = new ArrayList<ParticipantSchedule>();
+            ParticipantSchedule participantSchedule = new ParticipantSchedule();
+            participantSchedules.add(participantSchedule);
+
             for (StudyParticipantCrf studyParticipantCrf : studyParticipantAssignment.getStudyParticipantCrfs()) {
-                ParticipantSchedule participantSchedule = new ParticipantSchedule();
-                participantSchedule.setStudyParticipantCrf(studyParticipantCrf);
-                participantSchedules.add(participantSchedule);
+                participantSchedule.addStudyParticipantCrf(studyParticipantCrf);
             }
         }
 
